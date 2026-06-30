@@ -1,91 +1,143 @@
 'use client'
 
 import { useState } from 'react'
-import { Globe, ArrowRight, Check } from 'lucide-react'
+import { motion } from 'framer-motion'
 
-export function LeftColumn() {
+export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: string) => void }) {
   const [domain, setDomain] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (domain) {
+  const handleDomainSubmit = () => {
+    if (domain.trim()) {
       setSubmitted(true)
+      onDomainSubmit?.(domain)
     }
   }
 
   return (
-    <div className="flex flex-col justify-center gap-8">
+    <motion.div
+      className="flex flex-col justify-start pt-32 md:pt-40"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Badge */}
-      <div className="inline-flex items-center gap-2 w-fit">
-        <span className="text-[#555555] text-xs uppercase tracking-widest">✧ Propulsé par Hermes (open source)</span>
-      </div>
+      <motion.div
+        className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-3 py-1"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1, duration: 0.5 }}
+      >
+        <span className="text-xs tracking-wider uppercase text-[#8E8E93]">✧ Propulsé par Hermes (open source)</span>
+      </motion.div>
 
       {/* Overline */}
-      <div className="text-[#8E8E93] text-sm leading-relaxed">
+      <motion.p
+        className="mt-8 text-xs tracking-normal text-[#8E8E93]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+      >
         Vous gérez tout, tout seul. Sans pouvoir embaucher.
-      </div>
+      </motion.p>
 
-      {/* Main H1 */}
-      <h1 className="text-[72px] md:text-[96px] font-playfair-display font-normal leading-[0.95] tracking-[-0.03em]">
-        Lancez votre{' '}
-        <span className="text-[#FF0099] italic">agent IA</span>.
-      </h1>
+      {/* H1 */}
+      <motion.h1
+        className="mt-5 font-heading text-6xl md:text-7xl xl:text-8xl font-light leading-tight text-white"
+        style={{ letterSpacing: '-0.03em' }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+      >
+        Lancez votre <span className="text-[#FF0099] italic">agent IA</span>.
+      </motion.h1>
 
       {/* Subtitle */}
-      <p className="text-[#8E8E93] text-base leading-relaxed max-w-md">
-        Il apprend votre métier, travaille dans vos outils
-        et n&apos;oublie jamais rien.
-      </p>
+      <motion.p
+        className="mt-6 max-w-md text-base leading-relaxed text-[#8E8E93]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        Il apprend votre métier, travaille dans vos outils et n&apos;oublie jamais rien.
+      </motion.p>
 
-      {/* HITL Reassurance */}
-      <div className="text-[#555555] text-xs uppercase tracking-widest">
+      {/* HITL reassurance */}
+      <motion.p
+        className="mt-2 text-sm font-medium text-white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
         Vous restez le patron.
-      </div>
+      </motion.p>
 
-      {/* Domain Input */}
-      <form onSubmit={handleSubmit} className="max-w-md">
-        {!submitted ? (
-          <div className="flex items-center gap-2 bg-[#111111] border border-[#333333] rounded-full px-4 py-3 focus-within:border-[#FF0099] transition-colors">
-            <Globe size={18} className="text-[#8E8E93]" />
-            <input
-              type="text"
-              value={domain}
-              onChange={(e) => setDomain(e.target.value)}
-              placeholder="votre-domaine.fr"
-              className="flex-1 bg-transparent text-white placeholder-[#555555] text-sm outline-none"
-              aria-label="Domain input"
-            />
-            <button
-              type="submit"
-              className="p-2 hover:bg-[#1A1A1A] rounded-full transition-colors"
-              aria-label="Submit domain"
-            >
-              <ArrowRight size={18} className="text-[#FF0099]" />
-            </button>
+      {/* Domain input */}
+      <motion.div
+        className="mt-9 flex max-w-md items-stretch gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+      >
+        <div className="relative flex-1">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8E8E93]">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
           </div>
-        ) : (
-          <div className="flex items-center gap-2 bg-[#111111] border border-[#22C55E] rounded-full px-4 py-3">
-            <Check size={18} className="text-[#22C55E]" />
-            <span className="text-[#22C55E] text-sm">
-              ✅ Alma analyse {domain} et prépare votre diagnostic.
-            </span>
-          </div>
-        )}
-      </form>
+          <input
+            type="text"
+            placeholder="votre-domaine.fr"
+            value={domain}
+            onChange={(e) => setDomain(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleDomainSubmit()}
+            className="w-full rounded-full border border-[#333333] bg-[#111111] py-3.5 pl-10 pr-14 text-sm text-white placeholder-[#555555] focus:border-[#FF0099] focus:outline-none transition-colors"
+            aria-label="Domain"
+          />
+          <button
+            onClick={handleDomainSubmit}
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-[#FF0099] text-white hover:bg-[#E00085] transition-colors"
+            aria-label="Submit domain"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </motion.div>
 
-      {/* Primary CTA */}
-      <button
-        className="max-w-md px-9 py-4 bg-[#FF0099] text-white font-medium rounded-full hover:bg-[#E00085] transition-colors text-base"
-        aria-label="Start free trial"
+      {/* Success message */}
+      {submitted && domain && (
+        <motion.p
+          className="mt-3 text-xs text-[#22C55E]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          ✅ Alma analyse {domain} et prépare votre diagnostic.
+        </motion.p>
+      )}
+
+      {/* CTA */}
+      <motion.button
+        className="mt-4 w-full max-w-md rounded-full bg-[#FF0099] hover:bg-[#E00085] px-9 py-4.5 text-lg font-medium text-white transition-colors"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.7, duration: 0.5 }}
       >
         Essayer gratuitement
-      </button>
+      </motion.button>
 
-      {/* Micro-copy */}
-      <p className="text-[#555555] text-xs">
+      {/* Microcopy */}
+      <motion.p
+        className="mt-3 text-xs text-[#555555]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8, duration: 0.5 }}
+      >
         Essai limité · 1 modèle IA · sans carte bancaire.
-      </p>
-    </div>
+      </motion.p>
+    </motion.div>
   )
 }

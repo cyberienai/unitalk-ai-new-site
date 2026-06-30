@@ -2,124 +2,94 @@
 
 import { motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
-import { useState, useEffect } from 'react'
 
 type AlmaState = 'idle' | 'listening' | 'speaking' | 'thinking' | 'offline'
 
-interface AlmaAvatarProps {
-  state?: AlmaState
-  size?: number
-  showGlow?: boolean
-}
-
-export function AlmaAvatar({ state = 'idle', size = 120, showGlow = true }: AlmaAvatarProps) {
-  const prefersReducedMotion = typeof window !== 'undefined' 
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-    : false
-
-  // Idle: slow rotation 20s
-  const idleRotation = prefersReducedMotion ? 0 : 360
-  const idleTransition = prefersReducedMotion ? { duration: 0 } : { duration: 20, repeat: Infinity, ease: 'linear' }
-
-  // Listening: faster rotation 4s, stronger glow
-  const listeningRotation = prefersReducedMotion ? 0 : 360
-  const listeningTransition = prefersReducedMotion ? { duration: 0 } : { duration: 4, repeat: Infinity, ease: 'linear' }
-
-  // Speaking: individual U-shapes pulse sequentially
-  const speakingVariants = prefersReducedMotion ? {} : {
-    pulse: {
-      opacity: [1, 0.5, 1],
-      transition: { duration: 0.6, repeat: Infinity },
-    },
-  }
-
-  // Thinking: slow pulse + subtle rotation
-  const thinkingVariants = prefersReducedMotion ? {} : {
-    pulse: {
-      scale: [1, 1.05, 1],
-      opacity: [1, 0.8, 1],
-      transition: { duration: 2, repeat: Infinity },
-    },
-  }
+export function AlmaAvatar({ state = 'idle', size = 36, showGlow = true }: { state?: AlmaState; size?: number; showGlow?: boolean }) {
+  const glowColor = state === 'offline' ? 'rgba(100, 100, 100, 0.25)' : 'rgba(255, 0, 153, 0.25)'
+  const glowOpacity = state === 'offline' ? 0.3 : 1
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+    <motion.div
+      className="relative inline-flex items-center justify-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: glowOpacity }}
+      transition={{ duration: 0.3 }}
+    >
       {/* Glow background */}
-      {showGlow && state !== 'offline' && (
+      {showGlow && (
         <motion.div
           className="absolute inset-0 rounded-full"
           style={{
-            background: state === 'listening' 
-              ? 'radial-gradient(circle, rgba(255,0,153,0.4) 0%, rgba(160,117,232,0.2) 50%, transparent 70%)'
-              : 'radial-gradient(circle, rgba(255,0,153,0.2) 0%, rgba(160,117,232,0.1) 50%, transparent 70%)',
+            background: `radial-gradient(circle, ${glowColor}, transparent)`,
             filter: 'blur(20px)',
           }}
-          animate={state === 'listening' ? { scale: [1, 1.1, 1] } : {}}
-          transition={state === 'listening' ? { duration: 2, repeat: Infinity } : {}}
+          animate={{
+            scale: state === 'listening' ? [1, 1.2, 1] : state === 'speaking' ? [1, 1.15, 1] : 1,
+          }}
+          transition={{
+            duration: state === 'listening' ? 1.5 : state === 'speaking' ? 0.8 : 3,
+            repeat: Infinity,
+          }}
         />
       )}
 
-      {/* Main logo container */}
+      {/* Logo container */}
       <motion.div
-        style={{ opacity: state === 'offline' ? 0.3 : 1, filter: state === 'offline' ? 'grayscale(100%)' : 'none' }}
+        className="relative z-10"
+        style={{ width: size, height: size, filter: state === 'offline' ? 'grayscale(1)' : 'grayscale(0)' }}
         animate={
-          state === 'idle' ? { rotate: idleRotation } :
-          state === 'listening' ? { rotate: listeningRotation } :
-          state === 'thinking' ? 'pulse' :
-          {}
+          state === 'idle'
+            ? { rotate: 360 }
+            : state === 'listening'
+              ? { rotate: 360 }
+              : state === 'thinking'
+                ? { scale: [1, 1.05, 1] }
+                : state === 'speaking'
+                  ? { rotate: 360 }
+                  : {}
         }
         transition={
-          state === 'idle' ? idleTransition :
-          state === 'listening' ? listeningTransition :
-          state === 'thinking' ? thinkingVariants.pulse.transition :
-          {}
+          state === 'idle'
+            ? { duration: 20, repeat: Infinity, ease: 'linear' }
+            : state === 'listening'
+              ? { duration: 4, repeat: Infinity, ease: 'linear' }
+              : state === 'thinking'
+                ? { duration: 2, repeat: Infinity }
+                : state === 'speaking'
+                  ? { duration: 3, repeat: Infinity, ease: 'linear' }
+                  : {}
         }
-        variants={state === 'thinking' ? thinkingVariants : {}}
       >
         <UnitalkLogo size={size} />
       </motion.div>
 
-      {/* Speaking state: U-shapes pulse sequentially */}
-      {state === 'speaking' && !prefersReducedMotion && (
-        <svg
-          viewBox="0 0 100 100"
-          width={size}
-          height={size}
-          className="absolute inset-0"
-          style={{ pointerEvents: 'none' }}
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="unitalk-gradient-speaking" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#5D9CEC" />
-              <stop offset="50%" stopColor="#A075E8" />
-              <stop offset="100%" stopColor="#EC5D9C" />
-            </linearGradient>
-          </defs>
-          
-          {[0, 45, 90, 135, 180, 225, 270, 315].map((rotation, index) => (
-            <motion.g
-              key={rotation}
-              transform={`rotate(${rotation} 50 50)`}
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{
-                duration: 0.8,
-                repeat: Infinity,
-                delay: index * 0.1,
+      {/* Pulsing rings for listening/speaking */}
+      {(state === 'listening' || state === 'speaking') && (
+        <>
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={`ring-${i}`}
+              className="absolute rounded-full border"
+              style={{
+                width: size,
+                height: size,
+                borderColor: 'rgba(255, 0, 153, 0.3)',
               }}
-            >
-              <path
-                d="M 43,16 L 43,26 A 7,7 0 0,0 57,26 L 57,16"
-                stroke="url(#unitalk-gradient-speaking)"
-                strokeWidth="7.5"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </motion.g>
+              initial={{ scale: 1, opacity: 0 }}
+              animate={{
+                scale: [1, 1.5, 2],
+                opacity: [0.6, 0.3, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                delay: i * 0.5,
+                repeat: Infinity,
+              }}
+            />
           ))}
-        </svg>
+        </>
       )}
-    </div>
+    </motion.div>
   )
 }

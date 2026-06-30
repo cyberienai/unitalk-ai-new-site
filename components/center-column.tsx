@@ -1,127 +1,116 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { AlmaAvatar } from './alma-avatar'
 import { UnitalkLogo } from './unitalk-logo'
-import { Check, AlertCircle, MessageCircle, Phone, Send } from 'lucide-react'
 
-export function CenterColumn() {
-  const items = [
-    { label: 'Agence Thomas · Paris', icon: '✓' },
-    { label: '3 personnes · fondée 2019', icon: '✓' },
-    { label: 'Gmail · HubSpot · GA4', icon: '✓' },
-    { label: 'DMARC absent', icon: '⚠' },
-    { label: 'Score mobile 38/100', icon: '⚠' }
-  ]
+export function CenterColumn({ domain = 'agence-thomas.fr' }: { domain?: string }) {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 },
+    },
+  }
 
   return (
     <motion.div
-      className="relative h-[520px] bg-[#111111] border border-[rgba(255,255,255,0.08)] rounded-[28px] p-[18px] overflow-hidden"
-      whileHover={{ boxShadow: '0 0 60px rgba(255, 0, 153, 0.15)' }}
+      className="relative flex flex-col justify-start pt-32 md:pt-40"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
     >
-      {/* Glow effect */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(circle at 50% 50%, rgba(255, 0, 153, 0.25) 0%, rgba(160, 117, 232, 0.1) 50%, transparent 70%)',
-        filter: 'blur(80px)',
-        opacity: 0.5
-      }} />
+      {/* Glow background */}
+      <div
+        className="absolute inset-0 rounded-3xl -z-10"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, rgba(255,0,153,0.15), transparent)',
+          filter: 'blur(80px)',
+        }}
+      />
 
-      {/* Content */}
-      <div className="relative h-full flex flex-col">
+      {/* Card */}
+      <div className="relative rounded-3xl border border-[rgba(255,255,255,0.08)] bg-[#111111] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-[rgba(255,255,255,0.08)]">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between border-b border-[#222222] bg-[#0F0F0F] px-6 py-4">
+          <div className="flex items-center gap-3">
             <UnitalkLogo size={20} />
-            <span className="text-xs text-[#8E8E93] font-medium">Alma · en direct</span>
+            <span className="text-xs font-medium text-white">Alma · en direct</span>
           </div>
-          <div className="w-2 h-2 bg-[#22C55E] rounded-full" />
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-[#22C55E]" />
+            <span className="text-xs text-[#8E8E93]">En ligne</span>
+          </div>
         </div>
 
-        {/* Chat Area */}
-        <div className="flex-1 py-4 space-y-3 overflow-hidden">
-          {/* Message 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0 }}
-            className="max-w-[90%]"
-          >
-            <div className="bg-[#1A1A1A] rounded-lg px-3 py-2 inline-block">
-              <p className="text-xs text-[#FFFFFF]">
-                Bonjour Thomas.<br />
-                J&apos;ai analysé agence-thomas.fr.
-              </p>
+        {/* Chat area */}
+        <motion.div className="space-y-4 p-6 h-96 overflow-y-auto" variants={containerVariants} initial="hidden" animate="visible">
+          {/* Alma intro */}
+          <motion.div className="flex items-start gap-3" variants={itemVariants}>
+            <AlmaAvatar state="listening" size={32} showGlow={false} />
+            <div className="max-w-xs rounded-2xl bg-[#1A1A1A] px-4 py-3 text-sm text-[#FFFFFF]">
+              <p className="font-medium">Bonjour Thomas.</p>
+              <p className="text-[#8E8E93]">J&apos;ai analysé {domain}.</p>
             </div>
           </motion.div>
 
-          {/* Message 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="max-w-[90%]"
-          >
-            <div className="bg-[#1A1A1A] rounded-lg px-3 py-2 inline-block">
-              <p className="text-xs text-[#FFFFFF]">
-                Agence digitale à Paris.<br />
-                3 personnes.<br />
-                Gmail, HubSpot et GA4 détectés.
-              </p>
+          {/* Analysis result */}
+          <motion.div className="flex items-start gap-3" variants={itemVariants}>
+            <div className="w-8" />
+            <div className="max-w-xs rounded-2xl bg-[#1A1A1A] px-4 py-3 text-sm text-[#FFFFFF]">
+              <p className="text-[#8E8E93]">Agence digitale à Paris.</p>
+              <p className="text-[#8E8E93]">3 personnes.</p>
+              <p className="text-[#8E8E93]">Gmail, HubSpot et GA4 détectés.</p>
             </div>
           </motion.div>
 
           {/* Question */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="max-w-[90%]"
-          >
-            <div className="bg-[#1A1A1A] rounded-lg px-3 py-2 inline-block">
-              <p className="text-xs text-[#FFFFFF]">
-                Quelle tâche vous prend le plus de temps aujourd&apos;hui ?
-              </p>
+          <motion.div className="flex items-start gap-3" variants={itemVariants}>
+            <AlmaAvatar state="speaking" size={32} showGlow={false} />
+            <div className="max-w-xs rounded-2xl bg-[#1A1A1A] px-4 py-3 text-sm text-[#FFFFFF]">
+              <p>Quelle tâche vous prend le plus de temps aujourd&apos;hui ?</p>
             </div>
           </motion.div>
-        </div>
 
-        {/* Context Panel */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-[#1A1A1A] rounded-lg p-3 mb-3 border border-[rgba(255,255,255,0.08)]"
-        >
-          <p className="text-xs font-semibold text-[#FFFFFF] mb-2">Ce qu&apos;Alma comprend</p>
-          <div className="space-y-1">
-            {items.map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 + i * 0.1 }}
-                className="flex items-center gap-2 text-xs text-[#8E8E93]"
-              >
-                <span>{item.icon}</span>
-                <span>{item.label}</span>
-              </motion.div>
-            ))}
-          </div>
+          {/* Context panel */}
+          <motion.div className="mt-6 rounded-xl border border-[#222222] bg-[#0F0F0F] p-4" variants={itemVariants}>
+            <p className="text-xs uppercase tracking-wider text-[#555555] mb-3">Ce qu&apos;Alma comprend</p>
+            <div className="space-y-2 text-xs text-[#8E8E93]">
+              <p>✓ {domain} · Paris</p>
+              <p>✓ 3 personnes · fondée 2019</p>
+              <p>✓ Gmail · HubSpot · GA4</p>
+              <p>⚠ DMARC absent</p>
+              <p>⚠ Score mobile 38/100</p>
+            </div>
+          </motion.div>
         </motion.div>
 
-        {/* Input Bar */}
-        <div className="flex items-center gap-2 bg-[#1A1A1A] rounded-lg px-3 py-2 border border-[rgba(255,255,255,0.08)]">
+        {/* Input bar */}
+        <div className="border-t border-[#222222] bg-[#0F0F0F] px-6 py-4 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[#8E8E93]">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          </svg>
           <input
             type="text"
             placeholder="Répondre à Alma..."
-            className="flex-1 bg-transparent text-xs text-white placeholder-[#555555] outline-none"
+            className="flex-1 bg-transparent text-sm text-white placeholder-[#555555] focus:outline-none"
             disabled
           />
-          <button disabled className="p-1 text-[#8E8E93]">
-            <Phone size={14} />
-          </button>
-          <button disabled className="p-1 text-[#FF0099]">
-            <Send size={14} />
-          </button>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[#8E8E93]">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
         </div>
       </div>
     </motion.div>

@@ -1,20 +1,17 @@
 'use client'
 
-interface UnitalkLogoProps {
-  size?: number
-  className?: string
-}
+export function UnitalkLogo({ size = 32, className = '' }: { size?: number; className?: string }) {
+  const viewBoxSize = 100
+  const scale = size / viewBoxSize
 
-export function UnitalkLogo({ size = 32, className = '' }: UnitalkLogoProps) {
-  const viewBoxSize = size
-  
   return (
     <svg
-      viewBox="0 0 100 100"
+      viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
       width={size}
       height={size}
       className={className}
-      aria-label="Unitalk logo"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Unitalk Logo"
     >
       <defs>
         <linearGradient id="unitalk-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -23,17 +20,17 @@ export function UnitalkLogo({ size = 32, className = '' }: UnitalkLogoProps) {
           <stop offset="100%" stopColor="#EC5D9C" />
         </linearGradient>
       </defs>
-      
-      {/* 8 U-shapes rotated around the center */}
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((rotation) => (
-        <g key={rotation} transform={`rotate(${rotation} 50 50)`}>
+
+      {/* 8 U-shapes arranged radially */}
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+        <g key={angle} transform={`rotate(${angle} 50 50)`}>
           <path
             d="M 43,16 L 43,26 A 7,7 0 0,0 57,26 L 57,16"
             stroke="url(#unitalk-gradient)"
             strokeWidth="7.5"
-            fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
+            fill="none"
           />
         </g>
       ))}
