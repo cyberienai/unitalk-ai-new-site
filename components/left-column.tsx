@@ -136,7 +136,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
       >
-        Essai limité · 1 modèle IA · sans carte bancaire.
+        Démarrez avec votre agent. Ajoutez votre équipe plus tard.
       </motion.p>
     </motion.div>
   )
