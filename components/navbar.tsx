@@ -1,49 +1,50 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { UnitalkLogo } from './unitalk-logo'
 
 export function Navbar() {
   return (
-    <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-md"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <motion.div
-          className="flex items-center gap-2"
-          whileHover={{ scale: 1.05 }}
-        >
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-accent/50 flex items-center justify-center">
-            <span className="text-white font-bold text-lg">U</span>
-          </div>
-          <span className="text-xl font-bold text-foreground hidden sm:inline">Unitalk.ai</span>
-        </motion.div>
-
-        {/* Nav Links */}
-        <div className="hidden md:flex items-center gap-8">
-          <motion.a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" whileHover={{ color: '#FF0099' }}>
-            Caractéristiques
-          </motion.a>
-          <motion.a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" whileHover={{ color: '#FF0099' }}>
-            Tarification
-          </motion.a>
-          <motion.a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors" whileHover={{ color: '#FF0099' }}>
-            À propos
-          </motion.a>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A] border-b border-[rgba(255,255,255,0.08)]">
+      <div className="max-w-[1440px] mx-auto px-12 h-[72px] flex items-center justify-between">
+        
+        {/* Logo + Brand */}
+        <div className="flex items-center gap-3">
+          <UnitalkLogo size={32} />
+          <span className="text-white font-medium text-base">Unitalk AI</span>
         </div>
 
-        {/* CTA Button */}
-        <motion.button
-          className="px-4 py-2 rounded-lg bg-accent text-accent-foreground font-medium text-sm hover:bg-accent/90 transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Démarrer
-        </motion.button>
+        {/* Center Navigation */}
+        <div className="hidden lg:flex items-center gap-8">
+          <a href="#" className="text-[#8E8E93] text-sm font-medium hover:text-white transition-colors">
+            Produit
+          </a>
+          <a href="#" className="text-[#8E8E93] text-sm font-medium hover:text-white transition-colors">
+            Offres
+          </a>
+          <a href="#" className="text-[#8E8E93] text-sm font-medium hover:text-white transition-colors">
+            Sécurité
+          </a>
+          <a href="#" className="text-[#8E8E93] text-sm font-medium hover:text-white transition-colors">
+            Partenaires
+          </a>
+        </div>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-3">
+          <button 
+            className="px-4 py-2 text-white text-sm font-medium hover:bg-[#1E1E1E] rounded-full transition-colors border border-[rgba(255,255,255,0.1)]"
+            aria-label="Login"
+          >
+            Connexion
+          </button>
+          <button 
+            className="px-9 py-2.5 bg-[#FF0099] text-white text-sm font-medium rounded-full hover:bg-[#E00085] transition-colors"
+            aria-label="Start free trial"
+          >
+            Essayer gratuitement
+          </button>
+        </div>
       </div>
-    </motion.nav>
+    </nav>
   )
 }
