@@ -16,21 +16,21 @@ export function HeroSection() {
       <Navbar />
 
       {/* Hero 3-column layout */}
-      <section className="relative min-h-screen pt-32">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
-            {/* Left column: 40% */}
-            <div className="md:col-span-5">
+      <section className="relative w-full pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-0">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-8 lg:gap-6">
+            {/* Left column: 40% on desktop, full on mobile */}
+            <div className="col-span-1 md:col-span-5">
               <LeftColumn onDomainSubmit={setDomain} />
             </div>
 
-            {/* Center column: 28% */}
-            <div className="md:col-span-3">
+            {/* Center column: 28% on desktop, hidden on tablet, full on mobile below lg */}
+            <div className="col-span-1 md:col-span-3 hidden sm:block md:block">
               <CenterColumn domain={domain || 'agence-thomas.fr'} />
             </div>
 
-            {/* Right column: 32% */}
-            <div className="md:col-span-4">
+            {/* Right column: 32% on desktop, full on mobile */}
+            <div className="col-span-1 md:col-span-4">
               <RightColumn />
             </div>
           </div>

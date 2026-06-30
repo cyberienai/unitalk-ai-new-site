@@ -39,18 +39,18 @@ export function TrustSection() {
 
   return (
     <motion.section
-      className="border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0A] py-20 md:py-32"
+      className="border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0A] py-12 sm:py-16 md:py-20 lg:py-32"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '100px' }}
       variants={containerVariants}
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 md:gap-12">
           {TRUST_BLOCKS.map((block, idx) => (
             <motion.div key={idx} variants={itemVariants}>
-              <h3 className="text-xs uppercase tracking-wider text-[#555555] mb-4">{block.label}</h3>
-              <p className="text-sm leading-relaxed text-[#8E8E93] whitespace-pre-line">{block.text}</p>
+              <h3 className="text-xs uppercase tracking-wider text-[#555555] mb-3 sm:mb-4">{block.label}</h3>
+              <p className="text-xs sm:text-sm leading-relaxed text-[#8E8E93] whitespace-pre-line">{block.text}</p>
             </motion.div>
           ))}
         </div>

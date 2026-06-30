@@ -27,14 +27,14 @@ export function CenterColumn({ domain = 'agence-thomas.fr' }: { domain?: string 
 
   return (
     <motion.div
-      className="relative flex flex-col justify-start pt-32 md:pt-40"
+      className="relative flex flex-col justify-start pt-16 sm:pt-20 md:pt-28 lg:pt-40 w-full"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6 }}
     >
       {/* Glow background */}
       <div
-        className="absolute inset-0 rounded-3xl -z-10"
+        className="absolute inset-0 rounded-2xl sm:rounded-3xl -z-10"
         style={{
           background: 'radial-gradient(circle at 50% 50%, rgba(255,0,153,0.15), transparent)',
           filter: 'blur(80px)',
@@ -42,11 +42,11 @@ export function CenterColumn({ domain = 'agence-thomas.fr' }: { domain?: string 
       />
 
       {/* Card */}
-      <div className="relative rounded-3xl border border-[rgba(255,255,255,0.08)] bg-[#111111] overflow-hidden">
+      <div className="relative rounded-2xl sm:rounded-3xl border border-[rgba(255,255,255,0.08)] bg-[#111111] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#222222] bg-[#0F0F0F] px-6 py-4">
-          <div className="flex items-center gap-3">
-            <UnitalkLogo size={20} />
+        <div className="flex items-center justify-between border-b border-[#222222] bg-[#0F0F0F] px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <UnitalkLogo size={18} />
             <span className="text-xs font-medium text-white">Alma · en direct</span>
           </div>
           <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ export function CenterColumn({ domain = 'agence-thomas.fr' }: { domain?: string 
         </div>
 
         {/* Chat area */}
-        <motion.div className="space-y-4 p-6 h-96 overflow-y-auto" variants={containerVariants} initial="hidden" animate="visible">
+        <motion.div className="space-y-3 sm:space-y-4 p-4 sm:p-6 h-80 sm:h-96 overflow-y-auto" variants={containerVariants} initial="hidden" animate="visible">
           {/* Alma intro */}
           <motion.div className="flex items-start gap-3" variants={itemVariants}>
             <AlmaAvatar state="listening" size={32} showGlow={false} />
@@ -98,17 +98,17 @@ export function CenterColumn({ domain = 'agence-thomas.fr' }: { domain?: string 
         </motion.div>
 
         {/* Input bar */}
-        <div className="border-t border-[#222222] bg-[#0F0F0F] px-6 py-4 flex items-center gap-2">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[#8E8E93]">
+        <div className="border-t border-[#222222] bg-[#0F0F0F] px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[#8E8E93] flex-shrink-0">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
           </svg>
           <input
             type="text"
             placeholder="Répondre à Alma..."
-            className="flex-1 bg-transparent text-sm text-white placeholder-[#555555] focus:outline-none"
+            className="flex-1 bg-transparent text-xs sm:text-sm text-white placeholder-[#555555] focus:outline-none"
             disabled
           />
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[#8E8E93]">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-[#8E8E93] flex-shrink-0">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
           </svg>
         </div>

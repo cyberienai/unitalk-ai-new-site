@@ -16,14 +16,14 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
   return (
     <motion.div
-      className="flex flex-col justify-start pt-32 md:pt-40"
+      className="flex flex-col justify-start pt-16 sm:pt-20 md:pt-28 lg:pt-40 w-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
       {/* Badge */}
       <motion.div
-        className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-3 py-1"
+        className="inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.05)] px-2.5 sm:px-3 py-1"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1, duration: 0.5 }}
@@ -33,7 +33,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* Overline */}
       <motion.p
-        className="mt-8 text-xs tracking-normal text-[#8E8E93]"
+        className="mt-6 sm:mt-8 text-xs tracking-normal text-[#8E8E93]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -43,7 +43,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* H1 */}
       <motion.h1
-        className="mt-5 font-heading text-6xl md:text-7xl xl:text-8xl font-light leading-tight text-white"
+        className="mt-4 sm:mt-5 font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-tight text-white"
         style={{ letterSpacing: '-0.03em' }}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -54,7 +54,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* Subtitle */}
       <motion.p
-        className="mt-6 max-w-md text-base leading-relaxed text-[#8E8E93]"
+        className="mt-4 sm:mt-6 w-full sm:max-w-md text-sm sm:text-base leading-relaxed text-[#8E8E93]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
@@ -64,7 +64,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* HITL reassurance */}
       <motion.p
-        className="mt-2 text-sm font-medium text-white"
+        className="mt-2 text-xs sm:text-sm font-medium text-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
@@ -74,7 +74,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* Domain input */}
       <motion.div
-        className="mt-9 flex max-w-md items-stretch gap-2"
+        className="mt-6 sm:mt-9 flex w-full sm:max-w-md items-stretch gap-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
@@ -121,7 +121,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* CTA */}
       <motion.button
-        className="mt-4 w-full max-w-md rounded-full bg-[#FF0099] hover:bg-[#E00085] px-9 py-4.5 text-lg font-medium text-white transition-colors"
+        className="mt-3 sm:mt-4 w-full sm:max-w-md rounded-full bg-[#FF0099] hover:bg-[#E00085] px-6 sm:px-9 py-3 sm:py-4.5 text-base sm:text-lg font-medium text-white transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.5 }}
@@ -131,7 +131,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* Microcopy */}
       <motion.p
-        className="mt-3 text-xs text-[#555555]"
+        className="mt-2.5 sm:mt-3 text-xs text-[#555555]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.5 }}
