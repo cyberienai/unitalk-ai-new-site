@@ -121,7 +121,7 @@ export function RightColumn() {
 
   return (
     <motion.div
-      className="flex flex-col justify-start pt-16 sm:pt-20 md:pt-28 lg:pt-40 w-full"
+      className="flex flex-col justify-start pt-16 sm:pt-20 md:justify-center md:pt-0 w-full"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
