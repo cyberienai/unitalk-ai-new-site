@@ -9,8 +9,10 @@ import { useLanguage } from '@/lib/language-context'
 const NAV_LINKS = [
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
   { fr: 'Cas d’usage', en: 'Use cases', href: '/agents' },
+  { fr: 'Accompagnement', en: 'Support', href: '/accompagnement' },
+  { fr: 'Modèles IA', en: 'AI models', href: '/modeles-ia' },
   { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
-  { fr: 'Agent public', en: 'Public agent', href: '/agent-ia-public' },
+  { fr: 'Agent IA public', en: 'Public AI agent', href: '/agent-ia-public' },
   { fr: 'Sécurité', en: 'Security', href: '/#confiance' },
   { fr: 'Devenir partenaire', en: 'Become a partner', href: '/partenaires' },
 ]
