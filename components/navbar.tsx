@@ -8,7 +8,7 @@ import { UnitalkLogo } from './unitalk-logo'
 const NAV_LINKS = [
   { label: 'Nos solutions', href: '/#solutions' },
   { label: 'Offres', href: '/#offres' },
-  { label: 'Trouver des agents', href: '/agents' },
+  { label: 'Cas d’usage', href: '/agents' },
   { label: 'Sécurité', href: '#' },
   { label: 'Devenir partenaire', href: '/partenaires' },
 ]
@@ -17,7 +17,7 @@ const NAV_LINKS = [
 const PRIMARY_LINKS = [
   { label: 'Nos solutions', href: '/#solutions' },
   { label: 'Offres', href: '/#offres' },
-  { label: 'Trouver des agents', href: '/agents' },
+  { label: 'Cas d’usage', href: '/agents' },
 ]
 
 export function Navbar() {
