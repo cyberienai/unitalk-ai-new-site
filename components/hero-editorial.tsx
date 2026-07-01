@@ -42,15 +42,26 @@ export function HeroEditorial() {
 
       {/* Oversized editorial headline */}
       <motion.h1
-        className="mt-6 font-heading font-normal text-[#1C1A17] text-balance"
-        style={{ fontSize: 'clamp(2.9rem, 8.5vw, 7rem)', lineHeight: 0.98, letterSpacing: '-0.02em' }}
+        className="mt-6 font-sf font-bold text-[#1C1A17] text-balance"
+        style={{ fontSize: 'clamp(2.9rem, 8.5vw, 7rem)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease, delay: 0.06 }}
       >
         Votre entreprise
         <br />
-        dépend <span className="italic text-[#D10E63]">trop de vous.</span>
+        dépend{' '}
+        <span
+          style={{
+            backgroundImage: 'linear-gradient(90deg, #2f6bff 0%, #a24bd6 34%, #e0568f 62%, #f08a3c 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            color: 'transparent',
+          }}
+        >
+          trop de vous.
+        </span>
       </motion.h1>
 
       {/* Subline */}

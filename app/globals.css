@@ -130,6 +130,12 @@
   }
 }
 
+/* SF Pro system stack (real SF Pro on Apple devices, close fallback elsewhere) */
+@utility font-sf {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
 /* Hide scrollbar while keeping scroll functionality (Tailwind v4 custom utility) */
 @utility scrollbar-hide {
   -ms-overflow-style: none;
