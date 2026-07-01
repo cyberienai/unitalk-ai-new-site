@@ -11,7 +11,7 @@ const T = {
     headline2: 'dépend ',
     headline3: 'trop de vous.',
     subline:
-      'Une seule conversation avec Alma suffit. Elle découvre votre entreprise, crée votre agent sur mesure et le prépare à travailler dans vos outils.',
+      'Alma, votre conseillère IA vocale, échange avec vous pour comprendre votre entreprise. Une seule conversation suffit pour créer votre agent sur mesure et le préparer à travailler avec vos outils, vos données et vos processus.',
     almaCaption: 'vous appelle pour créer votre agent.',
     listening: 'À l’écoute…',
     stop: 'Stop',
@@ -29,7 +29,7 @@ const T = {
     headline2: 'depends ',
     headline3: 'too much on you.',
     subline:
-      'Just one conversation with Alma is enough. She discovers your company, creates your custom agent and gets it ready to work inside your tools.',
+      'Alma, your AI voice advisor, talks with you to understand your business. One conversation is all it takes to create your custom agent and get it ready to work with your tools, your data and your processes.',
     almaCaption: 'calls you to create your agent.',
     listening: 'Listening…',
     stop: 'Stop',
