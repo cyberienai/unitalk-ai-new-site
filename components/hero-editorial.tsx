@@ -58,8 +58,8 @@ export function HeroEditorial() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease, delay: 0.14 }}
       >
-        En un appel, Alma façonne votre agent sur mesure — prénom, voix, email, agenda.{' '}
-        <span className="text-white">Un vrai bras droit, prêt à travailler.</span>
+        Un appel avec Alma. Le lendemain, votre agent a un prénom, une voix, un numéro. Il se souvient de tout. Chaque échange l&apos;améliore.{' '}
+        <span className="text-white">Dans six mois, il connaît vos clients mieux que vous.</span>
       </motion.p>
 
       {/* Alma command bar — discreet, elegant, the single conversion point */}
