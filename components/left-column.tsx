@@ -48,7 +48,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi</span> — vous gardez le contrôle.
+        <span className="font-medium text-white">1 agent sur mesure, 10 profils prêts à l&apos;emploi</span> — vous gardez le contrôle.
       </motion.p>
 
       {/* Single explicit CTA — domain input now lives in the Alma chat widget */}
