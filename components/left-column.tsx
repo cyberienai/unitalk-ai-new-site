@@ -141,7 +141,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
 
       {/* Secondary CTA — neutral, so the domain field stays the primary action */}
       <motion.button
-        className="mt-4 sm:mt-5 w-full sm:max-w-md rounded-full border border-[#333333] bg-transparent hover:border-[#555555] hover:bg-[rgba(255,255,255,0.03)] px-6 sm:px-9 py-3 sm:py-4 text-base sm:text-lg font-medium text-white transition-colors"
+        className="mt-4 sm:mt-5 w-full sm:max-w-md rounded-full border border-white/30 bg-white/[0.06] hover:border-white/50 hover:bg-white/10 px-6 sm:px-9 py-3 sm:py-4 text-base sm:text-lg font-medium text-white transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.5 }}

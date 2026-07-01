@@ -52,8 +52,8 @@ export function HeroBackdrop() {
 export function SectionBackdrop({ tone = 'purple' as 'purple' | 'blue' | 'pink', withCorners = false }) {
   const color = tone === 'blue' ? '#5D9CEC' : tone === 'pink' ? '#EC5D9C' : '#A075E8'
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div className="bg-dots absolute inset-0 opacity-40" />
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <div className="bg-dots absolute inset-0 opacity-30" />
       <div
         className="animate-aurora absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full blur-[130px]"
         style={{ background: `${color}22` }}

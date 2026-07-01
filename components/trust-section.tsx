@@ -62,7 +62,7 @@ export function TrustSection() {
       variants={containerVariants}
     >
       <SectionBackdrop tone="blue" withCorners />
-      <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div className="mb-10 sm:mb-14 max-w-2xl" variants={itemVariants}>
           <p className="text-xs uppercase tracking-wider text-[#8A8A92]">Confiance</p>
           <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] text-white text-balance" style={{ letterSpacing: '-0.02em' }}>
@@ -77,7 +77,7 @@ export function TrustSection() {
               variants={itemVariants}
               whileHover={{ y: -6 }}
               transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-              className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[#0F1114]/80 p-6 backdrop-blur-sm transition-colors hover:border-[rgba(93,156,236,0.4)]"
+              className="rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[#12141A] p-6 transition-colors hover:border-[rgba(93,156,236,0.5)]"
             >
               <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(93,156,236,0.3)] bg-[rgba(93,156,236,0.1)]">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5D9CEC" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

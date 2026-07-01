@@ -70,7 +70,7 @@ export function PricingSection() {
       variants={containerVariants}
     >
       <SectionBackdrop tone="purple" />
-      <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div className="mb-10 sm:mb-14 max-w-2xl" variants={itemVariants}>
           <p className="text-xs uppercase tracking-wider text-[#8A8A92]">Offres</p>
@@ -92,8 +92,8 @@ export function PricingSection() {
               transition={{ type: 'spring', stiffness: 300, damping: 22 }}
               className={`group relative flex flex-col rounded-2xl border p-6 transition-colors ${
                 plan.highlighted
-                  ? 'border-[#FF0099] bg-[#141014] shadow-[0_0_50px_-12px_rgba(255,0,153,0.45)]'
-                  : 'border-[rgba(255,255,255,0.08)] bg-[#111111]/80 backdrop-blur-sm hover:border-[rgba(255,255,255,0.2)]'
+                  ? 'border-[#FF0099] bg-[#17131A] shadow-[0_0_50px_-12px_rgba(255,0,153,0.45)]'
+                  : 'border-[rgba(255,255,255,0.1)] bg-[#15161A] hover:border-[rgba(255,255,255,0.25)]'
               }`}
             >
               {/* Plan name + price */}
@@ -130,7 +130,7 @@ export function PricingSection() {
                 className={`mt-6 w-full rounded-full px-5 py-3 text-sm font-medium transition-colors ${
                   plan.highlighted
                     ? 'bg-[#FF0099] hover:bg-[#E00085] text-white'
-                    : 'border border-[#333333] hover:border-[#555555] text-white'
+                    : 'border border-white/30 bg-white/[0.06] hover:border-white/50 hover:bg-white/10 text-white'
                 }`}
               >
                 {plan.cta}
