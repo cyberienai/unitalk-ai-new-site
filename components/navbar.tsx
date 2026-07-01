@@ -145,12 +145,8 @@ export function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                   variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
                   whileHover={{ x: 4 }}
-                  className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
+                  className="rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#8E8E93] transition-colors group-hover:text-[#FF0099]">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
                   S&apos;inscrire
                 </motion.a>
                 <motion.a
@@ -158,12 +154,8 @@ export function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                   variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
                   whileHover={{ x: 4 }}
-                  className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
+                  className="rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#8E8E93] transition-colors group-hover:text-[#FF0099]">
-                    <path d="M15 3H9a6 6 0 0 0-6 6v10a6 6 0 0 0 6 6h6a6 6 0 0 0 6-6V9a6 6 0 0 0-6-6z" />
-                    <circle cx="12" cy="17" r="4" />
-                  </svg>
                   Se connecter
                 </motion.a>
               </motion.div>
@@ -187,23 +179,16 @@ export function Navbar() {
                 }}
                 className="space-y-0"
               >
-                {[
-                  { label: 'Nos solutions', icon: '⚡' },
-                  { label: 'Offres', icon: '💎' },
-                  { label: 'Trouver des agents', icon: '🔍' },
-                  { label: 'Sécurité', icon: '🔐' },
-                  { label: 'Devenir partenaire', icon: '🤝' },
-                ].map((item, idx) => (
+                {NAV_LINKS.map((link) => (
                   <motion.a
-                    key={item.label}
-                    href={NAV_LINKS[idx]?.href || '#'}
+                    key={link.label}
+                    href={link.href}
                     onClick={() => setIsMenuOpen(false)}
                     variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
                     whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.05)' }}
-                    className="flex items-center gap-3 rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all"
+                    className="rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all"
                   >
-                    <span className="text-lg">{item.icon}</span>
-                    {item.label}
+                    {link.label}
                   </motion.a>
                 ))}
               </motion.div>
