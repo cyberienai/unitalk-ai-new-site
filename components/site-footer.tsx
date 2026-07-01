@@ -45,8 +45,8 @@ const FOOTER_COLUMNS = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-[#DcD4C4] bg-[#1C1A17] text-[#F3EFE6]">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <footer className="relative overflow-hidden border-t border-[#DcD4C4] bg-[#1C1A17] text-[#F3EFE6]">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-12 lg:gap-10">
           {/* Brand + contact */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-4">
@@ -146,6 +146,23 @@ export function SiteFooter() {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Giant outline wordmark — decorative, clipped by the bottom edge */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex justify-center leading-[0.72] select-none"
+      >
+        <span
+          className="font-sf font-bold text-transparent whitespace-nowrap translate-y-[0.28em]"
+          style={{
+            fontSize: 'clamp(6rem, 24vw, 26rem)',
+            letterSpacing: '-0.04em',
+            WebkitTextStroke: '1.5px rgba(243,239,230,0.14)',
+          }}
+        >
+          Unitalk
+        </span>
       </div>
     </footer>
   )
