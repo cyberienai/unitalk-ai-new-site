@@ -69,7 +69,7 @@ export function HeroEditorial() {
   const t = T[lang]
 
   return (
-    <div className="relative z-10 mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-4xl flex-col items-center justify-center px-5 sm:px-6 lg:px-8 py-16 text-center sm:py-20">
+    <div className="relative z-10 mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-4xl flex-col items-center justify-start px-5 sm:px-6 lg:px-8 py-10 text-center sm:justify-center sm:py-20">
       {/* Eyebrow */}
       <motion.div
         className="mb-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#857C6E]"
