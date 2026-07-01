@@ -42,6 +42,22 @@ const CAPABILITIES: Capability[] = [
     ),
   },
   {
+    title: 'Il apprend de nouvelles compétences',
+    desc: 'Il dispose déjà d’un savoir-faire étendu — et en crée de nouvelles quand une tâche l’exige. Il grandit avec vous.',
+    tech: 'Compétences extensibles',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2v8" />
+        <path d="m4.93 10.93 1.41 1.41" />
+        <path d="M2 18h2" />
+        <path d="M20 18h2" />
+        <path d="m19.07 10.93-1.41 1.41" />
+        <path d="M22 22H2" />
+        <path d="m8 22 4-10 4 10" />
+      </svg>
+    ),
+  },
+  {
     title: 'Il se connecte à plus de 3000 apps',
     desc: 'Gmail, Slack, HubSpot, Notion, votre CRM, vos outils métier… Il agit directement là où travaille votre équipe.',
     tech: '3000+ intégrations',
@@ -64,22 +80,6 @@ const CAPABILITIES: Capability[] = [
         <circle cx="12" cy="12" r="10" />
         <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
         <path d="M2 12h20" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Il apprend de nouvelles compétences',
-    desc: 'Il dispose déjà d’un savoir-faire étendu — et en crée de nouvelles quand une tâche l’exige. Il grandit avec vous.',
-    tech: 'Compétences extensibles',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2v8" />
-        <path d="m4.93 10.93 1.41 1.41" />
-        <path d="M2 18h2" />
-        <path d="M20 18h2" />
-        <path d="m19.07 10.93-1.41 1.41" />
-        <path d="M22 22H2" />
-        <path d="m8 22 4-10 4 10" />
       </svg>
     ),
   },
