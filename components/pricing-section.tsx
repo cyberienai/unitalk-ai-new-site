@@ -79,10 +79,12 @@ export function PricingSection() {
     'Accès aux meilleurs modèles d’IA',
     modelOpt.feature,
     'Multimodal : voix, texte, image, audio, code',
+    'Adresse email, numéro de téléphone, agenda, fichiers et contacts dédiés',
     'Mémoire d’entreprise persistante',
     'Compétences auto-apprises, extensibles à l’infini',
     'Exécution de code en environnement sécurisé',
     'Connexion à 3000+ apps via MCP',
+    'Accessible partout : interface Web, apps de messagerie, Desktop et terminal',
     serviceOpt.feature,
   ]
 
@@ -172,7 +174,7 @@ export function PricingSection() {
                       {(Object.keys(SERVICE_OPTIONS) as ServiceKey[]).map((k) => (
                         <option key={k} value={k}>
                           {SERVICE_OPTIONS[k].label}
-                          {SERVICE_OPTIONS[k].add === 0 ? ' ��� inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
+                          {SERVICE_OPTIONS[k].add === 0 ? ' ����� inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
                         </option>
                       ))}
                     </select>
