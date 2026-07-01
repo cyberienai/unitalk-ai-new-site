@@ -112,7 +112,7 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu — full panel, Naboo-inspired */}
+      {/* Mobile menu — enhanced with icons, groups, and animations */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -123,69 +123,153 @@ export function Navbar() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
           >
-            <nav className="flex flex-col px-6 py-2">
-              {/* Account group */}
-              <a
-                href="#"
-                onClick={() => setIsMenuOpen(false)}
-                className="border-b border-[rgba(255,255,255,0.06)] py-5 text-lg text-white transition-colors hover:text-[#FF0099]"
+            <nav className="flex flex-col px-6 py-6 space-y-1">
+              {/* Account group — with stagger animation */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.05,
+                      delayChildren: 0.1,
+                    },
+                  },
+                }}
+                className="space-y-0"
               >
-                S&apos;inscrire
-              </a>
-              <a
-                href="#"
-                onClick={() => setIsMenuOpen(false)}
-                className="border-b border-[rgba(255,255,255,0.12)] py-5 text-lg text-white transition-colors hover:text-[#FF0099]"
-              >
-                Se connecter
-              </a>
-
-              {/* Primary nav group */}
-              {NAV_LINKS.map((link, idx) => (
-                <a
-                  key={link.label}
-                  href={link.href}
+                <motion.a
+                  href="#"
                   onClick={() => setIsMenuOpen(false)}
-                  className={`py-5 text-lg text-white transition-colors hover:text-[#FF0099] ${
-                    idx === NAV_LINKS.length - 1
-                      ? 'border-b border-[rgba(255,255,255,0.12)]'
-                      : 'border-b border-[rgba(255,255,255,0.06)]'
-                  }`}
+                  variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
+                  whileHover={{ x: 4 }}
+                  className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
                 >
-                  {link.label}
-                </a>
-              ))}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#8E8E93] transition-colors group-hover:text-[#FF0099]">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                  S&apos;inscrire
+                </motion.a>
+                <motion.a
+                  href="#"
+                  onClick={() => setIsMenuOpen(false)}
+                  variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
+                  whileHover={{ x: 4 }}
+                  className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#8E8E93] transition-colors group-hover:text-[#FF0099]">
+                    <path d="M15 3H9a6 6 0 0 0-6 6v10a6 6 0 0 0 6 6h6a6 6 0 0 0 6-6V9a6 6 0 0 0-6-6z" />
+                    <circle cx="12" cy="17" r="4" />
+                  </svg>
+                  Se connecter
+                </motion.a>
+              </motion.div>
 
-              {/* Contact group */}
-              <a
-                href="tel:+33189713394"
-                className="flex items-center gap-3 border-b border-[rgba(255,255,255,0.06)] py-5 text-base text-[#C7C7D1] transition-colors hover:text-white"
+              {/* Divider */}
+              <div className="my-2 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent" />
+
+              {/* Primary nav group — with icons and stagger */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.05,
+                      delayChildren: 0.2,
+                    },
+                  },
+                }}
+                className="space-y-0"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#FF0099]">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <span className="underline underline-offset-4">01 89 71 33 94</span>
-              </a>
-              <a
-                href="mailto:hello@unitalk.ai"
-                className="flex items-center gap-3 border-b border-[rgba(255,255,255,0.12)] py-5 text-base text-[#C7C7D1] transition-colors hover:text-white"
+                {[
+                  { label: 'Nos solutions', icon: '⚡' },
+                  { label: 'Offres', icon: '💎' },
+                  { label: 'Trouver des agents', icon: '🔍' },
+                  { label: 'Sécurité', icon: '🔐' },
+                  { label: 'Devenir partenaire', icon: '🤝' },
+                ].map((item, idx) => (
+                  <motion.a
+                    key={item.label}
+                    href={NAV_LINKS[idx]?.href || '#'}
+                    onClick={() => setIsMenuOpen(false)}
+                    variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
+                    whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.05)' }}
+                    className="flex items-center gap-3 rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all"
+                  >
+                    <span className="text-lg">{item.icon}</span>
+                    {item.label}
+                  </motion.a>
+                ))}
+              </motion.div>
+
+              {/* Divider */}
+              <div className="my-2 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent" />
+
+              {/* Contact group — with icons and stagger */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.05,
+                      delayChildren: 0.35,
+                    },
+                  },
+                }}
+                className="space-y-1 pt-2"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#FF0099]">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="m22 7-10 6L2 7" />
-                </svg>
-                <span className="underline underline-offset-4">hello@unitalk.ai</span>
-              </a>
+                <motion.a
+                  href="tel:+33189713394"
+                  variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
+                  whileHover={{ x: 4 }}
+                  className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-sm text-[#C7C7D1] transition-all hover:bg-white/5"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                  <span className="underline underline-offset-4 group-hover:text-white">01 89 71 33 94</span>
+                </motion.a>
+                <motion.a
+                  href="mailto:hello@unitalk.ai"
+                  variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
+                  whileHover={{ x: 4 }}
+                  className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-sm text-[#C7C7D1] transition-all hover:bg-white/5"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="m22 7-10 6L2 7" />
+                  </svg>
+                  <span className="underline underline-offset-4 group-hover:text-white">hello@unitalk.ai</span>
+                </motion.a>
+              </motion.div>
+
+              {/* Divider */}
+              <div className="my-2 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent" />
 
               {/* Language selector */}
-              <button className="flex items-center gap-3 py-5 text-base text-white">
+              <motion.button
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.45, duration: 0.3 }}
+                whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.05)' }}
+                className="flex items-center gap-3 rounded-lg px-4 py-3.5 text-sm font-medium text-white transition-all"
+              >
                 <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[rgba(255,255,255,0.15)]">
                   <span className="h-4 w-2 bg-[#0055A4]" />
                   <span className="h-4 w-2 bg-white" />
                   <span className="h-4 w-2 bg-[#EF4135]" />
                 </span>
                 Français
-              </button>
+              </motion.button>
             </nav>
           </motion.div>
         )}
