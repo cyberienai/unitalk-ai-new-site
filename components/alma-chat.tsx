@@ -8,16 +8,15 @@ const T = {
   fr: {
     dialogLabel: 'Discuter avec Alma',
     almaAlt: "Portrait d'Alma",
-    role: 'Votre accompagnatrice IA · Unitalk',
+    role: 'Je crée vos agents et les aide à progresser',
     online: 'En ligne',
     msg1: 'Bonjour, je suis Alma.',
-    msg2a: 'Je collecte les données publiques de votre entreprise, puis je vous appelle pour créer votre agent : ',
-    msg2strong: 'personnalisé sur mesure',
-    msg2b: ', avec son prénom, sa voix, son email et son agenda. Votre nouveau bras droit, prêt à travailler.',
-    msg3a: 'Ensuite, je reste à vos côtés : je vous accompagne au quotidien et vous forme à ',
-    msg3strong: 'orchestrer vos agents',
-    msg3b: ' pour en tirer le meilleur.',
-    msg4: 'Pour commencer, quel est le nom de domaine de votre entreprise ?',
+    msg2: 'Je vais apprendre à connaître votre entreprise et créer un agent qui travaillera pour vous.',
+    msg3a: 'Je commence par découvrir ce qui est déjà public sur votre entreprise. Ensuite, je vous appelle pour comprendre votre activité, vos outils et votre façon de travailler. ',
+    msg3strong: 'À la fin de notre conversation, votre agent est prêt à commencer.',
+    msg4: 'Il possède sa propre identité : un prénom, une voix, un numéro de téléphone, une adresse email et un agenda. Il peut agir dans vos outils dès le premier jour.',
+    msg5: 'Je reste ensuite à vos côtés : je vous aide à créer de nouveaux agents, à les faire progresser et à trouver de nouvelles tâches à automatiser.',
+    msg6: 'Pour commencer, quel est le nom de domaine de votre entreprise ?',
     listening: 'À l’écoute…',
     placeholder: 'Entrez votre nom de domaine',
     domainAria: 'Votre nom de domaine',
@@ -29,16 +28,15 @@ const T = {
   en: {
     dialogLabel: 'Chat with Alma',
     almaAlt: 'Portrait of Alma',
-    role: 'Your AI guide · Unitalk',
+    role: 'I create your agents and help them grow',
     online: 'Online',
     msg1: 'Hello, I’m Alma.',
-    msg2a: 'I gather your company’s public data, then I call you to create your agent: ',
-    msg2strong: 'fully customized',
-    msg2b: ', with its name, voice, email and calendar. Your new right hand, ready to work.',
-    msg3a: 'Then I stay by your side: I guide you day to day and train you to ',
-    msg3strong: 'orchestrate your agents',
-    msg3b: ' to get the most out of them.',
-    msg4: 'To start, what’s your company’s domain name?',
+    msg2: 'I’ll get to know your company and create an agent that works for you.',
+    msg3a: 'I start by discovering what’s already public about your company. Then I call you to understand your business, your tools and the way you work. ',
+    msg3strong: 'By the end of our conversation, your agent is ready to start.',
+    msg4: 'It has its own identity: a name, a voice, a phone number, an email address and a calendar. It can act inside your tools from day one.',
+    msg5: 'Then I stay by your side: I help you create new agents, make them progress and find new tasks to automate.',
+    msg6: 'To start, what’s your company’s domain name?',
     listening: 'Listening…',
     placeholder: 'Enter your domain name',
     domainAria: 'Your domain name',
@@ -116,7 +114,7 @@ export function AlmaChat() {
       </div>
 
       {/* Conversation */}
-      <div className="space-y-2.5 px-5 py-5">
+      <div className="max-h-[380px] space-y-2.5 overflow-y-auto px-5 py-5">
         <div className="flex items-start gap-2.5">
           <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#1C1A17]">
             {t.msg1}
@@ -124,19 +122,28 @@ export function AlmaChat() {
         </div>
         <div className="flex items-start gap-2.5">
           <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
-            {t.msg2a}
-            <span className="font-medium text-[#1C1A17]">{t.msg2strong}</span>{t.msg2b}
+            {t.msg2}
           </div>
         </div>
         <div className="flex items-start gap-2.5">
           <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
             {t.msg3a}
-            <span className="font-medium text-[#1C1A17]">{t.msg3strong}</span>{t.msg3b}
+            <span className="font-medium text-[#1C1A17]">{t.msg3strong}</span>
+          </div>
+        </div>
+        <div className="flex items-start gap-2.5">
+          <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
+            {t.msg4}
+          </div>
+        </div>
+        <div className="flex items-start gap-2.5">
+          <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
+            {t.msg5}
           </div>
         </div>
         <div className="flex items-start gap-2.5">
           <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#1C1A17]">
-            {t.msg4}
+            {t.msg6}
           </div>
         </div>
       </div>
