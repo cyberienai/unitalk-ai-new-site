@@ -104,7 +104,7 @@ function VisualSupport() {
       </div>
       <div className="mt-2 flex items-center gap-1.5 rounded-md border border-[#DcD4C4] bg-[#F3EFE6] px-2 py-1">
         <span className="h-1.5 w-1.5 rounded-full bg-[#2E7D4F]" />
-        <span className="text-[9px] text-[#857C6E]">Ingénieur IA · escalade &lt; 1h</span>
+        <span className="text-[9px] text-[#857C6E]">Ingénieur IA · escalade &lt; 4h</span>
       </div>
     </MockChrome>
   )
@@ -169,7 +169,7 @@ const CARDS = [
     label: 'Accompagnement',
     title: 'Vous n’êtes jamais seul',
     content:
-      'Alma vous guide au quotidien et vous forme à orchestrer vos agents. Un ingénieur IA prend le relais si besoin — escalade en moins d’une heure.',
+      'Alma vous guide au quotidien et vous forme à orchestrer vos agents. Un ingénieur IA prend le relais si besoin — escalade en moins de 4 heures.',
     visual: VisualSupport,
   },
   {

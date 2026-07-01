@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: 'Qui est Alma ?',
-    a: 'Alma est votre accompagnatrice IA. C’est elle qui vous appelle pour créer votre agent, vous guide au quotidien et vous forme à orchestrer vos agents. Si une question la dépasse, un ingénieur IA prend le relais en moins d’une heure.',
+    a: 'Alma est votre accompagnatrice IA. C’est elle qui vous appelle pour créer votre agent, vous guide au quotidien et vous forme à orchestrer vos agents. Si une question la dépasse, un ingénieur IA prend le relais en moins de 4 heures.',
   },
 ]
 
