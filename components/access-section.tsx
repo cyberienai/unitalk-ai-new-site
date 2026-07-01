@@ -78,7 +78,7 @@ export function AccessSection() {
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#4E483F] sm:text-lg">
             Web, bureau, terminal ou messagerie : c’est le même agent, la même mémoire,
-            les mêmes compétences. Vous changez d’écran, pas d’assistant.
+            les mêmes compétences. Vous changez d’écran, tout simplement.
           </p>
         </div>
 
