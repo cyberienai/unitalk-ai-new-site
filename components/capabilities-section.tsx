@@ -107,7 +107,7 @@ export function CapabilitiesSection() {
             className="mt-3 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.05] text-[#1C1A17] text-balance"
             style={{ letterSpacing: '-0.03em' }}
           >
-            Un vrai agent. <span className="text-[#D10E63]">Pas une boîte à réponses.</span>
+            Il agit. <span className="text-[#D10E63]">Il ne fait pas que répondre.</span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#4E483F] sm:text-lg">
             Il ne se contente pas de discuter. Il agit sur vos outils, cherche l’information,
