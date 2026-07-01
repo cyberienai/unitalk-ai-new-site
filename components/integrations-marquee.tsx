@@ -49,7 +49,7 @@ export function IntegrationsMarquee() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.24em] text-[#857C6E]">
-          Se connecte à vos outils — et à 3&nbsp;000 autres
+          Déjà connecté à vos outils — et à 3&nbsp;000 autres
         </p>
       </div>
 
