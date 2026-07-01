@@ -75,7 +75,7 @@ export function CreateAgent() {
               Laissez <span className="italic text-[#FF0099]">Alma</span> créer votre agent
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[#B4B4BC]">
-              Donnez votre domaine, elle vous appelle et façonne votre agent sur mesure — sans formulaire.
+              Donnez votre nom de domaine, elle vous appelle et façonne votre agent sur mesure — sans formulaire.
             </p>
           </motion.div>
 

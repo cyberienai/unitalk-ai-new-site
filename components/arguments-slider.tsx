@@ -159,7 +159,7 @@ const CARDS = [
     label: 'Point de départ',
     title: 'Il naît de votre nom de domaine',
     content:
-      'Vous donnez votre domaine, Alma collecte les données publiques de votre entreprise et vous appelle. À la fin de l’appel, votre agent existe. Aucun formulaire — vous parlez, c’est tout.',
+      'Vous donnez votre nom de domaine, Alma collecte les données publiques de votre entreprise et vous appelle. À la fin de l’appel, votre agent existe. Aucun formulaire — vous parlez, c’est tout.',
     visual: VisualDomain,
   },
   {
