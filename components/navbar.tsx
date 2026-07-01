@@ -132,144 +132,82 @@ export function Navbar() {
             {/* Menu Panel */}
             <motion.div
               id="menu-panel"
-              className="fixed top-16 bottom-0 z-40 overflow-y-auto border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:right-0 lg:w-80 lg:border-l lg:border-t-0"
+              className="fixed top-16 bottom-0 z-40 overflow-y-auto bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:right-0 lg:w-72 lg:border-l border-[rgba(255,255,255,0.06)]"
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
-              <nav className="flex flex-col px-6 py-6 space-y-1">
-                {/* Account group */}
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.05,
-                        delayChildren: 0.1,
-                      },
-                    },
-                  }}
-                  className="space-y-0"
-                >
-                  <motion.a
+              <nav className="flex flex-col px-0 py-8">
+                {/* Account section */}
+                <div className="space-y-3 px-6 pb-8 border-b border-[rgba(255,255,255,0.08)]">
+                  <a
                     href="#"
                     onClick={() => setIsMenuOpen(false)}
-                    variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-                    whileHover={{ x: 4 }}
-                    className="rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
+                    className="block px-4 py-3 text-base text-white hover:text-[#FF0099] transition-colors"
                   >
                     S&apos;inscrire
-                  </motion.a>
-                  <motion.a
+                  </a>
+                  <a
                     href="#"
                     onClick={() => setIsMenuOpen(false)}
-                    variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-                    whileHover={{ x: 4 }}
-                    className="rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all hover:bg-white/5"
+                    className="block px-4 py-3 text-base text-white hover:text-[#FF0099] transition-colors"
                   >
                     Se connecter
-                  </motion.a>
-                </motion.div>
+                  </a>
+                </div>
 
-                {/* Divider */}
-                <div className="my-2 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent" />
+                {/* Navigation section */}
+                <div className="py-8 px-6 border-b border-[rgba(255,255,255,0.08)]">
+                  <p className="text-xs uppercase tracking-wider text-[#8A8A92] mb-4 font-semibold">Navigation</p>
+                  <div className="space-y-2">
+                    {NAV_LINKS.map((link) => (
+                      <a
+                        key={link.label}
+                        href={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block px-4 py-2.5 text-sm text-white hover:text-[#FF0099] transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
 
-                {/* Primary nav group */}
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.05,
-                        delayChildren: 0.2,
-                      },
-                    },
-                  }}
-                  className="space-y-0"
-                >
-                  {NAV_LINKS.map((link) => (
-                    <motion.a
-                      key={link.label}
-                      href={link.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-                      whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.05)' }}
-                      className="rounded-lg px-4 py-3.5 text-base font-medium text-white transition-all"
-                    >
-                      {link.label}
-                    </motion.a>
-                  ))}
-                </motion.div>
-
-                {/* Divider */}
-                <div className="my-2 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent" />
-
-                {/* Contact group */}
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.05,
-                        delayChildren: 0.35,
-                      },
-                    },
-                  }}
-                  className="space-y-1 pt-2"
-                >
-                  <motion.a
+                {/* Contact section */}
+                <div className="py-8 px-6 border-b border-[rgba(255,255,255,0.08)]">
+                  <a
                     href="tel:+33189713394"
-                    variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-                    whileHover={{ x: 4 }}
-                    className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-sm text-[#C7C7D1] transition-all hover:bg-white/5"
+                    className="group flex items-center gap-3 px-4 py-3 text-sm text-[#C7C7D1] hover:text-white transition-colors"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                     </svg>
-                    <span className="underline underline-offset-4 group-hover:text-white">01 89 71 33 94</span>
-                  </motion.a>
-                  <motion.a
+                    <span className="underline underline-offset-4">01 89 71 33 94</span>
+                  </a>
+                  <a
                     href="mailto:hello@unitalk.ai"
-                    variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-                    whileHover={{ x: 4 }}
-                    className="group flex items-center gap-3 rounded-lg px-4 py-3.5 text-sm text-[#C7C7D1] transition-all hover:bg-white/5"
+                    className="group flex items-center gap-3 px-4 py-3 text-sm text-[#C7C7D1] hover:text-white transition-colors"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
                       <rect x="2" y="4" width="20" height="16" rx="2" />
                       <path d="m22 7-10 6L2 7" />
                     </svg>
-                    <span className="underline underline-offset-4 group-hover:text-white">hello@unitalk.ai</span>
-                  </motion.a>
-                </motion.div>
-
-                {/* Divider */}
-                <div className="my-2 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent" />
+                    <span className="underline underline-offset-4">hello@unitalk.ai</span>
+                  </a>
+                </div>
 
                 {/* Language selector */}
-                <motion.button
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.45, duration: 0.3 }}
-                  whileHover={{ x: 4, backgroundColor: 'rgba(255,255,255,0.05)' }}
-                  className="flex items-center gap-3 rounded-lg px-4 py-3.5 text-sm font-medium text-white transition-all"
-                >
-                  <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[rgba(255,255,255,0.15)]">
-                    <span className="h-4 w-2 bg-[#0055A4]" />
-                    <span className="h-4 w-2 bg-white" />
-                    <span className="h-4 w-2 bg-[#EF4135]" />
-                  </span>
-                  Français
-                </motion.button>
+                <div className="py-8 px-6">
+                  <button className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:text-[#FF0099] transition-colors">
+                    <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[rgba(255,255,255,0.15)]">
+                      <span className="h-4 w-2 bg-[#0055A4]" />
+                      <span className="h-4 w-2 bg-white" />
+                      <span className="h-4 w-2 bg-[#EF4135]" />
+                    </span>
+                    Français
+                  </button>
+                </div>
               </nav>
             </motion.div>
           </>
