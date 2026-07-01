@@ -59,7 +59,7 @@ export function HeroEditorial() {
         transition={{ duration: 0.6, ease, delay: 0.14 }}
       >
         Un appel avec Alma. Le lendemain, votre agent a un prénom, une voix, un numéro. Il se souvient de tout. Chaque échange l&apos;améliore.{' '}
-        <span className="text-white">Dans six mois, il connaît vos clients mieux que vous.</span>
+        <span className="text-white">En quelques semaines, il connaît vos clients mieux que vous.</span>
       </motion.p>
 
       {/* Alma command bar — discreet, elegant, the single conversion point */}
@@ -75,7 +75,7 @@ export function HeroEditorial() {
             <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#0A0A0A] bg-[#22C55E]" aria-hidden="true" />
           </div>
           <p className="text-xs text-[#8A8A92]">
-            <span className="text-white">Alma</span> vous appelle et crée votre agent
+            <span className="text-white">Alma</span> vous appelle et crée votre agent IA sur mesure.
           </p>
         </div>
 
