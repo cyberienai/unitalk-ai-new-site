@@ -8,8 +8,8 @@ const T = {
   fr: {
     eyebrow: 'Vous gérez tout, seul, sans pouvoir embaucher',
     headline1: 'Votre entreprise',
-    headline2: 'dépend trop de',
-    headline3: 'vous.',
+    headline2: 'dépend ',
+    headline3: 'trop de vous.',
     subline:
       'Une seule conversation avec Alma suffit. Elle découvre votre entreprise, crée votre agent sur mesure et le prépare à travailler dans vos outils.',
     almaCaption: 'vous appelle pour créer votre agent.',
@@ -26,8 +26,8 @@ const T = {
   en: {
     eyebrow: 'You run everything, alone, with no one to hire',
     headline1: 'Your business',
-    headline2: 'depends too much',
-    headline3: 'on you.',
+    headline2: 'depends ',
+    headline3: 'too much on you.',
     subline:
       'Just one conversation with Alma is enough. She discovers your company, creates your custom agent and gets it ready to work inside your tools.',
     almaCaption: 'calls you to create your agent.',
@@ -73,14 +73,17 @@ export function HeroEditorial() {
       {/* Oversized editorial headline */}
       <motion.h1
         className="mt-0 font-sf font-bold text-[#1C1A17] text-balance"
-        style={{ fontSize: 'clamp(2.9rem, 8.5vw, 7rem)', lineHeight: 0.98, letterSpacing: '-0.03em' }}
+        style={{ fontSize: 'clamp(2.4rem, 6vw, 5.25rem)', lineHeight: 1.0, letterSpacing: '-0.03em' }}
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease, delay: 0.06 }}
       >
         {t.headline1}
         <br />
-        {t.headline2}<span className="text-[#D10E63]">{t.headline3}</span>
+        <span className="whitespace-nowrap">
+          {t.headline2}
+          <span className="text-[#D10E63]">{t.headline3}</span>
+        </span>
       </motion.h1>
 
       {/* Subline */}
