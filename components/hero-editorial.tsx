@@ -2,6 +2,46 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLanguage } from '@/lib/language-context'
+
+const T = {
+  fr: {
+    eyebrow: 'Vous gérez tout, seul, sans pouvoir embaucher',
+    headline1: 'Votre entreprise',
+    headline2: 'dépend ',
+    headline3: 'trop de vous.',
+    subline:
+      'Un appel avec Alma. En quelques minutes, votre agent connaît déjà votre entreprise, et il a un prénom, une voix, un numéro, une adresse email. Il se connecte à tout, se souvient de tout, s’améliore à chaque échange — et agit à l’échelle de toute l’entreprise, pas d’un seul collaborateur.',
+    almaCaption: 'vous appelle et crée votre agent IA sur mesure.',
+    listening: 'À l’écoute…',
+    stop: 'Stop',
+    create: 'Créer mon agent gratuitement',
+    domainPlaceholder: 'votre-domaine.fr',
+    domainAria: 'Votre nom de domaine',
+    talkAria: 'Parler à Alma en voice-to-voice',
+    stopAria: 'Arrêter la voix',
+    almaAlt: "Portrait d'Alma",
+    footnote: 'Essai de 7 jours · sans carte bancaire · 1 agent, 10 profils prêts à l’emploi',
+  },
+  en: {
+    eyebrow: 'You run everything, alone, with no one to hire',
+    headline1: 'Your business',
+    headline2: 'depends ',
+    headline3: 'too much on you.',
+    subline:
+      'One call with Alma. Within minutes, your agent already knows your company, and it has a name, a voice, a phone number, an email address. It connects to everything, remembers everything, improves with every exchange — and acts at the scale of your whole company, not just one person.',
+    almaCaption: 'calls you and builds your custom AI agent.',
+    listening: 'Listening…',
+    stop: 'Stop',
+    create: 'Create my agent for free',
+    domainPlaceholder: 'your-domain.com',
+    domainAria: 'Your domain name',
+    talkAria: 'Talk to Alma voice-to-voice',
+    stopAria: 'Stop voice',
+    almaAlt: 'Portrait of Alma',
+    footnote: '7-day trial · no credit card · 1 agent, 10 ready-to-use profiles',
+  },
+}
 
 function Waveform({ active }: { active: boolean }) {
   const bars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -25,6 +65,8 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function HeroEditorial() {
   const [domain, setDomain] = useState('')
   const [isTalking, setIsTalking] = useState(false)
+  const { lang } = useLanguage()
+  const t = T[lang]
 
   return (
     <div className="relative z-10 mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-4xl flex-col items-center justify-center px-5 sm:px-6 lg:px-8 py-16 text-center sm:py-20">
@@ -36,7 +78,7 @@ export function HeroEditorial() {
         transition={{ duration: 0.5, ease }}
       >
         <span className="hidden h-px w-8 sm:block" style={{ background: '#CDC3B1' }} />
-        Vous gérez tout, seul, sans pouvoir embaucher
+        {t.eyebrow}
         <span className="hidden h-px w-8 sm:block" style={{ background: '#CDC3B1' }} />
       </motion.div>
 
@@ -48,9 +90,9 @@ export function HeroEditorial() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease, delay: 0.06 }}
       >
-        Votre entreprise
+        {t.headline1}
         <br />
-        dépend <span className="text-[#D10E63]">trop de vous.</span>
+        {t.headline2}<span className="text-[#D10E63]">{t.headline3}</span>
       </motion.h1>
 
       {/* Subline */}
@@ -60,7 +102,7 @@ export function HeroEditorial() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease, delay: 0.14 }}
       >
-        Un appel avec Alma. En quelques minutes, votre agent connaît déjà votre entreprise, et il a un prénom, une voix, un numéro, une adresse email. Il se connecte à tout, se souvient de tout, s&apos;améliore à chaque échange — et agit à l&apos;échelle de toute l&apos;entreprise, pas d&apos;un seul collaborateur.
+        {t.subline}
       </motion.p>
 
       {/* Alma command bar — the single conversion point */}
@@ -72,11 +114,11 @@ export function HeroEditorial() {
       >
         <div className="mb-3 flex items-center justify-center gap-2.5">
           <div className="relative">
-            <img src="/alma-avatar.png" alt="Portrait d'Alma" className="h-7 w-7 rounded-full object-cover ring-1 ring-[#D10E63]/40" />
+            <img src="/alma-avatar.png" alt={t.almaAlt} className="h-7 w-7 rounded-full object-cover ring-1 ring-[#D10E63]/40" />
             <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]" aria-hidden="true" />
           </div>
           <p className="text-xs text-[#857C6E]">
-            <span className="font-medium text-[#1C1A17]">Alma</span> vous appelle et crée votre agent IA sur mesure.
+            <span className="font-medium text-[#1C1A17]">Alma</span> {t.almaCaption}
           </p>
         </div>
 
@@ -92,7 +134,7 @@ export function HeroEditorial() {
                 transition={{ duration: 0.2 }}
               >
                 <Waveform active />
-                <span className="text-sm font-medium text-[#857C6E]">À l&apos;écoute…</span>
+                <span className="text-sm font-medium text-[#857C6E]">{t.listening}</span>
               </motion.div>
             ) : (
               <motion.input
@@ -100,9 +142,9 @@ export function HeroEditorial() {
                 type="text"
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                placeholder="votre-domaine.fr"
+                placeholder={t.domainPlaceholder}
                 className="flex-1 bg-transparent py-2.5 text-sm text-[#1C1A17] placeholder-[#A79E8E] focus:outline-none sm:text-base"
-                aria-label="Votre nom de domaine"
+                aria-label={t.domainAria}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -115,23 +157,23 @@ export function HeroEditorial() {
             <button
               onClick={() => setIsTalking(false)}
               className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-[#D10E63]/10 px-4 text-sm font-medium text-[#D10E63] transition-colors"
-              aria-label="Arrêter la voix"
+              aria-label={t.stopAria}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2.5" /></svg>
-              Stop
+              {t.stop}
             </button>
           ) : domain.trim() ? (
             <button
               className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-[#D10E63] px-5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
             >
-              Créer mon agent gratuitement
+              {t.create}
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </button>
           ) : (
             <button
               onClick={() => setIsTalking(true)}
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
-              aria-label="Parler à Alma en voice-to-voice"
+              aria-label={t.talkAria}
             >
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
@@ -142,7 +184,7 @@ export function HeroEditorial() {
         </div>
 
         <p className="mt-3 text-xs text-[#857C6E]">
-          Essai de 7 jours · sans carte bancaire · 1 agent, 10 profils prêts à l&apos;emploi
+          {t.footnote}
         </p>
       </motion.div>
     </div>

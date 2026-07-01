@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/lib/language-context'
 
 /* ---- Mini paper mockups, one per card ---- */
 
@@ -153,58 +154,47 @@ function VisualSovereignty() {
   )
 }
 
-const CARDS = [
-  {
-    id: 1,
-    label: 'Point de départ',
-    title: 'Il naît de votre nom de domaine',
-    content:
-      'Vous donnez votre nom de domaine, Alma collecte les données publiques de votre entreprise et vous appelle. À la fin de l’appel, votre agent existe. Aucun formulaire — vous parlez, c’est tout.',
-    visual: VisualDomain,
+const VISUALS = [VisualDomain, VisualIdentity, VisualMemory, VisualModels, VisualSupport, VisualSovereignty]
+
+const T = {
+  fr: {
+    eyebrow: 'Pourquoi Unitalk',
+    title1: 'Il comprend, il agit,',
+    title2: 'il se souvient.',
+    prev: 'Cartes précédentes',
+    next: 'Cartes suivantes',
+    watermark: 'votre agent',
+    cards: [
+      { id: 1, label: 'Point de départ', title: 'Il naît de votre nom de domaine', content: 'Vous donnez votre nom de domaine, Alma collecte les données publiques de votre entreprise et vous appelle. À la fin de l’appel, votre agent existe. Aucun formulaire — vous parlez, c’est tout.' },
+      { id: 2, label: 'Sur mesure', title: 'Il comprend votre métier', content: 'Votre activité, votre ton, vos clients, vos process. Votre agent est façonné pour votre entreprise — et se connecte à vos outils en un clic.' },
+      { id: 3, label: 'Mémoire', title: 'Il n’oublie jamais rien', content: 'Chaque échange enrichit la mémoire de votre entreprise. Vos règles, vos habitudes, vos décisions : il les apprend, s’en souvient et s’améliore semaine après semaine.' },
+      { id: 4, label: 'Multimodèle', title: 'Il choisit le bon modèle', content: 'Voix, texte, image, audio, code — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama, Qwen, DeepSeek, Kimi, GLM, MiniMax, Grok. Automatiquement, ou en BYOK avec vos propres clés. Sans vous compliquer la vie.' },
+      { id: 5, label: 'Accompagnement', title: 'Vous n’êtes jamais seul', content: 'Alma vous guide au quotidien et vous forme à orchestrer vos agents. Un ingénieur IA prend le relais si besoin — escalade en moins de 4 heures.' },
+      { id: 6, label: 'Souveraineté', title: 'Vos données restent à vous', content: 'Cloud en France, données isolées et chiffrées, jamais utilisées pour entraîner des modèles. En Desktop, rien ne sort de votre machine. En Business, votre propre infrastructure.' },
+    ],
   },
-  {
-    id: 2,
-    label: 'Sur mesure',
-    title: 'Il comprend votre métier',
-    content:
-      'Votre activité, votre ton, vos clients, vos process. Votre agent est façonné pour votre entreprise — et se connecte à vos outils en un clic.',
-    visual: VisualIdentity,
+  en: {
+    eyebrow: 'Why Unitalk',
+    title1: 'It understands, it acts,',
+    title2: 'it remembers.',
+    prev: 'Previous cards',
+    next: 'Next cards',
+    watermark: 'your agent',
+    cards: [
+      { id: 1, label: 'Starting point', title: 'It’s born from your domain name', content: 'You give your domain name, Alma gathers your company’s public data and calls you. By the end of the call, your agent exists. No forms — you just talk, that’s it.' },
+      { id: 2, label: 'Tailored', title: 'It understands your business', content: 'Your activity, your tone, your customers, your processes. Your agent is shaped for your company — and connects to your tools in one click.' },
+      { id: 3, label: 'Memory', title: 'It never forgets anything', content: 'Every exchange enriches your company’s memory. Your rules, your habits, your decisions: it learns them, remembers them and improves week after week.' },
+      { id: 4, label: 'Multi-model', title: 'It picks the right model', content: 'Voice, text, image, audio, code — and the best model for each task. GPT, Claude, Gemini, Mistral, Llama, Qwen, DeepSeek, Kimi, GLM, MiniMax, Grok. Automatically, or BYOK with your own keys. Without making your life complicated.' },
+      { id: 5, label: 'Support', title: 'You’re never alone', content: 'Alma guides you day to day and trains you to orchestrate your agents. An AI engineer takes over if needed — escalation in under 4 hours.' },
+      { id: 6, label: 'Sovereignty', title: 'Your data stays yours', content: 'Cloud in France, isolated and encrypted data, never used to train models. On Desktop, nothing leaves your machine. On Business, your own infrastructure.' },
+    ],
   },
-  {
-    id: 3,
-    label: 'Mémoire',
-    title: 'Il n’oublie jamais rien',
-    content:
-      'Chaque échange enrichit la mémoire de votre entreprise. Vos règles, vos habitudes, vos décisions : il les apprend, s’en souvient et s’améliore semaine après semaine.',
-    visual: VisualMemory,
-  },
-  {
-    id: 4,
-    label: 'Multimodèle',
-    title: 'Il choisit le bon modèle',
-    content:
-      'Voix, texte, image, audio, code — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama, Qwen, DeepSeek, Kimi, GLM, MiniMax, Grok. Automatiquement, ou en BYOK avec vos propres clés. Sans vous compliquer la vie.',
-    visual: VisualModels,
-  },
-  {
-    id: 5,
-    label: 'Accompagnement',
-    title: 'Vous n’êtes jamais seul',
-    content:
-      'Alma vous guide au quotidien et vous forme à orchestrer vos agents. Un ingénieur IA prend le relais si besoin — escalade en moins de 4 heures.',
-    visual: VisualSupport,
-  },
-  {
-    id: 6,
-    label: 'Souveraineté',
-    title: 'Vos données restent à vous',
-    content:
-      'Cloud en France, données isolées et chiffrées, jamais utilisées pour entraîner des modèles. En Desktop, rien ne sort de votre machine. En Business, votre propre infrastructure.',
-    visual: VisualSovereignty,
-  },
-]
+}
 
 export function ArgumentsSlider() {
+  const { lang } = useLanguage()
+  const t = T[lang]
+  const CARDS = t.cards.map((card, i) => ({ ...card, visual: VISUALS[i] }))
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -243,7 +233,7 @@ export function ArgumentsSlider() {
         className="pointer-events-none absolute -top-2 sm:-top-6 left-0 font-sf text-[22vw] sm:text-[16vw] font-bold leading-none text-[#1C1A17]/[0.04] select-none whitespace-nowrap"
         style={{ letterSpacing: '-0.04em' }}
       >
-        votre agent
+        {t.watermark}
       </p>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">

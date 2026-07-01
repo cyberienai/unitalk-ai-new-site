@@ -1,3 +1,7 @@
+'use client'
+
+import { useLanguage } from '@/lib/language-context'
+
 const INTEGRATIONS = [
   { name: 'Gmail', slug: 'gmail' },
   { name: 'Notion', slug: 'notion' },
@@ -21,6 +25,17 @@ const INTEGRATIONS = [
 
 const iconUrl = (slug: string) => `https://thesvg.org/icons/${slug}/mono.svg`
 
+const T = {
+  fr: {
+    aria: 'Intégrations disponibles',
+    label: 'Déjà connecté à vos outils — et à 3\u00a0000 autres',
+  },
+  en: {
+    aria: 'Available integrations',
+    label: 'Already connected to your tools — and 3,000 more',
+  },
+}
+
 function LogoTrack() {
   return (
     <ul className="flex shrink-0 items-center gap-x-12 sm:gap-x-16 pr-12 sm:pr-16" aria-hidden="true">
@@ -42,14 +57,16 @@ function LogoTrack() {
 }
 
 export function IntegrationsMarquee() {
+  const { lang } = useLanguage()
+  const t = T[lang]
   return (
     <section
-      aria-label="Intégrations disponibles"
+      aria-label={t.aria}
       className="border-y border-[#DcD4C4] bg-[#FBF9F3] py-10 sm:py-14"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.24em] text-[#857C6E]">
-          Déjà connecté à vos outils — et à 3&nbsp;000 autres
+          {t.label}
         </p>
       </div>
 

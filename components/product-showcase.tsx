@@ -2,23 +2,74 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-
-const PROFILES = [
-  { name: 'Patrick', role: 'Commercial', color: '#D10E63' },
-  { name: 'Alma', role: 'Customer Success', color: '#3E6DA8' },
-]
+import { useLanguage } from '@/lib/language-context'
 
 const MODELS = ['GPT-5.5', 'Claude Opus 4', 'Gemini 3 Pro', 'Qwen 3 Max', 'DeepSeek V3', 'Kimi K2', 'GLM-5', 'MiniMax', 'Grok 4', 'Llama 4 · local']
 
-const TASKS = [
-  { label: 'Relance des devis en attente', done: true },
-  { label: 'Résumé des appels de la semaine', done: true },
-  { label: 'Préparation du rendez-vous de 14h', done: false },
-]
+const T = {
+  fr: {
+    eyebrow: 'Votre agent au travail',
+    title1: 'Il travaille ',
+    title2: 'pendant que vous dormez.',
+    subtitle:
+      'Une identité, une mémoire, ses propres outils. Il exécute vos tâches — jour et nuit, sans relâche.',
+    workspace: 'Espace de travail',
+    model: 'Modèle',
+    idLine1: 'voix · email · agenda',
+    idLine2: 'contacts · fichiers',
+    idLine3: 'mémoire d’entreprise',
+    listening: 'vous écoute…',
+    profiles: [
+      { name: 'Patrick', role: 'Commercial', color: '#D10E63' },
+      { name: 'Sofia', role: 'Customer Success', color: '#3E6DA8' },
+    ],
+    tasks: [
+      { label: 'Relance des devis en attente', done: true },
+      { label: 'Résumé des appels de la semaine', done: true },
+      { label: 'Préparation du rendez-vous de 14h', done: false },
+    ],
+    captions: [
+      { k: 'Multimodèle', v: 'Le meilleur modèle pour chaque tâche — sans changer d’outil.' },
+      { k: 'Multi-profil', v: 'Un agent, plusieurs rôles. Chacun avec sa propre identité.' },
+      { k: 'Autonome', v: 'Il planifie et exécute vos tâches, même la nuit.' },
+    ],
+  },
+  en: {
+    eyebrow: 'Your agent at work',
+    title1: 'It works ',
+    title2: 'while you sleep.',
+    subtitle:
+      'One identity, one memory, its own tools. It runs your tasks — day and night, without a break.',
+    workspace: 'Workspace',
+    model: 'Model',
+    idLine1: 'voice · email · calendar',
+    idLine2: 'contacts · files',
+    idLine3: 'company memory',
+    listening: 'is listening…',
+    profiles: [
+      { name: 'Patrick', role: 'Sales', color: '#D10E63' },
+      { name: 'Sofia', role: 'Customer Success', color: '#3E6DA8' },
+    ],
+    tasks: [
+      { label: 'Follow up on pending quotes', done: true },
+      { label: 'Summary of this week’s calls', done: true },
+      { label: 'Prep for the 2pm meeting', done: false },
+    ],
+    captions: [
+      { k: 'Multi-model', v: 'The best model for each task — without switching tools.' },
+      { k: 'Multi-profile', v: 'One agent, several roles. Each with its own identity.' },
+      { k: 'Autonomous', v: 'It plans and runs your tasks, even at night.' },
+    ],
+  },
+}
 
 export function ProductShowcase() {
   const [profile, setProfile] = useState(0)
   const [model, setModel] = useState(0)
+  const { lang } = useLanguage()
+  const t = T[lang]
+  const PROFILES = t.profiles
+  const TASKS = t.tasks
 
   useEffect(() => {
     const id = setInterval(() => setModel((m) => (m + 1) % MODELS.length), 2600)
@@ -35,15 +86,15 @@ export function ProductShowcase() {
           <div className="flex items-center gap-3">
             <span className="h-px w-8 bg-[#D10E63]" />
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">
-              Votre agent au travail
+              {t.eyebrow}
             </p>
           </div>
           <h2 className="mt-4 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.05] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.03em' }}>
-            Il travaille{' '}
-            <span className="text-[#D10E63]">pendant que vous dormez.</span>
+            {t.title1}
+            <span className="text-[#D10E63]">{t.title2}</span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#4E483F] sm:text-lg">
-            Une identité, une mémoire, ses propres outils. Il exécute vos tâches — jour et nuit, sans relâche.
+            {t.subtitle}
           </p>
         </div>
 
@@ -54,7 +105,7 @@ export function ProductShowcase() {
               {/* Header bar */}
               <div className="flex items-center gap-4 border-b border-[#DcD4C4] px-5 py-3.5">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#857C6E]">
-                  Espace de travail
+                  {t.workspace}
                 </span>
                 <div className="ml-auto flex items-center gap-1 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] p-1">
                   {PROFILES.map((p, i) => (
@@ -93,9 +144,9 @@ export function ProductShowcase() {
                       <p className="mt-3 text-sm font-semibold text-[#1C1A17]">{active.name}</p>
                       <p className="text-xs text-[#857C6E]">{active.role}</p>
                       <div className="mt-4 space-y-1.5 text-[11px] text-[#857C6E]">
-                        <p>voix · email · agenda</p>
-                        <p>contacts · fichiers</p>
-                        <p>mémoire d&apos;entreprise</p>
+                        <p>{t.idLine1}</p>
+                        <p>{t.idLine2}</p>
+                        <p>{t.idLine3}</p>
                       </div>
                     </motion.div>
                   </AnimatePresence>
@@ -106,7 +157,7 @@ export function ProductShowcase() {
                   {/* Model selector */}
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] uppercase tracking-wider text-[#857C6E]">
-                      Modèle
+                      {t.model}
                     </span>
                     <AnimatePresence mode="wait">
                       <motion.span
@@ -158,7 +209,7 @@ export function ProductShowcase() {
                         />
                       ))}
                     </span>
-                    <span className="text-xs text-[#857C6E]">{active.name} vous écoute…</span>
+                    <span className="text-xs text-[#857C6E]">{active.name} {t.listening}</span>
                   </div>
                 </div>
               </div>
@@ -167,11 +218,7 @@ export function ProductShowcase() {
 
           {/* Side captions */}
           <div className="flex flex-col justify-center gap-6 lg:col-span-4">
-            {[
-              { k: 'Multimodèle', v: 'Le meilleur modèle pour chaque tâche — sans changer d\'outil.' },
-              { k: 'Multi-profil', v: 'Un agent, plusieurs rôles. Chacun avec sa propre identité.' },
-              { k: 'Autonome', v: 'Il planifie et exécute vos tâches, même la nuit.' },
-            ].map((c) => (
+            {t.captions.map((c) => (
               <div key={c.k} className="border-l-2 border-[#D10E63]/40 pl-4">
                 <p className="text-sm font-semibold text-[#1C1A17]">{c.k}</p>
                 <p className="mt-1 text-sm leading-relaxed text-[#4E483F]">{c.v}</p>

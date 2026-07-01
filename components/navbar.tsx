@@ -3,26 +3,80 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
+import { useLanguage } from '@/lib/language-context'
 
 // Full list — shown in the burger menu
 const NAV_LINKS = [
-  { label: 'Solutions', href: '/solutions' },
-  { label: 'Cas d’usage', href: '/agents' },
-  { label: 'Tarif', href: '/tarifs' },
-  { label: 'Agent public', href: '/agent-ia-public' },
-  { label: 'Sécurité', href: '/#confiance' },
-  { label: 'Devenir partenaire', href: '/partenaires' },
+  { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
+  { fr: 'Cas d’usage', en: 'Use cases', href: '/agents' },
+  { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
+  { fr: 'Agent public', en: 'Public agent', href: '/agent-ia-public' },
+  { fr: 'Sécurité', en: 'Security', href: '/#confiance' },
+  { fr: 'Devenir partenaire', en: 'Become a partner', href: '/partenaires' },
 ]
 
 // Essentials — shown inline on desktop
 const PRIMARY_LINKS = [
-  { label: 'Solutions', href: '/solutions' },
-  { label: 'Cas d’usage', href: '/agents' },
-  { label: 'Tarif', href: '/tarifs' },
+  { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
+  { fr: 'Cas d’usage', en: 'Use cases', href: '/agents' },
+  { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
 ]
+
+const T = {
+  fr: {
+    home: 'Accueil Unitalk AI',
+    signIn: 'Se connecter',
+    createAgent: 'Créer mon agent',
+    signUp: 'S’inscrire',
+    openMenu: 'Ouvrir le menu',
+    closeMenu: 'Fermer le menu',
+  },
+  en: {
+    home: 'Unitalk AI Home',
+    signIn: 'Sign in',
+    createAgent: 'Create my agent',
+    signUp: 'Sign up',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
+  },
+}
+
+function FrenchFlag() {
+  return (
+    <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[#DcD4C4]">
+      <span className="h-4 w-[6px] bg-[#0055A4]" />
+      <span className="h-4 w-[6px] bg-white" />
+      <span className="h-4 w-[6px] bg-[#EF4135]" />
+    </span>
+  )
+}
+
+function UkFlag() {
+  return (
+    <span
+      aria-hidden="true"
+      className="inline-block h-4 w-[18px] overflow-hidden rounded-sm border border-[#DcD4C4]"
+    >
+      <svg viewBox="0 0 60 30" className="h-full w-full">
+        <clipPath id="uk-clip">
+          <rect width="60" height="30" />
+        </clipPath>
+        <g clipPath="url(#uk-clip)">
+          <rect width="60" height="30" fill="#012169" />
+          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6" />
+          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" strokeWidth="4" clipPath="url(#uk-clip)" />
+          <path d="M30,0 V30 M0,15 H60" stroke="#fff" strokeWidth="10" />
+          <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" strokeWidth="6" />
+        </g>
+      </svg>
+    </span>
+  )
+}
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { lang, setLang } = useLanguage()
+  const t = T[lang]
 
   // Lock body scroll while the menu is open on mobile
   useEffect(() => {
@@ -35,13 +89,15 @@ export function Navbar() {
     }
   }, [isMenuOpen])
 
+  const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
+
   return (
     <>
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#DcD4C4] bg-[#F3EFE6]/85 backdrop-blur-md">
       <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Logo + nav links grouped together */}
         <div className="flex items-center gap-8 xl:gap-10">
-          <a href="/" aria-label="Accueil Unitalk AI" className="flex items-center gap-2 sm:gap-3">
+          <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
             <UnitalkLogo size={28} />
             <span className="font-inter text-sm sm:text-base font-semibold text-[#1C1A17]">Unitalk AI</span>
           </a>
@@ -50,11 +106,11 @@ export function Navbar() {
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             {PRIMARY_LINKS.map((link) => (
               <a
-                key={link.label}
+                key={link.href}
                 href={link.href}
                 className="text-sm text-[#857C6E] hover:text-[#1C1A17] transition-colors"
               >
-                {link.label}
+                {link[lang]}
               </a>
             ))}
           </div>
@@ -64,36 +120,33 @@ export function Navbar() {
         <div className="flex items-center gap-2 sm:gap-4">
           <button
             className="hidden sm:inline-flex px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1C1A17] hover:text-[#857C6E] transition-colors"
-            aria-label="Se connecter"
+            aria-label={t.signIn}
           >
-            Se connecter
+            {t.signIn}
           </button>
           <a
             href="/creer"
             className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D10E63] hover:bg-[#B00B52] text-[#FBF9F3] text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
-            aria-label="Créer mon agent"
+            aria-label={t.createAgent}
           >
-            Créer mon agent
+            {t.createAgent}
           </a>
 
-          {/* Language selector — desktop inline */}
+          {/* Language selector — desktop inline, toggles FR/EN */}
           <button
+            onClick={toggleLang}
             className="hidden lg:inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] hover:text-[#D10E63] transition-colors"
-            aria-label="Choisir la langue : Français"
+            aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
-            <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[#DcD4C4]">
-              <span className="h-4 w-[6px] bg-[#0055A4]" />
-              <span className="h-4 w-[6px] bg-white" />
-              <span className="h-4 w-[6px] bg-[#EF4135]" />
-            </span>
-            FR
+            {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
+            {lang === 'fr' ? 'FR' : 'EN'}
           </button>
 
           {/* Menu button — visible on all breakpoints */}
           <button
             onClick={() => setIsMenuOpen((v) => !v)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#DcD4C4] bg-[#FBF9F3] text-[#1C1A17] transition-colors hover:bg-[#EAE3D4]"
-            aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-label={isMenuOpen ? t.closeMenu : t.openMenu}
             aria-expanded={isMenuOpen}
             aria-controls="menu-panel"
           >
@@ -173,14 +226,14 @@ export function Navbar() {
                     onClick={() => setIsMenuOpen(false)}
                     className="block px-4 py-2 text-sm font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors"
                   >
-                    S&apos;inscrire
+                    {t.signUp}
                   </a>
                   <a
                     href="#"
                     onClick={() => setIsMenuOpen(false)}
                     className="block px-4 py-2 text-sm font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors"
                   >
-                    Se connecter
+                    {t.signIn}
                   </a>
                 </div>
 
@@ -189,12 +242,12 @@ export function Navbar() {
                   <div className="space-y-1">
                     {NAV_LINKS.map((link) => (
                       <a
-                        key={link.label}
+                        key={link.href}
                         href={link.href}
                         onClick={() => setIsMenuOpen(false)}
                         className="block px-4 py-1.5 text-sm font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors"
                       >
-                        {link.label}
+                        {link[lang]}
                       </a>
                     ))}
                   </div>
@@ -223,15 +276,15 @@ export function Navbar() {
                   </a>
                 </div>
 
-                {/* Language selector */}
+                {/* Language selector — toggles FR/EN */}
                 <div className="py-3 px-4">
-                  <button className="flex items-center gap-2 px-4 py-1.5 text-xs font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors">
-                    <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[#DcD4C4]">
-                      <span className="h-4 w-2 bg-[#0055A4]" />
-                      <span className="h-4 w-2 bg-white" />
-                      <span className="h-4 w-2 bg-[#EF4135]" />
-                    </span>
-                    Français
+                  <button
+                    onClick={toggleLang}
+                    className="flex items-center gap-2 px-4 py-1.5 text-xs font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors"
+                    aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
+                  >
+                    {lang === 'fr' ? <UkFlag /> : <FrenchFlag />}
+                    {lang === 'fr' ? 'English' : 'Français'}
                   </button>
                 </div>
               </nav>
