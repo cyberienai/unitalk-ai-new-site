@@ -97,7 +97,7 @@ export function PricingSection() {
     'Mémoire d’entreprise persistante',
     'Compétences auto-apprises, extensibles à l’infini',
     'Exécution de code en environnement sécurisé',
-    'Connexion à 3000+ apps via MCP',
+    'Connexion à 3 000+ apps via MCP',
     'Accessible partout : interface Web, apps de messagerie, Desktop et terminal',
     serviceOpt.feature,
   ]

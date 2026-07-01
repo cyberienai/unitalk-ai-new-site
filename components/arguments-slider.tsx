@@ -49,7 +49,7 @@ function VisualIdentity() {
       </div>
       <div className="mt-2 flex items-center gap-1.5 rounded-md border border-[#DcD4C4] bg-[#F3EFE6] px-2 py-1">
         <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-        <span className="text-[9px] text-[#857C6E]">Automatisations n8n · en option</span>
+        <span className="text-[9px] text-[#857C6E]">Connecté à vos outils · en un clic</span>
       </div>
     </MockChrome>
   )
@@ -107,11 +107,11 @@ function VisualModels() {
         ))}
       </div>
       <div className="mt-2 flex gap-1.5 text-[9px] text-[#857C6E]">
-        <span>voix</span><span>·</span><span>texte</span><span>·</span><span>image</span><span>·</span><span>vidéo</span>
+        <span>voix</span><span>·</span><span>texte</span><span>·</span><span>image</span><span>·</span><span>audio</span><span>·</span><span>code</span>
       </div>
       <div className="mt-2 flex items-center gap-1.5 rounded-md border border-[#DcD4C4] bg-[#F3EFE6] px-2 py-1">
         <span className="rounded bg-[#D10E63]/12 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-wider text-[#D10E63]">BYOK</span>
-        <span className="text-[9px] text-[#857C6E]">vos propres clés, ou crédits inclus</span>
+        <span className="text-[9px] text-[#857C6E]">vos propres clés, ou crédits prépayés</span>
       </div>
     </MockChrome>
   )
@@ -183,7 +183,7 @@ const CARDS = [
     label: 'Multimodèle',
     title: 'Il choisit le bon modèle',
     content:
-      'Voix, texte, image, vidéo — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama, Qwen, DeepSeek, Kimi, GLM, MiniMax, Grok. Automatiquement, ou en BYOK avec vos propres clés. Sans vous compliquer la vie.',
+      'Voix, texte, image, audio, code — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama, Qwen, DeepSeek, Kimi, GLM, MiniMax, Grok. Automatiquement, ou en BYOK avec vos propres clés. Sans vous compliquer la vie.',
     visual: VisualModels,
   },
   {

@@ -58,9 +58,9 @@ const CAPABILITIES: Capability[] = [
     ),
   },
   {
-    title: 'Il se connecte à plus de 3000 apps',
+    title: 'Il se connecte à plus de 3 000 apps',
     desc: 'Gmail, Slack, HubSpot, Notion, votre CRM, vos outils métier… Il agit directement là où travaille votre équipe.',
-    tech: '3000+ intégrations',
+    tech: '3 000+ intégrations',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="16" y="16" width="6" height="6" rx="1" />

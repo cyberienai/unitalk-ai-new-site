@@ -8,7 +8,6 @@ const COMPARISONS = [
   'Gemini Spark',
   'Microsoft Scout',
   'OpenClaw',
-  'Hermes',
   'Dust',
   'Delos',
 ]
@@ -17,11 +16,11 @@ const FOOTER_COLUMNS = [
   {
     title: 'Produit',
     links: [
-      { label: 'Nos solutions', href: '#' },
-      { label: 'Offres', href: '#offres' },
-      { label: 'Trouver des agents', href: '#' },
-      { label: 'Sécurité', href: '#' },
-      { label: 'FAQ', href: '#faq' },
+      { label: 'Solutions', href: '/#solutions' },
+      { label: 'Cas d’usage', href: '/agents' },
+      { label: 'Tarif', href: '/#offres' },
+      { label: 'Déploiement', href: '/deploy' },
+      { label: 'FAQ', href: '/#faq' },
     ],
   },
   {

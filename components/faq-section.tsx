@@ -9,8 +9,8 @@ const FAQS = [
     a: 'Votre agent est votre collaborateur IA, façonné pour votre entreprise : il a un prénom, une voix, un email et un agenda. Les 10 profils sont ses “casquettes” prêtes à l’emploi — commercial, support, assistant, rédacteur… Un seul agent, dix rôles que vous activez selon vos besoins.',
   },
   {
-    q: 'BYOK ou crédits inclus : quelle différence ?',
-    a: 'En BYOK (Bring Your Own Key), vous connectez vos propres clés modèles (GPT, Claude, Gemini…) et vous ne payez que l’abonnement — vous gardez la main sur vos coûts. Avec les crédits inclus, tout est géré par Unitalk : rien à configurer, vous démarrez en une minute. Vous basculez de l’un à l’autre quand vous voulez.',
+    q: 'BYOK ou crédits prépayés : quelle différence ?',
+    a: 'En BYOK (Bring Your Own Key), vous connectez vos propres clés modèles (GPT, Claude, Gemini…) et vous ne payez que l’abonnement — vous gardez la main sur vos coûts. Avec les crédits prépayés, tout est géré par Unitalk : rien à configurer, vous démarrez en une minute. Vous basculez de l’un à l’autre quand vous voulez.',
   },
   {
     q: 'Mes données sont-elles en sécurité ?',
@@ -22,11 +22,11 @@ const FAQS = [
   },
   {
     q: 'Comment j’ajoute mon équipe ?',
-    a: 'Vous démarrez seul avec votre agent, puis vous invitez vos collaborateurs. Alma les interview un par un, crée leurs agents sur mesure et partage le contexte de votre entreprise — pour que tous vos agents travaillent avec la même mémoire et les mêmes règles.',
+    a: 'Vous démarrez seul avec votre agent, puis vous invitez vos collaborateurs. Alma les interviewe un par un, crée leurs agents sur mesure et partage le contexte de votre entreprise — pour que tous vos agents travaillent avec la même mémoire et les mêmes règles.',
   },
   {
     q: 'Qui est Alma ?',
-    a: 'Alma est votre accompagnatrice IA. C’est elle qui vous appelle pour créer votre agent, vous guide au quotidien et vous forme à orchestrer vos agents. Si une question la dépasse, un ingénieur IA prend le relais en moins de 4 heures.',
+    a: 'Alma est votre conseillère IA vocale. C’est elle qui vous appelle pour créer votre agent, vous guide au quotidien et vous forme à orchestrer vos agents. Si une question la dépasse, un ingénieur IA prend le relais en moins de 4 heures.',
   },
 ]
 
