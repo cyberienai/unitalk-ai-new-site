@@ -43,8 +43,7 @@ export function ProductShowcase() {
             <span className="text-[#D10E63]">pendant que vous dormez.</span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#4E483F] sm:text-lg">
-            Une identité, une mémoire, ses propres outils. Il gère la voix, les emails et
-            l&apos;agenda, choisit le bon modèle et exécute vos tâches — jour et nuit, sans relâche.
+            Une identité, une mémoire, ses propres outils. Il exécute vos tâches — jour et nuit, sans relâche.
           </p>
         </div>
 
