@@ -60,7 +60,7 @@ export function HeroEditorial() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease, delay: 0.14 }}
       >
-        Un appel avec Alma. En quelques minutes, votre agent a un prénom, une voix, un numéro, une adresse email. Il se connecte à tout, se souvient de tout, et s&apos;améliore à chaque échange.
+        Un appel avec Alma. En quelques minutes, votre agent connaît déjà votre entreprise, et il a un prénom, une voix, un numéro, une adresse email. Il se connecte à tout, se souvient de tout, s&apos;améliore à chaque échange — et agit à l&apos;échelle de toute l&apos;entreprise, pas d&apos;un seul collaborateur.
       </motion.p>
 
       {/* Alma command bar — the single conversion point */}
