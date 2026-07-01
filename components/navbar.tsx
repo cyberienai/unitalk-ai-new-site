@@ -128,7 +128,7 @@ export function Navbar() {
             {t.signIn}
           </button>
           <a
-            href="/creer"
+            href="/signup"
             className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D10E63] hover:bg-[#B00B52] text-[#FBF9F3] text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
             aria-label={t.createAgent}
           >
@@ -225,7 +225,7 @@ export function Navbar() {
                 {/* Account section */}
                 <div className="space-y-1 px-4 py-3 border-b border-[#DcD4C4]">
                   <a
-                    href="/creer"
+                    href="/signup"
                     onClick={() => setIsMenuOpen(false)}
                     className="block px-4 py-2 text-sm font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors"
                   >

@@ -7,6 +7,6 @@ export const metadata: Metadata = {
     'Créez votre agent IA en un appel avec Alma, ou inscrivez-vous par email ou via Google, Slack et Teams. Essai de 7 jours, sans carte bancaire.',
 }
 
-export default function CreerPage() {
+export default function SignupPage() {
   return <CreateAgent />
 }

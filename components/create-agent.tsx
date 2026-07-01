@@ -14,9 +14,10 @@ const T = {
     letStrong: 'Alma',
     letPre: 'Laissez ',
     letPost: ' créer votre agent',
-    almaBody: 'Donnez votre nom de domaine, elle vous appelle et façonne votre agent sur mesure — sans formulaire.',
-    createAccount: 'Créer votre compte',
-    trial: 'Essai de 7 jours · sans carte bancaire.',
+    almaBody:
+      'Donnez votre nom de domaine. Alma vous appelle, découvre votre entreprise et prépare votre agent sur mesure — sans formulaire.',
+    createAccount: 'Créez votre compte',
+    trial: 'Essai de 7 jours, sans carte bancaire.',
     continueWith: 'Continuer avec',
     orEmail: 'ou par email',
     emailLabel: 'Adresse email professionnelle',
@@ -34,9 +35,10 @@ const T = {
     letStrong: 'Alma',
     letPre: 'Let ',
     letPost: ' build your agent',
-    almaBody: 'Give your domain name, she calls you and crafts your custom agent — no forms.',
+    almaBody:
+      'Give your domain name. Alma calls you, discovers your company and gets your custom agent ready — no forms.',
     createAccount: 'Create your account',
-    trial: '7-day trial · no credit card.',
+    trial: '7-day trial, no credit card.',
     continueWith: 'Continue with',
     orEmail: 'or by email',
     emailLabel: 'Work email address',
@@ -95,13 +97,13 @@ export function CreateAgent() {
   const t = T[lang]
 
   return (
-    <main className="min-h-screen w-full bg-[#0A0A0A] text-white lg:grid lg:grid-cols-2">
+    <main className="min-h-screen w-full bg-[#F3EFE6] text-[#1C1A17] lg:grid lg:grid-cols-2">
       {/* Left: Alma — domain + call */}
-      <section className="relative flex flex-col justify-center overflow-hidden border-b border-white/[0.06] px-5 py-14 sm:px-8 lg:border-b-0 lg:border-r lg:py-16">
+      <section className="relative flex flex-col justify-center overflow-hidden border-b border-[#DcD4C4] bg-[#EDE6D8] px-5 py-14 sm:px-8 lg:border-b-0 lg:border-r lg:py-16">
         {/* Soft magenta glow */}
         <div
-          className="pointer-events-none absolute left-1/2 top-1/3 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full opacity-30 blur-[120px]"
-          style={{ background: 'radial-gradient(circle, rgba(255,0,153,0.35), transparent 70%)' }}
+          className="pointer-events-none absolute left-1/2 top-1/3 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full opacity-20 blur-[120px]"
+          style={{ background: 'radial-gradient(circle, rgba(209,14,99,0.35), transparent 70%)' }}
           aria-hidden="true"
         />
         <div className="relative z-10 mx-auto flex w-full max-w-md flex-col items-center">
@@ -111,16 +113,20 @@ export function CreateAgent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#8A8A92]">
+            <div className="flex items-center justify-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#857C6E]">
+              <span className="hidden h-px w-8 sm:block" style={{ background: '#CDC3B1' }} />
               {t.fastest}
-            </p>
+              <span className="hidden h-px w-8 sm:block" style={{ background: '#CDC3B1' }} />
+            </div>
             <h2
-              className="mt-3 font-heading font-light text-white text-balance"
-              style={{ fontSize: 'clamp(1.9rem, 4vw, 2.75rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
+              className="mt-4 font-sf font-bold text-[#1C1A17] text-balance"
+              style={{ fontSize: 'clamp(1.9rem, 4vw, 2.75rem)', lineHeight: 1.02, letterSpacing: '-0.03em' }}
             >
-              {t.letPre}<span className="italic text-[#FF0099]">{t.letStrong}</span>{t.letPost}
+              {t.letPre}
+              <span className="text-[#D10E63]">{t.letStrong}</span>
+              {t.letPost}
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-[#B4B4BC]">
+            <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-[#4E483F]">
               {t.almaBody}
             </p>
           </motion.div>
@@ -148,7 +154,7 @@ export function CreateAgent() {
             transition={{ duration: 0.5, ease }}
           >
             <UnitalkLogo size={28} />
-            <span className="text-base font-semibold text-white">Unitalk AI</span>
+            <span className="text-base font-semibold text-[#1C1A17]">Unitalk AI</span>
           </motion.a>
 
           <motion.div
@@ -157,12 +163,12 @@ export function CreateAgent() {
             transition={{ duration: 0.55, ease, delay: 0.06 }}
           >
             <h1
-              className="font-heading font-light text-white text-balance"
-              style={{ fontSize: 'clamp(1.9rem, 4vw, 2.75rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
+              className="font-sf font-bold text-[#1C1A17] text-balance"
+              style={{ fontSize: 'clamp(1.9rem, 4vw, 2.75rem)', lineHeight: 1.02, letterSpacing: '-0.03em' }}
             >
               {t.createAccount}
             </h1>
-            <p className="mt-3 text-sm leading-relaxed text-[#8A8A92]">
+            <p className="mt-3 text-sm leading-relaxed text-[#857C6E]">
               {t.trial}
             </p>
           </motion.div>
@@ -177,7 +183,7 @@ export function CreateAgent() {
             {SSO.map(({ label, Icon }) => (
               <button
                 key={label}
-                className="flex h-12 items-center justify-center gap-3 rounded-xl border border-white/12 bg-white/[0.04] text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/[0.07]"
+                className="flex h-12 items-center justify-center gap-3 rounded-xl border border-[#DcD4C4] bg-[#FBF9F3] text-sm font-medium text-[#1C1A17] transition-colors hover:border-[#B8AE9A] hover:bg-white"
               >
                 <Icon />
                 {t.continueWith} {label}
@@ -192,9 +198,9 @@ export function CreateAgent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease, delay: 0.2 }}
           >
-            <span className="h-px flex-1 bg-white/10" />
-            <span className="text-xs text-[#6E6E76]">{t.orEmail}</span>
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-[#DcD4C4]" />
+            <span className="text-xs text-[#857C6E]">{t.orEmail}</span>
+            <span className="h-px flex-1 bg-[#DcD4C4]" />
           </motion.div>
 
           {/* Email form */}
@@ -214,12 +220,12 @@ export function CreateAgent() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t.emailPlaceholder}
-              className="h-12 rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm text-white placeholder-[#6E6E76] transition-colors focus:border-[#FF0099]/60 focus:outline-none"
+              className="h-12 rounded-xl border border-[#DcD4C4] bg-[#FBF9F3] px-4 text-sm text-[#1C1A17] placeholder-[#A79E8E] transition-colors focus:border-[#D10E63] focus:outline-none"
               autoComplete="email"
             />
             <button
               type="submit"
-              className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#FF0099] text-sm font-semibold text-white transition-colors hover:bg-[#E00085]"
+              className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#D10E63] text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
             >
               {t.continueEmail}
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -230,24 +236,24 @@ export function CreateAgent() {
 
           {/* Footer links */}
           <motion.p
-            className="mt-8 text-xs leading-relaxed text-[#6E6E76]"
+            className="mt-8 text-xs leading-relaxed text-[#857C6E]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease, delay: 0.3 }}
           >
             {t.termsPre}
-            <a href="#" className="text-[#8A8A92] underline underline-offset-2 hover:text-white">{t.termsLink}</a>{t.termsMid}
-            <a href="#" className="text-[#8A8A92] underline underline-offset-2 hover:text-white">{t.privacyLink}</a>.
+            <a href="#" className="text-[#4E483F] underline underline-offset-2 hover:text-[#1C1A17]">{t.termsLink}</a>{t.termsMid}
+            <a href="#" className="text-[#4E483F] underline underline-offset-2 hover:text-[#1C1A17]">{t.privacyLink}</a>.
           </motion.p>
 
           <motion.p
-            className="mt-4 text-sm text-[#8A8A92]"
+            className="mt-4 text-sm text-[#4E483F]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease, delay: 0.34 }}
           >
             {t.haveAccount}{' '}
-            <a href="#" className="font-medium text-white underline underline-offset-2 hover:text-[#FF0099]">{t.signIn}</a>
+            <a href="#" className="font-medium text-[#D10E63] underline underline-offset-2 hover:text-[#B00B52]">{t.signIn}</a>
           </motion.p>
         </div>
       </section>

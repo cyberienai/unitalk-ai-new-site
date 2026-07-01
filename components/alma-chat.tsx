@@ -56,7 +56,7 @@ function Waveform({ active }: { active: boolean }) {
       {bars.map((i) => (
         <motion.span
           key={i}
-          className="w-[3px] rounded-full bg-[#FF0099]"
+          className="w-[3px] rounded-full bg-[#D10E63]"
           initial={{ height: 4 }}
           animate={active ? { height: [4, 8 + (i % 6) * 5, 4] } : { height: 4 }}
           transition={{
@@ -78,7 +78,7 @@ export function AlmaChat() {
 
   return (
     <motion.div
-      className="relative w-full max-w-sm overflow-hidden rounded-[28px] border border-[rgba(255,255,255,0.1)] bg-[#0C0C0E]/95 shadow-[0_24px_80px_-16px_rgba(255,0,153,0.25)] backdrop-blur-xl"
+      className="relative w-full max-w-sm overflow-hidden rounded-[28px] border border-[#DcD4C4] bg-[#FBF9F3] shadow-[0_24px_60px_-24px_rgba(28,26,23,0.35)]"
       initial={{ opacity: 0, y: 16, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.4, ease: 'easeOut', delay: 0.3 }}
@@ -88,29 +88,29 @@ export function AlmaChat() {
       {/* Top hairline accent */}
       <div
         className="absolute inset-x-0 top-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,0,153,0.6), transparent)' }}
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(209,14,99,0.5), transparent)' }}
         aria-hidden="true"
       />
 
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-[rgba(255,255,255,0.06)] bg-gradient-to-b from-[#151517] to-[#0C0C0E] px-5 py-4">
+      <div className="flex items-center gap-3 border-b border-[#E4DCCC] bg-[#F3EFE6] px-5 py-4">
         <div className="relative shrink-0">
           <img
             src="/alma-avatar.png"
             alt={t.almaAlt}
-            className="h-9 w-9 rounded-full object-cover ring-2 ring-[rgba(255,0,153,0.35)]"
+            className="h-9 w-9 rounded-full object-cover ring-2 ring-[#D10E63]/35"
           />
           <span
-            className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0C0C0E] bg-[#22C55E]"
+            className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]"
             aria-hidden="true"
           />
         </div>
         <div className="flex-1">
-          <p className="text-sm font-semibold tracking-tight text-white">Alma</p>
-          <p className="text-[11px] text-[#8E8E93]">{t.role}</p>
+          <p className="text-sm font-semibold tracking-tight text-[#1C1A17]">Alma</p>
+          <p className="text-[11px] text-[#857C6E]">{t.role}</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 text-[10px] font-medium text-[#4ADE80]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" aria-hidden="true" />
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#2E7D4F]/12 px-2.5 py-1 text-[10px] font-medium text-[#2E7D4F]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#2E7D4F]" aria-hidden="true" />
           {t.online}
         </span>
       </div>
@@ -118,32 +118,32 @@ export function AlmaChat() {
       {/* Conversation */}
       <div className="space-y-2.5 px-5 py-5">
         <div className="flex items-start gap-2.5">
-          <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-white">
+          <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#1C1A17]">
             {t.msg1}
           </div>
         </div>
         <div className="flex items-start gap-2.5">
-          <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
+          <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
             {t.msg2a}
-            <span className="text-white">{t.msg2strong}</span>{t.msg2b}
+            <span className="font-medium text-[#1C1A17]">{t.msg2strong}</span>{t.msg2b}
           </div>
         </div>
         <div className="flex items-start gap-2.5">
-          <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
+          <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
             {t.msg3a}
-            <span className="text-white">{t.msg3strong}</span>{t.msg3b}
+            <span className="font-medium text-[#1C1A17]">{t.msg3strong}</span>{t.msg3b}
           </div>
         </div>
         <div className="flex items-start gap-2.5">
-          <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-white">
+          <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#1C1A17]">
             {t.msg4}
           </div>
         </div>
       </div>
 
       {/* Composer — single elegant bar */}
-      <div className="border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0C] px-4 py-3.5">
-        <div className="flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.1)] bg-[#141416] pl-4 pr-1.5 py-1.5 transition-colors focus-within:border-[#FF0099]/60">
+      <div className="border-t border-[#E4DCCC] bg-[#F3EFE6] px-4 py-3.5">
+        <div className="flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] pl-4 pr-1.5 py-1.5 transition-colors focus-within:border-[#D10E63]">
           <AnimatePresence mode="wait" initial={false}>
             {isTalking ? (
               <motion.div
@@ -155,7 +155,7 @@ export function AlmaChat() {
                 transition={{ duration: 0.2 }}
               >
                 <Waveform active />
-                <span className="text-xs font-medium text-[#8E8E93]">{t.listening}</span>
+                <span className="text-xs font-medium text-[#857C6E]">{t.listening}</span>
               </motion.div>
             ) : (
               <motion.input
@@ -164,7 +164,7 @@ export function AlmaChat() {
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
                 placeholder={t.placeholder}
-                className="flex-1 bg-transparent py-1.5 text-sm text-white placeholder-[#6E6E76] focus:outline-none"
+                className="flex-1 bg-transparent py-1.5 text-sm text-[#1C1A17] placeholder-[#A79E8E] focus:outline-none"
                 aria-label={t.domainAria}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -178,7 +178,7 @@ export function AlmaChat() {
           {isTalking ? (
             <button
               onClick={() => setIsTalking(false)}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[rgba(255,0,153,0.14)] text-[#FF0099] transition-colors"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/12 text-[#D10E63] transition-colors"
               aria-label={t.stopAria}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -187,7 +187,7 @@ export function AlmaChat() {
             </button>
           ) : domain.trim() ? (
             <button
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FF0099] text-white transition-colors hover:bg-[#E00085]"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
               aria-label={t.sendAria}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -197,7 +197,7 @@ export function AlmaChat() {
           ) : (
             <button
               onClick={() => setIsTalking(true)}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FF0099] text-white transition-colors hover:bg-[#E00085]"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
               aria-label={t.talkAria}
             >
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -208,7 +208,7 @@ export function AlmaChat() {
           )}
         </div>
 
-        <p className="mt-2.5 text-center text-[11px] text-[#6E6E76]">
+        <p className="mt-2.5 text-center text-[11px] text-[#857C6E]">
           {t.footnote}
         </p>
       </div>

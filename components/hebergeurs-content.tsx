@@ -176,7 +176,7 @@ export function HebergeursContent() {
           className="mt-8 flex flex-wrap items-center justify-center gap-3"
         >
           <a
-            href="/creer"
+            href="/signup"
             className="inline-flex items-center justify-center rounded-full bg-[#D10E63] px-6 py-3 text-sm font-medium text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
           >
             {t.ctaCreate}

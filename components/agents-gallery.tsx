@@ -199,7 +199,7 @@ export function AgentsGallery() {
                 </div>
 
                 <a
-                  href="/creer"
+                  href="/signup"
                   className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-[#D10E63] transition-colors hover:text-[#B00B52]"
                 >
                   {t.activate}
@@ -224,7 +224,7 @@ export function AgentsGallery() {
             {t.ctaDesc}
           </p>
           <a
-            href="/creer"
+            href="/signup"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
           >
             {t.ctaBtn}

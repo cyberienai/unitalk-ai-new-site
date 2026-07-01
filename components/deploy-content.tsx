@@ -177,7 +177,7 @@ export function DeployContent() {
             className="mt-8 flex flex-wrap gap-3"
           >
             <a
-              href="/creer"
+              href="/signup"
               className="inline-flex items-center justify-center rounded-full bg-[#D10E63] px-6 py-3 text-sm font-medium text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
             >
               {t.ctaCreate}
@@ -299,7 +299,7 @@ export function DeployContent() {
             {t.finalBody}
           </p>
           <a
-            href="/creer"
+            href="/signup"
             className="mt-8 inline-flex items-center justify-center rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-medium text-[#FBF9F3] transition-colors hover:bg-[#E85C8A]"
           >
             {t.ctaCreate}
