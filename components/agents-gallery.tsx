@@ -2,105 +2,109 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/lib/language-context'
+
+type CategoryKey = 'ventes' | 'support' | 'admin' | 'marketing' | 'finance' | 'rh'
 
 type Agent = {
   name: string
   role: string
-  category: string
+  category: CategoryKey
   pitch: string
   skills: string[]
   wink?: string
 }
 
-const CATEGORY_COLOR: Record<string, string> = {
-  Ventes: '#D10E63',
-  Support: '#3E6DA8',
-  Administratif: '#C77A34',
-  Marketing: '#2E7D4F',
-  Finance: '#4E483F',
-  RH: '#B4361C',
+const CATEGORY_COLOR: Record<CategoryKey, string> = {
+  ventes: '#D10E63',
+  support: '#3E6DA8',
+  admin: '#C77A34',
+  marketing: '#2E7D4F',
+  finance: '#4E483F',
+  rh: '#B4361C',
 }
 
-const AGENTS: Agent[] = [
-  {
-    name: 'Patrick',
-    role: 'Commercial',
-    category: 'Ventes',
-    pitch: 'Prospecte, relance les devis en attente et prépare vos rendez-vous.',
-    skills: ['Relances', 'Devis', 'CRM'],
-    wink: 'On n’attend plus Patrick — lui, il est déjà au boulot.',
-  },
-  {
-    name: 'Sofia',
-    role: 'Customer Success',
-    category: 'Support',
-    pitch: 'Accueille vos clients, répond aux questions et suit la satisfaction.',
-    skills: ['Onboarding', 'Support', 'Suivi'],
-  },
-  {
-    name: 'Camille',
-    role: 'Assistante de direction',
-    category: 'Administratif',
-    pitch: 'Gère votre agenda, trie vos emails et organise vos journées.',
-    skills: ['Agenda', 'Emails', 'Organisation'],
-  },
-  {
-    name: 'Louis',
-    role: 'Support client',
-    category: 'Support',
-    pitch: 'Traite les tickets, répond aux FAQ et escalade ce qui compte.',
-    skills: ['Tickets', 'FAQ', 'SAV'],
-  },
-  {
-    name: 'Nina',
-    role: 'Marketing',
-    category: 'Marketing',
-    pitch: 'Rédige vos contenus, planifie vos publications et suit vos campagnes.',
-    skills: ['Contenus', 'Réseaux', 'Campagnes'],
-  },
-  {
-    name: 'Hugo',
-    role: 'Comptabilité',
-    category: 'Finance',
-    pitch: 'Émet les factures, relance les impayés et suit votre trésorerie.',
-    skills: ['Factures', 'Relances', 'Suivi'],
-  },
-  {
-    name: 'Sarah',
-    role: 'Ressources humaines',
-    category: 'RH',
-    pitch: 'Trie les candidatures, répond aux candidats et prépare les onboardings.',
-    skills: ['Recrutement', 'Onboarding', 'RH'],
-  },
-  {
-    name: 'Théo',
-    role: 'Accueil téléphonique',
-    category: 'Support',
-    pitch: 'Répond aux appels, prend les messages et fixe les rendez-vous.',
-    skills: ['Appels', 'Messages', 'RDV'],
-  },
-  {
-    name: 'Emma',
-    role: 'Rédactrice',
-    category: 'Marketing',
-    pitch: 'Écrit vos articles, vos newsletters et optimise votre référencement.',
-    skills: ['Articles', 'Newsletters', 'SEO'],
-  },
-  {
-    name: 'Marc',
-    role: 'Analyste',
-    category: 'Finance',
-    pitch: 'Construit vos tableaux de bord et synthétise vos données clés.',
-    skills: ['Reporting', 'Tableaux', 'Synthèses'],
-  },
-]
+const CATEGORY_ORDER: CategoryKey[] = ['ventes', 'support', 'admin', 'marketing', 'finance', 'rh']
 
-const CATEGORIES = ['Tous', 'Ventes', 'Support', 'Administratif', 'Marketing', 'Finance', 'RH']
+const T = {
+  fr: {
+    eyebrow: 'Cas d’usage',
+    title1: 'Dix profils prêts à l’emploi. ',
+    title2: 'Un seul agent.',
+    subtitle:
+      'Chaque profil arrive avec son rôle, ses compétences et ses outils. Activez celui dont vous avez besoin — votre agent change de casquette en un instant, sans jamais perdre la mémoire de votre entreprise.',
+    all: 'Tous',
+    categoryLabels: {
+      ventes: 'Ventes',
+      support: 'Support',
+      admin: 'Administratif',
+      marketing: 'Marketing',
+      finance: 'Finance',
+      rh: 'RH',
+    } as Record<CategoryKey, string>,
+    activate: 'Activer ce profil',
+    ctaTitle1: 'Vous ne trouvez pas le bon profil ? ',
+    ctaTitle2: 'Alma le crée.',
+    ctaDesc:
+      'Donnez votre nom de domaine, Alma vous appelle et façonne un agent sur mesure pour votre métier — même si votre besoin sort des sentiers battus.',
+    ctaBtn: 'Créer mon agent gratuitement',
+    agents: [
+      { name: 'Patrick', role: 'Commercial', category: 'ventes', pitch: 'Prospecte, relance les devis en attente et prépare vos rendez-vous.', skills: ['Relances', 'Devis', 'CRM'], wink: 'On n’attend plus Patrick — lui, il est déjà au boulot.' },
+      { name: 'Sofia', role: 'Customer Success', category: 'support', pitch: 'Accueille vos clients, répond aux questions et suit la satisfaction.', skills: ['Onboarding', 'Support', 'Suivi'] },
+      { name: 'Camille', role: 'Assistante de direction', category: 'admin', pitch: 'Gère votre agenda, trie vos emails et organise vos journées.', skills: ['Agenda', 'Emails', 'Organisation'] },
+      { name: 'Louis', role: 'Support client', category: 'support', pitch: 'Traite les tickets, répond aux FAQ et escalade ce qui compte.', skills: ['Tickets', 'FAQ', 'SAV'] },
+      { name: 'Nina', role: 'Marketing', category: 'marketing', pitch: 'Rédige vos contenus, planifie vos publications et suit vos campagnes.', skills: ['Contenus', 'Réseaux', 'Campagnes'] },
+      { name: 'Hugo', role: 'Comptabilité', category: 'finance', pitch: 'Émet les factures, relance les impayés et suit votre trésorerie.', skills: ['Factures', 'Relances', 'Suivi'] },
+      { name: 'Sarah', role: 'Ressources humaines', category: 'rh', pitch: 'Trie les candidatures, répond aux candidats et prépare les onboardings.', skills: ['Recrutement', 'Onboarding', 'RH'] },
+      { name: 'Théo', role: 'Accueil téléphonique', category: 'support', pitch: 'Répond aux appels, prend les messages et fixe les rendez-vous.', skills: ['Appels', 'Messages', 'RDV'] },
+      { name: 'Emma', role: 'Rédactrice', category: 'marketing', pitch: 'Écrit vos articles, vos newsletters et optimise votre référencement.', skills: ['Articles', 'Newsletters', 'SEO'] },
+      { name: 'Marc', role: 'Analyste', category: 'finance', pitch: 'Construit vos tableaux de bord et synthétise vos données clés.', skills: ['Reporting', 'Tableaux', 'Synthèses'] },
+    ] as Agent[],
+  },
+  en: {
+    eyebrow: 'Use cases',
+    title1: 'Ten ready-to-use profiles. ',
+    title2: 'One single agent.',
+    subtitle:
+      'Each profile comes with its role, its skills and its tools. Activate the one you need — your agent switches hats in an instant, without ever losing your company’s memory.',
+    all: 'All',
+    categoryLabels: {
+      ventes: 'Sales',
+      support: 'Support',
+      admin: 'Admin',
+      marketing: 'Marketing',
+      finance: 'Finance',
+      rh: 'HR',
+    } as Record<CategoryKey, string>,
+    activate: 'Activate this profile',
+    ctaTitle1: 'Can’t find the right profile? ',
+    ctaTitle2: 'Alma creates it.',
+    ctaDesc:
+      'Give your domain name, Alma calls you and crafts a custom agent for your line of work — even if your need is off the beaten path.',
+    ctaBtn: 'Create my agent for free',
+    agents: [
+      { name: 'Patrick', role: 'Sales rep', category: 'ventes', pitch: 'Prospects, follows up on pending quotes and prepares your meetings.', skills: ['Follow-ups', 'Quotes', 'CRM'], wink: 'No more waiting on Patrick — he’s already on the job.' },
+      { name: 'Sofia', role: 'Customer Success', category: 'support', pitch: 'Welcomes your customers, answers questions and tracks satisfaction.', skills: ['Onboarding', 'Support', 'Tracking'] },
+      { name: 'Camille', role: 'Executive assistant', category: 'admin', pitch: 'Manages your calendar, sorts your emails and organizes your days.', skills: ['Calendar', 'Emails', 'Organization'] },
+      { name: 'Louis', role: 'Customer support', category: 'support', pitch: 'Handles tickets, answers FAQs and escalates what matters.', skills: ['Tickets', 'FAQ', 'After-sales'] },
+      { name: 'Nina', role: 'Marketing', category: 'marketing', pitch: 'Writes your content, schedules your posts and tracks your campaigns.', skills: ['Content', 'Social', 'Campaigns'] },
+      { name: 'Hugo', role: 'Accounting', category: 'finance', pitch: 'Issues invoices, chases unpaid bills and tracks your cash flow.', skills: ['Invoices', 'Follow-ups', 'Tracking'] },
+      { name: 'Sarah', role: 'Human resources', category: 'rh', pitch: 'Sorts applications, replies to candidates and prepares onboardings.', skills: ['Recruiting', 'Onboarding', 'HR'] },
+      { name: 'Théo', role: 'Phone reception', category: 'support', pitch: 'Answers calls, takes messages and books appointments.', skills: ['Calls', 'Messages', 'Bookings'] },
+      { name: 'Emma', role: 'Copywriter', category: 'marketing', pitch: 'Writes your articles, your newsletters and optimizes your SEO.', skills: ['Articles', 'Newsletters', 'SEO'] },
+      { name: 'Marc', role: 'Analyst', category: 'finance', pitch: 'Builds your dashboards and summarizes your key data.', skills: ['Reporting', 'Dashboards', 'Summaries'] },
+    ] as Agent[],
+  },
+}
 
 export function AgentsGallery() {
-  const [filter, setFilter] = useState('Tous')
+  const { lang } = useLanguage()
+  const t = T[lang]
+  const [filter, setFilter] = useState<'all' | CategoryKey>('all')
 
-  const visible = filter === 'Tous' ? AGENTS : AGENTS.filter((a) => a.category === filter)
+  const AGENTS = t.agents
+  const visible = filter === 'all' ? AGENTS : AGENTS.filter((a) => a.category === filter)
+  const filters: Array<'all' | CategoryKey> = ['all', ...CATEGORY_ORDER]
 
   return (
     <main className="w-full bg-[#F3EFE6]">
@@ -108,18 +112,16 @@ export function AgentsGallery() {
       <section className="relative w-full overflow-hidden bg-grid pt-28 sm:pt-32 pb-12 sm:pb-16">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">
-            Cas d’usage
+            {t.eyebrow}
           </p>
           <h1
             className="mt-3 font-sf text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] text-[#1C1A17] text-balance"
             style={{ letterSpacing: '-0.03em' }}
           >
-            Dix profils prêts à l’emploi. <span className="text-[#D10E63]">Un seul agent.</span>
+            {t.title1}<span className="text-[#D10E63]">{t.title2}</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#4E483F]">
-            Chaque profil arrive avec son rôle, ses compétences et ses outils. Activez celui dont vous
-            avez besoin — votre agent change de casquette en un instant, sans jamais perdre la mémoire
-            de votre entreprise.
+            {t.subtitle}
           </p>
         </div>
       </section>
@@ -127,7 +129,7 @@ export function AgentsGallery() {
       {/* Filters */}
       <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap gap-2 border-b border-[#DcD4C4] pb-6">
-          {CATEGORIES.map((c) => (
+          {filters.map((c) => (
             <button
               key={c}
               onClick={() => setFilter(c)}
@@ -138,7 +140,7 @@ export function AgentsGallery() {
               }`}
               aria-pressed={filter === c}
             >
-              {c}
+              {c === 'all' ? t.all : t.categoryLabels[c]}
             </button>
           ))}
         </div>
@@ -172,7 +174,7 @@ export function AgentsGallery() {
                     className="ml-auto rounded-full px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider"
                     style={{ color, background: `${color}14` }}
                   >
-                    {a.category}
+                    {t.categoryLabels[a.category]}
                   </span>
                 </div>
 
@@ -200,7 +202,7 @@ export function AgentsGallery() {
                   href="/creer"
                   className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-[#D10E63] transition-colors hover:text-[#B00B52]"
                 >
-                  Activer ce profil
+                  {t.activate}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                 </a>
               </motion.article>
@@ -216,17 +218,16 @@ export function AgentsGallery() {
             className="font-sf text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.1] text-[#FBF9F3] text-balance"
             style={{ letterSpacing: '-0.02em' }}
           >
-            Vous ne trouvez pas le bon profil ? <span className="text-[#FF6FB0]">Alma le crée.</span>
+            {t.ctaTitle1}<span className="text-[#FF6FB0]">{t.ctaTitle2}</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-[#C4BAA8]">
-            Donnez votre nom de domaine, Alma vous appelle et façonne un agent sur mesure pour votre
-            métier — même si votre besoin sort des sentiers battus.
+            {t.ctaDesc}
           </p>
           <a
             href="/creer"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
           >
-            Créer mon agent gratuitement
+            {t.ctaBtn}
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </a>
         </div>

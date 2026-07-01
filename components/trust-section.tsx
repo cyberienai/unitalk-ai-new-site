@@ -1,38 +1,53 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/lib/language-context'
 
-const TRUST_BLOCKS = [
-  {
-    label: 'CONFORMITÉ',
-    text: 'Vos données restent en France.\nPersonne ne les lit. Personne ne les entraîne.\nVous partez quand vous voulez.',
-    icon: (
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    ),
-  },
-  {
-    label: 'CONFIDENTIALITÉ',
-    text: 'Données isolées et chiffrées.\nAccès contrôlés.\nAucune donnée utilisée pour entraîner des modèles.',
-    icon: (
-      <>
-        <rect x="3" y="11" width="18" height="11" rx="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-      </>
-    ),
-  },
-  {
-    label: 'SÉCURITÉ',
-    text: 'Ils préparent. Vous validez. Ils font.\nUn ingénieur IA prend le relais si besoin.',
-    icon: (
-      <>
-        <path d="M9 12l2 2 4-4" />
-        <circle cx="12" cy="12" r="9" />
-      </>
-    ),
-  },
+const ICONS: React.ReactNode[] = [
+  <path key="0" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
+  (
+    <>
+      <rect x="3" y="11" width="18" height="11" rx="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </>
+  ),
+  (
+    <>
+      <path d="M9 12l2 2 4-4" />
+      <circle cx="12" cy="12" r="9" />
+    </>
+  ),
 ]
 
+const T = {
+  fr: {
+    eyebrow: 'Confiance',
+    title1: 'Souverain. ',
+    title2: 'Confidentiel',
+    title3: '. Sous contrôle.',
+    blocks: [
+      { label: 'SOUVERAINETÉ', text: 'Vos données restent en France.\nPersonne ne les lit. Personne ne les entraîne.\nVous partez quand vous voulez.' },
+      { label: 'CONFIDENTIALITÉ', text: 'Données isolées et chiffrées.\nAccès contrôlés.\nAucune donnée utilisée pour entraîner des modèles.' },
+      { label: 'CONTRÔLE', text: 'Ils préparent. Vous validez. Ils font.\nUn ingénieur IA prend le relais si besoin.' },
+    ],
+  },
+  en: {
+    eyebrow: 'Trust',
+    title1: 'Sovereign. ',
+    title2: 'Confidential',
+    title3: '. In control.',
+    blocks: [
+      { label: 'SOVEREIGNTY', text: 'Your data stays in France.\nNo one reads it. No one trains on it.\nYou leave whenever you want.' },
+      { label: 'CONFIDENTIALITY', text: 'Isolated and encrypted data.\nControlled access.\nNo data used to train models.' },
+      { label: 'CONTROL', text: 'They prepare. You approve. They act.\nAn AI engineer steps in if needed.' },
+    ],
+  },
+}
+
 export function TrustSection() {
+  const { lang } = useLanguage()
+  const t = T[lang]
+  const TRUST_BLOCKS = t.blocks.map((block, i) => ({ ...block, icon: ICONS[i] }))
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -65,10 +80,10 @@ export function TrustSection() {
         <motion.div className="mb-10 sm:mb-14 max-w-2xl" variants={itemVariants}>
           <div className="flex items-center gap-3">
             <span className="h-px w-8 bg-[#D10E63]" />
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Confiance</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
           </div>
           <h2 className="mt-4 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.03em' }}>
-            Souverain. <span className="text-[#D10E63]">Confidentiel</span>. Sous contrôle.
+            {t.title1}<span className="text-[#D10E63]">{t.title2}</span>{t.title3}
           </h2>
         </motion.div>
 
@@ -81,7 +96,7 @@ export function TrustSection() {
               transition={{ type: 'spring', stiffness: 300, damping: 22 }}
               className="rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 transition-colors hover:border-[#D10E63]/50"
             >
-              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#D10E63]/25 bg-[#D10E63]/8">
+              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#D10E63]/25 bg-[#D10E63]/10">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D10E63" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   {block.icon}
                 </svg>

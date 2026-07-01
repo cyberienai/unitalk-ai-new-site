@@ -242,15 +242,15 @@ export function ArgumentsSlider() {
           <div className="max-w-xl">
             <div className="flex items-center gap-3 mb-5">
               <span className="h-px w-8 bg-[#D10E63]" />
-              <p className="text-[11px] uppercase tracking-[0.24em] text-[#D10E63] font-semibold">Pourquoi Unitalk</p>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-[#D10E63] font-semibold">{t.eyebrow}</p>
             </div>
             <h2
               className="font-sf text-4xl sm:text-5xl md:text-6xl font-bold leading-[0.98] text-[#1C1A17] text-balance"
               style={{ letterSpacing: '-0.03em' }}
             >
-              Il comprend, il agit,
+              {t.title1}
               <br />
-              <span className="text-[#D10E63]">il se souvient.</span>
+              <span className="text-[#D10E63]">{t.title2}</span>
             </h2>
           </div>
           {/* Nav arrows */}
@@ -259,7 +259,7 @@ export function ArgumentsSlider() {
               onClick={() => scrollBy(-1)}
               disabled={!canScrollLeft}
               className="flex h-12 w-12 items-center justify-center rounded-full border border-[#C4BAA8] text-[#1C1A17] transition-all hover:border-[#1C1A17] hover:bg-[#F3EFE6] disabled:opacity-30 disabled:cursor-not-allowed"
-              aria-label="Cartes précédentes"
+              aria-label={t.prev}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
                 <path d="M15 19l-7-7 7-7" />
@@ -269,7 +269,7 @@ export function ArgumentsSlider() {
               onClick={() => scrollBy(1)}
               disabled={!canScrollRight}
               className="flex h-12 w-12 items-center justify-center rounded-full border border-[#C4BAA8] text-[#1C1A17] transition-all hover:border-[#1C1A17] hover:bg-[#F3EFE6] disabled:opacity-30 disabled:cursor-not-allowed"
-              aria-label="Cartes suivantes"
+              aria-label={t.next}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
                 <path d="M9 5l7 7-7 7" />
