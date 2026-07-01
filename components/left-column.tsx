@@ -27,7 +27,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1, duration: 0.5 }}
       >
-        Vous gérez tout, tout seul. Sans pouvoir embaucher.
+        Vous gérez tout, seul, sans pouvoir embaucher.
       </motion.p>
 
       {/* H1 — emotional hook (the pain) */}
@@ -48,7 +48,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi.</span> <span className="font-medium text-white">Vous décidez.</span>
+        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi</span> — vous gardez le contrôle.
       </motion.p>
 
       {/* Single explicit CTA — domain input now lives in the Alma chat widget */}
@@ -62,31 +62,21 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
           onClick={() => onDomainSubmit?.('')}
           className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FF0099] px-6 py-4 text-sm sm:text-base font-semibold text-white hover:bg-[#E00085] transition-colors"
         >
-          Créer votre agent IA Hermes gratuitement
+          Créer mon agent gratuitement
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </button>
       </motion.div>
 
-      {/* Input helper */}
+      {/* Single concise reassurance line */}
       <motion.p
         className="mt-3 text-xs text-[#8A8A92]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.65, duration: 0.5 }}
       >
-        Alma vous guide dès l&apos;ouverture — gratuit, sans carte bancaire.
-      </motion.p>
-
-      {/* Microcopy */}
-      <motion.p
-        className="mt-4 sm:mt-5 text-xs text-[#8A8A92]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7, duration: 0.5 }}
-      >
-        Gratuit pour démarrer · une IA prête à travailler · sans carte bancaire
+        Sans carte bancaire · Alma vous guide dès l&apos;ouverture
       </motion.p>
 
       {/* Social proof + open-source signal */}
