@@ -5,9 +5,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 
 const NAV_LINKS = [
-  { label: 'Nos solutions', href: '#' },
-  { label: 'Offres', href: '#offres' },
-  { label: 'Trouver des agents', href: '#' },
+  { label: 'Nos solutions', href: '/#solutions' },
+  { label: 'Offres', href: '/#offres' },
+  { label: 'Trouver des agents', href: '/agents' },
   { label: 'Sécurité', href: '#' },
   { label: 'Devenir partenaire', href: '/partenaires' },
 ]

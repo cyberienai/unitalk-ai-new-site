@@ -29,7 +29,7 @@ export function ProductShowcase() {
   const active = PROFILES[profile]
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#F4F1EA] py-20 sm:py-28">
+    <section id="solutions" className="relative w-full overflow-hidden bg-[#F4F1EA] py-20 sm:py-28">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <div className="mb-12 sm:mb-16 max-w-2xl">
