@@ -252,7 +252,7 @@ export function ArgumentsSlider() {
           <div className="max-w-xl">
             <div className="flex items-center gap-3 mb-5">
               <span className="h-px w-8 bg-[#D10E63]" />
-              <p className="text-[11px] uppercase tracking-[0.24em] text-[#D10E63] font-semibold">Ce qu’il fait</p>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-[#D10E63] font-semibold">Pourquoi Unitalk</p>
             </div>
             <h2
               className="font-sf text-4xl sm:text-5xl md:text-6xl font-bold leading-[0.98] text-[#1C1A17] text-balance"
