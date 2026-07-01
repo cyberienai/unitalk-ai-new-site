@@ -19,7 +19,7 @@ const FOOTER_COLUMNS = [
       { label: 'Solutions', href: '/#solutions' },
       { label: 'Cas d’usage', href: '/agents' },
       { label: 'Tarif', href: '/#offres' },
-      { label: 'Déploiement', href: '/deploy' },
+      { label: 'Agent public', href: '/deploy' },
       { label: 'FAQ', href: '/#faq' },
     ],
   },
@@ -55,7 +55,7 @@ export function SiteFooter() {
               <span className="font-inter text-base font-semibold text-[#F3EFE6]">Unitalk AI</span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#A79E8E]">
-              Un agent IA par entreprise. Puis un par employé.
+              Une conversation suffit.
             </p>
             <div className="mt-5 flex flex-col gap-2.5">
               <a
