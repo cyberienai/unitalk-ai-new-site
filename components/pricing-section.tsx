@@ -61,10 +61,10 @@ const SERVICE_OPTIONS: Record<
     feature: 'Accompagnement par Alma',
   },
   onboarding: {
-    label: 'Onboarding humain',
+    label: 'Onboarding humain (1h)',
     add: 99,
-    desc: 'Nos ingénieurs IA configurent votre agent avec vous, à la demande.',
-    feature: 'Onboarding humain par nos ingénieurs',
+    desc: 'Nos ingénieurs IA configurent votre agent avec vous lors d’une session d’1h.',
+    feature: 'Onboarding humain (1h) par nos ingénieurs',
   },
   unsure: {
     label: 'Je ne sais pas encore',
