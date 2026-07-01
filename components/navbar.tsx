@@ -56,12 +56,13 @@ export function Navbar() {
           >
             Se connecter
           </button>
-          <button
+          <a
+            href="/creer"
             className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#FF0099] hover:bg-[#E00085] text-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
             aria-label="Créer mon agent"
           >
             Créer mon agent
-          </button>
+          </a>
 
           {/* Menu button — visible on all breakpoints */}
           <button
@@ -142,7 +143,7 @@ export function Navbar() {
                 {/* Account section */}
                 <div className="space-y-1 px-4 py-3 border-b border-[rgba(255,255,255,0.06)]">
                   <a
-                    href="#"
+                    href="/creer"
                     onClick={() => setIsMenuOpen(false)}
                     className="block px-4 py-2 text-sm font-normal text-white hover:text-[#FF0099] transition-colors"
                   >
