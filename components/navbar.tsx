@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: 'Offres', href: '#offres' },
   { label: 'Trouver des agents', href: '#' },
   { label: 'Sécurité', href: '#' },
-  { label: 'Devenir partenaire', href: '#' },
+  { label: 'Devenir partenaire', href: '/partenaires' },
 ]
 
 export function Navbar() {

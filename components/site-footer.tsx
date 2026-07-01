@@ -17,7 +17,7 @@ const FOOTER_COLUMNS = [
     title: 'Entreprise',
     links: [
       { label: 'À propos', href: '#' },
-      { label: 'Devenir partenaire', href: '#' },
+      { label: 'Devenir partenaire', href: '/partenaires' },
       { label: 'Blog', href: '#' },
       { label: 'Carrières', href: '#' },
     ],
