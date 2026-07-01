@@ -85,7 +85,7 @@ export function TrustSection() {
                 </svg>
               </div>
               <h3 className="text-xs uppercase tracking-wider text-[#8A8A92] mb-3">{block.label}</h3>
-              <p className="text-xs sm:text-sm leading-relaxed text-[#A0A0A8] whitespace-pre-line">{block.text}</p>
+              <p className="text-xs sm:text-sm leading-relaxed text-[#C7C7D1] whitespace-pre-line">{block.text}</p>
             </motion.div>
           ))}
         </div>

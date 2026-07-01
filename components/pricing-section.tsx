@@ -63,7 +63,7 @@ export function PricingSection() {
   return (
     <motion.section
       id="offres"
-      className="relative overflow-hidden border-t border-[rgba(255,255,255,0.06)] bg-[#0B090D] py-16 sm:py-20 md:py-28"
+      className="relative overflow-hidden border-t border-[rgba(255,255,255,0.06)] bg-[#0B090D] py-12 sm:py-20 md:py-28"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '100px' }}
@@ -77,7 +77,7 @@ export function PricingSection() {
           <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] text-white text-balance" style={{ letterSpacing: '-0.02em' }}>
             Démarrez seul. <span className="text-[#FF0099] italic">Ajoutez votre équipe</span> plus tard.
           </h2>
-          <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#A0A0A8]">
+          <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#C7C7D1]">
             7 jours d&apos;essai gratuit · une IA prête à travailler · sans carte bancaire.
           </p>
         </motion.div>
@@ -111,12 +111,12 @@ export function PricingSection() {
                 {plan.period && <span className="text-xs text-[#8A8A92]">{plan.period}</span>}
               </div>
 
-              <p className="mt-2 text-sm text-[#A0A0A8]">{plan.tagline}</p>
+              <p className="mt-2 text-sm text-[#C7C7D1]">{plan.tagline}</p>
 
               {/* Features */}
               <ul className="mt-6 space-y-2.5 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-sm text-[#A0A0A8]">
+                  <li key={feature} className="flex items-start gap-2 text-sm text-[#C7C7D1]">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 flex-shrink-0 text-[#FF0099]">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
