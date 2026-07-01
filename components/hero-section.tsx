@@ -5,7 +5,6 @@ import { Navbar } from './navbar'
 import { LeftColumn } from './left-column'
 import { AlmaChat } from './alma-chat'
 import { ArgumentsSlider } from './arguments-slider'
-import { AlmaAvatar } from './alma-avatar'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
 import { HeroBackdrop } from './backdrop'
@@ -27,12 +26,8 @@ export function HeroSection() {
               <LeftColumn onDomainSubmit={setDomain} />
             </div>
 
-            {/* Right column: fixed Alma chat with orbe visual above */}
+            {/* Right column: fixed Alma chat */}
             <div className="col-span-1 md:col-span-6 flex flex-col items-center relative">
-              {/* Orbe above the chat */}
-              <div className="pointer-events-none relative z-20 mb-[-28px] hidden sm:block">
-                <AlmaAvatar state="speaking" size={72} showGlow />
-              </div>
               <AlmaChat />
             </div>
           </div>

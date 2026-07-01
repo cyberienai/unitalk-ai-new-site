@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { AlmaAvatar } from './alma-avatar'
 
 function Waveform({ active }: { active: boolean }) {
   const bars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
@@ -71,22 +70,17 @@ export function AlmaChat() {
       {/* Conversation */}
       <div className="space-y-2.5 px-5 py-5">
         <div className="flex items-start gap-2.5">
-          <div className="mt-0.5 shrink-0">
-            <AlmaAvatar state="idle" size={20} showGlow={false} />
-          </div>
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-white">
             Bonjour, je suis Alma. Quel est le nom de domaine de votre entreprise ?
           </div>
         </div>
         <div className="flex items-start gap-2.5">
-          <div className="w-5 shrink-0" aria-hidden="true" />
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
             Je collecte les données publiques de votre entreprise, puis je vous appelle pour créer un agent
             {' '}<span className="text-white">personnalisé sur mesure</span> — prénom, voix, email, agenda. Un vrai bras droit, prêt à travailler.
           </div>
         </div>
         <div className="flex items-start gap-2.5">
-          <div className="w-5 shrink-0" aria-hidden="true" />
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
             Ensuite, je reste à vos côtés : je vous accompagne au quotidien et vous forme à
             {' '}<span className="text-white">orchestrer vos agents</span> pour en tirer le meilleur.
