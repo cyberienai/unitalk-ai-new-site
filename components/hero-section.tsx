@@ -7,6 +7,7 @@ import { ProductShowcase } from './product-showcase'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
 import { FaqSection } from './faq-section'
+import { SiteFooter } from './site-footer'
 import { HeroBackdrop } from './backdrop'
 
 export function HeroSection() {
@@ -34,6 +35,9 @@ export function HeroSection() {
 
       {/* FAQ section */}
       <FaqSection />
+
+      {/* Footer */}
+      <SiteFooter />
     </div>
   )
 }
