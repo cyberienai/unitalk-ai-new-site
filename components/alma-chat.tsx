@@ -71,8 +71,15 @@ export function AlmaChat() {
         <div className="flex items-start gap-2.5">
           <div className="w-5 shrink-0" aria-hidden="true" />
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
-            Je l&apos;analyse, je vous appelle, puis je crée votre agent — prénom, voix, email, agenda.{' '}
-            <span className="text-white">Une vraie identité, prête à travailler.</span>
+            Je collecte les données publiques de votre entreprise, puis je vous appelle pour créer un agent
+            {' '}<span className="text-white">personnalisé sur mesure</span> — prénom, voix, email, agenda. Une vraie identité, prête à travailler.
+          </div>
+        </div>
+        <div className="flex items-start gap-2.5">
+          <div className="w-5 shrink-0" aria-hidden="true" />
+          <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
+            Ensuite, je reste à vos côtés : je vous accompagne au quotidien et vous forme à
+            {' '}<span className="text-white">orchestrer vos agents</span> pour en tirer le meilleur.
           </div>
         </div>
       </div>
