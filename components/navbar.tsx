@@ -132,40 +132,40 @@ export function Navbar() {
             {/* Menu Panel */}
             <motion.div
               id="menu-panel"
-              className="fixed top-16 bottom-0 z-40 overflow-y-auto overflow-x-hidden bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:left-0 lg:w-64 lg:border-r border-[rgba(255,255,255,0.06)] scrollbar-hide"
+              className="fixed top-16 bottom-0 z-40 overflow-y-auto overflow-x-hidden bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:left-0 lg:w-auto lg:max-w-xs lg:mx-4 lg:border-r border-[rgba(255,255,255,0.06)] scrollbar-hide"
               initial={{ opacity: 0, x: '-100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '-100%' }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
-              <nav className="flex flex-col px-0 py-4">
+              <nav className="flex flex-col px-0 py-3">
                 {/* Account section */}
-                <div className="space-y-3 px-6 py-4 border-b border-[rgba(255,255,255,0.08)]">
+                <div className="space-y-1 px-4 py-3 border-b border-[rgba(255,255,255,0.06)]">
                   <a
                     href="#"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-3 text-base text-white hover:text-[#FF0099] transition-colors"
+                    className="block px-4 py-2 text-sm font-normal text-white hover:text-[#FF0099] transition-colors"
                   >
                     S&apos;inscrire
                   </a>
                   <a
                     href="#"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-3 text-base text-white hover:text-[#FF0099] transition-colors"
+                    className="block px-4 py-2 text-sm font-normal text-white hover:text-[#FF0099] transition-colors"
                   >
                     Se connecter
                   </a>
                 </div>
 
                 {/* Navigation section */}
-                <div className="py-4 px-6 border-b border-[rgba(255,255,255,0.08)]">
-                  <div className="space-y-2">
+                <div className="py-3 px-4 border-b border-[rgba(255,255,255,0.06)]">
+                  <div className="space-y-1">
                     {NAV_LINKS.map((link) => (
                       <a
                         key={link.label}
                         href={link.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="block px-4 py-2.5 text-sm text-white hover:text-[#FF0099] transition-colors"
+                        className="block px-4 py-1.5 text-sm font-normal text-white hover:text-[#FF0099] transition-colors"
                       >
                         {link.label}
                       </a>
@@ -174,31 +174,31 @@ export function Navbar() {
                 </div>
 
                 {/* Contact section */}
-                <div className="py-4 px-6 border-b border-[rgba(255,255,255,0.08)]">
+                <div className="py-3 px-4 border-b border-[rgba(255,255,255,0.06)]">
                   <a
                     href="tel:+33189713394"
-                    className="group flex items-center gap-3 px-4 py-3 text-sm text-[#C7C7D1] hover:text-white transition-colors"
+                    className="group flex items-center gap-2 px-4 py-1.5 text-xs font-normal text-[#C7C7D1] hover:text-white transition-colors"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                     </svg>
-                    <span className="underline underline-offset-4">01 89 71 33 94</span>
+                    <span className="underline underline-offset-2">01 89 71 33 94</span>
                   </a>
                   <a
                     href="mailto:hello@unitalk.ai"
-                    className="group flex items-center gap-3 px-4 py-3 text-sm text-[#C7C7D1] hover:text-white transition-colors"
+                    className="group flex items-center gap-2 px-4 py-1.5 text-xs font-normal text-[#C7C7D1] hover:text-white transition-colors"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-[#FF0099] flex-shrink-0">
                       <rect x="2" y="4" width="20" height="16" rx="2" />
                       <path d="m22 7-10 6L2 7" />
                     </svg>
-                    <span className="underline underline-offset-4">hello@unitalk.ai</span>
+                    <span className="underline underline-offset-2">hello@unitalk.ai</span>
                   </a>
                 </div>
 
                 {/* Language selector */}
-                <div className="py-4 px-6">
-                  <button className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:text-[#FF0099] transition-colors">
+                <div className="py-3 px-4">
+                  <button className="flex items-center gap-2 px-4 py-1.5 text-xs font-normal text-white hover:text-[#FF0099] transition-colors">
                     <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[rgba(255,255,255,0.15)]">
                       <span className="h-4 w-2 bg-[#0055A4]" />
                       <span className="h-4 w-2 bg-white" />
