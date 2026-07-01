@@ -49,9 +49,9 @@ const SERVICE_OPTIONS: Record<
   { label: string; add: number; desc: string; feature: string }
 > = {
   alma: {
-    label: 'Alma, votre agent vocal',
+    label: 'Alma, votre conseillère IA vocale',
     add: 0,
-    desc: 'Agent IA vocal — crée et fait évoluer votre agent, gère l’essentiel. Inclus.',
+    desc: 'Conseillère IA vocale — crée et fait évoluer votre agent, gère l’essentiel. Inclus.',
     feature: 'Accompagnement par Alma',
   },
   onboarding: {
@@ -175,7 +175,7 @@ export function PricingSection() {
                       {(Object.keys(SERVICE_OPTIONS) as ServiceKey[]).map((k) => (
                         <option key={k} value={k}>
                           {SERVICE_OPTIONS[k].label}
-                          {SERVICE_OPTIONS[k].add === 0 ? ' ����� inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
+                          {SERVICE_OPTIONS[k].add === 0 ? ' — inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
                         </option>
                       ))}
                     </select>
