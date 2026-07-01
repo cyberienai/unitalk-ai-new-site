@@ -123,7 +123,7 @@ export function HeroEditorial() {
             <button
               className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-[#FF0099] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#E00085]"
             >
-              Créer mon agent
+              Créer mon agent gratuitement
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </button>
           ) : (
@@ -141,7 +141,7 @@ export function HeroEditorial() {
         </div>
 
         <p className="mt-3 text-xs text-[#6E6E76]">
-          Écrivez ou parlez · gratuit, sans carte bancaire · 1 agent, 10 profils prêts à l&apos;emploi
+          Essai de 7 jours · sans carte bancaire · 1 agent, 10 profils prêts à l&apos;emploi
         </p>
       </motion.div>
     </div>

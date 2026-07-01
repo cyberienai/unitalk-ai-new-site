@@ -27,7 +27,7 @@ export function Navbar() {
   }, [isMenuOpen])
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-[rgba(255,255,255,0.06)] bg-[#0A0A0A]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]">
       <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Logo */}
         <div className="flex items-center gap-2 sm:gap-3">
