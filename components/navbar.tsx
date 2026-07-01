@@ -132,15 +132,15 @@ export function Navbar() {
             {/* Menu Panel */}
             <motion.div
               id="menu-panel"
-              className="fixed top-16 bottom-0 z-40 overflow-y-auto bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:right-0 lg:w-72 lg:border-l border-[rgba(255,255,255,0.06)]"
+              className="fixed top-16 bottom-0 z-40 overflow-y-auto bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:right-0 lg:w-64 lg:border-l border-[rgba(255,255,255,0.06)]"
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
-              <nav className="flex flex-col px-0 py-8">
+              <nav className="flex flex-col px-0 py-4">
                 {/* Account section */}
-                <div className="space-y-3 px-6 pb-8 border-b border-[rgba(255,255,255,0.08)]">
+                <div className="space-y-3 px-6 py-4 border-b border-[rgba(255,255,255,0.08)]">
                   <a
                     href="#"
                     onClick={() => setIsMenuOpen(false)}
@@ -158,8 +158,7 @@ export function Navbar() {
                 </div>
 
                 {/* Navigation section */}
-                <div className="py-8 px-6 border-b border-[rgba(255,255,255,0.08)]">
-                  <p className="text-xs uppercase tracking-wider text-[#8A8A92] mb-4 font-semibold">Navigation</p>
+                <div className="py-4 px-6 border-b border-[rgba(255,255,255,0.08)]">
                   <div className="space-y-2">
                     {NAV_LINKS.map((link) => (
                       <a
@@ -175,7 +174,7 @@ export function Navbar() {
                 </div>
 
                 {/* Contact section */}
-                <div className="py-8 px-6 border-b border-[rgba(255,255,255,0.08)]">
+                <div className="py-4 px-6 border-b border-[rgba(255,255,255,0.08)]">
                   <a
                     href="tel:+33189713394"
                     className="group flex items-center gap-3 px-4 py-3 text-sm text-[#C7C7D1] hover:text-white transition-colors"
@@ -198,7 +197,7 @@ export function Navbar() {
                 </div>
 
                 {/* Language selector */}
-                <div className="py-8 px-6">
+                <div className="py-4 px-6">
                   <button className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:text-[#FF0099] transition-colors">
                     <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[rgba(255,255,255,0.15)]">
                       <span className="h-4 w-2 bg-[#0055A4]" />
