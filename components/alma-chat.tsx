@@ -47,7 +47,17 @@ export function AlmaChat() {
 
       {/* Header */}
       <div className="flex items-center gap-3 border-b border-[rgba(255,255,255,0.06)] bg-gradient-to-b from-[#151517] to-[#0C0C0E] px-5 py-4">
-        <AlmaAvatar state={isTalking ? 'speaking' : 'idle'} size={34} showGlow={false} />
+        <div className="relative shrink-0">
+          <img
+            src="/alma-avatar.png"
+            alt="Portrait d'Alma"
+            className="h-9 w-9 rounded-full object-cover ring-2 ring-[rgba(255,0,153,0.35)]"
+          />
+          <span
+            className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0C0C0E] bg-[#22C55E]"
+            aria-hidden="true"
+          />
+        </div>
         <div className="flex-1">
           <p className="text-sm font-semibold tracking-tight text-white">Alma</p>
           <p className="text-[11px] text-[#8E8E93]">Agent vocal Customer Success · Unitalk</p>
