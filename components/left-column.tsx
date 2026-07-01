@@ -31,7 +31,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         aria-hidden="true"
       />
 
-      {/* Overline — single contextual line above the title (pain point) */}
+      {/* Overline — single contextual line above the title */}
       <motion.p
         className="text-xs tracking-normal text-[#A0A0A8]"
         initial={{ opacity: 0 }}
@@ -41,7 +41,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         Vous gérez tout, tout seul. Sans pouvoir embaucher.
       </motion.p>
 
-      {/* H1 */}
+      {/* H1 — emotional hook (the pain) */}
       <motion.h1
         className="mt-3 sm:mt-4 font-heading text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-light leading-[1.1] text-white text-balance"
         style={{ letterSpacing: '-0.02em' }}
@@ -49,17 +49,27 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6 }}
       >
-        Démarrez avec votre <span className="text-[#FF0099] italic">agent IA</span>. Ajoutez votre équipe plus tard.
+        Votre entreprise dépend <span className="text-[#FF0099] italic">trop de vous</span>.
       </motion.h1>
 
-      {/* Subtitle */}
+      {/* Subtitle — the process + reach */}
       <motion.p
         className="mt-4 sm:mt-6 w-full sm:max-w-md text-sm sm:text-base leading-relaxed text-[#A0A0A8]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
-        Il apprend votre métier, travaille dans vos outils et n&apos;oublie jamais rien.
+        Unitalk analyse votre domaine, vous appelle, puis crée votre agent. Il travaille partout : emails, CRM, réunions, contenus, automatisations.
+      </motion.p>
+
+      {/* Offer accroche + HITL reassurance */}
+      <motion.p
+        className="mt-3 text-xs sm:text-sm text-[#A0A0A8]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi.</span> Démarrez seul, ajoutez votre équipe plus tard.
       </motion.p>
 
       {/* HITL reassurance */}
@@ -67,9 +77,9 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         className="mt-2 text-xs sm:text-sm font-medium text-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
+        transition={{ delay: 0.55, duration: 0.5 }}
       >
-        Vous restez le patron.
+        Vous décidez.
       </motion.p>
 
       {/* Domain input */}

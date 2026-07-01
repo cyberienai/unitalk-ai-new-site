@@ -7,10 +7,10 @@ import { AlmaAvatar } from './alma-avatar'
 const SLIDES = [
   {
     id: 1,
-    title: 'Avant d\'agir,\nvotre agent apprend.',
+    title: 'Votre site peut maintenant\navoir son agent.',
     avatarState: 'listening',
     avatarLabel: 'Agent vocal Unitalk · ● En ligne',
-    content: 'Un agent vocal Unitalk vous appelle,\nvous pose les bonnes questions\net comprend votre entreprise.\n\nIl configure vos agents,\nles connecte à vos outils,\net les met au travail.\n\nPas de formulaire.\nVous parlez.',
+    content: 'Votre site est le point de départ.\n\nUnitalk analyse votre domaine,\nvous appelle,\npuis crée votre agent.\n\nIl travaille ensuite partout :\nemails, CRM, réunions,\ncontenus, automatisations.\n\nPas de formulaire.\nVous parlez.',
   },
   {
     id: 2,
