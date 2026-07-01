@@ -119,7 +119,7 @@ function AlmaBadge({ label }: { label: string }) {
           className="h-11 w-11 rounded-full object-cover ring-2 ring-[#D10E63]/30"
         />
         <span
-          className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]"
+          className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#F3EFE6] bg-[#4F5BD5]"
           aria-hidden="true"
         />
       </div>
@@ -248,7 +248,7 @@ export function CreateAgent() {
               <div className="mt-7 flex flex-col gap-2.5">
                 {[t.reassure1, t.reassure2, t.reassure3].map((r) => (
                   <div key={r} className="flex items-center gap-2.5 text-sm text-[#4E483F]">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#2E7D4F]/12 text-[#2E7D4F]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4F5BD5]/12 text-[#4F5BD5]">
                       <CheckIcon />
                     </span>
                     {r}
@@ -289,7 +289,7 @@ export function CreateAgent() {
                 className="mt-6 font-sf font-bold text-[#1C1A17] text-balance"
                 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
               >
-                <span className="text-[#2E7D4F]">{t.readyTitle}</span> {t.slotBody}
+                <span className="text-[#4F5BD5]">{t.readyTitle}</span> {t.slotBody}
               </h1>
 
               <div className="mt-8 flex flex-col gap-3">
@@ -357,7 +357,7 @@ export function CreateAgent() {
               <div className="mt-3 flex flex-col gap-2.5">
                 {t.during.map((d) => (
                   <div key={d} className="flex items-center gap-2.5 text-sm text-[#4E483F]">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#2E7D4F]/12 text-[#2E7D4F]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4F5BD5]/12 text-[#4F5BD5]">
                       <CheckIcon />
                     </span>
                     {d}
@@ -394,7 +394,7 @@ export function CreateAgent() {
               className="flex flex-col items-center text-center"
             >
               <motion.div
-                className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2E7D4F]/12 text-[#2E7D4F]"
+                className="flex h-16 w-16 items-center justify-center rounded-full bg-[#4F5BD5]/12 text-[#4F5BD5]"
                 initial={{ scale: 0.6, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, ease, delay: 0.1 }}
@@ -515,7 +515,7 @@ function PreparingStep({
             >
               <span
                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-colors ${
-                  on ? 'bg-[#2E7D4F]/12 text-[#2E7D4F]' : 'bg-[#E4DCCC] text-transparent'
+                  on ? 'bg-[#4F5BD5]/12 text-[#4F5BD5]' : 'bg-[#E4DCCC] text-transparent'
                 }`}
               >
                 <CheckIcon />
