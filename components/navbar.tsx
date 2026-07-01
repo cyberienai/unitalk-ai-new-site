@@ -4,12 +4,20 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 
+// Full list — shown in the burger menu
 const NAV_LINKS = [
   { label: 'Nos solutions', href: '/#solutions' },
   { label: 'Offres', href: '/#offres' },
   { label: 'Trouver des agents', href: '/agents' },
   { label: 'Sécurité', href: '#' },
   { label: 'Devenir partenaire', href: '/partenaires' },
+]
+
+// Essentials — shown inline on desktop
+const PRIMARY_LINKS = [
+  { label: 'Nos solutions', href: '/#solutions' },
+  { label: 'Offres', href: '/#offres' },
+  { label: 'Trouver des agents', href: '/agents' },
 ]
 
 export function Navbar() {
@@ -35,9 +43,9 @@ export function Navbar() {
           <span className="font-inter text-sm sm:text-base font-semibold text-[#1C1A17]">Unitalk AI</span>
         </a>
 
-        {/* Center: Nav links - Desktop only */}
+        {/* Center: Nav links - Desktop only (essentials) */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-          {NAV_LINKS.map((link) => (
+          {PRIMARY_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
