@@ -124,7 +124,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.65, duration: 0.5 }}
       >
-        Analyse gratuite de votre site en 10 secondes, sans inscription.
+        On analyse votre domaine pour démarrer — gratuit, sans inscription.
       </motion.p>
 
       {/* Success message */}
@@ -135,26 +135,16 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
-          Alma analyse {domain} et prépare votre diagnostic.
+          Unitalk analyse {domain} et prépare la création de votre agent.
         </motion.p>
       )}
 
-      {/* Secondary CTA — neutral, so the domain field stays the primary action */}
-      <motion.button
-        className="mt-4 sm:mt-5 w-full sm:max-w-md rounded-full border border-white/30 bg-white/[0.06] hover:border-white/50 hover:bg-white/10 px-6 sm:px-9 py-3 sm:py-4 text-base sm:text-lg font-medium text-white transition-colors"
+      {/* Microcopy */}
+      <motion.p
+        className="mt-4 sm:mt-5 text-xs text-[#8A8A92]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.5 }}
-      >
-        Analyser mon site
-      </motion.button>
-
-      {/* Microcopy */}
-      <motion.p
-        className="mt-2.5 sm:mt-3 text-xs text-[#8A8A92]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
       >
         7 jours d&apos;essai gratuit · une IA prête à travailler · sans carte bancaire
       </motion.p>
