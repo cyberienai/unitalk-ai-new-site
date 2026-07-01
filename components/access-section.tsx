@@ -24,7 +24,7 @@ const SURFACES: Surface[] = [
   },
   {
     title: 'App Desktop',
-    desc: 'Une application native sur Mac et Windows, à portée de raccourci, intégrée à votre poste.',
+    desc: 'Une application native sur Mac, Windows et Linux, à portée de raccourci, intégrée à votre poste.',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="4" width="18" height="12" rx="1" />
