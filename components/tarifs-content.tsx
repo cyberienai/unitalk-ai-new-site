@@ -168,7 +168,7 @@ export function TarifsContent() {
         {/* Reassurance line */}
         <p className="mt-10 text-center text-sm text-[#857C6E]">
           Gratuit pour démarrer · sans carte bancaire · résiliable à tout moment ·{' '}
-          <a href="/deploy" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
+          <a href="/agent-ia-public" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
             version Desktop open source
           </a>
         </p>

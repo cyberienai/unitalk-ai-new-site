@@ -127,7 +127,7 @@ export function DeployContent() {
   return (
     <main className="bg-[#FBF9F3] text-[#1C1A17]">
       {/* Hero */}
-      <section className="border-b border-[#E5DECF] px-6 pt-32 pb-16 sm:pt-40 sm:pb-24">
+      <section className="relative overflow-hidden border-b border-[#E5DECF] bg-grid px-6 pt-32 pb-16 sm:pt-40 sm:pb-24">
         <div className="mx-auto max-w-4xl">
           <motion.p
             initial="hidden"
@@ -135,7 +135,7 @@ export function DeployContent() {
             variants={fadeUp}
             className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]"
           >
-            Déploiement
+            Agent public
           </motion.p>
           <motion.h1
             initial="hidden"
@@ -145,7 +145,7 @@ export function DeployContent() {
             className="mt-4 font-sf text-4xl font-bold leading-[1.02] text-balance sm:text-6xl"
             style={{ letterSpacing: '-0.03em' }}
           >
-            Déployez votre agent là où sont{' '}
+            Rendez votre agent public, là où sont{' '}
             <span className="text-[#D10E63]">vos clients.</span>
           </motion.h1>
           <motion.p
@@ -155,8 +155,8 @@ export function DeployContent() {
             custom={2}
             className="mt-6 max-w-2xl text-lg leading-relaxed text-[#4E483F]"
           >
-            Un seul agent, tous vos canaux. Site web, WhatsApp, téléphone, email, Slack… Activez chaque
-            canal en un clic — sans code, sans intégrateur, sans attendre.
+            Le même agent qui vous assiste en interne accueille aussi vos clients — sur votre site,
+            WhatsApp, au téléphone, par email… Chaque canal ouvert en un clic, sans code, sans attendre.
           </motion.p>
           <motion.div
             initial="hidden"
@@ -172,7 +172,7 @@ export function DeployContent() {
               Créer mon agent
             </a>
             <a
-              href="/#offres"
+              href="/tarifs"
               className="inline-flex items-center justify-center rounded-full border border-[#CFC6B4] px-6 py-3 text-sm font-medium text-[#1C1A17] transition-colors hover:border-[#1C1A17]"
             >
               Voir les tarifs

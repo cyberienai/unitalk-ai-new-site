@@ -19,7 +19,7 @@ const FOOTER_COLUMNS = [
       { label: 'Solutions', href: '/solutions' },
       { label: 'Cas d’usage', href: '/agents' },
       { label: 'Tarif', href: '/tarifs' },
-      { label: 'Agent public', href: '/deploy' },
+      { label: 'Agent public', href: '/agent-ia-public' },
       { label: 'FAQ', href: '/#faq' },
     ],
   },

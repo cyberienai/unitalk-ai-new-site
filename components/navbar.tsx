@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { label: 'Solutions', href: '/solutions' },
   { label: 'Cas d’usage', href: '/agents' },
   { label: 'Tarif', href: '/tarifs' },
-  { label: 'Agent public', href: '/deploy' },
+  { label: 'Agent public', href: '/agent-ia-public' },
   { label: 'Sécurité', href: '/#confiance' },
   { label: 'Devenir partenaire', href: '/partenaires' },
 ]
