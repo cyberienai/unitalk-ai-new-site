@@ -12,7 +12,7 @@ const MODES: Record<
   byok: {
     price: '29€',
     period: '/ mois / agent',
-    note: 'Vous apportez vos clés API (OpenAI, Anthropic, Google…). Vous ne payez que la plateforme, les modèles restent à votre charge, au prix réel.',
+    note: 'Vous utilisez vos clés API (OpenAI, Anthropic, Google…). Vous ne payez que la plateforme, les modèles restent à votre charge, au prix réel.',
     features: [
       '1 agent sur mesure, 10 profils',
       'Vos propres clés — coûts modèles maîtrisés',
