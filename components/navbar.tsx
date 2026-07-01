@@ -7,12 +7,15 @@ import { useLanguage } from '@/lib/language-context'
 
 // Full list — shown in the burger menu
 const NAV_LINKS = [
+  { fr: 'Solo', en: 'Solo', href: '/solo' },
+  { fr: 'Teams', en: 'Teams', href: '/teams' },
+  { fr: 'Business', en: 'Business', href: '/business' },
+  { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
   { fr: 'Cas d’usage', en: 'Use cases', href: '/agents' },
   { fr: 'Accompagnement', en: 'Support', href: '/accompagnement' },
   { fr: 'Modèles IA', en: 'AI models', href: '/modeles-ia' },
   { fr: 'Hébergeurs', en: 'Hosting', href: '/hebergeurs' },
-  { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
   { fr: 'Agent IA public', en: 'Public AI agent', href: '/agent-ia-public' },
   { fr: 'Sécurité', en: 'Security', href: '/#confiance' },
   { fr: 'Devenir partenaire', en: 'Become a partner', href: '/partenaires' },
@@ -20,8 +23,9 @@ const NAV_LINKS = [
 
 // Essentials — shown inline on desktop
 const PRIMARY_LINKS = [
-  { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
-  { fr: 'Cas d’usage', en: 'Use cases', href: '/agents' },
+  { fr: 'Solo', en: 'Solo', href: '/solo' },
+  { fr: 'Teams', en: 'Teams', href: '/teams' },
+  { fr: 'Business', en: 'Business', href: '/business' },
   { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
 ]
 
