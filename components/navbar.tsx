@@ -58,9 +58,9 @@ export function Navbar() {
           </button>
           <button
             className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#FF0099] hover:bg-[#E00085] text-white text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
-            aria-label="Analyser mon site"
+            aria-label="Créer mon agent"
           >
-            Analyser mon site
+            Créer mon agent
           </button>
 
           {/* Menu button — visible on all breakpoints */}
