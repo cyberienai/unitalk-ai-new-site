@@ -54,6 +54,7 @@ export function TrustSection() {
 
   return (
     <motion.section
+      id="confiance"
       className="relative overflow-hidden border-t border-[#DcD4C4] bg-[#F3EFE6] py-12 sm:py-16 md:py-20 lg:py-32"
       initial="hidden"
       whileInView="visible"

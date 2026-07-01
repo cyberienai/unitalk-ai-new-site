@@ -6,19 +6,19 @@ import { UnitalkLogo } from './unitalk-logo'
 
 // Full list — shown in the burger menu
 const NAV_LINKS = [
-  { label: 'Solutions', href: '/#solutions' },
+  { label: 'Solutions', href: '/solutions' },
   { label: 'Cas d’usage', href: '/agents' },
-  { label: 'Tarif', href: '/#offres' },
+  { label: 'Tarif', href: '/tarifs' },
   { label: 'Agent public', href: '/deploy' },
-  { label: 'Sécurité', href: '#' },
+  { label: 'Sécurité', href: '/#confiance' },
   { label: 'Devenir partenaire', href: '/partenaires' },
 ]
 
 // Essentials — shown inline on desktop
 const PRIMARY_LINKS = [
-  { label: 'Solutions', href: '/#solutions' },
+  { label: 'Solutions', href: '/solutions' },
   { label: 'Cas d’usage', href: '/agents' },
-  { label: 'Tarif', href: '/#offres' },
+  { label: 'Tarif', href: '/tarifs' },
 ]
 
 export function Navbar() {

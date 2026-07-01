@@ -16,9 +16,9 @@ const FOOTER_COLUMNS = [
   {
     title: 'Produit',
     links: [
-      { label: 'Solutions', href: '/#solutions' },
+      { label: 'Solutions', href: '/solutions' },
       { label: 'Cas d’usage', href: '/agents' },
-      { label: 'Tarif', href: '/#offres' },
+      { label: 'Tarif', href: '/tarifs' },
       { label: 'Agent public', href: '/deploy' },
       { label: 'FAQ', href: '/#faq' },
     ],
