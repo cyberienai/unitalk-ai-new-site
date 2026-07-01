@@ -12,7 +12,7 @@ const T = {
     headline3: 'trop de vous.',
     subline:
       'Une seule conversation avec Alma suffit. Elle découvre votre entreprise, crée votre agent sur mesure et le prépare à travailler dans vos outils.',
-    almaCaption: 'vous appelle et crée votre agent IA sur mesure.',
+    almaCaption: 'vous appelle pour créer votre agent.',
     listening: 'À l’écoute…',
     stop: 'Stop',
     create: 'Créer mon agent gratuitement',
@@ -30,7 +30,7 @@ const T = {
     headline3: 'too much on you.',
     subline:
       'Just one conversation with Alma is enough. She discovers your company, creates your custom agent and gets it ready to work inside your tools.',
-    almaCaption: 'calls you and builds your custom AI agent.',
+    almaCaption: 'calls you to create your agent.',
     listening: 'Listening…',
     stop: 'Stop',
     create: 'Create my agent for free',
