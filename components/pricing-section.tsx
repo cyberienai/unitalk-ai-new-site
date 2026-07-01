@@ -6,19 +6,19 @@ import { SectionBackdrop } from './backdrop'
 const PLANS = [
   {
     name: 'Solo',
-    price: '49€',
-    period: '/ mois',
+    price: '29€',
+    period: '/ mois / agent',
     tagline: 'Votre agent à vous.',
-    features: ['1 agent personnel', '10 profils prêts à l\'emploi', 'Emails, CRM, réunions, contenus', 'Mémoire d\'entreprise'],
+    features: ['1 agent sur mesure', '10 profils prêts à l\'emploi', 'Multimodal : voix, texte, image', 'Mémoire d\'entreprise'],
     cta: 'Démarrer en solo',
     highlighted: true,
   },
   {
     name: 'Team',
     price: '39€',
-    period: '/ mois / personne',
+    period: '/ mois / agent',
     tagline: 'Un agent par collaborateur.',
-    features: ['Un agent par membre', 'Mémoire partagée', 'Collaboration entre agents', 'Gestion des accès'],
+    features: ['1 agent par collaborateur', 'Mémoire partagée', 'Collaboration entre agents', 'Gestion des accès'],
     cta: 'Équiper mon équipe',
     highlighted: false,
   },
@@ -78,7 +78,7 @@ export function PricingSection() {
             Démarrez seul. <span className="text-[#FF0099] italic">Ajoutez votre équipe</span> plus tard.
           </h2>
           <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#C7C7D1]">
-            7 jours d&apos;essai gratuit · une IA prête à travailler · sans carte bancaire.
+            Gratuit pour démarrer · sans carte bancaire · résiliable à tout moment.
           </p>
         </motion.div>
 

@@ -2,56 +2,49 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { AlmaAvatar } from './alma-avatar'
 
 const CARDS = [
   {
     id: 1,
-    title: 'Votre site peut avoir son agent',
-    avatarState: 'listening',
     label: 'Point de départ',
+    title: 'Il naît de votre nom de domaine',
     content:
-      'Unitalk analyse votre domaine, vous appelle, puis crée votre agent. Il travaille ensuite partout : emails, CRM, réunions, contenus, automatisations. Pas de formulaire — vous parlez.',
+      'Vous donnez votre domaine, Alma collecte les données publiques de votre entreprise et vous appelle. À la fin de l’appel, votre agent existe. Aucun formulaire — vous parlez, c’est tout.',
   },
   {
     id: 2,
-    title: 'En 45 secondes, il comprend',
-    avatarState: 'speaking',
-    label: 'Diagnostic instantané',
+    label: 'Sur mesure',
+    title: 'Il comprend votre métier',
     content:
-      'Votre activité, vos outils, vos points faibles et les agents à créer. WordPress · HubSpot · GA4, DMARC absent, score mobile 38/100 — tout est détecté automatiquement.',
+      'Votre activité, votre ton, vos clients, vos process. Votre agent est façonné pour votre entreprise — pas un chatbot générique de plus, un vrai bras droit qui vous ressemble.',
   },
   {
     id: 3,
-    title: 'Il n’oublie jamais',
-    avatarState: 'idle',
-    label: 'Mémoire d’entreprise',
+    label: 'Mémoire',
+    title: 'Il n’oublie jamais rien',
     content:
-      'Chaque échange enrichit la mémoire de votre entreprise. Vos clients, vos règles, vos outils, vos habitudes : vos agents les apprennent et s’en souviennent. Ils s’améliorent chaque semaine.',
+      'Chaque échange enrichit la mémoire de votre entreprise. Vos règles, vos habitudes, vos décisions : il les apprend, s’en souvient et s’améliore semaine après semaine.',
   },
   {
     id: 4,
-    title: 'Les meilleurs modèles, sans effort',
-    avatarState: 'speaking',
     label: 'Multimodèle',
+    title: 'Il choisit le bon modèle',
     content:
-      'Unitalk choisit le bon modèle pour chaque tâche, ou vous utilisez vos propres clés. GPT · Claude · Gemini · Mistral · Llama — sans vous compliquer la vie.',
+      'Voix, texte, image, vidéo — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama. Automatiquement, ou avec vos propres clés. Sans vous compliquer la vie.',
   },
   {
     id: 5,
-    title: 'Vous n’êtes pas seul',
-    avatarState: 'listening',
-    label: 'Support humain',
+    label: 'Accompagnement',
+    title: 'Vous n’êtes jamais seul',
     content:
-      'Alma vous guide au quotidien. Un ingénieur IA prend le relais si besoin. Self-serve, accompagné ou managé — escalade en moins d’une heure.',
+      'Alma vous guide au quotidien et vous forme à orchestrer vos agents. Un ingénieur IA prend le relais si besoin — escalade en moins d’une heure.',
   },
   {
     id: 6,
-    title: 'Vos données restent maîtrisées',
-    avatarState: 'idle',
     label: 'Souveraineté',
+    title: 'Vos données restent à vous',
     content:
-      'Cloud Unitalk en France, données isolées et chiffrées, jamais utilisées pour entraîner des modèles. Desktop : zéro donnée dehors. Business : votre infrastructure.',
+      'Cloud en France, données isolées et chiffrées, jamais utilisées pour entraîner des modèles. En Desktop, rien ne sort de votre machine. En Business, votre propre infrastructure.',
   },
 ]
 
@@ -82,66 +75,94 @@ export function ArgumentsSlider() {
   const scrollBy = (dir: number) => {
     const el = scrollRef.current
     if (!el) return
-    const amount = Math.min(el.clientWidth * 0.8, 360)
+    const amount = Math.min(el.clientWidth * 0.8, 380)
     el.scrollBy({ left: dir * amount, behavior: 'smooth' })
   }
 
   return (
-    <section className="relative w-full overflow-hidden py-16 sm:py-20 md:py-24 bg-[#0A0A0A] border-t border-[rgba(255,255,255,0.06)]">
+    <section className="relative w-full overflow-hidden bg-[#0A0A0A] py-20 sm:py-28 md:py-32 border-t border-[rgba(255,255,255,0.08)]">
+      {/* Editorial oversized watermark */}
+      <p
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-2 sm:-top-6 left-0 font-heading text-[22vw] sm:text-[16vw] font-light leading-none text-white/[0.03] select-none whitespace-nowrap"
+        style={{ letterSpacing: '-0.04em' }}
+      >
+        votre agent
+      </p>
+
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 sm:mb-10">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-[#8A8A92] mb-3 font-semibold">Ce que fait votre agent</p>
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl leading-tight text-white text-balance max-w-xl">
-              Un agent qui comprend, agit et se souvient.
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 sm:mb-16">
+          <div className="max-w-xl">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="h-px w-8 bg-[#FF0099]" />
+              <p className="text-[11px] uppercase tracking-[0.2em] text-[#FF0099] font-semibold">Ce qu’il fait</p>
+            </div>
+            <h2
+              className="font-heading text-4xl sm:text-5xl md:text-6xl font-light leading-[0.95] text-white text-balance"
+              style={{ letterSpacing: '-0.03em' }}
+            >
+              Il comprend, il agit,
+              <br />
+              <span className="italic text-[#FF0099]">il se souvient.</span>
             </h2>
           </div>
           {/* Nav arrows */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={() => scrollBy(-1)}
               disabled={!canScrollLeft}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#333333] text-white transition-colors hover:border-[#555555] disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-white transition-all hover:border-white/60 hover:bg-white/5 disabled:opacity-25 disabled:cursor-not-allowed"
               aria-label="Cartes précédentes"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
                 <path d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               onClick={() => scrollBy(1)}
               disabled={!canScrollRight}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#333333] text-white transition-colors hover:border-[#555555] disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-white transition-all hover:border-white/60 hover:bg-white/5 disabled:opacity-25 disabled:cursor-not-allowed"
               aria-label="Cartes suivantes"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
                 <path d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Horizontal card slider */}
+        {/* Horizontal editorial card slider */}
         <div
           ref={scrollRef}
-          className="flex gap-4 sm:gap-5 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
+          className="flex gap-5 sm:gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
         >
           {CARDS.map((card, idx) => (
             <motion.article
               key={card.id}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.4, delay: idx * 0.05 }}
-              className="snap-start flex-shrink-0 w-[280px] sm:w-[320px] flex flex-col rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[#111111] p-6 hover:border-[rgba(255,255,255,0.16)] transition-colors"
+              transition={{ duration: 0.5, delay: idx * 0.06 }}
+              className="group relative snap-start flex-shrink-0 w-[300px] sm:w-[360px] flex flex-col rounded-none border-t-2 border-white/15 bg-transparent pt-6 pr-4 transition-colors hover:border-[#FF0099]"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <AlmaAvatar state={card.avatarState as any} size={36} showGlow={false} />
-                <span className="text-xs text-[#A0A0A8]">{card.label}</span>
+              {/* Big editorial index */}
+              <div className="flex items-baseline justify-between mb-8">
+                <span
+                  className="font-heading text-6xl sm:text-7xl font-light leading-none text-white/15 transition-colors group-hover:text-[#FF0099]/70 tabular-nums"
+                  style={{ letterSpacing: '-0.04em' }}
+                >
+                  {String(card.id).padStart(2, '0')}
+                </span>
+                <span className="text-[11px] uppercase tracking-[0.18em] text-[#8A8A92]">{card.label}</span>
               </div>
-              <h3 className="font-heading text-lg sm:text-xl leading-snug text-white mb-3 text-balance">{card.title}</h3>
-              <p className="text-sm leading-relaxed text-[#A0A0A8]">{card.content}</p>
+              <h3
+                className="font-heading text-2xl sm:text-[1.75rem] font-light leading-[1.05] text-white mb-4 text-balance"
+                style={{ letterSpacing: '-0.02em' }}
+              >
+                {card.title}
+              </h3>
+              <p className="text-sm leading-relaxed text-[#9A9AA4]">{card.content}</p>
             </motion.article>
           ))}
         </div>
