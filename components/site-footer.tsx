@@ -24,7 +24,7 @@ const FOOTER_COLUMNS = [
   {
     title: 'Ressources',
     links: [
-      { label: 'Documentation', href: '#' },
+      { label: 'Formation', href: '#' },
       { label: 'Guide de démarrage', href: '#' },
       { label: 'Changelog', href: '#' },
       { label: 'Statut', href: '#' },
