@@ -125,8 +125,13 @@ export function PricingSection() {
           variants={itemVariants}
           className="rounded-3xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 sm:p-8 shadow-[0_20px_50px_-30px_rgba(28,26,23,0.25)]"
         >
+          {/* Pack title */}
+          <h3 className="font-sf text-2xl font-bold text-[#1C1A17]" style={{ letterSpacing: '-0.02em' }}>
+            Pack Solo
+          </h3>
+
           {/* Intro line */}
-          <p className="mb-7 text-sm leading-relaxed text-[#4E483F]">
+          <p className="mt-2 mb-7 text-sm leading-relaxed text-[#4E483F]">
             <span className="font-medium text-[#1C1A17]">Un agent. Dix profils inclus.</span>{' '}
             Accès aux meilleurs modèles. Accompagnement à la demande. Composez la formule qui vous ressemble.
           </p>
