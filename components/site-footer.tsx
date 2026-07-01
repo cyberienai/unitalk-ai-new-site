@@ -2,6 +2,17 @@
 
 import { UnitalkLogo } from './unitalk-logo'
 
+const COMPARISONS = [
+  'Claude',
+  'ChatGPT',
+  'Gemini Spark',
+  'Microsoft Scout',
+  'OpenClaw',
+  'Hermes',
+  'Dust',
+  'Delos',
+]
+
 const FOOTER_COLUMNS = [
   {
     title: 'Produit',
@@ -91,20 +102,23 @@ export function SiteFooter() {
             </div>
           ))}
 
-          {/* CTA column */}
+          {/* Comparatifs column */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-2">
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#F0559B]">
-              Démarrer
+              Comparatifs
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-[#A79E8E]">
-              Essai de 7 jours, sans carte bancaire.
-            </p>
-            <a
-              href="#"
-              className="mt-4 inline-flex items-center justify-center rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-medium text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
-            >
-              Créer mon agent
-            </a>
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-4 lg:grid-cols-1">
+              {COMPARISONS.map((name) => (
+                <li key={name}>
+                  <a
+                    href="#"
+                    className="text-sm text-[#A79E8E] transition-colors hover:text-[#F3EFE6]"
+                  >
+                    {name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
