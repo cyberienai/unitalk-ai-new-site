@@ -53,7 +53,7 @@ export function HeroEditorial() {
         dépend{' '}
         <span
           style={{
-            backgroundImage: 'linear-gradient(90deg, #2f6bff 0%, #a24bd6 34%, #e0568f 62%, #f08a3c 100%)',
+            backgroundImage: 'linear-gradient(90deg, #B00B52 0%, #D10E63 55%, #E85C8A 100%)',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
