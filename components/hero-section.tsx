@@ -3,10 +3,9 @@
 import { useState } from 'react'
 import { Navbar } from './navbar'
 import { LeftColumn } from './left-column'
-import { CenterColumn } from './center-column'
+import { AlmaChat } from './alma-chat'
 import { ArgumentsSlider } from './arguments-slider'
 import { AlmaAvatar } from './alma-avatar'
-import { FloatingAlmaButton } from './floating-alma-button'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
 import { HeroBackdrop } from './backdrop'
@@ -28,20 +27,17 @@ export function HeroSection() {
               <LeftColumn onDomainSubmit={setDomain} />
             </div>
 
-            {/* Right column: Alma chat with floating orbe visual */}
-            <div className="col-span-1 md:col-span-6 md:flex md:flex-col relative">
-              {/* Floating orbe above the chat */}
-              <div className="pointer-events-none absolute -top-10 sm:-top-14 left-1/2 -translate-x-1/2 z-20 hidden sm:block">
+            {/* Right column: fixed Alma chat with orbe visual above */}
+            <div className="col-span-1 md:col-span-6 flex flex-col items-center relative">
+              {/* Orbe above the chat */}
+              <div className="pointer-events-none relative z-20 mb-[-28px] hidden sm:block">
                 <AlmaAvatar state="speaking" size={72} showGlow />
               </div>
-              <CenterColumn domain={domain || 'agence-thomas.fr'} />
+              <AlmaChat />
             </div>
           </div>
         </div>
       </section>
-
-      {/* Floating button */}
-      <FloatingAlmaButton />
 
       {/* Arguments as horizontal card slider */}
       <ArgumentsSlider />
