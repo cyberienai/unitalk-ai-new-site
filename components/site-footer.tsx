@@ -15,7 +15,7 @@ const COMPARISONS = [
 
 const T = {
   fr: {
-    tagline: 'Une conversation suffit.',
+    tagline: 'Une seule conversation suffit.',
     comparisons: 'Comparatifs',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
