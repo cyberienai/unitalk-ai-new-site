@@ -6,6 +6,7 @@ import { ArgumentsSlider } from './arguments-slider'
 import { ProductShowcase } from './product-showcase'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
+import { FaqSection } from './faq-section'
 import { HeroBackdrop } from './backdrop'
 
 export function HeroSection() {
@@ -30,6 +31,9 @@ export function HeroSection() {
 
       {/* Trust section */}
       <TrustSection />
+
+      {/* FAQ section */}
+      <FaqSection />
     </div>
   )
 }
