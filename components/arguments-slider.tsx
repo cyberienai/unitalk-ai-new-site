@@ -167,7 +167,7 @@ const CARDS = [
     label: 'Sur mesure',
     title: 'Il comprend votre métier',
     content:
-      'Votre activité, votre ton, vos clients, vos process. Votre agent est façonné pour votre entreprise — et se connecte à vos outils via un serveur d’automatisation n8n en option, pour agir vraiment.',
+      'Votre activité, votre ton, vos clients, vos process. Votre agent est façonné pour votre entreprise — et se connecte à vos outils en un clic.',
     visual: VisualIdentity,
   },
   {
