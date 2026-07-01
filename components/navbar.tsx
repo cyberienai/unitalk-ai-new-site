@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { label: 'Solutions', href: '/#solutions' },
   { label: 'Tarif', href: '/#offres' },
   { label: 'Cas d’usage', href: '/agents' },
+  { label: 'Déploiement', href: '/deploy' },
   { label: 'Sécurité', href: '#' },
   { label: 'Devenir partenaire', href: '/partenaires' },
 ]
