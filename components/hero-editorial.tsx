@@ -70,6 +70,18 @@ export function HeroEditorial() {
 
   return (
     <div className="relative z-10 mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-4xl flex-col items-center justify-center px-5 sm:px-6 lg:px-8 py-16 text-center sm:py-20">
+      {/* Eyebrow with editorial rules */}
+      <motion.div
+        className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#857C6E]"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease }}
+      >
+        <span className="hidden h-px w-8 sm:block" style={{ background: '#CDC3B1' }} />
+        {t.eyebrow}
+        <span className="hidden h-px w-8 sm:block" style={{ background: '#CDC3B1' }} />
+      </motion.div>
+
       {/* Oversized editorial headline */}
       <motion.h1
         className="mt-0 font-sf font-bold text-[#1C1A17] text-balance"
