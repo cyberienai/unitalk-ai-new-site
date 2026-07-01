@@ -59,7 +59,7 @@ export function AlmaChat() {
         </div>
         <div className="flex-1">
           <p className="text-sm font-semibold tracking-tight text-white">Alma</p>
-          <p className="text-[11px] text-[#8E8E93]">Agent vocal Customer Success · Unitalk</p>
+          <p className="text-[11px] text-[#8E8E93]">Votre accompagnatrice IA · Unitalk</p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 text-[10px] font-medium text-[#4ADE80]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" aria-hidden="true" />

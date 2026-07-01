@@ -79,30 +79,6 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         Sans carte bancaire · Alma vous guide dès l&apos;ouverture
       </motion.p>
 
-      {/* Social proof + open-source signal */}
-      <motion.div
-        className="mt-5 sm:mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[#8A8A92]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.5 }}
-      >
-        <span className="inline-flex items-center gap-2">
-          <span className="flex -space-x-1.5" aria-hidden="true">
-            {['#5D9CEC', '#A075E8', '#EC5D9C'].map((c) => (
-              <span
-                key={c}
-                className="h-5 w-5 rounded-full border border-[#0A0A0A]"
-                style={{ background: c }}
-              />
-            ))}
-          </span>
-          Déjà adopté par 200+ PME françaises
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" aria-hidden="true" />
-          Propulsé par Hermes · open source
-        </span>
-      </motion.div>
     </motion.div>
   )
 }
