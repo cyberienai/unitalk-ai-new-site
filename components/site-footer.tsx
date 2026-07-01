@@ -55,7 +55,7 @@ export function SiteFooter() {
               <span className="font-inter text-base font-semibold text-[#F3EFE6]">Unitalk AI</span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#A79E8E]">
-              Un agent IA façonné pour votre entreprise en un appel avec Alma. Une vraie identité, qui agit dès le premier jour.
+              Un agent IA par entreprise. Puis un par employé.
             </p>
             <div className="mt-5 flex flex-col gap-2.5">
               <a
