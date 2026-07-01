@@ -4,8 +4,52 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { AlmaChat } from './alma-chat'
 import { UnitalkLogo } from './unitalk-logo'
+import { useLanguage } from '@/lib/language-context'
 
 const ease = [0.22, 1, 0.36, 1] as const
+
+const T = {
+  fr: {
+    fastest: 'La façon la plus rapide',
+    letStrong: 'Alma',
+    letPre: 'Laissez ',
+    letPost: ' créer votre agent',
+    almaBody: 'Donnez votre nom de domaine, elle vous appelle et façonne votre agent sur mesure — sans formulaire.',
+    createAccount: 'Créer votre compte',
+    trial: 'Essai de 7 jours · sans carte bancaire.',
+    continueWith: 'Continuer avec',
+    orEmail: 'ou par email',
+    emailLabel: 'Adresse email professionnelle',
+    emailPlaceholder: 'vous@entreprise.fr',
+    continueEmail: 'Continuer avec l’email',
+    termsPre: 'En continuant, vous acceptez les ',
+    termsLink: 'conditions d’utilisation',
+    termsMid: ' et la ',
+    privacyLink: 'politique de confidentialité',
+    haveAccount: 'Déjà un compte ?',
+    signIn: 'Se connecter',
+  },
+  en: {
+    fastest: 'The fastest way',
+    letStrong: 'Alma',
+    letPre: 'Let ',
+    letPost: ' build your agent',
+    almaBody: 'Give your domain name, she calls you and crafts your custom agent — no forms.',
+    createAccount: 'Create your account',
+    trial: '7-day trial · no credit card.',
+    continueWith: 'Continue with',
+    orEmail: 'or by email',
+    emailLabel: 'Work email address',
+    emailPlaceholder: 'you@company.com',
+    continueEmail: 'Continue with email',
+    termsPre: 'By continuing, you accept the ',
+    termsLink: 'terms of use',
+    termsMid: ' and the ',
+    privacyLink: 'privacy policy',
+    haveAccount: 'Already have an account?',
+    signIn: 'Sign in',
+  },
+}
 
 function GoogleIcon() {
   return (
@@ -47,6 +91,8 @@ const SSO = [
 
 export function CreateAgent() {
   const [email, setEmail] = useState('')
+  const { lang } = useLanguage()
+  const t = T[lang]
 
   return (
     <main className="min-h-screen w-full bg-[#0A0A0A] text-white lg:grid lg:grid-cols-2">
@@ -66,16 +112,16 @@ export function CreateAgent() {
             transition={{ duration: 0.5, ease }}
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#8A8A92]">
-              La façon la plus rapide
+              {t.fastest}
             </p>
             <h2
               className="mt-3 font-heading font-light text-white text-balance"
               style={{ fontSize: 'clamp(1.9rem, 4vw, 2.75rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
             >
-              Laissez <span className="italic text-[#FF0099]">Alma</span> créer votre agent
+              {t.letPre}<span className="italic text-[#FF0099]">{t.letStrong}</span>{t.letPost}
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[#B4B4BC]">
-              Donnez votre nom de domaine, elle vous appelle et façonne votre agent sur mesure — sans formulaire.
+              {t.almaBody}
             </p>
           </motion.div>
 
@@ -114,10 +160,10 @@ export function CreateAgent() {
               className="font-heading font-light text-white text-balance"
               style={{ fontSize: 'clamp(1.9rem, 4vw, 2.75rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
             >
-              Créer votre compte
+              {t.createAccount}
             </h1>
             <p className="mt-3 text-sm leading-relaxed text-[#8A8A92]">
-              Essai de 7 jours · sans carte bancaire.
+              {t.trial}
             </p>
           </motion.div>
 
@@ -134,7 +180,7 @@ export function CreateAgent() {
                 className="flex h-12 items-center justify-center gap-3 rounded-xl border border-white/12 bg-white/[0.04] text-sm font-medium text-white transition-colors hover:border-white/25 hover:bg-white/[0.07]"
               >
                 <Icon />
-                Continuer avec {label}
+                {t.continueWith} {label}
               </button>
             ))}
           </motion.div>
@@ -147,7 +193,7 @@ export function CreateAgent() {
             transition={{ duration: 0.5, ease, delay: 0.2 }}
           >
             <span className="h-px flex-1 bg-white/10" />
-            <span className="text-xs text-[#6E6E76]">ou par email</span>
+            <span className="text-xs text-[#6E6E76]">{t.orEmail}</span>
             <span className="h-px flex-1 bg-white/10" />
           </motion.div>
 
@@ -160,14 +206,14 @@ export function CreateAgent() {
             onSubmit={(e) => e.preventDefault()}
           >
             <label htmlFor="email" className="sr-only">
-              Adresse email professionnelle
+              {t.emailLabel}
             </label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="vous@entreprise.fr"
+              placeholder={t.emailPlaceholder}
               className="h-12 rounded-xl border border-white/12 bg-white/[0.04] px-4 text-sm text-white placeholder-[#6E6E76] transition-colors focus:border-[#FF0099]/60 focus:outline-none"
               autoComplete="email"
             />
@@ -175,7 +221,7 @@ export function CreateAgent() {
               type="submit"
               className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#FF0099] text-sm font-semibold text-white transition-colors hover:bg-[#E00085]"
             >
-              Continuer avec l&apos;email
+              {t.continueEmail}
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -189,9 +235,9 @@ export function CreateAgent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease, delay: 0.3 }}
           >
-            En continuant, vous acceptez les{' '}
-            <a href="#" className="text-[#8A8A92] underline underline-offset-2 hover:text-white">conditions d&apos;utilisation</a> et la{' '}
-            <a href="#" className="text-[#8A8A92] underline underline-offset-2 hover:text-white">politique de confidentialité</a>.
+            {t.termsPre}
+            <a href="#" className="text-[#8A8A92] underline underline-offset-2 hover:text-white">{t.termsLink}</a>{t.termsMid}
+            <a href="#" className="text-[#8A8A92] underline underline-offset-2 hover:text-white">{t.privacyLink}</a>.
           </motion.p>
 
           <motion.p
@@ -200,8 +246,8 @@ export function CreateAgent() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease, delay: 0.34 }}
           >
-            Déjà un compte ?{' '}
-            <a href="#" className="font-medium text-white underline underline-offset-2 hover:text-[#FF0099]">Se connecter</a>
+            {t.haveAccount}{' '}
+            <a href="#" className="font-medium text-white underline underline-offset-2 hover:text-[#FF0099]">{t.signIn}</a>
           </motion.p>
         </div>
       </section>
