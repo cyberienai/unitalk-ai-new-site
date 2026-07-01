@@ -7,6 +7,7 @@ import { ArgumentsSlider } from './arguments-slider'
 import { ProductShowcase } from './product-showcase'
 import { CapabilitiesSection } from './capabilities-section'
 import { AccessSection } from './access-section'
+import { StatementBand } from './statement-band'
 import { EnterpriseSection } from './enterprise-section'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
@@ -39,6 +40,9 @@ export function HeroSection() {
 
       {/* Arguments as horizontal card slider */}
       <ArgumentsSlider />
+
+      {/* Editorial pull-quote — learning over time */}
+      <StatementBand />
 
       {/* Enterprise-level statement */}
       <EnterpriseSection />
