@@ -8,7 +8,7 @@ const PROFILES = [
   { name: 'Alma', role: 'Customer Success', color: '#3E6DA8' },
 ]
 
-const MODELS = ['GPT-5.5', 'Claude Opus 4', 'Gemini 3 Pro', 'Llama 4 · local']
+const MODELS = ['GPT-5.5', 'Claude Opus 4', 'Gemini 3 Pro', 'Qwen 3 Max', 'DeepSeek V3', 'Kimi K2', 'GLM-5', 'MiniMax', 'Grok 4', 'Llama 4 · local']
 
 const TASKS = [
   { label: 'Relance des devis en attente', done: true },

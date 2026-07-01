@@ -71,16 +71,38 @@ function VisualMemory() {
 }
 
 function VisualModels() {
+  const models = [
+    { name: 'OpenAI', slug: 'openai', variant: 'dark' },
+    { name: 'Claude', slug: 'claude', variant: 'mono' },
+    { name: 'Gemini', slug: 'google-gemini', variant: 'mono' },
+    { name: 'Mistral', slug: 'mistral', variant: 'mono' },
+    { name: 'Llama', slug: 'meta', variant: 'mono' },
+    { name: 'Qwen', slug: 'qwen', variant: 'dark' },
+    { name: 'DeepSeek', slug: 'deepseek', variant: 'default' },
+    { name: 'Kimi', slug: 'kimi', variant: 'default' },
+    { name: 'GLM', slug: 'chatglm', variant: 'mono' },
+    { name: 'MiniMax', slug: 'minimax', variant: 'mono' },
+    { name: 'Grok', slug: 'grok', variant: 'dark' },
+  ]
   return (
     <MockChrome>
       <div className="text-[9px] uppercase tracking-wider text-[#857C6E] mb-2">Meilleur modèle par tâche</div>
       <div className="flex flex-wrap gap-1.5">
-        {['GPT', 'Claude', 'Gemini', 'Mistral', 'Llama'].map((m, i) => (
+        {models.map((m) => (
           <span
-            key={m}
-            className={`rounded-md px-2 py-1 text-[10px] ${i === 1 ? 'bg-[#D10E63] text-[#FBF9F3]' : 'border border-[#DcD4C4] text-[#4E483F]'}`}
+            key={m.name}
+            title={m.name}
+            className="inline-flex items-center gap-1 rounded-md border border-[#DcD4C4] bg-[#FBF9F3] px-1.5 py-1"
           >
-            {m}
+            <img
+              src={`https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/${m.slug}/${m.variant}.svg`}
+              alt={m.name}
+              width={12}
+              height={12}
+              loading="lazy"
+              className="h-3 w-3 object-contain"
+            />
+            <span className="text-[9px] text-[#4E483F]">{m.name}</span>
           </span>
         ))}
       </div>
@@ -161,7 +183,7 @@ const CARDS = [
     label: 'Multimodèle',
     title: 'Il choisit le bon modèle',
     content:
-      'Voix, texte, image, vidéo — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama. Automatiquement, ou en BYOK avec vos propres clés. Sans vous compliquer la vie.',
+      'Voix, texte, image, vidéo — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama, Qwen, DeepSeek, Kimi, GLM, MiniMax, Grok. Automatiquement, ou en BYOK avec vos propres clés. Sans vous compliquer la vie.',
     visual: VisualModels,
   },
   {
