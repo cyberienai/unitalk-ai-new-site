@@ -10,6 +10,7 @@ type Agent = {
   color: string
   pitch: string
   skills: string[]
+  wink?: string
 }
 
 const AGENTS: Agent[] = [
@@ -20,6 +21,7 @@ const AGENTS: Agent[] = [
     color: '#FF0099',
     pitch: 'Prospecte, relance les devis en attente et prépare vos rendez-vous.',
     skills: ['Relances', 'Devis', 'CRM'],
+    wink: 'On n’attend plus Patrick — lui, il est déjà au boulot.',
   },
   {
     name: 'Alma',
@@ -169,6 +171,13 @@ export function AgentsGallery() {
               </div>
 
               <p className="mt-4 text-sm leading-relaxed text-[#C7C7D1]">{a.pitch}</p>
+
+              {a.wink && (
+                <p className="mt-2 flex items-start gap-1.5 text-xs italic leading-relaxed text-[#FF0099]">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0"><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" y1="9" x2="9.01" y2="9" /><line x1="15" y1="9" x2="15.01" y2="9" /><circle cx="12" cy="12" r="10" /></svg>
+                  {a.wink}
+                </p>
+              )}
 
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {a.skills.map((s) => (
