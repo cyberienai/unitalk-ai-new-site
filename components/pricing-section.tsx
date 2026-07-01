@@ -219,9 +219,9 @@ export function PricingSection() {
           </span>
           <span className="hidden text-[#C4BAA8] sm:inline">·</span>
           <span>
-            Vous préférez l’auto-hébergement ?{' '}
+            Données sensibles ?{' '}
             <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
-              Desktop gratuit &amp; open source
+              Téléchargez la version Desktop gratuite open source
             </a>
           </span>
           <span className="hidden text-[#C4BAA8] sm:inline">·</span>
