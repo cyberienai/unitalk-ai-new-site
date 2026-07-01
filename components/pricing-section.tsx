@@ -84,7 +84,7 @@ export function PricingSection() {
               }`}
               aria-pressed={mode === 'byok'}
             >
-              Mes clés (BYOK)
+              Vos clés API (BYOK)
             </button>
             <button
               onClick={() => setMode('credits')}
@@ -93,7 +93,7 @@ export function PricingSection() {
               }`}
               aria-pressed={mode === 'credits'}
             >
-              Crédits inclus
+              IA prépayés
             </button>
           </div>
 
