@@ -5,30 +5,48 @@ import { motion } from 'framer-motion'
 
 const BASE_PRICE = 29
 
-type ModelKey = 'byok' | 'credits'
-type ServiceKey = 'alma' | 'engineers'
+type ModelKey = 'byok' | 'c10' | 'c50' | 'c100' | 'c200'
+type ServiceKey = 'alma' | 'onboarding'
 
 const MODEL_OPTIONS: Record<
   ModelKey,
-  { label: string; add: number | null; desc: string; feature: string }
+  { label: string; add: number; desc: string; feature: string }
 > = {
   byok: {
-    label: 'Vos propres clés API',
+    label: 'Vos propres clés API — 0€',
     add: 0,
     desc: 'BYOK — vous gérez vos accès API directement. Les modèles restent à votre charge, au prix réel.',
     feature: 'Vos propres clés API (BYOK)',
   },
-  credits: {
-    label: 'Crédits IA prépayés',
-    add: 20,
-    desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Vous démarrez en une minute.',
+  c10: {
+    label: 'Crédits IA prépayés — 10€',
+    add: 10,
+    desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Idéal pour démarrer.',
+    feature: 'Crédits IA prépayés — rien à gérer',
+  },
+  c50: {
+    label: 'Crédits IA prépayés — 50€',
+    add: 50,
+    desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Pour un usage régulier.',
+    feature: 'Crédits IA prépayés — rien à gérer',
+  },
+  c100: {
+    label: 'Crédits IA prépayés — 100€',
+    add: 100,
+    desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Pour un usage intensif.',
+    feature: 'Crédits IA prépayés — rien à gérer',
+  },
+  c200: {
+    label: 'Crédits IA prépayés — 200€',
+    add: 200,
+    desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Pour les gros volumes.',
     feature: 'Crédits IA prépayés — rien à gérer',
   },
 }
 
 const SERVICE_OPTIONS: Record<
   ServiceKey,
-  { label: string; add: number | null; desc: string; feature: string }
+  { label: string; add: number; desc: string; feature: string }
 > = {
   alma: {
     label: 'Alma incluse',
@@ -36,11 +54,11 @@ const SERVICE_OPTIONS: Record<
     desc: 'Agent IA vocal — crée et fait évoluer votre agent, gère l’essentiel. Inclus.',
     feature: 'Accompagnement par Alma',
   },
-  engineers: {
-    label: 'Ingénieurs IA à la demande',
-    add: null,
-    desc: 'Nos ingénieurs IA interviennent selon vos besoins, facturés à l’intervention.',
-    feature: 'Ingénieurs IA à la demande',
+  onboarding: {
+    label: 'Onboarding humain',
+    add: 99,
+    desc: 'Nos ingénieurs IA configurent votre agent avec vous, à la demande.',
+    feature: 'Onboarding humain par nos ingénieurs',
   },
 }
 
@@ -51,10 +69,9 @@ export function PricingSection() {
   const modelOpt = MODEL_OPTIONS[model]
   const serviceOpt = SERVICE_OPTIONS[service]
 
-  const onQuote = modelOpt.add === null || serviceOpt.add === null
-  const total = BASE_PRICE + (modelOpt.add ?? 0) + (serviceOpt.add ?? 0)
-  const priceLabel = onQuote ? 'Sur devis' : `${total}€`
-  const periodLabel = onQuote ? 'selon vos besoins' : '/ mois / agent'
+  const total = BASE_PRICE + modelOpt.add + serviceOpt.add
+  const priceLabel = `${total}€`
+  const periodLabel = '/ mois / agent'
 
   const features = [
     '1 agent sur mesure, 10 profils inclus',
@@ -92,7 +109,7 @@ export function PricingSection() {
             Un prix clair. <span className="text-[#D10E63]">Zéro surprise.</span>
           </h2>
           <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#4E483F]">
-            Commencez gratuitement, sans carte bancaire. Vous ne payez que si votre agent vous fait gagner du temps — et vous résiliez quand vous voulez.
+            Commencez gratuitement, sans carte bancaire. Puis invitez vos collaborateurs à parler avec Alma pour personnaliser leur agent.
           </p>
         </motion.div>
 
@@ -126,7 +143,6 @@ export function PricingSection() {
                       {(Object.keys(MODEL_OPTIONS) as ModelKey[]).map((k) => (
                         <option key={k} value={k}>
                           {MODEL_OPTIONS[k].label}
-                          {MODEL_OPTIONS[k].add === 0 ? ' — 0€' : MODEL_OPTIONS[k].add ? ` — +${MODEL_OPTIONS[k].add}€` : ''}
                         </option>
                       ))}
                     </select>
@@ -152,7 +168,7 @@ export function PricingSection() {
                       {(Object.keys(SERVICE_OPTIONS) as ServiceKey[]).map((k) => (
                         <option key={k} value={k}>
                           {SERVICE_OPTIONS[k].label}
-                          {SERVICE_OPTIONS[k].add === 0 ? ' — inclus' : SERVICE_OPTIONS[k].add ? ` — +${SERVICE_OPTIONS[k].add}€` : ' — sur devis'}
+                          {SERVICE_OPTIONS[k].add === 0 ? ' — inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
                         </option>
                       ))}
                     </select>
@@ -165,18 +181,21 @@ export function PricingSection() {
               </div>
 
               {/* Live price */}
-              <div className="mt-6 flex items-baseline gap-1.5 border-t border-[#DcD4C4] pt-6">
-                <motion.span
-                  key={priceLabel}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`font-sf font-bold text-[#1C1A17] whitespace-nowrap ${onQuote ? 'text-3xl' : 'text-5xl'}`}
-                  style={{ letterSpacing: '-0.03em' }}
-                >
-                  {priceLabel}
-                </motion.span>
-                <span className="text-sm text-[#857C6E]">{periodLabel}</span>
+              <div className="mt-6 border-t border-[#DcD4C4] pt-6">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">Offre Solo</p>
+                <div className="mt-1 flex items-baseline gap-1.5">
+                  <motion.span
+                    key={priceLabel}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="font-sf text-5xl font-bold text-[#1C1A17] whitespace-nowrap"
+                    style={{ letterSpacing: '-0.03em' }}
+                  >
+                    {priceLabel}
+                  </motion.span>
+                  <span className="text-sm text-[#857C6E]">{periodLabel}</span>
+                </div>
               </div>
 
               <p className="mt-2 text-xs text-[#857C6E]">Vous ne payez que ce que vous consommez.</p>
