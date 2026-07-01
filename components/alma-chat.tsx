@@ -71,7 +71,7 @@ export function AlmaChat() {
       <div className="space-y-2.5 px-5 py-5">
         <div className="flex items-start gap-2.5">
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-white">
-            Bonjour, je suis Alma. Quel est le nom de domaine de votre entreprise ?
+            Bonjour, je suis Alma.
           </div>
         </div>
         <div className="flex items-start gap-2.5">
@@ -84,6 +84,11 @@ export function AlmaChat() {
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
             Ensuite, je reste à vos côtés : je vous accompagne au quotidien et vous forme à
             {' '}<span className="text-white">orchestrer vos agents</span> pour en tirer le meilleur.
+          </div>
+        </div>
+        <div className="flex items-start gap-2.5">
+          <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-white">
+            Pour commencer, quel est le nom de domaine de votre entreprise ?
           </div>
         </div>
       </div>
