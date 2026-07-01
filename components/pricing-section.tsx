@@ -226,7 +226,7 @@ export function PricingSection() {
           </span>
           <span className="hidden text-[#C4BAA8] sm:inline">·</span>
           <span>
-            Vous êtes un grand compte ?{' '}
+            Vous voulez votre infrastructure IA privée ?{' '}
             <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
               Parlons d’une offre sur mesure
             </a>
