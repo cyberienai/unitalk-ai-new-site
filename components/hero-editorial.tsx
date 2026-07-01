@@ -8,8 +8,8 @@ const T = {
   fr: {
     eyebrow: 'Vous gérez tout, seul, sans pouvoir embaucher',
     headline1: 'Votre entreprise',
-    headline2: 'dépend ',
-    headline3: 'trop de vous.',
+    headline2: 'dépend trop de',
+    headline3: 'vous.',
     subline:
       'Une seule conversation avec Alma suffit. Elle découvre votre entreprise, crée votre agent sur mesure et le prépare à travailler dans vos outils.',
     almaCaption: 'vous appelle pour créer votre agent.',
@@ -26,8 +26,8 @@ const T = {
   en: {
     eyebrow: 'You run everything, alone, with no one to hire',
     headline1: 'Your business',
-    headline2: 'depends ',
-    headline3: 'too much on you.',
+    headline2: 'depends too much',
+    headline3: 'on you.',
     subline:
       'Just one conversation with Alma is enough. She discovers your company, creates your custom agent and gets it ready to work inside your tools.',
     almaCaption: 'calls you to create your agent.',
