@@ -6,6 +6,7 @@ import { IntegrationsMarquee } from './integrations-marquee'
 import { ArgumentsSlider } from './arguments-slider'
 import { ProductShowcase } from './product-showcase'
 import { CapabilitiesSection } from './capabilities-section'
+import { AccessSection } from './access-section'
 import { EnterpriseSection } from './enterprise-section'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
@@ -32,6 +33,9 @@ export function HeroSection() {
 
       {/* Agentic capabilities grid */}
       <CapabilitiesSection />
+
+      {/* Access surfaces — where you reach your agent */}
+      <AccessSection />
 
       {/* Arguments as horizontal card slider */}
       <ArgumentsSlider />
