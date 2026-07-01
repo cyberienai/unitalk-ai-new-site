@@ -19,8 +19,8 @@ const MODEL_OPTIONS: Record<
     feature: 'Vos propres clés API (BYOK)',
   },
   c10: {
-    label: 'Crédits IA prépayés — 10€',
-    add: 10,
+    label: 'Crédits IA prépayés — 20€',
+    add: 20,
     desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Idéal pour démarrer.',
     feature: 'Crédits IA prépayés — rien à gérer',
   },
