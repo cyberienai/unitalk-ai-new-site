@@ -42,7 +42,7 @@ export function HeroBackdrop() {
       <img
         src="/images/aurora-orb.png"
         alt=""
-        className="animate-orb absolute right-[-7rem] top-[-4rem] w-[17rem] max-w-none opacity-60 mix-blend-screen sm:right-[-14rem] sm:top-0 sm:w-[36rem] sm:opacity-100 md:right-[-13rem] md:top-[-2rem] lg:right-[-14rem] lg:w-[46rem]"
+        className="animate-orb absolute left-[-8rem] top-[2rem] w-[20rem] max-w-none opacity-45 mix-blend-screen sm:left-[-12rem] sm:top-[4rem] sm:w-[34rem] sm:opacity-70 md:left-[-14rem] md:top-[2rem] lg:left-[-16rem] lg:w-[44rem]"
       />
     </div>
   )

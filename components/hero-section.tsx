@@ -5,6 +5,7 @@ import { Navbar } from './navbar'
 import { LeftColumn } from './left-column'
 import { AlmaChat } from './alma-chat'
 import { ArgumentsSlider } from './arguments-slider'
+import { ProductShowcase } from './product-showcase'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
 import { HeroBackdrop } from './backdrop'
@@ -33,6 +34,9 @@ export function HeroSection() {
           </div>
         </div>
       </section>
+
+      {/* Product showcase — light section for editorial rhythm */}
+      <ProductShowcase />
 
       {/* Arguments as horizontal card slider */}
       <ArgumentsSlider />
