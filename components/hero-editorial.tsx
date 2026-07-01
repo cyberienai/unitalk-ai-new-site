@@ -107,7 +107,7 @@ export function HeroEditorial() {
 
       {/* Alma command bar — the single conversion point */}
       <motion.div
-        className="mt-10 w-full max-w-xl"
+        className="mt-6 w-full max-w-xl"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease, delay: 0.22 }}
