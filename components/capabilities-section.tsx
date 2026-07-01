@@ -31,6 +31,17 @@ const CAPABILITIES: Capability[] = [
     ),
   },
   {
+    title: 'Il utilise les meilleurs modèles',
+    desc: 'Toujours branché sur les dernières versions des modèles d’IA les plus performants. Vous choisissez, ou il choisit pour vous.',
+    tech: 'Multimodèle, à jour',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2a4 4 0 0 0-4 4 4 4 0 0 0-2 7 4 4 0 0 0 2 7 4 4 0 0 0 8 0 4 4 0 0 0 2-7 4 4 0 0 0-2-7 4 4 0 0 0-4-4Z" />
+        <path d="M12 6v12" />
+      </svg>
+    ),
+  },
+  {
     title: 'Il se connecte à plus de 3000 apps',
     desc: 'Gmail, Slack, HubSpot, Notion, votre CRM, vos outils métier… Il agit directement là où travaille votre équipe.',
     tech: '3000+ intégrations',
@@ -80,17 +91,6 @@ const CAPABILITIES: Capability[] = [
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="16 18 22 12 16 6" />
         <polyline points="8 6 2 12 8 18" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Il utilise les meilleurs modèles',
-    desc: 'Toujours branché sur les dernières versions des modèles d’IA les plus performants. Vous choisissez, ou il choisit pour vous.',
-    tech: 'Multimodèle, à jour',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a4 4 0 0 0-4 4 4 4 0 0 0-2 7 4 4 0 0 0 2 7 4 4 0 0 0 8 0 4 4 0 0 0 2-7 4 4 0 0 0-2-7 4 4 0 0 0-4-4Z" />
-        <path d="M12 6v12" />
       </svg>
     ),
   },
