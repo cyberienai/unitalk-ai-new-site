@@ -172,7 +172,7 @@ export function PricingSection() {
                       {(Object.keys(SERVICE_OPTIONS) as ServiceKey[]).map((k) => (
                         <option key={k} value={k}>
                           {SERVICE_OPTIONS[k].label}
-                          {SERVICE_OPTIONS[k].add === 0 ? ' — inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
+                          {SERVICE_OPTIONS[k].add === 0 ? ' ��� inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
                         </option>
                       ))}
                     </select>
@@ -202,7 +202,7 @@ export function PricingSection() {
                 </div>
               </div>
 
-              <p className="mt-2 text-xs text-[#857C6E]">Vous ne payez que ce que vous consommez.</p>
+              <p className="mt-2 text-xs text-[#857C6E]">Vous ne payez en plus que ce que vous consommez.</p>
 
               <button className="mt-6 w-full rounded-full bg-[#D10E63] px-5 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
                 Créer mon agent gratuitement
