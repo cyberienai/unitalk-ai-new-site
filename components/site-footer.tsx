@@ -148,17 +148,17 @@ export function SiteFooter() {
         </div>
       </div>
 
-      {/* Giant outline wordmark — decorative, clipped by the bottom edge */}
+      {/* Giant solid wordmark — decorative, clipped by the bottom edge */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex justify-center leading-[0.72] select-none"
       >
         <span
-          className="font-sf font-bold text-transparent whitespace-nowrap translate-y-[0.28em]"
+          className="font-sf font-bold whitespace-nowrap translate-y-[0.28em]"
           style={{
             fontSize: 'clamp(6rem, 24vw, 26rem)',
             letterSpacing: '-0.04em',
-            WebkitTextStroke: '1.5px rgba(243,239,230,0.14)',
+            color: 'rgba(243,239,230,0.06)',
           }}
         >
           Unitalk
