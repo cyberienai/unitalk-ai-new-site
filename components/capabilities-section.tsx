@@ -102,7 +102,7 @@ export function CapabilitiesSection() {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Ce qu’il sait faire</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Ce que votre agent IA sait faire</p>
           <h2
             className="mt-3 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.05] text-[#1C1A17] text-balance"
             style={{ letterSpacing: '-0.03em' }}
