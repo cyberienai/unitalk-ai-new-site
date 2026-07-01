@@ -49,7 +49,7 @@ const SERVICE_OPTIONS: Record<
   { label: string; add: number; desc: string; feature: string }
 > = {
   alma: {
-    label: 'Alma incluse',
+    label: 'Alma, votre agent vocal',
     add: 0,
     desc: 'Agent IA vocal — crée et fait évoluer votre agent, gère l’essentiel. Inclus.',
     feature: 'Accompagnement par Alma',
