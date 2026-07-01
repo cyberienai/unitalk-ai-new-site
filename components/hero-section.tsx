@@ -2,6 +2,7 @@
 
 import { Navbar } from './navbar'
 import { HeroEditorial } from './hero-editorial'
+import { IntegrationsMarquee } from './integrations-marquee'
 import { ArgumentsSlider } from './arguments-slider'
 import { ProductShowcase } from './product-showcase'
 import { CapabilitiesSection } from './capabilities-section'
@@ -22,6 +23,9 @@ export function HeroSection() {
         <HeroBackdrop />
         <HeroEditorial />
       </section>
+
+      {/* Integrations logo marquee */}
+      <IntegrationsMarquee />
 
       {/* Product showcase — light section for editorial rhythm */}
       <ProductShowcase />
