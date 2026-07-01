@@ -117,36 +117,38 @@ export function AlmaChat() {
             )}
           </AnimatePresence>
 
-          {/* Mic toggle */}
-          <button
-            onClick={() => setIsTalking((v) => !v)}
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${
-              isTalking ? 'bg-[rgba(255,0,153,0.14)] text-[#FF0099]' : 'text-[#8E8E93] hover:text-white'
-            }`}
-            aria-label={isTalking ? 'Arrêter la voix' : 'Parler à Alma'}
-            aria-pressed={isTalking}
-          >
-            {isTalking ? (
+          {/* Single contextual action: voice-to-voice by default, send when typing */}
+          {isTalking ? (
+            <button
+              onClick={() => setIsTalking(false)}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[rgba(255,0,153,0.14)] text-[#FF0099] transition-colors"
+              aria-label="Arrêter la voix"
+            >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <rect x="6" y="6" width="12" height="12" rx="2.5" />
               </svg>
-            ) : (
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            </button>
+          ) : domain.trim() ? (
+            <button
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FF0099] text-white transition-colors hover:bg-[#E00085]"
+              aria-label="Envoyer"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" />
+              </svg>
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsTalking(true)}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FF0099] text-white transition-colors hover:bg-[#E00085]"
+              aria-label="Parler à Alma en voice-to-voice"
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
                 <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4" />
               </svg>
-            )}
-          </button>
-
-          {/* Send */}
-          <button
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FF0099] text-white transition-colors hover:bg-[#E00085]"
-            aria-label="Envoyer"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" />
-            </svg>
-          </button>
+            </button>
+          )}
         </div>
 
         <p className="mt-2.5 text-center text-[11px] text-[#6E6E76]">
