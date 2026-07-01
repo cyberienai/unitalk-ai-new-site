@@ -8,10 +8,34 @@ const T = {
   fr: {
     tooltipOpen: 'Parlez avec Alma',
     tooltipClose: 'Fermer',
+    role: 'Votre accompagnatrice IA · Unitalk',
+    online: 'En ligne',
+    msg1: 'Bonjour, je suis Alma.',
+    msg2a: 'Je collecte les données publiques de votre entreprise, puis je vous appelle pour créer votre agent : ',
+    msg2strong: 'personnalisé sur mesure',
+    msg2b: ', avec son prénom, sa voix, son email et son agenda. Votre nouveau bras droit, prêt à travailler.',
+    msg3a: 'Ensuite, je reste à vos côtés : je vous accompagne au quotidien et vous forme à ',
+    msg3strong: 'orchestrer vos agents',
+    msg3b: ' pour en tirer le meilleur.',
+    msg4: 'Pour commencer, quel est le nom de domaine de votre entreprise ?',
+    placeholder: 'Entrez votre nom de domaine',
+    footnote: 'Écrivez ou parlez — gratuit, sans carte bancaire',
   },
   en: {
     tooltipOpen: 'Chat with Alma',
     tooltipClose: 'Close',
+    role: 'Your AI guide · Unitalk',
+    online: 'Online',
+    msg1: "Hello, I'm Alma.",
+    msg2a: "I gather your company's public data, then I call you to create your agent: ",
+    msg2strong: 'fully customized',
+    msg2b: ', with its name, voice, email and calendar. Your new right hand, ready to work.',
+    msg3a: 'Then I stay by your side: I guide you day to day and train you to ',
+    msg3strong: 'orchestrate your agents',
+    msg3b: ' to get the most out of them.',
+    msg4: "To start, what's your company's domain name?",
+    placeholder: 'Enter your domain name',
+    footnote: 'Type or talk — free, no credit card',
   },
 }
 
@@ -60,13 +84,13 @@ export function FloatingAlmaWidget() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[#1C1A17]">Alma</p>
-                  <p className="text-[11px] text-[#857C6E]">En ligne</p>
+                  <p className="text-[11px] text-[#857C6E]">{t.role}</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
                 className="flex h-8 w-8 items-center justify-center rounded-full text-[#857C6E] transition-colors hover:bg-[#E4DCCC] hover:text-[#1C1A17]"
-                aria-label="Fermer"
+                aria-label={t.tooltipClose}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -79,7 +103,24 @@ export function FloatingAlmaWidget() {
             <div className="space-y-2.5 overflow-y-auto px-5 py-4" style={{ maxHeight: '340px' }}>
               <div className="flex items-start gap-2.5">
                 <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#1C1A17]">
-                  Bonjour, je suis Alma. Comment puis-je vous aider ?
+                  {t.msg1}
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
+                  {t.msg2a}
+                  <span className="font-medium text-[#1C1A17]">{t.msg2strong}</span>{t.msg2b}
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#4E483F]">
+                  {t.msg3a}
+                  <span className="font-medium text-[#1C1A17]">{t.msg3strong}</span>{t.msg3b}
+                </div>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <div className="rounded-2xl rounded-tl-md bg-[#EFE9DC] px-4 py-2.5 text-sm leading-relaxed text-[#1C1A17]">
+                  {t.msg4}
                 </div>
               </div>
             </div>
@@ -89,12 +130,12 @@ export function FloatingAlmaWidget() {
               <div className="flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] pl-4 pr-1.5 py-1.5 focus-within:border-[#D10E63]">
                 <input
                   type="text"
-                  placeholder="Écrivez un message..."
+                  placeholder={t.placeholder}
                   className="flex-1 bg-transparent text-sm text-[#1C1A17] placeholder-[#A79E8E] focus:outline-none"
                 />
                 <button
                   className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
-                  aria-label="Envoyer"
+                  aria-label={lang === 'fr' ? 'Envoyer' : 'Send'}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="16 18 22 12 16 6" />
@@ -103,7 +144,7 @@ export function FloatingAlmaWidget() {
                 </button>
               </div>
               <p className="mt-2.5 text-center text-[10px] text-[#857C6E]">
-                {lang === 'fr' ? 'Gratuit, sans carte bancaire' : 'Free, no credit card'}
+                {t.footnote}
               </p>
             </div>
           </motion.div>
