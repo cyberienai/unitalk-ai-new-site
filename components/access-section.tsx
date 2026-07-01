@@ -7,13 +7,27 @@ const ease = [0.22, 1, 0.36, 1] as const
 type Surface = {
   title: string
   desc: string
+  badge?: string
   icon: React.ReactNode
 }
 
 const SURFACES: Surface[] = [
   {
+    title: 'Apps de messagerie',
+    desc: 'WhatsApp, Telegram, Teams… Parlez à votre agent depuis votre poche, comme à un collègue.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+        <path d="M8 12h.01" />
+        <path d="M12 12h.01" />
+        <path d="M16 12h.01" />
+      </svg>
+    ),
+  },
+  {
     title: 'Interface Web',
-    desc: 'Ouvrez votre navigateur et discutez avec votre agent. Rien à installer, accessible partout.',
+    desc: 'La seule interface de chat unifiée pour piloter vos agents Hermes. Rien à installer, accessible partout.',
+    badge: 'Exclusivité Unitalk',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="3" width="20" height="14" rx="2" />
@@ -42,18 +56,6 @@ const SURFACES: Surface[] = [
         <rect x="2" y="4" width="20" height="16" rx="2" />
         <path d="m6 9 3 3-3 3" />
         <path d="M13 15h4" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Apps de messagerie',
-    desc: 'WhatsApp, Telegram, Slack… Parlez à votre agent depuis votre poche, comme à un collègue.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-        <path d="M8 12h.01" />
-        <path d="M12 12h.01" />
-        <path d="M16 12h.01" />
       </svg>
     ),
   },
@@ -89,8 +91,15 @@ export function AccessSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.5, ease, delay: i * 0.06 }}
-              className="group flex flex-col rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 transition-colors hover:border-[#D10E63]/40"
+              className={`group relative flex flex-col rounded-2xl border bg-[#FBF9F3] p-6 transition-colors ${
+                s.badge ? 'border-[#D10E63]/40 ring-1 ring-[#D10E63]/15' : 'border-[#DcD4C4] hover:border-[#D10E63]/40'
+              }`}
             >
+              {s.badge && (
+                <span className="absolute right-4 top-4 inline-flex items-center rounded-full bg-[#D10E63] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FBF9F3]">
+                  {s.badge}
+                </span>
+              )}
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-colors group-hover:bg-[#D10E63]">
                 {s.icon}
               </span>
