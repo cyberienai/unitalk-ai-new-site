@@ -39,23 +39,25 @@ export function Navbar() {
     <>
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#DcD4C4] bg-[#F3EFE6]/85 backdrop-blur-md">
       <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-        {/* Left: Logo */}
-        <a href="/" aria-label="Accueil Unitalk AI" className="flex items-center gap-2 sm:gap-3">
-          <UnitalkLogo size={28} />
-          <span className="font-inter text-sm sm:text-base font-semibold text-[#1C1A17]">Unitalk AI</span>
-        </a>
+        {/* Left: Logo + nav links grouped together */}
+        <div className="flex items-center gap-8 xl:gap-10">
+          <a href="/" aria-label="Accueil Unitalk AI" className="flex items-center gap-2 sm:gap-3">
+            <UnitalkLogo size={28} />
+            <span className="font-inter text-sm sm:text-base font-semibold text-[#1C1A17]">Unitalk AI</span>
+          </a>
 
-        {/* Center: Nav links - Desktop only (essentials) */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-          {PRIMARY_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm text-[#857C6E] hover:text-[#1C1A17] transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+          {/* Nav links - Desktop only (essentials) */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            {PRIMARY_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm text-[#857C6E] hover:text-[#1C1A17] transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Right: Buttons */}
