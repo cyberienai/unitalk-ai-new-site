@@ -11,7 +11,7 @@ const T = {
     headline2: 'dépend ',
     headline3: 'trop de vous.',
     subline:
-      'Un appel avec Alma. En quelques minutes, votre agent connaît déjà votre entreprise, et il a un prénom, une voix, un numéro, une adresse email. Il se connecte à tout, se souvient de tout, s’améliore à chaque échange — et agit à l’échelle de toute l’entreprise, pas d’un seul collaborateur.',
+      'Tout commence par un appel avec Alma. Votre agent découvre votre entreprise, se configure automatiquement, se connecte à vos outils et commence à travailler.',
     almaCaption: 'vous appelle et crée votre agent IA sur mesure.',
     listening: 'À l’écoute…',
     stop: 'Stop',
@@ -29,7 +29,7 @@ const T = {
     headline2: 'depends ',
     headline3: 'too much on you.',
     subline:
-      'One call with Alma. Within minutes, your agent already knows your company, and it has a name, a voice, a phone number, an email address. It connects to everything, remembers everything, improves with every exchange — and acts at the scale of your whole company, not just one person.',
+      'It all starts with a call with Alma. Your agent discovers your company, configures itself automatically, connects to your tools and starts working.',
     almaCaption: 'calls you and builds your custom AI agent.',
     listening: 'Listening…',
     stop: 'Stop',
