@@ -5,10 +5,11 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 
 const NAV_LINKS = [
-  { label: 'Produit', href: '#' },
+  { label: 'Nos solutions', href: '#' },
   { label: 'Offres', href: '#offres' },
+  { label: 'Trouver des agents', href: '#' },
   { label: 'Sécurité', href: '#' },
-  { label: 'Partenaires', href: '#' },
+  { label: 'Devenir partenaire', href: '#' },
 ]
 
 export function Navbar() {
