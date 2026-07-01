@@ -227,7 +227,7 @@ export function PricingSection() {
                 </div>
               </div>
 
-              <p className="mt-2 text-xs text-[#857C6E]">Essai de 7 jours · sans carte bancaire · vous ne payez en plus que ce que vous consommez.</p>
+              <p className="mt-2 text-xs text-[#857C6E]">Essai de 7 jours · sans carte bancaire</p>
 
               <button className="mt-6 w-full rounded-full bg-[#D10E63] px-5 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
                 Créer mon agent gratuitement
