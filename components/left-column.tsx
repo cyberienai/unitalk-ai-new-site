@@ -41,16 +41,6 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         Votre entreprise dépend <span className="text-[#FF0099] italic">trop de vous</span>.
       </motion.h1>
 
-      {/* Subtitle — the process + reach */}
-      <motion.p
-        className="mt-4 sm:mt-6 w-full sm:max-w-md text-sm sm:text-base leading-relaxed text-[#A0A0A8]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.5 }}
-      >
-        Unitalk analyse votre domaine, vous appelle, puis crée votre agent — avec son prénom, sa voix, son email et son agenda. Une vraie identité, prête à travailler.
-      </motion.p>
-
       {/* Offer accroche + HITL reassurance */}
       <motion.p
         className="mt-3 text-xs sm:text-sm text-[#A0A0A8]"
