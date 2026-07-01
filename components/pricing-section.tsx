@@ -3,41 +3,67 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 
-type Mode = 'byok' | 'credits'
+const BASE_PRICE = 29
 
-const MODES: Record<
-  Mode,
-  { price: string; period: string; note: string; features: string[] }
+type ModelKey = 'byok' | 'credits'
+type ServiceKey = 'alma' | 'engineers'
+
+const MODEL_OPTIONS: Record<
+  ModelKey,
+  { label: string; add: number | null; desc: string; feature: string }
 > = {
   byok: {
-    price: '29€',
-    period: '/ mois / agent',
-    note: 'Vous utilisez vos clés API (OpenAI, Anthropic, Google…). Vous ne payez que la plateforme, les modèles restent à votre charge, au prix réel.',
-    features: [
-      '1 agent sur mesure, 10 profils',
-      'Vos propres clés API',
-      'Multimodal : voix, texte, image, audio, code',
-      'Mémoire d’entreprise',
-      'Accompagnement par Alma',
-    ],
+    label: 'Vos propres clés API',
+    add: 0,
+    desc: 'BYOK — vous gérez vos accès API directement. Les modèles restent à votre charge, au prix réel.',
+    feature: 'Vos propres clés API (BYOK)',
   },
   credits: {
-    price: '49€',
-    period: '/ mois / agent',
-    note: 'Tout est inclus. Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Vous démarrez en une minute.',
-    features: [
-      '1 agent sur mesure, 10 profils',
-      'Crédits modèles inclus — rien à gérer',
-      'Multimodal : voix, texte, image, audio, code',
-      'Mémoire d’entreprise',
-      'Accompagnement par Alma',
-    ],
+    label: 'Crédits IA prépayés',
+    add: 20,
+    desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Vous démarrez en une minute.',
+    feature: 'Crédits IA prépayés — rien à gérer',
+  },
+}
+
+const SERVICE_OPTIONS: Record<
+  ServiceKey,
+  { label: string; add: number | null; desc: string; feature: string }
+> = {
+  alma: {
+    label: 'Alma incluse',
+    add: 0,
+    desc: 'Agent IA vocal — crée et fait évoluer votre agent, gère l’essentiel. Inclus.',
+    feature: 'Accompagnement par Alma',
+  },
+  engineers: {
+    label: 'Ingénieurs IA à la demande',
+    add: null,
+    desc: 'Nos ingénieurs IA interviennent selon vos besoins, facturés à l’intervention.',
+    feature: 'Ingénieurs IA à la demande',
   },
 }
 
 export function PricingSection() {
-  const [mode, setMode] = useState<Mode>('byok')
-  const plan = MODES[mode]
+  const [model, setModel] = useState<ModelKey>('byok')
+  const [service, setService] = useState<ServiceKey>('alma')
+
+  const modelOpt = MODEL_OPTIONS[model]
+  const serviceOpt = SERVICE_OPTIONS[service]
+
+  const onQuote = modelOpt.add === null || serviceOpt.add === null
+  const total = BASE_PRICE + (modelOpt.add ?? 0) + (serviceOpt.add ?? 0)
+  const priceLabel = onQuote ? 'Sur devis' : `${total}€`
+  const periodLabel = onQuote ? 'selon vos besoins' : '/ mois / agent'
+
+  const features = [
+    '1 agent sur mesure, 10 profils inclus',
+    'Accès aux meilleurs modèles d’IA',
+    modelOpt.feature,
+    'Multimodal : voix, texte, image, audio, code',
+    'Mémoire d’entreprise',
+    serviceOpt.feature,
+  ]
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -75,53 +101,83 @@ export function PricingSection() {
           variants={itemVariants}
           className="rounded-3xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 sm:p-8 shadow-[0_20px_50px_-30px_rgba(28,26,23,0.25)]"
         >
-          {/* Mode toggle */}
-          <div className="mb-7 inline-flex rounded-full border border-[#DcD4C4] bg-[#F3EFE6] p-1">
-            <button
-              onClick={() => setMode('byok')}
-              className={`rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-colors ${
-                mode === 'byok' ? 'bg-[#1C1A17] text-[#FBF9F3]' : 'text-[#4E483F] hover:text-[#1C1A17]'
-              }`}
-              aria-pressed={mode === 'byok'}
-            >
-              Vos clés API (BYOK)
-            </button>
-            <button
-              onClick={() => setMode('credits')}
-              className={`rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-colors ${
-                mode === 'credits' ? 'bg-[#1C1A17] text-[#FBF9F3]' : 'text-[#4E483F] hover:text-[#1C1A17]'
-              }`}
-              aria-pressed={mode === 'credits'}
-            >
-              IA prépayés
-            </button>
-          </div>
+          {/* Intro line */}
+          <p className="mb-7 text-sm leading-relaxed text-[#4E483F]">
+            <span className="font-medium text-[#1C1A17]">Un agent. Dix profils inclus.</span>{' '}
+            Accès aux meilleurs modèles. Accompagnement à la demande. Composez la formule qui vous ressemble.
+          </p>
 
           <div className="grid gap-8 sm:grid-cols-2">
-            {/* Left: price + note */}
+            {/* Left: configurator + price */}
             <div>
-              <div className="flex items-baseline gap-1.5">
+              <div className="space-y-5">
+                {/* Selector 1 — Models */}
+                <div>
+                  <label htmlFor="model-select" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
+                    Modèles IA
+                  </label>
+                  <div className="relative mt-2">
+                    <select
+                      id="model-select"
+                      value={model}
+                      onChange={(e) => setModel(e.target.value as ModelKey)}
+                      className="w-full appearance-none rounded-xl border border-[#DcD4C4] bg-[#F3EFE6] px-4 py-3 pr-10 text-sm font-medium text-[#1C1A17] transition-colors hover:border-[#D10E63]/40 focus:border-[#D10E63] focus:outline-none"
+                    >
+                      {(Object.keys(MODEL_OPTIONS) as ModelKey[]).map((k) => (
+                        <option key={k} value={k}>
+                          {MODEL_OPTIONS[k].label}
+                          {MODEL_OPTIONS[k].add === 0 ? ' — 0€' : MODEL_OPTIONS[k].add ? ` — +${MODEL_OPTIONS[k].add}€` : ''}
+                        </option>
+                      ))}
+                    </select>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#857C6E]">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </div>
+                  <p className="mt-2 text-xs leading-relaxed text-[#857C6E]">{modelOpt.desc}</p>
+                </div>
+
+                {/* Selector 2 — Service */}
+                <div>
+                  <label htmlFor="service-select" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
+                    Mise en service
+                  </label>
+                  <div className="relative mt-2">
+                    <select
+                      id="service-select"
+                      value={service}
+                      onChange={(e) => setService(e.target.value as ServiceKey)}
+                      className="w-full appearance-none rounded-xl border border-[#DcD4C4] bg-[#F3EFE6] px-4 py-3 pr-10 text-sm font-medium text-[#1C1A17] transition-colors hover:border-[#D10E63]/40 focus:border-[#D10E63] focus:outline-none"
+                    >
+                      {(Object.keys(SERVICE_OPTIONS) as ServiceKey[]).map((k) => (
+                        <option key={k} value={k}>
+                          {SERVICE_OPTIONS[k].label}
+                          {SERVICE_OPTIONS[k].add === 0 ? ' — inclus' : SERVICE_OPTIONS[k].add ? ` — +${SERVICE_OPTIONS[k].add}€` : ' — sur devis'}
+                        </option>
+                      ))}
+                    </select>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[#857C6E]">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </div>
+                  <p className="mt-2 text-xs leading-relaxed text-[#857C6E]">{serviceOpt.desc}</p>
+                </div>
+              </div>
+
+              {/* Live price */}
+              <div className="mt-6 flex items-baseline gap-1.5 border-t border-[#DcD4C4] pt-6">
                 <motion.span
-                  key={plan.price}
+                  key={priceLabel}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="font-sf text-5xl font-bold text-[#1C1A17]" style={{ letterSpacing: '-0.03em' }}
+                  className={`font-sf font-bold text-[#1C1A17] whitespace-nowrap ${onQuote ? 'text-3xl' : 'text-5xl'}`}
+                  style={{ letterSpacing: '-0.03em' }}
                 >
-                  {plan.price}
+                  {priceLabel}
                 </motion.span>
-                <span className="text-sm text-[#857C6E]">{plan.period}</span>
+                <span className="text-sm text-[#857C6E]">{periodLabel}</span>
               </div>
-              <h3 className="mt-4 text-base font-medium text-[#1C1A17]">Solo</h3>
-              <motion.p
-                key={plan.note}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="mt-2 text-sm leading-relaxed text-[#4E483F]"
-              >
-                {plan.note}
-              </motion.p>
 
               <button className="mt-6 w-full rounded-full bg-[#D10E63] px-5 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
                 Créer mon agent gratuitement
@@ -130,7 +186,7 @@ export function PricingSection() {
 
             {/* Right: features */}
             <ul className="space-y-3 sm:border-l sm:border-[#DcD4C4] sm:pl-8">
-              {plan.features.map((feature) => (
+              {features.map((feature) => (
                 <motion.li
                   key={feature}
                   initial={{ opacity: 0, x: 8 }}
