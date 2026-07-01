@@ -51,6 +51,10 @@ function VisualIdentity() {
           <span key={t} className="rounded-full border border-white/12 px-2 py-0.5 text-[9px] text-white/55">{t}</span>
         ))}
       </div>
+      <div className="mt-2 flex items-center gap-1.5 rounded-md border border-white/10 bg-black/30 px-2 py-1">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#FF0099]" />
+        <span className="text-[9px] text-white/50">Automatisations n8n · en option</span>
+      </div>
     </MockChrome>
   )
 }
@@ -86,6 +90,10 @@ function VisualModels() {
       </div>
       <div className="mt-2 flex gap-1.5 text-[9px] text-white/45">
         <span>voix</span><span>·</span><span>texte</span><span>·</span><span>image</span><span>·</span><span>vidéo</span>
+      </div>
+      <div className="mt-2 flex items-center gap-1.5 rounded-md border border-white/10 bg-black/30 px-2 py-1">
+        <span className="rounded bg-[#FF0099]/15 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-wider text-[#FF0099]">BYOK</span>
+        <span className="text-[9px] text-white/50">vos propres clés, ou crédits inclus</span>
       </div>
     </MockChrome>
   )
@@ -141,7 +149,7 @@ const CARDS = [
     label: 'Sur mesure',
     title: 'Il comprend votre métier',
     content:
-      'Votre activité, votre ton, vos clients, vos process. Votre agent est façonné pour votre entreprise — pas un chatbot générique de plus, un vrai bras droit qui vous ressemble.',
+      'Votre activité, votre ton, vos clients, vos process. Votre agent est façonné pour votre entreprise — et se connecte à vos outils via un serveur d’automatisation n8n en option, pour agir vraiment.',
     visual: VisualIdentity,
   },
   {
@@ -157,7 +165,7 @@ const CARDS = [
     label: 'Multimodèle',
     title: 'Il choisit le bon modèle',
     content:
-      'Voix, texte, image, vidéo — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama. Automatiquement, ou avec vos propres clés. Sans vous compliquer la vie.',
+      'Voix, texte, image, vidéo — et le meilleur modèle pour chaque tâche. GPT, Claude, Gemini, Mistral, Llama. Automatiquement, ou en BYOK avec vos propres clés. Sans vous compliquer la vie.',
     visual: VisualModels,
   },
   {
