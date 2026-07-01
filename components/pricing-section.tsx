@@ -207,8 +207,7 @@ export function PricingSection() {
 
               {/* Live price */}
               <div className="mt-6 border-t border-[#DcD4C4] pt-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">Offre Solo</p>
-                <div className="mt-1 flex items-baseline gap-1.5">
+                <div className="flex items-baseline gap-1.5">
                   <motion.span
                     key={priceLabel}
                     initial={{ opacity: 0, y: 8 }}
