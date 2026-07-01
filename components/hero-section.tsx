@@ -12,7 +12,7 @@ import { HeroBackdrop } from './backdrop'
 
 export function HeroSection() {
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
       <Navbar />
 
       {/* Editorial full-frame hero */}

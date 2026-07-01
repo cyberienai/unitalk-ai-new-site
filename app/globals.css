@@ -49,62 +49,54 @@
 }
 
 :root {
-  color-scheme: dark;
-  --unitalk-black: #0A0A0A;
-  --unitalk-bg-900: #111111;
-  --unitalk-bg-800: #161616;
-  --unitalk-bg-700: #1A1A1A;
-  --unitalk-border: rgba(255, 255, 255, 0.08);
-  --unitalk-border-dark: #222222;
-  --unitalk-hover: #1E1E1E;
-  --unitalk-text: #FFFFFF;
-  --unitalk-text-secondary: #8E8E93;
-  --unitalk-text-muted: #555555;
-  --unitalk-magenta: #FF0099;
-  --unitalk-magenta-hover: #E00085;
-  --unitalk-blue: #5D9CEC;
-  --unitalk-purple: #A075E8;
-  --unitalk-magenta-end: #EC5D9C;
-  --unitalk-green: #22C55E;
-  --unitalk-orange: #F59E0B;
-  --unitalk-red: #EF4444;
-  
-  --background: #0A0A0A;
-  --foreground: #FFFFFF;
-  --card: #111111;
-  --card-foreground: #FFFFFF;
-  --popover: #111111;
-  --popover-foreground: #FFFFFF;
-  --primary: #FF0099;
-  --primary-foreground: #0A0A0A;
-  --secondary: #111111;
-  --secondary-foreground: #FFFFFF;
-  --muted: #222222;
-  --muted-foreground: #8E8E93;
-  --accent: #FF0099;
-  --accent-foreground: #FFFFFF;
-  --destructive: #EF4444;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: #111111;
-  --ring: #FF0099;
-  --chart-1: #FF0099;
-  --chart-2: #5D9CEC;
-  --chart-3: #A075E8;
-  --chart-4: #EC5D9C;
-  --chart-5: #22C55E;
-  --radius: 0.625rem;
-  --sidebar: #111111;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #FF0099;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #FF0099;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #FF0099;
-}
+  color-scheme: light;
+  /* Warm editorial paper palette */
+  --paper: #F3EFE6;          /* main ivory */
+  --paper-alt: #EAE3D4;      /* slightly deeper cream band */
+  --paper-card: #FBF9F3;     /* raised card surface */
+  --ink: #1C1A17;            /* near-black text */
+  --ink-soft: #4E483F;       /* soft ink */
+  --ink-muted: #857C6E;      /* muted warm gray */
+  --rule: #DcD4C4;           /* hairline rules / borders */
+  --unitalk-ink: #1C1A17;
+  --unitalk-text-secondary: #857C6E;
+  --unitalk-magenta: #D10E63;        /* magenta as ink, not neon */
+  --unitalk-magenta-hover: #B00B52;
+  --unitalk-blue: #3E6DA8;
+  --unitalk-green: #2E7D4F;
 
-.dark {
-  color-scheme: dark;
+  --background: #F3EFE6;
+  --foreground: #1C1A17;
+  --card: #FBF9F3;
+  --card-foreground: #1C1A17;
+  --popover: #FBF9F3;
+  --popover-foreground: #1C1A17;
+  --primary: #D10E63;
+  --primary-foreground: #FBF9F3;
+  --secondary: #EAE3D4;
+  --secondary-foreground: #1C1A17;
+  --muted: #EAE3D4;
+  --muted-foreground: #857C6E;
+  --accent: #D10E63;
+  --accent-foreground: #FBF9F3;
+  --destructive: #B4361C;
+  --border: #DcD4C4;
+  --input: #EAE3D4;
+  --ring: #D10E63;
+  --chart-1: #D10E63;
+  --chart-2: #3E6DA8;
+  --chart-3: #C77A34;
+  --chart-4: #2E7D4F;
+  --chart-5: #857C6E;
+  --radius: 0.5rem;
+  --sidebar: #FBF9F3;
+  --sidebar-foreground: #1C1A17;
+  --sidebar-primary: #D10E63;
+  --sidebar-primary-foreground: #FBF9F3;
+  --sidebar-accent: #D10E63;
+  --sidebar-accent-foreground: #FBF9F3;
+  --sidebar-border: #DcD4C4;
+  --sidebar-ring: #D10E63;
 }
 
 @layer base {
@@ -193,16 +185,16 @@
     animation: slow-spin 40s linear infinite;
   }
 
-  /* Subtle blueprint grid + corner-mark texture */
+  /* Faint ink rule grid on paper */
   .bg-grid {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-    background-size: 64px 64px;
+      linear-gradient(to right, rgba(28, 26, 23, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(28, 26, 23, 0.04) 1px, transparent 1px);
+    background-size: 72px 72px;
   }
 
   .bg-dots {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(28, 26, 23, 0.06) 1px, transparent 1px);
     background-size: 22px 22px;
   }
 }

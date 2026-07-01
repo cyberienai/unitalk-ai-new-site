@@ -1,64 +1,30 @@
 'use client'
 
 /**
- * Ambient animated background layers used across the page.
- * Everything here is decorative and non-interactive.
+ * Ambient background layers, editorial paper style.
+ * Everything here is decorative and non-interactive — no neon, no orbs.
  */
 
-/* Corner crosshair marks, blueprint style */
-function CornerMarks() {
-  const mark = (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="text-white/20">
-      <path d="M9 0v18M0 9h18" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  )
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block">
-      <div className="absolute left-4 top-4">{mark}</div>
-      <div className="absolute right-4 top-4">{mark}</div>
-      <div className="absolute bottom-4 left-4">{mark}</div>
-      <div className="absolute bottom-4 right-4">{mark}</div>
-    </div>
-  )
-}
-
-/* Hero backdrop: iridescent orb + drifting aurora + grid fade */
+/* Hero backdrop: faint ink rule grid fading downward + a single hairline frame */
 export function HeroBackdrop() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      {/* Grid, fading toward the bottom */}
       <div
-        className="bg-grid absolute inset-0 opacity-60"
-        style={{ maskImage: 'radial-gradient(120% 80% at 50% 0%, #000 40%, transparent 100%)', WebkitMaskImage: 'radial-gradient(120% 80% at 50% 0%, #000 40%, transparent 100%)' }}
-      />
-
-      {/* Drifting aurora blobs */}
-      <div className="animate-aurora absolute -right-32 top-10 h-[38rem] w-[38rem] rounded-full bg-[#A075E8]/25 blur-[120px]" />
-      <div className="animate-aurora absolute -left-40 top-40 h-[32rem] w-[32rem] rounded-full bg-[#5D9CEC]/20 blur-[120px]" style={{ animationDelay: '-7s' }} />
-      <div className="animate-aurora absolute bottom-0 right-1/3 h-[26rem] w-[26rem] rounded-full bg-[#FF0099]/10 blur-[120px]" style={{ animationDelay: '-13s' }} />
-
-      {/* Iridescent orb — echoes the Unitalk logo. Screen blend hides the black,
-          keeps only the colored light; positioned so the swirl lands in open space. */}
-      <img
-        src="/images/aurora-orb.png"
-        alt=""
-        className="animate-orb absolute right-[-8rem] top-[2rem] w-[20rem] max-w-none opacity-45 mix-blend-screen sm:right-[-12rem] sm:top-[4rem] sm:w-[34rem] sm:opacity-70 md:right-[-14rem] md:top-[2rem] lg:right-[-16rem] lg:w-[44rem]"
+        className="bg-grid absolute inset-0 opacity-70"
+        style={{
+          maskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
+          WebkitMaskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
+        }}
       />
     </div>
   )
 }
 
-/* Softer backdrop for content sections below the fold */
-export function SectionBackdrop({ tone = 'purple' as 'purple' | 'blue' | 'pink', withCorners = false }) {
-  const color = tone === 'blue' ? '#5D9CEC' : tone === 'pink' ? '#EC5D9C' : '#A075E8'
+/* Softer backdrop for content sections — kept as a no-op paper layer so imports stay valid */
+export function SectionBackdrop({ withDots = false }: { withDots?: boolean }) {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      <div className="bg-dots absolute inset-0 opacity-30" />
-      <div
-        className="animate-aurora absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full blur-[130px]"
-        style={{ background: `${color}22` }}
-      />
-      {withCorners && <CornerMarks />}
+      {withDots && <div className="bg-dots absolute inset-0 opacity-40" />}
     </div>
   )
 }

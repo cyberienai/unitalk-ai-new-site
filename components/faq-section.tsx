@@ -36,37 +36,37 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="relative overflow-hidden border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0A] py-12 sm:py-20 md:py-28"
+      className="relative overflow-hidden border-t border-[#DcD4C4] bg-[#FBF9F3] py-12 sm:py-20 md:py-28"
     >
       <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10 sm:mb-14 max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF0099]">Questions fréquentes</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Questions fréquentes</p>
           <h2
-            className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] text-white text-balance"
+            className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] text-[#1C1A17] text-balance"
             style={{ letterSpacing: '-0.02em' }}
           >
-            Tout ce que vous voulez <span className="text-[#FF0099] italic">savoir.</span>
+            Tout ce que vous voulez <span className="text-[#D10E63] italic">savoir.</span>
           </h2>
         </div>
 
         {/* Accordion */}
-        <div className="divide-y divide-[rgba(255,255,255,0.08)] border-y border-[rgba(255,255,255,0.08)]">
+        <div className="divide-y divide-[#DcD4C4] border-y border-[#DcD4C4]">
           {FAQS.map((item, i) => {
             const isOpen = open === i
             return (
               <div key={item.q}>
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-white"
+                  className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors"
                   aria-expanded={isOpen}
                 >
-                  <span className={`text-base sm:text-lg font-medium ${isOpen ? 'text-white' : 'text-[#D4D4DA]'}`}>
+                  <span className={`text-base sm:text-lg font-medium ${isOpen ? 'text-[#1C1A17]' : 'text-[#4E483F]'}`}>
                     {item.q}
                   </span>
                   <span
                     className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-colors ${
-                      isOpen ? 'border-[#FF0099] text-[#FF0099]' : 'border-white/20 text-[#8A8A92]'
+                      isOpen ? 'border-[#D10E63] text-[#D10E63]' : 'border-[#C4BAA8] text-[#857C6E]'
                     }`}
                     aria-hidden="true"
                   >
@@ -93,7 +93,7 @@ export function FaqSection() {
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-5 pr-10 text-sm sm:text-base leading-relaxed text-[#A0A0A8]">{item.a}</p>
+                      <p className="pb-5 pr-10 text-sm sm:text-base leading-relaxed text-[#6E665A]">{item.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -103,9 +103,9 @@ export function FaqSection() {
         </div>
 
         {/* Contact line */}
-        <p className="mt-8 text-sm text-[#8A8A92]">
+        <p className="mt-8 text-sm text-[#857C6E]">
           Une autre question ?{' '}
-          <a href="#" className="text-[#FF0099] underline-offset-4 hover:underline">
+          <a href="#" className="text-[#D10E63] underline-offset-4 hover:underline">
             Parlez-en à Alma
           </a>
           .

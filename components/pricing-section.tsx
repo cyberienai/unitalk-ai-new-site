@@ -52,7 +52,7 @@ export function PricingSection() {
   return (
     <motion.section
       id="offres"
-      className="relative overflow-hidden bg-[#F4F1EA] py-12 sm:py-20 md:py-28"
+      className="relative overflow-hidden bg-[#F3EFE6] py-12 sm:py-20 md:py-28 border-t border-[#DcD4C4]"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '100px' }}
@@ -61,11 +61,11 @@ export function PricingSection() {
       <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div className="mb-8 sm:mb-12 max-w-2xl" variants={itemVariants}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF0099]">Offre</p>
-          <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] text-[#12100E] text-balance" style={{ letterSpacing: '-0.02em' }}>
-            Une offre. <span className="text-[#FF0099] italic">Sans surprise.</span>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Offre</p>
+          <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.02em' }}>
+            Une offre. <span className="text-[#D10E63] italic">Sans surprise.</span>
           </h2>
-          <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#5A554D]">
+          <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#4E483F]">
             Gratuit pour démarrer · sans carte bancaire · résiliable à tout moment.
           </p>
         </motion.div>
@@ -73,14 +73,14 @@ export function PricingSection() {
         {/* Configurator card */}
         <motion.div
           variants={itemVariants}
-          className="rounded-3xl border border-[#FF0099]/30 bg-white p-6 sm:p-8 shadow-[0_30px_60px_-30px_rgba(176,0,108,0.35)]"
+          className="rounded-3xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 sm:p-8 shadow-[0_20px_50px_-30px_rgba(28,26,23,0.25)]"
         >
           {/* Mode toggle */}
-          <div className="mb-7 inline-flex rounded-full border border-black/10 bg-[#F4F1EA] p-1">
+          <div className="mb-7 inline-flex rounded-full border border-[#DcD4C4] bg-[#F3EFE6] p-1">
             <button
               onClick={() => setMode('byok')}
               className={`rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-colors ${
-                mode === 'byok' ? 'bg-[#12100E] text-white' : 'text-[#5A554D] hover:text-[#12100E]'
+                mode === 'byok' ? 'bg-[#1C1A17] text-[#FBF9F3]' : 'text-[#4E483F] hover:text-[#1C1A17]'
               }`}
               aria-pressed={mode === 'byok'}
             >
@@ -89,7 +89,7 @@ export function PricingSection() {
             <button
               onClick={() => setMode('credits')}
               className={`rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-colors ${
-                mode === 'credits' ? 'bg-[#12100E] text-white' : 'text-[#5A554D] hover:text-[#12100E]'
+                mode === 'credits' ? 'bg-[#1C1A17] text-[#FBF9F3]' : 'text-[#4E483F] hover:text-[#1C1A17]'
               }`}
               aria-pressed={mode === 'credits'}
             >
@@ -106,30 +106,30 @@ export function PricingSection() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="font-heading text-5xl font-light text-[#12100E]"
+                  className="font-heading text-5xl font-normal text-[#1C1A17]"
                 >
                   {plan.price}
                 </motion.span>
-                <span className="text-sm text-[#8A857A]">{plan.period}</span>
+                <span className="text-sm text-[#857C6E]">{plan.period}</span>
               </div>
-              <h3 className="mt-4 text-base font-medium text-[#12100E]">Solo</h3>
+              <h3 className="mt-4 text-base font-medium text-[#1C1A17]">Solo</h3>
               <motion.p
                 key={plan.note}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="mt-2 text-sm leading-relaxed text-[#5A554D]"
+                className="mt-2 text-sm leading-relaxed text-[#4E483F]"
               >
                 {plan.note}
               </motion.p>
 
-              <button className="mt-6 w-full rounded-full bg-[#FF0099] px-5 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#E00085]">
+              <button className="mt-6 w-full rounded-full bg-[#D10E63] px-5 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
                 Créer mon agent gratuitement
               </button>
             </div>
 
             {/* Right: features */}
-            <ul className="space-y-3 sm:border-l sm:border-black/10 sm:pl-8">
+            <ul className="space-y-3 sm:border-l sm:border-[#DcD4C4] sm:pl-8">
               {plan.features.map((feature) => (
                 <motion.li
                   key={feature}
@@ -138,7 +138,7 @@ export function PricingSection() {
                   transition={{ duration: 0.3 }}
                   className="flex items-start gap-2.5 text-sm text-[#3A362F]"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 flex-shrink-0 text-[#FF0099]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 flex-shrink-0 text-[#D10E63]">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                   {feature}
@@ -151,25 +151,25 @@ export function PricingSection() {
         {/* Discreet secondary options */}
         <motion.div
           variants={itemVariants}
-          className="mt-6 flex flex-col items-center gap-2 text-center text-sm text-[#5A554D] sm:flex-row sm:justify-center sm:gap-6"
+          className="mt-6 flex flex-col items-center gap-2 text-center text-sm text-[#4E483F] sm:flex-row sm:justify-center sm:gap-6"
         >
           <span>
             Besoin d’équiper une équipe ?{' '}
-            <a href="#" className="font-medium text-[#FF0099] underline-offset-4 hover:underline">
+            <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
               Ajoutez des agents
             </a>
           </span>
-          <span className="hidden text-black/20 sm:inline">·</span>
+          <span className="hidden text-[#C4BAA8] sm:inline">·</span>
           <span>
             Sur votre machine ?{' '}
-            <a href="#" className="font-medium text-[#FF0099] underline-offset-4 hover:underline">
+            <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
               Desktop gratuit &amp; open source
             </a>
           </span>
-          <span className="hidden text-black/20 sm:inline">·</span>
+          <span className="hidden text-[#C4BAA8] sm:inline">·</span>
           <span>
             Grand compte ?{' '}
-            <a href="#" className="font-medium text-[#FF0099] underline-offset-4 hover:underline">
+            <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
               Business sur mesure
             </a>
           </span>

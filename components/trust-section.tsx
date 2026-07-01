@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { SectionBackdrop } from './backdrop'
 
 const TRUST_BLOCKS = [
   {
@@ -55,18 +54,20 @@ export function TrustSection() {
 
   return (
     <motion.section
-      className="relative overflow-hidden border-t border-[rgba(255,255,255,0.06)] bg-[#08090C] py-12 sm:py-16 md:py-20 lg:py-32"
+      className="relative overflow-hidden border-t border-[#DcD4C4] bg-[#F3EFE6] py-12 sm:py-16 md:py-20 lg:py-32"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '100px' }}
       variants={containerVariants}
     >
-      <SectionBackdrop tone="blue" withCorners />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div className="mb-10 sm:mb-14 max-w-2xl" variants={itemVariants}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#5D9CEC]">Confiance</p>
-          <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] text-white text-balance" style={{ letterSpacing: '-0.02em' }}>
-            Souverain. <span className="text-[#5D9CEC] italic">Confidentiel</span>. Sous contrôle.
+          <div className="flex items-center gap-3">
+            <span className="h-px w-8 bg-[#D10E63]" />
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Confiance</p>
+          </div>
+          <h2 className="mt-4 font-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.02em' }}>
+            Souverain. <span className="text-[#D10E63] italic">Confidentiel</span>. Sous contrôle.
           </h2>
         </motion.div>
 
@@ -77,15 +78,15 @@ export function TrustSection() {
               variants={itemVariants}
               whileHover={{ y: -6 }}
               transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-              className="rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[#12141A] p-6 transition-colors hover:border-[rgba(93,156,236,0.5)]"
+              className="rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 transition-colors hover:border-[#D10E63]/50"
             >
-              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(93,156,236,0.3)] bg-[rgba(93,156,236,0.1)]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5D9CEC" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#D10E63]/25 bg-[#D10E63]/8">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D10E63" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   {block.icon}
                 </svg>
               </div>
-              <h3 className="text-xs uppercase tracking-wider text-[#8A8A92] mb-3">{block.label}</h3>
-              <p className="text-xs sm:text-sm leading-relaxed text-[#C7C7D1] whitespace-pre-line">{block.text}</p>
+              <h3 className="text-xs uppercase tracking-wider text-[#857C6E] mb-3">{block.label}</h3>
+              <p className="text-xs sm:text-sm leading-relaxed text-[#4E483F] whitespace-pre-line">{block.text}</p>
             </motion.div>
           ))}
         </div>
