@@ -5,12 +5,12 @@ import { motion } from 'framer-motion'
 
 const BASE_PRICE = 29
 
-type ModelKey = 'byok' | 'c10' | 'c50' | 'c100' | 'c200'
-type ServiceKey = 'alma' | 'onboarding'
+type ModelKey = 'byok' | 'c10' | 'c50' | 'c100' | 'c200' | 'unsure'
+type ServiceKey = 'alma' | 'onboarding' | 'unsure'
 
 const MODEL_OPTIONS: Record<
   ModelKey,
-  { label: string; add: number; desc: string; feature: string }
+  { label: string; add: number | null; desc: string; feature: string }
 > = {
   byok: {
     label: 'Vos propres clés API — 0€',
@@ -42,11 +42,17 @@ const MODEL_OPTIONS: Record<
     desc: 'Un pack de crédits géré par Unitalk, sans aucune clé à configurer. Pour les gros volumes.',
     feature: 'Crédits IA prépayés — rien à gérer',
   },
+  unsure: {
+    label: 'Je ne sais pas encore',
+    add: null,
+    desc: 'Aucun souci — vous verrez cela avec Alma lors de votre appel. Elle vous recommandera la meilleure option.',
+    feature: 'Modèles IA — à définir avec Alma',
+  },
 }
 
 const SERVICE_OPTIONS: Record<
   ServiceKey,
-  { label: string; add: number; desc: string; feature: string }
+  { label: string; add: number | null; desc: string; feature: string }
 > = {
   alma: {
     label: 'Alma, votre conseillère IA vocale',
@@ -60,6 +66,12 @@ const SERVICE_OPTIONS: Record<
     desc: 'Nos ingénieurs IA configurent votre agent avec vous, à la demande.',
     feature: 'Onboarding humain par nos ingénieurs',
   },
+  unsure: {
+    label: 'Je ne sais pas encore',
+    add: null,
+    desc: 'Aucun souci — vous verrez cela avec Alma lors de votre appel. Elle vous guidera selon vos besoins.',
+    feature: 'Mise en service — à définir avec Alma',
+  },
 }
 
 export function PricingSection() {
@@ -69,8 +81,9 @@ export function PricingSection() {
   const modelOpt = MODEL_OPTIONS[model]
   const serviceOpt = SERVICE_OPTIONS[service]
 
-  const total = BASE_PRICE + modelOpt.add + serviceOpt.add
-  const priceLabel = `${total}€`
+  const isUndefined = modelOpt.add === null || serviceOpt.add === null
+  const total = BASE_PRICE + (modelOpt.add ?? 0) + (serviceOpt.add ?? 0)
+  const priceLabel = isUndefined ? `à partir de ${total}€` : `${total}€`
   const periodLabel = '/ mois / agent'
 
   const features = [
@@ -180,7 +193,7 @@ export function PricingSection() {
                       {(Object.keys(SERVICE_OPTIONS) as ServiceKey[]).map((k) => (
                         <option key={k} value={k}>
                           {SERVICE_OPTIONS[k].label}
-                          {SERVICE_OPTIONS[k].add === 0 ? ' — inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
+                          {SERVICE_OPTIONS[k].add === null ? '' : SERVICE_OPTIONS[k].add === 0 ? ' — inclus' : ` — +${SERVICE_OPTIONS[k].add}€`}
                         </option>
                       ))}
                     </select>
@@ -201,10 +214,11 @@ export function PricingSection() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="font-sf text-5xl font-bold text-[#1C1A17] whitespace-nowrap"
+                    className="font-sf font-bold text-[#1C1A17] whitespace-nowrap"
                     style={{ letterSpacing: '-0.03em' }}
                   >
-                    {priceLabel}
+                    {isUndefined && <span className="text-lg font-medium text-[#857C6E]">à partir de </span>}
+                    <span className="text-5xl">{total}€</span>
                   </motion.span>
                   <span className="text-sm text-[#857C6E]">{periodLabel}</span>
                 </div>
