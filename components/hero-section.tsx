@@ -4,6 +4,8 @@ import { Navbar } from './navbar'
 import { HeroEditorial } from './hero-editorial'
 import { ArgumentsSlider } from './arguments-slider'
 import { ProductShowcase } from './product-showcase'
+import { CapabilitiesSection } from './capabilities-section'
+import { EnterpriseSection } from './enterprise-section'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
 import { FaqSection } from './faq-section'
@@ -24,8 +26,14 @@ export function HeroSection() {
       {/* Product showcase — light section for editorial rhythm */}
       <ProductShowcase />
 
+      {/* Agentic capabilities grid */}
+      <CapabilitiesSection />
+
       {/* Arguments as horizontal card slider */}
       <ArgumentsSlider />
+
+      {/* Enterprise-level statement */}
+      <EnterpriseSection />
 
       {/* Pricing section */}
       <PricingSection />
