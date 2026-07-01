@@ -50,18 +50,7 @@ export function HeroEditorial() {
       >
         Votre entreprise
         <br />
-        dépend{' '}
-        <span
-          style={{
-            backgroundImage: 'linear-gradient(90deg, #B00B52 0%, #D10E63 55%, #E85C8A 100%)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            color: 'transparent',
-          }}
-        >
-          trop de vous.
-        </span>
+        dépend <span className="text-[#D10E63]">trop de vous.</span>
       </motion.h1>
 
       {/* Subline */}
