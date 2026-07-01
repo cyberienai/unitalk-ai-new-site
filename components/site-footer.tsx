@@ -45,7 +45,7 @@ const FOOTER_COLUMNS = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-[#DcD4C4] bg-[#1C1A17] text-[#F3EFE6]">
+    <footer className="relative overflow-hidden bg-[#1C1A17] text-[#F3EFE6]">
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-12 lg:gap-10">
           {/* Brand + contact */}
