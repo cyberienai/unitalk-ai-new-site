@@ -69,7 +69,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi.</span> Démarrez seul, ajoutez votre équipe plus tard. <span className="font-medium text-white">Vous décidez.</span>
+        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi.</span> <span className="font-medium text-white">Vous décidez.</span>
       </motion.p>
 
       {/* Domain input + single explicit CTA */}
