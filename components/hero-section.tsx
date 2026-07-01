@@ -6,6 +6,7 @@ import { LeftColumn } from './left-column'
 import { CenterColumn } from './center-column'
 import { RightColumn } from './right-column'
 import { FloatingAlmaButton } from './floating-alma-button'
+import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
 
 export function HeroSection() {
@@ -39,6 +40,9 @@ export function HeroSection() {
 
       {/* Floating button */}
       <FloatingAlmaButton />
+
+      {/* Pricing section */}
+      <PricingSection />
 
       {/* Trust section */}
       <TrustSection />

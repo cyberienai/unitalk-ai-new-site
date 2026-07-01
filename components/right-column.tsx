@@ -216,11 +216,6 @@ export function RightColumn() {
             </motion.div>
           </AnimatePresence>
         </div>
-
-        {/* Footer with pricing */}
-        <div className="border-t border-[#222222] bg-[#0F0F0F] px-4 sm:px-6 py-3 sm:py-4">
-          <p className="text-xs text-[#8A8A92]">Solo 49€ · Team 39€/pers. · Desktop gratuit · Business sur mesure</p>
-        </div>
       </div>
 
       {/* Navigation arrows */}
