@@ -64,7 +64,7 @@ export function TrustSection() {
       <SectionBackdrop tone="blue" withCorners />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div className="mb-10 sm:mb-14 max-w-2xl" variants={itemVariants}>
-          <p className="text-xs uppercase tracking-wider text-[#8A8A92]">Confiance</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#5D9CEC]">Confiance</p>
           <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] text-white text-balance" style={{ letterSpacing: '-0.02em' }}>
             Souverain. <span className="text-[#5D9CEC] italic">Confidentiel</span>. Sous contrôle.
           </h2>

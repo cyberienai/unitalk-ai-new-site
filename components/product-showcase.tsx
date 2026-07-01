@@ -33,14 +33,14 @@ export function ProductShowcase() {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <div className="mb-12 sm:mb-16 max-w-2xl">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#B0006C]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF0099]">
             Votre agent au travail
           </p>
-          <h2 className="mt-4 text-pretty text-4xl font-semibold leading-[1.05] tracking-tight text-[#12100E] sm:text-5xl md:text-6xl">
+          <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-light leading-[1.1] text-[#12100E] text-balance" style={{ letterSpacing: '-0.02em' }}>
             Un collègue.{' '}
-            <span className="italic font-serif text-[#B0006C]">Pas un chatbot.</span>
+            <span className="text-[#FF0099] italic">Pas un chatbot.</span>
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-[#5A554D] sm:text-lg">
+          <p className="mt-4 text-base leading-relaxed text-[#5A554D] sm:text-lg">
             Chaque profil a son identité, sa mémoire et ses outils. Vous changez de rôle
             d&apos;un clic, vous choisissez le modèle, il exécute pendant que vous dormez.
           </p>
@@ -173,7 +173,7 @@ export function ProductShowcase() {
               { k: 'Multi-profil', v: 'Un agent, plusieurs rôles. Chacun avec sa propre identité.' },
               { k: 'Autonome', v: 'Il planifie et exécute vos tâches, même la nuit.' },
             ].map((c) => (
-              <div key={c.k} className="border-l-2 border-[#B0006C]/30 pl-4">
+              <div key={c.k} className="border-l-2 border-[#FF0099]/30 pl-4">
                 <p className="text-sm font-semibold text-[#12100E]">{c.k}</p>
                 <p className="mt-1 text-sm leading-relaxed text-[#5A554D]">{c.v}</p>
               </div>
