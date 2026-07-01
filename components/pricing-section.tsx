@@ -212,9 +212,9 @@ export function PricingSection() {
           className="mt-6 flex flex-col items-center gap-2 text-center text-sm text-[#4E483F] sm:flex-row sm:justify-center sm:gap-6"
         >
           <span>
-            Toute une équipe à équiper ?{' '}
+            Version collaborative pour les équipes ?{' '}
             <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
-              Ajoutez autant d’agents que nécessaire
+              Alma interviewe vos collègues
             </a>
           </span>
           <span className="hidden text-[#C4BAA8] sm:inline">·</span>
