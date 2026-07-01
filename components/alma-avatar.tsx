@@ -5,6 +5,14 @@ import { UnitalkLogo } from './unitalk-logo'
 
 type AlmaState = 'idle' | 'listening' | 'speaking' | 'thinking' | 'offline'
 
+const STATE_LABELS: Record<AlmaState, string> = {
+  idle: 'Alma, disponible',
+  listening: 'Alma écoute',
+  speaking: 'Alma répond',
+  thinking: 'Alma réfléchit',
+  offline: 'Alma hors ligne',
+}
+
 export function AlmaAvatar({ state = 'idle', size = 36, showGlow = true }: { state?: AlmaState; size?: number; showGlow?: boolean }) {
   const glowColor = state === 'offline' ? 'rgba(100, 100, 100, 0.25)' : 'rgba(255, 0, 153, 0.25)'
   const glowOpacity = state === 'offline' ? 0.3 : 1
@@ -15,6 +23,8 @@ export function AlmaAvatar({ state = 'idle', size = 36, showGlow = true }: { sta
       initial={{ opacity: 0 }}
       animate={{ opacity: glowOpacity }}
       transition={{ duration: 0.3 }}
+      role="img"
+      aria-label={STATE_LABELS[state]}
     >
       {/* Glow background */}
       {showGlow && (

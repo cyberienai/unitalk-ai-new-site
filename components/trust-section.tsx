@@ -49,8 +49,8 @@ export function TrustSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 md:gap-12">
           {TRUST_BLOCKS.map((block, idx) => (
             <motion.div key={idx} variants={itemVariants}>
-              <h3 className="text-xs uppercase tracking-wider text-[#555555] mb-3 sm:mb-4">{block.label}</h3>
-              <p className="text-xs sm:text-sm leading-relaxed text-[#8E8E93] whitespace-pre-line">{block.text}</p>
+              <h3 className="text-xs uppercase tracking-wider text-[#8A8A92] mb-3 sm:mb-4">{block.label}</h3>
+              <p className="text-xs sm:text-sm leading-relaxed text-[#A0A0A8] whitespace-pre-line">{block.text}</p>
             </motion.div>
           ))}
         </div>

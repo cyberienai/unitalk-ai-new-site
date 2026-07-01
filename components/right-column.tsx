@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { AlmaAvatar } from './alma-avatar'
 
 const SLIDES = [
@@ -104,29 +104,50 @@ Escalade : < 1 heure`,
 
 export function RightColumn() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isAutoPlay, setIsAutoPlay] = useState(true)
   const [isHovering, setIsHovering] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
+
+  const isPlaying = !isHovering && !isFocused && !prefersReducedMotion
 
   useEffect(() => {
-    if (!isAutoPlay || isHovering) return
+    if (!isPlaying) return
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % SLIDES.length)
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [isAutoPlay, isHovering])
+  }, [isPlaying])
+
+  const goTo = (index: number) => setCurrentSlide((index + SLIDES.length) % SLIDES.length)
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      goTo(currentSlide - 1)
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      goTo(currentSlide + 1)
+    }
+  }
 
   const slide = SLIDES[currentSlide]
 
   return (
     <motion.div
-      className="flex flex-col justify-start pt-16 sm:pt-20 md:justify-center md:pt-0 w-full"
+      className="flex flex-col justify-start pt-16 sm:pt-20 md:pt-0 w-full"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onFocusCapture={() => setIsFocused(true)}
+      onBlurCapture={() => setIsFocused(false)}
+      onKeyDown={handleKeyDown}
+      role="region"
+      aria-roledescription="carrousel"
+      aria-label="Comment fonctionne Unitalk"
     >
       {/* Glow background */}
       <div
@@ -139,24 +160,36 @@ export function RightColumn() {
 
       {/* Card */}
       <div className="relative rounded-2xl sm:rounded-3xl border border-[rgba(255,255,255,0.08)] bg-[#111111] overflow-hidden">
-        {/* Dots */}
+        {/* Autoplay progress bar */}
+        <div className="h-0.5 w-full bg-[#1E1E1E]">
+          <motion.div
+            key={`${currentSlide}-${isPlaying}`}
+            className="h-full bg-[#FF0099]"
+            initial={{ width: isPlaying ? '0%' : '100%' }}
+            animate={{ width: '100%' }}
+            transition={{ duration: isPlaying ? 5 : 0, ease: 'linear' }}
+          />
+        </div>
+
+        {/* Dots — neutral so the primary CTA keeps the magenta */}
         <div className="flex items-center justify-center gap-1.5 sm:gap-2 border-b border-[#222222] bg-[#0F0F0F] px-4 sm:px-6 py-3 sm:py-4 overflow-x-auto">
           {SLIDES.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => setCurrentSlide(idx)}
+              onClick={() => goTo(idx)}
               className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 flex-shrink-0 ${
                 idx === currentSlide
-                  ? 'w-2 sm:w-2 bg-[#FF0099] h-1.5 sm:h-2'
-                  : 'w-1 sm:w-1.5 bg-[#333333] h-1 sm:h-1.5'
+                  ? 'w-4 sm:w-5 bg-white'
+                  : 'w-1 sm:w-1.5 bg-[#3A3A3A] hover:bg-[#555555]'
               }`}
-              aria-label={`Go to slide ${idx + 1}`}
+              aria-label={`Aller à la diapositive ${idx + 1} sur ${SLIDES.length}`}
+              aria-current={idx === currentSlide}
             />
           ))}
         </div>
 
         {/* Content */}
-        <div className="relative h-72 sm:h-80 md:h-96 overflow-hidden">
+        <div className="relative h-72 sm:h-80 md:h-96 overflow-hidden" aria-live="polite">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -165,6 +198,9 @@ export function RightColumn() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
               className="absolute inset-0 flex flex-col p-4 sm:p-6 space-y-3 sm:space-y-4"
+              role="group"
+              aria-roledescription="diapositive"
+              aria-label={`${currentSlide + 1} sur ${SLIDES.length}`}
             >
               {/* Title */}
               <h2 className="font-heading text-base sm:text-lg md:text-xl leading-snug sm:leading-tight text-white whitespace-pre-line">{slide.title}</h2>
@@ -172,39 +208,39 @@ export function RightColumn() {
               {/* Avatar with label */}
               <div className="flex items-center gap-2 sm:gap-3">
                 <AlmaAvatar state={slide.avatarState as any} size={32} showGlow={true} />
-                <span className="text-xs text-[#8E8E93]">{slide.avatarLabel}</span>
+                <span className="text-xs text-[#A0A0A8]">{slide.avatarLabel}</span>
               </div>
 
               {/* Body text */}
-              <p className="text-xs sm:text-sm leading-relaxed text-[#8E8E93] whitespace-pre-line flex-1 overflow-y-auto">{slide.content}</p>
+              <p className="text-xs sm:text-sm leading-relaxed text-[#A0A0A8] whitespace-pre-line flex-1 overflow-y-auto">{slide.content}</p>
             </motion.div>
           </AnimatePresence>
         </div>
 
         {/* Footer with pricing */}
         <div className="border-t border-[#222222] bg-[#0F0F0F] px-4 sm:px-6 py-3 sm:py-4">
-          <p className="text-xs text-[#555555]">Solo 49€ · Team 39€/pers. · Desktop gratuit · Business sur mesure</p>
+          <p className="text-xs text-[#8A8A92]">Solo 49€ · Team 39€/pers. · Desktop gratuit · Business sur mesure</p>
         </div>
       </div>
 
       {/* Navigation arrows */}
       <div className="mt-3 sm:mt-4 flex items-center justify-between px-1 sm:px-2">
         <button
-          onClick={() => setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length)}
-          className="p-1.5 sm:p-2 text-[#8E8E93] hover:text-white transition-colors"
-          aria-label="Previous slide"
+          onClick={() => goTo(currentSlide - 1)}
+          className="p-1.5 sm:p-2 text-[#A0A0A8] hover:text-white transition-colors"
+          aria-label="Diapositive précédente"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="sm:w-5 sm:h-5">
             <path d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <span className="text-xs text-[#555555]">
+        <span className="text-xs text-[#8A8A92]" aria-hidden="true">
           {String(currentSlide + 1).padStart(2, '0')}/{String(SLIDES.length).padStart(2, '0')}
         </span>
         <button
-          onClick={() => setCurrentSlide((prev) => (prev + 1) % SLIDES.length)}
-          className="p-1.5 sm:p-2 text-[#8E8E93] hover:text-white transition-colors"
-          aria-label="Next slide"
+          onClick={() => goTo(currentSlide + 1)}
+          className="p-1.5 sm:p-2 text-[#A0A0A8] hover:text-white transition-colors"
+          aria-label="Diapositive suivante"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="sm:w-5 sm:h-5">
             <path d="M9 5l7 7-7 7" />

@@ -27,7 +27,7 @@ export function CenterColumn({ domain = 'agence-thomas.fr' }: { domain?: string 
 
   return (
     <motion.div
-      className="relative flex flex-col justify-start pt-16 sm:pt-20 md:justify-center md:pt-0 w-full"
+      className="relative flex flex-col justify-start pt-16 sm:pt-20 md:pt-0 w-full"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6 }}
@@ -57,37 +57,38 @@ export function CenterColumn({ domain = 'agence-thomas.fr' }: { domain?: string 
 
         {/* Chat area */}
         <motion.div className="space-y-3 sm:space-y-4 p-4 sm:p-6 h-80 sm:h-96 overflow-y-auto" variants={containerVariants} initial="hidden" animate="visible">
-          {/* Alma intro */}
+          {/* 1 — Comprehension */}
           <motion.div className="flex items-start gap-3" variants={itemVariants}>
             <AlmaAvatar state="listening" size={32} showGlow={false} />
             <div className="max-w-xs rounded-2xl bg-[#1A1A1A] px-4 py-3 text-sm text-[#FFFFFF]">
               <p className="font-medium">Bonjour Thomas.</p>
-              <p className="text-[#8E8E93]">J&apos;ai analysé {domain}.</p>
+              <p className="text-[#A0A0A8]">J&apos;ai analysé {domain} : agence digitale, 3 personnes, Gmail · HubSpot · GA4.</p>
             </div>
           </motion.div>
 
-          {/* Analysis result */}
-          <motion.div className="flex items-start gap-3" variants={itemVariants}>
-            <div className="w-8" />
-            <div className="max-w-xs rounded-2xl bg-[#1A1A1A] px-4 py-3 text-sm text-[#FFFFFF]">
-              <p className="text-[#8E8E93]">Agence digitale à Paris.</p>
-              <p className="text-[#8E8E93]">3 personnes.</p>
-              <p className="text-[#8E8E93]">Gmail, HubSpot et GA4 détectés.</p>
-            </div>
-          </motion.div>
-
-          {/* Question */}
+          {/* 2 — Concrete action proposal */}
           <motion.div className="flex items-start gap-3" variants={itemVariants}>
             <AlmaAvatar state="speaking" size={32} showGlow={false} />
             <div className="max-w-xs rounded-2xl bg-[#1A1A1A] px-4 py-3 text-sm text-[#FFFFFF]">
-              <p>Quelle tâche vous prend le plus de temps aujourd&apos;hui ?</p>
+              <p>Je peux corriger votre DMARC et créer un agent qui relance vos devis en attente.</p>
+              <p className="mt-2 text-[#A0A0A8]">Je prépare tout. Vous validez avant que ça parte.</p>
             </div>
+          </motion.div>
+
+          {/* 3 — Human-in-the-loop control */}
+          <motion.div className="flex items-center gap-3 pl-11" variants={itemVariants}>
+            <button className="rounded-full bg-[#FF0099] px-4 py-2 text-xs font-medium text-white hover:bg-[#E00085] transition-colors">
+              Valider
+            </button>
+            <button className="rounded-full border border-[#333333] px-4 py-2 text-xs font-medium text-white hover:border-[#555555] transition-colors">
+              Ajuster
+            </button>
           </motion.div>
 
           {/* Context panel */}
           <motion.div className="mt-6 rounded-xl border border-[#222222] bg-[#0F0F0F] p-4" variants={itemVariants}>
-            <p className="text-xs uppercase tracking-wider text-[#555555] mb-3">Ce qu&apos;Alma comprend</p>
-            <div className="space-y-2 text-xs text-[#8E8E93]">
+            <p className="text-xs uppercase tracking-wider text-[#8A8A92] mb-3">Ce qu&apos;Alma comprend</p>
+            <div className="space-y-2 text-xs text-[#A0A0A8]">
               <p>✓ {domain} · Paris</p>
               <p>✓ 3 personnes · fondée 2019</p>
               <p>✓ Gmail · HubSpot · GA4</p>
