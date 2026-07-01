@@ -50,7 +50,7 @@ export function AlmaChat() {
         <AlmaAvatar state={isTalking ? 'speaking' : 'idle'} size={34} showGlow={false} />
         <div className="flex-1">
           <p className="text-sm font-semibold tracking-tight text-white">Alma</p>
-          <p className="text-[11px] text-[#8E8E93]">Répond en quelques secondes</p>
+          <p className="text-[11px] text-[#8E8E93]">Agent vocal Customer Success · Unitalk</p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 text-[10px] font-medium text-[#4ADE80]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" aria-hidden="true" />
@@ -72,7 +72,7 @@ export function AlmaChat() {
           <div className="w-5 shrink-0" aria-hidden="true" />
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
             Je collecte les données publiques de votre entreprise, puis je vous appelle pour créer un agent
-            {' '}<span className="text-white">personnalisé sur mesure</span> — prénom, voix, email, agenda. Une vraie identité, prête à travailler.
+            {' '}<span className="text-white">personnalisé sur mesure</span> — prénom, voix, email, agenda. Un vrai bras droit, prêt à travailler.
           </div>
         </div>
         <div className="flex items-start gap-2.5">
