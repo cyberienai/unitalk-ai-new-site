@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { SectionBackdrop } from './backdrop'
 
 const PLANS = [
   {
@@ -62,13 +63,14 @@ export function PricingSection() {
   return (
     <motion.section
       id="offres"
-      className="border-t border-[rgba(255,255,255,0.06)] bg-[#0A0A0A] py-16 sm:py-20 md:py-28"
+      className="relative overflow-hidden border-t border-[rgba(255,255,255,0.06)] bg-[#0B090D] py-16 sm:py-20 md:py-28"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '100px' }}
       variants={containerVariants}
     >
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <SectionBackdrop tone="purple" />
+      <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div className="mb-10 sm:mb-14 max-w-2xl" variants={itemVariants}>
           <p className="text-xs uppercase tracking-wider text-[#8A8A92]">Offres</p>
@@ -86,10 +88,12 @@ export function PricingSection() {
             <motion.div
               key={plan.name}
               variants={itemVariants}
-              className={`flex flex-col rounded-2xl border p-6 ${
+              whileHover={{ y: -6 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              className={`group relative flex flex-col rounded-2xl border p-6 transition-colors ${
                 plan.highlighted
-                  ? 'border-[#FF0099] bg-[#141014]'
-                  : 'border-[rgba(255,255,255,0.08)] bg-[#111111]'
+                  ? 'border-[#FF0099] bg-[#141014] shadow-[0_0_50px_-12px_rgba(255,0,153,0.45)]'
+                  : 'border-[rgba(255,255,255,0.08)] bg-[#111111]/80 backdrop-blur-sm hover:border-[rgba(255,255,255,0.2)]'
               }`}
             >
               {/* Plan name + price */}

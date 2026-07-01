@@ -8,6 +8,7 @@ import { RightColumn } from './right-column'
 import { FloatingAlmaButton } from './floating-alma-button'
 import { PricingSection } from './pricing-section'
 import { TrustSection } from './trust-section'
+import { HeroBackdrop } from './backdrop'
 
 export function HeroSection() {
   const [domain, setDomain] = useState('')
@@ -17,8 +18,9 @@ export function HeroSection() {
       <Navbar />
 
       {/* Hero 3-column layout */}
-      <section className="relative w-full pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-0 md:h-[calc(100vh-80px)]">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 h-full flex flex-col md:flex-row">
+      <section className="relative w-full overflow-hidden pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-0 md:h-[calc(100vh-80px)]">
+        <HeroBackdrop />
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 h-full flex flex-col md:flex-row">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-8 lg:gap-6 w-full md:h-full md:items-start md:pt-8 lg:pt-12">
             {/* Left column: 40% on desktop, full on mobile */}
             <div className="col-span-1 md:col-span-5 flex flex-col">
