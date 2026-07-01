@@ -132,10 +132,10 @@ export function Navbar() {
             {/* Menu Panel */}
             <motion.div
               id="menu-panel"
-              className="fixed top-16 bottom-0 z-40 overflow-y-auto overflow-x-hidden bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:left-0 lg:w-auto lg:max-w-xs lg:mx-4 lg:border-r border-[rgba(255,255,255,0.06)] scrollbar-hide"
-              initial={{ opacity: 0, x: '-100%' }}
+              className="fixed top-16 bottom-0 z-40 overflow-y-auto overflow-x-hidden bg-[#0A0A0A] inset-x-0 lg:inset-x-auto lg:right-0 lg:w-auto lg:max-w-xs lg:mr-4 lg:border-l border-[rgba(255,255,255,0.06)] scrollbar-hide"
+              initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '-100%' }}
+              exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
               <nav className="flex flex-col px-0 py-3">
