@@ -38,9 +38,9 @@ export function ProductShowcase() {
               Votre agent au travail
             </p>
           </div>
-          <h2 className="mt-4 font-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.05] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.02em' }}>
+          <h2 className="mt-4 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.05] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.03em' }}>
             Un collègue.{' '}
-            <span className="text-[#D10E63] italic">Pas un chatbot.</span>
+            <span className="text-[#D10E63]">Pas un chatbot.</span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#4E483F] sm:text-lg">
             Chaque profil a son identité, sa mémoire et ses outils. Vous changez de rôle

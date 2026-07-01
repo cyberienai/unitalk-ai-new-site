@@ -66,8 +66,8 @@ export function TrustSection() {
             <span className="h-px w-8 bg-[#D10E63]" />
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Confiance</p>
           </div>
-          <h2 className="mt-4 font-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.02em' }}>
-            Souverain. <span className="text-[#D10E63] italic">Confidentiel</span>. Sous contrôle.
+          <h2 className="mt-4 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.03em' }}>
+            Souverain. <span className="text-[#D10E63]">Confidentiel</span>. Sous contrôle.
           </h2>
         </motion.div>
 

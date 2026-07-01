@@ -43,10 +43,10 @@ export function FaqSection() {
         <div className="mb-10 sm:mb-14 max-w-2xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Questions fréquentes</p>
           <h2
-            className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] text-[#1C1A17] text-balance"
-            style={{ letterSpacing: '-0.02em' }}
+            className="mt-3 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1] text-[#1C1A17] text-balance"
+            style={{ letterSpacing: '-0.03em' }}
           >
-            Tout ce que vous voulez <span className="text-[#D10E63] italic">savoir.</span>
+            Tout ce que vous voulez <span className="text-[#D10E63]">savoir.</span>
           </h2>
         </div>
 

@@ -62,8 +62,8 @@ export function PricingSection() {
         {/* Header */}
         <motion.div className="mb-8 sm:mb-12 max-w-2xl" variants={itemVariants}>
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">Offre</p>
-          <h2 className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.02em' }}>
-            Une offre. <span className="text-[#D10E63] italic">Sans surprise.</span>
+          <h2 className="mt-3 font-sf text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1] text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.03em' }}>
+            Une offre. <span className="text-[#D10E63]">Sans surprise.</span>
           </h2>
           <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#4E483F]">
             Gratuit pour démarrer · sans carte bancaire · résiliable à tout moment.
@@ -106,7 +106,7 @@ export function PricingSection() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="font-heading text-5xl font-normal text-[#1C1A17]"
+                  className="font-sf text-5xl font-bold text-[#1C1A17]" style={{ letterSpacing: '-0.03em' }}
                 >
                   {plan.price}
                 </motion.span>

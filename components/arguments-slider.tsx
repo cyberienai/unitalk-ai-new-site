@@ -218,7 +218,7 @@ export function ArgumentsSlider() {
       {/* Editorial oversized watermark */}
       <p
         aria-hidden="true"
-        className="pointer-events-none absolute -top-2 sm:-top-6 left-0 font-heading text-[22vw] sm:text-[16vw] font-normal leading-none text-[#1C1A17]/[0.04] select-none whitespace-nowrap"
+        className="pointer-events-none absolute -top-2 sm:-top-6 left-0 font-sf text-[22vw] sm:text-[16vw] font-bold leading-none text-[#1C1A17]/[0.04] select-none whitespace-nowrap"
         style={{ letterSpacing: '-0.04em' }}
       >
         votre agent
@@ -233,12 +233,12 @@ export function ArgumentsSlider() {
               <p className="text-[11px] uppercase tracking-[0.24em] text-[#D10E63] font-semibold">Ce qu’il fait</p>
             </div>
             <h2
-              className="font-heading text-4xl sm:text-5xl md:text-6xl font-normal leading-[0.98] text-[#1C1A17] text-balance"
+              className="font-sf text-4xl sm:text-5xl md:text-6xl font-bold leading-[0.98] text-[#1C1A17] text-balance"
               style={{ letterSpacing: '-0.03em' }}
             >
               Il comprend, il agit,
               <br />
-              <span className="italic text-[#D10E63]">il se souvient.</span>
+              <span className="text-[#D10E63]">il se souvient.</span>
             </h2>
           </div>
           {/* Nav arrows */}
@@ -288,7 +288,7 @@ export function ArgumentsSlider() {
               {/* Big editorial index */}
               <div className="flex items-baseline justify-between mb-8">
                 <span
-                  className="font-heading text-6xl sm:text-7xl font-normal leading-none text-[#1C1A17]/15 transition-colors group-hover:text-[#D10E63]/70 tabular-nums"
+                  className="font-sf text-6xl sm:text-7xl font-bold leading-none text-[#1C1A17]/15 transition-colors group-hover:text-[#D10E63]/70 tabular-nums"
                   style={{ letterSpacing: '-0.04em' }}
                 >
                   {String(card.id).padStart(2, '0')}
@@ -296,7 +296,7 @@ export function ArgumentsSlider() {
                 <span className="text-[11px] uppercase tracking-[0.18em] text-[#857C6E]">{card.label}</span>
               </div>
               <h3
-                className="font-heading text-2xl sm:text-[1.75rem] font-normal leading-[1.08] text-[#1C1A17] mb-4 text-balance"
+                className="font-sf text-2xl sm:text-[1.75rem] font-bold leading-[1.08] text-[#1C1A17] mb-4 text-balance"
                 style={{ letterSpacing: '-0.02em' }}
               >
                 {card.title}
