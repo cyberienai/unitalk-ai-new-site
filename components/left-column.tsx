@@ -146,7 +146,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.5 }}
       >
-        Essayer gratuitement
+        Analyser mon site
       </motion.button>
 
       {/* Microcopy */}
