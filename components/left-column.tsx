@@ -59,7 +59,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
-        Unitalk analyse votre domaine, vous appelle, puis crée votre agent. Il travaille partout : emails, CRM, réunions, contenus, automatisations.
+        Unitalk analyse votre domaine, vous appelle, puis crée votre agent — avec son prénom, sa voix, son email et son agenda. Une vraie identité, prête à travailler.
       </motion.p>
 
       {/* Offer accroche + HITL reassurance */}
@@ -69,17 +69,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi.</span> Démarrez seul, ajoutez votre équipe plus tard.
-      </motion.p>
-
-      {/* HITL reassurance */}
-      <motion.p
-        className="mt-2 text-xs sm:text-sm font-medium text-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.55, duration: 0.5 }}
-      >
-        Vous décidez.
+        <span className="font-medium text-white">1 agent, 10 profils prêts à l&apos;emploi.</span> Démarrez seul, ajoutez votre équipe plus tard. <span className="font-medium text-white">Vous décidez.</span>
       </motion.p>
 
       {/* Domain input + single explicit CTA */}
@@ -124,7 +114,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.65, duration: 0.5 }}
       >
-        On analyse votre domaine pour démarrer — gratuit, sans inscription.
+        On analyse votre domaine pour démarrer — gratuit, sans carte bancaire.
       </motion.p>
 
       {/* Success message */}
@@ -146,7 +136,7 @@ export function LeftColumn({ onDomainSubmit }: { onDomainSubmit?: (domain: strin
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.5 }}
       >
-        7 jours d&apos;essai gratuit · une IA prête à travailler · sans carte bancaire
+        Gratuit pour démarrer · une IA prête à travailler · sans carte bancaire
       </motion.p>
 
       {/* Social proof + open-source signal */}
