@@ -30,10 +30,10 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]">
       <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Logo */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <a href="/" aria-label="Accueil Unitalk AI" className="flex items-center gap-2 sm:gap-3">
           <UnitalkLogo size={28} />
           <span className="font-inter text-sm sm:text-base font-semibold text-white">Unitalk AI</span>
-        </div>
+        </a>
 
         {/* Center: Nav links - Desktop only */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
