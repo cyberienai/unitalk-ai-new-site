@@ -9,10 +9,15 @@ const MODELS = ['GPT-5.5', 'Claude Opus 4', 'Gemini 3 Pro', 'Qwen 3 Max', 'DeepS
 const T = {
   fr: {
     eyebrow: 'Votre agent au travail',
-    title1: 'Il travaille ',
-    title2: 'pendant que vous dormez.',
+    title1: 'Ce n’est pas un assistant. ',
+    title2: 'C’est un employé numérique.',
     subtitle:
-      'Une identité, une mémoire, ses propres outils. Il exécute vos tâches — jour et nuit, sans relâche.',
+      'Il possède son propre numéro de téléphone, son adresse email, son agenda et ses comptes. Il travaille directement dans vos outils, comme un collaborateur — jour et nuit.',
+    capabilitiesLabel: 'Ses accès et outils',
+    capabilities: [
+      'Téléphone', 'Email', 'Agenda', 'CRM', 'WhatsApp', 'Google Workspace',
+      'Microsoft 365', 'Web', 'API', 'Mémoire', 'Voix', 'Documents',
+    ],
     workspace: 'Espace de travail',
     model: 'Modèle',
     idLine1: 'voix · email · agenda',
@@ -28,18 +33,18 @@ const T = {
       { label: 'Résumé des appels de la semaine', done: true },
       { label: 'Préparation du rendez-vous de 14h', done: false },
     ],
-    captions: [
-      { k: 'Multimodèle', v: 'Le meilleur modèle pour chaque tâche — sans changer d’outil.' },
-      { k: 'Multi-profil', v: 'Un agent, plusieurs rôles. Chacun avec sa propre identité.' },
-      { k: 'Autonome', v: 'Il planifie et exécute vos tâches, même la nuit.' },
-    ],
   },
   en: {
     eyebrow: 'Your agent at work',
-    title1: 'It works ',
-    title2: 'while you sleep.',
+    title1: 'It’s not an assistant. ',
+    title2: 'It’s a digital employee.',
     subtitle:
-      'One identity, one memory, its own tools. It runs your tasks — day and night, without a break.',
+      'It has its own phone number, email address, calendar and accounts. It works directly inside your tools, like a teammate — day and night.',
+    capabilitiesLabel: 'Its access and tools',
+    capabilities: [
+      'Phone', 'Email', 'Calendar', 'CRM', 'WhatsApp', 'Google Workspace',
+      'Microsoft 365', 'Web', 'API', 'Memory', 'Voice', 'Documents',
+    ],
     workspace: 'Workspace',
     model: 'Model',
     idLine1: 'voice · email · calendar',
@@ -54,11 +59,6 @@ const T = {
       { label: 'Follow up on pending quotes', done: true },
       { label: 'Summary of this week’s calls', done: true },
       { label: 'Prep for the 2pm meeting', done: false },
-    ],
-    captions: [
-      { k: 'Multi-model', v: 'The best model for each task — without switching tools.' },
-      { k: 'Multi-profile', v: 'One agent, several roles. Each with its own identity.' },
-      { k: 'Autonomous', v: 'It plans and runs your tasks, even at night.' },
     ],
   },
 }
@@ -216,14 +216,27 @@ export function ProductShowcase() {
             </div>
           </div>
 
-          {/* Side captions */}
-          <div className="flex flex-col justify-center gap-6 lg:col-span-4">
-            {t.captions.map((c) => (
-              <div key={c.k} className="border-l-2 border-[#D10E63]/40 pl-4">
-                <p className="text-sm font-semibold text-[#1C1A17]">{c.k}</p>
-                <p className="mt-1 text-sm leading-relaxed text-[#4E483F]">{c.v}</p>
-              </div>
-            ))}
+          {/* Capabilities */}
+          <div className="flex flex-col justify-center lg:col-span-4">
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#857C6E]">
+              {t.capabilitiesLabel}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {t.capabilities.map((c) => (
+                <span
+                  key={c}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[#DcD4C4] bg-[#F3EFE6] px-3 py-1.5 text-xs font-medium text-[#1C1A17]"
+                >
+                  <span
+                    className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#2E7D4F] text-[8px] text-[#FBF9F3]"
+                    aria-hidden="true"
+                  >
+                    ✓
+                  </span>
+                  {c}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
