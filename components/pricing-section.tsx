@@ -15,7 +15,7 @@ const MODES: Record<
     note: 'Vous utilisez vos clés API (OpenAI, Anthropic, Google…). Vous ne payez que la plateforme, les modèles restent à votre charge, au prix réel.',
     features: [
       '1 agent sur mesure, 10 profils',
-      'Vos propres clés — coûts modèles maîtrisés',
+      'Vos propres clés API',
       'Multimodal : voix, texte, image',
       'Mémoire d’entreprise',
       'Accompagnement par Alma',
