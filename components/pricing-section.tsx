@@ -16,7 +16,7 @@ const MODES: Record<
     features: [
       '1 agent sur mesure, 10 profils',
       'Vos propres clés API',
-      'Multimodal : voix, texte, image',
+      'Multimodal : voix, texte, image, audio, code',
       'Mémoire d’entreprise',
       'Accompagnement par Alma',
     ],
@@ -28,7 +28,7 @@ const MODES: Record<
     features: [
       '1 agent sur mesure, 10 profils',
       'Crédits modèles inclus — rien à gérer',
-      'Multimodal : voix, texte, image',
+      'Multimodal : voix, texte, image, audio, code',
       'Mémoire d’entreprise',
       'Accompagnement par Alma',
     ],
