@@ -19,7 +19,6 @@ const FOOTER_COLUMNS = [
       { label: 'À propos', href: '#' },
       { label: 'Devenir partenaire', href: '/partenaires' },
       { label: 'Blog', href: '#' },
-      { label: 'Carrières', href: '#' },
     ],
   },
   {
@@ -27,6 +26,7 @@ const FOOTER_COLUMNS = [
     links: [
       { label: 'Documentation', href: '#' },
       { label: 'Guide de démarrage', href: '#' },
+      { label: 'Changelog', href: '#' },
       { label: 'Statut', href: '#' },
       { label: 'Support', href: '#' },
     ],
