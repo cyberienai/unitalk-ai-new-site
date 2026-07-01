@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { fr: 'Cas d’usage', en: 'Use cases', href: '/agents' },
   { fr: 'Accompagnement', en: 'Support', href: '/accompagnement' },
   { fr: 'Modèles IA', en: 'AI models', href: '/modeles-ia' },
+  { fr: 'Hébergeurs', en: 'Hosting', href: '/hebergeurs' },
   { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
   { fr: 'Agent IA public', en: 'Public AI agent', href: '/agent-ia-public' },
   { fr: 'Sécurité', en: 'Security', href: '/#confiance' },
