@@ -76,6 +76,19 @@ export function Navbar() {
             Créer mon agent
           </a>
 
+          {/* Language selector — desktop inline */}
+          <button
+            className="hidden lg:inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] hover:text-[#D10E63] transition-colors"
+            aria-label="Choisir la langue : Français"
+          >
+            <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[#DcD4C4]">
+              <span className="h-4 w-[6px] bg-[#0055A4]" />
+              <span className="h-4 w-[6px] bg-white" />
+              <span className="h-4 w-[6px] bg-[#EF4135]" />
+            </span>
+            FR
+          </button>
+
           {/* Menu button — visible on all breakpoints */}
           <button
             onClick={() => setIsMenuOpen((v) => !v)}
