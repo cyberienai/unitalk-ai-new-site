@@ -75,10 +75,14 @@ export function PricingSection() {
 
   const features = [
     '1 agent sur mesure, 10 profils inclus',
+    'Propulsé par Hermes, notre moteur open source',
     'Accès aux meilleurs modèles d’IA',
     modelOpt.feature,
     'Multimodal : voix, texte, image, audio, code',
-    'Mémoire d’entreprise',
+    'Mémoire d’entreprise persistante',
+    'Compétences auto-apprises, extensibles à l’infini',
+    'Exécution de code en environnement sécurisé',
+    'Connexion à 3000+ apps via MCP',
     serviceOpt.feature,
   ]
 
