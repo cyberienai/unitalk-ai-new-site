@@ -126,7 +126,7 @@ export function FloatingAlmaWidget() {
             </div>
 
             {/* Composer */}
-            <div className="border-t border-[#E4DCCC] bg-[#F3EFE6] px-4 py-3.5">
+            <div className="border-t border-[#E4DCCC] bg-[#F3EFE6] px-4 py-2.5">
               <div className="flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] pl-4 pr-1.5 py-1.5 focus-within:border-[#D10E63]">
                 <input
                   type="text"
