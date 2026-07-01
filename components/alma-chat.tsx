@@ -76,8 +76,8 @@ export function AlmaChat() {
         </div>
         <div className="flex items-start gap-2.5">
           <div className="rounded-2xl rounded-tl-md bg-[#1A1A1D] px-4 py-2.5 text-sm leading-relaxed text-[#C7C7CC]">
-            Je collecte les données publiques de votre entreprise, puis je vous appelle pour créer un agent
-            {' '}<span className="text-white">personnalisé sur mesure</span> — prénom, voix, email, agenda. Un vrai bras droit, prêt à travailler.
+            Je collecte les données publiques de votre entreprise, puis je vous appelle pour créer votre agent :
+            {' '}<span className="text-white">personnalisé sur mesure</span>, avec son prénom, sa voix, son email et son agenda. Votre nouveau bras droit, prêt à travailler.
           </div>
         </div>
         <div className="flex items-start gap-2.5">
