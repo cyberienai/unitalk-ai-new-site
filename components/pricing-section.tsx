@@ -154,23 +154,23 @@ export function PricingSection() {
           className="mt-6 flex flex-col items-center gap-2 text-center text-sm text-[#4E483F] sm:flex-row sm:justify-center sm:gap-6"
         >
           <span>
-            Besoin d’équiper une équipe ?{' '}
+            Toute une équipe à équiper ?{' '}
             <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
-              Ajoutez des agents
+              Ajoutez autant d’agents que nécessaire
             </a>
           </span>
           <span className="hidden text-[#C4BAA8] sm:inline">·</span>
           <span>
-            Sur votre machine ?{' '}
+            Vous préférez l’auto-hébergement ?{' '}
             <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
               Desktop gratuit &amp; open source
             </a>
           </span>
           <span className="hidden text-[#C4BAA8] sm:inline">·</span>
           <span>
-            Grand compte ?{' '}
+            Vous êtes un grand compte ?{' '}
             <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
-              Business sur mesure
+              Parlons d’une offre sur mesure
             </a>
           </span>
         </motion.div>
