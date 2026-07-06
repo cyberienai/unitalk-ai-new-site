@@ -1,7 +1,7 @@
 'use client'
 
-import { HeroSection } from '@/components/hero-section'
+import { HomeNew } from '@/components/home-new'
 
 export default function Page() {
-  return <HeroSection />
+  return <HomeNew />
 }
