@@ -89,14 +89,14 @@ export function SovereigntySection() {
             return (
               <motion.div
                 key={s.title}
-                className="rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 transition-all hover:-translate-y-1 hover:border-[#4F5BD5]/40 hover:shadow-[0_12px_40px_-12px_rgba(28,26,23,0.25)]"
+                className="group rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 transition-all hover:-translate-y-1 hover:border-[#1C1A17]/20 hover:shadow-[0_12px_40px_-12px_rgba(28,26,23,0.25)]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
               >
-                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#4F5BD5]/10 text-[#4F5BD5]">
-                  <Icon className="h-5 w-5" />
+                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-colors group-hover:bg-[#D10E63]">
+                  <Icon className="h-5 w-5" strokeWidth={1.6} />
                 </span>
                 <p className="text-sm font-semibold text-[#1C1A17]">{s.title}</p>
               </motion.div>
@@ -106,8 +106,7 @@ export function SovereigntySection() {
 
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-4 text-base leading-relaxed text-[#4E483F]">
-            Vos agents, vos modèles, votre mémoire, vos compétences et vos instructions de travail
-            restent dans votre environnement Unitalk — sous votre contrôle, prêts à évoluer avec vous.
+            Tout reste dans votre environnement Unitalk, sous votre contrôle.
           </p>
           <p className="text-xl font-semibold text-[#1C1A17]">
             Vos agents. Vos modèles. Vos données. Votre mémoire.
@@ -394,10 +393,6 @@ export function FinalCtaSection() {
             </span>
           </div>
         </motion.div>
-
-        <p className="mt-12 text-sm italic text-[#A79F91]">
-          Unitalk AI — {"L'IA qui travaille avec votre organisation."}
-        </p>
       </div>
     </section>
   )
