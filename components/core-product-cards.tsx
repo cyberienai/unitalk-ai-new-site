@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { User, Brain, Database, Zap, Wrench, Cpu, FileText } from 'lucide-react'
+import { User, Brain, Database, Zap, Wrench, Cpu, FileText, CalendarClock, MessagesSquare } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -21,6 +21,8 @@ const T = {
       { icon: Wrench, title: 'Des outils', description: 'Email, calendrier, fichiers, CRM, CMS, API, navigateur, terminal.' },
       { icon: Cpu, title: 'Des ressources', description: "CPU, RAM, stockage, environnement d'exécution, tâches planifiées." },
       { icon: FileText, title: 'Des instructions de travail', description: 'Rôle, méthode, limites, validation, collaboration avec humains et agents.' },
+      { icon: CalendarClock, title: 'La planification de tâches', description: 'Missions récurrentes, rappels, échéances et actions déclenchées automatiquement.' },
+      { icon: MessagesSquare, title: 'Un accès partout', description: 'Apps de messagerie, terminal, logiciel Desktop et interface Web collaborative.' },
     ],
   },
   en: {
@@ -37,6 +39,8 @@ const T = {
       { icon: Wrench, title: 'Tools', description: 'Email, calendar, files, CRM, CMS, API, browser, terminal.' },
       { icon: Cpu, title: 'Resources', description: 'CPU, RAM, storage, runtime environment, scheduled tasks.' },
       { icon: FileText, title: 'Work instructions', description: 'Role, method, limits, validation, collaboration with humans and agents.' },
+      { icon: CalendarClock, title: 'Task scheduling', description: 'Recurring missions, reminders, deadlines and automatically triggered actions.' },
+      { icon: MessagesSquare, title: 'Access everywhere', description: 'Messaging apps, terminal, Desktop software and collaborative web interface.' },
     ],
   },
 }
