@@ -14,8 +14,8 @@ import {
 const T = {
   fr: {
     title: 'Ce qui transforme un agent IA en vrai collaborateur.',
-    intro:
-      'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA Unitalk va plus loin.',
+    intro: 'Un agent IA seul peut répondre, raisonner ou exécuter une tâche.',
+    introAccent: 'Un Collaborateur IA Unitalk va plus loin.',
     cards: [
       {
         icon: User,
@@ -57,8 +57,8 @@ const T = {
   },
   en: {
     title: "What transforms an AI agent into a real collaborator.",
-    intro:
-      "An AI agent alone can answer, reason or execute a task. A Unitalk AI Collaborator goes further.",
+    intro: "An AI agent alone can answer, reason or execute a task.",
+    introAccent: "A Unitalk AI Collaborator goes further.",
     cards: [
       {
         icon: User,
@@ -131,6 +131,8 @@ export function CoreProductCards({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             {t.intro}
+            <br />
+            <span className="font-semibold text-[#1C1A17]">{t.introAccent}</span>
           </motion.p>
         </div>
 

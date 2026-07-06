@@ -14,10 +14,10 @@ const T = {
       { n: '01', label: 'Choisir son identité' },
       { n: '02', label: 'Définir son rôle' },
       { n: '03', label: 'Sélectionner ses premières compétences' },
-      { n: '04', label: 'Ajouter du contexte' },
+      { n: '04', label: 'Ajouter le contexte de votre entreprise' },
       { n: '05', label: 'Rédiger ses instructions de travail' },
       { n: '06', label: 'Tester une première mission' },
-      { n: '07', label: "L'intégrer dans votre quotidien" },
+      { n: '07', label: 'Planifier une première tâche' },
     ],
     almaCta: 'Créer mon Collaborateur IA gratuit',
     almaMicrocopy: 'Sans carte bancaire.',
@@ -48,10 +48,10 @@ const T = {
       { n: '01', label: 'Choose its identity' },
       { n: '02', label: 'Define its role' },
       { n: '03', label: 'Select its first skills' },
-      { n: '04', label: 'Add context' },
+      { n: '04', label: 'Add your company context' },
       { n: '05', label: 'Write its work instructions' },
       { n: '06', label: 'Test a first mission' },
-      { n: '07', label: 'Integrate it into your routine' },
+      { n: '07', label: 'Schedule a first task' },
     ],
     almaCta: 'Create my AI Collaborator for free',
     almaMicrocopy: 'No credit card.',
@@ -184,14 +184,12 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             ))}
           </div>
 
-          <div className="mb-8 rounded-2xl border-l-2 border-[#D10E63] bg-white/[0.03] px-6 py-5">
-            <p className="text-lg font-semibold leading-snug text-[#F7F4EE]">{t.dispStrong}</p>
+          <div className="rounded-2xl border-l-2 border-[#4F5BD5] bg-white/[0.03] px-6 py-5">
+            <p className="text-lg font-semibold leading-snug text-[#F7F4EE]">
+              <span className="text-[#8B96EC]">Unitalk</span>{' '}
+              {t.dispConclusion.replace('Unitalk ', '')}
+            </p>
           </div>
-
-          <p className="text-lg leading-relaxed text-[#C4BCAE]">
-            <span className="font-semibold text-[#8B96EC]">Unitalk</span>{' '}
-            {t.dispConclusion.replace('Unitalk ', '')}
-          </p>
         </div>
       </section>
     </>

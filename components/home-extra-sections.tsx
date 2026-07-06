@@ -63,7 +63,7 @@ export function AIGatewaySection() {
         <p className="mx-auto max-w-2xl text-xl font-semibold leading-snug text-[#F7F4EE]">
           {"L'IA devient une ressource d'entreprise."}
           <br />
-          <span className="text-[#8B96EC]">{"Pas une pile d'abonnements individuels."}</span>
+          <span className="text-[#F1729F]">{"Pas une pile d'abonnements individuels."}</span>
         </p>
       </div>
     </section>
@@ -127,11 +127,11 @@ export function SovereigntySection() {
 
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-4 text-base leading-relaxed text-[#4E483F]">
-            Vos agents, votre mémoire, vos compétences et vos instructions de travail restent dans
-            votre environnement Unitalk.
+            Vos agents, vos modèles, votre mémoire, vos compétences et vos instructions de travail
+            restent dans votre environnement Unitalk — sous votre contrôle, prêts à évoluer avec vous.
           </p>
           <p className="text-xl font-semibold text-[#1C1A17]">
-            Vos agents. Vos modèles. Votre mémoire.
+            Vos agents. Vos modèles. Vos données. Votre mémoire.
           </p>
         </div>
       </div>

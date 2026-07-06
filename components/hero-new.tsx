@@ -6,9 +6,10 @@ import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckC
 const T = {
   fr: {
     eyebrow: 'Infrastructure IA collaborative et souveraine',
-    headline: 'Unitalk transforme les agents IA en vrais collaborateurs.',
+    headline: 'Unitalk transforme les agents IA en ',
+    headlineAccent: 'vrais collaborateurs.',
     subheadline:
-      'Créez en quelques minutes un Collaborateur IA Unitalk avec une identité, une mémoire, des compétences, des outils et ses propres instructions de travail.',
+      'Créez en quelques minutes un Collaborateur IA Unitalk avec une identité, une mémoire, une intelligence, des compétences, des outils, des ressources et ses propres instructions de travail.',
     manifesto: ['Il raisonne', 'Il planifie', 'Il exécute', 'Il apprend', 'Il collabore', "Il s'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon Collaborateur IA gratuit',
@@ -21,7 +22,7 @@ const T = {
     sofiaPhone: 'Ligne dédiée',
     sofiaStatus: 'Prête à travailler',
     sofiaStep: 'Étape 3 sur 7',
-    sofiaBadge: 'Guidée par Alma',
+    sofiaBadge: 'vous guide, étape par étape.',
     sofiaCreateBtn: 'Créer Sofia avec Alma',
     labelEmail: 'Email',
     labelPhone: 'Téléphone',
@@ -36,9 +37,10 @@ const T = {
   },
   en: {
     eyebrow: 'Collaborative and sovereign AI infrastructure',
-    headline: 'Unitalk transforms AI agents into real collaborators.',
+    headline: 'Unitalk transforms AI agents into ',
+    headlineAccent: 'real collaborators.',
     subheadline:
-      'Create a Unitalk AI Collaborator in minutes with an identity, memory, skills, tools and its own work instructions.',
+      'Create a Unitalk AI Collaborator in minutes with an identity, a memory, an intelligence, skills, tools, resources and its own work instructions.',
     manifesto: ['It reasons', 'It plans', 'It executes', 'It learns', 'It collaborates', 'It improves'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
@@ -51,7 +53,7 @@ const T = {
     sofiaPhone: 'Dedicated line',
     sofiaStatus: 'Ready to work',
     sofiaStep: 'Step 3 of 7',
-    sofiaBadge: 'Guided by Alma',
+    sofiaBadge: 'guides you, step by step.',
     sofiaCreateBtn: 'Create Sofia with Alma',
     labelEmail: 'Email',
     labelPhone: 'Phone',
@@ -100,12 +102,13 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.h1
             className="font-sf mb-6 text-balance font-bold text-[#1C1A17]"
-            style={{ fontSize: 'clamp(2.2rem, 4.6vw, 3.6rem)', lineHeight: 1.02, letterSpacing: '-0.03em' }}
+            style={{ fontSize: 'clamp(2.4rem, 5vw, 4.25rem)', lineHeight: 1.0, letterSpacing: '-0.03em' }}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.06 }}
           >
             {t.headline}
+            <span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
 
           <motion.p
@@ -144,9 +147,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <button className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] shadow-sm transition-all hover:bg-[#B00B52] sm:text-base">
               {t.ctaPrimary}
               <ChevronRight className="h-4 w-4" />
-            </button>
-            <button className="inline-flex items-center justify-center gap-1 rounded-full border border-[#DcD4C4] bg-transparent px-6 py-3.5 text-sm font-medium text-[#1C1A17] transition-colors hover:bg-[#EFE9DC]">
-              {t.ctaSecondary}
             </button>
           </motion.div>
 
@@ -189,7 +189,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="relative mb-6 flex items-center justify-between">
               <div className="inline-flex items-center gap-1.5 rounded-full border border-[#4F5BD5]/30 bg-[#4F5BD5]/15 px-3 py-1 text-xs font-medium text-[#B7BEF0]">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#8B96EC]" />
-                {t.sofiaBadge}
+                {t.sofiaTitle}
               </div>
               <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8A8175]">
                 {t.sofiaStep}
@@ -202,9 +202,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 S
               </div>
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8A8175]">
-                  {t.sofiaTitle}
-                </p>
                 <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{t.sofiaName}</h2>
                 <p className="text-sm text-[#B8B0A2]">{t.sofiaRole}</p>
               </div>
@@ -268,6 +265,24 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="relative mb-4 flex items-center gap-2 rounded-xl border border-[#4F5BD5]/20 bg-[#4F5BD5]/10 px-3 py-2.5">
               <CheckCircle2 className="h-4 w-4 text-[#8B96EC]" />
               <span className="text-sm font-medium text-[#B7BEF0]">{t.sofiaStatus}</span>
+            </div>
+
+            {/* Alma guide */}
+            <div className="relative mb-4 flex items-center gap-3">
+              <div className="relative shrink-0">
+                <img
+                  src="/alma-avatar.png"
+                  alt="Alma"
+                  className="h-9 w-9 rounded-full object-cover ring-2 ring-[#D10E63]/40"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#1A1613] bg-[#2E7D4F]"
+                />
+              </div>
+              <span className="text-sm text-[#B8B0A2]">
+                <span className="font-semibold text-[#E7E1D6]">Alma</span> {t.sofiaBadge}
+              </span>
             </div>
 
             <button className="relative w-full rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">

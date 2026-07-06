@@ -33,7 +33,7 @@ const T = {
   fr: {
     home: 'Accueil Unitalk AI',
     signIn: 'Se connecter',
-    createAgent: 'Créer mon agent',
+    createAgent: 'Créer mon Collaborateur IA gratuit',
     signUp: 'S’inscrire',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -41,7 +41,7 @@ const T = {
   en: {
     home: 'Unitalk AI Home',
     signIn: 'Sign in',
-    createAgent: 'Create my agent',
+    createAgent: 'Create my AI Collaborator for free',
     signUp: 'Sign up',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
