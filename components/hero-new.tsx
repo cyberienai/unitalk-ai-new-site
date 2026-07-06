@@ -179,7 +179,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="mb-6 border-t border-[#DcD4C4]/40 pt-6">
               <p className="text-[10px] font-semibold uppercase text-[#857C6E] mb-2">{t.sofiaStep}</p>
               <div className="h-1.5 w-full rounded-full bg-[#DcD4C4]">
-                <div className="h-full w-3/7 rounded-full bg-[#4F5BD5]" />
+                <div className="h-full w-[43%] rounded-full bg-[#4F5BD5]" />
               </div>
             </div>
 

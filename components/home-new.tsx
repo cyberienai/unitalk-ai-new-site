@@ -4,39 +4,46 @@ import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
 import { AlmaIaSections } from './alma-ia-sections'
 import { CoreProductCards } from './core-product-cards'
-import { ProductShowcase } from './product-showcase'
-import { CapabilitiesSection } from './capabilities-section'
-import { PricingSection } from './pricing-section'
-import { FaqSection } from './faq-section'
+import {
+  AIGatewaySection,
+  SovereigntySection,
+  OffersSection,
+  HomeFaq,
+  FinalCtaSection,
+} from './home-extra-sections'
 import { SiteFooter } from './site-footer'
 
 export function HomeNew() {
   return (
     <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
+      {/* 1. Header / Navigation */}
       <Navbar />
 
-      {/* New hero with 2 columns and Sofia card */}
+      {/* 2 + 3. Hero 2 colonnes + carte Sofia */}
       <HeroNew lang="fr" />
 
-      {/* Alma onboarding + IA dispersée sections */}
+      {/* 4 + 5. Alma onboarding + IA dispersée */}
       <AlmaIaSections lang="fr" />
 
-      {/* Core product: what transforms an agent into collaborator */}
+      {/* 6. Cœur produit — 7 cards */}
       <CoreProductCards lang="fr" />
 
-      {/* Product showcase — adapted */}
-      <ProductShowcase />
+      {/* 7. AI Gateway */}
+      <AIGatewaySection />
 
-      {/* Agentic capabilities grid */}
-      <CapabilitiesSection />
+      {/* 8. Souveraineté / réversibilité */}
+      <SovereigntySection />
 
-      {/* Pricing section */}
-      <PricingSection />
+      {/* 9. Offres Solo / Teams / Business */}
+      <OffersSection />
 
-      {/* FAQ section */}
-      <FaqSection />
+      {/* 10. FAQ courte */}
+      <HomeFaq />
 
-      {/* Footer */}
+      {/* 11. CTA final */}
+      <FinalCtaSection />
+
+      {/* 12. Footer */}
       <SiteFooter />
     </div>
   )
