@@ -161,9 +161,9 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             ))}
           </div>
 
-          <div className="rounded-2xl border-l-2 border-[#4F5BD5] bg-white/[0.03] px-6 py-5">
+          <div className="rounded-2xl border-l-2 border-[#D10E63] bg-white/[0.03] px-6 py-5">
             <p className="text-lg font-semibold leading-snug text-[#F7F4EE]">
-              <span className="text-[#8B96EC]">Unitalk</span>{' '}
+              <span className="text-[#F1729F]">Unitalk</span>{' '}
               {t.dispConclusion.replace('Unitalk ', '')}
             </p>
           </div>

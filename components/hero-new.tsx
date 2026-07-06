@@ -198,9 +198,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
             {/* identity */}
             <div className="relative mb-6 flex items-center gap-4">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#4F5BD5] to-[#D10E63] text-xl font-bold text-white">
-                S
-              </div>
+              <img
+                src="/sofia-avatar.png"
+                alt={t.sofiaName}
+                className="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-white/15"
+              />
               <div>
                 <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{t.sofiaName}</h2>
                 <p className="text-sm text-[#B8B0A2]">{t.sofiaRole}</p>
