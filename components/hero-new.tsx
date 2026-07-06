@@ -66,48 +66,64 @@ const T = {
   },
 }
 
+const ease = [0.22, 1, 0.36, 1] as const
+
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
 
   return (
     <section className="relative w-full overflow-hidden bg-[#F3EFE6] px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
-      {/* Subtle grid backdrop */}
+      {/* Faint ink rule grid — same editorial backdrop as the solo hero */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        className="bg-grid pointer-events-none absolute inset-0 opacity-70"
         style={{
-          backgroundImage:
-            'linear-gradient(to right, rgba(28,26,23,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(28,26,23,0.05) 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
-          maskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent)',
+          maskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
+          WebkitMaskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
         }}
       />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         {/* Left column — copy */}
-        <motion.div
-          className="flex flex-col justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3]/70 px-3.5 py-1.5">
+        <div className="flex flex-col justify-center">
+          <motion.div
+            className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3]/70 px-3.5 py-1.5"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease }}
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-[#4F5BD5]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5C554A]">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#857C6E]">
               {t.eyebrow}
             </span>
-          </div>
+          </motion.div>
 
-          <h1 className="font-sf mb-6 text-pretty text-4xl font-bold leading-[1.05] tracking-tight text-[#1C1A17] sm:text-5xl lg:text-[3.5rem]">
+          <motion.h1
+            className="font-sf mb-6 text-balance font-bold text-[#1C1A17]"
+            style={{ fontSize: 'clamp(2.2rem, 4.6vw, 3.6rem)', lineHeight: 1.02, letterSpacing: '-0.03em' }}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.06 }}
+          >
             {t.headline}
-          </h1>
+          </motion.h1>
 
-          <p className="mb-7 max-w-xl text-lg leading-relaxed text-[#4E483F] sm:text-xl">
+          <motion.p
+            className="mb-7 max-w-xl text-lg leading-relaxed text-[#4E483F] sm:text-xl"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.14 }}
+          >
             {t.subheadline}
-          </p>
+          </motion.p>
 
           {/* Manifesto as chips */}
-          <div className="mb-8 flex flex-wrap gap-2">
+          <motion.div
+            className="mb-8 flex flex-wrap gap-2"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.2 }}
+          >
             {t.manifesto.map((line) => (
               <span
                 key={line}
@@ -117,9 +133,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {line}
               </span>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <motion.div
+            className="flex flex-col gap-3 sm:flex-row sm:items-center"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.26 }}
+          >
             <button className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] shadow-sm transition-all hover:bg-[#B00B52] sm:text-base">
               {t.ctaPrimary}
               <ChevronRight className="h-4 w-4" />
@@ -127,19 +148,24 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <button className="inline-flex items-center justify-center gap-1 rounded-full border border-[#DcD4C4] bg-transparent px-6 py-3.5 text-sm font-medium text-[#1C1A17] transition-colors hover:bg-[#EFE9DC]">
               {t.ctaSecondary}
             </button>
-          </div>
+          </motion.div>
 
-          <p className="mt-4 max-w-md text-xs leading-relaxed text-[#857C6E] sm:text-sm">
+          <motion.p
+            className="mt-4 max-w-md text-xs leading-relaxed text-[#857C6E] sm:text-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease, delay: 0.32 }}
+          >
             {t.ctaMicrocopy}
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         {/* Right column — Sofia dark glass card */}
         <motion.div
           className="relative flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
+          initial={{ opacity: 0, scale: 0.96, y: 18 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.7, ease, delay: 0.2 }}
         >
           {/* Glow behind card */}
           <div
