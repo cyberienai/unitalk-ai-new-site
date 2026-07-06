@@ -329,8 +329,8 @@ export function FinalCtaSection() {
         </motion.h2>
 
         <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-[#C4BCAE]">
-          Un vrai collaborateur avec une identité, une mémoire, des compétences, des outils et ses
-          propres instructions de travail.
+          Un vrai collaborateur avec une identité, une mémoire, une intelligence, des compétences,
+          des outils, des ressources et ses propres instructions de travail.
         </p>
 
         <div className="mb-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-[#A79F91]">
