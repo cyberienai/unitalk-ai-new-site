@@ -1,69 +1,76 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { Mic, ChevronRight, X } from 'lucide-react'
 
 const T = {
   fr: {
-    almaTitle: 'Mise en service en moins de 15 minutes avec Alma.',
+    // Alma
+    almaEyebrow: 'Mise en service guidée',
+    almaTitle: 'Votre agent est prêt en moins de 15 minutes, avec Alma.',
     almaText:
-      'Alma, notre agent vocal, vous accompagne pour créer et configurer votre premier Collaborateur IA Unitalk.\nElle vous guide pas à pas pour :',
+      "Alma, notre agent vocal, vous accompagne au téléphone pour créer et configurer votre premier Collaborateur IA. Vous ne configurez rien seul — elle vous guide, étape par étape.",
     almaSteps: [
-      'choisir son identité ;',
-      'définir son rôle ;',
-      'sélectionner ses premières compétences ;',
-      'ajouter du contexte ;',
-      'rédiger ses instructions de travail ;',
-      'tester une première mission ;',
-      'décider comment l\'intégrer dans votre quotidien.',
+      { n: '01', label: 'Choisir son identité' },
+      { n: '02', label: 'Définir son rôle' },
+      { n: '03', label: 'Sélectionner ses premières compétences' },
+      { n: '04', label: 'Ajouter du contexte' },
+      { n: '05', label: 'Rédiger ses instructions de travail' },
+      { n: '06', label: 'Tester une première mission' },
+      { n: '07', label: "L'intégrer dans votre quotidien" },
     ],
-    almaStrong: 'Vous ne configurez pas seul. Alma vous guide.',
     almaCta: 'Créer mon Collaborateur IA gratuit',
     almaMicrocopy: 'Sans carte bancaire.',
 
-    dispersedTitle: 'L\'IA ne doit pas rester dans un onglet.',
-    dispersedIntro: 'Vos équipes utilisent déjà l\'IA.\nMais souvent, elles l\'utilisent en désordre.',
-    dispersedProblems: [
-      'Les comptes sont individuels',
-      'Les conversations restent isolées',
-      'Les prompts disparaissent',
-      'Les bonnes méthodes ne sont pas partagées',
-      'La mémoire se perd',
-      'Les données sortent du cadre',
-      'Les outils restent séparés',
+    // IA dispersée (dark)
+    dispEyebrow: 'Le vrai problème',
+    dispTitle: "L'IA ne devrait pas vivre dans un onglet.",
+    dispIntro:
+      "Vos équipes utilisent déjà l'IA tous les jours. Le problème n'est pas l'adoption — c'est la dispersion. Chacun dans son coin, sans mémoire ni méthode partagée. L'entreprise, elle, n'en garde presque rien.",
+    dispProblems: [
+      'Des comptes individuels',
+      'Des conversations isolées',
+      'Des prompts qui disparaissent',
+      'Des méthodes jamais partagées',
+      'Une mémoire qui se perd',
+      'Des données hors cadre',
+      'Des outils déconnectés',
     ],
-    dispersedStrong: 'Le problème n\'est pas que les entreprises n\'utilisent pas l\'IA.\nLe problème est qu\'elles l\'utilisent en désordre.',
-    dispersedConclusion: 'Unitalk organise l\'IA pour qu\'elle devienne une vraie capacité de travail.',
+    dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
+    dispConclusion: "Unitalk organise l'IA pour qu'elle devienne une vraie capacité de travail, partagée et durable.",
   },
   en: {
-    almaTitle: 'Onboarded in less than 15 minutes with Alma.',
+    almaEyebrow: 'Guided onboarding',
+    almaTitle: 'Your agent is ready in under 15 minutes, with Alma.',
     almaText:
-      'Alma, our voice agent, guides you to create and configure your first Unitalk AI Collaborator.\nShe walks you step by step to:',
+      "Alma, our voice agent, guides you over the phone to create and configure your first AI Collaborator. You never configure anything alone — she walks you through it, step by step.",
     almaSteps: [
-      'choose its identity;',
-      'define its role;',
-      'select its first skills;',
-      'add context;',
-      'write its work instructions;',
-      'test a first mission;',
-      'decide how to integrate it into your daily routine.',
+      { n: '01', label: 'Choose its identity' },
+      { n: '02', label: 'Define its role' },
+      { n: '03', label: 'Select its first skills' },
+      { n: '04', label: 'Add context' },
+      { n: '05', label: 'Write its work instructions' },
+      { n: '06', label: 'Test a first mission' },
+      { n: '07', label: 'Integrate it into your routine' },
     ],
-    almaStrong: 'You don\'t configure alone. Alma guides you.',
     almaCta: 'Create my AI Collaborator for free',
     almaMicrocopy: 'No credit card.',
 
-    dispersedTitle: 'AI shouldn\'t stay in a tab.',
-    dispersedIntro: 'Your teams already use AI.\nBut often, they use it in disorder.',
-    dispersedProblems: [
-      'Accounts are individual',
-      'Conversations remain isolated',
-      'Prompts disappear',
-      'Best practices aren\'t shared',
-      'Memory is lost',
-      'Data leaves the frame',
-      'Tools remain separate',
+    dispEyebrow: 'The real problem',
+    dispTitle: "AI shouldn't live in a tab.",
+    dispIntro:
+      "Your teams already use AI every day. The problem isn't adoption — it's dispersion. Everyone on their own, with no shared memory or method. And the company keeps almost nothing.",
+    dispProblems: [
+      'Individual accounts',
+      'Isolated conversations',
+      'Prompts that vanish',
+      'Methods never shared',
+      'Memory that gets lost',
+      'Data out of bounds',
+      'Disconnected tools',
     ],
-    dispersedStrong: 'The problem isn\'t that companies don\'t use AI.\nThe problem is they use it in disorder.',
-    dispersedConclusion: 'Unitalk organizes AI so it becomes a real work capacity.',
+    dispStrong: "The problem isn't that companies don't use AI. It's that they use it in disorder.",
+    dispConclusion: 'Unitalk organizes AI so it becomes a real work capacity — shared and lasting.',
   },
 }
 
@@ -72,126 +79,119 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
   return (
     <>
-      {/* Alma section */}
-      <section className="relative w-full bg-[#F3EFE6] px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <motion.h2
-            className="font-sf mb-6 text-3xl font-bold text-[#1C1A17] sm:text-4xl"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            {t.almaTitle}
-          </motion.h2>
+      {/* ---------- Alma onboarding (light) ---------- */}
+      <section className="relative w-full bg-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+          {/* Left — copy + Alma bubble */}
+          <div>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-3.5 py-1.5">
+              <Mic className="h-3.5 w-3.5 text-[#4F5BD5]" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5C554A]">
+                {t.almaEyebrow}
+              </span>
+            </div>
 
-          <motion.p
-            className="mb-8 whitespace-pre-line text-lg leading-relaxed text-[#4E483F] sm:text-xl"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            {t.almaText}
-          </motion.p>
+            <motion.h2
+              className="font-sf mb-5 text-3xl font-bold leading-tight text-[#1C1A17] sm:text-4xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              {t.almaTitle}
+            </motion.h2>
 
-          <motion.ul
-            className="mb-10 space-y-2 text-left sm:mx-auto sm:max-w-md"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
+            <p className="mb-8 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
+
+            <button className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
+              {t.almaCta}
+              <ChevronRight className="h-4 w-4" />
+            </button>
+            <p className="text-xs text-[#857C6E]">{t.almaMicrocopy}</p>
+          </div>
+
+          {/* Right — numbered steps */}
+          <div className="grid gap-3 sm:grid-cols-2">
             {t.almaSteps.map((step, i) => (
-              <li key={i} className="text-sm text-[#1C1A17] sm:text-base">
-                {step}
-              </li>
+              <motion.div
+                key={step.n}
+                className={`flex items-center gap-4 rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] px-4 py-4 ${
+                  i === t.almaSteps.length - 1 ? 'sm:col-span-2' : ''
+                }`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4F5BD5]/12 text-sm font-bold text-[#4F5BD5]">
+                  {step.n}
+                </span>
+                <span className="text-sm font-medium text-[#1C1A17]">{step.label}</span>
+              </motion.div>
             ))}
-          </motion.ul>
-
-          <motion.p
-            className="mb-8 text-lg font-semibold text-[#1C1A17] sm:text-xl"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            {t.almaStrong}
-          </motion.p>
-
-          <motion.button
-            className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            {t.almaCta}
-          </motion.button>
-          <p className="text-xs text-[#857C6E] sm:text-sm">{t.almaMicrocopy}</p>
+          </div>
         </div>
       </section>
 
-      {/* IA dispersée section */}
-      <section className="relative w-full bg-white px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-4xl">
+      {/* ---------- IA dispersée (dark) ---------- */}
+      <section className="relative w-full overflow-hidden bg-[#1A1613] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+        {/* glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-60"
+          style={{
+            background:
+              'radial-gradient(circle at 15% 0%, rgba(209,14,99,0.18), transparent 45%), radial-gradient(circle at 90% 100%, rgba(79,91,213,0.16), transparent 45%)',
+          }}
+        />
+
+        <div className="relative mx-auto max-w-4xl">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B8B0A2]">
+              {t.dispEyebrow}
+            </span>
+          </div>
+
           <motion.h2
-            className="font-sf mb-8 text-3xl font-bold text-[#1C1A17] sm:text-4xl"
+            className="font-sf mb-6 text-3xl font-bold leading-tight text-[#F7F4EE] sm:text-4xl lg:text-[2.75rem]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            {t.dispersedTitle}
+            {t.dispTitle}
           </motion.h2>
 
-          <motion.p
-            className="mb-10 whitespace-pre-line text-lg leading-relaxed text-[#4E483F] sm:text-xl"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            {t.dispersedIntro}
-          </motion.p>
+          <p className="mb-10 max-w-2xl text-lg leading-relaxed text-[#C4BCAE]">{t.dispIntro}</p>
 
-          <motion.div
-            className="mb-10 grid gap-4 sm:grid-cols-2"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            {t.dispersedProblems.map((problem, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 rounded-lg border border-[#E4DCCC] bg-[#F9F7F3] px-4 py-3"
+          {/* problems grid */}
+          <div className="mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {t.dispProblems.map((problem, i) => (
+              <motion.div
+                key={problem}
+                className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-4 py-3"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.05 }}
               >
-                <span className="text-[#D10E63] font-bold">—</span>
-                <p className="text-sm text-[#1C1A17] sm:text-base">{problem}</p>
-              </div>
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/15 text-[#F1729F]">
+                  <X className="h-3 w-3" />
+                </span>
+                <p className="text-sm text-[#D8D1C5]">{problem}</p>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="mb-10 rounded-lg border-l-4 border-[#D10E63] bg-[#F9F7F3] px-6 py-4"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <p className="whitespace-pre-line font-semibold text-[#1C1A17]">{t.dispersedStrong}</p>
-          </motion.div>
+          <div className="mb-8 rounded-2xl border-l-2 border-[#D10E63] bg-white/[0.03] px-6 py-5">
+            <p className="text-lg font-semibold leading-snug text-[#F7F4EE]">{t.dispStrong}</p>
+          </div>
 
-          <motion.p
-            className="text-lg text-[#4E483F] sm:text-xl"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            {t.dispersedConclusion}
-          </motion.p>
+          <p className="text-lg leading-relaxed text-[#C4BCAE]">
+            <span className="font-semibold text-[#8B96EC]">Unitalk</span>{' '}
+            {t.dispConclusion.replace('Unitalk ', '')}
+          </p>
         </div>
       </section>
     </>

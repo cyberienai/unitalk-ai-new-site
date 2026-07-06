@@ -104,65 +104,74 @@ export function CoreProductCards({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
 
   return (
-    <section className="relative w-full bg-[#F3EFE6] px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <section className="relative w-full bg-[#F3EFE6] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <motion.h2
-          className="font-sf mb-4 text-3xl font-bold text-[#1C1A17] text-center sm:text-4xl"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {t.title}
-        </motion.h2>
+        <div className="mx-auto mb-14 max-w-2xl text-center">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#4F5BD5]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5C554A]">
+              {lang === 'fr' ? 'Agent vs collaborateur' : 'Agent vs collaborator'}
+            </span>
+          </div>
+          <motion.h2
+            className="font-sf mb-4 text-3xl font-bold leading-tight text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            {t.title}
+          </motion.h2>
 
-        <motion.p
-          className="mb-12 text-center text-lg leading-relaxed text-[#4E483F] sm:text-xl"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          {t.intro}
-        </motion.p>
+          <motion.p
+            className="text-lg leading-relaxed text-[#4E483F] sm:text-xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            {t.intro}
+          </motion.p>
+        </div>
 
-        <motion.div
-          className="mb-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.cards.map((card, i) => {
             const Icon = card.icon
             return (
               <motion.div
                 key={i}
-                className="group rounded-xl border border-[#DcD4C4] bg-white px-6 py-6 transition-all hover:border-[#D10E63]/40 hover:shadow-md sm:px-5 sm:py-5"
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3 }}
+                className={`group relative overflow-hidden rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 transition-all hover:-translate-y-1 hover:border-[#4F5BD5]/40 hover:shadow-[0_12px_40px_-12px_rgba(28,26,23,0.25)] ${
+                  i === 6 ? 'sm:col-span-2 lg:col-span-1' : ''
+                }`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
               >
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63] transition-colors group-hover:bg-[#D10E63]/20">
+                <span className="absolute right-5 top-5 text-xs font-bold tabular-nums text-[#C9C1B4]">
+                  0{i + 1}
+                </span>
+                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#4F5BD5]/10 text-[#4F5BD5] transition-colors group-hover:bg-[#4F5BD5]/20">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-[#1C1A17] sm:text-base">
-                  {card.title}
-                </h3>
+                <h3 className="mb-2 text-lg font-semibold text-[#1C1A17]">{card.title}</h3>
                 <p className="text-sm leading-relaxed text-[#4E483F]">{card.description}</p>
               </motion.div>
             )
           })}
-        </motion.div>
+        </div>
 
-        <motion.p
-          className="text-center text-lg font-semibold text-[#1C1A17] sm:text-xl"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+        <motion.div
+          className="mx-auto max-w-3xl rounded-2xl bg-[#1A1613] px-8 py-8 text-center"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.5 }}
         >
-          {t.conclusion}
-        </motion.p>
+          <p className="text-xl font-semibold leading-snug text-[#F7F4EE] sm:text-2xl">
+            {t.conclusion}
+          </p>
+        </motion.div>
       </div>
     </section>
   )
