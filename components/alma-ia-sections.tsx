@@ -115,7 +115,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4F5BD5]/12 text-sm font-bold text-[#4F5BD5]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1C1A17] text-sm font-bold text-[#FBF9F3]">
                   {step.n}
                 </span>
                 <span className="text-sm font-medium text-[#1C1A17]">{step.label}</span>
