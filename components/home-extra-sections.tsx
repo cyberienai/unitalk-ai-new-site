@@ -154,10 +154,10 @@ const OFFERS = [
   },
   {
     name: 'Business',
-    subtitle: 'Vos agents, vos apps, votre serveur privé.',
+    subtitle: 'Vos agents, vos apps, votre serveur dédié.',
     text: 'Déployez des Collaborateurs IA dans une infrastructure privée avec vos données et vos API.',
     points: [
-      'Serveur IA privé',
+      'Serveur IA dédié',
       'Apps natives : n8n, Twenty, Payload, Plane',
       'Modèles au choix',
       'Gouvernance et souveraineté',
@@ -165,7 +165,7 @@ const OFFERS = [
     ],
     cta: 'Découvrir Business',
     href: '/business',
-    badge: 'Serveur privé',
+    badge: 'Serveur dédié',
     featured: false,
   },
 ]
@@ -259,7 +259,7 @@ const FAQ = [
   },
   {
     q: 'Mes données restent-elles sous contrôle ?',
-    a: 'Oui. Unitalk propose plusieurs niveaux : cloud mutualisé, Desktop, hébergement à Paris, modèles locaux, serveur privé, accès contrôlés et mémoire maîtrisée.',
+    a: 'Oui. Unitalk propose plusieurs niveaux : cloud mutualisé, Desktop, hébergement à Paris, modèles locaux, serveur dédié, accès contrôlés et mémoire maîtrisée.',
   },
 ]
 
