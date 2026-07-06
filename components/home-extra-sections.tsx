@@ -20,7 +20,7 @@ export function AIGatewaySection() {
         className="pointer-events-none absolute inset-0 opacity-70"
         style={{
           background:
-            'radial-gradient(circle at 50% 0%, rgba(79,91,213,0.22), transparent 55%), radial-gradient(circle at 80% 100%, rgba(209,14,99,0.14), transparent 50%)',
+            'radial-gradient(circle at 50% 0%, rgba(209,14,99,0.2), transparent 55%), radial-gradient(circle at 80% 100%, rgba(241,114,159,0.12), transparent 50%)',
         }}
       />
       <div className="relative mx-auto max-w-4xl text-center">
@@ -39,7 +39,7 @@ export function AIGatewaySection() {
           {GATEWAY_MODELS.map((m, i) => (
             <motion.span
               key={m}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-medium text-[#E7E1D6] transition-colors hover:border-[#4F5BD5]/40 hover:bg-[#4F5BD5]/10"
+              className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-medium text-[#E7E1D6] transition-colors hover:border-[#D10E63]/40 hover:bg-[#D10E63]/10"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -200,7 +200,7 @@ export function OffersSection() {
               {o.badge && (
                 <span
                   className={`mb-4 inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                    o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#4F5BD5]/12 text-[#4F5BD5]'
+                    o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#1C1A17]/8 text-[#1C1A17]'
                   }`}
                 >
                   {o.badge}
@@ -213,7 +213,7 @@ export function OffersSection() {
               <ul className="mb-8 flex-1 space-y-3">
                 {o.points.map((p) => (
                   <li key={p} className="flex items-start gap-2.5 text-sm text-[#4E483F]">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#4F5BD5]" />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
                     {p}
                   </li>
                 ))}
@@ -313,7 +313,7 @@ export function FinalCtaSection() {
         className="pointer-events-none absolute inset-0 opacity-80"
         style={{
           background:
-            'radial-gradient(circle at 50% 0%, rgba(79,91,213,0.28), transparent 55%), radial-gradient(circle at 50% 120%, rgba(209,14,99,0.2), transparent 55%)',
+            'radial-gradient(circle at 50% 0%, rgba(209,14,99,0.26), transparent 55%), radial-gradient(circle at 50% 120%, rgba(241,114,159,0.16), transparent 55%)',
         }}
       />
       <div className="relative mx-auto max-w-3xl text-center">

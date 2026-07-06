@@ -28,7 +28,7 @@ const T = {
     dispEyebrow: 'Le vrai problème',
     dispTitle: "L'IA ne devrait pas vivre dans un onglet.",
     dispIntro:
-      "Vos équipes utilisent déjà l'IA tous les jours. Le problème n'est pas l'adoption — c'est la dispersion. Chacun dans son coin, sans mémoire ni méthode partagée. L'entreprise, elle, n'en garde presque rien.",
+      "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est la dispersion : chacun dans son coin, sans mémoire ni méthode partagée. L'entreprise, elle, n'en garde presque rien.",
     dispProblems: [
       'Des comptes individuels',
       'Des conversations isolées',

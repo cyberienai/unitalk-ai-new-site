@@ -94,7 +94,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#4F5BD5]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
             <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#857C6E]">
               {t.eyebrow}
             </span>
@@ -173,7 +173,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-70 blur-2xl"
             style={{
               background:
-                'radial-gradient(circle at 30% 20%, rgba(79,91,213,0.35), transparent 55%), radial-gradient(circle at 80% 90%, rgba(209,14,99,0.25), transparent 55%)',
+                'radial-gradient(circle at 30% 20%, rgba(209,14,99,0.32), transparent 55%), radial-gradient(circle at 80% 90%, rgba(241,114,159,0.22), transparent 55%)',
             }}
           />
 
@@ -182,13 +182,13 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-x-0 top-0 h-24"
-              style={{ background: 'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(79,91,213,0.18), transparent)' }}
+              style={{ background: 'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(209,14,99,0.16), transparent)' }}
             />
 
             {/* header row */}
             <div className="relative mb-6 flex items-center justify-between">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#4F5BD5]/30 bg-[#4F5BD5]/15 px-3 py-1 text-xs font-medium text-[#B7BEF0]">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#8B96EC]" />
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#D10E63]/30 bg-[#D10E63]/15 px-3 py-1 text-xs font-medium text-[#F1729F]">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F1729F]" />
                 {t.sofiaTitle}
               </div>
               <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8A8175]">
@@ -222,7 +222,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     key={row.label}
                     className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2.5"
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-[#8B96EC]" />
+                    <Icon className="h-4 w-4 shrink-0 text-[#F1729F]" />
                     <span className="w-20 text-[10px] font-semibold uppercase tracking-wide text-[#8A8175]">
                       {row.label}
                     </span>
@@ -254,7 +254,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="relative mb-5 border-t border-white/[0.06] pt-5">
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-[#4F5BD5] to-[#8B96EC]"
+                  className="h-full rounded-full bg-gradient-to-r from-[#D10E63] to-[#F1729F]"
                   initial={{ width: 0 }}
                   whileInView={{ width: '43%' }}
                   viewport={{ once: true }}
@@ -264,9 +264,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
 
             {/* status + button */}
-            <div className="relative mb-4 flex items-center gap-2 rounded-xl border border-[#4F5BD5]/20 bg-[#4F5BD5]/10 px-3 py-2.5">
-              <CheckCircle2 className="h-4 w-4 text-[#8B96EC]" />
-              <span className="text-sm font-medium text-[#B7BEF0]">{t.sofiaStatus}</span>
+            <div className="relative mb-4 flex items-center gap-2 rounded-xl border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-3 py-2.5">
+              <CheckCircle2 className="h-4 w-4 text-[#4F9E6E]" />
+              <span className="text-sm font-medium text-[#8FCBA6]">{t.sofiaStatus}</span>
             </div>
 
             {/* Alma guide */}
