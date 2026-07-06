@@ -109,7 +109,7 @@ export function SovereigntySection() {
             Tout reste dans votre environnement Unitalk, sous votre contrôle.
           </p>
           <p className="text-xl font-semibold text-[#1C1A17]">
-            Vos agents. Vos modèles. Vos données. Votre mémoire.
+            Vos agents. Vos compétences. Votre code. Vos données. Votre mémoire.
           </p>
         </div>
       </div>
