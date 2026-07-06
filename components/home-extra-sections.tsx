@@ -318,38 +318,84 @@ export function FinalCtaSection() {
         }}
       />
       <div className="relative mx-auto max-w-3xl text-center">
-        <motion.h2
-          className="font-sf mb-6 text-3xl font-bold leading-tight text-[#FBF9F3] sm:text-4xl lg:text-5xl"
-          initial={{ opacity: 0, y: 20 }}
+        <motion.p
+          className="mb-5 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#F1729F]"
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Créez votre premier Collaborateur IA Unitalk.
+          Prêt à déléguer pour de vrai ?
+        </motion.p>
+
+        <motion.h2
+          className="font-sf mb-6 text-balance font-bold leading-[1.05] text-[#FBF9F3]"
+          style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', letterSpacing: '-0.02em' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.06 }}
+        >
+          {'Ne créez pas un simple agent. '}
+          <span className="text-[#F1729F]">Créez un vrai collaborateur.</span>
         </motion.h2>
 
-        <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-[#C4BCAE]">
-          Un vrai collaborateur avec une identité, une mémoire, une intelligence, des compétences,
-          des outils, des ressources et ses propres instructions de travail.
-        </p>
-
-        <div className="mb-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-[#A79F91]">
-          <span>Guidé par Alma en 7 étapes</span>
-          <span className="hidden sm:inline">·</span>
-          <span>Moins de 15 minutes</span>
-          <span className="hidden sm:inline">·</span>
-          <span>Gratuit, sans carte bancaire</span>
-        </div>
-
-        <a
-          href="/signup"
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 py-4 text-base font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+        <motion.div
+          className="mx-auto mb-9 flex max-w-xl flex-wrap justify-center gap-2"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.12 }}
         >
-          Créer mon Collaborateur IA gratuit
-          <ChevronRight className="h-5 w-5" />
-        </a>
+          {[
+            'Une identité',
+            'Une mémoire',
+            'Une intelligence',
+            'Des compétences',
+            'Des outils',
+            'Des ressources',
+            'Ses instructions de travail',
+          ].map((chip) => (
+            <span
+              key={chip}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-sm text-[#D8D1C5]"
+            >
+              <Check className="h-3.5 w-3.5 text-[#F1729F]" />
+              {chip}
+            </span>
+          ))}
+        </motion.div>
 
-        <p className="mt-10 text-sm italic text-[#A79F91]">
+        <motion.div
+          className="flex flex-col items-center gap-4"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.18 }}
+        >
+          <a
+            href="/signup"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 py-4 text-base font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+          >
+            Créer mon Collaborateur IA gratuit
+            <ChevronRight className="h-5 w-5" />
+          </a>
+
+          {/* Alma reassurance row */}
+          <div className="flex items-center gap-2.5 text-sm text-[#A79F91]">
+            <img
+              src="/alma-avatar.png"
+              alt="Alma"
+              className="h-7 w-7 rounded-full object-cover ring-2 ring-[#D10E63]/40"
+            />
+            <span>
+              <span className="font-semibold text-[#E7E1D6]">Alma</span> vous guide en 7 étapes —
+              moins de 15 minutes, sans carte bancaire.
+            </span>
+          </div>
+        </motion.div>
+
+        <p className="mt-12 text-sm italic text-[#A79F91]">
           Unitalk AI — {"L'IA qui travaille avec votre organisation."}
         </p>
       </div>
