@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
-import { Navbar } from '@/components/navbar'
-import { SegmentContent } from '@/components/segment-content'
-import { SiteFooter } from '@/components/site-footer'
+import { HeroSection } from '@/components/hero-section'
 
 export const metadata: Metadata = {
   title: 'Solo · Unitalk AI',
@@ -10,11 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function SoloPage() {
-  return (
-    <>
-      <Navbar />
-      <SegmentContent segment="solo" />
-      <SiteFooter />
-    </>
-  )
+  return <HeroSection />
 }
