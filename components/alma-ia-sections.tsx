@@ -1,13 +1,15 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mic, ChevronRight, X } from 'lucide-react'
+import { ChevronRight, X } from 'lucide-react'
+import { SectionHeader } from './section-header'
 
 const T = {
   fr: {
     // Alma
     almaEyebrow: 'Mise en service guidée',
-    almaTitle: 'Votre agent est prêt en moins de 15 minutes, avec Alma.',
+    almaTitle: 'Votre agent est prêt en moins de 15 minutes, ',
+    almaTitleAccent: 'avec Alma.',
     almaText:
       "Alma, notre agent vocal, vous accompagne au téléphone pour créer et configurer votre premier Collaborateur IA. Vous ne configurez rien seul — elle vous guide, étape par étape.",
     almaSteps: [
@@ -41,7 +43,8 @@ const T = {
   },
   en: {
     almaEyebrow: 'Guided onboarding',
-    almaTitle: 'Your agent is ready in under 15 minutes, with Alma.',
+    almaTitle: 'Your agent is ready in under 15 minutes, ',
+    almaTitleAccent: 'with Alma.',
     almaText:
       "Alma, our voice agent, guides you over the phone to create and configure your first AI Collaborator. You never configure anything alone — she walks you through it, step by step.",
     almaSteps: [
@@ -84,24 +87,13 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           {/* Left — copy + Alma bubble */}
           <div>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-3.5 py-1.5">
-              <Mic className="h-3.5 w-3.5 text-[#4F5BD5]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5C554A]">
-                {t.almaEyebrow}
-              </span>
-            </div>
+            <SectionHeader
+              eyebrow={t.almaEyebrow}
+              title={t.almaTitle}
+              titleAccent={t.almaTitleAccent}
+            />
 
-            <motion.h2
-              className="font-sf mb-5 text-3xl font-bold leading-tight text-[#1C1A17] sm:text-4xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              {t.almaTitle}
-            </motion.h2>
-
-            <p className="mb-8 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
+            <p className="mb-8 mt-4 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
 
             <button className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
               {t.almaCta}
@@ -146,24 +138,9 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         />
 
         <div className="relative mx-auto max-w-4xl">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B8B0A2]">
-              {t.dispEyebrow}
-            </span>
-          </div>
+          <SectionHeader eyebrow={t.dispEyebrow} title={t.dispTitle} subtitle={t.dispIntro} dark />
 
-          <motion.h2
-            className="font-sf mb-6 text-3xl font-bold leading-tight text-[#F7F4EE] sm:text-4xl lg:text-[2.75rem]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            {t.dispTitle}
-          </motion.h2>
-
-          <p className="mb-10 max-w-2xl text-lg leading-relaxed text-[#C4BCAE]">{t.dispIntro}</p>
+          <div className="h-10" />
 
           {/* problems grid */}
           <div className="mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

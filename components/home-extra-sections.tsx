@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check } from 'lucide-react'
+import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
 
@@ -23,27 +24,16 @@ export function AIGatewaySection() {
         }}
       />
       <div className="relative mx-auto max-w-4xl text-center">
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#8B96EC]" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B8B0A2]">
-            Unitalk AI Gateway
-          </span>
-        </div>
+        <SectionHeader
+          eyebrow="Unitalk AI Gateway"
+          title="Tous les modèles IA. "
+          titleAccent="Une seule ressource d'entreprise."
+          subtitle="Vos humains et vos agents accèdent aux meilleurs modèles depuis un même endroit — sans clés API à gérer, ni abonnements empilés."
+          align="center"
+          dark
+        />
 
-        <motion.h2
-          className="font-sf mb-6 text-3xl font-bold leading-tight text-[#F7F4EE] sm:text-4xl lg:text-[2.75rem]"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          {"Tous les modèles IA. Une seule ressource d'entreprise."}
-        </motion.h2>
-
-        <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-[#C4BCAE]">
-          Vos humains et vos agents accèdent aux meilleurs modèles depuis un même endroit — sans clés
-          API à gérer, ni abonnements empilés.
-        </p>
+        <div className="h-10" />
 
         <div className="mb-12 flex flex-wrap justify-center gap-2.5">
           {GATEWAY_MODELS.map((m, i) => (
@@ -83,25 +73,14 @@ export function SovereigntySection() {
   return (
     <section className="w-full bg-[#F3EFE6] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-3.5 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#4F5BD5]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5C554A]">
-              Souveraineté
-            </span>
-          </div>
-          <motion.h2
-            className="font-sf mb-6 text-3xl font-bold leading-tight text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Les modèles changent. Votre infrastructure reste.
-          </motion.h2>
-          <p className="text-lg leading-relaxed text-[#4E483F]">
-            Avec Unitalk, vous gardez la maîtrise de ce qui compte vraiment.
-          </p>
+        <div className="mx-auto mb-12 max-w-2xl">
+          <SectionHeader
+            eyebrow="Souveraineté"
+            title="Les modèles changent. "
+            titleAccent="Votre infrastructure reste."
+            subtitle="Avec Unitalk, vous gardez la maîtrise de ce qui compte vraiment."
+            align="center"
+          />
         </div>
 
         <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -196,22 +175,13 @@ export function OffersSection() {
   return (
     <section id="offres" className="w-full bg-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-3.5 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5C554A]">
-              Offres
-            </span>
-          </div>
-          <motion.h2
-            className="font-sf text-3xl font-bold leading-tight text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Choisissez votre façon de démarrer.
-          </motion.h2>
+        <div className="mx-auto mb-14 max-w-2xl">
+          <SectionHeader
+            eyebrow="Offres"
+            title="Choisissez votre façon de "
+            titleAccent="démarrer."
+            align="center"
+          />
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
@@ -299,9 +269,14 @@ export function HomeFaq() {
   return (
     <section className="w-full bg-[#F3EFE6] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-3xl">
-        <h2 className="font-sf mb-12 text-center text-3xl font-bold text-[#1C1A17] sm:text-4xl">
-          Questions fréquentes
-        </h2>
+        <div className="mb-12">
+          <SectionHeader
+            eyebrow="FAQ"
+            title="Questions "
+            titleAccent="fréquentes."
+            align="center"
+          />
+        </div>
         <div className="space-y-3">
           {FAQ.map((item, i) => (
             <div
