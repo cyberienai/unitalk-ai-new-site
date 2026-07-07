@@ -11,11 +11,11 @@ const T = {
     almaTitle: 'Alma vous interview et donne vie à votre collaborateur IA ',
     almaTitleAccent: 'en 5 minutes.',
     almaText:
-      "Alma analyse votre contexte, cartographie vos tâches critiques et recommande les compétences adaptées. Déploie votre Collaborateur IA avec Hermès, leader des agents open source. Suivi hebdomadaire et support humain réactif.",
+      "Alma analyse votre contexte, cartographie vos tâches chronophages et recommande les compétences adaptées. Déploie votre Collaborateur IA avec Hermès, leader des agents open source. Suivi hebdomadaire et support humain réactif.",
     almaSteps: [
       { n: '01', label: 'Contexte entreprise', desc: 'Collecte domaine, données, culture' },
       { n: '02', label: 'Interview & découverte', desc: 'Pose les bonnes questions sur vos processus' },
-      { n: '03', label: 'Cartographie des tâches', desc: 'Identifie vos tâches critiques et répétitives' },
+      { n: '03', label: 'Cartographie des tâches', desc: 'Identifie vos tâches chronophages et répétitives' },
       { n: '04', label: 'Recommandations', desc: 'Propose compétences et automatisations adaptées' },
       { n: '05', label: 'Config. agent', desc: 'Identité, rôle, instructions. Hermès.' },
       { n: '06', label: 'Connecte vos apps', desc: 'Intègre Slack, HubSpot, Gmail, etc.' },
@@ -49,11 +49,11 @@ const T = {
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life ',
     almaTitleAccent: 'in 5 minutes.',
     almaText:
-      "Alma analyzes your context, maps your critical tasks, and recommends the right skills. Deploys your AI Collaborator with Hermès, the leader of open-source agents. Weekly follow-up and reactive human support.",
+      "Alma analyzes your context, maps your time-consuming tasks, and recommends the right skills. Deploys your AI Collaborator with Hermès, the leader of open-source agents. Weekly follow-up and reactive human support.",
     almaSteps: [
       { n: '01', label: 'Company context', desc: 'Collects domain, data, culture' },
       { n: '02', label: 'Interview & discovery', desc: 'Asks the right questions about your processes' },
-      { n: '03', label: 'Task mapping', desc: 'Identifies your critical and repetitive tasks' },
+      { n: '03', label: 'Task mapping', desc: 'Identifies your time-consuming and repetitive tasks' },
       { n: '04', label: 'Recommendations', desc: 'Suggests suitable skills and automations' },
       { n: '05', label: 'Agent config.', desc: 'Identity, role, instructions. Hermès.' },
       { n: '06', label: 'Connect your apps', desc: 'Integrates Slack, HubSpot, Gmail, etc.' },
