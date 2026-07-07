@@ -11,7 +11,7 @@ const T = {
     almaTitle: 'Alma interviews vos équipes et configure votre IA en 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma est un consultant vocal intelligent qui vous pose les bonnes questions pour cartographier vos tâches critiques. Elle recommande automatiquement les compétences et automatisations (n8n) adaptées à votre contexte, collecte les données de votre entreprise, et configure votre Collaborateur IA prêt à l'emploi. Elle vous accompagne, améliore vos agents au fil du temps, et peut escalader vers le support humain si besoin.",
+      "Alma est un consultant vocal intelligent qui vous pose les bonnes questions pour cartographier vos tâches critiques. Elle recommande automatiquement les compétences et automatisations (n8n) adaptées à votre contexte, collecte les données de votre entreprise, et configure votre Collaborateur IA prêt à l'emploi. Chaque semaine, elle évalue votre satisfaction et propose des améliorations. Elle vous accompagne, améliore vos agents au fil du temps, et peut escalader vers le support humain si besoin.",
     almaSteps: [
       { n: '01', label: 'Interview & découverte', desc: 'Alma pose les bonnes questions sur vos processus' },
       { n: '02', label: 'Cartographie des tâches', desc: 'Identifie les tâches critiques et répétitives' },
@@ -19,10 +19,11 @@ const T = {
       { n: '04', label: 'Contexte d\'entreprise', desc: 'Collecte domaine, données publiques, culture' },
       { n: '05', label: 'Configuration agent', desc: 'Crée l\'identité, rôle et instructions de travail' },
       { n: '06', label: 'Test mission', desc: 'Valide le comportement et les automatisations' },
-      { n: '07', label: 'Déploiement', desc: 'Lance en production avec suivi et coaching continu' },
+      { n: '07', label: 'Suivi & amélioration', desc: 'Évalue satisfaction hebdomadaire, propose optimisations' },
     ],
     almaCta: 'Créer mon Collaborateur IA gratuit',
-    almaMicrocopy: 'Sans carte bancaire.',
+    almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
+    almaLearnMore: 'En savoir plus sur Alma',
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
@@ -46,7 +47,7 @@ const T = {
     almaTitle: 'Alma interviews your team and configures your AI in 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma is an intelligent voice consultant who asks the right questions to map your critical tasks. She automatically recommends the skills and automations (n8n) tailored to your context, collects your company data, and configures your ready-to-work AI Collaborator. She coaches you, improves your agents over time, and can escalate to human support if needed.",
+      "Alma is an intelligent voice consultant who asks the right questions to map your critical tasks. She automatically recommends the skills and automations (n8n) tailored to your context, collects your company data, and configures your ready-to-work AI Collaborator. Each week, she evaluates your satisfaction and suggests improvements. She coaches you, improves your agents over time, and can escalate to human support if needed.",
     almaSteps: [
       { n: '01', label: 'Interview & discovery', desc: 'Alma asks the right questions about your processes' },
       { n: '02', label: 'Task mapping', desc: 'Identifies critical and repetitive tasks' },
@@ -54,10 +55,11 @@ const T = {
       { n: '04', label: 'Company context', desc: 'Collects domain, public data, culture' },
       { n: '05', label: 'Agent configuration', desc: 'Creates identity, role, and work instructions' },
       { n: '06', label: 'Test mission', desc: 'Validates behavior and automations' },
-      { n: '07', label: 'Deploy to production', desc: 'Goes live with ongoing coaching & support' },
+      { n: '07', label: 'Follow-up & improvement', desc: 'Evaluates satisfaction weekly, suggests optimizations' },
     ],
     almaCta: 'Create my AI Collaborator for free',
-    almaMicrocopy: 'No credit card.',
+    almaMicrocopy: 'No credit card. Learn more about Alma →',
+    almaLearnMore: 'Learn more about Alma',
 
     dispEyebrow: 'The real problem',
     dispTitle: "AI shouldn't live in a tab.",
@@ -95,11 +97,17 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
             <p className="mb-8 mt-4 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
 
-            <button className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
-              {t.almaCta}
-              <ChevronRight className="h-4 w-4" />
-            </button>
-            <p className="text-xs text-[#857C6E]">{t.almaMicrocopy}</p>
+            <div className="flex flex-col gap-3">
+              <button className="mb-1 inline-flex w-fit items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
+                {t.almaCta}
+                <ChevronRight className="h-4 w-4" />
+              </button>
+              <p className="text-xs text-[#857C6E]">{t.almaMicrocopy}</p>
+              <a href="/alma" className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-[#D10E63] hover:text-[#B00B52] transition-colors">
+                {t.almaLearnMore}
+                <ChevronRight className="h-3 w-3" />
+              </a>
+            </div>
           </div>
 
           {/* Right — numbered steps with descriptions */}
