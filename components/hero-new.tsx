@@ -83,7 +83,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   }, [t.manifesto.length])
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#F3EFE6] px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
+    <section className="relative w-full overflow-hidden bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
       {/* Faint ink rule grid — same editorial backdrop as the solo hero */}
       <div
         aria-hidden="true"
