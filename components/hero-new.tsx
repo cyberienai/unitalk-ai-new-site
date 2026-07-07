@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckCircle2, CreditCard, Unlock, Clock } from 'lucide-react'
+import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock } from 'lucide-react'
 
 const T = {
   fr: {
@@ -36,7 +36,6 @@ const T = {
     rows: [
       { icon: Database, label: 'Mémoire', value: 'Offres, clients, documents' },
       { icon: Zap, label: 'Compétences', value: 'Prospection, relance, CRM' },
-      { icon: Wrench, label: 'Accès', value: 'CRM, email, calendrier' },
       { icon: Cpu, label: 'Modèles', value: 'GPT, Claude, Gemini, Mistral' },
     ],
   },
@@ -71,7 +70,6 @@ const T = {
     rows: [
       { icon: Database, label: 'Memory', value: 'Offers, clients, documents' },
       { icon: Zap, label: 'Skills', value: 'Prospecting, follow-up, CRM' },
-      { icon: Wrench, label: 'Access', value: 'CRM, email, calendar' },
       { icon: Cpu, label: 'Models', value: 'GPT, Claude, Gemini, Mistral' },
     ],
   },
@@ -136,7 +134,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
           <motion.div
-            className="mb-8 flex flex-wrap gap-1.5"
+            className="mb-8 -mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
@@ -153,7 +151,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     scale: isActive ? 1.06 : 1,
                   }}
                   transition={{ duration: 0.45, ease }}
-                  className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-sm font-medium"
+                  className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-sm font-medium"
                 >
                   <motion.span
                     animate={{
@@ -201,7 +199,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Right column — Sofia dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative flex justify-center mt-8 translate-y-12 sm:mt-10 sm:translate-y-16 lg:mt-0 lg:translate-y-24 lg:self-end">
+        <div className="relative flex justify-center mt-2 sm:mt-4 lg:mt-0 lg:translate-y-24 lg:self-end">
         <motion.div
           className="relative flex w-full items-center justify-center"
           initial={{ opacity: 0, scale: 0.96, y: 18 }}
@@ -308,24 +306,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="relative mb-4 flex items-center gap-2 rounded-xl border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-3 py-2.5">
               <CheckCircle2 className="h-4 w-4 text-[#4F9E6E]" />
               <span className="text-sm font-medium text-[#8FCBA6]">{t.sofiaStatus}</span>
-            </div>
-
-            {/* Alma guide */}
-            <div className="relative mb-4 flex items-center gap-3">
-              <div className="relative shrink-0">
-                <img
-                  src="/alma-avatar.png"
-                  alt="Alma"
-                  className="h-9 w-9 rounded-full object-cover ring-2 ring-[#D10E63]/40"
-                />
-                <span
-                  aria-hidden="true"
-                  className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#1A1613] bg-[#2E7D4F]"
-                />
-              </div>
-              <span className="text-sm text-[#B8B0A2]">
-                <span className="font-semibold text-[#E7E1D6]">Alma</span> {t.sofiaBadge}
-              </span>
             </div>
 
             <button className="relative w-full rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
