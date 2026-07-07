@@ -7,8 +7,8 @@ import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckC
 const T = {
   fr: {
     eyebrow: "L'IA qui travaille pour votre organisation",
-    headline: 'Unitalk donne à votre équipe ',
-    headlineAccent: 'un vrai collaborateur.',
+    headline: 'Unitalk. Vous avez maintenant ',
+    headlineAccent: 'un vrai collaborateur IA.',
     subheadline:
       'Donnez-lui un nom, un rôle, une mémoire, des outils. Il travaille seul ou en équipe, 24h/24.',
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
