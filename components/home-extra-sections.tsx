@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, Lock, FileCheck } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, Lock, FileCheck, User, Users, Server } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
@@ -27,9 +27,9 @@ export function AIGatewaySection() {
       <div className="relative mx-auto max-w-4xl text-center">
         <SectionHeader
           eyebrow="Unitalk AI Gateway"
-          title="Tous les modèles IA. "
-          titleAccent="Une seule ressource d'entreprise."
-          subtitle="Vos humains et vos agents accèdent aux dernières versions des meilleurs modèles depuis un même endroit - sans clés API à gérer, une seule facture."
+            title="Tous les modèles IA. "
+            titleAccent="Un seul accès."
+            subtitle="Vos humains et vos agents accèdent aux dernières versions des meilleurs modèles depuis un même endroit - sans clés API à gérer, une seule facture."
           align="center"
           dark
         />
@@ -172,24 +172,30 @@ export function SovereigntySection() {
 const OFFERS = [
   {
     name: 'Solo',
+    icon: User,
     subtitle: 'Votre premier vrai collaborateur IA.',
     text: 'Pour indépendant, dirigeant, consultant, créateur ou solopreneur.',
+    price: 'Gratuit',
+    priceNote: 'puis 29€/mois',
     points: [
       '1 Collaborateur IA personnel',
       '10 profils prêts à l\u2019emploi',
       'Mémoire personnelle',
       'Alma vous guide en 7 étapes',
-      'Création gratuite, sans carte bancaire',
+      'Sans carte bancaire',
     ],
     cta: 'Découvrir Solo',
     href: '/solo',
-    badge: 'Gratuit',
+    badge: 'Populaire',
     featured: true,
   },
   {
     name: 'Teams',
-    subtitle: 'Un Collaborateur IA pour chaque membre.',
+    icon: Users,
+    subtitle: 'Toute votre équipe, augmentée.',
     text: 'Chaque employé dispose de son agent. Toute l\u2019équipe partage un contexte commun.',
+    price: '49€',
+    priceNote: '/mois par employé',
     points: [
       '1 agent par employé',
       'Mémoire commune',
@@ -204,8 +210,11 @@ const OFFERS = [
   },
   {
     name: 'Business',
+    icon: Server,
     subtitle: 'Vos agents, vos apps, votre serveur dédié.',
     text: 'Déployez des Collaborateurs IA dans une infrastructure privée avec vos données et vos API.',
+    price: 'À partir de 990€',
+    priceNote: '/mois',
     points: [
       'Serveur IA dédié',
       'Apps natives : n8n, Twenty, Payload, Stalwart',
@@ -224,64 +233,85 @@ export function OffersSection() {
   return (
     <section id="offres" className="w-full bg-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="mx-auto mb-14 max-w-2xl">
+        <div className="mx-auto mb-16 max-w-2xl">
           <SectionHeader
             eyebrow="Offres"
-            title="Choisissez votre façon de "
-            titleAccent="démarrer."
+            title="Commencez seul. "
+            titleAccent="Déployez à l'échelle."
+            subtitle="Une offre pour chaque ambition, du solopreneur à l'entreprise."
             align="center"
           />
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          {OFFERS.map((o, i) => (
-            <motion.div
-              key={o.name}
-              className={`relative flex flex-col rounded-2xl border p-8 ${
-                o.featured
-                  ? 'border-[#D10E63]/40 bg-[#FBF9F3] shadow-[0_20px_60px_-20px_rgba(209,14,99,0.35)] lg:-mt-2 lg:mb-2'
-                  : 'border-[#DcD4C4] bg-[#FBF9F3]'
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-            >
-              {o.badge && (
+        <div className="grid items-start gap-6 lg:grid-cols-3">
+          {OFFERS.map((o, i) => {
+            const Icon = o.icon
+            return (
+              <motion.div
+                key={o.name}
+                className={`group relative flex flex-col rounded-2xl border p-8 transition-all ${
+                  o.featured
+                    ? 'border-[#D10E63]/40 bg-[#FBF9F3] shadow-[0_20px_60px_-20px_rgba(209,14,99,0.35)] lg:-mt-4 lg:mb-4'
+                    : 'border-[#DcD4C4] bg-[#FBF9F3] hover:-translate-y-1 hover:border-[#D10E63]/20 hover:shadow-[0_12px_40px_-12px_rgba(28,26,23,0.2)]'
+                }`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+              >
+                {o.badge && (
+                  <span
+                    className={`absolute right-6 top-6 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
+                      o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#1C1A17]/8 text-[#1C1A17]'
+                    }`}
+                  >
+                    {o.badge}
+                  </span>
+                )}
+
                 <span
-                  className={`mb-4 inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                    o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#1C1A17]/8 text-[#1C1A17]'
+                  className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${
+                    o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#1C1A17] text-[#FBF9F3]'
                   }`}
                 >
-                  {o.badge}
+                  <Icon className="h-6 w-6" strokeWidth={1.6} />
                 </span>
-              )}
-              <h3 className="mb-1 text-2xl font-bold text-[#1C1A17]">{o.name}</h3>
-              <p className="mb-4 text-sm font-medium text-[#4E483F]">{o.subtitle}</p>
-              <p className="mb-6 text-sm leading-relaxed text-[#857C6E]">{o.text}</p>
 
-              <ul className="mb-8 flex-1 space-y-3">
-                {o.points.map((p) => (
-                  <li key={p} className="flex items-start gap-2.5 text-sm text-[#4E483F]">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
-                    {p}
-                  </li>
-                ))}
-              </ul>
+                <h3 className="mb-1 text-2xl font-bold text-[#1C1A17]">{o.name}</h3>
+                <p className="mb-5 text-sm font-medium text-[#4E483F]">{o.subtitle}</p>
 
-              <a
-                href={o.href}
-                className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
-                  o.featured
-                    ? 'bg-[#D10E63] text-[#FBF9F3] hover:bg-[#B00B52]'
-                    : 'border border-[#DcD4C4] bg-transparent text-[#1C1A17] hover:bg-[#EFE9DC]'
-                }`}
-              >
-                {o.cta}
-                <ChevronRight className="h-4 w-4" />
-              </a>
-            </motion.div>
-          ))}
+                <div className="mb-5 flex items-baseline gap-1.5">
+                  <span className="text-3xl font-bold text-[#1C1A17]">{o.price}</span>
+                  <span className="text-sm text-[#857C6E]">{o.priceNote}</span>
+                </div>
+
+                <div className="mb-6 h-px w-full bg-[#DcD4C4]" />
+
+                <p className="mb-6 text-sm leading-relaxed text-[#857C6E]">{o.text}</p>
+
+                <ul className="mb-8 flex-1 space-y-3">
+                  {o.points.map((p) => (
+                    <li key={p} className="flex items-start gap-2.5 text-sm text-[#4E483F]">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href={o.href}
+                  className={`inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
+                    o.featured
+                      ? 'bg-[#D10E63] text-[#FBF9F3] hover:bg-[#B00B52]'
+                      : 'border border-[#DcD4C4] bg-transparent text-[#1C1A17] hover:bg-[#EFE9DC]'
+                  }`}
+                >
+                  {o.cta}
+                  <ChevronRight className="h-4 w-4" />
+                </a>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>
