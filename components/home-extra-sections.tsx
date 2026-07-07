@@ -101,7 +101,12 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Database,
     title: 'Isolation de vos données',
-    description: 'Chiffrement intégral. Aucun entraînement. Zéro rétention.',
+    description: 'Chiffrement intégral. Compartimentage strict. Zéro accès sans permission.',
+  },
+  {
+    icon: Cpu,
+    title: 'Modèles cloisonnés',
+    description: 'Aucun entraînement sur vos données. Zéro rétention. Vos prompts ne quittent jamais votre périmètre.',
   },
   {
     icon: Repeat,
