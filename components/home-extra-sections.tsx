@@ -106,7 +106,7 @@ const SOVEREIGNTY_PILLARS = [
   },
   {
     icon: Repeat,
-    title: 'Aucun enfermement technique',
+    title: 'No vendor Lock in',
     description: 'La liberté de partir quand vous voulez, avec tout : vos agents, vos données, votre code.',
     featured: true,
   },
