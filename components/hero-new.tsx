@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench, FileText } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench, FileText } from 'lucide-react'
 
 const T = {
   fr: {
@@ -10,7 +10,7 @@ const T = {
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'un vrai collaborateur IA.',
     subheadline:
-      'Donnez-lui un nom, un rôle, une mémoire. Et il prospère.',
+      'Donnez-lui un nom, un rôle, une mémoire. Et il travaille.',
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
@@ -49,13 +49,39 @@ const T = {
       { icon: Calendar, label: 'Fichiers' },
       { icon: Phone, label: 'Contacts' },
     ],
+    collaborators: [
+      {
+        id: 'alex',
+        name: 'Alex',
+        role: 'Assistant commercial',
+        profileUrl: 'unitalk.ai/alex',
+        skills: 'Prospection LinkedIn, relance, CRM HubSpot',
+        avatar: '/alex-avatar.png',
+      },
+      {
+        id: 'sophia',
+        name: 'Sophia',
+        role: 'Responsable Support',
+        profileUrl: 'unitalk.ai/sophia',
+        skills: 'Support client, FAQ, escalade',
+        avatar: '/sophia-avatar.png',
+      },
+      {
+        id: 'marcus',
+        name: 'Marcus',
+        role: 'Gestionnaire Projets',
+        profileUrl: 'unitalk.ai/marcus',
+        skills: 'Planning, tracking, rappels',
+        avatar: '/marcus-avatar.png',
+      },
+    ],
   },
   en: {
     eyebrow: 'Collaborative and sovereign AI infrastructure',
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
-      'Give it a name, a role, a memory. And it thrives.',
+      'Give it a name, a role, a memory. And it works.',
     manifesto: ['It reasons', 'It plans', 'It executes', 'It learns', 'It collaborates', 'It improves'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
@@ -94,6 +120,32 @@ const T = {
       { icon: Calendar, label: 'Files' },
       { icon: Phone, label: 'Contacts' },
     ],
+    collaborators: [
+      {
+        id: 'alex',
+        name: 'Alex',
+        role: 'Sales Assistant',
+        profileUrl: 'unitalk.ai/alex',
+        skills: 'LinkedIn Prospecting, follow-up, CRM HubSpot',
+        avatar: '/alex-avatar.png',
+      },
+      {
+        id: 'sophia',
+        name: 'Sophia',
+        role: 'Support Manager',
+        profileUrl: 'unitalk.ai/sophia',
+        skills: 'Customer support, FAQ, escalation',
+        avatar: '/sophia-avatar.png',
+      },
+      {
+        id: 'marcus',
+        name: 'Marcus',
+        role: 'Project Manager',
+        profileUrl: 'unitalk.ai/marcus',
+        skills: 'Planning, tracking, reminders',
+        avatar: '/marcus-avatar.png',
+      },
+    ],
   },
 }
 
@@ -102,6 +154,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const [activeVerb, setActiveVerb] = useState(0)
+  const [activeCollaborator, setActiveCollaborator] = useState(0)
   const chipsRef = useRef<HTMLDivElement>(null)
   const chipRefs = useRef<(HTMLSpanElement | null)[]>([])
 
@@ -238,7 +291,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative z-50 flex min-w-0 justify-center mt-8 sm:mt-12 lg:mt-16 lg:self-start">
+        <div className="relative z-50 flex min-w-0 justify-center mt-4 sm:mt-8 lg:mt-16 lg:self-start">
         <motion.div
           className="relative flex w-full items-center justify-center"
           initial={{ opacity: 0, scale: 0.94, y: 24 }}
@@ -255,7 +308,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             }}
           />
 
-          <div             className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#1A1613] p-4 shadow-2xl sm:p-6">
+          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#1A1613] p-4 shadow-2xl sm:p-6">
             {/* top sheen */}
             <div
               aria-hidden="true"
@@ -275,26 +328,31 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
             </div>
 
-            {/* identity */}
-            <div className="relative mb-6 flex items-center gap-4">
-              <img
-                src="/alex-avatar.png"
-                alt={t.sofiaName}
-                className="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-white/15"
-              />
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{t.sofiaName}</h2>
-                <p className="text-sm text-[#B8B0A2]">{t.sofiaRole}</p>
-                <a
-                  href={`https://${t.sofiaProfileUrl}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175] hover:text-[#D10E63] transition-colors"
-                >
-                  {t.sofiaProfileUrl}
-                </a>
-              </div>
-            </div>
+            {/* identity - using active collaborator */}
+            {(() => {
+              const collab = t.collaborators[activeCollaborator]
+              return (
+                <div className="relative mb-6 flex items-center gap-4">
+                  <img
+                    src={collab.avatar}
+                    alt={collab.name}
+                    className="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-white/15"
+                  />
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{collab.name}</h2>
+                    <p className="text-sm text-[#B8B0A2]">{collab.role}</p>
+                    <a
+                      href={`https://${collab.profileUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175] hover:text-[#D10E63] transition-colors"
+                    >
+                      {collab.profileUrl}
+                    </a>
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* contact icons row */}
             <div className="relative mb-5 flex items-center gap-2">
@@ -348,6 +406,36 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   </div>
                 )
               })}
+            </div>
+
+            {/* carousel indicators + buttons */}
+            <div className="relative mb-5 flex items-center justify-between gap-2">
+              <button
+                onClick={() => setActiveCollaborator((prev) => (prev - 1 + t.collaborators.length) % t.collaborators.length)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#8A8175] hover:bg-white/10 hover:text-[#F1729F] transition-all"
+                aria-label="Previous collaborator"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <div className="flex flex-1 items-center justify-center gap-1.5">
+                {t.collaborators.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveCollaborator(idx)}
+                    className={`h-2 rounded-full transition-all ${
+                      idx === activeCollaborator ? 'w-6 bg-[#D10E63]' : 'w-2 bg-white/20 hover:bg-white/40'
+                    }`}
+                    aria-label={`Show collaborator ${idx + 1}`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setActiveCollaborator((prev) => (prev + 1) % t.collaborators.length)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#8A8175] hover:bg-white/10 hover:text-[#F1729F] transition-all"
+                aria-label="Next collaborator"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
             </div>
 
             {/* button */}
