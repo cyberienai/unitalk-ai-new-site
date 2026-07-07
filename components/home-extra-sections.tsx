@@ -125,7 +125,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: FileCheck,
     title: 'Conformité certifiée',
-    description: 'RGPD, ISO 27001, SOC 2.',
+    badges: ['RGPD', 'ISO 27001', 'SOC 2'],
     featured: false,
   },
 ]
@@ -186,13 +186,27 @@ export function SovereigntySection() {
                     >
                       {pillar.title}
                     </h3>
-                    <p
-                      className={`leading-relaxed ${
-                        pillar.featured ? 'text-[15px] text-[#E7E1D6]' : 'text-sm text-[#C4BCAE]'
-                      }`}
-                    >
-                      {pillar.description}
-                    </p>
+                    {'badges' in pillar && pillar.badges ? (
+                      <div className="mt-1 flex flex-wrap gap-2">
+                        {pillar.badges.map((b) => (
+                          <span
+                            key={b}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-[#F7F4EE]/15 bg-[#F7F4EE]/[0.06] px-2.5 py-1 text-xs font-semibold text-[#E7E1D6]"
+                          >
+                            <Shield className="h-3.5 w-3.5 text-[#D10E63]" />
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p
+                        className={`leading-relaxed ${
+                          pillar.featured ? 'text-[15px] text-[#E7E1D6]' : 'text-sm text-[#C4BCAE]'
+                        }`}
+                      >
+                        {'description' in pillar ? pillar.description : null}
+                      </p>
+                    )}
                   </div>
                 </motion.div>
               )
