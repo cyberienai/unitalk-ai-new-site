@@ -170,13 +170,13 @@ export function SovereigntySection() {
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                 >
                   <span
-                    className={`flex flex-shrink-0 items-center justify-center rounded-xl ${
+                    className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl ${
                       pillar.featured
-                        ? 'h-14 w-14 bg-gradient-to-br from-[#D10E63]/25 to-[#D10E63]/10 text-[#D10E63] group-hover:from-[#D10E63]/35'
-                        : 'h-10 w-10 bg-[#F7F4EE]/8 text-[#C4BCAE] group-hover:text-[#D10E63]'
+                        ? 'bg-gradient-to-br from-[#D10E63]/25 to-[#D10E63]/10 text-[#D10E63] group-hover:from-[#D10E63]/35'
+                        : 'bg-[#F7F4EE]/8 text-[#C4BCAE] group-hover:text-[#D10E63]'
                     }`}
                   >
-                    <Icon className={pillar.featured ? 'h-7 w-7' : 'h-5 w-5'} strokeWidth={1.4} />
+                    <Icon className="h-6 w-6" strokeWidth={1.4} />
                   </span>
                   <div className="flex-1">
                     <h3
