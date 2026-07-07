@@ -11,13 +11,13 @@ const T = {
     almaTitle: 'Alma interviews vos équipes et configure votre IA en 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma est un consultant vocal intelligent qui vous pose les bonnes questions pour cartographier vos tâches critiques. Elle recommande automatiquement les compétences et automatisations (n8n) adaptées à votre contexte, collecte les données de votre entreprise, et configure votre Collaborateur IA prêt à l'emploi. Chaque semaine, elle évalue votre satisfaction et propose des améliorations. Elle vous accompagne, améliore vos agents au fil du temps, et peut escalader vers le support humain si besoin.",
+      "Alma est un consultant vocal intelligent qui vous pose les bonnes questions pour cartographier vos tâches critiques. Elle recommande automatiquement les compétences et automatisations (n8n) adaptées à votre contexte, collecte les données de votre entreprise, et configure votre Collaborateur IA prêt à l'emploi. Chaque collaborateur a déjà ses outils et ressources intégrés (framework Hermès). Chaque semaine, elle évalue votre satisfaction et propose des améliorations. Elle vous accompagne, améliore vos agents au fil du temps, et peut escalader vers le support humain si besoin.",
     almaSteps: [
       { n: '01', label: 'Interview & découverte', desc: 'Alma pose les bonnes questions sur vos processus' },
       { n: '02', label: 'Cartographie des tâches', desc: 'Identifie les tâches critiques et répétitives' },
       { n: '03', label: 'Recommandations IA', desc: 'Propose compétences et automatisations n8n' },
       { n: '04', label: 'Contexte d\'entreprise', desc: 'Collecte domaine, données publiques, culture' },
-      { n: '05', label: 'Configuration agent', desc: 'Crée l\'identité, rôle et instructions de travail' },
+      { n: '05', label: 'Configuration agent', desc: 'Crée l\'identité, rôle et instructions. Intégré Hermès.' },
       { n: '06', label: 'Test mission', desc: 'Valide le comportement et les automatisations' },
       { n: '07', label: 'Suivi & amélioration', desc: 'Évalue satisfaction hebdomadaire, propose optimisations' },
     ],
@@ -47,13 +47,13 @@ const T = {
     almaTitle: 'Alma interviews your team and configures your AI in 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma is an intelligent voice consultant who asks the right questions to map your critical tasks. She automatically recommends the skills and automations (n8n) tailored to your context, collects your company data, and configures your ready-to-work AI Collaborator. Each week, she evaluates your satisfaction and suggests improvements. She coaches you, improves your agents over time, and can escalate to human support if needed.",
+      "Alma is an intelligent voice consultant who asks the right questions to map your critical tasks. She automatically recommends the skills and automations (n8n) tailored to your context, collects your company data, and configures your ready-to-work AI Collaborator. Every Collaborator comes with its tools and resources built-in (Hermès framework). Each week, she evaluates your satisfaction and suggests improvements. She coaches you, improves your agents over time, and can escalate to human support if needed.",
     almaSteps: [
       { n: '01', label: 'Interview & discovery', desc: 'Alma asks the right questions about your processes' },
       { n: '02', label: 'Task mapping', desc: 'Identifies critical and repetitive tasks' },
       { n: '03', label: 'AI recommendations', desc: 'Suggests skills and n8n automations' },
       { n: '04', label: 'Company context', desc: 'Collects domain, public data, culture' },
-      { n: '05', label: 'Agent configuration', desc: 'Creates identity, role, and work instructions' },
+      { n: '05', label: 'Agent configuration', desc: 'Creates identity, role, and instructions. Hermès included.' },
       { n: '06', label: 'Test mission', desc: 'Validates behavior and automations' },
       { n: '07', label: 'Follow-up & improvement', desc: 'Evaluates satisfaction weekly, suggests optimizations' },
     ],
