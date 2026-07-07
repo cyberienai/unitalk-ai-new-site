@@ -98,29 +98,50 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             subtitle={t.almaText}
           />
 
-          {/* Grid — 9 steps 3x3 */}
-          <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#DcD4C4] bg-[#DcD4C4] sm:grid-cols-2 lg:grid-cols-3">
+          {/* Alma video placeholder */}
+          <div className="mt-12 mb-12 mx-auto max-w-2xl">
+            <div className="relative w-full bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 rounded-3xl aspect-video border-2 border-[#D10E63]/30 flex items-center justify-center overflow-hidden">
+              <div className="text-center">
+                <svg className="h-20 w-20 mx-auto mb-3 text-[#D10E63]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm font-semibold text-[#857C6E] uppercase tracking-wide">Alma en action</p>
+              </div>
+              {/* Video element - add your video src here */}
+              {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
+            </div>
+          </div>
+
+          {/* Grid — 9 steps 3x3 with Alma-specific design */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {t.almaSteps.map((step, i) => (
               <motion.article
                 key={step.n}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const, delay: (i % 3) * 0.06 }}
-                className="group flex flex-col bg-[#FBF9F3] p-6 transition-colors hover:bg-[#F3EFE6] sm:p-8"
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const, delay: i * 0.08 }}
+                className="group relative flex flex-col rounded-2xl border-2 border-[#D10E63]/20 bg-gradient-to-br from-[#FBF9F3] to-[#F3EFE6] p-6 transition-all hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10 sm:p-7"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-colors group-hover:bg-[#D10E63] font-bold text-lg">
+                {/* Number badge */}
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#D10E63] to-[#B00B52] text-[#FBF9F3] font-bold text-base transition-all group-hover:scale-110">
                   {step.n}
-                </span>
+                </div>
+
+                {/* Content */}
                 <h3
-                  className="mt-5 font-sf text-lg font-bold leading-snug text-[#1C1A17]"
+                  className="mt-5 font-sf text-base font-bold leading-snug text-[#1C1A17]"
                   style={{ letterSpacing: '-0.02em' }}
                 >
                   {step.label}
                 </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-[#4E483F]">
+                <p className="mt-2.5 flex-1 text-sm leading-relaxed text-[#4E483F]">
                   {step.desc}
                 </p>
+
+                {/* Hover accent line */}
+                <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#D10E63] to-[#B00B52] rounded-full transition-all duration-300 group-hover:w-full" />
               </motion.article>
             ))}
           </div>
