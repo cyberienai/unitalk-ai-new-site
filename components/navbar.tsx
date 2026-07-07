@@ -126,15 +126,15 @@ export function Navbar() {
         {/* Right: Buttons */}
         <div className="flex items-center gap-2 sm:gap-4">
           <button
-            className="hidden sm:inline-flex px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1C1A17] hover:text-[#857C6E] transition-colors"
+            className="inline-flex px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1C1A17] hover:text-[#857C6E] transition-colors"
             aria-label={t.signIn}
           >
             {t.signIn}
           </button>
-          {/* Language selector — desktop inline, toggles FR/EN */}
+          {/* Language selector — toggles FR/EN */}
           <button
             onClick={toggleLang}
-            className="hidden lg:inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] hover:text-[#D10E63] transition-colors"
+            className="inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] hover:text-[#D10E63] transition-colors"
             aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
             {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
