@@ -11,7 +11,7 @@ const T = {
     almaTitle: 'Alma vous interview et donne vie à votre collaborateur IA en 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma, consultant vocal intelligent, cartographie vos tâches critiques et recommande les compétences et automatisations (n8n) adaptées. Elle collecte le contexte de votre entreprise et configure votre Collaborateur IA avec tous ses outils et ressources d'un agent Hermès, leader des agents open source du marché. Chaque semaine, elle évalue votre satisfaction et propose des optimisations. Support humain escaladable si besoin.",
+      "Alma cartographie vos tâches critiques → recommande compétences & automatisations (n8n) → collecte le contexte de votre entreprise. Configure votre Collaborateur IA avec Hermès, leader des agents open source. Évaluation hebdomadaire, support humain escaladable.",
     almaSteps: [
       { n: '01', label: 'Interview & découverte', desc: 'Alma pose les bonnes questions sur vos processus' },
       { n: '02', label: 'Cartographie des tâches', desc: 'Identifie les tâches critiques et répétitives' },
@@ -47,7 +47,7 @@ const T = {
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life in 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma, an intelligent voice consultant, maps your critical tasks and recommends the skills and automations (n8n) best suited. She collects your company context and configures your AI Collaborator with all its tools and resources from Hermès, the leader of open-source agents on the market. Each week, she evaluates your satisfaction and suggests optimizations. Human support escalation available if needed.",
+      "Alma maps your critical tasks → recommends skills & automations (n8n) → collects your company context. Configures your AI Collaborator with Hermès, the leader of open-source agents. Weekly evaluation, human support escalation available.",
     almaSteps: [
       { n: '01', label: 'Interview & discovery', desc: 'Alma asks the right questions about your processes' },
       { n: '02', label: 'Task mapping', desc: 'Identifies critical and repetitive tasks' },
@@ -105,7 +105,22 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
             </div>
 
-            <p className="mb-8 mt-4 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
+            <p className="mb-6 mt-4 text-base leading-relaxed text-[#4E483F]">{t.almaText}</p>
+
+            {/* Alma video/illustration placeholder */}
+            <div className="mb-8 w-full max-w-sm">
+              <div className="relative w-full bg-gradient-to-br from-[#D10E63]/10 to-[#D10E63]/5 rounded-2xl aspect-square border-2 border-[#D10E63]/20 flex items-center justify-center overflow-hidden">
+                <div className="text-center">
+                  <svg className="h-16 w-16 mx-auto mb-2 text-[#D10E63]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-xs font-semibold text-[#857C6E] uppercase tracking-wide">Vidéo Alma</p>
+                </div>
+                {/* Video element - add your video src here */}
+                {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
+              </div>
+            </div>
 
             <div className="flex flex-col gap-3">
               <button className="mb-1 inline-flex w-fit items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
@@ -113,7 +128,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <ChevronRight className="h-4 w-4" />
               </button>
               <p className="text-xs text-[#857C6E]">{t.almaMicrocopy}</p>
-              <a href="/alma" className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-[#D10E63] hover:text-[#B00B52] transition-colors">
+              <a href="/alma" className="inline-flex w-fit items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg border-2 border-[#D10E63]/30 bg-[#D10E63]/5 text-[#D10E63] hover:bg-[#D10E63]/10 hover:border-[#D10E63]/50 transition-all">
                 {t.almaLearnMore}
                 <ChevronRight className="h-3 w-3" />
               </a>
@@ -122,28 +137,36 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           {/* Right — numbered steps with descriptions */}
           <div className="grid gap-3 sm:grid-cols-3">
-            {t.almaSteps.map((step, i) => (
+            {t.almaSteps.map((step, i) => {
+              const isLastStep = i === t.almaSteps.length - 1
+              return (
               <motion.div
                 key={step.n}
-                className={`flex flex-col gap-2 rounded-2xl border-2 border-[#D10E63]/20 bg-gradient-to-br from-[#FBF9F3] to-[#F3EFE6] px-4 py-4 hover:border-[#D10E63]/40 transition-all ${
-                  i === t.almaSteps.length - 1 ? 'sm:col-start-2' : ''
-                }`}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className={`flex flex-col gap-2 rounded-2xl border-2 px-4 py-4 transition-all ${
+                  isLastStep 
+                    ? 'border-[#D10E63]/40 bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 hover:border-[#D10E63]/60 hover:from-[#D10E63]/20 hover:to-[#D10E63]/10 ring-1 ring-[#D10E63]/20'
+                    : 'border-[#D10E63]/20 bg-gradient-to-br from-[#FBF9F3] to-[#F3EFE6] hover:border-[#D10E63]/40'
+                } ${isLastStep ? 'sm:col-start-2' : ''}`}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
               >
                 <div className="flex items-start gap-3">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#D10E63] to-[#B00B52] text-sm font-bold text-[#FBF9F3]">
                     {step.n}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[#1C1A17]">{step.label}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold text-[#1C1A17]">{step.label}</p>
+                      {isLastStep && <span className="inline-flex items-center gap-1 rounded-full bg-[#D10E63]/20 px-2 py-0.5 text-[10px] font-bold uppercase text-[#D10E63] tracking-wide">Continu</span>}
+                    </div>
                     <p className="text-xs text-[#857C6E] leading-tight">{step.desc}</p>
                   </div>
                 </div>
               </motion.div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
