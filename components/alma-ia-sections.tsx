@@ -74,7 +74,9 @@ const T = {
     ],
     dispStrong: "The problem isn't that companies don't use AI. It's that they use it in disorder.",
     dispConclusion: 'Unitalk organizes AI so it becomes a real work capacity — shared and lasting.',
+    dispSolutionExtra: 'A platform where AI becomes collective, traceable, and governed. Your data, your governance, your capacity.',
   },
+  dispSolutionExtraFr: "Une plateforme où l'IA devient collective, traçable et contrôlée. Vos données, votre gouvernance, votre capacité.",
 }
 
 export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
@@ -180,34 +182,38 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           }}
         />
 
-        <div className="relative mx-auto max-w-4xl">
+        <div className="relative mx-auto max-w-5xl">
           <SectionHeader eyebrow={t.dispEyebrow} title={t.dispTitle} subtitle={t.dispIntro} dark />
 
-          <div className="h-10" />
+          <div className="h-12" />
 
-          {/* problems grid */}
-          <div className="mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {/* problems grid - improved typography & layout */}
+          <div className="mb-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {t.dispProblems.map((problem, i) => (
               <motion.div
                 key={problem}
-                className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-4 py-3"
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: i * 0.05 }}
+                className="group flex items-start gap-4 rounded-xl border border-[#D10E63]/20 bg-gradient-to-br from-[#D10E63]/8 to-[#D10E63]/3 px-5 py-4 transition-all hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10"
+                initial={{ opacity: 0, y: 16, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.4, delay: i * 0.07, ease: 'easeOut' }}
               >
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/15 text-[#F1729F]">
-                  <X className="h-3 w-3" />
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/20 text-[#F1729F] transition-all group-hover:bg-[#D10E63]/30 group-hover:scale-110">
+                  <X className="h-3.5 w-3.5" />
                 </span>
-                <p className="text-sm text-[#D8D1C5]">{problem}</p>
+                <p className="text-sm font-medium leading-relaxed text-[#E8DFD5]">{problem}</p>
               </motion.div>
             ))}
           </div>
 
-          <div className="rounded-2xl border-l-2 border-[#D10E63] bg-white/[0.03] px-6 py-5">
-            <p className="text-lg font-semibold leading-snug text-[#F7F4EE]">
+          {/* Solution section */}
+          <div className="rounded-2xl border-l-4 border-[#D10E63] bg-gradient-to-r from-[#D10E63]/10 to-transparent px-6 py-6 sm:px-8 sm:py-8">
+            <p className="text-lg font-semibold leading-relaxed text-[#F7F4EE]">
               <span className="text-[#F1729F]">Unitalk</span>{' '}
               {t.dispConclusion.replace('Unitalk ', '')}
+            </p>
+            <p className="mt-4 text-sm text-[#D8D1C5]">
+              Une plateforme où l'IA devient collective, traçable et contrôlée. Vos données, votre gouvernance, votre capacité.
             </p>
           </div>
         </div>
