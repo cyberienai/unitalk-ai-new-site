@@ -105,8 +105,8 @@ export function Navbar() {
         {/* Left: Logo + nav links grouped together */}
         <div className="flex items-center gap-8 xl:gap-10">
           <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
-            <UnitalkLogo size={28} />
-            <span className="font-inter text-sm sm:text-base font-semibold text-[#1C1A17]">Unitalk AI</span>
+            <UnitalkLogo size={24} />
+            <span className="font-inter text-sm sm:text-base font-semibold text-[#1C1A17]">Unitalk</span>
           </a>
 
           {/* Nav links - Desktop only (essentials) */}
