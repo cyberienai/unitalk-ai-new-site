@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
@@ -102,6 +102,11 @@ const SOVEREIGNTY_PILLARS = [
     icon: Repeat,
     title: 'No vendor lock-in',
     description: 'Migration à tout moment. Orchestration d\'open source. Aucune dépendance. Liberté totale.',
+  },
+  {
+    icon: Fingerprint,
+    title: 'Votre propriété intellectuelle',
+    description: 'Vos agents, skills, apps et automatisations vous appartiennent. Export libre. Zéro droit de Unitalk.',
   },
   {
     icon: Database,
