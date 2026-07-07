@@ -8,7 +8,7 @@ import { SectionHeader } from './section-header'
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
 
 const GATEWAY_MODELS = [
-  'GPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Qwen', 'DeepSeek',
+  'ChatGPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Qwen', 'DeepSeek',
   'Kimi', 'GLM', 'Minimax', 'Image', 'Vidéo', 'Audio', 'Code', 'Local',
 ]
 
@@ -38,8 +38,8 @@ export function AIGatewaySection() {
         <div className="mb-12 flex flex-wrap justify-center gap-4">
           {GATEWAY_MODELS.map((m, i) => {
             const modelLogoMap: Record<string, string> = {
-              'GPT': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/openai/default.svg',
-              'Claude': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/anthropic/default.svg',
+              'ChatGPT': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/openai/default.svg',
+              'Claude': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/claude/default.svg',
               'Gemini': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-gemini/default.svg',
               'Grok': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x/default.svg',
               'Mistral': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mistral-ai/default.svg',
