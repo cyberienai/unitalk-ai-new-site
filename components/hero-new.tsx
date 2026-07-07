@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock } from 'lucide-react'
+import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench, FileText } from 'lucide-react'
 
 const T = {
   fr: {
@@ -43,6 +43,11 @@ const T = {
       { icon: Zap, label: 'Compétences', value: 'Prospection, relance, CRM HubSpot' },
       { icon: Cpu, label: 'Modèles', value: 'GPT, Claude, Gemini, Mistral' },
     ],
+    connectors: [
+      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
+      { icon: Calendar, label: 'Fichiers', value: 'Drive' },
+      { icon: Phone, label: 'Contacts', value: 'LinkedIn' },
+    ],
   },
   en: {
     eyebrow: 'Collaborative and sovereign AI infrastructure',
@@ -81,6 +86,11 @@ const T = {
       { icon: Database, label: 'Memory', value: 'Data, history, context' },
       { icon: Zap, label: 'Skills', value: 'Prospecting, follow-up, CRM HubSpot' },
       { icon: Cpu, label: 'Models', value: 'GPT, Claude, Gemini, Mistral' },
+    ],
+    connectors: [
+      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
+      { icon: Calendar, label: 'Files', value: 'Drive' },
+      { icon: Phone, label: 'Contacts', value: 'LinkedIn' },
     ],
   },
 }
@@ -252,14 +262,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             />
 
             {/* header row */}
-            <div className="relative mb-6 flex items-center justify-between">
+            <div className="relative mb-6 flex items-center">
               <div className="inline-flex items-center gap-1.5 rounded-full border border-[#D10E63]/30 bg-[#D10E63]/15 px-3 py-1 text-xs font-medium text-[#F1729F]">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F1729F]" />
                 {t.sofiaTitle}
               </div>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8A8175]">
-                {t.sofiaStep}
-              </span>
             </div>
 
             {/* identity */}
@@ -311,17 +318,23 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               })}
             </div>
 
-            {/* progress */}
-            <div className="relative mb-5 border-t border-white/[0.06] pt-5">
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-[#D10E63] to-[#F1729F]"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: '43%' }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, ease: 'easeOut' }}
-                />
-              </div>
+            {/* connectors row */}
+            <div className="relative mb-5 grid grid-cols-3 gap-2 border-t border-white/[0.06] pt-5">
+              {t.connectors.map((connector) => {
+                const Icon = connector.icon
+                return (
+                  <div
+                    key={connector.label}
+                    className="flex flex-col items-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] p-2"
+                  >
+                    <Icon className="h-4 w-4 text-[#F1729F]" />
+                    <p className="text-center text-[9px] font-semibold uppercase tracking-wide text-[#8A8175]">
+                      {connector.label}
+                    </p>
+                    <p className="text-center text-xs text-[#E7E1D6]">{connector.value}</p>
+                  </div>
+                )
+              })}
             </div>
 
             {/* status + button */}
