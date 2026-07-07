@@ -476,21 +476,25 @@ export function FinalCtaSection() {
     <section className="relative w-full overflow-hidden bg-[#1A1613] px-5 py-24 sm:px-6 sm:py-32 lg:px-8">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-80"
+        className="pointer-events-none absolute inset-0 opacity-90"
         style={{
           background:
-            'radial-gradient(circle at 50% 0%, rgba(209,14,99,0.26), transparent 55%), radial-gradient(circle at 50% 120%, rgba(241,114,159,0.16), transparent 55%)',
+            'radial-gradient(circle at 50% 0%, rgba(224,169,109,0.22), transparent 55%), radial-gradient(circle at 15% 110%, rgba(224,169,109,0.12), transparent 50%), radial-gradient(circle at 85% 100%, rgba(224,169,109,0.1), transparent 50%)',
         }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E0A96D]/50 to-transparent"
       />
       <div className="relative mx-auto max-w-3xl text-center">
         <motion.p
-          className="mb-5 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#F1729F]"
+          className="mb-5 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#E0A96D]"
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Prêt à déléguer pour de vrai ?
+          Prêt à collaborer pour de vrai ?
         </motion.p>
 
         <motion.h2
@@ -502,7 +506,7 @@ export function FinalCtaSection() {
           transition={{ duration: 0.5, delay: 0.06 }}
         >
           {'Ne créez pas un simple agent. '}
-          <span className="text-[#F1729F]">Créez un vrai collaborateur.</span>
+          <span className="text-[#E0A96D]">Créez un vrai collaborateur.</span>
         </motion.h2>
 
         <motion.div
@@ -525,7 +529,7 @@ export function FinalCtaSection() {
               key={chip}
               className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-sm text-[#D8D1C5]"
             >
-              <Check className="h-3.5 w-3.5 text-[#F1729F]" />
+              <Check className="h-3.5 w-3.5 text-[#E0A96D]" />
               {chip}
             </span>
           ))}
@@ -551,11 +555,11 @@ export function FinalCtaSection() {
             <img
               src="/alma-avatar.png"
               alt="Alma"
-              className="h-7 w-7 rounded-full object-cover ring-2 ring-[#D10E63]/40"
+              className="h-7 w-7 rounded-full object-cover ring-2 ring-[#E0A96D]/40"
             />
             <span>
               <span className="font-semibold text-[#E7E1D6]">Alma</span> vous guide en 7 étapes -
-              moins de 15 minutes, sans carte bancaire.
+              moins de 5 minutes, sans carte bancaire.
             </span>
           </div>
         </motion.div>
