@@ -414,7 +414,7 @@ const FAQ = [
   },
   {
     q: 'Mes données restent-elles sous contrôle ?',
-    a: 'Oui. Unitalk propose plusieurs niveaux : cloud mutualisé, Desktop, hébergement à Paris, modèles locaux, serveur dédié, accès contrôlés et mémoire maîtrisée.',
+    a: 'Oui. Unitalk propose plusieurs niveaux : cloud mutualisé, logiciel Desktop, hébergement à Paris, modèles locaux, serveur dédié, accès contrôlés et mémoire maîtrisée.',
   },
 ]
 
