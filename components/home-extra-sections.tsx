@@ -132,8 +132,8 @@ export function SovereigntySection() {
         <div className="mb-16 max-w-3xl">
           <SectionHeader
             eyebrow="Souveraineté"
-            title="Vos agents. Vos données. Votre infrastructure. "
-            titleAccent="Toujours."
+            title="Capitalisez sur votre propriété intellectuelle. "
+            titleAccent="Vos IA sont à vous. Pour toujours."
             align="left"
             dark
           />
