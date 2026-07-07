@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, Users, Lock, FileCheck, Eye } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, Lock, FileCheck } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
@@ -97,58 +97,74 @@ export function AIGatewaySection() {
 
 /* --------------------------- 8. Souveraineté (light) --------------------------- */
 
-const SOVEREIGNTY = [
-  { icon: Shield, title: 'Votre propriété intellectuelle' },
-  { icon: Database, title: 'Vos données' },
-  { icon: Cpu, title: 'Vos fournisseurs IA' },
-  { icon: Repeat, title: 'Votre liberté de changer de modèle' },
-  { icon: Users, title: 'Vos agents' },
-  { icon: Lock, title: 'La sécurité' },
-  { icon: FileCheck, title: 'La conformité' },
-  { icon: Eye, title: 'La confidentialité' },
+const SOVEREIGNTY_PILLARS = [
+  {
+    icon: Database,
+    title: 'Vos données',
+    description: 'Zéro accès sans permission. Chiffrement end-to-end. Votre infrastructure.',
+  },
+  {
+    icon: Repeat,
+    title: 'Votre contrôle',
+    description: 'Choisissez vos fournisseurs IA. Changez quand vous voulez. Aucune dépendance.',
+  },
+  {
+    icon: Lock,
+    title: 'Sécurité',
+    description: 'Gouvernance-grade. Audit complet. Conformité intégrée. Zéro risque.',
+  },
+  {
+    icon: FileCheck,
+    title: 'Conformité',
+    description: 'RGPD, ISO 27001, SOC 2. Vos régulations, nos garanties.',
+  },
 ]
 
 export function SovereigntySection() {
   return (
     <section className="w-full bg-[#F3EFE6] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <div className="mx-auto mb-12 max-w-2xl">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
           <SectionHeader
             eyebrow="Souveraineté"
-            title="Les modèles changent. "
-            titleAccent="Votre infrastructure reste."
-            subtitle="Avec Unitalk, vous gardez la maîtrise de ce qui compte vraiment."
+            title="Vos données. "
+            titleAccent="Votre contrôle."
+            subtitle="Vraiment."
             align="center"
           />
         </div>
 
-        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SOVEREIGNTY.map((s, i) => {
-            const Icon = s.icon
+        <div className="space-y-6">
+          {SOVEREIGNTY_PILLARS.map((pillar, i) => {
+            const Icon = pillar.icon
             return (
               <motion.div
-                key={s.title}
-                className="group rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6 transition-all hover:-translate-y-1 hover:border-[#1C1A17]/20 hover:shadow-[0_12px_40px_-12px_rgba(28,26,23,0.25)]"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={pillar.title}
+                className="flex gap-6 rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-8 transition-all hover:border-[#D10E63]/20 hover:shadow-lg"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
               >
-                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-colors group-hover:bg-[#D10E63]">
-                  <Icon className="h-5 w-5" strokeWidth={1.6} />
+                <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3]">
+                  <Icon className="h-6 w-6" strokeWidth={1.5} />
                 </span>
-                <p className="text-sm font-semibold text-[#1C1A17]">{s.title}</p>
+                <div>
+                  <h3 className="mb-2 text-lg font-bold text-[#1C1A17]">{pillar.title}</h3>
+                  <p className="leading-relaxed text-[#4E483F]">{pillar.description}</p>
+                </div>
               </motion.div>
             )
           })}
         </div>
 
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="mb-4 text-base leading-relaxed text-[#4E483F]">
-            Tout reste dans votre environnement Unitalk, sous votre contrôle.
+        <div className="mx-auto mt-16 max-w-2xl border-t border-[#DcD4C4] pt-12 text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[#D10E63]">
+            Votre engagement
           </p>
-          <p className="text-xl font-semibold text-[#1C1A17]">
-            Vos agents. Vos compétences. Votre code. Vos données. Votre mémoire.
+          <p className="mt-4 text-2xl font-bold leading-tight text-[#1C1A17]">
+            Vos agents. Vos compétences. Votre code.<br />
+            Vos données. Votre mémoire. Votre avenir.
           </p>
         </div>
       </div>
