@@ -20,7 +20,7 @@ const T = {
       { n: '05', label: 'Planifie une tâche', desc: 'Crée une première tâche pour effectuer la veille sur le sujet de votre choix' },
       { n: '06', label: 'Suivi & amélioration', desc: 'Accessible à tout moment. Escalade auprès d\'un AgentOps si besoin' },
     ],
-    almaCta: 'Parler avec Alma',
+    almaCta: 'Parlez avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
     almaLearnMore: 'En savoir plus',
 
@@ -46,7 +46,7 @@ const T = {
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life ',
     almaTitleAccent: 'in 5 minutes.',
     almaText: "Alma analyzes your context, identifies your time-consuming tasks, and recommends the right skills. She launches your AI Collaborator powered by Hermès—the leader of open-source agents. Continuous assistance and expert available if needed.",
-    almaCta: 'Talk with Alma',
+    almaCta: 'Chat with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
     almaLearnMore: 'Learn more',
     almaSteps: [
