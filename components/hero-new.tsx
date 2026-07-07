@@ -98,15 +98,12 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         {/* Left column — copy */}
         <div className="flex flex-col justify-center">
           <motion.div
-            className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#DcD4C4] bg-[#FBF9F3]/70 px-3.5 py-1.5"
+            className="mb-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#857C6E]"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#857C6E]">
-              {t.eyebrow}
-            </span>
+            {t.eyebrow}
           </motion.div>
 
           <motion.h1
