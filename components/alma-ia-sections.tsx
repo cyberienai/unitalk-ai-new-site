@@ -208,9 +208,6 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               <span className="font-bold text-white">Unitalk</span>{' '}
               {t.dispConclusion.replace('Unitalk ', '')}
             </p>
-            <p className="mt-4 text-sm text-[#D8D1C5]">
-              Une plateforme où l'IA devient collective, traçable et contrôlée. Vos données, votre gouvernance, votre capacité.
-            </p>
           </div>
         </div>
       </section>
