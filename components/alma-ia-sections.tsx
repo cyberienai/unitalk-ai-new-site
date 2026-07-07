@@ -14,7 +14,7 @@ const T = {
       "Alma comprend votre entreprise, identifie vos tâches chronophages et recommande les compétences clés. Elle lance votre Collaborateur IA propulsé par Hermès—le leader des agents open source. Assistance continue et expert disponible si besoin.",
     almaSteps: [
       { n: '01', label: 'Contexte entreprise', desc: 'Collecte les données publiques liées à votre entreprise et votre nom de domaine' },
-      { n: '02', label: 'Interview & découverte', desc: 'Pose les bonnes questions sur vos processus' },
+      { n: '02', label: 'Interview & découverte', desc: 'Pose les bonnes questions sur votre rôle, vos tâches et vos processus' },
       { n: '03', label: 'Cartographie des tâches', desc: 'Identifie vos tâches chronophages et répétitives' },
       { n: '04', label: 'Configuration & intégrations', desc: 'Configure un agent Hermès, vous aide à connecter vos apps' },
       { n: '05', label: 'Planifie une tâche', desc: 'Crée une première tâche pour effectuer la veille sur le sujet de votre choix' },
@@ -51,7 +51,7 @@ const T = {
     almaLearnMore: 'Learn more',
     almaSteps: [
       { n: '01', label: 'Company context', desc: 'Collects public data related to your company and domain name' },
-      { n: '02', label: 'Interview & discovery', desc: 'Asks the right questions about your processes' },
+      { n: '02', label: 'Interview & discovery', desc: 'Asks the right questions about your role, tasks, and processes' },
       { n: '03', label: 'Task mapping', desc: 'Identifies your time-consuming and repetitive tasks' },
       { n: '04', label: 'Config. & integrations', desc: 'Configures a Hermès agent, helps you connect your apps' },
       { n: '05', label: 'Schedule a task', desc: 'Creates a first task to monitor the subject of your choice' },
