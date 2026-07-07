@@ -12,7 +12,7 @@ const T = {
     title: 'Ce qui transforme un agent IA en ',
     titleAccent: 'vrai collaborateur.',
     subtitle:
-      'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui fait un vrai membre de l\'équipe.',
+      'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui en fait un vrai membre de l\'équipe.',
     cards: [
       { icon: User, title: 'Une identité', description: 'Nom, voix, email, calendrier. Un vrai profil avec sa présence et son historique.' },
       { icon: Brain, title: 'Une intelligence', description: 'Accès à tous les modèles IA. Texte, images, code, audio - Toujours les dernières versions.' },
