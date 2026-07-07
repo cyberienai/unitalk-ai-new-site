@@ -131,14 +131,6 @@ export function Navbar() {
           >
             {t.signIn}
           </button>
-          <a
-            href="/signup"
-            className="hidden sm:inline-flex px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-[#D10E63] hover:bg-[#B00B52] text-[#FBF9F3] text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
-            aria-label={t.createAgent}
-          >
-            {t.createAgent}
-          </a>
-
           {/* Language selector — desktop inline, toggles FR/EN */}
           <button
             onClick={toggleLang}
