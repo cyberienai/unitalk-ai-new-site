@@ -38,27 +38,27 @@ export function AIGatewaySection() {
         <div className="mb-12 flex flex-wrap justify-center gap-4">
           {GATEWAY_MODELS.map((m, i) => {
             const modelLogoMap: Record<string, string> = {
-              'GPT': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/openai/light.svg',
-              'Claude': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/anthropic/light.svg',
-              'Gemini': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-gemini/light.svg',
-              'Grok': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x/light.svg',
-              'Mistral': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mistral-ai/light.svg',
-              'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/light.svg',
-              'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/light.svg',
-              'Kimi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/moonshot/light.svg',
-              'GLM': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/light.svg',
-              'Minimax': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/minimax/light.svg',
-              'Image': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/dall-e/light.svg',
-              'Vidéo': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/runway/light.svg',
-              'Audio': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/elevenlabs/light.svg',
-              'Code': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/github/light.svg',
-              'Local': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/ollama/light.svg',
+              'GPT': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/openai/default.svg',
+              'Claude': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/anthropic/default.svg',
+              'Gemini': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-gemini/default.svg',
+              'Grok': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x/default.svg',
+              'Mistral': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mistral-ai/default.svg',
+              'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/default.svg',
+              'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/default.svg',
+              'Kimi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/moonshot/default.svg',
+              'GLM': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/default.svg',
+              'Minimax': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/minimax/default.svg',
+              'Image': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/dall-e/default.svg',
+              'Vidéo': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/runway/default.svg',
+              'Audio': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/elevenlabs/default.svg',
+              'Code': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/github/default.svg',
+              'Local': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/ollama/default.svg',
             }
             const logoUrl = modelLogoMap[m]
             return (
               <motion.div
                 key={m}
-                className="group inline-flex items-center justify-center rounded-xl border-2 border-white/10 bg-white/[0.05] p-3 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:scale-110"
+                className="group inline-flex items-center justify-center rounded-xl border-2 border-[#D10E63]/20 bg-gradient-to-br from-[#D10E63]/8 to-[#D10E63]/3 p-3 transition-all hover:border-[#D10E63]/40 hover:bg-[#D10E63]/12 hover:scale-110"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -69,7 +69,7 @@ export function AIGatewaySection() {
                   <img
                     src={logoUrl}
                     alt={m}
-                    className="h-8 w-8 object-contain transition-all group-hover:scale-110"
+                    className="h-8 w-8 object-contain transition-all group-hover:scale-110 brightness-110"
                     onError={(e) => {
                       // Fallback to text if logo fails to load
                       e.currentTarget.style.display = 'none'
@@ -193,7 +193,7 @@ const OFFERS = [
     text: 'Déployez des Collaborateurs IA dans une infrastructure privée avec vos données et vos API.',
     points: [
       'Serveur IA dédié',
-      'Apps natives : n8n, Twenty, Payload, Plane',
+      'Apps natives : n8n, Twenty, Payload, Stalwart',
       'Modèles au choix',
       'Gouvernance et souveraineté',
       'Accompagnement avancé',
