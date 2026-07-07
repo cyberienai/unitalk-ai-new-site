@@ -29,7 +29,7 @@ const T = {
     sofiaProfileUrl: 'unitalk.ai/alex',
     sofiaStep: 'Étape 3 sur 7',
     sofiaBadge: 'vous guide, étape par étape.',
-    sofiaCreateBtn: 'Créer Alex avec Alma',
+    sofiaCreateBtn: 'Activer',
     labelEmail: 'Email',
     labelPhone: 'Téléphone',
     labelCal: 'Calendrier',
@@ -100,7 +100,7 @@ const T = {
     sofiaProfileUrl: 'unitalk.ai/alex',
     sofiaStep: 'Step 3 of 7',
     sofiaBadge: 'guides you, step by step.',
-    sofiaCreateBtn: 'Create Alex with Alma',
+    sofiaCreateBtn: 'Activate',
     labelEmail: 'Email',
     labelPhone: 'Phone',
     labelCal: 'Calendar',
@@ -440,7 +440,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
             {/* button */}
             <button className="relative w-full rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
-              {t.sofiaCreateBtn}
+              {t.sofiaCreateBtn} {t.collaborators[activeCollaborator].name}
             </button>
           </div>
         </motion.div>
