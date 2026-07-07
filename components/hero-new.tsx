@@ -91,7 +91,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   }, [t.manifesto.length])
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
+    <section className="relative w-full overflow-x-clip bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
       {/* Faint ink rule grid — same editorial backdrop as the solo hero */}
       <div
         aria-hidden="true"
@@ -199,9 +199,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.ul>
         </div>
 
-        {/* Right column — Sofia dark glass card */}
+        {/* Right column — Sofia dark glass card, dipped lower to hook into the next section.
+            Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
+        <div className="relative flex justify-center lg:translate-y-24 lg:self-end">
         <motion.div
-          className="relative flex items-center justify-center"
+          className="relative flex w-full items-center justify-center"
           initial={{ opacity: 0, scale: 0.96, y: 18 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.7, ease, delay: 0.2 }}
@@ -331,6 +333,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </button>
           </div>
         </motion.div>
+        </div>
       </div>
     </section>
   )
