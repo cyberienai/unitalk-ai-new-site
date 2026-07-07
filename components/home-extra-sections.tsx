@@ -502,7 +502,7 @@ export function FinalCtaSection() {
       />
       <div className="relative mx-auto max-w-3xl text-center">
         <motion.p
-          className="mb-5 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#E0A96D]"
+          className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#F2C892]"
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
