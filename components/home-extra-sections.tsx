@@ -348,8 +348,8 @@ export function FinalCtaSection() {
         >
           {[
             'Une identité',
-            'Une mémoire',
             'Une intelligence',
+            'Une mémoire',
             'Des compétences',
             'Des outils',
             'Des ressources',
