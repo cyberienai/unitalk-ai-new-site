@@ -102,7 +102,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   }, [activeVerb])
 
   return (
-    <section className="relative w-full overflow-x-clip bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
+    <section className="relative flex w-full flex-col justify-center overflow-x-clip bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:min-h-[100svh] lg:px-8">
       {/* Faint ink rule grid — same editorial backdrop as the solo hero */}
       <div
         aria-hidden="true"
