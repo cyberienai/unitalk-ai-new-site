@@ -89,11 +89,21 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           {/* Left — copy + Alma bubble */}
           <div>
-            <SectionHeader
-              eyebrow={t.almaEyebrow}
-              title={t.almaTitle}
-              titleAccent={t.almaTitleAccent}
-            />
+            {/* Alma header with photo */}
+            <div className="mb-6 flex items-start gap-4 sm:gap-6">
+              <img
+                src="/alma-avatar.png"
+                alt="Alma"
+                className="h-16 w-16 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/20 sm:h-20 sm:w-20"
+              />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wide text-[#D10E63] mb-2">{t.almaEyebrow}</p>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-[#1C1A17]">
+                  {t.almaTitle}
+                  {t.almaTitleAccent && <span className="text-[#D10E63]">{t.almaTitleAccent}</span>}
+                </h2>
+              </div>
+            </div>
 
             <p className="mb-8 mt-4 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
 
