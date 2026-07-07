@@ -20,9 +20,9 @@ const T = {
       { n: '05', label: 'Planifie une tâche', desc: 'Crée une première tâche pour effectuer la veille sur le sujet de votre choix' },
       { n: '06', label: 'Suivi & amélioration', desc: 'Accessible à tout moment. Escalade auprès d\'un AgentOps si besoin' },
     ],
-    almaCta: 'Activer mon collaborateur IA avec Alma',
+    almaCta: 'Parler avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
-    almaLearnMore: 'En savoir plus sur Alma',
+    almaLearnMore: 'En savoir plus',
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
@@ -55,9 +55,9 @@ const T = {
       { n: '05', label: 'Schedule a task', desc: 'Creates a first task to monitor the subject of your choice' },
       { n: '06', label: 'Follow-up & improvement', desc: 'Available anytime. Escalates to AgentOps if needed' },
     ],
-    almaCta: 'Activate my AI Collaborator with Alma',
+    almaCta: 'Talk with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
-    almaLearnMore: 'Learn more about Alma',
+    almaLearnMore: 'Learn more',
 
     dispEyebrow: 'The real problem',
     dispTitle: "AI shouldn't live in a tab.",
