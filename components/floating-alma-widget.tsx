@@ -54,7 +54,7 @@ function useContextualTip(t: (typeof T)['fr']) {
 }
 
 export function FloatingAlmaWidget() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const [showTip, setShowTip] = useState(false)
   const { lang } = useLanguage()
   const t = T[lang]
