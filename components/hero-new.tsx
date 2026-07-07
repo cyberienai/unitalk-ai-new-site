@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckCircle2, CreditCard, Unlock } from 'lucide-react'
+import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckCircle2, CreditCard, Unlock, Clock } from 'lucide-react'
 
 const T = {
   fr: {
@@ -15,7 +15,7 @@ const T = {
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
     ctaProofs: [
-      { icon: Zap, label: 'Gratuit immédiat' },
+      { icon: Clock, label: 'Prêt en 15 min' },
       { icon: CreditCard, label: 'Sans CB' },
       { icon: Unlock, label: '7 jours gratuits' },
     ],
