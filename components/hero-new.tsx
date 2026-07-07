@@ -14,7 +14,7 @@ const T = {
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon Collaborateur IA',
-    ctaMicrocopy: 'Mise en service en moins de 15 minutes avec Alma, notre agent vocal. Sans carte bancaire.',
+    ctaMicrocopy: 'Mise en service gratuite immédiate avec Alma, notre agent vocal. Sans carte bancaire.',
     ctaSecondary: 'Voir comment ça marche',
     sofiaTitle: 'Votre premier Collaborateur IA',
     sofiaName: 'Sofia',
