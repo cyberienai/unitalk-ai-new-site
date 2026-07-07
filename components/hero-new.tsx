@@ -100,7 +100,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         }}
       />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
         {/* Left column — copy */}
         <div className="flex flex-col justify-center">
           <motion.div
