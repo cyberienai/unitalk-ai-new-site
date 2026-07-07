@@ -560,7 +560,7 @@ export function FinalCtaSection() {
             href="/signup"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 py-4 text-base font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
           >
-            Créer mon Collaborateur IA gratuit
+            Activer mon Collaborateur IA
             <ChevronRight className="h-5 w-5" />
           </a>
 
