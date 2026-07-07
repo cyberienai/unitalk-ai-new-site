@@ -18,7 +18,7 @@ const T = {
       { n: '03', label: 'Cartographie des tâches', desc: 'Identifie vos tâches chronophages et répétitives' },
       { n: '04', label: 'Configuration & intégrations', desc: 'Configure votre agent Hermès, vous aide à connecter vos apps' },
       { n: '05', label: 'Planifie une tâche', desc: 'Crée une première tâche pour effectuer la veille sur le sujet de votre choix' },
-      { n: '06', label: 'Suivi & amélioration', desc: 'Accessible à tout moment. Escalade auprès d\'un AgentOps si besoin' },
+      { n: '06', label: 'Suivi & amélioration', desc: 'Alma est accessible à tout moment. Escalade auprès d\'un AgentOps si besoin' },
     ],
     almaCta: 'Parlez avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
@@ -55,7 +55,7 @@ const T = {
       { n: '03', label: 'Task mapping', desc: 'Identifies your time-consuming and repetitive tasks' },
       { n: '04', label: 'Config. & integrations', desc: 'Configures your Hermès agent, helps you connect your apps' },
       { n: '05', label: 'Schedule a task', desc: 'Creates a first task to monitor the subject of your choice' },
-      { n: '06', label: 'Follow-up & improvement', desc: 'Available anytime. Escalates to AgentOps if needed' },
+      { n: '06', label: 'Follow-up & improvement', desc: 'Alma is available anytime. Escalates to AgentOps if needed' },
     ],
     
     dispEyebrow: 'The real problem',
