@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
   { fr: "10 profils prêts à l'emploi", en: '10 ready-to-use profiles', href: '/use-cases' },
   { fr: 'Accompagnement', en: 'Support', href: '/accompagnement' },
+  { fr: 'Agent Hermes', en: 'Hermes Agent', href: '/agent-hermes' },
   { fr: 'Modèles IA', en: 'AI models', href: '/modeles-ia' },
   { fr: 'Hébergeurs', en: 'Hosting', href: '/hebergeurs' },
   { fr: 'Agent IA public', en: 'Public AI agent', href: '/agent-ia-public' },
