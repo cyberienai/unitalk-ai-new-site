@@ -409,6 +409,8 @@ const FAQ = [
   {
     q: 'Quels modèles sont accessibles ?',
     a: 'Unitalk AI Gateway peut donner accès aux meilleurs modèles : ChatGPT, Claude, Gemini, Grok, Mistral, Qwen, DeepSeek, Kimi, GLM, Minimax, modèles image, vidéo, audio, code et modèles locaux.',
+    linkHref: '/modeles-ia',
+    linkLabel: 'Voir tous les modèles',
   },
   {
     q: 'Mes données restent-elles sous contrôle ?',
@@ -446,7 +448,18 @@ export function HomeFaq() {
                 />
               </button>
               {open === i && (
-                <div className="px-6 pb-5 text-sm leading-relaxed text-[#4E483F]">{item.a}</div>
+                  <div className="px-6 pb-5 text-sm leading-relaxed text-[#4E483F]">
+                    <p>{item.a}</p>
+                    {item.linkHref && (
+                      <a
+                        href={item.linkHref}
+                        className="mt-3 inline-flex items-center gap-1 font-semibold text-[#D10E63] transition-colors hover:text-[#B00B52]"
+                      >
+                        {item.linkLabel}
+                        <ChevronRight className="h-4 w-4" />
+                      </a>
+                    )}
+                  </div>
               )}
             </div>
           ))}
