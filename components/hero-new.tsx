@@ -136,7 +136,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
           <motion.div
-            className="mb-8 flex flex-wrap gap-2"
+            className="mb-8 flex flex-wrap gap-1.5"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
@@ -153,7 +153,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     scale: isActive ? 1.06 : 1,
                   }}
                   transition={{ duration: 0.45, ease }}
-                  className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium"
+                  className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-sm font-medium"
                 >
                   <motion.span
                     animate={{
@@ -216,7 +216,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             }}
           />
 
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#1A1613] p-6 shadow-2xl sm:p-7">
+          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#1A1613] p-4 shadow-2xl sm:p-7">
             {/* top sheen */}
             <div
               aria-hidden="true"
