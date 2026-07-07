@@ -39,7 +39,7 @@ const T = {
       'Des outils déconnectés',
     ],
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "Unitalk permet une vraie collaboration humain-agent. Vos équipes et vos agents IA travaillent ensemble, en synergie, pour faire ce que ni l'un ni l'autre ne pourrait faire seul.",
+    dispConclusion: "Unitalk crée une intelligence collective : humains et agents IA collaborent, chacun dans son rôle, pour accomplir ce qui était impossible seul. Vous gardez le contrôle, vos données restent vôtres, votre IA grandit avec vous.",
   },
   en: {
     almaEyebrow: 'Voice assistance for onboarding',
@@ -71,7 +71,7 @@ const T = {
       'Disconnected tools',
     ],
     dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
-    dispConclusion: "Unitalk enables true human-agent collaboration. Your teams and AI agents work together, in synergy, to achieve what neither could do alone.",
+    dispConclusion: "Unitalk creates collective intelligence: humans and AI agents collaborate, each in their role, to accomplish what was impossible alone. You keep control, your data stays yours, your AI grows with you.",
   },
 }
 
@@ -205,7 +205,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           {/* Solution section */}
           <div className="rounded-2xl border-l-4 border-[#D10E63] bg-gradient-to-r from-[#D10E63]/10 to-transparent px-6 py-6 sm:px-8 sm:py-8">
             <p className="text-lg font-semibold leading-relaxed text-[#F7F4EE]">
-              <span className="text-[#F1729F]">Unitalk</span>{' '}
+              <span className="font-bold text-white">Unitalk</span>{' '}
               {t.dispConclusion.replace('Unitalk ', '')}
             </p>
             <p className="mt-4 text-sm text-[#D8D1C5]">
