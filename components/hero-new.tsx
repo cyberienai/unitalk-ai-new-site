@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock } from 'lucide-react'
+import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench } from 'lucide-react'
 
 const T = {
   fr: {
@@ -33,10 +33,16 @@ const T = {
     labelPhone: 'Téléphone',
     labelCal: 'Calendrier',
     calValue: 'Connecté',
+    contactIcons: [
+      { icon: Mail, label: 'Email' },
+      { icon: Phone, label: 'Téléphone' },
+      { icon: Calendar, label: 'Calendrier' },
+    ],
     rows: [
-      { icon: Database, label: 'Mémoire', value: 'Offres, clients, documents' },
+      { icon: Database, label: 'Mémoire', value: 'Données, historique, contexte' },
       { icon: Zap, label: 'Compétences', value: 'Prospection, relance, CRM' },
       { icon: Cpu, label: 'Modèles', value: 'GPT, Claude, Gemini, Mistral' },
+      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
     ],
   },
   en: {
@@ -67,10 +73,16 @@ const T = {
     labelPhone: 'Phone',
     labelCal: 'Calendar',
     calValue: 'Connected',
+    contactIcons: [
+      { icon: Mail, label: 'Email' },
+      { icon: Phone, label: 'Phone' },
+      { icon: Calendar, label: 'Calendar' },
+    ],
     rows: [
-      { icon: Database, label: 'Memory', value: 'Offers, clients, documents' },
+      { icon: Database, label: 'Memory', value: 'Data, history, context' },
       { icon: Zap, label: 'Skills', value: 'Prospecting, follow-up, CRM' },
       { icon: Cpu, label: 'Models', value: 'GPT, Claude, Gemini, Mistral' },
+      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
     ],
   },
 }
@@ -265,24 +277,19 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
             </div>
 
-            {/* contact chips */}
-            <div className="relative mb-5 grid grid-cols-1 gap-2">
-              {[
-                { icon: Mail, label: t.labelEmail, value: t.sofiaEmail },
-                { icon: Phone, label: t.labelPhone, value: t.sofiaPhone },
-                { icon: Calendar, label: t.labelCal, value: t.calValue },
-              ].map((row) => {
-                const Icon = row.icon
+            {/* contact icons row */}
+            <div className="relative mb-5 flex items-center gap-2">
+              {t.contactIcons.map((item) => {
+                const Icon = item.icon
                 return (
                   <div
-                    key={row.label}
-                    className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2.5"
+                    key={item.label}
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] px-2 py-2"
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-[#F1729F]" />
-                    <span className="w-20 text-[10px] font-semibold uppercase tracking-wide text-[#8A8175]">
-                      {row.label}
+                    <Icon className="h-3.5 w-3.5 shrink-0 text-[#F1729F]" />
+                    <span className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175]">
+                      {item.label}
                     </span>
-                    <span className="truncate text-sm text-[#E7E1D6]">{row.value}</span>
                   </div>
                 )
               })}
