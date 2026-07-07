@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock } from 'lucide-react'
 
@@ -80,6 +80,8 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const [activeVerb, setActiveVerb] = useState(0)
+  const chipsRef = useRef<HTMLDivElement>(null)
+  const chipRefs = useRef<(HTMLSpanElement | null)[]>([])
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -87,6 +89,17 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     }, 1400)
     return () => clearInterval(id)
   }, [t.manifesto.length])
+
+  // Keep the highlighted verb in view on the horizontally scrollable mobile row,
+  // so every chip is revealed as the highlight rolls through.
+  useEffect(() => {
+    const container = chipsRef.current
+    const chip = chipRefs.current[activeVerb]
+    if (!container || !chip) return
+    if (container.scrollWidth <= container.clientWidth) return
+    const target = chip.offsetLeft - (container.clientWidth - chip.offsetWidth) / 2
+    container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
+  }, [activeVerb])
 
   return (
     <section className="relative w-full overflow-x-clip bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8">
@@ -134,7 +147,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
           <motion.div
-            className="mb-8 -mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
+            ref={chipsRef}
+            className="mb-8 -mx-5 flex gap-1.5 overflow-x-auto px-5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
@@ -144,6 +158,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               return (
                 <motion.span
                   key={line}
+                  ref={(el) => {
+                    chipRefs.current[i] = el
+                  }}
                   animate={{
                     backgroundColor: isActive ? '#D10E63' : '#FBF9F3',
                     borderColor: isActive ? '#D10E63' : '#DcD4C4',
@@ -199,7 +216,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative flex min-w-0 justify-center mt-2 sm:mt-4 lg:mt-0 lg:translate-y-24 lg:self-end">
+        <div className="relative flex min-w-0 justify-center mt-16 sm:mt-20 lg:mt-0 lg:translate-y-24 lg:self-end">
         <motion.div
           className="relative flex w-full items-center justify-center"
           initial={{ opacity: 0, scale: 0.96, y: 18 }}
