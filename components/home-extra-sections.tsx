@@ -122,53 +122,57 @@ const SOVEREIGNTY_PILLARS = [
 
 export function SovereigntySection() {
   return (
-    <section className="w-full bg-[#F3EFE6] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <section className="w-full bg-[#1C1A17] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
+        <div className="mx-auto mb-20 max-w-2xl text-center">
           <SectionHeader
             eyebrow="Souveraineté"
             title="Vos données. "
             titleAccent="Votre contrôle."
             subtitle="Vraiment."
             align="center"
+            dark
           />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
           {SOVEREIGNTY_PILLARS.map((pillar, i) => {
             const Icon = pillar.icon
             return (
               <motion.div
                 key={pillar.title}
-                className="flex gap-6 rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-8 transition-all hover:border-[#D10E63]/20 hover:shadow-lg"
-                initial={{ opacity: 0, x: -20 }}
+                className="group flex gap-6 rounded-2xl border border-[#D10E63]/15 bg-gradient-to-br from-[#D10E63]/5 to-transparent p-8 backdrop-blur-sm transition-all hover:border-[#D10E63]/40 hover:bg-gradient-to-br hover:from-[#D10E63]/10 hover:to-[#D10E63]/3 hover:shadow-[0_8px_32px_rgba(209,14,99,0.15)]"
+                initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
               >
-                <span className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3]">
-                  <Icon className="h-6 w-6" strokeWidth={1.5} />
+                <span className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#D10E63]/20 to-[#D10E63]/10 text-[#D10E63] group-hover:from-[#D10E63]/30 group-hover:to-[#D10E63]/15">
+                  <Icon className="h-7 w-7" strokeWidth={1.4} />
                 </span>
-                <div>
-                  <h3 className="mb-2 text-lg font-bold text-[#1C1A17]">{pillar.title}</h3>
-                  <p className="leading-relaxed text-[#4E483F]">{pillar.description}</p>
+                <div className="flex-1">
+                  <h3 className="mb-2 text-lg font-bold text-[#F7F4EE]">{pillar.title}</h3>
+                  <p className="leading-relaxed text-[#E7E1D6]">{pillar.description}</p>
                 </div>
               </motion.div>
             )
           })}
         </div>
 
-        <div className="mx-auto mt-16 max-w-2xl border-t border-[#DcD4C4] pt-12 text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#D10E63]">
-            La promesse Unitalk
-          </p>
-          <p className="mt-4 text-2xl font-bold leading-tight text-[#1C1A17]">
-            Vos agents. Vos données. Votre infrastructure.<br />
-            Liberté à chaque instant. Contrôle permanent.
-          </p>
-          <p className="mt-6 text-sm leading-relaxed text-[#4E483F]">
-            Migration gratuite, à tout moment. Open source au cœur. Desktop + Ollama pour vos secrets.
-          </p>
+        <div className="mx-auto mt-20 max-w-2xl">
+          <div className="h-px bg-gradient-to-r from-transparent via-[#D10E63]/30 to-transparent" />
+          <div className="pt-12 text-center">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#D10E63]">
+              La promesse Unitalk
+            </p>
+            <p className="mt-6 text-2xl font-bold leading-tight text-[#F7F4EE]">
+              Vos agents. Vos données. Votre infrastructure.<br />
+              <span className="text-[#D10E63]">Liberté à chaque instant. Contrôle permanent.</span>
+            </p>
+            <p className="mt-6 text-sm leading-relaxed text-[#E7E1D6]">
+              Migration gratuite, à tout moment. Open source au cœur. Desktop + Ollama pour vos secrets.
+            </p>
+          </div>
         </div>
       </div>
     </section>
