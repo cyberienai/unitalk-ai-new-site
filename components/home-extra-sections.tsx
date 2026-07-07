@@ -519,7 +519,7 @@ export function FinalCtaSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.06 }}
         >
-          {"N'utilisez plus un simple agent IA. "}
+          {"N'utilisez plus un simple agent\u00A0IA. "}
           <span className="text-[#FBF9F3]">Créez un vrai collaborateur.</span>
         </motion.h2>
 
