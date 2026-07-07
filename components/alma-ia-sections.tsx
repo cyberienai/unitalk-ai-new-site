@@ -85,46 +85,52 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       {/* ---------- Alma onboarding (light) ---------- */}
       <section className="relative w-full overflow-hidden border-t border-[#DcD4C4] bg-[#F3EFE6] py-20 sm:py-28">
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            eyebrow={t.almaEyebrow}
-            title={t.almaTitle}
-            titleAccent={t.almaTitleAccent}
-            subtitle={t.almaText}
-          />
+          {/* 2-column layout: title/subtitle left, video right */}
+          <div className="mb-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+            {/* Left — title & subtitle */}
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63] mb-3">{t.almaEyebrow}</p>
+              <h2 className="font-sf text-3xl font-bold leading-[1.05] text-balance sm:text-4xl md:text-5xl text-[#1C1A17]" style={{ letterSpacing: '-0.03em' }}>
+                {t.almaTitle}
+                {t.almaTitleAccent && <span className="text-[#D10E63]">{t.almaTitleAccent}</span>}
+              </h2>
+              <p className="mt-6 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
 
-          {/* Alma video placeholder */}
-          <div className="mt-12 mb-8 mx-auto max-w-2xl">
-            <div className="relative w-full bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 rounded-3xl aspect-[3/2] border-2 border-[#D10E63]/30 flex items-center justify-center overflow-hidden">
-              <div className="text-center">
-                <svg className="h-20 w-20 mx-auto mb-3 text-[#D10E63]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p className="text-sm font-semibold text-[#857C6E] uppercase tracking-wide">Alma en action</p>
+              {/* CTA below subtitle */}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
+                  {t.almaCta}
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+                <a href="/alma" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg border-2 border-[#D10E63]/30 bg-[#D10E63]/5 text-[#D10E63] hover:bg-[#D10E63]/10 hover:border-[#D10E63]/50 transition-all">
+                  {t.almaLearnMore}
+                  <ChevronRight className="h-3 w-3" />
+                </a>
               </div>
-              
-              {/* Alma avatar overlay */}
-              <img
-                src="/alma-avatar.png"
-                alt="Alma"
-                className="absolute bottom-6 left-6 h-14 w-14 rounded-full object-cover ring-2 ring-[#FBF9F3] shadow-lg"
-              />
-              
-              {/* Video element - add your video src here */}
-              {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
             </div>
-          </div>
 
-          {/* CTA between video and cards */}
-          <div className="mt-8 mb-10 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-center">
-            <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
-              {t.almaCta}
-              <ChevronRight className="h-4 w-4" />
-            </button>
-            <a href="/alma" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg border-2 border-[#D10E63]/30 bg-[#D10E63]/5 text-[#D10E63] hover:bg-[#D10E63]/10 hover:border-[#D10E63]/50 transition-all">
-              {t.almaLearnMore}
-              <ChevronRight className="h-3 w-3" />
-            </a>
+            {/* Right — video placeholder */}
+            <div>
+              <div className="relative w-full bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 rounded-3xl aspect-[3/2] border-2 border-[#D10E63]/30 flex items-center justify-center overflow-hidden">
+                <div className="text-center">
+                  <svg className="h-20 w-20 mx-auto mb-3 text-[#D10E63]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-sm font-semibold text-[#857C6E] uppercase tracking-wide">Alma en action</p>
+                </div>
+                
+                {/* Alma avatar overlay */}
+                <img
+                  src="/alma-avatar.png"
+                  alt="Alma"
+                  className="absolute bottom-6 left-6 h-14 w-14 rounded-full object-cover ring-2 ring-[#FBF9F3] shadow-lg"
+                />
+                
+                {/* Video element - add your video src here */}
+                {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
+              </div>
+            </div>
           </div>
 
           {/* Grid — 9 steps 3x3 with Alma-specific design */}
