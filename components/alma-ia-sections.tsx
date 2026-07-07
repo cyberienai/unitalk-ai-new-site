@@ -11,7 +11,7 @@ const T = {
     almaTitle: 'Alma interviews vos équipes et configure votre IA en 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma est un consultant vocal intelligent qui vous pose les bonnes questions pour cartographier vos tâches critiques. Elle recommande automatiquement les compétences et automatisations (n8n) adaptées à votre contexte, collecte les données de votre entreprise, et configure votre Collaborateur IA prêt à l'emploi. Chaque collaborateur a déjà ses outils et ressources intégrés (framework Hermès). Chaque semaine, elle évalue votre satisfaction et propose des améliorations. Elle vous accompagne, améliore vos agents au fil du temps, et peut escalader vers le support humain si besoin.",
+      "Alma, consultant vocal intelligent, cartographie vos tâches critiques et recommande les compétences et automatisations (n8n) adaptées. Elle collecte le contexte de votre entreprise et configure votre Collaborateur IA avec tous ses outils (framework Hermès). Chaque semaine, elle évalue votre satisfaction et propose des optimisations. Support humain escaladable si besoin.",
     almaSteps: [
       { n: '01', label: 'Interview & découverte', desc: 'Alma pose les bonnes questions sur vos processus' },
       { n: '02', label: 'Cartographie des tâches', desc: 'Identifie les tâches critiques et répétitives' },
@@ -47,7 +47,7 @@ const T = {
     almaTitle: 'Alma interviews your team and configures your AI in 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma is an intelligent voice consultant who asks the right questions to map your critical tasks. She automatically recommends the skills and automations (n8n) tailored to your context, collects your company data, and configures your ready-to-work AI Collaborator. Every Collaborator comes with its tools and resources built-in (Hermès framework). Each week, she evaluates your satisfaction and suggests improvements. She coaches you, improves your agents over time, and can escalate to human support if needed.",
+      "Alma, an intelligent voice consultant, maps your critical tasks and recommends the skills and automations (n8n) best suited. She collects your company context and configures your AI Collaborator with all its tools built-in (Hermès framework). Each week, she evaluates your satisfaction and suggests optimizations. Human support escalation available if needed.",
     almaSteps: [
       { n: '01', label: 'Interview & discovery', desc: 'Alma asks the right questions about your processes' },
       { n: '02', label: 'Task mapping', desc: 'Identifies critical and repetitive tasks' },
@@ -86,7 +86,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     <>
       {/* ---------- Alma onboarding (light) ---------- */}
       <section className="relative w-full bg-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
           {/* Left — copy + Alma bubble */}
           <div>
             {/* Alma header with photo */}
@@ -121,12 +121,12 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </div>
 
           {/* Right — numbered steps with descriptions */}
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-3">
             {t.almaSteps.map((step, i) => (
               <motion.div
                 key={step.n}
                 className={`flex flex-col gap-2 rounded-2xl border-2 border-[#D10E63]/20 bg-gradient-to-br from-[#FBF9F3] to-[#F3EFE6] px-4 py-4 hover:border-[#D10E63]/40 transition-all ${
-                  i === t.almaSteps.length - 1 ? 'sm:col-span-2' : ''
+                  i === t.almaSteps.length - 1 ? 'sm:col-start-2' : ''
                 }`}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
