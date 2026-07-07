@@ -118,7 +118,7 @@ const SOVEREIGNTY_PILLARS = [
   },
   {
     icon: Cpu,
-    title: 'Aucun entraînement sur vos données',
+    title: 'Vos données ne servent pas à entraîner des modèles d\u2019IA',
     description: 'Zéro rétention.',
     featured: false,
   },
