@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, Lock, FileCheck, User, Users, Server } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
@@ -99,6 +99,11 @@ export function AIGatewaySection() {
 
 const SOVEREIGNTY_PILLARS = [
   {
+    icon: Repeat,
+    title: 'No vendor lock-in',
+    description: 'Migration à tout moment. Orchestration d\'open source. Aucune dépendance. Liberté totale.',
+  },
+  {
     icon: Database,
     title: 'Isolation de vos données',
     description: 'Chiffrement intégral. Compartimentage strict. Zéro accès sans permission.',
@@ -107,16 +112,6 @@ const SOVEREIGNTY_PILLARS = [
     icon: Cpu,
     title: 'Aucun entraînement sur vos données',
     description: 'Zéro rétention. Vos prompts ne quittent jamais votre périmètre.',
-  },
-  {
-    icon: Repeat,
-    title: 'No vendor lock-in',
-    description: 'Migration à tout moment. Orchestration d\'open source. Aucune dépendance. Liberté totale.',
-  },
-  {
-    icon: Lock,
-    title: 'Confidentialité ultime',
-    description: 'Unitalk Desktop + Ollama pour vos données sensibles si besoin. 100% on-premise. Zéro cloud requis.',
   },
   {
     icon: FileCheck,
