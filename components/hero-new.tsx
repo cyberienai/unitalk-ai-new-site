@@ -42,7 +42,7 @@ const T = {
     rows: [
       { icon: Database, label: 'Mémoire', value: 'Données, historique, contexte' },
       { icon: Zap, label: 'Compétences', value: 'Prospection LinkedIn, relance, CRM HubSpot' },
-      { icon: Cpu, label: 'Modèles', value: 'Chat GPT, Claude, Gemini, Mistral' },
+      { icon: Cpu, label: 'Modèles', value: 'ChatGPT, Claude, Gemini, Mistral' },
     ],
     connectors: [
       { icon: Wrench, label: 'Apps' },
@@ -169,7 +169,7 @@ const T = {
     rows: [
       { icon: Database, label: 'Memory', value: 'Data, history, context' },
       { icon: Zap, label: 'Skills', value: 'LinkedIn Prospecting, follow-up, CRM HubSpot' },
-      { icon: Cpu, label: 'Models', value: 'Chat GPT, Claude, Gemini, Mistral' },
+      { icon: Cpu, label: 'Models', value: 'ChatGPT, Claude, Gemini, Mistral' },
     ],
     connectors: [
       { icon: Wrench, label: 'Apps' },
