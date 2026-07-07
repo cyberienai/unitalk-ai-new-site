@@ -11,13 +11,13 @@ const T = {
     almaTitle: 'Alma interviews vos équipes et configure votre IA en 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma, consultant vocal intelligent, cartographie vos tâches critiques et recommande les compétences et automatisations (n8n) adaptées. Elle collecte le contexte de votre entreprise et configure votre Collaborateur IA avec tous ses outils (framework Hermès). Chaque semaine, elle évalue votre satisfaction et propose des optimisations. Support humain escaladable si besoin.",
+      "Alma, consultant vocal intelligent, cartographie vos tâches critiques et recommande les compétences et automatisations (n8n) adaptées. Elle collecte le contexte de votre entreprise et configure votre Collaborateur IA avec tous ses outils et ressources d'un agent Hermès, leader des agents open source du marché. Chaque semaine, elle évalue votre satisfaction et propose des optimisations. Support humain escaladable si besoin.",
     almaSteps: [
       { n: '01', label: 'Interview & découverte', desc: 'Alma pose les bonnes questions sur vos processus' },
       { n: '02', label: 'Cartographie des tâches', desc: 'Identifie les tâches critiques et répétitives' },
       { n: '03', label: 'Recommandations IA', desc: 'Propose compétences et automatisations n8n' },
       { n: '04', label: 'Contexte d\'entreprise', desc: 'Collecte domaine, données publiques, culture' },
-      { n: '05', label: 'Configuration agent', desc: 'Crée l\'identité, rôle et instructions. Intégré Hermès.' },
+      { n: '05', label: 'Configuration agent', desc: 'Crée l\'identité, rôle et instructions. Hermès framework.' },
       { n: '06', label: 'Test mission', desc: 'Valide le comportement et les automatisations' },
       { n: '07', label: 'Suivi & amélioration', desc: 'Évalue satisfaction hebdomadaire, propose optimisations' },
     ],
@@ -47,13 +47,13 @@ const T = {
     almaTitle: 'Alma interviews your team and configures your AI in 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma, an intelligent voice consultant, maps your critical tasks and recommends the skills and automations (n8n) best suited. She collects your company context and configures your AI Collaborator with all its tools built-in (Hermès framework). Each week, she evaluates your satisfaction and suggests optimizations. Human support escalation available if needed.",
+      "Alma, an intelligent voice consultant, maps your critical tasks and recommends the skills and automations (n8n) best suited. She collects your company context and configures your AI Collaborator with all its tools and resources from Hermès, the leader of open-source agents on the market. Each week, she evaluates your satisfaction and suggests optimizations. Human support escalation available if needed.",
     almaSteps: [
       { n: '01', label: 'Interview & discovery', desc: 'Alma asks the right questions about your processes' },
       { n: '02', label: 'Task mapping', desc: 'Identifies critical and repetitive tasks' },
       { n: '03', label: 'AI recommendations', desc: 'Suggests skills and n8n automations' },
       { n: '04', label: 'Company context', desc: 'Collects domain, public data, culture' },
-      { n: '05', label: 'Agent configuration', desc: 'Creates identity, role, and instructions. Hermès included.' },
+      { n: '05', label: 'Agent configuration', desc: 'Creates identity, role, and instructions. Hermès framework.' },
       { n: '06', label: 'Test mission', desc: 'Validates behavior and automations' },
       { n: '07', label: 'Follow-up & improvement', desc: 'Evaluates satisfaction weekly, suggests optimizations' },
     ],
