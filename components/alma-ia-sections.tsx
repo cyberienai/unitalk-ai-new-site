@@ -39,7 +39,7 @@ const T = {
       'Des outils déconnectés',
     ],
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "Unitalk crée une intelligence collective : humains et agents IA collaborent, chacun dans son rôle, pour accomplir ce qui était impossible seul. Vous gardez le contrôle, vos données restent vôtres, votre IA grandit avec vous.",
+    dispConclusion: "Unitalk crée une intelligence collective : humains et agents IA collaborent, chacun dans son rôle, pour accomplir ce qui était impossible seul. Vous gardez le contrôle, vos données restent les vôtres, votre IA grandit avec vous.",
   },
   en: {
     almaEyebrow: 'Voice assistance for onboarding',
