@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench } from 'lucide-react'
+import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock } from 'lucide-react'
 
 const T = {
   fr: {
@@ -40,9 +40,8 @@ const T = {
     ],
     rows: [
       { icon: Database, label: 'Mémoire', value: 'Données, historique, contexte' },
-      { icon: Zap, label: 'Compétences', value: 'Prospection, relance, CRM' },
+      { icon: Zap, label: 'Compétences', value: 'Prospection, relance, CRM HubSpot' },
       { icon: Cpu, label: 'Modèles', value: 'GPT, Claude, Gemini, Mistral' },
-      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
     ],
   },
   en: {
@@ -80,9 +79,8 @@ const T = {
     ],
     rows: [
       { icon: Database, label: 'Memory', value: 'Data, history, context' },
-      { icon: Zap, label: 'Skills', value: 'Prospecting, follow-up, CRM' },
+      { icon: Zap, label: 'Skills', value: 'Prospecting, follow-up, CRM HubSpot' },
       { icon: Cpu, label: 'Models', value: 'GPT, Claude, Gemini, Mistral' },
-      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
     ],
   },
 }
