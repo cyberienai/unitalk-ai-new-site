@@ -15,7 +15,7 @@ const T = {
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
     ctaProofs: [
-      { icon: Clock, label: 'Prêt en 15 min' },
+      { icon: Clock, label: 'Prêt à travailler en 5 min' },
       { icon: CreditCard, label: 'Sans CB' },
       { icon: Unlock, label: '7 jours gratuits' },
     ],
@@ -86,7 +86,7 @@ const T = {
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
     ctaProofs: [
-      { icon: Zap, label: 'Free & instant' },
+      { icon: Clock, label: 'Ready to work in 5 min' },
       { icon: CreditCard, label: 'No credit card' },
       { icon: Unlock, label: 'No commitment' },
     ],
@@ -376,6 +376,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="relative mb-5 space-y-2 border-t border-white/[0.06] pt-5">
               {t.rows.map((row) => {
                 const Icon = row.icon
+                // Use collaborator's skills for the Compétences/Skills row
+                const displayValue = row.label === 'Compétences' || row.label === 'Skills' 
+                  ? t.collaborators[activeCollaborator].skills 
+                  : row.value
                 return (
                   <div key={row.label} className="flex items-start gap-3">
                     <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
@@ -383,7 +387,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <p className="text-[10px] font-semibold uppercase tracking-wide text-[#8A8175]">
                         {row.label}
                       </p>
-                      <p className="text-sm text-[#E7E1D6]">{row.value}</p>
+                      <p className="text-sm text-[#E7E1D6]">{displayValue}</p>
                     </div>
                   </div>
                 )
