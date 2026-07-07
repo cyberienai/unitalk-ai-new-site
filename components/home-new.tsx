@@ -31,11 +31,11 @@ export function HomeNew() {
       {/* 7. AI Gateway */}
       <AIGatewaySection />
 
-      {/* 8. Souveraineté / réversibilité */}
-      <SovereigntySection />
-
-      {/* 9. Offres Solo / Teams / Business */}
+      {/* 8. Offres Solo / Teams / Business */}
       <OffersSection />
+
+      {/* 9. Souveraineté / réversibilité */}
+      <SovereigntySection />
 
       {/* 10. FAQ courte */}
       <HomeFaq />
