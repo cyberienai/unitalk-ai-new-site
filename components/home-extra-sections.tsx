@@ -8,8 +8,9 @@ import { SectionHeader } from './section-header'
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
 
 const GATEWAY_MODELS = [
-  'ChatGPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Qwen', 'DeepSeek',
-  'Kimi', 'GLM', 'Minimax', 'Image', 'Vidéo', 'Audio', 'Code', 'Local',
+  'ChatGPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Llama', 'Qwen', 
+  'DeepSeek', 'Kimi', 'GLM', 'Minimax', 'Phi', 'Perplexity', 'Image', 
+  'Vidéo', 'Audio', 'Code', 'Local',
 ]
 
 export function AIGatewaySection() {
@@ -43,11 +44,14 @@ export function AIGatewaySection() {
               'Gemini': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-gemini/default.svg',
               'Grok': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x/default.svg',
               'Mistral': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mistral-ai/default.svg',
+              'Llama': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/meta/default.svg',
               'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/default.svg',
               'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/default.svg',
               'Kimi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/moonshot/default.svg',
               'GLM': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/default.svg',
               'Minimax': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/minimax/default.svg',
+              'Phi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/microsoft/default.svg',
+              'Perplexity': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/perplexity/default.svg',
               'Image': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/dall-e/default.svg',
               'Vidéo': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/runway/default.svg',
               'Audio': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/elevenlabs/default.svg',
