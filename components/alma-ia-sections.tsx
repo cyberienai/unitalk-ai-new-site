@@ -11,7 +11,7 @@ const T = {
     almaTitle: 'Alma vous interview et donne vie à votre collaborateur IA en 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma cartographie vos tâches critiques → recommande compétences & automatisations (n8n) → collecte le contexte de votre entreprise. Configure votre Collaborateur IA avec Hermès, leader des agents open source. Évaluation hebdomadaire, support humain escaladable.",
+      "Alma analyse votre contexte, cartographie vos tâches critiques et recommande les compétences adaptées. Déploie votre Collaborateur IA avec Hermès, leader des agents open source. Suivi hebdomadaire et support humain réactif.",
     almaSteps: [
       { n: '01', label: 'Interview & découverte', desc: 'Alma pose les bonnes questions sur vos processus' },
       { n: '02', label: 'Cartographie des tâches', desc: 'Identifie les tâches critiques et répétitives' },
@@ -49,7 +49,7 @@ const T = {
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life in 5 minutes.',
     almaTitleAccent: '',
     almaText:
-      "Alma maps your critical tasks → recommends skills & automations (n8n) → collects your company context. Configures your AI Collaborator with Hermès, the leader of open-source agents. Weekly evaluation, human support escalation available.",
+      "Alma analyzes your context, maps your critical tasks, and recommends the right skills. Deploys your AI Collaborator with Hermès, the leader of open-source agents. Weekly follow-up and reactive human support.",
     almaSteps: [
       { n: '01', label: 'Interview & discovery', desc: 'Alma asks the right questions about your processes' },
       { n: '02', label: 'Task mapping', desc: 'Identifies critical and repetitive tasks' },
