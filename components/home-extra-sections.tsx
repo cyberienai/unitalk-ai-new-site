@@ -9,8 +9,8 @@ import { SectionHeader } from './section-header'
 
 const GATEWAY_MODELS = [
   'ChatGPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Llama', 'Qwen', 
-  'DeepSeek', 'Kimi', 'GLM', 'Minimax', 'Phi', 'Perplexity', 'Image', 
-  'Vidéo', 'Audio', 'Code', 'Local',
+  'DeepSeek', 'Kimi', 'Yi', 'Minimax', 'Phi', 'Perplexity', 'Image', 
+  'Vidéo', 'Audio', 'Local',
 ]
 
 export function AIGatewaySection() {
@@ -29,7 +29,7 @@ export function AIGatewaySection() {
           eyebrow="Unitalk AI Gateway"
           title="Tous les modèles IA. "
           titleAccent="Une seule ressource d'entreprise."
-          subtitle="Vos humains et vos agents accèdent aux meilleurs modèles depuis un même endroit - sans clés API à gérer, ni abonnements empilés."
+          subtitle="Vos humains et vos agents accèdent aux meilleurs modèles depuis un même endroit - sans clés API à gérer, une seule facture."
           align="center"
           dark
         />
@@ -41,21 +41,20 @@ export function AIGatewaySection() {
             const modelLogoMap: Record<string, string> = {
               'ChatGPT': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/openai/default.svg',
               'Claude': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/claude/default.svg',
-              'Gemini': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-gemini/default.svg',
+              'Gemini': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google/default.svg',
               'Grok': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x/default.svg',
               'Mistral': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mistral-ai/default.svg',
               'Llama': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/meta/default.svg',
               'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/default.svg',
               'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/default.svg',
               'Kimi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/moonshot/default.svg',
-              'GLM': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/default.svg',
+              'Yi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/01-ai/default.svg',
               'Minimax': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/minimax/default.svg',
               'Phi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/microsoft/default.svg',
               'Perplexity': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/perplexity/default.svg',
               'Image': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/dall-e/default.svg',
               'Vidéo': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/runway/default.svg',
               'Audio': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/elevenlabs/default.svg',
-              'Code': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/github/default.svg',
               'Local': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/ollama/default.svg',
             }
             const logoUrl = modelLogoMap[m]
