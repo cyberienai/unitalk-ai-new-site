@@ -15,12 +15,12 @@ const T = {
       'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui fait un vrai coéquipier.',
     cards: [
       { icon: User, title: 'Une identité', description: 'Nom, voix, email, calendrier. Un vrai profil avec sa présence et son historique.' },
-      { icon: Brain, title: 'Une intelligence', description: 'Accès à tous les modèles IA. Texte, images, code, audio—tout ce qui marche.' },
+      { icon: Brain, title: 'Une intelligence', description: 'Accès à tous les modèles IA. Texte, images, code, audio - Toujours les dernières versions.' },
       { icon: Database, title: 'Une mémoire', description: 'Se souvient de vos contextes, méthodes et préférences. Apprend au fil du temps.' },
       { icon: Zap, title: 'Des compétences', description: 'Profils de travail adaptés. Chacun maîtrise son domaine et ses automatisations.' },
       { icon: Wrench, title: 'Des outils', description: 'Se connecte à tout : email, CRM, fichiers, calendrier. Fonctionne où vous êtes.' },
       { icon: Cpu, title: 'Des ressources', description: 'Puissance de calcul dédiée, stockage sécurisé, tâches qui tournent 24/7.' },
-      { icon: FileText, title: 'Des instructions claires', description: 'Sait son rôle, ses limites, ses méthodes. Valide avec vous avant d\'agir.' },
+      { icon: FileText, title: 'Des instructions claires', description: 'Connaît son rôle, ses limites, ses méthodes. Valide avec vous avant d\'agir.' },
       { icon: CalendarClock, title: 'La planification', description: 'Gère les tâches récurrentes, rappels et actions. Tout s\'exécute à temps.' },
       { icon: MessagesSquare, title: 'Omniprésent', description: 'Slack, Teams, WhatsApp, Telegram, Discord, terminal, desktop, web. Partout où vous êtes.' },
     ],
@@ -33,7 +33,7 @@ const T = {
       'An AI agent alone can answer, reason or execute a task. A Unitalk AI Collaborator goes further: it brings together everything that makes a real teammate.',
     cards: [
       { icon: User, title: 'An identity', description: 'Name, voice, email, calendar. A real profile with presence and history.' },
-      { icon: Brain, title: 'An intelligence', description: 'Access to all AI models. Text, images, code, audio—whatever works.' },
+      { icon: Brain, title: 'An intelligence', description: 'Access to all AI models. Text, images, code, audio - Always the latest versions.' },
       { icon: Database, title: 'A memory', description: 'Remembers your contexts, methods and preferences. Learns over time.' },
       { icon: Zap, title: 'Skills', description: 'Customized work profiles. Each one masters its domain and automations.' },
       { icon: Wrench, title: 'Tools', description: 'Connects to everything: email, CRM, files, calendar. Works where you are.' },

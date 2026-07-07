@@ -28,7 +28,7 @@ export function AIGatewaySection() {
           eyebrow="Unitalk AI Gateway"
           title="Tous les modèles IA. "
           titleAccent="Une seule ressource d'entreprise."
-          subtitle="Vos humains et vos agents accèdent aux meilleurs modèles depuis un même endroit — sans clés API à gérer, ni abonnements empilés."
+          subtitle="Vos humains et vos agents accèdent aux meilleurs modèles depuis un même endroit - sans clés API à gérer, ni abonnements empilés."
           align="center"
           dark
         />
@@ -36,24 +36,44 @@ export function AIGatewaySection() {
         <div className="h-10" />
 
         <div className="mb-12 flex flex-wrap justify-center gap-2.5">
-          {GATEWAY_MODELS.map((m, i) => (
-            <motion.span
-              key={m}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-medium text-[#E7E1D6] transition-colors hover:border-[#D10E63]/40 hover:bg-[#D10E63]/10"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: i * 0.03 }}
-            >
-              {m}
-            </motion.span>
-          ))}
+          {GATEWAY_MODELS.map((m, i) => {
+            const modelColors: Record<string, { bg: string; border: string; text: string }> = {
+              'GPT': { bg: 'bg-green-900/20', border: 'border-green-500/30', text: 'text-green-300' },
+              'Claude': { bg: 'bg-amber-900/20', border: 'border-amber-500/30', text: 'text-amber-300' },
+              'Gemini': { bg: 'bg-blue-900/20', border: 'border-blue-500/30', text: 'text-blue-300' },
+              'Grok': { bg: 'bg-cyan-900/20', border: 'border-cyan-500/30', text: 'text-cyan-300' },
+              'Mistral': { bg: 'bg-orange-900/20', border: 'border-orange-500/30', text: 'text-orange-300' },
+              'Qwen': { bg: 'bg-purple-900/20', border: 'border-purple-500/30', text: 'text-purple-300' },
+              'DeepSeek': { bg: 'bg-indigo-900/20', border: 'border-indigo-500/30', text: 'text-indigo-300' },
+              'Kimi': { bg: 'bg-pink-900/20', border: 'border-pink-500/30', text: 'text-pink-300' },
+              'GLM': { bg: 'bg-rose-900/20', border: 'border-rose-500/30', text: 'text-rose-300' },
+              'Minimax': { bg: 'bg-violet-900/20', border: 'border-violet-500/30', text: 'text-violet-300' },
+              'Image': { bg: 'bg-teal-900/20', border: 'border-teal-500/30', text: 'text-teal-300' },
+              'Vidéo': { bg: 'bg-fuchsia-900/20', border: 'border-fuchsia-500/30', text: 'text-fuchsia-300' },
+              'Audio': { bg: 'bg-sky-900/20', border: 'border-sky-500/30', text: 'text-sky-300' },
+              'Code': { bg: 'bg-slate-900/20', border: 'border-slate-500/30', text: 'text-slate-300' },
+              'Local': { bg: 'bg-lime-900/20', border: 'border-lime-500/30', text: 'text-lime-300' },
+            }
+            const colors = modelColors[m] || { bg: 'bg-white/[0.05]', border: 'border-white/10', text: 'text-[#E7E1D6]' }
+            return (
+              <motion.span
+                key={m}
+                className={`inline-flex items-center rounded-full border font-semibold px-4 py-2 text-sm transition-all hover:scale-110 ${colors.bg} ${colors.border} ${colors.text}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.03 }}
+              >
+                {m}
+              </motion.span>
+            )
+          })}
         </div>
 
         <p className="mx-auto max-w-2xl text-xl font-semibold leading-snug text-[#F7F4EE]">
           {"L'IA devient une ressource d'entreprise."}
           <br />
-          <span className="text-[#F1729F]">{"Pas une pile d'abonnements individuels."}</span>
+          <span className="text-[#E7E1D6]">{"Pas une pile d'abonnements individuels."}</span>
         </p>
       </div>
     </section>
@@ -388,7 +408,7 @@ export function FinalCtaSection() {
               className="h-7 w-7 rounded-full object-cover ring-2 ring-[#D10E63]/40"
             />
             <span>
-              <span className="font-semibold text-[#E7E1D6]">Alma</span> vous guide en 7 étapes —
+              <span className="font-semibold text-[#E7E1D6]">Alma</span> vous guide en 7 étapes -
               moins de 15 minutes, sans carte bancaire.
             </span>
           </div>
