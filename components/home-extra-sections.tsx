@@ -105,8 +105,8 @@ const SOVEREIGNTY_PILLARS = [
   },
   {
     icon: Cpu,
-    title: 'Modèles cloisonnés',
-    description: 'Aucun entraînement sur vos données. Zéro rétention. Vos prompts ne quittent jamais votre périmètre.',
+    title: 'Aucun entraînement sur vos données',
+    description: 'Zéro rétention. Vos prompts ne quittent jamais votre périmètre.',
   },
   {
     icon: Repeat,
