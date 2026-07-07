@@ -10,7 +10,7 @@ import { SectionHeader } from './section-header'
 const GATEWAY_MODELS = [
   'ChatGPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Llama', 'Qwen', 
   'DeepSeek', 'Kimi', 'GLMA', 'Minimax', 'Phi', 'Perplexity', 'Image', 
-  'Veo', 'Nana Banana', 'Kling', 'Wan', 'Audio', 'Local',
+  'Veo', 'Nana Banana', 'Kling', 'Wan', 'Audio', 'Ollama',
 ]
 
 export function AIGatewaySection() {
