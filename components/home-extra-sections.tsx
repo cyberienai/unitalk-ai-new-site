@@ -132,8 +132,15 @@ const SOVEREIGNTY_PILLARS = [
 
 export function SovereigntySection() {
   return (
-    <section className="w-full bg-[#1C1A17] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
-      <div className="mx-auto max-w-6xl">
+    <section className="relative w-full overflow-hidden bg-[#1C1A17] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+      {/* Ambient glows */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute -left-40 top-0 h-[500px] w-[500px] rounded-full bg-[#D10E63]/10 blur-[120px]" />
+        <div className="absolute -right-32 bottom-0 h-[600px] w-[600px] rounded-full bg-[#D10E63]/[0.07] blur-[140px]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#D10E63]/40 to-transparent" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl">
         <div className="mb-16 max-w-3xl">
           <SectionHeader
             eyebrow="Souveraineté"
@@ -200,12 +207,18 @@ export function SovereigntySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="overflow-hidden rounded-2xl border border-[#D10E63]/20 shadow-[0_24px_80px_-24px_rgba(209,14,99,0.4)]">
-              <img
-                src="/images/unitalk-desktop-privacy.png"
-                alt="Interface Unitalk Desktop exécutant des modèles IA en local avec Ollama, 100% on-premise et zéro cloud requis pour les données sensibles"
-                className="w-full"
+            <div className="relative">
+              <div
+                className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-[#D10E63]/20 blur-3xl"
+                aria-hidden="true"
               />
+              <div className="relative overflow-hidden rounded-2xl border border-[#D10E63]/25 shadow-[0_24px_80px_-24px_rgba(209,14,99,0.5)] ring-1 ring-[#F7F4EE]/10">
+                <img
+                  src="/images/unitalk-desktop-privacy.png"
+                  alt="Interface Unitalk Desktop exécutant des modèles IA en local avec Ollama, 100% on-premise et zéro cloud requis pour les données sensibles"
+                  className="w-full"
+                />
+              </div>
             </div>
             <p className="mt-5 text-center text-sm leading-relaxed text-[#C4BCAE]">
               <span className="font-semibold text-[#F7F4EE]">Unitalk Desktop</span> — vos données sensibles
@@ -395,7 +408,7 @@ const FAQ = [
   },
   {
     q: 'Quels modèles sont accessibles ?',
-    a: 'Unitalk AI Gateway peut donner accès aux meilleurs modèles : GPT, Claude, Gemini, Grok, Mistral, Qwen, DeepSeek, Kimi, GLM, Minimax, modèles image, vidéo, audio, code et modèles locaux.',
+    a: 'Unitalk AI Gateway peut donner accès aux meilleurs modèles : ChatGPT, Claude, Gemini, Grok, Mistral, Qwen, DeepSeek, Kimi, GLM, Minimax, modèles image, vidéo, audio, code et modèles locaux.',
   },
   {
     q: 'Mes données restent-elles sous contrôle ?',
