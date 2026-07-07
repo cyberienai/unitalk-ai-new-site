@@ -121,7 +121,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: FileCheck,
     title: 'Conformité certifiée',
-    description: 'RGPD, ISO 27001, SOC 2. Audit complet. Contrôle gouvernance intégré.',
+    description: 'RGPD, ISO 27001, SOC 2.',
   },
 ]
 
