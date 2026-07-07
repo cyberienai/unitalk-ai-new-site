@@ -21,7 +21,7 @@ const T = {
       { n: '06', label: 'Test mission', desc: 'Valide le comportement et les automatisations' },
       { n: '07', label: 'Suivi & amélioration', desc: 'Évalue satisfaction hebdomadaire, propose optimisations' },
     ],
-    almaCta: 'Créer mon Collaborateur IA gratuit',
+    almaCta: 'Activer mon collaborateur IA avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
     almaLearnMore: 'En savoir plus sur Alma',
 
@@ -57,7 +57,7 @@ const T = {
       { n: '06', label: 'Test mission', desc: 'Validates behavior and automations' },
       { n: '07', label: 'Follow-up & improvement', desc: 'Evaluates satisfaction weekly, suggests optimizations' },
     ],
-    almaCta: 'Create my AI Collaborator for free',
+    almaCta: 'Activate my AI Collaborator with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
     almaLearnMore: 'Learn more about Alma',
 
