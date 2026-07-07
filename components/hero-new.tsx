@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckCircle2 } from 'lucide-react'
 
@@ -10,7 +11,7 @@ const T = {
     headlineAccent: 'vrais collaborateurs.',
     subheadline:
       'Créez en quelques minutes un Collaborateur IA avec une identité, une intelligence, une mémoire, des compétences, des outils, des ressources et ses propres instructions de travail.',
-    manifesto: ['Il raisonne', 'Il planifie', 'Il exécute', 'Il apprend', 'Il collabore', "Il s'améliore"],
+    manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon Collaborateur IA gratuit',
     ctaMicrocopy: 'Mise en service en moins de 15 minutes avec Alma, notre agent vocal. Sans carte bancaire.',
@@ -72,6 +73,14 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
+  const [activeVerb, setActiveVerb] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActiveVerb((i) => (i + 1) % t.manifesto.length)
+    }, 1400)
+    return () => clearInterval(id)
+  }, [t.manifesto.length])
 
   return (
     <section className="relative w-full overflow-hidden bg-[#F3EFE6] px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
@@ -120,22 +129,39 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.subheadline}
           </motion.p>
 
-          {/* Manifesto as chips */}
+          {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
           <motion.div
             className="mb-8 flex flex-wrap gap-2"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
           >
-            {t.manifesto.map((line) => (
-              <span
-                key={line}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-3 py-1.5 text-sm font-medium text-[#1C1A17]"
-              >
-                <span className="h-1 w-1 rounded-full bg-[#D10E63]" />
-                {line}
-              </span>
-            ))}
+            {t.manifesto.map((line, i) => {
+              const isActive = i === activeVerb
+              return (
+                <motion.span
+                  key={line}
+                  animate={{
+                    backgroundColor: isActive ? '#D10E63' : '#FBF9F3',
+                    borderColor: isActive ? '#D10E63' : '#DcD4C4',
+                    color: isActive ? '#FBF9F3' : '#1C1A17',
+                    scale: isActive ? 1.06 : 1,
+                  }}
+                  transition={{ duration: 0.45, ease }}
+                  className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium"
+                >
+                  <motion.span
+                    animate={{
+                      backgroundColor: isActive ? '#FBF9F3' : '#D10E63',
+                      scale: isActive ? [1, 1.9, 1] : 1,
+                    }}
+                    transition={{ duration: isActive ? 0.6 : 0.3, ease }}
+                    className="h-1 w-1 rounded-full"
+                  />
+                  {line}
+                </motion.span>
+              )
+            })}
           </motion.div>
 
           <motion.div
