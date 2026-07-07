@@ -301,7 +301,7 @@ const FAQ = [
   },
   {
     q: 'Puis-je commencer gratuitement ?',
-    a: 'Oui. Vous pouvez créer votre premier Collaborateur IA gratuitement, sans carte bancaire. Alma vous guide en 7 étapes et la mise en service prend moins de 15 minutes.',
+    a: "Oui. Vous pouvez créer votre premier Collaborateur IA gratuitement et l'essayer pendant 7 jours, sans carte bancaire. Alma vous guide en 7 étapes et la mise en service prend moins de 15 minutes.",
   },
   {
     q: 'Quels modèles sont accessibles ?',
