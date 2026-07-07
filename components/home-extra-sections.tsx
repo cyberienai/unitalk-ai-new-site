@@ -106,7 +106,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Fingerprint,
     title: 'Votre propriété intellectuelle',
-    description: 'Ce que vous construisez reste à vous. Vos agents, vos méthodes, vos outils — Unitalk ne détient aucun droit.',
+    description: 'Ce que vous construisez reste à vous. Vos agents Hermès, vos compétences, vos automatisations, vos conversations — Unitalk ne détient aucun droit.',
   },
   {
     icon: Database,
