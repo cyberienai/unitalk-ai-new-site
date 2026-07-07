@@ -133,7 +133,7 @@ export function SovereigntySection() {
           <SectionHeader
             eyebrow="Souveraineté"
             title="Vos agents. Vos données. Votre infrastructure. "
-            titleAccent="Liberté à chaque instant. Contrôle permanent."
+            titleAccent="Toujours."
             align="center"
             dark
           />
