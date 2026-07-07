@@ -81,7 +81,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   return (
     <>
       {/* ---------- Alma onboarding (light) ---------- */}
-      <section className="relative w-full overflow-hidden border-t border-[#DcD4C4] bg-[#F3EFE6] py-20 sm:py-28">
+      <section className="relative w-full overflow-hidden bg-[#F3EFE6] py-20 sm:py-28">
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* 2-column layout: title/subtitle left, video right */}
           <div className="mb-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
