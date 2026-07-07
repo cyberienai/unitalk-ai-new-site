@@ -10,7 +10,7 @@ const T = {
     tooltipClose: 'Fermer',
     role: 'Je crée vos agents et les aide à progresser',
     // Contextual tooltips by route
-    tipHome: '👋 Moi c’est Alma. Envie de créer votre 1er collaborateur IA ?',
+    tipHome: '👋 Moi c’est Alma. Envie de créer votre 1er collaborateur\u00A0IA\u00A0?',
     tipAgents: 'Décrivons ensemble le poste à pourvoir.',
     tipPricing: 'Une question sur les offres ? Parlons-en.',
     tipDefault: 'Besoin d’un nouvel agent ?',
@@ -75,7 +75,7 @@ export function FloatingAlmaWidget() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 12, scale: 0.9 }}
               transition={{ duration: 0.25 }}
-              className="mb-1 max-w-[220px] rounded-2xl rounded-br-md border border-[#DcD4C4] bg-[#FBF9F3] px-4 py-2.5 text-left text-[13px] leading-snug text-[#1C1A17] shadow-[0_16px_40px_-16px_rgba(28,26,23,0.35)]"
+              className="mb-1 w-max max-w-[260px] rounded-2xl rounded-br-md border border-[#DcD4C4] bg-[#FBF9F3] px-4 py-2.5 text-left text-[13px] leading-snug text-[#1C1A17] shadow-[0_16px_40px_-16px_rgba(28,26,23,0.35)]"
             >
               {tip}
             </motion.button>
