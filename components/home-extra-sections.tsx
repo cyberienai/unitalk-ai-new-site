@@ -119,7 +119,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Cpu,
     title: 'Aucun entraînement sur vos données',
-    description: 'Zéro rétention. Vos prompts ne quittent jamais votre périmètre.',
+    description: 'Zéro rétention.',
     featured: false,
   },
   {
