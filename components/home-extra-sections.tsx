@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint, Download } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint, Download, ArrowLeftRight } from 'lucide-react'
 import { SectionHeader } from './section-header'
+import { useT } from '@/lib/language-context'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
 
@@ -131,6 +132,19 @@ const SOVEREIGNTY_PILLARS = [
 ]
 
 export function SovereigntySection() {
+  const t = useT({
+    fr: {
+      badge: 'Migration en un clic',
+      text: 'Vous venez d\u2019OpenClaw ou de Hermes ? Importez vos agents en un clic.',
+      cta: 'Migrer maintenant',
+    },
+    en: {
+      badge: 'One-click migration',
+      text: 'Coming from OpenClaw or Hermes? Import your agents in one click.',
+      cta: 'Migrate now',
+    },
+  })
+
   return (
     <section className="relative w-full overflow-hidden bg-[#1C1A17] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       {/* Ambient glows */}
@@ -150,6 +164,33 @@ export function SovereigntySection() {
             dark
           />
         </div>
+
+        <motion.div
+          className="mb-12 flex flex-col gap-4 rounded-2xl border border-[#D10E63]/25 bg-gradient-to-r from-[#D10E63]/12 to-transparent p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex items-center gap-4">
+            <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[#D10E63]/20 text-[#D10E63]">
+              <ArrowLeftRight className="h-5 w-5" strokeWidth={1.6} />
+            </span>
+            <div>
+              <p className="mb-0.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#F2A9C8]">
+                {t.badge}
+              </p>
+              <p className="text-[15px] font-medium leading-snug text-[#F7F4EE]">{t.text}</p>
+            </div>
+          </div>
+          <a
+            href="/migration"
+            className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+          >
+            {t.cta}
+            <ChevronRight className="h-4 w-4" />
+          </a>
+        </motion.div>
 
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Left: pillars */}
