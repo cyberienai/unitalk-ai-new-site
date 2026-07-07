@@ -128,39 +128,63 @@ const SOVEREIGNTY_PILLARS = [
 export function SovereigntySection() {
   return (
     <section className="w-full bg-[#1C1A17] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <div className="mx-auto mb-20 max-w-2xl text-center">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-16 max-w-3xl">
           <SectionHeader
             eyebrow="Souveraineté"
             title="Vos agents. Vos données. Votre infrastructure. "
             titleAccent="Toujours."
-            align="center"
+            align="left"
             dark
           />
         </div>
 
-        <div className="space-y-5">
-          {SOVEREIGNTY_PILLARS.map((pillar, i) => {
-            const Icon = pillar.icon
-            return (
-              <motion.div
-                key={pillar.title}
-                className="group flex gap-6 rounded-2xl border border-[#D10E63]/15 bg-gradient-to-br from-[#D10E63]/5 to-transparent p-8 backdrop-blur-sm transition-all hover:border-[#D10E63]/40 hover:bg-gradient-to-br hover:from-[#D10E63]/10 hover:to-[#D10E63]/3 hover:shadow-[0_8px_32px_rgba(209,14,99,0.15)]"
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-              >
-                <span className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#D10E63]/20 to-[#D10E63]/10 text-[#D10E63] group-hover:from-[#D10E63]/30 group-hover:to-[#D10E63]/15">
-                  <Icon className="h-7 w-7" strokeWidth={1.4} />
-                </span>
-                <div className="flex-1">
-                  <h3 className="mb-2 text-lg font-bold text-[#F7F4EE]">{pillar.title}</h3>
-                  <p className="leading-relaxed text-[#E7E1D6]">{pillar.description}</p>
-                </div>
-              </motion.div>
-            )
-          })}
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          {/* Left: pillars */}
+          <div className="space-y-4">
+            {SOVEREIGNTY_PILLARS.map((pillar, i) => {
+              const Icon = pillar.icon
+              return (
+                <motion.div
+                  key={pillar.title}
+                  className="group flex gap-5 rounded-2xl border border-[#D10E63]/15 bg-gradient-to-br from-[#D10E63]/5 to-transparent p-6 backdrop-blur-sm transition-all hover:border-[#D10E63]/40 hover:from-[#D10E63]/10 hover:shadow-[0_8px_32px_rgba(209,14,99,0.15)]"
+                  initial={{ opacity: 0, x: -24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                >
+                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#D10E63]/20 to-[#D10E63]/10 text-[#D10E63] group-hover:from-[#D10E63]/30 group-hover:to-[#D10E63]/15">
+                    <Icon className="h-6 w-6" strokeWidth={1.4} />
+                  </span>
+                  <div className="flex-1">
+                    <h3 className="mb-1.5 text-base font-bold text-[#F7F4EE]">{pillar.title}</h3>
+                    <p className="text-sm leading-relaxed text-[#E7E1D6]">{pillar.description}</p>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+
+          {/* Right: desktop screenshot */}
+          <motion.div
+            className="lg:sticky lg:top-24 lg:self-start"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className="overflow-hidden rounded-2xl border border-[#D10E63]/20 shadow-[0_24px_80px_-24px_rgba(209,14,99,0.4)]">
+              <img
+                src="/images/unitalk-desktop-privacy.png"
+                alt="Interface Unitalk Desktop exécutant des modèles IA en local avec Ollama, 100% on-premise et zéro cloud requis pour les données sensibles"
+                className="w-full"
+              />
+            </div>
+            <p className="mt-5 text-center text-sm leading-relaxed text-[#C4BCAE]">
+              <span className="font-semibold text-[#F7F4EE]">Unitalk Desktop</span> — vos données sensibles
+              traitées 100% en local avec Ollama. Aucune donnée ne quitte votre machine.
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>
