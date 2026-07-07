@@ -269,19 +269,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F1729F]" />
                 {t.sofiaTitle}
               </div>
-              <div className="flex flex-col items-end gap-1">
-                <div className="flex items-center gap-1.5 rounded-lg border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-2.5 py-1">
-                  <CheckCircle2 className="h-3 w-3 text-[#4F9E6E]" />
-                  <span className="text-xs font-medium text-[#8FCBA6]">{t.sofiaStatus}</span>
-                </div>
-                <a
-                  href={`https://${t.sofiaProfileUrl}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175] hover:text-[#D10E63] transition-colors"
-                >
-                  {t.sofiaProfileUrl}
-                </a>
+              <div className="flex items-center gap-1.5 rounded-lg border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-2.5 py-1">
+                <CheckCircle2 className="h-3 w-3 text-[#4F9E6E]" />
+                <span className="text-xs font-medium text-[#8FCBA6]">{t.sofiaStatus}</span>
               </div>
             </div>
 
@@ -292,9 +282,17 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 alt={t.sofiaName}
                 className="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-white/15"
               />
-              <div>
+              <div className="flex-1">
                 <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{t.sofiaName}</h2>
                 <p className="text-sm text-[#B8B0A2]">{t.sofiaRole}</p>
+                <a
+                  href={`https://${t.sofiaProfileUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175] hover:text-[#D10E63] transition-colors"
+                >
+                  {t.sofiaProfileUrl}
+                </a>
               </div>
             </div>
 
@@ -335,7 +333,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
 
             {/* connectors row */}
-            <div className="relative mb-5 flex items-center gap-2 border-t border-white/[0.06] pt-5">
+            <div className="relative mb-5 flex items-center gap-2">
               {t.connectors.map((connector) => {
                 const Icon = connector.icon
                 return (
