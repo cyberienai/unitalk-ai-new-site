@@ -101,22 +101,22 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Database,
     title: 'Vos données',
-    description: 'Zéro accès sans permission. Chiffrement end-to-end. Votre infrastructure.',
+    description: 'Chiffrement end-to-end. Zéro accès sans permission. Votre infrastructure. RGPD native.',
   },
   {
     icon: Repeat,
-    title: 'Votre contrôle',
-    description: 'Choisissez vos fournisseurs IA. Changez quand vous voulez. Aucune dépendance.',
+    title: 'No vendor lock-in',
+    description: 'Migration à tout moment. Orchestration d\'open source. Aucune dépendance. Liberté totale.',
   },
   {
     icon: Lock,
-    title: 'Sécurité',
-    description: 'Gouvernance-grade. Audit complet. Conformité intégrée. Zéro risque.',
+    title: 'Confidentialité ultime',
+    description: 'Desktop + Ollama pour données sensibles. 100% on-premise. Zéro cloud requis.',
   },
   {
     icon: FileCheck,
-    title: 'Conformité',
-    description: 'RGPD, ISO 27001, SOC 2. Vos régulations, nos garanties.',
+    title: 'Conformité certifiée',
+    description: 'RGPD, ISO 27001, SOC 2. Audit complet. Contrôle gouvernance intégré.',
   },
 ]
 
@@ -160,11 +160,14 @@ export function SovereigntySection() {
 
         <div className="mx-auto mt-16 max-w-2xl border-t border-[#DcD4C4] pt-12 text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-[#D10E63]">
-            Votre engagement
+            La promesse Unitalk
           </p>
           <p className="mt-4 text-2xl font-bold leading-tight text-[#1C1A17]">
-            Vos agents. Vos compétences. Votre code.<br />
-            Vos données. Votre mémoire. Votre avenir.
+            Vos agents. Vos données. Votre infrastructure.<br />
+            Liberté à chaque instant. Contrôle permanent.
+          </p>
+          <p className="mt-6 text-sm leading-relaxed text-[#4E483F]">
+            Migration gratuite, à tout moment. Open source au cœur. Desktop + Ollama pour vos secrets.
           </p>
         </div>
       </div>
