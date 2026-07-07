@@ -99,8 +99,8 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           />
 
           {/* Alma video placeholder */}
-          <div className="mt-12 mb-12 mx-auto max-w-2xl">
-            <div className="relative w-full bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 rounded-3xl aspect-video border-2 border-[#D10E63]/30 flex items-center justify-center overflow-hidden">
+          <div className="mt-12 mb-8 mx-auto max-w-2xl">
+            <div className="relative w-full bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 rounded-3xl aspect-[3/2] border-2 border-[#D10E63]/30 flex items-center justify-center overflow-hidden">
               <div className="text-center">
                 <svg className="h-20 w-20 mx-auto mb-3 text-[#D10E63]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
@@ -111,6 +111,18 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               {/* Video element - add your video src here */}
               {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
             </div>
+          </div>
+
+          {/* CTA between video and cards */}
+          <div className="mt-8 mb-10 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-center">
+            <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
+              {t.almaCta}
+              <ChevronRight className="h-4 w-4" />
+            </button>
+            <a href="/alma" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg border-2 border-[#D10E63]/30 bg-[#D10E63]/5 text-[#D10E63] hover:bg-[#D10E63]/10 hover:border-[#D10E63]/50 transition-all">
+              {t.almaLearnMore}
+              <ChevronRight className="h-3 w-3" />
+            </a>
           </div>
 
           {/* Grid — 9 steps 3x3 with Alma-specific design */}
@@ -144,18 +156,6 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#D10E63] to-[#B00B52] rounded-full transition-all duration-300 group-hover:w-full" />
               </motion.article>
             ))}
-          </div>
-
-          {/* CTA below grid */}
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-center">
-            <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
-              {t.almaCta}
-              <ChevronRight className="h-4 w-4" />
-            </button>
-            <a href="/alma" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg border-2 border-[#D10E63]/30 bg-[#D10E63]/5 text-[#D10E63] hover:bg-[#D10E63]/10 hover:border-[#D10E63]/50 transition-all">
-              {t.almaLearnMore}
-              <ChevronRight className="h-3 w-3" />
-            </a>
           </div>
         </div>
       </section>
