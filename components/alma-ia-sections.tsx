@@ -7,7 +7,7 @@ import { SectionHeader } from './section-header'
 const T = {
   fr: {
     // Alma
-    almaEyebrow: 'Assistant consultant vocal',
+    almaEyebrow: 'Assistance vocale pour la mise en service',
     almaTitle: 'Alma vous interview et donne vie à votre collaborateur IA ',
     almaTitleAccent: 'en 5 minutes.',
     almaText:
@@ -42,7 +42,7 @@ const T = {
     dispConclusion: "Unitalk organise l'IA pour qu'elle devienne une vraie capacité de travail, partagée et durable.",
   },
   en: {
-    almaEyebrow: 'Voice consultant assistant',
+    almaEyebrow: 'Voice assistance for onboarding',
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life ',
     almaTitleAccent: 'in 5 minutes.',
     almaText:
