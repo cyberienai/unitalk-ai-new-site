@@ -14,7 +14,7 @@ const T = {
     subtitle:
       'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui fait un vrai coéquipier.',
     cards: [
-      { icon: User, title: 'Une identité', description: 'Nom, voix, email, téléphone, URL publique, calendrier, contacts.' },
+      { icon: User, title: 'Une identité', description: 'Nom, voix, email, téléphone, URL publique, calendrier, fichiers, contacts.' },
       { icon: Brain, title: 'Une intelligence', description: 'Modèles IA texte, code, image, audio, vidéo, multimodal ou local.' },
       { icon: Database, title: 'Une mémoire', description: "Contexte personnel, mémoire d'entreprise, méthodes, historique utile." },
       { icon: Zap, title: 'Des compétences', description: 'Profils de travail, skills, automatisations, savoir-faire métier.' },
@@ -32,7 +32,7 @@ const T = {
     subtitle:
       'An AI agent alone can answer, reason or execute a task. A Unitalk AI Collaborator goes further: it brings together everything that makes a real teammate.',
     cards: [
-      { icon: User, title: 'An identity', description: 'Name, voice, email, phone, public URL, calendar, contacts.' },
+      { icon: User, title: 'An identity', description: 'Name, voice, email, phone, public URL, calendar, files, contacts.' },
       { icon: Brain, title: 'An intelligence', description: 'Text, code, image, audio, video, multimodal or local AI models.' },
       { icon: Database, title: 'A memory', description: 'Personal context, company memory, methods, useful history.' },
       { icon: Zap, title: 'Skills', description: 'Work profiles, skills, automations, industry expertise.' },
