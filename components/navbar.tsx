@@ -101,7 +101,7 @@ export function Navbar() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#F3EFE6]/85 backdrop-blur-md">
-      <nav className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      <nav className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between lg:gap-0">
         {/* Left: Logo + nav links grouped together */}
         <div className="flex items-center gap-8 xl:gap-10">
           <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
