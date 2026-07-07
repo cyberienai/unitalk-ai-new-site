@@ -106,7 +106,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Fingerprint,
     title: 'Votre propriété intellectuelle',
-    description: 'Vos agents, skills, apps et automatisations vous appartiennent. Export libre. Zéro droit de Unitalk.',
+    description: 'Ce que vous construisez reste à vous. Vos agents, vos méthodes, vos outils — Unitalk ne détient aucun droit.',
   },
   {
     icon: Database,
