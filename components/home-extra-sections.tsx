@@ -101,7 +101,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Repeat,
     title: 'No vendor lock-in',
-    description: 'Partez quand vous voulez, avec tout : vos agents, vos données, vos configurations. Rien ne vous retient chez Unitalk.',
+    description: 'La liberté de partir quand vous voulez, avec tout : vos agents, vos données, votre code.',
   },
   {
     icon: Fingerprint,
