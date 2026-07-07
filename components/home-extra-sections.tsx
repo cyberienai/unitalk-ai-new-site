@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint, Download } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
@@ -184,6 +184,15 @@ export function SovereigntySection() {
               <span className="font-semibold text-[#F7F4EE]">Unitalk Desktop</span> — vos données sensibles
               traitées 100% en local avec Ollama. Aucune donnée ne quitte votre machine.
             </p>
+            <div className="mt-6 flex justify-center">
+              <a
+                href="/download"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+              >
+                <Download className="h-4 w-4" />
+                Télécharger gratuitement
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>
