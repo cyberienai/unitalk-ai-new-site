@@ -9,8 +9,8 @@ import { SectionHeader } from './section-header'
 
 const GATEWAY_MODELS = [
   'ChatGPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Llama', 'Qwen', 
-  'DeepSeek', 'Kimi', 'Yi', 'Minimax', 'Phi', 'Perplexity', 'Image', 
-  'Vidéo', 'Audio', 'Local',
+  'DeepSeek', 'Kimi', 'GLMA', 'Minimax', 'Phi', 'Perplexity', 'Image', 
+  'Veo', 'Nana Banana', 'Kling', 'Wan', 'Audio', 'Local',
 ]
 
 export function AIGatewaySection() {
@@ -45,17 +45,20 @@ export function AIGatewaySection() {
               'Grok': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x/default.svg',
               'Mistral': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mistral/default.svg',
               'Llama': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/meta/default.svg',
-              'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/default.svg',
-              'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/mono.svg',
+              'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba-cloud/default.svg',
+              'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/default.svg',
               'Kimi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/default.svg',
-              'Yi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/default.svg',
+              'GLMA': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/z-ai/default.svg',
               'Minimax': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/tencent/default.svg',
               'Phi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/microsoft/default.svg',
               'Perplexity': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/perplexity/default.svg',
               'Image': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/openai/default.svg',
-              'Vidéo': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/runway/default.svg',
+              'Veo': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google/default.svg',
+              'Nana Banana': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google/default.svg',
+              'Kling': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/kuaishou/default.svg',
+              'Wan': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/default.svg',
               'Audio': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/elevenlabs/default.svg',
-              'Local': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/github/default.svg',
+              'Local': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/ollama/default.svg',
             }
             const logoUrl = modelLogoMap[m]
             return (
