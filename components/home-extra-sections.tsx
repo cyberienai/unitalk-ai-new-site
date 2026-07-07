@@ -35,37 +35,52 @@ export function AIGatewaySection() {
 
         <div className="h-10" />
 
-        <div className="mb-12 flex flex-wrap justify-center gap-2.5">
+        <div className="mb-12 flex flex-wrap justify-center gap-4">
           {GATEWAY_MODELS.map((m, i) => {
-            const modelColors: Record<string, { bg: string; border: string; text: string }> = {
-              'GPT': { bg: 'bg-green-900/20', border: 'border-green-500/30', text: 'text-green-300' },
-              'Claude': { bg: 'bg-amber-900/20', border: 'border-amber-500/30', text: 'text-amber-300' },
-              'Gemini': { bg: 'bg-blue-900/20', border: 'border-blue-500/30', text: 'text-blue-300' },
-              'Grok': { bg: 'bg-cyan-900/20', border: 'border-cyan-500/30', text: 'text-cyan-300' },
-              'Mistral': { bg: 'bg-orange-900/20', border: 'border-orange-500/30', text: 'text-orange-300' },
-              'Qwen': { bg: 'bg-purple-900/20', border: 'border-purple-500/30', text: 'text-purple-300' },
-              'DeepSeek': { bg: 'bg-indigo-900/20', border: 'border-indigo-500/30', text: 'text-indigo-300' },
-              'Kimi': { bg: 'bg-pink-900/20', border: 'border-pink-500/30', text: 'text-pink-300' },
-              'GLM': { bg: 'bg-rose-900/20', border: 'border-rose-500/30', text: 'text-rose-300' },
-              'Minimax': { bg: 'bg-violet-900/20', border: 'border-violet-500/30', text: 'text-violet-300' },
-              'Image': { bg: 'bg-teal-900/20', border: 'border-teal-500/30', text: 'text-teal-300' },
-              'Vidéo': { bg: 'bg-fuchsia-900/20', border: 'border-fuchsia-500/30', text: 'text-fuchsia-300' },
-              'Audio': { bg: 'bg-sky-900/20', border: 'border-sky-500/30', text: 'text-sky-300' },
-              'Code': { bg: 'bg-slate-900/20', border: 'border-slate-500/30', text: 'text-slate-300' },
-              'Local': { bg: 'bg-lime-900/20', border: 'border-lime-500/30', text: 'text-lime-300' },
+            const modelLogoMap: Record<string, string> = {
+              'GPT': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/openai/light.svg',
+              'Claude': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/anthropic/light.svg',
+              'Gemini': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-gemini/light.svg',
+              'Grok': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x/light.svg',
+              'Mistral': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/mistral-ai/light.svg',
+              'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba/light.svg',
+              'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/light.svg',
+              'Kimi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/moonshot/light.svg',
+              'GLM': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/light.svg',
+              'Minimax': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/minimax/light.svg',
+              'Image': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/dall-e/light.svg',
+              'Vidéo': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/runway/light.svg',
+              'Audio': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/elevenlabs/light.svg',
+              'Code': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/github/light.svg',
+              'Local': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/ollama/light.svg',
             }
-            const colors = modelColors[m] || { bg: 'bg-white/[0.05]', border: 'border-white/10', text: 'text-[#E7E1D6]' }
+            const logoUrl = modelLogoMap[m]
             return (
-              <motion.span
+              <motion.div
                 key={m}
-                className={`inline-flex items-center rounded-full border font-semibold px-4 py-2 text-sm transition-all hover:scale-110 ${colors.bg} ${colors.border} ${colors.text}`}
+                className="group inline-flex items-center justify-center rounded-xl border-2 border-white/10 bg-white/[0.05] p-3 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:scale-110"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.03 }}
+                title={m}
               >
-                {m}
-              </motion.span>
+                {logoUrl ? (
+                  <img
+                    src={logoUrl}
+                    alt={m}
+                    className="h-8 w-8 object-contain transition-all group-hover:scale-110"
+                    onError={(e) => {
+                      // Fallback to text if logo fails to load
+                      e.currentTarget.style.display = 'none'
+                      e.currentTarget.nextElementSibling?.removeAttribute('hidden')
+                    }}
+                  />
+                ) : null}
+                <span hidden className="text-sm font-semibold text-[#E7E1D6]">
+                  {m}
+                </span>
+              </motion.div>
             )
           })}
         </div>
