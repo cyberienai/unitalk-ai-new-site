@@ -159,9 +159,7 @@ export function SovereigntySection() {
           })}
         </div>
 
-        <div className="mx-auto mt-20 max-w-2xl">
-          <div className="h-px bg-gradient-to-r from-transparent via-[#D10E63]/30 to-transparent" />
-          <div className="pt-12 text-center">
+        <div className="mx-auto mt-16 max-w-2xl text-center">
             <p className="text-sm font-semibold uppercase tracking-widest text-[#D10E63]">
               La promesse Unitalk
             </p>
@@ -172,7 +170,6 @@ export function SovereigntySection() {
             <p className="mt-6 text-sm leading-relaxed text-[#E7E1D6]">
               Migration gratuite, à tout moment. Open source au cœur. Desktop + Ollama pour vos secrets.
             </p>
-          </div>
         </div>
       </div>
     </section>
