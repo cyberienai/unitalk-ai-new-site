@@ -39,14 +39,16 @@ const T = {
       'Des outils déconnectés',
     ],
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "Unitalk organise l'IA pour qu'elle devienne une vraie capacité de travail, partagée et durable.",
+    dispConclusion: "Unitalk permet une vraie collaboration humain-agent. Vos équipes et vos agents IA travaillent ensemble, en synergie, pour faire ce que ni l'un ni l'autre ne pourrait faire seul.",
   },
   en: {
     almaEyebrow: 'Voice assistance for onboarding',
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life ',
     almaTitleAccent: 'in 5 minutes.',
-    almaText:
-      "Alma analyzes your context, identifies your time-consuming tasks, and recommends the right skills. She launches your AI Collaborator powered by Hermès—the leader of open-source agents. Continuous assistance and expert available if needed.",
+    almaText: "Alma analyzes your context, identifies your time-consuming tasks, and recommends the right skills. She launches your AI Collaborator powered by Hermès—the leader of open-source agents. Continuous assistance and expert available if needed.",
+    almaCta: 'Talk with Alma',
+    almaMicrocopy: 'No credit card. Learn more about Alma →',
+    almaLearnMore: 'Learn more',
     almaSteps: [
       { n: '01', label: 'Company context', desc: 'Collects public data related to your company and domain name' },
       { n: '02', label: 'Interview & discovery', desc: 'Asks the right questions about your processes' },
@@ -55,28 +57,22 @@ const T = {
       { n: '05', label: 'Schedule a task', desc: 'Creates a first task to monitor the subject of your choice' },
       { n: '06', label: 'Follow-up & improvement', desc: 'Available anytime. Escalates to AgentOps if needed' },
     ],
-    almaCta: 'Talk with Alma',
-    almaMicrocopy: 'No credit card. Learn more about Alma →',
-    almaLearnMore: 'Learn more',
-
+    
     dispEyebrow: 'The real problem',
     dispTitle: "AI shouldn't live in a tab.",
-    dispIntro:
-      "Your teams already use AI every day. The problem isn't adoption — it's dispersion. Everyone on their own, with no shared memory or method. And the company keeps almost nothing.",
+    dispIntro: "Your teams already use AI. The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. Your company retains almost nothing.",
     dispProblems: [
       'Individual accounts',
       'Isolated conversations',
-      'Prompts that vanish',
+      'Prompts that disappear',
       'Methods never shared',
       'Memory that gets lost',
-      'Data out of bounds',
+      'Data outside your control',
       'Disconnected tools',
     ],
-    dispStrong: "The problem isn't that companies don't use AI. It's that they use it in disorder.",
-    dispConclusion: 'Unitalk organizes AI so it becomes a real work capacity — shared and lasting.',
-    dispSolutionExtra: 'A platform where AI becomes collective, traceable, and governed. Your data, your governance, your capacity.',
+    dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
+    dispConclusion: "Unitalk enables true human-agent collaboration. Your teams and AI agents work together, in synergy, to achieve what neither could do alone.",
   },
-  dispSolutionExtraFr: "Une plateforme où l'IA devient collective, traçable et contrôlée. Vos données, votre gouvernance, votre capacité.",
 }
 
 export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
