@@ -99,29 +99,34 @@ export function AIGatewaySection() {
 
 const SOVEREIGNTY_PILLARS = [
   {
-    icon: Repeat,
-    title: 'No vendor lock-in',
-    description: 'La liberté de partir quand vous voulez, avec tout : vos agents, vos données, votre code.',
-  },
-  {
     icon: Fingerprint,
     title: 'Votre propriété intellectuelle',
     description: 'Ce que vous construisez reste à vous. Vos agents Hermès, vos compétences, vos automatisations, vos conversations — Unitalk ne détient aucun droit.',
+    featured: true,
+  },
+  {
+    icon: Repeat,
+    title: 'Aucun enfermement technique',
+    description: 'La liberté de partir quand vous voulez, avec tout : vos agents, vos données, votre code.',
+    featured: true,
   },
   {
     icon: Database,
     title: 'Isolation de vos données',
     description: 'Chiffrement intégral. Compartimentage strict. Zéro accès sans permission.',
+    featured: false,
   },
   {
     icon: Cpu,
     title: 'Aucun entraînement sur vos données',
     description: 'Zéro rétention. Vos prompts ne quittent jamais votre périmètre.',
+    featured: false,
   },
   {
     icon: FileCheck,
     title: 'Conformité certifiée',
     description: 'RGPD, ISO 27001, SOC 2.',
+    featured: false,
   },
 ]
 
@@ -132,8 +137,8 @@ export function SovereigntySection() {
         <div className="mb-16 max-w-3xl">
           <SectionHeader
             eyebrow="Souveraineté"
-            title="Capitalisez sur votre propriété intellectuelle. "
-            titleAccent="Vos collaborateurs IA sont à vous. Pour toujours."
+            title="Vos collaborateurs IA sont à vous. "
+            titleAccent="Pour toujours."
             align="left"
             dark
           />
@@ -147,18 +152,40 @@ export function SovereigntySection() {
               return (
                 <motion.div
                   key={pillar.title}
-                  className="group flex gap-5 rounded-2xl border border-[#D10E63]/15 bg-gradient-to-br from-[#D10E63]/5 to-transparent p-6 backdrop-blur-sm transition-all hover:border-[#D10E63]/40 hover:from-[#D10E63]/10 hover:shadow-[0_8px_32px_rgba(209,14,99,0.15)]"
+                  className={`group flex gap-5 rounded-2xl border backdrop-blur-sm transition-all ${
+                    pillar.featured
+                      ? 'border-[#D10E63]/30 bg-gradient-to-br from-[#D10E63]/12 to-transparent p-7 hover:border-[#D10E63]/50 hover:shadow-[0_12px_40px_rgba(209,14,99,0.2)]'
+                      : 'border-[#F7F4EE]/10 bg-[#F7F4EE]/[0.03] p-5 hover:border-[#D10E63]/30 hover:bg-[#D10E63]/5'
+                  }`}
                   initial={{ opacity: 0, x: -24 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
                 >
-                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#D10E63]/20 to-[#D10E63]/10 text-[#D10E63] group-hover:from-[#D10E63]/30 group-hover:to-[#D10E63]/15">
-                    <Icon className="h-6 w-6" strokeWidth={1.4} />
+                  <span
+                    className={`flex flex-shrink-0 items-center justify-center rounded-xl ${
+                      pillar.featured
+                        ? 'h-14 w-14 bg-gradient-to-br from-[#D10E63]/25 to-[#D10E63]/10 text-[#D10E63] group-hover:from-[#D10E63]/35'
+                        : 'h-10 w-10 bg-[#F7F4EE]/8 text-[#C4BCAE] group-hover:text-[#D10E63]'
+                    }`}
+                  >
+                    <Icon className={pillar.featured ? 'h-7 w-7' : 'h-5 w-5'} strokeWidth={1.4} />
                   </span>
                   <div className="flex-1">
-                    <h3 className="mb-1.5 text-base font-bold text-[#F7F4EE]">{pillar.title}</h3>
-                    <p className="text-sm leading-relaxed text-[#E7E1D6]">{pillar.description}</p>
+                    <h3
+                      className={`font-bold text-[#F7F4EE] ${
+                        pillar.featured ? 'mb-2 text-xl' : 'mb-1 text-base'
+                      }`}
+                    >
+                      {pillar.title}
+                    </h3>
+                    <p
+                      className={`leading-relaxed ${
+                        pillar.featured ? 'text-[15px] text-[#E7E1D6]' : 'text-sm text-[#C4BCAE]'
+                      }`}
+                    >
+                      {pillar.description}
+                    </p>
                   </div>
                 </motion.div>
               )
