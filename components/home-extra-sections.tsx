@@ -162,16 +162,6 @@ export function SovereigntySection() {
             )
           })}
         </div>
-
-        <div className="mx-auto mt-16 max-w-2xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#D10E63]">
-              La promesse Unitalk
-            </p>
-            <p className="mt-6 text-xl font-bold leading-relaxed text-[#F7F4EE]">
-              Migration gratuite, à tout moment. Open source au cœur.<br />
-              <span className="text-[#D10E63]">Desktop + Ollama pour vos secrets.</span>
-            </p>
-        </div>
       </div>
     </section>
   )
