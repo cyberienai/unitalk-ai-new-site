@@ -7,7 +7,7 @@ import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckC
 const T = {
   fr: {
     eyebrow: 'Infrastructure IA collaborative et souveraine',
-    headline: 'Unitalk transforme les agents IA en ',
+    headline: 'Unitalk transforme l’IA de vos équipes en ',
     headlineAccent: 'vrais collaborateurs.',
     subheadline:
       'Créez en quelques minutes un Collaborateur IA avec une identité, une intelligence, une mémoire, des compétences, des outils, des ressources et ses propres instructions de travail.',
