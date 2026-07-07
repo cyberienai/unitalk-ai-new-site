@@ -86,7 +86,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           {/* 2-column layout: title/subtitle left, video right */}
           <div className="mb-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
             {/* Left — title & subtitle */}
-            <div>
+            <div className="lg:order-2">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63] mb-3">{t.almaEyebrow}</p>
               <h2 className="font-sf text-3xl font-bold leading-[1.05] text-balance sm:text-4xl md:text-5xl text-[#1C1A17]" style={{ letterSpacing: '-0.03em' }}>
                 {t.almaTitle}
@@ -108,7 +108,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
 
             {/* Right — video placeholder */}
-            <div>
+            <div className="lg:order-1">
               <div className="relative w-full bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 rounded-3xl aspect-[3/2] border-2 border-[#D10E63]/30 flex items-center justify-center overflow-hidden">
                 <div className="text-center">
                   <svg className="h-20 w-20 mx-auto mb-3 text-[#D10E63]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
