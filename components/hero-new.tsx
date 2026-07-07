@@ -13,7 +13,7 @@ const T = {
       'Donnez-lui un nom, un rôle, une mémoire, des outils. Il travaille seul ou en équipe, 24h/24.',
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
-    ctaPrimary: 'Créer mon Collaborateur IA',
+    ctaPrimary: 'Activer mon Collaborateur IA',
     ctaProofs: [
       { icon: Zap, label: 'Gratuit immédiat' },
       { icon: CreditCard, label: 'Sans CB' },
