@@ -100,7 +100,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   {t.almaCta}
                   <ChevronRight className="h-4 w-4" />
                 </button>
-                <a href="/alma" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg border-2 border-[#D10E63]/30 bg-[#D10E63]/5 text-[#D10E63] hover:bg-[#D10E63]/10 hover:border-[#D10E63]/50 transition-all">
+                <a href="/alma" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#D10E63] hover:text-[#F1729F] transition-colors">
                   {t.almaLearnMore}
                   <ChevronRight className="h-3 w-3" />
                 </a>
