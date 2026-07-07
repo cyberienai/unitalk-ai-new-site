@@ -44,9 +44,9 @@ const T = {
       { icon: Cpu, label: 'Modèles', value: 'GPT, Claude, Gemini, Mistral' },
     ],
     connectors: [
-      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
-      { icon: Calendar, label: 'Fichiers', value: 'Drive' },
-      { icon: Phone, label: 'Contacts', value: 'LinkedIn' },
+      { icon: Wrench, label: 'Apps' },
+      { icon: Calendar, label: 'Fichiers' },
+      { icon: Phone, label: 'Contacts' },
     ],
   },
   en: {
@@ -88,9 +88,9 @@ const T = {
       { icon: Cpu, label: 'Models', value: 'GPT, Claude, Gemini, Mistral' },
     ],
     connectors: [
-      { icon: Wrench, label: 'Apps', value: 'HubSpot' },
-      { icon: Calendar, label: 'Files', value: 'Drive' },
-      { icon: Phone, label: 'Contacts', value: 'LinkedIn' },
+      { icon: Wrench, label: 'Apps' },
+      { icon: Calendar, label: 'Files' },
+      { icon: Phone, label: 'Contacts' },
     ],
   },
 }
@@ -236,7 +236,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative z-50 flex min-w-0 justify-center mt-20 sm:mt-24 lg:mt-0 lg:self-start">
+        <div className="relative z-50 flex min-w-0 justify-center mt-20 sm:mt-24 lg:mt-16 lg:self-start">
         <motion.div
           className="relative flex w-full items-center justify-center"
           initial={{ opacity: 0, scale: 0.96, y: 18 }}
@@ -325,13 +325,12 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 return (
                   <div
                     key={connector.label}
-                    className="flex flex-col items-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] p-2"
+                    className="flex flex-col items-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] p-3"
                   >
-                    <Icon className="h-4 w-4 text-[#F1729F]" />
+                    <Icon className="h-5 w-5 text-[#F1729F]" />
                     <p className="text-center text-[9px] font-semibold uppercase tracking-wide text-[#8A8175]">
                       {connector.label}
                     </p>
-                    <p className="text-center text-xs text-[#E7E1D6]">{connector.value}</p>
                   </div>
                 )
               })}
