@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
@@ -54,22 +54,13 @@ function useContextualTip(t: (typeof T)['fr']) {
 }
 
 export function FloatingAlmaWidget() {
-  const [isOpen, setIsOpen] = useState(true)
-  const [showTip, setShowTip] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const { lang } = useLanguage()
   const t = T[lang]
   const tip = useContextualTip(t)
 
-  // Reveal the contextual tooltip a moment after load, then let it linger.
-  useEffect(() => {
-    if (isOpen) return
-    const show = setTimeout(() => setShowTip(true), 2500)
-    const hide = setTimeout(() => setShowTip(false), 9000)
-    return () => {
-      clearTimeout(show)
-      clearTimeout(hide)
-    }
-  }, [isOpen])
+  // The contextual tooltip stays visible at all times while the chat is closed.
+  const showTip = !isOpen
 
   return (
     <>
@@ -79,10 +70,7 @@ export function FloatingAlmaWidget() {
           {showTip && !isOpen && (
             <motion.button
               key="tip"
-              onClick={() => {
-                setIsOpen(true)
-                setShowTip(false)
-              }}
+              onClick={() => setIsOpen(true)}
               initial={{ opacity: 0, x: 12, scale: 0.9 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 12, scale: 0.9 }}
