@@ -572,8 +572,8 @@ export function FinalCtaSection() {
               className="h-7 w-7 rounded-full object-cover ring-2 ring-[#E0A96D]/40"
             />
             <span>
-              <span className="font-semibold text-[#E7E1D6]">Alma</span> vous guide en 7 étapes -
-              moins de 5 minutes, sans carte bancaire.
+              <span className="font-semibold text-[#E7E1D6]">Alma</span> vous appelle en moins de 5
+              minutes, sans carte bancaire.
             </span>
           </div>
         </motion.div>
