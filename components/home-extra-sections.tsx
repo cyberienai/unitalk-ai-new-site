@@ -9,7 +9,7 @@ import { SectionHeader } from './section-header'
 
 const GATEWAY_MODELS = [
   'ChatGPT', 'Claude', 'Gemini', 'Grok', 'Mistral', 'Llama', 'Qwen', 
-  'DeepSeek', 'Kimi', 'GLMA', 'Minimax', 'Phi', 'Perplexity', 'Image', 
+  'DeepSeek', 'Kimi', 'GLM', 'Minimax', 'Phi', 'Perplexity', 'Image', 
   'Veo', 'Nana Banana', 'Kling', 'Wan', 'Audio', 'Ollama',
 ]
 
@@ -48,7 +48,7 @@ export function AIGatewaySection() {
               'Qwen': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/alibaba-cloud/default.svg',
               'DeepSeek': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/deepseek/default.svg',
               'Kimi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/default.svg',
-              'GLMA': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/z-ai/default.svg',
+              'GLM': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/zhipu/default.svg',
               'Minimax': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/tencent/default.svg',
               'Phi': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/microsoft/default.svg',
               'Perplexity': 'https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/perplexity/default.svg',
