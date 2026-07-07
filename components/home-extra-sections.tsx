@@ -100,8 +100,8 @@ export function AIGatewaySection() {
 const SOVEREIGNTY_PILLARS = [
   {
     icon: Database,
-    title: 'Vos données',
-    description: 'Chiffrement end-to-end. Zéro accès sans permission. Votre infrastructure. RGPD native.',
+    title: 'Isolation de vos données',
+    description: 'Chiffrement intégral. Aucun entraînement. Zéro rétention. RGPD garantie.',
   },
   {
     icon: Repeat,
