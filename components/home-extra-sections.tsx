@@ -101,7 +101,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Database,
     title: 'Isolation de vos données',
-    description: 'Chiffrement intégral. Aucun entraînement. Zéro rétention. RGPD garantie.',
+    description: 'Chiffrement intégral. Aucun entraînement. Zéro rétention.',
   },
   {
     icon: Repeat,
