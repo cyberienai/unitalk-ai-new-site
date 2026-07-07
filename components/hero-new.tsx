@@ -17,7 +17,7 @@ const T = {
     ctaProofs: [
       { icon: Zap, label: 'Gratuit immédiat' },
       { icon: CreditCard, label: 'Sans CB' },
-      { icon: Unlock, label: 'Sans engagement' },
+      { icon: Unlock, label: '7 jours gratuits' },
     ],
     ctaSecondary: 'Voir comment ça marche',
     sofiaTitle: 'Votre premier Collaborateur IA',
