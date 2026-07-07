@@ -7,19 +7,19 @@ import { SectionHeader } from './section-header'
 const T = {
   fr: {
     // Alma
-    almaEyebrow: 'Mise en service guidée',
-    almaTitle: 'Votre agent est prêt en moins de 15 minutes, ',
-    almaTitleAccent: 'avec Alma.',
+    almaEyebrow: 'Assistant d\'onboarding vocal',
+    almaTitle: 'Votre collaborateur IA est opérationnel en 5 minutes avec ',
+    almaTitleAccent: 'Alma.',
     almaText:
-      "Alma, notre agent vocal, vous accompagne au téléphone pour créer et configurer votre premier Collaborateur IA. Vous ne configurez rien seul — elle vous guide, étape par étape.",
+      "Alma, votre assistant vocal intelligent, collecte automatiquement le contexte de votre entreprise (domaine, données publiques, culture) et configure votre premier Collaborateur IA en 5 minutes. Elle vous accompagne, améliore vos agents au fil du temps, et peut escalader vers le support humain si besoin.",
     almaSteps: [
-      { n: '01', label: 'Choisir son identité' },
-      { n: '02', label: 'Définir son rôle' },
-      { n: '03', label: 'Sélectionner ses premières compétences' },
-      { n: '04', label: 'Ajouter le contexte de votre entreprise' },
-      { n: '05', label: 'Rédiger ses instructions de travail' },
-      { n: '06', label: 'Tester une première mission' },
-      { n: '07', label: 'Planifier une première tâche' },
+      { n: '01', label: 'Choisir son identité', desc: 'Nom unique + photo' },
+      { n: '02', label: 'Définir son rôle', desc: 'Sales, Support, RH, etc.' },
+      { n: '03', label: 'Sélectionner ses compétences', desc: 'Prospection, Analyse, etc.' },
+      { n: '04', label: 'Contexte d\'entreprise', desc: 'Alma collecte vos données publiques' },
+      { n: '05', label: 'Instructions de travail', desc: 'Processus, tone, limites' },
+      { n: '06', label: 'Test mission', desc: 'Validez le comportement' },
+      { n: '07', label: 'Première tâche', desc: 'Déployez en production' },
     ],
     almaCta: 'Créer mon Collaborateur IA gratuit',
     almaMicrocopy: 'Sans carte bancaire.',
@@ -42,19 +42,19 @@ const T = {
     dispConclusion: "Unitalk organise l'IA pour qu'elle devienne une vraie capacité de travail, partagée et durable.",
   },
   en: {
-    almaEyebrow: 'Guided onboarding',
-    almaTitle: 'Your agent is ready in under 15 minutes, ',
-    almaTitleAccent: 'with Alma.',
+    almaEyebrow: 'Voice onboarding assistant',
+    almaTitle: 'Your AI Collaborator is live in 5 minutes with ',
+    almaTitleAccent: 'Alma.',
     almaText:
-      "Alma, our voice agent, guides you over the phone to create and configure your first AI Collaborator. You never configure anything alone — she walks you through it, step by step.",
+      "Alma, your intelligent voice assistant, automatically collects your company context (domain, public data, culture) and configures your first AI Collaborator in 5 minutes. She coaches you, improves your agents over time, and can escalate to human support if needed.",
     almaSteps: [
-      { n: '01', label: 'Choose its identity' },
-      { n: '02', label: 'Define its role' },
-      { n: '03', label: 'Select its first skills' },
-      { n: '04', label: 'Add your company context' },
-      { n: '05', label: 'Write its work instructions' },
-      { n: '06', label: 'Test a first mission' },
-      { n: '07', label: 'Schedule a first task' },
+      { n: '01', label: 'Choose its identity', desc: 'Unique name + photo' },
+      { n: '02', label: 'Define its role', desc: 'Sales, Support, HR, etc.' },
+      { n: '03', label: 'Select its skills', desc: 'Prospecting, Analytics, etc.' },
+      { n: '04', label: 'Company context', desc: 'Alma collects your public data' },
+      { n: '05', label: 'Work instructions', desc: 'Process, tone, boundaries' },
+      { n: '06', label: 'Test mission', desc: 'Validate behavior' },
+      { n: '07', label: 'First live task', desc: 'Deploy to production' },
     ],
     almaCta: 'Create my AI Collaborator for free',
     almaMicrocopy: 'No credit card.',
@@ -102,12 +102,12 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="text-xs text-[#857C6E]">{t.almaMicrocopy}</p>
           </div>
 
-          {/* Right — numbered steps */}
+          {/* Right — numbered steps with descriptions */}
           <div className="grid gap-3 sm:grid-cols-2">
             {t.almaSteps.map((step, i) => (
               <motion.div
                 key={step.n}
-                className={`flex items-center gap-4 rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] px-4 py-4 ${
+                className={`flex flex-col gap-2 rounded-2xl border-2 border-[#D10E63]/20 bg-gradient-to-br from-[#FBF9F3] to-[#F3EFE6] px-4 py-4 hover:border-[#D10E63]/40 transition-all ${
                   i === t.almaSteps.length - 1 ? 'sm:col-span-2' : ''
                 }`}
                 initial={{ opacity: 0, y: 16 }}
@@ -115,10 +115,15 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1C1A17] text-sm font-bold text-[#FBF9F3]">
-                  {step.n}
-                </span>
-                <span className="text-sm font-medium text-[#1C1A17]">{step.label}</span>
+                <div className="flex items-start gap-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#D10E63] to-[#B00B52] text-sm font-bold text-[#FBF9F3]">
+                    {step.n}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[#1C1A17]">{step.label}</p>
+                    <p className="text-xs text-[#857C6E] leading-tight">{step.desc}</p>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
