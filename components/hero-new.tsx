@@ -11,7 +11,7 @@ const T = {
     headlineAccent: 'vrais collaborateurs.',
     subheadline:
       'Créez en quelques minutes un Collaborateur IA avec une identité, une intelligence, une mémoire, des compétences, des outils, des ressources et ses propres instructions de travail.',
-    manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Collabore', "S'améliore"],
+    manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon Collaborateur IA',
     ctaMicrocopy: 'Mise en service gratuite immédiate avec Alma, notre agent vocal. Sans carte bancaire.',
