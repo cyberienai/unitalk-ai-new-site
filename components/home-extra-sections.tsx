@@ -101,7 +101,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Repeat,
     title: 'No vendor lock-in',
-    description: 'Migration à tout moment. Orchestration d\'open source. Aucune dépendance. Liberté totale.',
+    description: 'Partez quand vous voulez, avec tout : vos agents, vos données, vos configurations. Rien ne vous retient chez Unitalk.',
   },
   {
     icon: Fingerprint,
