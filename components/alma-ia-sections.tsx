@@ -11,7 +11,7 @@ const T = {
     almaTitle: 'Alma vous interview et donne vie à votre collaborateur IA ',
     almaTitleAccent: 'en 5 minutes.',
     almaText:
-      "Alma analyse votre contexte, cartographie vos tâches chronophages et recommande les compétences adaptées. Déploie votre Collaborateur IA avec Hermès, leader des agents open source. Suivi hebdomadaire et support humain réactif.",
+      "Alma analyse votre contexte, identifie vos tâches chronophages et recommande les compétences clés. Elle déploie votre Collaborateur IA propulsé par Hermès—le leader des agents open source. Support continu et expert disponible si besoin.",
     almaSteps: [
       { n: '01', label: 'Contexte entreprise', desc: 'Collecte les données publiques liées à votre entreprise et votre nom de domaine' },
       { n: '02', label: 'Interview & découverte', desc: 'Pose les bonnes questions sur vos processus' },
@@ -46,7 +46,7 @@ const T = {
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life ',
     almaTitleAccent: 'in 5 minutes.',
     almaText:
-      "Alma analyzes your context, maps your time-consuming tasks, and recommends the right skills. Deploys your AI Collaborator with Hermès, the leader of open-source agents. Weekly follow-up and reactive human support.",
+      "Alma analyzes your context, identifies your time-consuming tasks, and recommends the right skills. She deploys your AI Collaborator powered by Hermès—the leader of open-source agents. Continuous support and expert available if needed.",
     almaSteps: [
       { n: '01', label: 'Company context', desc: 'Collects public data related to your company and domain name' },
       { n: '02', label: 'Interview & discovery', desc: 'Asks the right questions about your processes' },
