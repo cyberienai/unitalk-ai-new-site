@@ -242,8 +242,8 @@ export function OffersSection() {
 
 const FAQ = [
   {
-    q: "Qu'est-ce qu'un Collaborateur IA Unitalk ?",
-    a: "Un Collaborateur IA Unitalk est un agent IA doté d'une identité, d'une intelligence, d'une mémoire, de compétences, d'outils, de ressources et d'instructions de travail. Il peut raisonner, planifier, exécuter, apprendre et collaborer.",
+    q: "Qu'est-ce qu'un Collaborateur IA ?",
+    a: "Un Collaborateur IA est un agent IA doté d'une identité, d'une intelligence, d'une mémoire, de compétences, d'outils, de ressources et d'instructions de travail. Il peut raisonner, planifier, exécuter, apprendre et collaborer.",
   },
   {
     q: 'Est-ce que je dois connaître Hermes ?',

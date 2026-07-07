@@ -12,7 +12,7 @@ const T = {
     title: 'Ce qui transforme un agent IA en ',
     titleAccent: 'vrai collaborateur.',
     subtitle:
-      'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA Unitalk va plus loin : il réunit tout ce qui fait un vrai coéquipier.',
+      'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui fait un vrai coéquipier.',
     cards: [
       { icon: User, title: 'Une identité', description: 'Nom, voix, email, téléphone, URL publique, calendrier, contacts.' },
       { icon: Brain, title: 'Une intelligence', description: 'Modèles IA texte, code, image, audio, vidéo, multimodal ou local.' },

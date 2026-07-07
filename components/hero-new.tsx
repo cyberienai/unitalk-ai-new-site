@@ -9,7 +9,7 @@ const T = {
     headline: 'Unitalk transforme les agents IA en ',
     headlineAccent: 'vrais collaborateurs.',
     subheadline:
-      'Créez en quelques minutes un Collaborateur IA Unitalk avec une identité, une mémoire, une intelligence, des compétences, des outils, des ressources et ses propres instructions de travail.',
+      'Créez en quelques minutes un Collaborateur IA avec une identité, une mémoire, une intelligence, des compétences, des outils, des ressources et ses propres instructions de travail.',
     manifesto: ['Il raisonne', 'Il planifie', 'Il exécute', 'Il apprend', 'Il collabore', "Il s'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon Collaborateur IA gratuit',
