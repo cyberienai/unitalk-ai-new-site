@@ -100,7 +100,7 @@ export function Navbar() {
 
   return (
     <>
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#DcD4C4] bg-[#F3EFE6]/85 backdrop-blur-md">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#F3EFE6]/85 backdrop-blur-md">
       <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Logo + nav links grouped together */}
         <div className="flex items-center gap-8 xl:gap-10">
