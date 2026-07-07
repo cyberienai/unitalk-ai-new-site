@@ -10,7 +10,7 @@ const T = {
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'un vrai collaborateur IA.',
     subheadline:
-      'Donnez-lui un nom, un rôle, une mémoire. Et il travaille.',
+      'Donnez-lui un nom, un rôle, une mémoire. Et il prospère.',
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
@@ -55,7 +55,7 @@ const T = {
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
-      'Give it a name, a role, a memory. And it works.',
+      'Give it a name, a role, a memory. And it thrives.',
     manifesto: ['It reasons', 'It plans', 'It executes', 'It learns', 'It collaborates', 'It improves'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
@@ -135,7 +135,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         }}
       />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16 lg:before:absolute lg:before:inset-y-0 lg:before:left-1/2 lg:before:w-32 lg:before:bg-gradient-to-r lg:before:from-transparent lg:before:via-[#F3EFE6]/10 lg:before:to-transparent lg:before:pointer-events-none">
         {/* Left column — copy */}
         <div className="flex min-w-0 flex-col justify-center">
           <motion.div
@@ -170,7 +170,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
           <motion.div
             ref={chipsRef}
-            className="mb-8 -mx-5 flex gap-1.5 overflow-x-auto px-5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0"
+            className="mb-8 -mx-5 flex gap-1.5 overflow-x-auto px-5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0 relative after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:pointer-events-none after:bg-gradient-to-l after:from-[#F3EFE6] after:to-transparent sm:after:hidden"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
@@ -238,7 +238,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative z-50 flex min-w-0 justify-center mt-12 sm:mt-16 lg:mt-16 lg:self-start">
+        <div className="relative z-50 flex min-w-0 justify-center mt-8 sm:mt-12 lg:mt-16 lg:self-start">
         <motion.div
           className="relative flex w-full items-center justify-center"
           initial={{ opacity: 0, scale: 0.94, y: 24 }}
@@ -255,7 +255,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             }}
           />
 
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#1A1613] p-4 shadow-2xl sm:p-7">
+          <div             className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#1A1613] p-4 shadow-2xl sm:p-6">
             {/* top sheen */}
             <div
               aria-hidden="true"
