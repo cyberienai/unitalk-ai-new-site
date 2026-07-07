@@ -21,14 +21,14 @@ const T = {
     ],
     ctaSecondary: 'Voir comment ça marche',
     sofiaTitle: 'Votre premier Collaborateur IA',
-    sofiaName: 'Sofia',
-    sofiaRole: 'Assistante commerciale',
-    sofiaEmail: 'sofia@votreentreprise.fr',
+    sofiaName: 'Alex',
+    sofiaRole: 'Assistant commercial',
+    sofiaEmail: 'alex@votreentreprise.fr',
     sofiaPhone: 'Ligne dédiée',
-    sofiaStatus: 'Prête à travailler',
+    sofiaStatus: 'Prêt à travailler',
     sofiaStep: 'Étape 3 sur 7',
     sofiaBadge: 'vous guide, étape par étape.',
-    sofiaCreateBtn: 'Créer Sofia avec Alma',
+    sofiaCreateBtn: 'Créer Alex avec Alma',
     labelEmail: 'Email',
     labelPhone: 'Téléphone',
     labelCal: 'Calendrier',
@@ -55,14 +55,14 @@ const T = {
     ],
     ctaSecondary: 'See how it works',
     sofiaTitle: 'Your first AI Collaborator',
-    sofiaName: 'Sofia',
+    sofiaName: 'Alex',
     sofiaRole: 'Sales Assistant',
-    sofiaEmail: 'sofia@yourcompany.com',
+    sofiaEmail: 'alex@yourcompany.com',
     sofiaPhone: 'Dedicated line',
     sofiaStatus: 'Ready to work',
     sofiaStep: 'Step 3 of 7',
     sofiaBadge: 'guides you, step by step.',
-    sofiaCreateBtn: 'Create Sofia with Alma',
+    sofiaCreateBtn: 'Create Alex with Alma',
     labelEmail: 'Email',
     labelPhone: 'Phone',
     labelCal: 'Calendar',
@@ -197,7 +197,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.ul>
         </div>
 
-        {/* Right column — Sofia dark glass card, dipped lower to hook into the next section.
+        {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
         <div className="relative flex min-w-0 justify-center mt-2 sm:mt-4 lg:mt-0 lg:translate-y-24 lg:self-end">
         <motion.div
@@ -238,7 +238,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {/* identity */}
             <div className="relative mb-6 flex items-center gap-4">
               <img
-                src="/sofia-avatar.png"
+                src="/alex-avatar.png"
                 alt={t.sofiaName}
                 className="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-white/15"
               />
