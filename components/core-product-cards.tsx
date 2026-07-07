@@ -22,7 +22,7 @@ const T = {
       { icon: Cpu, title: 'Des ressources', description: 'Puissance de calcul dédiée, stockage sécurisé, tâches qui tournent 24/7.' },
       { icon: FileText, title: 'Des instructions claires', description: 'Sait son rôle, ses limites, ses méthodes. Valide avec vous avant d\'agir.' },
       { icon: CalendarClock, title: 'La planification', description: 'Gère les tâches récurrentes, rappels et actions. Tout s\'exécute à temps.' },
-      { icon: MessagesSquare, title: 'Accessible partout', description: 'Slack, Teams, desktop, web. Vous le trouvez où vous travaillez.' },
+      { icon: MessagesSquare, title: 'Omniprésent', description: 'Slack, Teams, WhatsApp, Telegram, Discord, terminal, desktop, web. Partout où vous êtes.' },
     ],
   },
   en: {
@@ -40,7 +40,7 @@ const T = {
       { icon: Cpu, title: 'Resources', description: 'Dedicated computing power, secure storage, tasks running 24/7.' },
       { icon: FileText, title: 'Clear instructions', description: 'Knows its role, limits and methods. Validates with you before acting.' },
       { icon: CalendarClock, title: 'Task scheduling', description: 'Manages recurring tasks, reminders and actions. Everything executes on time.' },
-      { icon: MessagesSquare, title: 'Available everywhere', description: 'Slack, Teams, desktop, web. You find it where you work.' },
+      { icon: MessagesSquare, title: 'Omnipresent', description: 'Slack, Teams, WhatsApp, Telegram, Discord, terminal, desktop, web. Everywhere you are.' },
     ],
   },
 }
