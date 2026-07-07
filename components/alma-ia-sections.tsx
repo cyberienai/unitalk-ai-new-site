@@ -102,6 +102,14 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </svg>
                 <p className="text-sm font-semibold text-[#857C6E] uppercase tracking-wide">Alma en action</p>
               </div>
+              
+              {/* Alma avatar overlay */}
+              <img
+                src="/alma-avatar.png"
+                alt="Alma"
+                className="absolute bottom-6 left-6 h-14 w-14 rounded-full object-cover ring-2 ring-[#FBF9F3] shadow-lg"
+              />
+              
               {/* Video element - add your video src here */}
               {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
             </div>
