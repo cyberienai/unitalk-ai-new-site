@@ -98,7 +98,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               />
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-wide text-[#D10E63] mb-2">{t.almaEyebrow}</p>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-[#1C1A17]">
+                <h2 className="font-sf text-balance font-black text-[#1C1A17]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', lineHeight: 1.1, letterSpacing: '-0.03em' }}>
                   {t.almaTitle}
                   {t.almaTitleAccent && <span className="text-[#D10E63]">{t.almaTitleAccent}</span>}
                 </h2>
