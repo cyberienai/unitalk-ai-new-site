@@ -8,7 +8,7 @@ const T = {
   fr: {
     // Alma
     almaEyebrow: 'Assistant consultant vocal',
-    almaTitle: 'Alma interviews vos équipes et configure votre IA en 5 minutes.',
+    almaTitle: 'Alma vous interview et donne vie à votre collaborateur IA en 5 minutes.',
     almaTitleAccent: '',
     almaText:
       "Alma, consultant vocal intelligent, cartographie vos tâches critiques et recommande les compétences et automatisations (n8n) adaptées. Elle collecte le contexte de votre entreprise et configure votre Collaborateur IA avec tous ses outils et ressources d'un agent Hermès, leader des agents open source du marché. Chaque semaine, elle évalue votre satisfaction et propose des optimisations. Support humain escaladable si besoin.",
@@ -44,7 +44,7 @@ const T = {
   },
   en: {
     almaEyebrow: 'Voice consultant assistant',
-    almaTitle: 'Alma interviews your team and configures your AI in 5 minutes.',
+    almaTitle: 'Alma interviews you and brings your AI Collaborator to life in 5 minutes.',
     almaTitleAccent: '',
     almaText:
       "Alma, an intelligent voice consultant, maps your critical tasks and recommends the skills and automations (n8n) best suited. She collects your company context and configures your AI Collaborator with all its tools and resources from Hermès, the leader of open-source agents on the market. Each week, she evaluates your satisfaction and suggests optimizations. Human support escalation available if needed.",
