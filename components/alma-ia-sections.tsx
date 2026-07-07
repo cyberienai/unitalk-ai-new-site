@@ -86,7 +86,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     <>
       {/* ---------- Alma onboarding (light) ---------- */}
       <section className="relative w-full bg-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-16">
           {/* Left — copy + Alma bubble */}
           <div>
             {/* Alma header with photo */}
@@ -98,18 +98,18 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               />
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-wide text-[#D10E63] mb-2">{t.almaEyebrow}</p>
-                <h2 className="font-sf text-balance font-black text-[#1C1A17]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', lineHeight: 1.1, letterSpacing: '-0.03em' }}>
+                <h2 className="font-sf text-balance font-black text-[#1C1A17]" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)', lineHeight: 1.15, letterSpacing: '-0.03em' }}>
                   {t.almaTitle}
                   {t.almaTitleAccent && <span className="text-[#D10E63]">{t.almaTitleAccent}</span>}
                 </h2>
               </div>
             </div>
 
-            <p className="mb-6 mt-4 text-base leading-relaxed text-[#4E483F]">{t.almaText}</p>
+            <p className="mb-5 mt-3 text-base leading-relaxed text-[#4E483F]">{t.almaText}</p>
 
             {/* Alma video/illustration placeholder */}
-            <div className="mb-8 w-full max-w-sm">
-              <div className="relative w-full bg-gradient-to-br from-[#D10E63]/10 to-[#D10E63]/5 rounded-2xl aspect-square border-2 border-[#D10E63]/20 flex items-center justify-center overflow-hidden">
+            <div className="mb-6 w-full max-w-sm">
+              <div className="relative w-full bg-gradient-to-br from-[#D10E63]/10 to-[#D10E63]/5 rounded-2xl aspect-video border-2 border-[#D10E63]/20 flex items-center justify-center overflow-hidden">
                 <div className="text-center">
                   <svg className="h-16 w-16 mx-auto mb-2 text-[#D10E63]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
