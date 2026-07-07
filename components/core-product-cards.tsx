@@ -14,15 +14,15 @@ const T = {
     subtitle:
       'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui fait un vrai coéquipier.',
     cards: [
-      { icon: User, title: 'Une identité', description: 'Nom, voix, email, téléphone, URL publique, calendrier, fichiers, contacts.' },
-      { icon: Brain, title: 'Une intelligence', description: 'Modèles IA texte, code, image, audio, vidéo, multimodal ou local.' },
-      { icon: Database, title: 'Une mémoire', description: "Contexte personnel, mémoire d'entreprise, méthodes, historique utile." },
-      { icon: Zap, title: 'Des compétences', description: 'Profils de travail, skills, automatisations, savoir-faire métier.' },
-      { icon: Wrench, title: 'Des outils', description: 'Email, calendrier, fichiers, CRM, CMS, API, navigateur, terminal.' },
-      { icon: Cpu, title: 'Des ressources', description: "CPU, RAM, stockage, environnement d'exécution, tâches planifiées." },
-      { icon: FileText, title: 'Des instructions de travail', description: 'Rôle, méthode, limites, validation, collaboration avec humains et agents.' },
-      { icon: CalendarClock, title: 'La planification de tâches', description: 'Missions récurrentes, rappels, échéances et actions déclenchées automatiquement.' },
-      { icon: MessagesSquare, title: 'Un accès partout', description: 'Apps de messagerie, terminal, logiciel Desktop et interface Web collaborative.' },
+      { icon: User, title: 'Une identité', description: 'Nom, voix, email, calendrier. Un vrai profil avec sa présence et son historique.' },
+      { icon: Brain, title: 'Une intelligence', description: 'Accès à tous les modèles IA. Texte, images, code, audio—tout ce qui marche.' },
+      { icon: Database, title: 'Une mémoire', description: 'Se souvient de vos contextes, méthodes et préférences. Apprend au fil du temps.' },
+      { icon: Zap, title: 'Des compétences', description: 'Profils de travail adaptés. Chacun maîtrise son domaine et ses automatisations.' },
+      { icon: Wrench, title: 'Des outils', description: 'Se connecte à tout : email, CRM, fichiers, calendrier. Fonctionne où vous êtes.' },
+      { icon: Cpu, title: 'Des ressources', description: 'Puissance de calcul dédiée, stockage sécurisé, tâches qui tournent 24/7.' },
+      { icon: FileText, title: 'Des instructions claires', description: 'Sait son rôle, ses limites, ses méthodes. Valide avec vous avant d\'agir.' },
+      { icon: CalendarClock, title: 'La planification', description: 'Gère les tâches récurrentes, rappels et actions. Tout s\'exécute à temps.' },
+      { icon: MessagesSquare, title: 'Accessible partout', description: 'Slack, Teams, desktop, web. Vous le trouvez où vous travaillez.' },
     ],
   },
   en: {
@@ -32,15 +32,15 @@ const T = {
     subtitle:
       'An AI agent alone can answer, reason or execute a task. A Unitalk AI Collaborator goes further: it brings together everything that makes a real teammate.',
     cards: [
-      { icon: User, title: 'An identity', description: 'Name, voice, email, phone, public URL, calendar, files, contacts.' },
-      { icon: Brain, title: 'An intelligence', description: 'Text, code, image, audio, video, multimodal or local AI models.' },
-      { icon: Database, title: 'A memory', description: 'Personal context, company memory, methods, useful history.' },
-      { icon: Zap, title: 'Skills', description: 'Work profiles, skills, automations, industry expertise.' },
-      { icon: Wrench, title: 'Tools', description: 'Email, calendar, files, CRM, CMS, API, browser, terminal.' },
-      { icon: Cpu, title: 'Resources', description: 'CPU, RAM, storage, runtime environment, scheduled tasks.' },
-      { icon: FileText, title: 'Work instructions', description: 'Role, method, limits, validation, collaboration with humans and agents.' },
-      { icon: CalendarClock, title: 'Task scheduling', description: 'Recurring missions, reminders, deadlines and automatically triggered actions.' },
-      { icon: MessagesSquare, title: 'Access everywhere', description: 'Messaging apps, terminal, Desktop software and collaborative web interface.' },
+      { icon: User, title: 'An identity', description: 'Name, voice, email, calendar. A real profile with presence and history.' },
+      { icon: Brain, title: 'An intelligence', description: 'Access to all AI models. Text, images, code, audio—whatever works.' },
+      { icon: Database, title: 'A memory', description: 'Remembers your contexts, methods and preferences. Learns over time.' },
+      { icon: Zap, title: 'Skills', description: 'Customized work profiles. Each one masters its domain and automations.' },
+      { icon: Wrench, title: 'Tools', description: 'Connects to everything: email, CRM, files, calendar. Works where you are.' },
+      { icon: Cpu, title: 'Resources', description: 'Dedicated computing power, secure storage, tasks running 24/7.' },
+      { icon: FileText, title: 'Clear instructions', description: 'Knows its role, limits and methods. Validates with you before acting.' },
+      { icon: CalendarClock, title: 'Task scheduling', description: 'Manages recurring tasks, reminders and actions. Everything executes on time.' },
+      { icon: MessagesSquare, title: 'Available everywhere', description: 'Slack, Teams, desktop, web. You find it where you work.' },
     ],
   },
 }
@@ -58,29 +58,29 @@ export function CoreProductCards({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           subtitle={t.subtitle}
         />
 
-        {/* Grid — same graphic as the solo "capabilities" section */}
-        <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#DcD4C4] bg-[#DcD4C4] sm:grid-cols-2 lg:grid-cols-3">
+        {/* Grid — improved cards with better interactions */}
+        <div className="mt-16 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {t.cards.map((card, i) => {
             const Icon = card.icon
             return (
               <motion.article
                 key={card.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, ease, delay: (i % 3) * 0.06 }}
-                className="group flex flex-col bg-[#FBF9F3] p-6 transition-colors hover:bg-[#F3EFE6] sm:p-8"
+                initial={{ opacity: 0, y: 24, scale: 0.92 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5, ease, delay: i * 0.08 }}
+                className="group flex flex-col rounded-2xl border-2 border-[#1C1A17]/8 bg-[#FBF9F3] p-7 transition-all hover:border-[#D10E63]/20 hover:shadow-lg hover:shadow-[#D10E63]/8 hover:scale-105 sm:p-8"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-colors group-hover:bg-[#D10E63]">
-                  <Icon className="h-5 w-5" strokeWidth={1.6} />
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-all group-hover:bg-[#D10E63] group-hover:scale-110">
+                  <Icon className="h-6 w-6" strokeWidth={1.5} />
                 </span>
                 <h3
-                  className="mt-5 font-sf text-lg font-bold leading-snug text-[#1C1A17]"
+                  className="mt-6 font-sf text-lg font-bold leading-snug text-[#1C1A17]"
                   style={{ letterSpacing: '-0.02em' }}
                 >
                   {card.title}
                 </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-[#4E483F]">
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4E483F]">
                   {card.description}
                 </p>
               </motion.article>
