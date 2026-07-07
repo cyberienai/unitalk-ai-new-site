@@ -26,9 +26,9 @@ const T = {
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
-    dispTitle: "Vos équipes ont l'IA. Votre entreprise, non.",
+    dispTitle: "Vos équipes ont accès à l'IA. Votre entreprise, non.",
     dispIntro:
-      "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est la dispersion : chacun dans son coin, sans mémoire ni méthode partagée. L'entreprise, elle, n'en garde presque rien.",
+      "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est la dispersion : chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
     dispProblems: [
       'Des comptes individuels',
       'Des conversations isolées',
@@ -59,8 +59,8 @@ const T = {
     ],
     
     dispEyebrow: 'The real problem',
-    dispTitle: "Your teams have AI. Your company doesn't.",
-    dispIntro: "Your teams already use AI. The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. Your company retains almost nothing.",
+    dispTitle: "Your teams have access to AI. Your company doesn't.",
+    dispIntro: "Your teams already use AI. The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. It's time to hire real AI collaborators.",
     dispProblems: [
       'Individual accounts',
       'Isolated conversations',
