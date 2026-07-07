@@ -10,7 +10,7 @@ const T = {
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'un vrai collaborateur IA.',
     subheadline:
-      'Donnez-lui un nom, un rôle, une mémoire, des outils. Il travaille seul ou en équipe, 24h/24.',
+      'Donnez-lui un nom, un rôle, une mémoire. Et il travaille.',
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
@@ -55,7 +55,7 @@ const T = {
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
-      'Create a Unitalk AI Collaborator in minutes with an identity, a memory, an intelligence, skills, tools, resources and its own work instructions.',
+      'Give it a name, a role, a memory. And it works.',
     manifesto: ['It reasons', 'It plans', 'It executes', 'It learns', 'It collaborates', 'It improves'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
@@ -219,7 +219,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
 
           <motion.ul
-            className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#857C6E] sm:justify-start sm:text-sm"
+            className="mt-6 -mx-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/8 px-5 py-4 text-sm font-medium text-[#6B6560] sm:-mx-0 sm:mt-8 sm:border-none sm:bg-transparent sm:p-0 sm:justify-start sm:text-base"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease, delay: 0.32 }}
@@ -227,8 +227,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.ctaProofs.map((proof) => {
               const ProofIcon = proof.icon
               return (
-                <li key={proof.label} className="inline-flex items-center gap-1.5">
-                  <ProofIcon className="h-4 w-4 text-[#D10E63]" />
+                <li key={proof.label} className="inline-flex items-center gap-2">
+                  <ProofIcon className="h-5 w-5 text-[#D10E63]" />
                   {proof.label}
                 </li>
               )
@@ -238,12 +238,12 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative z-50 flex min-w-0 justify-center mt-20 sm:mt-24 lg:mt-16 lg:self-start">
+        <div className="relative z-50 flex min-w-0 justify-center mt-12 sm:mt-16 lg:mt-16 lg:self-start">
         <motion.div
           className="relative flex w-full items-center justify-center"
-          initial={{ opacity: 0, scale: 0.96, y: 18 }}
+          initial={{ opacity: 0, scale: 0.94, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, ease, delay: 0.2 }}
+          transition={{ duration: 0.8, ease, delay: 0.28 }}
         >
           {/* Glow behind card */}
           <div
