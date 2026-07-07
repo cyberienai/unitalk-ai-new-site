@@ -26,6 +26,7 @@ const T = {
     sofiaEmail: 'alex@votreentreprise.fr',
     sofiaPhone: 'Ligne dédiée',
     sofiaStatus: 'Prêt à travailler',
+    sofiaProfileUrl: 'unitalk.ai/alex',
     sofiaStep: 'Étape 3 sur 7',
     sofiaBadge: 'vous guide, étape par étape.',
     sofiaCreateBtn: 'Créer Alex avec Alma',
@@ -40,7 +41,7 @@ const T = {
     ],
     rows: [
       { icon: Database, label: 'Mémoire', value: 'Données, historique, contexte' },
-      { icon: Zap, label: 'Compétences', value: 'Prospection, relance, CRM HubSpot' },
+      { icon: Zap, label: 'Compétences', value: 'Prospection LinkedIn, relance, CRM HubSpot' },
       { icon: Cpu, label: 'Modèles', value: 'GPT, Claude, Gemini, Mistral' },
     ],
     connectors: [
@@ -70,6 +71,7 @@ const T = {
     sofiaEmail: 'alex@yourcompany.com',
     sofiaPhone: 'Dedicated line',
     sofiaStatus: 'Ready to work',
+    sofiaProfileUrl: 'unitalk.ai/alex',
     sofiaStep: 'Step 3 of 7',
     sofiaBadge: 'guides you, step by step.',
     sofiaCreateBtn: 'Create Alex with Alma',
@@ -84,7 +86,7 @@ const T = {
     ],
     rows: [
       { icon: Database, label: 'Memory', value: 'Data, history, context' },
-      { icon: Zap, label: 'Skills', value: 'Prospecting, follow-up, CRM HubSpot' },
+      { icon: Zap, label: 'Skills', value: 'LinkedIn Prospecting, follow-up, CRM HubSpot' },
       { icon: Cpu, label: 'Models', value: 'GPT, Claude, Gemini, Mistral' },
     ],
     connectors: [
@@ -261,11 +263,25 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               style={{ background: 'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(209,14,99,0.16), transparent)' }}
             />
 
-            {/* header row */}
-            <div className="relative mb-6 flex items-center">
+            {/* header row with status top-right */}
+            <div className="relative mb-6 flex items-center justify-between">
               <div className="inline-flex items-center gap-1.5 rounded-full border border-[#D10E63]/30 bg-[#D10E63]/15 px-3 py-1 text-xs font-medium text-[#F1729F]">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F1729F]" />
                 {t.sofiaTitle}
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <div className="flex items-center gap-1.5 rounded-lg border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-2.5 py-1">
+                  <CheckCircle2 className="h-3 w-3 text-[#4F9E6E]" />
+                  <span className="text-xs font-medium text-[#8FCBA6]">{t.sofiaStatus}</span>
+                </div>
+                <a
+                  href={`https://${t.sofiaProfileUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175] hover:text-[#D10E63] transition-colors"
+                >
+                  {t.sofiaProfileUrl}
+                </a>
               </div>
             </div>
 
@@ -319,29 +335,24 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
 
             {/* connectors row */}
-            <div className="relative mb-5 grid grid-cols-3 gap-2 border-t border-white/[0.06] pt-5">
+            <div className="relative mb-5 flex items-center gap-2 border-t border-white/[0.06] pt-5">
               {t.connectors.map((connector) => {
                 const Icon = connector.icon
                 return (
                   <div
                     key={connector.label}
-                    className="flex flex-col items-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] p-3"
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] px-2 py-2"
                   >
-                    <Icon className="h-5 w-5 text-[#F1729F]" />
-                    <p className="text-center text-[9px] font-semibold uppercase tracking-wide text-[#8A8175]">
+                    <Icon className="h-3.5 w-3.5 shrink-0 text-[#F1729F]" />
+                    <span className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175]">
                       {connector.label}
-                    </p>
+                    </span>
                   </div>
                 )
               })}
             </div>
 
-            {/* status + button */}
-            <div className="relative mb-4 flex items-center gap-2 rounded-xl border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-3 py-2.5">
-              <CheckCircle2 className="h-4 w-4 text-[#4F9E6E]" />
-              <span className="text-sm font-medium text-[#8FCBA6]">{t.sofiaStatus}</span>
-            </div>
-
+            {/* button */}
             <button className="relative w-full rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
               {t.sofiaCreateBtn}
             </button>
