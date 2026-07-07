@@ -102,7 +102,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
         {/* Left column — copy */}
-        <div className="flex flex-col justify-center">
+        <div className="flex min-w-0 flex-col justify-center">
           <motion.div
             className="mb-5 inline-flex w-fit items-center rounded-full bg-[#e91e7b] px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white"
             initial={{ opacity: 0, y: 12 }}
@@ -199,7 +199,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Right column — Sofia dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative flex justify-center mt-2 sm:mt-4 lg:mt-0 lg:translate-y-24 lg:self-end">
+        <div className="relative flex min-w-0 justify-center mt-2 sm:mt-4 lg:mt-0 lg:translate-y-24 lg:self-end">
         <motion.div
           className="relative flex w-full items-center justify-center"
           initial={{ opacity: 0, scale: 0.96, y: 18 }}
