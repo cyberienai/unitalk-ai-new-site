@@ -133,7 +133,7 @@ export function SovereigntySection() {
           <SectionHeader
             eyebrow="Souveraineté"
             title="Capitalisez sur votre propriété intellectuelle. "
-            titleAccent="Vos IA sont à vous. Pour toujours."
+            titleAccent="Vos collaborateurs IA sont à vous. Pour toujours."
             align="left"
             dark
           />
