@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckCircle2 } from 'lucide-react'
+import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckCircle2, CreditCard, Unlock } from 'lucide-react'
 
 const T = {
   fr: {
@@ -14,7 +14,11 @@ const T = {
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon Collaborateur IA',
-    ctaMicrocopy: 'Mise en service gratuite immédiate avec Alma, notre agent vocal. Sans carte bancaire.',
+    ctaProofs: [
+      { icon: Zap, label: 'Gratuit immédiat' },
+      { icon: CreditCard, label: 'Sans CB' },
+      { icon: Unlock, label: 'Sans engagement' },
+    ],
     ctaSecondary: 'Voir comment ça marche',
     sofiaTitle: 'Votre premier Collaborateur IA',
     sofiaName: 'Sofia',
@@ -45,7 +49,11 @@ const T = {
     manifesto: ['It reasons', 'It plans', 'It executes', 'It learns', 'It collaborates', 'It improves'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
-    ctaMicrocopy: 'Onboarded in less than 15 minutes with Alma, our voice agent. No credit card.',
+    ctaProofs: [
+      { icon: Zap, label: 'Free & instant' },
+      { icon: CreditCard, label: 'No credit card' },
+      { icon: Unlock, label: 'No commitment' },
+    ],
     ctaSecondary: 'See how it works',
     sofiaTitle: 'Your first AI Collaborator',
     sofiaName: 'Sofia',
@@ -173,14 +181,22 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </button>
           </motion.div>
 
-          <motion.p
-            className="mt-4 max-w-md text-xs leading-relaxed text-[#857C6E] sm:text-sm"
+          <motion.ul
+            className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-[#857C6E] sm:text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease, delay: 0.32 }}
           >
-            {t.ctaMicrocopy}
-          </motion.p>
+            {t.ctaProofs.map((proof) => {
+              const ProofIcon = proof.icon
+              return (
+                <li key={proof.label} className="inline-flex items-center gap-1.5">
+                  <ProofIcon className="h-4 w-4 text-[#D10E63]" />
+                  {proof.label}
+                </li>
+              )
+            })}
+          </motion.ul>
         </div>
 
         {/* Right column — Sofia dark glass card */}
