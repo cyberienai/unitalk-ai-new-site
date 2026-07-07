@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useT } from '@/lib/language-context'
 import { ChevronRight } from 'lucide-react'
@@ -57,9 +58,12 @@ type UseCase = {
 }
 
 export function UseCasesContent() {
+  const [activeCase, setActiveCase] = useState<UseCaseKey>('ecommerce')
+
   const t = useT({
     fr: {
       eyebrow: 'Use Cases',
+      menuLabel: 'Études de cas',
       mainQuestion: 'Quel est votre prochain collaborateur IA ?',
       mainSubtitle:
         'Découvrez comment les Collaborateurs IA Unitalk s\'adaptent à votre secteur d\'activité et transforment votre façon de travailler.',
@@ -103,6 +107,7 @@ export function UseCasesContent() {
     },
     en: {
       eyebrow: 'Use Cases',
+      menuLabel: 'Case studies',
       mainQuestion: 'What\'s your next AI collaborator?',
       mainSubtitle:
         'Discover how Unitalk AI Collaborators adapt to your industry and transform the way you work.',
@@ -181,6 +186,50 @@ export function UseCasesContent() {
         </div>
       </section>
 
+      {/* Use Cases Menu */}
+      <motion.section
+        className="sticky top-0 z-40 w-full border-b border-[#D4CCBE] bg-[#F3EFE6]/95 px-5 py-4 backdrop-blur-sm sm:px-6 lg:px-8"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="mx-auto max-w-6xl">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#857C6E]">
+            {t.menuLabel}
+          </p>
+          <div className="flex flex-wrap gap-2 sm:gap-3">
+            {USECASE_ORDER.map((key) => {
+              const useCase = t.useCases[key]
+              const color = USECASE_COLOR[key]
+              const isActive = activeCase === key
+
+              return (
+                <button
+                  key={key}
+                  onClick={() => {
+                    setActiveCase(key)
+                    const element = document.getElementById(`usecase-${key}`)
+                    element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }}
+                  className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+                    isActive
+                      ? 'bg-white shadow-[0_4px_12px_rgba(209,14,99,0.1)]'
+                      : 'bg-transparent hover:bg-[#FFFFFF]/50'
+                  }`}
+                  style={{
+                    borderBottom: isActive ? `2px solid ${color}` : 'none',
+                    color: isActive ? color : '#4E483F',
+                  }}
+                >
+                  <span>{useCase.title}</span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </motion.section>
+
       {/* Use Cases Grid */}
       <section className="w-full px-5 pb-20 sm:px-6 sm:pb-28 lg:px-8">
         <div className="mx-auto max-w-6xl">
@@ -193,6 +242,7 @@ export function UseCasesContent() {
               return (
                 <motion.div
                   key={key}
+                  id={`usecase-${key}`}
                   className="group flex flex-col gap-4 rounded-2xl border border-[#D4CCBE] bg-white p-6 transition-all hover:border-[#D10E63]/40 hover:shadow-[0_8px_24px_rgba(209,14,99,0.15)]"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}

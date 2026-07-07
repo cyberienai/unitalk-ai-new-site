@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { fr: 'Business', en: 'Business', href: '/business' },
   { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
-  { fr: '10 profils prêts à l'emploi', en: '10 ready-to-use profiles', href: '/use-cases' },
+  { fr: "10 profils prêts à l'emploi", en: '10 ready-to-use profiles', href: '/use-cases' },
   { fr: 'Accompagnement', en: 'Support', href: '/accompagnement' },
   { fr: 'Modèles IA', en: 'AI models', href: '/modeles-ia' },
   { fr: 'Hébergeurs', en: 'Hosting', href: '/hebergeurs' },
