@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, Users, Lock, FileCheck, Eye } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
@@ -105,6 +105,10 @@ const SOVEREIGNTY = [
   { icon: Database, title: 'Vos données' },
   { icon: Cpu, title: 'Vos fournisseurs IA' },
   { icon: Repeat, title: 'Votre liberté de changer de modèle' },
+  { icon: Users, title: 'Vos agents' },
+  { icon: Lock, title: 'La sécurité' },
+  { icon: FileCheck, title: 'La conformité' },
+  { icon: Eye, title: 'La confidentialité' },
 ]
 
 export function SovereigntySection() {
