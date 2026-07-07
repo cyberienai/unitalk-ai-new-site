@@ -6,7 +6,7 @@ import { ChevronRight, Mail, Phone, Calendar, Database, Zap, Wrench, Cpu, CheckC
 
 const T = {
   fr: {
-    eyebrow: 'Votre premier Collaborateur IA',
+    eyebrow: "L'IA qui travaille pour votre organisation",
     headline: 'Unitalk donne à votre équipe ',
     headlineAccent: 'un vrai collaborateur.',
     subheadline:

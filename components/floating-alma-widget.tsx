@@ -10,7 +10,7 @@ const T = {
     tooltipClose: 'Fermer',
     role: 'Je crée vos agents et les aide à progresser',
     // Contextual tooltips by route
-    tipHome: '👋 Bonjour, je suis Alma. Je peux créer votre premier agent.',
+    tipHome: '👋 Bonjour, je suis Alma. Je peux créer votre 1er collaborateur.',
     tipAgents: 'Décrivons ensemble le poste à pourvoir.',
     tipPricing: 'Une question sur les offres ? Parlons-en.',
     tipDefault: 'Besoin d’un nouvel agent ?',
