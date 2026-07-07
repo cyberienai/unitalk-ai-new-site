@@ -135,12 +135,12 @@ export function SovereigntySection() {
   const t = useT({
     fr: {
       badge: 'Migration en un clic',
-      text: 'Vous venez d\u2019OpenClaw ou de Hermes ? Importez vos agents en un clic.',
+      text: 'D\u00e9j\u00e0 un agent Hermes ou OpenClaw ? Migrez vos donn\u00e9es vers Unitalk en un clic.',
       cta: 'Migrer maintenant',
     },
     en: {
       badge: 'One-click migration',
-      text: 'Coming from OpenClaw or Hermes? Import your agents in one click.',
+      text: 'Already have a Hermes or OpenClaw agent? Migrate your data to Unitalk in one click.',
       cta: 'Migrate now',
     },
   })
