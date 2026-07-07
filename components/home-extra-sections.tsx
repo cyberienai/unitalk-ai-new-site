@@ -493,16 +493,16 @@ export function FinalCtaSection() {
         className="pointer-events-none absolute inset-0 opacity-90"
         style={{
           background:
-            'radial-gradient(circle at 50% 0%, rgba(224,169,109,0.22), transparent 55%), radial-gradient(circle at 15% 110%, rgba(224,169,109,0.12), transparent 50%), radial-gradient(circle at 85% 100%, rgba(224,169,109,0.1), transparent 50%)',
+            'radial-gradient(circle at 50% 0%, rgba(209,14,99,0.2), transparent 55%), radial-gradient(circle at 15% 110%, rgba(209,14,99,0.1), transparent 50%), radial-gradient(circle at 85% 100%, rgba(209,14,99,0.08), transparent 50%)',
         }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#E0A96D]/50 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#D10E63]/45 to-transparent"
       />
       <div className="relative mx-auto max-w-3xl text-center">
         <motion.p
-          className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#F2C892]"
+          className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#E7E1D6]"
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -512,7 +512,7 @@ export function FinalCtaSection() {
         </motion.p>
 
         <motion.h2
-          className="font-sf mb-6 text-balance font-bold leading-[1.05] text-[#FBF9F3]"
+          className="font-sf mb-6 text-balance font-bold leading-[1.05] text-[#C4BCAE]"
           style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', letterSpacing: '-0.02em' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -520,7 +520,7 @@ export function FinalCtaSection() {
           transition={{ duration: 0.5, delay: 0.06 }}
         >
           {"N'utilisez plus un simple agent IA. "}
-          <span className="text-[#E0A96D]">Créez un vrai collaborateur.</span>
+          <span className="text-[#FBF9F3]">Créez un vrai collaborateur.</span>
         </motion.h2>
 
         <motion.div
@@ -543,7 +543,7 @@ export function FinalCtaSection() {
               key={chip}
               className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-sm text-[#D8D1C5]"
             >
-              <Check className="h-3.5 w-3.5 text-[#E0A96D]" />
+              <Check className="h-3.5 w-3.5 text-[#D10E63]" />
               {chip}
             </span>
           ))}
@@ -569,7 +569,7 @@ export function FinalCtaSection() {
             <img
               src="/alma-avatar.png"
               alt="Alma"
-              className="h-7 w-7 rounded-full object-cover ring-2 ring-[#E0A96D]/40"
+              className="h-7 w-7 rounded-full object-cover ring-2 ring-[#D10E63]/40"
             />
             <span>
               <span className="font-semibold text-[#E7E1D6]">Alma</span> vous appelle en moins de 5
