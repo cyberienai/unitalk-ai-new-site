@@ -132,9 +132,8 @@ export function SovereigntySection() {
         <div className="mx-auto mb-20 max-w-2xl text-center">
           <SectionHeader
             eyebrow="Souveraineté"
-            title="Vos données. "
-            titleAccent="Votre contrôle."
-            subtitle="Vraiment."
+            title="Vos agents. Vos données. Votre infrastructure. "
+            titleAccent="Liberté à chaque instant. Contrôle permanent."
             align="center"
             dark
           />
@@ -168,12 +167,9 @@ export function SovereigntySection() {
             <p className="text-sm font-semibold uppercase tracking-widest text-[#D10E63]">
               La promesse Unitalk
             </p>
-            <p className="mt-6 text-2xl font-bold leading-tight text-[#F7F4EE]">
-              Vos agents. Vos données. Votre infrastructure.<br />
-              <span className="text-[#D10E63]">Liberté à chaque instant. Contrôle permanent.</span>
-            </p>
-            <p className="mt-6 text-sm leading-relaxed text-[#E7E1D6]">
-              Migration gratuite, à tout moment. Open source au cœur. Desktop + Ollama pour vos secrets.
+            <p className="mt-6 text-xl font-bold leading-relaxed text-[#F7F4EE]">
+              Migration gratuite, à tout moment. Open source au cœur.<br />
+              <span className="text-[#D10E63]">Desktop + Ollama pour vos secrets.</span>
             </p>
         </div>
       </div>
