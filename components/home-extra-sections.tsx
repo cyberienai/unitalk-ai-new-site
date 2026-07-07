@@ -90,12 +90,6 @@ export function AIGatewaySection() {
             )
           })}
         </div>
-
-        <p className="mx-auto max-w-2xl text-xl font-semibold leading-snug text-[#F7F4EE]">
-          {"L'IA devient une ressource d'entreprise."}
-          <br />
-          <span className="text-[#E7E1D6]">{"Pas une pile d'abonnements individuels."}</span>
-        </p>
       </div>
     </section>
   )
