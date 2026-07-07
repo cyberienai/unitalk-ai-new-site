@@ -182,7 +182,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
 
           <motion.ul
-            className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-[#857C6E] sm:text-sm"
+            className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#857C6E] sm:justify-start sm:text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease, delay: 0.32 }}
