@@ -116,7 +116,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Lock,
     title: 'Confidentialité ultime',
-    description: 'Desktop + Ollama pour données sensibles. 100% on-premise. Zéro cloud requis.',
+    description: 'Unitalk Desktop + Ollama pour vos données sensibles si besoin. 100% on-premise. Zéro cloud requis.',
   },
   {
     icon: FileCheck,
