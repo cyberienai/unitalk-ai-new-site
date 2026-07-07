@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
@@ -55,12 +55,23 @@ function useContextualTip(t: (typeof T)['fr']) {
 
 export function FloatingAlmaWidget() {
   const [isOpen, setIsOpen] = useState(false)
+  const [scrolledPastHero, setScrolledPastHero] = useState(false)
   const { lang } = useLanguage()
   const t = T[lang]
   const tip = useContextualTip(t)
 
-  // The contextual tooltip stays visible at all times while the chat is closed.
-  const showTip = !isOpen
+  // Hide the persistent tip bubble once the user scrolls away from the top of the
+  // page. Because the launcher is fixed to the viewport, a permanent bubble would
+  // otherwise overlap lower content (e.g. the Alex card) on mobile.
+  useEffect(() => {
+    const onScroll = () => setScrolledPastHero(window.scrollY > 240)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // The contextual tooltip shows only near the top of the page, while the chat is closed.
+  const showTip = !isOpen && !scrolledPastHero
 
   return (
     <>
