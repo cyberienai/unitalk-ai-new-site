@@ -15,9 +15,9 @@ const T = {
     almaSteps: [
       { n: '01', label: 'Interview & découverte', desc: 'Alma pose les bonnes questions sur vos processus' },
       { n: '02', label: 'Cartographie des tâches', desc: 'Identifie les tâches critiques et répétitives' },
-      { n: '03', label: 'Recommandations IA', desc: 'Propose compétences et automatisations n8n' },
-      { n: '04', label: 'Contexte d\'entreprise', desc: 'Collecte domaine, données publiques, culture' },
-      { n: '05', label: 'Configuration agent', desc: 'Crée l\'identité, rôle et instructions. Hermès framework.' },
+      { n: '03', label: 'Recommandations', desc: 'Propose compétences et automatisations' },
+      { n: '04', label: 'Contexte entreprise', desc: 'Collecte domaine, données, culture' },
+      { n: '05', label: 'Config. agent', desc: 'Identité, rôle, instructions. Hermès.' },
       { n: '06', label: 'Connecte vos apps', desc: 'Intégre Slack, HubSpot, Gmail, n8n, etc.' },
       { n: '07', label: 'Test mission', desc: 'Valide le comportement et les automatisations' },
       { n: '08', label: 'Planifie une 1ère tâche', desc: 'Lance sa première mission en production' },
@@ -53,9 +53,9 @@ const T = {
     almaSteps: [
       { n: '01', label: 'Interview & discovery', desc: 'Alma asks the right questions about your processes' },
       { n: '02', label: 'Task mapping', desc: 'Identifies critical and repetitive tasks' },
-      { n: '03', label: 'AI recommendations', desc: 'Suggests skills and n8n automations' },
-      { n: '04', label: 'Company context', desc: 'Collects domain, public data, culture' },
-      { n: '05', label: 'Agent configuration', desc: 'Creates identity, role, and instructions. Hermès framework.' },
+      { n: '03', label: 'Recommendations', desc: 'Suggests skills and automations' },
+      { n: '04', label: 'Company context', desc: 'Collects domain, data, culture' },
+      { n: '05', label: 'Agent config.', desc: 'Identity, role, instructions. Hermès.' },
       { n: '06', label: 'Connect your apps', desc: 'Integrates Slack, HubSpot, Gmail, n8n, etc.' },
       { n: '07', label: 'Test mission', desc: 'Validates behavior and automations' },
       { n: '08', label: 'Schedule first task', desc: 'Launches its first mission to production' },
@@ -140,13 +140,13 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </div>
 
           {/* Right — numbered steps with descriptions */}
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-2.5 sm:grid-cols-3">
             {t.almaSteps.map((step, i) => {
               const isLastStep = i === t.almaSteps.length - 1
               return (
               <motion.div
                 key={step.n}
-                className={`flex flex-col gap-2 rounded-2xl border-2 px-4 py-4 transition-all ${
+                className={`flex flex-col gap-1.5 rounded-xl border-2 px-3 py-3 transition-all text-sm ${
                   isLastStep 
                     ? 'border-[#D10E63]/40 bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 hover:border-[#D10E63]/60 hover:from-[#D10E63]/20 hover:to-[#D10E63]/10 ring-1 ring-[#D10E63]/20'
                     : 'border-[#D10E63]/20 bg-gradient-to-br from-[#FBF9F3] to-[#F3EFE6] hover:border-[#D10E63]/40'
