@@ -26,7 +26,7 @@ const T = {
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
-    dispTitle: "L'IA ne devrait pas vivre dans un onglet.",
+    dispTitle: "Vos équipes ont l'IA. Votre entreprise, non.",
     dispIntro:
       "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est la dispersion : chacun dans son coin, sans mémoire ni méthode partagée. L'entreprise, elle, n'en garde presque rien.",
     dispProblems: [
@@ -59,7 +59,7 @@ const T = {
     ],
     
     dispEyebrow: 'The real problem',
-    dispTitle: "AI shouldn't live in a tab.",
+    dispTitle: "Your teams have AI. Your company doesn't.",
     dispIntro: "Your teams already use AI. The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. Your company retains almost nothing.",
     dispProblems: [
       'Individual accounts',
