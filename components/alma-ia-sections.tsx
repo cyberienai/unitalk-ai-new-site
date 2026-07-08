@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, X } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const T = {
@@ -23,6 +23,9 @@ const T = {
     almaCta: 'Parlez avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
     almaLearnMore: 'En savoir plus',
+    migrBadge: 'Migration en un clic',
+    migrText: 'Déjà un agent Hermes ou OpenClaw ? Migrez vos données vers Unitalk en un clic.',
+    migrCta: 'Migrer maintenant',
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
@@ -49,6 +52,9 @@ const T = {
     almaCta: 'Chat with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
     almaLearnMore: 'Learn more',
+    migrBadge: 'One-click migration',
+    migrText: 'Already have a Hermes or OpenClaw agent? Migrate your data to Unitalk in one click.',
+    migrCta: 'Migrate now',
     almaSteps: [
       { n: '01', label: 'Company context', desc: 'Collects public data related to your company and domain name' },
       { n: '02', label: 'Interview & discovery', desc: 'Asks the right questions about your role, tasks, and processes' },
@@ -127,6 +133,28 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 
                 {/* Video element - add your video src here */}
                 {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
+              </div>
+
+              {/* Migration banner under the video */}
+              <div className="mt-5 flex flex-col gap-3 rounded-2xl border border-[#D10E63]/25 bg-gradient-to-r from-[#D10E63]/10 to-transparent p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#D10E63]/15 text-[#D10E63]">
+                    <ArrowLeftRight className="h-5 w-5" strokeWidth={1.6} />
+                  </span>
+                  <div>
+                    <p className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">
+                      {t.migrBadge}
+                    </p>
+                    <p className="text-sm font-medium leading-snug text-[#1C1A17]">{t.migrText}</p>
+                  </div>
+                </div>
+                <a
+                  href="/migration"
+                  className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 py-2 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+                >
+                  {t.migrCta}
+                  <ChevronRight className="h-4 w-4" />
+                </a>
               </div>
             </div>
           </div>
