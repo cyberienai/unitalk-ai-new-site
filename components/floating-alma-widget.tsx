@@ -60,18 +60,18 @@ export function FloatingAlmaWidget() {
   const t = T[lang]
   const tip = useContextualTip(t)
 
-  // Hide the persistent tip bubble once the user scrolls away from the top of the
-  // page. Because the launcher is fixed to the viewport, a permanent bubble would
-  // otherwise overlap lower content (e.g. the Alex card) on mobile.
+  // Show the persistent tip bubble only once the user has scrolled past the hero
+  // into the 2nd section. It stays hidden on the hero so it never competes with
+  // the hero's own content/CTA.
   useEffect(() => {
-    const onScroll = () => setScrolledPastHero(window.scrollY > 240)
+    const onScroll = () => setScrolledPastHero(window.scrollY > window.innerHeight * 0.7)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // The contextual tooltip shows only near the top of the page, while the chat is closed.
-  const showTip = !isOpen && !scrolledPastHero
+  // The contextual tooltip shows only from the 2nd section onward, while the chat is closed.
+  const showTip = !isOpen && scrolledPastHero
 
   return (
     <>
