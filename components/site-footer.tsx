@@ -15,7 +15,7 @@ const COMPARISONS = [
 
 const T = {
   fr: {
-    tagline: 'Unitalk AI — L’IA qui travaille avec votre organisation.',
+    tagline: 'Connecting humans and certified agents',
     comparisons: 'Comparatifs',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
@@ -54,7 +54,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'Unitalk AI — The AI that works with your organization.',
+    tagline: 'Connecting humans and certified agents',
     comparisons: 'Comparisons',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
