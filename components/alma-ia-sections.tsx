@@ -150,7 +150,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </div>
                 <a
                   href="/migration"
-                  className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 py-2 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+                  className="inline-flex w-full flex-shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-semibold text-[#FBF9F3] shadow-sm shadow-[#D10E63]/20 transition-all hover:bg-[#B00B52] hover:shadow-md hover:shadow-[#D10E63]/25 sm:w-auto"
                 >
                   {t.migrCta}
                   <ChevronRight className="h-4 w-4" />
