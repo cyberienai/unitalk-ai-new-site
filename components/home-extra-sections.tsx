@@ -30,7 +30,7 @@ export function AIGatewaySection() {
           eyebrow="Unitalk AI Gateway"
             title="Les\u00A0meilleurs\u00A0modèles\u00A0d'IA. "
             titleAccent="Un seul accès."
-            subtitle="Vos humains et vos agents accèdent aux dernières versions des meilleurs modèles depuis un même endroit - sans clés API à gérer, une seule facture."
+            subtitle="Les humains et leurs agents accèdent aux dernières versions des meilleurs modèles depuis un même endroit - sans clés API à gérer, une seule facture."
           align="center"
           dark
         />
