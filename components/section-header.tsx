@@ -45,7 +45,9 @@ export function SectionHeader({
       >
         {title}
         {titleAccent ? (
-          <span className={`text-[#D10E63] ${accentNewLine ? 'block' : ''}`}>{titleAccent}</span>
+          <span className={`text-[#D10E63] ${accentNewLine ? 'block whitespace-nowrap' : ''}`}>
+            {titleAccent}
+          </span>
         ) : null}
       </motion.h2>
 
