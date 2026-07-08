@@ -284,7 +284,7 @@ export function UseCasesContent() {
 
         <div className="relative mx-auto max-w-3xl text-center">
           <motion.h2
-            className="mb-4 text-balance font-bold leading-tight text-[#F7F4EE]"
+            className="mb-4 text-balance font-bold leading-tight text-[#C4BCAE]"
             style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

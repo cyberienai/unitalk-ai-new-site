@@ -224,7 +224,7 @@ export function AgentHermesContent() {
       <section className="w-full bg-[#1C1A17] px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <motion.h2
-            className="mb-12 text-3xl font-bold text-[#F7F4EE]"
+            className="mb-12 text-3xl font-bold text-[#C4BCAE]"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -301,7 +301,7 @@ export function AgentHermesContent() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="mb-4 text-3xl font-bold text-[#F7F4EE]">{t.ctaTitle}</h2>
+            <h2 className="mb-4 text-3xl font-bold text-[#C4BCAE]">{t.ctaTitle}</h2>
             <p className="mb-8 text-lg text-[#E7E1D6]">{t.ctaDescription}</p>
             <a
               href="https://hermes-agent.nousresearch.com/"

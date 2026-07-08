@@ -35,7 +35,7 @@ export function SectionHeader({
 
       <motion.h2
         className={`mt-4 font-sf text-3xl font-bold leading-[1.05] text-balance sm:text-4xl md:text-5xl ${
-          dark ? 'text-[#F7F4EE]' : 'text-[#1C1A17]'
+          dark ? 'text-[#C4BCAE]' : 'text-[#1C1A17]'
         }`}
         style={{ letterSpacing: '-0.03em' }}
         initial={{ opacity: 0, y: 18 }}

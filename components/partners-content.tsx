@@ -279,7 +279,7 @@ export function PartnersContent() {
         <div className="mx-auto w-full max-w-6xl">
           <div className="max-w-2xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF0099]">{t.whyEyebrow}</p>
-            <h2 className="mt-3 font-heading text-3xl font-light leading-[1.1] text-white text-balance sm:text-4xl md:text-5xl" style={{ letterSpacing: '-0.02em' }}>
+            <h2 className="mt-3 font-heading text-3xl font-light leading-[1.1] text-[#C4BCAE] text-balance sm:text-4xl md:text-5xl" style={{ letterSpacing: '-0.02em' }}>
               {t.whyTitle}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-[#B4B4BD]">{t.whyP}</p>
@@ -340,7 +340,7 @@ export function PartnersContent() {
         <div className="mx-auto w-full max-w-6xl">
           <div className="mb-12 max-w-2xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF0099]">{t.advEyebrow}</p>
-            <h2 className="mt-3 font-heading text-3xl font-light leading-[1.1] text-white text-balance sm:text-4xl md:text-5xl" style={{ letterSpacing: '-0.02em' }}>
+            <h2 className="mt-3 font-heading text-3xl font-light leading-[1.1] text-[#C4BCAE] text-balance sm:text-4xl md:text-5xl" style={{ letterSpacing: '-0.02em' }}>
               {t.advTitle}
             </h2>
           </div>
@@ -401,7 +401,7 @@ export function PartnersContent() {
         />
         <div className="relative mx-auto w-full max-w-3xl text-center">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FF0099]">{t.visionEyebrow}</p>
-          <h2 className="mt-4 font-heading text-3xl font-light leading-[1.15] text-white text-balance sm:text-4xl md:text-5xl" style={{ letterSpacing: '-0.02em' }}>
+          <h2 className="mt-4 font-heading text-3xl font-light leading-[1.15] text-[#C4BCAE] text-balance sm:text-4xl md:text-5xl" style={{ letterSpacing: '-0.02em' }}>
             {t.visionTitle}
           </h2>
           <div className="mt-10 flex flex-col items-center gap-1 text-lg text-[#B4B4BD] sm:text-xl">
