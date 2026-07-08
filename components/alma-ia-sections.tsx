@@ -26,7 +26,8 @@ const T = {
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
-    dispTitle: "Vos équipes utilisent l'IA. Mais chacun de son côté.",
+    dispTitle: "Vos équipes utilisent l'IA. ",
+    dispTitleAccent: "Mais chacun de son côté.",
     dispIntro:
       "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est la dispersion : chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
     dispProblems: [
@@ -58,7 +59,8 @@ const T = {
     ],
     
     dispEyebrow: 'The real problem',
-    dispTitle: "Your teams use AI. But each on their own.",
+    dispTitle: "Your teams use AI. ",
+    dispTitleAccent: "But each on their own.",
     dispIntro: "Your teams already use AI. The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. It's time to hire real AI collaborators.",
     dispProblems: [
       'Individual accounts',
@@ -177,7 +179,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         />
 
         <div className="relative mx-auto max-w-5xl">
-          <SectionHeader eyebrow={t.dispEyebrow} title={t.dispTitle} subtitle={t.dispIntro} dark />
+          <SectionHeader eyebrow={t.dispEyebrow} title={t.dispTitle} titleAccent={t.dispTitleAccent} subtitle={t.dispIntro} dark />
 
           <div className="h-12" />
 
