@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint, Download, ArrowLeftRight } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, ShieldCheck, Lock, BadgeCheck, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint, Download, ArrowLeftRight } from 'lucide-react'
 import { SectionHeader } from './section-header'
 import { useT } from '@/lib/language-context'
 
@@ -126,7 +126,11 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: FileCheck,
     title: 'Conformité certifiée',
-    badges: ['RGPD', 'ISO 27001', 'SOC 2'],
+    badges: [
+      { label: 'RGPD', icon: Lock },
+      { label: 'ISO 27001', icon: ShieldCheck },
+      { label: 'SOC 2', icon: BadgeCheck },
+    ],
     featured: false,
   },
 ]
@@ -229,15 +233,18 @@ export function SovereigntySection() {
                     </h3>
                     {'badges' in pillar && pillar.badges ? (
                       <div className="mt-1 flex flex-wrap gap-2">
-                        {pillar.badges.map((b) => (
-                          <span
-                            key={b}
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-[#F7F4EE]/15 bg-[#F7F4EE]/[0.06] px-2.5 py-1 text-xs font-semibold text-[#E7E1D6]"
-                          >
-                            <Shield className="h-3.5 w-3.5 text-[#D10E63]" />
-                            {b}
-                          </span>
-                        ))}
+                        {pillar.badges.map((b) => {
+                          const BadgeIcon = b.icon
+                          return (
+                            <span
+                              key={b.label}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-[#F7F4EE]/15 bg-[#F7F4EE]/[0.06] px-2.5 py-1.5 text-xs font-semibold text-[#E7E1D6] transition-colors hover:border-[#D10E63]/40 hover:bg-[#D10E63]/10"
+                            >
+                              <BadgeIcon className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2} />
+                              {b.label}
+                            </span>
+                          )
+                        })}
                       </div>
                     ) : (
                       <p
@@ -548,7 +555,7 @@ export function FinalCtaSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Prêt à collaborer pour de vrai ?
+          Prêt �� collaborer pour de vrai ?
         </motion.p>
 
         <motion.h2
