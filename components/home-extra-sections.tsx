@@ -364,8 +364,7 @@ export function OffersSection() {
         <div className="mx-auto mb-16 max-w-2xl">
           <SectionHeader
             eyebrow="Offres"
-            title="Solo, équipe ou entreprise : "
-            titleAccent="vous choisissez"
+            title="Solo, équipe ou entreprise"
             subtitle="Une offre qui grandit avec vous."
             align="center"
           />
