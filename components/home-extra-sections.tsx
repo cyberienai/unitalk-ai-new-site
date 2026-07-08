@@ -28,7 +28,7 @@ export function AIGatewaySection() {
       <div className="relative mx-auto max-w-4xl text-center">
         <SectionHeader
           eyebrow="Unitalk AI Gateway"
-            title="Les\u00A0meilleurs\u00A0modèles\u00A0d'IA. "
+            title="Les meilleurs modèles d'IA. "
             titleAccent="Un seul accès."
             subtitle="Les humains et leurs agents accèdent aux dernières versions des meilleurs modèles depuis un même endroit - sans clés API à gérer, une seule facture."
           align="center"
@@ -567,7 +567,7 @@ export function FinalCtaSection() {
           transition={{ duration: 0.5, delay: 0.06 }}
         >
           {"N'utilisez plus un simple agent. "}
-          <span className="text-[#FBF9F3]">Créez un vrai collaborateur\u00A0IA.</span>
+          <span className="text-[#FBF9F3]">Créez un vrai collaborateur IA.</span>
         </motion.h2>
 
         <motion.div
