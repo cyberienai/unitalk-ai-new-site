@@ -8,6 +8,7 @@ export function SectionHeader({
   eyebrow,
   title,
   titleAccent,
+  accentNewLine = false,
   subtitle,
   align = 'left',
   dark = false,
@@ -15,6 +16,7 @@ export function SectionHeader({
   eyebrow: string
   title: string
   titleAccent?: string
+  accentNewLine?: boolean
   subtitle?: string
   align?: 'left' | 'center'
   dark?: boolean
@@ -42,7 +44,9 @@ export function SectionHeader({
         transition={{ duration: 0.6, ease }}
       >
         {title}
-        {titleAccent ? <span className="text-[#D10E63]">{titleAccent}</span> : null}
+        {titleAccent ? (
+          <span className={`text-[#D10E63] ${accentNewLine ? 'block' : ''}`}>{titleAccent}</span>
+        ) : null}
       </motion.h2>
 
       {subtitle ? (

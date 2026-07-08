@@ -373,6 +373,7 @@ export function OffersSection() {
             eyebrow="Offres"
             title="Solo, équipe ou entreprise. "
             titleAccent="Une offre qui grandit avec vous."
+            accentNewLine
             align="center"
           />
         </div>
