@@ -555,7 +555,7 @@ export function FinalCtaSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Prêt �� collaborer pour de vrai ?
+          Prêt à collaborer pour de vrai ?
         </motion.p>
 
         <motion.h2
