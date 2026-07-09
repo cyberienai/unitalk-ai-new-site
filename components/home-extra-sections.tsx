@@ -386,6 +386,26 @@ export function OffersSection() {
                   {o.cta}
                   <ChevronRight className="h-4 w-4" />
                 </a>
+
+                {/* Trust badges */}
+                <div className="mt-6 flex flex-wrap gap-2 border-t border-[#DcD4C4] pt-5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
+                    <Check className="h-3.5 w-3.5" />
+                    Aucune carte bancaire
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
+                    <Check className="h-3.5 w-3.5" />
+                    7 jours gratuit
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
+                    <Check className="h-3.5 w-3.5" />
+                    Prêt en 5 mn
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
+                    <Check className="h-3.5 w-3.5" />
+                    Hébergé en France
+                  </span>
+                </div>
               </motion.div>
             )
           })}
