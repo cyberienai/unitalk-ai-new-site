@@ -29,7 +29,7 @@ const T = {
         name: 'Executive', price: '29€', period: '/ mois / agent',
         tagline: 'Un agent sur mesure pour vous lancer, façonné en un appel avec Alma.',
         cta: 'Créer mon agent', href: '/signup',
-        features: ['1 agent sur mesure, 10 profils inclus', 'Adresse email, numéro, agenda et contacts dédiés', 'Propulsé par Hermes, notre moteur open source', 'Accès aux meilleurs modèles d'IA', 'BYOK ou crédits IA prépayés', 'Multimodal : voix, texte, image, audio, code', 'Mémoire d'entreprise persistante', 'Connexion à 3 000+ apps via MCP', 'Accompagnement par Alma'],
+        features: ['1 agent sur mesure, 10 profils inclus', 'Adresse email, numéro, agenda et contacts dédiés', 'Propulsé par Hermes, notre moteur open source', 'Accès aux meilleurs modèles d\'IA', 'BYOK ou crédits IA prépayés', 'Multimodal : voix, texte, image, audio, code', 'Mémoire d\'entreprise persistante', 'Connexion à 3 000+ apps via MCP', 'Accompagnement par Alma'],
       },
       {
         name: 'Team', price: '49€', period: '/ agent / mois',
