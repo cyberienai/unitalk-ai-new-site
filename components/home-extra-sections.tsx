@@ -290,9 +290,9 @@ const OFFERS = [
     subtitle: 'Toute votre équipe, augmentée.',
     text: 'Chaque employé dispose de son agent. Toute l\u2019équipe partage un contexte commun.',
     price: '49€',
-    priceNote: '/mois par employé',
+    priceNote: '/mois par collaborateur IA',
     points: [
-      '1 agent par employé',
+      '1 agent par collaborateur IA',
       'Mémoire commune',
       'Accès contrôlés',
       'Profils métier',

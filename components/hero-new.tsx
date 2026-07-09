@@ -269,6 +269,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const [activeVerb, setActiveVerb] = useState(0)
   const [activeCollaborator, setActiveCollaborator] = useState(0)
+  const [isHoveringCarousel, setIsHoveringCarousel] = useState(false)
   const chipsRef = useRef<HTMLDivElement>(null)
   const chipRefs = useRef<(HTMLSpanElement | null)[]>([])
 
@@ -278,6 +279,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     }, 1400)
     return () => clearInterval(id)
   }, [t.manifesto.length])
+
+  // Auto-scroll the collaborators carousel every 4 seconds, pause on hover
+  useEffect(() => {
+    if (isHoveringCarousel) return
+    const id = setInterval(() => {
+      setActiveCollaborator((i) => (i + 1) % t.collaborators.length)
+    }, 4000)
+    return () => clearInterval(id)
+  }, [isHoveringCarousel, t.collaborators.length])
 
   // Keep the highlighted verb in view on the horizontally scrollable mobile row,
   // so every chip is revealed as the highlight rolls through.
@@ -527,7 +537,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
 
             {/* carousel indicators + buttons */}
-            <div className="relative mb-5 flex items-center justify-between gap-2">
+            <div
+              className="relative mb-5 flex items-center justify-between gap-2"
+              onMouseEnter={() => setIsHoveringCarousel(true)}
+              onMouseLeave={() => setIsHoveringCarousel(false)}
+            >
               <button
                 onClick={() => setActiveCollaborator((prev) => (prev - 1 + t.collaborators.length) % t.collaborators.length)}
                 className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#8A8175] hover:bg-white/10 hover:text-[#F1729F] transition-all"
