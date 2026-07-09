@@ -16,7 +16,7 @@ const T = {
       {
         icon: Users,
         title: 'Collaboration Active',
-        description: 'Hermès les propulse. Vos équipes et vos agents raisonnent ensemble, décident ensemble, exécutent ensemble.',
+        description: 'L\'agent Hermès les propulse. Vos équipes et vos agents raisonnent ensemble, décident ensemble, exécutent ensemble.',
       },
       {
         icon: User,
@@ -36,7 +36,7 @@ const T = {
       {
         icon: Users,
         title: 'Active Collaboration',
-        description: 'Hermès powers them. Your teams and your agents reason together, decide together, execute together.',
+        description: 'Powered by Hermès agent. Your teams and your agents reason together, decide together, execute together.',
       },
       {
         icon: User,
