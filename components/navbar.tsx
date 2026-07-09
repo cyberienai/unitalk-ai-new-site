@@ -9,7 +9,7 @@ import { useLanguage } from '@/lib/language-context'
 const NAV_LINKS = [
   { fr: 'Solo', en: 'Solo', href: '/solo' },
   { fr: 'Teams', en: 'Teams', href: '/teams' },
-  { fr: 'Business', en: 'Business', href: '/business' },
+  { fr: 'Enterprise', en: 'Enterprise', href: '/business' },
   { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
   { fr: "10 profils prêts à l'emploi", en: '10 ready-to-use profiles', href: '/use-cases' },
@@ -26,7 +26,7 @@ const NAV_LINKS = [
 const PRIMARY_LINKS = [
   { fr: 'Solo', en: 'Solo', href: '/solo' },
   { fr: 'Teams', en: 'Teams', href: '/teams' },
-  { fr: 'Business', en: 'Business', href: '/business' },
+  { fr: 'Enterprise', en: 'Enterprise', href: '/business' },
   { fr: 'Tarif', en: 'Pricing', href: '/tarifs' },
 ]
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronRight, Shield, ShieldCheck, Lock, BadgeCheck, Database, Cpu, Repeat, Check, FileCheck, User, Users, Server, Fingerprint, Download } from 'lucide-react'
+import { ChevronDown, ChevronRight, Shield, ShieldCheck, Lock, BadgeCheck, Database, Cpu, Repeat, Check, FileCheck, User, Users, Fingerprint, Download } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 /* ----------------------------- 7. AI Gateway (dark) ----------------------------- */
@@ -302,25 +302,6 @@ const OFFERS = [
     cta: 'Découvrir Teams',
     href: '/teams',
     badge: 'Exclusif',
-    featured: false,
-  },
-  {
-    name: 'Business',
-    icon: Server,
-    subtitle: 'Vos agents sur votre serveur IA privé.',
-    text: 'Déployez des Collaborateurs IA dans une infrastructure privée avec vos données et vos API.',
-    price: '299€',
-    priceNote: '/mois',
-    points: [
-      'Serveur IA privé',
-      'Apps natives : n8n, Twenty, Payload, Stalwart',
-      'Modèles au choix',
-      'Gouvernance et souveraineté',
-      'Accompagnement avancé',
-    ],
-    cta: 'Découvrir Business',
-    href: '/business',
-    badge: 'Serveur privé',
     featured: false,
   },
 ]
