@@ -26,13 +26,13 @@ const T = {
     reassureLink: 'version Desktop open source',
     plans: [
       {
-        name: 'Executive', price: '29€', period: '/ mois / agent',
+        name: 'Executive', price: '30€', period: '/ mois / agent',
         tagline: 'Un agent sur mesure pour vous lancer, façonné en un appel avec Alma.',
         cta: 'Créer mon agent', href: '/signup',
         features: ['1 agent sur mesure, 10 profils inclus', 'Adresse email, numéro, agenda et contacts dédiés', 'Propulsé par Hermes, notre moteur open source', 'Accès aux meilleurs modèles d\'IA', 'BYOK ou crédits IA prépayés', 'Multimodal : voix, texte, image, audio, code', 'Mémoire d\'entreprise persistante', 'Connexion à 3 000+ apps via MCP', 'Accompagnement par Alma'],
       },
       {
-        name: 'Team', price: '19€', period: '/ agent / mois',
+        name: 'Team', price: '25€', period: '/ agent / mois',
         tagline: 'Un agent par collaborateur, un espace partagé et une mémoire commune.',
         cta: 'Équiper mon équipe', href: '/signup', highlight: true,
         features: ['Tout le plan Executive, pour chaque membre', 'Espace collaboratif partagé', 'Mémoire d’entreprise mutualisée entre agents', 'Alma interviewe chaque collaborateur', 'Rôles et permissions par agent', 'Compétences et process partagés', 'Tableau de bord d’équipe', 'Facturation centralisée', 'Support prioritaire'],

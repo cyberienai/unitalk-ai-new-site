@@ -270,7 +270,7 @@ const OFFERS = [
     icon: User,
     subtitle: 'Votre premier vrai collaborateur IA.',
     text: 'Pour indépendant, dirigeant, consultant, créateur ou solopreneur.',
-    price: '29€',
+    price: '30€',
     priceNote: '/mois',
     points: [
       '1 agent Hermès autonome et personnalisé',
@@ -290,7 +290,7 @@ const OFFERS = [
     icon: Users,
     subtitle: 'Toute votre équipe, augmentée.',
     text: 'Chaque employé dispose de son agent. Toute l\u2019équipe partage un contexte commun.',
-    price: '19€',
+    price: '25€',
     priceNote: '/mois par collaborateur IA',
     points: [
       '1 agent Hermès par membre de l\'équipe',
