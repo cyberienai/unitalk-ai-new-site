@@ -73,7 +73,7 @@ export function WhyItWorksSection() {
             {t.eyebrow}
           </p>
           <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1C1A17]">
-            Trois principes simples
+            Trois principes de collaboration
             <br />
             <span className="bg-gradient-to-r from-[#D10E63] to-[#F1729F] bg-clip-text text-transparent">qui changent tout</span>
           </h2>
