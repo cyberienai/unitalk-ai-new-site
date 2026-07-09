@@ -11,7 +11,7 @@ const T = {
     almaTitle: 'Alma vous interview et donne vie à votre collaborateur IA ',
     almaTitleAccent: 'en 5 minutes.',
     almaText:
-      "Alma comprend votre entreprise, identifie vos tâches chronophages et recommande les compétences clés. Elle lance votre Collaborateur IA propulsé par Hermès—le leader des agents open source.",
+      "Alma comprend votre entreprise, identifie vos tâches chronophages et recommande les compétences clés. Elle lance votre Collaborateur IA propulsé par l'agent Hermès, le leader des agents autonomes open source.",
     almaSteps: [
       { n: '01', label: 'Contexte entreprise', desc: 'Collecte les données publiques liées à votre entreprise et votre nom de domaine' },
       { n: '02', label: 'Interview & découverte', desc: 'Pose les bonnes questions sur votre rôle, vos tâches et vos processus' },
@@ -48,7 +48,7 @@ const T = {
     almaEyebrow: 'Voice assistance for onboarding',
     almaTitle: 'Alma interviews you and brings your AI Collaborator to life ',
     almaTitleAccent: 'in 5 minutes.',
-    almaText: "Alma understands your business, identifies your time-consuming tasks, and recommends the right skills. She launches your AI Collaborator powered by Hermès—the leader of open-source agents.",
+    almaText: "Alma understands your business, identifies your time-consuming tasks, and recommends the right skills. She launches your AI Collaborator powered by the Hermès agent, the leader in autonomous open-source agents.",
     almaCta: 'Chat with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
     almaLearnMore: 'Learn more',
