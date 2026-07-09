@@ -21,7 +21,7 @@ const T = {
       {
         icon: Package,
         title: 'Tout-en-un',
-        description: 'Des agents avec identité, compétences et mémoire persistent. De vrais collaborateurs, pas juste des outils. Tout inclus, aucune intégration complexe.',
+        description: 'Des agents avec leur propre identité, compétences et mémoire persistante. De vrais collaborateurs, pas juste des outils. Tout inclus, aucune compétence technique nécessaire.',
       },
     ],
   },
@@ -41,7 +41,7 @@ const T = {
       {
         icon: Package,
         title: 'All-in-One',
-        description: 'Agents with identity, skills, and persistent memory. Real collaborators, not just tools. Everything included, zero complex integrations.',
+        description: 'Agents with their own identity, skills, and persistent memory. Real collaborators, not just tools. Everything included, no technical skills required.',
       },
     ],
   },
