@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench, FileText } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench, FileText, MapPin } from 'lucide-react'
 
 const T = {
   fr: {
@@ -16,8 +16,9 @@ const T = {
     ctaPrimary: 'Activer mon Collaborateur IA',
     ctaProofs: [
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
-      { icon: CreditCard, label: 'Sans CB' },
+      { icon: CreditCard, label: 'Sans carte bancaire' },
       { icon: Unlock, label: '7 jours gratuits' },
+      { icon: MapPin, label: 'Hébergé en France' },
     ],
     ctaSecondary: 'Voir comment ça marche',
     sofiaTitle: 'Votre premier Collaborateur IA',
@@ -145,6 +146,7 @@ const T = {
       { icon: Clock, label: 'Ready to work in 5 min' },
       { icon: CreditCard, label: 'No credit card' },
       { icon: Unlock, label: 'No commitment' },
+      { icon: MapPin, label: 'Hosted in France' },
     ],
     ctaSecondary: 'See how it works',
     sofiaTitle: 'Your first AI Collaborator',
