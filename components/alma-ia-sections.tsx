@@ -139,8 +139,8 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
 
               {/* Migration banner under the video */}
-              <div className="mt-5 flex flex-col gap-3 rounded-2xl border border-[#D10E63]/25 bg-gradient-to-r from-[#D10E63]/10 to-transparent p-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-3">
+              <div className="mt-5 flex flex-col gap-4 rounded-2xl border border-[#D10E63]/25 bg-gradient-to-r from-[#D10E63]/10 to-transparent p-4">
+                <div className="flex items-start gap-3">
                   <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#D10E63]/15 text-[#D10E63]">
                     <ArrowLeftRight className="h-5 w-5" strokeWidth={1.6} />
                   </span>
@@ -153,7 +153,7 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </div>
                 <a
                   href="/migration"
-                  className="group inline-flex flex-shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/40 bg-white/60 px-4 py-2 text-sm font-semibold text-[#D10E63] transition-all hover:border-[#D10E63] hover:bg-[#D10E63] hover:text-[#FBF9F3]"
+                  className="group inline-flex flex-shrink-0 items-center justify-center gap-1.5 self-start whitespace-nowrap rounded-full border border-[#D10E63]/40 bg-white/60 px-4 py-2 text-sm font-semibold text-[#D10E63] transition-all hover:border-[#D10E63] hover:bg-[#D10E63] hover:text-[#FBF9F3]"
                 >
                   {t.migrCta}
                   <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
