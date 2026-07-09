@@ -332,8 +332,8 @@ export function OffersSection() {
         <div className="mx-auto mb-16 max-w-2xl">
           <SectionHeader
             eyebrow="Unitalk AI Cloud"
-            title="Alma vous interview et configure votre agent. "
-            titleAccent="Une mise en service personnalisée en 5 mn."
+            title="Une offre qui "
+            titleAccent="grandit avec vous."
             accentNewLine
             align="center"
           />
