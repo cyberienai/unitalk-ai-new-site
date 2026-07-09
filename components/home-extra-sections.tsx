@@ -277,7 +277,8 @@ const OFFERS = [
       'Accès à 10 profils professionnels',
       'Mémoire persistante & apprentissage continu',
       'Email, calendrier, téléphone intégrés',
-      'Mise en place en 5 minutes',
+      'Profil public inclus',
+      'Mise en service en 5 minutes',
     ],
     cta: 'Découvrir Executive',
     href: '/solo',
@@ -331,8 +332,8 @@ export function OffersSection() {
         <div className="mx-auto mb-16 max-w-2xl">
           <SectionHeader
             eyebrow="Unitalk AI Cloud"
-            title="Solo, équipe ou entreprise. "
-            titleAccent="Une offre qui grandit avec vous."
+            title="Alma vous interview et configure votre agent. "
+            titleAccent="Une mise en service personnalisée en 5 étapes."
             accentNewLine
             align="center"
           />
