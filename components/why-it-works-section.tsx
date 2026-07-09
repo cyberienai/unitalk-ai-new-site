@@ -53,11 +53,11 @@ export function WhyItWorksSection() {
   const ease: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94]
 
   return (
-    <section className="relative bg-gradient-to-b from-[#F3EFE6] via-[#FBF9F3] to-[#F3EFE6] py-20 sm:py-32">
+    <section className="relative bg-[#1C1A17] py-20 sm:py-32">
       {/* Subtle decorative background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#D10E63]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D10E63]/3 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#D10E63]/8 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#D10E63]/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
@@ -72,7 +72,7 @@ export function WhyItWorksSection() {
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#D10E63]">
             {t.eyebrow}
           </p>
-          <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1C1A17]">
+          <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#FBF9F3]">
             Trois principes de collaboration
             <br />
             <span className="bg-gradient-to-r from-[#D10E63] to-[#F1729F] bg-clip-text text-transparent">qui changent tout</span>
@@ -86,22 +86,22 @@ export function WhyItWorksSection() {
             return (
               <motion.div
                 key={pillar.title}
-                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#DCD4C4] bg-white/70 backdrop-blur-sm p-8 shadow-sm transition-all duration-300 hover:border-[#D10E63]/40 hover:bg-white hover:shadow-lg hover:shadow-[#D10E63]/15 hover:-translate-y-1"
+                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#D10E63]/25 bg-[#2C2A27]/60 backdrop-blur-sm p-8 shadow-sm transition-all duration-300 hover:border-[#D10E63]/50 hover:bg-[#2C2A27] hover:shadow-lg hover:shadow-[#D10E63]/20 hover:-translate-y-1"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, ease, delay: i * 0.12 }}
               >
                 {/* Icon with enhanced styling */}
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#D10E63]/15 to-[#D10E63]/5 text-[#D10E63] group-hover:from-[#D10E63]/25 group-hover:to-[#D10E63]/10 transition-all duration-300">
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#D10E63]/25 to-[#D10E63]/15 text-[#D10E63] group-hover:from-[#D10E63]/35 group-hover:to-[#D10E63]/25 transition-all duration-300">
                   <Icon className="h-6 w-6" strokeWidth={1.8} />
                 </div>
 
                 {/* Title with better emphasis */}
-                <h3 className="text-xl font-bold text-[#1C1A17] group-hover:text-[#D10E63] transition-colors duration-300">{pillar.title}</h3>
+                <h3 className="text-xl font-bold text-[#FBF9F3] group-hover:text-[#D10E63] transition-colors duration-300">{pillar.title}</h3>
 
                 {/* Description */}
-                <p className="text-sm leading-relaxed text-[#6B6560] group-hover:text-[#1C1A17] transition-colors duration-300">{pillar.description}</p>
+                <p className="text-sm leading-relaxed text-[#C4BCAE] group-hover:text-[#E8DFD5] transition-colors duration-300">{pillar.description}</p>
               </motion.div>
             )
           })}
