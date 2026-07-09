@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Brain, Users, User } from 'lucide-react'
+import { Brain, Users, IdCard } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 const T = {
@@ -19,7 +19,7 @@ const T = {
         description: 'L\'agent Hermès les propulse. Vos équipes et vos agents raisonnent ensemble, décident ensemble, exécutent ensemble.',
       },
       {
-        icon: User,
+        icon: IdCard,
         title: 'Vrais Collaborateurs',
         description: 'Chaque agent a une identité, une voix, un rôle. Ils grandissent, apprennent, se souviennent. Des collègues, vraiment.',
       },
@@ -39,7 +39,7 @@ const T = {
         description: 'Powered by Hermès agent. Your teams and your agents reason together, decide together, execute together.',
       },
       {
-        icon: User,
+        icon: IdCard,
         title: 'Real Collaborators',
         description: 'Each agent has an identity, a voice, a role. They grow, learn, remember. Colleagues, truly.',
       },
