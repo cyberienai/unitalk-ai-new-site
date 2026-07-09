@@ -266,7 +266,7 @@ export function SovereigntySection() {
 
 const OFFERS = [
   {
-    name: 'Solo',
+    name: 'Executive',
     icon: User,
     subtitle: 'Votre premier vrai collaborateur IA.',
     text: 'Pour indépendant, dirigeant, consultant, créateur ou solopreneur.',
@@ -279,7 +279,7 @@ const OFFERS = [
       'Alma vous guide en 7 étapes',
       'Sans carte bancaire',
     ],
-    cta: 'Découvrir Solo',
+    cta: 'Découvrir Executive',
     href: '/solo',
     badge: 'Populaire',
     featured: true,
@@ -330,7 +330,7 @@ export function OffersSection() {
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto mb-16 max-w-2xl">
           <SectionHeader
-            eyebrow="Offres"
+            eyebrow="Unitalk AI Cloud"
             title="Solo, équipe ou entreprise. "
             titleAccent="Une offre qui grandit avec vous."
             accentNewLine
@@ -346,7 +346,7 @@ export function OffersSection() {
                 key={o.name}
                 className={`group relative flex flex-col rounded-2xl border p-8 transition-all ${
                   o.featured
-                    ? 'border-[#D10E63]/40 bg-[#FBF9F3] shadow-[0_20px_60px_-20px_rgba(209,14,99,0.35)] lg:-mt-4 lg:mb-4'
+                    ? 'border-[#D10E63]/40 bg-[#FBF9F3] shadow-[0_20px_60px_-20px_rgba(209,14,99,0.35)]'
                     : 'border-[#DcD4C4] bg-[#FBF9F3] hover:-translate-y-1 hover:border-[#D10E63]/20 hover:shadow-[0_12px_40px_-12px_rgba(28,26,23,0.2)]'
                 }`}
                 initial={{ opacity: 0, y: 20 }}

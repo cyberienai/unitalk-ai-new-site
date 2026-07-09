@@ -26,16 +26,16 @@ const T = {
     reassureLink: 'version Desktop open source',
     plans: [
       {
-        name: 'Solo', price: '29€', period: '/ mois / agent',
+        name: 'Executive', price: '29€', period: '/ mois / agent',
         tagline: 'Un agent sur mesure pour vous lancer, façonné en un appel avec Alma.',
         cta: 'Créer mon agent', href: '/signup',
-        features: ['1 agent sur mesure, 10 profils inclus', 'Adresse email, numéro, agenda et contacts dédiés', 'Propulsé par Hermes, notre moteur open source', 'Accès aux meilleurs modèles d’IA', 'BYOK ou crédits IA prépayés', 'Multimodal : voix, texte, image, audio, code', 'Mémoire d’entreprise persistante', 'Connexion à 3 000+ apps via MCP', 'Accompagnement par Alma'],
+        features: ['1 agent sur mesure, 10 profils inclus', 'Adresse email, numéro, agenda et contacts dédiés', 'Propulsé par Hermes, notre moteur open source', 'Accès aux meilleurs modèles d'IA', 'BYOK ou crédits IA prépayés', 'Multimodal : voix, texte, image, audio, code', 'Mémoire d'entreprise persistante', 'Connexion à 3 000+ apps via MCP', 'Accompagnement par Alma'],
       },
       {
         name: 'Team', price: '49€', period: '/ agent / mois',
         tagline: 'Un agent par collaborateur, un espace partagé et une mémoire commune.',
         cta: 'Équiper mon équipe', href: '/signup', highlight: true,
-        features: ['Tout le plan Solo, pour chaque membre', 'Espace collaboratif partagé', 'Mémoire d’entreprise mutualisée entre agents', 'Alma interviewe chaque collaborateur', 'Rôles et permissions par agent', 'Compétences et process partagés', 'Tableau de bord d’équipe', 'Facturation centralisée', 'Support prioritaire'],
+        features: ['Tout le plan Executive, pour chaque membre', 'Espace collaboratif partagé', 'Mémoire d’entreprise mutualisée entre agents', 'Alma interviewe chaque collaborateur', 'Rôles et permissions par agent', 'Compétences et process partagés', 'Tableau de bord d’équipe', 'Facturation centralisée', 'Support prioritaire'],
       },
       {
         name: 'Business', price: 'Sur devis', period: 'infrastructure privée',
@@ -56,7 +56,7 @@ const T = {
     reassureLink: 'open-source Desktop version',
     plans: [
       {
-        name: 'Solo', price: '€29', period: '/ month / agent',
+        name: 'Executive', price: '€29', period: '/ month / agent',
         tagline: 'A custom agent to get you started, crafted in a single call with Alma.',
         cta: 'Create my agent', href: '/signup',
         features: ['1 custom agent, 10 profiles included', 'Dedicated email, number, calendar and contacts', 'Powered by Hermes, our open-source engine', 'Access to the best AI models', 'BYOK or prepaid AI credits', 'Multimodal: voice, text, image, audio, code', 'Persistent company memory', 'Connection to 3,000+ apps via MCP', 'Support from Alma'],
@@ -65,7 +65,7 @@ const T = {
         name: 'Team', price: '€49', period: '/ agent / month',
         tagline: 'One agent per colleague, a shared workspace and a common memory.',
         cta: 'Equip my team', href: '/signup', highlight: true,
-        features: ['Everything in Solo, for each member', 'Shared collaborative workspace', 'Company memory pooled across agents', 'Alma interviews each colleague', 'Roles and permissions per agent', 'Shared skills and processes', 'Team dashboard', 'Centralized billing', 'Priority support'],
+        features: ['Everything in Executive, for each member', 'Shared collaborative workspace', 'Company memory pooled across agents', 'Alma interviews each colleague', 'Roles and permissions per agent', 'Shared skills and processes', 'Team dashboard', 'Centralized billing', 'Priority support'],
       },
       {
         name: 'Business', price: 'Custom quote', period: 'private infrastructure',

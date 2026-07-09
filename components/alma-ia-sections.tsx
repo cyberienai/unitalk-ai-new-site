@@ -42,7 +42,7 @@ const T = {
       'Des données hors cadre',
     ],
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "C'est pourquoi nous avons créé Unitalk : la première interface Web collaborative pour les agents Hermès. Une IA qui travaille avec toute votre organisation, pas à côté d'elle.",
+    dispConclusion: "D'où Unitalk : la première interface Web collaborative pour les agents Hermès. Une IA intégrée à votre organisation, pas en marge d'elle.",
   },
   en: {
     almaEyebrow: 'Voice assistance for onboarding',
@@ -77,7 +77,7 @@ const T = {
       'Data outside your control',
     ],
     dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
-    dispConclusion: "That's why we built Unitalk: the first collaborative web interface for Hermès agents. An AI that works with your whole organization, not alongside it.",
+    dispConclusion: "Enter Unitalk: the first collaborative web interface for Hermès agents. An AI integrated into your organization, not at its margins.",
   },
 }
 
