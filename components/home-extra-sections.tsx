@@ -308,7 +308,7 @@ const OFFERS = [
     icon: Server,
     subtitle: 'Vos agents sur votre serveur IA privé.',
     text: 'Déployez des Collaborateurs IA dans une infrastructure privée avec vos données et vos API.',
-    price: 'À partir de 990€',
+    price: '299€',
     priceNote: '/mois',
     points: [
       'Serveur IA privé',
