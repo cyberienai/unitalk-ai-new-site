@@ -42,7 +42,7 @@ const T = {
       'Des données hors cadre',
     ],
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "Unitalk crée une intelligence collective : humains et agents IA collaborent, chacun dans son rôle, pour accomplir ce qui était impossible seul. Vous gardez le contrôle, vos données restent les vôtres, votre IA grandit avec vous.",
+    dispConclusion: "C'est pourquoi nous avons créé Unitalk : la première interface Web collaborative pour les agents Hermès. Une IA qui travaille avec toute votre organisation, pas à côté d'elle.",
   },
   en: {
     almaEyebrow: 'Voice assistance for onboarding',
@@ -77,7 +77,7 @@ const T = {
       'Data outside your control',
     ],
     dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
-    dispConclusion: "Unitalk creates collective intelligence: humans and AI agents collaborate, each in their role, to accomplish what was impossible alone. You keep control, your data stays yours, your AI grows with you.",
+    dispConclusion: "That's why we built Unitalk: the first collaborative web interface for Hermès agents. An AI that works with your whole organization, not alongside it.",
   },
 }
 
