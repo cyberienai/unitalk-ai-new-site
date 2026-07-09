@@ -198,8 +198,8 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <div className="h-12" />
 
-          {/* Before/After comparison */}
-          <div className="mb-16 grid gap-6 lg:grid-cols-2">
+          {/* Before/After comparison with visual diagram */}
+          <div className="mb-16 grid gap-8 lg:grid-cols-2">
             {/* Before - Sans Unitalk */}
             <motion.div
               className="rounded-2xl border border-[#D10E63]/25 bg-gradient-to-br from-[#D10E63]/15 to-transparent p-6 sm:p-8"
@@ -208,12 +208,29 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
             >
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D10E63]/25 text-[#F1729F]">
                   <X className="h-5 w-5" />
                 </div>
                 <h4 className="text-lg font-bold text-[#F7F4EE]">Sans Unitalk</h4>
               </div>
+              
+              {/* Chaos diagram */}
+              <div className="mb-6 h-32 flex items-center justify-center relative">
+                <div className="grid grid-cols-2 gap-3 w-full">
+                  <div className="flex h-10 items-center justify-center rounded-lg bg-[#D10E63]/20 text-[#F1729F] text-xs font-semibold">Chat</div>
+                  <div className="flex h-10 items-center justify-center rounded-lg bg-[#D10E63]/20 text-[#F1729F] text-xs font-semibold">Email</div>
+                  <div className="flex h-10 items-center justify-center rounded-lg bg-[#D10E63]/20 text-[#F1729F] text-xs font-semibold">Drive</div>
+                  <div className="flex h-10 items-center justify-center rounded-lg bg-[#D10E63]/20 text-[#F1729F] text-xs font-semibold">Slack</div>
+                </div>
+                {/* Arrows showing chaos */}
+                <svg className="absolute inset-0 w-full h-full" style={{ filter: 'drop-shadow(0 0 8px rgba(209,14,99,0.2))' }}>
+                  <line x1="30%" y1="20%" x2="70%" y2="80%" stroke="#D10E63" strokeWidth="1.5" opacity="0.3" strokeDasharray="3,3" />
+                  <line x1="70%" y1="20%" x2="30%" y2="80%" stroke="#D10E63" strokeWidth="1.5" opacity="0.3" strokeDasharray="3,3" />
+                  <line x1="50%" y1="10%" x2="50%" y2="90%" stroke="#D10E63" strokeWidth="1.5" opacity="0.3" strokeDasharray="3,3" />
+                </svg>
+              </div>
+              
               <p className="text-sm leading-relaxed text-[#C4BCAE]">5 outils, données éparses, contexte fragmenté. Vos équipes doivent jongler entre les outils et réinventer le contexte à chaque fois.</p>
             </motion.div>
 
@@ -225,12 +242,37 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
             >
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D10E63]/30 text-[#D10E63]">
                   <CheckCircle2 className="h-5 w-5" />
                 </div>
                 <h4 className="text-lg font-bold text-[#FBF9F3]">Avec Unitalk</h4>
               </div>
+              
+              {/* Unified diagram */}
+              <div className="mb-6 h-32 flex items-center justify-center relative">
+                <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D10E63]/30 to-[#D10E63]/10 border-2 border-[#D10E63]/40">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-[#D10E63]">U</div>
+                    <div className="text-xs font-semibold text-[#D10E63]/80">Platform</div>
+                  </div>
+                </div>
+                {/* Arrows showing order and connection */}
+                <svg className="absolute inset-0 w-full h-full" style={{ filter: 'drop-shadow(0 0 8px rgba(209,14,99,0.3))' }}>
+                  <circle cx="15%" cy="30%" r="6" fill="#D10E63" opacity="0.3" />
+                  <line x1="15%" y1="30%" x2="50%" y2="50%" stroke="#D10E63" strokeWidth="2" opacity="0.5" strokeLinecap="round" />
+                  
+                  <circle cx="85%" cy="30%" r="6" fill="#D10E63" opacity="0.3" />
+                  <line x1="85%" y1="30%" x2="50%" y2="50%" stroke="#D10E63" strokeWidth="2" opacity="0.5" strokeLinecap="round" />
+                  
+                  <circle cx="20%" cy="80%" r="6" fill="#D10E63" opacity="0.3" />
+                  <line x1="20%" y1="80%" x2="50%" y2="50%" stroke="#D10E63" strokeWidth="2" opacity="0.5" strokeLinecap="round" />
+                  
+                  <circle cx="80%" cy="80%" r="6" fill="#D10E63" opacity="0.3" />
+                  <line x1="80%" y1="80%" x2="50%" y2="50%" stroke="#D10E63" strokeWidth="2" opacity="0.5" strokeLinecap="round" />
+                </svg>
+              </div>
+              
               <p className="text-sm leading-relaxed text-[#F7F4EE]">1 plateforme, mémoire unifiée, contexte partagé. Vos équipes et leurs agents travaillent dans le même espace avec la même intelligence.</p>
             </motion.div>
           </div>

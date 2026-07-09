@@ -308,9 +308,15 @@ const OFFERS = [
 
 export function OffersSection() {
   return (
-    <section id="offres" className="relative w-full bg-gradient-to-b from-[#F3EFE6] to-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
-      <div className="mx-auto max-w-6xl">
-        <div className="mx-auto mb-16 max-w-2xl">
+    <section id="offres" className="relative w-full bg-gradient-to-b from-[#F3EFE6] via-[#F9F6EE] to-[#F0EBE3] px-5 py-20 sm:px-6 sm:py-32 lg:px-8">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#D10E63]/4 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-[#D10E63]/3 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative mx-auto max-w-6xl">
+        <div className="mx-auto mb-20 max-w-3xl">
           <SectionHeader
             eyebrow="Unitalk AI Cloud"
             title="Une offre qui "
@@ -318,23 +324,26 @@ export function OffersSection() {
             accentNewLine
             align="center"
           />
+          <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed text-[#4E483F]">
+            Démarrez seul ou avec votre équipe. Scalez votre infrastructure IA sans compromis.
+          </p>
         </div>
 
-        <div className="grid items-start gap-6 lg:grid-cols-2">
+        <div className="grid items-start gap-8 lg:grid-cols-2">
           {OFFERS.map((o, i) => {
             const Icon = o.icon
             return (
               <motion.div
                 key={o.name}
-                className={`group relative flex flex-col rounded-3xl border p-8 sm:p-10 transition-all duration-300 ${
+                className={`group relative flex flex-col rounded-3xl border backdrop-blur-xs p-8 sm:p-12 transition-all duration-300 ${
                   o.featured
-                    ? 'border-[#D10E63]/40 bg-gradient-to-br from-[#FBF9F3] to-[#F7F4EE] shadow-[0_20px_80px_-20px_rgba(209,14,99,0.4)] hover:-translate-y-2'
-                    : 'border-[#D10E63]/25 bg-gradient-to-br from-[#FBF9F3] to-[#F9F7F2] hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_16px_48px_-12px_rgba(209,14,99,0.2)]'
+                    ? 'border-[#D10E63]/50 bg-gradient-to-br from-[#FBF9F3]/95 to-[#F7F4EE]/90 shadow-[0_30px_100px_-20px_rgba(209,14,99,0.5)] ring-1 ring-[#D10E63]/20 hover:-translate-y-3 hover:shadow-[0_40px_120px_-20px_rgba(209,14,99,0.6)]'
+                    : 'border-[#D10E63]/30 bg-gradient-to-br from-[#FBF9F3]/90 to-[#F9F7F2]/85 hover:-translate-y-2 hover:border-[#D10E63]/50 hover:shadow-[0_20px_60px_-12px_rgba(209,14,99,0.25)]'
                 }`}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 }}
               >
                 {o.badge && (
                   <span
@@ -347,30 +356,32 @@ export function OffersSection() {
                 )}
 
                 <span
-                  className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${
-                    o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#1C1A17] text-[#FBF9F3]'
+                  className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-300 group-hover:scale-110 ${
+                    o.featured 
+                      ? 'bg-gradient-to-br from-[#D10E63] to-[#B00B52] text-[#FBF9F3] group-hover:shadow-lg group-hover:shadow-[#D10E63]/40' 
+                      : 'bg-gradient-to-br from-[#1C1A17]/80 to-[#1C1A17] text-[#FBF9F3]'
                   }`}
                 >
-                  <Icon className="h-6 w-6" strokeWidth={1.6} />
+                  <Icon className="h-7 w-7" strokeWidth={1.6} />
                 </span>
 
-                <h3 className="mb-1 text-2xl font-bold text-[#1C1A17]">{o.name}</h3>
-                <p className="mb-5 text-sm font-medium text-[#4E483F]">{o.subtitle}</p>
+                <h3 className="mb-2 text-3xl font-bold leading-tight text-[#1C1A17] group-hover:text-[#D10E63] transition-colors duration-300">{o.name}</h3>
+                <p className="mb-6 text-base font-semibold text-[#D10E63]">{o.subtitle}</p>
 
-                <div className="mb-5 flex items-baseline gap-1.5">
-                  <span className="text-3xl font-bold text-[#1C1A17]">{o.price}</span>
-                  <span className="text-sm text-[#857C6E]">{o.priceNote}</span>
+                <div className="mb-7 flex items-baseline gap-2">
+                  <span className="text-5xl font-bold text-[#1C1A17]">{o.price}</span>
+                  <span className="text-base font-medium text-[#857C6E]">{o.priceNote}</span>
                 </div>
 
-                <div className="mb-6 h-px w-full bg-[#DcD4C4]" />
+                <div className="mb-7 h-1.5 w-12 bg-gradient-to-r from-[#D10E63] to-[#D10E63]/30 rounded-full" />
 
-                <p className="mb-6 text-sm leading-relaxed text-[#857C6E]">{o.text}</p>
+                <p className="mb-8 text-base leading-relaxed text-[#4E483F] font-medium">{o.text}</p>
 
-                <ul className="mb-8 flex-1 space-y-3">
+                <ul className="mb-10 flex-1 space-y-4">
                   {o.points.map((p) => (
-                    <li key={p} className="flex items-start gap-2.5 text-sm text-[#4E483F]">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
-                      {p}
+                    <li key={p} className="flex items-start gap-3 text-sm font-medium text-[#1C1A17] group/item">
+                      <Check className="mt-1 h-5 w-5 shrink-0 text-[#D10E63] group-hover/item:scale-110 transition-transform" />
+                      <span className="leading-relaxed">{p}</span>
                     </li>
                   ))}
                 </ul>
@@ -388,23 +399,26 @@ export function OffersSection() {
                 </a>
 
                 {/* Trust badges */}
-                <div className="mt-6 flex flex-wrap gap-2 border-t border-[#DcD4C4] pt-5">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
-                    <Check className="h-3.5 w-3.5" />
-                    Aucune carte bancaire
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
-                    <Check className="h-3.5 w-3.5" />
-                    7 jours gratuit
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
-                    <Check className="h-3.5 w-3.5" />
-                    Prêt en 5 mn
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/8 px-3 py-1.5 text-xs font-semibold text-[#D10E63]">
-                    <Check className="h-3.5 w-3.5" />
-                    Hébergé en France
-                  </span>
+                <div className="mt-8 pt-8 border-t border-[#DcD4C4]/50 space-y-3">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#857C6E] mb-4">Avantages</p>
+                  <div className="flex flex-wrap gap-2.5">
+                    <span className="inline-flex items-center gap-2 rounded-lg bg-[#D10E63]/12 px-4 py-2 text-xs font-semibold text-[#D10E63] hover:bg-[#D10E63]/18 transition-colors">
+                      <Check className="h-4 w-4 flex-shrink-0" />
+                      Aucune carte bancaire
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-lg bg-[#D10E63]/12 px-4 py-2 text-xs font-semibold text-[#D10E63] hover:bg-[#D10E63]/18 transition-colors">
+                      <Check className="h-4 w-4 flex-shrink-0" />
+                      7 jours gratuit
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-lg bg-[#D10E63]/12 px-4 py-2 text-xs font-semibold text-[#D10E63] hover:bg-[#D10E63]/18 transition-colors">
+                      <Check className="h-4 w-4 flex-shrink-0" />
+                      Prêt en 5 mn
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-lg bg-[#D10E63]/12 px-4 py-2 text-xs font-semibold text-[#D10E63] hover:bg-[#D10E63]/18 transition-colors">
+                      <Check className="h-4 w-4 flex-shrink-0" />
+                      Hébergé en France
+                    </span>
+                  </div>
                 </div>
               </motion.div>
             )
