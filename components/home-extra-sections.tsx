@@ -301,14 +301,14 @@ const OFFERS = [
     ],
     cta: 'Découvrir Teams',
     href: '/teams',
-    badge: 'Exclusif',
+    badge: 'Collaboration active',
     featured: false,
   },
 ]
 
 export function OffersSection() {
   return (
-    <section id="offres" className="w-full bg-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <section id="offres" className="relative w-full bg-gradient-to-b from-[#F3EFE6] to-[#EFE9DC] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto mb-16 max-w-2xl">
           <SectionHeader
@@ -320,16 +320,16 @@ export function OffersSection() {
           />
         </div>
 
-        <div className="grid items-start gap-6 lg:grid-cols-3">
+        <div className="grid items-start gap-6 lg:grid-cols-2">
           {OFFERS.map((o, i) => {
             const Icon = o.icon
             return (
               <motion.div
                 key={o.name}
-                className={`group relative flex flex-col rounded-2xl border p-8 transition-all ${
+                className={`group relative flex flex-col rounded-3xl border p-8 sm:p-10 transition-all duration-300 ${
                   o.featured
-                    ? 'border-[#D10E63]/40 bg-[#FBF9F3] shadow-[0_20px_60px_-20px_rgba(209,14,99,0.35)]'
-                    : 'border-[#DcD4C4] bg-[#FBF9F3] hover:-translate-y-1 hover:border-[#D10E63]/20 hover:shadow-[0_12px_40px_-12px_rgba(28,26,23,0.2)]'
+                    ? 'border-[#D10E63]/40 bg-gradient-to-br from-[#FBF9F3] to-[#F7F4EE] shadow-[0_20px_80px_-20px_rgba(209,14,99,0.4)] hover:-translate-y-2'
+                    : 'border-[#D10E63]/25 bg-gradient-to-br from-[#FBF9F3] to-[#F9F7F2] hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_16px_48px_-12px_rgba(209,14,99,0.2)]'
                 }`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -338,8 +338,8 @@ export function OffersSection() {
               >
                 {o.badge && (
                   <span
-                    className={`absolute right-6 top-6 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                      o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#1C1A17]/8 text-[#1C1A17]'
+                    className={`absolute right-6 top-6 inline-flex items-center rounded-full px-4 py-1.5 text-xs font-bold tracking-wide ${
+                      o.featured ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#D10E63]/15 text-[#D10E63]'
                     }`}
                   >
                     {o.badge}
