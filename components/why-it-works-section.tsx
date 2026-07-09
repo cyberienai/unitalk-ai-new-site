@@ -15,13 +15,13 @@ const T = {
       },
       {
         icon: Users,
-        title: 'Agents Autonomes',
-        description: 'Propulsés par Hermès, nos agents raisonnent, planifient et exécutent. Dans une interface collaborative exclusive où humains et agents travaillent ensemble.',
+        title: 'Collaboration Active',
+        description: 'Hermès les propulse. Vos équipes et vos agents raisonnent ensemble, décident ensemble, exécutent ensemble.',
       },
       {
         icon: User,
         title: 'Vrais Collaborateurs',
-        description: 'Des agents avec leur propre identité, compétences et mémoire persistante. Chacun a son rôle, sa personnalité, sa mémoire. Tout inclus, aucune compétence technique nécessaire.',
+        description: 'Chaque agent a une identité, une voix, un rôle. Ils grandissent, apprennent, se souviennent. Des collègues, vraiment.',
       },
     ],
   },
@@ -35,13 +35,13 @@ const T = {
       },
       {
         icon: Users,
-        title: 'Autonomous Agents',
-        description: 'Powered by Hermès, our agents reason, plan, and execute. In an exclusive collaborative interface where humans and agents work together.',
+        title: 'Active Collaboration',
+        description: 'Hermès powers them. Your teams and your agents reason together, decide together, execute together.',
       },
       {
         icon: User,
         title: 'Real Collaborators',
-        description: 'Agents with their own identity, skills, and persistent memory. Each one has its role, personality, and memory. Everything included, no technical skills required.',
+        description: 'Each agent has an identity, a voice, a role. They grow, learn, remember. Colleagues, truly.',
       },
     ],
   },
