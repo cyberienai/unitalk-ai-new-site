@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Brain, Zap, Package } from 'lucide-react'
+import { Brain, Users, User } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 const T = {
@@ -14,14 +14,14 @@ const T = {
         description: 'Votre équipe et ses agents travaillent dans le même contexte, les mêmes décisions, la même mémoire d\'entreprise.',
       },
       {
-        icon: Zap,
+        icon: Users,
         title: 'Agents Autonomes',
         description: 'Propulsés par Hermès, nos agents raisonnent, planifient et exécutent. Dans une interface collaborative exclusive où humains et agents travaillent ensemble.',
       },
       {
-        icon: Package,
-        title: 'Tout-en-un',
-        description: 'Des agents avec leur propre identité, compétences et mémoire persistante. De vrais collaborateurs, pas juste des outils. Tout inclus, aucune compétence technique nécessaire.',
+        icon: User,
+        title: 'Vrais Collaborateurs',
+        description: 'Des agents avec leur propre identité, compétences et mémoire persistante. Chacun a son rôle, sa personnalité, sa mémoire. Tout inclus, aucune compétence technique nécessaire.',
       },
     ],
   },
@@ -34,14 +34,14 @@ const T = {
         description: 'Your team and its agents work in the same context, decisions, and company memory.',
       },
       {
-        icon: Zap,
+        icon: Users,
         title: 'Autonomous Agents',
         description: 'Powered by Hermès, our agents reason, plan, and execute. In an exclusive collaborative interface where humans and agents work together.',
       },
       {
-        icon: Package,
-        title: 'All-in-One',
-        description: 'Agents with their own identity, skills, and persistent memory. Real collaborators, not just tools. Everything included, no technical skills required.',
+        icon: User,
+        title: 'Real Collaborators',
+        description: 'Agents with their own identity, skills, and persistent memory. Each one has its role, personality, and memory. Everything included, no technical skills required.',
       },
     ],
   },
