@@ -306,7 +306,7 @@ const OFFERS = [
   {
     name: 'Business',
     icon: Server,
-    subtitle: 'Vos agents, vos apps, votre serveur dédié.',
+    subtitle: 'Vos agents sur votre serveur IA dédié.',
     text: 'Déployez des Collaborateurs IA dans une infrastructure privée avec vos données et vos API.',
     price: 'À partir de 990€',
     priceNote: '/mois',
