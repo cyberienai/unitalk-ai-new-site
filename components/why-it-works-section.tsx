@@ -21,7 +21,7 @@ const T = {
       {
         icon: IdCard,
         title: 'Vrais Collaborateurs',
-        description: 'Chaque agent a une identité, une voix, un rôle. Ils grandissent, apprennent, se souviennent. Des collègues, vraiment.',
+        description: 'Chaque agent a une identité, une voix, un rôle. Ils grandissent, apprennent, se souviennent. Des agents autonomes, vraiment.',
       },
     ],
   },
@@ -41,7 +41,7 @@ const T = {
       {
         icon: IdCard,
         title: 'Real Collaborators',
-        description: 'Each agent has an identity, a voice, a role. They grow, learn, remember. Colleagues, truly.',
+        description: 'Each agent has an identity, a voice, a role. They grow, learn, remember. Autonomous agents, truly.',
       },
     ],
   },
