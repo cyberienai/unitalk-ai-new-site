@@ -333,7 +333,7 @@ export function OffersSection() {
           <SectionHeader
             eyebrow="Unitalk AI Cloud"
             title="Alma vous interview et configure votre agent. "
-            titleAccent="Une mise en service personnalisée en 5 étapes."
+            titleAccent="Une mise en service personnalisée en 5 mn."
             accentNewLine
             align="center"
           />
