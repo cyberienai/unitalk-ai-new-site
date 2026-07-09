@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, X, ArrowLeftRight } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight, CheckCircle2 } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const T = {
@@ -213,6 +213,43 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <SectionHeader eyebrow={t.dispEyebrow} title={t.dispTitle} titleAccent={t.dispTitleAccent} subtitle={t.dispIntro} dark />
 
           <div className="h-12" />
+
+          {/* Before/After comparison */}
+          <div className="mb-16 grid gap-6 lg:grid-cols-2">
+            {/* Before - Sans Unitalk */}
+            <motion.div
+              className="rounded-2xl border border-[#D10E63]/25 bg-gradient-to-br from-[#D10E63]/15 to-transparent p-6 sm:p-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D10E63]/25 text-[#F1729F]">
+                  <X className="h-5 w-5" />
+                </div>
+                <h4 className="text-lg font-bold text-[#F7F4EE]">Sans Unitalk</h4>
+              </div>
+              <p className="text-sm leading-relaxed text-[#C4BCAE]">5 outils, données éparses, contexte fragmenté. Vos équipes doivent jongler entre les outils et réinventer le contexte à chaque fois.</p>
+            </motion.div>
+
+            {/* After - Avec Unitalk */}
+            <motion.div
+              className="rounded-2xl border border-[#D10E63]/40 bg-gradient-to-br from-[#D10E63]/20 to-[#D10E63]/5 p-6 sm:p-8"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D10E63]/30 text-[#D10E63]">
+                  <CheckCircle2 className="h-5 w-5" />
+                </div>
+                <h4 className="text-lg font-bold text-[#FBF9F3]">Avec Unitalk</h4>
+              </div>
+              <p className="text-sm leading-relaxed text-[#F7F4EE]">1 plateforme, mémoire unifiée, contexte partagé. Vos équipes et leurs agents travaillent dans le même espace avec la même intelligence.</p>
+            </motion.div>
+          </div>
 
           {/* problems grid - improved typography & layout */}
           <div className="mb-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

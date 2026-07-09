@@ -20,6 +20,10 @@ const T = {
       { icon: Unlock, label: '7 jours gratuits' },
       { icon: MapPin, label: 'Hébergé en France' },
     ],
+    example: {
+      text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
+      icon: Zap,
+    },
     ctaSecondary: 'Voir comment ça marche',
     sofiaTitle: 'Votre premier Collaborateur IA',
     sofiaName: 'Alex',
@@ -148,6 +152,10 @@ const T = {
       { icon: Unlock, label: 'No commitment' },
       { icon: MapPin, label: 'Hosted in France' },
     ],
+    example: {
+      text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
+      icon: Zap,
+    },
     ctaSecondary: 'See how it works',
     sofiaTitle: 'Your first AI Collaborator',
     sofiaName: 'Alex',
@@ -411,6 +419,19 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               )
             })}
           </motion.ul>
+
+          {/* Concrete example — mini case study */}
+          <motion.div
+            className="mt-8 flex items-start gap-3 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/8 p-4 sm:p-5"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.32 }}
+          >
+            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/20 text-[#D10E63]">
+              <Zap className="h-4 w-4" />
+            </div>
+            <p className="text-sm font-medium leading-relaxed text-[#1C1A17]">{t.example.text}</p>
+          </motion.div>
         </div>
 
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.

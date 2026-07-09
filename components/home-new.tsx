@@ -2,6 +2,7 @@
 
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
+import { WhyItWorksSection } from './why-it-works-section'
 import { AlmaIaSections } from './alma-ia-sections'
 import { CoreProductCards } from './core-product-cards'
 import {
@@ -21,6 +22,9 @@ export function HomeNew() {
 
       {/* 2 + 3. Hero 2 colonnes + carte Sofia */}
       <HeroNew lang="fr" />
+
+      {/* 3.5. Why It Works — 3 pillars */}
+      <WhyItWorksSection />
 
       {/* 4 + 5. Alma onboarding + IA dispersée */}
       <AlmaIaSections lang="fr" />
