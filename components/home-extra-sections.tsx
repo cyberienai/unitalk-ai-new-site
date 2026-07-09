@@ -273,7 +273,7 @@ const OFFERS = [
     price: '29€',
     priceNote: '/mois',
     points: [
-      '1 agent IA autonome et personnalisé',
+      '1 agent Hermès autonome et personnalisé',
       'Accès à 10 profils professionnels',
       'Mémoire persistante & apprentissage continu',
       'Email, calendrier, téléphone intégrés',

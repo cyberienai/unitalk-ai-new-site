@@ -10,17 +10,17 @@ const T = {
     pillars: [
       {
         icon: Brain,
-        title: 'Mémoire Partagée',
+        title: 'Une Mémoire Partagée',
         description: 'Votre équipe et ses agents travaillent dans le même contexte, les mêmes décisions, la même mémoire d\'entreprise.',
       },
       {
         icon: Users,
-        title: 'Collaboration Active',
+        title: 'Une Collaboration Active',
         description: 'L\'agent Hermès les propulse. Vos équipes et vos agents raisonnent ensemble, décident ensemble, exécutent ensemble.',
       },
       {
         icon: IdCard,
-        title: 'Vrais Collaborateurs',
+        title: 'De Vrais Collaborateurs IA',
         description: 'Chaque agent a une identité, une voix, un rôle. Ils grandissent, apprennent, se souviennent. Des agents autonomes, vraiment.',
       },
     ],
@@ -30,7 +30,7 @@ const T = {
     pillars: [
       {
         icon: Brain,
-        title: 'Shared Memory',
+        title: 'A Shared Memory',
         description: 'Your team and its agents work in the same context, decisions, and company memory.',
       },
       {
@@ -40,7 +40,7 @@ const T = {
       },
       {
         icon: IdCard,
-        title: 'Real Collaborators',
+        title: 'Real AI Collaborators',
         description: 'Each agent has an identity, a voice, a role. They grow, learn, remember. Autonomous agents, truly.',
       },
     ],
