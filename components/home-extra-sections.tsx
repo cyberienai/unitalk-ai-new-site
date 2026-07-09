@@ -270,8 +270,8 @@ const OFFERS = [
     icon: User,
     subtitle: 'Votre premier vrai collaborateur IA.',
     text: 'Pour indépendant, dirigeant, consultant, créateur ou solopreneur.',
-    price: 'Gratuit',
-    priceNote: 'puis 29€/mois',
+    price: '29€',
+    priceNote: '/mois',
     points: [
       '1 Collaborateur IA personnel',
       '10 profils prêts à l\u2019emploi',
@@ -281,7 +281,7 @@ const OFFERS = [
     ],
     cta: 'Découvrir Executive',
     href: '/solo',
-    badge: 'Populaire',
+    badge: '7 jours gratuit',
     featured: true,
   },
   {
@@ -300,18 +300,18 @@ const OFFERS = [
     ],
     cta: 'Découvrir Teams',
     href: '/teams',
-    badge: null,
+    badge: 'Exclusif',
     featured: false,
   },
   {
     name: 'Business',
     icon: Server,
-    subtitle: 'Vos agents sur votre serveur IA dédié.',
+    subtitle: 'Vos agents sur votre serveur IA privé.',
     text: 'Déployez des Collaborateurs IA dans une infrastructure privée avec vos données et vos API.',
     price: 'À partir de 990€',
     priceNote: '/mois',
     points: [
-      'Serveur IA dédié',
+      'Serveur IA privé',
       'Apps natives : n8n, Twenty, Payload, Stalwart',
       'Modèles au choix',
       'Gouvernance et souveraineté',
@@ -319,7 +319,7 @@ const OFFERS = [
     ],
     cta: 'Découvrir Business',
     href: '/business',
-    badge: 'Serveur dédié',
+    badge: 'Serveur privé',
     featured: false,
   },
 ]
@@ -417,11 +417,11 @@ export function OffersSection() {
 
 const FAQ = [
   {
-    q: "Qu'est-ce qu'un Collaborateur IA ?",
+    q: "Qu'est-ce qu'un Collaborateur IA Unitalk ?",
     a: "Un Collaborateur IA Unitalk est un agent Hermes doté d'une identité, d'une intelligence, d'une mémoire, de compétences, d'outils, de ressources et d'instructions de travail. Il peut raisonner, planifier, exécuter, apprendre et collaborer.",
   },
   {
-    q: 'Est-ce que je dois connaître Hermes ?',
+    q: 'Dois-je connaître l\'agent Hermes ?',
     a: "Non. Hermes Agent est la base open source qui propulse les agents. Unitalk s'occupe de l'expérience, de l'infrastructure, de la mémoire, des modèles et de l'adoption.",
   },
   {
