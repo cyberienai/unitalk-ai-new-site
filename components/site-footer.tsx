@@ -15,7 +15,7 @@ const COMPARISONS = [
 
 const T = {
   fr: {
-    tagline: 'Connecting humans and certified agents',
+    tagline: 'Own your intelligence',
     comparisons: 'Comparatifs',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
@@ -54,7 +54,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'Connecting humans and certified agents',
+    tagline: 'Own your intelligence',
     comparisons: 'Comparisons',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
