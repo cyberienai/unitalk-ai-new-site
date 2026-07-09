@@ -289,7 +289,7 @@ const OFFERS = [
     icon: Users,
     subtitle: 'Toute votre équipe, augmentée.',
     text: 'Chaque employé dispose de son agent. Toute l\u2019équipe partage un contexte commun.',
-    price: '49€',
+    price: '19€',
     priceNote: '/mois par collaborateur IA',
     points: [
       '1 agent par collaborateur IA',
