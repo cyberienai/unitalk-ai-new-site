@@ -32,7 +32,7 @@ const T = {
     dispTitle: "Vos équipes utilisent l'IA. ",
     dispTitleAccent: "Mais chacun de son côté.",
     dispIntro:
-      "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est la dispersion : chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
+      "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est la dispersion\u00A0: chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
     dispProblems: [
       'Des comptes individuels',
       'Des conversations isolées',
