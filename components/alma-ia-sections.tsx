@@ -33,14 +33,6 @@ const T = {
     dispTitleAccent: "Mais chacun de son côté.",
     dispIntro:
       "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est\u00A0la\u00A0dispersion\u00A0: chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
-    dispProblems: [
-      'Des comptes individuels',
-      'Des conversations isolées',
-      'Des prompts qui disparaissent',
-      'Des méthodes jamais partagées',
-      'Une mémoire qui se perd',
-      'Des données hors cadre',
-    ],
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
     dispConclusion: "Unitalk réunit vos équipes et leurs agents IA autour d'une même mémoire. Fini le désordre, place à la vraie collaboration.",
   },
@@ -68,14 +60,6 @@ const T = {
     dispTitle: "Your teams use AI. ",
     dispTitleAccent: "But each on their own.",
     dispIntro: "Your teams already use AI. The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. It's time to hire real AI collaborators.",
-    dispProblems: [
-      'Individual accounts',
-      'Isolated conversations',
-      'Prompts that disappear',
-      'Methods never shared',
-      'Memory that gets lost',
-      'Data outside your control',
-    ],
     dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
     dispConclusion: "Unitalk brings your teams and their AI agents together around shared memory. No more chaos, just real collaboration.",
   },
@@ -249,25 +233,6 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
               <p className="text-sm leading-relaxed text-[#F7F4EE]">1 plateforme, mémoire unifiée, contexte partagé. Vos équipes et leurs agents travaillent dans le même espace avec la même intelligence.</p>
             </motion.div>
-          </div>
-
-          {/* problems grid - improved typography & layout */}
-          <div className="mb-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {t.dispProblems.map((problem, i) => (
-              <motion.div
-                key={problem}
-                className="group flex items-start gap-4 rounded-xl border border-[#D10E63]/20 bg-gradient-to-br from-[#D10E63]/8 to-[#D10E63]/3 px-5 py-4 transition-all hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10"
-                initial={{ opacity: 0, y: 16, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.4, delay: i * 0.07, ease: 'easeOut' }}
-              >
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/20 text-[#F1729F] transition-all group-hover:bg-[#D10E63]/30 group-hover:scale-110">
-                  <X className="h-3.5 w-3.5" />
-                </span>
-                <p className="text-sm font-medium leading-relaxed text-[#E8DFD5]">{problem}</p>
-              </motion.div>
-            ))}
           </div>
 
           {/* Solution section */}
