@@ -288,7 +288,7 @@ const OFFERS = [
   {
     name: 'Teams',
     icon: Users,
-    subtitle: 'Toute votre équipe, augmentée.',
+    subtitle: 'Toute votre équipe, augmentée par Hermès.',
     text: 'Chaque employé dispose de son agent. Toute l\u2019équipe partage un contexte commun.',
     price: '25€',
     priceNote: '/mois par collaborateur IA',
