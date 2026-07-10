@@ -325,7 +325,9 @@ export function OffersSection() {
             align="center"
           />
           <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed text-[#4E483F]">
-            Démarrez seul ou avec votre équipe. Scalez votre infrastructure IA sans compromis.
+            Démarrez seul ou avec votre équipe en 5 mn.
+            <br />
+            Scalez votre infrastructure IA sans compromis.
           </p>
         </div>
 
