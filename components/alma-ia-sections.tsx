@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronRight, X, ArrowLeftRight, CheckCircle2 } from 'lucide-react'
 import { SectionHeader } from './section-header'
@@ -200,31 +201,52 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           }}
         />
 
-        <div className="relative mx-auto max-w-5xl">
-          <SectionHeader eyebrow={t.dispEyebrow} title={t.dispTitle} titleAccent={t.dispTitleAccent} subtitle={t.dispIntro} dark />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Left column — content */}
+          <div>
+            <SectionHeader eyebrow={t.dispEyebrow} title={t.dispTitle} titleAccent={t.dispTitleAccent} subtitle={t.dispIntro} dark />
 
-          <div className="h-12" />
+            <div className="h-10" />
 
+            {/* Solution section */}
+            <div className="rounded-2xl border-l-4 border-[#D10E63] bg-gradient-to-r from-[#D10E63]/10 to-transparent px-6 py-6 sm:px-8 sm:py-8">
+              <p className="text-lg font-semibold leading-relaxed text-[#F7F4EE]">
+                <span className="font-bold text-white">Unitalk</span>{' '}
+                {t.dispConclusion.replace('Unitalk ', '')}
+              </p>
+              <p className="mt-3 text-lg font-semibold leading-relaxed text-[#D10E63]">
+                {t.dispConclusionAccent}
+              </p>
 
-
-          {/* Solution section */}
-          <div className="rounded-2xl border-l-4 border-[#D10E63] bg-gradient-to-r from-[#D10E63]/10 to-transparent px-6 py-6 sm:px-8 sm:py-8">
-            <p className="text-lg font-semibold leading-relaxed text-[#F7F4EE]">
-              <span className="font-bold text-white">Unitalk</span>{' '}
-              {t.dispConclusion.replace('Unitalk ', '')}
-            </p>
-            <p className="mt-3 text-lg font-semibold leading-relaxed text-[#D10E63]">
-              {t.dispConclusionAccent}
-            </p>
-            
-            {/* CTA Button */}
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
-                {t.dispCta}
-                <ChevronRight className="h-4 w-4" />
-              </button>
+              {/* CTA Button */}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
+                  {t.dispCta}
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
+
+          {/* Right column — app screenshot */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
+              <Image
+                src="/images/unitalk-collaborative-workspace.png"
+                alt={lang === 'fr' ? "Espace de travail collaboratif Unitalk réunissant l'équipe et les agents IA" : 'Unitalk collaborative workspace bringing the team and AI agents together'}
+                width={1024}
+                height={1024}
+                className="h-auto w-full"
+                priority={false}
+              />
+            </div>
+          </motion.div>
         </div>
     </section>
   )
