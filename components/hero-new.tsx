@@ -30,10 +30,10 @@ const T = {
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Recruter mon collaborateur',
     ctaProofs: [
+      { icon: MapPin, label: 'Hébergé en France' },
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
       { icon: Unlock, label: 'Aucun engagement' },
       { icon: Gift, label: '7 jours gratuits' },
-      { icon: MapPin, label: 'Hébergé en France' },
     ],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
@@ -172,10 +172,10 @@ const T = {
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Recruit my collaborator',
     ctaProofs: [
+      { icon: MapPin, label: 'Hosted in France' },
       { icon: Clock, label: 'Ready to work in 5 min' },
       { icon: Unlock, label: 'No commitment' },
       { icon: Gift, label: '7 days free' },
-      { icon: MapPin, label: 'Hosted in France' },
     ],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
