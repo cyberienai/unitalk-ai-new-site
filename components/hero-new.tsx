@@ -334,10 +334,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       {/* Faint ink rule grid — same editorial backdrop as the solo hero */}
       <div
         aria-hidden="true"
-        className="bg-grid pointer-events-none absolute inset-0 opacity-35"
+        className="bg-grid pointer-events-none absolute inset-0 opacity-20"
         style={{
-          maskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
-          WebkitMaskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
+          maskImage: 'radial-gradient(100% 70% at 50% 0%, #000 10%, transparent 65%)',
+          WebkitMaskImage: 'radial-gradient(100% 70% at 50% 0%, #000 10%, transparent 65%)',
         }}
       />
 
