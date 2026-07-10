@@ -20,7 +20,7 @@ const T = {
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
-      'Avec des noms, des compétences, une mémoire partagée. Donnez-leur des objectifs. Ils travaillent seuls ou avec votre équipe, 24h/24.',
+      'Un nom, une mémoire partagée, des compétences. Donnez-leur des objectifs. Ils travaillent seuls ou avec vous, 24h/24.',
     manifesto: ['Apprend', 'Se souvient', 'Collabore', 'Progresse'],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
