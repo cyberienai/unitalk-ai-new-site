@@ -72,7 +72,7 @@ export function WhyItWorksSection() {
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#D10E63]">
             {t.eyebrow}
           </p>
-          <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#FBF9F3]">
+          <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1C1A17]">
             Trois principes de collaboration
             <br />
             <span className="bg-gradient-to-r from-[#D10E63] to-[#F1729F] bg-clip-text text-transparent">qui changent tout</span>
@@ -86,7 +86,7 @@ export function WhyItWorksSection() {
             return (
               <motion.div
                 key={pillar.title}
-                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#D10E63]/25 bg-[#2C2A27]/60 backdrop-blur-sm p-8 shadow-sm transition-all duration-300 hover:border-[#D10E63]/50 hover:bg-[#2C2A27] hover:shadow-lg hover:shadow-[#D10E63]/20 hover:-translate-y-1"
+                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#D10E63]/20 bg-[#FBF9F3] p-8 shadow-sm transition-all duration-300 hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10 hover:-translate-y-1"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -98,10 +98,10 @@ export function WhyItWorksSection() {
                 </div>
 
                 {/* Title with better emphasis */}
-                <h3 className="text-xl font-bold text-[#FBF9F3] group-hover:text-[#D10E63] transition-colors duration-300">{pillar.title}</h3>
+                <h3 className="text-xl font-bold text-[#1C1A17] group-hover:text-[#D10E63] transition-colors duration-300">{pillar.title}</h3>
 
                 {/* Description */}
-                <p className="text-sm leading-relaxed text-[#C4BCAE] group-hover:text-[#E8DFD5] transition-colors duration-300">{pillar.description}</p>
+                <p className="text-sm leading-relaxed text-[#6B6357] group-hover:text-[#1C1A17] transition-colors duration-300">{pillar.description}</p>
               </motion.div>
             )
           })}

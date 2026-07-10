@@ -80,11 +80,11 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {/* Left — title & subtitle */}
             <div className="lg:order-2">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63] mb-3">{t.almaEyebrow}</p>
-              <h2 className="font-sf text-3xl font-bold leading-[1.05] text-balance sm:text-4xl md:text-5xl text-[#1C1A17]" style={{ letterSpacing: '-0.03em' }}>
+              <h2 className="font-sf text-3xl font-bold leading-[1.05] text-balance sm:text-4xl md:text-5xl text-[#F7F4EE]" style={{ letterSpacing: '-0.03em' }}>
                 {t.almaTitle}
-                {t.almaTitleAccent && <span className="text-[#D10E63]">{t.almaTitleAccent}</span>}
+                {t.almaTitleAccent && <span className="text-[#F1729F]">{t.almaTitleAccent}</span>}
               </h2>
-              <p className="mt-6 text-lg leading-relaxed text-[#4E483F]">{t.almaText}</p>
+              <p className="mt-6 text-lg leading-relaxed text-[#C4BCAE]">{t.almaText}</p>
 
               {/* CTA below subtitle */}
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -94,7 +94,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </button>
                 <a
                   href="/alma"
-                  className="group inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/40 bg-white/60 px-7 py-3.5 text-sm font-semibold text-[#D10E63] transition-all hover:border-[#D10E63] hover:bg-[#D10E63] hover:text-[#FBF9F3] sm:text-base"
+                  className="group inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/50 bg-transparent px-7 py-3.5 text-sm font-semibold text-[#F1729F] transition-all hover:border-[#D10E63] hover:bg-[#D10E63] hover:text-[#FBF9F3] sm:text-base"
                 >
                   {t.almaLearnMore}
                   <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -125,21 +125,21 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
 
               {/* Migration banner under the video - minimal & airy */}
-              <div className="mt-6 flex items-start justify-between gap-4 rounded-2xl border border-[#D10E63]/15 bg-[#FBF9F3]/30 p-4 backdrop-blur-sm">
+              <div className="mt-6 flex items-start justify-between gap-4 rounded-2xl border border-[#D10E63]/25 bg-white/[0.04] p-4 backdrop-blur-sm">
                 <div className="flex items-start gap-3 flex-1">
-                  <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center text-[#D10E63]/80">
+                  <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center text-[#F1729F]">
                     <ArrowLeftRight className="h-3.5 w-3.5" strokeWidth={2} />
                   </span>
                   <div>
-                    <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#D10E63]/60">
+                    <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#F1729F]/80">
                       {t.migrBadge}
                     </p>
-                    <p className="text-xs font-normal leading-relaxed text-[#1C1A17]/75">{t.migrText}</p>
+                    <p className="text-xs font-normal leading-relaxed text-[#C4BCAE]">{t.migrText}</p>
                   </div>
                 </div>
                 <a
                   href="/migration"
-                  className="group inline-flex flex-shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#D10E63]/25 bg-transparent px-3 py-1.5 text-xs font-semibold text-[#D10E63]/80 transition-all hover:border-[#D10E63]/50 hover:bg-[#D10E63]/8 hover:text-[#D10E63]"
+                  className="group inline-flex flex-shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full border border-[#D10E63]/40 bg-transparent px-3 py-1.5 text-xs font-semibold text-[#F1729F] transition-all hover:border-[#D10E63] hover:bg-[#D10E63]/15 hover:text-[#FBF9F3]"
                 >
                   {t.migrCta}
                   <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
