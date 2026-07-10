@@ -20,7 +20,7 @@ const T = {
     headline: 'Unitalk. Maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
-      "Avec un nom, une mémoire partagée, des compétences. Donnez-leur un objectif, ils travaillent 24h/24.",
+      "Identité propre, mémoire partagée, compétences métier. Donnez un objectif, ils travaillent 24h/24.",
     manifesto: [
       { icon: Phone, label: 'Appelle' },
       { icon: Calendar, label: 'Planifie' },
@@ -349,7 +349,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         }}
       />
 
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1.35fr_0.85fr] lg:items-start lg:gap-16 lg:px-8 lg:before:absolute lg:before:inset-y-0 lg:before:left-1/2 lg:before:w-32 lg:before:bg-gradient-to-r lg:before:from-transparent lg:before:via-[#F3EFE6]/10 lg:before:to-transparent lg:before:pointer-events-none">
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1.2fr_1.1fr] lg:items-start lg:gap-16 lg:px-8 lg:before:absolute lg:before:inset-y-0 lg:before:left-1/2 lg:before:w-32 lg:before:bg-gradient-to-r lg:before:from-transparent lg:before:via-[#F3EFE6]/10 lg:before:to-transparent lg:before:pointer-events-none">
         {/* Left column — copy */}
         <div className="flex min-w-0 flex-col justify-center">
           <motion.div

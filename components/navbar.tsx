@@ -130,7 +130,7 @@ export function Navbar() {
         <div className="flex items-center gap-2 sm:gap-4">
           <a
             href="/#alma"
-            className="hidden sm:inline-flex text-xs sm:text-sm font-medium text-[#D10E63] hover:text-[#B00B52] transition-colors"
+            className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-white bg-[#D10E63] rounded-full hover:bg-[#B00B52] transition-all hover:shadow-lg hover:shadow-[#D10E63]/30"
           >
             {t.talkToAlma}
           </a>
