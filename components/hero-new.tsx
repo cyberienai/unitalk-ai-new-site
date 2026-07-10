@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Clock, FileText, MapPin, Gift } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, Handshake, Clock, FileText, MapPin, Gift } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 function getInitials(name: string) {
@@ -26,7 +26,7 @@ const T = {
     ctaPrimary: 'Activer mon Collaborateur IA',
     ctaProofs: [
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
-      { icon: CreditCard, label: 'Aucun engagement' },
+      { icon: Handshake, label: 'Aucun engagement' },
       { icon: Gift, label: '7 jours gratuits' },
       { icon: MapPin, label: 'Hébergé en France' },
     ],
@@ -164,7 +164,7 @@ const T = {
     ctaPrimary: 'Create my AI Collaborator for free',
     ctaProofs: [
       { icon: Clock, label: 'Ready to work in 5 min' },
-      { icon: CreditCard, label: 'No commitment' },
+      { icon: Handshake, label: 'No commitment' },
       { icon: Gift, label: '7 days free' },
       { icon: MapPin, label: 'Hosted in France' },
     ],

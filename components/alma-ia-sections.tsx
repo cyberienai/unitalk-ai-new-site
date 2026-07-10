@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Network, ShieldCheck, Users, User, Bot, Building2, MessagesSquare, ListChecks, Plug, CalendarClock, TrendingUp } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Network, ShieldCheck, Users, Bot, Building2, MessagesSquare, ListChecks, Plug, CalendarClock, TrendingUp } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -34,7 +34,7 @@ const T = {
     dispTitle: "L'IA, ",
     dispTitleAccent: "chacun pour soi.",
     dispIntro:
-      "Shadow IT, fuite de données, obsolescence. Vos équipes utilisent l'IA — vous ne contrôlez ni où, ni comment, ni avec quels modèles.",
+      "Outils non contrôlés, données exposées. Vos équipes utilisent l'IA sans que vous sachiez où, comment, ni avec quels modèles.",
     dispPillars: [
       { label: 'AI Gateway', text: 'Tous les meilleurs modèles, un accès, un contrôle.' },
       { label: 'AI Cloud', text: 'Votre serveur IA privé. Données sous votre contrôle.' },
@@ -73,7 +73,7 @@ const T = {
     dispEyebrow: 'The real problem',
     dispTitle: "AI, ",
     dispTitleAccent: "everyone for themselves.",
-    dispIntro: "Shadow IT, data leaks, obsolescence. Your teams use AI — you control neither where, nor how, nor with which models.",
+    dispIntro: "Unmanaged tools, exposed data. Your teams use AI without you knowing where, how, or with which models.",
     dispPillars: [
       { label: 'AI Gateway', text: 'All the best models, one access, one control.' },
       { label: 'AI Cloud', text: 'Your private AI server. Data under your control.' },
@@ -229,6 +229,11 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
   return (
     <section className="relative w-full overflow-hidden bg-[#1A1613] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+        {/* smooth transition from the beige section above */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#F3EFE6] to-transparent"
+        />
         {/* glow */}
         <div
           aria-hidden="true"
@@ -247,13 +252,13 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="h-10" />
 
             {/* Solution pillars */}
-            <div className="border-t border-[#D10E63]/30">
+            <div className="border-t border-[#D10E63]/50">
               {t.dispPillars.map((pillar, i) => {
                 const PillarIcon = [Network, ShieldCheck, Users][i]
                 return (
                   <motion.div
                     key={pillar.label}
-                    className="flex items-start gap-4 border-b border-[#D10E63]/30 py-5"
+                    className="flex items-start gap-4 border-b border-[#D10E63]/50 py-5"
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -294,8 +299,8 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, ease, delay: idx * 0.1 }}
                   >
-                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#B8AFA0]">
-                      <User className="h-5 w-5" strokeWidth={1.8} />
+                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/[0.07] text-sm font-semibold text-[#B8AFA0] ring-1 ring-white/10">
+                      {person.name.charAt(0)}
                     </span>
                     <p className="text-sm text-[#C9C0B2] sm:text-[15px]">
                       <span className="font-semibold text-[#F7F4EE]">{person.name}</span>
