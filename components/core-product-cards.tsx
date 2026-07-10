@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { User, Brain, Database, Zap, Wrench, Cpu, FileText, CalendarClock, MessagesSquare } from 'lucide-react'
+import { User, Brain, Database, Zap, Wrench, Cpu, FileText, CalendarClock, MessagesSquare, ChevronRight } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -13,6 +13,7 @@ const T = {
     titleAccent: 'vrai collaborateur.',
     subtitle:
       'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui en fait un vrai membre de l\'équipe.',
+    cta: 'Activer mon Collaborateur IA',
     cards: [
       { icon: User, title: 'Une identité', description: 'Nom, voix, email, calendrier. Un vrai profil avec sa présence et son historique.' },
       { icon: Brain, title: 'Une intelligence', description: 'Accès à tous les modèles IA. Texte, images, code, audio - Toujours les dernières versions.' },
@@ -31,6 +32,7 @@ const T = {
     titleAccent: 'real collaborator.',
     subtitle:
       'An AI agent alone can answer, reason or execute a task. A Unitalk AI Collaborator goes further: it brings together everything that makes a real team member.',
+    cta: 'Activate my AI Collaborator',
     cards: [
       { icon: User, title: 'An identity', description: 'Name, voice, email, calendar. A real profile with presence and history.' },
       { icon: Brain, title: 'An intelligence', description: 'Access to all AI models. Text, images, code, audio - Always the latest versions.' },
@@ -86,6 +88,17 @@ export function CoreProductCards({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </motion.article>
             )
           })}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-14 flex justify-center">
+          <a
+            href="/solo"
+            className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-8 py-4 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base"
+          >
+            {t.cta}
+            <ChevronRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>

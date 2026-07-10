@@ -1,12 +1,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Brain, Users, IdCard } from 'lucide-react'
+import { Brain, Users, IdCard, ChevronRight } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
     eyebrow: 'Pourquoi ça marche',
+    cta: 'Activer mon Collaborateur IA',
     pillars: [
       {
         icon: Brain,
@@ -27,6 +28,7 @@ const T = {
   },
   en: {
     eyebrow: 'Why It Works',
+    cta: 'Activate my AI Collaborator',
     pillars: [
       {
         icon: Brain,
@@ -105,6 +107,17 @@ export function WhyItWorksSection() {
               </motion.div>
             )
           })}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-14 flex justify-center">
+          <a
+            href="/solo"
+            className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-8 py-4 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base"
+          >
+            {t.cta}
+            <ChevronRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>
