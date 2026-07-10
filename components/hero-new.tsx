@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, Wrench, FileText, MapPin } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, FileText, MapPin } from 'lucide-react'
 
 const T = {
   fr: {
@@ -49,11 +49,7 @@ const T = {
       { icon: Zap, label: 'Compétences', value: 'Prospection LinkedIn, relance, CRM HubSpot' },
       { icon: Cpu, label: 'Modèles', value: 'ChatGPT, Claude, Gemini, Mistral' },
     ],
-    connectors: [
-      { icon: Wrench, label: 'Apps' },
-      { icon: Calendar, label: 'Fichiers' },
-      { icon: Phone, label: 'Contacts' },
-    ],
+
     collaborators: [
       {
         id: 'alex',
@@ -180,11 +176,6 @@ const T = {
       { icon: Database, label: 'Memory', value: 'Data, history, context' },
       { icon: Zap, label: 'Skills', value: 'LinkedIn Prospecting, follow-up, CRM HubSpot' },
       { icon: Cpu, label: 'Models', value: 'ChatGPT, Claude, Gemini, Mistral' },
-    ],
-    connectors: [
-      { icon: Wrench, label: 'Apps' },
-      { icon: Calendar, label: 'Files' },
-      { icon: Phone, label: 'Contacts' },
     ],
     collaborators: [
       {
@@ -539,23 +530,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               })}
             </div>
 
-            {/* connectors row */}
-            <div className="relative mb-5 flex items-center gap-2">
-              {t.connectors.map((connector) => {
-                const Icon = connector.icon
-                return (
-                  <div
-                    key={connector.label}
-                    className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] px-2 py-2"
-                  >
-                    <Icon className="h-3.5 w-3.5 shrink-0 text-[#F1729F]" />
-                    <span className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175]">
-                      {connector.label}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
+
 
             {/* carousel indicators + buttons */}
             <div
