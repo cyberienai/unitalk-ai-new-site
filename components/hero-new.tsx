@@ -462,16 +462,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             />
 
             {/* header row with status top-right */}
-            <div className="relative mb-6 flex items-center justify-between">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#D10E63]/30 bg-[#D10E63]/15 px-3 py-1 text-xs font-medium text-[#F1729F]">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F1729F]" />
-                {t.sofiaTitle}
-              </div>
-              <div className="flex items-center gap-1.5 rounded-lg border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-2.5 py-1">
-                <CheckCircle2 className="h-3 w-3 text-[#4F9E6E]" />
-                <span className="text-xs font-medium text-[#8FCBA6]">{t.sofiaStatus}</span>
-              </div>
-            </div>
+
 
             {/* identity - using active collaborator */}
             {(() => {
@@ -484,7 +475,13 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     className="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-white/15"
                   />
                   <div className="flex-1">
-                    <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{collab.name}</h2>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{collab.name}</h2>
+                      <span className="inline-flex items-center gap-1 rounded-lg border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-2.5 py-1 text-xs font-medium text-[#8FCBA6]">
+                        <CheckCircle2 className="h-3 w-3 text-[#4F9E6E]" />
+                        {t.sofiaStatus}
+                      </span>
+                    </div>
                     <p className="text-sm text-[#B8B0A2]">{collab.role}</p>
                     <a
                       href={`https://${collab.profileUrl}`}
