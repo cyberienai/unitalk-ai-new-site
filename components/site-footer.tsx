@@ -15,7 +15,7 @@ const COMPARISONS = [
 
 const T = {
   fr: {
-    tagline: 'Own your intelligence',
+    tagline: 'De vrais collaborateurs IA',
     comparisons: 'Comparatifs',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
@@ -54,7 +54,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'Own your intelligence',
+    tagline: 'Real AI collaborators',
     comparisons: 'Comparisons',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
