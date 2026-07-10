@@ -17,8 +17,8 @@ function getInitials(name: string) {
 const T = {
   fr: {
     eyebrow: "Le serveur privé de vos collaborateurs IA",
-    headline: 'Unitalk. Vous avez maintenant ',
-    headlineAccent: 'de vrais collaborateurs IA.',
+    headline: 'Unitalk. Vous avez ',
+    headlineAccent: 'maintenant de vrais collaborateurs IA.',
     subheadline:
       "Ils appellent vos clients, répondent aux emails, planifient les rendez-vous et collaborent avec vos équipes. Donnez-leur un objectif, ils s'occupent du reste.",
     manifesto: [
