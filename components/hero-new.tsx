@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, FileText, MapPin } from 'lucide-react'
+import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
@@ -285,7 +286,7 @@ const T = {
 const ease = [0.22, 1, 0.36, 1] as const
 
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
-  const t = T[lang]
+  const t = T[lang] as typeof T['fr']
   const [activeVerb, setActiveVerb] = useState(0)
   const [activeCollaborator, setActiveCollaborator] = useState(0)
   const [isHoveringCarousel, setIsHoveringCarousel] = useState(false)
