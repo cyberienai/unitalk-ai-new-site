@@ -266,10 +266,10 @@ export function SovereigntySection() {
 
 const OFFERS = [
   {
-    name: 'Executive',
+    name: 'Solo',
     icon: User,
     subtitle: 'Votre premier vrai collaborateur IA.',
-    text: 'Pour indépendant, dirigeant, consultant, créateur ou solopreneur.',
+    text: 'Pour indépendant, dirigeant, executive, consultant, créateur ou solopreneur.',
     price: '30€',
     priceNote: '/mois',
     points: [
