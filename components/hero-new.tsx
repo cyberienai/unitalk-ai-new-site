@@ -7,7 +7,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    eyebrow: "L'IA qui travaille pour votre organisation",
+    eyebrow: "L'infrastructure de vos collaborateurs IA",
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
@@ -145,7 +145,7 @@ const T = {
     ],
   },
   en: {
-    eyebrow: 'Collaborative and sovereign AI infrastructure',
+    eyebrow: 'The infrastructure for your AI collaborators',
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
