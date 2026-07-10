@@ -35,7 +35,7 @@ const T = {
     dispIntro:
       "Le problème n'est pas l'adoption, c'est\u00A0la\u00A0dispersion\u00A0: chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "Unitalk réunit vos équipes et leurs agents IA autour d'une mémoire partagée et d'espaces de travail collaboratifs sécurisés.",
+    dispConclusion: "Unitalk réunit vos équipes et leurs agents IA autour d'une mémoire partagée et d'un espace de travail collaboratif sécurisé.",
     dispConclusionAccent: "Fini le désordre, place à la vraie collaboration — humains et IA, ensemble.",
     dispCta: "Activer mon Collaborateur IA",
   },
@@ -64,7 +64,7 @@ const T = {
     dispTitleAccent: "But each on their own.",
     dispIntro: "The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. It's time to hire real AI collaborators.",
     dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
-    dispConclusion: "Unitalk brings your teams and their AI agents together around shared memory and secure collaborative workspaces.",
+    dispConclusion: "Unitalk brings your teams and their AI agents together around shared memory and a secure collaborative workspace.",
     dispConclusionAccent: "No more chaos, just real collaboration — humans and AI, together.",
     dispCta: "Activate my AI Collaborator",
   },
