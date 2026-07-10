@@ -85,8 +85,14 @@ function UkFlag() {
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { lang, setLang } = useLanguage()
   const t = T[lang]
+
+  // Prevent hydration mismatch by waiting for client mount
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Lock body scroll while the menu is open on mobile
   useEffect(() => {
@@ -114,7 +120,7 @@ export function Navbar() {
 
           {/* Nav links - Desktop only (essentials) */}
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {PRIMARY_LINKS.map((link) => (
+            {mounted && PRIMARY_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
