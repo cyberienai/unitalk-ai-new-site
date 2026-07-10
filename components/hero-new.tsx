@@ -531,7 +531,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
 
             {/* capability rows */}
-            <div className="relative mb-5 space-y-2 border-t border-white/[0.06] pt-5">
+            <div className="relative mb-4 space-y-3.5 border-t border-white/[0.06] pt-4">
               {t.rows.map((row) => {
                 const Icon = row.icon
                 // Use collaborator's skills for the Compétences/Skills row
@@ -541,7 +541,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 return (
                   <div key={row.label} className="flex items-start gap-3">
                     <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
-                    <div>
+                    <div className="space-y-0.5">
                       <p className="text-[10px] font-semibold uppercase tracking-wide text-[#8A8175]">
                         {row.label}
                       </p>
