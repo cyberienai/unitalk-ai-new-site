@@ -131,7 +131,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     <ArrowLeftRight className="h-3.5 w-3.5" strokeWidth={2} />
                   </span>
                   <div>
-                    <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#F1729F]/80">
+                    <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#F1729F]">
                       {t.migrBadge}
                     </p>
                     <p className="text-xs font-normal leading-relaxed text-[#C4BCAE]">{t.migrText}</p>
