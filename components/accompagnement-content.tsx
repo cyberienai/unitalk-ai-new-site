@@ -46,7 +46,7 @@ const T = {
     stepsLabel: 'Comment ça marche',
     steps: {
       call: { title: 'Un appel avec Alma', desc: 'Alma vous appelle, découvre votre entreprise et comprend vos besoins — sans formulaire, sans configuration.' },
-      build: { title: 'Elle crée votre agent', desc: 'Elle façonne un agent sur mesure : prénom, voix, email, agenda et accès à vos outils.' },
+      build: { title: 'Elle active votre agent', desc: 'Elle façonne un agent sur mesure : prénom, voix, email, agenda et accès à vos outils.' },
       guide: { title: 'Elle vous forme', desc: 'Au quotidien, Alma vous apprend à orchestrer vos agents pour en tirer le meilleur.' },
       human: { title: 'Un humain si besoin', desc: 'Quand une question la dépasse, un ingénieur IA prend le relais en moins de 4 heures.' },
     } as Record<StepIconKey, Step>,

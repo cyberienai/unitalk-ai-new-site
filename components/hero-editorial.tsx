@@ -11,8 +11,8 @@ const T = {
     headline2: 'dépend ',
     headline3: 'trop de vous.',
     subline:
-      'Alma, votre conseillère IA vocale, échange avec vous pour comprendre votre entreprise. Une seule conversation suffit pour créer votre agent sur mesure et le préparer à travailler avec vos outils, vos données et vos processus.',
-    almaCaption: 'vous appelle pour créer votre agent.',
+      'Alma, votre conseillère IA vocale, échange avec vous pour comprendre votre entreprise. Une seule conversation suffit pour activer votre agent sur mesure et le préparer à travailler avec vos outils, vos données et vos processus.',
+    almaCaption: 'vous appelle pour activer votre agent.',
     listening: 'À l’écoute…',
     stop: 'Stop',
     create: 'Créer mon agent gratuitement',
