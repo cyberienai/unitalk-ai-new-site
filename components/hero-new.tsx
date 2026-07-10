@@ -18,7 +18,7 @@ const T = {
   fr: {
     eyebrow: "L'IA qui travaille avec votre organisation",
     headline: 'Unitalk. ',
-    headlineAccent: 'Maintenant de vrais collaborateurs IA.',
+    headlineAccent: 'De vrais collaborateurs IA maintenant.',
     subheadline:
       "Identité propre, mémoire partagée, compétences métier. Donnez un objectif, ils travaillent 24h/24.",
     manifesto: [
