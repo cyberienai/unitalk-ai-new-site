@@ -94,7 +94,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </button>
                 <a
                   href="/alma"
-                  className="group inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/50 bg-transparent px-7 py-3.5 text-sm font-semibold text-[#F1729F] transition-all hover:border-[#D10E63] hover:bg-[#D10E63] hover:text-[#FBF9F3] sm:text-base"
+                  className="group inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63] bg-transparent px-7 py-3.5 text-sm font-semibold text-[#D10E63] transition-all hover:bg-[#D10E63] hover:text-[#FBF9F3] sm:text-base"
                 >
                   {t.almaLearnMore}
                   <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
