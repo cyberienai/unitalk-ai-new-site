@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, FileText, MapPin, Gift } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Clock, FileText, MapPin, Gift } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 function getInitials(name: string) {
@@ -165,7 +165,7 @@ const T = {
     ctaProofs: [
       { icon: Clock, label: 'Ready to work in 5 min' },
       { icon: CreditCard, label: 'No credit card' },
-      { icon: Unlock, label: 'No commitment' },
+      { icon: Gift, label: '7 days free' },
       { icon: MapPin, label: 'Hosted in France' },
     ],
     example: {
