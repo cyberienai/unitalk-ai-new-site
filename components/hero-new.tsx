@@ -380,8 +380,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     chipRefs.current[i] = el
                   }}
                   animate={{
-                    backgroundColor: isActive ? '#F1729F' : '#FBF9F3',
-                    borderColor: isActive ? '#F1729F' : '#DcD4C4',
+                    backgroundColor: isActive ? '#D10E63' : '#FBF9F3',
+                    borderColor: isActive ? '#D10E63' : '#DcD4C4',
                     color: isActive ? '#FBF9F3' : '#1C1A17',
                     scale: isActive ? 1.06 : 1,
                   }}
