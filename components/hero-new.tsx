@@ -20,7 +20,7 @@ const T = {
     headline: 'Vous avez maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
-      "Avec un nom, une mémoire partagée, des compétences. Donnez-leur un objectif, ils s'occupent du reste.",
+      "Avec un nom, une mémoire partagée, des compétences. Donnez-leur un objectif, ils travaillent 24/24.",
     manifesto: [
       { icon: Phone, label: 'Appelle' },
       { icon: Calendar, label: 'Planifie' },
@@ -162,7 +162,7 @@ const T = {
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
-      'With a name, shared memory, skills. Give them a goal, they handle the rest.',
+      'With a name, shared memory, skills. Give them a goal, they work 24/7.',
     manifesto: [
       { icon: Phone, label: 'Calls' },
       { icon: Calendar, label: 'Schedules' },
