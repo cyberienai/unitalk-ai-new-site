@@ -28,14 +28,14 @@ export function HomeNew() {
       {/* 3. The real problem — IA dispersée + Solution Unitalk (MOVED HERE) */}
       <DispersedIASection lang={lang} />
 
-      {/* 4. Alma onboarding */}
-      <AlmaOnboardingSection lang={lang} />
-
       {/* 6. Cœur produit — 7 cards */}
       <CoreProductCards lang={lang} />
 
       {/* 7. AI Gateway */}
       <AIGatewaySection />
+
+      {/* Démarrage assisté — Alma onboarding (moved above pricing) */}
+      <AlmaOnboardingSection lang={lang} />
 
       {/* 8. Offres Solo / Teams / Business */}
       <OffersSection />
