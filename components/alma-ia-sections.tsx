@@ -8,11 +8,11 @@ import { SectionHeader } from './section-header'
 const T = {
   fr: {
     // Alma
-    almaEyebrow: 'Mise en service assistée par Alma en 5 mn',
+    almaEyebrow: '• Démarrage assisté',
     almaTitle: 'Alma vous interview et donne vie à ',
     almaTitleAccent: 'votre collaborateur IA',
     almaText:
-      "Alma comprend votre entreprise, identifie vos tâches chronophages et recommande les compétences clés. Elle lance votre Collaborateur IA propulsé par l'agent Hermes, le leader des agents autonomes open source.",
+      "Alma comprend votre entreprise, identifie vos tâches qui vous prennent du temps et recommande les compétences essentielles. Votre Collaborateur IA est prêt en 5 minutes.",
     almaSteps: [
       { n: '01', label: 'Contexte entreprise', desc: 'Collecte les données publiques liées à votre entreprise et votre nom de domaine' },
       { n: '02', label: 'Interview & découverte', desc: 'Pose les bonnes questions sur votre rôle, vos tâches et vos processus' },
@@ -24,9 +24,9 @@ const T = {
     almaCta: 'Parlez avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
     almaLearnMore: 'En savoir plus',
-    migrBadge: 'Déjà un agent Hermes, OpenClaw, ChatGPT, Claude ou Gemini ?',
-    migrText: 'Migrez vos données vers Unitalk en un clic.',
-    migrCta: 'Migrer maintenant',
+    migrBadge: 'Déjà un collaborateur IA ?',
+    migrText: 'Transférez vos données vers Unitalk simplement.',
+    migrCta: 'Transférer mes données',
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
@@ -40,16 +40,16 @@ const T = {
     dispCta: "Activer mon Collaborateur IA",
   },
   en: {
-    almaEyebrow: 'AI-powered onboarding in 5 min',
+    almaEyebrow: '• Guided Setup',
     almaTitle: 'Alma interviews you and brings your ',
     almaTitleAccent: 'AI Collaborator to life',
-    almaText: "Alma understands your business, identifies your time-consuming tasks, and recommends the right skills. She launches your AI Collaborator powered by the Hermes agent, the leader in autonomous open-source agents.",
+    almaText: "Alma understands your business, identifies your time-consuming tasks, and recommends essential skills. Your AI Collaborator is ready in 5 minutes.",
     almaCta: 'Chat with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
     almaLearnMore: 'Learn more',
-    migrBadge: 'Already have a Hermes, OpenClaw, ChatGPT, Claude or Gemini agent?',
-    migrText: 'Migrate your data to Unitalk in one click.',
-    migrCta: 'Migrate now',
+    migrBadge: 'Already have an AI collaborator?',
+    migrText: 'Transfer your data to Unitalk easily.',
+    migrCta: 'Transfer my data',
     almaSteps: [
       { n: '01', label: 'Company context', desc: 'Collects public data related to your company and domain name' },
       { n: '02', label: 'Interview & discovery', desc: 'Asks the right questions about your role, tasks, and processes' },
