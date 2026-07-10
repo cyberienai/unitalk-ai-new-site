@@ -20,7 +20,7 @@ const T = {
       { icon: Database, title: 'Une mémoire', description: 'Se souvient de vos contextes, méthodes et préférences. Apprend au fil du temps.' },
       { icon: Zap, title: 'Des compétences', description: 'Compétences adaptées à chaque mission. Sait quoi faire et comment le faire.' },
       { icon: Wrench, title: 'Des outils', description: 'Email, calendrier, CRM, fichiers. Exécute du code et navigue sur Internet via 3 000+ intégrations.' },
-      { icon: Cpu, title: 'Mémoire persistante', description: 'Bacs à sable isolés — chaque agent obtient son propre conteneur sécurisé. Lancez des sous-agents en parallèle sans consommer votre contexte.' },
+      { icon: Cpu, title: 'Mémoire persistante', description: 'Chaque agent obtient son propre conteneur sécurisé. Lancez des sous-agents en parallèle sans consommer votre contexte.' },
       { icon: FileText, title: 'Des instructions claires', description: 'Connaît son rôle, ses limites, ses méthodes. Valide avec vous avant d\'agir.' },
       { icon: CalendarClock, title: 'Automatisation ciblée', description: 'Planification en langage naturel pour rapports, sauvegardes et briefings — s\'exécute sans surveillance via la passerelle.' },
       { icon: MessagesSquare, title: 'Accessible partout', description: 'Slack, Teams, WhatsApp, Telegram, Discord, terminal, desktop, web. Sur tous les canaux où vous êtes.' },
