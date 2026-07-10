@@ -548,7 +548,12 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               })}
             </div>
 
-
+            {/* personalized example */}
+            <div className="mb-6 rounded-lg border border-[#D10E63]/20 bg-[#D10E63]/10 p-4">
+              <p className="text-sm font-medium leading-relaxed text-[#E7E1D6]">
+                {t.collaborators[activeCollaborator].example}
+              </p>
+            </div>
 
             {/* button */}
             <button className="relative w-full rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
