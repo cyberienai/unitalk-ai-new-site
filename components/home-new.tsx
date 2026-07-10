@@ -3,7 +3,7 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
-import { AlmaOnboardingSection, DispersedIASection } from './alma-ia-sections'
+import { AlmaOnboardingSection, DispersedIASection, MigrationBanner } from './alma-ia-sections'
 import { CoreProductCards } from './core-product-cards'
 import {
   AIGatewaySection,
@@ -39,6 +39,9 @@ export function HomeNew() {
 
       {/* 8. Offres Solo / Teams / Business */}
       <OffersSection />
+
+      {/* Migration banner — reassurance for OpenClaw / Hermes users, right after pricing */}
+      <MigrationBanner lang={lang} />
 
       {/* 9. Souveraineté / réversibilité */}
       <SovereigntySection />

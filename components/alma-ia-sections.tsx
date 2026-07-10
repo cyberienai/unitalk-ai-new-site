@@ -145,23 +145,6 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {/* Video element - add your video src here */}
                 {/* <video src="/alma-video.mp4" autoPlay muted loop className="w-full h-full object-cover" /> */}
               </div>
-
-              {/* Migration banner under the video - enhanced design */}
-              <div className="mt-6 flex items-start justify-between gap-4 rounded-2xl border border-[#D10E63] bg-[#2A2620] p-6 sm:items-center sm:p-8">
-                <div className="flex-1">
-                  <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#D10E63]">
-                    {t.migrBadge}
-                  </p>
-                  <p className="text-sm font-normal leading-relaxed text-[#E8E1D0]">{t.migrText}</p>
-                </div>
-                <a
-                  href="/migration"
-                  className="group inline-flex flex-shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63] bg-transparent px-4 py-2 text-xs font-semibold text-[#D10E63] transition-all hover:bg-[#D10E63]/10 sm:ml-4"
-                >
-                  <ArrowLeftRight className="h-3.5 w-3.5" strokeWidth={2} />
-                  {t.migrCta}
-                </a>
-              </div>
             </div>
           </div>
 
@@ -198,6 +181,32 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             ))}
           </div>
         </div>
+    </section>
+  )
+}
+
+export function MigrationBanner({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
+  const t = T[lang]
+
+  return (
+    <section className="w-full bg-[#F3EFE6] px-5 pb-20 sm:px-6 sm:pb-28 lg:px-8">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="flex flex-col items-start justify-between gap-5 rounded-2xl border border-[#D10E63] bg-[#2A2620] p-6 sm:flex-row sm:items-center sm:p-8">
+          <div className="flex-1">
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#D10E63]">
+              {t.migrBadge}
+            </p>
+            <p className="text-sm font-normal leading-relaxed text-[#E8E1D0] sm:text-base">{t.migrText}</p>
+          </div>
+          <a
+            href="/migration"
+            className="group inline-flex flex-shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63] bg-transparent px-5 py-2.5 text-sm font-semibold text-[#D10E63] transition-all hover:bg-[#D10E63]/10"
+          >
+            <ArrowLeftRight className="h-4 w-4" strokeWidth={2} />
+            {t.migrCta}
+          </a>
+        </div>
+      </div>
     </section>
   )
 }
