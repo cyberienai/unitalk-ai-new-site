@@ -11,7 +11,7 @@ const T = {
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
       'Avec un nom, des compétences, une mémoire. Donnez-lui des objectifs. Il travaille seul ou avec votre équipe, 24h/24.',
-    manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
+    manifesto: ['Apprend', 'Se souvient', 'Collabore', "S'améliore en continu"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
     ctaProofs: [
@@ -149,7 +149,7 @@ const T = {
     headlineAccent: 'real collaborators.',
     subheadline:
       'With a name, skills, a memory. Give it objectives. It works alone or with your team, 24/7.',
-    manifesto: ['It reasons', 'It plans', 'It executes', 'It learns', 'It collaborates', 'It improves'],
+    manifesto: ['It learns', 'It remembers', 'It collaborates', 'It improves continuously'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
     ctaProofs: [
