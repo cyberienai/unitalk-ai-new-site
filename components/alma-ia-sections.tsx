@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Check, Network, ShieldCheck, Users } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Network, ShieldCheck, Users, User, Bot } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -43,13 +43,11 @@ const T = {
     dispCta: "Activer mon Collaborateur IA",
     dispVisual: {
       people: [
-        { name: 'Sophie', detail: 'utilise ChatGPT dans son coin', avatar: '/images/avatars/sophie.png' },
-        { name: 'Marc', detail: 'utilise Claude, pas de partage', avatar: '/images/avatars/marc.png' },
-        { name: 'Julie', detail: 'utilise Gemini, fichiers locaux', avatar: '/images/avatars/julie.png' },
+        { name: 'Sophie', detail: 'utilise ChatGPT dans son coin' },
+        { name: 'Marc', detail: 'utilise Claude, pas de partage' },
+        { name: 'Julie', detail: 'utilise Gemini, fichiers locaux' },
       ],
-      highlight: { name: 'Elena', detail: 'collaboratrice IA Unitalk', avatar: '/images/avatars/elena.png' },
-      recapTitle: 'Unitalk centralise',
-      recapText: 'Équipes + collaborateurs IA, mémoire partagée, espace sécurisé.',
+      highlight: { name: 'Elena', detail: 'collaboratrice IA Unitalk' },
     },
   },
   en: {
@@ -84,13 +82,11 @@ const T = {
     dispCta: "Activate my AI Collaborator",
     dispVisual: {
       people: [
-        { name: 'Sophie', detail: 'uses ChatGPT on her own', avatar: '/images/avatars/sophie.png' },
-        { name: 'Marc', detail: 'uses Claude, no sharing', avatar: '/images/avatars/marc.png' },
-        { name: 'Julie', detail: 'uses Gemini, local files', avatar: '/images/avatars/julie.png' },
+        { name: 'Sophie', detail: 'uses ChatGPT on her own' },
+        { name: 'Marc', detail: 'uses Claude, no sharing' },
+        { name: 'Julie', detail: 'uses Gemini, local files' },
       ],
-      highlight: { name: 'Elena', detail: 'Unitalk AI collaborator', avatar: '/images/avatars/elena.png' },
-      recapTitle: 'Unitalk centralizes',
-      recapText: 'Teams + AI collaborators, shared memory, secure space.',
+      highlight: { name: 'Elena', detail: 'Unitalk AI collaborator' },
     },
   },
 }
@@ -229,13 +225,13 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="h-10" />
 
             {/* Solution pillars */}
-            <div className="border-t border-white/10">
+            <div className="border-t border-[#D10E63]/30">
               {t.dispPillars.map((pillar, i) => {
                 const PillarIcon = [Network, ShieldCheck, Users][i]
                 return (
                   <motion.div
                     key={pillar.label}
-                    className="flex items-start gap-4 border-b border-white/10 py-5"
+                    className="flex items-start gap-4 border-b border-[#D10E63]/30 py-5"
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -284,11 +280,9 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, ease, delay: idx * 0.1 }}
                   >
-                    <img
-                      src={person.avatar}
-                      alt={person.name}
-                      className="h-10 w-10 flex-shrink-0 rounded-full object-cover opacity-60 grayscale"
-                    />
+                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#B8AFA0]">
+                      <User className="h-5 w-5" strokeWidth={1.8} />
+                    </span>
                     <p className="text-sm text-[#C9C0B2] sm:text-[15px]">
                       <span className="font-semibold text-[#F7F4EE]">{person.name}</span>
                       <span className="text-[#8A8175]">{' — '}{person.detail}</span>
@@ -304,11 +298,9 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, ease, delay: 0.35 }}
                 >
-                  <img
-                    src={t.dispVisual.highlight.avatar}
-                    alt={t.dispVisual.highlight.name}
-                    className="h-10 w-10 flex-shrink-0 rounded-full object-cover ring-2 ring-[#D10E63] ring-offset-2 ring-offset-[#1A1613]"
-                  />
+                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-white">
+                    <Bot className="h-5 w-5" strokeWidth={1.8} />
+                  </span>
                   <p className="text-sm text-[#C9C0B2] sm:text-[15px]">
                     <span className="font-semibold text-[#F7F4EE]">{t.dispVisual.highlight.name}</span>
                     <span className="text-[#E7B8CD]">{' — '}{t.dispVisual.highlight.detail}</span>
@@ -327,22 +319,17 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <ArrowDown className="h-5 w-5 text-[#D10E63]" strokeWidth={2} />
               </motion.div>
 
-              {/* Recap */}
-              <motion.div
-                className="flex items-start gap-4 rounded-2xl border border-[#D10E63]/25 bg-[#D10E63]/[0.08] px-5 py-5"
+              {/* CTA in schema */}
+              <motion.button
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#D10E63] px-5 py-4 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, ease, delay: 0.6 }}
               >
-                <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-white">
-                  <Check className="h-3.5 w-3.5" strokeWidth={3} />
-                </span>
-                <div>
-                  <p className="text-base font-bold text-[#F7F4EE]">{t.dispVisual.recapTitle}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-[#C9C0B2]">{t.dispVisual.recapText}</p>
-                </div>
-              </motion.div>
+                {t.dispCta}
+                <ChevronRight className="h-4 w-4" />
+              </motion.button>
             </div>
           </motion.div>
         </div>
