@@ -22,7 +22,7 @@ const T = {
       { icon: Wrench, title: 'Des outils', description: 'Se connecte à 3 000+ apps : email, calendrier, CRM, fichiers, exécute du code et navigue sur le web.' },
       { icon: Cpu, title: 'Mémoire persistante', description: 'Chaque agent a son propre conteneur sécurisé. Lancez des sous-agents en parallèle sans consommer votre contexte.' },
       { icon: FileText, title: 'Des instructions claires', description: 'Connaît son rôle, ses limites, ses méthodes. Valide avec vous avant d\'agir.' },
-      { icon: CalendarClock, title: 'Automatisation ciblée', description: 'Planification en langage naturel pour rapports, sauvegardes et briefings — s\'exécute sans surveillance via la passerelle.' },
+      { icon: CalendarClock, title: 'Automatisation ciblée', description: 'Planification en langage naturel pour rapports, sauvegardes et briefings — s\'exécute sans surveillance.' },
       { icon: MessagesSquare, title: 'Accessible partout', description: 'Slack, Teams, WhatsApp, Telegram, Discord, terminal, desktop, web. Sur tous les canaux où vous êtes.' },
     ],
   },
