@@ -17,8 +17,7 @@ const T = {
       { q: "Où sont les serveurs ?", a: "Les serveurs Unitalk Cloud sont hébergés en France pour la souveraineté des données. Toutes les données sont chiffrées et isolées. Si vous choisissez Business, vous pouvez déployer sur votre propre infrastructure pour un contrôle total." },
       { q: "Comment je commence ?", a: "Inscrivez-vous sur unitalk.ai, et Alma—votre conseillère IA vocale—vous appellera pour créer votre premier agent. En 5 minutes, votre agent est prêt. Activez votre essai gratuit de 7 jours immédiatement, aucune carte bancaire requise." },
       { q: "Comment j'échange avec mon agent Hermès ?", a: "Accédez à votre agent via l'interface web Unitalk par texte ou voix. Votre agent a son propre email, téléphone et intégration calendrier. Vous pouvez aussi inviter vos collègues pour collaborer avec le même agent ou créer des agents personnels pour chaque membre." },
-      { q: "Mon agent garde-t-il ses données entre les sessions ?", a: "Oui. La mémoire de votre agent persiste entre toutes les sessions. Chaque conversation, décision et contexte est stocké dans le coffre mémoire partagé de votre entreprise—ainsi votre agent apprend et s'améliore au fil du temps, et toute votre équipe en bénéficie." },
-      { q: "Que se passe-t-il si j'arrête mon agent ?", a: "Vous pouvez mettre en pause ou supprimer un agent à tout moment. Si en pause, ses données sont conservées et l'agent peut être réactivé. Si supprimé, les données sont définitivement effacées. Votre facturation s'arrête immédiatement quand vous annulez." },
+      { q: "Que deviennent les données de mon agent ?", a: "La mémoire de votre agent persiste entre toutes les sessions : chaque conversation, décision et contexte est stocké dans le coffre mémoire partagé de votre entreprise, ainsi votre agent apprend et s'améliore au fil du temps. Vous gardez le contrôle à tout moment : si vous mettez l'agent en pause, ses données sont conservées et il peut être réactivé ; si vous le supprimez, les données sont définitivement effacées et votre facturation s'arrête immédiatement." },
     ],
   },
   en: {
@@ -33,8 +32,7 @@ const T = {
       { q: 'Where are the servers located?', a: 'Unitalk Cloud servers are hosted in France for data sovereignty. All data is encrypted and isolated. If you choose the Business plan, you can deploy on your own private infrastructure for complete control.' },
       { q: 'How do I get started?', a: 'Sign up on unitalk.ai, and Alma—our AI voice advisor—will call you to create your first agent. In 5 minutes, your agent is ready. Activate your 7-day free trial immediately, no credit card required.' },
       { q: 'How do I chat with my Hermes agent?', a: 'Access your agent through the Unitalk web interface via text or voice. Your agent has its own email, phone, and calendar integration. You can also invite teammates to collaborate with the same agent or create personal agents for each team member.' },
-      { q: 'Does my agent keep its data between sessions?', a: 'Yes. Your agent\'s memory persists across all sessions. Every conversation, decision, and context is stored in your company\'s shared memory vault—so your agent learns and gets smarter over time, and your whole team benefits.' },
-      { q: 'What happens when I stop my agent?', a: 'You can pause or delete an agent anytime. If paused, its data is retained and the agent can be reactivated. If deleted, data is permanently removed. Your billing stops immediately when you cancel.' },
+      { q: 'What happens to my agent\'s data?', a: 'Your agent\'s memory persists across all sessions: every conversation, decision, and context is stored in your company\'s shared memory vault, so your agent learns and gets smarter over time. You stay in control at all times: if you pause the agent, its data is retained and it can be reactivated; if you delete it, data is permanently removed and your billing stops immediately.' },
     ],
   },
 }
