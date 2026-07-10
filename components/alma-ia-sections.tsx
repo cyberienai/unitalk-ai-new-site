@@ -34,7 +34,8 @@ const T = {
     dispIntro:
       "Vos équipes utilisent déjà l'IA. Le problème n'est pas l'adoption, c'est\u00A0la\u00A0dispersion\u00A0: chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
     dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "Unitalk réunit vos équipes et leurs agents IA autour d'une même mémoire. Fini le désordre, place à la vraie collaboration.",
+    dispConclusion: "Unitalk réunit vos équipes et leurs agents IA autour d'une même mémoire.",
+    dispConclusionAccent: "Fini le désordre, place à la vraie collaboration.",
   },
   en: {
     almaEyebrow: 'AI-powered onboarding in 5 min',
@@ -61,7 +62,8 @@ const T = {
     dispTitleAccent: "But each on their own.",
     dispIntro: "Your teams already use AI. The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. It's time to hire real AI collaborators.",
     dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
-    dispConclusion: "Unitalk brings your teams and their AI agents together around shared memory. No more chaos, just real collaboration.",
+    dispConclusion: "Unitalk brings your teams and their AI agents together around shared memory.",
+    dispConclusionAccent: "No more chaos, just real collaboration.",
   },
 }
 
@@ -205,6 +207,9 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="text-lg font-semibold leading-relaxed text-[#F7F4EE]">
               <span className="font-bold text-white">Unitalk</span>{' '}
               {t.dispConclusion.replace('Unitalk ', '')}
+            </p>
+            <p className="mt-3 text-lg font-semibold leading-relaxed text-[#D10E63]">
+              {t.dispConclusionAccent}
             </p>
           </div>
         </div>
