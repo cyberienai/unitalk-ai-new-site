@@ -11,18 +11,18 @@ const T = {
     pillars: [
       {
         icon: Brain,
-        title: 'Une Mémoire Partagée',
-        description: 'Votre équipe et ses agents travaillent dans le même contexte, les mêmes décisions, la même mémoire d\'entreprise.',
+        title: 'Contexte Partagé',
+        description: 'Votre équipe et vos agents partagent le même contexte, les mêmes décisions, la même mémoire d\'entreprise. Fini les silos.',
       },
       {
         icon: Users,
-        title: 'Une Collaboration Active',
-        description: 'L\'agent Hermès les propulse. Vos équipes et vos agents raisonnent ensemble, décident ensemble, exécutent ensemble.',
+        title: 'Synergie Humain-IA',
+        description: 'Propulsés par notre moteur Hermès, humains et agents raisonnent, décident et exécutent ensemble. Une synergie, pas des allers-retours.',
       },
       {
         icon: IdCard,
-        title: 'De Vrais Collaborateurs IA',
-        description: 'Chaque agent a une identité, une voix, un rôle. Ils grandissent, apprennent, se souviennent. Des agents autonomes, vraiment.',
+        title: 'Vrais Collaborateurs',
+        description: 'Chaque collaborateur a une identité, une voix, un rôle. Il apprend, se souvient, s\'améliore en continu. Autonome et fiable.',
       },
     ],
   },
@@ -32,18 +32,18 @@ const T = {
     pillars: [
       {
         icon: Brain,
-        title: 'A Shared Memory',
-        description: 'Your team and its agents work in the same context, decisions, and company memory.',
+        title: 'Shared Context',
+        description: 'Your team and your agents share the same context, decisions, and company memory. No more silos.',
       },
       {
         icon: Users,
-        title: 'Active Collaboration',
-        description: 'Powered by Hermès agent. Your teams and your agents reason together, decide together, execute together.',
+        title: 'Human-AI Synergy',
+        description: 'Powered by our Hermès engine, humans and agents reason, decide, and execute together. Synergy, not back-and-forth.',
       },
       {
         icon: IdCard,
-        title: 'Real AI Collaborators',
-        description: 'Each agent has an identity, a voice, a role. They grow, learn, remember. Autonomous agents, truly.',
+        title: 'Real Collaborators',
+        description: 'Each collaborator has an identity, a voice, a role. It learns, remembers, and improves continuously. Autonomous and reliable.',
       },
     ],
   },
@@ -75,9 +75,7 @@ export function WhyItWorksSection() {
             {t.eyebrow}
           </p>
           <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1C1A17]">
-            Trois principes de collaboration
-            <br />
-            <span className="text-[#D10E63]">qui changent tout</span>
+            <span className="text-[#D10E63]">Ce qui rend un Collaborateur IA unique</span>
           </h2>
         </motion.div>
 
