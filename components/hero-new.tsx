@@ -363,7 +363,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.h1
             className="font-sf mb-6 text-balance font-bold text-[#1C1A17]"
-            style={{ fontSize: 'clamp(2.4rem, 5vw, 4.25rem)', lineHeight: 1.0, letterSpacing: '-0.03em' }}
+            style={{ fontSize: 'clamp(2.1rem, 4vw, 3.4rem)', lineHeight: 1.08, letterSpacing: '-0.03em' }}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.06 }}
