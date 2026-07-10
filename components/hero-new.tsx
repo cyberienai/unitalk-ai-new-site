@@ -467,6 +467,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {/* identity - using active collaborator */}
             {(() => {
               const collab = t.collaborators[activeCollaborator]
+              const femaleIds = ['sophia', 'elena', 'nina', 'designer', 'meeting']
+              const status =
+                lang === 'fr' && femaleIds.includes(collab.id)
+                  ? 'Prête à travailler'
+                  : t.sofiaStatus
               return (
                 <div className="relative mb-6 flex items-center gap-4">
                   <img
@@ -479,7 +484,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{collab.name}</h2>
                       <span className="inline-flex items-center gap-1 rounded-lg border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-2.5 py-1 text-xs font-medium text-[#8FCBA6]">
                         <CheckCircle2 className="h-3 w-3 text-[#4F9E6E]" />
-                        {t.sofiaStatus}
+                        {status}
                       </span>
                     </div>
                     <p className="text-sm text-[#B8B0A2]">{collab.role}</p>
