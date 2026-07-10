@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, Handshake, Clock, FileText, MapPin, Gift } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, CheckCircle2, Handshake, Clock, FileText, MapPin, Gift, Users } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 function getInitials(name: string) {
@@ -20,10 +20,15 @@ const T = {
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
-      'Un nom, une mémoire partagée, des compétences. Donnez-leur des objectifs. Ils travaillent seuls ou avec vous, 24h/24.',
-    manifesto: ['Apprend', 'Se souvient', 'Collabore', 'Progresse'],
+      "Ils appellent vos clients, répondent aux emails, planifient les rendez-vous et collaborent avec vos équipes. Donnez-leur un objectif, ils s'occupent du reste.",
+    manifesto: [
+      { icon: Phone, label: 'Appelle' },
+      { icon: Calendar, label: 'Planifie' },
+      { icon: Mail, label: 'Répond' },
+      { icon: Users, label: 'Collabore' },
+    ],
     signature: "L'IA qui travaille avec votre organisation.",
-    ctaPrimary: 'Activer mon Collaborateur IA',
+    ctaPrimary: 'Recruter mon collaborateur',
     ctaProofs: [
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
       { icon: Handshake, label: 'Aucun engagement' },
@@ -55,9 +60,8 @@ const T = {
       { icon: Calendar, label: 'Calendrier' },
     ],
     rows: [
-      { icon: Database, label: 'Mémoire', value: 'Données, historique, contexte' },
-      { icon: Zap, label: 'Compétences', value: 'Prospection LinkedIn, relance, CRM HubSpot' },
-      { icon: Cpu, label: 'Modèles', value: 'ChatGPT, Claude, Gemini, Mistral' },
+      { icon: Database, label: 'Se souvient', value: 'De vos clients, votre historique et vos procédures' },
+      { icon: Zap, label: 'Sait faire', value: '', dynamic: true },
     ],
 
     collaborators: [
@@ -158,10 +162,15 @@ const T = {
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
-      'With names, skills, shared memory. Give them objectives. They work alone or with your team, 24/7.',
-    manifesto: ['It learns', 'It remembers', 'It collaborates', 'It improves'],
+      'They call your clients, answer emails, schedule meetings and collaborate with your teams. Give them a goal, they handle the rest.',
+    manifesto: [
+      { icon: Phone, label: 'Calls' },
+      { icon: Calendar, label: 'Schedules' },
+      { icon: Mail, label: 'Replies' },
+      { icon: Users, label: 'Collaborates' },
+    ],
     signature: 'The AI that works with your organization.',
-    ctaPrimary: 'Create my AI Collaborator for free',
+    ctaPrimary: 'Recruit my collaborator',
     ctaProofs: [
       { icon: Clock, label: 'Ready to work in 5 min' },
       { icon: Handshake, label: 'No commitment' },
@@ -193,9 +202,8 @@ const T = {
       { icon: Calendar, label: 'Calendar' },
     ],
     rows: [
-      { icon: Database, label: 'Memory', value: 'Data, history, context' },
-      { icon: Zap, label: 'Skills', value: 'LinkedIn Prospecting, follow-up, CRM HubSpot' },
-      { icon: Cpu, label: 'Models', value: 'ChatGPT, Claude, Gemini, Mistral' },
+      { icon: Database, label: 'Remembers', value: 'Your clients, history and procedures' },
+      { icon: Zap, label: 'Can do', value: '', dynamic: true },
     ],
     collaborators: [
       {
@@ -383,9 +391,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           >
             {t.manifesto.map((line, i) => {
               const isActive = i === activeVerb
+              const VerbIcon = line.icon
               return (
                 <motion.span
-                  key={line}
+                  key={line.label}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -398,14 +407,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     }}
                     animate={{ scale: isActive ? 1.06 : 1 }}
                     transition={{ duration: 0.45, ease }}
-                    className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-2.5 py-1 text-sm font-medium text-[#1C1A17]"
+                    className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'border-[#D10E63] bg-[#D10E63] text-[#FBF9F3]'
+                        : 'border-[#DcD4C4] bg-[#FBF9F3] text-[#1C1A17]'
+                    }`}
                   >
-                    <motion.span
-                      animate={{ scale: isActive ? [1, 1.9, 1] : 1 }}
-                      transition={{ duration: isActive ? 0.6 : 0.3, ease }}
-                      className="h-1 w-1 rounded-full bg-[#D10E63]"
-                    />
-                    {line}
+                    <VerbIcon className={`h-3.5 w-3.5 ${isActive ? 'text-[#FBF9F3]' : 'text-[#D10E63]'}`} strokeWidth={2} />
+                    {line.label}
                   </motion.span>
                 </motion.span>
               )
@@ -526,9 +535,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="relative mb-4 space-y-3.5 border-t border-white/[0.06] pt-4">
               {t.rows.map((row) => {
                 const Icon = row.icon
-                // Use collaborator's skills for the Compétences/Skills row
-                const displayValue = row.label === 'Compétences' || row.label === 'Skills' 
-                  ? t.collaborators[activeCollaborator].skills 
+                // Use the active collaborator's skills for the dynamic "Sait faire" row
+                const displayValue = 'dynamic' in row && row.dynamic
+                  ? t.collaborators[activeCollaborator].skills
                   : row.value
                 return (
                   <div key={row.label} className="flex items-start gap-3">
