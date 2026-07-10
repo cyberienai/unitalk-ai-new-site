@@ -90,7 +90,7 @@ const T = {
         profileUrl: 'unitalk.ai/marcus',
         skills: 'Planning, tracking, rappels',
         avatar: '/marcus-avatar.png',
-        example: 'Marcus planifie les sprints et relance les tâches retardées. 0 deadline manqué.',
+        example: 'Marcus planifie les sprints et relance les tâches retardées. 0 deadline manquée.',
       },
       {
         id: 'elena',
