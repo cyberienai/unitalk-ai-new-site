@@ -532,43 +532,43 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
 
 
-            {/* carousel indicators + buttons */}
-            <div
-              className="relative mb-5 flex items-center justify-between gap-2"
-              onMouseEnter={() => setIsHoveringCarousel(true)}
-              onMouseLeave={() => setIsHoveringCarousel(false)}
-            >
-              <button
-                onClick={() => setActiveCollaborator((prev) => (prev - 1 + t.collaborators.length) % t.collaborators.length)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#8A8175] hover:bg-white/10 hover:text-[#F1729F] transition-all"
-                aria-label="Previous collaborator"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <div className="flex flex-1 items-center justify-center gap-1.5">
-                {t.collaborators.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveCollaborator(idx)}
-                    className={`h-2 rounded-full transition-all ${
-                      idx === activeCollaborator ? 'w-6 bg-[#D10E63]' : 'w-2 bg-white/20 hover:bg-white/40'
-                    }`}
-                    aria-label={`Show collaborator ${idx + 1}`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setActiveCollaborator((prev) => (prev + 1) % t.collaborators.length)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#8A8175] hover:bg-white/10 hover:text-[#F1729F] transition-all"
-                aria-label="Next collaborator"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-
             {/* button */}
             <button className="relative w-full rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
               {t.sofiaCreateBtn} {t.collaborators[activeCollaborator].name}
+            </button>
+          </div>
+
+          {/* carousel indicators + buttons — moved below the card */}
+          <div
+            className="relative mt-6 flex items-center justify-between gap-2 max-w-md mx-auto lg:mx-0"
+            onMouseEnter={() => setIsHoveringCarousel(true)}
+            onMouseLeave={() => setIsHoveringCarousel(false)}
+          >
+            <button
+              onClick={() => setActiveCollaborator((prev) => (prev - 1 + t.collaborators.length) % t.collaborators.length)}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#D10E63]/30 bg-[#D10E63]/10 text-[#8A8175] hover:bg-[#D10E63]/20 hover:text-[#D10E63] transition-all"
+              aria-label="Previous collaborator"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <div className="flex flex-1 items-center justify-center gap-1.5">
+              {t.collaborators.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveCollaborator(idx)}
+                  className={`h-2 rounded-full transition-all ${
+                    idx === activeCollaborator ? 'w-6 bg-[#D10E63]' : 'w-2 bg-[#DcD4C4] hover:bg-[#857C6E]'
+                  }`}
+                  aria-label={`Show collaborator ${idx + 1}`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={() => setActiveCollaborator((prev) => (prev + 1) % t.collaborators.length)}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#D10E63]/30 bg-[#D10E63]/10 text-[#8A8175] hover:bg-[#D10E63]/20 hover:text-[#D10E63] transition-all"
+              aria-label="Next collaborator"
+            >
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         </motion.div>
