@@ -7,9 +7,9 @@ import { useLanguage } from '@/lib/language-context'
 
 // Full list — shown in the burger menu
 const NAV_LINKS = [
-  { fr: 'Solo', en: 'Solo', href: '/solo' },
-  { fr: 'Teams', en: 'Teams', href: '/teams' },
-  { fr: 'Business', en: 'Business', href: '/business' },
+  { fr: 'Démarrer', en: 'Get Started', href: '/solo' },
+  { fr: 'Collaborer', en: 'Collaborate', href: '/teams' },
+  { fr: 'Déployer', en: 'Deploy', href: '/business' },
   { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
   { fr: "10 profils prêts à l'emploi", en: '10 ready-to-use profiles', href: '/use-cases' },
@@ -24,9 +24,9 @@ const NAV_LINKS = [
 
 // Essentials — shown inline on desktop
 const PRIMARY_LINKS = [
-  { fr: 'Solo', en: 'Solo', href: '/solo' },
-  { fr: 'Teams', en: 'Teams', href: '/teams' },
-  { fr: 'Business', en: 'Business', href: '/business' },
+  { fr: 'Démarrer', en: 'Get Started', href: '/solo' },
+  { fr: 'Collaborer', en: 'Collaborate', href: '/teams' },
+  { fr: 'Déployer', en: 'Deploy', href: '/business' },
   { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
 ]
 
