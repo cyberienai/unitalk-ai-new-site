@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, X, ArrowLeftRight, CheckCircle2, User, Bot, ArrowDown, Check } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Check } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -41,11 +41,11 @@ const T = {
     dispCta: "Activer mon Collaborateur IA",
     dispVisual: {
       people: [
-        { name: 'Sophie', detail: 'utilise ChatGPT dans son coin' },
-        { name: 'Marc', detail: 'utilise Claude, pas de partage' },
-        { name: 'Julie', detail: 'utilise Gemini, fichiers locaux' },
+        { name: 'Sophie', detail: 'utilise ChatGPT dans son coin', avatar: '/images/avatars/sophie.png' },
+        { name: 'Marc', detail: 'utilise Claude, pas de partage', avatar: '/images/avatars/marc.png' },
+        { name: 'Julie', detail: 'utilise Gemini, fichiers locaux', avatar: '/images/avatars/julie.png' },
       ],
-      highlight: { name: 'Elena', detail: 'collaboratrice IA Unitalk' },
+      highlight: { name: 'Elena', detail: 'collaboratrice IA Unitalk', avatar: '/images/avatars/elena.png' },
       recapTitle: 'Unitalk centralise',
       recapText: 'Équipes + collaborateurs IA, mémoire partagée, espace sécurisé.',
     },
@@ -80,11 +80,11 @@ const T = {
     dispCta: "Activate my AI Collaborator",
     dispVisual: {
       people: [
-        { name: 'Sophie', detail: 'uses ChatGPT on her own' },
-        { name: 'Marc', detail: 'uses Claude, no sharing' },
-        { name: 'Julie', detail: 'uses Gemini, local files' },
+        { name: 'Sophie', detail: 'uses ChatGPT on her own', avatar: '/images/avatars/sophie.png' },
+        { name: 'Marc', detail: 'uses Claude, no sharing', avatar: '/images/avatars/marc.png' },
+        { name: 'Julie', detail: 'uses Gemini, local files', avatar: '/images/avatars/julie.png' },
       ],
-      highlight: { name: 'Elena', detail: 'Unitalk AI collaborator' },
+      highlight: { name: 'Elena', detail: 'Unitalk AI collaborator', avatar: '/images/avatars/elena.png' },
       recapTitle: 'Unitalk centralizes',
       recapText: 'Teams + AI collaborators, shared memory, secure space.',
     },
@@ -264,9 +264,11 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, ease, delay: idx * 0.1 }}
                   >
-                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#B8AFA0]">
-                      <User className="h-5 w-5" strokeWidth={1.8} />
-                    </span>
+                    <img
+                      src={person.avatar}
+                      alt={person.name}
+                      className="h-10 w-10 flex-shrink-0 rounded-full object-cover opacity-60 grayscale"
+                    />
                     <p className="text-sm text-[#C9C0B2] sm:text-[15px]">
                       <span className="font-semibold text-[#F7F4EE]">{person.name}</span>
                       <span className="text-[#8A8175]">{' — '}{person.detail}</span>
@@ -282,9 +284,11 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, ease, delay: 0.35 }}
                 >
-                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-white">
-                    <Bot className="h-5 w-5" strokeWidth={1.8} />
-                  </span>
+                  <img
+                    src={t.dispVisual.highlight.avatar}
+                    alt={t.dispVisual.highlight.name}
+                    className="h-10 w-10 flex-shrink-0 rounded-full object-cover ring-2 ring-[#D10E63] ring-offset-2 ring-offset-[#1A1613]"
+                  />
                   <p className="text-sm text-[#C9C0B2] sm:text-[15px]">
                     <span className="font-semibold text-[#F7F4EE]">{t.dispVisual.highlight.name}</span>
                     <span className="text-[#E7B8CD]">{' — '}{t.dispVisual.highlight.detail}</span>
