@@ -417,7 +417,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
 
           <motion.ul
-            className="mt-6 -mx-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/8 px-5 py-4 text-sm font-medium text-[#6B6560] sm:-mx-0 sm:mt-8 sm:border-none sm:bg-transparent sm:p-0 sm:justify-start sm:text-base"
+            className="mt-6 -mx-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/8 px-5 py-4 text-sm font-medium text-[#6B6560] sm:-mx-0 sm:mt-8 sm:flex-nowrap sm:gap-x-5 sm:border-none sm:bg-transparent sm:p-0 sm:justify-start sm:text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease, delay: 0.32 }}
@@ -425,8 +425,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.ctaProofs.map((proof) => {
               const ProofIcon = proof.icon
               return (
-                <li key={proof.label} className="inline-flex items-center gap-2">
-                  <ProofIcon className="h-5 w-5 text-[#D10E63]" />
+                <li key={proof.label} className="inline-flex items-center gap-2 whitespace-nowrap">
+                  <ProofIcon className="h-4 w-4 flex-shrink-0 text-[#D10E63]" />
                   {proof.label}
                 </li>
               )
