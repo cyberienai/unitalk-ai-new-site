@@ -362,14 +362,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
 
           <motion.h1
-            className="font-sf mb-6 text-balance font-bold text-[#1C1A17]"
-            style={{ fontSize: 'clamp(2.3rem, 4.5vw, 3.9rem)', lineHeight: 1.08, letterSpacing: '-0.03em' }}
+            className="font-sf mb-6 font-bold text-[#1C1A17]"
+            style={{ fontSize: 'clamp(2.2rem, 3.6vw, 3.3rem)', lineHeight: 1.1, letterSpacing: '-0.03em' }}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.06 }}
           >
             {t.headline}
-            <span className="inline lg:block text-[#D10E63]">{t.headlineAccent}</span>
+            <span className="inline lg:block lg:whitespace-nowrap text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
 
           <motion.p
