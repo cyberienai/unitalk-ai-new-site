@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Check } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Check, Network, ShieldCheck, Users } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -31,13 +31,15 @@ const T = {
 
     // IA dispersée (dark)
     dispEyebrow: 'Le vrai problème',
-    dispTitle: "Vos équipes utilisent l'IA. ",
-    dispTitleAccent: "Mais chacun de son côté.",
+    dispTitle: "L'IA, ",
+    dispTitleAccent: "chacun pour soi.",
     dispIntro:
-      "Le problème n'est pas l'adoption, c'est\u00A0la\u00A0dispersion\u00A0: chacun dans son coin, sans mémoire ni méthode partagée. Il est temps de recruter de vrais collaborateurs IA.",
-    dispStrong: "Le problème n'est pas que les entreprises n'utilisent pas l'IA. C'est qu'elles l'utilisent en désordre.",
-    dispConclusion: "Unitalk centralise vos équipes et leurs collaborateurs IA autour d'une mémoire partagée et d'un espace de travail sécurisé.",
-    dispConclusionAccent: "Plus de dispersion, une seule équipe.",
+      "Shadow IT, fuite de données, obsolescence. Vos équipes utilisent l'IA — vous ne contrôlez ni où, ni comment, ni avec quels modèles.",
+    dispPillars: [
+      { label: 'AI Gateway', text: 'Tous les meilleurs modèles, un accès, un contrôle.' },
+      { label: 'AI Cloud', text: 'Votre serveur IA privé. Données sous votre contrôle.' },
+      { label: 'Collaboration', text: 'Humains et agents, même équipe. Mémoire partagée, contexte commun.' },
+    ],
     dispCta: "Activer mon Collaborateur IA",
     dispVisual: {
       people: [
@@ -71,12 +73,14 @@ const T = {
     ],
     
     dispEyebrow: 'The real problem',
-    dispTitle: "Your teams use AI. ",
-    dispTitleAccent: "But each on their own.",
-    dispIntro: "The problem isn't adoption, it's fragmentation: everyone in their corner, with no shared memory or method. It's time to hire real AI collaborators.",
-    dispStrong: "The problem isn't that companies don't use AI. It's that they use it in chaos.",
-    dispConclusion: "Unitalk centralizes your teams and their AI collaborators around shared memory and a secure workspace.",
-    dispConclusionAccent: "No more fragmentation. One team.",
+    dispTitle: "AI, ",
+    dispTitleAccent: "everyone for themselves.",
+    dispIntro: "Shadow IT, data leaks, obsolescence. Your teams use AI — you control neither where, nor how, nor with which models.",
+    dispPillars: [
+      { label: 'AI Gateway', text: 'All the best models, one access, one control.' },
+      { label: 'AI Cloud', text: 'Your private AI server. Data under your control.' },
+      { label: 'Collaboration', text: 'Humans and agents, one team. Shared memory, common context.' },
+    ],
     dispCta: "Activate my AI Collaborator",
     dispVisual: {
       people: [
@@ -224,23 +228,39 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
             <div className="h-10" />
 
-            {/* Solution section */}
-            <div className="rounded-2xl border-l-4 border-[#D10E63] bg-gradient-to-r from-[#D10E63]/10 to-transparent px-6 py-6 sm:px-8 sm:py-8">
-              <p className="text-lg font-semibold leading-relaxed text-[#F7F4EE]">
-                <span className="font-bold text-white">Unitalk</span>{' '}
-                {t.dispConclusion.replace('Unitalk ', '')}
-              </p>
-              <p className="mt-3 text-lg font-semibold leading-relaxed text-[#D10E63]">
-                {t.dispConclusionAccent}
-              </p>
+            {/* Solution pillars */}
+            <div className="border-t border-white/10">
+              {t.dispPillars.map((pillar, i) => {
+                const PillarIcon = [Network, ShieldCheck, Users][i]
+                return (
+                  <motion.div
+                    key={pillar.label}
+                    className="flex items-start gap-4 border-b border-white/10 py-5"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.45, ease, delay: i * 0.12 }}
+                  >
+                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#D10E63]/15 text-[#D10E63]">
+                      <PillarIcon className="h-5 w-5" strokeWidth={1.8} />
+                    </span>
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">
+                        {pillar.label}
+                      </p>
+                      <p className="mt-1 text-base leading-relaxed text-[#E8E1D0]">{pillar.text}</p>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
 
-              {/* CTA Button */}
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
-                  {t.dispCta}
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
+            {/* CTA Button */}
+            <div className="mt-8">
+              <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
+                {t.dispCta}
+                <ChevronRight className="h-4 w-4" />
+              </button>
             </div>
           </div>
 
