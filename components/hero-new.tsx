@@ -384,7 +384,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
           <motion.div
             ref={chipsRef}
-            className="mb-8 -mx-5 flex gap-1.5 overflow-x-auto px-5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0 relative after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:pointer-events-none after:bg-gradient-to-l after:from-[#F3EFE6] after:to-transparent sm:after:hidden"
+            className="mb-8 flex flex-wrap gap-2 sm:gap-2"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
@@ -407,10 +407,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     }}
                     animate={{ scale: isActive ? 1.06 : 1 }}
                     transition={{ duration: 0.45, ease }}
-                    className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
+                    className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-medium transition-all ${
                       isActive
                         ? 'border-[#D10E63] bg-[#D10E63] text-[#FBF9F3]'
-                        : 'border-[#DcD4C4] bg-[#FBF9F3] text-[#1C1A17]'
+                        : 'border-[#D10E63]/30 bg-white text-[#1C1A17] hover:border-[#D10E63]/50'
                     }`}
                   >
                     <VerbIcon className={`h-3.5 w-3.5 ${isActive ? 'text-[#FBF9F3]' : 'text-[#D10E63]'}`} strokeWidth={2} />
