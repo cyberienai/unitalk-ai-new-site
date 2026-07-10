@@ -390,6 +390,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-sm font-medium"
                 >
                   <motion.span
+                    initial={{ backgroundColor: '#D10E63', scale: 1 }}
                     animate={{
                       backgroundColor: isActive ? '#FBF9F3' : '#D10E63',
                       scale: isActive ? [1, 1.9, 1] : 1,
