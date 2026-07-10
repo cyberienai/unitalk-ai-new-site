@@ -67,13 +67,11 @@ const T = {
   },
 }
 
-export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
+export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
 
   return (
-    <>
-      {/* ---------- Alma onboarding (light) ---------- */}
-      <section className="relative w-full overflow-hidden bg-[#F3EFE6] py-20 sm:py-28">
+    <section className="relative w-full overflow-hidden bg-[#F3EFE6] py-20 sm:py-28">
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* 2-column layout: title/subtitle left, video right */}
           <div className="mb-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
@@ -181,10 +179,15 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             ))}
           </div>
         </div>
-      </section>
+    </section>
+  )
+}
 
-      {/* ---------- IA dispersée (dark) ---------- */}
-      <section className="relative w-full overflow-hidden bg-[#1A1613] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
+  const t = T[lang]
+
+  return (
+    <section className="relative w-full overflow-hidden bg-[#1A1613] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
         {/* glow */}
         <div
           aria-hidden="true"
@@ -213,7 +216,15 @@ export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </p>
           </div>
         </div>
-      </section>
+    </section>
+  )
+}
+
+export function AlmaIaSections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
+  return (
+    <>
+      <AlmaOnboardingSection lang={lang} />
+      <DispersedIASection lang={lang} />
     </>
   )
 }

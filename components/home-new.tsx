@@ -3,7 +3,7 @@
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
 import { WhyItWorksSection } from './why-it-works-section'
-import { AlmaIaSections } from './alma-ia-sections'
+import { AlmaOnboardingSection, DispersedIASection } from './alma-ia-sections'
 import { CoreProductCards } from './core-product-cards'
 import {
   AIGatewaySection,
@@ -20,14 +20,17 @@ export function HomeNew() {
       {/* 1. Header / Navigation */}
       <Navbar />
 
-      {/* 2 + 3. Hero 2 colonnes + carte Sofia */}
+      {/* 2. Hero 2 colonnes + carte Sofia */}
       <HeroNew lang="fr" />
 
-      {/* 3.5. Why It Works — 3 pillars */}
+      {/* 3. The real problem — IA dispersée + Solution Unitalk (MOVED HERE) */}
+      <DispersedIASection lang="fr" />
+
+      {/* 4. Why It Works — 3 pillars */}
       <WhyItWorksSection />
 
-      {/* 4 + 5. Alma onboarding + IA dispersée */}
-      <AlmaIaSections lang="fr" />
+      {/* 5. Alma onboarding */}
+      <AlmaOnboardingSection lang="fr" />
 
       {/* 6. Cœur produit — 7 cards */}
       <CoreProductCards lang="fr" />
