@@ -190,7 +190,7 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#F3EFE6] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+    <section className="relative w-full overflow-hidden bg-[#1A1613] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
         {/* glow */}
         <div
           aria-hidden="true"
