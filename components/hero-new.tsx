@@ -439,7 +439,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/20 text-[#D10E63]">
               <Zap className="h-4 w-4" />
             </div>
-            <p className="text-sm font-medium leading-relaxed text-[#1C1A17]">{t.collaborators[activeCollaborator].example}</p>
           </motion.div>
         </div>
 
