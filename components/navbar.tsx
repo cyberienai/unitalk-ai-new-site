@@ -34,6 +34,7 @@ const T = {
   fr: {
     home: 'Accueil Unitalk AI',
     signIn: 'Se connecter',
+    talkToAlma: 'Parlez à Alma',
     createAgent: 'Créer mon Collaborateur IA gratuit',
     signUp: 'S’inscrire',
     openMenu: 'Ouvrir le menu',
@@ -42,6 +43,7 @@ const T = {
   en: {
     home: 'Unitalk AI Home',
     signIn: 'Sign in',
+    talkToAlma: 'Talk to Alma',
     createAgent: 'Create my AI Collaborator for free',
     signUp: 'Sign up',
     openMenu: 'Open menu',
@@ -126,6 +128,13 @@ export function Navbar() {
 
         {/* Right: Buttons */}
         <div className="flex items-center gap-2 sm:gap-4">
+          <a
+            href="/#alma"
+            className="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#D10E63] hover:text-[#B00B52] transition-colors"
+          >
+            <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+            {t.talkToAlma}
+          </a>
           <button
             className="inline-flex px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1C1A17] hover:text-[#857C6E] transition-colors"
             aria-label={t.signIn}
