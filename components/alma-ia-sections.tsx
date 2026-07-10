@@ -229,11 +229,6 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
   return (
     <section className="relative w-full overflow-hidden bg-[#1A1613] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
-        {/* smooth transition from the beige section above */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#F3EFE6] to-transparent"
-        />
         {/* glow */}
         <div
           aria-hidden="true"

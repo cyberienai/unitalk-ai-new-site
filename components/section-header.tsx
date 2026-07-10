@@ -27,12 +27,8 @@ export function SectionHeader({
   return (
     <div className={`flex flex-col ${wrap}`}>
       <div className="flex items-center gap-3">
-        <span className={`h-2 w-2 rounded-sm ${dark ? 'bg-[#FF6FA5]' : 'bg-[#D10E63]'}`} />
-        <p
-          className={`text-[11px] font-semibold uppercase tracking-[0.24em] ${
-            dark ? 'text-[#FF6FA5]' : 'text-[#D10E63]'
-          }`}
-        >
+        <span className="h-2 w-2 rounded-sm bg-[#D10E63]" />
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">
           {eyebrow}
         </p>
       </div>
