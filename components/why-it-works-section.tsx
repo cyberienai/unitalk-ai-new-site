@@ -86,7 +86,7 @@ export function WhyItWorksSection() {
             return (
               <motion.div
                 key={pillar.title}
-                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#E8E1D0] bg-[#FBF9F3] p-8 shadow-sm transition-all duration-300 hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10 hover:-translate-y-1"
+                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#E8E1D0] bg-[#FFFFFF] p-8 shadow-sm transition-all duration-300 hover:shadow-md hover:shadow-[rgba(90,70,60,0.12)] hover:-translate-y-1"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -98,10 +98,10 @@ export function WhyItWorksSection() {
                 </div>
 
                 {/* Title with better emphasis */}
-                <h3 className="text-xl font-bold text-[#1C1A17] group-hover:text-[#D10E63] transition-colors duration-300">{pillar.title}</h3>
+                <h3 className="text-xl font-bold text-[#1C1A17]">{pillar.title}</h3>
 
                 {/* Description */}
-                <p className="text-sm leading-relaxed text-[#6B6357] group-hover:text-[#1C1A17] transition-colors duration-300">{pillar.description}</p>
+                <p className="text-sm leading-relaxed text-[#333333]">{pillar.description}</p>
               </motion.div>
             )
           })}
