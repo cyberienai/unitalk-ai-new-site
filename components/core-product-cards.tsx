@@ -12,7 +12,7 @@ const T = {
     title: 'Ce qui transforme un agent IA en ',
     titleAccent: 'vrai collaborateur.',
     subtitle:
-      'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui en fait un vrai membre de l\'équipe. Chaque collaborateur est propulsé par l\'agent Hermes, notre moteur d\'IA.',
+      'Un agent exécute des tâches. Un Collaborateur IA a une identité, une mémoire, des compétences. Il travaille avec votre équipe, pas à côté. Propulsé par Hermes, l\'agent autonome open source n°1.',
     cta: 'Activer mon Collaborateur IA',
     cards: [
       { icon: User, title: 'Identité', description: 'Nom, voix, téléphone, email, calendrier. Un vrai profil.' },
@@ -28,7 +28,7 @@ const T = {
     title: 'What transforms an AI agent into a ',
     titleAccent: 'real collaborator.',
     subtitle:
-      'An AI agent alone can answer, reason or execute a task. An AI Collaborator goes further: it brings together everything that makes a real team member. Each collaborator is powered by the Hermes agent, our AI engine.',
+      'An agent executes tasks. An AI Collaborator has an identity, a memory, skills. It works with your team, not beside it. Powered by Hermes, the #1 open source autonomous agent.',
     cta: 'Activate my AI Collaborator',
     cards: [
       { icon: User, title: 'Identity', description: 'Name, voice, phone, email, calendar. A real profile.' },
