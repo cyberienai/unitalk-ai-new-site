@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Network, ShieldCheck, Users, User, Bot } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight, CheckCircle2, ArrowDown, Network, ShieldCheck, Users, User, Bot, Building2, MessagesSquare, ListChecks, Plug, CalendarClock, TrendingUp } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -152,6 +152,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <div className="mx-auto max-w-2xl">
             {t.almaSteps.map((step, i) => {
               const isLast = i === t.almaSteps.length - 1
+              const StepIcon = [Building2, MessagesSquare, ListChecks, Plug, CalendarClock, TrendingUp][i] ?? Building2
               return (
                 <motion.article
                   key={step.n}
@@ -159,27 +160,32 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
                   transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const, delay: i * 0.06 }}
-                  className="group relative flex gap-5 pb-8 last:pb-0"
+                  className="group relative flex gap-5 pb-6 last:pb-0 sm:gap-6"
                 >
-                  {/* Number badge + connecting line */}
+                  {/* Icon badge + connecting line */}
                   <div className="relative flex flex-col items-center">
-                    <div className="z-10 inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#D10E63] to-[#B00B52] font-bold text-sm text-[#FBF9F3] transition-all group-hover:scale-110">
-                      {step.n}
+                    <div className="z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-[#D10E63]/40 bg-[#D10E63]/10 text-[#D10E63] transition-all duration-300 group-hover:border-[#D10E63] group-hover:bg-[#D10E63] group-hover:text-[#FBF9F3]">
+                      <StepIcon className="h-5 w-5" strokeWidth={1.8} />
                     </div>
                     {!isLast && (
-                      <div className="absolute top-11 h-full w-px bg-[#D10E63]/25" aria-hidden="true" />
+                      <div className="absolute top-12 h-full w-px bg-gradient-to-b from-[#D10E63]/40 to-[#D10E63]/5" aria-hidden="true" />
                     )}
                   </div>
 
-                  {/* Content */}
-                  <div className="flex-1 pt-1">
-                    <h3
-                      className="font-sf text-base font-bold leading-snug text-[#1C1A17]"
-                      style={{ letterSpacing: '-0.02em' }}
-                    >
-                      {step.label}
-                    </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-[#4E483F]">
+                  {/* Content card */}
+                  <div className="flex-1 rounded-2xl border border-white/[0.07] bg-white/[0.03] p-5 transition-all duration-300 group-hover:border-[#D10E63]/30 group-hover:bg-white/[0.05] sm:p-6">
+                    <div className="flex items-center gap-3">
+                      <span className="font-sf text-xs font-bold tabular-nums tracking-[0.1em] text-[#D10E63]">
+                        {step.n}
+                      </span>
+                      <h3
+                        className="font-sf text-base font-bold leading-snug text-[#F7F4EE] sm:text-lg"
+                        style={{ letterSpacing: '-0.02em' }}
+                      >
+                        {step.label}
+                      </h3>
+                    </div>
+                    <p className="mt-2 text-sm leading-relaxed text-[#B8AFA0]">
                       {step.desc}
                     </p>
                   </div>
