@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { fr: 'Démarrer', en: 'Get Started', href: '/solo' },
   { fr: 'Collaborer', en: 'Collaborate', href: '/teams' },
   { fr: 'Déployer', en: 'Deploy', href: '/business' },
-  { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
+  { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
   { fr: "10 profils prêts à l'emploi", en: '10 ready-to-use profiles', href: '/use-cases' },
   { fr: 'Accompagnement', en: 'Support', href: '/accompagnement' },
@@ -27,7 +27,7 @@ const PRIMARY_LINKS = [
   { fr: 'Démarrer', en: 'Get Started', href: '/solo' },
   { fr: 'Collaborer', en: 'Collaborate', href: '/teams' },
   { fr: 'Déployer', en: 'Deploy', href: '/business' },
-  { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
+  { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
 ]
 
 const T = {
