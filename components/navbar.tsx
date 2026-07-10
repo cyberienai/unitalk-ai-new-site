@@ -130,9 +130,8 @@ export function Navbar() {
         <div className="flex items-center gap-2 sm:gap-4">
           <a
             href="/#alma"
-            className="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#D10E63] hover:text-[#B00B52] transition-colors"
+            className="hidden sm:inline-flex text-xs sm:text-sm font-medium text-[#D10E63] hover:text-[#B00B52] transition-colors"
           >
-            <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
             {t.talkToAlma}
           </a>
           <button
