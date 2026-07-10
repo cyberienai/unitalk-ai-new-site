@@ -17,8 +17,8 @@ function getInitials(name: string) {
 const T = {
   fr: {
     eyebrow: "Le cloud privé de vos collaborateurs IA",
-    headline: 'Vous avez ',
-    headlineAccent: 'maintenant de vrais collaborateurs IA.',
+    headline: 'Vous avez maintenant ',
+    headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
       "Avec un nom, une mémoire partagée, des compétences. Donnez-leur un objectif, ils s'occupent du reste.",
     manifesto: [
@@ -369,7 +369,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             transition={{ duration: 0.6, ease, delay: 0.06 }}
           >
             {t.headline}
-            <span className="text-[#D10E63]">{t.headlineAccent}</span>
+            <span className="block text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
 
           <motion.p
