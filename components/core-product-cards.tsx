@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { User, Brain, Database, Zap, Wrench, Cpu, FileText, CalendarClock, MessagesSquare, ChevronRight } from 'lucide-react'
+import { User, Brain, Database, Zap, Wrench, MessagesSquare, ChevronRight } from 'lucide-react'
 import { SectionHeader } from './section-header'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -15,15 +15,12 @@ const T = {
       'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui en fait un vrai membre de l\'équipe. Chaque collaborateur est propulsé par l\'agent Hermes, notre moteur d\'IA.',
     cta: 'Activer mon Collaborateur IA',
     cards: [
-      { icon: User, title: 'Une identité', description: 'Nom, voix, numéro de téléphone, email, calendrier. Un vrai profil avec sa présence et son historique.' },
-      { icon: Brain, title: 'Une intelligence', description: 'Accès à tous les modèles IA. Texte, images, code, audio - Toujours les dernières versions.' },
-      { icon: Database, title: 'Une mémoire', description: 'Se souvient de vos contextes, méthodes et préférences. Apprend au fil du temps.' },
-      { icon: Zap, title: 'Des compétences', description: 'Crée automatiquement les compétences nécessaires pour chaque mission. Sait quoi faire et comment le faire.' },
-      { icon: Wrench, title: 'Des outils', description: 'Se connecte à 3 000+ apps : email, calendrier, CRM, fichiers, exécute du code et navigue sur le web.' },
-      { icon: Cpu, title: 'Mémoire persistante', description: 'Chaque agent a son propre conteneur sécurisé. Lancez des sous-agents en parallèle sans consommer votre contexte.' },
-      { icon: FileText, title: 'Des instructions claires', description: 'Connaît son rôle, ses limites, ses méthodes. Valide avec vous avant d\'agir.' },
-      { icon: CalendarClock, title: 'Automatisation autonome', description: 'Planification en langage naturel pour rapports, sauvegardes et briefings — s\'exécute sans surveillance.' },
-      { icon: MessagesSquare, title: 'Accessible partout', description: 'Slack, Teams, WhatsApp, Telegram, Discord, terminal, desktop, web. Sur tous les canaux où vous êtes.' },
+      { icon: User, title: 'Identité', description: 'Nom, voix, téléphone, email, calendrier. Un vrai profil.' },
+      { icon: Brain, title: 'Intelligence', description: 'Tous les modèles IA. Texte, images, code, audio.' },
+      { icon: Database, title: 'Mémoire', description: 'Contextes, méthodes, préférences. Apprend chaque jour.' },
+      { icon: Zap, title: 'Compétences', description: 'Crée les compétences nécessaires pour chaque mission.' },
+      { icon: Wrench, title: 'Outils', description: 'Se connecte à 3 000+ apps. Exécute du code, navigue.' },
+      { icon: MessagesSquare, title: 'Partout', description: 'Slack, Teams, WhatsApp, Telegram, Discord, CLI, desktop, web.' },
     ],
   },
   en: {
@@ -34,15 +31,12 @@ const T = {
       'An AI agent alone can answer, reason or execute a task. An AI Collaborator goes further: it brings together everything that makes a real team member. Each collaborator is powered by the Hermes agent, our AI engine.',
     cta: 'Activate my AI Collaborator',
     cards: [
-      { icon: User, title: 'An identity', description: 'Name, voice, phone number, email, calendar. A real profile with presence and history.' },
-      { icon: Brain, title: 'An intelligence', description: 'Access to all AI models. Text, images, code, audio - Always the latest versions.' },
-      { icon: Database, title: 'A memory', description: 'Remembers your contexts, methods and preferences. Learns over time.' },
-      { icon: Zap, title: 'Skills', description: 'Automatically creates the skills needed for each mission. Knows what to do and how to do it.' },
-      { icon: Wrench, title: 'Tools', description: 'Connects to 3,000+ apps: email, calendar, CRM, files, code execution and web browsing.' },
-      { icon: Cpu, title: 'Persistent memory', description: 'Isolated sandboxes — every agent gets its own hardened container. Spin up parallel subagents without burning your context.' },
-      { icon: FileText, title: 'Clear instructions', description: 'Knows its role, limits and methods. Validates with you before acting.' },
-      { icon: CalendarClock, title: 'Autonomous automation', description: 'Natural-language scheduling for reports, backups, and briefings — running unattended through the gateway.' },
-      { icon: MessagesSquare, title: 'Every channel', description: 'Slack, Teams, WhatsApp, Telegram, Discord, terminal, desktop, web. On every channel where you are.' },
+      { icon: User, title: 'Identity', description: 'Name, voice, phone, email, calendar. A real profile.' },
+      { icon: Brain, title: 'Intelligence', description: 'All AI models. Text, images, code, audio.' },
+      { icon: Database, title: 'Memory', description: 'Contexts, methods, preferences. Learns every day.' },
+      { icon: Zap, title: 'Skills', description: 'Creates the skills needed for each mission.' },
+      { icon: Wrench, title: 'Tools', description: 'Connects to 3,000+ apps. Runs code, browses the web.' },
+      { icon: MessagesSquare, title: 'Everywhere', description: 'Slack, Teams, WhatsApp, Telegram, Discord, CLI, desktop, web.' },
     ],
   },
 }
