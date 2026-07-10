@@ -71,7 +71,7 @@ export function WhyItWorksSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
         >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#D10E63]">
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">
             {t.eyebrow}
           </p>
           <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1C1A17]">
