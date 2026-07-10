@@ -31,7 +31,7 @@ const T = {
     title: 'What transforms an AI agent into a ',
     titleAccent: 'real collaborator.',
     subtitle:
-      'An AI agent alone can answer, reason or execute a task. A Unitalk AI Collaborator goes further: it brings together everything that makes a real team member. Each collaborator is powered by the Hermès agent, our AI engine.',
+      'An AI agent alone can answer, reason or execute a task. An AI Collaborator goes further: it brings together everything that makes a real team member. Each collaborator is powered by the Hermès agent, our AI engine.',
     cta: 'Activate my AI Collaborator',
     cards: [
       { icon: User, title: 'An identity', description: 'Name, voice, email, calendar. A real profile with presence and history.' },
