@@ -1,9 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ChevronRight, X, ArrowLeftRight, CheckCircle2 } from 'lucide-react'
+import { ChevronRight, X, ArrowLeftRight, CheckCircle2, User, Bot, ArrowDown, Check } from 'lucide-react'
 import { SectionHeader } from './section-header'
+
+const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
@@ -38,6 +39,16 @@ const T = {
     dispConclusion: "Unitalk centralise vos équipes et leurs collaborateurs IA autour d'une mémoire partagée et d'un espace de travail sécurisé.",
     dispConclusionAccent: "Plus de dispersion, une seule équipe.",
     dispCta: "Activer mon Collaborateur IA",
+    dispVisual: {
+      people: [
+        { name: 'Sophie', detail: 'utilise ChatGPT dans son coin' },
+        { name: 'Marc', detail: 'utilise Claude, pas de partage' },
+        { name: 'Julie', detail: 'utilise Gemini, fichiers locaux' },
+      ],
+      highlight: { name: 'Elena', detail: 'collaboratrice IA Unitalk' },
+      recapTitle: 'Unitalk centralise',
+      recapText: 'Équipes + collaborateurs IA, mémoire partagée, espace sécurisé.',
+    },
   },
   en: {
     almaEyebrow: '• Guided Setup',
@@ -67,6 +78,16 @@ const T = {
     dispConclusion: "Unitalk centralizes your teams and their AI collaborators around shared memory and a secure workspace.",
     dispConclusionAccent: "No more fragmentation. One team.",
     dispCta: "Activate my AI Collaborator",
+    dispVisual: {
+      people: [
+        { name: 'Sophie', detail: 'uses ChatGPT on her own' },
+        { name: 'Marc', detail: 'uses Claude, no sharing' },
+        { name: 'Julie', detail: 'uses Gemini, local files' },
+      ],
+      highlight: { name: 'Elena', detail: 'Unitalk AI collaborator' },
+      recapTitle: 'Unitalk centralizes',
+      recapText: 'Teams + AI collaborators, shared memory, secure space.',
+    },
   },
 }
 
@@ -223,7 +244,7 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
           </div>
 
-          {/* Right column — app screenshot */}
+          {/* Right column — before/after visual */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, x: 24 }}
@@ -231,15 +252,73 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
-              <Image
-                src="/images/unitalk-collaborative-workspace.png"
-                alt={lang === 'fr' ? "Espace de travail collaboratif Unitalk réunissant l'équipe et les agents IA" : 'Unitalk collaborative workspace bringing the team and AI agents together'}
-                width={1024}
-                height={1024}
-                className="h-auto w-full"
-                priority={false}
-              />
+            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 shadow-2xl shadow-black/40 backdrop-blur-sm sm:p-7">
+              {/* Dispersed people */}
+              <ul className="flex flex-col gap-3">
+                {t.dispVisual.people.map((person, idx) => (
+                  <motion.li
+                    key={person.name}
+                    className="flex items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.04] px-4 py-3.5"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, ease, delay: idx * 0.1 }}
+                  >
+                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#B8AFA0]">
+                      <User className="h-5 w-5" strokeWidth={1.8} />
+                    </span>
+                    <p className="text-sm text-[#C9C0B2] sm:text-[15px]">
+                      <span className="font-semibold text-[#F7F4EE]">{person.name}</span>
+                      <span className="text-[#8A8175]">{' — '}{person.detail}</span>
+                    </p>
+                  </motion.li>
+                ))}
+
+                {/* Highlighted Unitalk collaborator */}
+                <motion.li
+                  className="flex items-center gap-4 rounded-2xl border border-dashed border-[#D10E63]/60 bg-[#D10E63]/10 px-4 py-3.5"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, ease, delay: 0.35 }}
+                >
+                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-white">
+                    <Bot className="h-5 w-5" strokeWidth={1.8} />
+                  </span>
+                  <p className="text-sm text-[#C9C0B2] sm:text-[15px]">
+                    <span className="font-semibold text-[#F7F4EE]">{t.dispVisual.highlight.name}</span>
+                    <span className="text-[#E7B8CD]">{' — '}{t.dispVisual.highlight.detail}</span>
+                  </p>
+                </motion.li>
+              </ul>
+
+              {/* Arrow */}
+              <motion.div
+                className="flex justify-center py-4"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, ease, delay: 0.5 }}
+              >
+                <ArrowDown className="h-5 w-5 text-[#D10E63]" strokeWidth={2} />
+              </motion.div>
+
+              {/* Recap */}
+              <motion.div
+                className="flex items-start gap-4 rounded-2xl border border-[#D10E63]/25 bg-[#D10E63]/[0.08] px-5 py-5"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, ease, delay: 0.6 }}
+              >
+                <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-white">
+                  <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                </span>
+                <div>
+                  <p className="text-base font-bold text-[#F7F4EE]">{t.dispVisual.recapTitle}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[#C9C0B2]">{t.dispVisual.recapText}</p>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
