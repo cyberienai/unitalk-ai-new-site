@@ -275,8 +275,10 @@ const OFFERS = [
     points: [
       '1 agent Hermès autonome et personnalisé',
       'Accès à 10 profils professionnels',
+      "Accès aux meilleurs modèles d'IA",
       'Mémoire persistante & apprentissage continu',
       'Email, calendrier, téléphone intégrés',
+      'Intégrations à plus de 3 000 apps en un clic',
       'Profil public inclus',
       'Mise en service en 5 minutes',
     ],
@@ -294,9 +296,11 @@ const OFFERS = [
     priceNote: '/mois par collaborateur IA',
     points: [
       '1 agent Hermès par membre de l\'équipe',
+      "Accès aux meilleurs modèles d'IA",
       'Mémoire collective & apprentissage partagé',
       'Permissions granulaires par rôle',
       'Email, calendrier, téléphone partagés',
+      'Intégrations à plus de 3 000 apps en un clic',
       'Adoption guidée par Alma',
     ],
     cta: 'Activer mon Collaborateur IA',
