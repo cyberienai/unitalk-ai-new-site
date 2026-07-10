@@ -19,7 +19,7 @@ const T = {
       { icon: Brain, title: 'Intelligence', description: 'Tous les modèles IA. Texte, images, code, audio.' },
       { icon: Database, title: 'Mémoire', description: 'Contextes, méthodes, préférences. Apprend chaque jour.' },
       { icon: Zap, title: 'Compétences', description: 'Crée les compétences nécessaires pour chaque mission.' },
-      { icon: Wrench, title: 'Outils', description: 'Se connecte à 3 000+ apps. Exécute du code, navigue.' },
+      { icon: Wrench, title: 'Outils', description: 'Se connecte à 3 000+ apps. Exécute du code, navigue sur internet.' },
       { icon: MessagesSquare, title: 'Partout', description: 'Slack, Teams, WhatsApp, Telegram, Discord, CLI, desktop, web.' },
     ],
   },
