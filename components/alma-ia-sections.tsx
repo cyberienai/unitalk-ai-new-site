@@ -36,7 +36,7 @@ const T = {
     dispIntro:
       "Outils non contrôlés, données exposées. Vos équipes utilisent l'IA sans que vous sachiez où, comment, ni avec quels modèles.",
     dispPillars: [
-      { label: 'AI Gateway', text: 'Accès aux meilleurs modèles, avec paiement à l\u2019usage ou vos propres clés API.' },
+      { label: 'AI Gateway', text: 'Tous les meilleurs modèles, un accès, un contrôle.' },
       { label: 'AI Cloud', text: 'Votre serveur IA privé. Données sous votre contrôle.' },
       { label: 'Collaboration', text: 'Humains et agents, même équipe. Mémoire partagée, contexte commun.' },
     ],
@@ -75,7 +75,7 @@ const T = {
     dispTitleAccent: "everyone for themselves.",
     dispIntro: "Unmanaged tools, exposed data. Your teams use AI without you knowing where, how, or with which models.",
     dispPillars: [
-      { label: 'AI Gateway', text: 'Access the best models, with pay-as-you-go or your own API keys.' },
+      { label: 'AI Gateway', text: 'All the best models, one access, one control.' },
       { label: 'AI Cloud', text: 'Your private AI server. Data under your control.' },
       { label: 'Collaboration', text: 'Humans and agents, one team. Shared memory, common context.' },
     ],
