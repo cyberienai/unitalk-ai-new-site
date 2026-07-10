@@ -17,7 +17,7 @@ const T = {
       {
         icon: Users,
         title: 'Une intelligence collective',
-        description: 'Humains et collaborateurs IA raisonnent, décident, exécutent ensemble. Pas d\'aller-retour, une seule équipe.',
+        description: 'Humains et collaborateurs IA raisonnent, décident, exécutent ensemble. Une seule équipe, propulsée par Hermes, l\'agent autonome open source n°1.',
       },
       {
         icon: IdCard,
@@ -38,7 +38,7 @@ const T = {
       {
         icon: Users,
         title: 'Collective Intelligence',
-        description: 'Humans and AI collaborators reason, decide, execute together. No back-and-forth, one team.',
+        description: 'Humans and AI collaborators reason, decide, execute together. One team, powered by Hermes, the #1 open source autonomous agent.',
       },
       {
         icon: IdCard,
