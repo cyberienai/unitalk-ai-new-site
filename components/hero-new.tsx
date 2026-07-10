@@ -20,7 +20,7 @@ const T = {
     headline: 'Unitalk. ',
     headlineAccent: 'Recrutez vos premiers collaborateurs IA',
     subheadline:
-      "Recruter sans embaucher. Un nom, une mémoire, une expertise. Vous fixez l'objectif, ils livrent jour et nuit.",
+      "Ils appellent vos clients, répondent aux emails, planifient les rendez-vous et travaillent dans vos outils. Vous leur donnez un objectif, ils s'occupent du reste.",
     manifesto: [
       { icon: Phone, label: 'Appelle' },
       { icon: Calendar, label: 'Planifie' },
