@@ -15,7 +15,7 @@ const T = {
       'Un agent IA seul peut répondre, raisonner ou exécuter une tâche. Un Collaborateur IA va plus loin : il réunit tout ce qui en fait un vrai membre de l\'équipe. Chaque collaborateur est propulsé par l\'agent Hermès, notre moteur d\'IA.',
     cta: 'Activer mon Collaborateur IA',
     cards: [
-      { icon: User, title: 'Une identité', description: 'Nom, voix, email, calendrier. Un vrai profil avec sa présence et son historique.' },
+      { icon: User, title: 'Une identité', description: 'Nom, voix, numéro de téléphone, email, calendrier. Un vrai profil avec sa présence et son historique.' },
       { icon: Brain, title: 'Une intelligence', description: 'Accès à tous les modèles IA. Texte, images, code, audio - Toujours les dernières versions.' },
       { icon: Database, title: 'Une mémoire', description: 'Se souvient de vos contextes, méthodes et préférences. Apprend au fil du temps.' },
       { icon: Zap, title: 'Des compétences', description: 'Crée automatiquement les compétences nécessaires pour chaque mission. Sait quoi faire et comment le faire.' },
@@ -34,7 +34,7 @@ const T = {
       'An AI agent alone can answer, reason or execute a task. An AI Collaborator goes further: it brings together everything that makes a real team member. Each collaborator is powered by the Hermès agent, our AI engine.',
     cta: 'Activate my AI Collaborator',
     cards: [
-      { icon: User, title: 'An identity', description: 'Name, voice, email, calendar. A real profile with presence and history.' },
+      { icon: User, title: 'An identity', description: 'Name, voice, phone number, email, calendar. A real profile with presence and history.' },
       { icon: Brain, title: 'An intelligence', description: 'Access to all AI models. Text, images, code, audio - Always the latest versions.' },
       { icon: Database, title: 'A memory', description: 'Remembers your contexts, methods and preferences. Learns over time.' },
       { icon: Zap, title: 'Skills', description: 'Automatically creates the skills needed for each mission. Knows what to do and how to do it.' },
