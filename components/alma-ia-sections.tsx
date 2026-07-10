@@ -259,14 +259,6 @@ export function DispersedIASection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 )
               })}
             </div>
-
-            {/* CTA Button */}
-            <div className="mt-8">
-              <button className="inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:text-base">
-                {t.dispCta}
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
           </div>
 
           {/* Right column — before/after visual */}
