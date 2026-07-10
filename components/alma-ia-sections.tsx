@@ -79,7 +79,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <div className="mb-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
             {/* Left — title & subtitle */}
             <div className="lg:order-2">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63] mb-3">{t.almaEyebrow}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#F1729F] mb-3">{t.almaEyebrow}</p>
               <h2 className="font-sf text-3xl font-bold leading-[1.05] text-balance sm:text-4xl md:text-5xl text-[#F7F4EE]" style={{ letterSpacing: '-0.03em' }}>
                 {t.almaTitle}
                 {t.almaTitleAccent && <span className="text-[#D10E63]">{t.almaTitleAccent}</span>}
