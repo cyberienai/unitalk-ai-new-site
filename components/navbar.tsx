@@ -147,8 +147,8 @@ export function Navbar() {
             className="inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] hover:text-[#D10E63] transition-colors"
             aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
-            {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
-            {lang === 'fr' ? 'FR' : 'EN'}
+            {lang === 'fr' ? <UkFlag /> : <FrenchFlag />}
+            {lang === 'fr' ? 'EN' : 'FR'}
           </button>
 
           {/* Menu button — visible on all breakpoints */}
