@@ -58,7 +58,7 @@ const T = {
         profileUrl: 'unitalk.ai/alex',
         skills: 'Prospection LinkedIn, relance, CRM HubSpot',
         avatar: '/alex-avatar.png',
-        example: 'Exemple : Alex prospecte 50 leads par jour et relance automatiquement. Il génère 5 deals/mois.',
+        example: 'Alex prospecte 50 leads par jour et relance automatiquement. Il génère 5 deals/mois.',
       },
       {
         id: 'sophia',
@@ -67,7 +67,7 @@ const T = {
         profileUrl: 'unitalk.ai/sophia',
         skills: 'Support client, FAQ, escalade',
         avatar: '/sophia-avatar.png',
-        example: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
+        example: 'Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       },
       {
         id: 'marcus',
@@ -76,7 +76,7 @@ const T = {
         profileUrl: 'unitalk.ai/marcus',
         skills: 'Planning, tracking, rappels',
         avatar: '/marcus-avatar.png',
-        example: 'Exemple : Marcus planifie les sprints et relance les tâches retardées. 0 deadline manqué.',
+        example: 'Marcus planifie les sprints et relance les tâches retardées. 0 deadline manqué.',
       },
       {
         id: 'elena',
@@ -85,7 +85,7 @@ const T = {
         profileUrl: 'unitalk.ai/elena',
         skills: 'Recrutement, onboarding, ressources humaines',
         avatar: '/elena-avatar.png',
-        example: 'Exemple : Elena sélectionne les candidats et onboarde les nouveaux. Elle économise 20h par semaine.',
+        example: 'Elena sélectionne les candidats et onboarde les nouveaux. Elle économise 20h par semaine.',
       },
       {
         id: 'thomas',
@@ -94,7 +94,7 @@ const T = {
         profileUrl: 'unitalk.ai/thomas',
         skills: 'Analyse, rapports, insights',
         avatar: '/thomas-avatar.png',
-        example: 'Exemple : Thomas génère des rapports automatiques et identifie les tendances. Insights en 2h au lieu de 8h.',
+        example: 'Thomas génère des rapports automatiques et identifie les tendances. Insights en 2h au lieu de 8h.',
       },
       {
         id: 'nina',
@@ -103,7 +103,7 @@ const T = {
         profileUrl: 'unitalk.ai/nina',
         skills: 'Contenu, campagnes, engagement',
         avatar: '/nina-avatar.png',
-        example: 'Exemple : Nina crée et poste 3 contenus par jour. Engagement +40% en 1 mois.',
+        example: 'Nina crée et poste 3 contenus par jour. Engagement +40% en 1 mois.',
       },
       {
         id: 'designer',
@@ -112,7 +112,7 @@ const T = {
         profileUrl: 'unitalk.ai/lena',
         skills: 'Design graphique, branding, visuels',
         avatar: '/designer-avatar.png',
-        example: 'Exemple : Lena produit 10 visuels par jour pour réseaux sociaux et blogs. Qualité constante.',
+        example: 'Lena produit 10 visuels par jour pour réseaux sociaux et blogs. Qualité constante.',
       },
       {
         id: 'motion',
@@ -121,7 +121,7 @@ const T = {
         profileUrl: 'unitalk.ai/jules',
         skills: 'Animation, vidéo, effets visuels',
         avatar: '/motion-avatar.png',
-        example: 'Exemple : Jules réalise des animations pour vidéos. Production 5x plus rapide.',
+        example: 'Jules réalise des animations pour vidéos. Production 5x plus rapide.',
       },
       {
         id: 'automation',
@@ -130,7 +130,7 @@ const T = {
         profileUrl: 'unitalk.ai/david',
         skills: 'Automatisations, intégrations, workflows',
         avatar: '/automation-avatar.png',
-        example: 'Exemple : David construit des workflows n8n. 20 automatisations déployées par mois.',
+        example: 'David construit des workflows n8n. 20 automatisations déployées par mois.',
       },
       {
         id: 'meeting',
@@ -139,7 +139,7 @@ const T = {
         profileUrl: 'unitalk.ai/sophie',
         skills: 'Notes vocales, transcription, résumés',
         avatar: '/assistant-avatar.png',
-        example: 'Exemple : Sophie transcrit les réunions et crée des résumés. Actions en 5 minutes.',
+        example: 'Sophie transcrit les réunions et crée des résumés. Actions en 5 minutes.',
       },
     ],
   },
@@ -195,7 +195,7 @@ const T = {
         profileUrl: 'unitalk.ai/alex',
         skills: 'LinkedIn Prospecting, follow-up, CRM HubSpot',
         avatar: '/alex-avatar.png',
-        example: 'Example: Alex prospects 50 leads daily and auto-follows up. He generates 5 deals/month.',
+        example: 'Alex prospects 50 leads daily and auto-follows up. He generates 5 deals/month.',
       },
       {
         id: 'sophia',
@@ -204,7 +204,7 @@ const T = {
         profileUrl: 'unitalk.ai/sophia',
         skills: 'Customer support, FAQ, escalation',
         avatar: '/sophia-avatar.png',
-        example: 'Example: Sophia manages billing and handles emails. She saves 15 hours per week.',
+        example: 'Sophia manages billing and handles emails. She saves 15 hours per week.',
       },
       {
         id: 'marcus',
@@ -213,7 +213,7 @@ const T = {
         profileUrl: 'unitalk.ai/marcus',
         skills: 'Planning, tracking, reminders',
         avatar: '/marcus-avatar.png',
-        example: 'Example: Marcus plans sprints and reminds on delays. Zero missed deadlines.',
+        example: 'Marcus plans sprints and reminds on delays. Zero missed deadlines.',
       },
       {
         id: 'elena',
@@ -222,7 +222,7 @@ const T = {
         profileUrl: 'unitalk.ai/elena',
         skills: 'Recruitment, onboarding, people management',
         avatar: '/elena-avatar.png',
-        example: 'Example: Elena screens candidates and onboards new hires. She saves 20 hours/week.',
+        example: 'Elena screens candidates and onboards new hires. She saves 20 hours/week.',
       },
       {
         id: 'thomas',
@@ -231,7 +231,7 @@ const T = {
         profileUrl: 'unitalk.ai/thomas',
         skills: 'Analysis, reporting, insights',
         avatar: '/thomas-avatar.png',
-        example: 'Example: Thomas auto-generates reports and spots trends. Insights in 2h instead of 8h.',
+        example: 'Thomas auto-generates reports and spots trends. Insights in 2h instead of 8h.',
       },
       {
         id: 'nina',
@@ -240,7 +240,7 @@ const T = {
         profileUrl: 'unitalk.ai/nina',
         skills: 'Content, campaigns, engagement',
         avatar: '/nina-avatar.png',
-        example: 'Example: Nina creates and posts 3 pieces daily. Engagement +40% in 1 month.',
+        example: 'Nina creates and posts 3 pieces daily. Engagement +40% in 1 month.',
       },
       {
         id: 'designer',
@@ -249,7 +249,7 @@ const T = {
         profileUrl: 'unitalk.ai/lena',
         skills: 'Graphic design, branding, visuals',
         avatar: '/designer-avatar.png',
-        example: 'Example: Lena produces 10 visuals daily for socials and blogs. Consistent quality.',
+        example: 'Lena produces 10 visuals daily for socials and blogs. Consistent quality.',
       },
       {
         id: 'motion',
@@ -258,7 +258,7 @@ const T = {
         profileUrl: 'unitalk.ai/jules',
         skills: 'Animation, video, visual effects',
         avatar: '/motion-avatar.png',
-        example: 'Example: Jules delivers video animations. 5x faster production rate.',
+        example: 'Jules delivers video animations. 5x faster production rate.',
       },
       {
         id: 'automation',
@@ -267,7 +267,7 @@ const T = {
         profileUrl: 'unitalk.ai/david',
         skills: 'Automations, integrations, workflows',
         avatar: '/automation-avatar.png',
-        example: 'Example: David builds n8n workflows. 20 automations deployed per month.',
+        example: 'David builds n8n workflows. 20 automations deployed per month.',
       },
       {
         id: 'meeting',
@@ -276,7 +276,7 @@ const T = {
         profileUrl: 'unitalk.ai/sophie',
         skills: 'Voice notes, transcription, summaries',
         avatar: '/assistant-avatar.png',
-        example: 'Example: Sophie transcribes meetings and creates summaries. Actions in 5 minutes.',
+        example: 'Sophie transcribes meetings and creates summaries. Actions in 5 minutes.',
       },
     ],
   },
