@@ -520,10 +520,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 return (
                   <div
                     key={item.label}
-                    className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/5 bg-white/[0.03] px-2 py-2"
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[#D10E63]/20 bg-[#D10E63]/[0.06] px-2 py-2"
                   >
-                    <Icon className="h-3.5 w-3.5 shrink-0 text-[#F1729F]" />
-                    <span className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175]">
+                    <Icon className="h-3.5 w-3.5 shrink-0 text-[#FF7FAC]" />
+                    <span className="text-[9px] font-semibold uppercase tracking-wide text-[#B8AFA0]">
                       {item.label}
                     </span>
                   </div>
@@ -541,9 +541,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   : row.value
                 return (
                   <div key={row.label} className="flex items-start gap-3">
-                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/15 text-[#FF7FAC]">
+                      <Icon className="h-4 w-4" strokeWidth={2} />
+                    </span>
                     <div className="space-y-0.5">
-                      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#8A8175]">
+                      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#B8AFA0]">
                         {row.label}
                       </p>
                       <p className="text-sm text-[#E7E1D6]">{displayValue}</p>
