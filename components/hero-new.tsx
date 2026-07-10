@@ -295,7 +295,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   useEffect(() => {
     const id = setInterval(() => {
       setActiveVerb((i) => (i + 1) % t.manifesto.length)
-    }, 1400)
+    }, 2500)
     return () => clearInterval(id)
   }, [t.manifesto.length])
 
