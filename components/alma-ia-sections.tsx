@@ -140,7 +140,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </div>
                 <a
                   href="/migration"
-                  className="group inline-flex flex-shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#D10E63] px-4 py-2 text-xs font-semibold text-[#FBF9F3] transition-all hover:bg-[#B00B52] sm:ml-4"
+                  className="group inline-flex flex-shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63] bg-transparent px-4 py-2 text-xs font-semibold text-[#D10E63] transition-all hover:bg-[#D10E63]/10 sm:ml-4"
                 >
                   {t.migrCta}
                   <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
