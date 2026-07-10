@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
 
@@ -45,54 +44,15 @@ const T = {
   },
 }
 
-function useContextualTip(t: (typeof T)['fr']) {
-  const pathname = usePathname()
-  if (pathname === '/' ) return t.tipHome
-  if (pathname?.startsWith('/agents')) return t.tipAgents
-  if (pathname?.startsWith('/tarifs')) return t.tipPricing
-  return t.tipDefault
-}
-
 export function FloatingAlmaWidget() {
   const [isOpen, setIsOpen] = useState(false)
-  const [scrolledPastHero, setScrolledPastHero] = useState(false)
   const { lang } = useLanguage()
   const t = T[lang]
-  const tip = useContextualTip(t)
-
-  // Show the persistent tip bubble only once the user has scrolled past the hero
-  // into the 2nd section. It stays hidden on the hero so it never competes with
-  // the hero's own content/CTA.
-  useEffect(() => {
-    const onScroll = () => setScrolledPastHero(window.scrollY > window.innerHeight * 0.7)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // The contextual tooltip shows only from the 2nd section onward, while the chat is closed.
-  const showTip = !isOpen && scrolledPastHero
 
   return (
     <>
       {/* Floating launcher — Alma as a living presence, not a support bot */}
       <div className="fixed bottom-6 right-6 z-40 flex items-end gap-3">
-        <AnimatePresence>
-          {showTip && !isOpen && (
-            <motion.button
-              key="tip"
-              onClick={() => setIsOpen(true)}
-              initial={{ opacity: 0, x: 12, scale: 0.9 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 12, scale: 0.9 }}
-              transition={{ duration: 0.25 }}
-              className="mb-1 w-max max-w-[260px] rounded-2xl rounded-br-md border border-[#DcD4C4] bg-[#FBF9F3] px-4 py-2.5 text-left text-[13px] leading-snug text-[#1C1A17] shadow-[0_16px_40px_-16px_rgba(28,26,23,0.35)]"
-            >
-              {tip}
-            </motion.button>
-          )}
-        </AnimatePresence>
-
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           initial={{ scale: 0, opacity: 0 }}

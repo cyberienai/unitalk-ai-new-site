@@ -20,13 +20,13 @@ const T = {
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
-      'Avec des noms, des compétences, une mémoire partagée. Donnez-leur des objectifs. Ils travaillent seuls ou avec votre équipe, sans relâche.',
-    manifesto: ['Apprend', 'Se souvient', 'Collabore', "S'améliore en continu"],
+      'Avec des noms, des compétences, une mémoire partagée. Donnez-leur des objectifs. Ils travaillent seuls ou avec votre équipe, 24h/24.',
+    manifesto: ['Apprend', 'Se souvient', 'Collabore', 'Progresse'],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
     ctaProofs: [
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
-      { icon: CreditCard, label: 'Sans carte bancaire' },
+      { icon: CreditCard, label: 'Aucun engagement' },
       { icon: Gift, label: '7 jours gratuits' },
       { icon: MapPin, label: 'Hébergé en France' },
     ],
@@ -158,13 +158,13 @@ const T = {
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
-      'With names, skills, shared memory. Give them objectives. They work alone or with your team, relentlessly.',
-    manifesto: ['It learns', 'It remembers', 'It collaborates', 'It improves continuously'],
+      'With names, skills, shared memory. Give them objectives. They work alone or with your team, 24/7.',
+    manifesto: ['It learns', 'It remembers', 'It collaborates', 'It improves'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',
     ctaProofs: [
       { icon: Clock, label: 'Ready to work in 5 min' },
-      { icon: CreditCard, label: 'No credit card' },
+      { icon: CreditCard, label: 'No commitment' },
       { icon: Gift, label: '7 days free' },
       { icon: MapPin, label: 'Hosted in France' },
     ],
