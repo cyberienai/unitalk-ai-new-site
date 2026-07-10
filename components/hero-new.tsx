@@ -2,8 +2,17 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, FileText, MapPin } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, Cpu, CheckCircle2, CreditCard, Unlock, Clock, FileText, MapPin, Gift } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
+
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+}
 
 const T = {
   fr: {
@@ -18,7 +27,7 @@ const T = {
     ctaProofs: [
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
       { icon: CreditCard, label: 'Sans carte bancaire' },
-      { icon: Unlock, label: '7 jours gratuits' },
+      { icon: Gift, label: '7 jours gratuits' },
       { icon: MapPin, label: 'Hébergé en France' },
     ],
     example: {
@@ -325,7 +334,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       {/* Faint ink rule grid — same editorial backdrop as the solo hero */}
       <div
         aria-hidden="true"
-        className="bg-grid pointer-events-none absolute inset-0 opacity-70"
+        className="bg-grid pointer-events-none absolute inset-0 opacity-35"
         style={{
           maskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
           WebkitMaskImage: 'radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 90%)',
@@ -377,28 +386,27 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               return (
                 <motion.span
                   key={line}
-                  ref={(el) => {
-                    chipRefs.current[i] = el
-                  }}
-                  animate={{
-                    backgroundColor: isActive ? '#FBF9F3' : '#FBF9F3',
-                    borderColor: isActive ? '#DcD4C4' : '#DcD4C4',
-                    color: isActive ? '#1C1A17' : '#1C1A17',
-                    scale: isActive ? 1.06 : 1,
-                  }}
-                  transition={{ duration: 0.45, ease }}
-                  className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-sm font-medium"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, ease, delay: 0.3 + i * 0.12 }}
+                  className="inline-flex shrink-0"
                 >
                   <motion.span
-                    initial={{ backgroundColor: '#D10E63', scale: 1 }}
-                    animate={{
-                      backgroundColor: isActive ? '#FBF9F3' : '#D10E63',
-                      scale: isActive ? [1, 1.9, 1] : 1,
+                    ref={(el) => {
+                      chipRefs.current[i] = el
                     }}
-                    transition={{ duration: isActive ? 0.6 : 0.3, ease }}
-                    className="h-1 w-1 rounded-full"
-                  />
-                  {line}
+                    animate={{ scale: isActive ? 1.06 : 1 }}
+                    transition={{ duration: 0.45, ease }}
+                    className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#DcD4C4] bg-[#FBF9F3] px-2.5 py-1 text-sm font-medium text-[#1C1A17]"
+                  >
+                    <motion.span
+                      animate={{ scale: isActive ? [1, 1.9, 1] : 1 }}
+                      transition={{ duration: isActive ? 0.6 : 0.3, ease }}
+                      className="h-1 w-1 rounded-full bg-[#D10E63]"
+                    />
+                    {line}
+                  </motion.span>
                 </motion.span>
               )
             })}
@@ -476,11 +484,12 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   : t.sofiaStatus
               return (
                 <div className="relative mb-6 flex items-center gap-4">
-                  <img
-                    src={collab.avatar}
-                    alt={collab.name}
-                    className="h-14 w-14 shrink-0 rounded-2xl object-cover ring-1 ring-white/15"
-                  />
+                  <div
+                    aria-label={collab.name}
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#D10E63] text-lg font-bold text-white ring-1 ring-white/15"
+                  >
+                    {getInitials(collab.name)}
+                  </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{collab.name}</h2>
