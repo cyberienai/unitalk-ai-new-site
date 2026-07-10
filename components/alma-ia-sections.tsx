@@ -148,37 +148,44 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
           </div>
 
-          {/* Grid — 9 steps 3x3 with Alma-specific design */}
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {t.almaSteps.map((step, i) => (
-              <motion.article
-                key={step.n}
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const, delay: i * 0.08 }}
-                className="group relative flex flex-col rounded-2xl border-2 border-[#D10E63]/20 bg-gradient-to-br from-[#FBF9F3] to-[#F3EFE6] p-6 transition-all hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10 sm:p-7"
-              >
-                {/* Number badge */}
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#D10E63] to-[#B00B52] text-[#FBF9F3] font-bold text-base transition-all group-hover:scale-110">
-                  {step.n}
-                </div>
-
-                {/* Content */}
-                <h3
-                  className="mt-5 font-sf text-base font-bold leading-snug text-[#1C1A17]"
-                  style={{ letterSpacing: '-0.02em' }}
+          {/* Vertical timeline — sequential onboarding steps */}
+          <div className="mx-auto max-w-2xl">
+            {t.almaSteps.map((step, i) => {
+              const isLast = i === t.almaSteps.length - 1
+              return (
+                <motion.article
+                  key={step.n}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const, delay: i * 0.06 }}
+                  className="group relative flex gap-5 pb-8 last:pb-0"
                 >
-                  {step.label}
-                </h3>
-                <p className="mt-2.5 flex-1 text-sm leading-relaxed text-[#4E483F]">
-                  {step.desc}
-                </p>
+                  {/* Number badge + connecting line */}
+                  <div className="relative flex flex-col items-center">
+                    <div className="z-10 inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#D10E63] to-[#B00B52] font-bold text-sm text-[#FBF9F3] transition-all group-hover:scale-110">
+                      {step.n}
+                    </div>
+                    {!isLast && (
+                      <div className="absolute top-11 h-full w-px bg-[#D10E63]/25" aria-hidden="true" />
+                    )}
+                  </div>
 
-                {/* Hover accent line */}
-                <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#D10E63] to-[#B00B52] rounded-full transition-all duration-300 group-hover:w-full" />
-              </motion.article>
-            ))}
+                  {/* Content */}
+                  <div className="flex-1 pt-1">
+                    <h3
+                      className="font-sf text-base font-bold leading-snug text-[#1C1A17]"
+                      style={{ letterSpacing: '-0.02em' }}
+                    >
+                      {step.label}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-[#4E483F]">
+                      {step.desc}
+                    </p>
+                  </div>
+                </motion.article>
+              )
+            })}
           </div>
         </div>
     </section>
