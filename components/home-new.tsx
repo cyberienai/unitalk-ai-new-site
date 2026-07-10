@@ -3,7 +3,6 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
-import { WhyItWorksSection } from './why-it-works-section'
 import { AlmaOnboardingSection, DispersedIASection } from './alma-ia-sections'
 import { CoreProductCards } from './core-product-cards'
 import {
@@ -29,10 +28,7 @@ export function HomeNew() {
       {/* 3. The real problem — IA dispersée + Solution Unitalk (MOVED HERE) */}
       <DispersedIASection lang={lang} />
 
-      {/* 4. Why It Works — 3 pillars */}
-      <WhyItWorksSection />
-
-      {/* 5. Alma onboarding */}
+      {/* 4. Alma onboarding */}
       <AlmaOnboardingSection lang={lang} />
 
       {/* 6. Cœur produit — 7 cards */}
