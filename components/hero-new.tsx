@@ -574,16 +574,23 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <div className="flex flex-1 items-center justify-center gap-1.5">
+              <div className="flex flex-1 flex-wrap items-center justify-center gap-x-0.5 gap-y-1">
                 {t.collaborators.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveCollaborator(idx)}
-                    className={`h-2 rounded-full transition-all ${
-                      idx === activeCollaborator ? 'w-6 bg-[#D10E63]' : 'w-2 bg-[#DcD4C4] hover:bg-[#857C6E]'
-                    }`}
+                    className="group flex h-9 w-6 items-center justify-center"
                     aria-label={`Show collaborator ${idx + 1}`}
-                  />
+                    aria-current={idx === activeCollaborator}
+                  >
+                    <span
+                      className={`h-2.5 rounded-full transition-all ${
+                        idx === activeCollaborator
+                          ? 'w-6 bg-[#D10E63]'
+                          : 'w-2.5 bg-[#DcD4C4] group-hover:bg-[#857C6E]'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
               <button
