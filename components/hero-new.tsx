@@ -336,7 +336,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         {/* Left column — copy */}
         <div className="flex min-w-0 flex-col justify-center">
           <motion.div
-            className="mb-5 inline-flex w-fit items-center rounded-full bg-[#e91e7b] px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white"
+            className="mb-5 inline-flex w-fit items-center rounded-full border border-[#D10E63] bg-transparent px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-[#D10E63]"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
