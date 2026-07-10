@@ -381,9 +381,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     chipRefs.current[i] = el
                   }}
                   animate={{
-                    backgroundColor: isActive ? '#D10E63' : '#FBF9F3',
-                    borderColor: isActive ? '#D10E63' : '#DcD4C4',
-                    color: isActive ? '#FBF9F3' : '#1C1A17',
+                    backgroundColor: isActive ? '#FBF9F3' : '#FBF9F3',
+                    borderColor: isActive ? '#DcD4C4' : '#DcD4C4',
+                    color: isActive ? '#1C1A17' : '#1C1A17',
                     scale: isActive ? 1.06 : 1,
                   }}
                   transition={{ duration: 0.45, ease }}
@@ -454,7 +454,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             }}
           />
 
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#1A1613] p-4 shadow-2xl sm:p-6">
+          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#3A3530] p-4 shadow-2xl sm:p-6">
             {/* top sheen */}
             <div
               aria-hidden="true"
@@ -549,10 +549,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </p>
             </div>
 
-            {/* button */}
-            <button className="relative w-full rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]">
-              {t.sofiaCreateBtn} {t.collaborators[activeCollaborator].name}
-            </button>
+
 
             {/* carousel indicators + buttons — below the card */}
             <div
