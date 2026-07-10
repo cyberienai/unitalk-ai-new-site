@@ -282,7 +282,6 @@ const OFFERS = [
       'Accessible depuis WhatsApp, Slack & Teams',
       'Intégrations à plus de 3 000 apps en un clic',
       'Profil public inclus',
-      'Mise en service en 5 minutes',
     ],
     cta: 'Activer mon Collaborateur IA',
     href: '/solo',
@@ -305,7 +304,6 @@ const OFFERS = [
       'Email, calendrier, téléphone partagés',
       'Accessible depuis WhatsApp, Slack & Teams',
       'Intégrations à plus de 3 000 apps en un clic',
-      'Adoption guidée par Alma',
     ],
     cta: 'Activer mon Collaborateur IA',
     href: '/teams',
@@ -429,6 +427,10 @@ export function OffersSection() {
           <span className="inline-flex items-center gap-2 rounded-lg bg-[#D10E63]/12 px-4 py-2 text-xs font-semibold text-[#D10E63] hover:bg-[#D10E63]/18 transition-colors">
             <Check className="h-4 w-4 flex-shrink-0" />
             Hébergé en France
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-lg bg-[#D10E63]/12 px-4 py-2 text-xs font-semibold text-[#D10E63] hover:bg-[#D10E63]/18 transition-colors">
+            <Check className="h-4 w-4 flex-shrink-0" />
+            Mise en service guidée par Alma
           </span>
         </div>
       </div>
