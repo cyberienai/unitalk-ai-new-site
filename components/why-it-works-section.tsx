@@ -6,7 +6,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    eyebrow: 'Pourquoi ça marche',
+    eyebrow: '• LE FONCTIONNEMENT',
     cta: 'Activer mon Collaborateur IA',
     pillars: [
       {
@@ -17,17 +17,17 @@ const T = {
       {
         icon: Users,
         title: 'Une intelligence collective',
-        description: 'Propulsés par notre moteur Hermes, humains et agents raisonnent, décident et exécutent ensemble. Une synergie, pas des allers-retours.',
+        description: 'Humains et collaborateurs IA raisonnent, décident et exécutent ensemble. Une vraie synergie.',
       },
       {
         icon: IdCard,
-        title: 'Des profils qui comptent',
-        description: 'Chaque collaborateur a une identité, une voix, un rôle. Il apprend, se souvient, s\'améliore en continu. Autonome et fiable.',
+        title: 'Des collaborateurs à part entière',
+        description: 'Chaque collaborateur a un nom, un rôle, des compétences. Une identité qui s\'améliore chaque jour.',
       },
     ],
   },
   en: {
-    eyebrow: 'Why It Works',
+    eyebrow: '• HOW IT WORKS',
     cta: 'Activate my AI Collaborator',
     pillars: [
       {
@@ -38,12 +38,12 @@ const T = {
       {
         icon: Users,
         title: 'Collective Intelligence',
-        description: 'Powered by our Hermes engine, humans and agents reason, decide, and execute together. Synergy, not back-and-forth.',
+        description: 'Humans and AI collaborators reason, decide, and execute together. Real synergy.',
       },
       {
         icon: IdCard,
-        title: 'Profiles that Matter',
-        description: 'Each collaborator has an identity, a voice, a role. It learns, remembers, and improves continuously. Autonomous and reliable.',
+        title: 'Full-fledged collaborators',
+        description: 'Each collaborator has a name, a role, skills. An identity that improves every day.',
       },
     ],
   },
@@ -86,7 +86,7 @@ export function WhyItWorksSection() {
             return (
               <motion.div
                 key={pillar.title}
-                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#D10E63]/20 bg-[#FBF9F3] p-8 shadow-sm transition-all duration-300 hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10 hover:-translate-y-1"
+                className="group relative flex flex-col items-start gap-5 rounded-2xl border border-[#E8E1D0] bg-[#FBF9F3] p-8 shadow-sm transition-all duration-300 hover:border-[#D10E63]/40 hover:shadow-lg hover:shadow-[#D10E63]/10 hover:-translate-y-1"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
