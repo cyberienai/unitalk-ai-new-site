@@ -24,7 +24,7 @@ const T = {
     almaCta: 'Parlez avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
     almaLearnMore: 'En savoir plus',
-    migrBadge: 'Déjà un agent Hermes ou OpenClaw ?',
+    migrBadge: 'Déjà un agent Hermes, OpenClaw, ChatGPT, Claude ou Gemini ?',
     migrText: 'Migrez vos données vers Unitalk en un clic.',
     migrCta: 'Migrer maintenant',
 
@@ -47,7 +47,7 @@ const T = {
     almaCta: 'Chat with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
     almaLearnMore: 'Learn more',
-    migrBadge: 'Already have a Hermes or OpenClaw agent?',
+    migrBadge: 'Already have a Hermes, OpenClaw, ChatGPT, Claude or Gemini agent?',
     migrText: 'Migrate your data to Unitalk in one click.',
     migrCta: 'Migrate now',
     almaSteps: [
