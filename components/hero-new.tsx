@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, CheckCircle2, Handshake, Clock, FileText, MapPin, Gift, Users } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, CheckCircle2, Unlock, Clock, FileText, MapPin, Gift, Users } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 function getInitials(name: string) {
@@ -31,7 +31,7 @@ const T = {
     ctaPrimary: 'Recruter mon collaborateur',
     ctaProofs: [
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
-      { icon: Handshake, label: 'Aucun engagement' },
+      { icon: Unlock, label: 'Aucun engagement' },
       { icon: Gift, label: '7 jours gratuits' },
       { icon: MapPin, label: 'Hébergé en France' },
     ],
@@ -173,7 +173,7 @@ const T = {
     ctaPrimary: 'Recruit my collaborator',
     ctaProofs: [
       { icon: Clock, label: 'Ready to work in 5 min' },
-      { icon: Handshake, label: 'No commitment' },
+      { icon: Unlock, label: 'No commitment' },
       { icon: Gift, label: '7 days free' },
       { icon: MapPin, label: 'Hosted in France' },
     ],
