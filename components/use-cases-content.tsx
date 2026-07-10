@@ -76,7 +76,7 @@ export function UseCasesContent() {
         ecommerce: {
           title: 'E-commerce',
           desc: 'Gérez les commandes, le service client et la fidélisation en continu.',
-          benefits: ['Gestion des commandes', 'Service client 24/7', 'Relances panier abandonné', 'Recommandations produits'],
+          benefits: ['Gestion des commandes', 'Service client sans relâche', 'Relances panier abandonné', 'Recommandations produits'],
         },
         saas: {
           title: 'SaaS',
@@ -120,7 +120,7 @@ export function UseCasesContent() {
         ecommerce: {
           title: 'E-commerce',
           desc: 'Manage orders, customer service and loyalty continuously.',
-          benefits: ['Order management', '24/7 customer service', 'Abandoned cart recovery', 'Product recommendations'],
+          benefits: ['Order management', 'Relentless customer service', 'Abandoned cart recovery', 'Product recommendations'],
         },
         saas: {
           title: 'SaaS',

@@ -11,7 +11,7 @@ const T = {
     headline: 'Unitalk. Vous avez maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
-      'Avec des noms, des compétences, une mémoire partagée. Donnez-leur des objectifs. Ils travaillent seuls ou avec votre équipe, 24h/24.',
+      'Avec des noms, des compétences, une mémoire partagée. Donnez-leur des objectifs. Ils travaillent seuls ou avec votre équipe, sans relâche.',
     manifesto: ['Apprend', 'Se souvient', 'Collabore', "S'améliore en continu"],
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Activer mon Collaborateur IA',
@@ -149,7 +149,7 @@ const T = {
     headline: 'Unitalk transforms AI agents into ',
     headlineAccent: 'real collaborators.',
     subheadline:
-      'With names, skills, shared memory. Give them objectives. They work alone or with your team, 24/7.',
+      'With names, skills, shared memory. Give them objectives. They work alone or with your team, relentlessly.',
     manifesto: ['It learns', 'It remembers', 'It collaborates', 'It improves continuously'],
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my AI Collaborator for free',

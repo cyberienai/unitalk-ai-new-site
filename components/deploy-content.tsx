@@ -85,7 +85,7 @@ const T = {
     finalBody: 'Créez votre agent avec Alma, puis déployez-le sur tous vos canaux en un clic. Vos clients ne verront plus la différence — sauf que vous répondez toujours.',
     channels: [
       { name: 'Site web', desc: 'Un widget de chat et de voix sur vos pages. Il répond, qualifie et prend rendez-vous.' },
-      { name: 'WhatsApp', desc: 'Vos clients écrivent, votre agent répond dans la seconde, 24h/24, sur le canal qu’ils préfèrent.' },
+      { name: 'WhatsApp', desc: 'Vos clients écrivent, votre agent répond dans la seconde, sans relâche, sur le canal qu’ils préfèrent.' },
       { name: 'Téléphone', desc: 'Une vraie voix, un vrai numéro. Il décroche, comprend et agit — comme un standard qui ne dort jamais.' },
       { name: 'Email', desc: 'Sa propre adresse. Il trie, rédige et répond à vos emails, relance les devis et suit chaque fil.' },
       { name: 'SMS', desc: 'Rappels de rendez-vous, confirmations, relances : au bon moment, sur le canal le plus lu.' },
@@ -115,7 +115,7 @@ const T = {
     finalBody: 'Create your agent with Alma, then deploy it across all your channels in one click. Your customers won’t see the difference — except that you always answer.',
     channels: [
       { name: 'Website', desc: 'A chat and voice widget on your pages. It answers, qualifies and books meetings.' },
-      { name: 'WhatsApp', desc: 'Your customers write, your agent replies within seconds, 24/7, on the channel they prefer.' },
+      { name: 'WhatsApp', desc: 'Your customers write, your agent replies within seconds, relentlessly, on the channel they prefer.' },
       { name: 'Phone', desc: 'A real voice, a real number. It picks up, understands and acts — like a switchboard that never sleeps.' },
       { name: 'Email', desc: 'Its own address. It sorts, writes and answers your emails, follows up on quotes and tracks every thread.' },
       { name: 'SMS', desc: 'Appointment reminders, confirmations, follow-ups: at the right moment, on the most-read channel.' },

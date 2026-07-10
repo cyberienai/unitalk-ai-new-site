@@ -28,7 +28,7 @@ export function AgentHermesContent() {
         },
         {
           icon: 'autonomous',
-          title: 'Exécution 24h/24 autonome',
+          title: 'Exécution autonome sans relâche',
           description:
             'Conçu pour tourner sur votre ordinateur ou sur un serveur privé, il peut exécuter des tâches chronométrées ou agir de manière proactive même si vous êtes déconnecté.',
         },
@@ -98,7 +98,7 @@ export function AgentHermesContent() {
         },
         {
           icon: 'autonomous',
-          title: '24/7 autonomous execution',
+          title: 'Tireless autonomous execution',
           description:
             'Designed to run on your computer or a private server, it can execute scheduled tasks or act proactively even when you\'re offline.',
         },
