@@ -74,7 +74,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#1A1613] py-20 sm:py-28">
+    <section className="relative w-full overflow-hidden bg-gradient-to-b from-[#F3EFE6] via-[#1A1613] to-[#1A1613] py-20 sm:py-28">
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* 2-column layout: title/subtitle left, video right */}
           <div className="mb-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
@@ -85,7 +85,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {t.almaTitle}
                 {t.almaTitleAccent && <span className="text-[#D10E63]">{t.almaTitleAccent}</span>}
               </h2>
-              <p className="mt-6 text-lg leading-relaxed text-[#C4BCAE]">{t.almaText}</p>
+              <p className="mt-6 text-lg leading-relaxed text-[#E8E1D0]">{t.almaText}</p>
 
               {/* CTA below subtitle */}
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -126,7 +126,7 @@ export function AlmaOnboardingSection({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
 
               {/* Migration banner under the video - enhanced design */}
-              <div className="mt-6 flex items-start justify-between gap-4 rounded-2xl border border-[#D10E63] bg-[#2A2620] p-5 sm:items-center">
+              <div className="mt-6 flex items-start justify-between gap-4 rounded-2xl border border-[#D10E63] bg-[#2A2620] p-6 sm:items-center sm:p-8">
                 <div className="flex items-start gap-3 flex-1">
                   <span className="mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center text-[#D10E63]">
                     <ArrowLeftRight className="h-3.5 w-3.5" strokeWidth={2} />
