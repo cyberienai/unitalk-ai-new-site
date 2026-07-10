@@ -75,7 +75,7 @@ export function WhyItWorksSection() {
           <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1C1A17]">
             Trois principes de collaboration
             <br />
-            <span className="bg-gradient-to-r from-[#D10E63] to-[#F1729F] bg-clip-text text-transparent">qui changent tout</span>
+            <span className="text-[#D10E63]">qui changent tout</span>
           </h2>
         </motion.div>
 
