@@ -12,17 +12,17 @@ const T = {
       {
         icon: Brain,
         title: 'Un contexte commun',
-        description: 'Votre équipe et vos agents partagent le même contexte, les mêmes décisions, la même mémoire d\'entreprise. Fini les silos.',
+        description: 'Votre équipe et vos agents partagent le même contexte, les mêmes décisions, la même mémoire. Zéro information perdue.',
       },
       {
         icon: Users,
         title: 'Une intelligence collective',
-        description: 'Humains et collaborateurs IA raisonnent, décident et exécutent ensemble. Une vraie synergie.',
+        description: 'Humains et collaborateurs IA raisonnent, décident, exécutent ensemble. Pas d\'aller-retour, une seule équipe.',
       },
       {
         icon: IdCard,
         title: 'Des collaborateurs à part entière',
-        description: 'Chaque collaborateur a un nom, un rôle, des compétences. Une identité qui s\'améliore chaque jour.',
+        description: 'Chaque collaborateur a un nom, un rôle, une voix, une mémoire. Pas un chatbot. Un vrai membre de l\'équipe.',
       },
     ],
   },
@@ -33,17 +33,17 @@ const T = {
       {
         icon: Brain,
         title: 'Shared Context',
-        description: 'Your team and your agents share the same context, decisions, and company memory. No more silos.',
+        description: 'Your team and your agents share the same context, decisions, and company memory. Zero information lost.',
       },
       {
         icon: Users,
         title: 'Collective Intelligence',
-        description: 'Humans and AI collaborators reason, decide, and execute together. Real synergy.',
+        description: 'Humans and AI collaborators reason, decide, execute together. No back-and-forth, one team.',
       },
       {
         icon: IdCard,
         title: 'Full-fledged collaborators',
-        description: 'Each collaborator has a name, a role, skills. An identity that improves every day.',
+        description: 'Each collaborator has a name, a role, a voice, a memory. Not a chatbot. A real team member.',
       },
     ],
   },
