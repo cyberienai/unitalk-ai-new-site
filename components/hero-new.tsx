@@ -499,14 +499,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       </span>
                     </div>
                     <p className="text-sm text-[#B8B0A2]">{collab.role}</p>
-                    <a
-                      href={`https://${collab.profileUrl}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[9px] font-semibold uppercase tracking-wide text-[#8A8175] hover:text-[#D10E63] transition-colors"
-                    >
-                      {collab.profileUrl}
-                    </a>
                   </div>
                 </div>
               )
