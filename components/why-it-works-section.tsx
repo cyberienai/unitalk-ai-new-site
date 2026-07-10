@@ -17,7 +17,7 @@ const T = {
       {
         icon: Users,
         title: 'Une intelligence collective',
-        description: 'Propulsés par notre moteur Hermès, humains et agents raisonnent, décident et exécutent ensemble. Une synergie, pas des allers-retours.',
+        description: 'Propulsés par notre moteur Hermes, humains et agents raisonnent, décident et exécutent ensemble. Une synergie, pas des allers-retours.',
       },
       {
         icon: IdCard,
@@ -38,7 +38,7 @@ const T = {
       {
         icon: Users,
         title: 'Collective Intelligence',
-        description: 'Powered by our Hermès engine, humans and agents reason, decide, and execute together. Synergy, not back-and-forth.',
+        description: 'Powered by our Hermes engine, humans and agents reason, decide, and execute together. Synergy, not back-and-forth.',
       },
       {
         icon: IdCard,

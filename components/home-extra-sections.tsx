@@ -102,7 +102,7 @@ const SOVEREIGNTY_PILLARS = [
   {
     icon: Fingerprint,
     title: 'Votre propriété intellectuelle',
-    description: 'Ce que vous construisez reste à vous. Vos agents Hermès, vos compétences, vos automatisations, vos conversations — Unitalk ne détient aucun droit.',
+    description: 'Ce que vous construisez reste à vous. Vos agents Hermes, vos compétences, vos automatisations, vos conversations — Unitalk ne détient aucun droit.',
     featured: true,
   },
   {
@@ -273,7 +273,7 @@ const OFFERS = [
     price: '30€',
     priceNote: '/mois',
     points: [
-      '1 agent Hermès autonome et personnalisé',
+      '1 agent Hermes autonome et personnalisé',
       'Accès à 10 profils professionnels',
       "Accès aux meilleurs modèles d'IA",
       'Planification de tâches',
@@ -295,7 +295,7 @@ const OFFERS = [
     price: '25€',
     priceNote: '/mois par collaborateur IA',
     points: [
-      '1 agent Hermès par membre de l\'équipe',
+      '1 agent Hermes par membre de l\'équipe',
       "Accès aux meilleurs modèles d'IA",
       'Planification de tâches',
       'Mémoire collective & apprentissage partagé',
