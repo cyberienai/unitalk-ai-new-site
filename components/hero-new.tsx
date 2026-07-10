@@ -8,7 +8,7 @@ const T = {
   fr: {
     eyebrow: "L'IA qui travaille pour votre organisation",
     headline: 'Unitalk. Vous avez maintenant ',
-    headlineAccent: 'un vrai collaborateur IA.',
+    headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
       'Avec un nom, des compétences, une mémoire. Donnez-lui des objectifs. Il travaille seul ou avec votre équipe, 24h/24.',
     manifesto: ['Raisonne', 'Planifie', 'Exécute', 'Apprend', 'Se souvient', 'Collabore', "S'améliore"],
@@ -429,17 +429,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             })}
           </motion.ul>
 
-          {/* Concrete example — mini case study */}
-          <motion.div
-            className="mt-8 flex items-start gap-3 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/8 p-4 sm:p-5"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.32 }}
-          >
-            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/20 text-[#D10E63]">
-              <Zap className="h-4 w-4" />
-            </div>
-          </motion.div>
+
         </div>
 
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
