@@ -67,16 +67,18 @@ export function CoreProductCards({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 transition={{ duration: 0.5, ease, delay: i * 0.08 }}
                 className="group flex flex-col rounded-2xl border-2 border-[#1C1A17]/8 bg-[#FBF9F3] p-7 transition-all hover:border-[#D10E63]/20 hover:shadow-lg hover:shadow-[#D10E63]/8 hover:scale-105 sm:p-8"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-all group-hover:bg-[#D10E63] group-hover:scale-110">
-                  <Icon className="h-6 w-6" strokeWidth={1.5} />
-                </span>
-                <h3
-                  className="mt-6 font-sf text-lg font-bold leading-snug text-[#1C1A17]"
-                  style={{ letterSpacing: '-0.02em' }}
-                >
-                  {card.title}
-                </h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-[#4E483F]">
+                <div className="flex items-center gap-4">
+                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#1C1A17] text-[#FBF9F3] transition-all group-hover:bg-[#D10E63] group-hover:scale-110">
+                    <Icon className="h-6 w-6" strokeWidth={1.5} />
+                  </span>
+                  <h3
+                    className="font-sf text-lg font-bold leading-snug text-[#1C1A17]"
+                    style={{ letterSpacing: '-0.02em' }}
+                  >
+                    {card.title}
+                  </h3>
+                </div>
+                <p className="mt-5 flex-1 text-sm leading-relaxed text-[#4E483F]">
                   {card.description}
                 </p>
               </motion.article>
