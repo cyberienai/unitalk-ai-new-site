@@ -146,8 +146,8 @@ export function Navbar() {
             className="inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] hover:text-[#D10E63] transition-colors"
             aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
-            {lang === 'fr' ? <UkFlag /> : <FrenchFlag />}
-            {lang === 'fr' ? 'EN' : 'FR'}
+            {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
+            {lang === 'fr' ? 'FR' : 'EN'}
           </button>
 
           {/* Menu button — visible on all breakpoints */}
@@ -291,8 +291,8 @@ export function Navbar() {
                     className="flex items-center gap-2 px-4 py-1.5 text-xs font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors"
                     aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
                   >
-                    {lang === 'fr' ? <UkFlag /> : <FrenchFlag />}
-                    {lang === 'fr' ? 'English' : 'Français'}
+                    {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
+                    {lang === 'fr' ? 'Français' : 'English'}
                   </button>
                 </div>
               </nav>
