@@ -11,7 +11,7 @@ const T = {
     // Alma
     almaEyebrow: '• Démarrage assisté',
     almaTitle: 'Alma vous interview et donne vie à ',
-    almaTitleAccent: 'votre collaborateur IA',
+    almaTitleAccent: 'vos collaborateurs IA',
     almaText:
       "Alma comprend votre entreprise, identifie vos tâches qui vous prennent du temps et recommande les compétences essentielles. Votre Collaborateur IA est prêt en 5 minutes.",
     almaSteps: [
