@@ -20,7 +20,7 @@ const T = {
     headline: 'Vous avez maintenant ',
     headlineAccent: 'de vrais collaborateurs IA.',
     subheadline:
-      "Avec un nom, une mémoire partagée, des compétences. Donnez-leur un objectif, ils travaillent 24/24.",
+      "Avec un nom, une mémoire partagée, des compétences. Donnez-leur un objectif, ils travaillent 24h/24.",
     manifesto: [
       { icon: Phone, label: 'Appelle' },
       { icon: Calendar, label: 'Planifie' },
