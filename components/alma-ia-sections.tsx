@@ -24,8 +24,8 @@ const T = {
     almaCta: 'Parlez avec Alma',
     almaMicrocopy: 'Sans carte bancaire. Découvrez Alma →',
     almaLearnMore: 'En savoir plus',
-    migrBadge: 'Migration en un clic',
-    migrText: 'Déjà un agent Hermes ou OpenClaw ? Migrez vos données vers Unitalk en un clic.',
+    migrBadge: 'Déjà un agent Hermes ou OpenClaw ?',
+    migrText: 'Migrez vos données vers Unitalk en un clic.',
     migrCta: 'Migrer maintenant',
 
     // IA dispersée (dark)
@@ -47,8 +47,8 @@ const T = {
     almaCta: 'Chat with Alma',
     almaMicrocopy: 'No credit card. Learn more about Alma →',
     almaLearnMore: 'Learn more',
-    migrBadge: 'One-click migration',
-    migrText: 'Already have a Hermes or OpenClaw agent? Migrate your data to Unitalk in one click.',
+    migrBadge: 'Already have a Hermes or OpenClaw agent?',
+    migrText: 'Migrate your data to Unitalk in one click.',
     migrCta: 'Migrate now',
     almaSteps: [
       { n: '01', label: 'Company context', desc: 'Collects public data related to your company and domain name' },
