@@ -130,6 +130,7 @@ const T = {
         profileUrl: 'unitalk.ai/david',
         skills: 'Automatisations, intégrations, workflows',
         avatar: '/automation-avatar.png',
+        example: 'Exemple : David construit des workflows n8n. 20 automatisations déployées par mois.',
       },
       {
         id: 'meeting',
@@ -138,6 +139,7 @@ const T = {
         profileUrl: 'unitalk.ai/sophie',
         skills: 'Notes vocales, transcription, résumés',
         avatar: '/assistant-avatar.png',
+        example: 'Exemple : Sophie transcrit les réunions et crée des résumés. Actions en 5 minutes.',
       },
     ],
   },
