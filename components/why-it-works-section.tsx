@@ -53,7 +53,7 @@ export function WhyItWorksSection() {
   const ease: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94]
 
   return (
-    <section className="relative bg-[#1C1A17] py-20 sm:py-32">
+    <section className="relative bg-[#F3EFE6] py-20 sm:py-32">
       {/* Subtle decorative background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#D10E63]/8 rounded-full blur-3xl" />
