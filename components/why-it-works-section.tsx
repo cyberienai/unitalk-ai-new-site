@@ -11,17 +11,17 @@ const T = {
     pillars: [
       {
         icon: Brain,
-        title: 'Contexte Partagé',
+        title: 'Un contexte commun',
         description: 'Votre équipe et vos agents partagent le même contexte, les mêmes décisions, la même mémoire d\'entreprise. Fini les silos.',
       },
       {
         icon: Users,
-        title: 'Synergie Humain-IA',
+        title: 'Une intelligence collective',
         description: 'Propulsés par notre moteur Hermès, humains et agents raisonnent, décident et exécutent ensemble. Une synergie, pas des allers-retours.',
       },
       {
         icon: IdCard,
-        title: 'Vrais Collaborateurs',
+        title: 'Des profils qui comptent',
         description: 'Chaque collaborateur a une identité, une voix, un rôle. Il apprend, se souvient, s\'améliore en continu. Autonome et fiable.',
       },
     ],
@@ -37,12 +37,12 @@ const T = {
       },
       {
         icon: Users,
-        title: 'Human-AI Synergy',
+        title: 'Collective Intelligence',
         description: 'Powered by our Hermès engine, humans and agents reason, decide, and execute together. Synergy, not back-and-forth.',
       },
       {
         icon: IdCard,
-        title: 'Real Collaborators',
+        title: 'Profiles that Matter',
         description: 'Each collaborator has an identity, a voice, a role. It learns, remembers, and improves continuously. Autonomous and reliable.',
       },
     ],
