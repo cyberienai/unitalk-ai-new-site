@@ -157,13 +157,13 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             type="button"
             onClick={() => setMode(m)}
             className={`relative flex-1 rounded-full py-2 text-sm font-semibold transition-colors ${
-              mode === m ? 'text-[#D10E63]' : 'text-[#6B6560] hover:text-[#1C1A17]'
+              mode === m ? 'text-white' : 'text-[#6B6560] hover:text-[#1C1A17]'
             }`}
           >
             {mode === m && (
               <motion.span
                 layoutId="form-tab"
-                className="absolute inset-0 rounded-full bg-white shadow-sm"
+                className="absolute inset-0 rounded-full bg-[#D10E63]"
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
               />
             )}
