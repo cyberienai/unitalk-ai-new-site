@@ -32,7 +32,7 @@ const T = {
     ],
     profileCount: '1 collaborateur · 10 profils prêts à l\'emploi',
     soloTeam: 'Démarrez seul, ajoutez votre équipe plus tard.',
-    trust: ['Hébergé en France (conforme RGPD)', 'Support en français', 'Vos données vous appartiennent'],
+    trust: ['Hébergé en France', 'Conforme RGPD', 'Support en français', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -171,7 +171,7 @@ const T = {
     ],
     profileCount: '1 collaborator · 10 profiles ready to use',
     soloTeam: 'Start solo, add your team later.',
-    trust: ['Hosted in France (GDPR)', 'Human support', 'Your data stays yours'],
+    trust: ['Hosted in France', 'GDPR compliant', 'Human support', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
