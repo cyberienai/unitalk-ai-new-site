@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, Sparkles, Check } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, Sparkles, Check, Mic } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -30,6 +30,7 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
+    almaIntro: 'Alma, votre guide vocale, crée votre collaborateur en 2 minutes.',
     includedNote:
       "Accès aux meilleurs modèles IA, pilotage à la voix, mémoire, email, téléphone et calendrier : aucun outil à brancher, aucune configuration.",
     example: {
@@ -168,6 +169,7 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
+    almaIntro: 'Alma, your voice guide, builds your collaborator in 2 minutes.',
     includedNote:
       'Access to the best AI models, voice control, memory, email, phone and calendar: no tools to plug in, no setup.',
     example: {
@@ -377,7 +379,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {/* Floating product mockup — live collaborator profile (peeks top-left behind the form) */}
             <motion.div
               aria-hidden="true"
-              className="absolute -left-14 -top-12 z-20 hidden w-56 rounded-2xl border border-[#EADFCF] bg-white/90 p-3 shadow-xl shadow-[#1C1A17]/10 backdrop-blur lg:block"
+              className="absolute -left-20 top-10 z-20 hidden w-52 rounded-2xl border border-[#EADFCF] bg-white/90 p-3 shadow-xl shadow-[#1C1A17]/10 backdrop-blur lg:block"
               initial={{ opacity: 0, y: 12, rotate: -3 }}
               animate={{ opacity: 1, y: [0, -9, 0], rotate: -3 }}
               transition={{
@@ -436,6 +438,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </motion.div>
 
             <div className="relative z-10">
+              <motion.p
+                className="mx-auto mb-3 flex max-w-sm items-center justify-center gap-2 text-center text-xs font-medium text-[#6B6560] text-pretty"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease, delay: 0.35 }}
+              >
+                <Mic className="h-3.5 w-3.5 shrink-0 text-[#D10E63]" />
+                {t.almaIntro}
+              </motion.p>
               <CollaboratorForm lang={lang} />
             </div>
           </div>
