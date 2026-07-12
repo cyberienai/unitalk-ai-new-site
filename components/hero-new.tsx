@@ -359,8 +359,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.6, ease, delay: 0.28 }}
         >
           {/* Team preview — overlapping avatars double as social proof and product peek */}
-          <div className="flex items-center gap-3">
-            <div className="flex -space-x-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <div className="flex shrink-0 -space-x-3">
               {t.collaborators.slice(0, 6).map((c) => (
                 <img
                   key={c.id}
