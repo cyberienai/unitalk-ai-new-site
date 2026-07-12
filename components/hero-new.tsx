@@ -21,12 +21,7 @@ const T = {
     headlineAccent: 'Vous avez maintenant un vrai collaborateur IA.',
     subheadline:
       "Il raisonne, planifie, exécute des tâches, code, automatise, délègue et apprend — comme un membre de votre équipe.",
-    manifesto: [
-      { icon: Phone, label: 'Appelle' },
-      { icon: Calendar, label: 'Planifie' },
-      { icon: Mail, label: 'Répond' },
-      { icon: Users, label: 'Coordonne' },
-    ],
+    featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon collaborateur',
     ctaProofs: [
@@ -163,12 +158,7 @@ const T = {
     headlineAccent: 'real collaborators.',
     subheadline:
       'With a name, shared memory, skills. Give them a goal, they work 24/7.',
-    manifesto: [
-      { icon: Phone, label: 'Calls' },
-      { icon: Calendar, label: 'Schedules' },
-      { icon: Mail, label: 'Replies' },
-      { icon: Users, label: 'Coordinates' },
-    ],
+    featuresText: '1 agent · 10 profiles · Start solo, add your team later',
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my collaborator',
     ctaProofs: [
@@ -382,44 +372,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
 
           {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
-          <motion.div
-            ref={chipsRef}
-            className="mb-8 flex flex-wrap gap-2 sm:gap-2"
+          <motion.p
+            className="mb-8 text-sm font-medium text-[#8A8175]"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.2 }}
           >
-            {t.manifesto.map((line, i) => {
-              const isActive = i === activeVerb
-              const VerbIcon = line.icon
-              return (
-                <motion.span
-                  key={line.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, ease, delay: 0.3 + i * 0.12 }}
-                  className="inline-flex shrink-0"
-                >
-                  <motion.span
-                    ref={(el) => {
-                      chipRefs.current[i] = el
-                    }}
-                    animate={{ scale: isActive ? 1.06 : 1 }}
-                    transition={{ duration: 0.45, ease }}
-                    className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-medium transition-all ${
-                      isActive
-                        ? 'border-[#D10E63] bg-[#D10E63] text-[#FBF9F3]'
-                        : 'border-[#D10E63]/30 bg-white text-[#1C1A17] hover:border-[#D10E63]/50'
-                    }`}
-                  >
-                    <VerbIcon className={`h-3.5 w-3.5 ${isActive ? 'text-[#FBF9F3]' : 'text-[#D10E63]'}`} strokeWidth={2} />
-                    {line.label}
-                  </motion.span>
-                </motion.span>
-              )
-            })}
-          </motion.div>
+            {t.featuresText}
+          </motion.p>
 
           <motion.div
             className="flex flex-col gap-3 sm:flex-row sm:items-center"
