@@ -49,11 +49,11 @@ const T = {
       services: '4 services détectés',
       ready: (n: string, fem: boolean) => `${n} est prêt${fem ? 'e' : ''} à travailler`,
     },
-    formSubtitle: 'Votre premier collaborateur IA',
+    formSubtitle: (fem: boolean) => `Votre premi${fem ? 'ère collaboratrice' : 'er collaborateur'} IA`,
     nameLabel: 'Prénom',
     namePlaceholder: 'Emma',
     nameHint: 'Vous pourrez le modifier plus tard.',
-    suggestName: 'Suggérer un nom',
+    suggestName: 'Suggérer un prénom',
     roleLabel: 'Rôle',
     roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: [
@@ -98,11 +98,11 @@ const T = {
       services: '4 services detected',
       ready: (n: string, _fem: boolean) => `${n} is ready to work`,
     },
-    formSubtitle: 'Your first AI collaborator',
+    formSubtitle: (_fem: boolean) => 'Your first AI collaborator',
     nameLabel: 'First name',
     namePlaceholder: 'Emma',
     nameHint: 'You can change it later.',
-    suggestName: 'Suggest a name',
+    suggestName: 'Suggest a first name',
     roleLabel: 'Role',
     roleHint: 'Skills will be generated automatically.',
     roleOptions: [
@@ -271,7 +271,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
             {t.formTitlePrefix} {collaboratorName}
           </h3>
-          <p className="mt-0.5 text-xs font-medium text-[#8A8175]">{t.formSubtitle}</p>
+          <p className="mt-0.5 text-xs font-medium text-[#8A8175]">{t.formSubtitle(collaboratorIsFeminine)}</p>
         </div>
       </div>
 
