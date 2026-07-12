@@ -21,7 +21,7 @@ const T = {
     headline: 'Votre entreprise',
     headlineAccent: ' a ses propres Collaborateurs IA.',
     subheadline:
-      "Ils répondent à vos clients, exécutent vos processus et apprennent chaque jour aux côtés de vos équipes. Démarrez seul, ajoutez votre équipe plus tard.",
+      "Ils répondent à vos clients, exécutent vos processus et apprennent chaque jour aux côtés de vos équipes.",
     summary:
       "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
     featuresText: '1 collaborateur · 10 profils prêts à l\'emploi',
@@ -30,7 +30,7 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    soloTeam: '1 collaborateur · 10 profils prêts à l\'emploi',
+    soloTeam: '1 collaborateur · 10 profils · Démarrez seul, ajoutez votre équipe plus tard.',
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -158,7 +158,7 @@ const T = {
     headline: 'Your company',
     headlineAccent: ' has its own AI Collaborators.',
     subheadline:
-      'They answer your customers, run your processes and learn every day alongside your teams. Start solo, add your team later.',
+      'They answer your customers, run your processes and learn every day alongside your teams.',
     summary:
       'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
     featuresText: '1 collaborator · 10 profiles ready to use',
@@ -167,7 +167,7 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    soloTeam: '1 collaborator · 10 profiles ready to use',
+    soloTeam: '1 collaborator · 10 profiles · Start solo, add your team later.',
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
