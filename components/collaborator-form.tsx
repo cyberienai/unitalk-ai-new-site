@@ -243,10 +243,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         {t.ctaButton} {collaboratorName}
         <span aria-hidden="true">›</span>
       </button>
-      <p className="mb-4 mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration}</p>
-
-      {/* Terms */}
-      <p className="text-center text-xs text-[#8A8175]">{t.terms}</p>
+      <p className="mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration}</p>
     </motion.div>
   )
 }

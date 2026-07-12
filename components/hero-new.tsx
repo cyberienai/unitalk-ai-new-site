@@ -24,6 +24,7 @@ const T = {
       "Ils répondent à vos clients, gèrent vos emails, planifient vos rendez-vous et exécutent vos processus — en apprenant continuellement de votre entreprise.",
     summary:
       "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
+    terms: "En déployant votre collaborateur, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
     featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Obtenir mon collaborateur',
@@ -166,6 +167,7 @@ const T = {
       'They answer your customers, manage your emails, schedule your meetings and run your processes — continuously learning from your company.',
     summary:
       'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
+    terms: 'By deploying your collaborator, you accept our Terms of Use and Privacy Policy.',
     featuresText: '1 agent · 10 profiles · Start solo, add your team later',
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Get my collaborator',
@@ -377,15 +379,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               })}
             </ul>
           </motion.div>
-
-          <motion.p
-            className="mt-6 max-w-xl text-sm leading-relaxed text-[#8A8175] text-pretty"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease, delay: 0.42 }}
-          >
-            {t.summary}
-          </motion.p>
         </div>
 
         {/* Right column — collaborator creation form, vertically centered against the copy */}
@@ -393,6 +386,16 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <CollaboratorForm lang={lang} />
         </div>
       </div>
+
+      {/* Terms — pulled out of the deployment card, kept quiet under the whole hero */}
+      <motion.p
+        className="relative mx-auto mt-10 max-w-md px-5 text-center text-xs leading-relaxed text-[#A79F90] text-pretty sm:px-6 lg:px-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, ease, delay: 0.5 }}
+      >
+        {t.terms}
+      </motion.p>
     </section>
   )
 }

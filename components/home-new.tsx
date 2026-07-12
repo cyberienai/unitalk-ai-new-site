@@ -3,6 +3,7 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
+import { DigitalIdentitySection } from './digital-identity-section'
 import {
   EmmaWorksSection,
   EmmaLearnsSection,
@@ -30,6 +31,9 @@ export function HomeNew() {
 
       {/* 2. Hero 2 colonnes + carte Sofia */}
       <HeroNew lang={lang} />
+
+      {/* Story — Chaque collaborateur IA est une identité numérique */}
+      <DigitalIdentitySection lang={lang} />
 
       {/* Story — Emma travaille */}
       <EmmaWorksSection lang={lang} />
