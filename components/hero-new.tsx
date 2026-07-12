@@ -31,7 +31,7 @@ const T = {
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
     profileCount: 'Un collaborateur. Une identité. Une mémoire.',
-    soloTeam: '10 profils inclus. Une infinité de compétences.',
+    soloTeam: "Jusqu'à 10 profils. Une infinité de compétences.",
     trust: ['Hébergé en France', 'Support en français', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
@@ -170,7 +170,7 @@ const T = {
       { label: 'Everything included, from the very first collaborator.' },
     ],
     profileCount: 'One collaborator. One identity. One memory.',
-    soloTeam: '10 profiles included. Infinite skills.',
+    soloTeam: 'Up to 10 profiles. Infinite skills.',
     trust: ['Hosted in France', 'Human support', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
