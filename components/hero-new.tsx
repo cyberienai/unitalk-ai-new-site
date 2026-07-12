@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, Check } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -30,8 +30,9 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    profileCount: '1 collaborateur · 10 profils',
+    profileCount: '1 collaborateur · 10 profils prêts à l\'emploi',
     soloTeam: 'Démarrez seul, ajoutez votre équipe plus tard.',
+    trust: ['Sans engagement', 'Support en français', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -168,8 +169,9 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    profileCount: '1 collaborator · 10 profiles',
+    profileCount: '1 collaborator · 10 profiles ready to use',
     soloTeam: 'Start solo, add your team later.',
+    trust: ['No commitment', 'Human support', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
@@ -351,18 +353,37 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
 
         <motion.div
-          className="mt-8 max-w-xl"
+          className="mt-9 flex max-w-xl flex-col gap-4"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.28 }}
         >
-          <div className="inline-flex flex-col items-start gap-2 rounded-xl border border-[#D7CFC1] bg-[#F4EEE2] px-4 py-3">
-            <p className="text-xs font-semibold text-[#1C1A17]">
-              {t.profileCount}
-            </p>
-            <p className="text-xs leading-relaxed text-[#1C1A17]">
-              {t.soloTeam}
-            </p>
+          {/* Team preview — overlapping avatars double as social proof and product peek */}
+          <div className="flex items-center gap-3">
+            <div className="flex -space-x-3">
+              {t.collaborators.slice(0, 6).map((c) => (
+                <img
+                  key={c.id}
+                  src={c.avatar || '/placeholder.svg'}
+                  alt={`${c.name}, ${c.role}`}
+                  className="h-10 w-10 rounded-full border-2 border-[#F3EFE6] object-cover shadow-sm"
+                />
+              ))}
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-[#1C1A17]">{t.profileCount}</p>
+              <p className="text-xs leading-relaxed text-[#6B6560]">{t.soloTeam}</p>
+            </div>
+          </div>
+
+          {/* Trust row */}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-[#DDD5CA] pt-4">
+            {t.trust.map((item) => (
+              <span key={item} className="flex items-center gap-1.5 text-xs font-medium text-[#6B6560]">
+                <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+                {item}
+              </span>
+            ))}
           </div>
           </motion.div>
         </div>

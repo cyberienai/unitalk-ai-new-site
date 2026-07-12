@@ -157,13 +157,13 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             type="button"
             onClick={() => setMode(m)}
             className={`relative flex-1 rounded-full py-2 text-sm font-semibold transition-colors ${
-              mode === m ? 'text-white' : 'text-[#6B6560] hover:text-[#1C1A17]'
+              mode === m ? 'text-[#D10E63]' : 'text-[#6B6560] hover:text-[#1C1A17]'
             }`}
           >
             {mode === m && (
               <motion.span
                 layoutId="form-tab"
-                className="absolute inset-0 rounded-full bg-[#D10E63]"
+                className="absolute inset-0 rounded-full bg-white shadow-sm"
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
               />
             )}
@@ -291,7 +291,13 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 pr-10 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+              className="w-full appearance-none truncate rounded-lg border border-[#DDD5CA] bg-white pl-4 pr-8 py-3 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+              style={{
+                backgroundImage:
+                  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B6560' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 0.6rem center',
+              }}
             >
               {t.roleOptions.map((option) => (
                 <option key={option} value={option}>
