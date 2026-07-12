@@ -30,7 +30,8 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    soloTeam: '1 collaborateur · 10 profils · Démarrez seul, ajoutez votre équipe plus tard.',
+    profileCount: '1 collaborateur · 10 profils',
+    soloTeam: 'Démarrez seul, ajoutez votre équipe plus tard.',
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -167,7 +168,8 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    soloTeam: '1 collaborator · 10 profiles · Start solo, add your team later.',
+    profileCount: '1 collaborator · 10 profiles',
+    soloTeam: 'Start solo, add your team later.',
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
@@ -354,10 +356,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.28 }}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 text-xs font-semibold text-[#1C1A17]">
-            <Users className="h-3.5 w-3.5 text-[#D10E63]" />
-            {t.soloTeam}
-          </span>
+          <div className="inline-flex flex-col items-start gap-2 rounded-xl border border-[#D7CFC1] bg-[#F4EEE2] px-4 py-3">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#1C1A17]">
+              <Users className="h-3 w-3 text-[#D10E63]" />
+              {t.profileCount}
+            </span>
+            <p className="text-xs leading-relaxed text-[#1C1A17]">
+              {t.soloTeam}
+            </p>
+          </div>
           </motion.div>
         </div>
 
