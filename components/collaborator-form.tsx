@@ -7,7 +7,7 @@ import { Bot, Globe, Sparkles, Check } from 'lucide-react'
 const T = {
   fr: {
     title: 'Déployez votre premier collaborateur IA',
-    subtitle: "En moins d'une minute, à partir de votre nom de domaine.",
+    subtitle: 'Prêt en moins de 2 minutes, à partir de votre nom de domaine.',
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.fr',
     domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
@@ -26,7 +26,7 @@ const T = {
   },
   en: {
     title: 'Deploy your first AI collaborator',
-    subtitle: 'In under a minute, using your domain name.',
+    subtitle: 'Ready in under 2 minutes, using your domain name.',
     domainLabel: 'Domain name',
     domainPlaceholder: 'mycompany.com',
     domainHint: 'We automatically analyze your website to build the shared context for your organization.',

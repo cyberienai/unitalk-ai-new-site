@@ -21,7 +21,7 @@ const T = {
     headline: 'Unitalk. ',
     headlineAccent: 'Vous avez maintenant un vrai collaborateur IA.',
     subheadline:
-      "Il découvre votre entreprise, apprend vos méthodes et travaille directement depuis vos outils : email, téléphone, calendrier, CRM et applications métier.",
+      "Il retient tout de votre entreprise, maîtrise vos outils et développe automatiquement les compétences dont vous avez besoin.",
     featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Obtenir mon collaborateur',
@@ -161,7 +161,7 @@ const T = {
     headline: 'Unitalk. ',
     headlineAccent: 'You now have a real AI collaborator.',
     subheadline:
-      'It discovers your company, learns your methods and works directly from your tools: email, phone, calendar, CRM and business applications.',
+      'It remembers everything about your company, masters your tools and automatically develops the skills you need.',
     featuresText: '1 agent · 10 profiles · Start solo, add your team later',
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Get my collaborator',
