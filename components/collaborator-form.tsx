@@ -12,12 +12,14 @@ const T = {
     domainPlaceholder: 'monentreprise.fr',
     domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
     analysis: {
-      scanning: 'Analyse du site en cours…',
-      pages: '12 pages détectées',
+      scanning: 'Analyse de votre site en cours…',
+      company: 'Entreprise détectée',
       sector: 'Secteur identifié : Services B2B',
-      ready: 'Contexte prêt à créer',
+      pages: '12 pages analysées',
+      services: '4 services détectés',
+      ready: (n: string) => `${n} est prête à travailler`,
     },
-    nameLabel: 'Nom du collaborateur',
+    nameLabel: 'Collaborateur',
     namePlaceholder: 'Emma',
     nameHint: 'Vous pourrez le modifier plus tard.',
     suggestName: 'Suggérer',
@@ -36,12 +38,14 @@ const T = {
     domainPlaceholder: 'mycompany.com',
     domainHint: 'We automatically analyze your website to build the shared context for your organization.',
     analysis: {
-      scanning: 'Analyzing website…',
-      pages: '12 pages detected',
+      scanning: 'Analyzing your website…',
+      company: 'Company detected',
       sector: 'Sector identified: B2B Services',
-      ready: 'Context ready to create',
+      pages: '12 pages analyzed',
+      services: '4 services detected',
+      ready: (n: string) => `${n} is ready to work`,
     },
-    nameLabel: 'Collaborator name',
+    nameLabel: 'Collaborator',
     namePlaceholder: 'Emma',
     nameHint: 'You can change it later.',
     suggestName: 'Suggest',
@@ -86,9 +90,11 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
     const schedule = (step: number, delay: number) => {
       timers.current.push(setTimeout(() => setAnalysisStep(step), delay))
     }
-    schedule(2, 800)
-    schedule(3, 1500)
-    schedule(4, 2200)
+    schedule(2, 700)
+    schedule(3, 1300)
+    schedule(4, 1900)
+    schedule(5, 2500)
+    schedule(6, 3100)
 
     return () => {
       timers.current.forEach(clearTimeout)
@@ -105,9 +111,10 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   }
 
   const analysisLines = [
-    { key: 'pages', label: t.analysis.pages, step: 2 },
+    { key: 'company', label: t.analysis.company, step: 2 },
     { key: 'sector', label: t.analysis.sector, step: 3 },
-    { key: 'ready', label: t.analysis.ready, step: 4 },
+    { key: 'pages', label: t.analysis.pages, step: 4 },
+    { key: 'services', label: t.analysis.services, step: 5 },
   ]
 
   return (
@@ -159,7 +166,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
               className="mt-2 space-y-1.5 overflow-hidden rounded-lg border border-[#E6DFD1] bg-white/60 p-3"
             >
               <div className="flex items-center gap-1.5 text-xs font-medium text-[#6B6560]">
-                {analysisStep < 4 ? (
+                {analysisStep < 6 ? (
                   <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin text-[#D10E63]" />
                 ) : (
                   <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
@@ -180,6 +187,18 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                   )}
                 </AnimatePresence>
               ))}
+              <AnimatePresence>
+                {analysisStep >= 6 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-1 flex items-center gap-1.5 border-t border-[#E6DFD1] pt-2 text-xs font-semibold text-[#D10E63]"
+                  >
+                    <Sparkles className="h-3.5 w-3.5 shrink-0" />
+                    {t.analysis.ready(collaboratorName)}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>

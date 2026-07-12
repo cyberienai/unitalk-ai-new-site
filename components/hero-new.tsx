@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, Unlock, Clock, MapPin, Gift } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, MapPin } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -17,7 +17,7 @@ function getInitials(name: string) {
 
 const T = {
   fr: {
-    eyebrow: 'VOS COLLABORATEURS IA',
+    eyebrow: 'Vos collaborateurs IA, prêts à travailler.',
     headline: 'Toute votre entreprise mérite ',
     headlineAccent: 'ses propres Collaborateurs IA.',
     subheadline:
@@ -32,10 +32,10 @@ const T = {
       { label: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard' },
     ],
     ctaProofs2: [
-      { icon: MapPin, label: 'Hébergé en France' },
-      { icon: Clock, label: 'Prêt en moins de 2 min' },
-      { icon: Unlock, label: 'Sans engagement' },
-      { icon: Gift, label: '7 jours gratuits' },
+      { icon: Database, label: 'Mémoire partagée' },
+      { icon: Mail, label: 'Email professionnel inclus' },
+      { icon: Phone, label: 'Téléphone et calendrier' },
+      { icon: MapPin, label: 'Hébergé en Europe' },
     ],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
@@ -160,7 +160,7 @@ const T = {
     ],
   },
   en: {
-    eyebrow: 'YOUR AI COLLABORATORS',
+    eyebrow: 'Your AI collaborators, ready to work.',
     headline: 'Your entire company deserves ',
     headlineAccent: 'its own AI Collaborators.',
     subheadline:
@@ -175,10 +175,10 @@ const T = {
       { label: '1 agent · 10 profiles · Start solo, add your team later' },
     ],
     ctaProofs2: [
-      { icon: MapPin, label: 'Hosted in France' },
-      { icon: Clock, label: 'Ready in under 2 min' },
-      { icon: Unlock, label: 'No commitment' },
-      { icon: Gift, label: '7 days free' },
+      { icon: Database, label: 'Shared memory' },
+      { icon: Mail, label: 'Professional email included' },
+      { icon: Phone, label: 'Phone and calendar' },
+      { icon: MapPin, label: 'Hosted in Europe' },
     ],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
@@ -326,7 +326,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         {/* Left column — editorial value proposition */}
         <div className="flex min-w-0 max-w-2xl flex-col justify-center">
           <motion.p
-            className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#D10E63]"
+            className="mb-5 flex items-center gap-2 text-sm font-semibold tracking-tight text-[#D10E63]"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
