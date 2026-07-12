@@ -369,7 +369,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             transition={{ duration: 0.6, ease, delay: 0.06 }}
           >
             {t.headline}
-            <span className="inline lg:block lg:whitespace-nowrap text-[#D10E63]">{t.headlineAccent}</span>
+            <span className="inline text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
 
           <motion.p
