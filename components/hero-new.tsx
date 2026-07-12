@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, MapPin } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, Mic } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -35,7 +35,7 @@ const T = {
       { icon: Database, label: 'Mémoire partagée' },
       { icon: Mail, label: 'Email professionnel inclus' },
       { icon: Phone, label: 'Téléphone et calendrier' },
-      { icon: MapPin, label: 'Hébergé en Europe' },
+      { icon: Mic, label: 'Pilotage à la voix' },
     ],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
@@ -178,7 +178,7 @@ const T = {
       { icon: Database, label: 'Shared memory' },
       { icon: Mail, label: 'Professional email included' },
       { icon: Phone, label: 'Phone and calendar' },
-      { icon: MapPin, label: 'Hosted in Europe' },
+      { icon: Mic, label: 'Voice-controlled' },
     ],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
