@@ -49,7 +49,7 @@ const T = {
       services: '4 services détectés',
       ready: (n: string, fem: boolean) => `${n} est prêt${fem ? 'e' : ''} à travailler`,
     },
-    nameLabel: 'Nom Collaborateur',
+    nameLabel: 'Nom du collaborateur',
     namePlaceholder: 'Emma',
     nameHint: 'Vous pourrez le modifier plus tard.',
     suggestName: 'Suggérer',
