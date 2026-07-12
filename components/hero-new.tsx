@@ -30,7 +30,7 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    profileCount: 'Ils apprennent votre métier,',
+    profileCount: 'Ils mènent à bien vos projets,',
     soloTeam: 'connaissent votre entreprise et retiennent tout.',
     trust: ['Hébergé en France', 'Support en français', 'Vos données vous appartiennent'],
     example: {
@@ -169,7 +169,7 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    profileCount: 'They learn your business,',
+    profileCount: 'They deliver your projects,',
     soloTeam: 'know your company and remember everything.',
     trust: ['Hosted in France', 'Human support', 'Your data stays yours'],
     example: {
