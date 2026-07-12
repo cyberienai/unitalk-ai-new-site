@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Bot, Globe, Sparkles, Check } from 'lucide-react'
+import { Globe, Sparkles, Check } from 'lucide-react'
 
 const T = {
   fr: {
@@ -11,7 +11,7 @@ const T = {
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.fr',
     domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
-    nameLabel: 'Nom du 1er collaborateur',
+    nameLabel: 'Nom du collaborateur',
     namePlaceholder: 'Emma',
     nameHint: 'Vous pourrez le modifier plus tard.',
     suggestName: 'Suggérer',
@@ -30,7 +30,7 @@ const T = {
     domainLabel: 'Domain name',
     domainPlaceholder: 'mycompany.com',
     domainHint: 'We automatically analyze your website to build the shared context for your organization.',
-    nameLabel: 'First collaborator name',
+    nameLabel: 'Collaborator name',
     namePlaceholder: 'Emma',
     nameHint: 'You can change it later.',
     suggestName: 'Suggest',
@@ -102,8 +102,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <div className="grid gap-3 sm:grid-cols-2">
           {/* Name */}
           <div className="min-w-0 flex-1">
-            <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
-              <Bot className="h-4 w-4 text-[#D10E63]" />
+            <label className="mb-1.5 block text-xs font-semibold text-[#6B6560]">
               {t.nameLabel}
             </label>
             <div className="relative">
