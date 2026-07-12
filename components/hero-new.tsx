@@ -24,10 +24,12 @@ const T = {
     featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon collaborateur',
-    ctaProofs: [
+    ctaProofs1: [
       { label: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard' },
+    ],
+    ctaProofs2: [
       { icon: MapPin, label: 'Hébergé en France' },
-      { icon: Clock, label: 'Prêt à travailler en 5 min' },
+      { icon: Clock, label: 'Prêt en 5 min' },
       { icon: Unlock, label: 'Aucun engagement' },
       { icon: Gift, label: '7 jours gratuits' },
     ],
@@ -162,10 +164,12 @@ const T = {
     featuresText: '1 agent · 10 profiles · Start solo, add your team later',
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my collaborator',
-    ctaProofs: [
+    ctaProofs1: [
       { label: '1 agent · 10 profiles · Start solo, add your team later' },
+    ],
+    ctaProofs2: [
       { icon: MapPin, label: 'Hosted in France' },
-      { icon: Clock, label: 'Ready to work in 5 min' },
+      { icon: Clock, label: 'Ready in 5 min' },
       { icon: Unlock, label: 'No commitment' },
       { icon: Gift, label: '7 days free' },
     ],
@@ -369,22 +373,25 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </button>
           </motion.div>
 
-          <motion.ul
-            className="mt-6 -mx-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/8 px-5 py-4 text-sm font-medium text-[#6B6560] sm:-mx-0 sm:mt-8 sm:flex-nowrap sm:gap-x-5 sm:border-none sm:bg-transparent sm:p-0 sm:justify-start sm:text-sm"
+          {/* Line 1: Features text */}
+          <motion.p
+            className="mt-6 text-center text-sm font-medium text-[#6B6560] sm:mt-8 sm:text-left"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease, delay: 0.32 }}
           >
-            {t.ctaProofs.map((proof, i) => {
+            {t.ctaProofs1[0].label}
+          </motion.p>
+
+          {/* Line 2: Proofs with icons */}
+          <motion.ul
+            className="mt-3 -mx-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-medium text-[#6B6560] sm:-mx-0 sm:mt-3 sm:flex-nowrap sm:gap-x-5 sm:justify-start"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease, delay: 0.38 }}
+          >
+            {t.ctaProofs2.map((proof) => {
               const ProofIcon = proof.icon
-              if (i === 0) {
-                // First item (features text) - no icon, full width on mobile
-                return (
-                  <li key={proof.label} className="w-full sm:w-auto inline-flex items-center gap-2 whitespace-normal sm:whitespace-nowrap text-center sm:text-left">
-                    {proof.label}
-                  </li>
-                )
-              }
               return (
                 <li key={proof.label} className="inline-flex items-center gap-2 whitespace-nowrap">
                   {ProofIcon && <ProofIcon className="h-4 w-4 flex-shrink-0 text-[#D10E63]" />}
