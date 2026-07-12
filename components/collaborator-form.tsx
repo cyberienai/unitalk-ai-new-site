@@ -177,7 +177,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
       {/* Header */}
       <div className="mb-5">
         <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
-          {t.titlePrefix} {collaboratorName}
+          {t.titlePrefix}
         </h3>
         <p className="mt-1.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.subtitle}</p>
       </div>
