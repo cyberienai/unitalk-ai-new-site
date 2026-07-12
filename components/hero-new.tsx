@@ -24,13 +24,13 @@ const T = {
       "Ils répondent à vos clients, réalisent vos projets et apprennent chaque jour aux côtés de vos équipes.",
     summary:
       "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
-    featuresText: '1 collaborateur · 10 profils prêts à l\'emploi',
+    featuresText: '1 collaborateur · 10 profils inclus',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Obtenir mon collaborateur',
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    profileCount: '1 collaborateur · 10 profils prêts à l\'emploi',
+    profileCount: '1 collaborateur · 10 profils inclus',
     soloTeam: 'Démarrez seul, ajoutez votre équipe plus tard.',
     trust: ['Sans engagement', 'Support en français', 'Vos données vous appartiennent'],
     example: {
@@ -163,13 +163,13 @@ const T = {
       'They answer your customers, deliver your projects and learn every day alongside your teams.',
     summary:
       'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
-    featuresText: '1 collaborator · 10 profiles ready to use',
+    featuresText: '1 collaborator · 10 profiles included',
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Get my collaborator',
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    profileCount: '1 collaborator · 10 profiles ready to use',
+    profileCount: '1 collaborator · 10 profiles included',
     soloTeam: 'Start solo, add your team later.',
     trust: ['No commitment', 'Human support', 'Your data stays yours'],
     example: {
