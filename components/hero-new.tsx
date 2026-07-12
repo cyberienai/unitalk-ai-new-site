@@ -31,7 +31,7 @@ const T = {
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
     includedNote:
-      "Email, téléphone, calendrier, mémoire et pilotage à la voix : aucun outil à brancher, aucune configuration.",
+      "Email, téléphone, calendrier, mémoire, pilotage à la voix et accès aux meilleurs modèles IA : aucun outil à brancher, aucune configuration.",
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -169,7 +169,7 @@ const T = {
       { label: 'Everything included, from the very first collaborator.' },
     ],
     includedNote:
-      'Email, phone, calendar, memory and voice control: no tools to plug in, no setup.',
+      'Email, phone, calendar, memory, voice control and access to the best AI models: no tools to plug in, no setup.',
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
