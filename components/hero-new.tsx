@@ -19,7 +19,7 @@ const T = {
   fr: {
     eyebrow: 'Votre équipe IA commence ici.',
     headline: 'Toute votre entreprise,',
-    headlineAccent: 'ses propres Collaborateurs IA.',
+    headlineAccent: ' ses propres Collaborateurs IA.',
     subheadline:
       "Ils répondent à vos clients, exécutent vos processus et apprennent chaque jour aux côtés de vos équipes.",
     summary:
@@ -157,7 +157,7 @@ const T = {
   en: {
     eyebrow: 'Your AI team starts here.',
     headline: 'Your entire company,',
-    headlineAccent: 'its own AI Collaborators.',
+    headlineAccent: ' its own AI Collaborators.',
     subheadline:
       'They answer your customers, run your processes and learn every day alongside your teams.',
     summary:
