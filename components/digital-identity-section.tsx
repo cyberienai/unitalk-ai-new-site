@@ -32,26 +32,29 @@ const T = {
     subtitle:
       "Pas un simple chatbot. Un collaborateur doté de tout ce qu'il faut pour travailler dans votre organisation.",
     attributes: [
-      { icon: Mail, title: 'Adresse email', desc: 'Sa propre boîte pour écrire et répondre.' },
-      { icon: Phone, title: 'Numéro de téléphone', desc: 'Une ligne dédiée pour appeler et être appelé.' },
-      { icon: Calendar, title: 'Calendrier', desc: 'Il planifie et gère ses rendez-vous.' },
-      { icon: Brain, title: 'Mémoire', desc: 'Il retient chaque échange et décision.' },
-      { icon: BookOpen, title: 'Connaissances', desc: 'Le contexte complet de votre entreprise.' },
-      { icon: GraduationCap, title: 'Compétences', desc: 'Il apprend vos processus et progresse en continu.' },
-      { icon: Wrench, title: 'Outils', desc: 'Connecté à votre CRM et vos applications.' },
-      { icon: Mic, title: 'Voix', desc: 'Une voix naturelle pour ses appels.' },
-      { icon: ShieldCheck, title: 'Permissions', desc: 'Des accès précis, sous votre contrôle.' },
-      { icon: Globe, title: 'Identité publique', desc: 'Une page de profil qui lui est propre.' },
+      // Intelligence
       {
         icon: Sparkles,
         title: 'Meilleurs modèles IA',
         desc: 'ChatGPT, Claude et Gemini via Unitalk AI Gateway.',
       },
+      { icon: Brain, title: 'Mémoire', desc: 'Il retient chaque échange et décision.' },
+      { icon: BookOpen, title: 'Connaissances', desc: 'Le contexte complet de votre entreprise.' },
+      { icon: GraduationCap, title: 'Compétences', desc: 'Il apprend vos processus et progresse en continu.' },
+      // Communication
+      { icon: Mail, title: 'Adresse email', desc: 'Sa propre boîte pour écrire et répondre.' },
+      { icon: Phone, title: 'Numéro de téléphone', desc: 'Une ligne dédiée pour appeler et être appelé.' },
+      { icon: Mic, title: 'Voix', desc: 'Une voix naturelle pour ses appels.' },
+      { icon: Calendar, title: 'Calendrier', desc: 'Il planifie et gère ses rendez-vous.' },
+      // Intégration
+      { icon: Wrench, title: 'Outils', desc: 'Connecté à votre CRM et vos applications.' },
       {
         icon: MonitorSmartphone,
         title: 'Accessible de partout',
         desc: 'Apps de messagerie, desktop, CLI ou interface web collaborative Unitalk.',
       },
+      { icon: ShieldCheck, title: 'Permissions', desc: 'Des accès précis, sous votre contrôle.' },
+      { icon: Globe, title: 'Identité publique', desc: 'Une page de profil qui lui est propre.' },
     ] as Attribute[],
   },
   en: {
@@ -60,26 +63,29 @@ const T = {
     subtitle:
       'Not just a chatbot. A collaborator with everything it needs to work inside your organization.',
     attributes: [
-      { icon: Mail, title: 'Email address', desc: 'Its own inbox to write and reply.' },
-      { icon: Phone, title: 'Phone number', desc: 'A dedicated line to call and be called.' },
-      { icon: Calendar, title: 'Calendar', desc: 'It schedules and manages its meetings.' },
-      { icon: Brain, title: 'Memory', desc: 'It remembers every exchange and decision.' },
-      { icon: BookOpen, title: 'Knowledge', desc: "Your company's full context." },
-      { icon: GraduationCap, title: 'Skills', desc: 'It learns your processes and keeps improving.' },
-      { icon: Wrench, title: 'Tools', desc: 'Connected to your CRM and apps.' },
-      { icon: Mic, title: 'Voice', desc: 'A natural voice for its calls.' },
-      { icon: ShieldCheck, title: 'Permissions', desc: 'Precise access, under your control.' },
-      { icon: Globe, title: 'Public identity', desc: 'A profile page of its own.' },
+      // Intelligence
       {
         icon: Sparkles,
         title: 'Best AI models',
         desc: 'ChatGPT, Claude and Gemini via Unitalk AI Gateway.',
       },
+      { icon: Brain, title: 'Memory', desc: 'It remembers every exchange and decision.' },
+      { icon: BookOpen, title: 'Knowledge', desc: "Your company's full context." },
+      { icon: GraduationCap, title: 'Skills', desc: 'It learns your processes and keeps improving.' },
+      // Communication
+      { icon: Mail, title: 'Email address', desc: 'Its own inbox to write and reply.' },
+      { icon: Phone, title: 'Phone number', desc: 'A dedicated line to call and be called.' },
+      { icon: Mic, title: 'Voice', desc: 'A natural voice for its calls.' },
+      { icon: Calendar, title: 'Calendar', desc: 'It schedules and manages its meetings.' },
+      // Integration
+      { icon: Wrench, title: 'Tools', desc: 'Connected to your CRM and apps.' },
       {
         icon: MonitorSmartphone,
         title: 'Accessible everywhere',
         desc: 'Messaging apps, desktop, CLI or the Unitalk collaborative web interface.',
       },
+      { icon: ShieldCheck, title: 'Permissions', desc: 'Precise access, under your control.' },
+      { icon: Globe, title: 'Public identity', desc: 'A profile page of its own.' },
     ] as Attribute[],
   },
 }
