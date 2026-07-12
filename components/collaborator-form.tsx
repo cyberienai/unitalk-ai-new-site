@@ -36,7 +36,7 @@ const T = {
     platformOptions: ['Hermes', 'OpenClaw', 'ChatGPT Team', 'Claude Team', 'Gemini Spark', 'Perplexity Computer', 'Microsoft Scout', 'Genspark Claw', 'Kimi Claw', 'Autre'],
     hostingLabel: 'Hébergement actuel',
     hostingOptions: { cloud: 'Hébergé (cloud)', selfHosted: 'Auto-hébergé' },
-    migrateCta: 'Transférer mes données',
+    migrateCta: 'Migrez',
     migrateReassurance: 'Migration accompagnée • Sans interruption',
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.com',
@@ -86,7 +86,7 @@ const T = {
     platformOptions: ['Hermes', 'OpenClaw', 'ChatGPT Team', 'Claude Team', 'Gemini Spark', 'Perplexity Computer', 'Microsoft Scout', 'Genspark Claw', 'Kimi Claw', 'Other'],
     hostingLabel: 'Current hosting',
     hostingOptions: { cloud: 'Hosted (cloud)', selfHosted: 'Self-hosted' },
-    migrateCta: 'Transfer my data',
+    migrateCta: 'Migrate',
     migrateReassurance: 'Guided migration • No downtime',
     domainLabel: 'Domain name',
     domainPlaceholder: 'mycompany.com',
@@ -504,6 +504,38 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             <p className="mt-1.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.migrateSubtitle}</p>
           </div>
 
+          {/* Collaborator identity — the migrated agent keeps a name and a face */}
+          <div className="mb-4 flex items-center gap-3.5">
+            <img
+              src={collaboratorAvatar || '/placeholder.svg'}
+              alt={`${collaboratorName}, ${role}`}
+              className="h-12 w-12 shrink-0 rounded-full border-2 border-white object-cover shadow-md"
+            />
+            <div className="min-w-0 flex-1">
+              <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[#6B6560]">
+                {t.nameLabel}
+                <FieldInfo text={t.nameHint} />
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder={t.namePlaceholder}
+                  className="w-full rounded-lg border border-[#DDD5CA] bg-white py-3 pl-4 pr-28 text-sm text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+                />
+                <button
+                  type="button"
+                  onClick={suggestName}
+                  className="absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-md px-2 py-1.5 text-xs font-semibold text-[#D10E63] transition-colors hover:bg-[#D10E63]/10"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {t.suggestName}
+                </button>
+              </div>
+            </div>
+          </div>
+
           {/* Current platform */}
           <div className="mb-4">
             <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
@@ -572,7 +604,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           </div>
 
           <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] py-3 text-center font-semibold text-white transition-colors hover:bg-[#B00B52]">
-            {t.migrateCta}
+            {t.migrateCta} {collaboratorName}
             <span aria-hidden="true">›</span>
           </button>
           <p className="mt-2 text-center text-xs text-[#8A8175]">{t.migrateReassurance}</p>
