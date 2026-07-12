@@ -30,7 +30,7 @@ const T = {
     eyebrow: 'UNE VÉRITABLE IDENTITÉ',
     title: 'Chaque collaborateur IA est une véritable identité numérique.',
     subtitle:
-      "Pas un simple chatbot. Un collaborateur doté de tout ce qu'il faut pour travailler dans votre organisation.",
+      "Les collaborateurs IA deviennent un actif de l'entreprise, avec leur identité, leur mémoire, leurs compétences et leur historique.",
     attributes: [
       // Intelligence
       {
@@ -61,7 +61,7 @@ const T = {
     eyebrow: 'A REAL IDENTITY',
     title: 'Every AI collaborator is a real digital identity.',
     subtitle:
-      'Not just a chatbot. A collaborator with everything it needs to work inside your organization.',
+      'AI collaborators become a true business asset, with their own identity, memory, skills, and track record.',
     attributes: [
       // Intelligence
       {
