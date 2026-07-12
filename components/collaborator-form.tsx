@@ -291,7 +291,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+              className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 pr-10 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
             >
               {t.roleOptions.map((option) => (
                 <option key={option} value={option}>
