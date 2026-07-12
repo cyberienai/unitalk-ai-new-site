@@ -231,6 +231,11 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
     setCountry(detectCountry(domain))
   }, [domain, countryTouched])
 
+  // Ensure platform defaults to the first option (Hermes) on mount.
+  useEffect(() => {
+    setPlatform(t.platformOptions[0])
+  }, [])
+
   const suggestName = () => {
     const currentIndex = SUGGESTED_NAMES.indexOf(collaboratorName)
     const nextIndex = (currentIndex + 1) % SUGGESTED_NAMES.length
