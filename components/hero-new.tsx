@@ -30,8 +30,8 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    profileCount: 'Un collaborateur. Une identité. Une mémoire.',
-    soloTeam: "Jusqu'à 10 profils. Compétences illimitées.",
+    profileCount: 'Ils apprennent votre métier,',
+    soloTeam: 'connaissent votre entreprise et retiennent tout.',
     trust: ['Hébergé en France', 'Support en français', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
@@ -169,8 +169,8 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    profileCount: 'One collaborator. One identity. One memory.',
-    soloTeam: 'Up to 10 profiles. Unlimited skills.',
+    profileCount: 'They learn your business,',
+    soloTeam: 'know your company and remember everything.',
     trust: ['Hosted in France', 'Human support', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
