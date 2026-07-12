@@ -1,16 +1,22 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Globe, Sparkles, Check } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Globe, Sparkles, Check, Loader2 } from 'lucide-react'
 
 const T = {
   fr: {
-    title: 'Déployez votre premier collaborateur IA',
-    subtitle: 'Prêt en moins de 2 minutes, à partir de votre nom de domaine.',
+    titlePrefix: 'Déployez',
+    subtitle: 'Votre premier collaborateur IA.',
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.fr',
     domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
+    analysis: {
+      scanning: 'Analyse du site en cours…',
+      pages: '12 pages détectées',
+      sector: 'Secteur identifié : Services B2B',
+      ready: 'Contexte prêt à créer',
+    },
     nameLabel: 'Nom du collaborateur',
     namePlaceholder: 'Emma',
     nameHint: 'Vous pourrez le modifier plus tard.',
@@ -19,17 +25,22 @@ const T = {
     roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
     ctaButton: 'Déployer',
-    ctaSuffix: 'gratuitement',
     ctaDuration: 'Aucune carte bancaire • Configuration automatique',
     defaultName: 'Emma',
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
   en: {
-    title: 'Deploy your first AI collaborator',
-    subtitle: 'Ready in under 2 minutes, using your domain name.',
+    titlePrefix: 'Deploy',
+    subtitle: 'Your first AI collaborator.',
     domainLabel: 'Domain name',
     domainPlaceholder: 'mycompany.com',
     domainHint: 'We automatically analyze your website to build the shared context for your organization.',
+    analysis: {
+      scanning: 'Analyzing website…',
+      pages: '12 pages detected',
+      sector: 'Sector identified: B2B Services',
+      ready: 'Context ready to create',
+    },
     nameLabel: 'Collaborator name',
     namePlaceholder: 'Emma',
     nameHint: 'You can change it later.',
@@ -38,7 +49,6 @@ const T = {
     roleHint: 'Skills will be generated automatically.',
     roleOptions: ['Executive Assistant', 'Project Manager', 'Sales Agent', 'Customer Support'],
     ctaButton: 'Deploy',
-    ctaSuffix: 'for free',
     ctaDuration: 'No credit card • Automatic setup',
     defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
@@ -56,14 +66,49 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   const [domain, setDomain] = useState('')
   const [name, setName] = useState('')
   const [role, setRole] = useState(t.roleOptions[0])
+  // Simulated domain analysis: 0 = idle, 1 = scanning, 2..4 = revealed lines
+  const [analysisStep, setAnalysisStep] = useState(0)
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
   const collaboratorName = name.trim() || t.defaultName
+  const domainIsValid = /\..{2,}/.test(domain.trim())
+
+  useEffect(() => {
+    timers.current.forEach(clearTimeout)
+    timers.current = []
+
+    if (!domainIsValid) {
+      setAnalysisStep(0)
+      return
+    }
+
+    setAnalysisStep(1)
+    const schedule = (step: number, delay: number) => {
+      timers.current.push(setTimeout(() => setAnalysisStep(step), delay))
+    }
+    schedule(2, 800)
+    schedule(3, 1500)
+    schedule(4, 2200)
+
+    return () => {
+      timers.current.forEach(clearTimeout)
+      timers.current = []
+    }
+    // Re-run whenever the validity of the typed domain changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [domainIsValid])
 
   const suggestName = () => {
     const currentIndex = SUGGESTED_NAMES.indexOf(collaboratorName)
     const nextIndex = (currentIndex + 1) % SUGGESTED_NAMES.length
     setName(SUGGESTED_NAMES[nextIndex])
   }
+
+  const analysisLines = [
+    { key: 'pages', label: t.analysis.pages, step: 2 },
+    { key: 'sector', label: t.analysis.sector, step: 3 },
+    { key: 'ready', label: t.analysis.ready, step: 4 },
+  ]
 
   return (
     <motion.div
@@ -74,7 +119,9 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
     >
       {/* Header */}
       <div className="mb-5">
-        <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">{t.title}</h3>
+        <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
+          {t.titlePrefix} {collaboratorName}
+        </h3>
         <p className="mt-1.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.subtitle}</p>
       </div>
 
@@ -91,10 +138,51 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           placeholder={t.domainPlaceholder}
           className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-base font-medium text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
         />
-        <p className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-[#8A8175] text-pretty">
-          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
-          {t.domainHint}
-        </p>
+        <AnimatePresence mode="wait">
+          {analysisStep === 0 ? (
+            <motion.p
+              key="hint"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-[#8A8175] text-pretty"
+            >
+              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+              {t.domainHint}
+            </motion.p>
+          ) : (
+            <motion.div
+              key="analysis"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-2 space-y-1.5 overflow-hidden rounded-lg border border-[#E6DFD1] bg-white/60 p-3"
+            >
+              <div className="flex items-center gap-1.5 text-xs font-medium text-[#6B6560]">
+                {analysisStep < 4 ? (
+                  <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin text-[#D10E63]" />
+                ) : (
+                  <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+                )}
+                {t.analysis.scanning}
+              </div>
+              {analysisLines.map((line) => (
+                <AnimatePresence key={line.key}>
+                  {analysisStep >= line.step && (
+                    <motion.div
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="flex items-center gap-1.5 pl-5 text-xs text-[#8A8175]"
+                    >
+                      <Check className="h-3 w-3 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+                      {line.label}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* First collaborator */}
@@ -152,7 +240,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
       {/* CTA Button — personalized with the collaborator's name */}
       <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] py-3 text-center font-semibold text-white transition-colors hover:bg-[#B00B52]">
-        {t.ctaButton} {collaboratorName} {t.ctaSuffix}
+        {t.ctaButton} {collaboratorName}
         <span aria-hidden="true">›</span>
       </button>
       <p className="mb-4 mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration}</p>

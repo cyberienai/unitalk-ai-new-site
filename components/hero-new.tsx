@@ -18,10 +18,12 @@ function getInitials(name: string) {
 const T = {
   fr: {
     eyebrow: 'VOS COLLABORATEURS IA',
-    headline: 'Unitalk donne à toute votre entreprise ',
+    headline: 'Toute votre entreprise mérite ',
     headlineAccent: 'ses propres Collaborateurs IA.',
     subheadline:
       "Ils retiennent tout de votre entreprise, maîtrisent vos outils et développent automatiquement les compétences dont vous avez besoin.",
+    summary:
+      "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
     featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Obtenir mon collaborateur',
@@ -158,10 +160,12 @@ const T = {
   },
   en: {
     eyebrow: 'YOUR AI COLLABORATORS',
-    headline: 'Unitalk gives your entire company ',
+    headline: 'Your entire company deserves ',
     headlineAccent: 'its own AI Collaborators.',
     subheadline:
       'They remember everything about your company, master your tools and automatically develop the skills you need.',
+    summary:
+      'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
     featuresText: '1 agent · 10 profiles · Start solo, add your team later',
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Get my collaborator',
@@ -374,7 +378,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </ul>
           </motion.div>
 
-
+          <motion.p
+            className="mt-6 max-w-xl text-sm leading-relaxed text-[#8A8175] text-pretty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease, delay: 0.42 }}
+          >
+            {t.summary}
+          </motion.p>
         </div>
 
         {/* Right column — collaborator creation form, vertically centered against the copy */}
