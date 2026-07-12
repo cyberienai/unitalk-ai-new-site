@@ -20,7 +20,7 @@ const T = {
     headline: 'Unitalk. ',
     headlineAccent: 'Vous avez maintenant un vrai collaborateur IA.',
     subheadline:
-      "Il raisonne, planifie, exécute des tâches, code, automatise, délègue et apprend — comme un membre de votre équipe.",
+      "Il retient tout de votre entreprise, crée ses compétences automatiquement, et travaille depuis vos outils — email, CRM, téléphone, calendrier.",
     featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Obtenir mon collaborateur',
