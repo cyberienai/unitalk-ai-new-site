@@ -34,7 +34,12 @@ const T = {
     suggestName: 'Suggérer',
     roleLabel: 'Rôle',
     roleHint: 'Les compétences seront générées automatiquement.',
-    roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
+    roleOptions: [
+      { f: 'Assistante Exécutive', m: 'Assistant Exécutif' },
+      { f: 'Gestionnaire de Projets', m: 'Gestionnaire de Projets' },
+      { f: 'Agente Commerciale', m: 'Agent Commercial' },
+      { f: 'Support Client', m: 'Support Client' },
+    ],
     ctaButton: 'Déployez',
     ctaDuration: (fem: boolean) => `Prêt${fem ? 'e' : ''} à travailler en 2 min • 7 jours gratuits • Sans carte bancaire`,
     hosting: 'Sans engagement',
@@ -70,7 +75,12 @@ const T = {
     suggestName: 'Suggest',
     roleLabel: 'Role',
     roleHint: 'Skills will be generated automatically.',
-    roleOptions: ['Executive Assistant', 'Project Manager', 'Sales Agent', 'Customer Support'],
+    roleOptions: [
+      { f: 'Executive Assistant', m: 'Executive Assistant' },
+      { f: 'Project Manager', m: 'Project Manager' },
+      { f: 'Sales Agent', m: 'Sales Agent' },
+      { f: 'Customer Support', m: 'Customer Support' },
+    ],
     ctaButton: 'Deploy',
     ctaDuration: (_fem: boolean) => 'Ready to work in 2 min • 7 days free • No credit card',
     hosting: 'No commitment',
@@ -111,7 +121,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   const [mode, setMode] = useState<'create' | 'migrate'>('create')
   const [domain, setDomain] = useState('')
   const [name, setName] = useState('')
-  const [role, setRole] = useState(t.roleOptions[0])
+  const [roleIndex, setRoleIndex] = useState(0)
   const [platform, setPlatform] = useState(t.platformOptions[0])
   const [currentHosting, setCurrentHosting] = useState<'cloud' | 'selfHosted'>('cloud')
   // Simulated domain analysis: 0 = idle, 1 = scanning, 2..4 = revealed lines
@@ -121,6 +131,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   const collaboratorName = name.trim() || t.defaultName
   const collaboratorAvatar = AVATAR_BY_NAME[collaboratorName] || DEFAULT_AVATAR
   const collaboratorIsFeminine = isFeminineName(collaboratorName)
+  const role = t.roleOptions[roleIndex][collaboratorIsFeminine ? 'f' : 'm']
   const domainIsValid = /\..{2,}/.test(domain.trim())
 
   useEffect(() => {
@@ -328,8 +339,8 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           <div>
             <label className="mb-1.5 block text-xs font-semibold text-[#6B6560]">{t.roleLabel}</label>
             <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
+              value={roleIndex}
+              onChange={(e) => setRoleIndex(Number(e.target.value))}
               className="w-full appearance-none truncate rounded-lg border border-[#DDD5CA] bg-white pl-4 pr-8 py-3 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
               style={{
                 backgroundImage:
@@ -338,9 +349,9 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 backgroundPosition: 'right 0.6rem center',
               }}
             >
-              {t.roleOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
+              {t.roleOptions.map((option, i) => (
+                <option key={i} value={i}>
+                  {option[collaboratorIsFeminine ? 'f' : 'm']}
                 </option>
               ))}
             </select>
