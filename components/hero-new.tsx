@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, Mic, Users } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, Users } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -30,7 +30,6 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    almaIntro: 'Alma, votre guide vocale, crée votre collaborateur en 2 minutes.',
     soloTeam: '1 collaborateur · 10 profils prêts à l\'emploi',
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
@@ -168,7 +167,6 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    almaIntro: 'Alma, your voice guide, builds your collaborator in 2 minutes.',
     soloTeam: '1 collaborator · 10 profiles ready to use',
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
@@ -378,15 +376,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             />
 
             <div className="relative z-10">
-              <motion.p
-                className="mx-auto mb-3 flex max-w-sm items-center justify-center gap-2 text-center text-xs font-medium text-[#6B6560] text-pretty"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease, delay: 0.35 }}
-              >
-                <Mic className="h-3.5 w-3.5 shrink-0 text-[#D10E63]" />
-                {t.almaIntro}
-              </motion.p>
               <CollaboratorForm lang={lang} />
             </div>
           </div>
