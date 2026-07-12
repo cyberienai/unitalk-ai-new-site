@@ -18,7 +18,7 @@ function getInitials(name: string) {
 const T = {
   fr: {
     eyebrow: 'Votre équipe IA commence ici.',
-    headline: 'Toute votre entreprise collabore maintenant avec des agents IA.',
+    headline: 'Toute votre entreprise avec ses propres Collaborateurs IA.',
     headlineAccent: '',
     subheadline:
       "Ils répondent à vos clients, exécutent vos processus et apprennent chaque jour aux côtés de vos équipes.",
@@ -156,7 +156,7 @@ const T = {
   },
   en: {
     eyebrow: 'Your AI team starts here.',
-    headline: 'Your entire company now collaborates with AI agents.',
+    headline: 'Your entire company with its own AI Collaborators.',
     headlineAccent: '',
     subheadline:
       'They answer your customers, run your processes and learn every day alongside your teams.',
