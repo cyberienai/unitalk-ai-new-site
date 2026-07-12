@@ -17,7 +17,7 @@ function getInitials(name: string) {
 
 const T = {
   fr: {
-    eyebrow: "COLLABORATEUR IA",
+    eyebrow: 'VOS COLLABORATEURS IA',
     headline: 'Unitalk donne à toute votre entreprise ',
     headlineAccent: 'ses propres Collaborateurs IA.',
     subheadline:
@@ -157,7 +157,7 @@ const T = {
     ],
   },
   en: {
-    eyebrow: 'AI COLLABORATOR',
+    eyebrow: 'YOUR AI COLLABORATORS',
     headline: 'Unitalk gives your entire company ',
     headlineAccent: 'its own AI Collaborators.',
     subheadline:
@@ -325,7 +325,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
           >
-            <span className="h-px w-8 bg-[#D10E63]" aria-hidden="true" />
             {t.eyebrow}
           </motion.p>
 
