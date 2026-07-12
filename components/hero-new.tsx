@@ -32,7 +32,7 @@ const T = {
     ],
     profileCount: '1 collaborateur · 10 profils prêts à l\'emploi',
     soloTeam: 'Démarrez seul, ajoutez votre équipe plus tard.',
-    trust: ['Hébergé en France', 'Conforme RGPD', 'Support en français'],
+    trust: ['Sans engagement', 'Support en français', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -171,7 +171,7 @@ const T = {
     ],
     profileCount: '1 collaborator · 10 profiles ready to use',
     soloTeam: 'Start solo, add your team later.',
-    trust: ['Hosted in France', 'GDPR compliant', 'Human support'],
+    trust: ['No commitment', 'Human support', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
@@ -377,11 +377,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
           </div>
 
-          {/* Trust row */}
+          {/* Trust badges — gray checkmarks by default until deployed */}
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-[#DDD5CA] pt-4">
             {t.trust.map((item) => (
               <span key={item} className="flex items-center gap-1.5 text-xs font-medium text-[#6B6560]">
-                <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+                <Check className="h-3.5 w-3.5 shrink-0 text-[#B8B0A2]" strokeWidth={2.5} />
                 {item}
               </span>
             ))}
