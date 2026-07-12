@@ -18,8 +18,8 @@ function getInitials(name: string) {
 const T = {
   fr: {
     eyebrow: "COLLABORATEUR IA",
-    headline: 'Unitalk. ',
-    headlineAccent: 'Vous avez maintenant un vrai collaborateur IA.',
+    headline: 'Unitalk donne à toute votre entreprise ',
+    headlineAccent: 'ses propres Collaborateurs IA.',
     subheadline:
       "Il retient tout de votre entreprise, maîtrise vos outils et développe automatiquement les compétences dont vous avez besoin.",
     featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
@@ -158,8 +158,8 @@ const T = {
   },
   en: {
     eyebrow: 'AI COLLABORATOR',
-    headline: 'Unitalk. ',
-    headlineAccent: 'You now have a real AI collaborator.',
+    headline: 'Unitalk gives your entire company ',
+    headlineAccent: 'its own AI Collaborators.',
     subheadline:
       'It remembers everything about your company, masters your tools and automatically develops the skills you need.',
     featuresText: '1 agent · 10 profiles · Start solo, add your team later',
