@@ -593,6 +593,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           <div className="mb-5">
             <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[#6B6560]">
               {t.domainLabel}
+              <FieldInfo text={t.domainHint} />
             </label>
             <input
               type="text"
