@@ -356,13 +356,13 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.28 }}
         >
-          <p className="text-xs font-semibold leading-relaxed text-[#1C1A17]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 text-xs font-semibold text-[#1C1A17]">
+            <Users className="h-3.5 w-3.5 text-[#D10E63]" />
+            {t.soloTeam}
+          </span>
+          <p className="mt-4 text-xs font-semibold leading-relaxed text-[#1C1A17]">
             {t.ctaProofs1[0].label}
           </p>
-            <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 text-xs font-semibold text-[#1C1A17]">
-              <Users className="h-3.5 w-3.5 text-[#D10E63]" />
-              {t.soloTeam}
-            </span>
           </motion.div>
         </div>
 
