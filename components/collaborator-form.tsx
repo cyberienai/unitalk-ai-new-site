@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Globe, Sparkles, Check, Loader2 } from 'lucide-react'
+import { Globe, Sparkles, Check, Loader2, ShieldCheck } from 'lucide-react'
 
 const T = {
   fr: {
@@ -28,6 +28,7 @@ const T = {
     roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
     ctaButton: 'Déployer',
     ctaDuration: '7 jours gratuits • Aucune carte bancaire',
+    hosting: 'Hébergé en France (RGPD)',
     defaultName: 'Emma',
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
@@ -54,6 +55,7 @@ const T = {
     roleOptions: ['Executive Assistant', 'Project Manager', 'Sales Agent', 'Customer Support'],
     ctaButton: 'Deploy',
     ctaDuration: '7 days free • No credit card',
+    hosting: 'Hosted in France (GDPR)',
     defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
   },
@@ -263,6 +265,10 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <span aria-hidden="true">›</span>
       </button>
       <p className="mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration}</p>
+      <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-[#A79F90]">
+        <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.25} />
+        {t.hosting}
+      </p>
     </motion.div>
   )
 }
