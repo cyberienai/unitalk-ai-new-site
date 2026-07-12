@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Globe, Sparkles, Check, Loader2, ShieldCheck, ArrowRightLeft } from 'lucide-react'
+import { Globe, Sparkles, Check, Loader2, ShieldCheck, ArrowRightLeft, Server } from 'lucide-react'
 
 const T = {
   fr: {
@@ -14,6 +14,8 @@ const T = {
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
     platformLabel: 'Outil actuel',
     platformOptions: ['ChatGPT Team', 'Claude', 'Gemini Spark', 'Microsoft Scout', 'OpenClaw', 'Hermes', 'Autre'],
+    hostingLabel: 'Hébergement actuel',
+    hostingOptions: { cloud: 'Hébergé (cloud)', selfHosted: 'Auto-hébergé' },
     migrateCta: 'Transférer mes données',
     migrateReassurance: 'Migration accompagnée • Sans interruption',
     domainLabel: 'Nom de domaine',
@@ -49,6 +51,8 @@ const T = {
     migrateSubtitle: 'Transfer your data from your current tool.',
     platformLabel: 'Current tool',
     platformOptions: ['ChatGPT Team', 'Claude', 'Gemini Spark', 'Microsoft Scout', 'OpenClaw', 'Hermes', 'Other'],
+    hostingLabel: 'Current hosting',
+    hostingOptions: { cloud: 'Hosted (cloud)', selfHosted: 'Self-hosted' },
     migrateCta: 'Transfer my data',
     migrateReassurance: 'Guided migration • No downtime',
     domainLabel: 'Domain name',
@@ -90,6 +94,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   const [name, setName] = useState('')
   const [role, setRole] = useState(t.roleOptions[0])
   const [platform, setPlatform] = useState(t.platformOptions[0])
+  const [currentHosting, setCurrentHosting] = useState<'cloud' | 'selfHosted'>('cloud')
   // Simulated domain analysis: 0 = idle, 1 = scanning, 2..4 = revealed lines
   const [analysisStep, setAnalysisStep] = useState(0)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -338,6 +343,28 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Current hosting — cloud vs self-hosted */}
+          <div className="mb-4">
+            <span className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
+              <Server className="h-4 w-4 text-[#D10E63]" />
+              {t.hostingLabel}
+            </span>
+            <div className="flex rounded-lg border border-[#DDD5CA] bg-[#EDE7DA] p-1">
+              {(['cloud', 'selfHosted'] as const).map((h) => (
+                <button
+                  key={h}
+                  type="button"
+                  onClick={() => setCurrentHosting(h)}
+                  className={`flex-1 rounded-md py-2 text-xs font-semibold transition-colors ${
+                    currentHosting === h ? 'bg-white text-[#1C1A17] shadow-sm' : 'text-[#6B6560] hover:text-[#1C1A17]'
+                  }`}
+                >
+                  {t.hostingOptions[h]}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Domain */}
