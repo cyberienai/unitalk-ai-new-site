@@ -317,11 +317,21 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       />
 
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_460px] lg:items-center lg:gap-20 lg:px-8">
-        {/* Left column — copy */}
-        <div className="flex min-w-0 flex-col justify-center">
+        {/* Left column — editorial value proposition */}
+        <div className="flex min-w-0 max-w-2xl flex-col justify-center">
+          <motion.p
+            className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#D10E63]"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease }}
+          >
+            <span className="h-px w-8 bg-[#D10E63]" aria-hidden="true" />
+            {t.eyebrow}
+          </motion.p>
+
           <motion.h1
-            className="font-sf mb-6 font-bold text-[#1C1A17]"
-            style={{ fontSize: 'clamp(2.2rem, 3.6vw, 3.3rem)', lineHeight: 1.1, letterSpacing: '-0.03em' }}
+            className="font-sf mb-6 max-w-2xl font-bold text-[#1C1A17] text-balance"
+            style={{ fontSize: 'clamp(2.5rem, 4.3vw, 4rem)', lineHeight: 1.02, letterSpacing: '-0.045em' }}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.06 }}
@@ -331,7 +341,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.h1>
 
           <motion.p
-            className="mb-7 max-w-xl text-lg leading-relaxed text-[#4E483F] sm:text-xl"
+            className="max-w-xl border-l-2 border-[#D10E63] pl-5 text-lg leading-relaxed text-[#4E483F] sm:text-xl"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.14 }}
@@ -339,33 +349,31 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.subheadline}
           </motion.p>
 
-          {/* Line 1: Features text */}
-          <motion.p
-            className="mt-6 text-center text-sm font-medium text-[#6B6560] sm:mt-8 sm:text-left"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease, delay: 0.32 }}
+          <motion.div
+            className="mt-8 max-w-xl border-t border-[#D7CFC1] pt-5"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.28 }}
           >
-            {t.ctaProofs1[0].label}
-          </motion.p>
-
-          {/* Line 2: Proofs with icons */}
-          <motion.ul
-            className="mt-3 -mx-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-medium text-[#6B6560] sm:-mx-0 sm:mt-3 sm:flex-nowrap sm:gap-x-5 sm:justify-start"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease, delay: 0.38 }}
-          >
-            {t.ctaProofs2.map((proof) => {
-              const ProofIcon = proof.icon
-              return (
-                <li key={proof.label} className="inline-flex items-center gap-2 whitespace-nowrap">
-                  {ProofIcon && <ProofIcon className="h-4 w-4 flex-shrink-0 text-[#D10E63]" />}
-                  {proof.label}
-                </li>
-              )
-            })}
-          </motion.ul>
+            <p className="text-sm font-semibold leading-relaxed text-[#1C1A17]">
+              {t.ctaProofs1[0].label}
+            </p>
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-sm font-medium text-[#6B6560]">
+              {t.ctaProofs2.map((proof) => {
+                const ProofIcon = proof.icon
+                return (
+                  <li key={proof.label} className="flex items-center gap-2">
+                    {ProofIcon && (
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#D10E63]">
+                        <ProofIcon className="h-3.5 w-3.5" />
+                      </span>
+                    )}
+                    <span>{proof.label}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </motion.div>
 
 
         </div>
