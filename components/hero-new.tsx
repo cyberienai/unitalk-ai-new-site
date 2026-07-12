@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, Mic } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -30,12 +30,8 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    ctaProofs2: [
-      { icon: Database, label: 'Mémoire partagée' },
-      { icon: Mail, label: 'Email & calendrier' },
-      { icon: Phone, label: 'Numéro de téléphone inclus' },
-      { icon: Mic, label: 'Pilotage à la voix' },
-    ],
+    includedNote:
+      "Email, téléphone, calendrier, mémoire et pilotage à la voix : aucun outil à brancher, aucune configuration.",
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -172,12 +168,8 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    ctaProofs2: [
-      { icon: Database, label: 'Shared memory' },
-      { icon: Mail, label: 'Email & calendar' },
-      { icon: Phone, label: 'Phone number included' },
-      { icon: Mic, label: 'Voice-controlled' },
-    ],
+    includedNote:
+      'Email, phone, calendar, memory and voice control: no tools to plug in, no setup.',
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
@@ -361,21 +353,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="text-sm font-semibold leading-relaxed text-[#1C1A17]">
               {t.ctaProofs1[0].label}
             </p>
-            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-sm font-medium text-[#6B6560]">
-              {t.ctaProofs2.map((proof) => {
-                const ProofIcon = proof.icon
-                return (
-                  <li key={proof.label} className="flex items-center gap-2">
-                    {ProofIcon && (
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#D10E63]">
-                        <ProofIcon className="h-3.5 w-3.5" />
-                      </span>
-                    )}
-                    <span>{proof.label}</span>
-                  </li>
-                )
-              })}
-            </ul>
+            <p className="mt-2 text-sm leading-relaxed text-[#6B6560] text-pretty">
+              {t.includedNote}
+            </p>
           </motion.div>
         </div>
 
