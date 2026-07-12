@@ -256,8 +256,8 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
               transition={{ duration: 0.25 }}
             />
           </AnimatePresence>
-          <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border-2 border-[#F5F1E8] bg-[#2E7D4F]">
-            <span className="sr-only">{lang === 'fr' ? 'En ligne' : 'Online'}</span>
+          <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border-2 border-[#F5F1E8] bg-[#B8B0A2]">
+            <span className="sr-only">{lang === 'fr' ? 'En attente de déploiement' : 'Pending deployment'}</span>
           </span>
         </div>
         <div className="min-w-0">
