@@ -124,17 +124,17 @@ export function Navbar() {
                 {link[lang]}
               </a>
             ))}
+            <button
+              onClick={openAlma}
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#D10E63] border border-[#D10E63] rounded-full hover:bg-[#D10E63]/8 transition-all"
+            >
+              {t.talkToAlma}
+            </button>
           </div>
         </div>
 
         {/* Right: Buttons */}
         <div className="flex items-center gap-2 sm:gap-4">
-          <button
-            onClick={openAlma}
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-[#D10E63] border border-[#D10E63] rounded-full hover:bg-[#D10E63]/8 transition-all"
-          >
-            {t.talkToAlma}
-          </button>
           <button
             className="inline-flex px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1C1A17] hover:text-[#857C6E] transition-colors"
             aria-label={t.signIn}
