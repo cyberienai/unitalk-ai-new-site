@@ -6,8 +6,8 @@ import { Globe, Sparkles } from 'lucide-react'
 
 const T = {
   fr: {
-    title: 'Créez votre collaborateur IA',
-    subtitle: 'Déployé en moins de 60 secondes',
+    title: 'Déployez votre organisation intelligente',
+    subtitle: 'Commencez par votre domaine. Nous créons ensuite votre premier collaborateur IA en moins d\'une minute.',
     domainLabel: 'Votre domaine',
     domainPlaceholder: 'votreentreprise.com',
     nameLabel: 'Nom de votre collaborateur',
@@ -20,8 +20,8 @@ const T = {
     terms: 'En cliquant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité.',
   },
   en: {
-    title: 'Create your AI collaborator',
-    subtitle: 'Deployed in under 60 seconds',
+    title: 'Deploy your intelligent organization',
+    subtitle: 'Start with your domain. We then create your first AI collaborator in under a minute.',
     domainLabel: 'Your domain',
     domainPlaceholder: 'yourcompany.com',
     nameLabel: 'Your collaborator\'s name',
@@ -53,14 +53,12 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
       transition={{ duration: 0.7, delay: 0.1 }}
     >
       {/* Header */}
-      <div className="mb-8 flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10">
+      <div className="mb-8">
+        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63]/10">
           <Globe className="h-5 w-5 text-[#D10E63]" />
         </div>
-        <div>
-          <h3 className="font-bold text-[#1C1A17]">{t.title}</h3>
-          <p className="text-sm text-[#8A8175]">{t.subtitle}</p>
-        </div>
+        <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">{t.title}</h3>
+        <p className="mt-2 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.subtitle}</p>
       </div>
 
       {/* Form Fields */}
