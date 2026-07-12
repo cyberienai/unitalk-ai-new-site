@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
+import { useAlma } from '@/lib/alma-context'
 
 // Full list — shown in the burger menu
 const NAV_LINKS = [
@@ -85,6 +86,7 @@ function UkFlag() {
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { lang, setLang } = useLanguage()
+  const { openAlma } = useAlma()
   const t = T[lang]
 
   // Lock body scroll while the menu is open on mobile
@@ -127,12 +129,12 @@ export function Navbar() {
 
         {/* Right: Buttons */}
         <div className="flex items-center gap-2 sm:gap-4">
-          <a
-            href="/#alma"
+          <button
+            onClick={openAlma}
             className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-white bg-[#D10E63] rounded-full hover:bg-[#B00B52] transition-all hover:shadow-lg hover:shadow-[#D10E63]/30"
           >
             {t.talkToAlma}
-          </a>
+          </button>
           <button
             className="inline-flex px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1C1A17] hover:text-[#857C6E] transition-colors"
             aria-label={t.signIn}

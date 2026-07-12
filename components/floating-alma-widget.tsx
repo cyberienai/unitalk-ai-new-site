@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
+import { useAlma } from '@/lib/alma-context'
 
 const T = {
   fr: {
@@ -45,41 +46,47 @@ const T = {
 }
 
 export function FloatingAlmaWidget() {
-  const [isOpen, setIsOpen] = useState(false)
+  const { isOpen, toggleAlma, closeAlma } = useAlma()
   const { lang } = useLanguage()
   const t = T[lang]
+  const pathname = usePathname()
+  // Hide the floating launcher on the homepage — the hero form would compete with it.
+  // The chat window still opens there via the navbar "Parlez à Alma" button.
+  const showLauncher = pathname !== '/'
 
   return (
     <>
       {/* Floating launcher — Alma as a living presence, not a support bot */}
-      <div className="fixed bottom-6 right-6 z-40 flex items-end gap-3">
-        <motion.button
-          onClick={() => setIsOpen(!isOpen)}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-          className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#F3EFE6] shadow-[0_12px_32px_-8px_rgba(28,26,23,0.35)] ring-2 ring-[#D10E63]/40 transition-transform hover:scale-105"
-          aria-label={isOpen ? t.tooltipClose : t.tipHome}
-        >
-          {isOpen ? (
-            <span className="flex h-full w-full items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </span>
-          ) : (
-            <>
-              <img
-                src="/alma-avatar.png"
-                alt="Alma"
-                className="h-full w-full rounded-full object-cover"
-              />
-              <span className="absolute bottom-0.5 right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]" />
-            </>
-          )}
-        </motion.button>
-      </div>
+      {showLauncher && (
+        <div className="fixed bottom-6 right-6 z-40 flex items-end gap-3">
+          <motion.button
+            onClick={toggleAlma}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.3 }}
+            className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#F3EFE6] shadow-[0_12px_32px_-8px_rgba(28,26,23,0.35)] ring-2 ring-[#D10E63]/40 transition-transform hover:scale-105"
+            aria-label={isOpen ? t.tooltipClose : t.tipHome}
+          >
+            {isOpen ? (
+              <span className="flex h-full w-full items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </span>
+            ) : (
+              <>
+                <img
+                  src="/alma-avatar.png"
+                  alt="Alma"
+                  className="h-full w-full rounded-full object-cover"
+                />
+                <span className="absolute bottom-0.5 right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]" />
+              </>
+            )}
+          </motion.button>
+        </div>
+      )}
 
       {/* Chat window */}
       <AnimatePresence>
@@ -89,7 +96,7 @@ export function FloatingAlmaWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-28 right-6 z-50 max-h-[620px] w-96 overflow-hidden rounded-[28px] border border-[#DcD4C4] bg-[#FBF9F3] shadow-[0_32px_96px_-24px_rgba(28,26,23,0.45)]"
+            className={`fixed right-6 z-50 max-h-[620px] w-96 overflow-hidden rounded-[28px] border border-[#DcD4C4] bg-[#FBF9F3] shadow-[0_32px_96px_-24px_rgba(28,26,23,0.45)] ${showLauncher ? 'bottom-28' : 'bottom-6'}`}
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-[#E4DCCC] bg-[#F3EFE6] px-5 py-4">
@@ -108,7 +115,7 @@ export function FloatingAlmaWidget() {
                 </div>
               </div>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={closeAlma}
                 className="flex h-8 w-8 items-center justify-center rounded-full text-[#857C6E] transition-colors hover:bg-[#E4DCCC] hover:text-[#1C1A17]"
                 aria-label={t.tooltipClose}
               >

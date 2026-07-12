@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
 import { LanguageProvider } from '@/lib/language-context'
+import { AlmaProvider } from '@/lib/alma-context'
 import { FloatingAlmaWidget } from '@/components/floating-alma-widget'
 import './globals.css'
 
@@ -55,8 +56,10 @@ export default function RootLayout({
     <html lang="fr" className={`bg-background ${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         <LanguageProvider>
-          {children}
-          <FloatingAlmaWidget />
+          <AlmaProvider>
+            {children}
+            <FloatingAlmaWidget />
+          </AlmaProvider>
         </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
