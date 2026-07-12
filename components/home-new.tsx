@@ -3,6 +3,12 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
+import {
+  EmmaWorksSection,
+  EmmaLearnsSection,
+  DeployTeamSection,
+  SharedContextSection,
+} from './emma-story-sections'
 import { AlmaOnboardingSection, DispersedIASection, MigrationBanner } from './alma-ia-sections'
 import { CoreProductCards } from './core-product-cards'
 import {
@@ -24,6 +30,18 @@ export function HomeNew() {
 
       {/* 2. Hero 2 colonnes + carte Sofia */}
       <HeroNew lang={lang} />
+
+      {/* Story — Emma travaille */}
+      <EmmaWorksSection lang={lang} />
+
+      {/* Story — Emma apprend grâce à Alma */}
+      <EmmaLearnsSection lang={lang} />
+
+      {/* Story — Déployez toute votre équipe */}
+      <DeployTeamSection lang={lang} />
+
+      {/* Story — Tous vos collaborateurs partagent le même contexte */}
+      <SharedContextSection lang={lang} />
 
       {/* 3. The real problem — IA dispersée + Solution Unitalk (MOVED HERE) */}
       <DispersedIASection lang={lang} />
