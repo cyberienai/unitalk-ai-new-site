@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, CheckCircle2, Unlock, Clock, FileText, MapPin, Gift, Users } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, Unlock, Clock, MapPin, Gift } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -319,20 +319,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1.2fr_1.1fr] lg:items-start lg:gap-16 lg:px-8 lg:before:absolute lg:before:inset-y-0 lg:before:left-1/2 lg:before:w-32 lg:before:bg-gradient-to-r lg:before:from-transparent lg:before:via-[#F3EFE6]/10 lg:before:to-transparent lg:before:pointer-events-none">
         {/* Left column — copy */}
         <div className="flex min-w-0 flex-col justify-center">
-        <motion.div
-          className="relative h-full flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, ease, delay: 0.1 }}
-        >
-          {/* Hero form image */}
-          <img
-            src="/images/hero-form.png"
-            alt="Créer votre collaborateur IA"
-            className="w-full max-w-lg rounded-2xl shadow-xl"
-          />
-        </motion.div>
-
           <motion.h1
             className="font-sf mb-6 font-bold text-[#1C1A17]"
             style={{ fontSize: 'clamp(2.2rem, 3.6vw, 3.3rem)', lineHeight: 1.1, letterSpacing: '-0.03em' }}
@@ -352,21 +338,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           >
             {t.subheadline}
           </motion.p>
-
-          {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
-
-
-          <motion.div
-            className="flex flex-col gap-3 sm:flex-row sm:items-center"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.26 }}
-          >
-            <button className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-semibold text-[#FBF9F3] shadow-sm transition-all hover:bg-[#B00B52] sm:text-base">
-              {t.ctaPrimary}
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </motion.div>
 
           {/* Line 1: Features text */}
           <motion.p

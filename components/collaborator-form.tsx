@@ -47,7 +47,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
   return (
     <motion.div
-      className="relative w-full max-w-sm rounded-2xl border border-[#D10E63]/10 bg-white p-8 shadow-xl"
+      className="relative w-full max-w-sm rounded-2xl border border-[#E6DFD1] bg-[#F5F1E8] p-8 shadow-xl"
       initial={{ opacity: 0, scale: 0.95, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.1 }}
