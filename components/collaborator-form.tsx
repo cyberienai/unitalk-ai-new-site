@@ -2,12 +2,20 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Globe, Sparkles, Check, Loader2, ShieldCheck } from 'lucide-react'
+import { Globe, Sparkles, Check, Loader2, ShieldCheck, ArrowRightLeft } from 'lucide-react'
 
 const T = {
   fr: {
+    tabCreate: 'Créer',
+    tabMigrate: 'Migrer',
     titlePrefix: 'Déployez',
     subtitle: 'Votre premier collaborateur IA.',
+    migrateTitle: 'Migrez vers Unitalk',
+    migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
+    platformLabel: 'Plateforme actuelle',
+    platformOptions: ['OpenClaw', 'Hermes', 'ChatGPT Team', 'Autre'],
+    migrateCta: 'Transférer mes données',
+    migrateReassurance: 'Migration accompagnée • Sans interruption',
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.fr',
     domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
@@ -33,8 +41,16 @@ const T = {
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
   en: {
+    tabCreate: 'Create',
+    tabMigrate: 'Migrate',
     titlePrefix: 'Deploy',
     subtitle: 'Your first AI collaborator.',
+    migrateTitle: 'Migrate to Unitalk',
+    migrateSubtitle: 'Transfer your data from your current tool.',
+    platformLabel: 'Current platform',
+    platformOptions: ['OpenClaw', 'Hermes', 'ChatGPT Team', 'Other'],
+    migrateCta: 'Transfer my data',
+    migrateReassurance: 'Guided migration • No downtime',
     domainLabel: 'Domain name',
     domainPlaceholder: 'mycompany.com',
     domainHint: 'We automatically analyze your website to build the shared context for your organization.',
@@ -69,9 +85,11 @@ const SUGGESTED_NAMES = ['Emma', 'Léa', 'Nina', 'Alex', 'Noé', 'Maya']
 
 export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps) {
   const t = T[lang]
+  const [mode, setMode] = useState<'create' | 'migrate'>('create')
   const [domain, setDomain] = useState('')
   const [name, setName] = useState('')
   const [role, setRole] = useState(t.roleOptions[0])
+  const [platform, setPlatform] = useState(t.platformOptions[0])
   // Simulated domain analysis: 0 = idle, 1 = scanning, 2..4 = revealed lines
   const [analysisStep, setAnalysisStep] = useState(0)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -126,6 +144,31 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.1 }}
     >
+      {/* Segmented tabs — Create / Migrate */}
+      <div className="mb-5 flex rounded-full border border-[#DDD5CA] bg-[#EDE7DA] p-1">
+        {(['create', 'migrate'] as const).map((m) => (
+          <button
+            key={m}
+            type="button"
+            onClick={() => setMode(m)}
+            className={`relative flex-1 rounded-full py-2 text-sm font-semibold transition-colors ${
+              mode === m ? 'text-white' : 'text-[#6B6560] hover:text-[#1C1A17]'
+            }`}
+          >
+            {mode === m && (
+              <motion.span
+                layoutId="form-tab"
+                className="absolute inset-0 rounded-full bg-[#D10E63]"
+                transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+              />
+            )}
+            <span className="relative z-10">{m === 'create' ? t.tabCreate : t.tabMigrate}</span>
+          </button>
+        ))}
+      </div>
+
+      {mode === 'create' ? (
+        <>
       {/* Header */}
       <div className="mb-5">
         <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
@@ -269,6 +312,60 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.25} />
         {t.hosting}
       </p>
+        </>
+      ) : (
+        <>
+          {/* Migrate header */}
+          <div className="mb-5">
+            <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">{t.migrateTitle}</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.migrateSubtitle}</p>
+          </div>
+
+          {/* Current platform */}
+          <div className="mb-4">
+            <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
+              <ArrowRightLeft className="h-4 w-4 text-[#D10E63]" />
+              {t.platformLabel}
+            </label>
+            <select
+              value={platform}
+              onChange={(e) => setPlatform(e.target.value)}
+              className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+            >
+              {t.platformOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Domain */}
+          <div className="mb-5">
+            <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
+              <Globe className="h-4 w-4 text-[#D10E63]" />
+              {t.domainLabel}
+            </label>
+            <input
+              type="text"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+              placeholder={t.domainPlaceholder}
+              className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-base font-medium text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+            />
+          </div>
+
+          <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] py-3 text-center font-semibold text-white transition-colors hover:bg-[#B00B52]">
+            {t.migrateCta}
+            <span aria-hidden="true">›</span>
+          </button>
+          <p className="mt-2 text-center text-xs text-[#8A8175]">{t.migrateReassurance}</p>
+          <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-[#A79F90]">
+            <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.25} />
+            {t.hosting}
+          </p>
+        </>
+      )}
     </motion.div>
   )
 }
