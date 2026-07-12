@@ -2,35 +2,43 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Globe, Sparkles } from 'lucide-react'
+import { Globe, Bot, Sparkles, ArrowDown } from 'lucide-react'
 
 const T = {
   fr: {
     title: 'Déployez votre organisation intelligente',
-    subtitle: 'Commencez par votre domaine. Nous créons ensuite votre premier collaborateur IA en moins d\'une minute.',
-    domainLabel: 'Votre domaine',
-    domainPlaceholder: 'votreentreprise.com',
-    nameLabel: 'Nom de votre collaborateur',
+    subtitle:
+      "Commencez par votre domaine. Nous créons ensuite votre premier collaborateur IA en moins d'une minute.",
+    orgSection: 'Votre organisation',
+    domainPlaceholder: 'monentreprise.fr',
+    domainHint: "Le domaine identifie votre organisation et sert de racine à toutes les identités.",
+    collabSection: 'Premier collaborateur',
+    nameLabel: 'Nom',
     namePlaceholder: 'Emma',
     roleLabel: 'Rôle',
-    roleOptions: ['Assistant Exécutif', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
+    roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
     hostedLabel: 'Hébergé sur Unitalk Cloud',
     recommended: 'Recommandé',
-    ctaButton: 'Déployer mon collaborateur',
-    terms: 'En cliquant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité.',
+    ctaButton: 'Déployer',
+    defaultName: 'Emma',
+    terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
   en: {
     title: 'Deploy your intelligent organization',
-    subtitle: 'Start with your domain. We then create your first AI collaborator in under a minute.',
-    domainLabel: 'Your domain',
-    domainPlaceholder: 'yourcompany.com',
-    nameLabel: 'Your collaborator\'s name',
+    subtitle:
+      'Start with your domain. We then create your first AI collaborator in under a minute.',
+    orgSection: 'Your organization',
+    domainPlaceholder: 'mycompany.com',
+    domainHint: 'The domain identifies your organization and serves as the root for all identities.',
+    collabSection: 'First collaborator',
+    nameLabel: 'Name',
     namePlaceholder: 'Emma',
     roleLabel: 'Role',
     roleOptions: ['Executive Assistant', 'Project Manager', 'Sales Agent', 'Customer Support'],
     hostedLabel: 'Hosted on Unitalk Cloud',
     recommended: 'Recommended',
-    ctaButton: 'Deploy my collaborator',
+    ctaButton: 'Deploy',
+    defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
   },
 }
@@ -45,6 +53,8 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   const [name, setName] = useState('')
   const [role, setRole] = useState(t.roleOptions[0])
 
+  const collaboratorName = name.trim() || t.defaultName
+
   return (
     <motion.div
       className="relative w-full max-w-md rounded-2xl border border-[#E6DFD1] bg-[#F5F1E8] p-8 shadow-xl"
@@ -53,66 +63,74 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
       transition={{ duration: 0.7, delay: 0.1 }}
     >
       {/* Header */}
-      <div className="mb-8">
-        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63]/10">
-          <Globe className="h-5 w-5 text-[#D10E63]" />
-        </div>
+      <div className="mb-7">
         <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">{t.title}</h3>
         <p className="mt-2 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.subtitle}</p>
       </div>
 
-      {/* Form Fields */}
-      <div className="space-y-5 mb-6">
-        {/* Domain */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-[#1C1A17]">
-            {t.domainLabel}
-            <span className="ml-1 text-xs font-normal text-[#8A8175]">(optionnel)</span>
-          </label>
-          <input
-            type="text"
-            value={domain}
-            onChange={(e) => setDomain(e.target.value)}
-            placeholder={t.domainPlaceholder}
-            className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
-          />
+      {/* Organisation — the root */}
+      <div className="mb-2">
+        <div className="mb-2 flex items-center gap-2">
+          <Globe className="h-4 w-4 text-[#D10E63]" />
+          <span className="text-xs font-bold uppercase tracking-wide text-[#1C1A17]">{t.orgSection}</span>
+        </div>
+        <input
+          type="text"
+          value={domain}
+          onChange={(e) => setDomain(e.target.value)}
+          placeholder={t.domainPlaceholder}
+          className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-base font-medium text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+        />
+        <p className="mt-2 text-xs leading-relaxed text-[#8A8175] text-pretty">{t.domainHint}</p>
+      </div>
+
+      {/* Separator: Organisation → Collaborateur */}
+      <div className="my-5 flex items-center gap-3" aria-hidden="true">
+        <div className="h-px flex-1 bg-[#E0D8CA]" />
+        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[#E0D8CA] bg-white text-[#D10E63]">
+          <ArrowDown className="h-3.5 w-3.5" />
+        </span>
+        <div className="h-px flex-1 bg-[#E0D8CA]" />
+      </div>
+
+      {/* First collaborator */}
+      <div className="mb-6">
+        <div className="mb-3 flex items-center gap-2">
+          <Bot className="h-4 w-4 text-[#D10E63]" />
+          <span className="text-xs font-bold uppercase tracking-wide text-[#1C1A17]">{t.collabSection}</span>
         </div>
 
-        {/* Name */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-[#1C1A17]">
-            {t.nameLabel}
-            <span className="ml-1 text-xs font-normal text-[#8A8175]">*</span>
-          </label>
-          <div className="relative">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={t.namePlaceholder}
-              className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
-            />
-            <Sparkles className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#D10E63]/40" />
+        <div className="space-y-4">
+          {/* Name */}
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-[#6B6560]">{t.nameLabel}</label>
+            <div className="relative">
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder={t.namePlaceholder}
+                className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+              />
+              <Sparkles className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#D10E63]/40" />
+            </div>
           </div>
-        </div>
 
-        {/* Role */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-[#1C1A17]">
-            {t.roleLabel}
-            <span className="ml-1 text-xs font-normal text-[#8A8175]">*</span>
-          </label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
-          >
-            {t.roleOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          {/* Role */}
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-[#6B6560]">{t.roleLabel}</label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+            >
+              {t.roleOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -123,14 +141,14 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <span className="ml-auto text-xs font-semibold text-[#2E7D4F]">{t.recommended}</span>
       </div>
 
-      {/* CTA Button */}
-      <button className="w-full rounded-full bg-[#D10E63] py-3 text-center font-semibold text-white hover:bg-[#B00B52] transition-colors flex items-center justify-center gap-2 mb-4">
-        {t.ctaButton}
-        <span>›</span>
+      {/* CTA Button — personalized with the collaborator's name */}
+      <button className="mb-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] py-3 text-center font-semibold text-white transition-colors hover:bg-[#B00B52]">
+        {t.ctaButton} {collaboratorName}
+        <span aria-hidden="true">›</span>
       </button>
 
       {/* Terms */}
-      <p className="text-xs text-center text-[#8A8175]">{t.terms}</p>
+      <p className="text-center text-xs text-[#8A8175]">{t.terms}</p>
     </motion.div>
   )
 }
