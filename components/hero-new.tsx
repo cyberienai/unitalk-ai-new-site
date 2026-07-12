@@ -28,7 +28,7 @@ const T = {
       { icon: Users, label: 'Coordonne' },
     ],
     signature: "L'IA qui travaille avec votre organisation.",
-    ctaPrimary: 'Recruter mon collaborateur',
+    ctaPrimary: 'Créer mon collaborateur',
     ctaProofs: [
       { icon: MapPin, label: 'Hébergé en France' },
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
@@ -170,7 +170,7 @@ const T = {
       { icon: Users, label: 'Coordinates' },
     ],
     signature: 'The AI that works with your organization.',
-    ctaPrimary: 'Recruit my collaborator',
+    ctaPrimary: 'Create my collaborator',
     ctaProofs: [
       { icon: MapPin, label: 'Hosted in France' },
       { icon: Clock, label: 'Ready to work in 5 min' },
