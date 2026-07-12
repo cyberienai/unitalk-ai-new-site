@@ -6,7 +6,7 @@ import { Link, Sparkles, Check, Loader2, ArrowRightLeft, Server } from 'lucide-r
 
 const T = {
   fr: {
-    tabCreate: 'Créer',
+    tabDeploy: 'Déployer',
     tabMigrate: 'Migrer',
     formTitlePrefix: 'Déployez',
     migrateTitle: 'Migrez vers un Collaborateur IA Unitalk',
@@ -54,7 +54,7 @@ const T = {
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
   en: {
-    tabCreate: 'Create',
+    tabDeploy: 'Deploy',
     tabMigrate: 'Migrate',
     formTitlePrefix: 'Deploy',
     migrateTitle: 'Migrate to a Unitalk AI Collaborator',
@@ -213,7 +213,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
               />
             )}
-            <span className="relative z-10">{m === 'create' ? t.tabCreate : t.tabMigrate}</span>
+            <span className="relative z-10">{m === 'create' ? t.tabDeploy : t.tabMigrate}</span>
           </button>
         ))}
       </div>
