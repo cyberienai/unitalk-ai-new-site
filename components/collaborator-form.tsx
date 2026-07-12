@@ -554,8 +554,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
           {/* Domain */}
           <div className="mb-5">
-            <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
-              <Link className="h-4 w-4 text-[#D10E63]" />
+            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[#6B6560]">
               {t.domainLabel}
             </label>
             <input
