@@ -9,7 +9,6 @@ const T = {
     tabCreate: 'Créer',
     tabMigrate: 'Migrer',
     formTitlePrefix: 'Déployez',
-    formSubtitle: (fem: boolean) => `Prêt${fem ? 'e' : ''} à travailler en moins de 2 minutes.`,
     migrateTitle: 'Migrez vers Unitalk',
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
     platformLabel: 'Outil actuel',
@@ -37,7 +36,7 @@ const T = {
     roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
     ctaButton: 'Déployez',
-    ctaDuration: '7 jours gratuits • Aucune carte bancaire',
+    ctaDuration: (fem: boolean) => `Prêt${fem ? 'e' : ''} en 2 min • 7 jours gratuits • Aucune carte bancaire`,
     hosting: 'Hébergé en France (RGPD)',
     defaultName: 'Emma',
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
@@ -46,7 +45,6 @@ const T = {
     tabCreate: 'Create',
     tabMigrate: 'Migrate',
     formTitlePrefix: 'Deploy',
-    formSubtitle: (_fem: boolean) => 'Ready to work in less than 2 minutes.',
     migrateTitle: 'Migrate to Unitalk',
     migrateSubtitle: 'Transfer your data from your current tool.',
     platformLabel: 'Current tool',
@@ -74,7 +72,7 @@ const T = {
     roleHint: 'Skills will be generated automatically.',
     roleOptions: ['Executive Assistant', 'Project Manager', 'Sales Agent', 'Customer Support'],
     ctaButton: 'Deploy',
-    ctaDuration: '7 days free • No credit card',
+    ctaDuration: (_fem: boolean) => 'Ready in 2 min • 7 days free • No credit card',
     hosting: 'Hosted in France (GDPR)',
     defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
@@ -220,7 +218,6 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
             {t.formTitlePrefix} {collaboratorName}
           </h3>
-          <p className="mt-0.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.formSubtitle(collaboratorIsFeminine)}</p>
         </div>
       </div>
 
@@ -360,7 +357,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         {t.ctaButton} {collaboratorName}
         <span aria-hidden="true">›</span>
       </button>
-      <p className="mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration}</p>
+            <p className="mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration(collaboratorIsFeminine)}</p>
       <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-[#A79F90]">
         <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.25} />
         {t.hosting}
