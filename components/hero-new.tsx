@@ -23,7 +23,7 @@ const T = {
       "Il raisonne, planifie, exécute des tâches, code, automatise, délègue et apprend — comme un membre de votre équipe.",
     featuresText: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
     signature: "L'IA qui travaille avec votre organisation.",
-    ctaPrimary: 'Créer mon collaborateur',
+    ctaPrimary: 'Obtenir mon collaborateur',
     ctaProofs1: [
       { label: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard' },
     ],
@@ -163,7 +163,7 @@ const T = {
       'With a name, shared memory, skills. Give them a goal, they work 24/7.',
     featuresText: '1 agent · 10 profiles · Start solo, add your team later',
     signature: 'The AI that works with your organization.',
-    ctaPrimary: 'Create my collaborator',
+    ctaPrimary: 'Get my collaborator',
     ctaProofs1: [
       { label: '1 agent · 10 profiles · Start solo, add your team later' },
     ],
