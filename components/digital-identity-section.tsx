@@ -11,6 +11,7 @@ import {
   Mic,
   ShieldCheck,
   Globe,
+  Sparkles,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -38,6 +39,11 @@ const T = {
       { icon: Mic, title: 'Voix', desc: 'Une voix naturelle pour ses appels.' },
       { icon: ShieldCheck, title: 'Permissions', desc: 'Des accès précis, sous votre contrôle.' },
       { icon: Globe, title: 'Identité publique', desc: 'Une page de profil qui lui est propre.' },
+      {
+        icon: Sparkles,
+        title: 'Meilleurs modèles IA',
+        desc: 'ChatGPT, Claude et Gemini via Unitalk AI Gateway.',
+      },
     ] as Attribute[],
   },
   en: {
@@ -55,6 +61,11 @@ const T = {
       { icon: Mic, title: 'Voice', desc: 'A natural voice for its calls.' },
       { icon: ShieldCheck, title: 'Permissions', desc: 'Precise access, under your control.' },
       { icon: Globe, title: 'Public identity', desc: 'A profile page of its own.' },
+      {
+        icon: Sparkles,
+        title: 'Best AI models',
+        desc: 'ChatGPT, Claude and Gemini via Unitalk AI Gateway.',
+      },
     ] as Attribute[],
   },
 }
