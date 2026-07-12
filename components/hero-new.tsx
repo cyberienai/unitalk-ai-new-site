@@ -350,15 +350,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.subheadline}
           </motion.p>
 
-          <motion.div
-            className="mt-8 max-w-xl border-t border-[#D7CFC1] pt-5"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.28 }}
-          >
-            <p className="text-sm font-semibold leading-relaxed text-[#1C1A17]">
-              {t.ctaProofs1[0].label}
-            </p>
+        <motion.div
+          className="mt-8 max-w-xl"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease, delay: 0.28 }}
+        >
+          <p className="text-sm font-semibold leading-relaxed text-[#1C1A17]">
+            {t.ctaProofs1[0].label}
+          </p>
             <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 text-xs font-semibold text-[#4E483F]">
               <Users className="h-3.5 w-3.5 text-[#D10E63]" />
               {t.soloTeam}
