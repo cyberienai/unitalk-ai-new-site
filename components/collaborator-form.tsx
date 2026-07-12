@@ -9,7 +9,7 @@ const T = {
     tabCreate: 'Créer',
     tabMigrate: 'Migrer',
     formTitlePrefix: 'Déployez',
-    formSubtitle: 'Prêt à travailler en moins de 2 minutes.',
+    formSubtitle: (fem: boolean) => `Prêt${fem ? 'e' : ''} à travailler en moins de 2 minutes.`,
     migrateTitle: 'Migrez vers Unitalk',
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
     platformLabel: 'Outil actuel',
@@ -27,7 +27,7 @@ const T = {
       sector: 'Secteur identifié : Services B2B',
       pages: '12 pages analysées',
       services: '4 services détectés',
-      ready: (n: string) => `${n} est prête à travailler`,
+      ready: (n: string, fem: boolean) => `${n} est prêt${fem ? 'e' : ''} à travailler`,
     },
     nameLabel: 'Collaborateur',
     namePlaceholder: 'Emma',
@@ -46,7 +46,7 @@ const T = {
     tabCreate: 'Create',
     tabMigrate: 'Migrate',
     formTitlePrefix: 'Deploy',
-    formSubtitle: 'Ready to work in less than 2 minutes.',
+    formSubtitle: (_fem: boolean) => 'Ready to work in less than 2 minutes.',
     migrateTitle: 'Migrate to Unitalk',
     migrateSubtitle: 'Transfer your data from your current tool.',
     platformLabel: 'Current tool',
@@ -64,7 +64,7 @@ const T = {
       sector: 'Sector identified: B2B Services',
       pages: '12 pages analyzed',
       services: '4 services detected',
-      ready: (n: string) => `${n} is ready to work`,
+      ready: (n: string, _fem: boolean) => `${n} is ready to work`,
     },
     nameLabel: 'Collaborator',
     namePlaceholder: 'Emma',
@@ -98,6 +98,16 @@ const AVATAR_BY_NAME: Record<string, string> = {
 }
 const DEFAULT_AVATAR = '/assistant-avatar.png'
 
+// Grammatical gender of suggested names, used for French agreement ("prêt/prête").
+const FEMININE_NAMES = new Set(['Emma', 'Léa', 'Nina', 'Maya'])
+const MASCULINE_NAMES = new Set(['Alex', 'Noé'])
+// For custom names, guess feminine when it ends in "a" or "e" (common FR pattern), else masculine.
+function isFeminineName(name: string): boolean {
+  if (FEMININE_NAMES.has(name)) return true
+  if (MASCULINE_NAMES.has(name)) return false
+  return /[ae]$/i.test(name.trim())
+}
+
 export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps) {
   const t = T[lang]
   const [mode, setMode] = useState<'create' | 'migrate'>('create')
@@ -112,6 +122,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
   const collaboratorName = name.trim() || t.defaultName
   const collaboratorAvatar = AVATAR_BY_NAME[collaboratorName] || DEFAULT_AVATAR
+  const collaboratorIsFeminine = isFeminineName(collaboratorName)
   const domainIsValid = /\..{2,}/.test(domain.trim())
 
   useEffect(() => {
@@ -209,7 +220,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
             {t.formTitlePrefix} {collaboratorName}
           </h3>
-          <p className="mt-0.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.formSubtitle}</p>
+          <p className="mt-0.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.formSubtitle(collaboratorIsFeminine)}</p>
         </div>
       </div>
 
@@ -276,7 +287,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                     className="mt-1 flex items-center gap-1.5 border-t border-[#E6DFD1] pt-2 text-xs font-semibold text-[#D10E63]"
                   >
                     <Sparkles className="h-3.5 w-3.5 shrink-0" />
-                    {t.analysis.ready(collaboratorName)}
+                    {t.analysis.ready(collaboratorName, collaboratorIsFeminine)}
                   </motion.div>
                 )}
               </AnimatePresence>
