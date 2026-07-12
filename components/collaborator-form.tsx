@@ -8,8 +8,8 @@ const T = {
   fr: {
     tabCreate: 'Créer',
     tabMigrate: 'Migrer',
-    titlePrefix: 'Déployez',
-    subtitle: "Votre premier collaborateur IA, prêt à l'emploi en 2 minutes.",
+    titlePrefix: 'Emma vous rejoint.',
+    subtitle: 'Prêt à travailler en moins de 2 minutes.',
     migrateTitle: 'Migrez vers Unitalk',
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
     platformLabel: 'Outil actuel',
@@ -45,8 +45,8 @@ const T = {
   en: {
     tabCreate: 'Create',
     tabMigrate: 'Migrate',
-    titlePrefix: 'Deploy',
-    subtitle: 'Your first AI collaborator, ready in 2 minutes.',
+    titlePrefix: 'Emma joins you.',
+    subtitle: 'Ready to work in less than 2 minutes.',
     migrateTitle: 'Migrate to Unitalk',
     migrateSubtitle: 'Transfer your data from your current tool.',
     platformLabel: 'Current tool',
