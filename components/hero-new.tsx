@@ -29,7 +29,7 @@ const T = {
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Obtenir mon collaborateur',
     ctaProofs1: [
-      { label: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard' },
+      { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
     ctaProofs2: [
       { icon: Database, label: 'Mémoire partagée' },
@@ -172,7 +172,7 @@ const T = {
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Get my collaborator',
     ctaProofs1: [
-      { label: '1 agent · 10 profiles · Start solo, add your team later' },
+      { label: 'Everything included, from the very first collaborator.' },
     ],
     ctaProofs2: [
       { icon: Database, label: 'Shared memory' },
