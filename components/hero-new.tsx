@@ -33,8 +33,8 @@ const T = {
     ],
     ctaProofs2: [
       { icon: Database, label: 'Mémoire partagée' },
-      { icon: Mail, label: 'Email professionnel inclus' },
-      { icon: Phone, label: 'Téléphone et calendrier' },
+      { icon: Mail, label: 'Email & calendrier' },
+      { icon: Phone, label: 'Numéro de téléphone inclus' },
       { icon: Mic, label: 'Pilotage à la voix' },
     ],
     example: {
@@ -176,8 +176,8 @@ const T = {
     ],
     ctaProofs2: [
       { icon: Database, label: 'Shared memory' },
-      { icon: Mail, label: 'Professional email included' },
-      { icon: Phone, label: 'Phone and calendar' },
+      { icon: Mail, label: 'Email & calendar' },
+      { icon: Phone, label: 'Phone number included' },
       { icon: Mic, label: 'Voice-controlled' },
     ],
     example: {
