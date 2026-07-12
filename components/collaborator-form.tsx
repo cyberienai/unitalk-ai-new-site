@@ -8,7 +8,7 @@ const T = {
   fr: {
     tabCreate: 'Créer',
     tabMigrate: 'Migrer',
-    titlePrefix: 'vous rejoint.',
+    titlePrefix: 'est prête à travailler dans 2 mn.',
     subtitle: 'Prêt à travailler en moins de 2 minutes.',
     migrateTitle: 'Migrez vers Unitalk',
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
@@ -45,7 +45,7 @@ const T = {
   en: {
     tabCreate: 'Create',
     tabMigrate: 'Migrate',
-    titlePrefix: 'joins you.',
+    titlePrefix: 'is ready to work in 2 minutes.',
     subtitle: 'Ready to work in less than 2 minutes.',
     migrateTitle: 'Migrate to Unitalk',
     migrateSubtitle: 'Transfer your data from your current tool.',
