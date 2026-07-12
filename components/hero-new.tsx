@@ -18,7 +18,7 @@ const T = {
   fr: {
     eyebrow: "LE CLOUD PRIVÉ DE VOS COLLABORATEURS IA",
     headline: 'Unitalk. ',
-    headlineAccent: 'Recrutez vos 1er collaborateurs IA',
+    headlineAccent: 'Vous avez maintenant un vrai collaborateur IA.',
     subheadline:
       "Ils appellent vos clients, répondent aux emails, planifient les rendez-vous et travaillent dans vos outils. Vous leur donnez un objectif, ils s'occupent du reste.",
     manifesto: [
