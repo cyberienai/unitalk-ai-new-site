@@ -8,7 +8,7 @@ const T = {
   fr: {
     tabDeploy: 'Déployer',
     tabMigrate: 'Migrer',
-    formTitlePrefix: 'Déployez',
+    formTitlePrefix: '',
     migrateTitle: 'Migrez vers un Collaborateur IA Unitalk',
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
     platformLabel: 'Outil actuel',
@@ -56,7 +56,7 @@ const T = {
   en: {
     tabDeploy: 'Deploy',
     tabMigrate: 'Migrate',
-    formTitlePrefix: 'Deploy',
+    formTitlePrefix: '',
     migrateTitle: 'Migrate to a Unitalk AI Collaborator',
     migrateSubtitle: 'Transfer your data from your current tool.',
     platformLabel: 'Current tool',
