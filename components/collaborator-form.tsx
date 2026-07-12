@@ -345,27 +345,39 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             </select>
           </div>
 
-          {/* Current hosting — cloud vs self-hosted */}
-          <div className="mb-4">
-            <span className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
-              <Server className="h-4 w-4 text-[#D10E63]" />
-              {t.hostingLabel}
-            </span>
-            <div className="flex rounded-lg border border-[#DDD5CA] bg-[#EDE7DA] p-1">
-              {(['cloud', 'selfHosted'] as const).map((h) => (
-                <button
-                  key={h}
-                  type="button"
-                  onClick={() => setCurrentHosting(h)}
-                  className={`flex-1 rounded-md py-2 text-xs font-semibold transition-colors ${
-                    currentHosting === h ? 'bg-white text-[#1C1A17] shadow-sm' : 'text-[#6B6560] hover:text-[#1C1A17]'
-                  }`}
-                >
-                  {t.hostingOptions[h]}
-                </button>
-              ))}
-            </div>
-          </div>
+          {/* Current hosting — only for self-hostable tools (OpenClaw, Hermes) */}
+          <AnimatePresence initial={false}>
+            {(platform === 'OpenClaw' || platform === 'Hermes') && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.25 }}
+                className="overflow-hidden"
+              >
+                <div className="mb-4">
+                  <span className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
+                    <Server className="h-4 w-4 text-[#D10E63]" />
+                    {t.hostingLabel}
+                  </span>
+                  <div className="flex rounded-lg border border-[#DDD5CA] bg-[#EDE7DA] p-1">
+                    {(['cloud', 'selfHosted'] as const).map((h) => (
+                      <button
+                        key={h}
+                        type="button"
+                        onClick={() => setCurrentHosting(h)}
+                        className={`flex-1 rounded-md py-2 text-xs font-semibold transition-colors ${
+                          currentHosting === h ? 'bg-white text-[#1C1A17] shadow-sm' : 'text-[#6B6560] hover:text-[#1C1A17]'
+                        }`}
+                      >
+                        {t.hostingOptions[h]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Domain */}
           <div className="mb-5">
