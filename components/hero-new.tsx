@@ -20,7 +20,7 @@ const T = {
     headline: 'Unitalk. ',
     headlineAccent: 'Vous avez maintenant un vrai collaborateur IA.',
     subheadline:
-      "Ils appellent vos clients, répondent aux emails, planifient les rendez-vous et travaillent dans vos outils. Vous leur donnez un objectif, ils s'occupent du reste.",
+      "Il raisonne, planifie, exécute des tâches, code, automatise, délègue et apprend — comme un membre de votre équipe.",
     manifesto: [
       { icon: Phone, label: 'Appelle' },
       { icon: Calendar, label: 'Planifie' },
