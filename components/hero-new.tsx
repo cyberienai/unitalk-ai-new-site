@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, Sparkles, Check, Mic } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, Sparkles, Check, Mic, Users } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -31,6 +31,7 @@ const T = {
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
     almaIntro: 'Alma, votre guide vocale, crée votre collaborateur en 2 minutes.',
+    soloTeam: 'Démarrez seul, ajoutez votre équipe plus tard.',
     includedNote:
       "Accès aux meilleurs modèles IA, pilotage à la voix, mémoire, email, téléphone et calendrier : aucun outil à brancher, aucune configuration.",
     example: {
@@ -170,6 +171,7 @@ const T = {
       { label: 'Everything included, from the very first collaborator.' },
     ],
     almaIntro: 'Alma, your voice guide, builds your collaborator in 2 minutes.',
+    soloTeam: 'Start solo, add your team later.',
     includedNote:
       'Access to the best AI models, voice control, memory, email, phone and calendar: no tools to plug in, no setup.',
     example: {
@@ -364,6 +366,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="mt-2 text-sm leading-relaxed text-[#6B6560] text-pretty">
               {t.includedNote}
             </p>
+            <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 text-xs font-semibold text-[#4E483F]">
+              <Users className="h-3.5 w-3.5 text-[#D10E63]" />
+              {t.soloTeam}
+            </span>
           </motion.div>
         </div>
 
