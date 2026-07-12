@@ -39,7 +39,7 @@ const T = {
     migrateCta: 'Transférer mes données',
     migrateReassurance: 'Migration accompagnée • Sans interruption',
     domainLabel: 'Nom de domaine',
-    domainPlaceholder: 'monentreprise.fr',
+    domainPlaceholder: 'monentreprise.com',
     domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
     analysis: {
       scanning: 'Analyse de votre site en cours…',
