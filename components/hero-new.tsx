@@ -329,14 +329,19 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1.2fr_1.1fr] lg:items-start lg:gap-16 lg:px-8 lg:before:absolute lg:before:inset-y-0 lg:before:left-1/2 lg:before:w-32 lg:before:bg-gradient-to-r lg:before:from-transparent lg:before:via-[#F3EFE6]/10 lg:before:to-transparent lg:before:pointer-events-none">
         {/* Left column — copy */}
         <div className="flex min-w-0 flex-col justify-center">
-          <motion.div
-            className="mb-5 inline-flex w-fit items-center rounded-full border border-[#D10E63] bg-transparent px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-[#D10E63]"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            {t.eyebrow}
-          </motion.div>
+        <motion.div
+          className="relative h-full flex items-center justify-center"
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.7, ease, delay: 0.1 }}
+        >
+          {/* Hero form image */}
+          <img
+            src="/images/hero-form.png"
+            alt="Créer votre collaborateur IA"
+            className="w-full max-w-lg rounded-2xl shadow-xl"
+          />
+        </motion.div>
 
           <motion.h1
             className="font-sf mb-6 font-bold text-[#1C1A17]"
