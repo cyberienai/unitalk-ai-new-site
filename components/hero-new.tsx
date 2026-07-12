@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Mail, Phone, Calendar, Database, Zap, CheckCircle2, Unlock, Clock, FileText, MapPin, Gift, Users } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
+import CollaboratorForm from './collaborator-form'
 
 function getInitials(name: string) {
   return name
@@ -300,17 +301,6 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang] as typeof T['fr']
-  const [activeCollaborator, setActiveCollaborator] = useState(0)
-  const [isHoveringCarousel, setIsHoveringCarousel] = useState(false)
-
-  // Auto-scroll the collaborators carousel every 4 seconds, pause on hover
-  useEffect(() => {
-    if (isHoveringCarousel) return
-    const id = setInterval(() => {
-      setActiveCollaborator((i) => (i + 1) % t.collaborators.length)
-    }, 4000)
-    return () => clearInterval(id)
-  }, [isHoveringCarousel, t.collaborators.length])
 
 
 
@@ -412,156 +402,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
             Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
         <div className="relative z-10 flex min-w-0 justify-center mt-4 sm:mt-8 lg:mt-16 lg:justify-end lg:self-start">
-        <motion.div
-          className="relative flex w-full items-center justify-center lg:justify-end"
-          initial={{ opacity: 0, scale: 0.94, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, ease, delay: 0.28 }}
-        >
-          {/* Glow behind card */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-70 blur-2xl"
-            style={{
-              background:
-                'radial-gradient(circle at 30% 20%, rgba(209,14,99,0.32), transparent 55%), radial-gradient(circle at 80% 90%, rgba(241,114,159,0.22), transparent 55%)',
-            }}
-          />
-
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#3A3530] p-4 shadow-2xl sm:p-6">
-            {/* top sheen */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-24"
-              style={{ background: 'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(209,14,99,0.16), transparent)' }}
-            />
-
-            {/* header row with status top-right */}
-
-
-            {/* identity - using active collaborator */}
-            {(() => {
-              const collab = t.collaborators[activeCollaborator]
-              const femaleIds = ['sophia', 'elena', 'nina', 'designer', 'meeting']
-              const status =
-                lang === 'fr' && femaleIds.includes(collab.id)
-                  ? 'Prête à travailler'
-                  : t.sofiaStatus
-              return (
-                <div className="relative mb-6 flex items-center gap-4">
-                  <div
-                    aria-label={collab.name}
-                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#D10E63] text-lg font-bold text-white ring-1 ring-white/15"
-                  >
-                    {getInitials(collab.name)}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h2 className="text-2xl font-bold leading-tight text-[#F7F4EE]">{collab.name}</h2>
-                      <span className="inline-flex items-center gap-1 rounded-lg border border-[#2E7D4F]/25 bg-[#2E7D4F]/10 px-2.5 py-1 text-xs font-medium text-[#8FCBA6]">
-                        <CheckCircle2 className="h-3 w-3 text-[#4F9E6E]" />
-                        {status}
-                      </span>
-                    </div>
-                    <p className="text-sm text-[#B8B0A2]">{collab.role}</p>
-                  </div>
-                </div>
-              )
-            })()}
-
-            {/* contact icons row */}
-            <div className="relative mb-5 flex items-center gap-2">
-              {t.contactIcons.map((item) => {
-                const Icon = item.icon
-                return (
-                  <div
-                    key={item.label}
-                    className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[#D10E63]/20 bg-[#D10E63]/[0.06] px-2 py-2"
-                  >
-                    <Icon className="h-3.5 w-3.5 shrink-0 text-[#FF7FAC]" />
-                    <span className="text-[9px] font-semibold uppercase tracking-wide text-[#B8AFA0]">
-                      {item.label}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* capability rows */}
-            <div className="relative mb-4 space-y-3.5 border-t border-white/[0.06] pt-4">
-              {t.rows.map((row) => {
-                const Icon = row.icon
-                // Use the active collaborator's skills for the dynamic "Sait faire" row
-                const displayValue = 'dynamic' in row && row.dynamic
-                  ? t.collaborators[activeCollaborator].skills
-                  : row.value
-                return (
-                  <div key={row.label} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/15 text-[#FF7FAC]">
-                      <Icon className="h-4 w-4" strokeWidth={2} />
-                    </span>
-                    <div className="space-y-0.5">
-                      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#B8AFA0]">
-                        {row.label}
-                      </p>
-                      <p className="text-sm text-[#E7E1D6]">{displayValue}</p>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* personalized example */}
-            <div className="mb-6 rounded-lg border border-[#D10E63]/20 bg-[#D10E63]/10 p-4">
-              <p className="text-sm font-medium leading-relaxed text-[#E7E1D6]">
-                {t.collaborators[activeCollaborator].example}
-              </p>
-            </div>
-
-
-
-            {/* carousel indicators + buttons — below the card */}
-            <div
-              className="relative mt-6 flex items-center justify-between gap-2"
-              onMouseEnter={() => setIsHoveringCarousel(true)}
-              onMouseLeave={() => setIsHoveringCarousel(false)}
-            >
-              <button
-                onClick={() => setActiveCollaborator((prev) => (prev - 1 + t.collaborators.length) % t.collaborators.length)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#D10E63]/30 bg-[#D10E63]/10 text-[#8A8175] hover:bg-[#D10E63]/20 hover:text-[#D10E63] transition-all"
-                aria-label="Previous collaborator"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <div className="flex flex-1 flex-wrap items-center justify-center gap-x-0.5 gap-y-1">
-                {t.collaborators.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveCollaborator(idx)}
-                    className="group flex h-9 w-6 items-center justify-center"
-                    aria-label={`Show collaborator ${idx + 1}`}
-                    aria-current={idx === activeCollaborator}
-                  >
-                    <span
-                      className={`h-2.5 rounded-full transition-all ${
-                        idx === activeCollaborator
-                          ? 'w-6 bg-[#D10E63]'
-                          : 'w-2.5 bg-[#DcD4C4] group-hover:bg-[#857C6E]'
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setActiveCollaborator((prev) => (prev + 1) % t.collaborators.length)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#D10E63]/30 bg-[#D10E63]/10 text-[#8A8175] hover:bg-[#D10E63]/20 hover:text-[#D10E63] transition-all"
-                aria-label="Next collaborator"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </motion.div>
+          <CollaboratorForm lang={lang} />
         </div>
       </div>
     </section>
