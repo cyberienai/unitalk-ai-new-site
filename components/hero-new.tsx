@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, Sparkles, Check, Mic, Users } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap, Mic, Users } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -381,67 +381,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               aria-hidden="true"
               className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[radial-gradient(60%_55%_at_50%_35%,rgba(209,14,99,0.18),transparent_72%)] blur-2xl"
             />
-
-            {/* Floating product mockup — live collaborator profile (peeks top-left behind the form) */}
-            <motion.div
-              aria-hidden="true"
-              className="absolute -left-20 top-10 z-20 hidden w-52 rounded-2xl border border-[#EADFCF] bg-white/90 p-3 shadow-xl shadow-[#1C1A17]/10 backdrop-blur lg:block"
-              initial={{ opacity: 0, y: 12, rotate: -3 }}
-              animate={{ opacity: 1, y: [0, -9, 0], rotate: -3 }}
-              transition={{
-                opacity: { duration: 0.6, delay: 0.5 },
-                y: { duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
-              }}
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D10E63] text-sm font-bold text-white">
-                  E
-                </span>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-[#1C1A17]">Emma</p>
-                  <p className="truncate text-xs text-[#8A8175]">Assistante commerciale</p>
-                </div>
-              </div>
-              <div className="mt-2.5 flex items-center gap-1.5 border-t border-[#EADFCF] pt-2.5 text-xs font-medium text-[#2E7D4F]">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2E7D4F]/60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#2E7D4F]" />
-                </span>
-                {lang === 'fr' ? 'En ligne' : 'Online'}
-                <span className="ml-auto flex items-center gap-1 text-[#8A8175]">
-                  <Mail className="h-3 w-3" />
-                  <Phone className="h-3 w-3" />
-                  <Calendar className="h-3 w-3" />
-                </span>
-              </div>
-            </motion.div>
-
-            {/* Floating product mockup — activity toast (peeks bottom-right behind the form) */}
-            <motion.div
-              aria-hidden="true"
-              className="absolute -bottom-16 -right-6 z-20 hidden w-56 rounded-2xl border border-[#EADFCF] bg-white/90 p-3 shadow-xl shadow-[#1C1A17]/10 backdrop-blur lg:block"
-              initial={{ opacity: 0, y: 12, rotate: 3 }}
-              animate={{ opacity: 1, y: [0, 9, 0], rotate: 3 }}
-              transition={{
-                opacity: { duration: 0.6, delay: 0.7 },
-                y: { duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.7 },
-              }}
-            >
-              <div className="flex items-start gap-2.5">
-                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#2E7D4F]/12 text-[#2E7D4F]">
-                  <Check className="h-4 w-4" strokeWidth={2.5} />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold leading-snug text-[#1C1A17]">
-                    {lang === 'fr' ? 'Email client traité' : 'Client email handled'}
-                  </p>
-                  <p className="mt-0.5 text-xs text-[#8A8175]">
-                    {lang === 'fr' ? 'Réponse envoyée · à l’instant' : 'Reply sent · just now'}
-                  </p>
-                </div>
-                <Sparkles className="h-4 w-4 shrink-0 text-[#D10E63]" />
-              </div>
-            </motion.div>
 
             <div className="relative z-10">
               <motion.p
