@@ -324,11 +324,12 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         {/* Left column — editorial value proposition */}
         <div className="flex min-w-0 max-w-2xl flex-col justify-center">
         <motion.p
-          className="font-sans text-xs font-semibold leading-tight text-[#8A8175]"
+          className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 font-sans text-xs font-semibold leading-tight text-[#4E483F]"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease, delay: 0.05 }}
         >
+          <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" aria-hidden="true" />
           {t.eyebrow}
         </motion.p>
 
