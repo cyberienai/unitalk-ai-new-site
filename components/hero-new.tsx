@@ -321,14 +321,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_460px] lg:items-center lg:gap-20 lg:px-8">
         {/* Left column — editorial value proposition */}
         <div className="flex min-w-0 max-w-2xl flex-col justify-center">
-          <motion.p
-            className="mb-5 flex items-center gap-2 text-sm font-semibold tracking-tight text-[#D10E63]"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            {t.eyebrow}
-          </motion.p>
+        <motion.p
+          className="font-sans text-xs font-semibold leading-tight text-[#8A8175]"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease, delay: 0.05 }}
+        >
+          {t.eyebrow}
+        </motion.p>
 
           <motion.h1
             className="font-sf mb-6 max-w-2xl font-bold text-[#1C1A17] text-balance"
@@ -342,7 +342,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.h1>
 
           <motion.p
-            className="font-sans max-w-xl border-l-2 border-[#D10E63] pl-5 text-base leading-relaxed text-[#4E483F] sm:text-lg"
+            className="font-sans max-w-xl border-l-2 border-[#D10E63] pl-5 text-base leading-relaxed text-[#1C1A17] sm:text-lg"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.14 }}
@@ -356,10 +356,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.28 }}
         >
-          <p className="text-sm font-semibold leading-relaxed text-[#1C1A17]">
+          <p className="text-xs font-semibold leading-relaxed text-[#1C1A17]">
             {t.ctaProofs1[0].label}
           </p>
-            <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 text-xs font-semibold text-[#4E483F]">
+            <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 text-xs font-semibold text-[#1C1A17]">
               <Users className="h-3.5 w-3.5 text-[#D10E63]" />
               {t.soloTeam}
             </span>
