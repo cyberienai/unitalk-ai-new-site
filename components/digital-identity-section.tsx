@@ -13,6 +13,7 @@ import {
   Globe,
   Sparkles,
   MonitorSmartphone,
+  GraduationCap,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -36,6 +37,7 @@ const T = {
       { icon: Calendar, title: 'Calendrier', desc: 'Il planifie et gère ses rendez-vous.' },
       { icon: Brain, title: 'Mémoire', desc: 'Il retient chaque échange et décision.' },
       { icon: BookOpen, title: 'Connaissances', desc: 'Le contexte complet de votre entreprise.' },
+      { icon: GraduationCap, title: 'Compétences', desc: 'Il apprend vos processus et progresse en continu.' },
       { icon: Wrench, title: 'Outils', desc: 'Connecté à votre CRM et vos applications.' },
       { icon: Mic, title: 'Voix', desc: 'Une voix naturelle pour ses appels.' },
       { icon: ShieldCheck, title: 'Permissions', desc: 'Des accès précis, sous votre contrôle.' },
@@ -63,6 +65,7 @@ const T = {
       { icon: Calendar, title: 'Calendar', desc: 'It schedules and manages its meetings.' },
       { icon: Brain, title: 'Memory', desc: 'It remembers every exchange and decision.' },
       { icon: BookOpen, title: 'Knowledge', desc: "Your company's full context." },
+      { icon: GraduationCap, title: 'Skills', desc: 'It learns your processes and keeps improving.' },
       { icon: Wrench, title: 'Tools', desc: 'Connected to your CRM and apps.' },
       { icon: Mic, title: 'Voice', desc: 'A natural voice for its calls.' },
       { icon: ShieldCheck, title: 'Permissions', desc: 'Precise access, under your control.' },
