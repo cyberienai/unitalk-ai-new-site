@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Globe, Sparkles, Check, Loader2, ShieldCheck, ArrowRightLeft, Server } from 'lucide-react'
+import { Link, Sparkles, Check, Loader2, ShieldCheck, ArrowRightLeft, Server } from 'lucide-react'
 
 const T = {
   fr: {
@@ -185,7 +185,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
       {/* Domain — the root of the organization */}
       <div>
         <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
-          <Globe className="h-4 w-4 text-[#D10E63]" />
+          <Link className="h-4 w-4 text-[#D10E63]" />
           {t.domainLabel}
         </label>
         <input
@@ -370,7 +370,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           {/* Domain */}
           <div className="mb-5">
             <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
-              <Globe className="h-4 w-4 text-[#D10E63]" />
+              <Link className="h-4 w-4 text-[#D10E63]" />
               {t.domainLabel}
             </label>
             <input
