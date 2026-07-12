@@ -147,10 +147,15 @@ const DEFAULT_AVATAR = '/assistant-avatar.png'
 
 // Hosting zone for the collaborator — a single concept reused down the funnel (Hermes Cloud "workplace").
 const COUNTRIES = [
-  { code: 'FR', flag: '🇫🇷', fr: 'France', en: 'France' },
-  { code: 'DE', flag: '🇩🇪', fr: 'Allemagne', en: 'Germany' },
-  { code: 'CH', flag: '🇨🇭', fr: 'Suisse', en: 'Switzerland' },
+  { code: 'FR', fr: 'France', en: 'France' },
+  { code: 'DE', fr: 'Allemagne', en: 'Germany' },
+  { code: 'CH', fr: 'Suisse', en: 'Switzerland' },
 ] as const
+
+// Real flag images (identical rendering across OSes, unlike emoji flags on Windows).
+function flagUrl(code: string) {
+  return `https://flagcdn.com/${code.toLowerCase()}.svg`
+}
 
 // Auto-detect the hosting zone from the domain TLD, defaulting to France.
 function detectCountry(domain: string): string {
@@ -295,9 +300,14 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             {t.formTitlePrefix} {collaboratorName}
           </h3>
           {/* Hosting zone — secondary info, must not compete with the name */}
-          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
-            <span className="flex items-center gap-1">
-              <span aria-hidden="true">{selectedCountry.flag}</span>
+          <div className="group mt-0.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
+            <span className="flex items-center gap-1.5">
+              <img
+                src={flagUrl(selectedCountry.code) || "/placeholder.svg"}
+                alt=""
+                aria-hidden="true"
+                className="h-3 w-[18px] shrink-0 rounded-[2px] object-cover ring-1 ring-black/5"
+              />
               <span className="font-medium">{selectedCountry[lang]}</span>
             </span>
             <FieldInfo text={t.locationInfo} />
@@ -305,7 +315,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
               <button
                 type="button"
                 onClick={() => setLocationOpen((v) => !v)}
-                className="font-medium text-[#D10E63] transition-colors hover:text-[#A50B4E] focus:outline-none focus:underline"
+                className="font-medium text-[#D10E63] opacity-0 transition-opacity duration-150 hover:text-[#A50B4E] focus:opacity-100 focus:outline-none focus:underline group-hover:opacity-100 aria-expanded:opacity-100"
                 aria-haspopup="listbox"
                 aria-expanded={locationOpen}
               >
@@ -337,7 +347,12 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                             c.code === country ? 'font-semibold text-[#1C1A17]' : 'text-[#4A453F]'
                           }`}
                         >
-                          <span aria-hidden="true">{c.flag}</span>
+                          <img
+                            src={flagUrl(c.code) || "/placeholder.svg"}
+                            alt=""
+                            aria-hidden="true"
+                            className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover ring-1 ring-black/5"
+                          />
                           {c[lang]}
                           {c.code === country && (
                             <Check className="ml-auto h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
