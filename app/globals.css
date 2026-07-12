@@ -230,6 +230,21 @@
     background-size: 72px 72px;
   }
 
+  /* Very slow diagonal drift — loops seamlessly every full cell (72px) */
+  @keyframes grid-drift {
+    to {
+      background-position: 72px 72px;
+    }
+  }
+  .animate-grid {
+    animation: grid-drift 40s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-grid {
+      animation: none;
+    }
+  }
+
   .bg-dots {
     background-image: radial-gradient(rgba(28, 26, 23, 0.06) 1px, transparent 1px);
     background-size: 22px 22px;
