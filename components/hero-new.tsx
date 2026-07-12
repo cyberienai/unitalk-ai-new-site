@@ -25,6 +25,7 @@ const T = {
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Créer mon collaborateur',
     ctaProofs: [
+      { label: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard' },
       { icon: MapPin, label: 'Hébergé en France' },
       { icon: Clock, label: 'Prêt à travailler en 5 min' },
       { icon: Unlock, label: 'Aucun engagement' },
@@ -162,6 +163,7 @@ const T = {
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Create my collaborator',
     ctaProofs: [
+      { label: '1 agent · 10 profiles · Start solo, add your team later' },
       { icon: MapPin, label: 'Hosted in France' },
       { icon: Clock, label: 'Ready to work in 5 min' },
       { icon: Unlock, label: 'No commitment' },
@@ -353,14 +355,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
 
           {/* Manifesto as chips — a rolling highlight sweeps through the verbs */}
-          <motion.p
-            className="mb-8 text-sm font-medium text-[#8A8175]"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.2 }}
-          >
-            {t.featuresText}
-          </motion.p>
+
 
           <motion.div
             className="flex flex-col gap-3 sm:flex-row sm:items-center"
@@ -380,11 +375,19 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease, delay: 0.32 }}
           >
-            {t.ctaProofs.map((proof) => {
+            {t.ctaProofs.map((proof, i) => {
               const ProofIcon = proof.icon
+              if (i === 0) {
+                // First item (features text) - no icon, full width on mobile
+                return (
+                  <li key={proof.label} className="w-full sm:w-auto inline-flex items-center gap-2 whitespace-normal sm:whitespace-nowrap text-center sm:text-left">
+                    {proof.label}
+                  </li>
+                )
+              }
               return (
                 <li key={proof.label} className="inline-flex items-center gap-2 whitespace-nowrap">
-                  <ProofIcon className="h-4 w-4 flex-shrink-0 text-[#D10E63]" />
+                  {ProofIcon && <ProofIcon className="h-4 w-4 flex-shrink-0 text-[#D10E63]" />}
                   {proof.label}
                 </li>
               )
