@@ -8,7 +8,7 @@ const T = {
   fr: {
     tabCreate: 'Créer',
     tabMigrate: 'Migrer',
-    formTitle: 'Déployez votre 1er collaborateur IA',
+    formTitlePrefix: 'Déployez',
     formSubtitle: 'Prêt à travailler en moins de 2 minutes.',
     migrateTitle: 'Migrez vers Unitalk',
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
@@ -45,7 +45,7 @@ const T = {
   en: {
     tabCreate: 'Create',
     tabMigrate: 'Migrate',
-    formTitle: 'Deploy your first AI collaborator',
+    formTitlePrefix: 'Deploy',
     formSubtitle: 'Ready to work in less than 2 minutes.',
     migrateTitle: 'Migrate to Unitalk',
     migrateSubtitle: 'Transfer your data from your current tool.',
@@ -177,7 +177,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
       {/* Header */}
       <div className="mb-5">
         <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
-          {t.formTitle}
+          {t.formTitlePrefix} {collaboratorName}
         </h3>
         <p className="mt-1.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.formSubtitle}</p>
       </div>
