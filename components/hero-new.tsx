@@ -294,18 +294,8 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang] as typeof T['fr']
-  const [activeVerb, setActiveVerb] = useState(0)
   const [activeCollaborator, setActiveCollaborator] = useState(0)
   const [isHoveringCarousel, setIsHoveringCarousel] = useState(false)
-  const chipsRef = useRef<HTMLDivElement>(null)
-  const chipRefs = useRef<(HTMLSpanElement | null)[]>([])
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setActiveVerb((i) => (i + 1) % t.manifesto.length)
-    }, 2500)
-    return () => clearInterval(id)
-  }, [t.manifesto.length])
 
   // Auto-scroll the collaborators carousel every 4 seconds, pause on hover
   useEffect(() => {
@@ -316,16 +306,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     return () => clearInterval(id)
   }, [isHoveringCarousel, t.collaborators.length])
 
-  // Keep the highlighted verb in view on the horizontally scrollable mobile row,
-  // so every chip is revealed as the highlight rolls through.
-  useEffect(() => {
-    const container = chipsRef.current
-    const chip = chipRefs.current[activeVerb]
-    if (!container || !chip) return
-    if (container.scrollWidth <= container.clientWidth) return
-    const target = chip.offsetLeft - (container.clientWidth - chip.offsetWidth) / 2
-    container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
-  }, [activeVerb])
+
 
   return (
     <section className="relative flex w-full flex-col justify-center overflow-x-clip bg-[#F3EFE6] pb-14 pt-24 sm:pb-20 sm:pt-28 lg:min-h-[100svh]">
