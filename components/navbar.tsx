@@ -9,7 +9,7 @@ import { useLanguage } from '@/lib/language-context'
 const NAV_LINKS = [
   { fr: 'Démarrer', en: 'Get Started', href: '/solo' },
   { fr: 'Collaborer', en: 'Collaborate', href: '/teams' },
-  { fr: 'Déployer', en: 'Deploy', href: '/business' },
+  { fr: 'Business', en: 'Business', href: '/business' },
   { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
   { fr: 'Solutions', en: 'Solutions', href: '/solutions' },
   { fr: "10 profils prêts à l'emploi", en: '10 ready-to-use profiles', href: '/use-cases' },
@@ -26,7 +26,6 @@ const NAV_LINKS = [
 const PRIMARY_LINKS = [
   { fr: 'Démarrer', en: 'Get Started', href: '/solo' },
   { fr: 'Collaborer', en: 'Collaborate', href: '/teams' },
-  { fr: 'Déployer', en: 'Deploy', href: '/business' },
   { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
 ]
 
