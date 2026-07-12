@@ -17,11 +17,11 @@ function getInitials(name: string) {
 
 const T = {
   fr: {
-    eyebrow: 'Vos collaborateurs IA, prêts à travailler.',
+    eyebrow: 'Bien plus que des agents IA.',
     headline: 'Toute votre entreprise mérite ',
     headlineAccent: 'ses propres Collaborateurs IA.',
     subheadline:
-      "Ils répondent à vos clients, gèrent vos emails, planifient vos rendez-vous et exécutent vos processus — en apprenant continuellement de votre entreprise.",
+      "Ils répondent à vos clients, gèrent vos emails et exécutent vos processus — en apprenant continuellement de votre entreprise.",
     summary:
       "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
     terms: "En déployant votre collaborateur, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
@@ -160,11 +160,11 @@ const T = {
     ],
   },
   en: {
-    eyebrow: 'Your AI collaborators, ready to work.',
+    eyebrow: 'Much more than AI agents.',
     headline: 'Your entire company deserves ',
     headlineAccent: 'its own AI Collaborators.',
     subheadline:
-      'They answer your customers, manage your emails, schedule your meetings and run your processes — continuously learning from your company.',
+      'They answer your customers, manage your emails and run your processes — continuously learning from your company.',
     summary:
       'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
     terms: 'By deploying your collaborator, you accept our Terms of Use and Privacy Policy.',
