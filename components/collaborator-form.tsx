@@ -2,14 +2,12 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Globe, Bot, Sparkles, Check } from 'lucide-react'
+import { Bot, Sparkles, Check } from 'lucide-react'
 
 const T = {
   fr: {
-    title: "Créez votre premier collaborateur IA en moins d'une minute",
-    subtitle:
-      "Commencez par votre domaine. Nous créons ensuite votre premier collaborateur IA en moins d'une minute.",
-    orgSection: 'Votre organisation',
+    title: 'Déployez votre premier collaborateur IA',
+    subtitle: "En moins d'une minute, à partir de votre nom de domaine.",
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.fr',
     domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
@@ -17,21 +15,21 @@ const T = {
     nameLabel: 'Nom',
     namePlaceholder: 'Emma',
     nameHint: 'Vous pourrez le modifier plus tard.',
+    suggestName: 'Suggérer',
     roleLabel: 'Rôle',
     roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
     hostedLabel: 'Hébergé sur Unitalk Cloud',
     recommended: 'Recommandé',
     ctaButton: 'Déployer',
-    ctaDuration: '≈ 30 secondes',
+    ctaSuffix: 'gratuitement',
+    ctaDuration: 'Aucune carte bancaire · Prêt en moins de 2 minutes',
     defaultName: 'Emma',
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
   en: {
-    title: 'Create your first AI collaborator in under a minute',
-    subtitle:
-      'Start with your domain. We then create your first AI collaborator in under a minute.',
-    orgSection: 'Your organization',
+    title: 'Deploy your first AI collaborator',
+    subtitle: 'In under a minute, using your domain name.',
     domainLabel: 'Domain name',
     domainPlaceholder: 'mycompany.com',
     domainHint: 'We automatically analyze your website to build the shared context for your organization.',
@@ -39,13 +37,15 @@ const T = {
     nameLabel: 'Name',
     namePlaceholder: 'Emma',
     nameHint: 'You can change it later.',
+    suggestName: 'Suggest',
     roleLabel: 'Role',
     roleHint: 'Skills will be generated automatically.',
     roleOptions: ['Executive Assistant', 'Project Manager', 'Sales Agent', 'Customer Support'],
     hostedLabel: 'Hosted on Unitalk Cloud',
     recommended: 'Recommended',
     ctaButton: 'Deploy',
-    ctaDuration: '≈ 30 seconds',
+    ctaSuffix: 'for free',
+    ctaDuration: 'No credit card · Ready in under 2 minutes',
     defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
   },
@@ -55,6 +55,8 @@ interface CollaboratorFormProps {
   lang?: 'fr' | 'en'
 }
 
+const SUGGESTED_NAMES = ['Emma', 'Léa', 'Nina', 'Alex', 'Noé', 'Maya']
+
 export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps) {
   const t = T[lang]
   const [domain, setDomain] = useState('')
@@ -62,6 +64,12 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   const [role, setRole] = useState(t.roleOptions[0])
 
   const collaboratorName = name.trim() || t.defaultName
+
+  const suggestName = () => {
+    const currentIndex = SUGGESTED_NAMES.indexOf(collaboratorName)
+    const nextIndex = (currentIndex + 1) % SUGGESTED_NAMES.length
+    setName(SUGGESTED_NAMES[nextIndex])
+  }
 
   return (
     <motion.div
@@ -76,12 +84,8 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <p className="mt-2 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.subtitle}</p>
       </div>
 
-      {/* Organisation — the root */}
+      {/* Domain — the root of the organization */}
       <div className="mb-2">
-        <div className="mb-2 flex items-center gap-2">
-          <Globe className="h-4 w-4 text-[#D10E63]" />
-          <span className="text-xs font-bold uppercase tracking-wide text-[#1C1A17]">{t.orgSection}</span>
-        </div>
         <label className="mb-1.5 block text-xs font-semibold text-[#6B6560]">{t.domainLabel}</label>
         <input
           type="text"
@@ -113,9 +117,16 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t.namePlaceholder}
-                className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-sm text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+                className="w-full rounded-lg border border-[#DDD5CA] bg-white py-3 pl-4 pr-28 text-sm text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
               />
-              <Sparkles className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#D10E63]/40" />
+              <button
+                type="button"
+                onClick={suggestName}
+                className="absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-md px-2 py-1.5 text-xs font-semibold text-[#D10E63] transition-colors hover:bg-[#D10E63]/10"
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                {t.suggestName}
+              </button>
             </div>
             <p className="mt-1.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
               <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
@@ -154,7 +165,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
       {/* CTA Button — personalized with the collaborator's name */}
       <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] py-3 text-center font-semibold text-white transition-colors hover:bg-[#B00B52]">
-        {t.ctaButton} {collaboratorName}
+        {t.ctaButton} {collaboratorName} {t.ctaSuffix}
         <span aria-hidden="true">›</span>
       </button>
       <p className="mb-4 mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration}</p>
