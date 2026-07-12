@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, Sparkles, Check, Loader2, ShieldCheck, ArrowRightLeft, Server } from 'lucide-react'
+import { Link, Sparkles, Check, Loader2, ArrowRightLeft, Server } from 'lucide-react'
 
 const T = {
   fr: {
@@ -50,7 +50,6 @@ const T = {
     ],
     ctaButton: 'Déployez',
     ctaDuration: (fem: boolean) => `Prêt${fem ? 'e' : ''} à travailler en 2 min • 7 jours gratuits • Sans carte bancaire`,
-    hosting: 'Sans engagement',
     defaultName: 'Emma',
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
@@ -99,7 +98,6 @@ const T = {
     ],
     ctaButton: 'Deploy',
     ctaDuration: (_fem: boolean) => 'Ready to work in 2 min • 7 days free • No credit card',
-    hosting: 'No commitment',
     defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
   },
@@ -385,10 +383,6 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <span aria-hidden="true">›</span>
       </button>
             <p className="mt-2 text-center text-xs text-[#8A8175]">{t.ctaDuration(collaboratorIsFeminine)}</p>
-      <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-[#A79F90]">
-        <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.25} />
-        {t.hosting}
-      </p>
         </>
       ) : (
         <>
@@ -471,10 +465,6 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             <span aria-hidden="true">›</span>
           </button>
           <p className="mt-2 text-center text-xs text-[#8A8175]">{t.migrateReassurance}</p>
-          <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-[#A79F90]">
-            <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.25} />
-            {t.hosting}
-          </p>
         </>
       )}
     </motion.div>
