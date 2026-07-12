@@ -2,7 +2,28 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, Sparkles, Check, Loader2, ArrowRightLeft, Server } from 'lucide-react'
+import { Link, Sparkles, Check, Loader2, ArrowRightLeft, Server, Info } from 'lucide-react'
+
+// Small accessible "i" tooltip shown next to a field label.
+function FieldInfo({ text }: { text: string }) {
+  return (
+    <span className="group relative inline-flex">
+      <button
+        type="button"
+        aria-label={text}
+        className="inline-flex items-center justify-center rounded-full text-[#B8B0A2] transition-colors hover:text-[#D10E63] focus:text-[#D10E63] focus:outline-none"
+      >
+        <Info className="h-3.5 w-3.5" />
+      </button>
+      <span
+        role="tooltip"
+        className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-1.5 w-52 -translate-x-1/2 rounded-lg bg-[#1C1A17] px-3 py-2 text-xs font-normal leading-relaxed text-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100"
+      >
+        {text}
+      </span>
+    </span>
+  )
+}
 
 const T = {
   fr: {
@@ -251,6 +272,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
           <Link className="h-4 w-4 text-[#D10E63]" />
           {t.domainLabel}
+          <FieldInfo text={t.domainHint} />
         </label>
         <input
           type="text"
@@ -260,18 +282,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-base font-medium text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
         />
         <AnimatePresence mode="wait">
-          {analysisStep === 0 ? (
-            <motion.p
-              key="hint"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-[#8A8175] text-pretty"
-            >
-              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
-              {t.domainHint}
-            </motion.p>
-          ) : (
+          {analysisStep !== 0 && (
             <motion.div
               key="analysis"
               initial={{ opacity: 0, height: 0 }}
@@ -323,8 +334,9 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <div className="grid gap-3 sm:grid-cols-2">
           {/* Name */}
           <div className="min-w-0 flex-1">
-            <label className="mb-1.5 block text-xs font-semibold text-[#6B6560]">
+            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[#6B6560]">
               {t.nameLabel}
+              <FieldInfo text={t.nameHint} />
             </label>
             <div className="relative">
               <input
@@ -343,15 +355,14 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 {t.suggestName}
               </button>
             </div>
-            <p className="mt-1.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
-              <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
-              {t.nameHint}
-            </p>
           </div>
 
           {/* Role */}
           <div>
-            <label className="mb-1.5 block text-xs font-semibold text-[#6B6560]">{t.roleLabel}</label>
+            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[#6B6560]">
+              {t.roleLabel}
+              <FieldInfo text={t.roleHint} />
+            </label>
             <select
               value={roleIndex}
               onChange={(e) => setRoleIndex(Number(e.target.value))}
@@ -369,10 +380,6 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 </option>
               ))}
             </select>
-            <p className="mt-1.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
-              <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
-              {t.roleHint}
-            </p>
           </div>
         </div>
       </div>
