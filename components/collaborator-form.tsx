@@ -49,12 +49,11 @@ const T = {
       services: '4 services détectés',
       ready: (n: string, fem: boolean) => `${n} est prêt${fem ? 'e' : ''} à travailler`,
     },
-    nameLabel: 'Nom de votre collaborateur',
+    formSubtitle: 'Votre premier collaborateur IA',
+    nameLabel: 'Prénom',
     namePlaceholder: 'Emma',
     nameHint: 'Vous pourrez le modifier plus tard.',
     suggestName: 'Suggérer un nom',
-    locationChange: '(changer)',
-    locationInfo: "Zone d'hébergement de votre collaborateur IA — vos données restent dans ce pays.",
     roleLabel: 'Rôle',
     roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: [
@@ -99,12 +98,11 @@ const T = {
       services: '4 services detected',
       ready: (n: string, _fem: boolean) => `${n} is ready to work`,
     },
-    nameLabel: "Your collaborator's name",
+    formSubtitle: 'Your first AI collaborator',
+    nameLabel: 'First name',
     namePlaceholder: 'Emma',
     nameHint: 'You can change it later.',
     suggestName: 'Suggest a name',
-    locationChange: '(change)',
-    locationInfo: 'Hosting zone for your AI collaborator — your data stays in this country.',
     roleLabel: 'Role',
     roleHint: 'Skills will be generated automatically.',
     roleOptions: [
@@ -145,26 +143,6 @@ const AVATAR_BY_NAME: Record<string, string> = {
 }
 const DEFAULT_AVATAR = '/assistant-avatar.png'
 
-// Hosting zone for the collaborator — a single concept reused down the funnel (Hermes Cloud "workplace").
-const COUNTRIES = [
-  { code: 'FR', fr: 'France', en: 'France' },
-  { code: 'DE', fr: 'Allemagne', en: 'Germany' },
-  { code: 'CH', fr: 'Suisse', en: 'Switzerland' },
-] as const
-
-// Real flag images (identical rendering across OSes, unlike emoji flags on Windows).
-function flagUrl(code: string) {
-  return `https://flagcdn.com/${code.toLowerCase()}.svg`
-}
-
-// Auto-detect the hosting zone from the domain TLD, defaulting to France.
-function detectCountry(domain: string): string {
-  const d = domain.trim().toLowerCase()
-  if (/\.de$/.test(d)) return 'DE'
-  if (/\.ch$/.test(d)) return 'CH'
-  return 'FR'
-}
-
 // Grammatical gender of suggested names, used for French agreement ("prêt/prête").
 const FEMININE_NAMES = new Set(['Emma', 'Léa', 'Nina', 'Maya'])
 const MASCULINE_NAMES = new Set(['Alex', 'Noé'])
@@ -186,11 +164,6 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   // Simulated domain analysis: 0 = idle, 1 = scanning, 2..4 = revealed lines
   const [analysisStep, setAnalysisStep] = useState(0)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
-  // Hosting zone: auto-detected from the domain TLD until the user picks one manually.
-  const [country, setCountry] = useState('FR')
-  const [countryTouched, setCountryTouched] = useState(false)
-  const [locationOpen, setLocationOpen] = useState(false)
-  const selectedCountry = COUNTRIES.find((c) => c.code === country) ?? COUNTRIES[0]
 
   const collaboratorName = name.trim() || t.defaultName
   const collaboratorAvatar = AVATAR_BY_NAME[collaboratorName] || DEFAULT_AVATAR
@@ -224,12 +197,6 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
     // Re-run whenever the validity of the typed domain changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [domainIsValid])
-
-  // Auto-detect hosting zone from the domain TLD, unless the user has chosen one.
-  useEffect(() => {
-    if (countryTouched) return
-    setCountry(detectCountry(domain))
-  }, [domain, countryTouched])
 
   // Ensure platform defaults to the first option (Hermes) on mount.
   useEffect(() => {
@@ -304,72 +271,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
             {t.formTitlePrefix} {collaboratorName}
           </h3>
-          {/* Hosting zone — secondary info, must not compete with the name */}
-          <div className="group mt-0.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
-            <span className="flex items-center gap-1.5">
-              <img
-                src={flagUrl(selectedCountry.code) || "/placeholder.svg"}
-                alt=""
-                aria-hidden="true"
-                className="h-3 w-[18px] shrink-0 rounded-[2px] object-cover ring-1 ring-black/5"
-              />
-              <span className="font-medium">{selectedCountry[lang]}</span>
-            </span>
-            <FieldInfo text={t.locationInfo} />
-            <span className="relative">
-              <button
-                type="button"
-                onClick={() => setLocationOpen((v) => !v)}
-                className="font-medium text-[#D10E63] opacity-0 transition-opacity duration-150 hover:text-[#A50B4E] focus:opacity-100 focus:outline-none focus:underline group-hover:opacity-100 aria-expanded:opacity-100"
-                aria-haspopup="listbox"
-                aria-expanded={locationOpen}
-              >
-                {t.locationChange}
-              </button>
-              {locationOpen && (
-                <>
-                  <span
-                    className="fixed inset-0 z-10"
-                    aria-hidden="true"
-                    onClick={() => setLocationOpen(false)}
-                  />
-                  <ul
-                    role="listbox"
-                    className="absolute left-0 top-full z-20 mt-1.5 w-44 overflow-hidden rounded-lg border border-[#DDD5CA] bg-white py-1 shadow-lg"
-                  >
-                    {COUNTRIES.map((c) => (
-                      <li key={c.code}>
-                        <button
-                          type="button"
-                          role="option"
-                          aria-selected={c.code === country}
-                          onClick={() => {
-                            setCountry(c.code)
-                            setCountryTouched(true)
-                            setLocationOpen(false)
-                          }}
-                          className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors hover:bg-[#F5F1E8] ${
-                            c.code === country ? 'font-semibold text-[#1C1A17]' : 'text-[#4A453F]'
-                          }`}
-                        >
-                          <img
-                            src={flagUrl(c.code) || "/placeholder.svg"}
-                            alt=""
-                            aria-hidden="true"
-                            className="h-3.5 w-[21px] shrink-0 rounded-[2px] object-cover ring-1 ring-black/5"
-                          />
-                          {c[lang]}
-                          {c.code === country && (
-                            <Check className="ml-auto h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
-                          )}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </span>
-          </div>
+          <p className="mt-0.5 text-xs font-medium text-[#8A8175]">{t.formSubtitle}</p>
         </div>
       </div>
 
