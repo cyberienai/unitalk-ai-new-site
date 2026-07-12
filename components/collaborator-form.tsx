@@ -36,7 +36,7 @@ const T = {
     roleLabel: 'Rôle',
     roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
-    ctaButton: 'Déployer',
+    ctaButton: 'Déployez',
     ctaDuration: '7 jours gratuits • Aucune carte bancaire',
     hosting: 'Hébergé en France (RGPD)',
     defaultName: 'Emma',
