@@ -316,7 +316,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         }}
       />
 
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1.2fr_1.1fr] lg:items-start lg:gap-16 lg:px-8 lg:before:absolute lg:before:inset-y-0 lg:before:left-1/2 lg:before:w-32 lg:before:bg-gradient-to-r lg:before:from-transparent lg:before:via-[#F3EFE6]/10 lg:before:to-transparent lg:before:pointer-events-none">
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_460px] lg:items-center lg:gap-20 lg:px-8">
         {/* Left column — copy */}
         <div className="flex min-w-0 flex-col justify-center">
           <motion.h1
@@ -370,9 +370,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         </div>
 
-        {/* Right column — Alex dark glass card, dipped lower to hook into the next section.
-            Offset lives on this wrapper because framer-motion sets an inline transform on the card. */}
-        <div className="relative z-10 flex min-w-0 justify-center mt-4 sm:mt-8 lg:mt-16 lg:justify-end lg:self-start">
+        {/* Right column — collaborator creation form, vertically centered against the copy */}
+        <div className="relative z-10 flex min-w-0 justify-center lg:justify-end">
           <CollaboratorForm lang={lang} />
         </div>
       </div>
