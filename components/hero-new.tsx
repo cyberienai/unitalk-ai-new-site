@@ -32,7 +32,7 @@ const T = {
     ],
     profileCount: 'Un collaborateur. Une identité. Une mémoire.',
     soloTeam: '10 profils inclus. Une infinité de compétences.',
-    trust: ['Sans engagement', 'Support en français', 'Vos données vous appartiennent'],
+    trust: ['Hébergé en France', 'Support en français', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -171,7 +171,7 @@ const T = {
     ],
     profileCount: 'One collaborator. One identity. One memory.',
     soloTeam: '10 profiles included. Infinite skills.',
-    trust: ['No commitment', 'Human support', 'Your data stays yours'],
+    trust: ['Hosted in France', 'Human support', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,

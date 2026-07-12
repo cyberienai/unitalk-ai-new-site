@@ -57,7 +57,7 @@ const T = {
     roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: [
       { f: 'Assistante Exécutive', m: 'Assistant Exécutif' },
-      { f: 'Agente Commerciale', m: 'Agent Commercial' },
+      { f: 'Assistante commerciale', m: 'Assistant commercial' },
       { f: 'Chargée de Support Client', m: 'Chargé de Support Client' },
       { f: 'Gestionnaire de Projets', m: 'Gestionnaire de Projets' },
       { f: 'Chargée Marketing', m: 'Chargé Marketing' },
@@ -105,7 +105,7 @@ const T = {
     roleHint: 'Skills will be generated automatically.',
     roleOptions: [
       { f: 'Executive Assistant', m: 'Executive Assistant' },
-      { f: 'Sales Agent', m: 'Sales Agent' },
+      { f: 'Sales Assistant', m: 'Sales Assistant' },
       { f: 'Customer Support', m: 'Customer Support' },
       { f: 'Project Manager', m: 'Project Manager' },
       { f: 'Marketing Specialist', m: 'Marketing Specialist' },
@@ -330,7 +330,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
       {/* First collaborator */}
       <div className="mb-5 mt-4">
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3">
           {/* Name */}
           <div className="min-w-0 flex-1">
             <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[#6B6560]">
@@ -365,7 +365,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
             <select
               value={roleIndex}
               onChange={(e) => setRoleIndex(Number(e.target.value))}
-              className="w-full appearance-none truncate rounded-lg border border-[#DDD5CA] bg-white pl-4 pr-8 py-3 text-sm text-[#1C1A17] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
+              className="w-full cursor-pointer appearance-none truncate rounded-lg border border-[#DDD5CA] bg-white pl-4 pr-10 py-3 text-sm font-medium text-[#1C1A17] transition-colors hover:border-[#C9BFB0] focus:border-[#D10E63] focus:outline-none focus:ring-2 focus:ring-[#D10E63]/20"
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B6560' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
