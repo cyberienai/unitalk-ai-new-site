@@ -21,17 +21,17 @@ const T = {
     headline: 'Votre entreprise',
     headlineAccent: ' a ses propres Collaborateurs IA.',
     subheadline:
-      "Ils répondent à vos clients, exécutent vos processus et apprennent chaque jour aux côtés de vos équipes.",
+      "Ils répondent à vos clients, exécutent vos processus et apprennent chaque jour aux côtés de vos équipes. Démarrez seul, ajoutez votre équipe plus tard.",
     summary:
       "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
-    featuresText: '1 collaborateur · 10 profils · Démarrez seul, ajoutez votre équipe plus tard',
+    featuresText: '1 collaborateur · 10 profils',
     signature: "L'IA qui travaille avec votre organisation.",
     ctaPrimary: 'Obtenir mon collaborateur',
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
     almaIntro: 'Alma, votre guide vocale, crée votre collaborateur en 2 minutes.',
-    soloTeam: '1 collaborateur · 10 profils · Démarrez seul, ajoutez votre équipe plus tard.',
+    soloTeam: '1 collaborateur · 10 profils',
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -159,17 +159,17 @@ const T = {
     headline: 'Your company',
     headlineAccent: ' has its own AI Collaborators.',
     subheadline:
-      'They answer your customers, run your processes and learn every day alongside your teams.',
+      'They answer your customers, run your processes and learn every day alongside your teams. Start solo, add your team later.',
     summary:
       'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
-    featuresText: '1 collaborator · 10 profiles · Start solo, add your team later',
+    featuresText: '1 collaborator · 10 profiles',
     signature: 'The AI that works with your organization.',
     ctaPrimary: 'Get my collaborator',
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
     almaIntro: 'Alma, your voice guide, builds your collaborator in 2 minutes.',
-    soloTeam: '1 collaborator · 10 profiles · Start solo, add your team later.',
+    soloTeam: '1 collaborator · 10 profiles',
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
