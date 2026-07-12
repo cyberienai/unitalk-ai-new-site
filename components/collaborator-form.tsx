@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Globe, Bot, Sparkles } from 'lucide-react'
+import { Globe, Bot, Sparkles, Check } from 'lucide-react'
 
 const T = {
   fr: {
@@ -12,11 +12,13 @@ const T = {
     orgSection: 'Votre organisation',
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.fr',
-    domainHint: "Le domaine identifie votre organisation et sert de racine à toutes les identités.",
+    domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
     collabSection: 'Premier collaborateur',
     nameLabel: 'Nom',
     namePlaceholder: 'Emma',
+    nameHint: 'Vous pourrez le modifier plus tard.',
     roleLabel: 'Rôle',
+    roleHint: 'Les compétences seront générées automatiquement.',
     roleOptions: ['Assistante Exécutive', 'Gestionnaire de Projets', 'Agent Commercial', 'Support Client'],
     hostedLabel: 'Hébergé sur Unitalk Cloud',
     recommended: 'Recommandé',
@@ -32,11 +34,13 @@ const T = {
     orgSection: 'Your organization',
     domainLabel: 'Domain name',
     domainPlaceholder: 'mycompany.com',
-    domainHint: 'The domain identifies your organization and serves as the root for all identities.',
+    domainHint: 'We automatically analyze your website to build the shared context for your organization.',
     collabSection: 'First collaborator',
     nameLabel: 'Name',
     namePlaceholder: 'Emma',
+    nameHint: 'You can change it later.',
     roleLabel: 'Role',
+    roleHint: 'Skills will be generated automatically.',
     roleOptions: ['Executive Assistant', 'Project Manager', 'Sales Agent', 'Customer Support'],
     hostedLabel: 'Hosted on Unitalk Cloud',
     recommended: 'Recommended',
@@ -86,7 +90,10 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
           placeholder={t.domainPlaceholder}
           className="w-full rounded-lg border border-[#DDD5CA] bg-white px-4 py-3 text-base font-medium text-[#1C1A17] placeholder-[#B8B0A2] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63]/30"
         />
-        <p className="mt-2 text-xs leading-relaxed text-[#8A8175] text-pretty">{t.domainHint}</p>
+        <p className="mt-2 flex items-start gap-1.5 text-xs leading-relaxed text-[#8A8175] text-pretty">
+          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+          {t.domainHint}
+        </p>
       </div>
 
       {/* First collaborator */}
@@ -110,6 +117,10 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
               />
               <Sparkles className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#D10E63]/40" />
             </div>
+            <p className="mt-1.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
+              <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+              {t.nameHint}
+            </p>
           </div>
 
           {/* Role */}
@@ -126,6 +137,10 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 </option>
               ))}
             </select>
+            <p className="mt-1.5 flex items-center gap-1.5 text-xs text-[#8A8175]">
+              <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={2.5} />
+              {t.roleHint}
+            </p>
           </div>
         </div>
       </div>
