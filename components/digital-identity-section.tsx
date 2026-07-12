@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Globe,
   Sparkles,
+  MonitorSmartphone,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -44,6 +45,11 @@ const T = {
         title: 'Meilleurs modèles IA',
         desc: 'ChatGPT, Claude et Gemini via Unitalk AI Gateway.',
       },
+      {
+        icon: MonitorSmartphone,
+        title: 'Accessible de partout',
+        desc: 'Apps de messagerie, desktop, CLI ou interface web collaborative Unitalk.',
+      },
     ] as Attribute[],
   },
   en: {
@@ -65,6 +71,11 @@ const T = {
         icon: Sparkles,
         title: 'Best AI models',
         desc: 'ChatGPT, Claude and Gemini via Unitalk AI Gateway.',
+      },
+      {
+        icon: MonitorSmartphone,
+        title: 'Accessible everywhere',
+        desc: 'Messaging apps, desktop, CLI or the Unitalk collaborative web interface.',
       },
     ] as Attribute[],
   },
