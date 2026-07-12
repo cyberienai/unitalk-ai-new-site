@@ -342,7 +342,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.h1>
 
           <motion.p
-            className="max-w-xl border-l-2 border-[#D10E63] pl-5 text-lg leading-relaxed text-[#4E483F] sm:text-xl"
+            className="font-sans max-w-xl border-l-2 border-[#D10E63] pl-5 text-base leading-relaxed text-[#4E483F] sm:text-lg"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.14 }}
