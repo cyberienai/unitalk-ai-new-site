@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, Sparkles, Check, Loader2, ArrowRightLeft, Server, Info } from 'lucide-react'
+import { Sparkles, Check, Loader2, ArrowRightLeft, Server, Info } from 'lucide-react'
 
 // Small accessible "i" tooltip shown next to a field label.
 function FieldInfo({ text }: { text: string }) {
@@ -269,8 +269,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
       {/* Domain — the root of the organization */}
       <div>
-        <label className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-[#6B6560]">
-          <Link className="h-4 w-4 text-[#D10E63]" />
+        <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-[#6B6560]">
           {t.domainLabel}
           <FieldInfo text={t.domainHint} />
         </label>
