@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Calendar, Database, Zap, Users } from 'lucide-react'
+import { Mail, Phone, Calendar, Database, Zap } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import CollaboratorForm from './collaborator-form'
 
@@ -357,10 +357,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.6, ease, delay: 0.28 }}
         >
           <div className="inline-flex flex-col items-start gap-2 rounded-xl border border-[#D7CFC1] bg-[#F4EEE2] px-4 py-3">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#1C1A17]">
-              <Users className="h-3 w-3 text-[#D10E63]" />
+            <p className="text-xs font-semibold text-[#1C1A17]">
               {t.profileCount}
-            </span>
+            </p>
             <p className="text-xs leading-relaxed text-[#1C1A17]">
               {t.soloTeam}
             </p>
