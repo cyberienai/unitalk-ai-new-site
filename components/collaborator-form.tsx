@@ -27,7 +27,7 @@ function FieldInfo({ text }: { text: string }) {
 
 const T = {
   fr: {
-    tabDeploy: 'Déployer',
+    tabCreate: 'Créer',
     tabMigrate: 'Migrer',
     formTitlePrefix: '',
     migrateTitle: 'Migrez vers un Collaborateur IA Unitalk',
@@ -69,13 +69,13 @@ const T = {
       { f: 'Rédactrice de Contenu', m: 'Rédacteur de Contenu' },
       { f: 'Chargée Juridique', m: 'Chargé Juridique' },
     ],
-    ctaButton: 'Déployez',
+    ctaButton: 'Créez',
     ctaDuration: (fem: boolean) => `Prêt${fem ? 'e' : ''} à travailler en 2 min • 7 jours gratuits • Sans carte bancaire`,
     defaultName: 'Emma',
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
   en: {
-    tabDeploy: 'Deploy',
+    tabCreate: 'Create',
     tabMigrate: 'Migrate',
     formTitlePrefix: '',
     migrateTitle: 'Migrate to a Unitalk AI Collaborator',
@@ -117,7 +117,7 @@ const T = {
       { f: 'Content Writer', m: 'Content Writer' },
       { f: 'Legal Assistant', m: 'Legal Assistant' },
     ],
-    ctaButton: 'Deploy',
+    ctaButton: 'Create',
     ctaDuration: (_fem: boolean) => 'Ready to work in 2 min • 7 days free • No credit card',
     defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
@@ -234,7 +234,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
               />
             )}
-            <span className="relative z-10">{m === 'create' ? t.tabDeploy : t.tabMigrate}</span>
+            <span className="relative z-10">{m === 'create' ? t.tabCreate : t.tabMigrate}</span>
           </button>
         ))}
       </div>
