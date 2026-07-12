@@ -27,7 +27,7 @@ function FieldInfo({ text }: { text: string }) {
 
 const T = {
   fr: {
-    tabCreate: 'Créer',
+    tabCreate: 'Déployer',
     tabMigrate: 'Migrer',
     formTitlePrefix: '',
     migrateTitle: 'Migrez vers un Collaborateur IA Unitalk',
@@ -69,13 +69,13 @@ const T = {
       { f: 'Rédactrice de Contenu', m: 'Rédacteur de Contenu' },
       { f: 'Chargée Juridique', m: 'Chargé Juridique' },
     ],
-    ctaButton: 'Créez',
+    ctaButton: 'Déployez',
     ctaDuration: (fem: boolean) => `Prêt${fem ? 'e' : ''} à travailler en 2 min • 7 jours gratuits • Sans carte bancaire`,
     defaultName: 'Emma',
     terms: "En cliquant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
   },
   en: {
-    tabCreate: 'Create',
+    tabCreate: 'Deploy',
     tabMigrate: 'Migrate',
     formTitlePrefix: '',
     migrateTitle: 'Migrate to a Unitalk AI Collaborator',
@@ -117,7 +117,7 @@ const T = {
       { f: 'Content Writer', m: 'Content Writer' },
       { f: 'Legal Assistant', m: 'Legal Assistant' },
     ],
-    ctaButton: 'Create',
+    ctaButton: 'Deploy',
     ctaDuration: (_fem: boolean) => 'Ready to work in 2 min • 7 days free • No credit card',
     defaultName: 'Emma',
     terms: 'By clicking, you accept our Terms of Use and Privacy Policy.',
