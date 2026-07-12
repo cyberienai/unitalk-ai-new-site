@@ -9,7 +9,6 @@ const T = {
     tabCreate: 'Créer',
     tabMigrate: 'Migrer',
     titlePrefix: 'est prête à travailler dans 2 mn.',
-    subtitle: 'Prêt à travailler en moins de 2 minutes.',
     migrateTitle: 'Migrez vers Unitalk',
     migrateSubtitle: 'Transférez vos données depuis votre outil actuel.',
     platformLabel: 'Outil actuel',
@@ -46,7 +45,6 @@ const T = {
     tabCreate: 'Create',
     tabMigrate: 'Migrate',
     titlePrefix: 'is ready to work in 2 minutes.',
-    subtitle: 'Ready to work in less than 2 minutes.',
     migrateTitle: 'Migrate to Unitalk',
     migrateSubtitle: 'Transfer your data from your current tool.',
     platformLabel: 'Current tool',
@@ -179,7 +177,6 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
         <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
           {collaboratorName} {t.titlePrefix}
         </h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.subtitle}</p>
       </div>
 
       {/* Domain — the root of the organization */}
