@@ -87,6 +87,17 @@ interface CollaboratorFormProps {
 
 const SUGGESTED_NAMES = ['Emma', 'Léa', 'Nina', 'Alex', 'Noé', 'Maya']
 
+// Each suggested collaborator gets a real face so deploying feels personal.
+const AVATAR_BY_NAME: Record<string, string> = {
+  Emma: '/assistant-avatar.png',
+  Léa: '/elena-avatar.png',
+  Nina: '/nina-avatar.png',
+  Alex: '/alex-avatar.png',
+  Noé: '/marcus-avatar.png',
+  Maya: '/sofia-avatar.png',
+}
+const DEFAULT_AVATAR = '/assistant-avatar.png'
+
 export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps) {
   const t = T[lang]
   const [mode, setMode] = useState<'create' | 'migrate'>('create')
@@ -100,6 +111,7 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
   const collaboratorName = name.trim() || t.defaultName
+  const collaboratorAvatar = AVATAR_BY_NAME[collaboratorName] || DEFAULT_AVATAR
   const domainIsValid = /\..{2,}/.test(domain.trim())
 
   useEffect(() => {
@@ -174,12 +186,31 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
       {mode === 'create' ? (
         <>
-      {/* Header */}
-      <div className="mb-5">
-        <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
-          {t.formTitlePrefix} {collaboratorName}
-        </h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.formSubtitle}</p>
+      {/* Header — a real face makes deploying feel personal */}
+      <div className="mb-5 flex items-center gap-3.5">
+        <div className="relative shrink-0">
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={collaboratorAvatar}
+              src={collaboratorAvatar || '/placeholder.svg'}
+              alt={`${collaboratorName}, ${role}`}
+              className="h-12 w-12 rounded-full border-2 border-white object-cover shadow-md"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.25 }}
+            />
+          </AnimatePresence>
+          <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full border-2 border-[#F5F1E8] bg-[#2E7D4F]">
+            <span className="sr-only">{lang === 'fr' ? 'En ligne' : 'Online'}</span>
+          </span>
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-lg font-bold leading-snug text-[#1C1A17] text-balance">
+            {t.formTitlePrefix} {collaboratorName}
+          </h3>
+          <p className="mt-0.5 text-sm leading-relaxed text-[#8A8175] text-pretty">{t.formSubtitle}</p>
+        </div>
       </div>
 
       {/* Domain — the root of the organization */}
