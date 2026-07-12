@@ -31,7 +31,7 @@ const T = {
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
     almaIntro: 'Alma, votre guide vocale, crée votre collaborateur en 2 minutes.',
-    soloTeam: 'Démarrez seul, ajoutez votre équipe plus tard.',
+    soloTeam: '1 agent · 10 profils · Démarrez seul, ajoutez votre équipe plus tard.',
     includedNote:
       "Accès aux meilleurs modèles IA, pilotage à la voix, mémoire, email, téléphone et calendrier : aucun outil à brancher, aucune configuration.",
     example: {
@@ -171,7 +171,7 @@ const T = {
       { label: 'Everything included, from the very first collaborator.' },
     ],
     almaIntro: 'Alma, your voice guide, builds your collaborator in 2 minutes.',
-    soloTeam: 'Start solo, add your team later.',
+    soloTeam: '1 agent · 10 profiles · Start solo, add your team later.',
     includedNote:
       'Access to the best AI models, voice control, memory, email, phone and calendar: no tools to plug in, no setup.',
     example: {
