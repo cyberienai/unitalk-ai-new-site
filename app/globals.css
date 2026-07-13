@@ -250,3 +250,27 @@
     background-size: 22px 22px;
   }
 }
+
+/*
+ * Mobile scroll-reveal safety net.
+ * Sections animate in with framer-motion (initial opacity:0 + whileInView).
+ * Inside scaled preview iframes on mobile, the IntersectionObserver can fail to
+ * fire for content below the fold, leaving it stuck at opacity:0 ("le haut
+ * s'affiche puis vide"). This guarantees any element left fully hidden fades in
+ * on its own shortly after load. Scoped to small screens so desktop scroll
+ * animations are untouched. Fractional opacities (mid-animation) are excluded so
+ * elements that framer-motion is actively animating are never disturbed.
+ */
+@media (max-width: 768px) {
+  @keyframes v0-reveal-fallback {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  [style*='translateY('],
+  [style*='translateX('],
+  [style*='scale('] {
+    animation: v0-reveal-fallback 0.4s ease-out 0.9s forwards;
+  }
+}
