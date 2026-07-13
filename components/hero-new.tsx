@@ -32,7 +32,7 @@ const T = {
     ],
     profileCount: 'Vos nouveaux collaborateurs numériques',
     soloTeam: 'pour vendre, gérer, assister et développer votre entreprise 24h/24.',
-    trust: ['Hébergé en France', 'Support en français', 'Vos données vous appartiennent'],
+    trust: ['Hébergé en France', 'Serveur IA privé', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -171,7 +171,7 @@ const T = {
     ],
     profileCount: 'Your new digital collaborators',
     soloTeam: 'to sell, manage, support and grow your business 24/7.',
-    trust: ['Hosted in France', 'Human support', 'Your data stays yours'],
+    trust: ['Hosted in France', 'Private AI server', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
