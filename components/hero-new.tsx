@@ -30,8 +30,8 @@ const T = {
     ctaProofs1: [
       { label: 'Tout est inclus, dès le premier collaborateur.' },
     ],
-    profileCount: 'Une identité. Un rôle.',
-    soloTeam: 'Prêts à travailler.',
+    profileCount: 'Vos nouveaux collaborateurs numériques',
+    soloTeam: 'pour vendre, gérer, assister et développer votre entreprise 24h/24.',
     trust: ['Hébergé en France', 'Support en français', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
@@ -169,8 +169,8 @@ const T = {
     ctaProofs1: [
       { label: 'Everything included, from the very first collaborator.' },
     ],
-    profileCount: 'An identity. A role.',
-    soloTeam: 'Ready to work.',
+    profileCount: 'Your new digital collaborators',
+    soloTeam: 'to sell, manage, support and grow your business 24/7.',
     trust: ['Hosted in France', 'Human support', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
@@ -304,7 +304,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
   return (
     <section className="relative flex w-full flex-col justify-center overflow-x-clip bg-[#F3EFE6] pb-14 pt-24 sm:pb-20 sm:pt-28 lg:min-h-[100svh]">
-      {/* Faint ink rule grid — same editorial backdrop as the solo hero */}
+      {/* Faint ink rule grid ��� same editorial backdrop as the solo hero */}
       <div
         aria-hidden="true"
         className="bg-grid animate-grid pointer-events-none absolute inset-0 opacity-20"
