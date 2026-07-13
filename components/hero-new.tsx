@@ -21,7 +21,7 @@ const T = {
     headline: 'Toute entreprise mérite ses propres',
     headlineAccent: ' Collaborateurs IA.',
     subheadline:
-      "Ils apprennent votre métier, mènent à bien vos projets et accumulent de l'expérience aux côtés de vos équipes.",
+      'Ils répondent aux emails, appellent vos clients, participent à vos réunions et exécutent les opérations de votre entreprise.',
     summary:
       "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
     featuresText: '1 collaborateur · 10 profils inclus',
@@ -160,7 +160,7 @@ const T = {
     headline: 'Every business deserves its own',
     headlineAccent: ' AI Collaborators.',
     subheadline:
-      'They learn your business, deliver your projects and build up experience alongside your teams.',
+      'They answer emails, call your customers, join your meetings and run your company operations.',
     summary:
       'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
     featuresText: '1 collaborator · 10 profiles included',
