@@ -9,7 +9,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 const T = {
   fr: {
     // Alma
-    almaEyebrow: '• Démarrage assisté',
+    almaEyebrow: 'ILS NAISSENT AVEC ALMA',
     almaTitle: 'Alma vous interview et donne vie à ',
     almaTitleAccent: 'vos collaborateurs IA',
     almaText:
@@ -51,7 +51,7 @@ const T = {
     },
   },
   en: {
-    almaEyebrow: '• Guided Setup',
+    almaEyebrow: 'THEY ARE BORN WITH ALMA',
     almaTitle: 'Alma interviews you and brings your ',
     almaTitleAccent: 'AI Collaborator to life',
     almaText: "Alma understands your business, identifies your time-consuming tasks, and recommends essential skills. Your AI Collaborator is ready in 5 minutes.",

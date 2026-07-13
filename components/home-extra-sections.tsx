@@ -148,7 +148,7 @@ export function SovereigntySection() {
       <div className="relative mx-auto max-w-6xl">
         <div className="mb-16 max-w-3xl">
           <SectionHeader
-            eyebrow="Souveraineté"
+            eyebrow="ILS VIVENT CHEZ VOUS"
             title="Vos collaborateurs IA sont à vous. "
             titleAccent="Pour toujours."
             align="left"

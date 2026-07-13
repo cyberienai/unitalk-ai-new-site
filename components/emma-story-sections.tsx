@@ -34,7 +34,7 @@ const T = {
   fr: {
     // Section 2 — Emma works
     works: {
-      eyebrow: 'EMMA TRAVAILLE',
+      eyebrow: 'ILS TRAVAILLENT',
       title: 'Votre premier collaborateur commence à travailler immédiatement.',
       subtitle: 'Pas des fonctionnalités. Une journée de travail réelle.',
       timeline: [
@@ -57,7 +57,7 @@ const T = {
     },
     // Section 3 — Emma learns
     learns: {
-      eyebrow: 'EMMA APPREND',
+      eyebrow: 'ILS APPRENNENT',
       title: 'Emma apprend grâce à Alma.',
       subtitle: "En cinq étapes, votre entreprise devient le contexte d'Emma.",
       steps: [
@@ -70,7 +70,7 @@ const T = {
     },
     // Section 4 — Deploy the team
     team: {
-      eyebrow: 'VOTRE ÉQUIPE',
+      eyebrow: 'ILS SONT UNE ÉQUIPE',
       title: 'Déployez autant de collaborateurs que nécessaire.',
       subtitle: 'Chacun avec son rôle, ses outils et sa mémoire.',
       onlineLabel: 'En ligne',
@@ -85,7 +85,7 @@ const T = {
     },
     // Section 5 — Shared context / directory
     directory: {
-      eyebrow: 'UNE ORGANISATION HYBRIDE',
+      eyebrow: 'ILS COLLABORENT',
       title: 'Tous vos collaborateurs partagent le même contexte.',
       subtitle: 'Humains et agents, dans un même annuaire. Une seule équipe.',
       humanLabel: 'Humain',
@@ -102,7 +102,7 @@ const T = {
   },
   en: {
     works: {
-      eyebrow: 'EMMA WORKS',
+      eyebrow: 'THEY WORK',
       title: 'Your first collaborator starts working immediately.',
       subtitle: 'Not features. A real working day.',
       timeline: [
@@ -124,7 +124,7 @@ const T = {
       ],
     },
     learns: {
-      eyebrow: 'EMMA LEARNS',
+      eyebrow: 'THEY LEARN',
       title: 'Emma learns through Alma.',
       subtitle: "In five steps, your company becomes Emma's context.",
       steps: [
@@ -136,7 +136,7 @@ const T = {
       ],
     },
     team: {
-      eyebrow: 'YOUR TEAM',
+      eyebrow: 'THEY ARE A TEAM',
       title: 'Deploy as many collaborators as you need.',
       subtitle: 'Each with their role, tools and memory.',
       onlineLabel: 'Online',
@@ -150,7 +150,7 @@ const T = {
       ],
     },
     directory: {
-      eyebrow: 'A HYBRID ORGANIZATION',
+      eyebrow: 'THEY COLLABORATE',
       title: 'All your collaborators share the same context.',
       subtitle: 'Humans and agents, in one directory. One single team.',
       humanLabel: 'Human',

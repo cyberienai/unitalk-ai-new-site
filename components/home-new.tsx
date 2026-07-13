@@ -3,7 +3,7 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
-import { DigitalIdentitySection } from './digital-identity-section'
+import { AnatomySection } from './anatomy-section'
 import {
   EmmaWorksSection,
   EmmaLearnsSection,
@@ -11,7 +11,6 @@ import {
   SharedContextSection,
 } from './emma-story-sections'
 import { AlmaOnboardingSection, DispersedIASection, MigrationBanner } from './alma-ia-sections'
-import { CoreProductCards } from './core-product-cards'
 import {
   AIGatewaySection,
   SovereigntySection,
@@ -29,46 +28,41 @@ export function HomeNew() {
       {/* 1. Header / Navigation */}
       <Navbar />
 
-      {/* 2. Hero 2 colonnes + carte Sofia */}
+      {/* 2. Hero — "Ils travaillent" */}
       <HeroNew lang={lang} />
 
-      {/* Story — Chaque collaborateur IA est une identité numérique */}
-      <DigitalIdentitySection lang={lang} />
+      {/* Ils possèdent — anatomie d'un collaborateur (identité / outils / mémoire / intelligence) */}
+      <AnatomySection lang={lang} />
 
-      {/* Story — Emma travaille */}
+      {/* Ils travaillent — une vraie journée de travail */}
       <EmmaWorksSection lang={lang} />
 
-      {/* Story — Emma apprend grâce à Alma */}
-      <EmmaLearnsSection lang={lang} />
-
-      {/* Story — Déployez toute votre équipe */}
+      {/* Ils sont une équipe — déployez autant de collaborateurs que nécessaire */}
       <DeployTeamSection lang={lang} />
 
-      {/* Story — Tous vos collaborateurs partagent le même contexte */}
+      {/* Ils collaborent — humains et agents, un même annuaire */}
       <SharedContextSection lang={lang} />
 
-      {/* 3. The real problem — IA dispersée + Solution Unitalk (MOVED HERE) */}
-      <DispersedIASection lang={lang} />
-
-      {/* 6. Cœur produit — 7 cards */}
-      <CoreProductCards lang={lang} />
-
-      {/* 7. AI Gateway */}
-      <AIGatewaySection />
-
-      {/* Démarrage assisté — Alma onboarding (moved above pricing) */}
+      {/* Ils naissent avec Alma — apprentissage puis onboarding guidé */}
+      <EmmaLearnsSection lang={lang} />
       <AlmaOnboardingSection lang={lang} />
 
-      {/* 8. Offres Solo / Teams / Business */}
+      {/* Ils vivent chez vous — souveraineté / serveur privé */}
+      <SovereigntySection />
+
+      {/* Le contraste — l'IA dispersée, chacun pour soi */}
+      <DispersedIASection lang={lang} />
+
+      {/* AI Gateway */}
+      <AIGatewaySection />
+
+      {/* Offres Solo / Teams / Business */}
       <OffersSection />
 
       {/* Migration banner — reassurance for OpenClaw / Hermes users, right after pricing */}
       <MigrationBanner lang={lang} />
 
-      {/* 9. Souveraineté / réversibilité */}
-      <SovereigntySection />
-
-      {/* 10. FAQ courte */}
+      {/* FAQ courte */}
       <HomeFaq />
 
       {/* 11. CTA final */}
