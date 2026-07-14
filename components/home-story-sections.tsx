@@ -25,9 +25,9 @@ import {
 
 const content = {
   fr: {
-    breakTitle: "Les IA sont aujourd'hui des outils individuels.",
-    breakAccent: "Unitalk les transforme en membres de votre organisation.",
-    breakBody: "Elles vivent dans des chats, des comptes personnels et des automatisations isolées. Unitalk leur donne une place durable dans votre entreprise.",
+    breakTitle: "Les IA ne travaillent plus à côté de votre entreprise.",
+    breakAccent: 'Elles travaillent dedans.',
+    breakBody: "Chaque Collaborateur IA possède une identité, une mémoire et un rôle. Il collabore avec vos équipes, exécute des tâches, partage ses connaissances et gagne progressivement en autonomie.",
     moreEyebrow: 'TOUT CE QUI FAIT UN COLLABORATEUR',
     moreTitle: "Bien plus qu'un agent IA.",
     moreBody: "Un Collaborateur IA possède une identité, une mémoire, des outils et un rôle. Il apprend votre métier et travaille durablement avec vos équipes.",
@@ -52,9 +52,9 @@ const content = {
     finalCta: 'Créer mon premier Collaborateur IA',
   },
   en: {
-    breakTitle: 'AI is still built as individual tools.',
-    breakAccent: 'Unitalk turns it into members of your organization.',
-    breakBody: 'AI lives in chats, personal accounts and isolated automations. Unitalk gives it a lasting place in your company.',
+    breakTitle: 'AI no longer works beside your company.',
+    breakAccent: 'It works inside it.',
+    breakBody: 'Every AI Collaborator has an identity, a memory and a role. They collaborate with your teams, execute tasks, share knowledge and progressively gain autonomy.',
     moreEyebrow: 'EVERYTHING THAT MAKES A COLLABORATOR',
     moreTitle: 'Much more than an AI agent.',
     moreBody: 'An AI Collaborator has an identity, a memory, tools and a role. It learns your business and works alongside your teams over time.',
@@ -161,7 +161,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <section className="bg-[#F3EFE6] px-5 py-24 md:py-32"><Reveal className="mx-auto max-w-6xl text-center"><p className="text-xs font-bold tracking-[0.22em] text-[#D10E63]">{t.hermesEyebrow}</p><h2 className="mx-auto mt-5 max-w-4xl text-balance font-serif text-4xl font-semibold tracking-tight md:text-6xl">{t.hermesTitle}</h2><p className="mx-auto mt-6 max-w-2xl text-pretty leading-relaxed text-[#6B6560] md:text-lg">{t.hermesBody}</p><div className="mx-auto mt-14 flex max-w-3xl flex-col items-stretch gap-3 sm:flex-row sm:items-center"><div className="flex-1 rounded-2xl bg-[#1C1A17] p-6 font-bold text-[#FBF9F3]">Hermes</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl bg-[#D10E63] p-6 font-bold text-[#FBF9F3]">Unitalk</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 font-bold">{t.company}</div></div></Reveal></section>
 
-      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl"><UsersRound className="mx-auto h-10 w-10" /><h2 className="mt-6 text-balance font-serif text-4xl font-semibold md:text-6xl">{t.finalTitle}</h2><a href="#hero-form" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">{t.finalCta}<ArrowRight className="h-4 w-4" /></a></Reveal></section>
+      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl"><UsersRound className="mx-auto h-10 w-10" /><h2 className="mt-6 text-balance font-serif text-4xl font-semibold md:text-6xl">{t.finalTitle}</h2><a href="/signup" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">{t.finalCta}<ArrowRight className="h-4 w-4" /></a></Reveal></section>
     </>
   )
 }

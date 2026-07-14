@@ -1,27 +1,20 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, Calendar, Database, Zap, Check } from 'lucide-react'
-import { useLanguage } from '@/lib/language-context'
-import CollaboratorForm from './collaborator-form'
-
-function getInitials(name: string) {
-  return name
-    .split(' ')
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-}
 
 const T = {
   fr: {
-    eyebrow: "L'IA rejoint votre organigramme.",
+    eyebrow: 'Une nouvelle catégorie de collaborateurs.',
     headline: 'Donnez à chaque employé son',
     headlineAccent: ' Collaborateur IA.',
     subheadline:
       'Une identité. Une mémoire. Des compétences. Vous le briefez. Il travaille.',
+    heroCta: 'Créer mon premier Collaborateur IA',
+    heroProofs: ['Aucune configuration', 'Prêt en 60 secondes', 'Serveur IA privé'],
+    orgTitle: 'Votre organisation',
+    employeeLabel: 'Employé',
+    collaboratorLabel: 'Collaborateur IA',
     summary:
       "Chaque collaborateur IA possède sa propre identité, sa mémoire, ses outils et travaille aux côtés de vos équipes.",
     featuresText: '1 collaborateur · 10 profils inclus',
@@ -156,11 +149,16 @@ const T = {
     ],
   },
   en: {
-    eyebrow: 'AI joins your org chart.',
+    eyebrow: 'A new category of collaborators.',
     headline: 'Give every employee their own',
     headlineAccent: ' AI Collaborator.',
     subheadline:
       'An identity. A memory. Skills. You brief them. They work.',
+    heroCta: 'Create my first AI Collaborator',
+    heroProofs: ['No setup', 'Ready in 60 seconds', 'Private AI server'],
+    orgTitle: 'Your organization',
+    employeeLabel: 'Employee',
+    collaboratorLabel: 'AI Collaborator',
     summary:
       'Each AI collaborator has its own identity, memory and tools, and works alongside your teams.',
     featuresText: '1 collaborator · 10 profiles included',
@@ -302,107 +300,122 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
 
 
+  const orgPairs = [
+    { employee: 'Camille', role: lang === 'fr' ? 'Ventes' : 'Sales', human: '/nina-avatar.png', collaborator: '/alex-avatar.png', ai: 'Alex' },
+    { employee: 'Thomas', role: lang === 'fr' ? 'Support' : 'Support', human: '/thomas-avatar.png', collaborator: '/sophia-avatar.png', ai: 'Sophia' },
+    { employee: 'Léa', role: lang === 'fr' ? 'Opérations' : 'Operations', human: '/elena-avatar.png', collaborator: '/marcus-avatar.png', ai: 'Marcus' },
+  ]
+
   return (
-    <section className="relative flex w-full flex-col justify-center overflow-x-clip bg-[#F3EFE6] pb-14 pt-24 sm:pb-20 sm:pt-28 lg:min-h-[100svh]">
-      {/* Faint ink rule grid ��� same editorial backdrop as the solo hero */}
-      <div
-        aria-hidden="true"
-        className="bg-grid animate-grid pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          maskImage: 'radial-gradient(100% 70% at 50% 0%, #000 10%, transparent 65%)',
-          WebkitMaskImage: 'radial-gradient(100% 70% at 50% 0%, #000 10%, transparent 65%)',
-        }}
-      />
+    <section className="relative flex min-h-[100svh] w-full items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-24 sm:pb-20 sm:pt-28">
+      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-20" />
 
-      {/* Dynamic warm aurora — very subtle, keeps the paper feel alive */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="animate-aurora absolute -left-24 top-8 h-[26rem] w-[26rem] rounded-full bg-[#D10E63]/8 blur-3xl" />
-        <div className="animate-orb absolute right-[-6rem] top-1/3 h-80 w-80 rounded-full bg-[#E0A96D]/12 blur-3xl" />
-      </div>
-
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 sm:px-6 lg:grid-cols-[1fr_460px] lg:items-center lg:gap-20 lg:px-8">
-        {/* Left column — editorial value proposition */}
-        <div className="flex min-w-0 max-w-2xl flex-col justify-center">
-        <motion.p
-          className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-[#D7CFC1] bg-[#F4EEE2] px-3.5 py-1.5 font-sans text-xs font-semibold leading-tight text-[#4E483F]"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease, delay: 0.05 }}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" aria-hidden="true" />
-          {t.eyebrow}
-        </motion.p>
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-5 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20 lg:px-8">
+        <div className="flex min-w-0 max-w-2xl flex-col items-start">
+          <motion.p
+            className="mb-6 font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#D10E63]"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease, delay: 0.05 }}
+          >
+            {t.eyebrow}
+          </motion.p>
 
           <motion.h1
-            className="font-sf mb-6 max-w-2xl font-bold text-[#1C1A17] text-balance"
-            style={{ fontSize: 'clamp(2.5rem, 4.3vw, 4rem)', lineHeight: 1.02, letterSpacing: '-0.045em' }}
+            className="font-sf max-w-3xl text-balance font-bold text-[#1C1A17]"
+            style={{ fontSize: 'clamp(2.75rem, 5vw, 4.75rem)', lineHeight: 0.98, letterSpacing: '-0.05em' }}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.06 }}
+            transition={{ duration: 0.6, ease, delay: 0.08 }}
           >
             {t.headline}
-            <span className="inline text-[#D10E63]">{t.headlineAccent}</span>
+            <span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
 
           <motion.p
-            className="font-sans max-w-xl border-l-2 border-[#D10E63] pl-5 text-base leading-relaxed text-[#1C1A17] sm:text-lg"
+            className="mt-7 max-w-xl text-pretty font-sans text-lg leading-relaxed text-[#4E483F] sm:text-xl"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.14 }}
+            transition={{ duration: 0.55, ease, delay: 0.16 }}
           >
             {t.subheadline}
           </motion.p>
 
-        <motion.div
-          className="mt-9 flex max-w-xl flex-col gap-4"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease, delay: 0.28 }}
-        >
-          {/* Team preview — overlapping avatars double as social proof and product peek */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            <div className="flex shrink-0 -space-x-3">
-              {t.collaborators.slice(0, 6).map((c) => (
-                <img
-                  key={c.id}
-                  src={c.avatar || '/placeholder.svg'}
-                  alt={`${c.name}, ${c.role}`}
-                  className="h-10 w-10 rounded-full border-2 border-[#F3EFE6] object-cover shadow-sm"
-                />
+          <motion.div
+            className="mt-9 flex flex-col items-start gap-5"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease, delay: 0.24 }}
+          >
+            <a
+              href="/signup"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 py-3 text-center text-sm font-bold text-[#FBF9F3] shadow-[0_12px_30px_rgba(209,14,99,0.2)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            >
+              {t.heroCta}
+            </a>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-[#6B6560]">
+              {t.heroProofs.map((proof) => (
+                <span key={proof} className="flex items-center gap-1.5">
+                  <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+                  {proof}
+                </span>
               ))}
             </div>
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-[#1C1A17]">{t.profileCount}</p>
-              <p className="text-xs leading-relaxed text-[#6B6560]">{t.soloTeam}</p>
-            </div>
-          </div>
-
-          {/* Trust badges — gray checkmarks by default until deployed */}
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-[#DDD5CA] pt-4">
-            {t.trust.map((item) => (
-              <span key={item} className="flex items-center gap-1.5 text-xs font-medium text-[#6B6560]">
-                <Check className="h-3.5 w-3.5 shrink-0 text-[#B8B0A2]" strokeWidth={2.5} />
-                {item}
-              </span>
-            ))}
-          </div>
           </motion.div>
         </div>
 
-        {/* Right column — collaborator creation form, vertically centered against the copy */}
-        <div className="relative z-10 flex min-w-0 justify-center lg:justify-end">
-          <div className="relative">
-            {/* Warm magenta halo behind the card for depth */}
-            <div
-              aria-hidden="true"
-              className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[radial-gradient(60%_55%_at_50%_35%,rgba(209,14,99,0.18),transparent_72%)] blur-2xl"
-            />
+        <motion.div
+          className="relative mx-auto w-full max-w-xl"
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, ease, delay: 0.18 }}
+          aria-label={t.orgTitle}
+        >
+          <div className="rounded-3xl border border-[#D7CFC1] bg-[#FBF9F3] p-5 shadow-[0_30px_80px_rgba(28,26,23,0.12)] sm:p-7">
+            <div className="flex items-center justify-between border-b border-[#DDD5CA] pb-5">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#D10E63]">Unitalk</p>
+                <p className="mt-1 text-xl font-bold text-[#1C1A17]">{t.orgTitle}</p>
+              </div>
+              <span className="rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]">3 + 3</span>
+            </div>
 
-            <div className="relative z-10">
-              <CollaboratorForm lang={lang} />
+            <div className="mt-5 flex flex-col gap-3">
+              {orgPairs.map((pair, index) => (
+                <motion.div
+                  key={pair.employee}
+                  className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-2xl border border-[#E6DFD1] bg-[#F3EFE6] p-3 sm:gap-5 sm:p-4"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.35 + index * 0.16 }}
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <img src={pair.human} alt="" className="h-11 w-11 shrink-0 rounded-full object-cover grayscale-[25%]" />
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.employee}</p>
+                      <p className="truncate text-xs text-[#6B6560]">{t.employeeLabel} · {pair.role}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center" aria-hidden="true">
+                    <span className="h-px w-3 bg-[#D10E63]/40 sm:w-6" />
+                    <span className="h-2 w-2 rounded-full bg-[#D10E63]" />
+                    <span className="h-px w-3 bg-[#D10E63]/40 sm:w-6" />
+                  </div>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="relative shrink-0">
+                      <img src={pair.collaborator} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-[#D10E63]/20" />
+                      <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#F3EFE6] bg-[#D10E63]" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p>
+                      <p className="truncate text-xs font-medium text-[#D10E63]">{t.collaboratorLabel}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
