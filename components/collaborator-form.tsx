@@ -218,7 +218,8 @@ export default function CollaboratorForm({ lang = 'fr' }: CollaboratorFormProps)
 
   return (
     <motion.div
-      className="relative w-full max-w-md rounded-2xl border border-[#E6DFD1] bg-[#F5F1E8] p-6 shadow-xl sm:p-7"
+      id="hero-form"
+      className="relative w-full max-w-md scroll-mt-24 rounded-2xl border border-[#E6DFD1] bg-[#F5F1E8] p-6 shadow-xl sm:p-7"
       initial={{ opacity: 0, scale: 0.95, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.1 }}
