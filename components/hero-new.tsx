@@ -6,7 +6,7 @@ import { Mail, Phone, Calendar, Database, Zap, Check } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: "L'IA entre dans votre organigramme.",
-    headline: 'Donnez à chaque employé son',
+    headline: 'Donnez à chaque employé son propre',
     headlineAccent: ' Collaborateur IA.',
     subheadline:
       'Une identité. Une mémoire. Des compétences. Vous le briefez. Il travaille.',
