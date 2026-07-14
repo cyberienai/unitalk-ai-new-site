@@ -5,7 +5,7 @@ import { Mail, Phone, Calendar, Database, Zap, Check } from 'lucide-react'
 
 const T = {
   fr: {
-    eyebrow: 'Une nouvelle catégorie de collaborateurs.',
+    eyebrow: "L'IA entre dans votre organigramme.",
     headline: 'Donnez à chaque employé son',
     headlineAccent: ' Collaborateur IA.',
     subheadline:
@@ -149,7 +149,7 @@ const T = {
     ],
   },
   en: {
-    eyebrow: 'A new category of collaborators.',
+    eyebrow: 'AI joins your org chart.',
     headline: 'Give every employee their own',
     headlineAccent: ' AI Collaborator.',
     subheadline:
