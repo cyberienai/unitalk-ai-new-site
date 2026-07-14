@@ -11,7 +11,7 @@ const T = {
     subheadline:
       'Une identité. Une mémoire. Des compétences. Vous le briefez. Il travaille.',
     heroCta: 'Créer mon premier Collaborateur IA',
-    heroProofs: ['Aucune configuration', 'Prêt en 60 secondes', 'Serveur IA privé'],
+    heroProofs: ['Aucune configuration', 'Prêt en 60 secondes', 'Cloud privé dédié'],
     orgTitle: 'Votre organisation',
     employeeLabel: 'Employé',
     collaboratorLabel: 'Collaborateur IA',
@@ -25,7 +25,7 @@ const T = {
     ],
     profileCount: 'Vos nouveaux collaborateurs numériques',
     soloTeam: 'pour vendre, gérer, assister et développer votre entreprise 24h/24.',
-    trust: ['Hébergé en France', 'Serveur IA privé', 'Vos données vous appartiennent'],
+    trust: ['Hébergé en France', 'Cloud privé dédié', 'Vos données vous appartiennent'],
     example: {
       text: 'Exemple : Sophia gère la facturation et répond aux emails. Elle économise 15h par semaine.',
       icon: Zap,
@@ -155,7 +155,7 @@ const T = {
     subheadline:
       'An identity. A memory. Skills. You brief them. They work.',
     heroCta: 'Create my first AI Collaborator',
-    heroProofs: ['No setup', 'Ready in 60 seconds', 'Private AI server'],
+    heroProofs: ['No setup', 'Ready in 60 seconds', 'Dedicated private cloud'],
     orgTitle: 'Your organization',
     employeeLabel: 'Employee',
     collaboratorLabel: 'AI Collaborator',
@@ -169,7 +169,7 @@ const T = {
     ],
     profileCount: 'Your new digital collaborators',
     soloTeam: 'to sell, manage, support and grow your business 24/7.',
-    trust: ['Hosted in France', 'Private AI server', 'Your data stays yours'],
+    trust: ['Hosted in France', 'Dedicated private cloud', 'Your data stays yours'],
     example: {
       text: 'Example: Sophia manages billing and emails. She saves 15 hours per week.',
       icon: Zap,
