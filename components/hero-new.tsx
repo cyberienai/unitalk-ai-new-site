@@ -298,14 +298,6 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang] as typeof T['fr']
 
-
-
-  const orgPairs = [
-    { employee: 'Camille', role: lang === 'fr' ? 'Ventes' : 'Sales', human: '/nina-avatar.png', collaborator: '/alex-avatar.png', ai: 'Alex' },
-    { employee: 'Thomas', role: lang === 'fr' ? 'Support' : 'Support', human: '/thomas-avatar.png', collaborator: '/sophia-avatar.png', ai: 'Sophia' },
-    { employee: 'Léa', role: lang === 'fr' ? 'Opérations' : 'Operations', human: '/elena-avatar.png', collaborator: '/marcus-avatar.png', ai: 'Marcus' },
-  ]
-
   return (
     <section className="relative flex min-h-[100svh] w-full items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-24 sm:pb-20 sm:pt-28">
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-20" />
@@ -371,49 +363,16 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.7, ease, delay: 0.18 }}
           aria-label={t.orgTitle}
         >
-          <div className="rounded-3xl border border-[#D7CFC1] bg-[#FBF9F3] p-5 shadow-[0_30px_80px_rgba(28,26,23,0.12)] sm:p-7">
-            <div className="flex items-center justify-between border-b border-[#DDD5CA] pb-5">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#D10E63]">Unitalk</p>
-                <p className="mt-1 text-xl font-bold text-[#1C1A17]">{t.orgTitle}</p>
-              </div>
-              <span className="rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]">3 + 3</span>
-            </div>
-
-            <div className="mt-5 flex flex-col gap-3">
-              {orgPairs.map((pair, index) => (
-                <motion.div
-                  key={pair.employee}
-                  className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-2xl border border-[#E6DFD1] bg-[#F3EFE6] p-3 sm:gap-5 sm:p-4"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, delay: 0.35 + index * 0.16 }}
-                >
-                  <div className="flex min-w-0 items-center gap-3">
-                    <img src={pair.human} alt="" className="h-11 w-11 shrink-0 rounded-full object-cover grayscale-[25%]" />
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.employee}</p>
-                      <p className="truncate text-xs text-[#6B6560]">{t.employeeLabel} · {pair.role}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center" aria-hidden="true">
-                    <span className="h-px w-3 bg-[#D10E63]/40 sm:w-6" />
-                    <span className="h-2 w-2 rounded-full bg-[#D10E63]" />
-                    <span className="h-px w-3 bg-[#D10E63]/40 sm:w-6" />
-                  </div>
-                  <div className="flex min-w-0 items-center gap-3">
-                    <div className="relative shrink-0">
-                      <img src={pair.collaborator} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-[#D10E63]/20" />
-                      <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#F3EFE6] bg-[#D10E63]" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p>
-                      <p className="truncate text-xs font-medium text-[#D10E63]">{t.collaboratorLabel}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          <div className="overflow-hidden rounded-3xl border border-[#D7CFC1] bg-[#FBF9F3] shadow-[0_30px_80px_rgba(28,26,23,0.12)]">
+            <video
+              className="aspect-square w-full object-cover"
+              src="/hero-video.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label={t.orgTitle}
+            />
           </div>
         </motion.div>
       </div>
