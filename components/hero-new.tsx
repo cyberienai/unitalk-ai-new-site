@@ -313,7 +313,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-5 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20 lg:px-8">
         <div className="flex min-w-0 max-w-2xl flex-col items-start">
           <motion.p
-            className="mb-6 font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#D10E63]"
+            className="mb-6 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#D10E63]"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease, delay: 0.05 }}
