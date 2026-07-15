@@ -241,7 +241,9 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <section className="border-y border-[#DDD5CA] bg-[#FBF9F3] px-5 py-16">
         <Reveal className="mx-auto max-w-6xl text-center">
           <Eyebrow className="text-[#8A8378]">{t.logosEyebrow}</Eyebrow>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+          <h2 className="mx-auto mt-5 max-w-3xl text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{t.connectedTitle}</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.connectedBody}</p>
+          <div className="mt-14 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
             {logos.map((logo) => (
               <span
                 key={logo.alt}
