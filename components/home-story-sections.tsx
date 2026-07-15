@@ -5,20 +5,13 @@ import {
   ArrowRight,
   Bot,
   Brain,
-  CalendarDays,
-  Cloud,
-  Database,
   FileText,
   Laptop,
-  Mail,
   MessageSquare,
   Monitor,
-  Phone,
   RefreshCw,
-  Server,
   Terminal,
   ShieldCheck,
-  Sparkles,
   UserRound,
   UsersRound,
   Wrench,
@@ -40,10 +33,8 @@ const content = {
     teamTitle: 'Toute votre équipe IA. Au même endroit.',
     teamBody: "Des collaborateurs spécialisés pour chaque fonction. Chaque employé travaille avec son propre Collaborateur IA.",
     roles: ['Marketing', 'Ventes', 'Support', 'Finance', 'RH', 'Produit'],
-    connectedEyebrow: 'INTÉGRÉS À VOS OUTILS',
     connectedTitle: 'Connectés à votre entreprise.',
     connectedBody: "Ils travaillent directement dans les outils que vos équipes utilisent déjà.",
-    apps: ['Email', 'Calendrier', 'Drive', 'CRM', 'ERP', 'Téléphone', '3 000+ applications'],
     channelsEyebrow: 'UN SEUL AGENT, PARTOUT À LA FOIS',
     channelsTitle: 'Accédez-y',
     channelsAccent: 'là où vous travaillez.',
@@ -87,10 +78,8 @@ const content = {
     teamTitle: 'Your entire AI team. In one place.',
     teamBody: 'Specialized collaborators for every function. Every employee works with their own AI Collaborator.',
     roles: ['Marketing', 'Sales', 'Support', 'Finance', 'HR', 'Product'],
-    connectedEyebrow: 'BUILT INTO YOUR TOOLS',
     connectedTitle: 'Connected to your business.',
     connectedBody: 'They work directly inside the tools your teams already use.',
-    apps: ['Email', 'Calendar', 'Drive', 'CRM', 'ERP', 'Phone', '3,000+ applications'],
     channelsEyebrow: 'ONE AGENT, EVERYWHERE AT ONCE',
     channelsTitle: 'Reach it',
     channelsAccent: 'wherever you work.',
@@ -123,7 +112,6 @@ const content = {
 
 const avatars = ['/assistant-avatar.png', '/alex-avatar.png', '/nina-avatar.png', '/marcus-avatar.png', '/elena-avatar.png', '/sophia-avatar.png']
 const identityIcons = [UserRound, Brain, Wrench, Bot]
-const appIcons = [Mail, CalendarDays, Cloud, Database, Server, Phone, Sparkles]
 const memoryIcons = [MessageSquare, FileText, RefreshCw, Brain]
 const channelIcons = [MessageSquare, Monitor, Laptop, Terminal]
 const logos = [
@@ -207,12 +195,6 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <section className="bg-[#FBF9F3] px-5 py-24 md:py-32">
         <Reveal className="mx-auto max-w-6xl"><Heading eyebrow={t.teamEyebrow} title={t.teamTitle} body={t.teamBody} center />
           <div className="mt-14 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">{t.roles.map((role, index) => <div key={role} className="rounded-2xl border border-[#DDD5CA] bg-[#F3EFE6] p-4 text-center"><img src={avatars[index]} alt="" className="mx-auto h-16 w-16 rounded-full object-cover" /><p className="mt-4 text-sm font-bold">{role}</p></div>)}</div>
-        </Reveal>
-      </section>
-
-      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
-        <Reveal className="mx-auto max-w-6xl"><Heading eyebrow={t.connectedEyebrow} title={t.connectedTitle} body={t.connectedBody} center />
-          <div className="relative mx-auto mt-14 max-w-4xl rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 md:p-10"><div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{t.apps.map((app, index) => { const Icon = appIcons[index]; return <div key={app} className="flex min-h-28 flex-col items-center justify-center rounded-xl bg-[#F3EFE6] p-3 text-center"><Icon className="h-6 w-6 text-[#D10E63]" /><p className="mt-3 text-xs font-bold">{app}</p></div> })}</div></div>
         </Reveal>
       </section>
 
