@@ -51,8 +51,10 @@ const content = {
     hermesTitle: "Hermes leur donne l'intelligence. Unitalk en fait des collaborateurs.",
     hermesBody: "Identité, mémoire, outils, organisation, gouvernance et infrastructure : tout ce dont ils ont besoin pour travailler dans votre entreprise.",
     company: 'Votre entreprise',
-    finalTitle: 'Votre premier Collaborateur IA vous attend.',
+    finalTitle: "Prêt à faire entrer l'IA dans votre organigramme ?",
+    finalSubtitle: 'Créez vos premiers Collaborateurs IA. En 2 minutes, votre équipe travaille 24h/24.',
     finalCta: 'Créer mon premier Collaborateur IA',
+    finalFinePrint: "7 jours d'essai gratuit · Sans carte bancaire · Serveur IA privé",
   },
   en: {
     breakTitle: 'AI no longer works beside your company.',
@@ -81,8 +83,10 @@ const content = {
     hermesTitle: 'Hermes gives them intelligence. Unitalk makes them collaborators.',
     hermesBody: 'Identity, memory, tools, organization, governance and infrastructure: everything they need to work inside your company.',
     company: 'Your company',
-    finalTitle: 'Your first AI Collaborator is waiting.',
+    finalTitle: 'Ready to bring AI into your org chart?',
+    finalSubtitle: 'Create your first AI Collaborators. In 2 minutes, your team works around the clock.',
     finalCta: 'Create my first AI Collaborator',
+    finalFinePrint: '7-day free trial · No credit card · Private AI server',
   },
 } as const
 
@@ -171,7 +175,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <section className="bg-[#F3EFE6] px-5 py-24 md:py-32"><Reveal className="mx-auto max-w-6xl text-center"><p className="text-xs font-bold tracking-[0.22em] text-[#D10E63]">{t.hermesEyebrow}</p><h2 className="mx-auto mt-5 max-w-4xl text-balance font-sf text-4xl font-semibold tracking-tight md:text-6xl">{t.hermesTitle}</h2><p className="mx-auto mt-6 max-w-2xl text-pretty leading-relaxed text-[#6B6560] md:text-lg">{t.hermesBody}</p><div className="mx-auto mt-14 flex max-w-3xl flex-col items-stretch gap-3 sm:flex-row sm:items-center"><div className="flex-1 rounded-2xl bg-[#1C1A17] p-6 font-bold text-[#FBF9F3]">Hermes</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl bg-[#D10E63] p-6 font-bold text-[#FBF9F3]">Unitalk</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 font-bold">{t.company}</div></div></Reveal></section>
 
-      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl"><UsersRound className="mx-auto h-10 w-10" /><h2 className="mt-6 text-balance font-sf text-4xl font-semibold md:text-6xl">{t.finalTitle}</h2><a href="/signup" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">{t.finalCta}<ArrowRight className="h-4 w-4" /></a></Reveal></section>
+      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl"><UsersRound className="mx-auto h-10 w-10" /><h2 className="mt-6 text-balance font-sf text-4xl font-semibold md:text-6xl">{t.finalTitle}</h2><p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#FBF9F3]/85 md:text-lg">{t.finalSubtitle}</p><a href="/signup" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">{t.finalCta}<ArrowRight className="h-4 w-4" /></a><p className="mt-6 text-sm text-[#FBF9F3]/75">{t.finalFinePrint}</p></Reveal></section>
     </>
   )
 }
