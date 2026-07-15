@@ -11,9 +11,10 @@ const WORK_ICONS = [Mail, ArrowDown, Phone, Check]
 export function CollabWhatContent() {
   const t = useT({
     fr: {
-      eyebrow: 'Une nouvelle catégorie',
-      title: 'Les Collaborateurs IA sont une nouvelle catégorie d\'employés.',
-      subtitle: 'Ils possèdent une identité, une mémoire, des outils et travaillent durablement aux côtés de vos équipes.',
+      eyebrow: 'Assistant vs Collaborateur',
+      titleLine1: 'L\'Assistant IA augmente vos collaborateurs.',
+      titleLine2: 'Le Collaborateur IA augmente votre organisation.',
+      subtitle: 'Il possède une identité, une mémoire, des outils et travaille durablement aux côtés de vos équipes.',
       humanLabel: 'Un employé',
       collabLabel: 'Son Collaborateur IA',
       tableTitle: 'Bien plus qu\'un chatbot.',
@@ -45,9 +46,10 @@ export function CollabWhatContent() {
       ctaBtn: 'Créer mon Collaborateur IA',
     },
     en: {
-      eyebrow: 'A new category',
-      title: 'AI Collaborators are a new category of employees.',
-      subtitle: 'They have an identity, a memory, tools and work durably alongside your teams.',
+      eyebrow: 'Assistant vs Collaborator',
+      titleLine1: 'An AI Assistant augments your employees.',
+      titleLine2: 'An AI Collaborator augments your organization.',
+      subtitle: 'It has an identity, a memory, tools and works durably alongside your teams.',
       humanLabel: 'An employee',
       collabLabel: 'Their AI Collaborator',
       tableTitle: 'Much more than a chatbot.',
@@ -89,7 +91,10 @@ export function CollabWhatContent() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
           <div>
             <p className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#D10E63]">{t.eyebrow}</p>
-            <h1 className="text-balance font-sf text-4xl font-bold leading-[1.05] text-[#1C1A17] [letter-spacing:-0.04em] sm:text-5xl lg:text-6xl">{t.title}</h1>
+            <h1 className="text-balance font-sf text-4xl font-bold leading-[1.08] [letter-spacing:-0.04em] sm:text-5xl lg:text-[3.5rem]">
+              <span className="block text-[#6B6560]">{t.titleLine1}</span>
+              <span className="mt-2 block text-[#D10E63]">{t.titleLine2}</span>
+            </h1>
             <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-[#4E483F]">{t.subtitle}</p>
           </div>
 
