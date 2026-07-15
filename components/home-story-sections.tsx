@@ -5,11 +5,9 @@ import {
   ArrowRight,
   Bot,
   Brain,
-  FileText,
   Laptop,
   MessageSquare,
   Monitor,
-  RefreshCw,
   Terminal,
   ShieldCheck,
   UserRound,
@@ -46,10 +44,6 @@ const content = {
       { title: 'Terminal / CLI', body: 'Pour les équipes techniques : pilotez et scriptez votre agent en ligne de commande.' },
     ],
     logosEyebrow: 'DÉJÀ CONNECTÉ À VOS OUTILS — ET À 3 000 AUTRES',
-    memoryEyebrow: 'UNE MÉMOIRE QUI GRANDIT',
-    memoryTitle: 'Votre entreprise devient leur mémoire.',
-    memoryBody: "Chaque interaction enrichit leur expérience et leur connaissance de votre entreprise.",
-    memory: ['Conversations', 'Documents', 'Procédures', 'Expérience'],
     infraEyebrow: 'VOS DONNÉES, VOTRE CONTRÔLE',
     infraTitle: 'Vos données vous appartiennent.',
     infraAccent: 'Toujours.',
@@ -91,10 +85,6 @@ const content = {
       { title: 'Terminal / CLI', body: 'For technical teams: run and script your agent from the command line.' },
     ],
     logosEyebrow: 'ALREADY CONNECTED TO YOUR TOOLS — AND 3,000 MORE',
-    memoryEyebrow: 'A MEMORY THAT GROWS',
-    memoryTitle: 'Your company becomes their memory.',
-    memoryBody: 'Every interaction enriches their experience and knowledge of your company.',
-    memory: ['Conversations', 'Documents', 'Procedures', 'Experience'],
     infraEyebrow: 'YOUR DATA, YOUR CONTROL',
     infraTitle: 'Your data belongs to you.',
     infraAccent: 'Always.',
@@ -112,7 +102,6 @@ const content = {
 
 const avatars = ['/assistant-avatar.png', '/alex-avatar.png', '/nina-avatar.png', '/marcus-avatar.png', '/elena-avatar.png', '/sophia-avatar.png']
 const identityIcons = [UserRound, Brain, Wrench, Bot]
-const memoryIcons = [MessageSquare, FileText, RefreshCw, Brain]
 const channelIcons = [MessageSquare, Monitor, Laptop, Terminal]
 const logos = [
   { src: '/logos/zapier.svg', alt: 'Zapier' },
@@ -239,10 +228,6 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </div>
         </Reveal>
       </section>
-
-      <section className="bg-[#FBF9F3] px-5 py-24 md:py-32"><Reveal className="mx-auto max-w-6xl"><Heading eyebrow={t.memoryEyebrow} title={t.memoryTitle} body={t.memoryBody} center />
-        <div className="mx-auto mt-14 grid max-w-4xl gap-4 md:grid-cols-4">{t.memory.map((item, index) => { const Icon = memoryIcons[index]; return <div key={item} className="rounded-2xl border border-[#DDD5CA] bg-[#F3EFE6] p-6"><Icon className="h-7 w-7 text-[#D10E63]" /><p className="mt-6 font-bold">{item}</p><div className="mt-5 flex gap-1">{Array.from({ length: index + 2 }).map((_, bar) => <span key={bar} className="h-1.5 flex-1 rounded-full bg-[#D10E63]" style={{ opacity: 0.25 + bar * 0.2 }} />)}</div></div> })}</div>
-      </Reveal></section>
 
       <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl text-center"><Eyebrow className="mb-5 text-[#E0186A]">{t.infraEyebrow}</Eyebrow><h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.infraTitle} <span className="text-[#E0186A]">{t.infraAccent}</span></h2><div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4">{t.infraBody.map((paragraph) => <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>)}</div><div className="mx-auto mt-10 inline-flex items-center gap-3 rounded-full border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 px-6 py-3"><ShieldCheck className="h-5 w-5 shrink-0 text-[#E0186A]" /><p className="text-sm font-semibold text-[#FBF9F3]">{t.infraNote}</p></div></Reveal></section>
 
