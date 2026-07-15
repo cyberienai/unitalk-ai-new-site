@@ -9,11 +9,14 @@ import {
   Cloud,
   Database,
   FileText,
+  Laptop,
   Mail,
   MessageSquare,
+  Monitor,
   Phone,
   RefreshCw,
   Server,
+  Terminal,
   ShieldCheck,
   Sparkles,
   UserRound,
@@ -41,6 +44,17 @@ const content = {
     connectedTitle: 'Connectés à votre entreprise.',
     connectedBody: "Ils travaillent directement dans les outils que vos équipes utilisent déjà.",
     apps: ['Email', 'Calendrier', 'Drive', 'CRM', 'ERP', 'Téléphone', '3 000+ applications'],
+    channelsEyebrow: 'UN SEUL AGENT, PARTOUT À LA FOIS',
+    channelsTitle: 'Accédez-y',
+    channelsAccent: 'là où vous travaillez.',
+    channelsBody: "Web, bureau, terminal ou messagerie : c'est le même agent, la même mémoire, les mêmes compétences. Vous changez d'écran, tout simplement.",
+    channels: [
+      { title: 'Apps de messagerie', body: 'WhatsApp, Telegram, Teams… Parlez à votre agent depuis votre poche, comme à un collègue.' },
+      { title: 'Interface Web', body: 'La seule interface de chat unifiée pour piloter vos agents Hermes. Rien à installer, accessible partout.', badge: 'EXCLUSIVITÉ UNITALK' },
+      { title: 'App Desktop', body: 'Une application native sur Mac, Windows et Linux, à portée de raccourci, intégrée à votre poste.' },
+      { title: 'Terminal / CLI', body: 'Pour les équipes techniques : pilotez et scriptez votre agent en ligne de commande.' },
+    ],
+    logosEyebrow: 'DÉJÀ CONNECTÉ À VOS OUTILS — ET À 3 000 AUTRES',
     memoryEyebrow: 'UNE MÉMOIRE QUI GRANDIT',
     memoryTitle: 'Votre entreprise devient leur mémoire.',
     memoryBody: "Chaque interaction enrichit leur expérience et leur connaissance de votre entreprise.",
@@ -77,6 +91,17 @@ const content = {
     connectedTitle: 'Connected to your business.',
     connectedBody: 'They work directly inside the tools your teams already use.',
     apps: ['Email', 'Calendar', 'Drive', 'CRM', 'ERP', 'Phone', '3,000+ applications'],
+    channelsEyebrow: 'ONE AGENT, EVERYWHERE AT ONCE',
+    channelsTitle: 'Reach it',
+    channelsAccent: 'wherever you work.',
+    channelsBody: "Web, desktop, terminal or messaging: it's the same agent, the same memory, the same skills. You just switch screens.",
+    channels: [
+      { title: 'Messaging apps', body: 'WhatsApp, Telegram, Teams… Talk to your agent from your pocket, like a colleague.' },
+      { title: 'Web interface', body: 'The only unified chat interface to run your Hermes agents. Nothing to install, accessible everywhere.', badge: 'UNITALK EXCLUSIVE' },
+      { title: 'Desktop app', body: 'A native app on Mac, Windows and Linux, one shortcut away, integrated into your machine.' },
+      { title: 'Terminal / CLI', body: 'For technical teams: run and script your agent from the command line.' },
+    ],
+    logosEyebrow: 'ALREADY CONNECTED TO YOUR TOOLS — AND 3,000 MORE',
     memoryEyebrow: 'A MEMORY THAT GROWS',
     memoryTitle: 'Your company becomes their memory.',
     memoryBody: 'Every interaction enriches their experience and knowledge of your company.',
@@ -100,6 +125,20 @@ const avatars = ['/assistant-avatar.png', '/alex-avatar.png', '/nina-avatar.png'
 const identityIcons = [UserRound, Brain, Wrench, Bot]
 const appIcons = [Mail, CalendarDays, Cloud, Database, Server, Phone, Sparkles]
 const memoryIcons = [MessageSquare, FileText, RefreshCw, Brain]
+const channelIcons = [MessageSquare, Monitor, Laptop, Terminal]
+const logos = [
+  { src: '/logos/zapier.svg', alt: 'Zapier' },
+  { src: '/logos/google-calendar.svg', alt: 'Google Calendar' },
+  { src: '/logos/whatsapp.svg', alt: 'WhatsApp' },
+  { src: '/logos/telegram.svg', alt: 'Telegram' },
+  { src: '/logos/discord.svg', alt: 'Discord' },
+  { src: '/logos/zoom.svg', alt: 'Zoom' },
+  { src: '/logos/google-drive.svg', alt: 'Google Drive' },
+  { src: '/logos/dropbox.svg', alt: 'Dropbox' },
+  { src: '/logos/notion.svg', alt: 'Notion' },
+  { src: '/logos/mailchimp.svg', alt: 'Mailchimp' },
+  { src: '/logos/shopify.svg', alt: 'Shopify' },
+]
 
 function Reveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -174,6 +213,46 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
         <Reveal className="mx-auto max-w-6xl"><Heading eyebrow={t.connectedEyebrow} title={t.connectedTitle} body={t.connectedBody} center />
           <div className="relative mx-auto mt-14 max-w-4xl rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 md:p-10"><div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{t.apps.map((app, index) => { const Icon = appIcons[index]; return <div key={app} className="flex min-h-28 flex-col items-center justify-center rounded-xl bg-[#F3EFE6] p-3 text-center"><Icon className="h-6 w-6 text-[#D10E63]" /><p className="mt-3 text-xs font-bold">{app}</p></div> })}</div></div>
+        </Reveal>
+      </section>
+
+      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
+        <Reveal className="mx-auto max-w-6xl">
+          <Eyebrow className="mb-5">{t.channelsEyebrow}</Eyebrow>
+          <h2 className="max-w-4xl text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{t.channelsTitle} <span className="text-[#D10E63]">{t.channelsAccent}</span></h2>
+          <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.channelsBody}</p>
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {t.channels.map((channel, index) => {
+              const Icon = channelIcons[index]
+              const highlighted = 'badge' in channel
+              return (
+                <div key={channel.title} className={`relative flex flex-col rounded-2xl border bg-[#FBF9F3] p-6 ${highlighted ? 'border-[#D10E63] shadow-[0_18px_48px_rgba(209,14,99,0.14)]' : 'border-[#DDD5CA]'}`}>
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1C1A17]"><Icon className="h-6 w-6 text-[#FBF9F3]" /></span>
+                  {highlighted && <span className="absolute right-6 top-8 rounded-full bg-[#D10E63] px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FBF9F3]">{(channel as { badge: string }).badge}</span>}
+                  <h3 className="mt-6 text-xl font-bold text-[#1C1A17]">{channel.title}</h3>
+                  <p className="mt-3 text-pretty text-sm leading-relaxed text-[#6B6560]">{channel.body}</p>
+                </div>
+              )
+            })}
+          </div>
+        </Reveal>
+      </section>
+
+      <section className="border-y border-[#DDD5CA] bg-[#FBF9F3] px-5 py-16">
+        <Reveal className="mx-auto max-w-6xl text-center">
+          <Eyebrow className="text-[#8A8378]">{t.logosEyebrow}</Eyebrow>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+            {logos.map((logo) => (
+              <span
+                key={logo.alt}
+                role="img"
+                aria-label={logo.alt}
+                title={logo.alt}
+                className="h-8 w-8 bg-[#9A9384] transition-colors hover:bg-[#1C1A17]"
+                style={{ WebkitMaskImage: `url(${logo.src})`, maskImage: `url(${logo.src})`, WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: 'contain', maskSize: 'contain' }}
+              />
+            ))}
+          </div>
         </Reveal>
       </section>
 
