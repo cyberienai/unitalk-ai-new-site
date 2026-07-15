@@ -6,7 +6,6 @@ import {
   Bot,
   Brain,
   CalendarDays,
-  Check,
   Cloud,
   Database,
   FileText,
@@ -14,7 +13,6 @@ import {
   MessageSquare,
   Phone,
   RefreshCw,
-  RotateCcw,
   Server,
   ShieldCheck,
   Sparkles,
@@ -47,10 +45,14 @@ const content = {
     memoryTitle: 'Votre entreprise devient leur mémoire.',
     memoryBody: "Chaque interaction enrichit leur expérience et leur connaissance de votre entreprise.",
     memory: ['Conversations', 'Documents', 'Procédures', 'Expérience'],
-    infraEyebrow: 'INFRASTRUCTURE MANAGÉE',
-    infraTitle: "L'infrastructure invisible.",
-    infraBody: "Vous vous concentrez sur votre entreprise. Nous nous occupons du reste.",
-    infra: ['Cloud privé dédié', 'Infrastructure managée', 'Mises à jour continues', 'Sauvegardes automatiques', 'Sécurité', 'Contrôle et réversibilité'],
+    infraEyebrow: 'VOS DONNÉES, VOTRE CONTRÔLE',
+    infraTitle: 'Vos données vous appartiennent.',
+    infraAccent: 'Toujours.',
+    infraBody: [
+      'Vos Collaborateurs IA travaillent sur un serveur privé, isolé et sécurisé. Vous gardez le contrôle de vos données, de votre infrastructure et de votre mémoire d\'entreprise.',
+      'Nous gérons le reste : mises à jour, sauvegardes, sécurité, conformité RGPD. Tout est inclus, vous n\'avez rien à faire.',
+    ],
+    infraNote: 'Aucun verrouillage. Vos données sont exportables à tout moment.',
     hermesEyebrow: 'PROPULSÉS PAR HERMES',
     hermesTitle: "Hermes leur donne l'intelligence. Unitalk en fait des collaborateurs.",
     hermesBody: "Identité, mémoire, outils, organisation, gouvernance et infrastructure : tout ce dont ils ont besoin pour travailler dans votre entreprise.",
@@ -83,10 +85,14 @@ const content = {
     memoryTitle: 'Your company becomes their memory.',
     memoryBody: 'Every interaction enriches their experience and knowledge of your company.',
     memory: ['Conversations', 'Documents', 'Procedures', 'Experience'],
-    infraEyebrow: 'MANAGED INFRASTRUCTURE',
-    infraTitle: 'The invisible infrastructure.',
-    infraBody: 'You focus on your business. We take care of the rest.',
-    infra: ['Dedicated private cloud', 'Managed infrastructure', 'Continuous updates', 'Automatic backups', 'Security', 'Control and reversibility'],
+    infraEyebrow: 'YOUR DATA, YOUR CONTROL',
+    infraTitle: 'Your data belongs to you.',
+    infraAccent: 'Always.',
+    infraBody: [
+      'Your AI Collaborators run on a private, isolated and secure server. You keep control of your data, your infrastructure and your company memory.',
+      'We handle the rest: updates, backups, security, GDPR compliance. Everything is included, with nothing for you to do.',
+    ],
+    infraNote: 'No lock-in. Your data is exportable at any time.',
     hermesEyebrow: 'POWERED BY HERMES',
     hermesTitle: 'Hermes gives them intelligence. Unitalk makes them collaborators.',
     hermesBody: 'Identity, memory, tools, organization, governance and infrastructure: everything they need to work inside your company.',
@@ -102,7 +108,6 @@ const avatars = ['/assistant-avatar.png', '/alex-avatar.png', '/nina-avatar.png'
 const identityIcons = [UserRound, Brain, Wrench, Bot]
 const appIcons = [Mail, CalendarDays, Cloud, Database, Server, Phone, Sparkles]
 const memoryIcons = [MessageSquare, FileText, RefreshCw, Brain]
-const infraIcons = [Server, Wrench, RefreshCw, Cloud, ShieldCheck, RotateCcw]
 
 function Reveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -184,7 +189,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <div className="mx-auto mt-14 grid max-w-4xl gap-4 md:grid-cols-4">{t.memory.map((item, index) => { const Icon = memoryIcons[index]; return <div key={item} className="rounded-2xl border border-[#DDD5CA] bg-[#F3EFE6] p-6"><Icon className="h-7 w-7 text-[#D10E63]" /><p className="mt-6 font-bold">{item}</p><div className="mt-5 flex gap-1">{Array.from({ length: index + 2 }).map((_, bar) => <span key={bar} className="h-1.5 flex-1 rounded-full bg-[#D10E63]" style={{ opacity: 0.25 + bar * 0.2 }} />)}</div></div> })}</div>
       </Reveal></section>
 
-      <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-6xl"><div className="mx-auto max-w-3xl text-center"><Eyebrow className="mb-5 text-[#E0186A]">{t.infraEyebrow}</Eyebrow><h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.infraTitle}</h2><p className="mt-5 text-pretty text-[#BDB5A9] md:text-lg">{t.infraBody}</p></div><div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{t.infra.map((item, index) => { const Icon = infraIcons[index]; return <div key={item} className="flex items-center gap-4 rounded-2xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 p-5"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E0186A]"><Icon className="h-5 w-5" /></span><p className="font-semibold">{item}</p><Check className="ml-auto h-4 w-4 text-[#E0186A]" /></div> })}</div></Reveal></section>
+      <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl text-center"><Eyebrow className="mb-5 text-[#E0186A]">{t.infraEyebrow}</Eyebrow><h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.infraTitle} <span className="text-[#E0186A]">{t.infraAccent}</span></h2><div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4">{t.infraBody.map((paragraph) => <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>)}</div><div className="mx-auto mt-10 inline-flex items-center gap-3 rounded-full border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 px-6 py-3"><ShieldCheck className="h-5 w-5 shrink-0 text-[#E0186A]" /><p className="text-sm font-semibold text-[#FBF9F3]">{t.infraNote}</p></div></Reveal></section>
 
       <section className="bg-[#F3EFE6] px-5 py-24 md:py-32"><Reveal className="mx-auto max-w-6xl text-center"><Eyebrow>{t.hermesEyebrow}</Eyebrow><h2 className="mx-auto mt-5 max-w-4xl text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.hermesTitle}</h2><p className="mx-auto mt-6 max-w-2xl text-pretty leading-relaxed text-[#6B6560] md:text-lg">{t.hermesBody}</p><div className="mx-auto mt-14 flex max-w-3xl flex-col items-stretch gap-3 sm:flex-row sm:items-center"><div className="flex-1 rounded-2xl bg-[#1C1A17] p-6 font-bold text-[#FBF9F3]">Hermes</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl bg-[#D10E63] p-6 font-bold text-[#FBF9F3]">Unitalk</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 font-bold">{t.company}</div></div></Reveal></section>
 
