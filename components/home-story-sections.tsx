@@ -27,7 +27,10 @@ const content = {
   fr: {
     breakTitle: "Les IA ne travaillent plus à côté de votre entreprise.",
     breakAccent: 'Elles travaillent dedans.',
-    breakBody: "Chaque Collaborateur IA possède une identité, une mémoire et un rôle. Il collabore avec vos équipes, exécute des tâches, partage ses connaissances et gagne progressivement en autonomie.",
+    breakBody: [
+      "Chaque Collaborateur IA possède une identité, ses propres outils et une mémoire qui grandit avec chaque mission. Il accède en permanence aux meilleurs modèles d'IA, apprend votre métier et collabore avec vos équipes.",
+      'Chaque mission le rend plus performant. Chaque progrès appartient à votre entreprise.',
+    ],
     moreEyebrow: 'TOUT CE QUI FAIT UN COLLABORATEUR',
     moreTitle: "Bien plus qu'un agent IA.",
     moreBody: "Un Collaborateur IA possède une identité, une mémoire, des outils et un rôle. Il apprend votre métier et travaille durablement avec vos équipes.",
@@ -54,7 +57,10 @@ const content = {
   en: {
     breakTitle: 'AI no longer works beside your company.',
     breakAccent: 'It works inside it.',
-    breakBody: 'Every AI Collaborator has an identity, a memory and a role. They collaborate with your teams, execute tasks, share knowledge and progressively gain autonomy.',
+    breakBody: [
+      'Every AI Collaborator has an identity, its own tools and a memory that grows with every mission. It always has access to the best AI models, learns your business and collaborates with your teams.',
+      'Every mission makes it more capable. Every improvement belongs to your company.',
+    ],
     moreEyebrow: 'EVERYTHING THAT MAKES A COLLABORATOR',
     moreTitle: 'Much more than an AI agent.',
     moreBody: 'An AI Collaborator has an identity, a memory, tools and a role. It learns your business and works alongside your teams over time.',
@@ -112,7 +118,11 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <div className="mx-auto max-w-5xl text-center">
             <h2 className="text-balance font-sf text-4xl font-semibold tracking-tight md:text-7xl">{t.breakTitle}</h2>
             <p className="mt-5 text-balance font-sf text-4xl font-semibold tracking-tight text-[#E0186A] md:text-7xl">{t.breakAccent}</p>
-            <p className="mx-auto mt-8 max-w-2xl text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{t.breakBody}</p>
+            <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4">
+              {t.breakBody.map((paragraph) => (
+                <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>
+              ))}
+            </div>
           </div>
           <div className="mt-14 flex items-center justify-center gap-3 md:gap-7">
             {['ChatGPT', 'Claude', 'Gemini'].map((name, index) => <motion.div key={name} className="rounded-xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 px-3 py-3 text-xs font-semibold text-[#BDB5A9] md:px-6 md:text-sm" animate={{ x: [0, index === 0 ? 8 : index === 2 ? -8 : 0, 0] }} transition={{ repeat: Infinity, duration: 4, delay: index * 0.3 }}>{name}</motion.div>)}
