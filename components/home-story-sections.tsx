@@ -53,10 +53,6 @@ const content = {
       'Nous gérons le reste : mises à jour, sauvegardes, sécurité, conformité RGPD. Tout est inclus, vous n\'avez rien à faire.',
     ],
     infraNote: 'Aucun verrouillage. Vos données sont exportables à tout moment.',
-    hermesEyebrow: 'PROPULSÉS PAR HERMES',
-    hermesTitle: "Hermes leur donne l'intelligence. Unitalk en fait des collaborateurs.",
-    hermesBody: "Identité, mémoire, outils, organisation, gouvernance et infrastructure : tout ce dont ils ont besoin pour travailler dans votre entreprise.",
-    company: 'Votre entreprise',
     finalTitle: "Prêt à faire entrer l'IA dans votre organigramme ?",
     finalSubtitle: 'Créez vos premiers Collaborateurs IA. En 2 minutes, votre équipe travaille 24h/24.',
     finalCta: 'Créer mon premier Collaborateur IA',
@@ -93,10 +89,6 @@ const content = {
       'We handle the rest: updates, backups, security, GDPR compliance. Everything is included, with nothing for you to do.',
     ],
     infraNote: 'No lock-in. Your data is exportable at any time.',
-    hermesEyebrow: 'POWERED BY HERMES',
-    hermesTitle: 'Hermes gives them intelligence. Unitalk makes them collaborators.',
-    hermesBody: 'Identity, memory, tools, organization, governance and infrastructure: everything they need to work inside your company.',
-    company: 'Your company',
     finalTitle: 'Ready to bring AI into your org chart?',
     finalSubtitle: 'Create your first AI Collaborators. In 2 minutes, your team works around the clock.',
     finalCta: 'Create my first AI Collaborator',
@@ -190,8 +182,6 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       </Reveal></section>
 
       <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl text-center"><Eyebrow className="mb-5 text-[#E0186A]">{t.infraEyebrow}</Eyebrow><h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.infraTitle} <span className="text-[#E0186A]">{t.infraAccent}</span></h2><div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4">{t.infraBody.map((paragraph) => <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>)}</div><div className="mx-auto mt-10 inline-flex items-center gap-3 rounded-full border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 px-6 py-3"><ShieldCheck className="h-5 w-5 shrink-0 text-[#E0186A]" /><p className="text-sm font-semibold text-[#FBF9F3]">{t.infraNote}</p></div></Reveal></section>
-
-      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32"><Reveal className="mx-auto max-w-6xl text-center"><Eyebrow>{t.hermesEyebrow}</Eyebrow><h2 className="mx-auto mt-5 max-w-4xl text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.hermesTitle}</h2><p className="mx-auto mt-6 max-w-2xl text-pretty leading-relaxed text-[#6B6560] md:text-lg">{t.hermesBody}</p><div className="mx-auto mt-14 flex max-w-3xl flex-col items-stretch gap-3 sm:flex-row sm:items-center"><div className="flex-1 rounded-2xl bg-[#1C1A17] p-6 font-bold text-[#FBF9F3]">Hermes</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl bg-[#D10E63] p-6 font-bold text-[#FBF9F3]">Unitalk</div><ArrowRight className="mx-auto h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" /><div className="flex-1 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 font-bold">{t.company}</div></div></Reveal></section>
 
       <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl"><UsersRound className="mx-auto h-10 w-10" /><h2 className="mt-6 text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.finalTitle}</h2><p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#FBF9F3]/85 md:text-lg">{t.finalSubtitle}</p><a href="/signup" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">{t.finalCta}<ArrowRight className="h-4 w-4" /></a><p className="mt-6 text-sm text-[#FBF9F3]/75">{t.finalFinePrint}</p></Reveal></section>
     </>
