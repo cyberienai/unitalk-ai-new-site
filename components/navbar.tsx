@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { useAlma } from '@/lib/alma-context'
+import { COLLAB_NAV_LINKS, COLLAB_SECTION } from '@/lib/collaborators-nav'
 
 // Full list — shown in the burger menu
 const NAV_LINKS = [
@@ -85,6 +86,7 @@ function UkFlag() {
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isCollabOpen, setIsCollabOpen] = useState(false)
   const { lang, setLang } = useLanguage()
   const { openAlma } = useAlma()
   const t = T[lang]
@@ -124,6 +126,64 @@ export function Navbar() {
                 {link[lang]}
               </a>
             ))}
+
+            {/* Collaborateurs IA dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsCollabOpen(true)}
+              onMouseLeave={() => setIsCollabOpen(false)}
+            >
+              <button
+                className="inline-flex items-center gap-1.5 text-sm text-[#857C6E] hover:text-[#1C1A17] transition-colors"
+                aria-expanded={isCollabOpen}
+                aria-haspopup="true"
+                onClick={() => setIsCollabOpen((v) => !v)}
+              >
+                {COLLAB_SECTION[lang]}
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`transition-transform ${isCollabOpen ? 'rotate-180' : ''}`}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+
+              <AnimatePresence>
+                {isCollabOpen && (
+                  <motion.div
+                    className="absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-3"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.16 }}
+                  >
+                    <div className="overflow-hidden rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-2 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
+                      <p className="px-3 pb-2 pt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">
+                        {COLLAB_SECTION[lang]}
+                      </p>
+                      {COLLAB_NAV_LINKS.map((link) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setIsCollabOpen(false)}
+                          className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#1C1A17] transition-colors hover:bg-[#F3EFE6] hover:text-[#D10E63]"
+                        >
+                          {link[lang]}
+                        </a>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <button
               onClick={openAlma}
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#D10E63] border border-[#D10E63] rounded-full hover:bg-[#D10E63]/8 transition-all"
@@ -244,6 +304,25 @@ export function Navbar() {
                   >
                     {t.signIn}
                   </a>
+                </div>
+
+                {/* Collaborateurs IA section */}
+                <div className="py-3 px-4 border-b border-[#DcD4C4]">
+                  <p className="px-4 pb-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">
+                    {COLLAB_SECTION[lang]}
+                  </p>
+                  <div className="space-y-1">
+                    {COLLAB_NAV_LINKS.map((link) => (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block px-4 py-1.5 text-sm font-normal text-[#1C1A17] hover:text-[#D10E63] transition-colors"
+                      >
+                        {link[lang]}
+                      </a>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Navigation section */}
