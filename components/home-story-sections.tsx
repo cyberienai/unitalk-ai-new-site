@@ -28,7 +28,7 @@ const content = {
     breakTitle: "Les IA ne travaillent plus à côté de votre entreprise.",
     breakAccent: 'Elles travaillent dedans.',
     breakBody: [
-      "Chaque Collaborateur IA possède une identité, ses propres outils et une mémoire qui grandit avec chaque mission. Il accède en permanence aux meilleurs modèles d'IA, apprend votre métier et collabore avec vos équipes.",
+      "Chaque Collaborateur IA possède une identité, ses propres outils et une mémoire qui grandit avec chaque mission. Propulsé par Hermes — l'agent autonome open source n°1 — il accède en permanence aux meilleurs modèles d'IA, apprend votre métier et collabore avec vos équipes.",
       'Chaque mission le rend plus performant. Chaque progrès appartient à votre entreprise.',
     ],
     moreEyebrow: 'TOUT CE QUI FAIT UN COLLABORATEUR',
@@ -60,7 +60,7 @@ const content = {
     breakTitle: 'AI no longer works beside your company.',
     breakAccent: 'It works inside it.',
     breakBody: [
-      'Every AI Collaborator has an identity, its own tools and a memory that grows with every mission. It always has access to the best AI models, learns your business and collaborates with your teams.',
+      'Every AI Collaborator has an identity, its own tools and a memory that grows with every mission. Powered by Hermes — the #1 open source autonomous agent — it always has access to the best AI models, learns your business and collaborates with your teams.',
       'Every mission makes it more capable. Every improvement belongs to your company.',
     ],
     moreEyebrow: 'EVERYTHING THAT MAKES A COLLABORATOR',
