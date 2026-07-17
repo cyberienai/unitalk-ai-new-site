@@ -6,12 +6,19 @@ import { Mail, Phone, Calendar, Database, Zap, Check } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: "L'IA entre dans votre organigramme.",
-    headline: 'Donnez à chaque employé son propre',
-    headlineAccent: ' Collaborateur IA.',
+    headline: 'Chaque organisation aura ses collaborateurs IA.',
+    headlineAccent: ' Ajoutez le vôtre.',
     subheadline:
-      'Une identité. Une mémoire. Des compétences. Vous le briefez. Il travaille.',
-    heroCta: 'Créer mon premier Collaborateur IA',
-    heroProofs: ['Aucune configuration', 'Prêt en 60 secondes', 'Cloud privé dédié'],
+      'Les Collaborateurs IA rejoignent votre organisation avec leur identité, leur intelligence et leur propre poste de travail numérique.',
+    subheadlineSecond:
+      'Ils travaillent avec vous, utilisent vos outils et créent des résultats concrets.',
+    heroCta: 'Ajouter un Collaborateur IA',
+    heroCtaSecondary: 'Découvrir les Collaborateurs IA',
+    heroProofs: [
+      'Premier Collaborateur IA avec Unitalk AI Work',
+      'Aucune configuration complexe',
+      'Prêt à travailler en quelques minutes',
+    ],
     orgTitle: 'Votre organisation',
     employeeLabel: 'Employé',
     collaboratorLabel: 'Collaborateur IA',
@@ -150,12 +157,19 @@ const T = {
   },
   en: {
     eyebrow: 'AI joins your org chart.',
-    headline: 'Give every employee their own',
-    headlineAccent: ' AI Collaborator.',
+    headline: 'Every organization will have its AI Collaborators.',
+    headlineAccent: ' Add yours.',
     subheadline:
-      'An identity. A memory. Skills. You brief them. They work.',
-    heroCta: 'Create my first AI Collaborator',
-    heroProofs: ['No setup', 'Ready in 60 seconds', 'Dedicated private cloud'],
+      'AI Collaborators join your organization with their own identity, intelligence and digital workstation.',
+    subheadlineSecond:
+      'They work with you, use your tools and create tangible results.',
+    heroCta: 'Add an AI Collaborator',
+    heroCtaSecondary: 'Discover AI Collaborators',
+    heroProofs: [
+      'Your first AI Collaborator with Unitalk AI Work',
+      'No complex setup',
+      'Ready to work in minutes',
+    ],
     orgTitle: 'Your organization',
     employeeLabel: 'Employee',
     collaboratorLabel: 'AI Collaborator',
@@ -324,27 +338,36 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
 
-          <motion.p
-            className="mt-7 max-w-xl text-pretty font-sans text-lg leading-relaxed text-[#4E483F] sm:text-xl"
+          <motion.div
+            className="mt-7 flex max-w-xl flex-col gap-3"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease, delay: 0.16 }}
           >
-            {t.subheadline}
-          </motion.p>
+            <p className="text-pretty font-sans text-base leading-relaxed text-[#4E483F] sm:text-lg">{t.subheadline}</p>
+            <p className="text-pretty font-sans text-base leading-relaxed text-[#4E483F] sm:text-lg">{t.subheadlineSecond}</p>
+          </motion.div>
 
           <motion.div
-            className="mt-9 flex flex-col items-start gap-5"
+            className="mt-8 flex flex-col items-start gap-5"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease, delay: 0.24 }}
           >
-            <a
-              href="/signup"
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 py-3 text-center text-sm font-bold text-[#FBF9F3] shadow-[0_12px_30px_rgba(209,14,99,0.2)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-            >
-              {t.heroCta}
-            </a>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <a
+                href="/signup"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 py-3 text-center text-sm font-bold text-[#FBF9F3] shadow-[0_12px_30px_rgba(209,14,99,0.2)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+              >
+                {t.heroCta}
+              </a>
+              <a
+                href="/collaborateurs-ia/roles"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#C9C0B2] bg-[#FBF9F3] px-6 py-3 text-center text-sm font-bold text-[#1C1A17] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+              >
+                {t.heroCtaSecondary}
+              </a>
+            </div>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-[#6B6560]">
               {t.heroProofs.map((proof) => (
                 <span key={proof} className="flex items-center gap-1.5">
