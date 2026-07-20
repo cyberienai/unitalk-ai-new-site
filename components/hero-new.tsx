@@ -82,12 +82,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
-            <div className="flex items-center justify-between border-b border-[#E4DDCE] px-5 py-4 sm:px-6">
+            <div className="flex items-center border-b border-[#E4DDCE] px-5 py-4 sm:px-6">
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
                 <div><p className="text-sm font-bold text-[#1C1A17]">{t.orgTitle}</p><p className="text-[11px] text-[#857C6E]">{t.orgMeta}</p></div>
               </div>
-              <span className="h-2 w-2 rounded-full bg-[#D10E63]" aria-hidden="true" />
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
