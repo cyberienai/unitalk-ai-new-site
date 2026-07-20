@@ -3,38 +3,39 @@
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
-  AudioLines,
+  BarChart3,
+  Bot,
   Brain,
   CalendarDays,
   ClipboardList,
   Code2,
   FileText,
   Film,
+  Globe,
+  Image as ImageIcon,
   Mail,
   Megaphone,
   MessageSquare,
   Mic,
+  Monitor,
   Palette,
   Phone,
-  Plug,
   Search,
-  Target,
-  UserRound,
+  Terminal,
   UsersRound,
   Zap,
 } from 'lucide-react'
-import { ChatMockup, OrgChartMockup, WorkstationMockup } from './product-mockups'
 
 const capabilityIcons = [Megaphone, Phone, MessageSquare, Code2, Palette, Film, FileText, Mic, Search, ClipboardList, Zap]
-const uniqueIcons = [Brain, Plug, UserRound]
+const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
+const modelIcons = [Bot, Brain, ImageIcon, Code2]
 
 const content = {
   fr: {
-    // Section: Chatbot vs Collaborateur IA
+    // Section: Une nouvelle catégorie de travailleur
     catEyebrow: 'UNE NOUVELLE CATÉGORIE DE TRAVAILLEUR',
     catTitle: 'Des Collaborateurs IA qui analysent, planifient, exécutent',
     catAccent: 'et apprennent à vos côtés.',
-    catBody: '',
     capabilities: [
       { title: 'Marketing & contenu', body: 'Gère vos réseaux sociaux, rédige des articles de blog, prépare des newsletters, planifie des campagnes.' },
       { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
@@ -50,28 +51,44 @@ const content = {
     ],
     catCta: 'Découvrir les Collaborateurs IA',
 
-    // Section: Ce qui rend un Collaborateur IA unique
-    assetEyebrow: 'CE QUI LES REND UNIQUES',
-    assetTitle: "Bien plus qu'un simple modèle d'IA.",
-    uniqueFeatures: [
-      {
-        title: "Il s'appuie sur les meilleurs modèles.",
-        body: "Claude, ChatGPT, Gemini, et d'autres — celui qui convient le mieux à chaque mission, sans que vous ayez à choisir.",
-      },
-      {
-        title: 'Il se connecte à tous vos outils.',
-        body: 'CRM, email, calendrier, documentation, base de connaissance. Il travaille avec les applications que vous utilisez déjà.',
-      },
-      {
-        title: 'Il possède sa propre identité.',
-        body: 'Un nom, une voix, une mémoire, un espace de travail.',
-      },
+    // Section: Tout ça reste dans votre entreprise
+    proofTitle: 'Tout ça reste dans votre entreprise.',
+    proofLead: 'Vous ne louez pas des capacités. Vous les possédez.',
+    proofBody: "Ce qu'il apprend, ce qu'il crée, ce qu'il décide — tout reste chez vous. Sa mémoire est votre actif. Et il travaille avec les meilleurs modèles, partout où vous êtes.",
+    accessTitle: 'Comment y accéder',
+    access: [
+      'Messageries (WhatsApp, Telegram, Signal…)',
+      'Application Desktop',
+      'Terminal & API',
+      'Interface Web',
     ],
-    assetNote: "Comme un vrai membre de l'équipe.",
+    modelsTitle: 'Les modèles disponibles',
+    models: [
+      'Claude · ChatGPT · Gemini',
+      'Mistral · Qwen · DeepSeek',
+      'Images · Vidéo · Audio',
+      'Code · Exécution locale',
+    ],
+    proofNote: 'À chaque mission son modèle — automatiquement. Pas besoin de choisir.',
+
+    // Section: Emma
+    emmaTitle: 'Emma, Executive Assistant.',
+    emmaIntroStrong: 'Aux côtés de vos équipes.',
+    emmaIntro: "Emma rejoint votre organisation avec un rôle, une mission, des droits d'accès et une identité. Vous lui confiez une mission, elle exécute.",
+    emmaName: 'Emma',
+    emmaRole: 'Executive Assistant',
+    emmaEmail: 'emma@votre-entreprise.fr',
+    emmaSkills: ['Planning', 'CRM', 'Export', 'Synthèse', 'Veille'],
+    emmaMissions: [
+      { label: 'Dernière mission', body: 'A organisé 14 réunions, coordonné 3 comités et préparé les comptes rendus — le tout en une matinée.' },
+      { label: "Ce qu'elle fait chaque jour", body: 'Gère la boîte email, met à jour le CRM, prépare les reportings, alerte sur les sujets critiques.' },
+    ],
+    emmaCta: "Voir la fiche complète d'Emma",
+    emmaNote: 'Chaque Collaborateur IA s\'adapte à ses missions. Les compétences se choisissent à la création et évoluent avec lui.',
 
     // Section: Trois façons de commencer
     plansEyebrow: 'TROIS FAÇONS DE COMMENCER',
-    plansTitle: 'Une porte d\'entrée pour chaque organisation.',
+    plansTitle: "Une porte d'entrée pour chaque organisation.",
     plans: [
       {
         name: 'Unitalk for Individuals',
@@ -79,7 +96,7 @@ const content = {
         pitch: 'Faites le travail de plusieurs personnes, seul.',
         price: '30 €',
         unit: 'par mois · 1 collaborateur inclus',
-        cta: 'Voir l\'offre',
+        cta: "Voir l'offre",
         href: '/pricing',
       },
       {
@@ -88,7 +105,7 @@ const content = {
         pitch: 'Augmentez les capacités de votre équipe sans recruter au même rythme.',
         price: '25 €',
         unit: 'par collaborateur / mois',
-        cta: 'Voir l\'offre',
+        cta: "Voir l'offre",
         href: '/pricing',
         popular: true,
       },
@@ -104,39 +121,6 @@ const content = {
     ],
     popularBadge: 'LE PLUS CHOISI',
 
-    // Section: organigramme
-    orgEyebrow: 'AUX CÔTÉS DE VOS ÉQUIPES',
-    orgTitle: 'Chaque Collaborateur IA rejoint votre organisation.',
-    orgBody: 'Avec un rôle, une mission, des droits d\'accès et une identité.',
-    orgCardTitle: 'Votre organisation',
-    orgPairs: [
-      { human: 'Camille', dept: 'Employé · Ventes', ai: 'Alex', avatar: '/alex-avatar.png' },
-      { human: 'Thomas', dept: 'Employé · Support', ai: 'Sophia', avatar: '/sophia-avatar.png' },
-      { human: 'Léa', dept: 'Employé · Opérations', ai: 'Marcus', avatar: '/marcus-avatar.png' },
-    ],
-    employeeLabel: 'Employé',
-    collaboratorLabel: 'Collaborateur IA',
-
-    // Section: identité d'Emma
-    idEyebrow: 'UNE IDENTITÉ COMPLÈTE',
-    idTitle: 'Faites connaissance avec',
-    idAccent: 'Emma.',
-    idBody: 'Elle a tout ce qu\'il faut pour travailler comme un vrai membre de l\'équipe.',
-    idName: 'Emma',
-    idRole: 'Executive Assistant',
-    idStatus: 'Prête à travailler',
-    identity: [
-      { title: 'Un email', body: 'Une adresse professionnelle pour échanger en interne et en externe.' },
-      { title: 'Un calendrier', body: 'Elle planifie, gère son temps et coordonne les rendez-vous.' },
-      { title: 'Un téléphone', body: 'Un numéro pour appeler ses collègues ou ses contacts.' },
-      { title: 'Une voix', body: 'Elle parle naturellement, à l\'oral comme à l\'écrit.' },
-      { title: 'Une mémoire', body: 'Chaque mission, chaque conversation enrichit sa connaissance.' },
-      { title: 'Des compétences', body: 'Assistant, support, ventes, marketing, finance…' },
-      { title: '3 000+ applications', body: 'Connectée aux outils que vous utilisez déjà au quotidien.' },
-      { title: 'Des missions', body: 'Exécute en autonomie, prend des initiatives et vous rend compte.' },
-    ],
-    idFootnote: 'Vous pouvez lui parler directement ou lui confier une mission qu\'elle exécute sans supervision. Conversations et missions enrichissent la même mémoire. Le même actif.',
-
     // Section: CTA final
     finalEyebrow: 'VOTRE AVANTAGE DURABLE',
     finalTitle: 'Votre intelligence vous appartient.',
@@ -149,7 +133,6 @@ const content = {
     catEyebrow: 'A NEW CATEGORY OF WORKER',
     catTitle: 'AI Collaborators that analyze, plan, execute',
     catAccent: 'and learn alongside you.',
-    catBody: '',
     capabilities: [
       { title: 'Marketing & content', body: 'Runs your social media, writes blog posts, prepares newsletters, plans campaigns.' },
       { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
@@ -165,23 +148,38 @@ const content = {
     ],
     catCta: 'Discover AI Collaborators',
 
-    assetEyebrow: 'WHAT MAKES THEM UNIQUE',
-    assetTitle: 'Far more than just an AI model.',
-    uniqueFeatures: [
-      {
-        title: 'It runs on the best models.',
-        body: 'Claude, ChatGPT, Gemini and others — whichever fits each mission best, without you having to choose.',
-      },
-      {
-        title: 'It connects to all your tools.',
-        body: 'CRM, email, calendar, documentation, knowledge base. It works with the apps you already use.',
-      },
-      {
-        title: 'It has its own identity.',
-        body: 'A name, a voice, a memory, a workspace.',
-      },
+    proofTitle: 'All of it stays inside your company.',
+    proofLead: 'You do not rent capabilities. You own them.',
+    proofBody: 'What it learns, what it creates, what it decides — everything stays with you. Its memory is your asset. And it works with the best models, wherever you are.',
+    accessTitle: 'How to reach it',
+    access: [
+      'Messaging apps (WhatsApp, Telegram, Signal…)',
+      'Desktop application',
+      'Terminal & API',
+      'Web interface',
     ],
-    assetNote: 'Like a real member of the team.',
+    modelsTitle: 'Available models',
+    models: [
+      'Claude · ChatGPT · Gemini',
+      'Mistral · Qwen · DeepSeek',
+      'Images · Video · Audio',
+      'Code · Local execution',
+    ],
+    proofNote: 'The right model for each mission — automatically. No need to choose.',
+
+    emmaTitle: 'Emma, Executive Assistant.',
+    emmaIntroStrong: 'Alongside your teams.',
+    emmaIntro: 'Emma joins your organization with a role, a mission, access rights and an identity. You hand her a mission, she executes.',
+    emmaName: 'Emma',
+    emmaRole: 'Executive Assistant',
+    emmaEmail: 'emma@your-company.com',
+    emmaSkills: ['Planning', 'CRM', 'Export', 'Summary', 'Monitoring'],
+    emmaMissions: [
+      { label: 'Latest mission', body: 'Organized 14 meetings, coordinated 3 committees and prepared the minutes — all in one morning.' },
+      { label: 'What she does every day', body: 'Manages the inbox, updates the CRM, prepares reporting, flags critical topics.' },
+    ],
+    emmaCta: "See Emma's full profile",
+    emmaNote: 'Every AI Collaborator adapts to its missions. Skills are chosen at creation and evolve over time.',
 
     plansEyebrow: 'THREE WAYS TO START',
     plansTitle: 'An entry point for every organization.',
@@ -217,37 +215,6 @@ const content = {
     ],
     popularBadge: 'MOST CHOSEN',
 
-    orgEyebrow: 'ALONGSIDE YOUR TEAMS',
-    orgTitle: 'Every AI Collaborator joins your organization.',
-    orgBody: 'With a role, a mission, access rights and an identity.',
-    orgCardTitle: 'Your organization',
-    orgPairs: [
-      { human: 'Camille', dept: 'Employee · Sales', ai: 'Alex', avatar: '/alex-avatar.png' },
-      { human: 'Thomas', dept: 'Employee · Support', ai: 'Sophia', avatar: '/sophia-avatar.png' },
-      { human: 'Léa', dept: 'Employee · Operations', ai: 'Marcus', avatar: '/marcus-avatar.png' },
-    ],
-    employeeLabel: 'Employee',
-    collaboratorLabel: 'AI Collaborator',
-
-    idEyebrow: 'A COMPLETE IDENTITY',
-    idTitle: 'Meet',
-    idAccent: 'Emma.',
-    idBody: 'She has everything she needs to work like a real member of the team.',
-    idName: 'Emma',
-    idRole: 'Executive Assistant',
-    idStatus: 'Ready to work',
-    identity: [
-      { title: 'An email', body: 'A professional address to communicate internally and externally.' },
-      { title: 'A calendar', body: 'She plans, manages her time and coordinates meetings.' },
-      { title: 'A phone', body: 'A number to call her colleagues or contacts.' },
-      { title: 'A voice', body: 'She speaks naturally, spoken and written.' },
-      { title: 'A memory', body: 'Every mission, every conversation enriches her knowledge.' },
-      { title: 'Skills', body: 'Assistant, support, sales, marketing, finance…' },
-      { title: '3,000+ applications', body: 'Connected to the tools you already use every day.' },
-      { title: 'Missions', body: 'Executes autonomously, takes initiative and reports back to you.' },
-    ],
-    idFootnote: 'You can talk to her directly or hand her a mission she executes without supervision. Conversations and missions enrich the same memory. The same asset.',
-
     finalEyebrow: 'YOUR LASTING ADVANTAGE',
     finalTitle: 'Your intelligence belongs to you.',
     finalBody: 'Your company intelligence — its people, its clients, its methods, its know-how. Unitalk helps you turn it into a lasting advantage.',
@@ -256,8 +223,6 @@ const content = {
     finalFinePrint: '7-day free trial · Deployed in minutes',
   },
 } as const
-
-const identityIcons = [Mail, CalendarDays, Phone, AudioLines, Brain, Zap, Plug, Target]
 
 function Reveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -275,18 +240,15 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = content[lang]
   return (
     <>
-      {/* Chatbot vs Collaborateur IA */}
+      {/* Une nouvelle catégorie de travailleur */}
       <section className="relative overflow-hidden bg-[#FBF9F3] px-5 py-24 md:py-32">
         <div aria-hidden="true" className="bg-dots pointer-events-none absolute inset-0 opacity-[0.5]" />
         <Reveal className="relative mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
             <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">
-              {t.catTitle}
-            {t.catTitle ? ' ' : ''}
-            <span className="text-[#D10E63]">{t.catAccent}</span>
+              {t.catTitle} <span className="text-[#D10E63]">{t.catAccent}</span>
             </h2>
-            {t.catBody ? <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.catBody}</p> : null}
           </div>
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -312,7 +274,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </div>
 
           <div className="mt-10 text-center">
-            <a href="/collaborateurs-ia" className="inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] hover:gap-3 transition-all">
+            <a href="/collaborateurs-ia" className="inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-all hover:gap-3">
               {t.catCta}
               <ArrowRight className="h-4 w-4" />
             </a>
@@ -320,35 +282,94 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         </Reveal>
       </section>
 
-      {/* Ce qui rend un Collaborateur IA unique */}
-      <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32">
+      {/* Tout ça reste dans votre entreprise */}
+      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
         <Reveal className="mx-auto max-w-6xl">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            <div>
-              <Eyebrow className="mb-5 text-[#E0186A]">{t.assetEyebrow}</Eyebrow>
-              <h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-5xl">{t.assetTitle}</h2>
-              <div className="mt-9 flex flex-col gap-7">
-                {t.uniqueFeatures.map((feature, index) => {
-                  const Icon = uniqueIcons[index]
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">{t.proofTitle}</h2>
+            <p className="mt-4 font-sf text-xl font-bold text-[#D10E63] [letter-spacing:-0.02em]">{t.proofLead}</p>
+            <p className="mt-4 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.proofBody}</p>
+          </div>
+
+          <div className="mx-auto mt-14 grid max-w-3xl gap-5 md:grid-cols-2">
+            <div className="rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-7">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">{t.accessTitle}</p>
+              <ul className="mt-5 flex flex-col">
+                {t.access.map((item, index) => {
+                  const Icon = accessIcons[index]
                   return (
-                    <div key={feature.title} className="flex items-start gap-4">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E0186A]/15 text-[#E0186A]">
-                        <Icon className="h-5 w-5" />
-                      </span>
+                    <li key={item} className="flex items-center gap-3 border-b border-[#EDE7DA] py-3 text-sm text-[#1C1A17] last:border-none">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]"><Icon className="h-4 w-4" /></span>
+                      {item}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+            <div className="rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-7">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">{t.modelsTitle}</p>
+              <ul className="mt-5 flex flex-col">
+                {t.models.map((item, index) => {
+                  const Icon = modelIcons[index]
+                  return (
+                    <li key={item} className="flex items-center gap-3 border-b border-[#EDE7DA] py-3 text-sm text-[#1C1A17] last:border-none">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]"><Icon className="h-4 w-4" /></span>
+                      {item}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </div>
+          <p className="mx-auto mt-6 max-w-xl text-pretty text-center text-sm text-[#857C6E]">{t.proofNote}</p>
+        </Reveal>
+      </section>
+
+      {/* Emma */}
+      <section className="relative overflow-hidden bg-[#FBF9F3] px-5 py-24 md:py-32">
+        <div aria-hidden="true" className="bg-dots pointer-events-none absolute inset-0 opacity-[0.5]" />
+        <Reveal className="relative mx-auto max-w-3xl text-center">
+          <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">{t.emmaTitle}</h2>
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">
+            <span className="font-bold text-[#1C1A17]">{t.emmaIntroStrong}</span> {t.emmaIntro}
+          </p>
+
+          <div className="mx-auto mt-12 overflow-hidden rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] text-left shadow-[0_24px_60px_rgba(28,26,23,0.1)]">
+            <div className="flex items-center gap-4 bg-[#D10E63] p-6 text-[#FBF9F3] sm:p-7">
+              <img src="/assistant-avatar.png" alt={t.emmaName} className="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-[#FBF9F3]/40" />
+              <div>
+                <p className="font-sf text-xl font-bold">{t.emmaName}</p>
+                <p className="text-sm text-[#FBF9F3]/85">{t.emmaRole}</p>
+                <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-[#FBF9F3]/90"><Mail className="h-3.5 w-3.5" />{t.emmaEmail}</p>
+              </div>
+            </div>
+            <div className="p-6 sm:p-7">
+              <div className="flex flex-wrap gap-2">
+                {t.emmaSkills.map((skill) => (
+                  <span key={skill} className="rounded-full bg-[#D10E63]/10 px-3.5 py-1.5 text-xs font-semibold text-[#D10E63]">{skill}</span>
+                ))}
+              </div>
+              <div className="mt-6 flex flex-col gap-4">
+                {t.emmaMissions.map((mission, index) => {
+                  const Icon = index === 0 ? CalendarDays : BarChart3
+                  return (
+                    <div key={mission.label} className="flex items-start gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F3EFE6] text-[#D10E63]"><Icon className="h-4 w-4" /></span>
                       <div>
-                        <h3 className="font-sf text-lg font-bold text-[#FBF9F3]">{feature.title}</h3>
-                        <p className="mt-1.5 text-pretty text-base leading-relaxed text-[#BDB5A9]">{feature.body}</p>
+                        <p className="text-sm font-bold text-[#1C1A17]">{mission.label}</p>
+                        <p className="mt-0.5 text-pretty text-sm leading-relaxed text-[#6B6560]">{mission.body}</p>
                       </div>
                     </div>
                   )
                 })}
               </div>
+              <a href="/collaborateurs-ia/executive-assistant" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">
+                {t.emmaCta}
+                <ArrowRight className="h-4 w-4" />
+              </a>
             </div>
-            <ChatMockup lang={lang} />
           </div>
-          <div className="mt-12 rounded-3xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 p-7 text-center md:p-9">
-            <p className="text-balance font-sf text-2xl font-semibold text-[#FBF9F3] [letter-spacing:-0.02em] md:text-3xl">{t.assetNote}</p>
-          </div>
+          <p className="mx-auto mt-8 max-w-xl text-pretty text-sm text-[#857C6E]">{t.emmaNote}</p>
         </Reveal>
       </section>
 
@@ -380,65 +401,6 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
             ))}
           </div>
-        </Reveal>
-      </section>
-
-      {/* Organigramme */}
-      <section className="relative overflow-hidden bg-[#FBF9F3] px-5 py-24 md:py-32">
-        <div aria-hidden="true" className="bg-dots pointer-events-none absolute inset-0 opacity-[0.5]" />
-        <Reveal className="relative mx-auto max-w-6xl">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            <div className="relative order-2 lg:order-1">
-              <div aria-hidden="true" className="absolute -inset-5 -z-10 rounded-[2.25rem] bg-[#D10E63]/[0.05] blur-2xl" />
-              <OrgChartMockup lang={lang} />
-            </div>
-
-            <div className="order-1 lg:order-2">
-              <Eyebrow className="mb-5">{t.orgEyebrow}</Eyebrow>
-              <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">{t.orgTitle}</h2>
-              <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.orgBody}</p>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Identité d'Emma */}
-      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
-        <Reveal className="mx-auto max-w-6xl">
-          <div className="grid items-center gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <Eyebrow className="mb-5">{t.idEyebrow}</Eyebrow>
-              <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">
-                {t.idTitle} <span className="text-[#D10E63]">{t.idAccent}</span>
-              </h2>
-              <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.idBody}</p>
-              <div className="mt-8 flex items-center gap-5 rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-5">
-                <img src="/assistant-avatar.png" alt={t.idName} className="h-16 w-16 rounded-full object-cover ring-4 ring-[#F3EFE6]" />
-                <div>
-                  <p className="text-xl font-bold text-[#1C1A17]">{t.idName}</p>
-                  <p className="text-sm text-[#6B6560]">{t.idRole}</p>
-                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]"><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />{t.idStatus}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              {t.identity.map((item, index) => {
-                const Icon = identityIcons[index]
-                return (
-                  <div key={item.title} className="rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-5">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1C1A17]"><Icon className="h-5 w-5 text-[#FBF9F3]" /></span>
-                    <p className="mt-4 text-base font-bold text-[#1C1A17]">{item.title}</p>
-                    <p className="mt-1.5 text-pretty text-sm leading-relaxed text-[#6B6560]">{item.body}</p>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <div className="mx-auto mt-14 max-w-3xl">
-            <WorkstationMockup lang={lang} />
-          </div>
-          <p className="mx-auto mt-12 max-w-3xl text-pretty text-center text-base leading-relaxed text-[#6B6560] md:text-lg">{t.idFootnote}</p>
         </Reveal>
       </section>
 
