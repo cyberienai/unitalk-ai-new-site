@@ -9,9 +9,12 @@ import {
   ClipboardList,
   Code2,
   FileText,
+  Film,
   Mail,
+  Megaphone,
   MessageSquare,
   Mic,
+  Palette,
   Phone,
   Plug,
   Search,
@@ -22,7 +25,7 @@ import {
 } from 'lucide-react'
 import { ChatMockup, WorkstationMockup } from './product-mockups'
 
-const capabilityIcons = [Phone, MessageSquare, FileText, Search, Code2, Mic, ClipboardList, Zap, Brain]
+const capabilityIcons = [Megaphone, Phone, MessageSquare, Code2, Palette, Film, FileText, Mic, Search, ClipboardList, Zap]
 const uniqueIcons = [Brain, Plug, UserRound]
 
 const content = {
@@ -33,15 +36,17 @@ const content = {
     catAccent: 'Collaborateurs IA.',
     catBody: "Pas un chatbot. Pas un assistant. Une nouvelle catégorie de travailleur.",
     capabilities: [
+      { title: 'Marketing & contenu', body: 'Gère vos réseaux sociaux, rédige des articles de blog, prépare des newsletters, planifie des campagnes.' },
       { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
       { title: 'Support client', body: 'Répond à vos clients par email, chat ou téléphone, 24h/24, dans leur langue.' },
+      { title: 'Développement', body: 'Code vos applications, intègre vos systèmes, corrige les bugs et livre des fonctionnalités.' },
+      { title: 'Design', body: 'Crée des interfaces, des maquettes et des visuels. Participe aux revues UX avec transcription des échanges.' },
+      { title: 'Motion design', body: 'Produit des animations, des vidéos et du contenu animé pour vos produits et vos campagnes.' },
       { title: 'Analyse & documents', body: 'Synthétise des rapports, extrait des données, rédige des propositions et des comptes rendus.' },
-      { title: 'Recherche & veille', body: 'Surveille vos marchés, vos concurrents, détecte les opportunités et vous alerte.' },
-      { title: 'Développement & design', body: 'Code, design, motion design. Participe aux revues UX avec transcription des échanges.' },
       { title: 'Notes vocales & réunions', body: 'Prend des notes vocales, assiste aux réunions, génère des comptes rendus et transcripts.' },
+      { title: 'Recherche & veille', body: 'Surveille vos marchés, vos concurrents, détecte les opportunités et vous alerte.' },
       { title: 'Gestion & coordination', body: 'Planifie des rendez-vous, suit des projets, coordonne des équipes et des flux de travail.' },
       { title: 'Automatisation', body: 'Connecte vos outils, exécute des missions en autonomie, prend des initiatives et vous rend compte.' },
-      { title: 'Stratégie & conseil', body: 'Analyse vos données, propose des recommandations, prépare des décisions étayées.' },
     ],
     catCta: 'Découvrir les Collaborateurs IA',
 
@@ -145,15 +150,17 @@ const content = {
     catAccent: 'AI Collaborators.',
     catBody: 'Not a chatbot. Not an assistant. A new category of worker.',
     capabilities: [
+      { title: 'Marketing & content', body: 'Runs your social media, writes blog posts, prepares newsletters, plans campaigns.' },
       { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
       { title: 'Customer support', body: 'Answers your customers by email, chat or phone, 24/7, in their language.' },
+      { title: 'Development', body: 'Codes your applications, integrates your systems, fixes bugs and ships features.' },
+      { title: 'Design', body: 'Creates interfaces, mockups and visuals. Joins UX reviews with transcripts of the discussions.' },
+      { title: 'Motion design', body: 'Produces animations, videos and motion content for your products and campaigns.' },
       { title: 'Analysis & documents', body: 'Summarizes reports, extracts data, drafts proposals and meeting notes.' },
-      { title: 'Research & monitoring', body: 'Monitors your markets and competitors, spots opportunities and alerts you.' },
-      { title: 'Development & design', body: 'Code, design, motion design. Joins UX reviews with transcripts of the discussions.' },
       { title: 'Voice notes & meetings', body: 'Takes voice notes, attends meetings, generates minutes and transcripts.' },
+      { title: 'Research & monitoring', body: 'Monitors your markets and competitors, spots opportunities and alerts you.' },
       { title: 'Management & coordination', body: 'Schedules meetings, tracks projects, coordinates teams and workflows.' },
       { title: 'Automation', body: 'Connects your tools, runs missions autonomously, takes initiative and reports back.' },
-      { title: 'Strategy & advisory', body: 'Analyzes your data, proposes recommendations, prepares informed decisions.' },
     ],
     catCta: 'Discover AI Collaborators',
 
