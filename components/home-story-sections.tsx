@@ -50,7 +50,7 @@ const content = {
     // Section: Tout ça reste dans votre entreprise
     proofTitle: 'Tout ça reste dans votre entreprise.',
     proofLead: 'Vous ne louez pas des capacités. Vous les possédez.',
-    proofBody: "Ce qu'il apprend, ce qu'il crée, ce qu'il décide — tout reste chez vous. Sa mémoire est votre actif. Et il travaille avec les meilleurs modèles, partout où vous êtes.",
+    proofBody: "Ce que chaque Collaborateur IA apprend, crée, décide — tout reste chez vous. Sa mémoire est votre actif. Et il travaille avec les meilleurs modèles, partout où vous êtes.",
     accessTitle: 'Comment y accéder',
     access: [
       'Messageries (WhatsApp, Telegram, Signal…)',
@@ -144,7 +144,7 @@ const content = {
 
     proofTitle: 'All of it stays inside your company.',
     proofLead: 'You do not rent capabilities. You own them.',
-    proofBody: 'What it learns, what it creates, what it decides — everything stays with you. Its memory is your asset. And it works with the best models, wherever you are.',
+    proofBody: 'What each AI Collaborator learns, creates, decides — everything stays with you. Its memory is your asset. And it works with the best models, wherever you are.',
     accessTitle: 'How to reach it',
     access: [
       'Messaging apps (WhatsApp, Telegram, Signal…)',
