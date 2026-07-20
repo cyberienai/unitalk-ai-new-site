@@ -3,119 +3,233 @@
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
-  Bot,
+  AudioLines,
   Brain,
-  Laptop,
-  MessageSquare,
-  Monitor,
-  Terminal,
-  ShieldCheck,
-  UserRound,
+  CalendarDays,
+  Check,
+  Mail,
+  Phone,
+  Plug,
+  Target,
   UsersRound,
-  Wrench,
+  X,
+  Zap,
 } from 'lucide-react'
 
 const content = {
   fr: {
-    breakTitle: "Les IA ne travaillent plus à côté de votre entreprise.",
-    breakAccent: 'Elles travaillent dedans.',
-    breakBody: [
-      "Chaque Collaborateur IA possède une identité, ses propres outils et une mémoire qui grandit avec chaque mission. Propulsé par Hermes — l'agent autonome open source n°1 — il accède en permanence aux meilleurs modèles d'IA, apprend votre métier et collabore avec vos équipes.",
-      'Chaque mission le rend plus performant. Chaque progrès appartient à votre entreprise.',
+    // Section: Chatbot vs Collaborateur IA
+    catEyebrow: 'UNE NOUVELLE CATÉGORIE',
+    catTitle: 'Cette nouvelle façon a un nom.',
+    catAccent: 'Des Collaborateurs IA.',
+    catBody: "Pas un chatbot. Pas un assistant de plus.",
+    chatbotLabel: 'Chatbot',
+    chatbot: [
+      'Répond à des questions.',
+      'Oublie tout après chaque conversation.',
+      "Ne connaît pas votre entreprise.",
+      "Ne construit rien qui vous appartienne.",
     ],
-    moreEyebrow: 'TOUT CE QUI FAIT UN COLLABORATEUR',
-    moreTitle: "Bien plus qu'un agent IA.",
-    moreBody: "Un Collaborateur IA possède une identité, une mémoire, des outils et un rôle. Il apprend votre métier et travaille durablement avec vos équipes.",
-    identity: ['Une identité', 'Une mémoire', 'Des outils', 'Un rôle'],
-    teamEyebrow: 'UNE ÉQUIPE COMPLÈTE',
-    teamTitle: 'Toute votre équipe IA. Au même endroit.',
-    teamBody: "Des collaborateurs spécialisés pour chaque fonction. Chaque employé travaille avec son propre Collaborateur IA.",
-    roles: ['Marketing', 'Ventes', 'Support', 'Finance', 'RH', 'Produit'],
-    connectedTitle: 'Connectés à votre entreprise.',
-    connectedBody: "Ils travaillent directement dans les outils que vos équipes utilisent déjà.",
-    channelsEyebrow: 'UN SEUL AGENT, PARTOUT À LA FOIS',
-    channelsTitle: 'Accédez-y',
-    channelsAccent: 'là où vous travaillez.',
-    channelsBody: "Web, bureau, terminal ou messagerie : c'est le même agent, la même mémoire, les mêmes compétences. Vous changez d'écran, tout simplement.",
-    channels: [
-      { title: 'Apps de messagerie', body: 'WhatsApp, Telegram, Teams… Parlez à votre agent depuis votre poche, comme à un collègue.' },
-      { title: 'Interface Web', body: 'La seule interface de chat unifiée pour piloter vos agents Hermes. Rien à installer, accessible partout.', badge: 'EXCLUSIVITÉ UNITALK' },
-      { title: 'App Desktop', body: 'Une application native sur Mac, Windows et Linux, à portée de raccourci, intégrée à votre poste.' },
-      { title: 'Terminal / CLI', body: 'Pour les équipes techniques : pilotez et scriptez votre agent en ligne de commande.' },
+    collabLabel: 'Collaborateur IA',
+    collab: [
+      'Répond aux questions, prépare des rendez-vous, rédige des propositions.',
+      'Analyse des documents, recherche des informations, exécute des tâches.',
+      'Ne repart jamais à zéro. Sa mémoire grandit avec chaque mission.',
+      'Connaît votre entreprise, vos méthodes, et construit un actif qui vous appartient.',
+      'Travaille aux côtés de vos équipes.',
     ],
-    logosEyebrow: 'DÉJÀ CONNECTÉ À VOS OUTILS — ET À 3 000 AUTRES',
-    infraEyebrow: 'VOS DONNÉES, VOTRE CONTRÔLE',
-    infraTitle: 'Vos données vous appartiennent.',
-    infraAccent: 'Toujours.',
-    infraBody: [
-      'Vos Collaborateurs IA travaillent sur un serveur privé, isolé et sécurisé. Vous gardez le contrôle de vos données, de votre infrastructure et de votre mémoire d\'entreprise.',
-      'Nous gérons le reste : mises à jour, sauvegardes, sécurité, conformité RGPD. Tout est inclus, vous n\'avez rien à faire.',
+    catCta: 'Découvrir les Collaborateurs IA',
+
+    // Section: ChatGPT / actif durable
+    assetEyebrow: 'AU-DELÀ DU MODÈLE',
+    assetTitle: 'Vous utilisez peut-être déjà ChatGPT.',
+    assetBody: [
+      "Il répond à vos questions. Puis vous ouvrez une nouvelle conversation. Et il recommence à zéro. Il ne connaît pas votre entreprise, ni vos méthodes. Il ne construit rien qui vous appartienne.",
+      "Les modèles d'IA sont aujourd'hui accessibles à tous. Demain, ils le seront encore davantage. Ce qui crée une différence durable n'est plus le modèle que vous utilisez, mais l'intelligence que votre entreprise construit, conserve et fait grandir.",
     ],
-    infraNote: 'Aucun verrouillage. Vos données sont exportables à tout moment.',
-    finalTitle: "Prêt à faire entrer l'IA dans votre organigramme ?",
-    finalSubtitle: 'Créez vos premiers Collaborateurs IA. En 2 minutes, votre équipe travaille 24h/24.',
+    assetHighlight: 'Unitalk transforme chaque interaction en un actif qui reste dans votre entreprise.',
+    assetNote: 'Chaque conversation enrichit votre entreprise. Pas seulement votre écran.',
+
+    // Section: Trois façons de commencer
+    plansEyebrow: 'TROIS FAÇONS DE COMMENCER',
+    plansTitle: 'Une porte d\'entrée pour chaque organisation.',
+    plans: [
+      {
+        name: 'Unitalk for Individuals',
+        audience: 'Pour les indépendants et professions libérales',
+        pitch: 'Faites le travail de plusieurs personnes, seul.',
+        price: '30 €',
+        unit: 'par mois · 1 collaborateur inclus',
+        cta: 'Voir l\'offre',
+        href: '/pricing',
+      },
+      {
+        name: 'Unitalk for Teams',
+        audience: 'Pour les équipes en croissance',
+        pitch: 'Augmentez les capacités de votre équipe sans recruter au même rythme.',
+        price: '25 €',
+        unit: 'par collaborateur / mois',
+        cta: 'Voir l\'offre',
+        href: '/pricing',
+        popular: true,
+      },
+      {
+        name: 'Unitalk for Businesses',
+        audience: 'Pour les organisations établies',
+        pitch: "Construisez l'infrastructure d'intelligence de votre entreprise.",
+        price: 'Sur devis',
+        unit: 'Serveur dédié · Sur mesure',
+        cta: 'Nous contacter',
+        href: '/contact',
+      },
+    ],
+    popularBadge: 'LE PLUS CHOISI',
+
+    // Section: organigramme
+    orgEyebrow: 'AUX CÔTÉS DE VOS ÉQUIPES',
+    orgTitle: 'Chaque Collaborateur IA rejoint votre organisation.',
+    orgBody: 'Avec un rôle, une mission, des droits d\'accès et une identité.',
+    orgCardTitle: 'Votre organisation',
+    orgPairs: [
+      { human: 'Camille', dept: 'Employé · Ventes', ai: 'Alex', avatar: '/alex-avatar.png' },
+      { human: 'Thomas', dept: 'Employé · Support', ai: 'Sophia', avatar: '/sophia-avatar.png' },
+      { human: 'Léa', dept: 'Employé · Opérations', ai: 'Marcus', avatar: '/marcus-avatar.png' },
+    ],
+    employeeLabel: 'Employé',
+    collaboratorLabel: 'Collaborateur IA',
+
+    // Section: identité d'Emma
+    idEyebrow: 'UNE IDENTITÉ COMPLÈTE',
+    idTitle: 'Chaque Collaborateur IA possède sa propre identité.',
+    idAccent: 'Comme Emma.',
+    idBody: 'Elle dispose de tout ce qu\'il faut pour travailler comme un vrai membre de l\'équipe.',
+    idName: 'Emma',
+    idRole: 'Executive Assistant',
+    idStatus: 'Prête à travailler',
+    identity: [
+      { title: 'Un email', body: 'Une adresse professionnelle pour échanger en interne et en externe.' },
+      { title: 'Un calendrier', body: 'Elle planifie, gère son temps et coordonne les rendez-vous.' },
+      { title: 'Un téléphone', body: 'Un numéro pour appeler ses collègues ou ses contacts.' },
+      { title: 'Une voix', body: 'Elle parle naturellement, à l\'oral comme à l\'écrit.' },
+      { title: 'Une mémoire', body: 'Chaque mission, chaque conversation enrichit sa connaissance.' },
+      { title: 'Des compétences', body: 'Assistant, support, ventes, marketing, finance…' },
+      { title: '3 000+ applications', body: 'Connectée aux outils que vous utilisez déjà au quotidien.' },
+      { title: 'Des missions', body: 'Exécute en autonomie, prend des initiatives et vous rend compte.' },
+    ],
+    idFootnote: 'Vous pouvez lui parler directement ou lui confier une mission qu\'elle exécute sans supervision. Conversations et missions enrichissent la même mémoire. Le même actif.',
+
+    // Section: CTA final
+    finalEyebrow: 'VOTRE AVANTAGE DURABLE',
+    finalTitle: 'Votre entreprise possède déjà une intelligence.',
+    finalBody: 'Ses collaborateurs. Ses clients. Ses méthodes. Ses documents. Son savoir-faire. Unitalk vous aide à la transformer en un avantage durable.',
     finalCta: 'Créer mon premier Collaborateur IA',
-    finalFinePrint: "7 jours d'essai gratuit · Sans carte bancaire · Serveur IA privé",
+    finalFinePrint: 'Analyse gratuite · Aucune carte bancaire · Déploiement en quelques minutes',
   },
   en: {
-    breakTitle: 'AI no longer works beside your company.',
-    breakAccent: 'It works inside it.',
-    breakBody: [
-      'Every AI Collaborator has an identity, its own tools and a memory that grows with every mission. Powered by Hermes — the #1 open source autonomous agent — it always has access to the best AI models, learns your business and collaborates with your teams.',
-      'Every mission makes it more capable. Every improvement belongs to your company.',
+    catEyebrow: 'A NEW CATEGORY',
+    catTitle: 'This new way has a name.',
+    catAccent: 'AI Collaborators.',
+    catBody: 'Not a chatbot. Not one more assistant.',
+    chatbotLabel: 'Chatbot',
+    chatbot: [
+      'Answers questions.',
+      'Forgets everything after each conversation.',
+      'Does not know your company.',
+      'Builds nothing that belongs to you.',
     ],
-    moreEyebrow: 'EVERYTHING THAT MAKES A COLLABORATOR',
-    moreTitle: 'Much more than an AI agent.',
-    moreBody: 'An AI Collaborator has an identity, a memory, tools and a role. It learns your business and works alongside your teams over time.',
-    identity: ['An identity', 'A memory', 'Tools', 'A role'],
-    teamEyebrow: 'A COMPLETE TEAM',
-    teamTitle: 'Your entire AI team. In one place.',
-    teamBody: 'Specialized collaborators for every function. Every employee works with their own AI Collaborator.',
-    roles: ['Marketing', 'Sales', 'Support', 'Finance', 'HR', 'Product'],
-    connectedTitle: 'Connected to your business.',
-    connectedBody: 'They work directly inside the tools your teams already use.',
-    channelsEyebrow: 'ONE AGENT, EVERYWHERE AT ONCE',
-    channelsTitle: 'Reach it',
-    channelsAccent: 'wherever you work.',
-    channelsBody: "Web, desktop, terminal or messaging: it's the same agent, the same memory, the same skills. You just switch screens.",
-    channels: [
-      { title: 'Messaging apps', body: 'WhatsApp, Telegram, Teams… Talk to your agent from your pocket, like a colleague.' },
-      { title: 'Web interface', body: 'The only unified chat interface to run your Hermes agents. Nothing to install, accessible everywhere.', badge: 'UNITALK EXCLUSIVE' },
-      { title: 'Desktop app', body: 'A native app on Mac, Windows and Linux, one shortcut away, integrated into your machine.' },
-      { title: 'Terminal / CLI', body: 'For technical teams: run and script your agent from the command line.' },
+    collabLabel: 'AI Collaborator',
+    collab: [
+      'Answers questions, prepares meetings, drafts proposals.',
+      'Analyzes documents, researches information, executes tasks.',
+      'Never starts from scratch. Its memory grows with every mission.',
+      'Knows your company, your methods, and builds an asset that belongs to you.',
+      'Works alongside your teams.',
     ],
-    logosEyebrow: 'ALREADY CONNECTED TO YOUR TOOLS — AND 3,000 MORE',
-    infraEyebrow: 'YOUR DATA, YOUR CONTROL',
-    infraTitle: 'Your data belongs to you.',
-    infraAccent: 'Always.',
-    infraBody: [
-      'Your AI Collaborators run on a private, isolated and secure server. You keep control of your data, your infrastructure and your company memory.',
-      'We handle the rest: updates, backups, security, GDPR compliance. Everything is included, with nothing for you to do.',
+    catCta: 'Discover AI Collaborators',
+
+    assetEyebrow: 'BEYOND THE MODEL',
+    assetTitle: 'You may already use ChatGPT.',
+    assetBody: [
+      'It answers your questions. Then you open a new conversation. And it starts over. It does not know your company or your methods. It builds nothing that belongs to you.',
+      'AI models are now available to everyone. Tomorrow, even more so. What creates a lasting difference is no longer the model you use, but the intelligence your company builds, keeps and grows.',
     ],
-    infraNote: 'No lock-in. Your data is exportable at any time.',
-    finalTitle: 'Ready to bring AI into your org chart?',
-    finalSubtitle: 'Create your first AI Collaborators. In 2 minutes, your team works around the clock.',
+    assetHighlight: 'Unitalk turns every interaction into an asset that stays inside your company.',
+    assetNote: 'Every conversation enriches your company. Not just your screen.',
+
+    plansEyebrow: 'THREE WAYS TO START',
+    plansTitle: 'An entry point for every organization.',
+    plans: [
+      {
+        name: 'Unitalk for Individuals',
+        audience: 'For freelancers and independent professionals',
+        pitch: 'Do the work of several people, on your own.',
+        price: '€30',
+        unit: 'per month · 1 collaborator included',
+        cta: 'View plan',
+        href: '/pricing',
+      },
+      {
+        name: 'Unitalk for Teams',
+        audience: 'For growing teams',
+        pitch: 'Grow your team capabilities without hiring at the same pace.',
+        price: '€25',
+        unit: 'per collaborator / month',
+        cta: 'View plan',
+        href: '/pricing',
+        popular: true,
+      },
+      {
+        name: 'Unitalk for Businesses',
+        audience: 'For established organizations',
+        pitch: 'Build your company intelligence infrastructure.',
+        price: 'Custom',
+        unit: 'Dedicated server · Tailored',
+        cta: 'Contact us',
+        href: '/contact',
+      },
+    ],
+    popularBadge: 'MOST CHOSEN',
+
+    orgEyebrow: 'ALONGSIDE YOUR TEAMS',
+    orgTitle: 'Every AI Collaborator joins your organization.',
+    orgBody: 'With a role, a mission, access rights and an identity.',
+    orgCardTitle: 'Your organization',
+    orgPairs: [
+      { human: 'Camille', dept: 'Employee · Sales', ai: 'Alex', avatar: '/alex-avatar.png' },
+      { human: 'Thomas', dept: 'Employee · Support', ai: 'Sophia', avatar: '/sophia-avatar.png' },
+      { human: 'Léa', dept: 'Employee · Operations', ai: 'Marcus', avatar: '/marcus-avatar.png' },
+    ],
+    employeeLabel: 'Employee',
+    collaboratorLabel: 'AI Collaborator',
+
+    idEyebrow: 'A COMPLETE IDENTITY',
+    idTitle: 'Every AI Collaborator has its own identity.',
+    idAccent: 'Like Emma.',
+    idBody: 'She has everything she needs to work like a real member of the team.',
+    idName: 'Emma',
+    idRole: 'Executive Assistant',
+    idStatus: 'Ready to work',
+    identity: [
+      { title: 'An email', body: 'A professional address to communicate internally and externally.' },
+      { title: 'A calendar', body: 'She plans, manages her time and coordinates meetings.' },
+      { title: 'A phone', body: 'A number to call her colleagues or contacts.' },
+      { title: 'A voice', body: 'She speaks naturally, spoken and written.' },
+      { title: 'A memory', body: 'Every mission, every conversation enriches her knowledge.' },
+      { title: 'Skills', body: 'Assistant, support, sales, marketing, finance…' },
+      { title: '3,000+ applications', body: 'Connected to the tools you already use every day.' },
+      { title: 'Missions', body: 'Executes autonomously, takes initiative and reports back to you.' },
+    ],
+    idFootnote: 'You can talk to her directly or hand her a mission she executes without supervision. Conversations and missions enrich the same memory. The same asset.',
+
+    finalEyebrow: 'YOUR LASTING ADVANTAGE',
+    finalTitle: 'Your company already has intelligence.',
+    finalBody: 'Its people. Its clients. Its methods. Its documents. Its know-how. Unitalk helps you turn it into a lasting advantage.',
     finalCta: 'Create my first AI Collaborator',
-    finalFinePrint: '7-day free trial · No credit card · Private AI server',
+    finalFinePrint: 'Free analysis · No credit card · Deployed in minutes',
   },
 } as const
 
-const avatars = ['/assistant-avatar.png', '/alex-avatar.png', '/nina-avatar.png', '/marcus-avatar.png', '/elena-avatar.png', '/sophia-avatar.png']
-const identityIcons = [UserRound, Brain, Wrench, Bot]
-const channelIcons = [MessageSquare, Monitor, Laptop, Terminal]
-const logos = [
-  { src: '/logos/zapier.svg', alt: 'Zapier' },
-  { src: '/logos/google-calendar.svg', alt: 'Google Calendar' },
-  { src: '/logos/whatsapp.svg', alt: 'WhatsApp' },
-  { src: '/logos/telegram.svg', alt: 'Telegram' },
-  { src: '/logos/discord.svg', alt: 'Discord' },
-  { src: '/logos/zoom.svg', alt: 'Zoom' },
-  { src: '/logos/google-drive.svg', alt: 'Google Drive' },
-  { src: '/logos/dropbox.svg', alt: 'Dropbox' },
-  { src: '/logos/notion.svg', alt: 'Notion' },
-  { src: '/logos/mailchimp.svg', alt: 'Mailchimp' },
-  { src: '/logos/shopify.svg', alt: 'Shopify' },
-]
+const identityIcons = [Mail, CalendarDays, Phone, AudioLines, Brain, Zap, Plug, Target]
 
 function Reveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -129,109 +243,207 @@ function Eyebrow({ children, className = '' }: { children: React.ReactNode; clas
   return <p className={`font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#D10E63] ${className}`}>{children}</p>
 }
 
-function Heading({ eyebrow, title, body, center = false }: { eyebrow?: string; title: string; body?: string; center?: boolean }) {
-  return (
-    <div className={center ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'}>
-      {eyebrow && <Eyebrow className="mb-5">{eyebrow}</Eyebrow>}
-      <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{title}</h2>
-      {body && <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{body}</p>}
-    </div>
-  )
-}
-
 export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = content[lang]
   return (
     <>
-      <section className="overflow-hidden bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-36">
-        <Reveal className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-5xl text-center">
-            <h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-7xl">{t.breakTitle}</h2>
-            <p className="mt-5 text-balance font-sf text-4xl font-semibold text-[#E0186A] [letter-spacing:-0.04em] md:text-7xl">{t.breakAccent}</p>
-            <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4">
-              {t.breakBody.map((paragraph) => (
-                <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>
-              ))}
-            </div>
-          </div>
-          <div className="mt-14 flex items-center justify-center gap-3 md:gap-7">
-            {['ChatGPT', 'Claude', 'Gemini'].map((name, index) => <motion.div key={name} className="rounded-xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 px-3 py-3 text-xs font-semibold text-[#BDB5A9] md:px-6 md:text-sm" animate={{ x: [0, index === 0 ? 8 : index === 2 ? -8 : 0, 0] }} transition={{ repeat: Infinity, duration: 4, delay: index * 0.3 }}>{name}</motion.div>)}
-            <ArrowRight className="h-5 w-5 shrink-0 text-[#E0186A]" />
-            <div className="rounded-2xl bg-[#E0186A] px-5 py-4 text-sm font-bold text-[#FBF9F3] shadow-xl md:px-8 md:text-base">Unitalk</div>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <Reveal>
-            <Eyebrow className="mb-5">{t.moreEyebrow}</Eyebrow>
-            <Heading title={t.moreTitle} body={t.moreBody} />
-            <div className="mt-8 grid grid-cols-2 gap-3">
-              {t.identity.map((item, index) => { const Icon = identityIcons[index]; return <div key={item} className="flex items-center gap-3 rounded-xl border border-[#DDD5CA] bg-[#FBF9F3] p-4 text-sm font-semibold"><Icon className="h-5 w-5 text-[#D10E63]" />{item}</div> })}
-            </div>
-          </Reveal>
-          <Reveal className="rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 shadow-[0_24px_60px_rgba(28,26,23,0.08)] md:p-10">
-            <div className="flex items-center gap-5 border-b border-[#DDD5CA] pb-7">
-              <img src="/assistant-avatar.png" alt="Emma" className="h-20 w-20 rounded-full object-cover ring-4 ring-[#F3EFE6]" />
-              <div><p className="text-2xl font-bold">Emma</p><p className="text-[#6B6560]">Executive Assistant</p><span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]"><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />{lang === 'fr' ? 'Prête à travailler' : 'Ready to work'}</span></div>
-            </div>
-            <div className="grid grid-cols-2 gap-3 pt-7">{t.identity.map((item, index) => { const Icon = identityIcons[index]; return <div key={item} className="rounded-xl bg-[#F3EFE6] p-4"><Icon className="mb-3 h-5 w-5 text-[#D10E63]" /><p className="text-sm font-semibold">{item}</p></div> })}</div>
-          </Reveal>
-        </div>
-      </section>
-
+      {/* Chatbot vs Collaborateur IA */}
       <section className="bg-[#FBF9F3] px-5 py-24 md:py-32">
-        <Reveal className="mx-auto max-w-6xl"><Heading eyebrow={t.teamEyebrow} title={t.teamTitle} body={t.teamBody} center />
-          <div className="mt-14 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">{t.roles.map((role, index) => <div key={role} className="rounded-2xl border border-[#DDD5CA] bg-[#F3EFE6] p-4 text-center"><img src={avatars[index]} alt="" className="mx-auto h-16 w-16 rounded-full object-cover" /><p className="mt-4 text-sm font-bold">{role}</p></div>)}</div>
-        </Reveal>
-      </section>
-
-      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
         <Reveal className="mx-auto max-w-6xl">
-          <Eyebrow className="mb-5">{t.channelsEyebrow}</Eyebrow>
-          <h2 className="max-w-4xl text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{t.channelsTitle} <span className="text-[#D10E63]">{t.channelsAccent}</span></h2>
-          <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.channelsBody}</p>
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {t.channels.map((channel, index) => {
-              const Icon = channelIcons[index]
-              const highlighted = 'badge' in channel
-              return (
-                <div key={channel.title} className={`relative flex flex-col rounded-2xl border bg-[#FBF9F3] p-6 ${highlighted ? 'border-[#D10E63] shadow-[0_18px_48px_rgba(209,14,99,0.14)]' : 'border-[#DDD5CA]'}`}>
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1C1A17]"><Icon className="h-6 w-6 text-[#FBF9F3]" /></span>
-                  {highlighted && <span className="absolute right-6 top-8 rounded-full bg-[#D10E63] px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FBF9F3]">{(channel as { badge: string }).badge}</span>}
-                  <h3 className="mt-6 text-xl font-bold text-[#1C1A17]">{channel.title}</h3>
-                  <p className="mt-3 text-pretty text-sm leading-relaxed text-[#6B6560]">{channel.body}</p>
-                </div>
-              )
-            })}
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">
+              {t.catTitle} <span className="text-[#D10E63]">{t.catAccent}</span>
+            </h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.catBody}</p>
+          </div>
+
+          <div className="mt-14 grid gap-5 lg:grid-cols-2">
+            <div className="rounded-3xl border border-[#DDD5CA] bg-[#F3EFE6] p-7 md:p-9">
+              <p className="font-sf text-xl font-bold text-[#857C6E]">{t.chatbotLabel}</p>
+              <ul className="mt-6 flex flex-col gap-4">
+                {t.chatbot.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[#6B6560]">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#DDD5CA]"><X className="h-3 w-3 text-[#857C6E]" strokeWidth={3} /></span>
+                    <span className="text-pretty text-sm leading-relaxed md:text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-3xl border border-[#D10E63] bg-[#FBF9F3] p-7 shadow-[0_24px_60px_rgba(209,14,99,0.12)] md:p-9">
+              <p className="font-sf text-xl font-bold text-[#D10E63]">{t.collabLabel}</p>
+              <ul className="mt-6 flex flex-col gap-4">
+                {t.collab.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[#1C1A17]">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]"><Check className="h-3 w-3 text-[#FBF9F3]" strokeWidth={3} /></span>
+                    <span className="text-pretty text-sm font-medium leading-relaxed md:text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href="/collaborateurs-ia" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] hover:gap-3 transition-all">
+                {t.catCta}
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </Reveal>
       </section>
 
-      <section className="border-y border-[#DDD5CA] bg-[#FBF9F3] px-5 py-16">
-        <Reveal className="mx-auto max-w-6xl text-center">
-          <Eyebrow className="text-[#8A8378]">{t.logosEyebrow}</Eyebrow>
-          <h2 className="mx-auto mt-5 max-w-3xl text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{t.connectedTitle}</h2>
-          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.connectedBody}</p>
-          <div className="mt-14 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
-            {logos.map((logo) => (
-              <span
-                key={logo.alt}
-                role="img"
-                aria-label={logo.alt}
-                title={logo.alt}
-                className="h-8 w-8 bg-[#9A9384] transition-colors hover:bg-[#1C1A17]"
-                style={{ WebkitMaskImage: `url(${logo.src})`, maskImage: `url(${logo.src})`, WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: 'contain', maskSize: 'contain' }}
-              />
+      {/* ChatGPT / actif durable */}
+      <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32">
+        <Reveal className="mx-auto max-w-4xl">
+          <Eyebrow className="mb-5 text-[#E0186A]">{t.assetEyebrow}</Eyebrow>
+          <h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.assetTitle}</h2>
+          <div className="mt-8 flex flex-col gap-5">
+            {t.assetBody.map((paragraph) => (
+              <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>
+            ))}
+          </div>
+          <div className="mt-10 rounded-3xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 p-7 md:p-9">
+            <p className="text-balance font-sf text-2xl font-semibold text-[#FBF9F3] [letter-spacing:-0.02em] md:text-3xl">{t.assetHighlight}</p>
+            <p className="mt-4 text-pretty text-base leading-relaxed text-[#BDB5A9]">{t.assetNote}</p>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Trois façons de commencer */}
+      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
+        <Reveal className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow className="mb-5">{t.plansEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{t.plansTitle}</h2>
+          </div>
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">
+            {t.plans.map((plan) => (
+              <div key={plan.name} className={`relative flex flex-col rounded-3xl border bg-[#FBF9F3] p-7 md:p-8 ${plan.popular ? 'border-[#D10E63] shadow-[0_24px_60px_rgba(209,14,99,0.14)]' : 'border-[#DDD5CA]'}`}>
+                {plan.popular && <span className="absolute right-7 top-8 rounded-full bg-[#D10E63] px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FBF9F3]">{t.popularBadge}</span>}
+                <p className="font-sf text-xl font-bold text-[#1C1A17]">{plan.name}</p>
+                <p className="mt-2 text-sm font-medium text-[#D10E63]">{plan.audience}</p>
+                <p className="mt-4 text-pretty text-sm leading-relaxed text-[#6B6560]">{plan.pitch}</p>
+                <div className="mt-8 flex items-baseline gap-2">
+                  <span className="font-sf text-4xl font-bold text-[#1C1A17] [letter-spacing:-0.03em]">{plan.price}</span>
+                </div>
+                <p className="mt-2 text-xs font-medium text-[#857C6E]">{plan.unit}</p>
+                <a
+                  href={plan.href}
+                  className={`mt-8 inline-flex min-h-11 items-center justify-center rounded-full px-6 py-2.5 text-sm font-bold transition-all ${plan.popular ? 'bg-[#D10E63] text-[#FBF9F3] hover:-translate-y-0.5' : 'border border-[#C9C0B2] bg-[#FBF9F3] text-[#1C1A17] hover:border-[#D10E63] hover:text-[#D10E63]'}`}
+                >
+                  {plan.cta}
+                </a>
+              </div>
             ))}
           </div>
         </Reveal>
       </section>
 
-      <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl text-center"><Eyebrow className="mb-5 text-[#E0186A]">{t.infraEyebrow}</Eyebrow><h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.infraTitle} <span className="text-[#E0186A]">{t.infraAccent}</span></h2><div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4">{t.infraBody.map((paragraph) => <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>)}</div><div className="mx-auto mt-10 inline-flex items-center gap-3 rounded-full border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 px-6 py-3"><ShieldCheck className="h-5 w-5 shrink-0 text-[#E0186A]" /><p className="text-sm font-semibold text-[#FBF9F3]">{t.infraNote}</p></div></Reveal></section>
+      {/* Organigramme */}
+      <section className="bg-[#FBF9F3] px-5 py-24 md:py-32">
+        <Reveal className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow className="mb-5">{t.orgEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{t.orgTitle}</h2>
+            <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.orgBody}</p>
+          </div>
 
-      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32"><Reveal className="mx-auto max-w-4xl"><UsersRound className="mx-auto h-10 w-10" /><h2 className="mt-6 text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.finalTitle}</h2><p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#FBF9F3]/85 md:text-lg">{t.finalSubtitle}</p><a href="/signup" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">{t.finalCta}<ArrowRight className="h-4 w-4" /></a><p className="mt-6 text-sm text-[#FBF9F3]/75">{t.finalFinePrint}</p></Reveal></section>
+          <div className="mx-auto mt-14 max-w-3xl rounded-3xl border border-[#DDD5CA] bg-[#F3EFE6] p-6 shadow-[0_24px_60px_rgba(28,26,23,0.08)] md:p-9">
+            <div className="flex items-center justify-between border-b border-[#DDD5CA] pb-5">
+              <div>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">Unitalk</p>
+                <p className="mt-1 text-xl font-bold text-[#1C1A17]">{t.orgCardTitle}</p>
+              </div>
+              <span className="rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]">3 + 3</span>
+            </div>
+            <div className="mt-5 flex flex-col gap-3">
+              {t.orgPairs.map((pair, index) => (
+                <motion.div
+                  key={pair.human}
+                  className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-2xl border border-[#E6DFD1] bg-[#FBF9F3] p-3 sm:gap-5 sm:p-4"
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: index * 0.12 }}
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EAE3D4] text-sm font-bold text-[#857C6E]">{pair.human.slice(0, 2).toUpperCase()}</span>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p>
+                      <p className="truncate text-xs text-[#6B6560]">{pair.dept}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center" aria-hidden="true">
+                    <span className="h-px w-3 bg-[#D10E63]/40 sm:w-6" />
+                    <span className="h-2 w-2 rounded-full bg-[#D10E63]" />
+                    <span className="h-px w-3 bg-[#D10E63]/40 sm:w-6" />
+                  </div>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="relative shrink-0">
+                      <img src={pair.avatar || "/placeholder.svg"} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-[#D10E63]/20" />
+                      <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p>
+                      <p className="truncate text-xs font-medium text-[#D10E63]">{t.collaboratorLabel}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Identité d'Emma */}
+      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
+        <Reveal className="mx-auto max-w-6xl">
+          <div className="grid items-center gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <Eyebrow className="mb-5">{t.idEyebrow}</Eyebrow>
+              <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">
+                {t.idTitle} <span className="text-[#D10E63]">{t.idAccent}</span>
+              </h2>
+              <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.idBody}</p>
+              <div className="mt-8 flex items-center gap-5 rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-5">
+                <img src="/assistant-avatar.png" alt={t.idName} className="h-16 w-16 rounded-full object-cover ring-4 ring-[#F3EFE6]" />
+                <div>
+                  <p className="text-xl font-bold text-[#1C1A17]">{t.idName}</p>
+                  <p className="text-sm text-[#6B6560]">{t.idRole}</p>
+                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]"><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />{t.idStatus}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {t.identity.map((item, index) => {
+                const Icon = identityIcons[index]
+                return (
+                  <div key={item.title} className="rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-5">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1C1A17]"><Icon className="h-5 w-5 text-[#FBF9F3]" /></span>
+                    <p className="mt-4 text-base font-bold text-[#1C1A17]">{item.title}</p>
+                    <p className="mt-1.5 text-pretty text-sm leading-relaxed text-[#6B6560]">{item.body}</p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <p className="mx-auto mt-12 max-w-3xl text-pretty text-center text-base leading-relaxed text-[#6B6560] md:text-lg">{t.idFootnote}</p>
+        </Reveal>
+      </section>
+
+      {/* CTA final */}
+      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32">
+        <Reveal className="mx-auto max-w-4xl">
+          <UsersRound className="mx-auto h-10 w-10" />
+          <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#FBF9F3]/80">{t.finalEyebrow}</p>
+          <h2 className="mt-4 text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.finalTitle}</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#FBF9F3]/85 md:text-lg">{t.finalBody}</p>
+          <a href="/signup" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
+            {t.finalCta}
+            <ArrowRight className="h-4 w-4" />
+          </a>
+          <p className="mt-6 text-sm text-[#FBF9F3]/75">{t.finalFinePrint}</p>
+        </Reveal>
+      </section>
     </>
   )
 }
