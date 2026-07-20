@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
+import { OrgChartMockup } from './product-mockups'
 
 const T = {
   fr: {
@@ -128,17 +129,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.7, ease, delay: 0.18 }}
           aria-label={t.orgTitle}
         >
-          <div className="overflow-hidden rounded-3xl border border-[#D7CFC1] bg-[#FBF9F3] shadow-[0_30px_80px_rgba(28,26,23,0.12)]">
-            <video
-              className="aspect-square w-full object-cover"
-              src="/hero-video.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              aria-label={t.orgTitle}
-            />
-          </div>
+          <div aria-hidden="true" className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[#D10E63]/[0.05] blur-2xl" />
+          <div aria-hidden="true" className="bg-dots pointer-events-none absolute -right-4 -top-6 -z-10 h-28 w-28 rounded-2xl opacity-70" />
+          <OrgChartMockup lang={lang} />
         </motion.div>
       </div>
     </section>
