@@ -15,6 +15,7 @@ import {
   X,
   Zap,
 } from 'lucide-react'
+import { ChatMockup, WorkstationMockup } from './product-mockups'
 
 const content = {
   fr: {
@@ -292,15 +293,20 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       {/* ChatGPT / actif durable */}
       <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32">
-        <Reveal className="mx-auto max-w-4xl">
-          <Eyebrow className="mb-5 text-[#E0186A]">{t.assetEyebrow}</Eyebrow>
-          <h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.assetTitle}</h2>
-          <div className="mt-8 flex flex-col gap-5">
-            {t.assetBody.map((paragraph) => (
-              <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>
-            ))}
+        <Reveal className="mx-auto max-w-6xl">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <Eyebrow className="mb-5 text-[#E0186A]">{t.assetEyebrow}</Eyebrow>
+              <h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-5xl">{t.assetTitle}</h2>
+              <div className="mt-8 flex flex-col gap-5">
+                {t.assetBody.map((paragraph) => (
+                  <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>
+                ))}
+              </div>
+            </div>
+            <ChatMockup lang={lang} />
           </div>
-          <div className="mt-10 rounded-3xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 p-7 md:p-9">
+          <div className="mt-12 rounded-3xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 p-7 md:p-9">
             <p className="text-balance font-sf text-2xl font-semibold text-[#FBF9F3] [letter-spacing:-0.02em] md:text-3xl">{t.assetHighlight}</p>
             <p className="mt-4 text-pretty text-base leading-relaxed text-[#BDB5A9]">{t.assetNote}</p>
           </div>
@@ -425,6 +431,9 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 )
               })}
             </div>
+          </div>
+          <div className="mx-auto mt-14 max-w-3xl">
+            <WorkstationMockup lang={lang} />
           </div>
           <p className="mx-auto mt-12 max-w-3xl text-pretty text-center text-base leading-relaxed text-[#6B6560] md:text-lg">{t.idFootnote}</p>
         </Reveal>
