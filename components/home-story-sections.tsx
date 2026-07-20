@@ -31,7 +31,7 @@ const uniqueIcons = [Brain, Plug, UserRound]
 const content = {
   fr: {
     // Section: Chatbot vs Collaborateur IA
-    catEyebrow: 'UNE NOUVELLE CATÉGORIE',
+    catEyebrow: 'UNE NOUVELLE CATÉGORIE DE TRAVAILLEUR',
     catTitle: '',
     catAccent: 'Collaborateurs IA.',
     catBody: "Pas un chatbot. Pas un assistant. Une nouvelle catégorie de travailleur.",
@@ -145,7 +145,7 @@ const content = {
     finalFinePrint: 'Analyse gratuite · Aucune carte bancaire · Déploiement en quelques minutes',
   },
   en: {
-    catEyebrow: 'A NEW CATEGORY',
+    catEyebrow: 'A NEW CATEGORY OF WORKER',
     catTitle: '',
     catAccent: 'AI Collaborators.',
     catBody: 'Not a chatbot. Not an assistant. A new category of worker.',
