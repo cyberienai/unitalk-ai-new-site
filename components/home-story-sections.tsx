@@ -21,9 +21,9 @@ const content = {
   fr: {
     // Section: Chatbot vs Collaborateur IA
     catEyebrow: 'UNE NOUVELLE CATÉGORIE',
-    catTitle: 'Cette nouvelle façon a un nom.',
-    catAccent: 'Des Collaborateurs IA.',
-    catBody: "Pas un chatbot. Pas un assistant de plus.",
+    catTitle: '',
+    catAccent: 'Collaborateurs IA.',
+    catBody: "Pas un chatbot. Pas un assistant. Une nouvelle catégorie de travailleur.",
     chatbotLabel: 'Chatbot',
     chatbot: [
       'Répond à des questions.',
@@ -128,9 +128,9 @@ const content = {
   },
   en: {
     catEyebrow: 'A NEW CATEGORY',
-    catTitle: 'This new way has a name.',
+    catTitle: '',
     catAccent: 'AI Collaborators.',
-    catBody: 'Not a chatbot. Not one more assistant.',
+    catBody: 'Not a chatbot. Not an assistant. A new category of worker.',
     chatbotLabel: 'Chatbot',
     chatbot: [
       'Answers questions.',
@@ -255,7 +255,9 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
             <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">
-              {t.catTitle} <span className="text-[#D10E63]">{t.catAccent}</span>
+              {t.catTitle}
+            {t.catTitle ? ' ' : ''}
+            <span className="text-[#D10E63]">{t.catAccent}</span>
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.catBody}</p>
           </div>
