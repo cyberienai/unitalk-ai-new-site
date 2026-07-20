@@ -14,7 +14,7 @@ const T = {
     heroCtaSecondary: 'Analyse gratuite',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre organisation',
-    orgMeta: 'Équipe active',
+    orgMeta: '3 membres + 3 Collaborateurs IA',
     orgPairs: [
       { human: 'Camille', dept: 'Ventes', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospection' },
       { human: 'Thomas', dept: 'Support', ai: 'Sophia', avatar: '/sophia-avatar.png', status: 'Clients' },
@@ -32,7 +32,7 @@ const T = {
     heroCtaSecondary: 'Free assessment',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your organization',
-    orgMeta: 'Active team',
+    orgMeta: '3 members + 3 AI Collaborators',
     orgPairs: [
       { human: 'Camille', dept: 'Sales', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospecting' },
       { human: 'Thomas', dept: 'Support', ai: 'Sophia', avatar: '/sophia-avatar.png', status: 'Customers' },
