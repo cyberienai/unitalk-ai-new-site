@@ -31,7 +31,7 @@ const modelIcons = [Bot, Brain, ImageIcon, Code2]
 const content = {
   fr: {
     // Section: Une nouvelle catégorie de travailleur
-    catEyebrow: 'DES CAPACITÉS, PAS DES OUTILS',
+    catEyebrow: 'UNE NOUVELLE CATÉGORIE DE TRAVAILLEUR',
     catTitle: 'Ils analysent, planifient et exécutent.',
     catAccent: 'À vos côtés.',
     capabilities: [
@@ -126,7 +126,7 @@ const content = {
     finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
   },
   en: {
-    catEyebrow: 'CAPABILITIES, NOT TOOLS',
+    catEyebrow: 'A NEW CATEGORY OF WORKER',
     catTitle: 'They analyze, plan and execute.',
     catAccent: 'Alongside you.',
     capabilities: [
