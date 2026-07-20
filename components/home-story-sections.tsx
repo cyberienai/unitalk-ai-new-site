@@ -69,7 +69,7 @@ const content = {
 
     // Section: Emma
     emmaTitle: 'Emma, Executive Assistant.',
-    emmaIntroStrong: 'Aux côtés de vos équipes.',
+    emmaIntroStrong: 'Un membre à part entière.',
     emmaIntro: "Emma rejoint votre organisation avec un rôle, une mission, des droits d'accès et une identité. Vous lui confiez une mission, elle exécute.",
     emmaName: 'Emma',
     emmaRole: 'Executive Assistant',
@@ -118,9 +118,9 @@ const content = {
     popularBadge: 'LE PLUS CHOISI',
 
     // Section: CTA final
-    finalEyebrow: 'VOTRE AVANTAGE DURABLE',
-    finalTitle: 'Votre intelligence vous appartient.',
-    finalBody: "Votre intelligence d'entreprise — ses collaborateurs, ses clients, ses méthodes, son savoir-faire. Unitalk vous aide à la transformer en un avantage durable.",
+    finalEyebrow: 'PRÊT À PASSER À L\'ACTION',
+    finalTitle: 'Vos Collaborateurs IA vous attendent.',
+    finalBody: "Créez le vôtre en quelques minutes, confiez-lui une première mission et voyez votre capacité d'action grandir dès aujourd'hui.",
     finalCta: "Commencer l'essai gratuit",
     finalCtaSecondary: 'Analyse gratuite',
     finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
@@ -162,7 +162,7 @@ const content = {
     proofNote: 'The right model for each mission — automatically. No need to choose.',
 
     emmaTitle: 'Emma, Executive Assistant.',
-    emmaIntroStrong: 'Alongside your teams.',
+    emmaIntroStrong: 'A full-fledged team member.',
     emmaIntro: 'Emma joins your organization with a role, a mission, access rights and an identity. You hand her a mission, she executes.',
     emmaName: 'Emma',
     emmaRole: 'Executive Assistant',
@@ -209,9 +209,9 @@ const content = {
     ],
     popularBadge: 'MOST CHOSEN',
 
-    finalEyebrow: 'YOUR LASTING ADVANTAGE',
-    finalTitle: 'Your intelligence belongs to you.',
-    finalBody: 'Your company intelligence — its people, its clients, its methods, its know-how. Unitalk helps you turn it into a lasting advantage.',
+    finalEyebrow: 'READY TO TAKE ACTION',
+    finalTitle: 'Your AI Collaborators are waiting.',
+    finalBody: 'Create yours in minutes, hand it a first mission and watch your capacity to act grow from today.',
     finalCta: 'Start free trial',
     finalCtaSecondary: 'Free assessment',
     finalFinePrint: '7-day free trial · Deployed in minutes',
