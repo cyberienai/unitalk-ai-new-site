@@ -80,10 +80,13 @@ const content = {
     memberAudience: ['Vos collaborateurs.', 'Vos clients.', 'Vos partenaires.'],
     memberClosing: "Peuvent lui écrire, l'appeler, prendre rendez-vous avec lui ou lui confier une mission.",
 
-    // Section: Tout ça reste dans votre entreprise
-    proofTitle: 'Tout ça reste dans votre entreprise.',
-    proofLead: 'Vous ne louez pas des capacités. Vous les possédez.',
-    proofBody: "Ce que chaque Collaborateur IA apprend, crée, décide — tout reste chez vous. Sa mémoire est votre actif. Et il travaille avec les meilleurs modèles, partout où vous êtes.",
+    // Section: Votre intelligence appartient à votre entreprise
+    proofEyebrow: 'VOTRE INTELLIGENCE APPARTIENT À VOTRE ENTREPRISE',
+    proofTitle: "Les modèles d'IA évolueront.",
+    proofLead: 'Vos Collaborateurs IA resteront.',
+    proofItems: ['Chaque conversation.', 'Chaque mission.', 'Chaque document.', 'Chaque connaissance.'],
+    proofItemsVerb: 'Enrichissent leur mémoire.',
+    proofBody: 'Et cette mémoire appartient à votre entreprise.',
     accessTitle: 'Comment y accéder',
     access: [
       'Messageries (WhatsApp, Telegram, Signal…)',
@@ -199,9 +202,12 @@ const content = {
     memberAudience: ['Your teammates.', 'Your clients.', 'Your partners.'],
     memberClosing: 'Can write to it, call it, book a meeting with it or hand it a mission.',
 
-    proofTitle: 'All of it stays inside your company.',
-    proofLead: 'You do not rent capabilities. You own them.',
-    proofBody: 'What each AI Collaborator learns, creates, decides — everything stays with you. Its memory is your asset. And it works with the best models, wherever you are.',
+    proofEyebrow: 'YOUR INTELLIGENCE BELONGS TO YOUR COMPANY',
+    proofTitle: 'AI models will evolve.',
+    proofLead: 'Your AI Collaborators will remain.',
+    proofItems: ['Every conversation.', 'Every mission.', 'Every document.', 'Every piece of knowledge.'],
+    proofItemsVerb: 'Enriches their memory.',
+    proofBody: 'And that memory belongs to your company.',
     accessTitle: 'How to reach it',
     access: [
       'Messaging apps (WhatsApp, Telegram, Signal…)',
@@ -395,10 +401,15 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <Reveal className="editorial-shell">
           <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <Eyebrow className="mb-6 text-[#F0559B]">{lang === 'fr' ? 'VOTRE INTELLIGENCE' : 'YOUR INTELLIGENCE'}</Eyebrow>
-              <h2 className="max-w-xl text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-6xl">{t.proofTitle}</h2>
-              <p className="mt-7 max-w-lg font-sf text-xl font-semibold tracking-[-0.02em] text-[#F0559B]">{t.proofLead}</p>
-              <p className="mt-5 max-w-lg text-pretty text-base leading-7 text-[#BDB5A9]">{t.proofBody}</p>
+              <Eyebrow className="mb-6 text-[#F0559B]">{t.proofEyebrow}</Eyebrow>
+              <h2 className="max-w-xl text-balance font-sf text-4xl font-semibold leading-[1.05] tracking-[-0.045em] md:text-5xl">{t.proofTitle}<br /><span className="text-[#F0559B]">{t.proofLead}</span></h2>
+              <ul className="mt-8 flex flex-col gap-1.5">
+                {t.proofItems.map((item) => (
+                  <li key={item} className="font-sf text-xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-2xl">{item}</li>
+                ))}
+              </ul>
+              <p className="mt-4 font-sf text-xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-2xl">{t.proofItemsVerb}</p>
+              <p className="mt-8 max-w-lg text-pretty font-sf text-xl font-semibold tracking-[-0.02em] text-[#F0559B] md:text-2xl">{t.proofBody}</p>
             </div>
             <div className="border-t border-[#FBF9F3]/15">
               {[{ title: t.accessTitle, items: t.access, icons: accessIcons }, { title: t.modelsTitle, items: t.models, icons: modelIcons }].map((group) => (
