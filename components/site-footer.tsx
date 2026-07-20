@@ -3,91 +3,85 @@
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 
-const COMPARISONS = [
-  'Claude',
-  'ChatGPT',
-  'Gemini Spark',
-  'Microsoft Scout',
-  'OpenClaw',
-  'Dust',
-  'Delos',
-]
-
 const T = {
   fr: {
     tagline: "L'intelligence opérationnelle qui grandit avec votre entreprise.",
-    comparisons: 'Comparatifs',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
-    legal: 'Mentions légales',
-    privacy: 'Confidentialité',
-    terms: 'CGU',
     columns: [
       {
         title: 'Produit',
         links: [
-          { label: 'Solutions', href: '/solutions' },
-          { label: 'Cas d’usage', href: '/agents' },
-          { label: 'Tarif', href: '/tarifs' },
-          { label: 'Agent public', href: '/agent-ia-public' },
-          { label: 'FAQ', href: '/#faq' },
+          { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
+          { label: 'Unitalk Work', href: '#' },
+          { label: 'Tarifs', href: '/tarifs' },
+        ],
+      },
+      {
+        title: 'Ressources',
+        links: [
+          { label: 'Documentation', href: '#' },
+          { label: 'Unitalk AI Academy', href: '#' },
+          { label: 'Guides', href: '#' },
+          { label: 'Blog', href: '#' },
         ],
       },
       {
         title: 'Entreprise',
         links: [
           { label: 'À propos', href: '#' },
-          { label: 'Devenir partenaire', href: '/partenaires' },
-          { label: 'Blog', href: '#' },
+          { label: 'Partenaires', href: '/partenaires' },
+          { label: 'Contact', href: '/contact' },
         ],
       },
       {
-        title: 'Ressources',
+        title: 'Légal',
         links: [
-          { label: 'Formation', href: '#' },
-          { label: 'Guide de démarrage', href: '#' },
-          { label: 'Changelog', href: '#' },
-          { label: 'Statut', href: '#' },
-          { label: 'Support', href: '#' },
+          { label: 'Confidentialité', href: '#' },
+          { label: 'Conditions', href: '#' },
+          { label: 'Cookies', href: '#' },
+          { label: 'Sécurité', href: '#' },
         ],
       },
     ],
   },
   en: {
     tagline: 'Operational intelligence that grows with your company.',
-    comparisons: 'Comparisons',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
-    legal: 'Legal notice',
-    privacy: 'Privacy',
-    terms: 'Terms',
     columns: [
       {
         title: 'Product',
         links: [
-          { label: 'Solutions', href: '/solutions' },
-          { label: 'Use cases', href: '/agents' },
+          { label: 'AI Collaborators', href: '/collaborateurs-ia' },
+          { label: 'Unitalk Work', href: '#' },
           { label: 'Pricing', href: '/tarifs' },
-          { label: 'Public agent', href: '/agent-ia-public' },
-          { label: 'FAQ', href: '/#faq' },
+        ],
+      },
+      {
+        title: 'Resources',
+        links: [
+          { label: 'Documentation', href: '#' },
+          { label: 'Unitalk AI Academy', href: '#' },
+          { label: 'Guides', href: '#' },
+          { label: 'Blog', href: '#' },
         ],
       },
       {
         title: 'Company',
         links: [
           { label: 'About', href: '#' },
-          { label: 'Become a partner', href: '/partenaires' },
-          { label: 'Blog', href: '#' },
+          { label: 'Partners', href: '/partenaires' },
+          { label: 'Contact', href: '/contact' },
         ],
       },
       {
-        title: 'Resources',
+        title: 'Legal',
         links: [
-          { label: 'Training', href: '#' },
-          { label: 'Getting started', href: '#' },
-          { label: 'Changelog', href: '#' },
-          { label: 'Status', href: '#' },
-          { label: 'Support', href: '#' },
+          { label: 'Privacy', href: '#' },
+          { label: 'Terms', href: '#' },
+          { label: 'Cookies', href: '#' },
+          { label: 'Security', href: '#' },
         ],
       },
     ],
@@ -154,25 +148,6 @@ export function SiteFooter() {
               </ul>
             </div>
           ))}
-
-          {/* Comparatifs column */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-2">
-            <h3 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#F0559B]">
-              {t.comparisons}
-            </h3>
-            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-4 lg:grid-cols-1">
-              {COMPARISONS.map((name) => (
-                <li key={name}>
-                  <a
-                    href="#"
-                    className="text-sm text-[#A79E8E] transition-colors hover:text-[#F3EFE6]"
-                  >
-                    {name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
         {/* Bottom bar */}
@@ -180,25 +155,14 @@ export function SiteFooter() {
           <p className="text-xs text-[#8F877A]">
             © {new Date().getFullYear()} Unitalk AI. {t.rights}
           </p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <a href="#" className="text-xs text-[#A79E8E] transition-colors hover:text-[#F3EFE6]">
-              {t.legal}
-            </a>
-            <a href="#" className="text-xs text-[#A79E8E] transition-colors hover:text-[#F3EFE6]">
-              {t.privacy}
-            </a>
-            <a href="#" className="text-xs text-[#A79E8E] transition-colors hover:text-[#F3EFE6]">
-              {t.terms}
-            </a>
-            <span className="inline-flex items-center gap-1.5 text-xs text-[#A79E8E]">
-              <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[rgba(243,239,230,0.2)]">
-                <span className="h-3.5 w-1.5 bg-[#0055A4]" />
-                <span className="h-3.5 w-1.5 bg-white" />
-                <span className="h-3.5 w-1.5 bg-[#EF4135]" />
-              </span>
-              {t.dataFrance}
+          <span className="inline-flex items-center gap-1.5 text-xs text-[#A79E8E]">
+            <span aria-hidden="true" className="inline-flex overflow-hidden rounded-sm border border-[rgba(243,239,230,0.2)]">
+              <span className="h-3.5 w-1.5 bg-[#0055A4]" />
+              <span className="h-3.5 w-1.5 bg-white" />
+              <span className="h-3.5 w-1.5 bg-[#EF4135]" />
             </span>
-          </div>
+            {t.dataFrance}
+          </span>
         </div>
       </div>
 

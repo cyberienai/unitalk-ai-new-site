@@ -1,29 +1,38 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
+  BadgeCheck,
   BarChart3,
-  Bot,
   Brain,
   CalendarDays,
+  Check,
   ClipboardList,
   Code2,
+  Fingerprint,
   Globe,
-  Image as ImageIcon,
+  KeyRound,
   Mail,
   Megaphone,
   MessageSquare,
+  Mic,
   Monitor,
   Phone,
   Plus,
+  Sparkles,
+  Target,
   Terminal,
+  UserRound,
   UsersRound,
+  Wrench,
 } from 'lucide-react'
 
 const roleIcons = [Megaphone, Phone, MessageSquare, ClipboardList, Code2, BarChart3, UsersRound]
-const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
-const modelIcons = [Bot, Brain, ImageIcon, Code2]
+const attributeIcons = [UserRound, Target, Brain, Sparkles, Wrench, Fingerprint]
+const memberIcons = [Mail, Phone, CalendarDays, Mic, BadgeCheck, KeyRound, Brain, Wrench]
+const workIcons = [Monitor, Globe, MessageSquare, Terminal]
 
 const content = {
   fr: {
@@ -35,25 +44,83 @@ const content = {
     catRolesNote: 'Ou créez un Collaborateur IA spécialement conçu pour votre métier.',
     catCta: 'Découvrir les Collaborateurs IA',
 
-    // Section: Tout ça reste dans votre entreprise
-    proofTitle: 'Tout ça reste dans votre entreprise.',
-    proofLead: 'Vous ne louez pas des capacités. Vous les possédez.',
-    proofBody: "Ce que chaque Collaborateur IA apprend, crée, décide — tout reste chez vous. Sa mémoire est votre actif. Et il travaille avec les meilleurs modèles, partout où vous êtes.",
-    accessTitle: 'Comment y accéder',
-    access: [
-      'Messageries (WhatsApp, Telegram, Signal…)',
-      'Application Desktop',
-      'Terminal & API',
-      'Interface Web',
+    // Section: Construisez votre équipe
+    teamEyebrow: 'CONSTRUISEZ VOTRE ÉQUIPE DE COLLABORATEURS IA',
+    teamTitle: 'Chaque Collaborateur IA possède :',
+    teamAttributes: [
+      { title: 'Un rôle', body: 'Sa place et ses responsabilités dans votre organisation.' },
+      { title: 'Une mission', body: 'Un objectif clair auquel il se consacre.' },
+      { title: 'Une mémoire', body: 'Ce qu\'il apprend reste et lui sert au fil du temps.' },
+      { title: 'Ses propres compétences', body: 'Des savoir-faire choisis pour ses missions.' },
+      { title: 'Ses outils', body: 'Les applications et accès dont il a besoin pour agir.' },
+      { title: 'Sa propre identité', body: 'Un nom, un e-mail et une présence bien à lui.' },
     ],
-    modelsTitle: 'Les modèles disponibles',
-    models: [
-      'Claude · ChatGPT · Gemini',
-      'Mistral · Qwen · DeepSeek',
-      'Images · Vidéo · Audio',
-      'Code · Exécution locale',
+    teamStatements: [
+      'Ils travaillent ensemble.',
+      'Ils travaillent avec vos équipes.',
+      'Ils partagent les connaissances de votre entreprise.',
     ],
-    proofNote: 'À chaque mission son modèle — automatiquement. Pas besoin de choisir.',
+
+    // Section: Emma, un exemple concret
+    emmaEyebrow: 'UN EXEMPLE CONCRET',
+    emmaName: 'Emma',
+    emmaRole: 'Executive Assistant',
+    emmaIntro: 'Emma est un véritable Collaborateur IA.',
+    emmaJoinLabel: 'Elle rejoint votre organisation avec :',
+    emmaAttributes: ['Une identité', 'Une mission', "Des droits d'accès", 'Une mémoire', 'Une présence numérique'],
+    emmaTasks: [
+      'Elle répond aux emails.',
+      'Organise les réunions.',
+      'Prépare les comptes rendus.',
+      'Met à jour votre CRM.',
+      'Coordonne vos équipes.',
+    ],
+    emmaClosingLead: 'Vous lui confiez une mission.',
+    emmaClosingAccent: "Elle l'exécute.",
+    emmaCta: "Voir la fiche complète d'Emma",
+
+    // Section: Chaque Collaborateur IA rejoint votre organigramme
+    memberEyebrow: 'CHAQUE COLLABORATEUR IA REJOINT VOTRE ORGANIGRAMME',
+    memberTitle: "Il n'est pas un logiciel.",
+    memberAccent: 'Il devient un membre de votre organisation.',
+    memberAttrsLabel: 'Avec :',
+    memberAttrs: [
+      'Une adresse email',
+      'Un numéro de téléphone',
+      'Un calendrier',
+      'Une voix',
+      'Un profil public',
+      "Des droits d'accès",
+      'Une mémoire',
+      'Ses propres outils',
+    ],
+    memberAudience: ['Vos collaborateurs.', 'Vos clients.', 'Vos partenaires.'],
+    memberClosing: "Peuvent lui écrire, l'appeler, prendre rendez-vous avec lui ou lui confier une mission.",
+
+    // Section: Votre intelligence appartient à votre entreprise
+    proofEyebrow: 'VOTRE INTELLIGENCE APPARTIENT À VOTRE ENTREPRISE',
+    proofTitle: "Les modèles d'IA évolueront.",
+    proofLead: 'Vos Collaborateurs IA resteront.',
+    proofItems: ['Chaque conversation.', 'Chaque mission.', 'Chaque document.', 'Chaque connaissance.'],
+    proofItemsVerb: 'Enrichissent leur mémoire.',
+    proofBody: 'Et cette mémoire appartient à votre entreprise.',
+    // Section: Unitalk Work
+    workEyebrow: 'UNITALK WORK',
+    workTitle: 'Travaillez avec vos Collaborateurs IA où que vous soyez.',
+    workAvailableLabel: 'Disponible :',
+    workChannels: [
+      'Sur Desktop',
+      'Dans votre navigateur',
+      'Dans vos messageries',
+      'Dans votre terminal',
+    ],
+    workLocal: 'En local avec Ollama.',
+    workCloud: 'Ou dans le cloud avec Unitalk AI Gateway.',
+    // Section: Les meilleurs modèles, automatiquement
+    modelsEyebrow: 'LES MEILLEURS MODÈLES. AUTOMATIQUEMENT.',
+    modelsList: ['Claude', 'ChatGPT', 'Gemini', 'Mistral', 'Qwen', 'DeepSeek', 'Images', 'Vidéo', 'Audio', 'Code'],
+    modelsBody: 'Chaque Collaborateur IA utilise automatiquement le meilleur modèle pour chaque mission.',
+    modelsAccent: "Vous n'avez rien à choisir.",
 
     // Section: Emma
     emmaTitle: 'Emma, Executive Assistant.',
@@ -106,12 +173,15 @@ const content = {
     popularBadge: 'LE PLUS CHOISI',
 
     // Section: CTA final
-    finalEyebrow: 'PRÊT À PASSER À L\'ACTION',
-    finalTitle: 'Vos Collaborateurs IA vous attendent.',
-    finalBody: "Créez le vôtre en quelques minutes, confiez-lui une première mission et voyez votre capacité d'action grandir dès aujourd'hui.",
+    finalEyebrow: 'PRÊT À COMMENCER ?',
+    finalTitle: 'Votre premier Collaborateur IA vous attend.',
+    finalSteps: [
+      'Essayez-le gratuitement pendant 7 jours.',
+      'Confiez-lui une première mission.',
+      "Découvrez ce qu'un Collaborateur IA peut apporter à votre entreprise.",
+    ],
     finalCta: "Commencer l'essai gratuit",
-    finalCtaSecondary: 'Analyse gratuite',
-    finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
+    finalFinePrint: 'Essai gratuit 7 jours · Sans engagement · Déploiement en quelques minutes',
   },
   en: {
     catEyebrow: 'YOUR AI COLLABORATORS ARE ALREADY READY',
@@ -121,24 +191,77 @@ const content = {
     catRolesNote: 'Or create an AI Collaborator built specifically for your field.',
     catCta: 'Discover AI Collaborators',
 
-    proofTitle: 'All of it stays inside your company.',
-    proofLead: 'You do not rent capabilities. You own them.',
-    proofBody: 'What each AI Collaborator learns, creates, decides — everything stays with you. Its memory is your asset. And it works with the best models, wherever you are.',
-    accessTitle: 'How to reach it',
-    access: [
-      'Messaging apps (WhatsApp, Telegram, Signal…)',
-      'Desktop application',
-      'Terminal & API',
-      'Web interface',
+    teamEyebrow: 'BUILD YOUR TEAM OF AI COLLABORATORS',
+    teamTitle: 'Every AI Collaborator has:',
+    teamAttributes: [
+      { title: 'A role', body: 'Its place and responsibilities within your organization.' },
+      { title: 'A mission', body: 'A clear objective it dedicates itself to.' },
+      { title: 'A memory', body: 'What it learns stays and serves it over time.' },
+      { title: 'Its own skills', body: 'Know-how chosen for its missions.' },
+      { title: 'Its tools', body: 'The apps and access it needs to act.' },
+      { title: 'Its own identity', body: 'A name, an email and a presence of its own.' },
     ],
-    modelsTitle: 'Available models',
-    models: [
-      'Claude · ChatGPT · Gemini',
-      'Mistral · Qwen · DeepSeek',
-      'Images · Video · Audio',
-      'Code · Local execution',
+    teamStatements: [
+      'They work together.',
+      'They work with your teams.',
+      'They share your company knowledge.',
     ],
-    proofNote: 'The right model for each mission — automatically. No need to choose.',
+
+    emmaEyebrow: 'A CONCRETE EXAMPLE',
+    emmaName: 'Emma',
+    emmaRole: 'Executive Assistant',
+    emmaIntro: 'Emma is a true AI Collaborator.',
+    emmaJoinLabel: 'She joins your organization with:',
+    emmaAttributes: ['An identity', 'A mission', 'Access rights', 'A memory', 'A digital presence'],
+    emmaTasks: [
+      'She answers emails.',
+      'Schedules meetings.',
+      'Prepares meeting notes.',
+      'Keeps your CRM up to date.',
+      'Coordinates your teams.',
+    ],
+    emmaClosingLead: 'You hand her a mission.',
+    emmaClosingAccent: 'She executes it.',
+    emmaCta: "See Emma's full profile",
+
+    memberEyebrow: 'EVERY AI COLLABORATOR JOINS YOUR ORG CHART',
+    memberTitle: "It's not software.",
+    memberAccent: 'It becomes a member of your organization.',
+    memberAttrsLabel: 'With:',
+    memberAttrs: [
+      'An email address',
+      'A phone number',
+      'A calendar',
+      'A voice',
+      'A public profile',
+      'Access rights',
+      'A memory',
+      'Its own tools',
+    ],
+    memberAudience: ['Your teammates.', 'Your clients.', 'Your partners.'],
+    memberClosing: 'Can write to it, call it, book a meeting with it or hand it a mission.',
+
+    proofEyebrow: 'YOUR INTELLIGENCE BELONGS TO YOUR COMPANY',
+    proofTitle: 'AI models will evolve.',
+    proofLead: 'Your AI Collaborators will remain.',
+    proofItems: ['Every conversation.', 'Every mission.', 'Every document.', 'Every piece of knowledge.'],
+    proofItemsVerb: 'Enriches their memory.',
+    proofBody: 'And that memory belongs to your company.',
+    workEyebrow: 'UNITALK WORK',
+    workTitle: 'Work with your AI Collaborators wherever you are.',
+    workAvailableLabel: 'Available:',
+    workChannels: [
+      'On Desktop',
+      'In your browser',
+      'In your messaging apps',
+      'In your terminal',
+    ],
+    workLocal: 'Locally with Ollama.',
+    workCloud: 'Or in the cloud with Unitalk AI Gateway.',
+    modelsEyebrow: 'THE BEST MODELS. AUTOMATICALLY.',
+    modelsList: ['Claude', 'ChatGPT', 'Gemini', 'Mistral', 'Qwen', 'DeepSeek', 'Images', 'Video', 'Audio', 'Code'],
+    modelsBody: 'Every AI Collaborator automatically uses the best model for each mission.',
+    modelsAccent: 'You have nothing to choose.',
 
     emmaTitle: 'Emma, Executive Assistant.',
     emmaIntroStrong: 'A full-fledged team member.',
@@ -188,12 +311,15 @@ const content = {
     ],
     popularBadge: 'MOST CHOSEN',
 
-    finalEyebrow: 'READY TO TAKE ACTION',
-    finalTitle: 'Your AI Collaborators are waiting.',
-    finalBody: 'Create yours in minutes, hand it a first mission and watch your capacity to act grow from today.',
+    finalEyebrow: 'READY TO START?',
+    finalTitle: 'Your first AI Collaborator is waiting.',
+    finalSteps: [
+      'Try it free for 7 days.',
+      'Hand it a first mission.',
+      'Discover what an AI Collaborator can bring to your business.',
+    ],
     finalCta: 'Start free trial',
-    finalCtaSecondary: 'Free assessment',
-    finalFinePrint: '7-day free trial · Deployed in minutes',
+    finalFinePrint: '7-day free trial · No commitment · Deployed in minutes',
   },
 } as const
 
@@ -243,28 +369,141 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         </Reveal>
       </section>
 
+      {/* Construisez votre équipe */}
+      <section className="section-rule bg-[#F3EFE4] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.teamEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.teamTitle}</h2>
+          </div>
+
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {t.teamAttributes.map((attr, index) => {
+              const Icon = attributeIcons[index]
+              return (
+                <motion.article key={attr.title} className="rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-6" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: (index % 3) * 0.05 }}>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#D10E63]/[0.08] text-[#D10E63]"><Icon className="h-5 w-5" strokeWidth={1.8} /></span>
+                  <h3 className="mt-5 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{attr.title}</h3>
+                  <p className="mt-2 text-pretty text-sm leading-6 text-[#6B6560]">{attr.body}</p>
+                </motion.article>
+              )
+            })}
+          </div>
+
+          <div className="mt-12 border-t border-[#D8D0C2] pt-10">
+            <ul className="flex flex-col gap-3">
+              {t.teamStatements.map((statement) => (
+                <li key={statement} className="flex items-center gap-3 font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">
+                  <ArrowRight className="h-6 w-6 shrink-0 text-[#D10E63]" strokeWidth={2} />
+                  <span className="text-pretty">{statement}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Emma, un exemple concret */}
+      <section className="section-rule bg-[#FBF9F3] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+            {/* Carte identité */}
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <div className="overflow-hidden rounded-3xl border border-[#D8D0C2] bg-[#F3EFE4]">
+                <div className="relative aspect-[4/5] w-full">
+                  <Image src="/images/emma-avatar.png" alt={`Portrait d'${t.emmaName}, Collaborateur IA`} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 40vw" />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17]">{t.emmaName}</h3>
+                    <BadgeCheck className="h-5 w-5 text-[#D10E63]" strokeWidth={2} />
+                  </div>
+                  <p className="mt-1 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#857C6E]">{t.emmaRole}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Récit */}
+            <div>
+              <Eyebrow className="mb-5">{t.emmaEyebrow}</Eyebrow>
+              <p className="text-balance font-sf text-3xl font-semibold leading-[1.1] tracking-[-0.035em] text-[#1C1A17] md:text-4xl">{t.emmaIntro}</p>
+
+              <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.emmaJoinLabel}</p>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                {t.emmaAttributes.map((attr) => (
+                  <span key={attr} className="rounded-full border border-[#D8D0C2] bg-[#F3EFE4] px-4 py-2 text-sm font-semibold text-[#1C1A17]">{attr}</span>
+                ))}
+              </div>
+
+              <ul className="mt-8 flex flex-col gap-2.5 border-t border-[#D8D0C2] pt-8">
+                {t.emmaTasks.map((task) => (
+                  <li key={task} className="flex items-center gap-3 font-sf text-lg font-semibold tracking-[-0.02em] text-[#1C1A17]">
+                    <Check className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
+                    {task}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 border-t border-[#D8D0C2] pt-8">
+                <p className="font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">{t.emmaClosingLead}</p>
+                <p className="mt-1 font-sf text-2xl font-semibold tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.emmaClosingAccent}</p>
+              </div>
+
+              <a href="/collaborateurs-ia" className="mt-9 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-3">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Rejoint votre organigramme */}
+      <section className="section-rule bg-[#FBF9F3] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.memberEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.memberTitle}</h2>
+            <p className="mt-4 text-pretty font-sf text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.memberAccent}</p>
+          </div>
+
+          <div className="mt-14">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.memberAttrsLabel}</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {t.memberAttrs.map((attr, index) => {
+                const Icon = memberIcons[index]
+                return (
+                  <motion.div key={attr} className="flex items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#F3EFE4] px-4 py-3.5" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: (index % 4) * 0.05 }}>
+                    <Icon className="h-5 w-5 shrink-0 text-[#D10E63]" strokeWidth={1.8} />
+                    <span className="text-sm font-semibold text-[#1C1A17]">{attr}</span>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mt-12 border-t border-[#D8D0C2] pt-10">
+            <div className="flex flex-wrap gap-x-3 gap-y-1">
+              {t.memberAudience.map((who) => (
+                <span key={who} className="font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">{who}</span>
+              ))}
+            </div>
+            <p className="mt-3 max-w-2xl text-pretty font-sf text-xl font-medium leading-snug text-[#6B6560] md:text-2xl">{t.memberClosing}</p>
+          </div>
+        </Reveal>
+      </section>
+
       {/* Propriété et accès */}
       <section className="section-rule bg-[#1C1A17] py-24 text-[#FBF9F3] md:py-32">
         <Reveal className="editorial-shell">
-          <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
-            <div className="lg:sticky lg:top-28 lg:self-start">
-              <Eyebrow className="mb-6 text-[#F0559B]">{lang === 'fr' ? 'VOTRE INTELLIGENCE' : 'YOUR INTELLIGENCE'}</Eyebrow>
-              <h2 className="max-w-xl text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-6xl">{t.proofTitle}</h2>
-              <p className="mt-7 max-w-lg font-sf text-xl font-semibold tracking-[-0.02em] text-[#F0559B]">{t.proofLead}</p>
-              <p className="mt-5 max-w-lg text-pretty text-base leading-7 text-[#BDB5A9]">{t.proofBody}</p>
-            </div>
-            <div className="border-t border-[#FBF9F3]/15">
-              {[{ title: t.accessTitle, items: t.access, icons: accessIcons }, { title: t.modelsTitle, items: t.models, icons: modelIcons }].map((group) => (
-                <div key={group.title} className="border-b border-[#FBF9F3]/15 py-8">
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F0559B]">{group.title}</p>
-                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                    {group.items.map((item, index) => { const Icon = group.icons[index]; return <li key={item} className="flex items-center gap-3 text-sm text-[#E7E0D5]"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#FBF9F3]/15"><Icon className="h-4 w-4 text-[#F0559B]" /></span>{item}</li> })}
-                  </ul>
-                </div>
-              ))}
-              <p className="pt-7 text-pretty text-sm leading-6 text-[#9E968A]">{t.proofNote}</p>
-            </div>
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-6 text-[#F0559B]">{t.proofEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.05] tracking-[-0.045em] md:text-5xl">{t.proofTitle}<br /><span className="text-[#F0559B]">{t.proofLead}</span></h2>
           </div>
+          <ul className="mt-8 flex flex-col gap-1.5">
+            {t.proofItems.map((item) => (
+              <li key={item} className="font-sf text-2xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-3xl">{item}</li>
+            ))}
+          </ul>
+          <p className="mt-4 font-sf text-2xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-3xl">{t.proofItemsVerb}</p>
+          <p className="mt-8 max-w-2xl text-pretty font-sf text-2xl font-semibold tracking-[-0.025em] text-[#F0559B] md:text-3xl">{t.proofBody}</p>
         </Reveal>
       </section>
 
@@ -292,6 +531,54 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="mt-6 max-w-xl text-pretty text-base leading-7 text-[#6B6560] md:text-lg"><span className="font-bold text-[#1C1A17]">{t.emmaIntroStrong}</span> {t.emmaIntro}</p>
             <p className="mt-6 max-w-lg border-l-2 border-[#D10E63] pl-5 text-sm leading-6 text-[#857C6E]">{t.emmaNote}</p>
             <a href="/collaborateurs-ia/executive-assistant" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Unitalk Work */}
+      <section className="section-rule bg-[#F3EFE4] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.workEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.workTitle}</h2>
+          </div>
+
+          <div className="mt-14">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.workAvailableLabel}</p>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {t.workChannels.map((channel, index) => {
+                const Icon = workIcons[index]
+                return (
+                  <motion.div key={channel} className="flex items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-5 py-4" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: (index % 4) * 0.05 }}>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D8D0C2] text-[#D10E63]"><Icon className="h-5 w-5" strokeWidth={1.8} /></span>
+                    <span className="font-sf text-base font-bold tracking-[-0.02em] text-[#1C1A17]">{channel}</span>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mt-12 border-t border-[#D8D0C2] pt-10">
+            <p className="font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">{t.workLocal}</p>
+            <p className="mt-1 text-pretty font-sf text-2xl font-semibold tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.workCloud}</p>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Les meilleurs modèles, automatiquement */}
+      <section className="section-rule bg-[#1C1A17] py-24 text-[#FBF9F3] md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-6 text-[#F0559B]">{t.modelsEyebrow}</Eyebrow>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {t.modelsList.map((model, index) => (
+              <motion.span key={model} className="rounded-full border border-[#FBF9F3]/20 px-5 py-2.5 font-sf text-lg font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-xl" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: (index % 5) * 0.04 }}>{model}</motion.span>
+            ))}
+          </div>
+          <div className="mt-12 border-t border-[#FBF9F3]/15 pt-10">
+            <p className="max-w-2xl text-pretty font-sf text-2xl font-semibold leading-snug tracking-[-0.025em] md:text-3xl">{t.modelsBody}</p>
+            <p className="mt-3 font-sf text-2xl font-semibold tracking-[-0.025em] text-[#F0559B] md:text-3xl">{t.modelsAccent}</p>
           </div>
         </Reveal>
       </section>
@@ -333,14 +620,18 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#FBF9F3]/35"><UsersRound className="h-5 w-5" /></span>
           <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#FBF9F3]/75">{t.finalEyebrow}</p>
           <h2 className="mt-5 text-balance font-sf text-4xl font-semibold leading-[1] tracking-[-0.05em] md:text-6xl">{t.finalTitle}</h2>
-          <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-7 text-[#FBF9F3]/80 md:text-lg">{t.finalBody}</p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <ul className="mx-auto mt-7 flex max-w-xl flex-col gap-2.5">
+            {t.finalSteps.map((step) => (
+              <li key={step} className="flex items-center justify-center gap-2 text-pretty text-base leading-7 text-[#FBF9F3]/85 md:text-lg">
+                <Check className="h-4 w-4 shrink-0 text-[#FBF9F3]" strokeWidth={2.5} />
+                {step}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-9 flex justify-center">
             <a href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
               {t.finalCta}
               <ArrowRight className="h-4 w-4" />
-            </a>
-            <a href="/contact" className="inline-flex items-center gap-2 rounded-full border border-[#FBF9F3]/50 px-7 py-3.5 font-bold text-[#FBF9F3] transition-colors hover:bg-[#FBF9F3]/10">
-              {t.finalCtaSecondary}
             </a>
           </div>
           <p className="mt-6 text-sm text-[#FBF9F3]/75">{t.finalFinePrint}</p>

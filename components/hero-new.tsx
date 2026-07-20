@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Network } from 'lucide-react'
+import { HeroActivityBadge } from '@/components/hero-activity-badge'
 
 const T = {
   fr: {
@@ -10,7 +11,6 @@ const T = {
     headlineAccent: ' déjà prêt.',
     lead: 'Pendant 7 jours, découvrez ce que votre premier Collaborateur IA peut accomplir pour votre entreprise.',
     heroCta: "Commencer l'essai gratuit",
-    heroCtaSecondary: 'Voir une démo',
     heroProofs: ['Aucun recrutement', 'Sans engagement', 'Déploiement en quelques minutes'],
     orgTitle: 'Votre équipe',
     orgMeta: '3 membres + 3 Collaborateurs IA',
@@ -27,7 +27,6 @@ const T = {
     headlineAccent: ' already ready.',
     lead: 'For 7 days, discover what your first AI Collaborator can achieve for your business.',
     heroCta: 'Start free trial',
-    heroCtaSecondary: 'Watch a demo',
     heroProofs: ['No hiring', 'No commitment', 'Deploy in minutes'],
     orgTitle: 'Your team',
     orgMeta: '3 members + 3 AI Collaborators',
@@ -69,9 +68,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.heroCta}<ArrowRight className="h-4 w-4" />
             </a>
-            <a href="/demo" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#BFB5A6] px-6 text-sm font-bold text-[#1C1A17] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
-              {t.heroCtaSecondary}
-            </a>
+            <HeroActivityBadge lang={lang} />
           </motion.div>
           <motion.div {...enter(0.3)} className="mt-7 flex flex-wrap gap-x-5 gap-y-2 border-t border-[#D8D0C2] pt-5 text-xs font-medium text-[#6B6560]">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
