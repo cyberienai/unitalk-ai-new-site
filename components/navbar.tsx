@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
-import { useAlma } from '@/lib/alma-context'
 import { COLLAB_NAV_LINKS, COLLAB_SECTION } from '@/lib/collaborators-nav'
 
 // Full list — shown in the burger menu
@@ -24,10 +23,9 @@ const NAV_LINKS = [
   { fr: 'Devenir partenaire', en: 'Become a partner', href: '/partenaires' },
 ]
 
-// Essentials — shown inline on desktop
+// Essentials — shown inline on desktop (Collaborateurs IA dropdown renders first, before these)
 const PRIMARY_LINKS = [
-  { fr: 'Démarrer', en: 'Get Started', href: '/solo' },
-  { fr: 'Collaborer', en: 'Collaborate', href: '/teams' },
+  { fr: 'Unitalk Work', en: 'Unitalk Work', href: '/solo' },
   { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
 ]
 
@@ -35,8 +33,7 @@ const T = {
   fr: {
     home: 'Accueil Unitalk AI',
     signIn: 'Se connecter',
-    talkToAlma: 'Parlez à Alma',
-    createAgent: 'Créer mon Collaborateur IA gratuit',
+    createFirstAgent: 'Créer mon premier Collaborateur IA',
     signUp: 'S’inscrire',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -44,8 +41,7 @@ const T = {
   en: {
     home: 'Unitalk AI Home',
     signIn: 'Sign in',
-    talkToAlma: 'Talk to Alma',
-    createAgent: 'Create my AI Collaborator for free',
+    createFirstAgent: 'Create my first AI Collaborator',
     signUp: 'Sign up',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -88,7 +84,6 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCollabOpen, setIsCollabOpen] = useState(false)
   const { lang, setLang } = useLanguage()
-  const { openAlma } = useAlma()
   const t = T[lang]
 
   // Lock body scroll while the menu is open on mobile
@@ -106,7 +101,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#F3EFE6]/85 backdrop-blur-md">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#E4DDCE]/70 bg-[#F3EFE6]/80 backdrop-blur-xl">
       <nav className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Logo + nav links grouped together */}
         <div className="flex items-center gap-8 xl:gap-10">
@@ -117,24 +112,14 @@ export function Navbar() {
 
           {/* Nav links - Desktop only (essentials) */}
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {PRIMARY_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-[#857C6E] hover:text-[#1C1A17] transition-colors"
-              >
-                {link[lang]}
-              </a>
-            ))}
-
-            {/* Collaborateurs IA dropdown */}
+            {/* Collaborateurs IA dropdown — first */}
             <div
               className="relative"
               onMouseEnter={() => setIsCollabOpen(true)}
               onMouseLeave={() => setIsCollabOpen(false)}
             >
               <button
-                className="inline-flex items-center gap-1.5 text-sm text-[#857C6E] hover:text-[#1C1A17] transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-[#857C6E] hover:text-[#1C1A17] transition-colors"
                 aria-expanded={isCollabOpen}
                 aria-haspopup="true"
                 onClick={() => setIsCollabOpen((v) => !v)}
@@ -149,7 +134,7 @@ export function Navbar() {
                   strokeWidth="2.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className={`transition-transform ${isCollabOpen ? 'rotate-180' : ''}`}
+                  className={`transition-transform ${isCollabOpen ? 'rotate-180 text-[#D10E63]' : ''}`}
                 >
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
@@ -164,7 +149,7 @@ export function Navbar() {
                     exit={{ opacity: 0, y: 6 }}
                     transition={{ duration: 0.16 }}
                   >
-                    <div className="overflow-hidden rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-2 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
+                    <div className="overflow-hidden rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-2 shadow-[0_24px_60px_rgba(28,26,23,0.16)]">
                       <p className="px-3 pb-2 pt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">
                         {COLLAB_SECTION[lang]}
                       </p>
@@ -184,23 +169,28 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            <button
-              onClick={openAlma}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#D10E63] border border-[#D10E63] rounded-full hover:bg-[#D10E63]/8 transition-all"
-            >
-              {t.talkToAlma}
-            </button>
+            {PRIMARY_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-[#857C6E] hover:text-[#1C1A17] transition-colors"
+              >
+                {link[lang]}
+              </a>
+            ))}
           </div>
         </div>
 
         {/* Right: Buttons */}
-        <div className="flex items-center gap-2 sm:gap-4">
-          <button
-            className="inline-flex px-3 sm:px-4 py-2 text-xs sm:text-sm text-[#1C1A17] hover:text-[#857C6E] transition-colors"
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href="/login"
+            className="hidden sm:inline-flex px-3 py-2 text-sm font-medium text-[#1C1A17] hover:text-[#D10E63] transition-colors"
             aria-label={t.signIn}
           >
             {t.signIn}
-          </button>
+          </a>
+
           {/* Language selector — toggles FR/EN */}
           <button
             onClick={toggleLang}
@@ -210,6 +200,18 @@ export function Navbar() {
             {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
             {lang === 'fr' ? 'FR' : 'EN'}
           </button>
+
+          {/* Primary CTA */}
+          <a
+            href="/signup"
+            className="hidden lg:inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-semibold text-[#FBF9F3] shadow-[0_10px_28px_rgba(209,14,99,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#B00B52]"
+          >
+            {t.createFirstAgent}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
 
           {/* Menu button — visible on all breakpoints */}
           <button
