@@ -6,9 +6,9 @@ import { ArrowRight, Check, Network } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: "L'IA entre dans votre organigramme",
-    headline: "Augmentez la capacité d'action de votre entreprise.",
-    headlineAccent: ' Pas vos effectifs.',
-    lead: "Un Collaborateur IA analyse, planifie et exécute aux côtés de votre équipe — pour vous permettre d'en faire plus, sans embaucher davantage.",
+    headline: 'Vos Collaborateurs IA sont',
+    headlineAccent: ' déjà prêts.',
+    lead: "Votre seule limite, c'est votre capacité à agir. Un Collaborateur IA vous permet d'en faire plus — sans embaucher.",
     heroCta: 'Ajouter mon Collaborateur IA',
     heroCtaSecondary: 'Analyse gratuite',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
@@ -23,9 +23,9 @@ const T = {
   },
   en: {
     eyebrow: 'AI joins your org chart',
-    headline: "Increase your company's capacity to act.",
-    headlineAccent: ' Not your headcount.',
-    lead: 'An AI Collaborator analyzes, plans and executes alongside your team — so you can do more without hiring more.',
+    headline: 'Your AI Collaborators are',
+    headlineAccent: ' already ready.',
+    lead: 'Your only limit is your capacity to act. An AI Collaborator lets you do more — without hiring.',
     heroCta: 'Add my AI Collaborator',
     heroCtaSecondary: 'Free assessment',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
