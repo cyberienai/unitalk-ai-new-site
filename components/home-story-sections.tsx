@@ -31,10 +31,10 @@ const uniqueIcons = [Brain, Plug, UserRound]
 const content = {
   fr: {
     // Section: Chatbot vs Collaborateur IA
-    catEyebrow: 'UNE NOUVELLE CATÉGORIE DE TRAVAILLEUR',
-    catTitle: '',
-    catAccent: 'Collaborateurs IA.',
-    catBody: "Pas un chatbot. Pas un assistant. Une nouvelle catégorie de travailleur.",
+    catEyebrow: 'LEURS CAPACITÉS',
+    catTitle: 'Un Collaborateur IA,',
+    catAccent: 'des dizaines de métiers.',
+    catBody: "Pas un chatbot, pas un assistant : une nouvelle catégorie de travailleur.",
     capabilities: [
       { title: 'Marketing & contenu', body: 'Gère vos réseaux sociaux, rédige des articles de blog, prépare des newsletters, planifie des campagnes.' },
       { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
@@ -51,8 +51,8 @@ const content = {
     catCta: 'Découvrir les Collaborateurs IA',
 
     // Section: Ce qui rend un Collaborateur IA unique
-    assetEyebrow: 'CE QUI LE REND UNIQUE',
-    assetTitle: 'Ce qui rend un Collaborateur IA unique.',
+    assetEyebrow: 'CE QUI LES REND UNIQUES',
+    assetTitle: "Bien plus qu'un simple modèle d'IA.",
     uniqueFeatures: [
       {
         title: "Il s'appuie sur les meilleurs modèles.",
@@ -119,9 +119,9 @@ const content = {
 
     // Section: identité d'Emma
     idEyebrow: 'UNE IDENTITÉ COMPLÈTE',
-    idTitle: 'Chaque Collaborateur IA possède sa propre identité.',
-    idAccent: 'Comme Emma.',
-    idBody: 'Elle dispose de tout ce qu\'il faut pour travailler comme un vrai membre de l\'équipe.',
+    idTitle: 'Faites connaissance avec',
+    idAccent: 'Emma.',
+    idBody: 'Elle a tout ce qu\'il faut pour travailler comme un vrai membre de l\'équipe.',
     idName: 'Emma',
     idRole: 'Executive Assistant',
     idStatus: 'Prête à travailler',
@@ -145,10 +145,10 @@ const content = {
     finalFinePrint: 'Analyse gratuite · Aucune carte bancaire · Déploiement en quelques minutes',
   },
   en: {
-    catEyebrow: 'A NEW CATEGORY OF WORKER',
-    catTitle: '',
-    catAccent: 'AI Collaborators.',
-    catBody: 'Not a chatbot. Not an assistant. A new category of worker.',
+    catEyebrow: 'THEIR CAPABILITIES',
+    catTitle: 'One AI Collaborator,',
+    catAccent: 'dozens of roles.',
+    catBody: 'Not a chatbot, not an assistant: a new category of worker.',
     capabilities: [
       { title: 'Marketing & content', body: 'Runs your social media, writes blog posts, prepares newsletters, plans campaigns.' },
       { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
@@ -164,8 +164,8 @@ const content = {
     ],
     catCta: 'Discover AI Collaborators',
 
-    assetEyebrow: 'WHAT MAKES IT UNIQUE',
-    assetTitle: 'What makes an AI Collaborator unique.',
+    assetEyebrow: 'WHAT MAKES THEM UNIQUE',
+    assetTitle: 'Far more than just an AI model.',
     uniqueFeatures: [
       {
         title: 'It runs on the best models.',
@@ -229,8 +229,8 @@ const content = {
     collaboratorLabel: 'AI Collaborator',
 
     idEyebrow: 'A COMPLETE IDENTITY',
-    idTitle: 'Every AI Collaborator has its own identity.',
-    idAccent: 'Like Emma.',
+    idTitle: 'Meet',
+    idAccent: 'Emma.',
     idBody: 'She has everything she needs to work like a real member of the team.',
     idName: 'Emma',
     idRole: 'Executive Assistant',
@@ -279,7 +279,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <Reveal className="relative mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
-            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">
+            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">
               {t.catTitle}
             {t.catTitle ? ' ' : ''}
             <span className="text-[#D10E63]">{t.catAccent}</span>
@@ -356,7 +356,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <Reveal className="relative mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow className="mb-5">{t.plansEyebrow}</Eyebrow>
-            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-6xl">{t.plansTitle}</h2>
+            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">{t.plansTitle}</h2>
           </div>
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
             {t.plans.map((plan) => (
