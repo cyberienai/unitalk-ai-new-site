@@ -10,7 +10,6 @@ import {
   ClipboardList,
   Code2,
   FileText,
-  Film,
   Globe,
   Image as ImageIcon,
   Mail,
@@ -18,7 +17,6 @@ import {
   MessageSquare,
   Mic,
   Monitor,
-  Palette,
   Phone,
   Search,
   Terminal,
@@ -26,7 +24,7 @@ import {
   Zap,
 } from 'lucide-react'
 
-const capabilityIcons = [Megaphone, Phone, MessageSquare, Code2, Palette, Film, FileText, Mic, Search, ClipboardList, Zap]
+const capabilityIcons = [Megaphone, Phone, MessageSquare, Code2, FileText, Mic, Search, ClipboardList, Zap]
 const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
 const modelIcons = [Bot, Brain, ImageIcon, Code2]
 
@@ -41,8 +39,6 @@ const content = {
       { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
       { title: 'Support client', body: 'Répond à vos clients par email, chat ou téléphone, 24h/24, dans leur langue.' },
       { title: 'Développement', body: 'Code vos applications, intègre vos systèmes, corrige les bugs et livre des fonctionnalités.' },
-      { title: 'Design', body: 'Crée des interfaces, des maquettes et des visuels. Participe aux revues UX avec transcription des échanges.' },
-      { title: 'Motion design', body: 'Produit des animations, des vidéos et du contenu animé pour vos produits et vos campagnes.' },
       { title: 'Analyse & documents', body: 'Synthétise des rapports, extrait des données, rédige des propositions et des comptes rendus.' },
       { title: 'Notes vocales & réunions', body: 'Prend des notes vocales, assiste aux réunions, génère des comptes rendus et transcripts.' },
       { title: 'Recherche & veille', body: 'Surveille vos marchés, vos concurrents, détecte les opportunités et vous alerte.' },
@@ -138,8 +134,6 @@ const content = {
       { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
       { title: 'Customer support', body: 'Answers your customers by email, chat or phone, 24/7, in their language.' },
       { title: 'Development', body: 'Codes your applications, integrates your systems, fixes bugs and ships features.' },
-      { title: 'Design', body: 'Creates interfaces, mockups and visuals. Joins UX reviews with transcripts of the discussions.' },
-      { title: 'Motion design', body: 'Produces animations, videos and motion content for your products and campaigns.' },
       { title: 'Analysis & documents', body: 'Summarizes reports, extracts data, drafts proposals and meeting notes.' },
       { title: 'Voice notes & meetings', body: 'Takes voice notes, attends meetings, generates minutes and transcripts.' },
       { title: 'Research & monitoring', body: 'Monitors your markets and competitors, spots opportunities and alerts you.' },
