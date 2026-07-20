@@ -31,10 +31,10 @@ const uniqueIcons = [Brain, Plug, UserRound]
 const content = {
   fr: {
     // Section: Chatbot vs Collaborateur IA
-    catEyebrow: 'LEURS CAPACITÉS',
-    catTitle: 'Un Collaborateur IA,',
-    catAccent: 'des dizaines de métiers.',
-    catBody: "Des Collaborateurs IA qui analysent, planifient, exécutent et apprennent à vos côtés.",
+    catEyebrow: 'UNE NOUVELLE CATÉGORIE DE TRAVAILLEUR',
+    catTitle: 'Des Collaborateurs IA qui analysent, planifient, exécutent',
+    catAccent: 'et apprennent à vos côtés.',
+    catBody: '',
     capabilities: [
       { title: 'Marketing & contenu', body: 'Gère vos réseaux sociaux, rédige des articles de blog, prépare des newsletters, planifie des campagnes.' },
       { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
@@ -146,10 +146,10 @@ const content = {
     finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
   },
   en: {
-    catEyebrow: 'THEIR CAPABILITIES',
-    catTitle: 'One AI Collaborator,',
-    catAccent: 'dozens of roles.',
-    catBody: 'AI Collaborators that analyze, plan, execute and learn alongside you.',
+    catEyebrow: 'A NEW CATEGORY OF WORKER',
+    catTitle: 'AI Collaborators that analyze, plan, execute',
+    catAccent: 'and learn alongside you.',
+    catBody: '',
     capabilities: [
       { title: 'Marketing & content', body: 'Runs your social media, writes blog posts, prepares newsletters, plans campaigns.' },
       { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
@@ -286,7 +286,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.catTitle ? ' ' : ''}
             <span className="text-[#D10E63]">{t.catAccent}</span>
             </h2>
-            <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.catBody}</p>
+            {t.catBody ? <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.catBody}</p> : null}
           </div>
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
