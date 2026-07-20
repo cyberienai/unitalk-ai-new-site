@@ -9,9 +9,9 @@ const T = {
     headline: 'Votre premier Collaborateur IA est',
     headlineAccent: ' déjà prêt.',
     lead: 'Ajoutez des Collaborateurs IA qui travaillent avec vos équipes pour augmenter les capacités de votre entreprise.',
-    heroCta: 'Créer mon Collaborateur IA',
+    heroCta: "Commencer l'essai gratuit",
     heroCtaSecondary: 'Voir une démo',
-    heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
+    heroProof: 'Pendant 7 jours, votre Collaborateur IA travaille réellement avec vous.',
     orgTitle: 'Votre équipe',
     orgMeta: '3 membres + 3 Collaborateurs IA',
     orgPairs: [
@@ -26,9 +26,9 @@ const T = {
     headline: 'Your first AI Collaborator is',
     headlineAccent: ' already ready.',
     lead: "Add AI Collaborators that work with your teams to expand your company's capabilities.",
-    heroCta: 'Create my AI Collaborator',
+    heroCta: 'Start free trial',
     heroCtaSecondary: 'Watch a demo',
-    heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
+    heroProof: 'For 7 days, your AI Collaborator truly works with you.',
     orgTitle: 'Your team',
     orgMeta: '3 members + 3 AI Collaborators',
     orgPairs: [
@@ -73,9 +73,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               {t.heroCtaSecondary}
             </a>
           </motion.div>
-          <motion.div {...enter(0.3)} className="mt-7 flex flex-wrap gap-x-5 gap-y-2 border-t border-[#D8D0C2] pt-5 text-xs font-medium text-[#6B6560]">
-            {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
-          </motion.div>
+          <motion.p {...enter(0.3)} className="mt-7 flex items-center gap-2 border-t border-[#D8D0C2] pt-5 text-sm font-medium text-[#6B6560]">
+            <Check className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />{t.heroProof}
+          </motion.p>
         </div>
 
         <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
