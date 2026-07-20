@@ -31,7 +31,7 @@ import {
 const roleIcons = [Megaphone, Phone, MessageSquare, ClipboardList, Code2, BarChart3, UsersRound]
 const attributeIcons = [UserRound, Target, Brain, Sparkles, Wrench, Fingerprint]
 const memberIcons = [Mail, Phone, CalendarDays, Mic, BadgeCheck, KeyRound, Brain, Wrench]
-const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
+const workIcons = [Monitor, Globe, MessageSquare, Terminal]
 
 const content = {
   fr: {
@@ -85,13 +85,18 @@ const content = {
     proofItems: ['Chaque conversation.', 'Chaque mission.', 'Chaque document.', 'Chaque connaissance.'],
     proofItemsVerb: 'Enrichissent leur mémoire.',
     proofBody: 'Et cette mémoire appartient à votre entreprise.',
-    accessTitle: 'Comment y accéder',
-    access: [
-      'Messageries (WhatsApp, Telegram, Signal…)',
-      'Application Desktop',
-      'Terminal & API',
-      'Interface Web',
+    // Section: Unitalk Work
+    workEyebrow: 'UNITALK WORK',
+    workTitle: 'Travaillez avec vos Collaborateurs IA où que vous soyez.',
+    workAvailableLabel: 'Disponible :',
+    workChannels: [
+      'Sur Desktop',
+      'Dans votre navigateur',
+      'Dans vos messageries',
+      'Dans votre terminal',
     ],
+    workLocal: 'En local avec Ollama.',
+    workCloud: 'Ou dans le cloud avec Unitalk AI Gateway.',
     // Section: Les meilleurs modèles, automatiquement
     modelsEyebrow: 'LES MEILLEURS MODÈLES. AUTOMATIQUEMENT.',
     modelsList: ['Claude', 'ChatGPT', 'Gemini', 'Mistral', 'Qwen', 'DeepSeek', 'Images', 'Vidéo', 'Audio', 'Code'],
@@ -206,13 +211,17 @@ const content = {
     proofItems: ['Every conversation.', 'Every mission.', 'Every document.', 'Every piece of knowledge.'],
     proofItemsVerb: 'Enriches their memory.',
     proofBody: 'And that memory belongs to your company.',
-    accessTitle: 'How to reach it',
-    access: [
-      'Messaging apps (WhatsApp, Telegram, Signal…)',
-      'Desktop application',
-      'Terminal & API',
-      'Web interface',
+    workEyebrow: 'UNITALK WORK',
+    workTitle: 'Work with your AI Collaborators wherever you are.',
+    workAvailableLabel: 'Available:',
+    workChannels: [
+      'On Desktop',
+      'In your browser',
+      'In your messaging apps',
+      'In your terminal',
     ],
+    workLocal: 'Locally with Ollama.',
+    workCloud: 'Or in the cloud with Unitalk AI Gateway.',
     modelsEyebrow: 'THE BEST MODELS. AUTOMATICALLY.',
     modelsList: ['Claude', 'ChatGPT', 'Gemini', 'Mistral', 'Qwen', 'DeepSeek', 'Images', 'Video', 'Audio', 'Code'],
     modelsBody: 'Every AI Collaborator automatically uses the best model for each mission.',
@@ -396,27 +405,17 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       {/* Propriété et accès */}
       <section className="section-rule bg-[#1C1A17] py-24 text-[#FBF9F3] md:py-32">
         <Reveal className="editorial-shell">
-          <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
-            <div className="lg:sticky lg:top-28 lg:self-start">
-              <Eyebrow className="mb-6 text-[#F0559B]">{t.proofEyebrow}</Eyebrow>
-              <h2 className="max-w-xl text-balance font-sf text-4xl font-semibold leading-[1.05] tracking-[-0.045em] md:text-5xl">{t.proofTitle}<br /><span className="text-[#F0559B]">{t.proofLead}</span></h2>
-              <ul className="mt-8 flex flex-col gap-1.5">
-                {t.proofItems.map((item) => (
-                  <li key={item} className="font-sf text-xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-2xl">{item}</li>
-                ))}
-              </ul>
-              <p className="mt-4 font-sf text-xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-2xl">{t.proofItemsVerb}</p>
-              <p className="mt-8 max-w-lg text-pretty font-sf text-xl font-semibold tracking-[-0.02em] text-[#F0559B] md:text-2xl">{t.proofBody}</p>
-            </div>
-            <div className="border-t border-[#FBF9F3]/15">
-              <div className="py-8">
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F0559B]">{t.accessTitle}</p>
-                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {t.access.map((item, index) => { const Icon = accessIcons[index]; return <li key={item} className="flex items-center gap-3 text-sm text-[#E7E0D5]"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#FBF9F3]/15"><Icon className="h-4 w-4 text-[#F0559B]" /></span>{item}</li> })}
-                </ul>
-              </div>
-            </div>
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-6 text-[#F0559B]">{t.proofEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.05] tracking-[-0.045em] md:text-5xl">{t.proofTitle}<br /><span className="text-[#F0559B]">{t.proofLead}</span></h2>
           </div>
+          <ul className="mt-8 flex flex-col gap-1.5">
+            {t.proofItems.map((item) => (
+              <li key={item} className="font-sf text-2xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-3xl">{item}</li>
+            ))}
+          </ul>
+          <p className="mt-4 font-sf text-2xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-3xl">{t.proofItemsVerb}</p>
+          <p className="mt-8 max-w-2xl text-pretty font-sf text-2xl font-semibold tracking-[-0.025em] text-[#F0559B] md:text-3xl">{t.proofBody}</p>
         </Reveal>
       </section>
 
@@ -444,6 +443,36 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="mt-6 max-w-xl text-pretty text-base leading-7 text-[#6B6560] md:text-lg"><span className="font-bold text-[#1C1A17]">{t.emmaIntroStrong}</span> {t.emmaIntro}</p>
             <p className="mt-6 max-w-lg border-l-2 border-[#D10E63] pl-5 text-sm leading-6 text-[#857C6E]">{t.emmaNote}</p>
             <a href="/collaborateurs-ia/executive-assistant" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Unitalk Work */}
+      <section className="section-rule bg-[#F3EFE4] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.workEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.workTitle}</h2>
+          </div>
+
+          <div className="mt-14">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.workAvailableLabel}</p>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {t.workChannels.map((channel, index) => {
+                const Icon = workIcons[index]
+                return (
+                  <motion.div key={channel} className="flex items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-5 py-4" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: (index % 4) * 0.05 }}>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D8D0C2] text-[#D10E63]"><Icon className="h-5 w-5" strokeWidth={1.8} /></span>
+                    <span className="font-sf text-base font-bold tracking-[-0.02em] text-[#1C1A17]">{channel}</span>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mt-12 border-t border-[#D8D0C2] pt-10">
+            <p className="font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">{t.workLocal}</p>
+            <p className="mt-1 text-pretty font-sf text-2xl font-semibold tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.workCloud}</p>
           </div>
         </Reveal>
       </section>
