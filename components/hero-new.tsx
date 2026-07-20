@@ -11,7 +11,7 @@ const T = {
     lead: 'Pendant 7 jours, découvrez comment un Collaborateur IA augmente les capacités de votre entreprise.',
     heroCta: "Commencer l'essai gratuit",
     heroCtaSecondary: 'Voir une démo',
-    heroProof: 'Un vrai Collaborateur IA qui rejoint votre équipe et travaille réellement avec vous.',
+    heroProofs: ['Aucun recrutement', 'Sans engagement', 'Déploiement en quelques minutes'],
     orgTitle: 'Votre équipe',
     orgMeta: '3 membres + 3 Collaborateurs IA',
     orgPairs: [
@@ -28,7 +28,7 @@ const T = {
     lead: "For 7 days, see how an AI Collaborator expands your company's capabilities.",
     heroCta: 'Start free trial',
     heroCtaSecondary: 'Watch a demo',
-    heroProof: 'A real AI Collaborator that joins your team and truly works with you.',
+    heroProofs: ['No hiring', 'No commitment', 'Deploy in minutes'],
     orgTitle: 'Your team',
     orgMeta: '3 members + 3 AI Collaborators',
     orgPairs: [
@@ -73,9 +73,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               {t.heroCtaSecondary}
             </a>
           </motion.div>
-          <motion.p {...enter(0.3)} className="mt-7 flex items-center gap-2 border-t border-[#D8D0C2] pt-5 text-sm font-medium text-[#6B6560]">
-            <Check className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />{t.heroProof}
-          </motion.p>
+          <motion.div {...enter(0.3)} className="mt-7 flex flex-wrap gap-x-5 gap-y-2 border-t border-[#D8D0C2] pt-5 text-xs font-medium text-[#6B6560]">
+            {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
+          </motion.div>
         </div>
 
         <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
