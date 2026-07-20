@@ -5,7 +5,6 @@ import {
   ArrowRight,
   BadgeCheck,
   BarChart3,
-  Bot,
   Brain,
   CalendarDays,
   Check,
@@ -13,7 +12,6 @@ import {
   Code2,
   Fingerprint,
   Globe,
-  Image as ImageIcon,
   KeyRound,
   Mail,
   Megaphone,
@@ -34,7 +32,6 @@ const roleIcons = [Megaphone, Phone, MessageSquare, ClipboardList, Code2, BarCha
 const attributeIcons = [UserRound, Target, Brain, Sparkles, Wrench, Fingerprint]
 const memberIcons = [Mail, Phone, CalendarDays, Mic, BadgeCheck, KeyRound, Brain, Wrench]
 const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
-const modelIcons = [Bot, Brain, ImageIcon, Code2]
 
 const content = {
   fr: {
@@ -95,14 +92,11 @@ const content = {
       'Terminal & API',
       'Interface Web',
     ],
-    modelsTitle: 'Les modèles disponibles',
-    models: [
-      'Claude · ChatGPT · Gemini',
-      'Mistral · Qwen · DeepSeek',
-      'Images · Vidéo · Audio',
-      'Code · Exécution locale',
-    ],
-    proofNote: 'À chaque mission son modèle — automatiquement. Pas besoin de choisir.',
+    // Section: Les meilleurs modèles, automatiquement
+    modelsEyebrow: 'LES MEILLEURS MODÈLES. AUTOMATIQUEMENT.',
+    modelsList: ['Claude', 'ChatGPT', 'Gemini', 'Mistral', 'Qwen', 'DeepSeek', 'Images', 'Vidéo', 'Audio', 'Code'],
+    modelsBody: 'Chaque Collaborateur IA utilise automatiquement le meilleur modèle pour chaque mission.',
+    modelsAccent: "Vous n'avez rien à choisir.",
 
     // Section: Emma
     emmaTitle: 'Emma, Executive Assistant.',
@@ -219,14 +213,10 @@ const content = {
       'Terminal & API',
       'Web interface',
     ],
-    modelsTitle: 'Available models',
-    models: [
-      'Claude · ChatGPT · Gemini',
-      'Mistral · Qwen · DeepSeek',
-      'Images · Video · Audio',
-      'Code · Local execution',
-    ],
-    proofNote: 'The right model for each mission — automatically. No need to choose.',
+    modelsEyebrow: 'THE BEST MODELS. AUTOMATICALLY.',
+    modelsList: ['Claude', 'ChatGPT', 'Gemini', 'Mistral', 'Qwen', 'DeepSeek', 'Images', 'Video', 'Audio', 'Code'],
+    modelsBody: 'Every AI Collaborator automatically uses the best model for each mission.',
+    modelsAccent: 'You have nothing to choose.',
 
     emmaTitle: 'Emma, Executive Assistant.',
     emmaIntroStrong: 'A full-fledged team member.',
@@ -419,15 +409,12 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               <p className="mt-8 max-w-lg text-pretty font-sf text-xl font-semibold tracking-[-0.02em] text-[#F0559B] md:text-2xl">{t.proofBody}</p>
             </div>
             <div className="border-t border-[#FBF9F3]/15">
-              {[{ title: t.accessTitle, items: t.access, icons: accessIcons }, { title: t.modelsTitle, items: t.models, icons: modelIcons }].map((group) => (
-                <div key={group.title} className="border-b border-[#FBF9F3]/15 py-8">
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F0559B]">{group.title}</p>
-                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                    {group.items.map((item, index) => { const Icon = group.icons[index]; return <li key={item} className="flex items-center gap-3 text-sm text-[#E7E0D5]"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#FBF9F3]/15"><Icon className="h-4 w-4 text-[#F0559B]" /></span>{item}</li> })}
-                  </ul>
-                </div>
-              ))}
-              <p className="pt-7 text-pretty text-sm leading-6 text-[#9E968A]">{t.proofNote}</p>
+              <div className="py-8">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F0559B]">{t.accessTitle}</p>
+                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {t.access.map((item, index) => { const Icon = accessIcons[index]; return <li key={item} className="flex items-center gap-3 text-sm text-[#E7E0D5]"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#FBF9F3]/15"><Icon className="h-4 w-4 text-[#F0559B]" /></span>{item}</li> })}
+                </ul>
+              </div>
             </div>
           </div>
         </Reveal>
@@ -457,6 +444,24 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="mt-6 max-w-xl text-pretty text-base leading-7 text-[#6B6560] md:text-lg"><span className="font-bold text-[#1C1A17]">{t.emmaIntroStrong}</span> {t.emmaIntro}</p>
             <p className="mt-6 max-w-lg border-l-2 border-[#D10E63] pl-5 text-sm leading-6 text-[#857C6E]">{t.emmaNote}</p>
             <a href="/collaborateurs-ia/executive-assistant" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Les meilleurs modèles, automatiquement */}
+      <section className="section-rule bg-[#1C1A17] py-24 text-[#FBF9F3] md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-6 text-[#F0559B]">{t.modelsEyebrow}</Eyebrow>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {t.modelsList.map((model, index) => (
+              <motion.span key={model} className="rounded-full border border-[#FBF9F3]/20 px-5 py-2.5 font-sf text-lg font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-xl" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: (index % 5) * 0.04 }}>{model}</motion.span>
+            ))}
+          </div>
+          <div className="mt-12 border-t border-[#FBF9F3]/15 pt-10">
+            <p className="max-w-2xl text-pretty font-sf text-2xl font-semibold leading-snug tracking-[-0.025em] md:text-3xl">{t.modelsBody}</p>
+            <p className="mt-3 font-sf text-2xl font-semibold tracking-[-0.025em] text-[#F0559B] md:text-3xl">{t.modelsAccent}</p>
           </div>
         </Reveal>
       </section>
