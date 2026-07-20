@@ -6,7 +6,7 @@ import { ArrowRight, Check, Network } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: 'Recrutez sans embaucher',
-    headline: 'Votre premier Collaborateur IA est',
+    headline: 'Votre premier Collaborateur\u00A0IA est',
     headlineAccent: ' déjà prêt.',
     lead: 'Pendant 7 jours, découvrez comment un Collaborateur IA augmente les capacités de votre entreprise.',
     heroCta: "Commencer l'essai gratuit",
@@ -23,7 +23,7 @@ const T = {
   },
   en: {
     eyebrow: 'Hire without hiring',
-    headline: 'Your first AI Collaborator is',
+    headline: 'Your first AI\u00A0Collaborator is',
     headlineAccent: ' already ready.',
     lead: "For 7 days, see how an AI Collaborator expands your company's capabilities.",
     heroCta: 'Start free trial',
