@@ -8,6 +8,7 @@ import {
   Bot,
   Brain,
   CalendarDays,
+  Check,
   ClipboardList,
   Code2,
   Fingerprint,
@@ -154,12 +155,15 @@ const content = {
     popularBadge: 'LE PLUS CHOISI',
 
     // Section: CTA final
-    finalEyebrow: 'PRÊT À PASSER À L\'ACTION',
-    finalTitle: 'Vos Collaborateurs IA vous attendent.',
-    finalBody: "Créez le vôtre en quelques minutes, confiez-lui une première mission et voyez votre capacité d'action grandir dès aujourd'hui.",
+    finalEyebrow: 'PRÊT À COMMENCER ?',
+    finalTitle: 'Votre premier Collaborateur IA vous attend.',
+    finalSteps: [
+      'Essayez-le gratuitement pendant 7 jours.',
+      'Confiez-lui une première mission.',
+      "Découvrez ce qu'un Collaborateur IA peut apporter à votre entreprise.",
+    ],
     finalCta: "Commencer l'essai gratuit",
-    finalCtaSecondary: 'Analyse gratuite',
-    finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
+    finalFinePrint: 'Essai gratuit 7 jours · Sans engagement · Déploiement en quelques minutes',
   },
   en: {
     catEyebrow: 'YOUR AI COLLABORATORS ARE ALREADY READY',
@@ -272,12 +276,15 @@ const content = {
     ],
     popularBadge: 'MOST CHOSEN',
 
-    finalEyebrow: 'READY TO TAKE ACTION',
-    finalTitle: 'Your AI Collaborators are waiting.',
-    finalBody: 'Create yours in minutes, hand it a first mission and watch your capacity to act grow from today.',
+    finalEyebrow: 'READY TO START?',
+    finalTitle: 'Your first AI Collaborator is waiting.',
+    finalSteps: [
+      'Try it free for 7 days.',
+      'Hand it a first mission.',
+      'Discover what an AI Collaborator can bring to your business.',
+    ],
     finalCta: 'Start free trial',
-    finalCtaSecondary: 'Free assessment',
-    finalFinePrint: '7-day free trial · Deployed in minutes',
+    finalFinePrint: '7-day free trial · No commitment · Deployed in minutes',
   },
 } as const
 
@@ -491,14 +498,18 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#FBF9F3]/35"><UsersRound className="h-5 w-5" /></span>
           <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#FBF9F3]/75">{t.finalEyebrow}</p>
           <h2 className="mt-5 text-balance font-sf text-4xl font-semibold leading-[1] tracking-[-0.05em] md:text-6xl">{t.finalTitle}</h2>
-          <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-7 text-[#FBF9F3]/80 md:text-lg">{t.finalBody}</p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <ul className="mx-auto mt-7 flex max-w-xl flex-col gap-2.5">
+            {t.finalSteps.map((step) => (
+              <li key={step} className="flex items-center justify-center gap-2 text-pretty text-base leading-7 text-[#FBF9F3]/85 md:text-lg">
+                <Check className="h-4 w-4 shrink-0 text-[#FBF9F3]" strokeWidth={2.5} />
+                {step}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-9 flex justify-center">
             <a href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
               {t.finalCta}
               <ArrowRight className="h-4 w-4" />
-            </a>
-            <a href="/contact" className="inline-flex items-center gap-2 rounded-full border border-[#FBF9F3]/50 px-7 py-3.5 font-bold text-[#FBF9F3] transition-colors hover:bg-[#FBF9F3]/10">
-              {t.finalCtaSecondary}
             </a>
           </div>
           <p className="mt-6 text-sm text-[#FBF9F3]/75">{t.finalFinePrint}</p>
