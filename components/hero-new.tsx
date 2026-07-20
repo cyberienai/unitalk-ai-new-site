@@ -19,7 +19,7 @@ const T = {
       { human: 'Thomas', dept: 'Support', ai: 'Sophia', avatar: '/sophia-avatar.png', status: 'Clients' },
       { human: 'Léa', dept: 'Opérations', ai: 'Marcus', avatar: '/marcus-avatar.png', status: 'Coordination' },
     ],
-    collaboratorLabel: 'Collaborateur IA',
+    collaboratorLabel: 'Collaborateurs IA',
   },
   en: {
     eyebrow: 'Hire without hiring',
@@ -36,7 +36,7 @@ const T = {
       { human: 'Thomas', dept: 'Support', ai: 'Sophia', avatar: '/sophia-avatar.png', status: 'Customers' },
       { human: 'Léa', dept: 'Operations', ai: 'Marcus', avatar: '/marcus-avatar.png', status: 'Coordination' },
     ],
-    collaboratorLabel: 'AI Collaborator',
+    collaboratorLabel: 'AI Collaborators',
   },
 } as const
 
