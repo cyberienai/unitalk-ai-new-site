@@ -13,7 +13,7 @@ const T = {
     heroCta: 'Créer mon Collaborateur IA',
     heroCtaSecondary: 'Analyse gratuite',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
-    orgTitle: 'Votre organisation',
+    orgTitle: 'Votre entreprise augmentée',
     orgMeta: '3 membres + 3 Collaborateurs IA',
     orgPairs: [
       { human: 'Camille', dept: 'Ventes', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospection' },
@@ -31,7 +31,7 @@ const T = {
     heroCta: 'Create my AI Collaborator',
     heroCtaSecondary: 'Free assessment',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
-    orgTitle: 'Your organization',
+    orgTitle: 'Your augmented company',
     orgMeta: '3 members + 3 AI Collaborators',
     orgPairs: [
       { human: 'Camille', dept: 'Sales', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospecting' },
