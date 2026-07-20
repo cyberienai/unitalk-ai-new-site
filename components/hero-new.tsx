@@ -6,14 +6,13 @@ import { ArrowRight, Check, Network } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: 'Recrutez sans embaucher',
-    orgCaption: "L'IA entre dans votre organigramme",
     headline: 'Vos Collaborateurs IA sont',
     headlineAccent: ' déjà prêts.',
     lead: 'Ajoutez des Collaborateurs IA qui analysent, exécutent et livrent avec vos équipes.',
     heroCta: 'Créer mon Collaborateur IA',
     heroCtaSecondary: 'Analyse gratuite',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
-    orgTitle: 'Votre entreprise augmentée',
+    orgTitle: 'Votre équipe',
     orgMeta: '3 membres + 3 Collaborateurs IA',
     orgPairs: [
       { human: 'Camille', dept: 'Ventes', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospection' },
@@ -24,14 +23,13 @@ const T = {
   },
   en: {
     eyebrow: 'Hire without hiring',
-    orgCaption: 'AI joins your org chart',
     headline: 'Your AI Collaborators are',
     headlineAccent: ' already ready.',
     lead: 'Add AI Collaborators that analyze, execute and deliver with your teams.',
     heroCta: 'Create my AI Collaborator',
     heroCtaSecondary: 'Free assessment',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
-    orgTitle: 'Your augmented company',
+    orgTitle: 'Your team',
     orgMeta: '3 members + 3 AI Collaborators',
     orgPairs: [
       { human: 'Camille', dept: 'Sales', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospecting' },
@@ -103,7 +101,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 ))}
               </div>
             </div>
-            <div className="border-t border-[#E4DDCE] px-5 py-3.5 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#857C6E] sm:px-6">{t.orgCaption}</div>
           </div>
         </motion.div>
       </div>
