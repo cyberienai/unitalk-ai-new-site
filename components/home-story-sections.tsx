@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
@@ -59,6 +60,24 @@ const content = {
       'Ils travaillent avec vos équipes.',
       'Ils partagent les connaissances de votre entreprise.',
     ],
+
+    // Section: Emma, un exemple concret
+    emmaEyebrow: 'UN EXEMPLE CONCRET',
+    emmaName: 'Emma',
+    emmaRole: 'Executive Assistant',
+    emmaIntro: 'Emma est un véritable Collaborateur IA.',
+    emmaJoinLabel: 'Elle rejoint votre organisation avec :',
+    emmaAttributes: ['Une identité', 'Une mission', "Des droits d'accès", 'Une mémoire', 'Une présence numérique'],
+    emmaTasks: [
+      'Elle répond aux emails.',
+      'Organise les réunions.',
+      'Prépare les comptes rendus.',
+      'Met à jour votre CRM.',
+      'Coordonne vos équipes.',
+    ],
+    emmaClosingLead: 'Vous lui confiez une mission.',
+    emmaClosingAccent: "Elle l'exécute.",
+    emmaCta: "Voir la fiche complète d'Emma",
 
     // Section: Chaque Collaborateur IA rejoint votre organigramme
     memberEyebrow: 'CHAQUE COLLABORATEUR IA REJOINT VOTRE ORGANIGRAMME',
@@ -187,6 +206,23 @@ const content = {
       'They work with your teams.',
       'They share your company knowledge.',
     ],
+
+    emmaEyebrow: 'A CONCRETE EXAMPLE',
+    emmaName: 'Emma',
+    emmaRole: 'Executive Assistant',
+    emmaIntro: 'Emma is a true AI Collaborator.',
+    emmaJoinLabel: 'She joins your organization with:',
+    emmaAttributes: ['An identity', 'A mission', 'Access rights', 'A memory', 'A digital presence'],
+    emmaTasks: [
+      'She answers emails.',
+      'Schedules meetings.',
+      'Prepares meeting notes.',
+      'Keeps your CRM up to date.',
+      'Coordinates your teams.',
+    ],
+    emmaClosingLead: 'You hand her a mission.',
+    emmaClosingAccent: 'She executes it.',
+    emmaCta: "See Emma's full profile",
 
     memberEyebrow: 'EVERY AI COLLABORATOR JOINS YOUR ORG CHART',
     memberTitle: "It's not software.",
@@ -363,6 +399,58 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </li>
               ))}
             </ul>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Emma, un exemple concret */}
+      <section className="section-rule bg-[#FBF9F3] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+            {/* Carte identité */}
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <div className="overflow-hidden rounded-3xl border border-[#D8D0C2] bg-[#F3EFE4]">
+                <div className="relative aspect-[4/5] w-full">
+                  <Image src="/images/emma-avatar.png" alt={`Portrait d'${t.emmaName}, Collaborateur IA`} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 40vw" />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17]">{t.emmaName}</h3>
+                    <BadgeCheck className="h-5 w-5 text-[#D10E63]" strokeWidth={2} />
+                  </div>
+                  <p className="mt-1 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#857C6E]">{t.emmaRole}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Récit */}
+            <div>
+              <Eyebrow className="mb-5">{t.emmaEyebrow}</Eyebrow>
+              <p className="text-balance font-sf text-3xl font-semibold leading-[1.1] tracking-[-0.035em] text-[#1C1A17] md:text-4xl">{t.emmaIntro}</p>
+
+              <p className="mt-8 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.emmaJoinLabel}</p>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                {t.emmaAttributes.map((attr) => (
+                  <span key={attr} className="rounded-full border border-[#D8D0C2] bg-[#F3EFE4] px-4 py-2 text-sm font-semibold text-[#1C1A17]">{attr}</span>
+                ))}
+              </div>
+
+              <ul className="mt-8 flex flex-col gap-2.5 border-t border-[#D8D0C2] pt-8">
+                {t.emmaTasks.map((task) => (
+                  <li key={task} className="flex items-center gap-3 font-sf text-lg font-semibold tracking-[-0.02em] text-[#1C1A17]">
+                    <Check className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
+                    {task}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 border-t border-[#D8D0C2] pt-8">
+                <p className="font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">{t.emmaClosingLead}</p>
+                <p className="mt-1 font-sf text-2xl font-semibold tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.emmaClosingAccent}</p>
+              </div>
+
+              <a href="/collaborateurs-ia" className="mt-9 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-3">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
+            </div>
           </div>
         </Reveal>
       </section>
