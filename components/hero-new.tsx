@@ -13,7 +13,7 @@ const T = {
     lead: [
       "La seule limite que les entreprises rencontrent : leurs capacités. Aujourd'hui, il existe une nouvelle façon de développer une entreprise sans recruter davantage.",
     ],
-    heroCta: 'Ajouter mon premier Collaborateur IA',
+    heroCta: 'Ajouter mon Collaborateur IA',
     heroCtaSecondary: 'Analyse gratuite',
     heroProofs: ['Aucune configuration', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre organisation',
@@ -26,7 +26,7 @@ const T = {
     lead: [
       'The only limit companies hit: their capacity. Today, there is a new way to grow a company without hiring more.',
     ],
-    heroCta: 'Add my first AI Collaborator',
+    heroCta: 'Add my AI Collaborator',
     heroCtaSecondary: 'Free analysis',
     heroProofs: ['No setup', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your organization',
