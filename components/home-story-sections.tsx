@@ -9,6 +9,7 @@ import {
   CalendarDays,
   ClipboardList,
   Code2,
+  Fingerprint,
   Globe,
   Image as ImageIcon,
   Mail,
@@ -17,11 +18,16 @@ import {
   Monitor,
   Phone,
   Plus,
+  Sparkles,
+  Target,
   Terminal,
+  UserRound,
   UsersRound,
+  Wrench,
 } from 'lucide-react'
 
 const roleIcons = [Megaphone, Phone, MessageSquare, ClipboardList, Code2, BarChart3, UsersRound]
+const attributeIcons = [UserRound, Target, Brain, Sparkles, Wrench, Fingerprint]
 const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
 const modelIcons = [Bot, Brain, ImageIcon, Code2]
 
@@ -34,6 +40,23 @@ const content = {
     catRoles: ['Marketing', 'Ventes', 'Support', 'Administration', 'Développement', 'Finance', 'RH'],
     catRolesNote: 'Ou créez un Collaborateur IA spécialement conçu pour votre métier.',
     catCta: 'Découvrir les Collaborateurs IA',
+
+    // Section: Construisez votre équipe
+    teamEyebrow: 'CONSTRUISEZ VOTRE ÉQUIPE DE COLLABORATEURS IA',
+    teamTitle: 'Chaque Collaborateur IA possède :',
+    teamAttributes: [
+      { title: 'Un rôle', body: 'Sa place et ses responsabilités dans votre organisation.' },
+      { title: 'Une mission', body: 'Un objectif clair auquel il se consacre.' },
+      { title: 'Une mémoire', body: 'Ce qu\'il apprend reste et lui sert au fil du temps.' },
+      { title: 'Ses propres compétences', body: 'Des savoir-faire choisis pour ses missions.' },
+      { title: 'Ses outils', body: 'Les applications et accès dont il a besoin pour agir.' },
+      { title: 'Sa propre identité', body: 'Un nom, un e-mail et une présence bien à lui.' },
+    ],
+    teamStatements: [
+      'Ils travaillent ensemble.',
+      'Ils travaillent avec vos équipes.',
+      'Ils partagent les connaissances de votre entreprise.',
+    ],
 
     // Section: Tout ça reste dans votre entreprise
     proofTitle: 'Tout ça reste dans votre entreprise.',
@@ -120,6 +143,22 @@ const content = {
     catRoles: ['Marketing', 'Sales', 'Support', 'Administration', 'Development', 'Finance', 'HR'],
     catRolesNote: 'Or create an AI Collaborator built specifically for your field.',
     catCta: 'Discover AI Collaborators',
+
+    teamEyebrow: 'BUILD YOUR TEAM OF AI COLLABORATORS',
+    teamTitle: 'Every AI Collaborator has:',
+    teamAttributes: [
+      { title: 'A role', body: 'Its place and responsibilities within your organization.' },
+      { title: 'A mission', body: 'A clear objective it dedicates itself to.' },
+      { title: 'A memory', body: 'What it learns stays and serves it over time.' },
+      { title: 'Its own skills', body: 'Know-how chosen for its missions.' },
+      { title: 'Its tools', body: 'The apps and access it needs to act.' },
+      { title: 'Its own identity', body: 'A name, an email and a presence of its own.' },
+    ],
+    teamStatements: [
+      'They work together.',
+      'They work with your teams.',
+      'They share your company knowledge.',
+    ],
 
     proofTitle: 'All of it stays inside your company.',
     proofLead: 'You do not rent capabilities. You own them.',
@@ -240,6 +279,40 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </div>
 
           <a href="/collaborateurs-ia" className="mt-10 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-3">{t.catCta}<ArrowRight className="h-4 w-4" /></a>
+        </Reveal>
+      </section>
+
+      {/* Construisez votre équipe */}
+      <section className="section-rule bg-[#F3EFE4] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.teamEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.teamTitle}</h2>
+          </div>
+
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {t.teamAttributes.map((attr, index) => {
+              const Icon = attributeIcons[index]
+              return (
+                <motion.article key={attr.title} className="rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-6" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: (index % 3) * 0.05 }}>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#D10E63]/[0.08] text-[#D10E63]"><Icon className="h-5 w-5" strokeWidth={1.8} /></span>
+                  <h3 className="mt-5 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{attr.title}</h3>
+                  <p className="mt-2 text-pretty text-sm leading-6 text-[#6B6560]">{attr.body}</p>
+                </motion.article>
+              )
+            })}
+          </div>
+
+          <div className="mt-12 border-t border-[#D8D0C2] pt-10">
+            <ul className="flex flex-col gap-3">
+              {t.teamStatements.map((statement) => (
+                <li key={statement} className="flex items-center gap-3 font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">
+                  <ArrowRight className="h-6 w-6 shrink-0 text-[#D10E63]" strokeWidth={2} />
+                  <span className="text-pretty">{statement}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </Reveal>
       </section>
 
