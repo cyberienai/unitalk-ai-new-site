@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
+  BadgeCheck,
   BarChart3,
   Bot,
   Brain,
@@ -12,9 +13,11 @@ import {
   Fingerprint,
   Globe,
   Image as ImageIcon,
+  KeyRound,
   Mail,
   Megaphone,
   MessageSquare,
+  Mic,
   Monitor,
   Phone,
   Plus,
@@ -28,6 +31,7 @@ import {
 
 const roleIcons = [Megaphone, Phone, MessageSquare, ClipboardList, Code2, BarChart3, UsersRound]
 const attributeIcons = [UserRound, Target, Brain, Sparkles, Wrench, Fingerprint]
+const memberIcons = [Mail, Phone, CalendarDays, Mic, BadgeCheck, KeyRound, Brain, Wrench]
 const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
 const modelIcons = [Bot, Brain, ImageIcon, Code2]
 
@@ -57,6 +61,24 @@ const content = {
       'Ils travaillent avec vos équipes.',
       'Ils partagent les connaissances de votre entreprise.',
     ],
+
+    // Section: Chaque Collaborateur IA rejoint votre organigramme
+    memberEyebrow: 'CHAQUE COLLABORATEUR IA REJOINT VOTRE ORGANIGRAMME',
+    memberTitle: "Il n'est pas un logiciel.",
+    memberAccent: 'Il devient un membre de votre organisation.',
+    memberAttrsLabel: 'Avec :',
+    memberAttrs: [
+      'Une adresse email',
+      'Un numéro de téléphone',
+      'Un calendrier',
+      'Une voix',
+      'Un profil public',
+      "Des droits d'accès",
+      'Une mémoire',
+      'Ses propres outils',
+    ],
+    memberAudience: ['Vos collaborateurs.', 'Vos clients.', 'Vos partenaires.'],
+    memberClosing: "Peuvent lui écrire, l'appeler, prendre rendez-vous avec lui ou lui confier une mission.",
 
     // Section: Tout ça reste dans votre entreprise
     proofTitle: 'Tout ça reste dans votre entreprise.',
@@ -159,6 +181,23 @@ const content = {
       'They work with your teams.',
       'They share your company knowledge.',
     ],
+
+    memberEyebrow: 'EVERY AI COLLABORATOR JOINS YOUR ORG CHART',
+    memberTitle: "It's not software.",
+    memberAccent: 'It becomes a member of your organization.',
+    memberAttrsLabel: 'With:',
+    memberAttrs: [
+      'An email address',
+      'A phone number',
+      'A calendar',
+      'A voice',
+      'A public profile',
+      'Access rights',
+      'A memory',
+      'Its own tools',
+    ],
+    memberAudience: ['Your teammates.', 'Your clients.', 'Your partners.'],
+    memberClosing: 'Can write to it, call it, book a meeting with it or hand it a mission.',
 
     proofTitle: 'All of it stays inside your company.',
     proofLead: 'You do not rent capabilities. You own them.',
@@ -312,6 +351,41 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </li>
               ))}
             </ul>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Rejoint votre organigramme */}
+      <section className="section-rule bg-[#FBF9F3] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.memberEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.memberTitle}</h2>
+            <p className="mt-4 text-pretty font-sf text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.memberAccent}</p>
+          </div>
+
+          <div className="mt-14">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.memberAttrsLabel}</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {t.memberAttrs.map((attr, index) => {
+                const Icon = memberIcons[index]
+                return (
+                  <motion.div key={attr} className="flex items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#F3EFE4] px-4 py-3.5" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: (index % 4) * 0.05 }}>
+                    <Icon className="h-5 w-5 shrink-0 text-[#D10E63]" strokeWidth={1.8} />
+                    <span className="text-sm font-semibold text-[#1C1A17]">{attr}</span>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mt-12 border-t border-[#D8D0C2] pt-10">
+            <div className="flex flex-wrap gap-x-3 gap-y-1">
+              {t.memberAudience.map((who) => (
+                <span key={who} className="font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">{who}</span>
+              ))}
+            </div>
+            <p className="mt-3 max-w-2xl text-pretty font-sf text-xl font-medium leading-snug text-[#6B6560] md:text-2xl">{t.memberClosing}</p>
           </div>
         </Reveal>
       </section>
