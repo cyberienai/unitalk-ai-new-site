@@ -23,7 +23,7 @@ import {
   UsersRound,
   Zap,
 } from 'lucide-react'
-import { ChatMockup, WorkstationMockup } from './product-mockups'
+import { ChatMockup, OrgChartMockup, WorkstationMockup } from './product-mockups'
 
 const capabilityIcons = [Megaphone, Phone, MessageSquare, Code2, Palette, Film, FileText, Mic, Search, ClipboardList, Zap]
 const uniqueIcons = [Brain, Plug, UserRound]
@@ -390,50 +390,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="relative order-2 lg:order-1">
               <div aria-hidden="true" className="absolute -inset-5 -z-10 rounded-[2.25rem] bg-[#D10E63]/[0.05] blur-2xl" />
-              <div className="rounded-3xl border border-[#DDD5CA] bg-[#F3EFE6] p-5 shadow-[0_24px_60px_rgba(28,26,23,0.1)] sm:p-7">
-                <div className="flex items-center justify-between border-b border-[#DDD5CA] pb-5">
-                  <div>
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">Unitalk</p>
-                    <p className="mt-1 text-lg font-bold text-[#1C1A17]">{t.orgCardTitle}</p>
-                  </div>
-                  <span className="rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]">3 + 3</span>
-                </div>
-                <div className="mt-5 flex flex-col gap-3">
-                  {t.orgPairs.map((pair, index) => (
-                    <motion.div
-                      key={pair.human}
-                      className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-2xl border border-[#E6DFD1] bg-[#FBF9F3] p-2.5 sm:gap-4 sm:p-3.5"
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.45, delay: index * 0.12 }}
-                    >
-                      <div className="flex min-w-0 items-center gap-2.5">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EAE3D4] text-xs font-bold text-[#857C6E]">{pair.human.slice(0, 2).toUpperCase()}</span>
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p>
-                          <p className="truncate text-[11px] text-[#6B6560]">{pair.dept}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center" aria-hidden="true">
-                        <span className="h-px w-2 bg-[#D10E63]/40 sm:w-4" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-                        <span className="h-px w-2 bg-[#D10E63]/40 sm:w-4" />
-                      </div>
-                      <div className="flex min-w-0 items-center gap-2.5">
-                        <div className="relative shrink-0">
-                          <img src={pair.avatar || "/placeholder.svg"} alt="" className="h-10 w-10 rounded-full object-cover ring-2 ring-[#D10E63]/20" />
-                          <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p>
-                          <p className="truncate text-[11px] font-medium text-[#D10E63]">{t.collaboratorLabel}</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+              <OrgChartMockup lang={lang} />
             </div>
 
             <div className="order-1 lg:order-2">

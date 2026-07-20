@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
-import { OrgChartMockup } from './product-mockups'
 
 const T = {
   fr: {
@@ -16,6 +15,12 @@ const T = {
     heroCtaSecondary: 'Analyse gratuite',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre organisation',
+    orgPairs: [
+      { human: 'Camille', dept: 'Employé · Ventes', ai: 'Alex', avatar: '/alex-avatar.png' },
+      { human: 'Thomas', dept: 'Employé · Support', ai: 'Sophia', avatar: '/sophia-avatar.png' },
+      { human: 'Léa', dept: 'Employé · Opérations', ai: 'Marcus', avatar: '/marcus-avatar.png' },
+    ],
+    collaboratorLabel: 'Collaborateur IA',
   },
   en: {
     eyebrow: 'AI joins your org chart.',
@@ -28,6 +33,12 @@ const T = {
     heroCtaSecondary: 'Free analysis',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your organization',
+    orgPairs: [
+      { human: 'Camille', dept: 'Employee · Sales', ai: 'Alex', avatar: '/alex-avatar.png' },
+      { human: 'Thomas', dept: 'Employee · Support', ai: 'Sophia', avatar: '/sophia-avatar.png' },
+      { human: 'Léa', dept: 'Employee · Operations', ai: 'Marcus', avatar: '/marcus-avatar.png' },
+    ],
+    collaboratorLabel: 'AI Collaborator',
   },
 } as const
 
@@ -113,7 +124,46 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         >
           <div aria-hidden="true" className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[#D10E63]/[0.05] blur-2xl" />
           <div aria-hidden="true" className="bg-dots pointer-events-none absolute -right-4 -top-6 -z-10 h-28 w-28 rounded-2xl opacity-70" />
-          <OrgChartMockup lang={lang} />
+          <div className="rounded-3xl border border-[#DDD5CA] bg-[#F3EFE6] p-5 shadow-[0_24px_60px_rgba(28,26,23,0.1)] sm:p-7">
+            <div className="flex items-center justify-between border-b border-[#DDD5CA] pb-5">
+              <div>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">Unitalk</p>
+                <p className="mt-1 text-lg font-bold text-[#1C1A17]">{t.orgTitle}</p>
+              </div>
+              <span className="rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]">3 + 3</span>
+            </div>
+            <div className="mt-5 flex flex-col gap-3">
+              {t.orgPairs.map((pair) => (
+                <div
+                  key={pair.human}
+                  className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-2xl border border-[#E6DFD1] bg-[#FBF9F3] p-2.5 sm:gap-4 sm:p-3.5"
+                >
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EAE3D4] text-xs font-bold text-[#857C6E]">{pair.human.slice(0, 2).toUpperCase()}</span>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p>
+                      <p className="truncate text-[11px] text-[#6B6560]">{pair.dept}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center" aria-hidden="true">
+                    <span className="h-px w-2 bg-[#D10E63]/40 sm:w-4" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+                    <span className="h-px w-2 bg-[#D10E63]/40 sm:w-4" />
+                  </div>
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <div className="relative shrink-0">
+                      <img src={pair.avatar || "/placeholder.svg"} alt="" className="h-10 w-10 rounded-full object-cover ring-2 ring-[#D10E63]/20" />
+                      <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#F3EFE6] bg-[#D10E63]" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p>
+                      <p className="truncate text-[11px] font-medium text-[#D10E63]">{t.collaboratorLabel}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
