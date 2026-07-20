@@ -16,12 +16,14 @@ import {
   Plug,
   Search,
   Target,
+  UserRound,
   UsersRound,
   Zap,
 } from 'lucide-react'
 import { ChatMockup, WorkstationMockup } from './product-mockups'
 
 const capabilityIcons = [Phone, MessageSquare, FileText, Search, Code2, Mic, ClipboardList, Zap, Brain]
+const uniqueIcons = [Brain, Plug, UserRound]
 
 const content = {
   fr: {
@@ -43,15 +45,24 @@ const content = {
     ],
     catCta: 'Découvrir les Collaborateurs IA',
 
-    // Section: ChatGPT / actif durable
-    assetEyebrow: 'AU-DELÀ DU MODÈLE',
-    assetTitle: 'Vous utilisez peut-être déjà ChatGPT.',
-    assetBody: [
-      "Il répond à vos questions. Puis vous ouvrez une nouvelle conversation. Et il recommence à zéro. Il ne connaît pas votre entreprise, ni vos méthodes. Il ne construit rien qui vous appartienne.",
-      "Les modèles d'IA sont aujourd'hui accessibles à tous. Demain, ils le seront encore davantage. Ce qui crée une différence durable n'est plus le modèle que vous utilisez, mais l'intelligence que votre entreprise construit, conserve et fait grandir.",
+    // Section: Ce qui rend un Collaborateur IA unique
+    assetEyebrow: 'CE QUI LE REND UNIQUE',
+    assetTitle: 'Ce qui rend un Collaborateur IA unique.',
+    uniqueFeatures: [
+      {
+        title: "Il s'appuie sur les meilleurs modèles.",
+        body: "Claude, ChatGPT, Gemini, et d'autres — celui qui convient le mieux à chaque mission, sans que vous ayez à choisir.",
+      },
+      {
+        title: 'Il se connecte à tous vos outils.',
+        body: 'CRM, email, calendrier, documentation, base de connaissance. Il travaille avec les applications que vous utilisez déjà.',
+      },
+      {
+        title: 'Il possède sa propre identité.',
+        body: 'Un nom, une voix, une mémoire, un espace de travail.',
+      },
     ],
-    assetHighlight: 'Unitalk transforme chaque interaction en un actif qui reste dans votre entreprise.',
-    assetNote: 'Chaque conversation enrichit votre entreprise. Pas seulement votre écran.',
+    assetNote: "Comme un vrai membre de l'équipe.",
 
     // Section: Trois façons de commencer
     plansEyebrow: 'TROIS FAÇONS DE COMMENCER',
@@ -146,14 +157,23 @@ const content = {
     ],
     catCta: 'Discover AI Collaborators',
 
-    assetEyebrow: 'BEYOND THE MODEL',
-    assetTitle: 'You may already use ChatGPT.',
-    assetBody: [
-      'It answers your questions. Then you open a new conversation. And it starts over. It does not know your company or your methods. It builds nothing that belongs to you.',
-      'AI models are now available to everyone. Tomorrow, even more so. What creates a lasting difference is no longer the model you use, but the intelligence your company builds, keeps and grows.',
+    assetEyebrow: 'WHAT MAKES IT UNIQUE',
+    assetTitle: 'What makes an AI Collaborator unique.',
+    uniqueFeatures: [
+      {
+        title: 'It runs on the best models.',
+        body: 'Claude, ChatGPT, Gemini and others — whichever fits each mission best, without you having to choose.',
+      },
+      {
+        title: 'It connects to all your tools.',
+        body: 'CRM, email, calendar, documentation, knowledge base. It works with the apps you already use.',
+      },
+      {
+        title: 'It has its own identity.',
+        body: 'A name, a voice, a memory, a workspace.',
+      },
     ],
-    assetHighlight: 'Unitalk turns every interaction into an asset that stays inside your company.',
-    assetNote: 'Every conversation enriches your company. Not just your screen.',
+    assetNote: 'Like a real member of the team.',
 
     plansEyebrow: 'THREE WAYS TO START',
     plansTitle: 'An entry point for every organization.',
@@ -291,24 +311,34 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         </Reveal>
       </section>
 
-      {/* ChatGPT / actif durable */}
+      {/* Ce qui rend un Collaborateur IA unique */}
       <section className="bg-[#1C1A17] px-5 py-24 text-[#FBF9F3] md:py-32">
         <Reveal className="mx-auto max-w-6xl">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <Eyebrow className="mb-5 text-[#E0186A]">{t.assetEyebrow}</Eyebrow>
               <h2 className="text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-5xl">{t.assetTitle}</h2>
-              <div className="mt-8 flex flex-col gap-5">
-                {t.assetBody.map((paragraph) => (
-                  <p key={paragraph} className="text-pretty text-base leading-relaxed text-[#BDB5A9] md:text-lg">{paragraph}</p>
-                ))}
+              <div className="mt-9 flex flex-col gap-7">
+                {t.uniqueFeatures.map((feature, index) => {
+                  const Icon = uniqueIcons[index]
+                  return (
+                    <div key={feature.title} className="flex items-start gap-4">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E0186A]/15 text-[#E0186A]">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <h3 className="font-sf text-lg font-bold text-[#FBF9F3]">{feature.title}</h3>
+                        <p className="mt-1.5 text-pretty text-base leading-relaxed text-[#BDB5A9]">{feature.body}</p>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
             <ChatMockup lang={lang} />
           </div>
-          <div className="mt-12 rounded-3xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 p-7 md:p-9">
-            <p className="text-balance font-sf text-2xl font-semibold text-[#FBF9F3] [letter-spacing:-0.02em] md:text-3xl">{t.assetHighlight}</p>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-[#BDB5A9]">{t.assetNote}</p>
+          <div className="mt-12 rounded-3xl border border-[#FBF9F3]/15 bg-[#FBF9F3]/5 p-7 text-center md:p-9">
+            <p className="text-balance font-sf text-2xl font-semibold text-[#FBF9F3] [letter-spacing:-0.02em] md:text-3xl">{t.assetNote}</p>
           </div>
         </Reveal>
       </section>
