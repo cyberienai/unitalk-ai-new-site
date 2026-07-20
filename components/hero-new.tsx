@@ -6,8 +6,8 @@ import { ArrowRight, Check, Network } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: 'Recrutez sans embaucher',
-    headline: 'Vos Collaborateurs IA sont',
-    headlineAccent: ' déjà prêts.',
+    headline: 'Votre premier Collaborateur IA est',
+    headlineAccent: ' déjà prêt.',
     lead: 'Ajoutez des Collaborateurs IA qui analysent, exécutent et livrent avec vos équipes.',
     heroCta: 'Créer mon Collaborateur IA',
     heroCtaSecondary: 'Voir une démo',
@@ -23,7 +23,7 @@ const T = {
   },
   en: {
     eyebrow: 'Hire without hiring',
-    headline: 'Your AI Collaborators are',
+    headline: 'Your first AI Collaborator is',
     headlineAccent: ' already ready.',
     lead: 'Add AI Collaborators that analyze, execute and deliver with your teams.',
     heroCta: 'Create my AI Collaborator',
