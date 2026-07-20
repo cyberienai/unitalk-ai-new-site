@@ -5,7 +5,7 @@ import { ArrowRight, Check, Network } from 'lucide-react'
 
 const T = {
   fr: {
-    eyebrow: 'Votre équipe, augmentée',
+    eyebrow: 'Recrutez sans embaucher',
     orgCaption: "L'IA entre dans votre organigramme",
     headline: 'Vos Collaborateurs IA sont',
     headlineAccent: ' déjà prêts.',
@@ -23,7 +23,7 @@ const T = {
     collaboratorLabel: 'Collaborateur IA',
   },
   en: {
-    eyebrow: 'Your team, augmented',
+    eyebrow: 'Hire without hiring',
     orgCaption: 'AI joins your org chart',
     headline: 'Your AI Collaborators are',
     headlineAccent: ' already ready.',
@@ -58,8 +58,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-55" />
       <div className="editorial-shell relative grid items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
         <div className="max-w-2xl">
-          <motion.p {...enter(0.04)} className="mb-7 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
-            <span className="h-px w-8 bg-[#D10E63]" />{t.eyebrow}
+          <motion.p {...enter(0.04)} className="mb-7 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
+            {t.eyebrow}
           </motion.p>
           <motion.h1 {...enter(0.1)} className="text-balance font-sf text-[clamp(2.85rem,5.2vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-[#1C1A17]">
             {t.headline}<span className="text-[#D10E63]">{t.headlineAccent}</span>
