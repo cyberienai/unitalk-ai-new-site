@@ -34,7 +34,7 @@ const content = {
     catEyebrow: 'LEURS CAPACITÉS',
     catTitle: 'Un Collaborateur IA,',
     catAccent: 'des dizaines de métiers.',
-    catBody: "Pas un chatbot, pas un assistant : une nouvelle catégorie de travailleur.",
+    catBody: "Des Collaborateurs IA qui analysent, planifient, exécutent et apprennent à vos côtés.",
     capabilities: [
       { title: 'Marketing & contenu', body: 'Gère vos réseaux sociaux, rédige des articles de blog, prépare des newsletters, planifie des campagnes.' },
       { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
@@ -149,7 +149,7 @@ const content = {
     catEyebrow: 'THEIR CAPABILITIES',
     catTitle: 'One AI Collaborator,',
     catAccent: 'dozens of roles.',
-    catBody: 'Not a chatbot, not an assistant: a new category of worker.',
+    catBody: 'AI Collaborators that analyze, plan, execute and learn alongside you.',
     capabilities: [
       { title: 'Marketing & content', body: 'Runs your social media, writes blog posts, prepares newsletters, plans campaigns.' },
       { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
