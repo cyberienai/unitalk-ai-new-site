@@ -6,8 +6,7 @@ import { OrgChartMockup } from './product-mockups'
 
 const T = {
   fr: {
-    eyebrow: "L'IA entre dans votre organigramme.",
-    headline: 'Ajoutez des Collaborateurs IA à votre',
+    headline: "L'IA entre dans votre",
     headlineAccent: ' organigramme.',
     subheadline: 'Augmentez les capacités de votre entreprise.',
     subheadlineAccent: ' Pas vos effectifs.',
@@ -20,8 +19,7 @@ const T = {
     orgTitle: 'Votre organisation',
   },
   en: {
-    eyebrow: 'AI joins your org chart.',
-    headline: 'Add AI Collaborators to your',
+    headline: 'AI joins your',
     headlineAccent: ' org chart.',
     subheadline: 'Grow your company capabilities.',
     subheadlineAccent: ' Not your headcount.',
@@ -46,15 +44,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-5 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 lg:px-8">
         <div className="flex min-w-0 max-w-2xl flex-col items-start">
-          <motion.p
-            className="mb-6 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#D10E63]"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease, delay: 0.05 }}
-          >
-            {t.eyebrow}
-          </motion.p>
-
           <motion.h1
             className="font-sf max-w-3xl text-balance font-bold text-[#1C1A17]"
             style={{ fontSize: 'clamp(2.5rem, 4.6vw, 4.25rem)', lineHeight: 1, letterSpacing: '-0.05em' }}
