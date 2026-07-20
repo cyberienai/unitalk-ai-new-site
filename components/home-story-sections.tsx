@@ -9,42 +9,30 @@ import {
   CalendarDays,
   ClipboardList,
   Code2,
-  FileText,
   Globe,
   Image as ImageIcon,
   Mail,
   Megaphone,
   MessageSquare,
-  Mic,
   Monitor,
   Phone,
-  Search,
+  Plus,
   Terminal,
   UsersRound,
-  Zap,
 } from 'lucide-react'
 
-const capabilityIcons = [Megaphone, Phone, MessageSquare, Code2, FileText, Mic, Search, ClipboardList, Zap]
+const roleIcons = [Megaphone, Phone, MessageSquare, ClipboardList, Code2, BarChart3, UsersRound]
 const accessIcons = [MessageSquare, Monitor, Terminal, Globe]
 const modelIcons = [Bot, Brain, ImageIcon, Code2]
 
 const content = {
   fr: {
-    // Section: Une nouvelle catégorie de travailleur
-    catEyebrow: 'UNE NOUVELLE CATÉGORIE DE TRAVAILLEUR',
-    catTitle: 'Ils analysent, planifient et exécutent.',
-    catAccent: 'À vos côtés.',
-    capabilities: [
-      { title: 'Marketing & contenu', body: 'Rédige, publie et orchestre vos campagnes.' },
-      { title: 'Prospection & ventes', body: 'Qualifie, relance et tient votre CRM à jour.' },
-      { title: 'Support client', body: 'Répond à chaque client, sur chaque canal.' },
-      { title: 'Développement', body: 'Code, intègre et livre de nouvelles fonctionnalités.' },
-      { title: 'Analyse & documents', body: 'Extrait, synthétise et transforme vos données.' },
-      { title: 'Réunions', body: 'Écoute, transcrit et prépare les prochaines actions.' },
-      { title: 'Recherche & veille', body: 'Surveille votre marché et détecte les signaux utiles.' },
-      { title: 'Coordination', body: 'Planifie les projets et synchronise les équipes.' },
-      { title: 'Automatisation', body: 'Connecte vos outils et exécute en autonomie.' },
-    ],
+    // Section: Vos Collaborateurs IA sont déjà prêts
+    catEyebrow: 'VOS COLLABORATEURS IA SONT DÉJÀ PRÊTS',
+    catTitle: 'Commencez avec un.',
+    catAccent: "Ajoutez-en d'autres à mesure que votre entreprise grandit.",
+    catRoles: ['Marketing', 'Ventes', 'Support', 'Administration', 'Développement', 'Finance', 'RH'],
+    catRolesNote: 'Ou créez un Collaborateur IA spécialement conçu pour votre métier.',
     catCta: 'Découvrir les Collaborateurs IA',
 
     // Section: Tout ça reste dans votre entreprise
@@ -126,20 +114,11 @@ const content = {
     finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
   },
   en: {
-    catEyebrow: 'A NEW CATEGORY OF WORKER',
-    catTitle: 'They analyze, plan and execute.',
-    catAccent: 'Alongside you.',
-    capabilities: [
-      { title: 'Marketing & content', body: 'Writes, publishes and orchestrates your campaigns.' },
-      { title: 'Prospecting & sales', body: 'Qualifies, follows up and keeps your CRM current.' },
-      { title: 'Customer support', body: 'Answers every customer, across every channel.' },
-      { title: 'Development', body: 'Codes, integrates and ships new features.' },
-      { title: 'Analysis & documents', body: 'Extracts, summarizes and transforms your data.' },
-      { title: 'Meetings', body: 'Listens, transcribes and prepares next actions.' },
-      { title: 'Research & monitoring', body: 'Tracks your market and spots useful signals.' },
-      { title: 'Coordination', body: 'Plans projects and keeps teams aligned.' },
-      { title: 'Automation', body: 'Connects your tools and executes autonomously.' },
-    ],
+    catEyebrow: 'YOUR AI COLLABORATORS ARE ALREADY READY',
+    catTitle: 'Start with one.',
+    catAccent: 'Add more as your company grows.',
+    catRoles: ['Marketing', 'Sales', 'Support', 'Administration', 'Development', 'Finance', 'HR'],
+    catRolesNote: 'Or create an AI Collaborator built specifically for your field.',
     catCta: 'Discover AI Collaborators',
 
     proofTitle: 'All of it stays inside your company.',
@@ -234,34 +213,33 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = content[lang]
   return (
     <>
-      {/* Capacités */}
+      {/* Collaborateurs prêts */}
       <section className="section-rule relative overflow-hidden bg-[#FBF9F3] py-24 md:py-32">
         <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-35" />
         <Reveal className="editorial-shell relative">
-          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-20">
-            <div>
-              <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
-              <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.catTitle}</h2>
-            </div>
-            <p className="max-w-xl text-pretty font-sf text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.catAccent}</p>
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.catTitle}</h2>
+            <p className="mt-4 text-pretty font-sf text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.catAccent}</p>
           </div>
 
-          <div className="mt-16 grid border-y border-[#D8D0C2] sm:grid-cols-2 lg:grid-cols-3">
-            {t.capabilities.map((cap, index) => {
-              const Icon = capabilityIcons[index]
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {t.catRoles.map((role, index) => {
+              const Icon = roleIcons[index]
               return (
-                <motion.article key={cap.title} className="group relative min-h-52 border-b border-[#D8D0C2] p-6 sm:border-r lg:p-8 [&:nth-last-child(-n+3)]:lg:border-b-0" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: (index % 3) * 0.06 }}>
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-[#A09789]">{String(index + 1).padStart(2, '0')}</span>
-                    <Icon className="h-5 w-5 text-[#D10E63]" strokeWidth={1.7} />
-                  </div>
-                  <h3 className="mt-10 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{cap.title}</h3>
-                  <p className="mt-2 max-w-xs text-pretty text-sm leading-6 text-[#6B6560]">{cap.body}</p>
-                </motion.article>
+                <motion.div key={role} className="flex items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-5 py-4" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: (index % 4) * 0.05 }}>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D8D0C2] text-[#D10E63]"><Icon className="h-5 w-5" strokeWidth={1.8} /></span>
+                  <span className="font-sf text-lg font-bold tracking-[-0.02em] text-[#1C1A17]">{role}</span>
+                </motion.div>
               )
             })}
+            <motion.a href="/collaborateurs-ia" className="flex items-center gap-3 rounded-2xl border border-dashed border-[#D10E63] bg-[#D10E63]/[0.05] px-5 py-4 transition-colors hover:bg-[#D10E63]/[0.1]" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.15 }}>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Plus className="h-5 w-5" strokeWidth={2} /></span>
+              <span className="text-pretty text-sm font-semibold leading-snug text-[#D10E63]">{t.catRolesNote}</span>
+            </motion.a>
           </div>
-          <a href="/collaborateurs-ia" className="mt-9 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-3">{t.catCta}<ArrowRight className="h-4 w-4" /></a>
+
+          <a href="/collaborateurs-ia" className="mt-10 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-3">{t.catCta}<ArrowRight className="h-4 w-4" /></a>
         </Reveal>
       </section>
 
