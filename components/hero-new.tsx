@@ -10,7 +10,7 @@ const T = {
     headline: 'Augmentez les capacités de votre entreprise.',
     headlineAccent: ' Pas vos effectifs.',
     lead: [
-      "La seule limite que les entreprises rencontrent : leurs capacités. Aujourd'hui, il existe une nouvelle façon de développer votre entreprise sans recruter davantage.",
+      "La seule limite de votre entreprise, c'est sa capacité à agir. Un Collaborateur IA vous permet d'en faire plus — sans embaucher.",
     ],
     heroCta: 'Ajouter mon Collaborateur IA',
     heroCtaSecondary: 'Analyse gratuite',
@@ -22,7 +22,7 @@ const T = {
     headline: 'Grow your company capabilities.',
     headlineAccent: ' Not your headcount.',
     lead: [
-      'The only limit companies hit: their capacity. Today, there is a new way to grow your company without hiring more.',
+      "Your company's only limit is its capacity to act. An AI Collaborator lets you do more — without hiring.",
     ],
     heroCta: 'Add my AI Collaborator',
     heroCtaSecondary: 'Free analysis',
