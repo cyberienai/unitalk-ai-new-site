@@ -246,8 +246,36 @@
   }
 
   .bg-dots {
-    background-image: radial-gradient(rgba(28, 26, 23, 0.06) 1px, transparent 1px);
-    background-size: 22px 22px;
+    background-image: radial-gradient(rgba(28, 26, 23, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .bg-editorial {
+    background-image: linear-gradient(to right, transparent 0, transparent calc(100% - 1px), rgba(28, 26, 23, 0.055) calc(100% - 1px));
+    background-size: min(25vw, 18rem) 100%;
+  }
+
+  .editorial-shell {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .premium-shadow {
+    box-shadow: 0 1px 0 rgba(28, 26, 23, 0.04), 0 24px 70px rgba(28, 26, 23, 0.08);
+  }
+
+  .section-rule {
+    border-top: 1px solid rgba(28, 26, 23, 0.1);
+  }
+
+  @media (min-width: 640px) {
+    .editorial-shell { padding-inline: 1.5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .editorial-shell { padding-inline: 2rem; }
   }
 }
 

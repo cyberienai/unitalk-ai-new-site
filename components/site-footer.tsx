@@ -15,7 +15,7 @@ const COMPARISONS = [
 
 const T = {
   fr: {
-    tagline: 'Vos vrais collaborateurs IA',
+    tagline: "L'intelligence opérationnelle qui grandit avec votre entreprise.",
     comparisons: 'Comparatifs',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
@@ -54,7 +54,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'Your real AI collaborators',
+    tagline: 'Operational intelligence that grows with your company.',
     comparisons: 'Comparisons',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
@@ -100,8 +100,8 @@ export function SiteFooter() {
   const FOOTER_COLUMNS = t.columns
   return (
     <footer className="relative overflow-hidden bg-[#1C1A17] text-[#F3EFE6]">
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-12 lg:gap-10">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-12 lg:gap-x-10">
           {/* Brand + contact */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-4">
             <div className="flex items-center gap-2.5">

@@ -31,19 +31,19 @@ const modelIcons = [Bot, Brain, ImageIcon, Code2]
 const content = {
   fr: {
     // Section: Une nouvelle catégorie de travailleur
-    catEyebrow: 'UNE NOUVELLE CATÉGORIE DE TRAVAILLEUR',
-    catTitle: 'Des Collaborateurs IA qui analysent, planifient, exécutent',
-    catAccent: 'et apprennent à vos côtés.',
+    catEyebrow: 'DES CAPACITÉS, PAS DES OUTILS',
+    catTitle: 'Ils analysent, planifient et exécutent.',
+    catAccent: 'À vos côtés.',
     capabilities: [
-      { title: 'Marketing & contenu', body: 'Gère vos réseaux sociaux, rédige des articles de blog, prépare des newsletters, planifie des campagnes.' },
-      { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
-      { title: 'Support client', body: 'Répond à vos clients par email, chat ou téléphone, 24h/24, dans leur langue.' },
-      { title: 'Développement', body: 'Code vos applications, intègre vos systèmes, corrige les bugs et livre des fonctionnalités.' },
-      { title: 'Analyse & documents', body: 'Synthétise des rapports, extrait des données, rédige des propositions et des comptes rendus.' },
-      { title: 'Notes vocales & réunions', body: 'Prend des notes vocales, assiste aux réunions, génère des comptes rendus et transcripts.' },
-      { title: 'Recherche & veille', body: 'Surveille vos marchés, vos concurrents, détecte les opportunités et vous alerte.' },
-      { title: 'Gestion & coordination', body: 'Planifie des rendez-vous, suit des projets, coordonne des équipes et des flux de travail.' },
-      { title: 'Automatisation', body: 'Connecte vos outils, exécute des missions en autonomie, prend des initiatives et vous rend compte.' },
+      { title: 'Marketing & contenu', body: 'Rédige, publie et orchestre vos campagnes.' },
+      { title: 'Prospection & ventes', body: 'Qualifie, relance et tient votre CRM à jour.' },
+      { title: 'Support client', body: 'Répond à chaque client, sur chaque canal.' },
+      { title: 'Développement', body: 'Code, intègre et livre de nouvelles fonctionnalités.' },
+      { title: 'Analyse & documents', body: 'Extrait, synthétise et transforme vos données.' },
+      { title: 'Réunions', body: 'Écoute, transcrit et prépare les prochaines actions.' },
+      { title: 'Recherche & veille', body: 'Surveille votre marché et détecte les signaux utiles.' },
+      { title: 'Coordination', body: 'Planifie les projets et synchronise les équipes.' },
+      { title: 'Automatisation', body: 'Connecte vos outils et exécute en autonomie.' },
     ],
     catCta: 'Découvrir les Collaborateurs IA',
 
@@ -126,19 +126,19 @@ const content = {
     finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
   },
   en: {
-    catEyebrow: 'A NEW CATEGORY OF WORKER',
-    catTitle: 'AI Collaborators that analyze, plan, execute',
-    catAccent: 'and learn alongside you.',
+    catEyebrow: 'CAPABILITIES, NOT TOOLS',
+    catTitle: 'They analyze, plan and execute.',
+    catAccent: 'Alongside you.',
     capabilities: [
-      { title: 'Marketing & content', body: 'Runs your social media, writes blog posts, prepares newsletters, plans campaigns.' },
-      { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
-      { title: 'Customer support', body: 'Answers your customers by email, chat or phone, 24/7, in their language.' },
-      { title: 'Development', body: 'Codes your applications, integrates your systems, fixes bugs and ships features.' },
-      { title: 'Analysis & documents', body: 'Summarizes reports, extracts data, drafts proposals and meeting notes.' },
-      { title: 'Voice notes & meetings', body: 'Takes voice notes, attends meetings, generates minutes and transcripts.' },
-      { title: 'Research & monitoring', body: 'Monitors your markets and competitors, spots opportunities and alerts you.' },
-      { title: 'Management & coordination', body: 'Schedules meetings, tracks projects, coordinates teams and workflows.' },
-      { title: 'Automation', body: 'Connects your tools, runs missions autonomously, takes initiative and reports back.' },
+      { title: 'Marketing & content', body: 'Writes, publishes and orchestrates your campaigns.' },
+      { title: 'Prospecting & sales', body: 'Qualifies, follows up and keeps your CRM current.' },
+      { title: 'Customer support', body: 'Answers every customer, across every channel.' },
+      { title: 'Development', body: 'Codes, integrates and ships new features.' },
+      { title: 'Analysis & documents', body: 'Extracts, summarizes and transforms your data.' },
+      { title: 'Meetings', body: 'Listens, transcribes and prepares next actions.' },
+      { title: 'Research & monitoring', body: 'Tracks your market and spots useful signals.' },
+      { title: 'Coordination', body: 'Plans projects and keeps teams aligned.' },
+      { title: 'Automation', body: 'Connects your tools and executes autonomously.' },
     ],
     catCta: 'Discover AI Collaborators',
 
@@ -234,151 +234,102 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = content[lang]
   return (
     <>
-      {/* Une nouvelle catégorie de travailleur */}
-      <section className="relative overflow-hidden bg-[#FBF9F3] px-5 py-24 md:py-32">
-        <div aria-hidden="true" className="bg-dots pointer-events-none absolute inset-0 opacity-[0.5]" />
-        <Reveal className="relative mx-auto max-w-6xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
-            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">
-              {t.catTitle} <span className="text-[#D10E63]">{t.catAccent}</span>
-            </h2>
+      {/* Capacités */}
+      <section className="section-rule relative overflow-hidden bg-[#FBF9F3] py-24 md:py-32">
+        <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-35" />
+        <Reveal className="editorial-shell relative">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-20">
+            <div>
+              <Eyebrow className="mb-5">{t.catEyebrow}</Eyebrow>
+              <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.catTitle}</h2>
+            </div>
+            <p className="max-w-xl text-pretty font-sf text-2xl font-semibold leading-snug tracking-[-0.025em] text-[#D10E63] md:text-3xl">{t.catAccent}</p>
           </div>
 
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 grid border-y border-[#D8D0C2] sm:grid-cols-2 lg:grid-cols-3">
             {t.capabilities.map((cap, index) => {
               const Icon = capabilityIcons[index]
               return (
-                <motion.div
-                  key={cap.title}
-                  className="group rounded-3xl border border-[#DDD5CA] bg-[#F3EFE6] p-6 transition-colors hover:border-[#D10E63]/40 hover:bg-[#FBF9F3]"
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: (index % 3) * 0.08 }}
-                >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#D10E63]/10 text-[#D10E63]">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-5 font-sf text-lg font-bold text-[#1C1A17]">{cap.title}</h3>
-                  <p className="mt-2 text-pretty text-sm leading-relaxed text-[#6B6560]">{cap.body}</p>
-                </motion.div>
+                <motion.article key={cap.title} className="group relative min-h-52 border-b border-[#D8D0C2] p-6 sm:border-r lg:p-8 [&:nth-last-child(-n+3)]:lg:border-b-0" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: (index % 3) * 0.06 }}>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] font-semibold tracking-[0.18em] text-[#A09789]">{String(index + 1).padStart(2, '0')}</span>
+                    <Icon className="h-5 w-5 text-[#D10E63]" strokeWidth={1.7} />
+                  </div>
+                  <h3 className="mt-10 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{cap.title}</h3>
+                  <p className="mt-2 max-w-xs text-pretty text-sm leading-6 text-[#6B6560]">{cap.body}</p>
+                </motion.article>
               )
             })}
           </div>
-
-          <div className="mt-10 text-center">
-            <a href="/collaborateurs-ia" className="inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-all hover:gap-3">
-              {t.catCta}
-              <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
+          <a href="/collaborateurs-ia" className="mt-9 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-3">{t.catCta}<ArrowRight className="h-4 w-4" /></a>
         </Reveal>
       </section>
 
-      {/* Tout ça reste dans votre entreprise */}
-      <section className="bg-[#F3EFE6] px-5 py-24 md:py-32">
-        <Reveal className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">{t.proofTitle}</h2>
-            <p className="mt-4 font-sf text-xl font-bold text-[#D10E63] [letter-spacing:-0.02em]">{t.proofLead}</p>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.proofBody}</p>
-          </div>
-
-          <div className="mx-auto mt-14 grid max-w-3xl gap-5 md:grid-cols-2">
-            <div className="rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-7">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">{t.accessTitle}</p>
-              <ul className="mt-5 flex flex-col">
-                {t.access.map((item, index) => {
-                  const Icon = accessIcons[index]
-                  return (
-                    <li key={item} className="flex items-center gap-3 border-b border-[#EDE7DA] py-3 text-sm text-[#1C1A17] last:border-none">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]"><Icon className="h-4 w-4" /></span>
-                      {item}
-                    </li>
-                  )
-                })}
-              </ul>
+      {/* Propriété et accès */}
+      <section className="section-rule bg-[#1C1A17] py-24 text-[#FBF9F3] md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <Eyebrow className="mb-6 text-[#F0559B]">{lang === 'fr' ? 'VOTRE INTELLIGENCE' : 'YOUR INTELLIGENCE'}</Eyebrow>
+              <h2 className="max-w-xl text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-6xl">{t.proofTitle}</h2>
+              <p className="mt-7 max-w-lg font-sf text-xl font-semibold tracking-[-0.02em] text-[#F0559B]">{t.proofLead}</p>
+              <p className="mt-5 max-w-lg text-pretty text-base leading-7 text-[#BDB5A9]">{t.proofBody}</p>
             </div>
-            <div className="rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] p-7">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">{t.modelsTitle}</p>
-              <ul className="mt-5 flex flex-col">
-                {t.models.map((item, index) => {
-                  const Icon = modelIcons[index]
-                  return (
-                    <li key={item} className="flex items-center gap-3 border-b border-[#EDE7DA] py-3 text-sm text-[#1C1A17] last:border-none">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]"><Icon className="h-4 w-4" /></span>
-                      {item}
-                    </li>
-                  )
-                })}
-              </ul>
+            <div className="border-t border-[#FBF9F3]/15">
+              {[{ title: t.accessTitle, items: t.access, icons: accessIcons }, { title: t.modelsTitle, items: t.models, icons: modelIcons }].map((group) => (
+                <div key={group.title} className="border-b border-[#FBF9F3]/15 py-8">
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F0559B]">{group.title}</p>
+                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {group.items.map((item, index) => { const Icon = group.icons[index]; return <li key={item} className="flex items-center gap-3 text-sm text-[#E7E0D5]"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#FBF9F3]/15"><Icon className="h-4 w-4 text-[#F0559B]" /></span>{item}</li> })}
+                  </ul>
+                </div>
+              ))}
+              <p className="pt-7 text-pretty text-sm leading-6 text-[#9E968A]">{t.proofNote}</p>
             </div>
           </div>
-          <p className="mx-auto mt-6 max-w-xl text-pretty text-center text-sm text-[#857C6E]">{t.proofNote}</p>
         </Reveal>
       </section>
 
       {/* Emma */}
-      <section className="relative overflow-hidden bg-[#FBF9F3] px-5 py-24 md:py-32">
-        <div aria-hidden="true" className="bg-dots pointer-events-none absolute inset-0 opacity-[0.5]" />
-        <Reveal className="relative mx-auto max-w-3xl text-center">
-          <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">{t.emmaTitle}</h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">
-            <span className="font-bold text-[#1C1A17]">{t.emmaIntroStrong}</span> {t.emmaIntro}
-          </p>
-
-          <div className="mx-auto mt-12 overflow-hidden rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3] text-left shadow-[0_24px_60px_rgba(28,26,23,0.1)]">
-            <div className="flex items-center gap-4 bg-[#D10E63] p-6 text-[#FBF9F3] sm:p-7">
-              <img src="/assistant-avatar.png" alt={t.emmaName} className="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-[#FBF9F3]/40" />
-              <div>
-                <p className="font-sf text-xl font-bold">{t.emmaName}</p>
-                <p className="text-sm text-[#FBF9F3]/85">{t.emmaRole}</p>
-                <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-[#FBF9F3]/90"><Mail className="h-3.5 w-3.5" />{t.emmaEmail}</p>
-              </div>
+      <section className="section-rule relative overflow-hidden bg-[#FBF9F3] py-24 md:py-32">
+        <div aria-hidden="true" className="bg-dots pointer-events-none absolute inset-0 opacity-40" />
+        <Reveal className="editorial-shell relative grid items-center gap-14 lg:grid-cols-[0.92fr_1.08fr] lg:gap-24">
+          <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
+            <div className="flex items-center justify-between border-b border-[#E4DDCE] p-5 sm:p-6">
+              <div className="flex items-center gap-4"><img src="/assistant-avatar.png" alt={t.emmaName} className="h-14 w-14 rounded-full object-cover" /><div><p className="font-sf text-xl font-bold text-[#1C1A17]">{t.emmaName}</p><p className="text-sm text-[#D10E63]">{t.emmaRole}</p></div></div>
+              <span className="h-2.5 w-2.5 rounded-full bg-[#D10E63]" aria-label={lang === 'fr' ? 'Disponible' : 'Available'} />
             </div>
-            <div className="p-6 sm:p-7">
-              <div className="flex flex-wrap gap-2">
-                {t.emmaSkills.map((skill) => (
-                  <span key={skill} className="rounded-full bg-[#D10E63]/10 px-3.5 py-1.5 text-xs font-semibold text-[#D10E63]">{skill}</span>
-                ))}
+            <div className="p-5 sm:p-6">
+              <p className="flex items-center gap-2 text-xs text-[#857C6E]"><Mail className="h-3.5 w-3.5" />{t.emmaEmail}</p>
+              <div className="mt-5 flex flex-wrap gap-2">{t.emmaSkills.map((skill) => <span key={skill} className="rounded-full border border-[#D8D0C2] px-3 py-1.5 text-[11px] font-semibold text-[#6B6560]">{skill}</span>)}</div>
+              <div className="mt-7 border-t border-[#E4DDCE]">
+                {t.emmaMissions.map((mission, index) => { const Icon = index === 0 ? CalendarDays : BarChart3; return <div key={mission.label} className="flex gap-4 border-b border-[#E4DDCE] py-5 last:border-0"><Icon className="mt-0.5 h-5 w-5 shrink-0 text-[#D10E63]" /><div><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1C1A17]">{mission.label}</p><p className="mt-2 text-pretty text-sm leading-6 text-[#6B6560]">{mission.body}</p></div></div> })}
               </div>
-              <div className="mt-6 flex flex-col gap-4">
-                {t.emmaMissions.map((mission, index) => {
-                  const Icon = index === 0 ? CalendarDays : BarChart3
-                  return (
-                    <div key={mission.label} className="flex items-start gap-3">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F3EFE6] text-[#D10E63]"><Icon className="h-4 w-4" /></span>
-                      <div>
-                        <p className="text-sm font-bold text-[#1C1A17]">{mission.label}</p>
-                        <p className="mt-0.5 text-pretty text-sm leading-relaxed text-[#6B6560]">{mission.body}</p>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-              <a href="/collaborateurs-ia/executive-assistant" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">
-                {t.emmaCta}
-                <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
           </div>
-          <p className="mx-auto mt-8 max-w-xl text-pretty text-sm text-[#857C6E]">{t.emmaNote}</p>
+
+          <div>
+            <Eyebrow className="mb-6">{lang === 'fr' ? 'UN VRAI MEMBRE DE L’ÉQUIPE' : 'A REAL TEAM MEMBER'}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-6xl">{t.emmaTitle}</h2>
+            <p className="mt-6 max-w-xl text-pretty text-base leading-7 text-[#6B6560] md:text-lg"><span className="font-bold text-[#1C1A17]">{t.emmaIntroStrong}</span> {t.emmaIntro}</p>
+            <p className="mt-6 max-w-lg border-l-2 border-[#D10E63] pl-5 text-sm leading-6 text-[#857C6E]">{t.emmaNote}</p>
+            <a href="/collaborateurs-ia/executive-assistant" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
+          </div>
         </Reveal>
       </section>
 
       {/* Trois façons de commencer */}
-      <section className="relative overflow-hidden bg-[#F3EFE6] px-5 py-24 md:py-32">
-        <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-[0.35]" />
-        <Reveal className="relative mx-auto max-w-6xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow className="mb-5">{t.plansEyebrow}</Eyebrow>
-            <h2 className="text-balance font-sf text-4xl font-semibold text-[#1C1A17] [letter-spacing:-0.04em] md:text-5xl">{t.plansTitle}</h2>
+      <section id="offres" className="section-rule relative overflow-hidden bg-[#F3EFE6] py-24 md:py-32">
+        <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-35" />
+        <Reveal className="editorial-shell relative">
+          <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+            <Eyebrow>{t.plansEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.plansTitle}</h2>
           </div>
-          <div className="mt-14 grid gap-5 lg:grid-cols-3">
+          <div className="mt-14 grid gap-4 lg:grid-cols-3">
             {t.plans.map((plan) => (
-              <div key={plan.name} className={`relative flex flex-col rounded-3xl border bg-[#FBF9F3] p-7 md:p-8 ${plan.popular ? 'border-[#D10E63] shadow-[0_24px_60px_rgba(209,14,99,0.14)]' : 'border-[#DDD5CA]'}`}>
-                {plan.popular && <span className="absolute right-7 top-8 rounded-full bg-[#D10E63] px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#FBF9F3]">{t.popularBadge}</span>}
+              <div key={plan.name} className={`relative flex flex-col rounded-[1.5rem] border bg-[#FBF9F3] p-7 md:p-8 ${'popular' in plan && plan.popular ? 'border-[#D10E63] premium-shadow lg:-translate-y-3' : 'border-[#D8D0C2]'}`}>
+                {'popular' in plan && plan.popular && <span className="absolute right-7 top-8 font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">{t.popularBadge}</span>}
                 <p className="font-sf text-xl font-bold text-[#1C1A17]">{plan.name}</p>
                 <p className="mt-2 text-sm font-medium text-[#D10E63]">{plan.audience}</p>
                 <p className="mt-4 text-pretty text-sm leading-relaxed text-[#6B6560]">{plan.pitch}</p>
@@ -388,7 +339,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <p className="mt-2 text-xs font-medium text-[#857C6E]">{plan.unit}</p>
                 <a
                   href={plan.href}
-                  className={`mt-8 inline-flex min-h-11 items-center justify-center rounded-full px-6 py-2.5 text-sm font-bold transition-all ${plan.popular ? 'bg-[#D10E63] text-[#FBF9F3] hover:-translate-y-0.5' : 'border border-[#C9C0B2] bg-[#FBF9F3] text-[#1C1A17] hover:border-[#D10E63] hover:text-[#D10E63]'}`}
+                  className={`mt-8 inline-flex min-h-11 items-center justify-center rounded-full px-6 py-2.5 text-sm font-bold transition-all ${'popular' in plan && plan.popular ? 'bg-[#D10E63] text-[#FBF9F3] hover:-translate-y-0.5' : 'border border-[#C9C0B2] bg-[#FBF9F3] text-[#1C1A17] hover:border-[#D10E63] hover:text-[#D10E63]'}`}
                 >
                   {plan.cta}
                 </a>
@@ -399,12 +350,12 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       </section>
 
       {/* CTA final */}
-      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] md:py-32">
-        <Reveal className="mx-auto max-w-4xl">
-          <UsersRound className="mx-auto h-10 w-10" />
-          <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#FBF9F3]/80">{t.finalEyebrow}</p>
-          <h2 className="mt-4 text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.finalTitle}</h2>
-          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#FBF9F3]/85 md:text-lg">{t.finalBody}</p>
+      <section className="section-rule bg-[#D10E63] py-24 text-center text-[#FBF9F3] md:py-32">
+        <Reveal className="editorial-shell max-w-4xl">
+          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-[#FBF9F3]/35"><UsersRound className="h-5 w-5" /></span>
+          <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#FBF9F3]/75">{t.finalEyebrow}</p>
+          <h2 className="mt-5 text-balance font-sf text-4xl font-semibold leading-[1] tracking-[-0.05em] md:text-6xl">{t.finalTitle}</h2>
+          <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-7 text-[#FBF9F3]/80 md:text-lg">{t.finalBody}</p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
               {t.finalCta}

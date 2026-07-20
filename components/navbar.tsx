@@ -33,7 +33,7 @@ const T = {
   fr: {
     home: 'Accueil Unitalk AI',
     signIn: 'Se connecter',
-    createFirstAgent: 'Créer mon Collaborateur IA',
+    createFirstAgent: 'Ajouter mon Collaborateur IA',
     signUp: 'S’inscrire',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -101,8 +101,8 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#E4DDCE]/70 bg-[#F3EFE6]/80 backdrop-blur-xl">
-      <nav className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[#D8D0C2]/75 bg-[#F3EFE6]/90 backdrop-blur-xl">
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
         {/* Left: Logo + nav links grouped together */}
         <div className="flex items-center gap-8 xl:gap-10">
           <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
@@ -204,7 +204,7 @@ export function Navbar() {
           {/* Primary CTA */}
           <a
             href="/signup"
-            className="hidden lg:inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-semibold text-[#FBF9F3] shadow-[0_10px_28px_rgba(209,14,99,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#B00B52]"
+            className="hidden min-h-10 items-center gap-2 rounded-full bg-[#D10E63] px-5 text-sm font-semibold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 lg:inline-flex"
           >
             {t.createFirstAgent}
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
