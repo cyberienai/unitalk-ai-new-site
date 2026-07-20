@@ -13,7 +13,7 @@ const T = {
     heroCta: "Commencer l'essai gratuit",
     heroCtaSecondary: 'Analyse gratuite',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
-    orgTitle: 'Votre organisation augmentée',
+    orgTitle: 'Votre organisation',
     orgMeta: 'Équipe active',
     orgPairs: [
       { human: 'Camille', dept: 'Ventes', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospection' },
@@ -31,7 +31,7 @@ const T = {
     heroCta: 'Start free trial',
     heroCtaSecondary: 'Free assessment',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
-    orgTitle: 'Your augmented organization',
+    orgTitle: 'Your organization',
     orgMeta: 'Active team',
     orgPairs: [
       { human: 'Camille', dept: 'Sales', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospecting' },
