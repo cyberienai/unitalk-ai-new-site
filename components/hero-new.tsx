@@ -14,7 +14,7 @@ const T = {
     ],
     heroCta: 'Ajouter mon Collaborateur IA',
     heroCtaSecondary: 'Analyse gratuite',
-    heroProofs: ['Aucune configuration', 'Sans engagement', 'Prêt en quelques minutes'],
+    heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre organisation',
   },
   en: {
@@ -26,7 +26,7 @@ const T = {
     ],
     heroCta: 'Add my AI Collaborator',
     heroCtaSecondary: 'Free analysis',
-    heroProofs: ['No setup', 'No commitment', 'Ready in minutes'],
+    heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your organization',
   },
 } as const
