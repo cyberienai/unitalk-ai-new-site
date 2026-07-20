@@ -6,16 +6,22 @@ import {
   AudioLines,
   Brain,
   CalendarDays,
-  Check,
+  ClipboardList,
+  Code2,
+  FileText,
   Mail,
+  MessageSquare,
+  Mic,
   Phone,
   Plug,
+  Search,
   Target,
   UsersRound,
-  X,
   Zap,
 } from 'lucide-react'
 import { ChatMockup, WorkstationMockup } from './product-mockups'
+
+const capabilityIcons = [Phone, MessageSquare, FileText, Search, Code2, Mic, ClipboardList, Zap, Brain]
 
 const content = {
   fr: {
@@ -24,20 +30,16 @@ const content = {
     catTitle: '',
     catAccent: 'Collaborateurs IA.',
     catBody: "Pas un chatbot. Pas un assistant. Une nouvelle catégorie de travailleur.",
-    chatbotLabel: 'Chatbot',
-    chatbot: [
-      'Répond à des questions.',
-      'Oublie tout après chaque conversation.',
-      "Ne connaît pas votre entreprise.",
-      "Ne construit rien qui vous appartienne.",
-    ],
-    collabLabel: 'Collaborateur IA',
-    collab: [
-      'Répond aux questions, prépare des rendez-vous, rédige des propositions.',
-      'Analyse des documents, recherche des informations, exécute des tâches.',
-      'Ne repart jamais à zéro. Sa mémoire grandit avec chaque mission.',
-      'Connaît votre entreprise, vos méthodes, et construit un actif qui vous appartient.',
-      'Travaille aux côtés de vos équipes.',
+    capabilities: [
+      { title: 'Prospection & ventes', body: 'Qualifie des leads, prépare des devis, relance les prospects, met à jour votre CRM.' },
+      { title: 'Support client', body: 'Répond à vos clients par email, chat ou téléphone, 24h/24, dans leur langue.' },
+      { title: 'Analyse & documents', body: 'Synthétise des rapports, extrait des données, rédige des propositions et des comptes rendus.' },
+      { title: 'Recherche & veille', body: 'Surveille vos marchés, vos concurrents, détecte les opportunités et vous alerte.' },
+      { title: 'Développement & design', body: 'Code, design, motion design. Participe aux revues UX avec transcription des échanges.' },
+      { title: 'Notes vocales & réunions', body: 'Prend des notes vocales, assiste aux réunions, génère des comptes rendus et transcripts.' },
+      { title: 'Gestion & coordination', body: 'Planifie des rendez-vous, suit des projets, coordonne des équipes et des flux de travail.' },
+      { title: 'Automatisation', body: 'Connecte vos outils, exécute des missions en autonomie, prend des initiatives et vous rend compte.' },
+      { title: 'Stratégie & conseil', body: 'Analyse vos données, propose des recommandations, prépare des décisions étayées.' },
     ],
     catCta: 'Découvrir les Collaborateurs IA',
 
@@ -131,20 +133,16 @@ const content = {
     catTitle: '',
     catAccent: 'AI Collaborators.',
     catBody: 'Not a chatbot. Not an assistant. A new category of worker.',
-    chatbotLabel: 'Chatbot',
-    chatbot: [
-      'Answers questions.',
-      'Forgets everything after each conversation.',
-      'Does not know your company.',
-      'Builds nothing that belongs to you.',
-    ],
-    collabLabel: 'AI Collaborator',
-    collab: [
-      'Answers questions, prepares meetings, drafts proposals.',
-      'Analyzes documents, researches information, executes tasks.',
-      'Never starts from scratch. Its memory grows with every mission.',
-      'Knows your company, your methods, and builds an asset that belongs to you.',
-      'Works alongside your teams.',
+    capabilities: [
+      { title: 'Prospecting & sales', body: 'Qualifies leads, prepares quotes, follows up with prospects, updates your CRM.' },
+      { title: 'Customer support', body: 'Answers your customers by email, chat or phone, 24/7, in their language.' },
+      { title: 'Analysis & documents', body: 'Summarizes reports, extracts data, drafts proposals and meeting notes.' },
+      { title: 'Research & monitoring', body: 'Monitors your markets and competitors, spots opportunities and alerts you.' },
+      { title: 'Development & design', body: 'Code, design, motion design. Joins UX reviews with transcripts of the discussions.' },
+      { title: 'Voice notes & meetings', body: 'Takes voice notes, attends meetings, generates minutes and transcripts.' },
+      { title: 'Management & coordination', body: 'Schedules meetings, tracks projects, coordinates teams and workflows.' },
+      { title: 'Automation', body: 'Connects your tools, runs missions autonomously, takes initiative and reports back.' },
+      { title: 'Strategy & advisory', body: 'Analyzes your data, proposes recommendations, prepares informed decisions.' },
     ],
     catCta: 'Discover AI Collaborators',
 
@@ -262,34 +260,33 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="mt-5 text-pretty text-base leading-relaxed text-[#6B6560] md:text-lg">{t.catBody}</p>
           </div>
 
-          <div className="mt-14 grid gap-5 lg:grid-cols-2">
-            <div className="rounded-3xl border border-[#DDD5CA] bg-[#F3EFE6] p-7 md:p-9">
-              <p className="font-sf text-xl font-bold text-[#857C6E]">{t.chatbotLabel}</p>
-              <ul className="mt-6 flex flex-col gap-4">
-                {t.chatbot.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[#6B6560]">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#DDD5CA]"><X className="h-3 w-3 text-[#857C6E]" strokeWidth={3} /></span>
-                    <span className="text-pretty text-sm leading-relaxed md:text-base">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {t.capabilities.map((cap, index) => {
+              const Icon = capabilityIcons[index]
+              return (
+                <motion.div
+                  key={cap.title}
+                  className="group rounded-3xl border border-[#DDD5CA] bg-[#F3EFE6] p-6 transition-colors hover:border-[#D10E63]/40 hover:bg-[#FBF9F3]"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: (index % 3) * 0.08 }}
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#D10E63]/10 text-[#D10E63]">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-5 font-sf text-lg font-bold text-[#1C1A17]">{cap.title}</h3>
+                  <p className="mt-2 text-pretty text-sm leading-relaxed text-[#6B6560]">{cap.body}</p>
+                </motion.div>
+              )
+            })}
+          </div>
 
-            <div className="rounded-3xl border border-[#D10E63] bg-[#FBF9F3] p-7 shadow-[0_24px_60px_rgba(209,14,99,0.12)] md:p-9">
-              <p className="font-sf text-xl font-bold text-[#D10E63]">{t.collabLabel}</p>
-              <ul className="mt-6 flex flex-col gap-4">
-                {t.collab.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[#1C1A17]">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]"><Check className="h-3 w-3 text-[#FBF9F3]" strokeWidth={3} /></span>
-                    <span className="text-pretty text-sm font-medium leading-relaxed md:text-base">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <a href="/collaborateurs-ia" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] hover:gap-3 transition-all">
-                {t.catCta}
-                <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
+          <div className="mt-10 text-center">
+            <a href="/collaborateurs-ia" className="inline-flex items-center gap-2 text-sm font-bold text-[#D10E63] hover:gap-3 transition-all">
+              {t.catCta}
+              <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
         </Reveal>
       </section>
