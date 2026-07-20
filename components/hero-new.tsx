@@ -104,9 +104,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 ))}
               </div>
             </div>
-            <div className="flex items-center justify-between border-t border-[#E4DDCE] px-5 py-3 text-[11px] text-[#857C6E] sm:px-6"><span>3 {lang === 'fr' ? 'équipes' : 'teams'}</span><span>3 {t.collaboratorLabel}{lang === 'fr' ? 's' : 's'}</span></div>
+            <div className="border-t border-[#E4DDCE] px-5 py-3.5 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#857C6E] sm:px-6">{t.orgCaption}</div>
           </div>
-          <p className="mt-4 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#857C6E]">{t.orgCaption}</p>
         </motion.div>
       </div>
     </section>
