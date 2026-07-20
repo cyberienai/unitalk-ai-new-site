@@ -5,7 +5,8 @@ import { ArrowRight, Check, Network } from 'lucide-react'
 
 const T = {
   fr: {
-    eyebrow: "L'IA entre dans votre organigramme",
+    eyebrow: 'Votre équipe, augmentée',
+    orgCaption: "L'IA entre dans votre organigramme",
     headline: 'Vos Collaborateurs IA sont',
     headlineAccent: ' déjà prêts.',
     lead: "Votre seule limite, c'est votre capacité à agir. Un Collaborateur IA vous permet d'en faire plus — sans embaucher.",
@@ -22,7 +23,8 @@ const T = {
     collaboratorLabel: 'Collaborateur IA',
   },
   en: {
-    eyebrow: 'AI joins your org chart',
+    eyebrow: 'Your team, augmented',
+    orgCaption: 'AI joins your org chart',
     headline: 'Your AI Collaborators are',
     headlineAccent: ' already ready.',
     lead: 'Your only limit is your capacity to act. An AI Collaborator lets you do more — without hiring.',
@@ -104,6 +106,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
             <div className="flex items-center justify-between border-t border-[#E4DDCE] px-5 py-3 text-[11px] text-[#857C6E] sm:px-6"><span>3 {lang === 'fr' ? 'équipes' : 'teams'}</span><span>3 {t.collaboratorLabel}{lang === 'fr' ? 's' : 's'}</span></div>
           </div>
+          <p className="mt-4 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#857C6E]">{t.orgCaption}</p>
         </motion.div>
       </div>
     </section>
