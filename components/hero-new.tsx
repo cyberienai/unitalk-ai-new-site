@@ -10,7 +10,7 @@ const T = {
     headlineAccent: ' déjà prêts.',
     lead: 'Ajoutez des Collaborateurs IA qui analysent, exécutent et livrent avec vos équipes.',
     heroCta: 'Créer mon Collaborateur IA',
-    heroCtaSecondary: 'Analyse gratuite',
+    heroCtaSecondary: 'Voir une démo',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre équipe',
     orgMeta: '3 membres + 3 Collaborateurs IA',
@@ -27,7 +27,7 @@ const T = {
     headlineAccent: ' already ready.',
     lead: 'Add AI Collaborators that analyze, execute and deliver with your teams.',
     heroCta: 'Create my AI Collaborator',
-    heroCtaSecondary: 'Free assessment',
+    heroCtaSecondary: 'Watch a demo',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your team',
     orgMeta: '3 members + 3 AI Collaborators',
@@ -69,7 +69,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.heroCta}<ArrowRight className="h-4 w-4" />
             </a>
-            <a href="/contact" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#BFB5A6] px-6 text-sm font-bold text-[#1C1A17] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+            <a href="/demo" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#BFB5A6] px-6 text-sm font-bold text-[#1C1A17] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.heroCtaSecondary}
             </a>
           </motion.div>
