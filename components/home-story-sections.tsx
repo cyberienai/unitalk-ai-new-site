@@ -139,10 +139,11 @@ const content = {
 
     // Section: CTA final
     finalEyebrow: 'VOTRE AVANTAGE DURABLE',
-    finalTitle: 'Votre entreprise possède déjà une intelligence.',
-    finalBody: 'Ses collaborateurs. Ses clients. Ses méthodes. Ses documents. Son savoir-faire. Unitalk vous aide à la transformer en un avantage durable.',
-    finalCta: 'Créer mon Collaborateur IA',
-    finalFinePrint: 'Analyse gratuite · Aucune carte bancaire · Déploiement en quelques minutes',
+    finalTitle: 'Votre intelligence vous appartient.',
+    finalBody: "Votre intelligence d'entreprise — ses collaborateurs, ses clients, ses méthodes, son savoir-faire. Unitalk vous aide à la transformer en un avantage durable.",
+    finalCta: 'Ajouter mon Collaborateur IA',
+    finalCtaSecondary: 'Analyse gratuite',
+    finalFinePrint: 'Essai gratuit 7 jours · Déploiement en quelques minutes',
   },
   en: {
     catEyebrow: 'THEIR CAPABILITIES',
@@ -248,10 +249,11 @@ const content = {
     idFootnote: 'You can talk to her directly or hand her a mission she executes without supervision. Conversations and missions enrich the same memory. The same asset.',
 
     finalEyebrow: 'YOUR LASTING ADVANTAGE',
-    finalTitle: 'Your company already has intelligence.',
-    finalBody: 'Its people. Its clients. Its methods. Its documents. Its know-how. Unitalk helps you turn it into a lasting advantage.',
-    finalCta: 'Create my AI Collaborator',
-    finalFinePrint: 'Free analysis · No credit card · Deployed in minutes',
+    finalTitle: 'Your intelligence belongs to you.',
+    finalBody: 'Your company intelligence — its people, its clients, its methods, its know-how. Unitalk helps you turn it into a lasting advantage.',
+    finalCta: 'Add my AI Collaborator',
+    finalCtaSecondary: 'Free assessment',
+    finalFinePrint: '7-day free trial · Deployed in minutes',
   },
 } as const
 
@@ -490,10 +492,15 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#FBF9F3]/80">{t.finalEyebrow}</p>
           <h2 className="mt-4 text-balance font-sf text-4xl font-semibold [letter-spacing:-0.04em] md:text-6xl">{t.finalTitle}</h2>
           <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#FBF9F3]/85 md:text-lg">{t.finalBody}</p>
-          <a href="/signup" className="mt-9 inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
-            {t.finalCta}
-            <ArrowRight className="h-4 w-4" />
-          </a>
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
+              {t.finalCta}
+              <ArrowRight className="h-4 w-4" />
+            </a>
+            <a href="/contact" className="inline-flex items-center gap-2 rounded-full border border-[#FBF9F3]/50 px-7 py-3.5 font-bold text-[#FBF9F3] transition-colors hover:bg-[#FBF9F3]/10">
+              {t.finalCtaSecondary}
+            </a>
+          </div>
           <p className="mt-6 text-sm text-[#FBF9F3]/75">{t.finalFinePrint}</p>
         </Reveal>
       </section>
