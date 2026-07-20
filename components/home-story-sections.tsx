@@ -123,7 +123,7 @@ const content = {
     finalEyebrow: 'VOTRE AVANTAGE DURABLE',
     finalTitle: 'Votre entreprise possède déjà une intelligence.',
     finalBody: 'Ses collaborateurs. Ses clients. Ses méthodes. Ses documents. Son savoir-faire. Unitalk vous aide à la transformer en un avantage durable.',
-    finalCta: 'Créer mon premier Collaborateur IA',
+    finalCta: 'Créer mon Collaborateur IA',
     finalFinePrint: 'Analyse gratuite · Aucune carte bancaire · Déploiement en quelques minutes',
   },
   en: {
@@ -225,7 +225,7 @@ const content = {
     finalEyebrow: 'YOUR LASTING ADVANTAGE',
     finalTitle: 'Your company already has intelligence.',
     finalBody: 'Its people. Its clients. Its methods. Its documents. Its know-how. Unitalk helps you turn it into a lasting advantage.',
-    finalCta: 'Create my first AI Collaborator',
+    finalCta: 'Create my AI Collaborator',
     finalFinePrint: 'Free analysis · No credit card · Deployed in minutes',
   },
 } as const
