@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, Phone, Plus, Star, UserRound, Wrench } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, Phone, Plus, ShieldCheck, Star, UserRound, Wrench } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { getAcmeAiBySlug } from '@/lib/acme-demo'
@@ -33,6 +33,7 @@ export function TeamProfile({ slug }: { slug: string }) {
       added: 'Ajouté à mon équipe',
       reportsTo: 'Rattaché·e à',
       at: 'chez',
+      dataOwner: 'Propriétaire des données',
       about: 'À propos',
       skills: 'Compétences',
       tools: 'Outils',
@@ -52,6 +53,7 @@ export function TeamProfile({ slug }: { slug: string }) {
       added: 'Added to my team',
       reportsTo: 'Reports to',
       at: 'at',
+      dataOwner: 'Data owner',
       about: 'About',
       skills: 'Skills',
       tools: 'Tools',
@@ -97,11 +99,22 @@ export function TeamProfile({ slug }: { slug: string }) {
                 <p className="mt-1 text-[#6B6560]">{detail.role[lang]}</p>
 
                 <div className="mt-3 space-y-1.5 border-t border-[#EAE3D4] pt-3 text-sm">
-                  <p className="flex items-center gap-2 text-[#4E483F]">
-                    <UserRound className="h-4 w-4 shrink-0 text-[#857C6E]" />
+                  <p className="flex items-start gap-2 text-[#4E483F]">
+                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#857C6E]" />
                     <span>
                       {t.reportsTo} <span className="font-semibold text-[#1C1A17]">{detail.manager.name}</span>
                       <span className="text-[#857C6E]"> · {detail.manager.role[lang]}</span>
+                      {detail.managerEmail && (
+                        <>
+                          {' · '}
+                          <a
+                            href={`mailto:${detail.managerEmail}`}
+                            className="font-medium text-[#D10E63] hover:underline"
+                          >
+                            {detail.managerEmail}
+                          </a>
+                        </>
+                      )}
                     </span>
                   </p>
                   <p className="flex items-center gap-2 text-[#4E483F]">
@@ -110,6 +123,14 @@ export function TeamProfile({ slug }: { slug: string }) {
                       {t.at} <span className="font-semibold text-[#1C1A17]">{detail.company}</span>
                     </span>
                   </p>
+                  {detail.dataOwner && (
+                    <p className="flex items-center gap-2 text-[#4E483F]">
+                      <ShieldCheck className="h-4 w-4 shrink-0 text-[#857C6E]" />
+                      <span>
+                        {t.dataOwner} : <span className="font-semibold text-[#1C1A17]">{detail.dataOwner}</span>
+                      </span>
+                    </p>
+                  )}
                 </div>
 
                 <div className="mt-3 flex items-center gap-3">

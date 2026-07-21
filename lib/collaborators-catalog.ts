@@ -123,7 +123,9 @@ export type RoleDetail = {
   tools: string[]
   missions: Bilingual[]
   manager: { name: string; role: Bilingual } // responsable au sein de l'entreprise
+  managerEmail?: string // email de contact du responsable
   company: string // entreprise d'appartenance
+  dataOwner?: string // propriétaire des données
 }
 
 export const ROLE_DETAILS: Record<string, RoleDetail> = {
@@ -131,8 +133,10 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     slug: 'emma',
     name: 'Emma',
     avatar: '/images/emma-avatar.png',
-    manager: { name: 'Camille Lefebvre', role: { fr: 'Directrice Générale', en: 'CEO' } },
+    manager: { name: 'Patrick Chassany', role: { fr: 'Founder', en: 'Founder' } },
+    managerEmail: 'founder@unitalk.ai',
     company: 'Unitalk',
+    dataOwner: 'Unitalk AI',
     role: { fr: 'Assistante de Direction', en: 'Executive Assistant' },
     department: { fr: 'Direction', en: 'Leadership' },
     description: {

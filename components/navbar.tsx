@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
+import { NavbarTeamCart } from '@/components/navbar-team-cart'
 
 type NavLink = { fr: string; en: string; href: string }
 
@@ -178,12 +179,7 @@ export function Navbar() {
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
 
-            <a
-              href="/signup"
-              className="hidden min-h-10 items-center rounded-full border border-[#1C1A17]/25 px-5 text-sm font-semibold text-[#1C1A17] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] lg:inline-flex"
-            >
-              {t.createFirstAgent}
-            </a>
+            <NavbarTeamCart startLabel={t.createFirstAgent} />
 
             <button
               onClick={() => setIsMenuOpen((v) => !v)}
