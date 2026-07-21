@@ -13,6 +13,7 @@ const META: Record<string, { rating: number; reviews: number }> = {
   lea: { rating: 4.8, reviews: 94 },
   arthur: { rating: 4.7, reviews: 76 },
   hugo: { rating: 4.8, reviews: 88 },
+  nadia: { rating: 4.9, reviews: 112 },
   ines: { rating: 4.9, reviews: 152 },
 }
 
@@ -24,7 +25,7 @@ export function TeamProfile({ slug }: { slug: string }) {
   const inTeam = has(slug)
 
   // Accord en genre (FR uniquement)
-  const FEMALE_SLUGS = ['emma', 'lea', 'ines']
+  const FEMALE_SLUGS = ['emma', 'lea', 'nadia', 'ines']
   const isFemale = FEMALE_SLUGS.includes(slug)
   const connectedLabel = lang === 'fr' ? `Connecté${isFemale ? 'e' : ''} à` : 'Connected to'
   const statusLabel = lang === 'fr' ? `Collaborat${isFemale ? 'rice' : 'eur'} IA` : 'AI Collaborator'

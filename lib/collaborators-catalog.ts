@@ -67,7 +67,7 @@ export const DEPARTMENTS: Department[] = [
     key: 'finance',
     label: { fr: 'Finance', en: 'Finance' },
     roles: [
-      { name: 'Analyste Financière', title: { fr: 'Analyse financière', en: 'Financial Analyst' } },
+      { name: 'Nadia', title: { fr: 'Analyste Financière', en: 'Financial Analyst' }, slug: 'nadia' },
       { name: 'Comptabilité', title: { fr: 'Comptabilité', en: 'Accounting' } },
       { name: 'Facturation', title: { fr: 'Facturation', en: 'Billing' } },
     ],
@@ -190,6 +190,19 @@ export const TEAM_HUMANS: Record<string, Human> = {
     bio: {
       fr: "Claire développe le portefeuille clients d'Unitalk et structure la démarche commerciale. Elle avance en binôme avec Hugo, son partenaire IA.",
       en: "Claire grows Unitalk's client portfolio and shapes the sales motion. She moves in tandem with Hugo, her AI partner.",
+    },
+  },
+  juliemartin: {
+    handle: 'juliemartin',
+    name: 'Julie Martin',
+    role: { fr: 'Directrice Financière', en: 'Finance Director' },
+    department: { fr: 'Finance', en: 'Finance' },
+    avatar: '/images/julie-avatar.png',
+    email: 'julie@unitalk.ai',
+    pairSlug: 'nadia',
+    bio: {
+      fr: "Julie pilote la performance financière et la planification d’Unitalk. Elle analyse et anticipe chaque décision avec Nadia, sa partenaire IA.",
+      en: "Julie leads Unitalk's financial performance and planning. She analyzes and anticipates every decision with Nadia, her AI partner.",
     },
   },
   marcdelacroix: {
@@ -353,6 +366,34 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Préparer un rendez-vous de closing', en: 'Prepare a closing meeting' },
     ],
   },
+  nadia: {
+    slug: 'nadia',
+    name: 'Nadia',
+    avatar: '/images/nadia-avatar.png',
+    manager: { name: 'Julie Martin', role: { fr: 'Directrice Financière', en: 'Finance Director' } },
+    managerEmail: 'julie@unitalk.ai',
+    managerHandle: 'juliemartin',
+    company: 'Unitalk',
+    dataOwner: 'Unitalk AI',
+    role: { fr: 'Analyste Financière', en: 'Financial Analyst' },
+    department: { fr: 'Finance', en: 'Finance' },
+    description: {
+      fr: "Nadia consolide les données financières, suit les indicateurs et prépare les prévisions. Elle transforme chaque chiffre en information utile pour décider.",
+      en: 'Nadia consolidates financial data, tracks key metrics and prepares forecasts. She turns every number into useful insight for decision-making.',
+    },
+    skills: [
+      { fr: 'Analyse financière', en: 'Financial analysis' },
+      { fr: 'Prévisions et budgets', en: 'Forecasting and budgeting' },
+      { fr: 'Suivi des indicateurs', en: 'KPI tracking' },
+      { fr: 'Reporting de direction', en: 'Executive reporting' },
+    ],
+    tools: ['Tableur', 'ERP', 'Notion', 'Email', 'BI'],
+    missions: [
+      { fr: 'Préparer le reporting financier mensuel', en: 'Prepare the monthly financial report' },
+      { fr: 'Mettre à jour les prévisions de trésorerie', en: 'Update cash flow forecasts' },
+      { fr: 'Analyser les écarts budgétaires', en: 'Analyze budget variances' },
+    ],
+  },
   ines: {
     slug: 'ines',
     name: 'Inès',
@@ -391,6 +432,7 @@ export const TEAM_PAIRS: { humanHandle: string; aiSlug: string }[] = [
   { humanHandle: 'sophiemoreau', aiSlug: 'lea' },
   { humanHandle: 'antoinelefebvre', aiSlug: 'arthur' },
   { humanHandle: 'clairedubois', aiSlug: 'hugo' },
+  { humanHandle: 'juliemartin', aiSlug: 'nadia' },
   { humanHandle: 'marcdelacroix', aiSlug: 'ines' },
 ]
 
