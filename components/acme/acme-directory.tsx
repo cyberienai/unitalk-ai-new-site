@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowRight, Search } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
-import { ACME_MEMBERS, getAcmeMember, getMemberProfile, type AcmeMember } from '@/lib/acme-demo'
+import { ACME, ACME_MEMBERS, getAcmeMember, getMemberProfile, type AcmeMember } from '@/lib/acme-demo'
 import { Breadcrumb, InternalBanner, Monogram } from '@/components/acme/acme-shared'
 
 type Filter = 'all' | 'human' | 'ai'
@@ -18,8 +18,8 @@ export function AcmeDirectory() {
       home: 'Acme',
       directory: 'Annuaire',
       back: "← Retour au profil d'Emma",
-      title: 'Annuaire Acme',
-      subtitle: 'Membres de l’équipe et leurs Collaborateurs IA',
+      title: `Voici les Collaborateurs IA Unitalk qui font tourner ${ACME.name}.`,
+      subtitle: 'Aux côtés de l’équipe humaine, chacun avec son profil public.',
       profiles: 'profils',
       results: 'résultats',
       searchPlaceholder: 'Rechercher un nom, un rôle, un département...',
@@ -37,8 +37,8 @@ export function AcmeDirectory() {
       home: 'Acme',
       directory: 'Directory',
       back: "← Back to Emma's profile",
-      title: 'Acme Directory',
-      subtitle: 'Team members and their AI Collaborators',
+      title: `Meet the Unitalk AI Collaborators who run ${ACME.name}.`,
+      subtitle: 'Alongside the human team, each with their public profile.',
       profiles: 'profiles',
       results: 'results',
       searchPlaceholder: 'Search a name, role, department...',
