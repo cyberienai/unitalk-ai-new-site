@@ -191,7 +191,7 @@ const content = {
     popularBadge: 'LE PLUS CHOISI',
 
     // Section: CTA final
-    finalEyebrow: 'PRÊT �� COMMENCER ?',
+    finalEyebrow: 'PRÊT · COMMENCER ?',
     finalTitle: 'Votre premier Collaborateur IA vous attend.',
     finalSteps: [
       'Essayez-le gratuitement pendant 7 jours.',
@@ -319,7 +319,7 @@ const content = {
         name: 'Solo',
         audience: 'For freelancers and independent professionals',
         pitch: 'Do the work of several people, on your own.',
-        price: '€29',
+        price: '€30',
         unit: 'per month / agent',
         cta: 'View pricing',
         href: '/tarifs',
@@ -328,7 +328,7 @@ const content = {
         name: 'Team',
         audience: 'For growing teams',
         pitch: 'Grow your team capabilities without hiring at the same pace.',
-        price: '€49',
+        price: '€25',
         unit: 'per agent / month',
         cta: 'View pricing',
         href: '/tarifs',

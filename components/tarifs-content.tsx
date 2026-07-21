@@ -56,13 +56,13 @@ const T = {
     reassureLink: 'open-source Desktop version',
     plans: [
       {
-        name: 'Solo', price: '€29', period: '/ month / agent',
+        name: 'Solo', price: '€30', period: '/ month / agent',
         tagline: 'A custom agent to get you started, crafted in a single call with Alma.',
         cta: 'Create my agent', href: '/signup',
         features: ['1 custom agent, 10 profiles included', 'Dedicated email, number, calendar and contacts', 'Powered by Hermes, our open-source engine', 'Access to the best AI models', 'BYOK or prepaid AI credits', 'Multimodal: voice, text, image, audio, code', 'Persistent company memory', 'Connection to 3,000+ apps via MCP', 'Support from Alma'],
       },
       {
-        name: 'Team', price: '€49', period: '/ agent / month',
+        name: 'Team', price: '€25', period: '/ agent / month',
         tagline: 'One agent per colleague, a shared workspace and a common memory.',
         cta: 'Equip my team', href: '/signup', highlight: true,
         features: ['Everything in Solo, for each member', 'Shared collaborative workspace', 'Company memory pooled across agents', 'Alma interviews each colleague', 'Roles and permissions per agent', 'Shared skills and processes', 'Team dashboard', 'Centralized billing', 'Priority support'],
