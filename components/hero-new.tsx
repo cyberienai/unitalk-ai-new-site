@@ -10,7 +10,8 @@ const T = {
     eyebrow: 'Recrutez sans embaucher',
     headline: 'Votre premier Collaborateur\u00A0IA est',
     headlineAccent: ' déjà prêt.',
-    lead: 'Ajoutez-le à votre organigramme en quelques minutes.',
+    leadA: 'Ajoutez-le à votre organigramme',
+    leadB: 'en quelques minutes.',
     heroCta: 'Commencer gratuitement',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre équipe',
@@ -30,7 +31,8 @@ const T = {
     eyebrow: 'Recruit without hiring',
     headline: 'Your first AI\u00A0Collaborator is',
     headlineAccent: ' already ready.',
-    lead: 'Add them to your org chart in just a few minutes.',
+    leadA: 'Add them to your org chart',
+    leadB: 'in just a few minutes.',
     heroCta: 'Start for free',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your team',
@@ -72,7 +74,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.headline}<span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
           <motion.p {...enter(0.18)} className="mx-auto mt-7 max-w-xl text-pretty text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:text-left md:text-lg md:leading-8">
-            {t.lead}
+            {t.leadA}
+            <br className="sm:hidden" /> {t.leadB}
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:items-center">
             <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
