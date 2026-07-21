@@ -4,36 +4,26 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
-import { COLLAB_SECTION } from '@/lib/collaborators-nav'
 
 type NavLink = { fr: string; en: string; href: string }
 
-// Collaborateurs IA dropdown (desktop)
-const COLLAB_MENU: NavLink[] = [
-  { fr: 'Découvrir les Collaborateurs IA', en: 'Discover AI Collaborators', href: '/collaborateurs-ia' },
-  { fr: 'Présence numérique', en: 'Digital presence', href: '#' },
-  { fr: 'Marketplace', en: 'Marketplace', href: '#' },
+// Primary nav (desktop) — parcours « construire mon équipe »
+const PRIMARY_LINKS: NavLink[] = [
+  { fr: 'Construire mon équipe', en: 'Build my team', href: '/team' },
+  { fr: 'Unitalk Work', en: 'Unitalk Work', href: '/#unitalk-work' },
+  { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
 ]
 
-// Unitalk Work dropdown (desktop)
-const WORK_MENU: NavLink[] = [
-  { fr: 'Desktop', en: 'Desktop', href: '#' },
-  { fr: 'Cloud', en: 'Cloud', href: '#' },
-  { fr: 'Local (Ollama)', en: 'Local (Ollama)', href: '#' },
-  { fr: 'Messageries', en: 'Messaging', href: '#' },
-  { fr: 'Terminal', en: 'Terminal', href: '#' },
-]
-
-const WORK_LABEL = { fr: 'Unitalk Work', en: 'Unitalk Work' }
-const PRICING_LINK: NavLink = { fr: 'Tarifs', en: 'Pricing', href: '/#offres' }
+const ALMA_LINK: NavLink = { fr: 'Parler à Alma', en: 'Talk to Alma', href: '#' }
 
 // Full burger menu — organized in sections
 const MENU_SECTIONS: { title: { fr: string; en: string }; links: NavLink[] }[] = [
   {
     title: { fr: 'Produit', en: 'Product' },
     links: [
-      { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
-      { fr: 'Unitalk Work', en: 'Unitalk Work', href: '#' },
+      { fr: 'Construire mon équipe', en: 'Build my team', href: '/team' },
+      { fr: 'Parler à Alma', en: 'Talk to Alma', href: '#' },
+      { fr: 'Unitalk Work', en: 'Unitalk Work', href: '/#unitalk-work' },
       { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
     ],
   },
@@ -121,87 +111,8 @@ function UkFlag() {
   )
 }
 
-function Chevron({ open }: { open: boolean }) {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={`transition-transform ${open ? 'rotate-180 text-[#D10E63]' : ''}`}
-    >
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  )
-}
-
-function NavDropdown({
-  label,
-  items,
-  lang,
-  isOpen,
-  onOpen,
-  onClose,
-  width = 'w-72',
-}: {
-  label: string
-  items: NavLink[]
-  lang: 'fr' | 'en'
-  isOpen: boolean
-  onOpen: () => void
-  onClose: () => void
-  width?: string
-}) {
-  return (
-    <div className="relative" onMouseEnter={onOpen} onMouseLeave={onClose}>
-      <button
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-        onClick={() => (isOpen ? onClose() : onOpen())}
-      >
-        {label}
-        <Chevron open={isOpen} />
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className={`absolute left-1/2 top-full z-50 ${width} -translate-x-1/2 pt-3`}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 6 }}
-            transition={{ duration: 0.16 }}
-          >
-            <div className="overflow-hidden rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-2 shadow-[0_24px_60px_rgba(28,26,23,0.16)]">
-              <p className="px-3 pb-2 pt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">
-                {label}
-              </p>
-              {items.map((link) => (
-                <a
-                  key={link.fr}
-                  href={link.href}
-                  onClick={onClose}
-                  className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[#1C1A17] transition-colors hover:bg-[#F3EFE6] hover:text-[#D10E63]"
-                >
-                  {link[lang]}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  )
-}
-
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<'collab' | 'work' | null>(null)
   const { lang, setLang } = useLanguage()
   const t = T[lang]
 
@@ -230,34 +141,26 @@ export function Navbar() {
             </a>
 
             <div className="hidden items-center gap-6 lg:flex xl:gap-8">
-              <NavDropdown
-                label={COLLAB_SECTION[lang]}
-                items={COLLAB_MENU}
-                lang={lang}
-                isOpen={openDropdown === 'collab'}
-                onOpen={() => setOpenDropdown('collab')}
-                onClose={() => setOpenDropdown(null)}
-              />
-              <NavDropdown
-                label={WORK_LABEL[lang]}
-                items={WORK_MENU}
-                lang={lang}
-                isOpen={openDropdown === 'work'}
-                onOpen={() => setOpenDropdown('work')}
-                onClose={() => setOpenDropdown(null)}
-                width="w-56"
-              />
-              <a
-                href={PRICING_LINK.href}
-                className="text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
-              >
-                {PRICING_LINK[lang]}
-              </a>
+              {PRIMARY_LINKS.map((link) => (
+                <a
+                  key={link.fr}
+                  href={link.href}
+                  className="text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
+                >
+                  {link[lang]}
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Right: actions */}
           <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href={ALMA_LINK.href}
+              className="hidden px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17] lg:inline-flex"
+            >
+              {ALMA_LINK[lang]}
+            </a>
             <a
               href="/login"
               className="hidden px-3 py-2 text-sm font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63] sm:inline-flex"

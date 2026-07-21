@@ -536,7 +536,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       </section>
 
       {/* Unitalk Work */}
-      <section className="section-rule bg-[#F3EFE4] py-24 md:py-32">
+      <section id="unitalk-work" className="section-rule scroll-mt-20 bg-[#F3EFE4] py-24 md:py-32">
         <Reveal className="editorial-shell">
           <div className="max-w-3xl">
             <Eyebrow className="mb-5">{t.workEyebrow}</Eyebrow>
