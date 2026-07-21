@@ -59,6 +59,7 @@ export const DEPARTMENTS: Department[] = [
     key: 'finance',
     label: { fr: 'Finance', en: 'Finance' },
     roles: [
+      { name: 'Nadia', title: { fr: 'Analyste Financière', en: 'Financial Analyst' }, slug: 'nadia' },
       { name: 'Comptabilité', title: { fr: 'Comptabilité', en: 'Accounting' } },
       { name: 'Contrôle de gestion', title: { fr: 'Contrôle de gestion', en: 'Management Control' } },
       { name: 'Facturation', title: { fr: 'Facturation', en: 'Billing' } },
@@ -68,6 +69,7 @@ export const DEPARTMENTS: Department[] = [
     key: 'rh',
     label: { fr: 'Ressources Humaines', en: 'Human Resources' },
     roles: [
+      { name: 'Hugo', title: { fr: 'Chargé RH & Recrutement', en: 'HR & Recruiting' }, slug: 'hugo' },
       { name: 'Recrutement', title: { fr: 'Sourcing & entretiens', en: 'Recruiting' } },
       { name: 'Onboarding', title: { fr: 'Intégration', en: 'Onboarding' } },
       { name: 'People Ops', title: { fr: 'Vie des équipes', en: 'People Ops' } },
@@ -149,7 +151,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
   marcus: {
     slug: 'marcus',
     name: 'Marcus',
-    avatar: '/marcus-avatar.png',
+    avatar: '/images/marcus-avatar.png',
     role: { fr: 'Assistant Commercial', en: 'Sales Assistant' },
     department: { fr: 'Ventes', en: 'Sales' },
     description: {
@@ -172,7 +174,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
   sophia: {
     slug: 'sophia',
     name: 'Sophia',
-    avatar: '/sophia-avatar.png',
+    avatar: '/images/sophia-avatar.png',
     role: { fr: 'Support Client', en: 'Customer Support' },
     department: { fr: 'Support', en: 'Support' },
     description: {
@@ -195,7 +197,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
   alex: {
     slug: 'alex',
     name: 'Alex',
-    avatar: '/alex-avatar.png',
+    avatar: '/images/alex-avatar.png',
     role: { fr: 'Assistant Marketing', en: 'Marketing Assistant' },
     department: { fr: 'Marketing', en: 'Marketing' },
     description: {
@@ -213,6 +215,52 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Planifier le calendrier éditorial du mois', en: 'Plan the monthly editorial calendar' },
       { fr: 'Rédiger une newsletter produit', en: 'Write a product newsletter' },
       { fr: 'Analyser les performances d\'une campagne', en: 'Analyze a campaign\'s performance' },
+    ],
+  },
+  nadia: {
+    slug: 'nadia',
+    name: 'Nadia',
+    avatar: '/images/nadia-avatar.png',
+    role: { fr: 'Analyste Financière', en: 'Financial Analyst' },
+    department: { fr: 'Finance', en: 'Finance' },
+    description: {
+      fr: "Nadia suit la trésorerie, prépare les tableaux de bord financiers et anticipe les écarts. Elle consolide les chiffres, relance les impayés et prépare chaque décision budgétaire.",
+      en: 'Nadia tracks cash flow, prepares financial dashboards and anticipates variances. She consolidates the numbers, chases unpaid invoices and preps every budget decision.',
+    },
+    skills: [
+      { fr: 'Suivi de trésorerie', en: 'Cash flow monitoring' },
+      { fr: 'Tableaux de bord et reporting', en: 'Dashboards and reporting' },
+      { fr: 'Relance des impayés', en: 'Overdue payment follow-up' },
+      { fr: 'Préparation budgétaire', en: 'Budget preparation' },
+    ],
+    tools: ['Excel', 'Pennylane', 'Stripe', 'Notion', 'Email'],
+    missions: [
+      { fr: 'Produire le reporting financier mensuel', en: 'Produce the monthly financial report' },
+      { fr: 'Relancer les factures en retard', en: 'Chase overdue invoices' },
+      { fr: 'Préparer un prévisionnel de trésorerie', en: 'Prepare a cash flow forecast' },
+    ],
+  },
+  hugo: {
+    slug: 'hugo',
+    name: 'Hugo',
+    avatar: '/images/hugo-avatar.png',
+    role: { fr: 'Chargé RH & Recrutement', en: 'HR & Recruiting' },
+    department: { fr: 'Ressources Humaines', en: 'Human Resources' },
+    description: {
+      fr: "Hugo source les candidats, coordonne les entretiens et fluidifie l'intégration. Il répond aux questions des équipes et garde chaque process RH à jour.",
+      en: 'Hugo sources candidates, coordinates interviews and smooths onboarding. He answers the teams\u2019 questions and keeps every HR process up to date.',
+    },
+    skills: [
+      { fr: 'Sourcing de candidats', en: 'Candidate sourcing' },
+      { fr: 'Coordination des entretiens', en: 'Interview coordination' },
+      { fr: "Parcours d'intégration", en: 'Onboarding journeys' },
+      { fr: 'Réponses aux questions RH', en: 'HR question handling' },
+    ],
+    tools: ['Email', 'LinkedIn', 'Notion', 'Slack', 'Calendrier'],
+    missions: [
+      { fr: "Lancer une campagne de recrutement", en: 'Launch a hiring campaign' },
+      { fr: 'Planifier une série d\'entretiens', en: 'Schedule an interview loop' },
+      { fr: "Préparer l'onboarding d'une recrue", en: 'Prepare a new hire onboarding' },
     ],
   },
 }

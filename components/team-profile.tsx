@@ -1,10 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, Phone, Plus, Star, Wrench } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { getAcmeAiBySlug } from '@/lib/acme-demo'
+import { useMyTeam } from '@/lib/my-team-context'
 
 const META: Record<string, { rating: number; reviews: number }> = {
   emma: { rating: 4.9, reviews: 128 },
@@ -17,6 +19,8 @@ export function TeamProfile({ slug }: { slug: string }) {
   const { lang } = useLanguage()
   const detail = ROLE_DETAILS[slug]
   const meta = META[slug] ?? { rating: 4.8, reviews: 80 }
+  const { has, toggle } = useMyTeam()
+  const inTeam = has(slug)
 
   const t = useT({
     fr: {
@@ -26,6 +30,7 @@ export function TeamProfile({ slug }: { slug: string }) {
       call: 'Téléphone',
       calendar: 'Calendrier',
       add: 'Ajouter à mon équipe',
+      added: 'Ajouté à mon équipe',
       about: 'À propos',
       skills: 'Compétences',
       tools: 'Outils',
@@ -42,6 +47,7 @@ export function TeamProfile({ slug }: { slug: string }) {
       call: 'Call',
       calendar: 'Calendar',
       add: 'Add to my team',
+      added: 'Added to my team',
       about: 'About',
       skills: 'Skills',
       tools: 'Tools',
@@ -58,13 +64,13 @@ export function TeamProfile({ slug }: { slug: string }) {
   return (
     <main className="w-full bg-[#F3EFE6]">
       <div className="mx-auto max-w-5xl px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
-        <a
+        <Link
           href="/team"
           className="inline-flex items-center gap-2 text-sm font-semibold text-[#6B6560] transition-colors hover:text-[#D10E63]"
         >
           <ArrowLeft className="h-4 w-4" />
           {t.back}
-        </a>
+        </Link>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[320px_1fr] lg:gap-12">
           {/* Identity card + actions */}
@@ -108,7 +114,15 @@ export function TeamProfile({ slug }: { slug: string }) {
               <ActionButton icon={<MessageSquare className="h-4 w-4" />} label={t.chat} />
               <ActionButton icon={<Phone className="h-4 w-4" />} label={t.call} />
               <ActionButton icon={<CalendarDays className="h-4 w-4" />} label={t.calendar} />
-              <ActionButton icon={<Plus className="h-4 w-4" />} label={t.add} className="col-span-2" primary />
+              <ActionButton
+                icon={inTeam ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                label={inTeam ? t.added : t.add}
+                className="col-span-2"
+                primary={!inTeam}
+                selected={inTeam}
+                pressed={inTeam}
+                onClick={() => toggle({ slug, name: detail.name, role: detail.role[lang], avatar: detail.avatar })}
+              />
             </div>
 
             {getAcmeAiBySlug(slug) && (
@@ -192,20 +206,29 @@ function ActionButton({
   label,
   className = '',
   primary = false,
+  selected = false,
+  pressed,
+  onClick,
 }: {
   icon: React.ReactNode
   label: string
   className?: string
   primary?: boolean
+  selected?: boolean
+  pressed?: boolean
+  onClick?: () => void
 }) {
+  const style = selected
+    ? 'bg-[#1C1A17] text-[#FBF9F3] hover:-translate-y-0.5'
+    : primary
+      ? 'bg-[#D10E63] text-[#FBF9F3] hover:-translate-y-0.5'
+      : 'border border-[#DDD5CA] bg-[#FBF9F3] text-[#1C1A17] hover:border-[#D10E63] hover:text-[#D10E63]'
   return (
     <button
       type="button"
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${
-        primary
-          ? 'bg-[#D10E63] text-[#FBF9F3] hover:-translate-y-0.5'
-          : 'border border-[#DDD5CA] bg-[#FBF9F3] text-[#1C1A17] hover:border-[#D10E63] hover:text-[#D10E63]'
-      } ${className}`}
+      onClick={onClick}
+      aria-pressed={pressed}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${style} ${className}`}
     >
       {icon}
       {label}

@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Search, Sparkles, Star } from 'lucide-react'
+import { ArrowUpRight, Check, Plus, Search, Sparkles, Star } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
 import { DEPARTMENTS, ROLE_DETAILS, type CatalogRole } from '@/lib/collaborators-catalog'
+import { useMyTeam } from '@/lib/my-team-context'
 
 // Lightweight presentation data for featured (detailed) profiles.
 const FEATURED_META: Record<string, { rating: number; reviews: number }> = {
@@ -40,8 +42,9 @@ export function TeamDirectory() {
 
   const t = useT({
     fr: {
-      title: 'Trouvez votre prochaine recrue.',
-      subtitle: 'Parcourez les Collaborateurs IA par métier ou par domaine, et ajoutez-les à votre équipe.',
+      eyebrow: 'L’équipe Unitalk',
+      title: 'Voici les Collaborateurs IA qui font tourner Unitalk.',
+      subtitle: 'Ils travaillent déjà chez nous, chaque jour. Explorez leur profil public — et ajoutez-les à votre propre équipe.',
       searchPlaceholder: 'Rechercher par métier ou par domaine d’entreprise…',
       all: 'Tous les métiers',
       departments: 'Départements',
@@ -49,13 +52,16 @@ export function TeamDirectory() {
       available: 'Disponible',
       soon: 'Bientôt',
       viewProfile: 'Voir le profil',
+      add: 'Ajouter',
+      added: 'Ajouté',
       results: 'résultat',
       resultsPlural: 'résultats',
       empty: 'Aucun Collaborateur ne correspond à votre recherche.',
     },
     en: {
-      title: 'Find your next hire.',
-      subtitle: 'Browse AI Collaborators by role or by domain, and add them to your team.',
+      eyebrow: 'The Unitalk team',
+      title: 'Meet the AI Collaborators who run Unitalk.',
+      subtitle: 'They already work here, every day. Explore their public profile — and add them to your own team.',
       searchPlaceholder: 'Search by role or by business domain…',
       all: 'All roles',
       departments: 'Departments',
@@ -63,6 +69,8 @@ export function TeamDirectory() {
       available: 'Available',
       soon: 'Soon',
       viewProfile: 'View profile',
+      add: 'Add',
+      added: 'Added',
       results: 'result',
       resultsPlural: 'results',
       empty: 'No Collaborator matches your search.',
@@ -104,6 +112,10 @@ export function TeamDirectory() {
       <div className="mx-auto max-w-6xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         {/* Product header — no marketing hero */}
         <header className="max-w-2xl">
+          <p className="mb-3 inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#D10E63]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+            {t.eyebrow}
+          </p>
           <h1 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl">
             {t.title}
           </h1>
@@ -176,7 +188,7 @@ export function TeamDirectory() {
                     role={role}
                     deptLabel={deptLabel[lang]}
                     lang={lang}
-                    labels={{ available: t.available, soon: t.soon, viewProfile: t.viewProfile }}
+                    labels={{ available: t.available, soon: t.soon, viewProfile: t.viewProfile, add: t.add, added: t.added }}
                     index={index}
                   />
                 ))}
@@ -229,11 +241,13 @@ function RoleCard({
   role: CatalogRole
   deptLabel: string
   lang: 'fr' | 'en'
-  labels: { available: string; soon: string; viewProfile: string }
+  labels: { available: string; soon: string; viewProfile: string; add: string; added: string }
   index: number
 }) {
   const detail = role.slug ? ROLE_DETAILS[role.slug] : undefined
   const meta = role.slug ? FEATURED_META[role.slug] : undefined
+  const { has, toggle } = useMyTeam()
+  const inTeam = detail ? has(detail.slug) : false
 
   const body = (
     <>
@@ -277,31 +291,41 @@ function RoleCard({
           </span>
         )}
       </div>
-
-      {role.slug && (
-        <p className="mt-4 flex items-center gap-1 text-xs font-semibold text-[#D10E63]">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          {labels.available} · {labels.viewProfile}
-        </p>
-      )}
     </>
   )
 
-  const className =
-    'block rounded-2xl border bg-[#FBF9F3] p-5 transition-all'
+  const cardClass = 'flex h-full flex-col rounded-2xl border bg-[#FBF9F3] p-5 transition-all'
 
-  if (role.slug) {
+  if (role.slug && detail) {
     return (
-      <motion.a
-        href={`/team/${role.slug}`}
+      <motion.div
         initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: Math.min(index, 6) * 0.04 }}
-        className={`${className} border-[#D10E63]/25 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(209,14,99,0.14)]`}
+        className={`${cardClass} border-[#D10E63]/25 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(209,14,99,0.14)]`}
       >
-        {body}
-      </motion.a>
+        <Link href={`/team/${role.slug}`} className="group flex flex-1 flex-col">
+          {body}
+          <span className="mt-4 flex items-center gap-1 text-xs font-semibold text-[#D10E63]">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            {labels.available} · {labels.viewProfile}
+          </span>
+        </Link>
+        <button
+          type="button"
+          onClick={() => toggle({ slug: detail.slug, name: detail.name, role: detail.role[lang], avatar: detail.avatar })}
+          aria-pressed={inTeam}
+          className={`mt-4 inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-full text-sm font-bold transition-colors ${
+            inTeam
+              ? 'bg-[#1C1A17] text-[#FBF9F3]'
+              : 'border border-[#D10E63]/40 text-[#D10E63] hover:bg-[#D10E63]/[0.06]'
+          }`}
+        >
+          {inTeam ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          {inTeam ? labels.added : labels.add}
+        </button>
+      </motion.div>
     )
   }
 
@@ -311,7 +335,7 @@ function RoleCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: Math.min(index, 6) * 0.04 }}
-      className={`${className} border-[#DDD5CA]`}
+      className={`${cardClass} border-[#DDD5CA]`}
     >
       {body}
     </motion.div>
