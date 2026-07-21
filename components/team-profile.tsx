@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, Phone, Plus, ShieldCheck, Star, UserRound, Wrench } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
-import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { ROLE_DETAILS, COLLABORATOR_INCLUDES } from '@/lib/collaborators-catalog'
 import { getAcmeAiBySlug } from '@/lib/acme-demo'
 import { useMyTeam } from '@/lib/my-team-context'
 
@@ -26,7 +26,7 @@ export function TeamProfile({ slug }: { slug: string }) {
   const FEMALE_SLUGS = ['emma', 'sophia', 'nadia']
   const isFemale = FEMALE_SLUGS.includes(slug)
   const connectedLabel = lang === 'fr' ? `Connecté${isFemale ? 'e' : ''} à` : 'Connected to'
-  const statusLabel = lang === 'fr' ? `Collaborateur${isFemale ? 'trice' : ''} IA` : 'AI Collaborator'
+  const statusLabel = lang === 'fr' ? `Collaborat${isFemale ? 'rice' : 'eur'} IA` : 'AI Collaborator'
 
   const t = useT({
     fr: {
@@ -41,6 +41,8 @@ export function TeamProfile({ slug }: { slug: string }) {
       responsibility: 'Responsable & données',
       manager: 'Responsable',
       companyLabel: 'Entreprise',
+      included: 'Ce qui est inclus',
+      includedIntro: 'Chaque Collaborateur IA est livré prêt à travailler, avec :',
       about: 'À propos',
       skills: 'Compétences',
       missions: 'Missions types',
@@ -61,6 +63,8 @@ export function TeamProfile({ slug }: { slug: string }) {
       responsibility: 'Manager & data',
       manager: 'Manager',
       companyLabel: 'Company',
+      included: 'What’s included',
+      includedIntro: 'Every AI Collaborator ships ready to work, with:',
       about: 'About',
       skills: 'Skills',
       missions: 'Typical missions',
@@ -103,7 +107,7 @@ export function TeamProfile({ slug }: { slug: string }) {
                   <h1 className="font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17]">{detail.name}</h1>
                 </div>
                 <p className="mt-0.5 font-mono text-sm text-[#D10E63]">
-                  @{slug} <span className="text-[#857C6E]">· {detail.company.toLowerCase()}.ai</span>
+                  @{slug} <span className="text-[#857C6E]">· /{detail.company.toLowerCase()}.ai</span>
                 </p>
                 <p className="mt-1 font-semibold text-[#1C1A17]">{statusLabel}</p>
                 <p className="mt-0.5 text-sm text-[#6B6560]">
@@ -216,6 +220,22 @@ export function TeamProfile({ slug }: { slug: string }) {
                   >
                     <span className="font-mono text-sm font-semibold text-[#D10E63]">{String(i + 1).padStart(2, '0')}</span>
                     <span className="text-[#1C1A17]">{mission[lang]}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.included}</h2>
+              <p className="mt-3 text-pretty text-[#6B6560]">{t.includedIntro}</p>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {COLLABORATOR_INCLUDES.map((item) => (
+                  <li key={item.title.en} className="rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-4">
+                    <div className="flex items-center gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-[#D10E63]" />
+                      <p className="font-semibold text-[#1C1A17]">{item.title[lang]}</p>
+                    </div>
+                    <p className="mt-1.5 text-sm leading-6 text-[#6B6560]">{item.body[lang]}</p>
                   </li>
                 ))}
               </ul>

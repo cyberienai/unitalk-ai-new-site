@@ -129,6 +129,38 @@ export type RoleDetail = {
   dataOwner?: string // propriétaire des données
 }
 
+// Ce avec quoi chaque Collaborateur IA est livré (identique pour tous)
+export const COLLABORATOR_INCLUDES: { title: Bilingual; body: Bilingual }[] = [
+  {
+    title: { fr: 'Un agent Hermès', en: 'A Hermès agent' },
+    body: {
+      fr: 'Le moteur qui raisonne, décide et agit pour lui.',
+      en: 'The engine that reasons, decides and acts for it.',
+    },
+  },
+  {
+    title: { fr: 'Une mémoire collaborative', en: 'Collaborative memory' },
+    body: {
+      fr: 'Partagée avec votre équipe, elle s’enrichit à chaque mission.',
+      en: 'Shared with your team, it grows with every mission.',
+    },
+  },
+  {
+    title: { fr: 'Ses propres outils et ressources', en: 'Its own tools and resources' },
+    body: {
+      fr: 'Les applications et accès dont il a besoin pour agir.',
+      en: 'The apps and access it needs to act.',
+    },
+  },
+  {
+    title: { fr: 'Son hébergement', en: 'Its hosting' },
+    body: {
+      fr: 'Sur Unitalk AI Cloud ou l’un de ses partenaires.',
+      en: 'On Unitalk AI Cloud or one of its partners.',
+    },
+  },
+]
+
 export const ROLE_DETAILS: Record<string, RoleDetail> = {
   emma: {
     slug: 'emma',

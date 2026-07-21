@@ -21,9 +21,26 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const slug = slugFromHandle(handle)
   const role = slug ? ROLE_DETAILS[slug] : undefined
   if (!role) return { title: 'Collaborateur IA · Unitalk' }
+
+  const title = `${role.name}, Collaborateur IA · ${role.company}`
+  const owner = role.dataOwner ?? role.company
+  const description = `${role.name}, Collaborateur IA chez ${role.company}. Responsable : ${role.manager.name} (${role.manager.role.fr}). Propriétaire des données : ${owner}.`
+
   return {
-    title: `${role.name} · ${role.role.fr} · Unitalk`,
-    description: role.description.fr,
+    title,
+    description,
+    keywords: [role.name, 'Collaborateur IA', 'Unitalk', role.company, role.manager.name, owner],
+    openGraph: {
+      title,
+      description,
+      type: 'profile',
+      images: [{ url: role.avatar }],
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
   }
 }
 
