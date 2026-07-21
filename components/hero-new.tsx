@@ -89,7 +89,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </a>
             <HeroActivityBadge lang={lang} />
           </motion.div>
-          <motion.div {...enter(0.3)} className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-[#D8D0C2] pt-5 text-xs font-medium text-[#6B6560] sm:justify-start">
+          <motion.div {...enter(0.3)} className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>
