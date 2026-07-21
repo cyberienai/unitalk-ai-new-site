@@ -14,7 +14,7 @@ const T = {
     leadA: 'Donnez-lui une identité, confiez-lui un rôle,',
     leadB: 'connectez vos outils. Il exécute ses missions.',
     heroCta: 'Commencer gratuitement',
-    heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', '+3000 apps connectées'],
+    heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', '+3000 apps connectées', '10 M de tokens offerts'],
     orgTitle: 'Votre équipe',
     orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
     orgPairs: [
@@ -36,7 +36,7 @@ const T = {
     leadA: 'Give them an identity, assign them a role,',
     leadB: 'connect your tools. They carry out their missions.',
     heroCta: 'Start for free',
-    heroProofs: ['7-day free trial', 'No card required', '3000+ connected apps'],
+    heroProofs: ['7-day free trial', 'No card required', '3000+ connected apps', '10M free tokens'],
     orgTitle: 'Your team',
     orgMeta: 'For every teammate, their AI Collaborator.',
     orgPairs: [
