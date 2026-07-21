@@ -4,9 +4,9 @@ import { TeamDirectory } from '@/components/team-directory'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Construire mon équipe · Unitalk',
+  title: 'Notre équipe augmentée · Unitalk',
   description:
-    "Parcourez les Collaborateurs IA par métier ou par domaine d'entreprise, consultez leur profil et ajoutez-les à votre équipe. La façon la plus simple de recruter sans embaucher.",
+    "Les meilleures stratégies pour intégrer des talents : découvrez nos binômes humain / Collaborateur IA, consultez leurs profils et composez votre équipe. La façon la plus simple de recruter sans embaucher.",
 }
 
 export default function TeamPage() {
