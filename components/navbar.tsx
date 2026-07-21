@@ -15,7 +15,7 @@ const PRIMARY_LINKS: NavLink[] = [
   { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
 ]
 
-const ALMA_LINK: NavLink = { fr: 'Parler à Alma', en: 'Talk to Alma', href: '#' }
+const ALMA_LINK: NavLink = { fr: 'Parler à Alma', en: 'Talk to Alma', href: '/alma' }
 
 // Full burger menu — organized in sections
 const MENU_SECTIONS: { title: { fr: string; en: string }; links: NavLink[] }[] = [
@@ -23,7 +23,7 @@ const MENU_SECTIONS: { title: { fr: string; en: string }; links: NavLink[] }[] =
     title: { fr: 'Produit', en: 'Product' },
     links: [
       { fr: 'Construire mon équipe', en: 'Build my team', href: '/team' },
-      { fr: 'Parler à Alma', en: 'Talk to Alma', href: '#' },
+      { fr: 'Parler à Alma', en: 'Talk to Alma', href: '/alma' },
       { fr: 'Unitalk Work', en: 'Unitalk Work', href: '/#unitalk-work' },
       { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
     ],
