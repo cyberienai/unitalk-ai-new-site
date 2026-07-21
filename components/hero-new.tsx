@@ -104,7 +104,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
-              <div className="max-h-72 overflow-y-auto overscroll-contain pr-1 [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
+              <div className="overscroll-contain pr-1 sm:max-h-72 sm:overflow-y-auto [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
                 <div className="flex flex-col gap-2.5">
                   {t.orgPairs.map((pair) => (
                     <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
