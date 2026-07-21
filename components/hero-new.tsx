@@ -65,13 +65,13 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-55" />
       <div className="editorial-shell relative grid items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
         <div className="max-w-2xl">
-          <motion.p {...enter(0.04)} className="mb-7 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
+          <motion.p {...enter(0.04)} className="mb-7 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63] sm:text-left">
             {t.eyebrow}
           </motion.p>
-          <motion.h1 {...enter(0.1)} className="text-balance font-sf text-[clamp(2.85rem,5.2vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-[#1C1A17]">
+          <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.85rem,5.2vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-[#1C1A17] sm:text-left">
             {t.headline}<span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
-          <motion.p {...enter(0.18)} className="mt-7 max-w-xl text-pretty text-base leading-7 text-[#5F594F] md:text-lg md:leading-8">
+          <motion.p {...enter(0.18)} className="mx-auto mt-7 max-w-xl text-pretty text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:items-center">
