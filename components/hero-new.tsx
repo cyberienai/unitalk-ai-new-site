@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Network } from 'lucide-react'
 import { HeroActivityBadge } from '@/components/hero-activity-badge'
 
@@ -20,9 +19,8 @@ const T = {
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu' },
       { human: 'Antoine', dept: 'Développement', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code' },
-    ],
-    orgPairs2: [
       { human: 'Claire', dept: 'Ventes', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection' },
+      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse' },
       { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Clients' },
     ],
     collaboratorLabel: 'Collaborateurs IA',
@@ -41,9 +39,8 @@ const T = {
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content' },
       { human: 'Antoine', dept: 'Engineering', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code' },
-    ],
-    orgPairs2: [
       { human: 'Claire', dept: 'Sales', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting' },
+      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis' },
       { human: 'Marc', dept: 'Customer Relations', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Customers' },
     ],
     collaboratorLabel: 'AI Collaborators',
@@ -57,15 +54,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const reduceMotion = useReducedMotion()
 
-  // Alterne entre les deux trios de paires humain ↔ Collaborateur IA
-  const trios = [t.orgPairs, t.orgPairs2]
-  const [trioIndex, setTrioIndex] = useState(0)
-  useEffect(() => {
-    if (reduceMotion) return
-    const id = setInterval(() => setTrioIndex((i) => (i + 1) % trios.length), 4000)
-    return () => clearInterval(id)
-  }, [reduceMotion, trios.length])
-  const activePairs = trios[trioIndex]
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
@@ -107,32 +95,23 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
-              <div className="relative">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={trioIndex}
-                    initial={reduceMotion ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={reduceMotion ? undefined : { opacity: 0 }}
-                    transition={{ duration: 0.5, ease }}
-                    className="flex flex-col gap-2.5"
-                  >
-                    {activePairs.map((pair) => (
-                      <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
-                        <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#857C6E]">{pair.dept}</p></div>
-                        <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
-                        <Link
-                          href={`/@${pair.slug}`}
-                          aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
-                          className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
-                        >
-                          <div className="relative shrink-0"><img src={pair.avatar || '/placeholder.svg'} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></div>
-                          <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] font-medium text-[#A80B50]">{pair.status}</p></div>
-                        </Link>
-                      </div>
-                    ))}
-                  </motion.div>
-                </AnimatePresence>
+              <div className="max-h-72 overflow-y-auto overscroll-contain pr-1 [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
+                <div className="flex flex-col gap-2.5">
+                  {t.orgPairs.map((pair) => (
+                    <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
+                      <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#857C6E]">{pair.dept}</p></div>
+                      <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
+                      <Link
+                        href={`/@${pair.slug}`}
+                        aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
+                        className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
+                      >
+                        <div className="relative shrink-0"><img src={pair.avatar || '/placeholder.svg'} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></div>
+                        <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] font-medium text-[#A80B50]">{pair.status}</p></div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
               </div>
               <a href="/team" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
                 {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
