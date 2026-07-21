@@ -10,9 +10,9 @@ const T = {
     eyebrow: 'Recrutez sans embaucher',
     headline: 'Votre premier Collaborateur\u00A0IA est',
     headlineAccent: ' déjà prêt.',
-    lead: 'Pendant 7 jours, découvrez ce que votre premier Collaborateur IA peut accomplir pour votre entreprise.',
+    lead: 'Ajoutez-le à votre organigramme en quelques minutes.',
     heroCta: 'Commencer gratuitement',
-    heroProofs: ['Sans embauche', 'Sans engagement', 'Prêt en quelques minutes'],
+    heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre équipe',
     orgMeta: 'À chaque collaborateur peut être associé un Collaborateur IA spécialisé. Commencez avec un, ajoutez-en d’autres.',
     orgPairs: [
@@ -30,9 +30,9 @@ const T = {
     eyebrow: 'Recruit without hiring',
     headline: 'Your first AI\u00A0Collaborator is',
     headlineAccent: ' already ready.',
-    lead: 'For 7 days, discover what your first AI Collaborator can achieve for your business.',
+    lead: 'Add them to your org chart in just a few minutes.',
     heroCta: 'Start for free',
-    heroProofs: ['No hiring', 'No commitment', 'Ready in minutes'],
+    heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your team',
     orgMeta: 'Each teammate can be paired with a specialized AI Collaborator. Start with one, add more.',
     orgPairs: [
