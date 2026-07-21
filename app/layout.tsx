@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
 import { LanguageProvider } from '@/lib/language-context'
 import { AlmaProvider } from '@/lib/alma-context'
+import { MyTeamProvider } from '@/lib/my-team-context'
 import { FloatingAlmaWidget } from '@/components/floating-alma-widget'
 import './globals.css'
 
@@ -56,10 +57,12 @@ export default function RootLayout({
     <html lang="fr" className={`bg-background ${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         <LanguageProvider>
-          <AlmaProvider>
-            {children}
-            <FloatingAlmaWidget />
-          </AlmaProvider>
+          <MyTeamProvider>
+            <AlmaProvider>
+              {children}
+              <FloatingAlmaWidget />
+            </AlmaProvider>
+          </MyTeamProvider>
         </LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

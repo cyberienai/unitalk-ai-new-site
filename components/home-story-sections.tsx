@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
@@ -81,8 +82,15 @@ const content = {
 
     // Section: Chaque Collaborateur IA rejoint votre organigramme
     memberEyebrow: 'CHAQUE COLLABORATEUR IA REJOINT VOTRE ORGANIGRAMME',
-    memberTitle: "Il n'est pas un logiciel.",
+    memberTitle: 'Livré prêt à travailler.',
     memberAccent: 'Il devient un membre de votre organisation.',
+    deliveredLabel: 'Chaque Collaborateur IA est livré avec :',
+    delivered: [
+      'Un agent Hermès',
+      'De la mémoire collaborative',
+      'Ses propres outils et ressources',
+      'Son hébergement sur Unitalk AI Cloud ou l’un de ses partenaires',
+    ],
     memberAttrsLabel: 'Avec :',
     memberAttrs: [
       'Une adresse email',
@@ -96,6 +104,16 @@ const content = {
     ],
     memberAudience: ['Vos collaborateurs.', 'Vos clients.', 'Vos partenaires.'],
     memberClosing: "Peuvent lui écrire, l'appeler, prendre rendez-vous avec lui ou lui confier une mission.",
+
+    // Section: Manifeste agentique
+    manifestoEyebrow: 'LA RÉVOLUTION DE L’AGENTIQUE',
+    manifestoTitle: 'Les prochains actifs sont des agents autonomes.',
+    manifestoLead: 'Participez à la révolution de l’agentique. Transformez vos compétences en Collaborateur IA et générez des revenus avec votre intelligence.',
+    manifestoGoodLabel: 'La bonne nouvelle',
+    manifestoGood: 'Vous êtes propriétaire de votre intelligence.',
+    manifestoBadLabel: 'La mauvaise',
+    manifestoBad: 'C’est le seul capital qu’il vous reste.',
+    manifestoCta: 'Devenir créateur',
 
     // Section: Votre intelligence appartient à votre entreprise
     proofEyebrow: 'VOTRE INTELLIGENCE APPARTIENT À VOTRE ENTREPRISE',
@@ -180,7 +198,7 @@ const content = {
       'Confiez-lui une première mission.',
       "Découvrez ce qu'un Collaborateur IA peut apporter à votre entreprise.",
     ],
-    finalCta: "Commencer l'essai gratuit",
+    finalCta: 'Commencer gratuitement',
     finalFinePrint: 'Essai gratuit 7 jours · Sans engagement · Déploiement en quelques minutes',
   },
   en: {
@@ -225,8 +243,15 @@ const content = {
     emmaCta: "See Emma's full profile",
 
     memberEyebrow: 'EVERY AI COLLABORATOR JOINS YOUR ORG CHART',
-    memberTitle: "It's not software.",
+    memberTitle: 'Ready to work out of the box.',
     memberAccent: 'It becomes a member of your organization.',
+    deliveredLabel: 'Every AI Collaborator ships with:',
+    delivered: [
+      'A Hermès agent',
+      'Collaborative memory',
+      'Its own tools and resources',
+      'Its hosting on Unitalk AI Cloud or one of its partners',
+    ],
     memberAttrsLabel: 'With:',
     memberAttrs: [
       'An email address',
@@ -240,6 +265,16 @@ const content = {
     ],
     memberAudience: ['Your teammates.', 'Your clients.', 'Your partners.'],
     memberClosing: 'Can write to it, call it, book a meeting with it or hand it a mission.',
+
+    // Section: Agentic manifesto
+    manifestoEyebrow: 'THE AGENTIC REVOLUTION',
+    manifestoTitle: 'The next assets are autonomous agents.',
+    manifestoLead: 'Join the agentic revolution. Turn your skills into an AI Collaborator and generate revenue with your intelligence.',
+    manifestoGoodLabel: 'The good news',
+    manifestoGood: 'You own your intelligence.',
+    manifestoBadLabel: 'The bad news',
+    manifestoBad: 'It’s the only capital you have left.',
+    manifestoCta: 'Become a creator',
 
     proofEyebrow: 'YOUR INTELLIGENCE BELONGS TO YOUR COMPANY',
     proofTitle: 'AI models will evolve.',
@@ -318,7 +353,7 @@ const content = {
       'Hand it a first mission.',
       'Discover what an AI Collaborator can bring to your business.',
     ],
-    finalCta: 'Start free trial',
+    finalCta: 'Start for free',
     finalFinePrint: '7-day free trial · No commitment · Deployed in minutes',
   },
 } as const
@@ -480,6 +515,18 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </div>
 
           <div className="mt-12 border-t border-[#D8D0C2] pt-10">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.deliveredLabel}</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {t.delivered.map((item, index) => (
+                <motion.div key={item} className="flex items-start gap-3 rounded-2xl border border-[#D8D0C2] bg-[#F3EFE4] px-4 py-3.5" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: (index % 2) * 0.05 }}>
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-[#D10E63]" strokeWidth={1.8} />
+                  <span className="text-sm font-semibold text-[#1C1A17]">{item}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-12 border-t border-[#D8D0C2] pt-10">
             <div className="flex flex-wrap gap-x-3 gap-y-1">
               {t.memberAudience.map((who) => (
                 <span key={who} className="font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17] md:text-3xl">{who}</span>
@@ -504,6 +551,35 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </ul>
           <p className="mt-4 font-sf text-2xl font-semibold tracking-[-0.02em] text-[#E7E0D5] md:text-3xl">{t.proofItemsVerb}</p>
           <p className="mt-8 max-w-2xl text-pretty font-sf text-2xl font-semibold tracking-[-0.025em] text-[#F0559B] md:text-3xl">{t.proofBody}</p>
+        </Reveal>
+      </section>
+
+      {/* Manifeste agentique */}
+      <section className="section-rule bg-[#FBF9F3] py-24 md:py-32">
+        <Reveal className="editorial-shell">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.manifestoEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.manifestoTitle}</h2>
+            <p className="mt-5 text-pretty font-sf text-xl font-medium leading-snug text-[#6B6560] md:text-2xl">{t.manifestoLead}</p>
+          </div>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-[#D8D0C2] bg-[#F3EFE4] p-6">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A09789]">{t.manifestoGoodLabel}</p>
+              <p className="mt-3 text-pretty font-sf text-2xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{t.manifestoGood}</p>
+            </div>
+            <div className="rounded-2xl border border-[#1C1A17] bg-[#1C1A17] p-6 text-[#FBF9F3]">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#F0559B]">{t.manifestoBadLabel}</p>
+              <p className="mt-3 text-pretty font-sf text-2xl font-semibold tracking-[-0.025em]">{t.manifestoBad}</p>
+            </div>
+          </div>
+
+          <div className="mt-10">
+            <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#A80B50]">
+              {t.manifestoCta}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </Reveal>
       </section>
 
@@ -536,7 +612,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       </section>
 
       {/* Unitalk Work */}
-      <section className="section-rule bg-[#F3EFE4] py-24 md:py-32">
+      <section id="unitalk-work" className="section-rule scroll-mt-20 bg-[#F3EFE4] py-24 md:py-32">
         <Reveal className="editorial-shell">
           <div className="max-w-3xl">
             <Eyebrow className="mb-5">{t.workEyebrow}</Eyebrow>
