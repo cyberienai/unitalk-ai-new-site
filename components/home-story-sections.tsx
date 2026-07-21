@@ -28,6 +28,7 @@ import {
   UserRound,
   UsersRound,
   Wrench,
+  X,
 } from 'lucide-react'
 
 const roleIcons = [Megaphone, Phone, MessageSquare, ClipboardList, Code2, BarChart3, UsersRound]
@@ -37,6 +38,28 @@ const workIcons = [Monitor, Globe, MessageSquare, Terminal]
 
 const content = {
   fr: {
+    // Section: Le concept (agent → collaborateur)
+    conceptEyebrow: 'LE CONCEPT UNITALK',
+    conceptTitle: 'Ce n’est pas un agent.',
+    conceptAccent: 'C’est un collaborateur.',
+    conceptLead:
+      'Un agent exécute une tâche, puis disparaît. Un Collaborateur IA a une identité professionnelle : un poste, un responsable, une mémoire et une place dans votre équipe.',
+    conceptAgentLabel: 'Un agent IA',
+    conceptAgent: [
+      'Répond à une requête',
+      'Sans nom ni visage',
+      'Oublie tout après la tâche',
+      'Un outil que l’on utilise',
+    ],
+    conceptCollabLabel: 'Un Collaborateur IA',
+    conceptCollab: [
+      'Occupe un poste dans l’équipe',
+      'A un nom, un e-mail, une voix',
+      'Se souvient et progresse',
+      'Un collègue qui vous appartient',
+    ],
+    conceptClosing: 'La différence, c’est une identité professionnelle.',
+
     // Section: Vos Collaborateurs IA sont déjà prêts
     catEyebrow: 'VOS COLLABORATEURS IA SONT DÉJÀ PRÊTS',
     catTitle: 'Commencez avec un.',
@@ -48,6 +71,8 @@ const content = {
     // Section: Construisez votre équipe
     teamEyebrow: 'CONSTRUISEZ VOTRE ÉQUIPE DE COLLABORATEURS IA',
     teamTitle: 'Chaque Collaborateur IA possède :',
+    teamLead:
+      'Un vrai collaborateur ne se définit pas par ce qu’il sait faire, mais par ce qu’il est : une identité professionnelle complète.',
     teamAttributes: [
       { title: 'Un rôle', body: 'Sa place et ses responsabilités dans votre organisation.' },
       { title: 'Une mission', body: 'Un objectif clair auquel il se consacre.' },
@@ -211,6 +236,8 @@ const content = {
 
     teamEyebrow: 'BUILD YOUR TEAM OF AI COLLABORATORS',
     teamTitle: 'Every AI Collaborator has:',
+    teamLead:
+      'A real collaborator isn’t defined by what it can do, but by what it is: a complete professional identity.',
     teamAttributes: [
       { title: 'A role', body: 'Its place and responsibilities within your organization.' },
       { title: 'A mission', body: 'A clear objective it dedicates itself to.' },
@@ -224,6 +251,28 @@ const content = {
       'They work with your teams.',
       'They share your company knowledge.',
     ],
+
+    // Section: The concept (agent → collaborator)
+    conceptEyebrow: 'THE UNITALK CONCEPT',
+    conceptTitle: 'It’s not an agent.',
+    conceptAccent: 'It’s a collaborator.',
+    conceptLead:
+      'An agent runs a task, then vanishes. An AI Collaborator has a professional identity: a role, a manager, a memory and a place on your team.',
+    conceptAgentLabel: 'An AI agent',
+    conceptAgent: [
+      'Answers a prompt',
+      'No name, no face',
+      'Forgets everything after the task',
+      'A tool you use',
+    ],
+    conceptCollabLabel: 'An AI Collaborator',
+    conceptCollab: [
+      'Holds a role on the team',
+      'Has a name, an email, a voice',
+      'Remembers and improves',
+      'A colleague you own',
+    ],
+    conceptClosing: 'The difference is a professional identity.',
 
     emmaEyebrow: 'A CONCRETE EXAMPLE',
     emmaName: 'Emma',
@@ -374,6 +423,51 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = content[lang]
   return (
     <>
+      {/* Le concept : agent → collaborateur */}
+      <section className="section-rule relative overflow-hidden bg-[#1C1A17] py-24 text-[#F3EFE6] md:py-32">
+        <Reveal className="editorial-shell relative">
+          <div className="max-w-3xl">
+            <Eyebrow className="mb-5">{t.conceptEyebrow}</Eyebrow>
+            <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] md:text-5xl">
+              {t.conceptTitle} <span className="text-[#D10E63]">{t.conceptAccent}</span>
+            </h2>
+            <p className="mt-6 max-w-2xl text-pretty font-sf text-lg leading-relaxed text-[#C9C2B6] md:text-xl">{t.conceptLead}</p>
+          </div>
+
+          <div className="mt-14 grid gap-4 md:grid-cols-2 md:gap-6">
+            {/* Agent */}
+            <div className="rounded-3xl border border-[#33302B] bg-[#211D19] p-8">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#857C6E]">{t.conceptAgentLabel}</p>
+              <ul className="mt-6 flex flex-col gap-4">
+                {t.conceptAgent.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-[#A09789]">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#4A453E]"><X className="h-3.5 w-3.5" strokeWidth={2.2} /></span>
+                    <span className="text-pretty text-base">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Collaborateur */}
+            <div className="rounded-3xl border border-[#D10E63]/40 bg-[#D10E63]/[0.08] p-8">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#D10E63]">{t.conceptCollabLabel}</p>
+              <ul className="mt-6 flex flex-col gap-4">
+                {t.conceptCollab.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-[#F3EFE6]">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]"><Check className="h-3.5 w-3.5" strokeWidth={2.5} /></span>
+                    <span className="text-pretty text-base font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-12 flex items-center gap-4 border-t border-[#33302B] pt-10">
+            <Fingerprint className="h-8 w-8 shrink-0 text-[#D10E63]" strokeWidth={1.6} />
+            <p className="text-balance font-sf text-2xl font-semibold tracking-[-0.025em] md:text-3xl">{t.conceptClosing}</p>
+          </div>
+        </Reveal>
+      </section>
+
       {/* Collaborateurs prêts */}
       <section className="section-rule relative overflow-hidden bg-[#FBF9F3] py-24 md:py-32">
         <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-35" />
@@ -410,6 +504,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <div className="max-w-3xl">
             <Eyebrow className="mb-5">{t.teamEyebrow}</Eyebrow>
             <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-5xl">{t.teamTitle}</h2>
+            <p className="mt-5 max-w-2xl text-pretty font-sf text-lg leading-relaxed text-[#6B6560] md:text-xl">{t.teamLead}</p>
           </div>
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
