@@ -10,9 +10,10 @@ import { useMyTeam } from '@/lib/my-team-context'
 
 const META: Record<string, { rating: number; reviews: number }> = {
   emma: { rating: 4.9, reviews: 128 },
-  alex: { rating: 4.8, reviews: 94 },
-  marcus: { rating: 4.7, reviews: 76 },
-  sophia: { rating: 4.9, reviews: 152 },
+  lea: { rating: 4.8, reviews: 94 },
+  arthur: { rating: 4.7, reviews: 76 },
+  hugo: { rating: 4.8, reviews: 88 },
+  ines: { rating: 4.9, reviews: 152 },
 }
 
 export function TeamProfile({ slug }: { slug: string }) {
@@ -22,11 +23,12 @@ export function TeamProfile({ slug }: { slug: string }) {
   const { has, toggle } = useMyTeam()
   const inTeam = has(slug)
 
-  // Accord en genre pour « Connecté·e à » (FR uniquement)
-  const FEMALE_SLUGS = ['emma', 'sophia', 'nadia']
+  // Accord en genre (FR uniquement)
+  const FEMALE_SLUGS = ['emma', 'lea', 'ines']
   const isFemale = FEMALE_SLUGS.includes(slug)
   const connectedLabel = lang === 'fr' ? `Connecté${isFemale ? 'e' : ''} à` : 'Connected to'
   const statusLabel = lang === 'fr' ? `Collaborat${isFemale ? 'rice' : 'eur'} IA` : 'AI Collaborator'
+  const reportsToLabel = lang === 'fr' ? `rattaché${isFemale ? 'e' : ''} à` : 'reporting to'
 
   const t = useT({
     fr: {
@@ -114,7 +116,7 @@ export function TeamProfile({ slug }: { slug: string }) {
                   {detail.role[lang]}
                   {detail.managerHandle && (
                     <>
-                      {' '}
+                      {detail.roleInline ? ' ' : ` · ${reportsToLabel} `}
                       <Link href={`/@${detail.managerHandle}`} className="font-medium text-[#D10E63] hover:underline">
                         {detail.manager.name}
                       </Link>

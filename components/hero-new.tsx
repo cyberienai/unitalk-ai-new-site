@@ -17,14 +17,13 @@ const T = {
     orgTitle: 'Votre équipe',
     orgMeta: 'Commencez avec un. Ajoutez-en d’autres.',
     orgPairs: [
-      { human: 'Camille', dept: 'Direction', ai: 'Emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
-      { human: 'Thomas', dept: 'Ventes', ai: 'Alex', avatar: '/images/alex-avatar.png', status: 'Prospection' },
-      { human: 'Léa', dept: 'Support', ai: 'Sophia', avatar: '/images/sophia-avatar.png', status: 'Clients' },
+      { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
+      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu' },
+      { human: 'Antoine', dept: 'Développement', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code' },
     ],
     orgPairs2: [
-      { human: 'Marc', dept: 'Ventes', ai: 'Marcus', avatar: '/images/marcus-avatar.png', status: 'Closing' },
-      { human: 'Claire', dept: 'Finance', ai: 'Nadia', avatar: '/images/nadia-avatar.png', status: 'Trésorerie' },
-      { human: 'Julien', dept: 'RH', ai: 'Hugo', avatar: '/images/hugo-avatar.png', status: 'Recrutement' },
+      { human: 'Claire', dept: 'Ventes', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection' },
+      { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Clients' },
     ],
     collaboratorLabel: 'Collaborateurs IA',
     orgLink: 'Voir toute l’équipe',
@@ -39,14 +38,13 @@ const T = {
     orgTitle: 'Your team',
     orgMeta: 'Start with one. Add more.',
     orgPairs: [
-      { human: 'Camille', dept: 'Executive', ai: 'Emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
-      { human: 'Thomas', dept: 'Sales', ai: 'Alex', avatar: '/images/alex-avatar.png', status: 'Prospecting' },
-      { human: 'Léa', dept: 'Support', ai: 'Sophia', avatar: '/images/sophia-avatar.png', status: 'Customers' },
+      { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
+      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content' },
+      { human: 'Antoine', dept: 'Engineering', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code' },
     ],
     orgPairs2: [
-      { human: 'Marc', dept: 'Sales', ai: 'Marcus', avatar: '/images/marcus-avatar.png', status: 'Closing' },
-      { human: 'Claire', dept: 'Finance', ai: 'Nadia', avatar: '/images/nadia-avatar.png', status: 'Cash flow' },
-      { human: 'Julien', dept: 'People', ai: 'Hugo', avatar: '/images/hugo-avatar.png', status: 'Recruiting' },
+      { human: 'Claire', dept: 'Sales', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting' },
+      { human: 'Marc', dept: 'Customer Relations', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Customers' },
     ],
     collaboratorLabel: 'AI Collaborators',
     orgLink: 'See the full team',
@@ -124,7 +122,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                         <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#857C6E]">{pair.dept}</p></div>
                         <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                         <Link
-                          href={`/@${pair.ai.toLowerCase()}`}
+                          href={`/@${pair.slug}`}
                           aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
                           className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
                         >
