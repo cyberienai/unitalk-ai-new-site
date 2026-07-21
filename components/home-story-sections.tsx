@@ -180,7 +180,7 @@ const content = {
       'Confiez-lui une première mission.',
       "Découvrez ce qu'un Collaborateur IA peut apporter à votre entreprise.",
     ],
-    finalCta: "Commencer l'essai gratuit",
+    finalCta: 'Commencer gratuitement',
     finalFinePrint: 'Essai gratuit 7 jours · Sans engagement · Déploiement en quelques minutes',
   },
   en: {
@@ -318,7 +318,7 @@ const content = {
       'Hand it a first mission.',
       'Discover what an AI Collaborator can bring to your business.',
     ],
-    finalCta: 'Start free trial',
+    finalCta: 'Start for free',
     finalFinePrint: '7-day free trial · No commitment · Deployed in minutes',
   },
 } as const
