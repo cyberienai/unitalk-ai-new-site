@@ -11,7 +11,7 @@ const T = {
     headlineAccent: ' déjà prêt.',
     lead: 'Pendant 7 jours, découvrez ce que votre premier Collaborateur IA peut accomplir pour votre entreprise.',
     heroCta: 'Commencer gratuitement',
-    heroProofs: ['Aucun recrutement', 'Sans engagement', 'Déploiement en quelques minutes'],
+    heroProofs: ['Sans embauche', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre équipe',
     orgMeta: 'Commencez avec un. Ajoutez-en d’autres.',
     orgPairs: [
@@ -28,7 +28,7 @@ const T = {
     headlineAccent: ' already ready.',
     lead: 'For 7 days, discover what your first AI Collaborator can achieve for your business.',
     heroCta: 'Start for free',
-    heroProofs: ['No hiring', 'No commitment', 'Deploy in minutes'],
+    heroProofs: ['No hiring', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your team',
     orgMeta: 'Start with one. Add more.',
     orgPairs: [
