@@ -86,7 +86,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
             </div>
             <div className="p-4 sm:p-6">
-              <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
+              <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
               <div className="flex flex-col gap-2.5">
                 {t.orgPairs.map((pair, index) => (
                   <motion.div key={pair.human} initial={reduceMotion ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: reduceMotion ? 0 : 0.3 + index * 0.1 }} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
@@ -94,7 +94,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                     <div className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3">
                       <div className="relative shrink-0"><img src={pair.avatar} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></div>
-                      <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] text-[#D10E63]">{pair.status}</p></div>
+                      <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] font-medium text-[#A80B50]">{pair.status}</p></div>
                     </div>
                   </motion.div>
                 ))}
