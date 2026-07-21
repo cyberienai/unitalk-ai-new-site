@@ -15,7 +15,7 @@ const T = {
     heroCta: 'Commencer gratuitement',
     heroProofs: ['Sans embauche', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre équipe',
-    orgMeta: 'Commencez avec un. Ajoutez-en d’autres.',
+    orgMeta: 'À chaque collaborateur peut être associé un Collaborateur IA spécialisé. Commencez avec un, ajoutez-en d’autres.',
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu' },
@@ -29,14 +29,14 @@ const T = {
     orgLink: 'Voir toute l’équipe',
   },
   en: {
-    eyebrow: 'Hire without hiring',
+    eyebrow: 'Recruit without hiring',
     headline: 'Your first AI\u00A0Collaborator is',
     headlineAccent: ' already ready.',
     lead: 'For 7 days, discover what your first AI Collaborator can achieve for your business.',
     heroCta: 'Start for free',
     heroProofs: ['No hiring', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your team',
-    orgMeta: 'Start with one. Add more.',
+    orgMeta: 'Each teammate can be paired with a specialized AI Collaborator. Start with one, add more.',
     orgPairs: [
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content' },
