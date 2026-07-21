@@ -13,13 +13,14 @@ const T = {
     heroCta: 'Commencer gratuitement',
     heroProofs: ['Aucun recrutement', 'Sans engagement', 'Déploiement en quelques minutes'],
     orgTitle: 'Votre équipe',
-    orgMeta: '3 membres + 3 Collaborateurs IA',
+    orgMeta: 'Commencez avec un. Ajoutez-en d’autres.',
     orgPairs: [
-      { human: 'Camille', dept: 'Ventes', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospection' },
-      { human: 'Thomas', dept: 'Support', ai: 'Sophia', avatar: '/sophia-avatar.png', status: 'Clients' },
-      { human: 'Léa', dept: 'Opérations', ai: 'Marcus', avatar: '/marcus-avatar.png', status: 'Coordination' },
+      { human: 'Camille', dept: 'Direction', ai: 'Emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
+      { human: 'Thomas', dept: 'Ventes', ai: 'Alex', avatar: '/images/alex-avatar.png', status: 'Prospection' },
+      { human: 'Léa', dept: 'Support', ai: 'Sophia', avatar: '/images/sophia-avatar.png', status: 'Clients' },
     ],
     collaboratorLabel: 'Collaborateurs IA',
+    orgLink: 'Voir toute l’équipe',
   },
   en: {
     eyebrow: 'Hire without hiring',
@@ -29,13 +30,14 @@ const T = {
     heroCta: 'Start for free',
     heroProofs: ['No hiring', 'No commitment', 'Deploy in minutes'],
     orgTitle: 'Your team',
-    orgMeta: '3 members + 3 AI Collaborators',
+    orgMeta: 'Start with one. Add more.',
     orgPairs: [
-      { human: 'Camille', dept: 'Sales', ai: 'Alex', avatar: '/alex-avatar.png', status: 'Prospecting' },
-      { human: 'Thomas', dept: 'Support', ai: 'Sophia', avatar: '/sophia-avatar.png', status: 'Customers' },
-      { human: 'Léa', dept: 'Operations', ai: 'Marcus', avatar: '/marcus-avatar.png', status: 'Coordination' },
+      { human: 'Camille', dept: 'Executive', ai: 'Emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
+      { human: 'Thomas', dept: 'Sales', ai: 'Alex', avatar: '/images/alex-avatar.png', status: 'Prospecting' },
+      { human: 'Léa', dept: 'Support', ai: 'Sophia', avatar: '/images/sophia-avatar.png', status: 'Customers' },
     ],
     collaboratorLabel: 'AI Collaborators',
+    orgLink: 'See the full team',
   },
 } as const
 
@@ -97,6 +99,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   </motion.div>
                 ))}
               </div>
+              <a href="/team" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
+                {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
+              </a>
             </div>
           </div>
         </motion.div>
