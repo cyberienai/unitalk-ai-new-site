@@ -8,10 +8,11 @@ import { HeroActivityBadge } from '@/components/hero-activity-badge'
 const T = {
   fr: {
     eyebrow: 'Recrutez sans embaucher',
-    headline: 'Votre premier Collaborateur\u00A0IA est',
+    headline: 'Votre premier Collaborateur\u00A0IA',
+    headlineVerb: 'est',
     headlineAccent: ' déjà prêt.',
-    leadA: 'Donnez-lui une identité, confiez-lui un rôle, connectez vos outils.',
-    leadB: 'Il exécute ses missions.',
+    leadA: 'Donnez-lui une identité, confiez-lui un rôle,',
+    leadB: 'connectez vos outils. Il exécute ses missions.',
     heroCta: 'Commencer gratuitement',
     heroProofs: ['Essai gratuit 7 jours', 'Sans engagement', 'Prêt en quelques minutes'],
     orgTitle: 'Votre équipe',
@@ -29,10 +30,11 @@ const T = {
   },
   en: {
     eyebrow: 'Recruit without hiring',
-    headline: 'Your first AI\u00A0Collaborator is',
+    headline: 'Your first AI\u00A0Collaborator',
+    headlineVerb: 'is',
     headlineAccent: ' already ready.',
-    leadA: 'Give them an identity, assign them a role, connect your tools.',
-    leadB: 'They carry out their missions.',
+    leadA: 'Give them an identity, assign them a role,',
+    leadB: 'connect your tools. They carry out their missions.',
     heroCta: 'Start for free',
     heroProofs: ['7-day free trial', 'No commitment', 'Ready in minutes'],
     orgTitle: 'Your team',
@@ -63,17 +65,21 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-[92svh] items-center overflow-hidden bg-[#F3EFE6] pb-20 pt-28 lg:pb-24 lg:pt-32">
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-24 sm:min-h-[92svh] sm:pb-20 sm:pt-28 lg:pb-24 lg:pt-32">
       <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-55" />
       <div className="editorial-shell relative grid items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
         <div className="max-w-2xl">
           <motion.p {...enter(0.04)} className="mb-7 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63] sm:text-left">
             {t.eyebrow}
           </motion.p>
-          <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.85rem,5.2vw,5.3rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-[#1C1A17] sm:text-left">
-            {t.headline}<span className="text-[#D10E63]">{t.headlineAccent}</span>
+          <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-left md:leading-[0.96]">
+            {t.headline}{' '}
+            <span className="whitespace-nowrap">
+              {t.headlineVerb}
+              <span className="text-[#D10E63]">{t.headlineAccent}</span>
+            </span>
           </motion.h1>
-          <motion.p {...enter(0.18)} className="mx-auto mt-7 max-w-xl text-pretty text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:text-left md:text-lg md:leading-8">
+          <motion.p {...enter(0.18)} className="mx-auto mt-6 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:text-left md:text-lg md:leading-8">
             {t.leadA}
             <br className="sm:hidden" /> {t.leadB}
           </motion.p>
@@ -93,7 +99,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="flex items-center px-5 pt-5 pb-1 sm:px-6">
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
-                <div><p className="text-sm font-bold text-[#1C1A17]">{t.orgTitle}</p><p className="text-[11px] text-[#857C6E]">{t.orgMeta}</p></div>
+                <div><p className="text-sm font-bold text-[#1C1A17]">{t.orgTitle}</p><p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p></div>
               </div>
             </div>
             <div className="p-4 sm:p-6">
@@ -102,7 +108,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <div className="flex flex-col gap-2.5">
                   {t.orgPairs.map((pair) => (
                     <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
-                      <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#857C6E]">{pair.dept}</p></div>
+                      <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#6E665A]">{pair.dept}</p></div>
                       <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                       <Link
                         href={`/@${pair.slug}`}
