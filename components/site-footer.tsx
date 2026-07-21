@@ -12,35 +12,18 @@ const T = {
       {
         title: 'Produit',
         links: [
+          { label: 'Construire mon équipe', href: '/team' },
           { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
-          { label: 'Unitalk Work', href: '#' },
+          { label: 'Parler à Alma', href: '/alma' },
+          { label: 'Unitalk Work', href: '/#unitalk-work' },
           { label: 'Tarifs', href: '/tarifs' },
-        ],
-      },
-      {
-        title: 'Ressources',
-        links: [
-          { label: 'Documentation', href: '#' },
-          { label: 'Unitalk AI Academy', href: '#' },
-          { label: 'Guides', href: '#' },
-          { label: 'Blog', href: '#' },
         ],
       },
       {
         title: 'Entreprise',
         links: [
-          { label: 'À propos', href: '#' },
-          { label: 'Partenaires', href: '/partenaires' },
-          { label: 'Contact', href: '/contact' },
-        ],
-      },
-      {
-        title: 'Légal',
-        links: [
-          { label: 'Confidentialité', href: '#' },
-          { label: 'Conditions', href: '#' },
-          { label: 'Cookies', href: '#' },
-          { label: 'Sécurité', href: '#' },
+          { label: 'Devenir partenaire', href: '/partenaires' },
+          { label: 'Sécurité', href: '/#confiance' },
         ],
       },
     ],
@@ -53,35 +36,18 @@ const T = {
       {
         title: 'Product',
         links: [
+          { label: 'Build my team', href: '/team' },
           { label: 'AI Collaborators', href: '/collaborateurs-ia' },
-          { label: 'Unitalk Work', href: '#' },
+          { label: 'Talk to Alma', href: '/alma' },
+          { label: 'Unitalk Work', href: '/#unitalk-work' },
           { label: 'Pricing', href: '/tarifs' },
-        ],
-      },
-      {
-        title: 'Resources',
-        links: [
-          { label: 'Documentation', href: '#' },
-          { label: 'Unitalk AI Academy', href: '#' },
-          { label: 'Guides', href: '#' },
-          { label: 'Blog', href: '#' },
         ],
       },
       {
         title: 'Company',
         links: [
-          { label: 'About', href: '#' },
-          { label: 'Partners', href: '/partenaires' },
-          { label: 'Contact', href: '/contact' },
-        ],
-      },
-      {
-        title: 'Legal',
-        links: [
-          { label: 'Privacy', href: '#' },
-          { label: 'Terms', href: '#' },
-          { label: 'Cookies', href: '#' },
-          { label: 'Security', href: '#' },
+          { label: 'Become a partner', href: '/partenaires' },
+          { label: 'Security', href: '/#confiance' },
         ],
       },
     ],
@@ -100,7 +66,7 @@ export function SiteFooter() {
           <div className="col-span-2 sm:col-span-3 lg:col-span-4">
             <div className="flex items-center gap-2.5">
               <UnitalkLogo size={28} />
-              <span className="font-inter text-base font-semibold text-[#F3EFE6]">Unitalk AI</span>
+              <span className="font-inter text-base font-semibold text-[#F3EFE6]">Unitalk</span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#A79E8E]">
               {t.tagline}

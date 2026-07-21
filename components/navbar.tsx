@@ -12,7 +12,7 @@ type NavLink = { fr: string; en: string; href: string }
 const PRIMARY_LINKS: NavLink[] = [
   { fr: 'Construire mon équipe', en: 'Build my team', href: '/team' },
   { fr: 'Unitalk Work', en: 'Unitalk Work', href: '/#unitalk-work' },
-  { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
+  { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
 ]
 
 const ALMA_LINK: NavLink = { fr: 'Parler à Alma', en: 'Talk to Alma', href: '/alma' }
@@ -24,38 +24,15 @@ const MENU_SECTIONS: { title: { fr: string; en: string }; links: NavLink[] }[] =
     links: [
       { fr: 'Construire mon équipe', en: 'Build my team', href: '/team' },
       { fr: 'Parler à Alma', en: 'Talk to Alma', href: '/alma' },
+      { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
       { fr: 'Unitalk Work', en: 'Unitalk Work', href: '/#unitalk-work' },
-      { fr: 'Tarifs', en: 'Pricing', href: '/#offres' },
-    ],
-  },
-  {
-    title: { fr: 'Plateforme', en: 'Platform' },
-    links: [
-      { fr: 'AI Server', en: 'AI Server', href: '#' },
-      { fr: 'AI Gateway', en: 'AI Gateway', href: '#' },
-    ],
-  },
-  {
-    title: { fr: 'Créer', en: 'Build' },
-    links: [
-      { fr: 'Marketplace', en: 'Marketplace', href: '#' },
-      { fr: 'Devenir partenaire', en: 'Become a partner', href: '/partenaires' },
-      { fr: 'Développeurs', en: 'Developers', href: '#' },
-    ],
-  },
-  {
-    title: { fr: 'Ressources', en: 'Resources' },
-    links: [
-      { fr: 'Documentation', en: 'Documentation', href: '#' },
-      { fr: 'Academy', en: 'Academy', href: '#' },
-      { fr: 'Blog', en: 'Blog', href: '#' },
+      { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
     ],
   },
   {
     title: { fr: 'Entreprise', en: 'Company' },
     links: [
-      { fr: 'À propos', en: 'About', href: '#' },
-      { fr: 'Contact', en: 'Contact', href: '/contact' },
+      { fr: 'Devenir partenaire', en: 'Become a partner', href: '/partenaires' },
       { fr: 'Sécurité', en: 'Security', href: '/#confiance' },
     ],
   },
@@ -162,14 +139,6 @@ export function Navbar() {
             >
               {ALMA_LINK[lang]}
             </a>
-            <a
-              href="/login"
-              className="hidden px-3 py-2 text-sm font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63] sm:inline-flex"
-              aria-label={t.signIn}
-            >
-              {t.signIn}
-            </a>
-
             <button
               onClick={toggleLang}
               className="inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63]"
@@ -263,13 +232,6 @@ export function Navbar() {
                     className="block py-2 text-sm font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.signUp}
-                  </a>
-                  <a
-                    href="/login"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block py-2 text-sm font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.signIn}
                   </a>
                 </div>
 
