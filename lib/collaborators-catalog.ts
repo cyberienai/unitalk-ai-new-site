@@ -139,7 +139,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     managerHandle: 'patrickchassany',
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
-    role: { fr: 'Assistante de Direction', en: 'Executive Assistant' },
+    role: { fr: 'Assistante de', en: 'Assistant to' },
     department: { fr: 'Direction', en: 'Leadership' },
     description: {
       fr: "Emma gère l'agenda, les priorités et la logistique de la direction. Elle prépare les réunions, filtre les demandes et garde chaque dossier prêt au bon moment.",

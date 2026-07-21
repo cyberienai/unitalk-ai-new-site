@@ -110,9 +110,9 @@ export function TeamProfile({ slug }: { slug: string }) {
                   {detail.role[lang]}
                   {detail.managerHandle && (
                     <>
-                      {' · '}
+                      {' '}
                       <Link href={`/@${detail.managerHandle}`} className="font-medium text-[#D10E63] hover:underline">
-                        @{detail.managerHandle}
+                        {detail.manager.name}
                       </Link>
                     </>
                   )}
