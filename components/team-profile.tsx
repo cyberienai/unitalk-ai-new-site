@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { ArrowLeft, CalendarDays, Check, MessageSquare, Phone, Plus, Star, Wrench } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, Phone, Plus, Star, Wrench } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { getAcmeAiBySlug } from '@/lib/acme-demo'
 
 const META: Record<string, { rating: number; reviews: number }> = {
   emma: { rating: 4.9, reviews: 128 },
@@ -30,6 +31,9 @@ export function TeamProfile({ slug }: { slug: string }) {
       tools: 'Outils',
       missions: 'Missions types',
       reviews: 'avis',
+      demoTitle: 'Voir en situation',
+      demoBody: (name: string) => `Découvrez ${name} déployé chez Acme : son profil public et son espace équipe interne.`,
+      demoCta: 'Ouvrir la démo Acme',
     },
     en: {
       back: 'All roles',
@@ -43,6 +47,9 @@ export function TeamProfile({ slug }: { slug: string }) {
       tools: 'Tools',
       missions: 'Typical missions',
       reviews: 'reviews',
+      demoTitle: 'See it in action',
+      demoBody: (name: string) => `See ${name} deployed at Acme: their public profile and internal team space.`,
+      demoCta: 'Open the Acme demo',
     },
   })
 
@@ -103,6 +110,23 @@ export function TeamProfile({ slug }: { slug: string }) {
               <ActionButton icon={<CalendarDays className="h-4 w-4" />} label={t.calendar} />
               <ActionButton icon={<Plus className="h-4 w-4" />} label={t.add} className="col-span-2" primary />
             </div>
+
+            {getAcmeAiBySlug(slug) && (
+              <div className="mt-4 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-5">
+                <p className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
+                  <Building2 className="h-3.5 w-3.5" />
+                  {t.demoTitle}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[#6B6560]">{t.demoBody(detail.name)}</p>
+                <a
+                  href={`/team/${slug}/profil`}
+                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-2.5"
+                >
+                  {t.demoCta}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Details */}
