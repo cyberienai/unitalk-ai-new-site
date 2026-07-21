@@ -160,32 +160,32 @@ const content = {
     plansTitle: "Une porte d'entrée pour chaque organisation.",
     plans: [
       {
-        name: 'Unitalk for Individuals',
+        name: 'Solo',
         audience: 'Pour les indépendants et professions libérales',
         pitch: 'Faites le travail de plusieurs personnes, seul.',
         price: '30 €',
         unit: 'par mois · 1 collaborateur inclus',
         cta: "Voir l'offre",
-        href: '/pricing',
+        href: '/solo',
       },
       {
-        name: 'Unitalk for Teams',
+        name: 'Teams',
         audience: 'Pour les équipes en croissance',
         pitch: 'Augmentez les capacités de votre équipe sans recruter au même rythme.',
         price: '25 €',
         unit: 'par collaborateur / mois',
         cta: "Voir l'offre",
-        href: '/pricing',
+        href: '/teams',
         popular: true,
       },
       {
-        name: 'Unitalk for Businesses',
+        name: 'Business',
         audience: 'Pour les organisations établies',
         pitch: "Construisez l'infrastructure d'intelligence de votre entreprise.",
         price: 'Sur devis',
         unit: 'Serveur dédié · Sur mesure',
-        cta: 'Nous contacter',
-        href: '/contact',
+        cta: "Voir l'offre",
+        href: '/business',
       },
     ],
     popularBadge: 'LE PLUS CHOISI',
@@ -316,32 +316,32 @@ const content = {
     plansTitle: 'An entry point for every organization.',
     plans: [
       {
-        name: 'Unitalk for Individuals',
+        name: 'Solo',
         audience: 'For freelancers and independent professionals',
         pitch: 'Do the work of several people, on your own.',
         price: '€30',
         unit: 'per month · 1 collaborator included',
         cta: 'View plan',
-        href: '/pricing',
+        href: '/solo',
       },
       {
-        name: 'Unitalk for Teams',
+        name: 'Teams',
         audience: 'For growing teams',
         pitch: 'Grow your team capabilities without hiring at the same pace.',
         price: '€25',
         unit: 'per collaborator / month',
         cta: 'View plan',
-        href: '/pricing',
+        href: '/teams',
         popular: true,
       },
       {
-        name: 'Unitalk for Businesses',
+        name: 'Business',
         audience: 'For established organizations',
         pitch: 'Build your company intelligence infrastructure.',
         price: 'Custom',
         unit: 'Dedicated server · Tailored',
-        cta: 'Contact us',
-        href: '/contact',
+        cta: 'View plan',
+        href: '/business',
       },
     ],
     popularBadge: 'MOST CHOSEN',
@@ -606,7 +606,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] md:text-6xl">{t.emmaTitle}</h2>
             <p className="mt-6 max-w-xl text-pretty text-base leading-7 text-[#6B6560] md:text-lg"><span className="font-bold text-[#1C1A17]">{t.emmaIntroStrong}</span> {t.emmaIntro}</p>
             <p className="mt-6 max-w-lg border-l-2 border-[#D10E63] pl-5 text-sm leading-6 text-[#857C6E]">{t.emmaNote}</p>
-            <a href="/collaborateurs-ia/executive-assistant" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
+            <a href="/@emma" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5">{t.emmaCta}<ArrowRight className="h-4 w-4" /></a>
           </div>
         </Reveal>
       </section>
