@@ -5,7 +5,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    tagline: "L'intelligence opérationnelle qui grandit avec votre entreprise.",
+    tagline: 'Recrutez sans embaucher.',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
     columns: [
@@ -46,7 +46,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'Operational intelligence that grows with your company.',
+    tagline: 'Recruit without hiring.',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
     columns: [
