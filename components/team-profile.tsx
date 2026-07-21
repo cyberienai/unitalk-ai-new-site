@@ -37,6 +37,9 @@ export function TeamProfile({ slug }: { slug: string }) {
       add: 'Ajouter à mon équipe',
       added: 'Ajouté à mon équipe',
       dataOwner: 'Propriétaire des données',
+      responsibility: 'Responsable & données',
+      manager: 'Responsable',
+      companyLabel: 'Entreprise',
       about: 'À propos',
       skills: 'Compétences',
       missions: 'Missions types',
@@ -54,6 +57,9 @@ export function TeamProfile({ slug }: { slug: string }) {
       add: 'Add to my team',
       added: 'Added to my team',
       dataOwner: 'Data owner',
+      responsibility: 'Manager & data',
+      manager: 'Manager',
+      companyLabel: 'Company',
       about: 'About',
       skills: 'Skills',
       missions: 'Typical missions',
@@ -99,41 +105,6 @@ export function TeamProfile({ slug }: { slug: string }) {
                   @{slug} <span className="text-[#857C6E]">· {detail.company.toLowerCase()}.ai</span>
                 </p>
                 <p className="mt-1 text-[#6B6560]">{detail.role[lang]}</p>
-
-                <div className="mt-3 space-y-1.5 border-t border-[#EAE3D4] pt-3 text-sm">
-                  <p className="flex items-start gap-2 text-[#4E483F]">
-                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#857C6E]" />
-                    <span>
-                      <span className="font-semibold text-[#1C1A17]">{detail.manager.name}</span>
-                      <span className="text-[#857C6E]"> · {detail.manager.role[lang]}</span>
-                      {detail.managerEmail && (
-                        <>
-                          {' · '}
-                          <a
-                            href={`mailto:${detail.managerEmail}`}
-                            className="font-medium text-[#D10E63] hover:underline"
-                          >
-                            {detail.managerEmail}
-                          </a>
-                        </>
-                      )}
-                    </span>
-                  </p>
-                  <p className="flex items-center gap-2 text-[#4E483F]">
-                    <Building2 className="h-4 w-4 shrink-0 text-[#857C6E]" />
-                    <span>
-                      <span className="font-semibold text-[#1C1A17]">{detail.company}</span>
-                    </span>
-                  </p>
-                  {detail.dataOwner && (
-                    <p className="flex items-center gap-2 text-[#4E483F]">
-                      <ShieldCheck className="h-4 w-4 shrink-0 text-[#857C6E]" />
-                      <span>
-                        {t.dataOwner} : <span className="font-semibold text-[#1C1A17]">{detail.dataOwner}</span>
-                      </span>
-                    </p>
-                  )}
-                </div>
 
                 <div className="mt-3 flex items-center gap-3">
                   <span className="flex items-center gap-1 text-sm font-semibold text-[#1C1A17]">
@@ -236,6 +207,46 @@ export function TeamProfile({ slug }: { slug: string }) {
                   </li>
                 ))}
               </ul>
+            </section>
+
+            <section>
+              <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.responsibility}</h2>
+              <dl className="mt-4 divide-y divide-[#EAE3D4] overflow-hidden rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3]">
+                <div className="flex items-start gap-3 px-5 py-4">
+                  <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#857C6E]" />
+                  <div className="min-w-0">
+                    <dt className="text-[11px] font-medium uppercase tracking-wide text-[#857C6E]">{t.manager}</dt>
+                    <dd className="mt-0.5 text-sm text-[#4E483F]">
+                      <span className="font-semibold text-[#1C1A17]">{detail.manager.name}</span>
+                      <span className="text-[#857C6E]"> · {detail.manager.role[lang]}</span>
+                      {detail.managerEmail && (
+                        <>
+                          <br />
+                          <a href={`mailto:${detail.managerEmail}`} className="font-medium text-[#D10E63] hover:underline">
+                            {detail.managerEmail}
+                          </a>
+                        </>
+                      )}
+                    </dd>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 px-5 py-4">
+                  <Building2 className="mt-0.5 h-4 w-4 shrink-0 text-[#857C6E]" />
+                  <div className="min-w-0">
+                    <dt className="text-[11px] font-medium uppercase tracking-wide text-[#857C6E]">{t.companyLabel}</dt>
+                    <dd className="mt-0.5 text-sm font-semibold text-[#1C1A17]">{detail.company}</dd>
+                  </div>
+                </div>
+                {detail.dataOwner && (
+                  <div className="flex items-start gap-3 px-5 py-4">
+                    <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#857C6E]" />
+                    <div className="min-w-0">
+                      <dt className="text-[11px] font-medium uppercase tracking-wide text-[#857C6E]">{t.dataOwner}</dt>
+                      <dd className="mt-0.5 text-sm font-semibold text-[#1C1A17]">{detail.dataOwner}</dd>
+                    </div>
+                  </div>
+                )}
+              </dl>
             </section>
           </div>
         </div>
