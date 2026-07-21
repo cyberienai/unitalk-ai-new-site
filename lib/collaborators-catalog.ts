@@ -122,6 +122,8 @@ export type RoleDetail = {
   skills: Bilingual[]
   tools: string[]
   missions: Bilingual[]
+  manager: { name: string; role: Bilingual } // responsable au sein de l'entreprise
+  company: string // entreprise d'appartenance
 }
 
 export const ROLE_DETAILS: Record<string, RoleDetail> = {
@@ -129,6 +131,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     slug: 'emma',
     name: 'Emma',
     avatar: '/images/emma-avatar.png',
+    manager: { name: 'Camille Lefebvre', role: { fr: 'Directrice Générale', en: 'CEO' } },
+    company: 'Unitalk',
     role: { fr: 'Assistante de Direction', en: 'Executive Assistant' },
     department: { fr: 'Direction', en: 'Leadership' },
     description: {
@@ -152,6 +156,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     slug: 'marcus',
     name: 'Marcus',
     avatar: '/images/marcus-avatar.png',
+    manager: { name: 'Sarah Benali', role: { fr: 'Directrice Commerciale', en: 'Head of Sales' } },
+    company: 'Unitalk',
     role: { fr: 'Assistant Commercial', en: 'Sales Assistant' },
     department: { fr: 'Ventes', en: 'Sales' },
     description: {
@@ -175,6 +181,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     slug: 'sophia',
     name: 'Sophia',
     avatar: '/images/sophia-avatar.png',
+    manager: { name: 'Thomas Girard', role: { fr: 'Responsable Support', en: 'Head of Support' } },
+    company: 'Unitalk',
     role: { fr: 'Support Client', en: 'Customer Support' },
     department: { fr: 'Support', en: 'Support' },
     description: {
@@ -198,6 +206,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     slug: 'alex',
     name: 'Alex',
     avatar: '/images/alex-avatar.png',
+    manager: { name: 'Julien Roy', role: { fr: 'Responsable Marketing', en: 'Head of Marketing' } },
+    company: 'Unitalk',
     role: { fr: 'Assistant Marketing', en: 'Marketing Assistant' },
     department: { fr: 'Marketing', en: 'Marketing' },
     description: {
@@ -221,6 +231,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     slug: 'nadia',
     name: 'Nadia',
     avatar: '/images/nadia-avatar.png',
+    manager: { name: 'Claire Dubois', role: { fr: 'Directrice Financière', en: 'CFO' } },
+    company: 'Unitalk',
     role: { fr: 'Analyste Financière', en: 'Financial Analyst' },
     department: { fr: 'Finance', en: 'Finance' },
     description: {
@@ -244,6 +256,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     slug: 'hugo',
     name: 'Hugo',
     avatar: '/images/hugo-avatar.png',
+    manager: { name: 'Marie Fontaine', role: { fr: 'Responsable RH', en: 'Head of People' } },
+    company: 'Unitalk',
     role: { fr: 'Chargé RH & Recrutement', en: 'HR & Recruiting' },
     department: { fr: 'Ressources Humaines', en: 'Human Resources' },
     description: {
