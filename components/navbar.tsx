@@ -74,7 +74,7 @@ const T = {
   fr: {
     home: 'Accueil Unitalk AI',
     signIn: 'Se connecter',
-    createFirstAgent: "Commencer l'essai gratuit",
+    createFirstAgent: 'Démarrer',
     signUp: 'S’inscrire',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -82,7 +82,7 @@ const T = {
   en: {
     home: 'Unitalk AI Home',
     signIn: 'Sign in',
-    createFirstAgent: 'Start free trial',
+    createFirstAgent: 'Get started',
     signUp: 'Sign up',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -277,13 +277,9 @@ export function Navbar() {
 
             <a
               href="/signup"
-              className="hidden min-h-10 items-center gap-2 rounded-full bg-[#D10E63] px-5 text-sm font-semibold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 lg:inline-flex"
+              className="hidden min-h-10 items-center rounded-full border border-[#1C1A17]/25 px-5 text-sm font-semibold text-[#1C1A17] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] lg:inline-flex"
             >
               {t.createFirstAgent}
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
             </a>
 
             <button
