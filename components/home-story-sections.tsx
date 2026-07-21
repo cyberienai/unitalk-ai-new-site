@@ -25,6 +25,7 @@ import {
   Sparkles,
   Target,
   Terminal,
+  Star,
   UserRound,
   UsersRound,
   Wrench,
@@ -59,6 +60,7 @@ const content = {
       'Un collègue qui vous appartient',
     ],
     conceptClosing: 'La différence, c’est une identité professionnelle.',
+    conceptBenefit: 'Vous ne pilotez plus des outils. Vous dirigez une équipe qui grandit avec vous.',
 
     // Section: Vos Collaborateurs IA sont déjà prêts
     catEyebrow: 'VOS COLLABORATEURS IA SONT DÉJÀ PRÊTS',
@@ -132,7 +134,7 @@ const content = {
 
     // Section: Manifeste agentique
     manifestoEyebrow: 'LA RÉVOLUTION DE L’AGENTIQUE',
-    manifestoTitle: 'Les prochains actifs sont des agents autonomes.',
+    manifestoTitle: 'Les prochains actifs sont des Collaborateurs IA autonomes.',
     manifestoLead: 'Participez à la révolution de l’agentique. Transformez vos compétences en Collaborateur IA et générez des revenus avec votre intelligence.',
     manifestoGoodLabel: 'La bonne nouvelle',
     manifestoGood: 'Vous êtes propriétaire de votre intelligence.',
@@ -167,8 +169,14 @@ const content = {
 
     // Section: Emma
     emmaTitle: 'Emma, Executive Assistant.',
+    emmaStatsLabel: 'Une réputation qui se construit',
+    emmaStats: [
+      { value: '4,9/5', label: 'Satisfaction' },
+      { value: '1 240', label: 'Missions accomplies' },
+      { value: '8 mois', label: 'Dans l’équipe' },
+    ],
     emmaIntroStrong: 'Un membre à part entière.',
-    emmaIntro: "Emma rejoint votre organisation avec un rôle, une mission, des droits d'accès et une identité. Vous lui confiez une mission, elle exécute.",
+    emmaIntro: "Emma rejoint votre organisation avec un rôle, une mission, des droits d'accès et une identité. Comme un collègue, elle se souvient, progresse et bâtit sa réputation mission après mission.",
     emmaName: 'Emma',
     emmaRole: 'Executive Assistant',
     emmaEmail: 'emma@votre-entreprise.fr',
@@ -273,6 +281,7 @@ const content = {
       'A colleague you own',
     ],
     conceptClosing: 'The difference is a professional identity.',
+    conceptBenefit: 'You no longer manage tools. You lead a team that grows with you.',
 
     emmaEyebrow: 'A CONCRETE EXAMPLE',
     emmaName: 'Emma',
@@ -317,7 +326,7 @@ const content = {
 
     // Section: Agentic manifesto
     manifestoEyebrow: 'THE AGENTIC REVOLUTION',
-    manifestoTitle: 'The next assets are autonomous agents.',
+    manifestoTitle: 'The next assets are autonomous AI Collaborators.',
     manifestoLead: 'Join the agentic revolution. Turn your skills into an AI Collaborator and generate revenue with your intelligence.',
     manifestoGoodLabel: 'The good news',
     manifestoGood: 'You own your intelligence.',
@@ -348,8 +357,14 @@ const content = {
     modelsAccent: 'You have nothing to choose.',
 
     emmaTitle: 'Emma, Executive Assistant.',
+    emmaStatsLabel: 'A reputation that builds over time',
+    emmaStats: [
+      { value: '4.9/5', label: 'Satisfaction' },
+      { value: '1,240', label: 'Missions completed' },
+      { value: '8 months', label: 'On the team' },
+    ],
     emmaIntroStrong: 'A full-fledged team member.',
-    emmaIntro: 'Emma joins your organization with a role, a mission, access rights and an identity. You hand her a mission, she executes.',
+    emmaIntro: 'Emma joins your organization with a role, a mission, access rights and an identity. Like a colleague, she remembers, improves and builds her reputation mission after mission.',
     emmaName: 'Emma',
     emmaRole: 'Executive Assistant',
     emmaEmail: 'emma@your-company.com',
@@ -465,6 +480,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <Fingerprint className="h-8 w-8 shrink-0 text-[#D10E63]" strokeWidth={1.6} />
             <p className="text-balance font-sf text-2xl font-semibold tracking-[-0.025em] md:text-3xl">{t.conceptClosing}</p>
           </div>
+          <p className="mt-6 max-w-2xl text-pretty font-sf text-lg leading-relaxed text-[#C9C2B6] md:text-xl">{t.conceptBenefit}</p>
         </Reveal>
       </section>
 
@@ -692,6 +708,12 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               <div className="mt-5 flex flex-wrap gap-2">{t.emmaSkills.map((skill) => <span key={skill} className="rounded-full border border-[#D8D0C2] px-3 py-1.5 text-[11px] font-semibold text-[#6B6560]">{skill}</span>)}</div>
               <div className="mt-7 border-t border-[#E4DDCE]">
                 {t.emmaMissions.map((mission, index) => { const Icon = index === 0 ? CalendarDays : BarChart3; return <div key={mission.label} className="flex gap-4 border-b border-[#E4DDCE] py-5 last:border-0"><Icon className="mt-0.5 h-5 w-5 shrink-0 text-[#D10E63]" /><div><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#1C1A17]">{mission.label}</p><p className="mt-2 text-pretty text-sm leading-6 text-[#6B6560]">{mission.body}</p></div></div> })}
+              </div>
+              <div className="mt-6 rounded-2xl bg-[#F3EFE4] p-5">
+                <p className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#A09789]"><Star className="h-3.5 w-3.5 text-[#D10E63]" fill="currentColor" />{t.emmaStatsLabel}</p>
+                <div className="mt-4 grid grid-cols-3 gap-3">
+                  {t.emmaStats.map((stat) => <div key={stat.label}><p className="font-sf text-2xl font-bold tracking-[-0.03em] text-[#1C1A17]">{stat.value}</p><p className="mt-1 text-[11px] leading-tight text-[#857C6E]">{stat.label}</p></div>)}
+                </div>
               </div>
             </div>
           </div>
