@@ -99,6 +99,9 @@ export function TeamProfile({ slug }: { slug: string }) {
                 <div className="flex items-center gap-2">
                   <h1 className="font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17]">{detail.name}</h1>
                 </div>
+                <p className="mt-0.5 font-mono text-sm text-[#D10E63]">
+                  @{slug} <span className="text-[#857C6E]">· {detail.company.toLowerCase()}.ai</span>
+                </p>
                 <p className="mt-1 text-[#6B6560]">{detail.role[lang]}</p>
 
                 <div className="mt-3 space-y-1.5 border-t border-[#EAE3D4] pt-3 text-sm">

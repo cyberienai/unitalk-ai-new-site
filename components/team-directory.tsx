@@ -305,7 +305,7 @@ function RoleCard({
         transition={{ duration: 0.4, delay: Math.min(index, 6) * 0.04 }}
         className={`${cardClass} border-[#D10E63]/25 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(209,14,99,0.14)]`}
       >
-        <Link href={`/team/${role.slug}`} className="group flex flex-1 flex-col">
+        <Link href={`/@${role.slug}`} className="group flex flex-1 flex-col">
           {body}
           <span className="mt-4 flex items-center gap-1 text-xs font-semibold text-[#D10E63]">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />

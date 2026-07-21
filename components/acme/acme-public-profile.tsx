@@ -102,7 +102,7 @@ export function AcmePublicProfile({ slug }: { slug: string }) {
         {/* Skills link → catalog detail */}
         <div className="mt-10 text-center">
           <a
-            href={`/team/${slug}`}
+            href={`/@${slug}`}
             className="inline-flex items-center gap-2 font-semibold text-[#6B6560] transition-colors hover:text-[#D10E63]"
           >
             {t.skills(member.name)}
