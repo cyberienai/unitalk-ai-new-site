@@ -26,6 +26,7 @@ export function TeamProfile({ slug }: { slug: string }) {
   const FEMALE_SLUGS = ['emma', 'sophia', 'nadia']
   const isFemale = FEMALE_SLUGS.includes(slug)
   const connectedLabel = lang === 'fr' ? `Connecté${isFemale ? 'e' : ''} à` : 'Connected to'
+  const statusLabel = lang === 'fr' ? `Collaborateur${isFemale ? 'trice' : ''} IA` : 'AI Collaborator'
 
   const t = useT({
     fr: {
@@ -104,7 +105,18 @@ export function TeamProfile({ slug }: { slug: string }) {
                 <p className="mt-0.5 font-mono text-sm text-[#D10E63]">
                   @{slug} <span className="text-[#857C6E]">· {detail.company.toLowerCase()}.ai</span>
                 </p>
-                <p className="mt-1 text-[#6B6560]">{detail.role[lang]}</p>
+                <p className="mt-1 font-semibold text-[#1C1A17]">{statusLabel}</p>
+                <p className="mt-0.5 text-sm text-[#6B6560]">
+                  {detail.role[lang]}
+                  {detail.managerHandle && (
+                    <>
+                      {' · '}
+                      <Link href={`/@${detail.managerHandle}`} className="font-medium text-[#D10E63] hover:underline">
+                        @{detail.managerHandle}
+                      </Link>
+                    </>
+                  )}
+                </p>
 
                 <div className="mt-3 flex items-center gap-3">
                   <span className="flex items-center gap-1 text-sm font-semibold text-[#1C1A17]">
