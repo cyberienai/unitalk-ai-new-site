@@ -74,13 +74,13 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <motion.p {...enter(0.18)} className="mt-7 max-w-xl text-pretty text-base leading-7 text-[#5F594F] md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
-          <motion.div {...enter(0.24)} className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <motion.div {...enter(0.24)} className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:items-center">
             <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.heroCta}<ArrowRight className="h-4 w-4" />
             </a>
             <HeroActivityBadge lang={lang} />
           </motion.div>
-          <motion.div {...enter(0.3)} className="mt-7 flex flex-wrap gap-x-5 gap-y-2 border-t border-[#D8D0C2] pt-5 text-xs font-medium text-[#6B6560]">
+          <motion.div {...enter(0.3)} className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-[#D8D0C2] pt-5 text-xs font-medium text-[#6B6560] sm:justify-start">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>
