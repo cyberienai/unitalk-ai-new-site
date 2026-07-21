@@ -65,11 +65,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-24 sm:min-h-[92svh] sm:pb-20 sm:pt-28 lg:pb-24 lg:pt-32">
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-20 sm:min-h-[92svh] sm:pb-20 sm:pt-28 lg:pb-24 lg:pt-32">
       <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-55" />
-      <div className="editorial-shell relative grid items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
+      <div className="editorial-shell relative grid items-center gap-8 sm:gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
         <div className="max-w-2xl">
-          <motion.p {...enter(0.04)} className="mb-7 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63] sm:text-left">
+          <motion.p {...enter(0.04)} className="mb-4 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63] sm:mb-7 sm:text-left">
             {t.eyebrow}
           </motion.p>
           <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-left md:leading-[0.96]">
@@ -83,7 +83,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.leadA}
             <br className="sm:hidden" /> {t.leadB}
           </motion.p>
-          <motion.div {...enter(0.24)} className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:items-center">
+          <motion.div {...enter(0.24)} className="mt-7 flex flex-col items-center gap-4 sm:mt-9 sm:flex-row sm:items-center">
             <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.heroCta}<ArrowRight className="h-4 w-4" />
             </a>
