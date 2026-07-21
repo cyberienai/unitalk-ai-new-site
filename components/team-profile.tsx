@@ -22,6 +22,11 @@ export function TeamProfile({ slug }: { slug: string }) {
   const { has, toggle } = useMyTeam()
   const inTeam = has(slug)
 
+  // Accord en genre pour « Connecté·e à » (FR uniquement)
+  const FEMALE_SLUGS = ['emma', 'sophia', 'nadia']
+  const isFemale = FEMALE_SLUGS.includes(slug)
+  const connectedLabel = lang === 'fr' ? `Connecté${isFemale ? 'e' : ''} à` : 'Connected to'
+
   const t = useT({
     fr: {
       back: 'Tous les métiers',
@@ -36,7 +41,6 @@ export function TeamProfile({ slug }: { slug: string }) {
       dataOwner: 'Propriétaire des données',
       about: 'À propos',
       skills: 'Compétences',
-      tools: 'Outils',
       missions: 'Missions types',
       reviews: 'avis',
       demoTitle: 'Voir en situation',
@@ -56,7 +60,6 @@ export function TeamProfile({ slug }: { slug: string }) {
       dataOwner: 'Data owner',
       about: 'About',
       skills: 'Skills',
-      tools: 'Tools',
       missions: 'Typical missions',
       reviews: 'reviews',
       demoTitle: 'See it in action',
@@ -207,7 +210,7 @@ export function TeamProfile({ slug }: { slug: string }) {
             </section>
 
             <section>
-              <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.tools}</h2>
+              <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{connectedLabel}</h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {detail.tools.map((tool) => (
                   <span
