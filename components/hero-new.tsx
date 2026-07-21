@@ -1,6 +1,7 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Network } from 'lucide-react'
 import { HeroActivityBadge } from '@/components/hero-activity-badge'
 
@@ -19,6 +20,11 @@ const T = {
       { human: 'Thomas', dept: 'Ventes', ai: 'Alex', avatar: '/images/alex-avatar.png', status: 'Prospection' },
       { human: 'Léa', dept: 'Support', ai: 'Sophia', avatar: '/images/sophia-avatar.png', status: 'Clients' },
     ],
+    orgPairs2: [
+      { human: 'Marc', dept: 'Ventes', ai: 'Marcus', avatar: '/images/marcus-avatar.png', status: 'Closing' },
+      { human: 'Claire', dept: 'Finance', ai: 'Nadia', avatar: '/images/nadia-avatar.png', status: 'Trésorerie' },
+      { human: 'Julien', dept: 'RH', ai: 'Hugo', avatar: '/images/hugo-avatar.png', status: 'Recrutement' },
+    ],
     collaboratorLabel: 'Collaborateurs IA',
     orgLink: 'Voir toute l’équipe',
   },
@@ -36,6 +42,11 @@ const T = {
       { human: 'Thomas', dept: 'Sales', ai: 'Alex', avatar: '/images/alex-avatar.png', status: 'Prospecting' },
       { human: 'Léa', dept: 'Support', ai: 'Sophia', avatar: '/images/sophia-avatar.png', status: 'Customers' },
     ],
+    orgPairs2: [
+      { human: 'Marc', dept: 'Sales', ai: 'Marcus', avatar: '/images/marcus-avatar.png', status: 'Closing' },
+      { human: 'Claire', dept: 'Finance', ai: 'Nadia', avatar: '/images/nadia-avatar.png', status: 'Cash flow' },
+      { human: 'Julien', dept: 'People', ai: 'Hugo', avatar: '/images/hugo-avatar.png', status: 'Recruiting' },
+    ],
     collaboratorLabel: 'AI Collaborators',
     orgLink: 'See the full team',
   },
@@ -46,6 +57,16 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const reduceMotion = useReducedMotion()
+
+  // Alterne entre les deux trios de paires humain ↔ Collaborateur IA
+  const trios = [t.orgPairs, t.orgPairs2]
+  const [trioIndex, setTrioIndex] = useState(0)
+  useEffect(() => {
+    if (reduceMotion) return
+    const id = setInterval(() => setTrioIndex((i) => (i + 1) % trios.length), 4000)
+    return () => clearInterval(id)
+  }, [reduceMotion, trios.length])
+  const activePairs = trios[trioIndex]
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
@@ -87,17 +108,28 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
-              <div className="flex flex-col gap-2.5">
-                {t.orgPairs.map((pair, index) => (
-                  <motion.div key={pair.human} initial={reduceMotion ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: reduceMotion ? 0 : 0.3 + index * 0.1 }} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
-                    <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#857C6E]">{pair.dept}</p></div>
-                    <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
-                    <div className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3">
-                      <div className="relative shrink-0"><img src={pair.avatar} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></div>
-                      <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] font-medium text-[#A80B50]">{pair.status}</p></div>
-                    </div>
+              <div className="relative">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={trioIndex}
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduceMotion ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.5, ease }}
+                    className="flex flex-col gap-2.5"
+                  >
+                    {activePairs.map((pair) => (
+                      <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
+                        <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#857C6E]">{pair.dept}</p></div>
+                        <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
+                        <div className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3">
+                          <div className="relative shrink-0"><img src={pair.avatar || '/placeholder.svg'} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></div>
+                          <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] font-medium text-[#A80B50]">{pair.status}</p></div>
+                        </div>
+                      </div>
+                    ))}
                   </motion.div>
-                ))}
+                </AnimatePresence>
               </div>
               <a href="/team" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
                 {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
