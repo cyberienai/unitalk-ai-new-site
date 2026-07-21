@@ -36,8 +36,6 @@ export function TeamProfile({ slug }: { slug: string }) {
       calendar: 'Calendrier',
       add: 'Ajouter à mon équipe',
       added: 'Ajouté à mon équipe',
-      reportsTo: 'Rattaché·e à',
-      at: 'chez',
       dataOwner: 'Propriétaire des données',
       about: 'À propos',
       skills: 'Compétences',
@@ -55,8 +53,6 @@ export function TeamProfile({ slug }: { slug: string }) {
       calendar: 'Calendar',
       add: 'Add to my team',
       added: 'Added to my team',
-      reportsTo: 'Reports to',
-      at: 'at',
       dataOwner: 'Data owner',
       about: 'About',
       skills: 'Skills',
@@ -108,7 +104,7 @@ export function TeamProfile({ slug }: { slug: string }) {
                   <p className="flex items-start gap-2 text-[#4E483F]">
                     <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#857C6E]" />
                     <span>
-                      {t.reportsTo} <span className="font-semibold text-[#1C1A17]">{detail.manager.name}</span>
+                      <span className="font-semibold text-[#1C1A17]">{detail.manager.name}</span>
                       <span className="text-[#857C6E]"> · {detail.manager.role[lang]}</span>
                       {detail.managerEmail && (
                         <>
@@ -126,7 +122,7 @@ export function TeamProfile({ slug }: { slug: string }) {
                   <p className="flex items-center gap-2 text-[#4E483F]">
                     <Building2 className="h-4 w-4 shrink-0 text-[#857C6E]" />
                     <span>
-                      {t.at} <span className="font-semibold text-[#1C1A17]">{detail.company}</span>
+                      <span className="font-semibold text-[#1C1A17]">{detail.company}</span>
                     </span>
                   </p>
                   {detail.dataOwner && (
