@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Network } from 'lucide-react'
 import { HeroActivityBadge } from '@/components/hero-activity-badge'
@@ -122,10 +123,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
                         <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#857C6E]">{pair.dept}</p></div>
                         <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
-                        <div className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3">
+                        <Link
+                          href={`/@${pair.ai.toLowerCase()}`}
+                          aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
+                          className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
+                        >
                           <div className="relative shrink-0"><img src={pair.avatar || '/placeholder.svg'} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></div>
                           <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] font-medium text-[#A80B50]">{pair.status}</p></div>
-                        </div>
+                        </Link>
                       </div>
                     ))}
                   </motion.div>
