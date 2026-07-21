@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowRight, Search } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
-import { ACME_MEMBERS, getAcmeMember, type AcmeMember } from '@/lib/acme-demo'
+import { ACME_MEMBERS, getAcmeMember, getMemberProfile, type AcmeMember } from '@/lib/acme-demo'
 import { Breadcrumb, InternalBanner, Monogram } from '@/components/acme/acme-shared'
 
 type Filter = 'all' | 'human' | 'ai'
@@ -28,6 +28,7 @@ export function AcmeDirectory() {
       ai: 'Collaborateurs IA',
       teamTag: 'ÉQUIPE',
       aiTag: 'COLLABORATEUR IA',
+      publicTag: 'PROFIL PUBLIC',
       linkedF: 'rattachée à',
       linkedM: 'rattaché à',
       empty: 'Aucun profil ne correspond à votre recherche.',
@@ -46,6 +47,7 @@ export function AcmeDirectory() {
       ai: 'AI Collaborators',
       teamTag: 'TEAM',
       aiTag: 'AI COLLABORATOR',
+      publicTag: 'PUBLIC PROFILE',
       linkedF: 'reports to',
       linkedM: 'reports to',
       empty: 'No profile matches your search.',
@@ -128,7 +130,13 @@ export function AcmeDirectory() {
         <ul className="mt-2 pb-20">
           {filtered.map((m) => {
             const linkedAi = m.kind === 'human' && m.linkedTo ? getAcmeMember(m.linkedTo) : undefined
-            const href = m.kind === 'ai' && m.slug ? `/team/${m.slug}/profil` : undefined
+            const memberPublished = m.kind === 'human' && !!getMemberProfile(m.id)
+            const href =
+              m.kind === 'ai' && m.slug
+                ? `/team/${m.slug}/profil`
+                : memberPublished
+                  ? `/team/membre/${m.id}`
+                  : undefined
             const RowTag = href ? 'a' : 'div'
             return (
               <li key={m.id} className="border-b border-[#E4DDCE]">
@@ -147,6 +155,11 @@ export function AcmeDirectory() {
                       >
                         {m.kind === 'ai' ? t.aiTag : t.teamTag}
                       </span>
+                      {memberPublished && (
+                        <span className="rounded bg-[#F5DCE8] px-1.5 py-0.5 font-mono text-[10px] font-semibold tracking-[0.08em] text-[#A80B50]">
+                          {t.publicTag}
+                        </span>
+                      )}
                     </div>
                     <p className="mt-0.5 truncate text-[#857C6E]">{secondary(m)}</p>
                   </div>

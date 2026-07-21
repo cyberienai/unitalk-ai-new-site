@@ -112,6 +112,42 @@ export function getAcmeMember(id: string): AcmeMember | undefined {
   return ACME_MEMBERS.find((m) => m.id === id)
 }
 
+// Public profile of a human member who chose to publish it.
+// Their AI proxy filters incoming requests and handles no-value-added tasks,
+// only escalating to the human when it matters.
+export type MemberProfile = {
+  published: boolean
+  headline: Bilingual
+  // tasks the member (via their AI) can take off your plate
+  delegate: Bilingual[]
+  // what the AI proxy handles before the human is involved
+  proxyHandles: Bilingual[]
+}
+
+export const ACME_MEMBER_PROFILES: Record<string, MemberProfile> = {
+  'patrick-martin': {
+    published: true,
+    headline: {
+      fr: 'Fondateur d’Acme. Emma, son assistante IA, filtre et traite les demandes avant de le solliciter.',
+      en: 'Founder of Acme. Emma, his AI assistant, filters and handles requests before involving him.',
+    },
+    delegate: [
+      { fr: 'Prendre rendez-vous avec Patrick', en: 'Book a meeting with Patrick' },
+      { fr: 'Poser une question à l’équipe direction', en: 'Ask the leadership team a question' },
+      { fr: 'Transmettre un dossier ou une proposition', en: 'Send over a document or proposal' },
+    ],
+    proxyHandles: [
+      { fr: 'Qualifier votre demande et y répondre', en: 'Qualify your request and reply' },
+      { fr: 'Proposer un créneau et confirmer le rendez-vous', en: 'Offer a slot and confirm the meeting' },
+      { fr: 'Router vers le bon interlocuteur, humain ou IA', en: 'Route to the right person, human or AI' },
+    ],
+  },
+}
+
+export function getMemberProfile(id: string): MemberProfile | undefined {
+  return ACME_MEMBER_PROFILES[id]
+}
+
 export function getAcmeAiBySlug(slug: string): AcmeMember | undefined {
   return ACME_MEMBERS.find((m) => m.kind === 'ai' && m.slug === slug)
 }
