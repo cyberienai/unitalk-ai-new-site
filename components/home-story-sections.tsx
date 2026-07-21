@@ -113,7 +113,7 @@ const content = {
     manifestoGood: 'Vous êtes propriétaire de votre intelligence.',
     manifestoBadLabel: 'La mauvaise',
     manifestoBad: 'C’est le seul capital qu’il vous reste.',
-    manifestoCta: 'Devenir créateur',
+    manifestoCta: 'Faire fructifier votre intelligence',
 
     // Section: Votre intelligence appartient à votre entreprise
     proofEyebrow: 'VOTRE INTELLIGENCE APPARTIENT À VOTRE ENTREPRISE',
@@ -274,7 +274,7 @@ const content = {
     manifestoGood: 'You own your intelligence.',
     manifestoBadLabel: 'The bad news',
     manifestoBad: 'It’s the only capital you have left.',
-    manifestoCta: 'Become a creator',
+    manifestoCta: 'Grow your intelligence',
 
     proofEyebrow: 'YOUR INTELLIGENCE BELONGS TO YOUR COMPANY',
     proofTitle: 'AI models will evolve.',
