@@ -126,7 +126,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
   emma: {
     slug: 'emma',
     name: 'Emma',
-    avatar: '/nina-avatar.png',
+    avatar: '/images/emma-avatar.png',
     role: { fr: 'Assistante de Direction', en: 'Executive Assistant' },
     department: { fr: 'Direction', en: 'Leadership' },
     description: {
