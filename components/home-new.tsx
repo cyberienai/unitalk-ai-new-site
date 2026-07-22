@@ -3,6 +3,7 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
+import { CollaboratorsShowcase } from './collaborators-showcase'
 import { HomeStorySections } from './home-story-sections'
 import { SiteFooter } from './site-footer'
 
@@ -16,6 +17,9 @@ export function HomeNew() {
 
       {/* 2. Hero — "Ils travaillent" */}
       <HeroNew lang={lang} />
+
+      {/* 3. Catalogue de recrutement : "Les Collaborateurs IA existent" */}
+      <CollaboratorsShowcase lang={lang} />
 
       {/* Nouveau récit éditorial : des outils isolés aux membres de l'organisation */}
       <HomeStorySections lang={lang} />
