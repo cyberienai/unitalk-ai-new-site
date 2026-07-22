@@ -112,7 +112,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <div className="min-w-0">
                   <p className="flex items-center gap-1.5 text-sm font-bold text-[#1C1A17]">
                     {t.orgTitle}
-                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] opacity-0 transition-opacity group-hover:opacity-100" />
+                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
                   </p>
                   <p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p>
                 </div>
