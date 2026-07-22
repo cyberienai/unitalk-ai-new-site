@@ -66,7 +66,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
   return (
     <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-20 sm:min-h-[92svh] sm:pb-20 sm:pt-28 lg:pb-24 lg:pt-32">
-      <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-55" />
       <div className="editorial-shell relative grid items-center gap-8 sm:gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
         <div className="max-w-2xl">
           <motion.p {...enter(0.04)} className="mb-4 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63] sm:mb-7 sm:text-left">
