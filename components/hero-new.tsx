@@ -102,11 +102,21 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <HeroActivityBadge lang={lang} />
           </div>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
-            <div className="flex items-center px-5 pt-5 pb-1 sm:px-6">
-              <div className="flex items-center gap-3">
+            <div className="px-5 pt-5 pb-1 sm:px-6">
+              <Link
+                href="/decouvrir"
+                aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
+                className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#D10E63]/[0.05]"
+              >
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
-                <div><p className="text-sm font-bold text-[#1C1A17]">{t.orgTitle}</p><p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p></div>
-              </div>
+                <div className="min-w-0">
+                  <p className="flex items-center gap-1.5 text-sm font-bold text-[#1C1A17]">
+                    {t.orgTitle}
+                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] opacity-0 transition-opacity group-hover:opacity-100" />
+                  </p>
+                  <p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p>
+                </div>
+              </Link>
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
