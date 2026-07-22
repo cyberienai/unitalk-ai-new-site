@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, Plus, Star, UserRound } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
-import { ROLE_DETAILS, type Bilingual } from '@/lib/collaborators-catalog'
+import { ROLE_DETAILS, collaboratorHref, type Bilingual } from '@/lib/collaborators-catalog'
 import { useMyTeam } from '@/lib/my-team-context'
 
 // Ordre d'affichage du catalogue + accroche courte (mission-phare) par Collaborateur IA
@@ -187,7 +187,7 @@ function ShowcaseCard({
       {/* Actions */}
       <div className="mt-6 flex items-center gap-2">
         <Link
-          href={`/@${slug}`}
+          href={collaboratorHref(slug)}
           className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full border border-[#DDD5CA] text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
         >
           <UserRound className="h-4 w-4" />

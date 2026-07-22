@@ -3,6 +3,14 @@
 
 export type Bilingual = { fr: string; en: string }
 
+// Collaborators with a dedicated campaign page (e.g. /emma).
+// Others fall back to their public profile at /@slug.
+const CAMPAIGN_SLUGS = new Set(['emma'])
+
+export function collaboratorHref(slug: string): string {
+  return CAMPAIGN_SLUGS.has(slug) ? `/${slug}` : `/@${slug}`
+}
+
 export type CatalogRole = {
   name: string
   title: Bilingual
