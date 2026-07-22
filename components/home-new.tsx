@@ -5,6 +5,7 @@ import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { HomeStorySections } from './home-story-sections'
+import { DiscoverSection } from './discover-section'
 import { SiteFooter } from './site-footer'
 
 export function HomeNew() {
@@ -23,6 +24,9 @@ export function HomeNew() {
 
       {/* Nouveau récit éditorial : des outils isolés aux membres de l'organisation */}
       <HomeStorySections lang={lang} />
+
+      {/* Démo interactive : « Découvrez votre organisation » */}
+      <DiscoverSection lang={lang} />
 
       {/* 12. Footer */}
       <SiteFooter />

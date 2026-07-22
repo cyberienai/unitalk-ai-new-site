@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Network } from 'lucide-react'
 import { HeroActivityBadge } from '@/components/hero-activity-badge'
+import { collaboratorHref } from '@/lib/collaborators-catalog'
 
 const T = {
   fr: {
@@ -14,6 +15,7 @@ const T = {
     leadA: 'Avec une identité, une mission, une mémoire',
     leadB: 'et son propre espace de travail.',
     heroCta: 'Commencer gratuitement',
+    heroTransition: 'Il rejoint votre organisation en quelques minutes.',
     heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire'],
     orgTitle: 'Votre équipe',
     orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
@@ -36,6 +38,7 @@ const T = {
     leadA: 'With an identity, a mission, a memory',
     leadB: 'and their own workspace.',
     heroCta: 'Start for free',
+    heroTransition: 'They join your organization in just a few minutes.',
     heroProofs: ['7-day free trial', 'No card required'],
     orgTitle: 'Your team',
     orgMeta: 'For every teammate, their AI Collaborator.',
@@ -86,8 +89,13 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.heroCta}<ArrowRight className="h-4 w-4" />
             </a>
+          </motion.div>
+          <motion.div {...enter(0.27)} className="mt-5 flex justify-center sm:justify-start">
             <HeroActivityBadge lang={lang} />
           </motion.div>
+          <motion.p {...enter(0.3)} className="mt-4 text-center text-sm text-[#6E665A] sm:text-left">
+            {t.heroTransition}
+          </motion.p>
           <motion.div {...enter(0.3)} className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
@@ -95,11 +103,21 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
-            <div className="flex items-center px-5 pt-5 pb-1 sm:px-6">
-              <div className="flex items-center gap-3">
+            <div className="px-5 pt-5 pb-1 sm:px-6">
+              <Link
+                href="/decouvrir"
+                aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
+                className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#D10E63]/[0.05]"
+              >
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
-                <div><p className="text-sm font-bold text-[#1C1A17]">{t.orgTitle}</p><p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p></div>
-              </div>
+                <div className="min-w-0">
+                  <p className="flex items-center gap-1.5 text-sm font-bold text-[#1C1A17]">
+                    {t.orgTitle}
+                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+                  </p>
+                  <p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p>
+                </div>
+              </Link>
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
@@ -110,7 +128,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#6E665A]">{pair.dept}</p></div>
                       <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                       <Link
-                        href={`/@${pair.slug}`}
+                        href={collaboratorHref(pair.slug)}
                         aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
                         className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
                       >

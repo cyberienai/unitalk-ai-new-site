@@ -2,11 +2,22 @@
 
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Network } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { NavbarTeamCart } from '@/components/navbar-team-cart'
 
 type NavLink = { fr: string; en: string; href: string }
+
+const DISCOVER = {
+  href: '/decouvrir',
+  label: { fr: 'Découvrir mon organisation', en: 'Discover my organization' },
+  desc: {
+    fr: 'Visualisez votre organisation de Collaborateurs IA en quelques secondes.',
+    en: 'Visualize your organization of AI Collaborators in seconds.',
+  },
+  cta: { fr: 'Commencer l’analyse', en: 'Start the analysis' },
+}
 
 // Primary nav (desktop) — parcours « construire mon équipe »
 const PRIMARY_LINKS: NavLink[] = [
@@ -22,6 +33,7 @@ const MENU_SECTIONS: { title: { fr: string; en: string }; links: NavLink[] }[] =
   {
     title: { fr: 'Produit', en: 'Product' },
     links: [
+      { fr: 'Le manifeste', en: 'The manifesto', href: '/manifeste' },
       { fr: 'Construire mon équipe', en: 'Build my team', href: '/team' },
       { fr: 'Parler à Alma', en: 'Talk to Alma', href: '/alma' },
       { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
@@ -134,6 +146,13 @@ export function Navbar() {
             </a>
 
             <div className="hidden items-center gap-6 lg:flex xl:gap-8">
+              <a
+                href={DISCOVER.href}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#D10E63]/25 bg-[#D10E63]/[0.06] px-3 py-1.5 text-sm font-semibold text-[#D10E63] transition-colors hover:bg-[#D10E63]/10"
+              >
+                <Network className="h-3.5 w-3.5" />
+                {DISCOVER.label[lang]}
+              </a>
               {PRIMARY_LINKS.map((link) => (
                 <a
                   key={link.fr}
@@ -239,6 +258,29 @@ export function Navbar() {
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
               <nav className="flex flex-col px-0 py-3">
+                {/* Featured: Discover my organization */}
+                <div className="border-b border-[#DcD4C4] px-8 py-4">
+                  <a
+                    href={DISCOVER.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block rounded-2xl border border-[#D10E63]/20 bg-[#D10E63]/[0.06] p-4 transition-colors hover:bg-[#D10E63]/10"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]">
+                        <Network className="h-4 w-4" />
+                      </span>
+                      <span className="text-sm font-semibold text-[#1C1A17]">{DISCOVER.label[lang]}</span>
+                    </div>
+                    <p className="mt-2 text-xs leading-5 text-[#6E665A]">{DISCOVER.desc[lang]}</p>
+                    <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#D10E63]">
+                      {DISCOVER.cta[lang]}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </a>
+                </div>
+
                 {/* Account */}
                 <div className="space-y-1 border-b border-[#DcD4C4] px-8 py-4">
                   <a

@@ -2,33 +2,35 @@
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { collaboratorHref } from '@/lib/collaborators-catalog'
 
-type Activity = { name: string; avatar: string; action: string }
+type Activity = { name: string; slug: string; avatar: string; action: string }
 
 const ACTIVITIES: Record<'fr' | 'en', Activity[]> = {
   fr: [
-    { name: 'Emma', avatar: '/images/emma-avatar.png', action: 'prépare votre réunion' },
-    { name: 'Hugo', avatar: '/images/hugo-avatar.png', action: 'qualifie un prospect' },
-    { name: 'Inès', avatar: '/images/ines-avatar.png', action: 'répond à un client' },
-    { name: 'Arthur', avatar: '/images/arthur-avatar.png', action: 'corrige un bug' },
-    { name: 'Léa', avatar: '/images/lea-avatar.png', action: 'planifie le calendrier éditorial' },
-    { name: 'Hugo', avatar: '/images/hugo-avatar.png', action: 'rédige une proposition commerciale' },
-    { name: 'Inès', avatar: '/images/ines-avatar.png', action: 'répond à vos emails' },
-    { name: 'Emma', avatar: '/images/emma-avatar.png', action: 'met à jour votre agenda' },
-    { name: 'Léa', avatar: '/images/lea-avatar.png', action: 'rédige un article de blog' },
-    { name: 'Hugo', avatar: '/images/hugo-avatar.png', action: 'trouve 12 nouveaux prospects' },
+    { name: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', action: 'prépare votre réunion' },
+    { name: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', action: 'qualifie un prospect' },
+    { name: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', action: 'répond à un client' },
+    { name: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', action: 'corrige un bug' },
+    { name: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', action: 'planifie le calendrier éditorial' },
+    { name: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', action: 'rédige une proposition commerciale' },
+    { name: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', action: 'répond à vos emails' },
+    { name: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', action: 'met à jour votre agenda' },
+    { name: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', action: 'rédige un article de blog' },
+    { name: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', action: 'trouve 12 nouveaux prospects' },
   ],
   en: [
-    { name: 'Emma', avatar: '/images/emma-avatar.png', action: 'is preparing your meeting' },
-    { name: 'Hugo', avatar: '/images/hugo-avatar.png', action: 'is qualifying a lead' },
-    { name: 'Inès', avatar: '/images/ines-avatar.png', action: 'is answering a customer' },
-    { name: 'Arthur', avatar: '/images/arthur-avatar.png', action: 'is fixing a bug' },
-    { name: 'Léa', avatar: '/images/lea-avatar.png', action: 'is planning the content calendar' },
-    { name: 'Hugo', avatar: '/images/hugo-avatar.png', action: 'is drafting a sales proposal' },
-    { name: 'Inès', avatar: '/images/ines-avatar.png', action: 'is answering your emails' },
-    { name: 'Emma', avatar: '/images/emma-avatar.png', action: 'is updating your calendar' },
-    { name: 'Léa', avatar: '/images/lea-avatar.png', action: 'is writing a blog post' },
-    { name: 'Hugo', avatar: '/images/hugo-avatar.png', action: 'found 12 new leads' },
+    { name: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', action: 'is preparing your meeting' },
+    { name: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', action: 'is qualifying a lead' },
+    { name: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', action: 'is answering a customer' },
+    { name: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', action: 'is fixing a bug' },
+    { name: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', action: 'is planning the content calendar' },
+    { name: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', action: 'is drafting a sales proposal' },
+    { name: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', action: 'is answering your emails' },
+    { name: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', action: 'is updating your calendar' },
+    { name: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', action: 'is writing a blog post' },
+    { name: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', action: 'found 12 new leads' },
   ],
 }
 
@@ -48,10 +50,9 @@ export function HeroActivityBadge({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const liveLabel = lang === 'fr' ? 'En activité' : 'Working now'
 
   return (
-    <div
-      className="inline-flex h-12 w-[19rem] items-center gap-3 rounded-full border border-[#EAEAEA] bg-[#FFFFFF]/90 px-3 shadow-[0_2px_10px_rgba(28,26,23,0.06)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(28,26,23,0.1)]"
-      role="status"
-      aria-live="polite"
+    <Link
+      href={collaboratorHref(current.slug)}
+      className="group inline-flex h-12 w-[19rem] items-center gap-3 rounded-full border border-[#EAEAEA] bg-[#FFFFFF]/90 px-3 shadow-[0_2px_10px_rgba(28,26,23,0.06)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:shadow-[0_8px_24px_rgba(28,26,23,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
       aria-label={`${current.name} ${current.action} — ${liveLabel}`}
     >
       <div className="relative shrink-0">
@@ -87,6 +88,6 @@ export function HeroActivityBadge({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>
+    </Link>
   )
 }
