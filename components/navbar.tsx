@@ -33,6 +33,7 @@ const MENU_SECTIONS: { title: { fr: string; en: string }; links: NavLink[] }[] =
   {
     title: { fr: 'Produit', en: 'Product' },
     links: [
+      { fr: 'Le manifeste', en: 'The manifesto', href: '/manifeste' },
       { fr: 'Construire mon équipe', en: 'Build my team', href: '/team' },
       { fr: 'Parler à Alma', en: 'Talk to Alma', href: '/alma' },
       { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
