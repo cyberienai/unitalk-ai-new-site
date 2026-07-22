@@ -14,6 +14,7 @@ const T = {
     leadA: 'Avec une identité, une mission, une mémoire',
     leadB: 'et son propre espace de travail.',
     heroCta: 'Commencer gratuitement',
+    heroTransition: 'Il rejoint votre organisation en quelques minutes.',
     heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire'],
     orgTitle: 'Votre équipe',
     orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
@@ -36,6 +37,7 @@ const T = {
     leadA: 'With an identity, a mission, a memory',
     leadB: 'and their own workspace.',
     heroCta: 'Start for free',
+    heroTransition: 'They join your organization in just a few minutes.',
     heroProofs: ['7-day free trial', 'No card required'],
     orgTitle: 'Your team',
     orgMeta: 'For every teammate, their AI Collaborator.',
@@ -88,6 +90,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </a>
             <HeroActivityBadge lang={lang} />
           </motion.div>
+          <motion.p {...enter(0.27)} className="mt-4 text-center text-sm text-[#6E665A] sm:text-left">
+            {t.heroTransition}
+          </motion.p>
           <motion.div {...enter(0.3)} className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
