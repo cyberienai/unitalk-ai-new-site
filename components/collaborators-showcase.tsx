@@ -2,8 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, Plus, Star, UserRound } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, Check, Plus, Star, UserRound } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref, type Bilingual } from '@/lib/collaborators-catalog'
 import { useMyTeam } from '@/lib/my-team-context'
@@ -30,6 +31,8 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       add: 'Ajouter à mon équipe',
       added: 'Ajouté à mon équipe',
       allCta: 'Voir tous les Collaborateurs IA',
+      prev: 'Précédent',
+      next: 'Suivant',
     },
     en: {
       eyebrow: 'The AI Collaborators',
@@ -41,8 +44,20 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       add: 'Add to my team',
       added: 'Added to my team',
       allCta: 'See all AI Collaborators',
+      prev: 'Previous',
+      next: 'Next',
     },
   })
+
+  const trackRef = useRef<HTMLDivElement>(null)
+
+  const scrollByCards = (dir: 1 | -1) => {
+    const track = trackRef.current
+    if (!track) return
+    const card = track.querySelector<HTMLElement>('[data-card]')
+    const amount = card ? card.offsetWidth + 20 : track.clientWidth * 0.8
+    track.scrollBy({ left: dir * amount, behavior: 'smooth' })
+  }
 
   return (
     <section className="w-full bg-[#FBF9F3] py-20 sm:py-28">
@@ -77,7 +92,34 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           </motion.p>
         </header>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Slider controls */}
+        <div className="mt-10 flex justify-center gap-2 sm:justify-end">
+          <button
+            type="button"
+            onClick={() => scrollByCards(-1)}
+            aria-label={t.prev}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#DDD5CA] bg-[#FBF9F3] text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCards(1)}
+            aria-label={t.next}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#DDD5CA] bg-[#FBF9F3] text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Slider track */}
+        <div
+          ref={trackRef}
+          className="mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          role="group"
+          aria-roledescription="carousel"
+          aria-label={t.title}
+        >
           {SHOWCASE.map(({ slug, tagline }, index) => {
             const ai = ROLE_DETAILS[slug]
             if (!ai) return null
@@ -135,11 +177,12 @@ function ShowcaseCard({
 
   return (
     <motion.article
+      data-card
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: Math.min(index, 5) * 0.07 }}
-      className="group flex flex-col rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)]"
+      className="group flex w-[85vw] shrink-0 snap-start flex-col rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)] sm:w-[20rem] lg:w-[22rem]"
     >
       {/* Header: avatar + availability */}
       <div className="flex items-start justify-between">
