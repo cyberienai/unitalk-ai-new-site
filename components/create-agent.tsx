@@ -13,9 +13,9 @@ const T = {
   fr: {
     // Welcome
     greeting: 'Bonjour, je suis Alma.',
-    welcomeTitle: 'Nous allons créer votre agent ensemble.',
+    welcomeTitle: 'Nous allons créer votre Collaborateur IA ensemble.',
     welcomeBody:
-      'En quelques minutes, je découvre votre entreprise, je vous appelle et je prépare votre premier agent à travailler. J’ai simplement besoin de quelques informations pour vous rappeler.',
+      'En quelques minutes, je découvre votre entreprise, je vous appelle et je prépare votre premier Collaborateur IA à travailler. J’ai simplement besoin de quelques informations pour vous rappeler.',
     firstName: 'Prénom',
     lastName: 'Nom',
     email: 'Email professionnel',
@@ -23,6 +23,8 @@ const T = {
     phone: 'Téléphone',
     emailPh: 'vous@entreprise.fr',
     domainPh: 'entreprise.fr',
+    domainAnalyzed: 'Analysé',
+    domainChange: 'changer',
     phonePh: '+33 6 12 34 56 78',
     continue: 'Continuer',
     reassure1: 'Essai gratuit de 7 jours',
@@ -48,7 +50,7 @@ const T = {
     duringCall: 'Pendant cet appel :',
     during: [
       'je découvre votre entreprise',
-      'je crée votre agent',
+      'je crée votre Collaborateur IA',
       'je le connecte à vos outils',
       'il commence à travailler',
     ],
@@ -63,9 +65,9 @@ const T = {
   },
   en: {
     greeting: 'Hello, I’m Alma.',
-    welcomeTitle: 'We’ll create your agent together.',
+    welcomeTitle: 'We’ll create your AI Collaborator together.',
     welcomeBody:
-      'In a few minutes, I discover your company, call you and get your first agent ready to work. I just need a few details to call you back.',
+      'In a few minutes, I discover your company, call you and get your first AI Collaborator ready to work. I just need a few details to call you back.',
     firstName: 'First name',
     lastName: 'Last name',
     email: 'Work email',
@@ -73,6 +75,8 @@ const T = {
     phone: 'Phone',
     emailPh: 'you@company.com',
     domainPh: 'company.com',
+    domainAnalyzed: 'Analyzed',
+    domainChange: 'change',
     phonePh: '+1 555 123 4567',
     continue: 'Continue',
     reassure1: '7-day free trial',
@@ -95,7 +99,7 @@ const T = {
     duringCall: 'During this call:',
     during: [
       'I discover your company',
-      'I create your agent',
+      'I create your AI Collaborator',
       'I connect it to your tools',
       'it starts working',
     ],
@@ -156,10 +160,22 @@ export function CreateAgent() {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [domain, setDomain] = useState('')
+  const [domainLocked, setDomainLocked] = useState(false)
   const [phone, setPhone] = useState('')
   const [slot, setSlot] = useState<string | null>(null)
 
-  const roleLabel = lang === 'fr' ? 'Je crée vos agents et les aide à progresser' : 'I create your agents and help them grow'
+  // Continuity: when arriving from /decouvrir the domain is already known —
+  // prefill and confirm it instead of asking again.
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get('domain')
+    if (!raw) return
+    const clean = raw.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '')
+    if (!clean) return
+    setDomain(clean)
+    setDomainLocked(true)
+  }, [])
+
+  const roleLabel = lang === 'fr' ? 'Je crée vos Collaborateurs IA et les aide à progresser' : 'I create your AI Collaborators and help them grow'
 
   const stepIndex: Record<Step, number> = {
     welcome: 1,
@@ -233,7 +249,33 @@ export function CreateAgent() {
                   <Field label={t.lastName} value={lastName} onChange={setLastName} autoComplete="family-name" required />
                 </div>
                 <Field label={t.email} value={email} onChange={setEmail} type="email" placeholder={t.emailPh} autoComplete="email" required />
-                <Field label={t.domain} value={domain} onChange={setDomain} placeholder={t.domainPh} required />
+                {domainLocked ? (
+                  <div>
+                    <label className="mb-1.5 block text-[13px] font-medium text-[#4E483F]">{t.domain}</label>
+                    <div className="flex h-12 items-center justify-between rounded-xl border border-[#4F5BD5]/25 bg-[#4F5BD5]/[0.06] px-4">
+                      <span className="flex items-center gap-2 text-[15px] font-medium text-[#1C1A17]">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4F5BD5] text-[#FBF9F3]">
+                          <CheckIcon />
+                        </span>
+                        {domain}
+                      </span>
+                      <span className="flex items-center gap-2.5">
+                        <span className="rounded-full bg-[#4F5BD5]/12 px-2 py-0.5 text-[11px] font-semibold text-[#4F5BD5]">
+                          {t.domainAnalyzed}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setDomainLocked(false)}
+                          className="text-xs font-medium text-[#857C6E] underline underline-offset-2 hover:text-[#1C1A17]"
+                        >
+                          {t.domainChange}
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <Field label={t.domain} value={domain} onChange={setDomain} placeholder={t.domainPh} required />
+                )}
                 <Field label={t.phone} value={phone} onChange={setPhone} type="tel" placeholder={t.phonePh} autoComplete="tel" required />
 
                 <button

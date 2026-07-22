@@ -403,7 +403,7 @@ export function DiscoverContent() {
 
               <div className="mt-10 flex flex-col items-center gap-3">
                 <a
-                  href="/signup"
+                  href={`/signup?domain=${encodeURIComponent(domain)}`}
                   className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
                 >
                   {t.createOrg}
