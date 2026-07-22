@@ -89,7 +89,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               {t.heroCta}<ArrowRight className="h-4 w-4" />
             </a>
           </motion.div>
-          <motion.p {...enter(0.27)} className="mt-4 text-center text-sm text-[#6E665A] sm:text-left">
+          <motion.div {...enter(0.27)} className="mt-5 flex justify-center sm:justify-start">
+            <HeroActivityBadge lang={lang} />
+          </motion.div>
+          <motion.p {...enter(0.3)} className="mt-4 text-center text-sm text-[#6E665A] sm:text-left">
             {t.heroTransition}
           </motion.p>
           <motion.div {...enter(0.3)} className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
@@ -98,9 +101,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         </div>
 
         <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
-          <div className="mb-4">
-            <HeroActivityBadge lang={lang} />
-          </div>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
             <div className="px-5 pt-5 pb-1 sm:px-6">
               <Link
