@@ -11,12 +11,12 @@ const T = {
     headline: 'Votre premier Collaborateur\u00A0IA',
     headlineVerb: 'est',
     headlineAccent: ' déjà prêt.',
-    leadA: 'Donnez-lui une identité, confiez-lui un rôle,',
-    leadB: 'connectez vos outils. Il exécute ses missions.',
+    leadA: 'Il rejoint votre équipe avec une identité, une mission',
+    leadB: 'et tous les outils nécessaires pour travailler.',
     heroCta: 'Commencer gratuitement',
     heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire'],
     orgTitle: 'Votre équipe',
-    orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
+    orgMeta: 'Un Collaborateur IA pour chaque membre de votre équipe.',
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu' },
@@ -33,12 +33,12 @@ const T = {
     headline: 'Your first AI\u00A0Collaborator',
     headlineVerb: 'is',
     headlineAccent: ' already ready.',
-    leadA: 'Give them an identity, assign them a role,',
-    leadB: 'connect your tools. They carry out their missions.',
+    leadA: 'They join your team with an identity, a mission',
+    leadB: 'and all the tools they need to get to work.',
     heroCta: 'Start for free',
     heroProofs: ['7-day free trial', 'No card required'],
     orgTitle: 'Your team',
-    orgMeta: 'For every teammate, their AI Collaborator.',
+    orgMeta: 'An AI Collaborator for every member of your team.',
     orgPairs: [
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content' },
@@ -66,7 +66,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
   return (
     <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-20 sm:min-h-[92svh] sm:pb-20 sm:pt-28 lg:pb-24 lg:pt-32">
-      <div aria-hidden="true" className="bg-editorial pointer-events-none absolute inset-0 opacity-55" />
       <div className="editorial-shell relative grid items-center gap-8 sm:gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
         <div className="max-w-2xl">
           <motion.p {...enter(0.04)} className="mb-4 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63] sm:mb-7 sm:text-left">
