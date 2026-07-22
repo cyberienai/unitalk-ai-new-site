@@ -88,7 +88,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.heroCta}<ArrowRight className="h-4 w-4" />
             </a>
-            <HeroActivityBadge lang={lang} />
           </motion.div>
           <motion.p {...enter(0.27)} className="mt-4 text-center text-sm text-[#6E665A] sm:text-left">
             {t.heroTransition}
@@ -99,6 +98,9 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         </div>
 
         <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
+          <div className="mb-4">
+            <HeroActivityBadge lang={lang} />
+          </div>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
             <div className="flex items-center px-5 pt-5 pb-1 sm:px-6">
               <div className="flex items-center gap-3">
