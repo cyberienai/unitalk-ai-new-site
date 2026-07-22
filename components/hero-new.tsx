@@ -16,7 +16,7 @@ const T = {
     heroCta: 'Commencer gratuitement',
     heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire'],
     orgTitle: 'Votre équipe',
-    orgMeta: 'Chaque membre de votre équipe peut avoir son Collaborateur IA.',
+    orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu' },
@@ -38,7 +38,7 @@ const T = {
     heroCta: 'Start for free',
     heroProofs: ['7-day free trial', 'No card required'],
     orgTitle: 'Your team',
-    orgMeta: 'Every member of your team can have their AI Collaborator.',
+    orgMeta: 'For every teammate, their AI Collaborator.',
     orgPairs: [
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content' },
