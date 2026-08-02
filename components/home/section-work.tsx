@@ -107,7 +107,7 @@ export function SectionWork({ lang }: { lang: Lang }) {
   }, [inView, t.stages.length])
 
   return (
-    <section className="bg-[#1C1A17] px-5 py-20 text-[#FBF9F3] sm:px-8 sm:py-28">
+    <section id="workspace" className="scroll-mt-20 bg-[#1C1A17] px-5 py-20 text-[#FBF9F3] sm:px-8 sm:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <Kicker dark>{t.kicker}</Kicker>

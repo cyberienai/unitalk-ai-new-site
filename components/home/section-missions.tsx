@@ -137,7 +137,7 @@ export function SectionMissions({ lang }: { lang: Lang }) {
   const [active, setActive] = useState(0)
 
   return (
-    <section className="bg-[#F3EFE6] px-5 py-20 sm:px-8 sm:py-28">
+    <section id="missions" className="scroll-mt-20 bg-[#F3EFE6] px-5 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-2xl">
           <Kicker>{t.kicker}</Kicker>
