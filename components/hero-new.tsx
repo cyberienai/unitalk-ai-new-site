@@ -10,10 +10,9 @@ import { collaboratorHref } from '@/lib/collaborators-catalog'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    headline: 'Votre Collaborateur\u00A0IA',
-    headlineVerb: 'est',
-    headlineAccent: ' déjà prêt.',
-    lead: 'Recrutez un Collaborateur IA spécialisé et autonome. Il rejoint votre Organisation, travaille avec vos outils et prend en charge ses premières Missions.',
+    headline: 'Votre Collaborateur\u00A0IA est prêt',
+    headlineAccent: 'à rejoindre votre organisation.',
+    lead: 'Recrutez un Collaborateur IA autonome avec des Profils métier illimités. Il travaille avec vos outils et appartient à votre organisation.',
     domainLabel: 'Entrez votre domaine. Alma prépare le contexte de votre Organisation et vous présente les Collaborateurs IA adaptés.',
     domainPlaceholder: 'monentreprise.com',
     domainCta: 'Découvrir mon organisation',
@@ -34,10 +33,9 @@ const T = {
   },
   en: {
     eyebrow: 'You’re missing someone.',
-    headline: 'Your AI\u00A0Collaborator',
-    headlineVerb: 'is',
-    headlineAccent: ' already ready.',
-    lead: 'Recruit a specialized, autonomous AI Collaborator. It joins your Organization, works with your tools and takes on its first Missions.',
+    headline: 'Your AI\u00A0Collaborator is ready',
+    headlineAccent: 'to join your organization.',
+    lead: 'Recruit an autonomous AI Collaborator with unlimited job Profiles. It works with your tools and belongs to your organization.',
     domainLabel: 'Enter your domain. Alma prepares your Organization’s context and introduces the AI Collaborators that fit.',
     domainPlaceholder: 'mycompany.com',
     domainCta: 'Discover my organization',
@@ -88,10 +86,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
           <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-left md:leading-[0.96]">
             {t.headline}{' '}
-            <span className="whitespace-nowrap">
-              {t.headlineVerb}
-              <span className="text-[#D10E63]">{t.headlineAccent}</span>
-            </span>
+            <span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
           <motion.p {...enter(0.18)} className="mx-auto mt-6 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:text-left md:text-lg md:leading-8">
             {t.lead}
