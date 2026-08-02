@@ -8,21 +8,44 @@ const T = {
     tagline: 'Recrutez sans embaucher.',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
+    legal: [
+      { label: 'Mentions légales', href: '/mentions-legales' },
+      { label: 'Confidentialité', href: '/confidentialite' },
+      { label: 'Conditions', href: '/conditions' },
+    ],
     columns: [
       {
         title: 'Produit',
         links: [
-          { label: 'Construire mon équipe', href: '/team' },
-          { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
-          { label: 'Parler à Alma', href: '/alma' },
-          { label: 'Unitalk Work', href: '/#unitalk-work' },
+          { label: 'Workspace', href: '/#workspace' },
           { label: 'Tarifs', href: '/tarifs' },
+          { label: 'Open source', href: '/manifeste' },
+          { label: 'Changelog', href: '#' },
+        ],
+      },
+      {
+        title: 'Ressources',
+        links: [
+          { label: 'Documentation', href: '#' },
+          { label: 'Academy', href: '#' },
+          { label: 'Guides', href: '#' },
+          { label: 'Blog', href: '#' },
+        ],
+      },
+      {
+        title: 'Écosystème',
+        links: [
+          { label: 'Devenir créateur', href: '/partenaires' },
+          { label: 'Proposer une Expertise', href: '/partenaires' },
+          { label: 'Trouver un expert', href: '/collaborateurs-ia' },
+          { label: 'GitHub', href: 'https://github.com' },
         ],
       },
       {
         title: 'Entreprise',
         links: [
-          { label: 'Devenir partenaire', href: '/partenaires' },
+          { label: 'À propos', href: '/manifeste' },
+          { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Sécurité', href: '/#confiance' },
         ],
       },
@@ -32,21 +55,44 @@ const T = {
     tagline: 'Recruit without hiring.',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
+    legal: [
+      { label: 'Legal notice', href: '/mentions-legales' },
+      { label: 'Privacy', href: '/confidentialite' },
+      { label: 'Terms', href: '/conditions' },
+    ],
     columns: [
       {
         title: 'Product',
         links: [
-          { label: 'Build my team', href: '/team' },
-          { label: 'AI Collaborators', href: '/collaborateurs-ia' },
-          { label: 'Talk to Alma', href: '/alma' },
-          { label: 'Unitalk Work', href: '/#unitalk-work' },
+          { label: 'Workspace', href: '/#workspace' },
           { label: 'Pricing', href: '/tarifs' },
+          { label: 'Open source', href: '/manifeste' },
+          { label: 'Changelog', href: '#' },
+        ],
+      },
+      {
+        title: 'Resources',
+        links: [
+          { label: 'Documentation', href: '#' },
+          { label: 'Academy', href: '#' },
+          { label: 'Guides', href: '#' },
+          { label: 'Blog', href: '#' },
+        ],
+      },
+      {
+        title: 'Ecosystem',
+        links: [
+          { label: 'Become a creator', href: '/partenaires' },
+          { label: 'Offer an Expertise', href: '/partenaires' },
+          { label: 'Find an expert', href: '/collaborateurs-ia' },
+          { label: 'GitHub', href: 'https://github.com' },
         ],
       },
       {
         title: 'Company',
         links: [
-          { label: 'Become a partner', href: '/partenaires' },
+          { label: 'About', href: '/manifeste' },
+          { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Security', href: '/#confiance' },
         ],
       },
@@ -116,8 +162,17 @@ export function SiteFooter() {
           ))}
         </div>
 
+        {/* Legal links */}
+        <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-[rgba(243,239,230,0.12)] pt-6">
+          {t.legal.map((l) => (
+            <a key={l.label} href={l.href} className="text-xs text-[#A79E8E] transition-colors hover:text-[#F3EFE6]">
+              {l.label}
+            </a>
+          ))}
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col gap-4 border-t border-[rgba(243,239,230,0.12)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-[#8F877A]">
             © {new Date().getFullYear()} Unitalk AI. {t.rights}
           </p>
