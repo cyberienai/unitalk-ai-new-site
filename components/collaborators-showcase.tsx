@@ -23,9 +23,9 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
       eyebrow: 'Les Collaborateurs IA',
-      title: 'Découvrez nos Collaborateurs IA',
+      title: 'Trouvez le Collaborateur IA qu’il vous faut.',
       subtitle:
-        'Chacun a une identité, un métier et une mission — prêt à rejoindre votre équipe dans un espace de travail qui vous appartient.',
+        'Explorez des centaines de Collaborateurs IA spécialisés par métier, secteur d’activité, mission et expertise. Parlez avec eux, testez-les et recrutez celui qui correspond à votre entreprise.',
       available: 'Disponible',
       profile: 'Voir le profil',
       add: 'Ajouter à mon équipe',
@@ -36,9 +36,9 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
     },
     en: {
       eyebrow: 'The AI Collaborators',
-      title: 'Meet our AI Collaborators',
+      title: 'Find the AI Collaborator you need.',
       subtitle:
-        'Each has an identity, a job and a mission — ready to join your team in a workspace that belongs to you.',
+        'Explore hundreds of AI Collaborators specialized by role, industry, mission and expertise. Talk with them, test them and recruit the one that fits your company.',
       available: 'Available',
       profile: 'View profile',
       add: 'Add to my team',
