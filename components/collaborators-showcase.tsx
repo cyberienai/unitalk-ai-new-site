@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, Check, MapPin, MessageCircle, Star } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, Check, MapPin, MessageCircle } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref, type Bilingual } from '@/lib/collaborators-catalog'
 import { useMyTeam } from '@/lib/my-team-context'
@@ -40,7 +40,7 @@ const SHOWCASE: { slug: string; role: Bilingual; segments: Bilingual; pitch: Bil
   },
   {
     slug: 'lea',
-    role: { fr: 'Créatrice de contenu IA', en: 'AI Content Strategist' },
+    role: { fr: 'Créatrice de contenu IA', en: 'AI Content Creator' },
     segments: { fr: 'Startups • Agences • PME', en: 'Startups • Agencies • SMBs' },
     pitch: {
       fr: 'Planifie votre calendrier éditorial, rédige vos contenus et publie sur vos canaux.',
@@ -73,7 +73,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       eyebrow: 'Les Collaborateurs IA',
       title: 'Trouvez le Collaborateur IA qu’il vous faut.',
       subtitle:
-        'Explorez des centaines de Collaborateurs IA spécialisés par métier, secteur d’activité, mission et expertise. Parlez avec eux, testez-les et recrutez celui qui correspond à votre entreprise.',
+        'Explorez les Collaborateurs IA spécialisés par métier, secteur d’activité, mission et expertise. Parlez avec eux, testez-les et recrutez celui qui correspond à votre entreprise.',
       available: 'Disponible',
       profile: 'Voir le profil',
       add: 'Ajouter à mon équipe',
@@ -81,7 +81,6 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       talk: 'Parler avec',
       recruit: 'Recruter',
       recruited: 'Recruté',
-      rating: '5,0',
       allCta: 'Voir tous les Collaborateurs IA',
       prev: 'Précédent',
       next: 'Suivant',
@@ -90,7 +89,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       eyebrow: 'The AI Collaborators',
       title: 'Find the AI Collaborator you need.',
       subtitle:
-        'Explore hundreds of AI Collaborators specialized by role, industry, mission and expertise. Talk with them, test them and recruit the one that fits your company.',
+        'Explore the AI Collaborators specialized by role, industry, mission and expertise. Talk with them, test them and recruit the one that fits your company.',
       available: 'Available',
       profile: 'View profile',
       add: 'Add to my team',
@@ -98,7 +97,6 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       talk: 'Talk with',
       recruit: 'Recruit',
       recruited: 'Recruited',
-      rating: '5.0',
       allCta: 'See all AI Collaborators',
       prev: 'Previous',
       next: 'Next',
@@ -268,16 +266,6 @@ function ShowcaseCard({
           <MapPin className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
           {segments}
         </p>
-      </div>
-
-      {/* Rating */}
-      <div className="mt-3 flex items-center gap-1.5" aria-label="5 / 5">
-        <span className="flex" aria-hidden="true">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className="h-3.5 w-3.5 fill-[#D10E63] text-[#D10E63]" />
-          ))}
-        </span>
-        <span className="font-mono text-[11px] font-semibold text-[#857C6E]">{labels.rating}</span>
       </div>
 
       {/* Description */}

@@ -7,7 +7,7 @@ import { ArrowRight, ChevronDown, Users, X } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { useMyTeam } from '@/lib/my-team-context'
 
-export function NavbarTeamCart({ startLabel }: { startLabel: string }) {
+export function NavbarTeamCart({ startLabel, createOrgHref = '/decouvrir' }: { startLabel: string; createOrgHref?: string }) {
   const { lang } = useLanguage()
   const { members, count, remove, clear } = useMyTeam()
   const [open, setOpen] = useState(false)
@@ -31,12 +31,12 @@ export function NavbarTeamCart({ startLabel }: { startLabel: string }) {
     },
   }[lang]
 
-  // Empty cart → keep the original "Démarrer" call to action.
+  // Empty cart → primary "Créer mon organisation" call to action.
   if (count === 0) {
     return (
       <a
-        href="/signup"
-        className="hidden min-h-10 items-center rounded-full border border-[#1C1A17]/25 px-5 text-sm font-semibold text-[#1C1A17] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] lg:inline-flex"
+        href={createOrgHref}
+        className="inline-flex min-h-10 items-center rounded-full bg-[#D10E63] px-5 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
       >
         {startLabel}
       </a>

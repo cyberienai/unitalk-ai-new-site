@@ -4,24 +4,20 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Globe, Network } from 'lucide-react'
-import { HeroActivityBadge } from '@/components/hero-activity-badge'
-import { collaboratorHref } from '@/lib/collaborators-catalog'
 import { normalizeDomain } from '@/lib/discover-profiles'
+import { collaboratorHref } from '@/lib/collaborators-catalog'
 
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    headline: 'Votre Collaborateur\u00A0IA',
-    headlineVerb: 'est',
-    headlineAccent: ' déjà prêt.',
-    leadA: 'Recrutez un Collaborateur IA spécialisé qui travaille pour votre entreprise,',
-    leadB: 'utilise vos outils, apprend de votre activité et vous appartient.',
-    heroCta: 'Commencer gratuitement',
-    domainLabel: 'Entrez votre nom de domaine pour découvrir les Collaborateurs IA adaptés à votre métier.',
+    headline: 'Votre Collaborateur\u00A0IA est prêt',
+    headlineAccent: 'à rejoindre votre organisation.',
+    lead: 'Autonome, il travaille avec vos outils et appartient à votre organisation. Ajoutez-lui les savoir-faire métier dont vous avez besoin.',
+    domainLabel: 'Entrez votre domaine. Notre conseillère IA analyse votre activité et le prépare à ses premières Missions.',
     domainPlaceholder: 'monentreprise.com',
-    domainCta: 'Recruter mon Collaborateur IA',
+    domainCta: 'Découvrir mon Collaborateur IA',
     exploreCta: 'Explorer les Collaborateurs IA',
-    heroProofs: ['Rejoint votre entreprise en quelques minutes', 'Espace de travail privé qui vous appartient', 'Essai gratuit de 7 jours · Sans carte bancaire'],
+    heroProofs: ['Contexte préparé par Alma', 'Workspace privé pour votre Organisation', 'Essai gratuit de 7 jours'],
     orgTitle: 'Votre équipe',
     orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
     orgPairs: [
@@ -37,17 +33,14 @@ const T = {
   },
   en: {
     eyebrow: 'You’re missing someone.',
-    headline: 'Your AI\u00A0Collaborator',
-    headlineVerb: 'is',
-    headlineAccent: ' already ready.',
-    leadA: 'Recruit a specialized AI Collaborator that works for your company,',
-    leadB: 'uses your tools, learns from your business and belongs to you.',
-    heroCta: 'Start for free',
-    domainLabel: 'Enter your domain name to discover the AI Collaborators tailored to your role.',
+    headline: 'Your AI\u00A0Collaborator is ready',
+    headlineAccent: 'to join your organization.',
+    lead: 'Autonomous, it works with your tools and belongs to your organization. Add the professional know-how you need.',
+    domainLabel: 'Enter your domain. Our AI advisor analyzes your business and prepares it for its first Missions.',
     domainPlaceholder: 'mycompany.com',
-    domainCta: 'Recruit my AI Collaborator',
+    domainCta: 'Discover my AI Collaborator',
     exploreCta: 'Explore the AI Collaborators',
-    heroProofs: ['Joins your company in minutes', 'A private workspace that belongs to you', '7-day free trial · No card required'],
+    heroProofs: ['Context prepared by Alma', 'A private Workspace for your Organization', '7-day free trial'],
     orgTitle: 'Your team',
     orgMeta: 'For every teammate, their AI Collaborator.',
     orgPairs: [
@@ -56,10 +49,10 @@ const T = {
       { human: 'Antoine', dept: 'Engineering', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code' },
       { human: 'Claire', dept: 'Sales', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting' },
       { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis' },
-      { human: 'Marc', dept: 'Customer Relations', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Customers' },
+      { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Customers' },
     ],
     collaboratorLabel: 'AI Collaborators',
-    orgLink: 'See the full team',
+    orgLink: 'See the whole team',
   },
 } as const
 
@@ -93,14 +86,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
           <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-left md:leading-[0.96]">
             {t.headline}{' '}
-            <span className="whitespace-nowrap">
-              {t.headlineVerb}
-              <span className="text-[#D10E63]">{t.headlineAccent}</span>
-            </span>
+            <span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
           <motion.p {...enter(0.18)} className="mx-auto mt-6 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:text-left md:text-lg md:leading-8">
-            {t.leadA}
-            <br className="sm:hidden" /> {t.leadB}
+            {t.lead}
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
             <p className="mx-auto max-w-md text-balance text-center text-sm leading-6 text-[#5F594F] sm:mx-0 sm:text-left">
@@ -134,14 +123,12 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </Link>
             </div>
           </motion.div>
-          <motion.div {...enter(0.27)} className="mt-5 flex justify-center sm:justify-start">
-            <HeroActivityBadge lang={lang} />
-          </motion.div>
-          <motion.div {...enter(0.3)} className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
+          <motion.div {...enter(0.3)} className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>
 
+        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
         <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
             <div className="px-5 pt-5 pb-1 sm:px-6">
