@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Globe } from 'lucide-react'
+import { ArrowRight, Check, Globe, Network } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
+import { collaboratorHref } from '@/lib/collaborators-catalog'
 
 const T = {
   fr: {
@@ -18,13 +19,18 @@ const T = {
     domainCta: 'Découvrir mon organisation',
     exploreCta: 'Explorer les Collaborateurs IA',
     heroProofs: ['Contexte préparé par Alma', 'Workspace privé pour votre Organisation', 'Essai gratuit de 7 jours'],
-    // Inès status card
-    cardName: 'Inès',
-    cardRole: 'Collaboratrice IA',
-    stateReady: 'Prête',
-    stateWorking: 'Travaille',
-    activity: 'répond à un client',
-    activityLabel: 'Mission en cours',
+    orgTitle: 'Votre équipe',
+    orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
+    orgPairs: [
+      { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat' },
+      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu' },
+      { human: 'Antoine', dept: 'Développement', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code' },
+      { human: 'Claire', dept: 'Ventes', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection' },
+      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse' },
+      { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Clients' },
+    ],
+    collaboratorLabel: 'Collaborateurs IA',
+    orgLink: 'Voir toute l’équipe',
   },
   en: {
     eyebrow: 'You’re missing someone.',
@@ -37,12 +43,18 @@ const T = {
     domainCta: 'Discover my organization',
     exploreCta: 'Explore the AI Collaborators',
     heroProofs: ['Context prepared by Alma', 'A private Workspace for your Organization', '7-day free trial'],
-    cardName: 'Inès',
-    cardRole: 'AI Collaborator',
-    stateReady: 'Ready',
-    stateWorking: 'Working',
-    activity: 'answering a customer',
-    activityLabel: 'Mission in progress',
+    orgTitle: 'Your team',
+    orgMeta: 'For every teammate, their AI Collaborator.',
+    orgPairs: [
+      { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant' },
+      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content' },
+      { human: 'Antoine', dept: 'Engineering', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code' },
+      { human: 'Claire', dept: 'Sales', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting' },
+      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis' },
+      { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Customers' },
+    ],
+    collaboratorLabel: 'AI Collaborators',
+    orgLink: 'See the whole team',
   },
 } as const
 
@@ -53,18 +65,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const reduceMotion = useReducedMotion()
   const [domain, setDomain] = useState('')
   const domainPreview = normalizeDomain(domain)
-
-  // Inès status animation: ready -> working -> activity
-  const [phase, setPhase] = useState<0 | 1 | 2>(reduceMotion ? 2 : 0)
-  useEffect(() => {
-    if (reduceMotion) return
-    const t1 = setTimeout(() => setPhase(1), 1400)
-    const t2 = setTimeout(() => setPhase(2), 2600)
-    return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
-    }
-  }, [reduceMotion])
 
   const submitDomain = (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,8 +78,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.75, ease, delay: reduceMotion ? 0 : delay },
   })
-
-  const working = phase >= 1
 
   return (
     <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-20 sm:min-h-[92svh] sm:pb-20 sm:pt-28 lg:pb-24 lg:pt-32">
@@ -135,44 +133,48 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual — Inès status card (ready -> working -> activity) */}
-        <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-md">
-          <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8">
-            <div className="flex items-center gap-4">
-              <div className="relative shrink-0">
-                <img src="/images/ines-avatar.png" alt="" className="h-16 w-16 rounded-full object-cover sm:h-20 sm:w-20" />
-                <span className="absolute -bottom-0.5 -right-0.5 flex h-4 w-4" aria-hidden="true">
-                  {working && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#22A06B] opacity-60 motion-reduce:hidden" />}
-                  <span className={`relative inline-flex h-4 w-4 rounded-full border-2 border-[#FBF9F3] transition-colors duration-500 ${working ? 'bg-[#22A06B]' : 'bg-[#B8AF9E]'}`} />
-                </span>
-              </div>
-              <div className="min-w-0">
-                <p className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{t.cardName}</p>
-                <p className="text-sm text-[#6B6560]">{t.cardRole}</p>
-              </div>
-            </div>
-
-            <div className="mt-6 flex items-center gap-2">
-              <span
-                className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold transition-colors duration-500 ${
-                  working ? 'bg-[#22A06B]/12 text-[#1B7A50]' : 'bg-[#EDE7DA] text-[#6B6560]'
-                }`}
+        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
+        <motion.div {...enter(0.16)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
+          <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
+            <div className="px-5 pt-5 pb-1 sm:px-6">
+              <Link
+                href="/decouvrir"
+                aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
+                className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#D10E63]/[0.05]"
               >
-                <span className={`h-2 w-2 rounded-full ${working ? 'bg-[#22A06B]' : 'bg-[#B8AF9E]'}`} aria-hidden="true" />
-                {working ? t.stateWorking : t.stateReady}
-              </span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
+                <div className="min-w-0">
+                  <p className="flex items-center gap-1.5 text-sm font-bold text-[#1C1A17]">
+                    {t.orgTitle}
+                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+                  </p>
+                  <p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p>
+                </div>
+              </Link>
             </div>
-
-            {/* Activity reveal */}
-            <div
-              className={`grid transition-all duration-500 ${phase >= 2 ? 'mt-4 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
-            >
-              <div className="overflow-hidden">
-                <div className="rounded-2xl border border-[#E4DDCE] bg-[#F3EFE6] p-4">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.activityLabel}</p>
-                  <p className="mt-1.5 text-[15px] font-medium text-[#1C1A17]">{t.activity}</p>
+            <div className="p-4 sm:p-6">
+              <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
+              <div className="overscroll-contain pr-1 sm:max-h-72 sm:overflow-y-auto [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
+                <div className="flex flex-col gap-2.5">
+                  {t.orgPairs.map((pair) => (
+                    <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-center gap-2">
+                      <div className="min-w-0 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="text-[11px] text-[#6E665A]">{pair.dept}</p></div>
+                      <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
+                      <Link
+                        href={collaboratorHref(pair.slug)}
+                        aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
+                        className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
+                      >
+                        <div className="relative shrink-0"><img src={pair.avatar || '/placeholder.svg'} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
+                        <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="truncate text-[11px] font-medium text-[#A80B50]">{pair.status}</p></div>
+                      </Link>
+                    </div>
+                  ))}
                 </div>
               </div>
+              <a href="/team" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
+                {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
+              </a>
             </div>
           </div>
         </motion.div>
