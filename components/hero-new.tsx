@@ -1,20 +1,26 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Network } from 'lucide-react'
+import { ArrowRight, Check, Globe, Network } from 'lucide-react'
 import { HeroActivityBadge } from '@/components/hero-activity-badge'
 import { collaboratorHref } from '@/lib/collaborators-catalog'
+import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    eyebrow: 'Recrutez sans embaucher',
-    headline: 'Votre premier Collaborateur\u00A0IA',
+    eyebrow: 'Il vous manque quelqu’un.',
+    headline: 'Votre Collaborateur\u00A0IA',
     headlineVerb: 'est',
     headlineAccent: ' déjà prêt.',
-    leadA: 'Avec une identité, une mission, une mémoire',
-    leadB: 'et son propre espace de travail.',
+    leadA: 'Recrutez un Collaborateur IA spécialisé qui travaille pour votre entreprise,',
+    leadB: 'utilise vos outils, apprend de votre activité et vous appartient.',
     heroCta: 'Commencer gratuitement',
+    domainLabel: 'Entrez votre nom de domaine pour découvrir les Collaborateurs IA adaptés à votre métier.',
+    domainPlaceholder: 'monentreprise.com',
+    domainCta: 'Recruter mon Collaborateur IA',
+    exploreCta: 'Explorer les Collaborateurs IA',
     heroTransition: 'Il rejoint votre organisation en quelques minutes.',
     heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire'],
     orgTitle: 'Votre équipe',
@@ -31,13 +37,17 @@ const T = {
     orgLink: 'Voir toute l’équipe',
   },
   en: {
-    eyebrow: 'Recruit without hiring',
-    headline: 'Your first AI\u00A0Collaborator',
+    eyebrow: 'You’re missing someone.',
+    headline: 'Your AI\u00A0Collaborator',
     headlineVerb: 'is',
     headlineAccent: ' already ready.',
-    leadA: 'With an identity, a mission, a memory',
-    leadB: 'and their own workspace.',
+    leadA: 'Recruit a specialized AI Collaborator that works for your company,',
+    leadB: 'uses your tools, learns from your business and belongs to you.',
     heroCta: 'Start for free',
+    domainLabel: 'Enter your domain name to discover the AI Collaborators tailored to your role.',
+    domainPlaceholder: 'mycompany.com',
+    domainCta: 'Recruit my AI Collaborator',
+    exploreCta: 'Explore the AI Collaborators',
     heroTransition: 'They join your organization in just a few minutes.',
     heroProofs: ['7-day free trial', 'No card required'],
     orgTitle: 'Your team',
@@ -60,6 +70,15 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const reduceMotion = useReducedMotion()
+  const [domain, setDomain] = useState('')
+  const domainPreview = normalizeDomain(domain)
+
+  const submitDomain = (e: React.FormEvent) => {
+    e.preventDefault()
+    window.location.href = domainPreview
+      ? `/decouvrir?domain=${encodeURIComponent(domainPreview)}`
+      : '/decouvrir'
+  }
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
@@ -85,10 +104,37 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.leadA}
             <br className="sm:hidden" /> {t.leadB}
           </motion.p>
-          <motion.div {...enter(0.24)} className="mt-7 flex flex-col items-center gap-4 sm:mt-9 sm:flex-row sm:items-center">
-            <a href="/signup" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
-              {t.heroCta}<ArrowRight className="h-4 w-4" />
-            </a>
+          <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
+            <p className="mx-auto max-w-md text-balance text-center text-sm leading-6 text-[#5F594F] sm:mx-0 sm:text-left">
+              {t.domainLabel}
+            </p>
+            <form onSubmit={submitDomain} className="mx-auto mt-4 flex w-full max-w-md flex-col gap-3 sm:mx-0">
+              <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">
+                <span className="pl-4 pr-1 text-[#8A8175]" aria-hidden="true"><Globe className="h-4 w-4" /></span>
+                <input
+                  value={domain}
+                  onChange={(e) => setDomain(e.target.value)}
+                  placeholder={t.domainPlaceholder}
+                  aria-label={t.domainLabel}
+                  className="min-w-0 flex-1 bg-transparent py-3.5 pr-4 text-sm text-[#1C1A17] outline-none placeholder:text-[#A29A8C]"
+                />
+              </div>
+              <button
+                type="submit"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+              >
+                {t.domainCta}<ArrowRight className="h-4 w-4" />
+              </button>
+            </form>
+            <div className="mt-3 flex justify-center sm:justify-start">
+              <Link
+                href="/collaborateurs-ia"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4E483F] underline-offset-4 transition-colors hover:text-[#D10E63] hover:underline"
+              >
+                {t.exploreCta}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           </motion.div>
           <motion.div {...enter(0.27)} className="mt-5 flex justify-center sm:justify-start">
             <HeroActivityBadge lang={lang} />

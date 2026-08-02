@@ -25,7 +25,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       eyebrow: 'Les Collaborateurs IA',
       title: 'Découvrez nos Collaborateurs IA',
       subtitle:
-        "Ce ne sont pas des robots anonymes. Chacun a une identité, un métier et une mission — prêt à rejoindre votre équipe.",
+        'Chacun a une identité, un métier et une mission — prêt à rejoindre votre équipe dans un espace de travail qui vous appartient.',
       available: 'Disponible',
       profile: 'Voir le profil',
       add: 'Ajouter à mon équipe',
@@ -38,7 +38,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       eyebrow: 'The AI Collaborators',
       title: 'Meet our AI Collaborators',
       subtitle:
-        'These are not anonymous bots. Each has an identity, a job and a mission — ready to join your team.',
+        'Each has an identity, a job and a mission — ready to join your team in a workspace that belongs to you.',
       available: 'Available',
       profile: 'View profile',
       add: 'Add to my team',
