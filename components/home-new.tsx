@@ -4,8 +4,13 @@ import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroNew } from './hero-new'
 import { CollaboratorsShowcase } from './collaborators-showcase'
-import { HomeStorySections } from './home-story-sections'
-import { DiscoverSection } from './discover-section'
+import { SectionMissions } from './home/section-missions'
+import { SectionWork } from './home/section-work'
+import { SectionTeam } from './home/section-team'
+import { SectionWorkspace } from './home/section-workspace'
+import { SectionOwnership } from './home/section-ownership'
+import { SectionAlma } from './home/section-alma'
+import { SectionFinalCta } from './home/section-final-cta'
 import { SiteFooter } from './site-footer'
 
 export function HomeNew() {
@@ -16,19 +21,34 @@ export function HomeNew() {
       {/* 1. Header / Navigation */}
       <Navbar />
 
-      {/* 2. Hero — "Ils travaillent" */}
+      {/* 1. Il vous manque quelqu'un — Hero */}
       <HeroNew lang={lang} />
 
-      {/* 3. Catalogue de recrutement : "Les Collaborateurs IA existent" */}
+      {/* 2. Les Collaborateurs IA — Catalogue */}
       <CollaboratorsShowcase lang={lang} />
 
-      {/* Nouveau récit éditorial : des outils isolés aux membres de l'organisation */}
-      <HomeStorySections lang={lang} />
+      {/* 3. Choisissez sa mission */}
+      <SectionMissions lang={lang} />
 
-      {/* Démo interactive : « Découvrez votre organisation » */}
-      <DiscoverSection lang={lang} />
+      {/* 4. Regardez-le travailler */}
+      <SectionWork lang={lang} />
 
-      {/* 12. Footer */}
+      {/* 5. Votre équipe */}
+      <SectionTeam lang={lang} />
+
+      {/* 6. Votre espace de travail */}
+      <SectionWorkspace lang={lang} />
+
+      {/* 7. Ils vous appartiennent */}
+      <SectionOwnership lang={lang} />
+
+      {/* 8. Alma */}
+      <SectionAlma lang={lang} />
+
+      {/* 9. Recrutez votre premier Collaborateur IA — CTA final */}
+      <SectionFinalCta lang={lang} />
+
+      {/* Footer */}
       <SiteFooter />
     </div>
   )

@@ -21,8 +21,7 @@ const T = {
     domainPlaceholder: 'monentreprise.com',
     domainCta: 'Recruter mon Collaborateur IA',
     exploreCta: 'Explorer les Collaborateurs IA',
-    heroTransition: 'Il rejoint votre organisation en quelques minutes.',
-    heroProofs: ['Prêt en quelques minutes', 'Espace de travail privé qui vous appartient', 'Essai gratuit de 7 jours · Sans carte bancaire'],
+    heroProofs: ['Rejoint votre entreprise en quelques minutes', 'Espace de travail privé qui vous appartient', 'Essai gratuit de 7 jours · Sans carte bancaire'],
     orgTitle: 'Votre équipe',
     orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
     orgPairs: [
@@ -48,8 +47,7 @@ const T = {
     domainPlaceholder: 'mycompany.com',
     domainCta: 'Recruit my AI Collaborator',
     exploreCta: 'Explore the AI Collaborators',
-    heroTransition: 'They join your organization in just a few minutes.',
-    heroProofs: ['Ready in minutes', 'A private workspace that belongs to you', '7-day free trial · No card required'],
+    heroProofs: ['Joins your company in minutes', 'A private workspace that belongs to you', '7-day free trial · No card required'],
     orgTitle: 'Your team',
     orgMeta: 'For every teammate, their AI Collaborator.',
     orgPairs: [
@@ -139,10 +137,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <motion.div {...enter(0.27)} className="mt-5 flex justify-center sm:justify-start">
             <HeroActivityBadge lang={lang} />
           </motion.div>
-          <motion.p {...enter(0.3)} className="mt-4 text-center text-sm text-[#6E665A] sm:text-left">
-            {t.heroTransition}
-          </motion.p>
-          <motion.div {...enter(0.3)} className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
+          <motion.div {...enter(0.3)} className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>
