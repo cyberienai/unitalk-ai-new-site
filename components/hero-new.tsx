@@ -22,7 +22,7 @@ const T = {
     domainCta: 'Recruter mon Collaborateur IA',
     exploreCta: 'Explorer les Collaborateurs IA',
     heroTransition: 'Il rejoint votre organisation en quelques minutes.',
-    heroProofs: ['Essai gratuit 7 jours', 'Sans carte bancaire'],
+    heroProofs: ['Prêt en quelques minutes', 'Espace de travail privé qui vous appartient', 'Essai gratuit de 7 jours · Sans carte bancaire'],
     orgTitle: 'Votre équipe',
     orgMeta: 'À chaque collaborateur, son Collaborateur IA.',
     orgPairs: [
@@ -49,7 +49,7 @@ const T = {
     domainCta: 'Recruit my AI Collaborator',
     exploreCta: 'Explore the AI Collaborators',
     heroTransition: 'They join your organization in just a few minutes.',
-    heroProofs: ['7-day free trial', 'No card required'],
+    heroProofs: ['Ready in minutes', 'A private workspace that belongs to you', '7-day free trial · No card required'],
     orgTitle: 'Your team',
     orgMeta: 'For every teammate, their AI Collaborator.',
     orgPairs: [
