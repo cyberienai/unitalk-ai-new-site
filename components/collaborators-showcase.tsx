@@ -4,19 +4,67 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, Check, Plus, Star, UserRound } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, Check, MapPin, MessageCircle, Star } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref, type Bilingual } from '@/lib/collaborators-catalog'
 import { useMyTeam } from '@/lib/my-team-context'
 
-// Ordre d'affichage du catalogue + accroche courte (mission-phare) par Collaborateur IA
-const SHOWCASE: { slug: string; tagline: Bilingual }[] = [
-  { slug: 'emma', tagline: { fr: 'Prépare vos réunions', en: 'Prepares your meetings' } },
-  { slug: 'hugo', tagline: { fr: 'Qualifie vos prospects', en: 'Qualifies your leads' } },
-  { slug: 'ines', tagline: { fr: 'Répond à vos clients', en: 'Answers your customers' } },
-  { slug: 'lea', tagline: { fr: 'Crée vos contenus', en: 'Creates your content' } },
-  { slug: 'arthur', tagline: { fr: 'Corrige vos bugs', en: 'Fixes your bugs' } },
-  { slug: 'nadia', tagline: { fr: 'Analyse vos finances', en: 'Analyzes your finances' } },
+// Ordre d'affichage du catalogue + fiche courte par Collaborateur IA
+const SHOWCASE: { slug: string; role: Bilingual; segments: Bilingual; pitch: Bilingual }[] = [
+  {
+    slug: 'emma',
+    role: { fr: 'Assistante de direction IA', en: 'AI Executive Assistant' },
+    segments: { fr: 'PME • Startups • Indépendants', en: 'SMBs • Startups • Freelancers' },
+    pitch: {
+      fr: 'Gère votre agenda, prépare vos réunions et filtre vos emails prioritaires.',
+      en: 'Manages your calendar, prepares your meetings and filters your priority emails.',
+    },
+  },
+  {
+    slug: 'hugo',
+    role: { fr: 'Commercial IA', en: 'AI Sales Rep' },
+    segments: { fr: 'PME • Startups • ETI', en: 'SMBs • Startups • Mid-market' },
+    pitch: {
+      fr: 'Qualifie vos prospects, relance vos opportunités et prépare vos propositions commerciales.',
+      en: 'Qualifies your leads, follows up on opportunities and prepares your sales proposals.',
+    },
+  },
+  {
+    slug: 'ines',
+    role: { fr: 'Support client IA', en: 'AI Customer Support' },
+    segments: { fr: 'E-commerce • SaaS • PME', en: 'E-commerce • SaaS • SMBs' },
+    pitch: {
+      fr: 'Répond à vos clients, traite les demandes courantes et escalade ce qui compte.',
+      en: 'Answers your customers, handles routine requests and escalates what matters.',
+    },
+  },
+  {
+    slug: 'lea',
+    role: { fr: 'Créatrice de contenu IA', en: 'AI Content Strategist' },
+    segments: { fr: 'Startups • Agences • PME', en: 'Startups • Agencies • SMBs' },
+    pitch: {
+      fr: 'Planifie votre calendrier éditorial, rédige vos contenus et publie sur vos canaux.',
+      en: 'Plans your content calendar, writes your content and publishes on your channels.',
+    },
+  },
+  {
+    slug: 'arthur',
+    role: { fr: 'Développeur IA', en: 'AI Developer' },
+    segments: { fr: 'SaaS • Startups • Agences', en: 'SaaS • Startups • Agencies' },
+    pitch: {
+      fr: 'Corrige vos bugs, développe de nouvelles fonctionnalités et relit votre code.',
+      en: 'Fixes your bugs, builds new features and reviews your code.',
+    },
+  },
+  {
+    slug: 'nadia',
+    role: { fr: 'Analyste financière IA', en: 'AI Financial Analyst' },
+    segments: { fr: 'PME • Cabinets • ETI', en: 'SMBs • Firms • Mid-market' },
+    pitch: {
+      fr: 'Analyse votre trésorerie, prépare vos tableaux de bord et répond à vos questions financières.',
+      en: 'Analyzes your cash flow, prepares your dashboards and answers your financial questions.',
+    },
+  },
 ]
 
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
@@ -30,6 +78,10 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       profile: 'Voir le profil',
       add: 'Ajouter à mon équipe',
       added: 'Ajouté à mon équipe',
+      talk: 'Parler avec',
+      recruit: 'Recruter',
+      recruited: 'Recruté',
+      rating: '5,0',
       allCta: 'Voir tous les Collaborateurs IA',
       prev: 'Précédent',
       next: 'Suivant',
@@ -43,6 +95,10 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       profile: 'View profile',
       add: 'Add to my team',
       added: 'Added to my team',
+      talk: 'Talk with',
+      recruit: 'Recruit',
+      recruited: 'Recruited',
+      rating: '5.0',
       allCta: 'See all AI Collaborators',
       prev: 'Previous',
       next: 'Next',
@@ -120,7 +176,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           aria-roledescription="carousel"
           aria-label={t.title}
         >
-          {SHOWCASE.map(({ slug, tagline }, index) => {
+          {SHOWCASE.map(({ slug, role, segments, pitch }, index) => {
             const ai = ROLE_DETAILS[slug]
             if (!ai) return null
             return (
@@ -129,9 +185,9 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
                 slug={slug}
                 name={ai.name}
                 avatar={ai.avatar}
-                role={ai.role[lang]}
-                department={ai.department[lang]}
-                tagline={tagline[lang]}
+                role={role[lang]}
+                segments={segments[lang]}
+                pitch={pitch[lang]}
                 labels={t}
                 index={index}
               />
@@ -158,8 +214,8 @@ function ShowcaseCard({
   name,
   avatar,
   role,
-  department,
-  tagline,
+  segments,
+  pitch,
   labels,
   index,
 }: {
@@ -167,8 +223,8 @@ function ShowcaseCard({
   name: string
   avatar: string
   role: string
-  department: string
-  tagline: string
+  segments: string
+  pitch: string
   labels: Record<string, string>
   index: number
 }) {
@@ -207,8 +263,10 @@ function ShowcaseCard({
       {/* Identity */}
       <div className="mt-5">
         <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{name}</h3>
-        <p className="mt-0.5 text-sm text-[#6B6560]">
-          {role} <span className="text-[#A09789]">· {department}</span>
+        <p className="mt-0.5 text-sm font-medium text-[#D10E63]">{role}</p>
+        <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#6B6560]">
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
+          {segments}
         </p>
       </div>
 
@@ -219,36 +277,33 @@ function ShowcaseCard({
             <Star key={i} className="h-3.5 w-3.5 fill-[#D10E63] text-[#D10E63]" />
           ))}
         </span>
-        <span className="font-mono text-[11px] font-semibold text-[#857C6E]">5.0</span>
+        <span className="font-mono text-[11px] font-semibold text-[#857C6E]">{labels.rating}</span>
       </div>
 
-      {/* Mission-phare */}
-      <p className="mt-4 border-l-2 border-[#D10E63]/30 pl-3 text-pretty text-[15px] italic leading-relaxed text-[#4E483F]">
-        &ldquo;{tagline}&rdquo;
-      </p>
+      {/* Description */}
+      <p className="mt-4 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{pitch}</p>
 
       {/* Actions */}
       <div className="mt-6 flex items-center gap-2">
         <Link
           href={collaboratorHref(slug)}
-          className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full border border-[#DDD5CA] text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
+          className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full border border-[#DDD5CA] px-3 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
         >
-          <UserRound className="h-4 w-4" />
-          {labels.profile}
+          <MessageCircle className="h-4 w-4 shrink-0" />
+          <span className="truncate">{`${labels.talk} ${name}`}</span>
         </Link>
         <button
           type="button"
           onClick={() => toggle({ slug, name, role, avatar })}
           aria-pressed={inTeam}
-          aria-label={inTeam ? labels.added : labels.add}
-          title={inTeam ? labels.added : labels.add}
           className={`inline-flex min-h-10 shrink-0 items-center justify-center gap-1.5 rounded-full px-4 text-sm font-bold transition-colors ${
             inTeam
               ? 'bg-[#1C1A17] text-[#FBF9F3]'
               : 'border border-[#D10E63]/40 text-[#D10E63] hover:bg-[#D10E63]/[0.06]'
           }`}
         >
-          {inTeam ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          {inTeam ? <Check className="h-4 w-4" /> : null}
+          {inTeam ? labels.recruited : labels.recruit}
         </button>
       </div>
     </motion.article>
