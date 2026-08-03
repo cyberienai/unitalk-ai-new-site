@@ -1,66 +1,80 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Network } from 'lucide-react'
+import { Network, ChevronDown } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { NavbarTeamCart } from '@/components/navbar-team-cart'
 
-type NavLink = { fr: string; en: string; href: string }
+type NavLink = { fr: string; en: string; href: string; strong?: boolean }
+type Featured = { name: string; role: { fr: string; en: string }; href: string; avatar: string }
 
 const CREATE_ORG = {
   href: '/decouvrir',
   label: { fr: 'Créer mon organisation', en: 'Create my organization' },
   desc: {
-    fr: 'Alma prépare le contexte de votre Organisation et vous présente les Collaborateurs IA adaptés.',
-    en: 'Alma prepares your Organization’s context and introduces the AI Collaborators that fit.',
+    fr: 'Notre conseillère IA prépare le contexte de votre organisation et ses premières Missions.',
+    en: 'Our AI advisor prepares your organization’s context and its first Missions.',
   },
   cta: { fr: 'Commencer', en: 'Get started' },
 }
 
-// Primary nav (desktop) — Missions · Collaborateurs IA · Workspace
-const PRIMARY_LINKS: NavLink[] = [
+// Compact dropdown for "Missions"
+const MISSIONS_MENU: NavLink[] = [
+  { fr: 'Trouver des clients', en: 'Find customers', href: '/#missions' },
+  { fr: 'Répondre aux clients', en: 'Answer customers', href: '/#missions' },
+  { fr: 'Préparer une réunion', en: 'Prepare a meeting', href: '/#missions' },
+  { fr: 'Créer des contenus', en: 'Create content', href: '/#missions' },
+  { fr: 'Automatiser un processus', en: 'Automate a process', href: '/#missions' },
+  { fr: 'Voir toutes les Missions', en: 'See all Missions', href: '/#missions', strong: true },
+]
+
+// Compact dropdown for "Collaborateurs IA"
+const COLLAB_MENU: NavLink[] = [
+  { fr: 'Découvrir les Collaborateurs IA', en: 'Discover the AI Collaborators', href: '/collaborateurs-ia', strong: true },
+  { fr: 'Explorer les Profils métier', en: 'Explore job Profiles', href: '/collaborateurs-ia/roles' },
+  { fr: 'Créateurs et Expertises', en: 'Creators and Expertise', href: '/collaborateurs-ia' },
+]
+
+const COLLAB_FEATURED: Featured[] = [
+  { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, href: '/emma', avatar: '/images/emma-avatar.png' },
+  { name: 'Hugo', role: { fr: 'Commercial', en: 'Sales' }, href: '/@hugo', avatar: '/images/hugo-avatar.png' },
+  { name: 'Inès', role: { fr: 'Relation client', en: 'Customer care' }, href: '/@ines', avatar: '/images/ines-avatar.png' },
+]
+
+// Mobile burger links (flat, per the recommended structure)
+const MOBILE_LINKS: NavLink[] = [
   { fr: 'Missions', en: 'Missions', href: '/#missions' },
   { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
   { fr: 'Workspace', en: 'Workspace', href: '/#workspace' },
-]
-
-// Full burger menu — organized in sections
-const MENU_SECTIONS: { title: { fr: string; en: string }; links: NavLink[] }[] = [
-  {
-    title: { fr: 'Produit', en: 'Product' },
-    links: [
-      { fr: 'Missions', en: 'Missions', href: '/#missions' },
-      { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
-      { fr: 'Workspace', en: 'Workspace', href: '/#workspace' },
-      { fr: 'Le manifeste', en: 'The manifesto', href: '/manifeste' },
-      { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
-    ],
-  },
-  {
-    title: { fr: 'Entreprise', en: 'Company' },
-    links: [
-      { fr: 'Devenir partenaire', en: 'Become a partner', href: '/partenaires' },
-      { fr: 'Sécurité', en: 'Security', href: '/#confiance' },
-    ],
-  },
+  { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
 ]
 
 const T = {
   fr: {
     home: 'Accueil Unitalk AI',
     signIn: 'Connexion',
+    pricing: 'Tarifs',
+    workspace: 'Workspace',
+    missions: 'Missions',
+    collaborators: 'Collaborateurs IA',
     createOrg: 'Créer mon organisation',
     signUp: 'S’inscrire',
+    featuredLabel: 'Mis en avant',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
   },
   en: {
     home: 'Unitalk AI Home',
     signIn: 'Sign in',
+    pricing: 'Pricing',
+    workspace: 'Workspace',
+    missions: 'Missions',
+    collaborators: 'AI Collaborators',
     createOrg: 'Create my organization',
     signUp: 'Sign up',
+    featuredLabel: 'Featured',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
   },
@@ -78,10 +92,7 @@ function FrenchFlag() {
 
 function UkFlag() {
   return (
-    <span
-      aria-hidden="true"
-      className="inline-block h-4 w-[18px] overflow-hidden rounded-sm border border-[#DcD4C4]"
-    >
+    <span aria-hidden="true" className="inline-block h-4 w-[18px] overflow-hidden rounded-sm border border-[#DcD4C4]">
       <svg viewBox="0 0 60 30" className="h-full w-full">
         <clipPath id="uk-clip">
           <rect width="60" height="30" />
@@ -101,65 +112,189 @@ function UkFlag() {
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [openMenu, setOpenMenu] = useState<'missions' | 'collaborateurs' | null>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { lang, setLang } = useLanguage()
   const t = T[lang]
 
   // Divider under the nav appears only once past the hero (≈ 2nd section)
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight * 0.6)
-    }
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.6)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Lock body scroll while the menu is open on mobile
+  // Lock body scroll while the mobile menu is open
   useEffect(() => {
     const isMobile = window.innerWidth < 1024
-    if (isMobile) {
-      document.body.style.overflow = isMenuOpen ? 'hidden' : ''
-    }
+    if (isMobile) document.body.style.overflow = isMenuOpen ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
   }, [isMenuOpen])
 
+  // Close dropdowns on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenMenu(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
+
+  const openDropdown = (menu: 'missions' | 'collaborateurs') => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setOpenMenu(menu)
+  }
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 120)
+  }
 
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b bg-[#F3EFE6]/90 backdrop-blur-xl transition-colors duration-300 ${
-          scrolled || isMenuOpen ? 'border-[#D8D0C2]/75' : 'border-transparent'
+          scrolled || isMenuOpen || openMenu ? 'border-[#D8D0C2]/75' : 'border-transparent'
         }`}
       >
         <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-          {/* Left: Logo + inline nav */}
+          {/* Left: Logo + primary nav */}
           <div className="flex items-center gap-8 xl:gap-10">
             <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
               <UnitalkLogo size={24} />
               <span className="font-inter text-sm font-semibold text-[#1C1A17] sm:text-base">Unitalk</span>
             </a>
 
-            <div className="hidden items-center gap-6 lg:flex xl:gap-8">
-              {PRIMARY_LINKS.map((link) => (
-                <a
-                  key={link.fr}
-                  href={link.href}
-                  className="text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
+            <div className="hidden items-center gap-1 lg:flex">
+              {/* Missions dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => openDropdown('missions')}
+                onMouseLeave={scheduleClose}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenMenu(openMenu === 'missions' ? null : 'missions')}
+                  aria-expanded={openMenu === 'missions'}
+                  className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
                 >
-                  {link[lang]}
-                </a>
-              ))}
+                  {t.missions}
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${openMenu === 'missions' ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {openMenu === 'missions' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.16 }}
+                      className="absolute left-0 top-full w-64 pt-2"
+                    >
+                      <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-2 shadow-[0_20px_50px_rgba(28,26,23,0.12)]">
+                        {MISSIONS_MENU.map((link) => (
+                          <a
+                            key={link.fr}
+                            href={link.href}
+                            onClick={() => setOpenMenu(null)}
+                            className={`block rounded-xl px-3 py-2 text-sm transition-colors hover:bg-[#F0EADB] ${
+                              link.strong ? 'font-bold text-[#D10E63]' : 'font-medium text-[#3F3A33]'
+                            }`}
+                          >
+                            {link[lang]}
+                          </a>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Collaborateurs IA dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => openDropdown('collaborateurs')}
+                onMouseLeave={scheduleClose}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenMenu(openMenu === 'collaborateurs' ? null : 'collaborateurs')}
+                  aria-expanded={openMenu === 'collaborateurs'}
+                  className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
+                >
+                  {t.collaborators}
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${openMenu === 'collaborateurs' ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {openMenu === 'collaborateurs' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.16 }}
+                      className="absolute left-0 top-full w-72 pt-2"
+                    >
+                      <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-2 shadow-[0_20px_50px_rgba(28,26,23,0.12)]">
+                        {COLLAB_MENU.map((link) => (
+                          <a
+                            key={link.fr}
+                            href={link.href}
+                            onClick={() => setOpenMenu(null)}
+                            className={`block rounded-xl px-3 py-2 text-sm transition-colors hover:bg-[#F0EADB] ${
+                              link.strong ? 'font-bold text-[#D10E63]' : 'font-medium text-[#3F3A33]'
+                            }`}
+                          >
+                            {link[lang]}
+                          </a>
+                        ))}
+                        <div className="my-1.5 border-t border-[#E9E2D3]" />
+                        <p className="px-3 pb-1 pt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#A79C89]">
+                          {t.featuredLabel}
+                        </p>
+                        {COLLAB_FEATURED.map((c) => (
+                          <a
+                            key={c.name}
+                            href={c.href}
+                            onClick={() => setOpenMenu(null)}
+                            className="flex items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-[#F0EADB]"
+                          >
+                            <img src={c.avatar || '/placeholder.svg'} alt="" className="h-8 w-8 rounded-full object-cover" />
+                            <span className="min-w-0">
+                              <span className="block text-sm font-bold leading-tight text-[#1C1A17]">{c.name}</span>
+                              <span className="block truncate text-[11px] text-[#6E665A]">{c.role[lang]}</span>
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Workspace direct link */}
+              <a
+                href="/#workspace"
+                className="rounded-full px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
+              >
+                {t.workspace}
+              </a>
             </div>
           </div>
 
-          {/* Right: actions */}
+          {/* Right: utilities */}
           <div className="flex items-center gap-2 sm:gap-3">
             <a
+              href="/tarifs"
+              className="hidden px-2 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17] lg:inline-flex"
+            >
+              {t.pricing}
+            </a>
+            <a
               href="/signup"
-              className="hidden px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17] lg:inline-flex"
+              className="hidden px-2 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17] lg:inline-flex"
             >
               {t.signIn}
             </a>
@@ -226,7 +361,7 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Burger menu panel */}
+      {/* Mobile burger panel */}
       <AnimatePresence>
         {isMenuOpen && (
           <>
@@ -241,67 +376,33 @@ export function Navbar() {
 
             <motion.div
               id="menu-panel"
-              className="scrollbar-hide fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto overflow-x-hidden border-[#DcD4C4] bg-[#F3EFE6] lg:inset-x-auto lg:right-0 lg:mr-4 lg:w-auto lg:max-w-sm lg:border-l"
+              className="scrollbar-hide fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col overflow-y-auto overflow-x-hidden border-[#DcD4C4] bg-[#F3EFE6] lg:inset-x-auto lg:right-0 lg:mr-4 lg:w-auto lg:max-w-sm lg:border-l"
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
-              <nav className="flex flex-col px-0 py-3">
-                {/* Featured: Discover my organization */}
+              <nav className="flex flex-1 flex-col px-0 py-3">
+                {/* Primary links */}
                 <div className="border-b border-[#DcD4C4] px-8 py-4">
-                  <a
-                    href={CREATE_ORG.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block rounded-2xl border border-[#D10E63]/20 bg-[#D10E63]/[0.06] p-4 transition-colors hover:bg-[#D10E63]/10"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]">
-                        <Network className="h-4 w-4" />
-                      </span>
-                      <span className="text-sm font-semibold text-[#1C1A17]">{CREATE_ORG.label[lang]}</span>
-                    </div>
-                    <p className="mt-2 text-xs leading-5 text-[#6E665A]">{CREATE_ORG.desc[lang]}</p>
-                    <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#D10E63]">
-                      {CREATE_ORG.cta[lang]}
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                  </a>
-                </div>
-
-                {/* Account */}
-                <div className="space-y-1 border-b border-[#DcD4C4] px-8 py-4">
+                  {MOBILE_LINKS.map((link) => (
+                    <a
+                      key={link.fr}
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block py-2.5 text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    >
+                      {link[lang]}
+                    </a>
+                  ))}
                   <a
                     href="/signup"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block py-2 text-sm font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="block py-2.5 text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
-                    {t.signUp}
+                    {t.signIn}
                   </a>
                 </div>
-
-                {/* Sections */}
-                {MENU_SECTIONS.map((section) => (
-                  <div key={section.title.fr} className="border-b border-[#DcD4C4] px-8 py-4">
-                    <p className="pb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D10E63]">
-                      {section.title[lang]}
-                    </p>
-                    <div className="space-y-0.5">
-                      {section.links.map((link) => (
-                        <a
-                          key={`${section.title.fr}-${link.fr}`}
-                          href={link.href}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="block py-1.5 text-sm font-normal text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                        >
-                          {link[lang]}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ))}
 
                 {/* Contact */}
                 <div className="border-b border-[#DcD4C4] px-8 py-4">
@@ -336,6 +437,18 @@ export function Navbar() {
                     {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
                     {lang === 'fr' ? 'Français' : 'English'}
                   </button>
+                </div>
+
+                {/* Fixed CTA */}
+                <div className="mt-auto border-t border-[#DcD4C4] px-8 py-4">
+                  <a
+                    href={CREATE_ORG.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B10B53]"
+                  >
+                    <Network className="h-4 w-4" />
+                    {CREATE_ORG.label[lang]}
+                  </a>
                 </div>
               </nav>
             </motion.div>
