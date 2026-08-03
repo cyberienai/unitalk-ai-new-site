@@ -1,16 +1,59 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useMemo, useState } from 'react'
-import { ArrowRight, Check, Search, MessageSquare, Layers, Cpu, ShieldCheck, Gauge, Eye, GraduationCap, Repeat } from 'lucide-react'
+import { ArrowRight, Check, Search } from 'lucide-react'
 import { collaboratorHref, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { MISSIONS, MISSION_CATEGORIES } from '@/lib/missions-catalog'
 import { useLanguage, type Lang } from '@/lib/language-context'
 
 const CREATE_ORG_HREF = '/decouvrir'
 
-type StepCopy = { icon: typeof MessageSquare; title: string; body: string }
+/** Avatar with a robust initials fallback (images are heavy and can fail to load). */
+function Avatar({
+  src,
+  name,
+  size = 28,
+  tone = 'light',
+}: {
+  src?: string
+  name: string
+  size?: number
+  tone?: 'light' | 'dark'
+}) {
+  const [failed, setFailed] = useState(false)
+  const initials = name
+    .split(' ')
+    .map((w) => w[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+  const toneClass = tone === 'dark' ? 'bg-[#33302B] text-[#C9C2B6]' : 'bg-[#EDE7DA] text-[#6E665A]'
+  return (
+    <span
+      className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full ${toneClass}`}
+      style={{ width: size, height: size }}
+    >
+      {src && !failed ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src || '/placeholder.svg'}
+          alt={name}
+          width={size}
+          height={size}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <span className="font-sf font-bold" style={{ fontSize: Math.max(10, Math.round(size * 0.38)) }}>
+          {initials}
+        </span>
+      )}
+    </span>
+  )
+}
 
 type Copy = {
   kicker: string
@@ -24,19 +67,12 @@ type Copy = {
   missionsWord: string
   noResult: string
   clearSearch: string
-  conceptKicker: string
-  conceptTitle: string
-  conceptSteps: StepCopy[]
-  benefitsKicker: string
-  benefitsTitle: string
-  benefits: StepCopy[]
   catalogueKicker: string
   catalogueTitle: string
   allLabel: string
   resultWord: string
-  toolsWord: string
+  collaboratorWord: string
   profileWord: string
-  discover: string
   proofKicker: string
   proofTitle: string
   proofLead: string
@@ -47,6 +83,9 @@ type Copy = {
   proofReview: string
   proofValidate: string
   proofCta: string
+  flowKicker: string
+  flowTitle: string
+  flow: string[]
   ctaTitle: string
   ctaLead: string
   ctaPrimary: string
@@ -66,29 +105,12 @@ const T: Record<Lang, Copy> = {
     missionsWord: 'Missions',
     noResult: 'Aucune Mission ne correspond à votre recherche. Essayez un autre mot ou explorez toutes les Missions.',
     clearSearch: 'Effacer',
-    conceptKicker: 'Comment ça marche',
-    conceptTitle: 'Qu’est-ce qu’une Mission ?',
-    conceptSteps: [
-      { icon: MessageSquare, title: 'Vous décrivez un résultat', body: 'Vous exprimez ce que vous voulez obtenir, en langage clair.' },
-      { icon: Layers, title: 'Le bon Profil est mobilisé', body: 'Unitalk active le savoir-faire métier adapté à votre demande.' },
-      { icon: Cpu, title: 'Le Collaborateur travaille', body: 'Il agit dans votre Workspace, avec vos outils et votre contexte.' },
-      { icon: ShieldCheck, title: 'Vous examinez et validez', body: 'Rien n’est finalisé sans votre accord. Vous gardez la main.' },
-    ],
-    benefitsKicker: 'Ce que ça vous apporte',
-    benefitsTitle: 'Une Mission, c’est vous qui gagnez.',
-    benefits: [
-      { icon: Gauge, title: 'Accélérez votre expertise', body: 'Obtenez en quelques minutes ce qui vous prenait des heures.' },
-      { icon: Eye, title: 'Supervisez votre Collaborateur IA', body: 'Vous suivez chaque étape et validez le résultat avant qu’il ne compte.' },
-      { icon: GraduationCap, title: 'Ajoutez les savoir-faire métier', body: 'Mobilisez les compétences nécessaires pour atteindre vos objectifs.' },
-      { icon: Repeat, title: 'Déléguez les tâches répétitives', body: 'Libérez votre temps pour ce qui demande vraiment votre attention.' },
-    ],
     catalogueKicker: 'Le catalogue',
     catalogueTitle: 'Des Missions pour chaque métier.',
     allLabel: 'Toutes',
     resultWord: 'Résultat',
-    toolsWord: 'Outils possibles',
+    collaboratorWord: 'Collaborateur IA',
     profileWord: 'Profil',
-    discover: 'Découvrir cette Mission',
     proofKicker: 'Une Mission en action',
     proofTitle: 'Du besoin au livrable.',
     proofLead: 'Voici à quoi ressemble une Mission confiée à un Collaborateur IA, du brief jusqu’au résultat prêt à valider.',
@@ -99,6 +121,9 @@ const T: Record<Lang, Copy> = {
     proofReview: 'Examiner',
     proofValidate: 'Valider',
     proofCta: 'Voir le Workspace',
+    flowKicker: 'Comment ça marche',
+    flowTitle: 'D’un objectif à un résultat validé, en cinq temps.',
+    flow: ['Vous décrivez un objectif', 'Le bon Profil est mobilisé', 'Le Collaborateur travaille', 'Vous examinez et validez', 'Vous obtenez le résultat'],
     ctaTitle: 'Confiez-lui votre première Mission.',
     ctaLead: 'Créez votre organisation et lancez une première Mission. Essai gratuit de 7 jours.',
     ctaPrimary: 'Créer mon organisation',
@@ -116,29 +141,12 @@ const T: Record<Lang, Copy> = {
     missionsWord: 'Missions',
     noResult: 'No Mission matches your search. Try another word or explore all Missions.',
     clearSearch: 'Clear',
-    conceptKicker: 'How it works',
-    conceptTitle: 'What is a Mission?',
-    conceptSteps: [
-      { icon: MessageSquare, title: 'You describe an outcome', body: 'You express what you want to achieve, in plain language.' },
-      { icon: Layers, title: 'The right Profile is mobilized', body: 'Unitalk activates the job know-how that fits your request.' },
-      { icon: Cpu, title: 'The Collaborator works', body: 'It acts in your Workspace, with your tools and your context.' },
-      { icon: ShieldCheck, title: 'You review and approve', body: 'Nothing is finalized without your go-ahead. You stay in control.' },
-    ],
-    benefitsKicker: 'What you gain',
-    benefitsTitle: 'A Mission works in your favor.',
-    benefits: [
-      { icon: Gauge, title: 'Accelerate your expertise', body: 'Get in minutes what used to take you hours.' },
-      { icon: Eye, title: 'Supervise your AI Collaborator', body: 'You follow every step and approve the result before it counts.' },
-      { icon: GraduationCap, title: 'Add the job know-how you need', body: 'Mobilize the exact skills required to reach your goals.' },
-      { icon: Repeat, title: 'Delegate repetitive tasks', body: 'Free your time for the work that truly needs your attention.' },
-    ],
     catalogueKicker: 'The catalog',
     catalogueTitle: 'Missions for every role.',
     allLabel: 'All',
     resultWord: 'Outcome',
-    toolsWord: 'Possible tools',
+    collaboratorWord: 'AI Collaborator',
     profileWord: 'Profile',
-    discover: 'Discover this Mission',
     proofKicker: 'A Mission in action',
     proofTitle: 'From need to deliverable.',
     proofLead: 'Here is what a Mission handed to an AI Collaborator looks like, from the brief to the result ready to approve.',
@@ -149,6 +157,9 @@ const T: Record<Lang, Copy> = {
     proofReview: 'Review',
     proofValidate: 'Approve',
     proofCta: 'See the Workspace',
+    flowKicker: 'How it works',
+    flowTitle: 'From a goal to an approved result, in five steps.',
+    flow: ['You describe a goal', 'The right Profile is mobilized', 'The Collaborator works', 'You review and approve', 'You get the result'],
     ctaTitle: 'Hand it your first Mission.',
     ctaLead: 'Create your organization and launch a first Mission. 7-day free trial.',
     ctaPrimary: 'Create my organization',
@@ -198,8 +209,8 @@ export function MissionsContent() {
 
   const matchText =
     lang === 'fr'
-      ? `${searchCount} Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'correspondent' : 'correspond'}`
-      : `${searchCount} Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'match' : 'matches'}`
+      ? `Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'correspondent' : 'correspond'}`
+      : `Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'match' : 'matches'}`
 
   return (
     <main className="bg-[#F3EFE6]">
@@ -259,7 +270,7 @@ export function MissionsContent() {
                   <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#D10E63] px-2 text-xs font-bold text-[#FBF9F3]">
                     {searchCount}
                   </span>
-                  <span>{matchText.replace(/^\d+\s/, '')}</span>
+                  <span>{matchText}</span>
                   <span className="text-[#8A8175]">·</span>
                   <span className="inline-flex items-center gap-1 text-[#D10E63]">
                     {t.seeResults}
@@ -288,55 +299,8 @@ export function MissionsContent() {
         </div>
       </section>
 
-      {/* Concept */}
-      <section className="border-b border-[#E4DDCE] px-5 py-14 sm:px-8 sm:py-16">
-        <div className="editorial-shell">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.conceptKicker}</p>
-          <h2 className="mt-3 font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">{t.conceptTitle}</h2>
-          <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {t.conceptSteps.map((s, i) => {
-              const Icon = s.icon
-              return (
-                <li key={s.title} className="relative rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-6">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63]/10 text-[#D10E63]">
-                      <Icon className="h-4 w-4" />
-                    </span>
-                    <span className="font-mono text-xs font-bold text-[#8A8175]">{String(i + 1).padStart(2, '0')}</span>
-                  </div>
-                  <h3 className="mt-4 font-sf text-base font-bold tracking-[-0.01em] text-[#1C1A17]">{s.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#5F594F]">{s.body}</p>
-                </li>
-              )
-            })}
-          </ol>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="border-b border-[#E4DDCE] bg-[#FBF9F3] px-5 py-14 sm:px-8 sm:py-16">
-        <div className="editorial-shell">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.benefitsKicker}</p>
-          <h2 className="mt-3 font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">{t.benefitsTitle}</h2>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {t.benefits.map((b) => {
-              const Icon = b.icon
-              return (
-                <li key={b.title} className="rounded-3xl border border-[#E4DDCE] bg-[#F3EFE6] p-6">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#D10E63]/10 text-[#D10E63]">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-4 font-sf text-base font-bold tracking-[-0.01em] text-[#1C1A17]">{b.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#5F594F]">{b.body}</p>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      </section>
-
-      {/* Catalogue */}
-      <section id="missions-grid" className="scroll-mt-24 px-5 py-14 sm:px-8 sm:py-16">
+      {/* Catalogue (product first) */}
+      <section id="missions-grid" className="scroll-mt-24 border-b border-[#E4DDCE] px-5 py-14 sm:px-8 sm:py-16">
         <div className="editorial-shell">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -400,27 +364,18 @@ export function MissionsContent() {
                       </p>
                     </div>
 
-                    <div className="mt-4">
-                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.toolsWord}</p>
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {m.tools.slice(0, 3).map((tool) => (
-                          <span key={tool} className="rounded-full bg-[#EDE7DA] px-2.5 py-1 text-xs font-medium text-[#4E483F]">
-                            {tool}
+                    {/* Clarified: who does it (AI Collaborator) + which Profile */}
+                    <div className="mt-auto flex items-center justify-between gap-3 pt-6">
+                      <div className="flex items-center gap-2.5">
+                        <Avatar src={collab?.avatar} name={collab?.name ?? m.profile[lang]} size={32} />
+                        <span className="leading-tight">
+                          <span className="block font-sf text-sm font-bold text-[#1C1A17]">{collab?.name ?? m.profile[lang]}</span>
+                          <span className="block text-xs text-[#8A8175]">
+                            {t.profileWord} · {m.profile[lang]}
                           </span>
-                        ))}
+                        </span>
                       </div>
-                    </div>
-
-                    <div className="mt-auto flex items-center justify-between pt-6">
-                      <div className="flex items-center gap-2">
-                        {collab && (
-                          <span className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full">
-                            <Image src={collab.avatar || '/placeholder.svg'} alt={collab.name} fill className="object-cover" sizes="28px" />
-                          </span>
-                        )}
-                        <span className="text-[13px] font-semibold text-[#D10E63]">{m.profile[lang]}</span>
-                      </div>
-                      <ArrowRight className="h-4 w-4 text-[#8A8175] transition-all group-hover:translate-x-0.5 group-hover:text-[#D10E63]" />
+                      <ArrowRight className="h-4 w-4 shrink-0 text-[#8A8175] transition-all group-hover:translate-x-0.5 group-hover:text-[#D10E63]" />
                     </div>
                   </Link>
                 )
@@ -430,7 +385,7 @@ export function MissionsContent() {
         </div>
       </section>
 
-      {/* Proof */}
+      {/* Proof — a Mission in action */}
       <section className="bg-[#1C1A17] px-5 py-16 sm:px-8 sm:py-20">
         <div className="editorial-shell">
           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#F08FB5]">{t.proofKicker}</p>
@@ -442,9 +397,7 @@ export function MissionsContent() {
             <div className="rounded-3xl border border-[#33302B] bg-[#242019] p-6">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.proofBrief}</p>
               <div className="mt-4 flex items-start gap-3">
-                <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
-                  <Image src="/images/claire-avatar.png" alt="Claire" fill className="object-cover" sizes="36px" />
-                </span>
+                <Avatar src="/images/claire-avatar.png" name="Claire Dubois" size={36} tone="dark" />
                 <p className="text-pretty text-sm leading-relaxed text-[#E7E2D8]">{t.proofBriefText}</p>
               </div>
             </div>
@@ -453,9 +406,13 @@ export function MissionsContent() {
             <div className="rounded-3xl border border-[#33302B] bg-[#242019] p-6">
               <div className="flex items-center justify-between">
                 <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.proofResult}</p>
-                <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
-                  <Image src="/images/hugo-avatar.png" alt="Hugo" fill className="object-cover" sizes="36px" />
-                </span>
+                <div className="flex items-center gap-2">
+                  <Avatar src="/images/hugo-avatar.png" name="Hugo" size={28} tone="dark" />
+                  <span className="leading-tight">
+                    <span className="block font-sf text-xs font-bold text-[#FBF9F3]">Hugo</span>
+                    <span className="block font-mono text-[10px] uppercase tracking-[0.12em] text-[#8A8175]">{t.collaboratorWord}</span>
+                  </span>
+                </div>
               </div>
               <p className="mt-4 flex items-start gap-2 text-pretty text-sm leading-relaxed text-[#E7E2D8]">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#4ADE80]" strokeWidth={2.5} />
@@ -482,6 +439,27 @@ export function MissionsContent() {
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* How it works — condensed flow */}
+      <section className="border-b border-[#E4DDCE] px-5 py-14 sm:px-8 sm:py-16">
+        <div className="editorial-shell">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.flowKicker}</p>
+          <h2 className="mt-3 max-w-2xl text-balance font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">{t.flowTitle}</h2>
+          <ol className="mt-8 flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-center lg:gap-2">
+            {t.flow.map((step, i) => (
+              <li key={step} className="flex items-center gap-2 lg:gap-2">
+                <span className="inline-flex items-center gap-2.5 rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-4 py-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#D10E63] font-mono text-[10px] font-bold text-[#FBF9F3]">
+                    {i + 1}
+                  </span>
+                  <span className="text-sm font-semibold text-[#1C1A17]">{step}</span>
+                </span>
+                {i < t.flow.length - 1 && <ArrowRight className="hidden h-4 w-4 shrink-0 text-[#B7AF9F] lg:block" />}
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
