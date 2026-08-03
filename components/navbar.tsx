@@ -22,12 +22,12 @@ const CREATE_ORG = {
 
 // Compact dropdown for "Missions"
 const MISSIONS_MENU: NavLink[] = [
-  { fr: 'Trouver des clients', en: 'Find customers', href: '/#missions' },
-  { fr: 'Répondre aux clients', en: 'Answer customers', href: '/#missions' },
-  { fr: 'Préparer une réunion', en: 'Prepare a meeting', href: '/#missions' },
-  { fr: 'Créer des contenus', en: 'Create content', href: '/#missions' },
-  { fr: 'Automatiser un processus', en: 'Automate a process', href: '/#missions' },
-  { fr: 'Voir toutes les Missions', en: 'See all Missions', href: '/#missions', strong: true },
+  { fr: 'Trouver des clients', en: 'Find customers', href: '/missions#missions-grid' },
+  { fr: 'Répondre aux clients', en: 'Answer customers', href: '/missions#missions-grid' },
+  { fr: 'Préparer une réunion', en: 'Prepare a meeting', href: '/missions#missions-grid' },
+  { fr: 'Créer des contenus', en: 'Create content', href: '/missions#missions-grid' },
+  { fr: 'Automatiser un processus', en: 'Automate a process', href: '/missions#missions-grid' },
+  { fr: 'Voir toutes les Missions', en: 'See all Missions', href: '/missions', strong: true },
 ]
 
 // Compact dropdown for "Collaborateurs IA"
@@ -45,9 +45,9 @@ const COLLAB_FEATURED: Featured[] = [
 
 // Mobile burger links (flat, per the recommended structure)
 const MOBILE_LINKS: NavLink[] = [
-  { fr: 'Missions', en: 'Missions', href: '/#missions' },
+  { fr: 'Missions', en: 'Missions', href: '/missions' },
   { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
-  { fr: 'Workspace', en: 'Workspace', href: '/#workspace' },
+  { fr: 'Workspace', en: 'Workspace', href: '/workspace' },
   { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
 ]
 
@@ -276,7 +276,7 @@ export function Navbar() {
 
               {/* Workspace direct link */}
               <a
-                href="/#workspace"
+                href="/workspace"
                 className="rounded-full px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
               >
                 {t.workspace}
