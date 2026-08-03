@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
-import { ArrowRight, Check, Search, Clock, ShieldCheck, SlidersHorizontal, X } from 'lucide-react'
+import { ArrowRight, Check, Search, Clock, ShieldCheck, SlidersHorizontal, X, Compass, Plug, Eye } from 'lucide-react'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
 import {
   MISSIONS,
@@ -148,6 +148,21 @@ type Copy = {
   ctaPrimary: string
   ctaSecondary: string
   ctaReassurance: string
+  // expert support (optional human intervention)
+  expertKicker: string
+  expertTitle: string
+  expertLead: string
+  expertSteps: { title: string; body: string }[]
+  expertPrimary: string
+  expertSecondary: string
+  // partnership band
+  partnerKicker: string
+  partnerTitle: string
+  partnerLead: string
+  partnerNote: string
+  partnerAudiences: string[]
+  partnerPrimary: string
+  partnerSecondary: string
 }
 
 const T: Record<Lang, Copy> = {
@@ -216,6 +231,27 @@ const T: Record<Lang, Copy> = {
     ctaPrimary: 'Découvrir mon Collaborateur IA',
     ctaSecondary: 'Voir les tarifs',
     ctaReassurance: 'Analyse de votre activité · Workspace privé · Essai gratuit de 7 jours',
+    expertKicker: 'Un expert à vos côtés',
+    expertTitle: 'Faites-vous accompagner pour les Missions les plus exigeantes.',
+    expertLead:
+      'Un expert IA peut cadrer votre besoin, préparer les outils et les données nécessaires, configurer votre Collaborateur IA et superviser la Mission jusqu’au résultat.',
+    expertSteps: [
+      { title: 'Cadrage', body: 'Préciser le résultat, le périmètre et les critères de réussite.' },
+      { title: 'Intégration', body: 'Connecter les applications et préparer les données nécessaires.' },
+      { title: 'Configuration', body: 'Adapter les Profils, les Compétences, les permissions et les validations.' },
+      { title: 'Supervision', body: 'Suivre l’exécution, contrôler la qualité et améliorer le dispositif.' },
+    ],
+    expertPrimary: 'Trouver un expert IA',
+    expertSecondary: 'Proposer une Expertise',
+    partnerKicker: 'Partenaires Unitalk',
+    partnerTitle: 'Déployez des Collaborateurs IA pour vos clients.',
+    partnerLead:
+      'Consultants, agences, formateurs et intégrateurs : utilisez Unitalk pour concevoir, déployer et améliorer les Collaborateurs IA de vos clients.',
+    partnerNote:
+      'Vous conservez votre expertise et votre relation client. Unitalk fournit le socle de travail, de gouvernance et d’exécution.',
+    partnerAudiences: ['Consultants', 'Agences', 'Formateurs', 'Intégrateurs'],
+    partnerPrimary: 'Devenir partenaire',
+    partnerSecondary: 'Publier une Expertise',
   },
   en: {
     kicker: 'Concrete outcomes for your company',
@@ -282,6 +318,27 @@ const T: Record<Lang, Copy> = {
     ctaPrimary: 'Discover my AI Collaborator',
     ctaSecondary: 'See pricing',
     ctaReassurance: 'Business analysis · Private Workspace · 7-day free trial',
+    expertKicker: 'An expert by your side',
+    expertTitle: 'Get expert support for your most demanding Missions.',
+    expertLead:
+      'An AI expert can scope your need, prepare the required tools and data, configure your AI Collaborator and supervise the Mission through to the outcome.',
+    expertSteps: [
+      { title: 'Scoping', body: 'Define the outcome, the scope and the success criteria.' },
+      { title: 'Integration', body: 'Connect the apps and prepare the required data.' },
+      { title: 'Configuration', body: 'Adapt Profiles, Skills, permissions and approvals.' },
+      { title: 'Supervision', body: 'Track execution, control quality and improve the setup.' },
+    ],
+    expertPrimary: 'Find an AI expert',
+    expertSecondary: 'Offer an Expertise',
+    partnerKicker: 'Unitalk partners',
+    partnerTitle: 'Deploy AI Collaborators for your clients.',
+    partnerLead:
+      'Consultants, agencies, trainers and integrators: use Unitalk to design, deploy and improve your clients’ AI Collaborators.',
+    partnerNote:
+      'You keep your expertise and your client relationship. Unitalk provides the work, governance and execution foundation.',
+    partnerAudiences: ['Consultants', 'Agencies', 'Trainers', 'Integrators'],
+    partnerPrimary: 'Become a partner',
+    partnerSecondary: 'Publish an Expertise',
   },
 }
 
@@ -891,6 +948,97 @@ export function MissionsContent() {
               {t.bandLink}
               <ArrowRight className="h-4 w-4" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Expert support — optional human intervention, secondary to self-serve Missions */}
+      <section className="px-5 py-14 sm:px-8 sm:py-16">
+        <div className="editorial-shell">
+          <div className="rounded-[2rem] border border-[#E4DDCE] bg-[#FBF9F3] p-8 sm:p-12">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
+              {t.expertKicker}
+            </p>
+            <h2 className="mt-3 max-w-2xl text-balance font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">
+              {t.expertTitle}
+            </h2>
+            <p className="mt-4 max-w-3xl text-pretty text-base leading-7 text-[#4A443C]">{t.expertLead}</p>
+
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {t.expertSteps.map((step, i) => {
+                const StepIcon = [Compass, Plug, SlidersHorizontal, Eye][i]
+                return (
+                  <div key={step.title} className="rounded-2xl border border-[#EBE4D6] bg-[#F3EFE6] p-5">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1C1A17] text-[#FBF9F3]">
+                      <StepIcon className="h-4 w-4" />
+                    </span>
+                    <h3 className="mt-3 font-sf text-sm font-bold text-[#1C1A17]">{step.title}</h3>
+                    <p className="mt-1.5 text-pretty text-[13px] leading-6 text-[#5A5349]">{step.body}</p>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+              <Link
+                href="/expertises"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#1C1A17] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
+              >
+                {t.expertPrimary}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/expertises/publier"
+                className="inline-flex items-center gap-1.5 rounded-full px-4 py-3 text-sm font-bold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+              >
+                {t.expertSecondary}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partnership band — compact, sober, not a full magenta block */}
+      <section className="border-y border-[#E4DDCE] bg-[#ECE6D8] px-5 py-12 sm:px-8 sm:py-14">
+        <div className="editorial-shell">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8A7B5C]">
+                {t.partnerKicker}
+              </p>
+              <h2 className="mt-3 text-balance font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-[28px]">
+                {t.partnerTitle}
+              </h2>
+              <p className="mt-3 text-pretty text-sm leading-7 text-[#4A443C] sm:text-base">{t.partnerLead}</p>
+              <p className="mt-3 text-pretty text-sm leading-7 text-[#5A5349]">{t.partnerNote}</p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {t.partnerAudiences.map((a) => (
+                  <li
+                    key={a}
+                    className="rounded-full border border-[#D8CFBB] bg-[#FBF9F3] px-3 py-1 text-xs font-semibold text-[#4A443C]"
+                  >
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex shrink-0 flex-col items-start gap-3 sm:flex-row lg:flex-col lg:items-stretch">
+              <Link
+                href="/partenaires"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#1C1A17] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
+              >
+                {t.partnerPrimary}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/expertises/publier"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#C9BFA8] px-5 py-3 text-sm font-bold text-[#1C1A17] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
+              >
+                {t.partnerSecondary}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

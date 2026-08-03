@@ -18,6 +18,8 @@ const STATIC_ROUTES = [
   '/use-cases',
   '/manifeste',
   '/partenaires',
+  '/expertises',
+  '/expertises/publier',
   '/decouvrir',
 ]
 
