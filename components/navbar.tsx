@@ -25,7 +25,7 @@ const MISSIONS_MENU: NavLink[] = [
   { fr: 'Trouver des clients', en: 'Find customers', href: '/missions/trouver-des-clients' },
   { fr: 'Répondre aux clients', en: 'Answer customers', href: '/missions/repondre-aux-clients' },
   { fr: 'Créer mes contenus', en: 'Create content', href: '/missions/creer-mes-contenus' },
-  { fr: 'Préparer mes réunions', en: 'Prepare meetings', href: '/missions/preparer-mes-reunions' },
+  { fr: 'Préparer et suivre mes réunions', en: 'Prepare & follow up meetings', href: '/missions/preparer-mes-reunions' },
   { fr: 'Automatiser mes opérations', en: 'Automate operations', href: '/missions/automatiser-mes-operations' },
   { fr: 'Voir toutes les Missions', en: 'See all Missions', href: '/missions', strong: true },
 ]
@@ -200,8 +200,10 @@ export function Navbar() {
                             key={link.fr}
                             href={link.href}
                             onClick={() => setOpenMenu(null)}
-                            className={`block rounded-xl px-3 py-2 text-sm transition-colors hover:bg-[#F0EADB] ${
-                              link.strong ? 'font-bold text-[#D10E63]' : 'font-medium text-[#3F3A33]'
+                            className={`flex min-h-11 items-center rounded-[10px] px-3 text-sm outline-none transition-[background-color,color,transform] duration-150 hover:translate-x-0.5 hover:bg-[#F5F2EB] focus-visible:translate-x-0.5 focus-visible:bg-[#F5F2EB] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
+                              link.strong
+                                ? 'font-bold text-[#D10E63]'
+                                : 'font-medium text-[#3F3A33] hover:text-[#1C1A17] focus-visible:text-[#1C1A17]'
                             }`}
                           >
                             {link[lang]}
@@ -243,8 +245,10 @@ export function Navbar() {
                             key={link.fr}
                             href={link.href}
                             onClick={() => setOpenMenu(null)}
-                            className={`block rounded-xl px-3 py-2 text-sm transition-colors hover:bg-[#F0EADB] ${
-                              link.strong ? 'font-bold text-[#D10E63]' : 'font-medium text-[#3F3A33]'
+                            className={`flex min-h-11 items-center rounded-[10px] px-3 text-sm outline-none transition-[background-color,color,transform] duration-150 hover:translate-x-0.5 hover:bg-[#F5F2EB] focus-visible:translate-x-0.5 focus-visible:bg-[#F5F2EB] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
+                              link.strong
+                                ? 'font-bold text-[#D10E63]'
+                                : 'font-medium text-[#3F3A33] hover:text-[#1C1A17] focus-visible:text-[#1C1A17]'
                             }`}
                           >
                             {link[lang]}
@@ -259,7 +263,7 @@ export function Navbar() {
                             key={c.name}
                             href={c.href}
                             onClick={() => setOpenMenu(null)}
-                            className="flex items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-[#F0EADB]"
+                            className="flex min-h-11 items-center gap-3 rounded-[10px] px-3 py-1.5 outline-none transition-[background-color,transform] duration-150 hover:translate-x-0.5 hover:bg-[#F5F2EB] focus-visible:translate-x-0.5 focus-visible:bg-[#F5F2EB] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
                           >
                             <img src={c.avatar || '/placeholder.svg'} alt="" className="h-8 w-8 rounded-full object-cover" />
                             <span className="min-w-0">
