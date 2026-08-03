@@ -22,11 +22,11 @@ const CREATE_ORG = {
 
 // Compact dropdown for "Missions"
 const MISSIONS_MENU: NavLink[] = [
-  { fr: 'Trouver des clients', en: 'Find customers', href: '/missions#missions-grid' },
-  { fr: 'Répondre aux clients', en: 'Answer customers', href: '/missions#missions-grid' },
-  { fr: 'Préparer une réunion', en: 'Prepare a meeting', href: '/missions#missions-grid' },
-  { fr: 'Créer des contenus', en: 'Create content', href: '/missions#missions-grid' },
-  { fr: 'Automatiser un processus', en: 'Automate a process', href: '/missions#missions-grid' },
+  { fr: 'Trouver des clients', en: 'Find customers', href: '/missions/trouver-des-clients' },
+  { fr: 'Répondre aux clients', en: 'Answer customers', href: '/missions/repondre-aux-clients' },
+  { fr: 'Créer mes contenus', en: 'Create content', href: '/missions/creer-mes-contenus' },
+  { fr: 'Préparer mes réunions', en: 'Prepare meetings', href: '/missions/preparer-mes-reunions' },
+  { fr: 'Automatiser mes opérations', en: 'Automate operations', href: '/missions/automatiser-mes-operations' },
   { fr: 'Voir toutes les Missions', en: 'See all Missions', href: '/missions', strong: true },
 ]
 

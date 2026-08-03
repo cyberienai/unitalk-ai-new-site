@@ -19,7 +19,11 @@ type Copy = {
   searchPlaceholder: string
   searchExamplesLabel: string
   searchExamples: string[]
+  seeResults: string
+  rolesWord: string
+  missionsWord: string
   noResult: string
+  clearSearch: string
   conceptKicker: string
   conceptTitle: string
   conceptSteps: StepCopy[]
@@ -54,7 +58,11 @@ const T: Record<Lang, Copy> = {
     searchPlaceholder: 'Que voulez-vous accomplir ?',
     searchExamplesLabel: 'Exemples',
     searchExamples: ['Trouver des clients', 'Préparer une réunion', 'Créer du contenu', 'Automatiser un processus'],
+    seeResults: 'Voir les résultats',
+    rolesWord: 'métiers',
+    missionsWord: 'Missions',
     noResult: 'Aucune Mission ne correspond à votre recherche. Essayez un autre mot ou explorez toutes les Missions.',
+    clearSearch: 'Effacer',
     conceptKicker: 'Comment ça marche',
     conceptTitle: 'Qu’est-ce qu’une Mission ?',
     conceptSteps: [
@@ -92,7 +100,11 @@ const T: Record<Lang, Copy> = {
     searchPlaceholder: 'What do you want to accomplish?',
     searchExamplesLabel: 'Examples',
     searchExamples: ['Find clients', 'Prepare a meeting', 'Create content', 'Automate a process'],
+    seeResults: 'See results',
+    rolesWord: 'roles',
+    missionsWord: 'Missions',
     noResult: 'No Mission matches your search. Try another word or explore all Missions.',
+    clearSearch: 'Clear',
     conceptKicker: 'How it works',
     conceptTitle: 'What is a Mission?',
     conceptSteps: [
@@ -125,6 +137,11 @@ const T: Record<Lang, Copy> = {
   },
 }
 
+function matchesQuery(m: (typeof MISSIONS)[number], lang: Lang, q: string) {
+  const haystack = `${m.title[lang]} ${m.description[lang]} ${m.profile[lang]} ${m.skills.map((s) => s[lang]).join(' ')}`.toLowerCase()
+  return haystack.includes(q)
+}
+
 export function MissionsContent() {
   const { lang } = useLanguage()
   const t = T[lang]
@@ -136,16 +153,34 @@ export function MissionsContent() {
     [t, lang],
   )
 
+  const categoryLabel = (key: string) => MISSION_CATEGORIES.find((c) => c.key === key)?.label[lang] ?? ''
+
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
     return MISSIONS.filter((m) => {
       const matchesCat = active === 'all' || m.category === active
       if (!matchesCat) return false
       if (!q) return true
-      const haystack = `${m.title[lang]} ${m.description[lang]} ${m.profile[lang]} ${m.skills.map((s) => s[lang]).join(' ')}`.toLowerCase()
-      return haystack.includes(q)
+      return matchesQuery(m, lang, q)
     })
   }, [active, query, lang])
+
+  // Global search count (ignores the active category, used for the hero feedback)
+  const searchCount = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return 0
+    return MISSIONS.filter((m) => matchesQuery(m, lang, q)).length
+  }, [query, lang])
+
+  const goToResults = () => {
+    setActive('all')
+    document.getElementById('missions-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  const matchText =
+    lang === 'fr'
+      ? `${searchCount} Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'correspondent' : 'correspond'}`
+      : `${searchCount} Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'match' : 'matches'}`
 
   return (
     <main className="bg-[#F3EFE6]">
@@ -158,32 +193,78 @@ export function MissionsContent() {
           </h1>
           <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-[#5F594F] md:text-lg">{t.lead}</p>
 
+          {/* Credibility chips */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6E665A]">
+            <span className="rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-1.5">
+              {MISSIONS.length} {t.missionsWord}
+            </span>
+            <span className="rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-1.5">
+              {MISSION_CATEGORIES.length} {t.rolesWord}
+            </span>
+          </div>
+
           {/* Functional search */}
-          <div className="mt-8 max-w-2xl">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] px-4 py-1">
+          <div className="mt-7 max-w-2xl">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] px-4 py-1 focus-within:border-[#D10E63]/40">
               <Search className="h-4 w-4 shrink-0 text-[#8A8175]" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229 && searchCount > 0) goToResults()
+                }}
                 placeholder={t.searchPlaceholder}
                 className="w-full bg-transparent py-3 text-sm text-[#1C1A17] placeholder:text-[#8A8175] focus:outline-none"
                 aria-label={t.searchPlaceholder}
               />
-            </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <span className="text-xs font-semibold text-[#8A8175]">{t.searchExamplesLabel} :</span>
-              {t.searchExamples.map((ex) => (
+              {query.trim() && (
                 <button
-                  key={ex}
                   type="button"
-                  onClick={() => setQuery(ex)}
-                  className="rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-1 text-xs font-medium text-[#4E483F] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
+                  onClick={() => setQuery('')}
+                  className="shrink-0 rounded-full px-2 py-1 text-xs font-semibold text-[#8A8175] transition-colors hover:text-[#1C1A17]"
                 >
-                  {ex}
+                  {t.clearSearch}
                 </button>
-              ))}
+              )}
             </div>
+
+            {/* Live feedback */}
+            {query.trim() ? (
+              searchCount > 0 ? (
+                <button
+                  type="button"
+                  onClick={goToResults}
+                  className="group mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                >
+                  <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#D10E63] px-2 text-xs font-bold text-[#FBF9F3]">
+                    {searchCount}
+                  </span>
+                  <span>{matchText.replace(/^\d+\s/, '')}</span>
+                  <span className="text-[#8A8175]">·</span>
+                  <span className="inline-flex items-center gap-1 text-[#D10E63]">
+                    {t.seeResults}
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </button>
+              ) : (
+                <p className="mt-3 text-sm text-[#8A8175]">{t.noResult}</p>
+              )
+            ) : (
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="text-xs font-semibold text-[#8A8175]">{t.searchExamplesLabel} :</span>
+                {t.searchExamples.map((ex) => (
+                  <button
+                    key={ex}
+                    type="button"
+                    onClick={() => setQuery(ex)}
+                    className="rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-1 text-xs font-medium text-[#4E483F] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
+                  >
+                    {ex}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -216,30 +297,39 @@ export function MissionsContent() {
       {/* Catalogue */}
       <section id="missions-grid" className="scroll-mt-24 px-5 py-14 sm:px-8 sm:py-16">
         <div className="editorial-shell">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.catalogueKicker}</p>
-          <h2 className="mt-3 font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">{t.catalogueTitle}</h2>
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.catalogueKicker}</p>
+              <h2 className="mt-3 font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">{t.catalogueTitle}</h2>
+            </div>
+            <p className="font-mono text-xs font-semibold text-[#8A8175]">
+              {visible.length} {t.missionsWord}
+            </p>
+          </div>
 
-          {/* Filters */}
-          <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label={t.catalogueTitle}>
-            {filters.map((f) => {
-              const isActive = f.key === active
-              return (
-                <button
-                  key={f.key}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActive(f.key)}
-                  className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-                    isActive
-                      ? 'border-[#1C1A17] bg-[#1C1A17] text-[#F3EFE6]'
-                      : 'border-[#E4DDCE] bg-[#FBF9F3] text-[#4E483F] hover:border-[#D10E63]/40 hover:text-[#D10E63]'
-                  }`}
-                >
-                  {f.label}
-                </button>
-              )
-            })}
+          {/* Filters (sticky) */}
+          <div className="sticky top-[68px] z-10 -mx-5 mt-6 border-y border-[#E4DDCE]/70 bg-[#F3EFE6]/90 px-5 py-3 backdrop-blur sm:top-[76px]">
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label={t.catalogueTitle}>
+              {filters.map((f) => {
+                const isActive = f.key === active
+                return (
+                  <button
+                    key={f.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setActive(f.key)}
+                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+                      isActive
+                        ? 'border-[#1C1A17] bg-[#1C1A17] text-[#F3EFE6]'
+                        : 'border-[#E4DDCE] bg-[#FBF9F3] text-[#4E483F] hover:border-[#D10E63]/40 hover:text-[#D10E63]'
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Grid */}
@@ -255,6 +345,9 @@ export function MissionsContent() {
                     href={`/missions/${m.slug}`}
                     className="group flex flex-col rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-6 transition-all duration-300 hover:border-[#D10E63]/30 hover:shadow-[0_20px_50px_rgba(28,26,23,0.07)]"
                   >
+                    <span className="mb-3 inline-flex w-fit items-center rounded-full bg-[#EDE7DA] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">
+                      {categoryLabel(m.category)}
+                    </span>
                     <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{m.title[lang]}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-[#5F594F]">{m.description[lang]}</p>
 
