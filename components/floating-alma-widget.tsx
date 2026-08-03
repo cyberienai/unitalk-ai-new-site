@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
@@ -10,9 +11,11 @@ const T = {
     tooltipClose: 'Fermer',
     role: 'Je crée vos agents et les aide à progresser',
     // Contextual tooltips by route
-    tipHome: '👋 Moi c\'est Alma. Activons votre 1er collaborateur\u00A0IA.',
+    tipHome: 'Moi c\'est Alma. Activons votre 1er Collaborateur\u00A0IA.',
     tipAgents: 'Décrivons ensemble le poste à pourvoir.',
     tipPricing: 'Une question sur les offres ? Parlons-en.',
+    tipMissions: 'Notre conseillère IA peut préparer votre Mission.',
+    ctaMissions: 'Décrire mon besoin',
     tipDefault: 'Besoin d’un nouvel agent ?',
     msg1: 'Bonjour, je suis Alma.',
     msg2: 'J\'active des collaborateurs IA sur mesure pour votre entreprise.',
@@ -28,9 +31,11 @@ const T = {
   en: {
     tooltipClose: 'Close',
     role: 'I create your agents and help them grow',
-    tipHome: '👋 Hi, I’m Alma. I can create your first agent.',
+    tipHome: 'Hi, I’m Alma. I can activate your first AI Collaborator.',
     tipAgents: 'Let’s describe the role you need to fill.',
     tipPricing: 'A question about our plans? Let’s talk.',
+    tipMissions: 'Our AI advisor can prepare your Mission.',
+    ctaMissions: 'Describe my need',
     tipDefault: 'Need a new agent?',
     msg1: "Hello, I'm Alma.",
     msg2: 'I create a tailored AI collaborator for your company.',

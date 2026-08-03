@@ -12,6 +12,10 @@ const nextConfig = {
       { source: '/missions/trouver-des-clients', destination: '/missions/trouver-de-nouveaux-clients', permanent: true },
       { source: '/missions/repondre-aux-clients', destination: '/missions/repondre-a-mes-clients', permanent: true },
       { source: '/missions/preparer-mes-reunions', destination: '/missions/preparer-et-suivre-mes-reunions', permanent: true },
+      { source: '/missions/organiser-la-faq', destination: '/missions/construire-ma-faq', permanent: true },
+      { source: '/missions/animer-mes-reseaux', destination: '/missions/animer-mes-reseaux-sociaux', permanent: true },
+      { source: '/missions/preparer-mon-reporting', destination: '/missions/preparer-mon-reporting-financier', permanent: true },
+      { source: '/missions/corriger-des-bugs', destination: '/missions/corriger-un-lot-de-bugs', permanent: true },
     ]
   },
 }
