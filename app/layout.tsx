@@ -19,6 +19,7 @@ const playfairDisplay = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://unitalk.ai'),
   title: 'Unitalk.ai',
   description: 'Transform your business with AI-powered interview solutions',
   generator: 'v0.app',

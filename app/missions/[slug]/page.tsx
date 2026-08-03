@@ -5,6 +5,8 @@ import { MissionDetailContent } from '@/components/mission-detail-content'
 import { SiteFooter } from '@/components/site-footer'
 import { MISSIONS, getMission } from '@/lib/missions-catalog'
 
+const SITE_URL = 'https://unitalk.ai'
+
 export function generateStaticParams() {
   return MISSIONS.map((m) => ({ slug: m.slug }))
 }
@@ -20,6 +22,13 @@ export async function generateMetadata({
   return {
     title: `${mission.title.fr} · Missions · Unitalk`,
     description: mission.objective.fr,
+    alternates: { canonical: `/missions/${slug}` },
+    openGraph: {
+      type: 'article',
+      url: `${SITE_URL}/missions/${slug}`,
+      title: `${mission.title.fr} · Missions · Unitalk`,
+      description: mission.objective.fr,
+    },
   }
 }
 
@@ -32,8 +41,22 @@ export default async function MissionDetailPage({
   const mission = getMission(slug)
   if (!mission) notFound()
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Missions', item: `${SITE_URL}/missions` },
+      { '@type': 'ListItem', position: 3, name: mission.title.fr, item: `${SITE_URL}/missions/${slug}` },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Navbar />
       <MissionDetailContent slug={slug} />
       <SiteFooter />
