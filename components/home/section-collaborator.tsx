@@ -25,11 +25,6 @@ const T = {
     status: 'Travaille',
     seeProfile: 'Voir le profil d’Emma',
     discoverAll: 'Découvrir les Collaborateurs IA',
-    othersLabel: 'D’autres Profils dans votre Organisation',
-    miniatures: [
-      { name: 'Iris', role: 'Designer', avatar: '/images/iris-avatar.png' },
-      { name: 'Otto', role: 'Automatisation', avatar: '/images/otto-avatar.png' },
-    ],
   },
   en: {
     kicker: 'Your AI Collaborator',
@@ -48,11 +43,6 @@ const T = {
     status: 'Working',
     seeProfile: 'See Emma’s profile',
     discoverAll: 'Discover the AI Collaborators',
-    othersLabel: 'Other Profiles in your Organization',
-    miniatures: [
-      { name: 'Iris', role: 'Designer', avatar: '/images/iris-avatar.png' },
-      { name: 'Otto', role: 'Automation', avatar: '/images/otto-avatar.png' },
-    ],
   },
 }
 
@@ -122,24 +112,6 @@ export function SectionCollaborator({ lang }: { lang: Lang }) {
                 </dd>
               </div>
             </dl>
-          </div>
-
-          {/* Secondary miniatures */}
-          <div className="mt-4 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3]/70 p-4">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.othersLabel}</p>
-            <div className="mt-3 flex flex-wrap gap-3">
-              {t.miniatures.map((m) => (
-                <div key={m.name} className="flex items-center gap-2.5 rounded-full border border-[#E4DDCE] bg-[#F3EFE6] py-1.5 pl-1.5 pr-4">
-                  <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full">
-                    <Image src={m.avatar || '/placeholder.svg'} alt={m.name} fill className="object-cover" sizes="36px" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-sm font-bold leading-none text-[#1C1A17]">{m.name}</p>
-                    <p className="mt-0.5 text-[11px] text-[#6E665A]">{m.role}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

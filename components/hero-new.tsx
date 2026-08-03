@@ -20,7 +20,7 @@ const T = {
     heroProofs: ['Analyse de votre activité', 'Workspace privé pour votre organisation', 'Essai gratuit de 7 jours'],
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
-    orgFootnote: 'Rattachez-les à une personne, une équipe, un département ou à toute l’organisation.',
+    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication' },
@@ -30,7 +30,7 @@ const T = {
       { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi' },
     ],
     collaboratorLabel: 'Collaborateurs IA',
-    orgLink: 'Voir toute l’organisation',
+    orgLink: 'Découvrir les Collaborateurs IA',
   },
   en: {
     eyebrow: 'You’re missing someone.',
@@ -44,7 +44,7 @@ const T = {
     heroProofs: ['Analysis of your business', 'A private Workspace for your organization', '7-day free trial'],
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
-    orgFootnote: 'Attach them to a person, a team, a department or the whole organization.',
+    orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
     orgPairs: [
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing' },
@@ -54,7 +54,7 @@ const T = {
       { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up' },
     ],
     collaboratorLabel: 'AI Collaborators',
-    orgLink: 'See the whole organization',
+    orgLink: 'Discover the AI Collaborators',
   },
 } as const
 
@@ -175,7 +175,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   })}
                 </div>
               </div>
-              <a href="/team" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
+              <a href="/collaborateurs-ia" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
                 {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
               </a>
             </div>

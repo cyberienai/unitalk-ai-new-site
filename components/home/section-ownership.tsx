@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { ArrowRight, Brain, SlidersHorizontal, Cpu, Sparkles, Globe, FileSearch, UserCheck, Layers, Target } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from './section-kicker'
@@ -154,22 +153,18 @@ export function SectionOwnership({ lang }: { lang: Lang }) {
           <div className="rounded-3xl border border-[#E4DCCF] bg-[#FBF9F3] p-5 sm:p-6">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.timelineLabel}</p>
             <ol className="mt-4 flex flex-col gap-2">
-              {t.steps.map((s, i) => {
+              {t.steps.map((s) => {
                 const Icon = s.icon
                 return (
-                  <motion.li
+                  <li
                     key={s.label}
-                    initial={{ opacity: 0, x: 14 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: '-40px' }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
                     className="flex items-center gap-3 rounded-2xl bg-[#F3EFE6] px-4 py-2.5"
                   >
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]">
                       <Icon className="h-4 w-4" />
                     </span>
                     <span className="text-sm font-semibold text-[#1C1A17]">{s.label}</span>
-                  </motion.li>
+                  </li>
                 )
               })}
             </ol>

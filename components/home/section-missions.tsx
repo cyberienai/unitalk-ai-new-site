@@ -152,22 +152,26 @@ export function SectionMissions({ lang }: { lang: Lang }) {
           {t.missions.map((m, i) => {
             const isActive = i === active
             return (
-              <button
+              <div
                 key={m.id}
-                type="button"
-                onClick={() => setActive(i)}
-                aria-pressed={isActive}
-                className={`flex w-[80vw] shrink-0 snap-start flex-col rounded-3xl border p-6 text-left transition-all duration-300 sm:w-auto ${
+                className={`flex w-[80vw] shrink-0 snap-start flex-col rounded-3xl border p-6 transition-all duration-300 sm:w-auto ${
                   isActive
                     ? 'border-[#D10E63]/40 bg-[#FBF9F3] shadow-[0_20px_50px_rgba(28,26,23,0.08)]'
                     : 'border-[#E4DCCF] bg-[#EFEADF] hover:border-[#D10E63]/25 hover:bg-[#FBF9F3]'
                 }`}
               >
-                <h3 className="font-sf text-lg font-bold tracking-[-0.02em] text-[#1C1A17]">{m.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#5F594F]">{m.description}</p>
-                <p className="mt-4 text-[13px] font-semibold text-[#D10E63]">
-                  {m.profileLabel} : {m.profiles}
-                </p>
+                <button
+                  type="button"
+                  onClick={() => setActive(i)}
+                  aria-expanded={isActive}
+                  className="flex flex-col text-left"
+                >
+                  <h3 className="font-sf text-lg font-bold tracking-[-0.02em] text-[#1C1A17]">{m.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[#5F594F]">{m.description}</p>
+                  <p className="mt-4 text-[13px] font-semibold text-[#D10E63]">
+                    {m.profileLabel} : {m.profiles}
+                  </p>
+                </button>
 
                 {/* Reveal for the active mission */}
                 <div className={`grid transition-all duration-300 ${isActive ? 'mt-4 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
@@ -184,29 +188,24 @@ export function SectionMissions({ lang }: { lang: Lang }) {
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#22A06B]" strokeWidth={2.5} />
                         <span>{m.result}</span>
                       </p>
-                      <span
-                        className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#D10E63] px-4 py-2 text-sm font-bold text-[#FBF9F3]"
+                      <Link
+                        href={m.href}
+                        tabIndex={isActive ? 0 : -1}
+                        className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#D10E63] px-4 py-2 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
                       >
                         {t.discover}
                         <ArrowRight className="h-4 w-4" />
-                      </span>
+                      </Link>
                     </div>
                   </div>
                 </div>
-              </button>
+              </div>
             )
           })}
         </div>
 
-        {/* Real navigation link for the active mission (outside the button to avoid nested interactive elements) */}
-        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <Link
-            href={t.missions[active].href}
-            className="inline-flex items-center gap-1.5 rounded-full bg-[#1C1A17] px-5 py-2.5 text-sm font-bold text-[#F3EFE6] transition-transform hover:-translate-y-0.5"
-          >
-            {t.discover} : {t.missions[active].title}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+        {/* Explore all missions */}
+        <div className="mt-8 flex justify-center sm:justify-start">
           <Link
             href="/collaborateurs-ia"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4E483F] underline-offset-4 transition-colors hover:text-[#D10E63] hover:underline"
