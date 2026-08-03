@@ -18,6 +18,8 @@ export type Mission = {
   objective: Bilingual
   steps: Bilingual[]
   deliverable: Bilingual
+  deliveryTime: Bilingual
+  validation: Bilingual
   produces: Bilingual[]
   skills: Bilingual[]
   tools: string[]
@@ -38,7 +40,7 @@ export const MISSION_CATEGORIES: MissionCategory[] = [
 export const MISSIONS: Mission[] = [
   // ---------------- VENTES ----------------
   {
-    slug: 'trouver-des-clients',
+    slug: 'trouver-de-nouveaux-clients',
     category: 'ventes',
     title: { fr: 'Trouver de nouveaux clients', en: 'Find new clients' },
     description: {
@@ -63,6 +65,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un tableau de 30 prospects qualifiés avec, pour chacun, le contact, le contexte et un message personnalisé prêt à envoyer.',
       en: 'A sheet of 30 qualified prospects with, for each, the contact, context and a personalized message ready to send.',
     },
+    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
+    validation: { fr: 'Votre accord est requis avant tout envoi.', en: 'Your approval is required before anything is sent.' },
     produces: [
       { fr: 'Liste de prospects qualifiés', en: 'Qualified prospect list' },
       { fr: 'Messages de prise de contact', en: 'Outreach messages' },
@@ -104,6 +108,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Une file de relances personnalisées, classées par priorité, avec le contexte de chaque affaire.',
       en: 'A queue of personalized follow-ups, ranked by priority, with the context of each deal.',
     },
+    deliveryTime: { fr: '1 jour ouvré', en: '1 business day' },
+    validation: { fr: 'Votre accord est requis avant toute relance.', en: 'Your approval is required before any follow-up.' },
     produces: [
       { fr: 'Relances personnalisées', en: 'Personalized follow-ups' },
       { fr: 'Pipeline priorisé', en: 'Prioritized pipeline' },
@@ -122,7 +128,7 @@ export const MISSIONS: Mission[] = [
 
   // ---------------- SUPPORT ----------------
   {
-    slug: 'repondre-aux-clients',
+    slug: 'repondre-a-mes-clients',
     category: 'support',
     title: { fr: 'Répondre à mes clients', en: 'Answer my customers' },
     description: {
@@ -147,6 +153,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Une file de réponses prêtes à valider, avec les cas sensibles clairement identifiés.',
       en: 'A queue of replies ready to approve, with sensitive cases clearly identified.',
     },
+    deliveryTime: { fr: 'En continu', en: 'Ongoing' },
+    validation: { fr: 'Validation requise avant l’envoi des réponses sensibles.', en: 'Approval required before sending sensitive replies.' },
     produces: [
       { fr: 'Réponses prêtes à valider', en: 'Replies ready to approve' },
       { fr: 'File de cas escaladés', en: 'Escalated case queue' },
@@ -188,6 +196,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Une FAQ structurée par thème et un jeu de réponses types prêtes à insérer dans vos échanges.',
       en: 'A FAQ structured by topic and a set of canned replies ready to drop into your exchanges.',
     },
+    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
+    validation: { fr: 'Votre accord est requis avant publication.', en: 'Your approval is required before publishing.' },
     produces: [
       { fr: 'FAQ structurée', en: 'Structured FAQ' },
       { fr: 'Réponses types', en: 'Canned replies' },
@@ -231,6 +241,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un article de blog, sa déclinaison en posts pour les réseaux sociaux et un visuel d’illustration, prêts à publier.',
       en: 'A blog post, its social-media variations and an illustration, ready to publish.',
     },
+    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
+    validation: { fr: 'Votre accord est requis avant publication.', en: 'Your approval is required before publishing.' },
     produces: [
       { fr: 'Articles et posts', en: 'Articles and posts' },
       { fr: 'Visuels', en: 'Visuals' },
@@ -272,6 +284,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un calendrier d’une semaine de publications, visuels inclus, prêt à programmer.',
       en: 'A one-week posting calendar, visuals included, ready to schedule.',
     },
+    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
+    validation: { fr: 'Votre accord est requis avant programmation.', en: 'Your approval is required before scheduling.' },
     produces: [
       { fr: 'Calendrier éditorial', en: 'Editorial calendar' },
       { fr: 'Publications et visuels', en: 'Posts and visuals' },
@@ -313,6 +327,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un audit priorisé, une liste de mots-clés cibles et un premier contenu optimisé prêt à publier.',
       en: 'A prioritized audit, a list of target keywords and a first optimized piece ready to publish.',
     },
+    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
+    validation: { fr: 'Votre accord est requis avant mise en ligne.', en: 'Your approval is required before going live.' },
     produces: [
       { fr: 'Audit SEO priorisé', en: 'Prioritized SEO audit' },
       { fr: 'Mots-clés cibles', en: 'Target keywords' },
@@ -331,7 +347,7 @@ export const MISSIONS: Mission[] = [
 
   // ---------------- REUNIONS ----------------
   {
-    slug: 'preparer-mes-reunions',
+    slug: 'preparer-et-suivre-mes-reunions',
     category: 'reunions',
     title: { fr: 'Préparer et suivre mes réunions', en: 'Prepare and follow up my meetings' },
     description: {
@@ -356,6 +372,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un ordre du jour avant la réunion, un compte rendu après, et une liste d’actions assignées et suivies.',
       en: 'An agenda before the meeting, minutes after, and a list of assigned, tracked actions.',
     },
+    deliveryTime: { fr: 'Avant et après chaque réunion', en: 'Before and after each meeting' },
+    validation: { fr: 'Vous validez l’ordre du jour et le compte rendu.', en: 'You approve the agenda and the minutes.' },
     produces: [
       { fr: 'Ordre du jour', en: 'Agenda' },
       { fr: 'Compte rendu structuré', en: 'Structured minutes' },
@@ -399,6 +417,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un reporting mensuel mis en forme, avec les indicateurs clés, les écarts commentés et un résumé pour la direction.',
       en: 'A formatted monthly report, with key metrics, commented variances and an executive summary.',
     },
+    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
+    validation: { fr: 'Vous examinez le reporting avant diffusion.', en: 'You review the report before it is shared.' },
     produces: [
       { fr: 'Reporting mis en forme', en: 'Formatted report' },
       { fr: 'Indicateurs clés', en: 'Key metrics' },
@@ -442,6 +462,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un processus automatisé opérationnel, sa documentation et un tableau de surveillance.',
       en: 'A live automated process, its documentation and a monitoring dashboard.',
     },
+    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
+    validation: { fr: 'Votre accord est requis avant mise en service.', en: 'Your approval is required before going live.' },
     produces: [
       { fr: 'Processus automatisé', en: 'Automated process' },
       { fr: 'Documentation', en: 'Documentation' },
@@ -485,6 +507,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Une contribution de code testée, documentée et prête à être relue puis fusionnée.',
       en: 'A tested, documented code contribution ready to be reviewed and merged.',
     },
+    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
+    validation: { fr: 'Vous examinez la contribution avant fusion.', en: 'You review the contribution before merging.' },
     produces: [
       { fr: 'Code testé', en: 'Tested code' },
       { fr: 'Documentation technique', en: 'Technical documentation' },
@@ -526,6 +550,8 @@ export const MISSIONS: Mission[] = [
       fr: 'Un lot de correctifs testés, chacun accompagné de la cause identifiée et des tests associés.',
       en: 'A batch of tested fixes, each with the identified cause and its associated tests.',
     },
+    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
+    validation: { fr: 'Vous examinez les correctifs avant livraison.', en: 'You review the fixes before shipping.' },
     produces: [
       { fr: 'Correctifs testés', en: 'Tested fixes' },
       { fr: 'Causes identifiées', en: 'Identified root causes' },
@@ -542,6 +568,13 @@ export const MISSIONS: Mission[] = [
     collaboratorSlug: 'arthur',
   },
 ]
+
+// Slugs renamed for SEO. Old slugs redirect to the new ones (see next.config).
+export const MISSION_SLUG_REDIRECTS: Record<string, string> = {
+  'trouver-des-clients': 'trouver-de-nouveaux-clients',
+  'repondre-aux-clients': 'repondre-a-mes-clients',
+  'preparer-mes-reunions': 'preparer-et-suivre-mes-reunions',
+}
 
 export function getMission(slug: string): Mission | undefined {
   return MISSIONS.find((m) => m.slug === slug)

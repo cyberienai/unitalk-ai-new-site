@@ -302,3 +302,23 @@
     animation: v0-reveal-fallback 0.4s ease-out 0.9s forwards;
   }
 }
+
+/* Mission hero widget: subtle one-time entrance for progression rows. */
+@keyframes mission-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mission-rise {
+  animation: mission-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mission-rise {
+    animation: none;
+  }
+}
