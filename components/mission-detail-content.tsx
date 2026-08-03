@@ -7,8 +7,6 @@ import { collaboratorHref, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { getMission, relatedMissions, MISSION_CATEGORIES } from '@/lib/missions-catalog'
 import { useLanguage, type Lang } from '@/lib/language-context'
 
-const CREATE_ORG_HREF = '/decouvrir'
-
 type Copy = {
   back: string
   objectiveWord: string
@@ -197,7 +195,7 @@ export function MissionDetailContent({ slug }: { slug: string }) {
               </div>
 
               <Link
-                href={CREATE_ORG_HREF}
+                href={`/confier?mission=${mission.slug}`}
                 className="mt-6 flex items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
               >
                 {t.startCta}
