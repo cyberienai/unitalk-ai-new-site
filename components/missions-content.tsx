@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useMemo, useState } from 'react'
-import { ArrowRight, Check, Search, MessageSquare, Layers, Cpu, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check, Search, MessageSquare, Layers, Cpu, ShieldCheck, Gauge, Eye, GraduationCap, Repeat } from 'lucide-react'
 import { collaboratorHref, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { MISSIONS, MISSION_CATEGORIES } from '@/lib/missions-catalog'
 import { useLanguage, type Lang } from '@/lib/language-context'
@@ -27,6 +27,9 @@ type Copy = {
   conceptKicker: string
   conceptTitle: string
   conceptSteps: StepCopy[]
+  benefitsKicker: string
+  benefitsTitle: string
+  benefits: StepCopy[]
   catalogueKicker: string
   catalogueTitle: string
   allLabel: string
@@ -71,6 +74,14 @@ const T: Record<Lang, Copy> = {
       { icon: Cpu, title: 'Le Collaborateur travaille', body: 'Il agit dans votre Workspace, avec vos outils et votre contexte.' },
       { icon: ShieldCheck, title: 'Vous examinez et validez', body: 'Rien n’est finalisé sans votre accord. Vous gardez la main.' },
     ],
+    benefitsKicker: 'Ce que ça vous apporte',
+    benefitsTitle: 'Une Mission, c’est vous qui gagnez.',
+    benefits: [
+      { icon: Gauge, title: 'Accélérez votre expertise', body: 'Obtenez en quelques minutes ce qui vous prenait des heures.' },
+      { icon: Eye, title: 'Supervisez votre Collaborateur IA', body: 'Vous suivez chaque étape et validez le résultat avant qu’il ne compte.' },
+      { icon: GraduationCap, title: 'Ajoutez les savoir-faire métier', body: 'Mobilisez les compétences nécessaires pour atteindre vos objectifs.' },
+      { icon: Repeat, title: 'Déléguez les tâches répétitives', body: 'Libérez votre temps pour ce qui demande vraiment votre attention.' },
+    ],
     catalogueKicker: 'Le catalogue',
     catalogueTitle: 'Des Missions pour chaque métier.',
     allLabel: 'Toutes',
@@ -112,6 +123,14 @@ const T: Record<Lang, Copy> = {
       { icon: Layers, title: 'The right Profile is mobilized', body: 'Unitalk activates the job know-how that fits your request.' },
       { icon: Cpu, title: 'The Collaborator works', body: 'It acts in your Workspace, with your tools and your context.' },
       { icon: ShieldCheck, title: 'You review and approve', body: 'Nothing is finalized without your go-ahead. You stay in control.' },
+    ],
+    benefitsKicker: 'What you gain',
+    benefitsTitle: 'A Mission works in your favor.',
+    benefits: [
+      { icon: Gauge, title: 'Accelerate your expertise', body: 'Get in minutes what used to take you hours.' },
+      { icon: Eye, title: 'Supervise your AI Collaborator', body: 'You follow every step and approve the result before it counts.' },
+      { icon: GraduationCap, title: 'Add the job know-how you need', body: 'Mobilize the exact skills required to reach your goals.' },
+      { icon: Repeat, title: 'Delegate repetitive tasks', body: 'Free your time for the work that truly needs your attention.' },
     ],
     catalogueKicker: 'The catalog',
     catalogueTitle: 'Missions for every role.',
@@ -291,6 +310,28 @@ export function MissionsContent() {
               )
             })}
           </ol>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="border-b border-[#E4DDCE] bg-[#FBF9F3] px-5 py-14 sm:px-8 sm:py-16">
+        <div className="editorial-shell">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.benefitsKicker}</p>
+          <h2 className="mt-3 font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">{t.benefitsTitle}</h2>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {t.benefits.map((b) => {
+              const Icon = b.icon
+              return (
+                <li key={b.title} className="rounded-3xl border border-[#E4DDCE] bg-[#F3EFE6] p-6">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#D10E63]/10 text-[#D10E63]">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 font-sf text-base font-bold tracking-[-0.01em] text-[#1C1A17]">{b.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-[#5F594F]">{b.body}</p>
+                </li>
+              )
+            })}
+          </ul>
         </div>
       </section>
 
