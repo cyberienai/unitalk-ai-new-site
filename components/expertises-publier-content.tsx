@@ -21,16 +21,16 @@ type Copy = {
 
 const T: Record<Lang, Copy> = {
   fr: {
-    kicker: 'Proposer une Expertise',
+    kicker: 'Proposer une expertise',
     title: 'Mettez votre expertise IA au service des entreprises.',
-    lead: 'Proposez une Expertise sur Unitalk : cadrage, intégration, configuration ou supervision de Collaborateurs IA. Vous intervenez sur les Missions qui correspondent à votre savoir-faire.',
+    lead: 'Proposez une expertise sur Unitalk : cadrage, intégration, configuration ou supervision de Collaborateurs IA. Vous intervenez sur les missions qui correspondent à votre savoir-faire.',
     forWho: 'Pour qui',
     audiences: ['Consultants IA', 'Agences', 'Formateurs', 'Intégrateurs'],
     provideTitle: 'Ce qu’Unitalk fournit',
     provide: [
-      'Le socle de travail : Missions, Profils, Workspace et gouvernance.',
+      'Le socle de travail : missions, profils, workspace et gouvernance.',
       'La mise en relation avec des entreprises ayant un besoin réel.',
-      'Le cadre d’exécution et de validation des Missions.',
+      'Le cadre d’exécution et de validation des missions.',
     ],
     keepTitle: 'Ce que vous conservez',
     keep: [
@@ -38,27 +38,27 @@ const T: Record<Lang, Copy> = {
       'Votre relation client.',
       'La maîtrise de vos interventions.',
     ],
-    primary: 'Proposer mon Expertise',
+    primary: 'Proposer mon expertise',
     secondary: 'Devenir partenaire',
-    note: 'Nous étudions chaque proposition d’Expertise avant mise en relation. Aucune certification ni tarif imposé : vous définissez votre offre.',
+    note: 'Nous étudions chaque proposition d’expertise avant mise en relation. Aucune certification ni tarif imposé : vous définissez votre offre.',
   },
   en: {
-    kicker: 'Offer an Expertise',
+    kicker: 'Offer an expertise',
     title: 'Put your AI expertise to work for companies.',
-    lead: 'Offer an Expertise on Unitalk: scoping, integration, configuration or supervision of AI Collaborators. You work on the Missions that match your know-how.',
+    lead: 'Offer an expertise on Unitalk: scoping, integration, configuration or supervision of AI Collaborators. You work on the missions that match your know-how.',
     forWho: 'Who it’s for',
     audiences: ['AI consultants', 'Agencies', 'Trainers', 'Integrators'],
     provideTitle: 'What Unitalk provides',
     provide: [
-      'The work foundation: Missions, Profiles, Workspace and governance.',
+      'The work foundation: missions, profiles, workspace and governance.',
       'Introductions to companies with a real need.',
-      'The execution and approval framework for Missions.',
+      'The execution and approval framework for missions.',
     ],
     keepTitle: 'What you keep',
     keep: ['Your expertise and method.', 'Your client relationship.', 'Control over your engagements.'],
-    primary: 'Offer my Expertise',
+    primary: 'Offer my expertise',
     secondary: 'Become a partner',
-    note: 'We review every Expertise proposal before making introductions. No imposed certification or pricing: you define your offer.',
+    note: 'We review every expertise proposal before making introductions. No imposed certification or pricing: you define your offer.',
   },
 }
 

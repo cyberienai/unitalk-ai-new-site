@@ -5,8 +5,8 @@ import { SiteFooter } from '@/components/site-footer'
 import { ConfierContent } from '@/components/confier-content'
 
 export const metadata: Metadata = {
-  title: 'Confier une Mission · Unitalk',
-  description: 'Confiez votre Mission à un Collaborateur IA : précisez l’essentiel, gardez la main sur les validations et ouvrez votre Workspace.',
+  title: 'Confier une mission · Unitalk',
+  description: 'Confiez votre mission à un Collaborateur IA : précisez l’essentiel, gardez la main sur les validations et ouvrez votre workspace.',
   robots: { index: false, follow: true },
 }
 

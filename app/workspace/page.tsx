@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/site-footer'
 export const metadata: Metadata = {
   title: 'Workspace · Unitalk',
   description:
-    'Le Workspace privé de votre organisation : Missions, conversations, fichiers, validations et résultats réunis au même endroit. Vous donnez le cap, votre Collaborateur IA fait avancer le travail.',
+    'Le workspace privé de votre organisation : missions, conversations, fichiers, validations et résultats réunis au même endroit. Vous donnez le cap, votre Collaborateur IA fait avancer le travail.',
 }
 
 export default function WorkspacePage() {
