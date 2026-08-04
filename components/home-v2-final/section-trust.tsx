@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { MapPin, ShieldCheck, Server } from 'lucide-react'
+import { MapPin, KeyRound, CircleCheck, Server } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -16,12 +16,16 @@ const T = {
         desc: 'L’environnement Unitalk et les données couvertes par l’offre sont hébergés en France.',
       },
       {
-        title: 'Gouvernance & conformité',
-        desc: 'Des outils de gouvernance facilitent le respect de vos obligations RGPD et AI Act, avec un contrôle clair de vos accès.',
+        title: 'Gouvernance des accès',
+        desc: 'Votre organisation définit les outils, les données et les actions autorisés pour chaque Collaborateur IA.',
+      },
+      {
+        title: 'Validations maîtrisées',
+        desc: 'Vous choisissez les actions qui nécessitent votre accord avant leur exécution.',
       },
       {
         title: 'Serveur IA privé disponible',
-        desc: 'Pour les organisations qui le souhaitent, un environnement isolé, dédié à vos seules données.',
+        desc: 'Vos applications, vos automatisations et vos données sensibles peuvent fonctionner dans un environnement privé.',
       },
     ],
   },
@@ -35,18 +39,22 @@ const T = {
         desc: 'The Unitalk environment and the data covered by the plan are hosted in France.',
       },
       {
-        title: 'Governance & compliance',
-        desc: 'Governance tools help you meet your GDPR and EU AI Act obligations, with clear control over your access.',
+        title: 'Access governance',
+        desc: 'Your organization defines the tools, data and actions each AI Collaborator is allowed to use.',
+      },
+      {
+        title: 'Controlled approvals',
+        desc: 'You choose which actions require your approval before they run.',
       },
       {
         title: 'Private AI server available',
-        desc: 'For organizations that need it, an isolated environment dedicated to your data only.',
+        desc: 'Your applications, automations and sensitive data can run in a private environment.',
       },
     ],
   },
 } as const
 
-const ICONS = [MapPin, ShieldCheck, Server] as const
+const ICONS = [MapPin, KeyRound, CircleCheck, Server] as const
 
 export function SectionTrust({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
@@ -66,7 +74,7 @@ export function SectionTrust({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-3">
+        <div className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {t.cards.map((card, i) => {
             const Icon = ICONS[i]
             return (
