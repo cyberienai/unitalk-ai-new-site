@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Building2, Check, Globe, Network, User, Users } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
-import { AlmaAvatar } from '@/components/alma-avatar'
 
 const T = {
   fr: {
@@ -174,7 +173,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.div {...enter(0.2)} className="mt-6 flex items-center justify-center gap-2 sm:justify-start">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#E4DDCE] bg-[#F3EFE6]/70 py-1 pl-1 pr-3">
-              <AlmaAvatar size={24} showGlow={false} />
+              <span className="relative shrink-0">
+                <Image src="/alma-avatar.png" alt="Alma" width={24} height={24} className="h-6 w-6 rounded-full object-cover ring-2 ring-[#D10E63]/35" />
+                <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border border-[#F3EFE6] bg-[#2E7D4F]" aria-hidden="true" />
+              </span>
               <span className="text-[13px] font-medium text-[#6E665A]">
                 <span className="font-bold text-[#1C1A17]">{t.almaName}</span>
                 <span className="px-1 text-[#B7AE9E]" aria-hidden="true">·</span>
