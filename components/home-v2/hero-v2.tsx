@@ -9,7 +9,6 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    avatarsLabel: 'Un visage, une voix, un profil métier — façonné pour votre activité',
     eyebrow: 'Il vous manque quelqu’un.',
     titleLead: 'Votre Collaborateur IA est prêt à',
     missions: [
@@ -53,7 +52,6 @@ const T = {
     scaleHeader: 'Rattaché à',
   },
   en: {
-    avatarsLabel: 'A face, a voice, a business profile — shaped for your business',
     eyebrow: 'Someone is missing.',
     titleLead: 'Your AI Collaborator is ready to',
     missions: [
@@ -100,15 +98,6 @@ const T = {
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-const HERO_AVATARS = [
-  { name: 'Emma', src: '/images/emma-avatar.png' },
-  { name: 'Léa', src: '/images/lea-avatar.png' },
-  { name: 'Arthur', src: '/images/arthur-avatar.png' },
-  { name: 'Hugo', src: '/images/hugo-avatar.png' },
-  { name: 'Nadia', src: '/images/nadia-avatar.png' },
-  { name: 'Inès', src: '/images/ines-avatar.png' },
-] as const
-
 const SCALE_ICONS = {
   person: User,
   team: Users,
@@ -154,32 +143,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="max-w-2xl">
-          <motion.div {...enter(0)} className="mb-5 flex items-center justify-center gap-3 sm:justify-start">
-            <ul className="flex items-center -space-x-2.5">
-              {HERO_AVATARS.map((a, i) => (
-                <motion.li
-                  key={a.name}
-                  initial={reduceMotion ? false : { opacity: 0, scale: 0.6, x: -6 }}
-                  animate={{ opacity: 1, scale: 1, x: 0 }}
-                  transition={{ duration: 0.4, ease, delay: reduceMotion ? 0 : 0.06 * i }}
-                  className="relative"
-                  style={{ zIndex: HERO_AVATARS.length - i }}
-                >
-                  <Image
-                    src={a.src}
-                    alt={a.name}
-                    width={36}
-                    height={36}
-                    className="h-9 w-9 rounded-full object-cover ring-2 ring-[#F3EFE6]"
-                  />
-                </motion.li>
-              ))}
-            </ul>
-            <span className="max-w-[10rem] text-pretty text-[11px] font-medium leading-4 text-[#6E665A] sm:max-w-[13rem]">
-              {t.avatarsLabel}
-            </span>
-          </motion.div>
-
           <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
             {t.eyebrow}
           </motion.p>
