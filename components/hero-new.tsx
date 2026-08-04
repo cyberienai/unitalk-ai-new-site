@@ -123,7 +123,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
           {/* Full sentence for assistive tech (rotation is decorative) */}
           <p className="sr-only">{`${t.headline} ${t.rotatingWords.join(', ')}.`}</p>
-          <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
+          <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base font-semibold leading-7 text-[#3F3A33] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
