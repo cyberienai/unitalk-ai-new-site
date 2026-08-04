@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
+import { collaboratorHref } from '@/lib/collaborators-catalog'
 import { Kicker } from './section-kicker'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -23,7 +24,7 @@ const T = {
       { when: 'Mois 2', title: '+ Profil reporting', desc: 'Suit les résultats et produit vos tableaux de bord.' },
       { when: 'Mois 4', title: '+ Profil support', desc: 'Répond à vos clients et traite les demandes courantes.' },
     ],
-    discoverAll: 'Découvrir les Collaborateurs IA',
+    profileCta: 'Voir le profil d’Emma',
   },
   en: {
     kicker: 'Your AI Collaborator',
@@ -38,7 +39,7 @@ const T = {
       { when: 'Month 2', title: '+ Reporting profile', desc: 'Tracks results and builds your dashboards.' },
       { when: 'Month 4', title: '+ Support profile', desc: 'Answers your customers and handles routine requests.' },
     ],
-    discoverAll: 'Discover the AI Collaborators',
+    profileCta: 'See Emma’s profile',
   },
 }
 
@@ -58,10 +59,10 @@ export function SectionCollaborator({ lang }: { lang: Lang }) {
 
           <div className="mt-10">
             <Link
-              href="/collaborateurs-ia"
+              href={collaboratorHref('emma')}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4E483F] underline-offset-4 transition-colors hover:text-[#D10E63] hover:underline"
             >
-              {t.discoverAll}
+              {t.profileCta}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
