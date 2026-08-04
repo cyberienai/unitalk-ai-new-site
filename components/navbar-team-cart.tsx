@@ -121,7 +121,7 @@ export function NavbarTeamCart({ startLabel, createOrgHref = '/decouvrir' }: { s
                   {t.clear}
                 </button>
                 <a
-                  href="/signup"
+                  href="/commande"
                   className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
                 >
                   {t.activate}

@@ -11,10 +11,10 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
     headline: 'Votre Collaborateur\u00A0IA est prêt',
-    rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
-    lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
-    domainLabel: 'Indiquez l’adresse de votre site.',
-    domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
+    rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre blog', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
+    lead: 'Notre conseillère IA, Alma, analyse votre activité, ajoute les savoir-faire métier nécessaires et prépare ses premières missions.',
+    connectBullets: ['Connectez vos apps et fichiers', 'Connectez votre blog et profils sociaux'],
+    domainLabel: 'Connectez votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
     exploreCta: 'Voir les missions',
@@ -37,10 +37,10 @@ const T = {
   en: {
     eyebrow: 'You’re missing someone.',
     headline: 'Your AI\u00A0Collaborator is ready',
-    rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
-    lead: 'Add the professional know-how you need and connect it to your tools.',
-    domainLabel: 'Enter your website address.',
-    domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
+    rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your blog', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
+    lead: 'Our AI advisor, Alma, analyzes your business, adds the professional know-how needed and prepares its first missions.',
+    connectBullets: ['Connect your apps and files', 'Connect your blog and social profiles'],
+    domainLabel: 'Connect your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
     exploreCta: 'See the missions',
@@ -125,12 +125,17 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base font-semibold leading-7 text-[#3F3A33] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
+          <motion.ul {...enter(0.21)} className="mx-auto mt-4 flex max-w-xl flex-col gap-2 sm:mx-0">
+            {t.connectBullets.map((bullet) => (
+              <li key={bullet} className="flex items-center justify-center gap-2 text-sm font-medium text-[#4E483F] sm:justify-start">
+                <Network className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.25} aria-hidden="true" />
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </motion.ul>
           <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
             <p className="mx-auto max-w-md text-center text-sm font-semibold text-[#3F3A33] sm:mx-0 sm:text-left">
               {t.domainLabel}
-            </p>
-            <p className="mx-auto mt-1.5 max-w-md text-balance text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
-              {t.domainHelper}
             </p>
             <form onSubmit={submitDomain} className="mx-auto mt-3.5 flex w-full max-w-md flex-col gap-3 sm:mx-0">
               <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">

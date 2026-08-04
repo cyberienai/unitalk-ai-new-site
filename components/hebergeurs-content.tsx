@@ -104,6 +104,19 @@ const COUNTRIES: Country[] = [
       },
     ],
   },
+  {
+    fr: 'Lituanie',
+    en: 'Lithuania',
+    code: 'LT',
+    hosts: [
+      {
+        name: 'Hostinger',
+        logo: '/logos/hostinger.svg',
+        descFr: 'Hébergeur européen basé en Lituanie, data centers dans l’UE et conforme RGPD.',
+        descEn: 'European host based in Lithuania, data centers in the EU and GDPR compliant.',
+      },
+    ],
+  },
 ]
 
 const T = {
@@ -119,6 +132,16 @@ const T = {
     calloutBody:
       'Vos conversations, fichiers et mémoires restent chez l’hébergeur souverain que vous choisissez. Ils ne sont ni lus, ni revendus, ni utilisés pour entraîner des modèles.',
     hostedIn: 'Hébergé en',
+    importEyebrow: 'Vous avez déjà un agent Hermès ?',
+    importTitle: 'Importez un profil de Collaborateur IA dans votre Hermès, en un clic.',
+    importBody:
+      'Vous faites déjà tourner votre propre agent Hermès chez votre hébergeur ? Prenez le meilleur profil métier de nos Collaborateurs IA et importez-le directement dans votre Hermès existant. Pas de migration, pas de reconfiguration : vous partez du savoir-faire, pas de zéro.',
+    importSteps: [
+      { q: 'J’ai déjà un agent Hermès', a: 'Livré en un clic, sur votre infrastructure.' },
+      { q: 'Puis-je importer le profil d’un Collaborateur IA dans mon Hermès ?', a: 'Oui, en un clic.' },
+    ],
+    importHostsLabel: 'Compatible avec votre hébergeur',
+    importCta: 'Importer un profil',
   },
   en: {
     eyebrow: 'Hosting',
@@ -132,6 +155,16 @@ const T = {
     calloutBody:
       'Your conversations, files and memories stay with the sovereign host you choose. They are never read, resold, or used to train models.',
     hostedIn: 'Hosted in',
+    importEyebrow: 'Already running a Hermès agent?',
+    importTitle: 'Import an AI Collaborator profile into your Hermès, in one click.',
+    importBody:
+      'Already running your own Hermès agent at your host? Take the best job profile from our AI Collaborators and import it straight into your existing Hermès. No migration, no reconfiguration: you start from the know-how, not from scratch.',
+    importSteps: [
+      { q: 'I already have a Hermès agent', a: 'Delivered in one click, on your infrastructure.' },
+      { q: 'Can I import an AI Collaborator profile into my Hermès?', a: 'Yes, in one click.' },
+    ],
+    importHostsLabel: 'Works with your host',
+    importCta: 'Import a profile',
   },
 }
 
@@ -233,6 +266,64 @@ export function HebergeursContent() {
             </motion.div>
           ))}
         </div>
+      </section>
+
+      {/* Import into existing Hermès */}
+      <section className="mx-auto max-w-6xl px-6 pt-14 pb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease }}
+          className="grid gap-10 rounded-3xl border border-[#E6DFD0] bg-white p-8 sm:p-12 lg:grid-cols-2 lg:items-center"
+        >
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">
+              {t.importEyebrow}
+            </p>
+            <h2 className="mt-3 font-sf text-2xl sm:text-3xl font-bold leading-tight text-[#1C1A17] text-balance" style={{ letterSpacing: '-0.02em' }}>
+              {t.importTitle}
+            </h2>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-[#4E483F] text-pretty">
+              {t.importBody}
+            </p>
+            <div className="mt-7">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8A8175]">
+                {t.importHostsLabel}
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4">
+                {['/logos/ovhcloud.svg', '/logos/scaleway.svg', '/logos/ionos.svg', '/logos/hostinger.svg'].map((src) => (
+                  <img
+                    key={src}
+                    src={src || '/placeholder.svg'}
+                    alt=""
+                    className="h-6 w-auto max-w-[120px] object-contain object-left opacity-80"
+                  />
+                ))}
+              </div>
+            </div>
+            <a
+              href="/decouvrir"
+              className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            >
+              {t.importCta}
+            </a>
+          </div>
+
+          <ul className="flex flex-col gap-4">
+            {t.importSteps.map((step) => (
+              <li key={step.q} className="rounded-2xl border border-[#E6DFD0] bg-[#FBF9F3] p-5">
+                <p className="text-sm font-semibold text-[#1C1A17]">{step.q}</p>
+                <p className="mt-1.5 flex items-center gap-2 text-sm leading-relaxed text-[#D10E63]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span className="font-semibold">{step.a}</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       </section>
 
       {/* Callout */}

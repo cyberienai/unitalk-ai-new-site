@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Check, ArrowRight } from 'lucide-react'
+import { COLLABORATOR_TIERS } from '@/lib/pricing'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -11,7 +12,7 @@ const T = {
     eyebrow: 'Tarif',
     title: 'Un seul plan, tout compris.',
     subtitle:
-      'Un abonnement unique pour toute votre organisation. Pas de coût par membre, pas d’option cachée.',
+      'Un Collaborateur IA partagé par toute votre organisation. Pas de coût par membre, pas d’option cachée.',
     price: '49€',
     period: '/ mois',
     features: [
@@ -22,7 +23,8 @@ const T = {
       '30 min de supervision humaine par mois',
       'Onboarding personnalisé',
       'Accès à tous les modèles IA, dont ChatGPT',
-      'Accès à toutes les modalités : texte, voix, email, agenda, fichiers',
+      'Ressources dédiées : email, agenda, fichiers, contacts, numéro de téléphone',
+      'Toutes les modalités : texte, image, vidéo, audio, code',
       'Un seul abonnement pour tous les membres de votre organisation',
       'Agent Hermès v0.19',
       'Serveur IA privé',
@@ -31,12 +33,17 @@ const T = {
     secondary: 'Voir le détail des tarifs',
     note: '7 jours d’essai gratuit, sans carte bancaire.',
     asterisk: '* 10 millions de tokens inclus par mois. Tokens supplémentaires disponibles selon vos besoins.',
+    tiersTitle: 'Besoin de plusieurs Collaborateurs IA ?',
+    tiersSubtitle: 'Le premier est à 49€. Chaque Collaborateur IA supplémentaire coûte moins cher, toujours dans un seul abonnement pour toute l’organisation.',
+    tierUnitSuffix: '€ / mois par Collaborateur IA',
+    tierQuote: 'Sur devis',
+    orderCta: 'Composer ma commande',
   },
   en: {
     eyebrow: 'Pricing',
     title: 'One plan, everything included.',
     subtitle:
-      'A single subscription for your whole organization. No per-seat cost, no hidden add-ons.',
+      'One AI Collaborator shared across your whole organization. No per-seat cost, no hidden add-ons.',
     price: '€49',
     period: '/ month',
     features: [
@@ -47,7 +54,8 @@ const T = {
       '30 min of human supervision per month',
       'Personalized onboarding',
       'Access to every AI model, including ChatGPT',
-      'Access to every modality: text, voice, email, calendar, files',
+      'Dedicated resources: email, calendar, files, contacts, phone number',
+      'Every modality: text, image, video, audio, code',
       'One subscription for every member of your organization',
       'Hermès agent v0.19',
       'Private AI server',
@@ -56,6 +64,11 @@ const T = {
     secondary: 'See pricing details',
     note: '7-day free trial, no credit card required.',
     asterisk: '* 10 million tokens included per month. Additional tokens available as you need them.',
+    tiersTitle: 'Need several AI Collaborators?',
+    tiersSubtitle: 'The first one is €49. Each additional AI Collaborator costs less, still within one subscription for the whole organization.',
+    tierUnitSuffix: '€ / month per AI Collaborator',
+    tierQuote: 'Custom quote',
+    orderCta: 'Build my order',
   },
 } as const
 
@@ -116,6 +129,46 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
               {t.asterisk}
             </p>
           </div>
+        </motion.div>
+
+        {/* Dégressif sur le nombre de Collaborateurs IA */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease }}
+          className="mx-auto mt-12 max-w-lg rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8"
+        >
+          <h3 className="text-balance text-center font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">
+            {t.tiersTitle}
+          </h3>
+          <p className="mx-auto mt-2 max-w-sm text-pretty text-center text-sm leading-relaxed text-[#5F594F]">
+            {t.tiersSubtitle}
+          </p>
+          <ul className="mt-6 flex flex-col divide-y divide-[#E4DCCF]">
+            {COLLABORATOR_TIERS.map((tier) => (
+              <li key={tier.min} className="flex items-center justify-between gap-4 py-3">
+                <span className="text-sm font-semibold text-[#3F3A33]">{tier.label[lang]}</span>
+                <span className="text-right text-sm font-bold text-[#1C1A17]">
+                  {tier.unit === null ? (
+                    <span className="text-[#D10E63]">{t.tierQuote}</span>
+                  ) : (
+                    <>
+                      {tier.unit}
+                      <span className="ml-1 text-xs font-medium text-[#8A8175]">{t.tierUnitSuffix}</span>
+                    </>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/commande"
+            className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63] hover:text-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+          >
+            {t.orderCta}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </motion.div>
 
         <div className="mt-8 text-center">

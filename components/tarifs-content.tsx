@@ -1,182 +1,241 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { Check, ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
+import { COLLABORATOR_TIERS, CONSUMPTION_MODES } from '@/lib/pricing'
 
-type Plan = {
-  name: string
-  price: string
-  period: string
-  tagline: string
-  cta: string
-  href: string
-  highlight?: boolean
-  features: string[]
-}
+const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
     eyebrow: 'Tarif',
-    title1: 'Un prix clair. ',
-    title2: 'Zéro surprise.',
+    title1: 'Un seul plan. ',
+    title2: 'Tout compris.',
     subtitle:
-      'Commencez gratuitement, sans carte bancaire. Vous ne payez en plus que ce que vous consommez, et vous résiliez quand vous voulez.',
-    mostChosen: 'Le plus choisi',
-    reassurePre: 'Gratuit pour démarrer · sans carte bancaire · résiliable à tout moment · ',
-    reassureLink: 'version Desktop open source',
-    plans: [
-      {
-        name: 'Solo', price: '30€', period: '/ mois / agent',
-        tagline: 'Un agent sur mesure pour vous lancer, façonné en un appel avec Alma.',
-        cta: 'Créer mon agent', href: '/signup',
-        features: ['1 agent sur mesure, 10 profils inclus', 'Adresse email, numéro, agenda et contacts dédiés', 'Propulsé par Hermes, notre moteur open source', 'Accès aux meilleurs modèles d\'IA', 'BYOK ou crédits IA prépayés', 'Multimodal : voix, texte, image, audio, code', 'Mémoire d\'entreprise persistante', 'Connexion à 3 000+ apps via MCP', 'Accompagnement par Alma'],
-      },
-      {
-        name: 'Team', price: '25€', period: '/ agent / mois',
-        tagline: 'Un agent par collaborateur, un espace partagé et une mémoire commune.',
-        cta: 'Équiper mon équipe', href: '/signup', highlight: true,
-        features: ['Tout le plan Solo, pour chaque membre', 'Espace collaboratif partagé', 'Mémoire d’entreprise mutualisée entre agents', 'Alma interviewe chaque collaborateur', 'Rôles et permissions par agent', 'Compétences et process partagés', 'Tableau de bord d’équipe', 'Facturation centralisée', 'Support prioritaire'],
-      },
-      {
-        name: 'Business', price: 'Sur devis', period: 'infrastructure privée',
-        tagline: 'Votre propre infrastructure IA, souveraine et sous votre contrôle.',
-        cta: 'Parler à un expert', href: '/signup',
-        features: ['Tout le plan Team, sans limite', 'Infrastructure IA privée et dédiée', 'Hébergement souverain ou on-premise', 'SSO, SCIM et gestion avancée des accès', 'Journalisation et conformité renforcées', 'Onboarding humain par nos ingénieurs', 'Accompagnement et SLA dédiés', 'Intégrations métier sur mesure', 'Interlocuteur technique attitré'],
-      },
-    ] as Plan[],
+      'Un Collaborateur IA partagé par toute votre organisation. Pas de coût par membre, pas d’option cachée. Essai gratuit de 7 jours, sans carte bancaire.',
+    price: '49€',
+    period: '/ mois',
+    planName: 'Le plan Unitalk',
+    features: [
+      '1 Collaborateur IA',
+      'Profils illimités',
+      'Compétences illimitées',
+      '10 millions de tokens*',
+      '30 min de supervision humaine par mois',
+      'Onboarding personnalisé',
+      'Accès à tous les modèles IA, dont ChatGPT',
+      'Ressources dédiées : email, agenda, fichiers, contacts, numéro de téléphone',
+      'Toutes les modalités : texte, image, vidéo, audio, code',
+      'Un seul abonnement pour tous les membres de votre organisation',
+      'Agent Hermès v0.19',
+      'Serveur IA privé',
+    ],
+    asterisk: '* 10 millions de tokens inclus par mois. Tokens supplémentaires disponibles selon vos besoins.',
+    cta: 'Démarrer l’essai gratuit',
+    orderCta: 'Composer ma commande',
+    tiersEyebrow: 'Plusieurs Collaborateurs IA',
+    tiersTitle: 'Un tarif dégressif dès le deuxième',
+    tiersSubtitle:
+      'Le premier Collaborateur IA est à 49€. Chaque Collaborateur IA supplémentaire coûte moins cher, toujours dans un seul abonnement pour toute l’organisation.',
+    tierUnitSuffix: '€ / mois par Collaborateur IA',
+    tierQuote: 'Sur devis',
+    modesEyebrow: 'Consommation',
+    modesTitle: 'Choisissez comment payer l’usage',
+    modesSubtitle: 'Abonnement tout inclus, crédits à l’usage ou vos propres clés API. Vous changez d’avis quand vous voulez.',
+    reassure: 'Gratuit pour démarrer · sans carte bancaire · résiliable à tout moment.',
+    exampleNote: 'Tarifs indicatifs, susceptibles d’évoluer.',
   },
   en: {
     eyebrow: 'Pricing',
-    title1: 'A clear price. ',
-    title2: 'Zero surprises.',
+    title1: 'One plan. ',
+    title2: 'Everything included.',
     subtitle:
-      'Start for free, no credit card. You only pay extra for what you use, and you cancel whenever you want.',
-    mostChosen: 'Most popular',
-    reassurePre: 'Free to start · no credit card · cancel anytime · ',
-    reassureLink: 'open-source Desktop version',
-    plans: [
-      {
-        name: 'Solo', price: '€30', period: '/ month / agent',
-        tagline: 'A custom agent to get you started, crafted in a single call with Alma.',
-        cta: 'Create my agent', href: '/signup',
-        features: ['1 custom agent, 10 profiles included', 'Dedicated email, number, calendar and contacts', 'Powered by Hermes, our open-source engine', 'Access to the best AI models', 'BYOK or prepaid AI credits', 'Multimodal: voice, text, image, audio, code', 'Persistent company memory', 'Connection to 3,000+ apps via MCP', 'Support from Alma'],
-      },
-      {
-        name: 'Team', price: '€25', period: '/ agent / month',
-        tagline: 'One agent per colleague, a shared workspace and a common memory.',
-        cta: 'Equip my team', href: '/signup', highlight: true,
-        features: ['Everything in Solo, for each member', 'Shared collaborative workspace', 'Company memory pooled across agents', 'Alma interviews each colleague', 'Roles and permissions per agent', 'Shared skills and processes', 'Team dashboard', 'Centralized billing', 'Priority support'],
-      },
-      {
-        name: 'Business', price: 'Custom quote', period: 'private infrastructure',
-        tagline: 'Your own AI infrastructure, sovereign and under your control.',
-        cta: 'Talk to an expert', href: '/signup',
-        features: ['Everything in Team, with no limits', 'Private, dedicated AI infrastructure', 'Sovereign or on-premise hosting', 'SSO, SCIM and advanced access management', 'Enhanced logging and compliance', 'Human onboarding by our engineers', 'Dedicated support and SLA', 'Custom business integrations', 'Assigned technical contact'],
-      },
-    ] as Plan[],
+      'One AI Collaborator shared across your whole organization. No per-seat cost, no hidden add-ons. 7-day free trial, no credit card.',
+    price: '€49',
+    period: '/ month',
+    planName: 'The Unitalk plan',
+    features: [
+      '1 AI Collaborator',
+      'Unlimited profiles',
+      'Unlimited skills',
+      '10 million tokens*',
+      '30 min of human supervision per month',
+      'Personalized onboarding',
+      'Access to every AI model, including ChatGPT',
+      'Dedicated resources: email, calendar, files, contacts, phone number',
+      'Every modality: text, image, video, audio, code',
+      'One subscription for every member of your organization',
+      'Hermès agent v0.19',
+      'Private AI server',
+    ],
+    asterisk: '* 10 million tokens included per month. Additional tokens available as you need them.',
+    cta: 'Start the free trial',
+    orderCta: 'Build my order',
+    tiersEyebrow: 'Several AI Collaborators',
+    tiersTitle: 'A degressive price from the second one',
+    tiersSubtitle:
+      'The first AI Collaborator is €49. Each additional AI Collaborator costs less, still within one subscription for the whole organization.',
+    tierUnitSuffix: '€ / month per AI Collaborator',
+    tierQuote: 'Custom quote',
+    modesEyebrow: 'Consumption',
+    modesTitle: 'Choose how you pay for usage',
+    modesSubtitle: 'All-inclusive subscription, pay-as-you-go credits, or your own API keys. Change your mind whenever you want.',
+    reassure: 'Free to start · no credit card · cancel anytime.',
+    exampleNote: 'Indicative pricing, subject to change.',
   },
 }
 
 export function TarifsContent() {
   const { lang } = useLanguage()
   const t = T[lang]
-  const PLANS = t.plans
+
   return (
     <main className="w-full bg-[#F3EFE6]">
       {/* Hero */}
-      <section className="relative w-full overflow-hidden bg-grid pt-28 sm:pt-32 pb-10 sm:pb-14">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative w-full overflow-hidden bg-grid pt-28 pb-10 sm:pt-32 sm:pb-14">
+        <div className="mx-auto w-full max-w-6xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
           <h1
-            className="mt-3 font-sf text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] text-[#1C1A17] text-balance"
+            className="mt-3 text-balance font-sf text-4xl font-bold leading-[1.05] text-[#1C1A17] sm:text-5xl md:text-6xl"
             style={{ letterSpacing: '-0.03em' }}
           >
-            {t.title1}<span className="text-[#D10E63]">{t.title2}</span>
+            {t.title1}
+            <span className="text-[#D10E63]">{t.title2}</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#4E483F]">
-            {t.subtitle}
-          </p>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4E483F] sm:text-lg">{t.subtitle}</p>
         </div>
       </section>
 
-      {/* Plans */}
-      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
-        <div className="grid gap-5 lg:grid-cols-3">
-          {PLANS.map((plan, i) => (
+      {/* Plan unique */}
+      <section className="mx-auto w-full max-w-lg px-4 pb-4 sm:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease }}
+          className="premium-shadow overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#FBF9F3]"
+        >
+          <div className="border-b border-[#E4DCCF] p-8 text-center sm:p-10">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#8A8175]">{t.planName}</p>
+            <div className="mt-3 flex items-end justify-center gap-1">
+              <span className="font-sf text-6xl font-bold tracking-[-0.04em] text-[#1C1A17]">{t.price}</span>
+              <span className="mb-2 text-sm font-medium text-[#6B6560]">{t.period}</span>
+            </div>
+            <Link
+              href="/decouvrir"
+              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            >
+              {t.cta}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="p-8 sm:p-10">
+            <ul className="flex flex-col gap-3.5">
+              {t.features.map((feature) => (
+                <li key={feature} className="flex items-start gap-3 text-[15px] leading-relaxed text-[#3F3A33]">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#D10E63]">
+                    <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  </span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 border-t border-[#E4DCCF] pt-4 text-xs leading-relaxed text-[#8A8175]">{t.asterisk}</p>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Dégressif */}
+      <section className="mx-auto w-full max-w-lg px-4 py-8 sm:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease }}
+          className="rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8"
+        >
+          <p className="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">
+            {t.tiersEyebrow}
+          </p>
+          <h2 className="mt-2 text-balance text-center font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">
+            {t.tiersTitle}
+          </h2>
+          <p className="mx-auto mt-2 max-w-md text-pretty text-center text-sm leading-relaxed text-[#5F594F]">
+            {t.tiersSubtitle}
+          </p>
+          <ul className="mt-6 flex flex-col divide-y divide-[#E4DCCF]">
+            {COLLABORATOR_TIERS.map((tier) => (
+              <li key={tier.min} className="flex items-center justify-between gap-4 py-3">
+                <span className="text-sm font-semibold text-[#3F3A33]">{tier.label[lang]}</span>
+                <span className="text-right text-sm font-bold text-[#1C1A17]">
+                  {tier.unit === null ? (
+                    <span className="text-[#D10E63]">{t.tierQuote}</span>
+                  ) : (
+                    <>
+                      {tier.unit}
+                      <span className="ml-1 text-xs font-medium text-[#8A8175]">{t.tierUnitSuffix}</span>
+                    </>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/commande"
+            className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63] hover:text-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+          >
+            {t.orderCta}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </motion.div>
+      </section>
+
+      {/* Modes de consommation */}
+      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:px-8 sm:py-16">
+        <header className="mx-auto max-w-2xl text-center">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">{t.modesEyebrow}</p>
+          <h2 className="mt-2 text-balance font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">
+            {t.modesTitle}
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">{t.modesSubtitle}</p>
+        </header>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          {CONSUMPTION_MODES.map((mode, i) => (
             <motion.div
-              key={plan.name}
+              key={mode.id}
               initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, ease, delay: i * 0.08 }}
               className={`flex flex-col rounded-3xl border p-7 sm:p-8 ${
-                plan.highlight
+                mode.id === 'subscription'
                   ? 'border-[#D10E63] bg-[#FBF9F3] shadow-[0_12px_40px_rgba(209,14,99,0.12)]'
                   : 'border-[#DcD4C4] bg-[#FBF9F3]'
               }`}
             >
-              <div className="flex items-center justify-between">
-                <h2 className="font-sf text-2xl font-bold text-[#1C1A17]" style={{ letterSpacing: '-0.02em' }}>
-                  {plan.name}
-                </h2>
-                {plan.highlight && (
-                  <span className="rounded-full bg-[#D10E63] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#FBF9F3]">
-                    {t.mostChosen}
-                  </span>
-                )}
-              </div>
-
-              <p className="mt-2 min-h-[2.5rem] text-sm leading-relaxed text-[#4E483F]">{plan.tagline}</p>
-
-              <div className="mt-5 flex items-baseline gap-1.5 border-t border-[#DcD4C4] pt-5">
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{mode.name[lang]}</h3>
                 <span
-                  className="font-sf text-4xl font-bold text-[#1C1A17] whitespace-nowrap"
-                  style={{ letterSpacing: '-0.03em' }}
+                  className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${
+                    mode.id === 'subscription' ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#EFE9DC] text-[#6B6560]'
+                  }`}
                 >
-                  {plan.price}
+                  {mode.tagline[lang]}
                 </span>
-                <span className="text-sm text-[#857C6E]">{plan.period}</span>
               </div>
-
-              <a
-                href={plan.href}
-                className={`mt-6 inline-flex w-full items-center justify-center gap-1.5 rounded-full px-5 py-3.5 text-sm font-semibold transition-colors ${
-                  plan.highlight
-                    ? 'bg-[#D10E63] text-[#FBF9F3] hover:bg-[#B00B52]'
-                    : 'border border-[#1C1A17] text-[#1C1A17] hover:bg-[#1C1A17] hover:text-[#FBF9F3]'
-                }`}
-              >
-                {plan.cta}
-              </a>
-
-              <ul className="mt-7 space-y-3">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm text-[#3A362F]">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className="mt-0.5 flex-shrink-0 text-[#D10E63]"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    {f}
-                  </li>
-                ))}
-              </ul>
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-[#4E483F]">{mode.description[lang]}</p>
+              <p className="mt-6 border-t border-[#E4DCCF] pt-4 font-sf text-lg font-bold text-[#1C1A17]">
+                {mode.priceLabel[lang]}
+              </p>
             </motion.div>
           ))}
         </div>
 
-        {/* Reassurance line */}
-        <p className="mt-10 text-center text-sm text-[#857C6E]">
-          {t.reassurePre}
-          <a href="/agent-ia-public" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
-            {t.reassureLink}
-          </a>
-        </p>
+        <p className="mt-10 text-center text-sm text-[#857C6E]">{t.reassure}</p>
+        <p className="mt-2 text-center text-xs text-[#A79E8E]">{t.exampleNote}</p>
       </section>
     </main>
   )

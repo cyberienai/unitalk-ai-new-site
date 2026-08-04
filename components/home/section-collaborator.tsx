@@ -2,10 +2,12 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import { collaboratorHref } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from './section-kicker'
+
+const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
@@ -13,17 +15,14 @@ const T = {
     title: 'Une identité qui reste. Des profils qui évoluent.',
     subtitle:
       'Votre Collaborateur IA conserve sa fonction, sa mémoire, son contexte et son expérience. Ajoutez-lui de nouveaux savoir-faire à mesure que ses responsabilités évoluent.',
-    name: 'Emma',
-    role: 'Collaboratrice IA commerciale',
-    profilesLabel: 'Profils',
-    profiles: 'Prospection · Réunions · Reporting',
-    missionLabel: 'Mission en cours',
-    mission: 'Préparer les prospects prioritaires',
-    validationLabel: 'Prochaine validation',
-    validation: '12 prises de contact',
-    statusLabel: 'Statut',
-    status: 'Travaille',
-    seeProfile: 'Voir le profil d’Emma',
+    identityName: 'Emma',
+    identityRole: 'Collaboratrice IA',
+    identityNote: 'La même identité, du premier jour à aujourd’hui.',
+    steps: [
+      { when: 'Jour 1', title: 'Profil prospection', desc: 'Identifie et qualifie vos prospects.' },
+      { when: 'Mois 2', title: '+ Profil reporting', desc: 'Suit les résultats et produit vos tableaux de bord.' },
+      { when: 'Mois 4', title: '+ Profil support', desc: 'Répond à vos clients et traite les demandes courantes.' },
+    ],
     discoverAll: 'Découvrir les Collaborateurs IA',
   },
   en: {
@@ -31,17 +30,14 @@ const T = {
     title: 'An identity that stays. Profiles that evolve.',
     subtitle:
       'Your AI Collaborator keeps its function, its memory, its context and its experience. Add new skills as its responsibilities grow.',
-    name: 'Emma',
-    role: 'AI Sales Collaborator',
-    profilesLabel: 'Profiles',
-    profiles: 'Prospecting · Meetings · Reporting',
-    missionLabel: 'Mission in progress',
-    mission: 'Prepare the priority prospects',
-    validationLabel: 'Next validation',
-    validation: '12 outreach contacts',
-    statusLabel: 'Status',
-    status: 'Working',
-    seeProfile: 'See Emma’s profile',
+    identityName: 'Emma',
+    identityRole: 'AI Collaborator',
+    identityNote: 'The same identity, from day one until today.',
+    steps: [
+      { when: 'Day 1', title: 'Prospecting profile', desc: 'Identifies and qualifies your prospects.' },
+      { when: 'Month 2', title: '+ Reporting profile', desc: 'Tracks results and builds your dashboards.' },
+      { when: 'Month 4', title: '+ Support profile', desc: 'Answers your customers and handles routine requests.' },
+    ],
     discoverAll: 'Discover the AI Collaborators',
   },
 }
@@ -60,14 +56,7 @@ export function SectionCollaborator({ lang }: { lang: Lang }) {
           </h2>
           <p className="mt-4 text-pretty text-lg leading-relaxed text-[#5F594F]">{t.subtitle}</p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <Link
-              href={collaboratorHref('emma')}
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-            >
-              {t.seeProfile}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          <div className="mt-8">
             <Link
               href="/collaborateurs-ia"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4E483F] underline-offset-4 transition-colors hover:text-[#D10E63] hover:underline"
@@ -78,41 +67,44 @@ export function SectionCollaborator({ lang }: { lang: Lang }) {
           </div>
         </div>
 
-        {/* Emma professional card */}
-        <div className="relative">
-          <div className="premium-shadow rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8">
-            <div className="flex items-center gap-4">
-              <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1C1A17]/[0.08] sm:h-20 sm:w-20">
-                <Image src="/images/emma-avatar.png" alt={t.name} fill className="object-cover" sizes="80px" />
-              </span>
-              <div className="min-w-0">
-                <p className="font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17]">{t.name}</p>
-                <p className="text-sm font-medium text-[#D10E63]">{t.role}</p>
-              </div>
+        {/* Profile-evolution timeline */}
+        <div className="premium-shadow rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8">
+          {/* Identity anchor — stays constant */}
+          <div className="flex items-center gap-4 border-b border-[#E9E2D4] pb-5">
+            <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1C1A17]/[0.08]">
+              <Image src="/images/emma-avatar.png" alt={t.identityName} fill className="object-cover" sizes="56px" />
+            </span>
+            <div className="min-w-0">
+              <p className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{t.identityName}</p>
+              <p className="text-sm font-medium text-[#D10E63]">{t.identityRole}</p>
             </div>
-
-            <dl className="mt-6 space-y-4">
-              <div className="border-t border-[#E9E2D4] pt-4">
-                <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.profilesLabel}</dt>
-                <dd className="mt-1.5 text-[15px] font-medium text-[#1C1A17]">{t.profiles}</dd>
-              </div>
-              <div className="border-t border-[#E9E2D4] pt-4">
-                <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.missionLabel}</dt>
-                <dd className="mt-1.5 text-[15px] font-medium text-[#1C1A17]">{t.mission}</dd>
-              </div>
-              <div className="border-t border-[#E9E2D4] pt-4">
-                <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.validationLabel}</dt>
-                <dd className="mt-1.5 text-[15px] font-medium text-[#1C1A17]">{t.validation}</dd>
-              </div>
-              <div className="border-t border-[#E9E2D4] pt-4">
-                <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.statusLabel}</dt>
-                <dd className="mt-1.5 inline-flex items-center gap-2 rounded-full bg-[#22A06B]/12 px-3 py-1 text-sm font-semibold text-[#1B7A50]">
-                  <span className="h-2 w-2 rounded-full bg-[#22A06B]" aria-hidden="true" />
-                  {t.status}
-                </dd>
-              </div>
-            </dl>
           </div>
+          <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-[#8A8175]">{t.identityNote}</p>
+
+          {/* Timeline */}
+          <ol className="relative mt-6 flex flex-col gap-6 pl-8">
+            <span className="absolute left-[9px] top-2 bottom-2 w-px bg-[#E4DCCF]" aria-hidden="true" />
+            {t.steps.map((step, i) => (
+              <motion.li
+                key={step.title}
+                initial={{ opacity: 0, x: 16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, ease, delay: i * 0.12 }}
+                className="relative"
+              >
+                <span
+                  className="absolute -left-8 top-1 flex h-[19px] w-[19px] items-center justify-center rounded-full border-2 border-[#D10E63] bg-[#FBF9F3]"
+                  aria-hidden="true"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+                </span>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{step.when}</p>
+                <p className="mt-1 text-[15px] font-bold text-[#1C1A17]">{step.title}</p>
+                <p className="mt-0.5 text-sm leading-relaxed text-[#5F594F]">{step.desc}</p>
+              </motion.li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

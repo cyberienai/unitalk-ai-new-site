@@ -2,7 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, MapPin, MessageCircle, Layers } from 'lucide-react'
+import { useCallback, useRef, useState } from 'react'
+import { ArrowRight, MapPin, MessageCircle, Building2 } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
 
@@ -85,6 +86,113 @@ const SHOWCASE: ShowcaseEntry[] = [
   },
 ]
 
+function CollaboratorCard({
+  entry,
+  lang,
+  labels,
+}: {
+  entry: ShowcaseEntry
+  lang: Lang
+  labels: {
+    available: string
+    defaultProfileLabel: string
+    belongs: string
+    talk: string
+    profiles: string
+  }
+}) {
+  const ai = ROLE_DETAILS[entry.slug]
+  if (!ai) return null
+  const skillChips = entry.skills[lang].split('·').map((s) => s.trim()).filter(Boolean)
+
+  return (
+    <article
+      id={`collab-${entry.slug}`}
+      className="group relative flex w-[82%] shrink-0 snap-center flex-col overflow-hidden rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)] target:border-[#D10E63] target:ring-2 target:ring-[#D10E63]/60 sm:w-auto sm:scroll-mt-28"
+    >
+      {/* Accent bar revealed on hover */}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-[#D10E63] transition-transform duration-300 group-hover:scale-x-100"
+      />
+
+      {/* Header: avatar + availability */}
+      <div className="flex items-start justify-between">
+        <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1C1A17]/[0.08]">
+          <Image
+            src={ai.avatar || '/placeholder.svg'}
+            alt={ai.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="64px"
+          />
+        </span>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF9F3] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4E7C59]">
+          <span className="relative flex h-2 w-2" aria-hidden="true">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+          </span>
+          {labels.available}
+        </span>
+      </div>
+
+      {/* Identity */}
+      <div className="mt-5">
+        <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{ai.name}</h3>
+        <p className="mt-0.5 text-sm font-medium text-[#D10E63]">{entry.role[lang]}</p>
+        <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#6B6560]">
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
+          {entry.segments[lang]}
+        </p>
+      </div>
+
+      {/* Default profile + skill chips */}
+      <div className="mt-5 rounded-2xl border border-[#E4DCCF] bg-[#FBF9F3] p-4">
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+          {labels.defaultProfileLabel}
+        </p>
+        <p className="mt-1 text-[15px] font-bold text-[#1C1A17]">{entry.defaultProfile[lang]}</p>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {skillChips.map((skill) => (
+            <span
+              key={skill}
+              className="rounded-full border border-[#E4DCCF] bg-[#F3EFE6] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]"
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="mt-4 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{entry.pitch[lang]}</p>
+
+      {/* Ownership anchor */}
+      <p className="mt-4 flex items-center gap-1.5 text-[12px] font-medium text-[#6B6560]">
+        <Building2 className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
+        {labels.belongs}
+      </p>
+
+      {/* Actions */}
+      <div className="mt-5 flex flex-col gap-2">
+        <Link
+          href={collaboratorHref(entry.slug)}
+          className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
+        >
+          <MessageCircle className="h-4 w-4 shrink-0" />
+          <span className="truncate">{`${labels.talk} ${ai.name}`}</span>
+        </Link>
+        <Link
+          href={collaboratorHref(entry.slug)}
+          className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-[#DDD5CA] px-4 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
+        >
+          {labels.profiles}
+        </Link>
+      </div>
+    </article>
+  )
+}
+
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
@@ -94,10 +202,12 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
         'Chaque Collaborateur IA commence avec un profil métier. Ajoutez-lui ensuite les savoir-faire nécessaires à ses nouvelles missions.',
       available: 'Disponible',
       defaultProfileLabel: 'Profil par défaut',
+      belongs: 'Appartient à votre organisation',
       talk: 'Parler avec',
       profiles: 'Voir ses profils',
       tagline: 'Une identité. Plusieurs profils métier.',
       allCta: 'Voir tous les Collaborateurs IA',
+      swipeHint: 'Glissez pour découvrir',
     },
     en: {
       eyebrow: 'The AI Collaborators',
@@ -106,12 +216,40 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
         'Every AI Collaborator starts with a job profile. Then add the skills its new missions require.',
       available: 'Available',
       defaultProfileLabel: 'Default profile',
+      belongs: 'Belongs to your organization',
       talk: 'Talk with',
       profiles: 'See its profiles',
       tagline: 'One identity. Several job profiles.',
       allCta: 'See all AI Collaborators',
+      swipeHint: 'Swipe to explore',
     },
   })
+
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(0)
+
+  const onScroll = useCallback(() => {
+    const el = scrollerRef.current
+    if (!el) return
+    const max = el.scrollWidth - el.clientWidth
+    const ratio = max > 0 ? el.scrollLeft / max : 0
+    setActive(Math.round(ratio * (SHOWCASE.length - 1)))
+  }, [])
+
+  const goTo = useCallback((index: number) => {
+    const el = scrollerRef.current
+    if (!el) return
+    const max = el.scrollWidth - el.clientWidth
+    el.scrollTo({ left: (max * index) / (SHOWCASE.length - 1), behavior: 'smooth' })
+  }, [])
+
+  const labels = {
+    available: t.available,
+    defaultProfileLabel: t.defaultProfileLabel,
+    belongs: t.belongs,
+    talk: t.talk,
+    profiles: t.profiles,
+  }
 
   return (
     <section className="w-full bg-[#FBF9F3] py-20 sm:py-28">
@@ -128,81 +266,31 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           </p>
         </header>
 
-        {/* Three static cards */}
-        <div className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SHOWCASE.map((entry) => {
-            const ai = ROLE_DETAILS[entry.slug]
-            if (!ai) return null
-            return (
-              <article
-                key={entry.slug}
-                id={`collab-${entry.slug}`}
-                className="group flex scroll-mt-28 flex-col rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)] target:border-[#D10E63] target:ring-2 target:ring-[#D10E63]/60 target:ring-offset-2 target:ring-offset-[#FBF9F3]"
-              >
-                {/* Header: avatar + availability */}
-                <div className="flex items-start justify-between">
-                  <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1C1A17]/[0.08]">
-                    <Image
-                      src={ai.avatar || '/placeholder.svg'}
-                      alt={ai.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="64px"
-                    />
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF9F3] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4E7C59]">
-                    <span className="relative flex h-2 w-2" aria-hidden="true">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                    </span>
-                    {t.available}
-                  </span>
-                </div>
+        {/* Mobile: swipe carousel with peek. Desktop: 3-col grid. */}
+        <div
+          ref={scrollerRef}
+          onScroll={onScroll}
+          className="mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 -mx-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:max-w-5xl sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 sm:[&>*]:w-auto"
+        >
+          {SHOWCASE.map((entry) => (
+            <CollaboratorCard key={entry.slug} entry={entry} lang={lang} labels={labels} />
+          ))}
+        </div>
 
-                {/* Identity */}
-                <div className="mt-5">
-                  <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{ai.name}</h3>
-                  <p className="mt-0.5 text-sm font-medium text-[#D10E63]">{entry.role[lang]}</p>
-                  <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#6B6560]">
-                    <MapPin className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
-                    {entry.segments[lang]}
-                  </p>
-                </div>
-
-                {/* Default profile */}
-                <div className="mt-5 rounded-2xl border border-[#E4DCCF] bg-[#FBF9F3] p-4">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
-                    {t.defaultProfileLabel}
-                  </p>
-                  <p className="mt-1 text-[15px] font-bold text-[#1C1A17]">{entry.defaultProfile[lang]}</p>
-                  <p className="mt-1.5 flex items-center gap-1.5 text-[13px] font-medium text-[#4E483F]">
-                    <Layers className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
-                    {entry.skills[lang]}
-                  </p>
-                </div>
-
-                {/* Description */}
-                <p className="mt-4 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{entry.pitch[lang]}</p>
-
-                {/* Actions */}
-                <div className="mt-6 flex flex-col gap-2">
-                  <Link
-                    href={collaboratorHref(entry.slug)}
-                    className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-                  >
-                    <MessageCircle className="h-4 w-4 shrink-0" />
-                    <span className="truncate">{`${t.talk} ${ai.name}`}</span>
-                  </Link>
-                  <Link
-                    href={collaboratorHref(entry.slug)}
-                    className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-[#DDD5CA] px-4 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
-                  >
-                    {t.profiles}
-                  </Link>
-                </div>
-              </article>
-            )
-          })}
+        {/* Dots (mobile only) */}
+        <div className="mt-5 flex items-center justify-center gap-2 sm:hidden">
+          {SHOWCASE.map((entry, i) => (
+            <button
+              key={entry.slug}
+              type="button"
+              onClick={() => goTo(i)}
+              aria-label={`${t.talk} ${ROLE_DETAILS[entry.slug]?.name ?? ''}`}
+              aria-current={active === i}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                active === i ? 'w-5 bg-[#D10E63]' : 'w-2 bg-[#D8D0C2] hover:bg-[#B8AF9F]'
+              }`}
+            />
+          ))}
         </div>
 
         {/* Tagline + all CTA */}
