@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Globe, Network } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 import { collaboratorHref } from '@/lib/collaborators-catalog'
@@ -13,6 +13,8 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un.',
     headline: 'Votre Collaborateur\u00A0IA est',
     headlineAccent: 'prêt à commencer',
+    rotatingPrefix: 'Prêt à',
+    rotatingWords: ['générer du contenu', 'écrire du code', 'répondre à vos clients', 'prospecter de nouveaux clients', 'préparer vos réunions', 'automatiser vos tâches'],
     lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
     domainLabel: 'Indiquez l’adresse de votre site.',
     domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
@@ -38,6 +40,8 @@ const T = {
     eyebrow: 'You’re missing someone.',
     headline: 'Your AI\u00A0Collaborator is',
     headlineAccent: 'ready to start',
+    rotatingPrefix: 'Ready to',
+    rotatingWords: ['generate content', 'write code', 'answer your customers', 'find new prospects', 'prepare your meetings', 'automate your tasks'],
     lead: 'Add the professional know-how you need and connect it to your tools.',
     domainLabel: 'Enter your website address.',
     domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
@@ -69,6 +73,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const [domain, setDomain] = useState('')
   const domainPreview = normalizeDomain(domain)
 
+  const [wordIndex, setWordIndex] = useState(0)
+  useEffect(() => {
+    if (reduceMotion) return
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % t.rotatingWords.length)
+    }, 2200)
+    return () => clearInterval(id)
+  }, [reduceMotion, t.rotatingWords.length])
+
   const submitDomain = (e: React.FormEvent) => {
     e.preventDefault()
     window.location.href = domainPreview
@@ -93,6 +106,29 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.headline}{' '}
             <span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
+          <motion.div
+            {...enter(0.14)}
+            className="mt-3 flex min-h-[1.9rem] flex-wrap items-baseline justify-center gap-x-2 text-lg font-semibold tracking-[-0.01em] sm:mt-4 sm:justify-start md:text-xl"
+            aria-live="off"
+          >
+            <span className="text-[#5F594F]">{t.rotatingPrefix}</span>
+            <span className="relative inline-flex overflow-hidden">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={wordIndex}
+                  initial={reduceMotion ? false : { opacity: 0, y: '0.6em' }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.6em' }}
+                  transition={{ duration: 0.4, ease }}
+                  className="text-[#D10E63]"
+                >
+                  {t.rotatingWords[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </motion.div>
+          {/* Full sentence for assistive tech (rotation is decorative) */}
+          <p className="sr-only">{`${t.rotatingPrefix} ${t.rotatingWords.join(', ')}.`}</p>
           <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
