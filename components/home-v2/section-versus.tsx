@@ -9,7 +9,7 @@ const T = {
     title: 'Tout le monde loue un logiciel. Vous possédez vos Collaborateurs IA.',
     subtitle: 'La catégorie « assistant IA » est saturée d’outils qui se ressemblent. Un Collaborateur IA joue dans une autre catégorie.',
     oldTitle: 'Un logiciel IA',
-    oldTag: 'Ce que tout le monde vend',
+    oldTag: 'Ce que tout le monde loue',
     newTitle: 'Un Collaborateur IA',
     newTag: 'Ce que vous obtenez',
     rows: [
@@ -26,7 +26,7 @@ const T = {
     title: 'Everyone rents software. You own your AI Collaborators.',
     subtitle: 'The “AI assistant” category is crowded with tools that all look alike. An AI Collaborator plays in a different league.',
     oldTitle: 'AI software',
-    oldTag: 'What everyone sells',
+    oldTag: 'What everyone rents',
     newTitle: 'An AI Collaborator',
     newTag: 'What you get',
     rows: [

@@ -19,7 +19,6 @@ const T = {
     domainHelp: 'Alma l’analyse et façonne un Collaborateur IA sur mesure pour votre activité.',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Recruter mon Collaborateur IA',
-    exploreCta: 'Voir comment',
     proofs: ['Prêt en quelques minutes', 'Un seul abonnement', 'Essai gratuit 7 jours'],
     trialMobile: '7 jours d’essai gratuit',
     // organigramme
@@ -48,7 +47,6 @@ const T = {
     domainHelp: 'Alma analyzes it and shapes an AI Collaborator tailored to your business.',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Hire my AI Collaborator',
-    exploreCta: 'See how',
     proofs: ['Ready in minutes', 'One subscription', '7-day free trial'],
     trialMobile: '7-day free trial',
     // organigramme
@@ -202,7 +200,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual ��� organigramme : à chaque membre, son Collaborateur IA */}
+        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
         <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
             <div className="px-5 pt-5 pb-1 sm:px-6">
