@@ -91,13 +91,13 @@ export function SectionMissions({ lang }: { lang: Lang }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.1, ease }}
-          className="mt-12 flex flex-wrap justify-center gap-3"
+          className="mt-10 grid grid-cols-2 gap-2.5 sm:mt-12 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
         >
           {t.missions.map((mission) => (
-            <li key={mission}>
+            <li key={mission} className="flex">
               <Link
                 href="/collaborateurs-ia"
-                className="group inline-flex items-center gap-2 rounded-full border border-[#D8D0C2] bg-[#FBF9F3] px-5 py-3 text-sm font-semibold text-[#3F3A33] transition-all hover:-translate-y-0.5 hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+                className="group flex w-full items-center gap-2 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-3.5 py-2.5 text-left text-[13px] font-semibold leading-tight text-[#3F3A33] transition-all hover:-translate-y-0.5 hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto sm:rounded-full sm:px-5 sm:py-3 sm:text-sm"
               >
                 <span
                   className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#D10E63]/50 transition-colors group-hover:bg-[#D10E63]"
