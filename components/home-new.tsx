@@ -6,8 +6,7 @@ import { HeroNew } from './hero-new'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
 import { SectionCollaborator } from './home/section-collaborator'
-import { SectionWork } from './home/section-work'
-import { SectionOwnership } from './home/section-ownership'
+import { FaqSection } from './faq-section'
 import { SiteFooter } from './site-footer'
 
 export function HomeNew() {
@@ -34,13 +33,8 @@ export function HomeNew() {
       {/* 3. Votre Collaborateur IA */}
       <SectionCollaborator lang={lang} />
 
-      {/* 4. Regardez-le travailler */}
-      <div id="workspace">
-        <SectionWork lang={lang} />
-      </div>
-
-      {/* 5. Il appartient à votre Organisation (+ Alma) */}
-      <SectionOwnership lang={lang} />
+      {/* 4. Questions fréquentes */}
+      <FaqSection />
 
       {/* Footer */}
       <SiteFooter />

@@ -15,7 +15,7 @@ type ShowcaseEntry = {
   pitch: { fr: string; en: string }
 }
 
-// Trois Collaborateurs IA mis en avant, en cartes statiques (fiables au chargement).
+// Les six Collaborateurs IA de l'illustration, en cartes statiques (fiables au chargement).
 const SHOWCASE: ShowcaseEntry[] = [
   {
     slug: 'emma',
@@ -29,6 +29,28 @@ const SHOWCASE: ShowcaseEntry[] = [
     },
   },
   {
+    slug: 'lea',
+    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
+    segments: { fr: 'PME • Startups • Agences', en: 'SMBs • Startups • Agencies' },
+    defaultProfile: { fr: 'Stratégie de contenu', en: 'Content strategist' },
+    skills: { fr: 'Contenus · Réseaux sociaux · SEO', en: 'Content · Social · SEO' },
+    pitch: {
+      fr: 'Rédige vos contenus, planifie vos publications et travaille votre référencement.',
+      en: 'Writes your content, schedules your posts and improves your search ranking.',
+    },
+  },
+  {
+    slug: 'arthur',
+    role: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
+    segments: { fr: 'Startups • SaaS • Studios', en: 'Startups • SaaS • Studios' },
+    defaultProfile: { fr: 'Développement', en: 'Developer' },
+    skills: { fr: 'Code · Intégrations · Data', en: 'Code · Integrations · Data' },
+    pitch: {
+      fr: 'Écrit votre code, connecte vos outils et exploite vos données.',
+      en: 'Writes your code, connects your tools and leverages your data.',
+    },
+  },
+  {
     slug: 'hugo',
     role: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
     segments: { fr: 'PME • Startups • ETI', en: 'SMBs • Startups • Mid-market' },
@@ -37,6 +59,17 @@ const SHOWCASE: ShowcaseEntry[] = [
     pitch: {
       fr: 'Identifie vos prospects, qualifie les contacts et prépare vos relances.',
       en: 'Identifies your prospects, qualifies contacts and prepares your follow-ups.',
+    },
+  },
+  {
+    slug: 'nadia',
+    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
+    segments: { fr: 'PME • Startups • ETI', en: 'SMBs • Startups • Mid-market' },
+    defaultProfile: { fr: 'Analyse financière', en: 'Financial analyst' },
+    skills: { fr: 'Trésorerie · Facturation · Reporting', en: 'Cash flow · Billing · Reporting' },
+    pitch: {
+      fr: 'Suit votre trésorerie, prépare vos factures et analyse vos résultats.',
+      en: 'Tracks your cash flow, prepares your invoices and analyzes your results.',
     },
   },
   {
