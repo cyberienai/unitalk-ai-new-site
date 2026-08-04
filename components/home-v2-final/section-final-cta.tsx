@@ -11,7 +11,7 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
     title: 'Votre Collaborateur IA est prêt à vous rejoindre.',
-    almaNote: 'Notre conseillère IA, Alma, analyse votre site web et prépare la première mission de votre Collaborateur IA.',
+    almaNote: 'Alma analyse votre site Web et prépare sa première mission.',
     domainAria: 'Votre site web',
     domainPlaceholder: 'votreentreprise.com',
     cta: 'Découvrir mon Collaborateur IA',
@@ -20,7 +20,7 @@ const T = {
   en: {
     eyebrow: 'Someone is missing.',
     title: 'Your AI Collaborator is ready to join you.',
-    almaNote: 'Our AI advisor, Alma, analyzes your website and prepares your AI Collaborator’s first mission.',
+    almaNote: 'Alma analyzes your website and prepares its first mission.',
     domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
     cta: 'Discover my AI Collaborator',

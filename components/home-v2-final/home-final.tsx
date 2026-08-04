@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from '../navbar'
 import { HeroV2 } from '../home-v2/hero-v2'
@@ -13,6 +14,7 @@ import { SiteFooter } from '../site-footer'
 
 export function HomeFinal() {
   const { lang } = useLanguage()
+  const [missionKey, setMissionKey] = useState('newsletter')
 
   return (
     <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
@@ -25,10 +27,10 @@ export function HomeFinal() {
       <HeroV2 lang={lang} />
 
       {/* 2. Démonstration produit — donnez une nouvelle expertise à Emma (interactif) */}
-      <SectionDemo lang={lang} />
+      <SectionDemo lang={lang} onMissionChange={setMissionKey} />
 
-      {/* 3. Workspace — Emma passe à l'action */}
-      <SectionWorkspace lang={lang} />
+      {/* 3. Workspace — Emma passe à l'action (reflète la mission choisie) */}
+      <SectionWorkspace lang={lang} missionKey={missionKey} />
 
       {/* 4. Tarifs — une offre pour commencer */}
       <SectionPricing lang={lang} />

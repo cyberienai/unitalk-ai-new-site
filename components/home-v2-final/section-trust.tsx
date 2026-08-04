@@ -13,11 +13,11 @@ const T = {
     cards: [
       {
         title: 'Hébergé en France',
-        desc: 'Vos données sont stockées et traitées en France, sur une infrastructure souveraine.',
+        desc: 'L’environnement Unitalk et les données couvertes par l’offre sont hébergés en France.',
       },
       {
-        title: 'Conforme au RGPD',
-        desc: 'Chaque traitement respecte le RGPD et l’AI Act européen, avec un contrôle clair de vos accès.',
+        title: 'Gouvernance & conformité',
+        desc: 'Des outils de gouvernance facilitent le respect de vos obligations RGPD et AI Act, avec un contrôle clair de vos accès.',
       },
       {
         title: 'Serveur IA privé disponible',
@@ -31,12 +31,12 @@ const T = {
     intro: 'Your data stays yours. Your AI Collaborator works within a controlled environment.',
     cards: [
       {
-        title: 'Hosted in Europe',
-        desc: 'Your data is stored and processed in France, on sovereign infrastructure.',
+        title: 'Hosted in France',
+        desc: 'The Unitalk environment and the data covered by the plan are hosted in France.',
       },
       {
-        title: 'GDPR compliant',
-        desc: 'Every operation respects GDPR and the European AI Act, with clear control over your access.',
+        title: 'Governance & compliance',
+        desc: 'Governance tools help you meet your GDPR and EU AI Act obligations, with clear control over your access.',
       },
       {
         title: 'Private AI server available',
