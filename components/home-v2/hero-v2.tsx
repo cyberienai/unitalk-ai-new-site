@@ -24,12 +24,7 @@ const T = {
     domainAria: 'Votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
-    steps: [
-      { title: 'Parlez-lui, ne tapez plus', desc: 'À la voix ou au texte, comme vous voulez.' },
-      { title: 'Tous les modèles IA', desc: 'ChatGPT et les autres inclus.' },
-      { title: 'Accompagnement humain', desc: 'Onboarding et supervision inclus.' },
-      { title: 'Hébergé en France', desc: 'Vos données restent en France.' },
-    ],
+    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
     // organigramme
     orgTitle: 'Votre organisation',
     orgLeadParts: [
@@ -72,12 +67,7 @@ const T = {
     domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
-    steps: [
-      { title: 'Talk to it, stop typing', desc: 'By voice or text, however you like.' },
-      { title: 'Every AI model', desc: 'ChatGPT and the others included.' },
-      { title: 'Human support', desc: 'Onboarding and supervision included.' },
-      { title: 'Hosted in France', desc: 'Your data stays in France.' },
-    ],
+    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
     // organigramme
     orgTitle: 'Your organization',
     orgLeadParts: [
@@ -201,20 +191,14 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </button>
             </form>
 
-            <ul className="mt-6 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
-              {t.steps.map((step) => (
-                <li
-                  key={step.title}
-                  className="rounded-2xl border border-[#E4DDCE] bg-[#F3EFE6]/60 p-3.5"
-                >
-                  <p className="flex items-start gap-1.5 text-[13px] font-bold leading-tight text-[#1C1A17]">
-                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
-                    {step.title}
-                  </p>
-                  <p className="mt-1 pl-5 text-[11px] leading-4 text-[#6B6560]">{step.desc}</p>
-                </li>
+            <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
+              {t.proofs.map((proof) => (
+                <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
+                  <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+                  {proof}
+                </span>
               ))}
-            </ul>
+            </div>
           </motion.div>
         </div>
 
