@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from './section-kicker'
@@ -10,14 +11,16 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 const T: Record<Lang, {
   kicker: string
-  title: string
+  headline: string
+  rotatingWords: string[]
   subtitle: string
   exploreAll: string
   missions: string[]
 }> = {
   fr: {
-    kicker: 'Choisissez sa mission',
-    title: 'Que voulez-vous lui confier ?',
+    kicker: 'Il vous manque quelqu’un.',
+    headline: 'Votre Collaborateur\u00A0IA est prêt',
+    rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre blog', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
     subtitle: 'Une mission, un Collaborateur IA prêt à s’en charger.',
     exploreAll: 'Explorer toutes les missions',
     missions: [
@@ -39,8 +42,9 @@ const T: Record<Lang, {
     ],
   },
   en: {
-    kicker: 'Choose its mission',
-    title: 'What do you want it to take on?',
+    kicker: 'You’re missing someone.',
+    headline: 'Your AI\u00A0Collaborator is ready',
+    rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your blog', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
     subtitle: 'One mission, one AI Collaborator ready to handle it.',
     exploreAll: 'Explore every mission',
     missions: [
@@ -65,6 +69,15 @@ const T: Record<Lang, {
 
 export function SectionMissions({ lang }: { lang: Lang }) {
   const t = T[lang]
+  const reduceMotion = useReducedMotion()
+  const [wordIndex, setWordIndex] = useState(0)
+  useEffect(() => {
+    if (reduceMotion) return
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % t.rotatingWords.length)
+    }, 2200)
+    return () => clearInterval(id)
+  }, [reduceMotion, t.rotatingWords.length])
 
   return (
     <section id="missions" className="scroll-mt-20 border-t border-[#E9E2D4] bg-[#F3EFE6] px-5 py-24 sm:px-8 sm:py-32">
@@ -79,9 +92,27 @@ export function SectionMissions({ lang }: { lang: Lang }) {
             <Kicker>{t.kicker}</Kicker>
           </div>
           <h2 className="mt-4 text-balance font-sf text-[clamp(2rem,4.4vw,3.25rem)] font-bold leading-[1.05] tracking-[-0.03em] text-[#1C1A17]">
-            {t.title}
+            {t.headline}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-lg leading-relaxed text-[#5F594F]">
+          <div
+            className="mt-1 flex min-h-[1.5em] items-start justify-center overflow-hidden text-balance font-sf text-[clamp(2rem,4.4vw,3.25rem)] font-bold leading-[1.1] tracking-[-0.03em] text-[#D10E63]"
+            aria-hidden="true"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={wordIndex}
+                initial={reduceMotion ? false : { opacity: 0, y: '0.5em' }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: '-0.5em' }}
+                transition={{ duration: 0.4, ease }}
+                className="inline-block text-balance"
+              >
+                {t.rotatingWords[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+          <p className="sr-only">{`${t.headline} ${t.rotatingWords.join(', ')}.`}</p>
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-[#5F594F]">
             {t.subtitle}
           </p>
         </motion.div>

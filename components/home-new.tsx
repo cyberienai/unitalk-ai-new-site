@@ -2,7 +2,8 @@
 
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
-import { HeroNew } from './hero-new'
+import { HeroV2 } from './home-v2/hero-v2'
+import { SectionVersus } from './home-v2/section-versus'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
 import { SectionCollaborator } from './home/section-collaborator'
@@ -18,8 +19,11 @@ export function HomeNew() {
       {/* Header / Navigation */}
       <Navbar />
 
-      {/* 1. Il vous manque quelqu'un — Hero */}
-      <HeroNew lang={lang} />
+      {/* 1. Hero — Ne prenez pas un abonnement. Prenez un Collaborateur IA. */}
+      <HeroV2 lang={lang} />
+
+      {/* 2. La rupture — un logiciel IA vs un Collaborateur IA */}
+      <SectionVersus lang={lang} />
 
       {/* Catalogue des Collaborateurs IA */}
       <div id="collaborateurs-ia">

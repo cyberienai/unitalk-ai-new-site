@@ -45,7 +45,7 @@ export function SectionVersus({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const reduceMotion = useReducedMotion()
 
   return (
-    <section className="bg-[#1C1A17] py-20 sm:py-28">
+    <section className="bg-[#1C1A17] py-24 sm:py-32">
       <div className="editorial-shell">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
