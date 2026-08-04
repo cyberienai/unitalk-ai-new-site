@@ -12,12 +12,7 @@ type Featured = { name: string; role: { fr: string; en: string }; href: string; 
 
 const CREATE_ORG = {
   href: '/decouvrir',
-  label: { fr: 'Créer mon organisation', en: 'Create my organization' },
-  desc: {
-    fr: 'Notre conseillère IA prépare le contexte de votre organisation et ses premières missions.',
-    en: 'Our AI advisor prepares your organization’s context and its first missions.',
-  },
-  cta: { fr: 'Commencer', en: 'Get started' },
+  label: { fr: 'Recruter mon Collaborateur IA', en: 'Hire my AI Collaborator' },
 }
 
 // Compact dropdown for "Missions"
@@ -34,7 +29,7 @@ const MISSIONS_MENU: NavLink[] = [
 const COLLAB_MENU: NavLink[] = [
   { fr: 'Découvrir les Collaborateurs IA', en: 'Discover the AI Collaborators', href: '/collaborateurs-ia', strong: true },
   { fr: 'Explorer les profils métier', en: 'Explore job profiles', href: '/collaborateurs-ia/roles' },
-  { fr: 'Créateurs et expertises', en: 'Creators and expertise', href: '/collaborateurs-ia' },
+  { fr: 'Comment ça fonctionne', en: 'How it works', href: '/collaborateurs-ia/comment-ca-fonctionne' },
 ]
 
 const COLLAB_FEATURED: Featured[] = [
@@ -59,8 +54,7 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'Collaborateurs IA',
-    createOrg: 'Créer mon organisation',
-    signUp: 'S’inscrire',
+    createOrg: 'Recruter mon Collaborateur IA',
     featuredLabel: 'Mis en avant',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -72,8 +66,7 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'AI Collaborators',
-    createOrg: 'Create my organization',
-    signUp: 'Sign up',
+    createOrg: 'Hire my AI Collaborator',
     featuredLabel: 'Featured',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
