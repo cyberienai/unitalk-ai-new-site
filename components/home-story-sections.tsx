@@ -91,9 +91,6 @@ const content = {
 
     // Section: Emma, un exemple concret
     emmaEyebrow: 'UN EXEMPLE CONCRET',
-    emmaName: 'Emma',
-    emmaRole: 'Executive Assistant',
-    emmaIntro: 'Emma est un véritable Collaborateur IA.',
     emmaJoinLabel: 'Elle rejoint votre organisation avec :',
     emmaAttributes: ['Une identité', 'Une mission', "Des droits d'accès", 'Une mémoire', 'Une présence numérique'],
     emmaTasks: [
@@ -105,7 +102,6 @@ const content = {
     ],
     emmaClosingLead: 'Vous lui confiez une mission.',
     emmaClosingAccent: "Elle l'exécute.",
-    emmaCta: "Voir la fiche complète d'Emma",
 
     // Section: Chaque Collaborateur IA rejoint votre organigramme
     memberEyebrow: 'CHAQUE COLLABORATEUR IA REJOINT VOTRE ORGANIGRAMME',
@@ -284,9 +280,6 @@ const content = {
     conceptBenefit: 'You no longer manage tools. You lead a team that grows with you.',
 
     emmaEyebrow: 'A CONCRETE EXAMPLE',
-    emmaName: 'Emma',
-    emmaRole: 'Executive Assistant',
-    emmaIntro: 'Emma is a true AI Collaborator.',
     emmaJoinLabel: 'She joins your organization with:',
     emmaAttributes: ['An identity', 'A mission', 'Access rights', 'A memory', 'A digital presence'],
     emmaTasks: [
@@ -298,7 +291,6 @@ const content = {
     ],
     emmaClosingLead: 'You hand her a mission.',
     emmaClosingAccent: 'She executes it.',
-    emmaCta: "See Emma's full profile",
 
     memberEyebrow: 'EVERY AI COLLABORATOR JOINS YOUR ORG CHART',
     memberTitle: 'Ready to work out of the box.',
