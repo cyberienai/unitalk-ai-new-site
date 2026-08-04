@@ -28,7 +28,7 @@ const T = {
     // organigramme
     orgTitle: 'Votre organisation',
     orgLeadParts: [
-      { t: 'Chaque Collaborateur IA peut travailler pour ' },
+      { t: 'Il travaille pour ' },
       { t: 'une personne', h: true },
       { t: ', ' },
       { t: 'une équipe', h: true },
@@ -71,7 +71,7 @@ const T = {
     // organigramme
     orgTitle: 'Your organization',
     orgLeadParts: [
-      { t: 'Every AI Collaborator can work for ' },
+      { t: 'It works for ' },
       { t: 'a person', h: true },
       { t: ', ' },
       { t: 'a team', h: true },
