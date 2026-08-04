@@ -31,6 +31,11 @@ const T = {
     cta: 'Démarrer l’essai gratuit',
     secondary: 'Voir le détail des tarifs',
     note: '7 jours d’essai gratuit, sans carte bancaire.',
+    billingTitle: 'Vous payez ce qu’il consomme',
+    billingItems: [
+      { k: 'Hébergement cloud', v: 'forfait mensuel fixe' },
+      { k: 'Modèles d’IA et APIs', v: 'à l’usage' },
+    ],
     asterisk: '* 10 millions de tokens inclus par mois. Tokens supplémentaires disponibles selon vos besoins.',
   },
   en: {
@@ -57,6 +62,11 @@ const T = {
     cta: 'Start the free trial',
     secondary: 'See pricing details',
     note: '7-day free trial, no credit card required.',
+    billingTitle: 'You pay for what it consumes',
+    billingItems: [
+      { k: 'Cloud hosting', v: 'fixed monthly plan' },
+      { k: 'AI models and APIs', v: 'usage-based' },
+    ],
     asterisk: '* 10 million tokens included per month. Additional tokens available as you need them.',
   },
 } as const
@@ -114,7 +124,21 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 border-t border-[#E4DCCF] pt-4 text-xs leading-relaxed text-[#8A8175]">
+            <div className="mt-6 rounded-2xl border border-[#E4DCCF] bg-[#F3EFE6] p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#D10E63]">
+                {t.billingTitle}
+              </p>
+              <dl className="mt-2.5 flex flex-col gap-2">
+                {t.billingItems.map((item) => (
+                  <div key={item.k} className="flex items-baseline justify-between gap-3 text-sm">
+                    <dt className="text-[#3F3A33]">{item.k}</dt>
+                    <dt className="h-px flex-1 translate-y-[-2px] border-b border-dotted border-[#CFC6B6]" aria-hidden="true" />
+                    <dd className="font-semibold text-[#1C1A17]">{item.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-[#8A8175]">
               {t.asterisk}
             </p>
           </div>
