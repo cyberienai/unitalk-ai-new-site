@@ -1,653 +1,594 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
-import { ArrowRight, Check, Search } from 'lucide-react'
-import { ROLE_DETAILS, collaboratorHref, type Bilingual } from '@/lib/collaborators-catalog'
+import { useMemo, useRef, useState } from 'react'
+import { ArrowRight, Check, Search, Sparkles, Clock } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage, type Lang } from '@/lib/language-context'
+import type { Bilingual } from '@/lib/collaborators-catalog'
 
 const CREATE_ORG_HREF = '/decouvrir'
 
-/**
- * Four macro-families group the finer catalog categories, so the filter bar stays
- * simple (5 chips incl. "All") even as the catalog grows. The mapping lives here in
- * the component; the underlying mission data keeps its precise categories for the
- * detail pages.
- */
-type FamilyKey = 'grow' | 'serve' | 'build' | 'operate'
+/* -------------------------------------------------------------------------- */
+/*  Editorial domains (collections) — each maps to real catalog categories.   */
+/*  These are the truthful, data-backed groupings used both for the           */
+/*  collections rows and the "Domaine" filter.                                */
+/* -------------------------------------------------------------------------- */
+type DomainKey = 'sales' | 'support' | 'content' | 'operate' | 'automate' | 'build'
 
-const FAMILIES: { key: FamilyKey; label: Bilingual; cats: string[] }[] = [
-  { key: 'grow', label: { fr: 'Développer l’activité', en: 'Grow the business' }, cats: ['ventes', 'marketing'] },
-  { key: 'serve', label: { fr: 'Servir les clients', en: 'Serve customers' }, cats: ['support'] },
-  { key: 'build', label: { fr: 'Produire', en: 'Build' }, cats: ['developpement'] },
-  { key: 'operate', label: { fr: 'Piloter', en: 'Operate' }, cats: ['reunions', 'analyse', 'finance', 'automatisation'] },
+const DOMAINS: { key: DomainKey; label: Bilingual; cats: string[] }[] = [
+  { key: 'sales', label: { fr: 'Développer vos ventes', en: 'Grow your sales' }, cats: ['ventes'] },
+  { key: 'support', label: { fr: 'Soigner vos clients', en: 'Take care of customers' }, cats: ['support'] },
+  { key: 'content', label: { fr: 'Produire vos contenus', en: 'Produce your content' }, cats: ['marketing'] },
+  { key: 'operate', label: { fr: 'Piloter votre activité', en: 'Run your operations' }, cats: ['reunions', 'analyse', 'finance'] },
+  { key: 'automate', label: { fr: 'Automatiser vos opérations', en: 'Automate your operations' }, cats: ['automatisation'] },
+  { key: 'build', label: { fr: 'Développer vos produits', en: 'Build your products' }, cats: ['developpement'] },
 ]
 
-function familyOf(category: string): FamilyKey {
-  return (FAMILIES.find((f) => f.cats.includes(category))?.key ?? 'operate') as FamilyKey
+function domainOf(category: string): DomainKey {
+  return (DOMAINS.find((d) => d.cats.includes(category))?.key ?? 'operate') as DomainKey
 }
 
-/** Avatar with a robust initials fallback (images are heavy and can fail to load). */
-function Avatar({
-  src,
-  name,
-  size = 28,
-  tone = 'light',
-}: {
-  src?: string
-  name: string
-  size?: number
-  tone?: 'light' | 'dark'
-}) {
-  const [failed, setFailed] = useState(false)
-  const initials = name
-    .split(' ')
-    .map((w) => w[0])
-    .filter(Boolean)
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-  const toneClass = tone === 'dark' ? 'bg-[#33302B] text-[#C9C2B6]' : 'bg-[#EDE7DA] text-[#6E665A]'
-  return (
-    <span
-      className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full ${toneClass}`}
-      style={{ width: size, height: size }}
-    >
-      {src && !failed ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={src || '/placeholder.svg'}
-          alt=""
-          width={size}
-          height={size}
-          loading="lazy"
-          onError={() => setFailed(true)}
-          className="h-full w-full object-cover"
-        />
-      ) : (
-        <span className="font-sf font-bold" style={{ fontSize: Math.max(10, Math.round(size * 0.38)) }}>
-          {initials}
-        </span>
-      )}
-    </span>
+/* -------------------------------------------------------------------------- */
+/*  Result types — a short, honest tag derived per mission (no fake data).    */
+/* -------------------------------------------------------------------------- */
+type ResultKey = 'prospection' | 'replies' | 'content' | 'recap' | 'reporting' | 'automation' | 'code'
+
+const RESULT_TYPES: { key: ResultKey; label: Bilingual }[] = [
+  { key: 'prospection', label: { fr: 'Prospection', en: 'Prospecting' } },
+  { key: 'replies', label: { fr: 'Réponses clients', en: 'Customer replies' } },
+  { key: 'content', label: { fr: 'Contenus', en: 'Content' } },
+  { key: 'recap', label: { fr: 'Comptes rendus', en: 'Recaps' } },
+  { key: 'reporting', label: { fr: 'Reporting', en: 'Reporting' } },
+  { key: 'automation', label: { fr: 'Automatisations', en: 'Automations' } },
+  { key: 'code', label: { fr: 'Code', en: 'Code' } },
+]
+
+const RESULT_OF: Record<string, ResultKey> = {
+  'trouver-de-nouveaux-clients': 'prospection',
+  'relancer-les-opportunites': 'prospection',
+  'repondre-a-mes-clients': 'replies',
+  'construire-ma-faq': 'replies',
+  'creer-mes-contenus': 'content',
+  'animer-mes-reseaux-sociaux': 'content',
+  'ameliorer-mon-referencement': 'content',
+  'preparer-et-suivre-mes-reunions': 'recap',
+  'preparer-mon-reporting-financier': 'reporting',
+  'automatiser-mes-operations': 'automation',
+  'developper-une-fonctionnalite': 'code',
+  'corriger-un-lot-de-bugs': 'code',
+}
+
+function resultLabel(slug: string, lang: Lang): string {
+  const key = RESULT_OF[slug]
+  return RESULT_TYPES.find((r) => r.key === key)?.label[lang] ?? ''
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Search — never returns zero. Scores missions against the objective query. */
+/* -------------------------------------------------------------------------- */
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
+function haystack(m: Mission, lang: Lang): string {
+  return normalize(
+    [
+      m.title[lang],
+      m.result[lang],
+      m.objective[lang],
+      m.description[lang],
+      m.profile[lang],
+      ...m.skills.map((s) => s[lang]),
+      ...m.produces.map((s) => s[lang]),
+      ...m.tools,
+    ].join(' '),
   )
 }
+
+function scoreMission(m: Mission, tokens: string[], lang: Lang): number {
+  if (tokens.length === 0) return 0
+  const title = normalize(m.title[lang])
+  const body = haystack(m, lang)
+  let score = 0
+  for (const tok of tokens) {
+    if (!tok) continue
+    if (title.includes(tok)) score += 3
+    else if (body.includes(tok)) score += 1
+  }
+  return score
+}
+
+/* -------------------------------------------------------------------------- */
 
 type Copy = {
   kicker: string
   title: string
   lead: string
   searchPlaceholder: string
-  heroCta: string
-  searchExamplesLabel: string
-  searchExamples: string[]
+  searchButton: string
+  examplesLabel: string
+  examples: string[]
   reassurance: string[]
-  seeResults: string
-  missionsWord: string
-  clearSearch: string
-  exampleBadge: string
-  // hero widget
-  widgetCollab: string
-  widgetProfileLabel: string
-  widgetProfile: string
-  widgetMission: string
-  widgetProgressLabel: string
-  widgetProgress: string[]
-  widgetStatus: string
-  widgetReview: string
-  widgetValidate: string
-  // catalogue
-  catalogueKicker: string
-  catalogueTitle: string
-  catalogueLead: string
-  allLabel: string
-  collaboratorWord: string
-  seeMission: string
-  // empty state
-  emptyTitle: string
-  emptyLead: string
-  emptyCta: string
-  // demonstration
-  proofKicker: string
-  proofTitle: string
-  proofLead: string
-  proofBrief: string
-  proofBriefText: string
-  proofResult: string
-  proofResultText: string
-  proofReview: string
-  proofValidate: string
-  proofCta: string
-  keepLine: string
-  // final cta
-  ctaKicker: string
+  // results
+  resultsRecommended: string
+  resultsMore: string
+  resultsFor: string
+  noExact: string
+  clear: string
+  // custom mission
+  customTitle: string
+  customLead: string
+  customCta: string
+  // filters
+  filtersDomain: string
+  filtersResult: string
+  filtersAll: string
+  // card
+  deliverableLabel: string
+  chooseMission: string
+  resultLabel: string
+  // after-choice strip
+  stepsKicker: string
+  stepsTitle: string
+  steps: { title: string; text: string }[]
+  // final CTA
   ctaTitle: string
   ctaLead: string
-  ctaPrimary: string
-  ctaSecondary: string
-  ctaReassurance: string
+  ctaButton: string
+  ctaNote: string
 }
 
-const T: Record<Lang, Copy> = {
+const COPY: Record<Lang, Copy> = {
   fr: {
-    kicker: 'Des résultats concrets pour votre entreprise',
-    title: 'Confiez vos missions à un Collaborateur IA.',
-    lead: 'Choisissez la mission dont votre entreprise a besoin et découvrez le Collaborateur IA capable de la mener à bien.',
-    searchPlaceholder: 'Ex. Trouver 30 prospects qualifiés pour notre nouvelle offre',
-    heroCta: 'Trouver une mission',
-    searchExamplesLabel: 'Raccourcis',
-    searchExamples: ['Trouver des clients', 'Répondre aux clients', 'Préparer une réunion', 'Créer du contenu', 'Automatiser un processus'],
-    reassurance: [
-      'Résultat défini avant de commencer',
-      'Validation avant toute action sensible',
-      'Livrable conservé dans votre workspace',
+    kicker: 'Le store des missions',
+    title: 'Quel résultat voulez-vous obtenir ?',
+    lead: 'Décrivez votre objectif. On vous propose la mission qui y répond — et le livrable que vous recevrez.',
+    searchPlaceholder: 'Ex. : trouver de nouveaux clients, répondre plus vite au support…',
+    searchButton: 'Trouver ma mission',
+    examplesLabel: 'Objectifs fréquents',
+    examples: [
+      'Trouver de nouveaux clients',
+      'Répondre plus vite à mes clients',
+      'Publier du contenu chaque semaine',
+      'Préparer mon reporting mensuel',
+      'Automatiser une tâche répétitive',
     ],
-    seeResults: 'Voir les résultats',
-    missionsWord: 'Missions',
-    clearSearch: 'Effacer les filtres',
-    exampleBadge: 'Exemple de mission',
-    widgetCollab: 'Collaborateur IA',
-    widgetProfileLabel: 'Profil mobilisé',
-    widgetProfile: 'Commercial',
-    widgetMission: 'Trouver de nouveaux clients',
-    widgetProgressLabel: 'Progression',
-    widgetProgress: ['Cible confirmée', 'Entreprises analysées', 'Entreprises retenues', 'Messages prêts à valider'],
-    widgetStatus: 'À valider',
-    widgetReview: 'Examiner',
-    widgetValidate: 'Valider',
-    catalogueKicker: 'Explorez les missions',
-    catalogueTitle: 'Des résultats concrets pour chaque métier.',
-    catalogueLead: 'Chaque mission précise le résultat attendu et le Collaborateur IA capable de la mener à bien.',
-    allLabel: 'Toutes',
-    collaboratorWord: 'Collaborateur IA',
-    seeMission: 'Voir la mission',
-    emptyTitle: 'Aucune mission ne correspond exactement.',
-    emptyLead: 'Décrivez votre besoin à notre conseillère IA. Elle préparera une première proposition.',
-    emptyCta: 'Préparer ma mission',
-    proofKicker: 'Une mission en action',
-    proofTitle: 'Du besoin au livrable.',
-    proofLead: 'Vous donnez le résultat attendu. Votre Collaborateur IA prépare le travail, utilise les outils autorisés et vous sollicite avant toute action sensible.',
-    proofBrief: 'La demande',
-    proofBriefText: 'Claire : « Hugo, prépare-moi 20 prospects qualifiés dans le secteur de la logistique, avec un message de contact pour chacun. »',
-    proofResult: 'Le livrable',
-    proofResultText: '20 prospects qualifiés, chacun avec son contact, son contexte et un message personnalisé prêt à envoyer.',
-    proofReview: 'Examiner',
-    proofValidate: 'Valider',
-    proofCta: 'Voir le workspace',
-    keepLine: 'Commencez par une mission. Gardez le Collaborateur IA.',
-    ctaKicker: 'Votre première mission',
-    ctaTitle: 'Confiez-lui le résultat que vous attendez.',
-    ctaLead: 'Notre conseillère IA analyse votre activité, prépare les savoir-faire nécessaires et configure le cadre de travail de votre Collaborateur IA.',
-    ctaPrimary: 'Découvrir mon Collaborateur IA',
-    ctaSecondary: 'Voir les tarifs',
-    ctaReassurance: 'Analyse de votre activité · Workspace privé · Essai gratuit de 7 jours',
+    reassurance: ['Un livrable clair à chaque mission', 'Rien n’est envoyé sans votre accord', 'Vous gardez la main à chaque étape'],
+    resultsRecommended: 'Mission recommandée',
+    resultsMore: 'Autres missions proches',
+    resultsFor: 'Pour',
+    noExact: 'Aucune mission ne correspond exactement — mais votre objectif peut devenir une mission sur mesure.',
+    clear: 'Effacer',
+    customTitle: 'Votre objectif ne figure pas dans la liste ?',
+    customLead: 'Décrivez-le à Alma : elle prépare une mission sur mesure, avec le profil métier et les outils adaptés.',
+    customCta: 'Créer une mission sur mesure',
+    filtersDomain: 'Domaine',
+    filtersResult: 'Type de résultat',
+    filtersAll: 'Tous',
+    deliverableLabel: 'Livrable',
+    chooseMission: 'Choisir cette mission',
+    resultLabel: 'Résultat',
+    stepsKicker: 'Après votre choix',
+    stepsTitle: 'Ce qui se passe une fois la mission choisie.',
+    steps: [
+      { title: 'Vous indiquez votre site', text: 'Alma analyse votre activité et prépare la mission à votre contexte.' },
+      { title: 'Le Collaborateur IA se prépare', text: 'Il reçoit le profil métier, les compétences et les outils nécessaires.' },
+      { title: 'Vous validez avant tout envoi', text: 'La mission avance dans votre espace de travail. Rien ne part sans votre accord.' },
+    ],
+    ctaTitle: 'Prêt à confier votre première mission ?',
+    ctaLead: 'Choisissez une mission ci-dessus ou décrivez votre objectif. Alma s’occupe de la préparation.',
+    ctaButton: 'Commencer',
+    ctaNote: 'Essai gratuit 7 jours · Mise en place accompagnée',
   },
   en: {
-    kicker: 'Concrete outcomes for your company',
-    title: 'Hand your missions to an AI Collaborator.',
-    lead: 'Choose the mission your company needs and discover the AI Collaborator able to carry it out.',
-    searchPlaceholder: 'e.g. Find 30 qualified prospects for our new offer',
-    heroCta: 'Find a mission',
-    searchExamplesLabel: 'Shortcuts',
-    searchExamples: ['Find clients', 'Answer customers', 'Prepare a meeting', 'Create content', 'Automate a process'],
-    reassurance: [
-      'Outcome defined before starting',
-      'Approval before any sensitive action',
-      'Deliverable kept in your workspace',
+    kicker: 'The mission store',
+    title: 'What result do you want?',
+    lead: 'Describe your goal. We suggest the mission that delivers it — and the output you’ll receive.',
+    searchPlaceholder: 'e.g. find new clients, answer support faster…',
+    searchButton: 'Find my mission',
+    examplesLabel: 'Common goals',
+    examples: [
+      'Find new clients',
+      'Answer my customers faster',
+      'Publish content every week',
+      'Prepare my monthly report',
+      'Automate a repetitive task',
     ],
-    seeResults: 'See results',
-    missionsWord: 'Missions',
-    clearSearch: 'Clear filters',
-    exampleBadge: 'Example mission',
-    widgetCollab: 'AI Collaborator',
-    widgetProfileLabel: 'Profile mobilized',
-    widgetProfile: 'Sales Rep',
-    widgetMission: 'Find new clients',
-    widgetProgressLabel: 'Progress',
-    widgetProgress: ['Target confirmed', 'Companies analyzed', 'Companies shortlisted', 'Messages ready to approve'],
-    widgetStatus: 'To approve',
-    widgetReview: 'Review',
-    widgetValidate: 'Approve',
-    catalogueKicker: 'Explore the missions',
-    catalogueTitle: 'Concrete outcomes for every role.',
-    catalogueLead: 'Each mission spells out the expected outcome and the AI Collaborator able to carry it out.',
-    allLabel: 'All',
-    collaboratorWord: 'AI Collaborator',
-    seeMission: 'See the mission',
-    emptyTitle: 'No mission matches exactly.',
-    emptyLead: 'Describe your need to our AI advisor. She will prepare a first proposal.',
-    emptyCta: 'Prepare my mission',
-    proofKicker: 'A mission in action',
-    proofTitle: 'From need to deliverable.',
-    proofLead: 'You give the expected outcome. Your AI Collaborator prepares the work, uses the authorized tools and asks you before any sensitive action.',
-    proofBrief: 'The request',
-    proofBriefText: 'Claire: "Hugo, prepare 20 qualified prospects in the logistics sector, with an outreach message for each."',
-    proofResult: 'The deliverable',
-    proofResultText: '20 qualified prospects, each with their contact, context and a personalized message ready to send.',
-    proofReview: 'Review',
-    proofValidate: 'Approve',
-    proofCta: 'See the workspace',
-    keepLine: 'Start with a mission. Keep the AI Collaborator.',
-    ctaKicker: 'Your first mission',
-    ctaTitle: 'Hand it the result you expect.',
-    ctaLead: 'Our AI advisor analyzes your business, prepares the necessary know-how and sets up the working framework of your AI Collaborator.',
-    ctaPrimary: 'Discover my AI Collaborator',
-    ctaSecondary: 'See pricing',
-    ctaReassurance: 'Business analysis · Private workspace · 7-day free trial',
+    reassurance: ['A clear output for every mission', 'Nothing is sent without your approval', 'You stay in control at every step'],
+    resultsRecommended: 'Recommended mission',
+    resultsMore: 'Other close missions',
+    resultsFor: 'For',
+    noExact: 'No mission matches exactly — but your goal can become a tailored mission.',
+    clear: 'Clear',
+    customTitle: 'Your goal isn’t in the list?',
+    customLead: 'Describe it to Alma: she prepares a tailored mission, with the right business profile and tools.',
+    customCta: 'Create a tailored mission',
+    filtersDomain: 'Domain',
+    filtersResult: 'Result type',
+    filtersAll: 'All',
+    deliverableLabel: 'Output',
+    chooseMission: 'Choose this mission',
+    resultLabel: 'Result',
+    stepsKicker: 'After you choose',
+    stepsTitle: 'What happens once the mission is chosen.',
+    steps: [
+      { title: 'You share your website', text: 'Alma analyzes your business and tailors the mission to your context.' },
+      { title: 'The AI Collaborator gets ready', text: 'It receives the business profile, skills and tools it needs.' },
+      { title: 'You approve before anything is sent', text: 'The mission moves forward in your workspace. Nothing goes out without your approval.' },
+    ],
+    ctaTitle: 'Ready to hand over your first mission?',
+    ctaLead: 'Pick a mission above or describe your goal. Alma takes care of the setup.',
+    ctaButton: 'Get started',
+    ctaNote: '7-day free trial · Guided onboarding',
   },
 }
 
-function matchesQuery(m: Mission, lang: Lang, q: string) {
-  const haystack = `${m.title[lang]} ${m.description[lang]} ${m.result[lang]} ${m.profile[lang]} ${m.skills
-    .map((s) => s[lang])
-    .join(' ')}`.toLowerCase()
-  return haystack.includes(q)
+/* -------------------------------------------------------------------------- */
+
+function MissionCard({ mission, lang, t }: { mission: Mission; lang: Lang; t: Copy }) {
+  return (
+    <Link
+      href={`/missions/${mission.slug}`}
+      className="group flex h-full flex-col rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5 transition-all hover:border-[#D10E63]/40 hover:shadow-[0_12px_40px_-24px_rgba(0,0,0,0.35)]"
+    >
+      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+        {resultLabel(mission.slug, lang)}
+      </span>
+      <h3 className="mt-2 text-pretty font-sf text-lg font-bold leading-snug text-[#1C1A17]">
+        {mission.title[lang]}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{mission.result[lang]}</p>
+      <div className="mt-4 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">
+          {t.deliverableLabel}
+        </p>
+        <p className="mt-1 text-[13px] leading-relaxed text-[#3B362F]">{mission.deliverable[lang]}</p>
+      </div>
+      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63]">
+        {t.chooseMission}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </Link>
+  )
+}
+
+function CustomMissionCard({ query, lang, t }: { query: string; lang: Lang; t: Copy }) {
+  const href = query.trim() ? `${CREATE_ORG_HREF}?objectif=${encodeURIComponent(query.trim())}` : CREATE_ORG_HREF
+  return (
+    <Link
+      href={href}
+      className="group flex h-full flex-col justify-between rounded-2xl border border-dashed border-[#D10E63]/40 bg-[#D10E63]/[0.04] p-5 transition-colors hover:bg-[#D10E63]/[0.08]"
+    >
+      <div>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/10 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#A80B50]">
+          <Sparkles className="h-3 w-3" />
+          {lang === 'fr' ? 'Sur mesure' : 'Tailored'}
+        </span>
+        <h3 className="mt-3 text-pretty font-sf text-lg font-bold leading-snug text-[#1C1A17]">
+          {t.customTitle}
+        </h3>
+        <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{t.customLead}</p>
+      </div>
+      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63]">
+        {t.customCta}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </Link>
+  )
 }
 
 export function MissionsContent() {
   const { lang } = useLanguage()
-  const t = T[lang]
-  const [active, setActive] = useState<'all' | FamilyKey>('all')
-  const [query, setQuery] = useState<string>('')
+  const t = COPY[lang]
 
-  // Only keep families that actually contain at least one Mission.
-  const filters = useMemo(() => {
-    const nonEmpty = FAMILIES.filter((f) => MISSIONS.some((m) => familyOf(m.category) === f.key))
-    return [{ key: 'all' as const, label: t.allLabel }, ...nonEmpty.map((f) => ({ key: f.key, label: f.label[lang] }))]
-  }, [t, lang])
+  const [query, setQuery] = useState('')
+  const [submitted, setSubmitted] = useState('')
+  const [domain, setDomain] = useState<DomainKey | 'all'>('all')
+  const [resultType, setResultType] = useState<ResultKey | 'all'>('all')
+  const resultsRef = useRef<HTMLDivElement | null>(null)
 
-  const familyLabel = (key: FamilyKey) => FAMILIES.find((f) => f.key === key)?.label[lang] ?? ''
+  const activeQuery = submitted.trim()
+  const isBrowsing = activeQuery === '' && domain === 'all' && resultType === 'all'
 
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return MISSIONS.filter((m) => {
-      if (active !== 'all' && familyOf(m.category) !== active) return false
-      if (q && !matchesQuery(m, lang, q)) return false
-      return true
-    })
-  }, [active, query, lang])
+  const ranked = useMemo(() => {
+    // Apply the honest, data-backed filters first.
+    let base = MISSIONS.slice()
+    if (domain !== 'all') {
+      const cats = DOMAINS.find((d) => d.key === domain)?.cats ?? []
+      base = base.filter((m) => cats.includes(m.category))
+    }
+    if (resultType !== 'all') {
+      base = base.filter((m) => RESULT_OF[m.slug] === resultType)
+    }
+    // Then rank by the objective query, if any.
+    const tokens = normalize(activeQuery).split(/\s+/).filter(Boolean)
+    if (tokens.length === 0) return base
+    const scored = base
+      .map((m) => ({ m, s: scoreMission(m, tokens, lang) }))
+      .sort((a, b) => b.s - a.s)
+    const matched = scored.filter((x) => x.s > 0).map((x) => x.m)
+    // Never zero: if nothing matched, fall back to the current subset.
+    return matched.length > 0 ? matched : base
+  }, [activeQuery, domain, resultType, lang])
 
-  const searchCount = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    if (!q) return 0
-    return MISSIONS.filter((m) => matchesQuery(m, lang, q)).length
-  }, [query, lang])
+  const hasQuery = activeQuery !== ''
+  const recommended = hasQuery && ranked.length > 0 ? ranked[0] : null
+  const rest = recommended ? ranked.slice(1) : ranked
 
-  const goToResults = () => {
-    setActive('all')
-    document.getElementById('missions-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const submit = () => {
+    setSubmitted(query)
+    requestAnimationFrame(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
   }
 
-  const resetAll = () => {
+  const clearAll = () => {
     setQuery('')
-    setActive('all')
+    setSubmitted('')
+    setDomain('all')
+    setResultType('all')
   }
-
-  const matchText =
-    lang === 'fr'
-      ? `Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'correspondent' : 'correspond'}`
-      : `Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'match' : 'matches'}`
-
-  const hugo = ROLE_DETAILS['hugo']
 
   return (
-    <main className="bg-[#F3EFE6]">
-      {/* Hero */}
-      <section className="border-b border-[#E4DDCE] px-5 pb-14 pt-28 sm:px-8 sm:pb-16 sm:pt-32">
-        <div className="editorial-shell">
-          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10">
-            {/* Left: intent + search */}
-            <div>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.kicker}</p>
-              <h1 className="mt-4 max-w-2xl text-balance font-sf text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-[#1C1A17] sm:text-5xl">
-                {t.title}
-              </h1>
-              <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-[#5F594F]">{t.lead}</p>
+    <main className="bg-[#F7F4EC]">
+      {/* ------------------------------- HERO ------------------------------- */}
+      <section className="relative overflow-hidden border-b border-[#E4DDCE] px-4 pb-14 pt-16 sm:pt-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.28em] text-[#D10E63]">
+            {t.kicker}
+          </p>
+          <h1 className="mt-4 text-balance font-sf text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[#1C1A17]">
+            {t.title}
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#4E483F] sm:text-lg">
+            {t.lead}
+          </p>
 
-              {/* Functional search + primary action */}
-              <div className="mt-7 max-w-xl">
-                <div className="flex items-center gap-2 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] py-1 pl-4 pr-1 focus-within:border-[#D10E63]/40">
-                  <Search className="h-4 w-4 shrink-0 text-[#8A8175]" />
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) goToResults()
-                    }}
-                    placeholder={t.searchPlaceholder}
-                    className="w-full bg-transparent py-2.5 text-sm text-[#1C1A17] placeholder:text-[#8A8175] focus:outline-none"
-                    aria-label={t.searchPlaceholder}
-                  />
-                  <button
-                    type="button"
-                    onClick={goToResults}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-                  >
-                    <span className="hidden sm:inline">{t.heroCta}</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-
-                {/* Live feedback / shortcuts */}
-                {query.trim() ? (
-                  searchCount > 0 ? (
-                    <button
-                      type="button"
-                      onClick={goToResults}
-                      className="group mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                    >
-                      <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#D10E63] px-2 text-xs font-bold text-[#FBF9F3]">
-                        {searchCount}
-                      </span>
-                      <span>{matchText}</span>
-                      <span className="text-[#8A8175]">·</span>
-                      <span className="inline-flex items-center gap-1 text-[#D10E63]">
-                        {t.seeResults}
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                      </span>
-                    </button>
-                  ) : (
-                    <p className="mt-3 text-sm text-[#8A8175]">{t.emptyTitle}</p>
-                  )
-                ) : (
-                  <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-semibold text-[#8A8175]">{t.searchExamplesLabel} :</span>
-                    {t.searchExamples.map((ex) => (
-                      <button
-                        key={ex}
-                        type="button"
-                        onClick={() => setQuery(ex)}
-                        className="rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-1 text-xs font-medium text-[#4E483F] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
-                      >
-                        {ex}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Reassurance — magenta marks, aligned with Unitalk brand */}
-                <ul className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-5">
-                  {t.reassurance.map((r) => (
-                    <li key={r} className="flex items-center gap-2 text-sm text-[#4E483F]">
-                      <Check className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
-                      {r}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              submit()
+            }}
+            className="mx-auto mt-8 flex w-full max-w-xl flex-col gap-3 sm:flex-row"
+          >
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#8A8175]" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t.searchPlaceholder}
+                aria-label={t.searchPlaceholder}
+                className="w-full rounded-xl border border-[#D8D0C2] bg-[#FBF9F3] py-3.5 pl-12 pr-4 text-sm text-[#1C1A17] outline-none transition-colors placeholder:text-[#9A9184] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/20"
+              />
             </div>
-
-            {/* Right: an example Mission widget (illustrative, not a client result) */}
-            <div
-              role="img"
-              aria-label={`${t.exampleBadge} : ${t.widgetMission} — ${t.widgetCollab} Hugo, ${t.widgetProfileLabel} ${t.widgetProfile}, ${t.widgetStatus}`}
-              className="mission-rise rounded-[1.75rem] border border-[#E4DDCE] bg-[#FBF9F3] p-6 shadow-[0_30px_70px_rgba(28,26,23,0.10)]"
+            <button
+              type="submit"
+              className="shrink-0 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B53]"
             >
-              {/* Example badge — makes clear this is an illustration */}
-              <span className="mb-4 inline-flex w-fit items-center rounded-full bg-[#EDE7DA] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">
-                {t.exampleBadge}
-              </span>
+              {t.searchButton}
+            </button>
+          </form>
 
-              {/* Widget header */}
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">Mission</p>
-                  <p className="mt-1 font-sf text-lg font-bold tracking-[-0.01em] text-[#1C1A17]">{t.widgetMission}</p>
-                </div>
-                <span className="inline-flex shrink-0 items-center gap-1.5 self-center rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#D10E63]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-                  {t.widgetStatus}
-                </span>
-              </div>
-
-              {/* Collaborator + profile */}
-              <div className="mt-5 flex items-center gap-3 rounded-2xl bg-[#F3EFE6] p-3">
-                <Avatar src={hugo?.avatar} name={hugo?.name ?? 'Hugo'} size={40} />
-                <div className="leading-tight">
-                  <span className="block font-sf text-sm font-bold text-[#1C1A17]">
-                    {hugo?.name ?? 'Hugo'} · <span className="font-medium text-[#6E665A]">{t.widgetCollab}</span>
-                  </span>
-                  <span className="block text-xs text-[#8A8175]">
-                    {t.widgetProfileLabel} : <span className="font-semibold text-[#4E483F]">{t.widgetProfile}</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Progress */}
-              <p className="mt-5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.widgetProgressLabel}</p>
-              <ul className="mt-3 flex flex-col gap-2.5">
-                {t.widgetProgress.map((step, i) => {
-                  const done = i < t.widgetProgress.length - 1
-                  return (
-                    <li
-                      key={step}
-                      className="mission-rise flex items-center gap-2.5 text-sm"
-                      style={{ animationDelay: `${0.15 + i * 0.12}s` }}
-                    >
-                      {done ? (
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#22A06B]/12 text-[#22A06B]">
-                          <Check className="h-3.5 w-3.5" strokeWidth={3} />
-                        </span>
-                      ) : (
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-[#D10E63]/50">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-                        </span>
-                      )}
-                      <span className={done ? 'text-[#4E483F]' : 'font-semibold text-[#1C1A17]'}>{step}</span>
-                    </li>
+          <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-2">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+              {t.examplesLabel}
+            </span>
+            {t.examples.map((ex) => (
+              <button
+                key={ex}
+                type="button"
+                onClick={() => {
+                  setQuery(ex)
+                  setSubmitted(ex)
+                  setDomain('all')
+                  setResultType('all')
+                  requestAnimationFrame(() =>
+                    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
                   )
-                })}
-              </ul>
-
-              {/* Actions — demonstrative only */}
-              <div className="mt-6 flex gap-3">
-                <span className="inline-flex flex-1 items-center justify-center rounded-full border border-[#DcD4C4] bg-[#F3EFE6] px-4 py-2.5 text-sm font-semibold text-[#1C1A17]">
-                  {t.widgetReview}
-                </span>
-                <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3]">
-                  <Check className="h-4 w-4" strokeWidth={2.5} />
-                  {t.widgetValidate}
-                </span>
-              </div>
-            </div>
+                }}
+                className="rounded-full border border-[#D8D0C2] bg-[#FBF9F3] px-3 py-1.5 text-xs font-medium text-[#4E483F] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
+              >
+                {ex}
+              </button>
+            ))}
           </div>
+
+          <ul className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            {t.reassurance.map((r) => (
+              <li key={r} className="inline-flex items-center gap-1.5 text-xs font-medium text-[#5F594F]">
+                <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+                {r}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Catalogue (product first) */}
-      <section id="missions-grid" className="scroll-mt-24 border-b border-[#E4DDCE] px-5 py-14 sm:px-8 sm:py-16">
-        <div className="editorial-shell">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div className="max-w-2xl">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.catalogueKicker}</p>
-              <h2 className="mt-3 font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">{t.catalogueTitle}</h2>
-              <p className="mt-3 text-pretty text-sm leading-relaxed text-[#5F594F]">{t.catalogueLead}</p>
-            </div>
-            <p className="font-mono text-xs font-semibold text-[#8A8175]">
-              {visible.length} {t.missionsWord}
-            </p>
+      {/* ---------------------------- FILTER BAR ---------------------------- */}
+      <div ref={resultsRef} className="scroll-mt-4 border-b border-[#E4DDCE] bg-[#FBF9F3]/70 px-4 py-4">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+              {t.filtersDomain}
+            </span>
+            <button
+              type="button"
+              onClick={() => setDomain('all')}
+              aria-pressed={domain === 'all'}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                domain === 'all' ? 'bg-[#1C1A17] text-[#FBF9F3]' : 'border border-[#D8D0C2] bg-[#FBF9F3] text-[#4E483F] hover:border-[#D10E63]/40'
+              }`}
+            >
+              {t.filtersAll}
+            </button>
+            {DOMAINS.map((d) => (
+              <button
+                key={d.key}
+                type="button"
+                onClick={() => setDomain(d.key)}
+                aria-pressed={domain === d.key}
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  domain === d.key
+                    ? 'bg-[#1C1A17] text-[#FBF9F3]'
+                    : 'border border-[#D8D0C2] bg-[#FBF9F3] text-[#4E483F] hover:border-[#D10E63]/40'
+                }`}
+              >
+                {d.label[lang]}
+              </button>
+            ))}
           </div>
+          <div className="flex items-center gap-2">
+            <label htmlFor="result-type" className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+              {t.filtersResult}
+            </label>
+            <select
+              id="result-type"
+              value={resultType}
+              onChange={(e) => setResultType(e.target.value as ResultKey | 'all')}
+              className="rounded-lg border border-[#D8D0C2] bg-[#FBF9F3] px-3 py-1.5 text-xs font-semibold text-[#4E483F] outline-none focus:border-[#D10E63]"
+            >
+              <option value="all">{t.filtersAll}</option>
+              {RESULT_TYPES.map((r) => (
+                <option key={r.key} value={r.key}>
+                  {r.label[lang]}
+                </option>
+              ))}
+            </select>
+            {!isBrowsing && (
+              <button
+                type="button"
+                onClick={clearAll}
+                className="rounded-lg px-3 py-1.5 text-xs font-semibold text-[#D10E63] underline-offset-2 hover:underline"
+              >
+                {t.clear}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
 
-          {/* Filters (sticky) — four families + All */}
-          <div className="sticky top-[68px] z-10 -mx-5 mt-6 border-y border-[#E4DDCE]/70 bg-[#F3EFE6]/90 px-5 py-3 backdrop-blur sm:top-[76px]">
-            <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label={t.catalogueTitle}>
-              {filters.map((f) => {
-                const isActive = f.key === active
+      {/* --------------------------- RESULTS AREA --------------------------- */}
+      <section className="px-4 py-12 sm:py-16">
+        <div className="mx-auto max-w-6xl">
+          {isBrowsing ? (
+            /* Editorial collections — one row per domain. */
+            <div className="flex flex-col gap-14">
+              {DOMAINS.map((d) => {
+                const items = MISSIONS.filter((m) => d.cats.includes(m.category))
+                if (items.length === 0) return null
                 return (
-                  <button
-                    key={f.key}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    onClick={() => setActive(f.key)}
-                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-                      isActive
-                        ? 'border-[#1C1A17] bg-[#1C1A17] text-[#F3EFE6]'
-                        : 'border-[#E4DDCE] bg-[#FBF9F3] text-[#4E483F] hover:border-[#D10E63]/40 hover:text-[#D10E63]'
-                    }`}
-                  >
-                    {f.label}
-                  </button>
+                  <div key={d.key}>
+                    <div className="mb-5 flex items-baseline justify-between gap-4">
+                      <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[#1C1A17] sm:text-2xl">
+                        {d.label[lang]}
+                      </h2>
+                      <button
+                        type="button"
+                        onClick={() => setDomain(d.key)}
+                        className="shrink-0 text-xs font-bold text-[#D10E63] underline-offset-2 hover:underline"
+                      >
+                        {lang === 'fr' ? 'Tout voir' : 'See all'}
+                      </button>
+                    </div>
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                      {items.map((m) => (
+                        <MissionCard key={m.slug} mission={m} lang={lang} t={t} />
+                      ))}
+                    </div>
+                  </div>
                 )
               })}
-            </div>
-          </div>
-
-          {/* Grid */}
-          {visible.length === 0 ? (
-            <div className="mt-10 max-w-lg rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-8">
-              <h3 className="text-balance font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{t.emptyTitle}</h3>
-              <p className="mt-3 text-pretty text-sm leading-relaxed text-[#5F594F]">{t.emptyLead}</p>
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Link
-                  href={`${CREATE_ORG_HREF}${query.trim() ? `?besoin=${encodeURIComponent(query.trim())}` : ''}`}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-                >
-                  {t.emptyCta}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <button
-                  type="button"
-                  onClick={resetAll}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[#DcD4C4] bg-[#F3EFE6] px-5 py-2.5 text-sm font-semibold text-[#1C1A17] transition-colors hover:bg-[#EAE3D4]"
-                >
-                  {t.clearSearch}
-                </button>
-              </div>
             </div>
           ) : (
-            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {visible.map((m) => {
-                const collab = ROLE_DETAILS[m.collaboratorSlug]
-                const collabName = collab?.name ?? m.profile[lang]
-                return (
-                  // Minimal card: family, title, one-line result, collaborator·profile, "See the mission".
-                  <Link
-                    key={m.slug}
-                    href={`/missions/${m.slug}`}
-                    className="group flex flex-col rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-6 outline-none transition-all duration-300 hover:border-[#D10E63]/30 hover:shadow-[0_20px_50px_rgba(28,26,23,0.07)] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                  >
-                    <span className="inline-flex w-fit items-center rounded-full bg-[#EDE7DA] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">
-                      {familyLabel(familyOf(m.category))}
-                    </span>
+            /* Filtered / ranked grid — never empty (custom card always shown). */
+            <div className="flex flex-col gap-8">
+              {hasQuery && recommended && (
+                <div>
+                  <p className="mb-4 inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    {t.resultsRecommended}
+                    <span className="font-sans normal-case tracking-normal text-[#8A8175]">· {t.resultsFor} “{activeQuery}”</span>
+                  </p>
+                  <div className="grid gap-5 lg:grid-cols-2">
+                    <MissionCard mission={recommended} lang={lang} t={t} />
+                    <CustomMissionCard query={activeQuery} lang={lang} t={t} />
+                  </div>
+                </div>
+              )}
 
-                    <h3 className="mt-3 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] group-hover:text-[#D10E63]">
-                      {m.title[lang]}
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#5F594F]">{m.result[lang]}</p>
+              {hasQuery && !recommended && (
+                <p className="rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] px-4 py-3 text-sm text-[#4E483F]">
+                  {t.noExact}
+                </p>
+              )}
 
-                    {/* Carried out by: AI Collaborator + Profile */}
-                    <div className="mt-auto flex items-center gap-2.5 pt-6">
-                      <Avatar src={collab?.avatar} name={collabName} size={32} />
-                      <span className="font-sf text-sm font-bold text-[#1C1A17]">
-                        {collabName} <span className="font-medium text-[#8A8175]">· {m.profile[lang]}</span>
-                      </span>
-                    </div>
-
-                    <span className="mt-4 inline-flex items-center gap-1.5 border-t border-[#EFE9DC] pt-4 text-sm font-semibold text-[#D10E63]">
-                      {t.seeMission}
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                    </span>
-                  </Link>
-                )
-              })}
+              {rest.length > 0 && (
+                <div>
+                  {hasQuery && recommended && (
+                    <p className="mb-4 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">
+                      {t.resultsMore}
+                    </p>
+                  )}
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {rest.map((m) => (
+                      <MissionCard key={m.slug} mission={m} lang={lang} t={t} />
+                    ))}
+                    {/* Custom card also closes the grid when there is no dedicated recommended row. */}
+                    {(!hasQuery || !recommended) && <CustomMissionCard query={activeQuery} lang={lang} t={t} />}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
       </section>
 
-      {/* Demonstration — a single Mission in action */}
-      <section className="bg-[#1C1A17] px-5 py-16 sm:px-8 sm:py-20">
-        <div className="editorial-shell">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#F08FB5]">{t.proofKicker}</p>
-          <h2 className="mt-3 max-w-2xl text-balance font-sf text-2xl font-bold tracking-[-0.02em] text-[#FBF9F3] sm:text-3xl">{t.proofTitle}</h2>
-          <p className="mt-4 max-w-2xl text-pretty text-sm leading-relaxed text-[#B8B2A8] md:text-base">{t.proofLead}</p>
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-[1fr_1.2fr] lg:items-stretch">
-            {/* Brief */}
-            <div className="rounded-3xl border border-[#33302B] bg-[#242019] p-6">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.proofBrief}</p>
-              <div className="mt-4 flex items-start gap-3">
-                <Avatar src="/images/claire-avatar.png" name="Claire Dubois" size={36} tone="dark" />
-                <p className="text-pretty text-sm leading-relaxed text-[#E7E2D8]">{t.proofBriefText}</p>
-              </div>
-            </div>
-
-            {/* Result */}
-            <div className="rounded-3xl border border-[#33302B] bg-[#242019] p-6">
-              <div className="flex items-center justify-between">
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.proofResult}</p>
-                <div className="flex items-center gap-2">
-                  <Avatar src="/images/hugo-avatar.png" name="Hugo" size={28} tone="dark" />
-                  <span className="leading-tight">
-                    <span className="block font-sf text-xs font-bold text-[#FBF9F3]">Hugo</span>
-                    <span className="block font-mono text-[10px] uppercase tracking-[0.12em] text-[#8A8175]">{t.collaboratorWord}</span>
-                  </span>
-                </div>
-              </div>
-              <p className="mt-4 flex items-start gap-2 text-pretty text-sm leading-relaxed text-[#E7E2D8]">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#4ADE80]" strokeWidth={2.5} />
-                <span>{t.proofResultText}</span>
-              </p>
-              {/* Demonstrative controls only — no real sensitive action on the public page */}
-              <div className="mt-6 flex flex-wrap gap-3">
-                <span className="inline-flex cursor-default items-center rounded-full border border-[#4A453D] px-4 py-2 text-sm font-semibold text-[#E7E2D8]">
-                  {t.proofReview}
-                </span>
-                <span className="inline-flex cursor-default items-center gap-1.5 rounded-full bg-[#D10E63] px-4 py-2 text-sm font-bold text-[#FBF9F3]">
-                  <Check className="h-4 w-4" strokeWidth={2.5} />
-                  {t.proofValidate}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Strategic line — emphasized */}
-          <p className="mt-12 max-w-3xl text-balance font-sf text-2xl font-bold leading-tight tracking-[-0.02em] text-[#FBF9F3] sm:text-3xl">
-            {t.keepLine}
+      {/* ------------------------- AFTER-CHOICE STRIP ----------------------- */}
+      <section className="border-y border-[#E4DDCE] bg-[#FBF9F3] px-4 py-14 sm:py-18">
+        <div className="mx-auto max-w-5xl">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">
+            {t.stepsKicker}
           </p>
-
-          <div className="mt-6 pb-2">
-            <Link
-              href="/workspace"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#F3EFE6] underline-offset-4 transition-colors hover:text-[#F08FB5] hover:underline"
-            >
-              {t.proofCta}
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
+          <h2 className="mt-3 max-w-2xl text-balance font-sf text-[clamp(1.5rem,3.5vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17]">
+            {t.stepsTitle}
+          </h2>
+          <ol className="mt-8 grid gap-5 sm:grid-cols-3">
+            {t.steps.map((s, i) => (
+              <li key={s.title} className="rounded-2xl border border-[#E4DDCE] bg-[#F7F4EC] p-5">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1C1A17] font-sf text-sm font-bold text-[#FBF9F3]">
+                  {i + 1}
+                </span>
+                <h3 className="mt-4 font-sf text-base font-bold text-[#1C1A17]">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{s.text}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      {/* Final CTA — magenta block */}
-      <section className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="editorial-shell">
-          <div className="rounded-[2rem] bg-[#D10E63] p-8 text-center sm:p-14">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#FBD3E4]">{t.ctaKicker}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl text-balance font-sf text-3xl font-bold tracking-[-0.03em] text-[#FBF9F3] sm:text-4xl">
-              {t.ctaTitle}
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-7 text-[#FBE1EC]">{t.ctaLead}</p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link
-                href={CREATE_ORG_HREF}
-                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#FBF9F3] px-6 py-3 text-sm font-bold text-[#D10E63] transition-transform hover:-translate-y-0.5"
-              >
-                {t.ctaPrimary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/tarifs"
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#F5A9C8] px-6 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B80C56]"
-              >
-                {t.ctaSecondary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <p className="mt-6 text-xs font-medium text-[#FBE1EC]">{t.ctaReassurance}</p>
-          </div>
+      {/* ------------------------------ FINAL CTA --------------------------- */}
+      <section className="px-4 py-16 sm:py-24">
+        <div className="mx-auto max-w-2xl rounded-[2rem] border border-[#33302B] bg-[#1C1A17] p-8 text-center sm:p-12">
+          <h2 className="text-balance font-sf text-[clamp(1.5rem,3.5vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-[#FBF9F3]">
+            {t.ctaTitle}
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-pretty text-sm leading-relaxed text-[#C9C2B6]">
+            {t.ctaLead}
+          </p>
+          <Link
+            href={CREATE_ORG_HREF}
+            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B53]"
+          >
+            {t.ctaButton}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+          <p className="mt-5 inline-flex items-center gap-1.5 text-xs text-[#9A9184]">
+            <Clock className="h-3.5 w-3.5" />
+            {t.ctaNote}
+          </p>
         </div>
       </section>
     </main>
