@@ -16,18 +16,12 @@ const MISSION_SLUGS = [
   'hugo', // Trouver de nouveaux clients
   'ines', // Répondre à vos clients
   'lea', // Créer vos contenus
-  'emma', // Préparer vos réunions
+  'lea', // Générer des images
+  'lea', // Générer des vidéos
   'arthur', // Écrire du code
-  'arthur', // Automatiser vos tâches
   'nadia', // Analyser vos données
+  'emma', // Préparer vos réunions
   'hugo', // Gérer votre CRM
-  'nadia', // Suivre votre trésorerie
-  'lea', // Planifier vos publications
-  'lea', // Gérer votre blog
-  'emma', // Traduire vos documents
-  'emma', // Prendre des notes vocales
-  'emma', // Transcrire les réunions
-  'hugo', // Émettre des appels sortants
 ] as const
 
 const T: Record<Lang, {
@@ -41,49 +35,37 @@ const T: Record<Lang, {
   fr: {
     kicker: 'Commencez par une mission',
     headline: 'Votre Collaborateur\u00A0IA est prêt',
-    rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre blog', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
+    rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à générer des vidéos', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre blog', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
     subtitle: 'Choisissez une mission, un Collaborateur IA s’en charge.',
     exploreAll: 'Explorer toutes les missions',
     missions: [
       'Trouver de nouveaux clients',
       'Répondre à vos clients',
       'Créer vos contenus',
-      'Préparer vos réunions',
+      'Générer des images',
+      'Générer des vidéos',
       'Écrire du code',
-      'Automatiser vos tâches',
       'Analyser vos données',
+      'Préparer vos réunions',
       'Gérer votre CRM',
-      'Suivre votre trésorerie',
-      'Planifier vos publications',
-      'Gérer votre blog',
-      'Traduire vos documents',
-      'Prendre des notes vocales',
-      'Transcrire les réunions',
-      'Émettre des appels sortants',
     ],
   },
   en: {
     kicker: 'Start with a mission',
     headline: 'Your AI\u00A0Collaborator is ready',
-    rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your blog', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
+    rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to generate videos', 'to analyze your data', 'to schedule your posts', 'to manage your blog', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
     subtitle: 'Pick a mission, an AI Collaborator handles it.',
     exploreAll: 'Explore every mission',
     missions: [
       'Find new customers',
       'Answer your customers',
       'Create your content',
-      'Prepare your meetings',
+      'Generate images',
+      'Generate videos',
       'Write code',
-      'Automate your tasks',
       'Analyze your data',
+      'Prepare your meetings',
       'Manage your CRM',
-      'Track your cash flow',
-      'Schedule your posts',
-      'Manage your blog',
-      'Translate your documents',
-      'Take voice notes',
-      'Transcribe meetings',
-      'Make outbound calls',
     ],
   },
 }
