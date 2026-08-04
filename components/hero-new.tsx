@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Globe, Network } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 import { collaboratorHref } from '@/lib/collaborators-catalog'
@@ -10,8 +11,8 @@ import { collaboratorHref } from '@/lib/collaborators-catalog'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    headline: 'Votre Collaborateur\u00A0IA',
-    headlineAccent: 'est déjà prêt.',
+    headline: 'Votre Collaborateur\u00A0IA est prêt',
+    rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
     lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
     domainLabel: 'Indiquez l’adresse de votre site.',
     domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
@@ -19,6 +20,7 @@ const T = {
     domainCta: 'Découvrir mon Collaborateur IA',
     exploreCta: 'Voir les missions',
     heroProofs: ['Configuration personnalisée', 'Espace de travail privé', 'Essai gratuit 7 jours'],
+    heroTrialMobile: '7 jours d’essai gratuit',
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
     orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
@@ -35,8 +37,8 @@ const T = {
   },
   en: {
     eyebrow: 'You’re missing someone.',
-    headline: 'Your AI\u00A0Collaborator',
-    headlineAccent: 'is ready to go.',
+    headline: 'Your AI\u00A0Collaborator is ready',
+    rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
     lead: 'Add the professional know-how you need and connect it to your tools.',
     domainLabel: 'Enter your website address.',
     domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
@@ -44,6 +46,7 @@ const T = {
     domainCta: 'Discover my AI Collaborator',
     exploreCta: 'See the missions',
     heroProofs: ['Tailored setup', 'Private workspace', '7-day free trial'],
+    heroTrialMobile: '7-day free trial',
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
     orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
@@ -68,6 +71,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const [domain, setDomain] = useState('')
   const domainPreview = normalizeDomain(domain)
 
+  const [wordIndex, setWordIndex] = useState(0)
+  useEffect(() => {
+    if (reduceMotion) return
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % t.rotatingWords.length)
+    }, 2200)
+    return () => clearInterval(id)
+  }, [reduceMotion, t.rotatingWords.length])
+
   const submitDomain = (e: React.FormEvent) => {
     e.preventDefault()
     window.location.href = domainPreview
@@ -89,17 +101,39 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.eyebrow}
           </motion.p>
           <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-left md:leading-[0.96]">
-            {t.headline}{' '}
-            <span className="text-[#D10E63]">{t.headlineAccent}</span>
+            {t.headline}
           </motion.h1>
-          <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
+          <motion.div
+            {...enter(0.14)}
+            className="mt-1 flex min-h-[2.2em] items-start justify-center overflow-hidden text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[1.0] tracking-[-0.055em] text-[#D10E63] sm:mt-1.5 sm:min-h-[2.1em] sm:justify-start sm:text-left"
+            aria-hidden="true"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={wordIndex}
+                initial={reduceMotion ? false : { opacity: 0, y: '0.5em' }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: '-0.5em' }}
+                transition={{ duration: 0.4, ease }}
+                className="inline-block text-balance"
+              >
+                {t.rotatingWords[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </motion.div>
+          {/* Full sentence for assistive tech (rotation is decorative) */}
+          <p className="sr-only">{`${t.headline} ${t.rotatingWords.join(', ')}.`}</p>
+          <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base font-semibold leading-7 text-[#3F3A33] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
-          <motion.div {...enter(0.24)} className="mt-8 sm:mt-9">
+          <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
             <p className="mx-auto max-w-md text-center text-sm font-semibold text-[#3F3A33] sm:mx-0 sm:text-left">
               {t.domainLabel}
             </p>
-            <form onSubmit={submitDomain} className="mx-auto mt-3 flex w-full max-w-md flex-col gap-3 sm:mx-0">
+            <p className="mx-auto mt-1.5 max-w-md text-balance text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
+              {t.domainHelper}
+            </p>
+            <form onSubmit={submitDomain} className="mx-auto mt-3.5 flex w-full max-w-md flex-col gap-3 sm:mx-0">
               <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">
                 <span className="pl-4 pr-1 text-[#8A8175]" aria-hidden="true"><Globe className="h-4 w-4" /></span>
                 <input
@@ -117,11 +151,22 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {t.domainCta}<ArrowRight className="h-4 w-4" />
               </button>
             </form>
-            <p className="mx-auto mt-3 max-w-md text-balance text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
-              {t.domainHelper}
-            </p>
-            {/* Secondary link — hidden on mobile so the first screen keeps a single action */}
-            <div className="mt-3 hidden justify-center sm:flex sm:justify-start">
+            {/* Single secondary info level under the CTA: reassurances + one link */}
+            {/* Mobile: only the trial reassurance */}
+            <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-medium text-[#6B6560] sm:hidden">
+              <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+              {t.heroTrialMobile}
+            </div>
+            {/* Desktop: full list of reassurances */}
+            <div className="mt-4 hidden flex-row flex-wrap items-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:flex">
+              {t.heroProofs.map((proof) => (
+                <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
+                  <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+                  {proof}
+                </span>
+              ))}
+            </div>
+            <div className="mt-3 hidden sm:block">
               <Link
                 href="/#missions"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4E483F] underline-offset-4 transition-colors hover:text-[#D10E63] hover:underline"
@@ -130,9 +175,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-          </motion.div>
-          <motion.div {...enter(0.3)} className="mt-5 flex flex-col items-start gap-2 text-xs font-medium text-[#6B6560] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1.5">
-            {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>
 
@@ -157,6 +199,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
+              <div className="relative">
               <div className="overscroll-contain pr-1 sm:max-h-72 sm:overflow-y-auto [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
                 <div className="flex flex-col gap-2.5">
                   {t.orgPairs.map((pair) => {
@@ -173,13 +216,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                           aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
                           className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
                         >
-                          <div className="relative shrink-0"><img src={pair.avatar || '/placeholder.svg'} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
+                          <div className="relative shrink-0"><Image src={pair.avatar || '/placeholder.svg'} alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
                           <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="text-[10px] font-medium leading-tight text-[#A80B50]">{pair.status}</p></div>
                         </Link>
                       </div>
                     )
                   })}
                 </div>
+              </div>
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-10 bg-gradient-to-t from-[#FBF9F3] to-transparent sm:block" />
               </div>
               <a href="/collaborateurs-ia" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
                 {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
