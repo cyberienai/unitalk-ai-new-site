@@ -55,9 +55,10 @@ export function FloatingAlmaWidget() {
   const { lang } = useLanguage()
   const t = T[lang]
   const pathname = usePathname()
-  // Hide the floating launcher on the homepage — the hero form would compete with it.
+  // Hide the floating launcher on the homepages — the hero form would compete with it,
+  // and on /accueil-2 it would overlap the interactive demo CTA.
   // The chat window still opens there via the navbar "Parlez à Alma" button.
-  const showLauncher = pathname !== '/'
+  const showLauncher = pathname !== '/' && pathname !== '/accueil-2'
   const isMissions = pathname === '/missions' || pathname.startsWith('/missions/')
   const [bubbleDismissed, setBubbleDismissed] = useState(false)
   const showMissionsBubble = showLauncher && isMissions && !isOpen && !bubbleDismissed

@@ -21,8 +21,8 @@ const T = {
     eyebrow: 'À vous de jouer',
     title: 'Donnez une nouvelle expertise à Emma.',
     intro:
-      'Emma est l’assistante IA de la direction. Choisissez une mission : elle acquiert instantanément le profil métier et les savoir-faire nécessaires.',
-    identityRole: 'Assistante IA · Direction',
+      'Emma rejoint la direction avec un premier profil métier. Choisissez une mission pour développer ses expertises.',
+    identityRole: 'Collaboratrice IA · Profil actuel : assistante de direction',
     identityItems: ['Email', 'Téléphone', 'Calendrier', 'Mémoire', 'Fichiers'],
     step1: 'Choisissez une mission',
     step2: 'Le profil métier requis',
@@ -74,8 +74,8 @@ const T = {
     eyebrow: 'Your turn',
     title: 'Give Emma a new expertise.',
     intro:
-      'Emma is the leadership team’s AI assistant. Pick a mission: she instantly gains the business profile and know-how she needs.',
-    identityRole: 'AI assistant · Leadership',
+      'Emma joins the leadership team with a first business profile. Pick a mission to grow her expertise.',
+    identityRole: 'AI Collaborator · Current profile: executive assistant',
     identityItems: ['Email', 'Phone', 'Calendar', 'Memory', 'Files'],
     step1: 'Pick a mission',
     step2: 'The required business profile',
@@ -129,7 +129,13 @@ const IDENTITY_ICONS = [Mail, Phone, Calendar, Brain, FolderOpen] as const
 
 type Phase = 'idle' | 'adding' | 'done'
 
-export function SectionDemo({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
+export function SectionDemo({
+  lang = 'fr',
+  onMissionChange,
+}: {
+  lang?: 'fr' | 'en'
+  onMissionChange?: (key: string) => void
+}) {
   const t = T[lang]
   const reduceMotion = useReducedMotion()
   const [selected, setSelected] = useState(0)
@@ -165,6 +171,7 @@ export function SectionDemo({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     interacted.current = true
     setSelected(i)
     setPhase('idle')
+    onMissionChange?.(t.missions[i].key)
   }
 
   const onAddClick = () => {

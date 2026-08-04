@@ -104,13 +104,21 @@ function UkFlag() {
   )
 }
 
-export function Navbar() {
+export function Navbar({
+  ctaLabel,
+  ctaShortLabel,
+}: {
+  ctaLabel?: { fr: string; en: string }
+  ctaShortLabel?: { fr: string; en: string }
+} = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [openMenu, setOpenMenu] = useState<'missions' | 'collaborateurs' | null>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { lang, setLang } = useLanguage()
   const t = T[lang]
+  const ctaFull = ctaLabel ? ctaLabel[lang] : t.createOrg
+  const ctaShort = ctaShortLabel ? ctaShortLabel[lang] : t.createOrgShort
 
   // Divider under the nav appears only once past the hero (≈ 2nd section)
   useEffect(() => {
@@ -308,7 +316,7 @@ export function Navbar() {
 
             {/* Full CTA on desktop */}
             <span className="hidden lg:block">
-              <NavbarTeamCart startLabel={t.createOrg} createOrgHref={CREATE_ORG.href} />
+              <NavbarTeamCart startLabel={ctaFull} createOrgHref={CREATE_ORG.href} />
             </span>
 
             {/* Persistent compact CTA on mobile/tablet */}
@@ -316,7 +324,7 @@ export function Navbar() {
               href={CREATE_ORG.href}
               className="inline-flex h-10 items-center justify-center rounded-full bg-[#D10E63] px-4 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:hidden"
             >
-              {t.createOrgShort}
+              {ctaShort}
             </a>
 
             <button
