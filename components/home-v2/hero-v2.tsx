@@ -145,7 +145,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 />
               </span>
             </motion.span>
-            <motion.span {...enter(0.16)} className="mt-1 block text-[#D10E63]">
+            <motion.span {...enter(0.16)} className="mt-3 block text-[#D10E63] sm:mt-1">
               {t.line2}
             </motion.span>
           </h1>
