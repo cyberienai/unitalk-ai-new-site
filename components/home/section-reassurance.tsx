@@ -1,14 +1,14 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Unlock, Sparkles, LifeBuoy, ShieldCheck } from 'lucide-react'
+import { Mic, Sparkles, LifeBuoy, ShieldCheck } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
     items: [
-      { icon: Unlock, title: 'Sans engagement', desc: 'Résiliable à tout moment.' },
+      { icon: Mic, title: 'Parlez-lui, ne tapez plus', desc: 'À la voix ou au texte, comme vous voulez.' },
       { icon: Sparkles, title: 'Tous les modèles IA', desc: 'ChatGPT et les autres inclus.' },
       { icon: LifeBuoy, title: 'Accompagnement humain', desc: 'Onboarding et supervision inclus.' },
       { icon: ShieldCheck, title: 'Serveur IA privé', desc: 'Vos données restent isolées.' },
@@ -16,7 +16,7 @@ const T = {
   },
   en: {
     items: [
-      { icon: Unlock, title: 'No commitment', desc: 'Cancel anytime.' },
+      { icon: Mic, title: 'Talk to it, stop typing', desc: 'By voice or text, however you like.' },
       { icon: Sparkles, title: 'Every AI model', desc: 'ChatGPT and the others included.' },
       { icon: LifeBuoy, title: 'Human support', desc: 'Onboarding and supervision included.' },
       { icon: ShieldCheck, title: 'Private AI server', desc: 'Your data stays isolated.' },
