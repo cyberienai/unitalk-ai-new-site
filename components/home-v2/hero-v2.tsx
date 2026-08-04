@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Building2, Check, Globe, Network, User, Users } from 'lucide-react'
+import { ArrowRight, Building2, Globe, Network, User, Users } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
@@ -24,7 +24,12 @@ const T = {
     domainAria: 'Votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
-    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
+    steps: [
+      { title: 'Votre entreprise', desc: 'Vous indiquez votre site web.' },
+      { title: 'Analyse par Alma', desc: 'Elle comprend votre activité.' },
+      { title: 'Votre organisation', desc: 'Un aperçu adapté à votre métier.' },
+      { title: 'Vos Collaborateurs IA', desc: 'Prêts à démarrer leur mission.' },
+    ],
     // organigramme
     orgTitle: 'Votre organisation',
     orgLeadParts: [
@@ -67,7 +72,12 @@ const T = {
     domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
-    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
+    steps: [
+      { title: 'Your company', desc: 'You share your website.' },
+      { title: 'Analysis by Alma', desc: 'She understands your business.' },
+      { title: 'Your organization', desc: 'A preview shaped for your field.' },
+      { title: 'Your AI Collaborators', desc: 'Ready to start their mission.' },
+    ],
     // organigramme
     orgTitle: 'Your organization',
     orgLeadParts: [
@@ -191,14 +201,18 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </button>
             </form>
 
-            <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
-              {t.proofs.map((proof) => (
-                <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
-                  <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
-                  {proof}
-                </span>
+            <ol className="mt-6 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
+              {t.steps.map((step, i) => (
+                <li
+                  key={step.title}
+                  className="rounded-2xl border border-[#E4DDCE] bg-[#F3EFE6]/60 p-3.5"
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#D10E63] font-mono text-[11px] font-bold text-[#FBF9F3]" aria-hidden="true">{i + 1}</span>
+                  <p className="mt-2 text-[13px] font-bold leading-tight text-[#1C1A17]">{step.title}</p>
+                  <p className="mt-1 text-[11px] leading-4 text-[#6B6560]">{step.desc}</p>
+                </li>
               ))}
-            </div>
+            </ol>
           </motion.div>
         </div>
 
