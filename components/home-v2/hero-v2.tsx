@@ -138,7 +138,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.eyebrow}
           </motion.p>
 
-          <h1 className="text-balance text-center font-sf text-[clamp(2.6rem,6vw,5.6rem)] font-semibold leading-[1.04] tracking-[-0.055em] text-[#1C1A17] sm:leading-[0.95] sm:text-left">
+          <h1 className="text-balance text-center font-sf text-[clamp(2.6rem,6vw,5.6rem)] font-semibold leading-[1.12] tracking-[-0.055em] text-[#1C1A17] sm:leading-[0.95] sm:text-left">
             <motion.span {...enter(0.1)} className="block">
               {t.line1}{' '}
               <span className="relative inline-block whitespace-nowrap text-[#8A8175]">
@@ -152,7 +152,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 />
               </span>
             </motion.span>
-            <motion.span {...enter(0.16)} className="mt-3 block text-[#D10E63] sm:mt-1">
+            <motion.span {...enter(0.16)} className="mt-4 block text-[#D10E63] sm:mt-1">
               {t.line2}
             </motion.span>
           </h1>
