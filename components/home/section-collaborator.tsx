@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Infinity } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { collaboratorHref } from '@/lib/collaborators-catalog'
 import { Kicker } from './section-kicker'
@@ -13,9 +13,10 @@ const ease = [0.22, 1, 0.36, 1] as const
 const T = {
   fr: {
     kicker: 'Votre Collaborateur IA',
-    title: 'Une identité qui reste. Des profils qui évoluent.',
+    title: 'Une identité. Des profils illimités.',
     subtitle:
-      'Votre Collaborateur IA conserve sa fonction, sa mémoire, son contexte et son expérience. Ajoutez-lui de nouveaux savoir-faire à mesure que ses responsabilités évoluent.',
+      'Votre Collaborateur IA conserve sa fonction, sa mémoire, son contexte et son expérience. Ajoutez-lui autant de profils que nécessaire : ses savoir-faire n’ont pas de limite.',
+    unlimitedBadge: 'Profils illimités',
     identityName: 'Emma',
     identityRole: 'Collaboratrice IA',
     identityNote: 'La même identité, du premier jour à aujourd’hui.',
@@ -24,13 +25,15 @@ const T = {
       { when: 'Mois 2', title: '+ Profil reporting', desc: 'Suit les résultats et produit vos tableaux de bord.' },
       { when: 'Mois 4', title: '+ Profil support', desc: 'Répond à vos clients et traite les demandes courantes.' },
     ],
+    openStep: { title: '+ autant que nécessaire', desc: 'Chaque nouveau besoin devient un nouveau profil. Sans limite.' },
     profileCta: 'Voir le profil d’Emma',
   },
   en: {
     kicker: 'Your AI Collaborator',
-    title: 'An identity that stays. Profiles that evolve.',
+    title: 'One identity. Unlimited profiles.',
     subtitle:
-      'Your AI Collaborator keeps its function, its memory, its context and its experience. Add new skills as its responsibilities grow.',
+      'Your AI Collaborator keeps its function, its memory, its context and its experience. Add as many profiles as you need: its know-how has no limit.',
+    unlimitedBadge: 'Unlimited profiles',
     identityName: 'Emma',
     identityRole: 'AI Collaborator',
     identityNote: 'The same identity, from day one until today.',
@@ -39,6 +42,7 @@ const T = {
       { when: 'Month 2', title: '+ Reporting profile', desc: 'Tracks results and builds your dashboards.' },
       { when: 'Month 4', title: '+ Support profile', desc: 'Answers your customers and handles routine requests.' },
     ],
+    openStep: { title: '+ as many as you need', desc: 'Every new need becomes a new profile. With no limit.' },
     profileCta: 'See Emma’s profile',
   },
 }
@@ -75,10 +79,14 @@ export function SectionCollaborator({ lang }: { lang: Lang }) {
             <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1C1A17]/[0.08]">
               <Image src="/images/emma-avatar.png" alt={t.identityName} fill className="object-cover" sizes="56px" />
             </span>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <p className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{t.identityName}</p>
               <p className="text-sm font-medium text-[#D10E63]">{t.identityRole}</p>
             </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/10 px-3 py-1.5 text-xs font-bold text-[#D10E63]">
+              <Infinity className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden="true" />
+              {t.unlimitedBadge}
+            </span>
           </div>
           <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-[#8A8175]">{t.identityNote}</p>
 
@@ -105,6 +113,24 @@ export function SectionCollaborator({ lang }: { lang: Lang }) {
                 <p className="mt-0.5 text-sm leading-relaxed text-[#5F594F]">{step.desc}</p>
               </motion.li>
             ))}
+
+            {/* Open-ended step — materializes "unlimited" */}
+            <motion.li
+              initial={{ opacity: 0, x: 16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.7, ease, delay: t.steps.length * 0.18 }}
+              className="relative"
+            >
+              <span
+                className="absolute -left-8 top-1 flex h-[19px] w-[19px] items-center justify-center rounded-full border-2 border-dashed border-[#D10E63] bg-[#F3EFE6]"
+                aria-hidden="true"
+              >
+                <Infinity className="h-2.5 w-2.5 text-[#D10E63]" strokeWidth={3} />
+              </span>
+              <p className="text-[15px] font-bold text-[#D10E63]">{t.openStep.title}</p>
+              <p className="mt-0.5 text-sm leading-relaxed text-[#5F594F]">{t.openStep.desc}</p>
+            </motion.li>
           </ol>
         </div>
       </div>
