@@ -16,7 +16,6 @@ const T = {
     line2: 'Recrutez votre Collaborateur IA.',
     lead: 'Il rejoint votre organisation, apprend votre métier et gagne en savoir-faire — sans jamais oublier.',
     domainLabel: 'Commencez par votre site web',
-    domainHelp: 'Alma l’analyse et façonne un Collaborateur IA sur mesure pour votre activité.',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Recruter mon Collaborateur IA',
     proofs: ['Prêt en quelques minutes', 'Un seul abonnement', 'Essai gratuit 7 jours'],
@@ -43,7 +42,6 @@ const T = {
     line2: 'Hire your AI Collaborator.',
     lead: 'It joins your organization, learns your business and grows its know-how — never forgetting a thing.',
     domainLabel: 'Start with your website',
-    domainHelp: 'Alma analyzes it and shapes an AI Collaborator tailored to your business.',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Hire my AI Collaborator',
     proofs: ['Ready in minutes', 'One subscription', '7-day free trial'],
@@ -179,9 +177,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {t.domainCta}<ArrowRight className="h-4 w-4" />
               </button>
             </form>
-            <p className="mx-auto mt-3 max-w-md text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
-              {t.domainHelp}
-            </p>
 
             <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
               {t.proofs.map((proof) => (
