@@ -28,11 +28,11 @@ export function HomeNew() {
       {/* Bande de réassurance factuelle */}
       <SectionReassurance lang={lang} />
 
+      {/* 2. La rupture — un logiciel IA vs un Collaborateur IA (argument le plus fort, cadre tout le reste) */}
+      <SectionVersus lang={lang} />
+
       {/* Comment ça marche — 3 étapes */}
       <SectionHow lang={lang} />
-
-      {/* 2. La rupture — un logiciel IA vs un Collaborateur IA */}
-      <SectionVersus lang={lang} />
 
       {/* Par mission — partez du besoin à confier */}
       <div id="missions">
