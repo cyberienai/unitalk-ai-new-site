@@ -12,7 +12,7 @@ const T = {
     eyebrow: 'Tarif',
     title: 'Un seul plan, tout compris.',
     subtitle:
-      'Un abonnement unique pour toute votre organisation. Pas de coût par membre, pas d’option cachée.',
+      'Un Collaborateur IA partagé par toute votre organisation. Pas de coût par membre, pas d’option cachée.',
     price: '49€',
     period: '/ mois',
     features: [
@@ -33,8 +33,8 @@ const T = {
     secondary: 'Voir le détail des tarifs',
     note: '7 jours d’essai gratuit, sans carte bancaire.',
     asterisk: '* 10 millions de tokens inclus par mois. Tokens supplémentaires disponibles selon vos besoins.',
-    tiersTitle: 'Plus vous en ajoutez, moins c’est cher',
-    tiersSubtitle: 'Le prix par Collaborateur IA baisse dès le deuxième.',
+    tiersTitle: 'Besoin de plusieurs Collaborateurs IA ?',
+    tiersSubtitle: 'Le premier est à 49€. Chaque Collaborateur IA supplémentaire coûte moins cher, toujours dans un seul abonnement pour toute l’organisation.',
     tierUnitSuffix: '€ / mois par Collaborateur IA',
     tierQuote: 'Sur devis',
     orderCta: 'Composer ma commande',
@@ -43,7 +43,7 @@ const T = {
     eyebrow: 'Pricing',
     title: 'One plan, everything included.',
     subtitle:
-      'A single subscription for your whole organization. No per-seat cost, no hidden add-ons.',
+      'One AI Collaborator shared across your whole organization. No per-seat cost, no hidden add-ons.',
     price: '€49',
     period: '/ month',
     features: [
@@ -64,8 +64,8 @@ const T = {
     secondary: 'See pricing details',
     note: '7-day free trial, no credit card required.',
     asterisk: '* 10 million tokens included per month. Additional tokens available as you need them.',
-    tiersTitle: 'The more you add, the less you pay',
-    tiersSubtitle: 'The price per AI Collaborator drops from the second one.',
+    tiersTitle: 'Need several AI Collaborators?',
+    tiersSubtitle: 'The first one is €49. Each additional AI Collaborator costs less, still within one subscription for the whole organization.',
     tierUnitSuffix: '€ / month per AI Collaborator',
     tierQuote: 'Custom quote',
     orderCta: 'Build my order',
