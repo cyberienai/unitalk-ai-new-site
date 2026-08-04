@@ -12,12 +12,13 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un.',
     headline: 'Votre Collaborateur\u00A0IA',
     headlineAccent: 'est prêt.',
-    lead: 'Autonome, il travaille avec vos outils et appartient à votre organisation. Ajoutez-lui les savoir-faire métier dont vous avez besoin.',
-    domainLabel: 'Entrez votre domaine. Notre conseillère IA analyse votre activité et prépare ses premières Missions.',
-    domainPlaceholder: 'monentreprise.com',
+    lead: 'Il appartient à votre organisation, travaille avec vos outils et acquiert les savoir-faire métier dont vous avez besoin.',
+    domainLabel: 'Indiquez le site de votre organisation.',
+    domainHelper: 'Alma analyse votre activité et prépare ses premières Missions.',
+    domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
     exploreCta: 'Voir les Missions',
-    heroProofs: ['Analyse de votre activité', 'Workspace privé pour votre organisation', 'Essai gratuit de 7 jours'],
+    heroProofs: ['Analyse personnalisée', 'Workspace privé', 'Essai gratuit 7 jours'],
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
     orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
@@ -36,12 +37,13 @@ const T = {
     eyebrow: 'You’re missing someone.',
     headline: 'Your AI\u00A0Collaborator',
     headlineAccent: 'is ready.',
-    lead: 'Autonomous, it works with your tools and belongs to your organization. Add the professional know-how you need.',
-    domainLabel: 'Enter your domain. Our AI advisor analyzes your business and prepares its first Missions.',
-    domainPlaceholder: 'mycompany.com',
+    lead: 'It belongs to your organization, works with your tools and acquires the professional know-how you need.',
+    domainLabel: 'Enter your organization’s website.',
+    domainHelper: 'Alma analyzes your business and prepares its first Missions.',
+    domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
     exploreCta: 'See the Missions',
-    heroProofs: ['Analysis of your business', 'A private Workspace for your organization', '7-day free trial'],
+    heroProofs: ['Tailored analysis', 'Private Workspace', '7-day free trial'],
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
     orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
@@ -94,10 +96,10 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.lead}
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-6 sm:mt-7">
-            <p className="mx-auto max-w-md text-balance text-center text-sm leading-6 text-[#5F594F] sm:mx-0 sm:text-left">
+            <p className="mx-auto max-w-md text-center text-sm font-semibold text-[#3F3A33] sm:mx-0 sm:text-left">
               {t.domainLabel}
             </p>
-            <form onSubmit={submitDomain} className="mx-auto mt-4 flex w-full max-w-md flex-col gap-3 sm:mx-0">
+            <form onSubmit={submitDomain} className="mx-auto mt-3 flex w-full max-w-md flex-col gap-3 sm:mx-0">
               <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">
                 <span className="pl-4 pr-1 text-[#8A8175]" aria-hidden="true"><Globe className="h-4 w-4" /></span>
                 <input
@@ -115,7 +117,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {t.domainCta}<ArrowRight className="h-4 w-4" />
               </button>
             </form>
-            <div className="mt-3 flex justify-center sm:justify-start">
+            <p className="mx-auto mt-3 max-w-md text-balance text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
+              {t.domainHelper}
+            </p>
+            {/* Secondary link — hidden on mobile so the first screen keeps a single action */}
+            <div className="mt-3 hidden justify-center sm:flex sm:justify-start">
               <Link
                 href="/#missions"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4E483F] underline-offset-4 transition-colors hover:text-[#D10E63] hover:underline"
@@ -125,7 +131,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </Link>
             </div>
           </motion.div>
-          <motion.div {...enter(0.3)} className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
+          <motion.div {...enter(0.3)} className="mx-auto mt-5 flex w-fit flex-wrap justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:mx-0 sm:justify-start">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>
