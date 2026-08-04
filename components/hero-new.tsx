@@ -12,7 +12,10 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un.',
     headline: 'Votre Collaborateur\u00A0IA est prêt',
     rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre blog', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
-    lead: 'Notre conseillère IA, Alma, analyse votre activité, ajoute les savoir-faire métier nécessaires et prépare ses premières missions.',
+    leadBefore: 'Notre conseillère IA, ',
+    leadName: 'Alma,',
+    leadAfter: ' analyse votre activité, ajoute les savoir-faire métier nécessaires et prépare ses premières missions.',
+    almaAlt: 'Alma, la conseillère IA d’Unitalk',
     domainLabel: 'Connectez votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
@@ -37,7 +40,10 @@ const T = {
     eyebrow: 'You’re missing someone.',
     headline: 'Your AI\u00A0Collaborator is ready',
     rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your blog', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
-    lead: 'Our AI advisor, Alma, analyzes your business, adds the professional know-how needed and prepares its first missions.',
+    leadBefore: 'Our AI advisor, ',
+    leadName: 'Alma,',
+    leadAfter: ' analyzes your business, adds the professional know-how needed and prepares its first missions.',
+    almaAlt: 'Alma, Unitalk’s AI advisor',
     domainLabel: 'Connect your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
@@ -121,7 +127,18 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           {/* Full sentence for assistive tech (rotation is decorative) */}
           <p className="sr-only">{`${t.headline} ${t.rotatingWords.join(', ')}.`}</p>
           <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base font-semibold leading-7 text-[#3F3A33] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
-            {t.lead}
+            {t.leadBefore}
+            <span className="inline-flex items-center gap-1 align-middle">
+              <Image
+                src="/alma-avatar.png"
+                alt={t.almaAlt}
+                width={24}
+                height={24}
+                className="inline-block h-[1.15em] w-[1.15em] rounded-full object-cover ring-1 ring-[#D10E63]/30"
+              />
+              <span className="font-bold text-[#1C1A17]">{t.leadName}</span>
+            </span>
+            {t.leadAfter}
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
             <p className="mx-auto max-w-md text-center text-xs font-medium text-[#6B6560] sm:mx-0 sm:text-left">
