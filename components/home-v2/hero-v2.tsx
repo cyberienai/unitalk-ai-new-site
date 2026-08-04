@@ -18,7 +18,7 @@ const T = {
     domainLabel: 'Commencez par votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Recruter mon Collaborateur IA',
-    proofs: ['Prêt en quelques minutes', 'Un seul abonnement', 'Essai gratuit 7 jours'],
+    proofs: ['Prêt en quelques minutes', 'Un seul tarif, tout compris', 'Essai gratuit 7 jours'],
     // organigramme
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
@@ -44,7 +44,7 @@ const T = {
     domainLabel: 'Start with your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Hire my AI Collaborator',
-    proofs: ['Ready in minutes', 'One subscription', '7-day free trial'],
+    proofs: ['Ready in minutes', 'One flat price', '7-day free trial'],
     // organigramme
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
