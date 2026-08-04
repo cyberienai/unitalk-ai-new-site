@@ -9,7 +9,7 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à vous rejoindre',
+    avatarsLabel: 'Un visage, une voix, un profil métier — façonné pour votre activité',
     eyebrow: 'Il vous manque quelqu’un.',
     titleLead: 'Votre Collaborateur IA est prêt',
     missions: [
@@ -42,7 +42,7 @@ const T = {
     orgLink: 'Découvrir les Collaborateurs IA',
   },
   en: {
-    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to join you',
+    avatarsLabel: 'A face, a voice, a business profile — shaped for your business',
     eyebrow: 'Someone is missing.',
     titleLead: 'Your AI Collaborator is ready',
     missions: [
