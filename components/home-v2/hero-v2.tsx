@@ -9,7 +9,7 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à travailler',
+    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à vous rejoindre',
     eyebrow: 'Une nouvelle façon de travailler',
     line1: 'Ne prenez pas',
     strike: 'un abonnement',
@@ -38,7 +38,7 @@ const T = {
     orgLink: 'Découvrir les Collaborateurs IA',
   },
   en: {
-    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to work',
+    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to join you',
     eyebrow: 'A new way to work',
     line1: 'Don’t buy',
     strike: 'a subscription',
