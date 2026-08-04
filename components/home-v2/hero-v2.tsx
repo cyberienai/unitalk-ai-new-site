@@ -251,7 +251,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-stretch gap-2">
                         <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
                           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] text-[#5F594F]" aria-hidden="true"><ScaleIcon className="h-4 w-4" /></span>
-                          <p className="min-w-0 truncate text-sm font-semibold text-[#1C1A17]">{pair.human}</p>
+                          <p className="min-w-0 text-pretty text-sm font-semibold leading-tight text-[#1C1A17]">{pair.human}</p>
                         </div>
                         <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                         <a
