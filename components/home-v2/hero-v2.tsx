@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Globe, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, Globe } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
@@ -127,8 +127,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </span>
           </motion.div>
 
-          <motion.p {...enter(0.04)} className="mb-5 flex items-center justify-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:justify-start">
-            <Sparkles className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden="true" />
+          <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
             {t.eyebrow}
           </motion.p>
 
