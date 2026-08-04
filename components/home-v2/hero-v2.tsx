@@ -28,8 +28,19 @@ const T = {
     proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
     // organigramme
     orgTitle: 'Votre organisation',
-    orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
-    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département, un projet ou toute l’organisation.',
+    orgLeadParts: [
+      { t: 'Chaque Collaborateur IA peut travailler pour ' },
+      { t: 'une personne', h: true },
+      { t: ', ' },
+      { t: 'une équipe', h: true },
+      { t: ', ' },
+      { t: 'un département', h: true },
+      { t: ', ' },
+      { t: 'un projet', h: true },
+      { t: ' ou ' },
+      { t: 'toute l’organisation', h: true },
+      { t: '.' },
+    ],
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
       { human: 'Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
@@ -61,8 +72,19 @@ const T = {
     proofs: ['7-day free trial', 'Hosted in Europe', 'GDPR compliant'],
     // organigramme
     orgTitle: 'Your organization',
-    orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
-    orgFootnote: 'Every AI Collaborator can work for a person, a team, a department, a project or the whole organization.',
+    orgLeadParts: [
+      { t: 'Every AI Collaborator can work for ' },
+      { t: 'a person', h: true },
+      { t: ', ' },
+      { t: 'a team', h: true },
+      { t: ', ' },
+      { t: 'a department', h: true },
+      { t: ', ' },
+      { t: 'a project', h: true },
+      { t: ' or ' },
+      { t: 'the whole organization', h: true },
+      { t: '.' },
+    ],
     orgPairs: [
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
       { human: 'Marketing', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
@@ -224,16 +246,19 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               <Link
                 href="/decouvrir"
                 aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
-                className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#D10E63]/[0.05]"
+                className="group -mx-2 flex items-start gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-[#D10E63]/[0.05]"
               >
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
-                <div className="min-w-0">
-                  <p className="flex items-center gap-1.5 text-sm font-bold text-[#1C1A17]">
-                    {t.orgTitle}
-                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
-                  </p>
-                  <p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p>
-                </div>
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
+                <p className="text-[13px] font-semibold leading-6 text-[#4E483F]">
+                  {t.orgLeadParts.map((part, i) =>
+                    part.h ? (
+                      <span key={i} className="font-bold text-[#D10E63]">{part.t}</span>
+                    ) : (
+                      <span key={i}>{part.t}</span>
+                    ),
+                  )}
+                  <ArrowRight className="ml-1 inline h-3.5 w-3.5 shrink-0 align-[-2px] text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+                </p>
               </Link>
             </div>
             <div className="p-4 sm:p-6">
@@ -269,10 +294,9 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </div>
               </div>
               </div>
-            </div>
-          </div>
-          <p className="mt-3 px-2 text-center text-[11px] leading-5 text-[#6E665A] sm:text-left">{t.orgFootnote}</p>
-        </motion.div>
+              </div>
+              </div>
+            </motion.div>
       </div>
     </section>
   )
