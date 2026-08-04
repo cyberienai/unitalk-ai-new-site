@@ -4,12 +4,10 @@ import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroV2 } from './home-v2/hero-v2'
 import { SectionReassurance } from './home/section-reassurance'
-import { SectionHow } from './home/section-how'
 import { SectionVersus } from './home-v2/section-versus'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
 import { SectionCollaborator } from './home/section-collaborator'
-import { SectionWorkstation } from './home/section-workstation'
 import { SectionPricing } from './home/section-pricing'
 import { FaqSection } from './faq-section'
 import { SiteFooter } from './site-footer'
@@ -31,9 +29,6 @@ export function HomeNew() {
       {/* 2. La rupture — un logiciel IA vs un Collaborateur IA (argument le plus fort, cadre tout le reste) */}
       <SectionVersus lang={lang} />
 
-      {/* Comment ça marche — 3 étapes */}
-      <SectionHow lang={lang} />
-
       {/* Par mission — partez du besoin à confier */}
       <div id="missions">
         <SectionMissions lang={lang} />
@@ -46,9 +41,6 @@ export function HomeNew() {
 
       {/* 3. Votre Collaborateur IA */}
       <SectionCollaborator lang={lang} />
-
-      {/* 4. Son propre poste de travail */}
-      <SectionWorkstation lang={lang} />
 
       {/* 5. Tarif — un seul plan tout compris */}
       <SectionPricing lang={lang} />

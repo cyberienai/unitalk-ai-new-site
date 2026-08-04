@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Check, ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { COLLABORATOR_TIERS, CONSUMPTION_MODES } from '@/lib/pricing'
+import { SectionWorkstation } from './home/section-workstation'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -237,6 +238,9 @@ export function TarifsContent() {
         <p className="mt-10 text-center text-sm text-[#857C6E]">{t.reassure}</p>
         <p className="mt-2 text-center text-xs text-[#A79E8E]">{t.exampleNote}</p>
       </section>
+
+      {/* Ce que votre Collaborateur IA obtient — son propre poste de travail */}
+      <SectionWorkstation lang={lang} />
     </main>
   )
 }
