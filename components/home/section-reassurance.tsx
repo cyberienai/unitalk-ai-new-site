@@ -1,23 +1,23 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { CreditCard, Users, LifeBuoy, ShieldCheck } from 'lucide-react'
+import { Unlock, Sparkles, LifeBuoy, ShieldCheck } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
     items: [
-      { icon: CreditCard, title: 'Essai gratuit 7 jours', desc: 'Sans carte bancaire.' },
-      { icon: Users, title: 'Un seul abonnement', desc: 'Sans coût par membre.' },
+      { icon: Unlock, title: 'Sans engagement', desc: 'Résiliable à tout moment.' },
+      { icon: Sparkles, title: 'Tous les modèles IA', desc: 'ChatGPT et les autres inclus.' },
       { icon: LifeBuoy, title: 'Accompagnement humain', desc: 'Onboarding et supervision inclus.' },
       { icon: ShieldCheck, title: 'Serveur IA privé', desc: 'Vos données restent isolées.' },
     ],
   },
   en: {
     items: [
-      { icon: CreditCard, title: '7-day free trial', desc: 'No credit card required.' },
-      { icon: Users, title: 'One subscription', desc: 'No per-seat cost.' },
+      { icon: Unlock, title: 'No commitment', desc: 'Cancel anytime.' },
+      { icon: Sparkles, title: 'Every AI model', desc: 'ChatGPT and the others included.' },
       { icon: LifeBuoy, title: 'Human support', desc: 'Onboarding and supervision included.' },
       { icon: ShieldCheck, title: 'Private AI server', desc: 'Your data stays isolated.' },
     ],
