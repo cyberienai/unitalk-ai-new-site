@@ -43,8 +43,8 @@ const T = {
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
       { human: 'Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
-      { human: 'Développement', dept: '3 équipes', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation', scaleKind: 'department', scaleLabel: 'Un département' },
-      { human: 'Toute l’organisation', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Organisation' },
+      { human: 'Produit', dept: '3 équipes', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Livraison', scaleKind: 'department', scaleLabel: 'Un département' },
+      { human: 'Acme', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Toute l’organisation' },
       { human: 'Finance', dept: '4 personnes', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse · Trésorerie · Reporting', scaleKind: 'team', scaleLabel: 'Une équipe' },
       { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi', scaleKind: 'person', scaleLabel: 'Une personne' },
     ],
@@ -86,8 +86,8 @@ const T = {
     orgPairs: [
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
       { human: 'Marketing', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
-      { human: 'Engineering', dept: '3 teams', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation', scaleKind: 'department', scaleLabel: 'A department' },
-      { human: 'Whole organization', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Organization' },
+      { human: 'Product', dept: '3 teams', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Delivery', scaleKind: 'department', scaleLabel: 'A department' },
+      { human: 'Acme', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Whole organization' },
       { human: 'Finance', dept: '4 people', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis · Cash flow · Reporting', scaleKind: 'team', scaleLabel: 'One team' },
       { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up', scaleKind: 'person', scaleLabel: 'One person' },
     ],
