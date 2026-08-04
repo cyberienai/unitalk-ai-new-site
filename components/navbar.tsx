@@ -304,14 +304,17 @@ export function Navbar() {
             </a>
             <button
               onClick={toggleLang}
-              className="inline-flex items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+              className="hidden items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63] lg:inline-flex"
               aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
             >
               {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
 
-            <NavbarTeamCart startLabel={t.createOrg} createOrgHref={CREATE_ORG.href} />
+            {/* Primary CTA lives in the mobile menu; keep the mobile header to logo + menu only */}
+            <span className="hidden lg:block">
+              <NavbarTeamCart startLabel={t.createOrg} createOrgHref={CREATE_ORG.href} />
+            </span>
 
             <button
               onClick={() => setIsMenuOpen((v) => !v)}

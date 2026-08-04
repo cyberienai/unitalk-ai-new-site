@@ -9,6 +9,20 @@ export type MissionCategory = {
   label: Bilingual
 }
 
+// Availability status. Nothing is "available" until it has been tested for real.
+export type MissionStatus = 'available' | 'on-setup' | 'coming-soon'
+
+// Advanced filter facets. Resolved per Mission (category defaults + optional overrides),
+// so the catalog can grow to hundreds of Missions without editing each object.
+export type MissionFacets = {
+  sectors: string[]
+  languages: string[]
+  zones: string[]
+  frequency: string
+  deliverableType: string
+  status: MissionStatus
+}
+
 export type Mission = {
   slug: string
   category: string
@@ -25,6 +39,89 @@ export type Mission = {
   tools: string[]
   profile: Bilingual
   collaboratorSlug: string
+  // Optional, future-proofing fields (per-Mission overrides + provenance).
+  facets?: Partial<MissionFacets>
+  verifiedAt?: string
+  price?: string
+}
+
+// Shown instead of an unverified delay. No delay is promised until it is measured.
+export const DELAY_TBD: Bilingual = {
+  fr: 'Délai confirmé après cadrage',
+  en: 'Timeline confirmed after scoping',
+}
+
+export const STATUS_LABELS: Record<MissionStatus, Bilingual> = {
+  available: { fr: 'Disponible', en: 'Available' },
+  'on-setup': { fr: 'Sur configuration', en: 'On setup' },
+  'coming-soon': { fr: 'Bientôt disponible', en: 'Coming soon' },
+}
+
+export const SECTOR_LABELS: Record<string, Bilingual> = {
+  saas: { fr: 'SaaS et logiciels', en: 'SaaS & software' },
+  ecommerce: { fr: 'E-commerce', en: 'E-commerce' },
+  industrie: { fr: 'Industrie', en: 'Industry' },
+  immobilier: { fr: 'Immobilier', en: 'Real estate' },
+  services: { fr: 'Services professionnels', en: 'Professional services' },
+  'banque-assurance': { fr: 'Banque et assurance', en: 'Banking & insurance' },
+  sante: { fr: 'Santé', en: 'Healthcare' },
+  education: { fr: 'Éducation', en: 'Education' },
+  transport: { fr: 'Transport et logistique', en: 'Transport & logistics' },
+  public: { fr: 'Secteur public', en: 'Public sector' },
+}
+
+export const LANGUAGE_LABELS: Record<string, Bilingual> = {
+  fr: { fr: 'Français', en: 'French' },
+  en: { fr: 'Anglais', en: 'English' },
+}
+
+export const ZONE_LABELS: Record<string, Bilingual> = {
+  france: { fr: 'France', en: 'France' },
+  europe: { fr: 'Europe', en: 'Europe' },
+  international: { fr: 'International', en: 'International' },
+}
+
+export const FREQUENCY_LABELS: Record<string, Bilingual> = {
+  oneoff: { fr: 'Ponctuelle', en: 'One-off' },
+  recurring: { fr: 'Récurrente', en: 'Recurring' },
+  ongoing: { fr: 'En continu', en: 'Ongoing' },
+}
+
+export const DELIVERABLE_TYPE_LABELS: Record<string, Bilingual> = {
+  liste: { fr: 'Liste / CRM', en: 'List / CRM' },
+  reponses: { fr: 'Réponses', en: 'Replies' },
+  contenu: { fr: 'Contenu', en: 'Content' },
+  'compte-rendu': { fr: 'Compte rendu', en: 'Minutes' },
+  rapport: { fr: 'Rapport', en: 'Report' },
+  processus: { fr: 'Processus', en: 'Process' },
+  code: { fr: 'Code', en: 'Code' },
+}
+
+// Category-based facet defaults. Reasonable, non-verified metadata.
+const CATEGORY_FACETS: Record<string, Omit<MissionFacets, 'status'>> = {
+  ventes: { sectors: ['saas', 'services', 'industrie'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'liste' },
+  support: { sectors: ['ecommerce', 'saas', 'banque-assurance'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'ongoing', deliverableType: 'reponses' },
+  marketing: { sectors: ['ecommerce', 'saas', 'immobilier'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'contenu' },
+  reunions: { sectors: ['services', 'public', 'industrie'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'compte-rendu' },
+  analyse: { sectors: ['banque-assurance', 'industrie', 'public'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'rapport' },
+  finance: { sectors: ['banque-assurance', 'services'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'rapport' },
+  automatisation: { sectors: ['industrie', 'transport', 'ecommerce'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'ongoing', deliverableType: 'processus' },
+  developpement: { sectors: ['saas'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'oneoff', deliverableType: 'code' },
+}
+
+// Resolve the facets of a Mission: category defaults, overridable per Mission.
+// Status defaults to 'on-setup' — never 'available' without a real test (verifiedAt).
+export function missionFacets(m: Mission): MissionFacets {
+  const base = CATEGORY_FACETS[m.category] ?? CATEGORY_FACETS.ventes
+  const status: MissionStatus = m.facets?.status ?? (m.verifiedAt ? 'available' : 'on-setup')
+  return {
+    sectors: m.facets?.sectors ?? base.sectors,
+    languages: m.facets?.languages ?? base.languages,
+    zones: m.facets?.zones ?? base.zones,
+    frequency: m.facets?.frequency ?? base.frequency,
+    deliverableType: m.facets?.deliverableType ?? base.deliverableType,
+    status,
+  }
 }
 
 export const MISSION_CATEGORIES: MissionCategory[] = [
@@ -32,6 +129,7 @@ export const MISSION_CATEGORIES: MissionCategory[] = [
   { key: 'support', label: { fr: 'Support client', en: 'Customer support' } },
   { key: 'marketing', label: { fr: 'Marketing et contenu', en: 'Marketing and content' } },
   { key: 'reunions', label: { fr: 'Réunions et coordination', en: 'Meetings and coordination' } },
+  { key: 'analyse', label: { fr: 'Analyse et documents', en: 'Analysis and documents' } },
   { key: 'finance', label: { fr: 'Finance', en: 'Finance' } },
   { key: 'automatisation', label: { fr: 'Automatisation', en: 'Automation' } },
   { key: 'developpement', label: { fr: 'Développement', en: 'Development' } },
@@ -171,7 +269,7 @@ export const MISSIONS: Mission[] = [
     collaboratorSlug: 'ines',
   },
   {
-    slug: 'organiser-la-faq',
+    slug: 'construire-ma-faq',
     category: 'support',
     title: { fr: 'Construire ma FAQ et mes réponses types', en: 'Build my FAQ and canned replies' },
     description: {
@@ -259,7 +357,7 @@ export const MISSIONS: Mission[] = [
     collaboratorSlug: 'lea',
   },
   {
-    slug: 'animer-mes-reseaux',
+    slug: 'animer-mes-reseaux-sociaux',
     category: 'marketing',
     title: { fr: 'Animer mes réseaux sociaux', en: 'Run my social media' },
     description: {
@@ -392,8 +490,8 @@ export const MISSIONS: Mission[] = [
 
   // ---------------- FINANCE ----------------
   {
-    slug: 'preparer-mon-reporting',
-    category: 'finance',
+    slug: 'preparer-mon-reporting-financier',
+    category: 'analyse',
     title: { fr: 'Préparer mon reporting financier', en: 'Prepare my financial report' },
     description: {
       fr: 'Consolide les données, calcule les indicateurs et met en forme le reporting.',
@@ -525,7 +623,7 @@ export const MISSIONS: Mission[] = [
     collaboratorSlug: 'arthur',
   },
   {
-    slug: 'corriger-des-bugs',
+    slug: 'corriger-un-lot-de-bugs',
     category: 'developpement',
     title: { fr: 'Corriger un lot de bugs', en: 'Fix a batch of bugs' },
     description: {
@@ -574,6 +672,10 @@ export const MISSION_SLUG_REDIRECTS: Record<string, string> = {
   'trouver-des-clients': 'trouver-de-nouveaux-clients',
   'repondre-aux-clients': 'repondre-a-mes-clients',
   'preparer-mes-reunions': 'preparer-et-suivre-mes-reunions',
+  'organiser-la-faq': 'construire-ma-faq',
+  'animer-mes-reseaux': 'animer-mes-reseaux-sociaux',
+  'preparer-mon-reporting': 'preparer-mon-reporting-financier',
+  'corriger-des-bugs': 'corriger-un-lot-de-bugs',
 }
 
 export function getMission(slug: string): Mission | undefined {

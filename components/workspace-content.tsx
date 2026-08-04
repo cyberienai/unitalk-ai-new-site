@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import {
   ArrowRight,
   ListChecks,
@@ -16,8 +17,13 @@ import {
   CheckCircle2,
   Wallet,
   Cpu,
+  Clock,
+  FileText,
+  Sparkles,
 } from 'lucide-react'
 import { useLanguage, type Lang } from '@/lib/language-context'
+import { getMission, DELAY_TBD } from '@/lib/missions-catalog'
+import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 
 type Feature = { icon: React.ComponentType<{ className?: string }>; title: string; body: string }
 type Step = { title: string; body: string }
@@ -58,6 +64,15 @@ type Copy = {
   finalTitle: string
   finalBody: string
   finalCta: string
+  activeBadge: string
+  activeTitle: string
+  activeBody: string
+  activeStatusWord: string
+  activeStatusValue: string
+  activeDeliverableWord: string
+  activeDelayWord: string
+  activeOpenCta: string
+  activeAddedSuffix: string
 }
 
 const CREATE_ORG_HREF = '/decouvrir'
@@ -118,6 +133,15 @@ const T: Record<Lang, Copy> = {
     finalTitle: 'Ouvrez votre Workspace.',
     finalBody: 'Notre conseillère IA prépare votre organisation et configure le premier Profil de votre Collaborateur IA.',
     finalCta: 'Créer mon organisation',
+    activeBadge: 'Mission en préparation',
+    activeTitle: 'Votre première Mission est déjà là.',
+    activeBody: 'Votre Workspace ne s’ouvre jamais vide. Votre Collaborateur IA prépare le travail et vous sollicite avant toute action sensible.',
+    activeStatusWord: 'Statut',
+    activeStatusValue: 'En préparation',
+    activeDeliverableWord: 'Livrable attendu',
+    activeDelayWord: 'Délai',
+    activeOpenCta: 'Suivre la Mission',
+    activeAddedSuffix: 'a rejoint votre organisation.',
   },
   en: {
     kicker: 'Your workspace',
@@ -174,15 +198,93 @@ const T: Record<Lang, Copy> = {
     finalTitle: 'Open your Workspace.',
     finalBody: 'Our AI advisor prepares your organization and configures the first Profile of your AI Collaborator.',
     finalCta: 'Create my organization',
+    activeBadge: 'Mission being prepared',
+    activeTitle: 'Your first Mission is already here.',
+    activeBody: 'Your Workspace never opens empty. Your AI Collaborator prepares the work and checks with you before any sensitive action.',
+    activeStatusWord: 'Status',
+    activeStatusValue: 'Being prepared',
+    activeDeliverableWord: 'Expected deliverable',
+    activeDelayWord: 'Timeline',
+    activeOpenCta: 'Follow the Mission',
+    activeAddedSuffix: 'joined your organization.',
   },
 }
 
 export function WorkspaceContent() {
   const { lang } = useLanguage()
   const t = T[lang]
+  const params = useSearchParams()
+  const launched = params.get('launched') === '1'
+  const activeMission = launched ? getMission(params.get('mission') ?? '') : undefined
+  const activeCollab = activeMission ? ROLE_DETAILS[activeMission.collaboratorSlug] : undefined
 
   return (
     <main className="bg-[#F3EFE6]">
+      {/* Active Mission banner — the Workspace never opens empty after a launch */}
+      {activeMission && (
+        <section className="border-b border-[#E4DDCE] bg-[#1C1A17] px-5 pb-10 pt-28 text-[#FBF9F3] sm:px-8 sm:pb-12 sm:pt-32">
+          <div className="editorial-shell">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#D10E63]/15 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E8A0BF]">
+              <Sparkles className="h-3.5 w-3.5" />
+              {t.activeBadge}
+            </span>
+            <h1 className="mt-4 max-w-3xl text-balance font-sf text-3xl font-bold leading-[1.08] tracking-[-0.02em] sm:text-4xl">
+              {t.activeTitle}
+            </h1>
+            <p className="mt-3 max-w-2xl text-pretty text-sm leading-7 text-[#C9BFB2] sm:text-base">{t.activeBody}</p>
+
+            <div className="mt-7 rounded-3xl border border-[#3A352F] bg-[#221F1B] p-5 sm:p-6">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8F8677]">{t.demoLabel}</p>
+                  <p className="mt-1.5 font-sf text-lg font-bold text-[#FBF9F3]">{activeMission.title[lang]}</p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F0B429]/15 px-3 py-1 text-xs font-bold text-[#F0B429]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#F0B429]" />
+                  {t.activeStatusValue}
+                </span>
+              </div>
+
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <div className="flex items-start gap-2.5">
+                  <FileText className="mt-0.5 h-4 w-4 shrink-0 text-[#E8A0BF]" />
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-[#8F8677]">{t.activeDeliverableWord}</p>
+                    <p className="text-sm leading-snug text-[#E7E0D6]">{activeMission.deliverable[lang]}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[#E8A0BF]" />
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-[#8F8677]">{t.activeDelayWord}</p>
+                    <p className="text-sm leading-snug text-[#E7E0D6]">{DELAY_TBD[lang]}</p>
+                  </div>
+                </div>
+              </div>
+
+              {activeCollab && (
+                <div className="mt-5 flex items-center gap-3 border-t border-[#3A352F] pt-4">
+                  <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-[#D10E63]/40">
+                    <Image src={activeCollab.avatar || '/placeholder.svg'} alt={activeCollab.name} fill className="object-cover" sizes="40px" />
+                  </span>
+                  <p className="text-sm text-[#C9BFB2]">
+                    <span className="font-bold text-[#FBF9F3]">{activeCollab.name}</span> · {activeMission.profile[lang]} — {t.activeAddedSuffix}
+                  </p>
+                </div>
+              )}
+
+              <a
+                href="#demo"
+                className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
+              >
+                {t.activeOpenCta}
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Hero */}
       <section className="border-b border-[#E4DDCE] px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32">
         <div className="editorial-shell">
