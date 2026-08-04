@@ -13,6 +13,7 @@ type Mission = {
   description: string
   profileLabel: string
   profiles: string
+  bullets: string[]
   tools: string[]
   result: string
   href: string
@@ -22,6 +23,7 @@ const T: Record<Lang, {
   kicker: string
   title: string
   subtitle: string
+  stepsWord: string
   toolsWord: string
   resultWord: string
   discover: string
@@ -32,6 +34,7 @@ const T: Record<Lang, {
     kicker: 'Choisissez sa mission',
     title: 'Que voulez-vous lui confier ?',
     subtitle: 'Commencez par un résultat concret. Chaque mission recommande le profil et les outils nécessaires.',
+    stepsWord: 'Ce qu’il fait',
     toolsWord: 'Outils clés',
     resultWord: 'Résultat attendu',
     discover: 'Découvrir',
@@ -43,6 +46,11 @@ const T: Record<Lang, {
         description: 'Recherche les entreprises pertinentes, qualifie les contacts et prépare les prises de contact.',
         profileLabel: 'Profil recommandé',
         profiles: 'Commercial',
+        bullets: [
+          'Identifie les entreprises correspondant à votre cible',
+          'Qualifie les contacts et enrichit vos fiches',
+          'Rédige les messages de prise de contact',
+        ],
         tools: ['CRM', 'LinkedIn', 'Email'],
         result: 'Une liste de prospects qualifiés et des prises de contact prêtes à envoyer.',
         href: collaboratorHref('hugo'),
@@ -53,6 +61,11 @@ const T: Record<Lang, {
         description: 'Réunit le contexte, produit le compte rendu et suit les décisions.',
         profileLabel: 'Profil recommandé',
         profiles: 'Assistant de réunion',
+        bullets: [
+          'Rassemble l’ordre du jour et les documents utiles',
+          'Rédige le compte rendu après la réunion',
+          'Suit les décisions et relance les responsables',
+        ],
         tools: ['Agenda', 'Notion', 'Visio'],
         result: 'Un compte rendu clair et les décisions suivies jusqu’à leur clôture.',
         href: collaboratorHref('emma'),
@@ -63,6 +76,11 @@ const T: Record<Lang, {
         description: 'Produit des visuels, des présentations et des vidéos adaptés à votre identité.',
         profileLabel: 'Profils recommandés',
         profiles: 'Designer · Motion designer',
+        bullets: [
+          'Décline vos visuels aux couleurs de votre marque',
+          'Met en forme vos présentations',
+          'Monte des vidéos courtes prêtes à publier',
+        ],
         tools: ['Design', 'Vidéo', 'Présentation'],
         result: 'Des visuels et des vidéos prêts à publier, fidèles à votre identité.',
         href: '/collaborateurs-ia',
@@ -73,6 +91,11 @@ const T: Record<Lang, {
         description: 'Conçoit, exécute et surveille vos processus avec vos applications.',
         profileLabel: 'Profil recommandé',
         profiles: 'Automatisation',
+        bullets: [
+          'Cartographie vos processus répétitifs',
+          'Connecte vos applications entre elles',
+          'Exécute et surveille les tâches en continu',
+        ],
         tools: ['Workflows', 'API', 'Vos applications'],
         result: 'Des processus qui s’exécutent et se surveillent sans intervention.',
         href: '/collaborateurs-ia',
@@ -83,6 +106,7 @@ const T: Record<Lang, {
     kicker: 'Choose its mission',
     title: 'What do you want it to take on?',
     subtitle: 'Start from a concrete result. Every mission recommends the profile and the tools needed.',
+    stepsWord: 'What it does',
     toolsWord: 'Key tools',
     resultWord: 'Expected result',
     discover: 'Discover',
@@ -94,6 +118,11 @@ const T: Record<Lang, {
         description: 'Researches relevant companies, qualifies contacts and prepares outreach.',
         profileLabel: 'Recommended profile',
         profiles: 'Sales Rep',
+        bullets: [
+          'Identifies companies matching your target',
+          'Qualifies contacts and enriches your records',
+          'Drafts the outreach messages',
+        ],
         tools: ['CRM', 'LinkedIn', 'Email'],
         result: 'A list of qualified prospects and outreach ready to send.',
         href: collaboratorHref('hugo'),
@@ -104,6 +133,11 @@ const T: Record<Lang, {
         description: 'Gathers the context, produces the minutes and tracks the decisions.',
         profileLabel: 'Recommended profile',
         profiles: 'Meeting Assistant',
+        bullets: [
+          'Gathers the agenda and relevant documents',
+          'Writes the minutes after the meeting',
+          'Tracks decisions and follows up with owners',
+        ],
         tools: ['Calendar', 'Notion', 'Video'],
         result: 'Clear minutes and decisions tracked through to closure.',
         href: collaboratorHref('emma'),
@@ -114,6 +148,11 @@ const T: Record<Lang, {
         description: 'Produces visuals, presentations and videos tailored to your identity.',
         profileLabel: 'Recommended profiles',
         profiles: 'Designer · Motion designer',
+        bullets: [
+          'Adapts your visuals to your brand colors',
+          'Formats your presentations',
+          'Edits short videos ready to publish',
+        ],
         tools: ['Design', 'Video', 'Slides'],
         result: 'Visuals and videos ready to publish, true to your identity.',
         href: '/collaborateurs-ia',
@@ -124,6 +163,11 @@ const T: Record<Lang, {
         description: 'Designs, runs and monitors your processes with your apps.',
         profileLabel: 'Recommended profile',
         profiles: 'Automation',
+        bullets: [
+          'Maps out your repetitive processes',
+          'Connects your apps together',
+          'Runs and monitors tasks continuously',
+        ],
         tools: ['Workflows', 'API', 'Your apps'],
         result: 'Processes that run and monitor themselves without intervention.',
         href: '/collaborateurs-ia',
@@ -177,7 +221,16 @@ export function SectionMissions({ lang }: { lang: Lang }) {
                 <div className={`grid transition-all duration-300 ${isActive ? 'mt-4 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                   <div className="overflow-hidden">
                     <div className="border-t border-[#E4DCCF] pt-4">
-                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.toolsWord}</p>
+                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.stepsWord}</p>
+                      <ul className="mt-2 flex flex-col gap-1.5">
+                        {m.bullets.map((bullet) => (
+                          <li key={bullet} className="flex items-start gap-2 text-sm leading-relaxed text-[#4E483F]">
+                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D10E63]" aria-hidden="true" />
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.toolsWord}</p>
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {m.tools.map((tool) => (
                           <span key={tool} className="rounded-full bg-[#EDE7DA] px-2.5 py-1 text-xs font-medium text-[#4E483F]">{tool}</span>
