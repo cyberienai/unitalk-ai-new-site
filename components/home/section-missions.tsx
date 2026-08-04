@@ -18,7 +18,7 @@ const T: Record<Lang, {
   missions: string[]
 }> = {
   fr: {
-    kicker: 'Il vous manque quelqu’un.',
+    kicker: 'Commencez par une mission',
     headline: 'Votre Collaborateur\u00A0IA est prêt',
     rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre blog', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
     subtitle: 'Choisissez une mission, un Collaborateur IA s’en charge.',
@@ -42,7 +42,7 @@ const T: Record<Lang, {
     ],
   },
   en: {
-    kicker: 'You’re missing someone.',
+    kicker: 'Start with a mission',
     headline: 'Your AI\u00A0Collaborator is ready',
     rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your blog', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
     subtitle: 'Pick a mission, an AI Collaborator handles it.',

@@ -7,7 +7,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
-    eyebrow: 'Comment ça marche',
+    eyebrow: 'Commencez par votre site web',
     title: 'De votre site à votre Collaborateur IA, en trois temps.',
     subtitle: 'Vous n’installez rien. Vous partagez votre activité, et Alma s’occupe du reste.',
     steps: [
@@ -32,7 +32,7 @@ const T = {
     ],
   },
   en: {
-    eyebrow: 'How it works',
+    eyebrow: 'Start with your website',
     title: 'From your website to your AI Collaborator, in three steps.',
     subtitle: 'You install nothing. You share your business, and Alma takes care of the rest.',
     steps: [

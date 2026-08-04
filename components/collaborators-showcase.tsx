@@ -190,7 +190,7 @@ function CollaboratorCard({
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
-      eyebrow: 'Faites connaissance',
+      eyebrow: 'Commencez par une expertise',
       title: 'Choisissez celui qui rejoindra votre organisation.',
       subtitle:
         'Chaque Collaborateur IA commence par une identité : un visage, une voix, son email, son calendrier, son numéro de téléphone, ses contacts et ses fichiers. Ajoutez-lui ensuite les savoir-faire métier nécessaires à ses missions.',
@@ -202,7 +202,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       swipeHint: 'Glissez pour découvrir',
     },
     en: {
-      eyebrow: 'Meet them',
+      eyebrow: 'Start with an expertise',
       title: 'Choose the one that will join your organization.',
       subtitle:
         'Every AI Collaborator starts with an identity: a face, a voice, its email, calendar, phone number, contacts and files. Then add the professional know-how its missions require.',
