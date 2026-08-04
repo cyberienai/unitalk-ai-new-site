@@ -11,7 +11,7 @@ const T = {
       { icon: Mic, title: 'Parlez-lui, ne tapez plus', desc: 'À la voix ou au texte, comme vous voulez.' },
       { icon: Sparkles, title: 'Tous les modèles IA', desc: 'ChatGPT et les autres inclus.' },
       { icon: LifeBuoy, title: 'Accompagnement humain', desc: 'Onboarding et supervision inclus.' },
-      { icon: ShieldCheck, title: 'Serveur IA privé', desc: 'Vos données restent isolées.' },
+      { icon: ShieldCheck, title: 'Hébergé en France', desc: 'RGPD, AI Act, données isolées.' },
     ],
   },
   en: {
@@ -19,7 +19,7 @@ const T = {
       { icon: Mic, title: 'Talk to it, stop typing', desc: 'By voice or text, however you like.' },
       { icon: Sparkles, title: 'Every AI model', desc: 'ChatGPT and the others included.' },
       { icon: LifeBuoy, title: 'Human support', desc: 'Onboarding and supervision included.' },
-      { icon: ShieldCheck, title: 'Private AI server', desc: 'Your data stays isolated.' },
+      { icon: ShieldCheck, title: 'Hosted in Europe', desc: 'GDPR, AI Act, isolated data.' },
     ],
   },
 } as const
