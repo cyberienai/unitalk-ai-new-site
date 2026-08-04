@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Globe, Network } from 'lucide-react'
+import { ArrowRight, Building2, Check, Globe, Network, User, Users } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
@@ -20,8 +20,7 @@ const T = {
       'à répondre à vos clients',
       'à créer vos contenus',
     ],
-    lead: 'Il rejoint votre organisation avec les savoir-faire métier et les outils nécessaires pour chaque mission.',
-    almaNote: 'Notre conseillère IA, Alma, analyse votre site web et prépare la première mission de votre Collaborateur IA.',
+    lead: 'Alma analyse votre site Web et prépare le profil métier, les compétences et les outils nécessaires à sa première mission.',
     domainAria: 'Votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
@@ -31,14 +30,15 @@ const T = {
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
     orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
     orgPairs: [
-      { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting' },
-      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication' },
-      { human: 'Antoine', dept: 'Développement', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation' },
-      { human: 'Claire', dept: 'Ventes', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting' },
-      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse · Trésorerie · Reporting' },
-      { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi' },
+      { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
+      { human: 'Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
+      { human: 'Développement', dept: '3 équipes', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation', scaleKind: 'department', scaleLabel: 'Un département' },
+      { human: 'Toute l’organisation', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Organisation' },
+      { human: 'Finance', dept: '4 personnes', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse · Trésorerie · Reporting', scaleKind: 'team', scaleLabel: 'Une équipe' },
+      { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi', scaleKind: 'person', scaleLabel: 'Une personne' },
     ],
     collaboratorLabel: 'Collaborateurs IA',
+    scaleHeader: 'Rattaché à',
     orgLink: 'Découvrir les Collaborateurs IA',
   },
   en: {
@@ -53,8 +53,7 @@ const T = {
       'to answer your customers',
       'to create your content',
     ],
-    lead: 'It joins your organization with the business know-how and the tools it needs for every mission.',
-    almaNote: 'Our AI advisor, Alma, analyzes your website and prepares your AI Collaborator’s first mission.',
+    lead: 'Alma analyzes your website and prepares the business profile, skills and tools your AI Collaborator needs for its first mission.',
     domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
@@ -64,14 +63,15 @@ const T = {
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
     orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
     orgPairs: [
-      { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting' },
-      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing' },
-      { human: 'Antoine', dept: 'Engineering', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation' },
-      { human: 'Claire', dept: 'Sales', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting' },
-      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis · Cash flow · Reporting' },
-      { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up' },
+      { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
+      { human: 'Marketing', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
+      { human: 'Engineering', dept: '3 teams', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation', scaleKind: 'department', scaleLabel: 'A department' },
+      { human: 'Whole organization', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Organization' },
+      { human: 'Finance', dept: '4 people', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis · Cash flow · Reporting', scaleKind: 'team', scaleLabel: 'One team' },
+      { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up', scaleKind: 'person', scaleLabel: 'One person' },
     ],
     collaboratorLabel: 'AI Collaborators',
+    scaleHeader: 'Attached to',
     orgLink: 'Discover the AI Collaborators',
   },
 } as const
@@ -86,6 +86,13 @@ const HERO_AVATARS = [
   { name: 'Nadia', src: '/images/nadia-avatar.png' },
   { name: 'Inès', src: '/images/ines-avatar.png' },
 ] as const
+
+const SCALE_ICONS = {
+  person: User,
+  team: Users,
+  department: Building2,
+  org: Network,
+} as const
 
 export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
@@ -179,11 +186,8 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.lead}
           </motion.p>
 
-          <motion.div {...enter(0.28)} className="mt-8">
-            <p className="mx-auto max-w-md text-pretty text-center text-sm leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left">
-              {t.almaNote}
-            </p>
-            <form onSubmit={submitDomain} className="mx-auto mt-3 flex w-full max-w-md flex-col gap-3 sm:mx-0">
+  <motion.div {...enter(0.28)} className="mt-8">
+  <form onSubmit={submitDomain} className="mx-auto flex w-full max-w-md flex-col gap-3 sm:mx-0">
               <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">
                 <span className="pl-4 pr-1 text-[#8A8175]" aria-hidden="true"><Globe className="h-4 w-4" /></span>
                 <input
@@ -233,22 +237,27 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </Link>
             </div>
             <div className="p-4 sm:p-6">
-              <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
+              <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{t.scaleHeader}</span><span /><span>{t.collaboratorLabel}</span></div>
               <div className="relative">
               <div className="overscroll-contain pr-1 sm:max-h-72 sm:overflow-y-auto [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
                 <div className="flex flex-col gap-2.5">
                   {t.orgPairs.map((pair) => {
                     const initials = pair.human.slice(0, 2).toUpperCase()
+                    const ScaleIcon = SCALE_ICONS[pair.scaleKind as keyof typeof SCALE_ICONS]
+                    const isPerson = pair.scaleKind === 'person'
                     return (
                       <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-stretch gap-2">
                         <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] font-mono text-[11px] font-bold tracking-wide text-[#5F594F]" aria-hidden="true">{initials}</span>
-                          <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="truncate text-[11px] text-[#6E665A]">{pair.dept}</p></div>
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] font-mono text-[11px] font-bold tracking-wide text-[#5F594F]" aria-hidden="true">{isPerson ? initials : <ScaleIcon className="h-4 w-4" />}</span>
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p>
+                            <span className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-[#6E665A]"><ScaleIcon className="h-3 w-3 text-[#8A8175]" aria-hidden="true" />{pair.scaleLabel}</span>
+                          </div>
                         </div>
                         <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                         <a
                           href={`#collab-${pair.slug}`}
-                          aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir son profil sur la page' : 'see its profile on the page'}`}
+                          aria-label={`${pair.ai} — ${lang === 'fr' ? `rattaché à ${pair.scaleLabel.toLowerCase()}, voir son profil` : `attached to ${pair.scaleLabel.toLowerCase()}, see its profile`}`}
                           className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
                         >
                           <div className="relative shrink-0"><Image src={pair.avatar || '/placeholder.svg'} alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
