@@ -19,27 +19,27 @@ const MISSION_SLUGS = [
   'lea', // Créer vos contenus
   'lea', // Générer des images
   'lea', // Générer des vidéos
-  'arthur', // Écrire du code
+  'arthur', // Exécuter du code
   'nadia', // Analyser vos données
   'emma', // Participer à vos réunions
   // Page 2
   'hugo', // Gérer votre CRM
-  'arthur', // Automatiser vos tâches
+  'arthur', // Planifier des tâches
   'nadia', // Suivre votre trésorerie
   'lea', // Planifier vos publications
-  'lea', // Gérer votre blog
+  'nadia', // Effectuer de la veille
   'emma', // Traduire vos documents
   'emma', // Prendre des notes vocales
   'emma', // Transcrire les réunions
   // Page 3
   'hugo', // Émettre des appels sortants
   'hugo', // Qualifier vos prospects
-  'emma', // Rédiger vos emails
-  'emma', // Créer vos présentations
+  'emma', // Envoyer un email
+  'emma', // Générer des présentations
   'nadia', // Gérer vos factures
-  'ines', // Modérer vos avis clients
+  'emma', // Prendre un rendez-vous
   'lea', // Publier sur les réseaux sociaux
-  'emma', // Résumer vos documents
+  'emma', // Naviguer sur Internet
 ] as const
 
 const PAGE_SIZE = 8
@@ -70,25 +70,25 @@ const T: Record<Lang, {
       'Créer vos contenus',
       'Générer des images',
       'Générer des vidéos',
-      'Écrire du code',
+      'Exécuter du code',
       'Analyser vos données',
       'Participer à vos réunions',
       'Gérer votre CRM',
-      'Automatiser vos tâches',
+      'Planifier des tâches',
       'Suivre votre trésorerie',
       'Planifier vos publications',
-      'Gérer votre blog',
+      'Effectuer de la veille',
       'Traduire vos documents',
       'Prendre des notes vocales',
       'Transcrire les réunions',
       'Émettre des appels sortants',
       'Qualifier vos prospects',
-      'Rédiger vos emails',
-      'Créer vos présentations',
+      'Envoyer un email',
+      'Générer des présentations',
       'Gérer vos factures',
-      'Modérer vos avis clients',
+      'Prendre un rendez-vous',
       'Publier sur les réseaux sociaux',
-      'Résumer vos documents',
+      'Naviguer sur Internet',
     ],
   },
   en: {
@@ -106,25 +106,25 @@ const T: Record<Lang, {
       'Create your content',
       'Generate images',
       'Generate videos',
-      'Write code',
+      'Run code',
       'Analyze your data',
       'Join your meetings',
       'Manage your CRM',
-      'Automate your tasks',
+      'Schedule tasks',
       'Track your cash flow',
       'Schedule your posts',
-      'Manage your blog',
+      'Monitor your market',
       'Translate your documents',
       'Take voice notes',
       'Transcribe meetings',
       'Make outbound calls',
       'Qualify your leads',
-      'Draft your emails',
-      'Build your presentations',
+      'Send an email',
+      'Generate presentations',
       'Manage your invoices',
-      'Moderate customer reviews',
+      'Book an appointment',
       'Post on social media',
-      'Summarize your documents',
+      'Browse the web',
     ],
   },
 }
