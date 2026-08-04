@@ -41,10 +41,10 @@ const T = {
       { t: '.' },
     ],
     orgPairs: [
-      { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
-      { human: 'Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
-      { human: 'Produit', dept: '3 équipes', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Livraison', scaleKind: 'department', scaleLabel: 'Un département' },
-      { human: 'Acme', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Toute l’organisation' },
+      { human: 'Une personne', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
+      { human: 'Équipe Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
+      { human: 'Département Produit', dept: '3 équipes', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Livraison', scaleKind: 'department', scaleLabel: 'Un département' },
+      { human: 'Toute votre organisation', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Toute l’organisation' },
       { human: 'Finance', dept: '4 personnes', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse · Trésorerie · Reporting', scaleKind: 'team', scaleLabel: 'Une équipe' },
       { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi', scaleKind: 'person', scaleLabel: 'Une personne' },
     ],
@@ -84,10 +84,10 @@ const T = {
       { t: '.' },
     ],
     orgPairs: [
-      { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
-      { human: 'Marketing', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
-      { human: 'Product', dept: '3 teams', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Delivery', scaleKind: 'department', scaleLabel: 'A department' },
-      { human: 'Acme', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Whole organization' },
+      { human: 'A person', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
+      { human: 'Marketing team', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
+      { human: 'Product department', dept: '3 teams', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Delivery', scaleKind: 'department', scaleLabel: 'A department' },
+      { human: 'Your whole organization', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Whole organization' },
       { human: 'Finance', dept: '4 people', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis · Cash flow · Reporting', scaleKind: 'team', scaleLabel: 'One team' },
       { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up', scaleKind: 'person', scaleLabel: 'One person' },
     ],
@@ -230,17 +230,12 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               <div>
                 <div className="flex flex-col gap-2.5">
                   {t.orgPairs.slice(0, 4).map((pair) => {
-                    const initials = pair.human.slice(0, 2).toUpperCase()
                     const ScaleIcon = SCALE_ICONS[pair.scaleKind as keyof typeof SCALE_ICONS]
-                    const isPerson = pair.scaleKind === 'person'
                     return (
                       <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-stretch gap-2">
                         <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] font-mono text-[11px] font-bold tracking-wide text-[#5F594F]" aria-hidden="true">{isPerson ? initials : <ScaleIcon className="h-4 w-4" />}</span>
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p>
-                            <span className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-[#6E665A]"><ScaleIcon className="h-3 w-3 text-[#8A8175]" aria-hidden="true" />{pair.scaleLabel}</span>
-                          </div>
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] text-[#5F594F]" aria-hidden="true"><ScaleIcon className="h-4 w-4" /></span>
+                          <p className="min-w-0 truncate text-sm font-semibold text-[#1C1A17]">{pair.human}</p>
                         </div>
                         <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                         <a
