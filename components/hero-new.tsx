@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Globe, Network } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
-import { collaboratorHref } from '@/lib/collaborators-catalog'
 
 const T = {
   fr: {
@@ -211,14 +210,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                           <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="truncate text-[11px] text-[#6E665A]">{pair.dept}</p></div>
                         </div>
                         <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
-                        <Link
-                          href={collaboratorHref(pair.slug)}
-                          aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
+                        <a
+                          href={`#collab-${pair.slug}`}
+                          aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir son profil sur la page' : 'see its profile on the page'}`}
                           className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
                         >
                           <div className="relative shrink-0"><Image src={pair.avatar || '/placeholder.svg'} alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
                           <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="text-[10px] font-medium leading-tight text-[#A80B50]">{pair.status}</p></div>
-                        </Link>
+                        </a>
                       </div>
                     )
                   })}
