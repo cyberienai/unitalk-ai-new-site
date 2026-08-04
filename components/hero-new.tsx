@@ -11,8 +11,8 @@ import { collaboratorHref } from '@/lib/collaborators-catalog'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    headline: 'Votre Collaborateur\u00A0IA',
-    headlineAccent: 'est prêt à commencer',
+    headline: 'Votre Collaborateur\u00A0IA est',
+    headlineAccent: 'prêt à commencer',
     lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
     domainLabel: 'Indiquez l’adresse de votre site.',
     domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
@@ -36,8 +36,8 @@ const T = {
   },
   en: {
     eyebrow: 'You’re missing someone.',
-    headline: 'Your AI\u00A0Collaborator',
-    headlineAccent: 'is ready to start',
+    headline: 'Your AI\u00A0Collaborator is',
+    headlineAccent: 'ready to start',
     lead: 'Add the professional know-how you need and connect it to your tools.',
     domainLabel: 'Enter your website address.',
     domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
