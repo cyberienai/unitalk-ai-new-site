@@ -11,7 +11,7 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
     headline: 'Votre Collaborateur\u00A0IA',
-    headlineAccent: 'est prêt.',
+    headlineAccent: 'est déjà prêt.',
     lead: 'Il acquiert les savoir-faire métier dont vous avez besoin et travaille avec vos outils, au sein de votre organisation.',
     domainLabel: 'Indiquez l’adresse de votre site.',
     domainHelper: 'Alma analyse votre activité et prépare ses premières Missions.',
@@ -36,7 +36,7 @@ const T = {
   en: {
     eyebrow: 'You’re missing someone.',
     headline: 'Your AI\u00A0Collaborator',
-    headlineAccent: 'is ready.',
+    headlineAccent: 'is ready to go.',
     lead: 'It acquires the professional know-how you need and works with your tools, within your organization.',
     domainLabel: 'Enter your website address.',
     domainHelper: 'Alma analyzes your business and prepares its first Missions.',
