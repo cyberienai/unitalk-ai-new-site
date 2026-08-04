@@ -6,6 +6,7 @@ import { HeroNew } from './hero-new'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
 import { SectionCollaborator } from './home/section-collaborator'
+import { SectionPricing } from './home/section-pricing'
 import { FaqSection } from './faq-section'
 import { SiteFooter } from './site-footer'
 
@@ -33,7 +34,10 @@ export function HomeNew() {
       {/* 3. Votre Collaborateur IA */}
       <SectionCollaborator lang={lang} />
 
-      {/* 4. Questions fréquentes */}
+      {/* 4. Tarif — un seul plan tout compris */}
+      <SectionPricing lang={lang} />
+
+      {/* 5. Questions fréquentes */}
       <FaqSection />
 
       {/* Footer */}

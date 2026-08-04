@@ -108,6 +108,7 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
 
   /* Visible, branded focus state for keyboard users */
