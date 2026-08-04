@@ -82,20 +82,20 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-12 pt-16 sm:min-h-[88svh] sm:pb-14 sm:pt-20 lg:pb-12 lg:pt-20">
-      <div className="editorial-shell relative grid items-center gap-8 sm:gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-28 sm:min-h-[92svh] sm:pb-20 sm:pt-32 lg:pb-20 lg:pt-36">
+      <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
         <div className="max-w-2xl">
-          <motion.p {...enter(0.04)} className="mb-4 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D10E63] sm:mb-5 sm:text-left">
+          <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
             {t.eyebrow}
           </motion.p>
           <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-left md:leading-[0.96]">
             {t.headline}{' '}
             <span className="text-[#D10E63]">{t.headlineAccent}</span>
           </motion.h1>
-          <motion.p {...enter(0.18)} className="mx-auto mt-4 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:text-left md:text-lg md:leading-8">
+          <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
-          <motion.div {...enter(0.24)} className="mt-6 sm:mt-7">
+          <motion.div {...enter(0.24)} className="mt-8 sm:mt-9">
             <p className="mx-auto max-w-md text-center text-sm font-semibold text-[#3F3A33] sm:mx-0 sm:text-left">
               {t.domainLabel}
             </p>
