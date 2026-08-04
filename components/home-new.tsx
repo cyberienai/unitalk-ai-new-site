@@ -7,6 +7,7 @@ import { SectionVersus } from './home-v2/section-versus'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
 import { SectionCollaborator } from './home/section-collaborator'
+import { SectionWorkstation } from './home/section-workstation'
 import { SectionPricing } from './home/section-pricing'
 import { FaqSection } from './faq-section'
 import { SiteFooter } from './site-footer'
@@ -38,7 +39,10 @@ export function HomeNew() {
       {/* 3. Votre Collaborateur IA */}
       <SectionCollaborator lang={lang} />
 
-      {/* 4. Tarif — un seul plan tout compris */}
+      {/* 4. Son propre poste de travail */}
+      <SectionWorkstation lang={lang} />
+
+      {/* 5. Tarif — un seul plan tout compris */}
       <SectionPricing lang={lang} />
 
       {/* 5. Questions fréquentes */}
