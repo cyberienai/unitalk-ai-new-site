@@ -2,23 +2,30 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Globe, Network } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
     avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à vous rejoindre',
-    eyebrow: 'Recruter sans embaucher',
-    line1: 'Ne prenez pas',
-    strike: 'un abonnement',
-    line2: 'Recrutez votre Collaborateur IA.',
-    lead: 'Il rejoint votre organisation, apprend votre métier et gagne en savoir-faire — sans jamais oublier.',
-    domainLabel: 'Commencez par votre site web',
+    eyebrow: 'Il vous manque quelqu’un.',
+    titleLead: 'Votre Collaborateur IA est prêt',
+    missions: [
+      'à rédiger vos rapports',
+      'à trouver de nouveaux clients',
+      'à participer à vos réunions',
+      'à analyser vos données',
+      'à répondre à vos clients',
+      'à créer vos contenus',
+    ],
+    lead: 'Il rejoint votre organisation avec les savoir-faire métier et les outils nécessaires pour chaque mission.',
+    almaNote: 'Notre conseillère IA, Alma, analyse votre site web et prépare la première mission de votre Collaborateur IA.',
+    domainAria: 'Votre site web',
     domainPlaceholder: 'votreentreprise.com',
-    domainCta: 'Recruter mon Collaborateur IA',
-    proofs: ['Prêt en quelques minutes', 'Un seul tarif, tout compris', 'Essai gratuit 7 jours'],
+    domainCta: 'Découvrir mon Collaborateur IA',
+    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
     // organigramme
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
@@ -36,15 +43,22 @@ const T = {
   },
   en: {
     avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to join you',
-    eyebrow: 'Hire without employing',
-    line1: 'Don’t buy',
-    strike: 'a subscription',
-    line2: 'Hire your AI Collaborator.',
-    lead: 'It joins your organization, learns your business and grows its know-how — never forgetting a thing.',
-    domainLabel: 'Start with your website',
+    eyebrow: 'Someone is missing.',
+    titleLead: 'Your AI Collaborator is ready',
+    missions: [
+      'to write your reports',
+      'to find new customers',
+      'to join your meetings',
+      'to analyze your data',
+      'to answer your customers',
+      'to create your content',
+    ],
+    lead: 'It joins your organization with the business know-how and the tools it needs for every mission.',
+    almaNote: 'Our AI advisor, Alma, analyzes your website and prepares your AI Collaborator’s first mission.',
+    domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
-    domainCta: 'Hire my AI Collaborator',
-    proofs: ['Ready in minutes', 'One flat price', '7-day free trial'],
+    domainCta: 'Discover my AI Collaborator',
+    proofs: ['7-day free trial', 'Hosted in Europe', 'GDPR compliant'],
     // organigramme
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
@@ -78,6 +92,15 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const reduceMotion = useReducedMotion()
   const [domain, setDomain] = useState('')
   const domainPreview = normalizeDomain(domain)
+
+  const [missionIndex, setMissionIndex] = useState(0)
+  useEffect(() => {
+    if (reduceMotion) return
+    const id = setInterval(() => {
+      setMissionIndex((i) => (i + 1) % t.missions.length)
+    }, 2400)
+    return () => clearInterval(id)
+  }, [reduceMotion, t.missions.length])
 
   const submitDomain = (e: React.FormEvent) => {
     e.preventDefault()
@@ -134,21 +157,22 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <h1 className="text-balance text-center font-sf text-[clamp(2rem,5vw,4.25rem)] font-semibold leading-[1.08] tracking-[-0.055em] text-[#1C1A17] sm:leading-[1] sm:text-left">
             <motion.span {...enter(0.1)} className="block">
-              {t.line1}{' '}
-              <span className="relative inline-block whitespace-nowrap text-[#B8AFA0]">
-                {t.strike}
+              {t.titleLead}
+            </motion.span>
+            <span className="mt-2 block min-h-[1.1em] sm:mt-1">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.span
-                  aria-hidden="true"
-                  initial={reduceMotion ? false : { scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.6, ease, delay: reduceMotion ? 0 : 0.9 }}
-                  className="absolute left-0 top-1/2 h-[0.09em] w-full origin-left -translate-y-1/2 rounded-full bg-[#D10E63]"
-                />
-              </span>
-            </motion.span>
-            <motion.span {...enter(0.16)} className="mt-4 block text-[#D10E63] sm:mt-1">
-              {t.line2}
-            </motion.span>
+                  key={missionIndex}
+                  initial={reduceMotion ? false : { opacity: 0, y: '0.4em' }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.4em' }}
+                  transition={{ duration: 0.45, ease }}
+                  className="block text-[#D10E63]"
+                >
+                  {t.missions[missionIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
           </h1>
 
           <motion.p {...enter(0.22)} className="mx-auto mt-6 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
@@ -156,8 +180,8 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
 
           <motion.div {...enter(0.28)} className="mt-8">
-            <p className="mx-auto max-w-md text-center text-sm font-semibold text-[#3F3A33] sm:mx-0 sm:text-left">
-              {t.domainLabel}
+            <p className="mx-auto max-w-md text-pretty text-center text-sm leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left">
+              {t.almaNote}
             </p>
             <form onSubmit={submitDomain} className="mx-auto mt-3 flex w-full max-w-md flex-col gap-3 sm:mx-0">
               <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">
@@ -166,7 +190,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   value={domain}
                   onChange={(e) => setDomain(e.target.value)}
                   placeholder={t.domainPlaceholder}
-                  aria-label={t.domainLabel}
+                  aria-label={t.domainAria}
                   className="min-w-0 flex-1 bg-transparent py-3.5 pr-4 text-sm text-[#1C1A17] outline-none placeholder:text-[#A29A8C]"
                 />
               </div>

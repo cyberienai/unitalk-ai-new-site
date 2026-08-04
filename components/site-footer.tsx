@@ -20,6 +20,7 @@ const T = {
           { label: 'Workspace', href: '/#workspace' },
           { label: 'Tarifs', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
+          { label: 'Nouvelle page d’accueil', href: '/accueil-2' },
         ],
       },
       {
@@ -58,6 +59,7 @@ const T = {
           { label: 'Workspace', href: '/#workspace' },
           { label: 'Pricing', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
+          { label: 'New homepage', href: '/accueil-2' },
         ],
       },
       {
