@@ -132,17 +132,17 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.eyebrow}
           </motion.p>
 
-          <h1 className="text-balance text-center font-sf text-[clamp(2.6rem,6vw,5.6rem)] font-semibold leading-[1.12] tracking-[-0.055em] text-[#1C1A17] sm:leading-[0.95] sm:text-left">
+          <h1 className="text-balance text-center font-sf text-[clamp(2rem,6vw,5.6rem)] font-semibold leading-[1.08] tracking-[-0.055em] text-[#1C1A17] sm:leading-[0.95] sm:text-left">
             <motion.span {...enter(0.1)} className="block">
               {t.line1}{' '}
-              <span className="relative inline-block whitespace-nowrap text-[#8A8175]">
+              <span className="relative inline-block whitespace-nowrap text-[#B8AFA0]">
                 {t.strike}
                 <motion.span
                   aria-hidden="true"
                   initial={reduceMotion ? false : { scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 0.6, ease, delay: reduceMotion ? 0 : 0.9 }}
-                  className="absolute left-0 top-1/2 h-[0.12em] w-full origin-left -translate-y-1/2 rounded-full bg-[#D10E63]"
+                  className="absolute left-0 top-1/2 h-[0.09em] w-full origin-left -translate-y-1/2 rounded-full bg-[#D10E63]"
                 />
               </span>
             </motion.span>
