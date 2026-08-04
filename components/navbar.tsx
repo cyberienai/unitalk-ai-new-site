@@ -55,6 +55,7 @@ const T = {
     missions: 'Missions',
     collaborators: 'Collaborateurs IA',
     createOrg: 'Recruter mon Collaborateur IA',
+    createOrgShort: 'Recruter',
     featuredLabel: 'Mis en avant',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -67,6 +68,7 @@ const T = {
     missions: 'Missions',
     collaborators: 'AI Collaborators',
     createOrg: 'Hire my AI Collaborator',
+    createOrgShort: 'Hire',
     featuredLabel: 'Featured',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -304,10 +306,18 @@ export function Navbar() {
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
 
-            {/* Primary CTA lives in the mobile menu; keep the mobile header to logo + menu only */}
+            {/* Full CTA on desktop */}
             <span className="hidden lg:block">
               <NavbarTeamCart startLabel={t.createOrg} createOrgHref={CREATE_ORG.href} />
             </span>
+
+            {/* Persistent compact CTA on mobile/tablet */}
+            <a
+              href={CREATE_ORG.href}
+              className="inline-flex h-10 items-center justify-center rounded-full bg-[#D10E63] px-4 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:hidden"
+            >
+              {t.createOrgShort}
+            </a>
 
             <button
               onClick={() => setIsMenuOpen((v) => !v)}

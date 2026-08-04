@@ -1,25 +1,25 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { CreditCard, Users, LifeBuoy, ShieldCheck } from 'lucide-react'
+import { Mic, Sparkles, LifeBuoy, ShieldCheck } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
     items: [
-      { icon: CreditCard, title: 'Essai gratuit 7 jours', desc: 'Sans carte bancaire.' },
-      { icon: Users, title: 'Un seul abonnement', desc: 'Sans coût par membre.' },
+      { icon: Mic, title: 'Parlez-lui, ne tapez plus', desc: 'À la voix ou au texte, comme vous voulez.' },
+      { icon: Sparkles, title: 'Tous les modèles IA', desc: 'ChatGPT et les autres inclus.' },
       { icon: LifeBuoy, title: 'Accompagnement humain', desc: 'Onboarding et supervision inclus.' },
-      { icon: ShieldCheck, title: 'Serveur IA privé', desc: 'Vos données restent isolées.' },
+      { icon: ShieldCheck, title: 'Hébergé en France', desc: 'RGPD, AI Act, données isolées.' },
     ],
   },
   en: {
     items: [
-      { icon: CreditCard, title: '7-day free trial', desc: 'No credit card required.' },
-      { icon: Users, title: 'One subscription', desc: 'No per-seat cost.' },
+      { icon: Mic, title: 'Talk to it, stop typing', desc: 'By voice or text, however you like.' },
+      { icon: Sparkles, title: 'Every AI model', desc: 'ChatGPT and the others included.' },
       { icon: LifeBuoy, title: 'Human support', desc: 'Onboarding and supervision included.' },
-      { icon: ShieldCheck, title: 'Private AI server', desc: 'Your data stays isolated.' },
+      { icon: ShieldCheck, title: 'Hosted in Europe', desc: 'GDPR, AI Act, isolated data.' },
     ],
   },
 } as const

@@ -6,7 +6,6 @@ import { useCallback, useRef, useState } from 'react'
 import { ArrowRight, MapPin, MessageCircle } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
-import { SectionCollaborator } from './home/section-collaborator'
 
 type ShowcaseEntry = {
   slug: string
@@ -191,7 +190,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
       eyebrow: 'Commencez par une expertise',
-      title: 'Choisissez celui qui rejoindra votre organisation.',
+      title: 'Une identité. Des profils métier et des compétences illimités.',
       subtitle:
         'Chaque Collaborateur IA commence par une identité : un visage, une voix, son email, son calendrier, son numéro de téléphone, ses contacts et ses fichiers. Ajoutez-lui ensuite les savoir-faire métier nécessaires à ses missions.',
       available: 'Disponible',
@@ -203,7 +202,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
     },
     en: {
       eyebrow: 'Start with an expertise',
-      title: 'Choose the one that will join your organization.',
+      title: 'One identity. Unlimited business profiles and skills.',
       subtitle:
         'Every AI Collaborator starts with an identity: a face, a voice, its email, calendar, phone number, contacts and files. Then add the professional know-how its missions require.',
       available: 'Available',
@@ -281,9 +280,6 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
             />
           ))}
         </div>
-
-        {/* Conclusion-preuve : la même identité (Emma) qui cumule des profils sans limite */}
-        <SectionCollaborator lang={lang} embedded />
 
         {/* All CTA */}
         <div className="mt-14 flex justify-center">

@@ -20,16 +20,6 @@ const T = {
           { label: 'Workspace', href: '/#workspace' },
           { label: 'Tarifs', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
-          { label: 'Changelog', href: '#' },
-        ],
-      },
-      {
-        title: 'Ressources',
-        links: [
-          { label: 'Documentation', href: '#' },
-          { label: 'Academy', href: '#' },
-          { label: 'Guides', href: '#' },
-          { label: 'Blog', href: '#' },
         ],
       },
       {
@@ -68,16 +58,6 @@ const T = {
           { label: 'Workspace', href: '/#workspace' },
           { label: 'Pricing', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
-          { label: 'Changelog', href: '#' },
-        ],
-      },
-      {
-        title: 'Resources',
-        links: [
-          { label: 'Documentation', href: '#' },
-          { label: 'Academy', href: '#' },
-          { label: 'Guides', href: '#' },
-          { label: 'Blog', href: '#' },
         ],
       },
       {
