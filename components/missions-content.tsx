@@ -169,7 +169,7 @@ const T: Record<Lang, Copy> = {
   fr: {
     kicker: 'Des résultats concrets pour votre entreprise',
     title: 'Confiez vos Missions à un Collaborateur IA.',
-    lead: 'Prospection, support client, contenu, réunions, automatisation ou développement : choisissez la Mission dont votre entreprise a besoin et découvrez le Collaborateur IA capable de la mener à bien.',
+    lead: 'Choisissez la Mission dont votre entreprise a besoin et découvrez le Collaborateur IA capable de la mener à bien.',
     searchPlaceholder: 'Ex. Trouver 30 prospects qualifiés pour notre nouvelle offre',
     heroCta: 'Trouver une Mission',
     searchExamplesLabel: 'Raccourcis',
@@ -256,7 +256,7 @@ const T: Record<Lang, Copy> = {
   en: {
     kicker: 'Concrete outcomes for your company',
     title: 'Hand your Missions to an AI Collaborator.',
-    lead: 'Prospecting, customer support, content, meetings, automation or development: choose the Mission your company needs and discover the AI Collaborator able to carry it out.',
+    lead: 'Choose the Mission your company needs and discover the AI Collaborator able to carry it out.',
     searchPlaceholder: 'e.g. Find 30 qualified prospects for our new offer',
     heroCta: 'Find a Mission',
     searchExamplesLabel: 'Shortcuts',
