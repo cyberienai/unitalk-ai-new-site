@@ -9,7 +9,7 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à recruter',
+    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à travailler',
     eyebrow: 'Une nouvelle façon de travailler',
     line1: 'Ne prenez pas',
     strike: 'un abonnement',
@@ -35,7 +35,7 @@ const T = {
     cardFootnote: 'Une identité qui reste. Des savoir-faire qui s’ajoutent.',
   },
   en: {
-    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to hire',
+    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to work',
     eyebrow: 'A new way to work',
     line1: 'Don’t buy',
     strike: 'a subscription',
