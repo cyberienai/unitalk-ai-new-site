@@ -9,12 +9,12 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à travailler',
+    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à vous rejoindre',
     eyebrow: 'Une nouvelle façon de travailler',
     line1: 'Ne prenez pas',
     strike: 'un abonnement',
-    line2: 'Prenez un Collaborateur IA.',
-    lead: 'Vous accueillez un Collaborateur IA qui appartient à votre organisation, garde une identité, une mémoire, et apprend votre métier.',
+    line2: 'Recrutez un Collaborateur IA.',
+    lead: 'Il rejoint votre organisation, apprend votre métier et gagne en savoir-faire — sans jamais oublier.',
     domainLabel: 'Connectez votre site web',
     domainHelp: 'Alma en fait un Collaborateur IA prêt à travailler, façonné pour votre activité.',
     domainPlaceholder: 'votreentreprise.com',
@@ -38,12 +38,12 @@ const T = {
     orgLink: 'Découvrir les Collaborateurs IA',
   },
   en: {
-    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to work',
+    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to join you',
     eyebrow: 'A new way to work',
     line1: 'Don’t buy',
     strike: 'a subscription',
     line2: 'Hire an AI Collaborator.',
-    lead: 'You welcome an AI Collaborator who belongs to your organization, keeps an identity, a memory, and learns your business.',
+    lead: 'It joins your organization, learns your business and grows its know-how — never forgetting a thing.',
     domainLabel: 'Connect your website',
     domainHelp: 'Alma turns it into an AI Collaborator ready to work, shaped for your business.',
     domainPlaceholder: 'yourcompany.com',
@@ -202,7 +202,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
+        {/* Visual ��� organigramme : à chaque membre, son Collaborateur IA */}
         <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
             <div className="px-5 pt-5 pb-1 sm:px-6">
