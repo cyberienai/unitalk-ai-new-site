@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Globe } from 'lucide-react'
+import { ArrowRight, Check, Globe, Network } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
@@ -22,17 +22,20 @@ const T = {
     exploreCta: 'Voir comment',
     proofs: ['Prêt en quelques minutes', 'Un seul abonnement', 'Essai gratuit 7 jours'],
     trialMobile: '7 jours d’essai gratuit',
-    // hire card
-    badge: 'Collaborateur IA',
-    cardName: 'Emma',
-    cardRole: 'Assistante de direction',
-    cardStatusLabel: 'Statut',
-    cardStatus: 'Recrutée aujourd’hui',
-    cardBelongsLabel: 'Appartient à',
-    cardBelongs: 'Votre organisation',
-    cardProfilesLabel: 'Profils actifs',
-    cardProfiles: ['Assistanat', 'Réunions', 'Reporting'],
-    cardFootnote: 'Une identité qui reste. Des savoir-faire qui s’ajoutent.',
+    // organigramme
+    orgTitle: 'Votre organisation',
+    orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
+    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
+    orgPairs: [
+      { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting' },
+      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication' },
+      { human: 'Antoine', dept: 'Développement', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation' },
+      { human: 'Claire', dept: 'Ventes', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting' },
+      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse · Trésorerie · Reporting' },
+      { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi' },
+    ],
+    collaboratorLabel: 'Collaborateurs IA',
+    orgLink: 'Découvrir les Collaborateurs IA',
   },
   en: {
     avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to work',
@@ -48,16 +51,20 @@ const T = {
     exploreCta: 'See how',
     proofs: ['Ready in minutes', 'One subscription', '7-day free trial'],
     trialMobile: '7-day free trial',
-    badge: 'AI Collaborator',
-    cardName: 'Emma',
-    cardRole: 'Executive assistant',
-    cardStatusLabel: 'Status',
-    cardStatus: 'Hired today',
-    cardBelongsLabel: 'Belongs to',
-    cardBelongs: 'Your organization',
-    cardProfilesLabel: 'Active profiles',
-    cardProfiles: ['Assistant', 'Meetings', 'Reporting'],
-    cardFootnote: 'One identity that stays. Skills that add up.',
+    // organigramme
+    orgTitle: 'Your organization',
+    orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
+    orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
+    orgPairs: [
+      { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting' },
+      { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing' },
+      { human: 'Antoine', dept: 'Engineering', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation' },
+      { human: 'Claire', dept: 'Sales', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting' },
+      { human: 'Julie', dept: 'Finance', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis · Cash flow · Reporting' },
+      { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up' },
+    ],
+    collaboratorLabel: 'AI Collaborators',
+    orgLink: 'Discover the AI Collaborators',
   },
 } as const
 
@@ -99,7 +106,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:64px_64px]" />
       </div>
 
-      <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="max-w-2xl">
           <motion.div {...enter(0)} className="mb-5 flex items-center justify-center gap-3 sm:justify-start">
             <ul className="flex items-center -space-x-2.5">
@@ -195,68 +202,60 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual — the "hire card": a Collaborateur IA employee badge */}
-        <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-sm">
-          <motion.div
-            initial={reduceMotion ? false : { rotate: -1.5 }}
-            animate={{ rotate: reduceMotion ? 0 : [-1.5, 1, -1.5] }}
-            transition={{ duration: 9, ease: 'easeInOut', repeat: Infinity }}
-            className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]"
-          >
-            {/* badge header */}
-            <div className="flex items-center justify-between border-b border-[#E4DDCE] bg-[#F3EFE6] px-5 py-3">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#D10E63]">{t.badge}</span>
-              <span className="flex items-center gap-1.5 text-[10px] font-semibold text-[#6E665A]">
-                <span className="relative flex h-2 w-2" aria-hidden="true">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#D10E63]" />
-                </span>
-                Unitalk
-              </span>
-            </div>
-
-            <div className="p-6">
-              <div className="flex items-center gap-4">
-                <Image src="/images/emma-avatar.png" alt="" width={72} height={72} className="h-18 w-18 rounded-2xl object-cover" style={{ height: 72, width: 72 }} />
+        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
+        <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
+          <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
+            <div className="px-5 pt-5 pb-1 sm:px-6">
+              <Link
+                href="/decouvrir"
+                aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
+                className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#D10E63]/[0.05]"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
                 <div className="min-w-0">
-                  <p className="font-sf text-2xl font-bold leading-tight tracking-[-0.02em] text-[#1C1A17]">{t.cardName}</p>
-                  <p className="text-sm text-[#6E665A]">{t.cardRole}</p>
+                  <p className="flex items-center gap-1.5 text-sm font-bold text-[#1C1A17]">
+                    {t.orgTitle}
+                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+                  </p>
+                  <p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p>
                 </div>
-              </div>
-
-              <dl className="mt-6 flex flex-col gap-3 border-t border-[#E4DDCE] pt-5 text-sm">
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-[#8A8175]">{t.cardStatusLabel}</dt>
-                  <dd className="flex items-center gap-1.5 font-semibold text-[#1C1A17]">
-                    <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={3} />
-                    {t.cardStatus}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-[#8A8175]">{t.cardBelongsLabel}</dt>
-                  <dd className="font-semibold text-[#1C1A17]">{t.cardBelongs}</dd>
-                </div>
-              </dl>
-
-              <div className="mt-5">
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.cardProfilesLabel}</p>
-                <div className="mt-2.5 flex flex-wrap gap-2">
-                  {t.cardProfiles.map((profile, i) => (
-                    <motion.span
-                      key={profile}
-                      initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.4, ease, delay: reduceMotion ? 0 : 0.6 + i * 0.12 }}
-                      className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/[0.06] px-3 py-1 text-xs font-semibold text-[#A80B50]"
-                    >
-                      {profile}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
+              </Link>
             </div>
-          </motion.div>
-          <p className="mt-4 px-2 text-center text-[11px] leading-5 text-[#6E665A]">{t.cardFootnote}</p>
+            <div className="p-4 sm:p-6">
+              <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
+              <div className="relative">
+              <div className="overscroll-contain pr-1 sm:max-h-72 sm:overflow-y-auto [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
+                <div className="flex flex-col gap-2.5">
+                  {t.orgPairs.map((pair) => {
+                    const initials = pair.human.slice(0, 2).toUpperCase()
+                    return (
+                      <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-stretch gap-2">
+                        <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] font-mono text-[11px] font-bold tracking-wide text-[#5F594F]" aria-hidden="true">{initials}</span>
+                          <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p><p className="truncate text-[11px] text-[#6E665A]">{pair.dept}</p></div>
+                        </div>
+                        <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
+                        <a
+                          href={`#collab-${pair.slug}`}
+                          aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir son profil sur la page' : 'see its profile on the page'}`}
+                          className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
+                        >
+                          <div className="relative shrink-0"><Image src={pair.avatar || '/placeholder.svg'} alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
+                          <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="text-[10px] font-medium leading-tight text-[#A80B50]">{pair.status}</p></div>
+                        </a>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-10 bg-gradient-to-t from-[#FBF9F3] to-transparent sm:block" />
+              </div>
+              <a href="/collaborateurs-ia" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
+                {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </div>
+          <p className="mt-3 px-2 text-center text-[11px] leading-5 text-[#6E665A] sm:text-left">{t.orgFootnote}</p>
         </motion.div>
       </div>
     </section>
