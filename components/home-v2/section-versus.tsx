@@ -14,7 +14,7 @@ const T = {
     newTag: 'Ce que vous obtenez',
     rows: [
       { old: 'Vous payez par siège, par utilisateur', neo: 'Un seul abonnement pour toute l’organisation' },
-      { old: 'Reste bloqué sur une seule fonction', neo: 'Cumule des profils illimités, un seul collaborateur' },
+      { old: 'Reste bloqué sur une seule fonction', neo: 'Cumule des profils métier et des compétences illimités' },
       { old: 'Repart de zéro à chaque conversation', neo: 'Garde une identité et une mémoire durables' },
       { old: 'Appartient à l’éditeur du logiciel', neo: 'Appartient à votre organisation' },
       { old: 'Vous devez tout lui réexpliquer', neo: 'Connaît déjà votre métier et vos outils' },
@@ -31,7 +31,7 @@ const T = {
     newTag: 'What you get',
     rows: [
       { old: 'You pay per seat, per user', neo: 'One subscription for the whole organization' },
-      { old: 'Stuck on a single function', neo: 'Stacks unlimited profiles, one single collaborator' },
+      { old: 'Stuck on a single function', neo: 'Stacks unlimited business profiles and skills' },
       { old: 'Starts from scratch every conversation', neo: 'Keeps a lasting identity and memory' },
       { old: 'Belongs to the software vendor', neo: 'Belongs to your organization' },
       { old: 'You have to re-explain everything', neo: 'Already knows your business and tools' },
