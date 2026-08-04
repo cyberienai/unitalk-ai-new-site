@@ -6,7 +6,7 @@ import { X, Check } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: 'La différence',
-    title: 'Tout le monde vend un logiciel. Nous livrons un Collaborateur IA.',
+    title: 'Tout le monde loue un logiciel. Vous possédez vos Collaborateurs IA.',
     subtitle: 'La catégorie « assistant IA » est saturée d’outils qui se ressemblent. Un Collaborateur IA joue dans une autre catégorie.',
     oldTitle: 'Un logiciel IA',
     oldTag: 'Ce que tout le monde vend',
@@ -23,7 +23,7 @@ const T = {
   },
   en: {
     eyebrow: 'The difference',
-    title: 'Everyone sells software. We deliver an AI Collaborator.',
+    title: 'Everyone rents software. You own your AI Collaborators.',
     subtitle: 'The “AI assistant” category is crowded with tools that all look alike. An AI Collaborator plays in a different league.',
     oldTitle: 'AI software',
     oldTag: 'What everyone sells',
