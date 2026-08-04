@@ -24,7 +24,7 @@ const T = {
     domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
     cta: 'Discover my AI Collaborator',
-    proofs: ['7-day free trial', 'Hosted in Europe', 'GDPR compliant'],
+    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
   },
 } as const
 

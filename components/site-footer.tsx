@@ -5,32 +5,19 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    tagline: 'Recrutez sans embaucher.',
+    tagline: 'Unitalk transforme les agents IA en vrais collaborateurs.',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
-    legal: [
-      { label: 'Mentions légales', href: '/mentions-legales' },
-      { label: 'Confidentialité', href: '/confidentialite' },
-      { label: 'Conditions', href: '/conditions' },
-    ],
     columns: [
       {
         title: 'Produit',
         links: [
-          { label: 'Workspace', href: '/#workspace' },
+          { label: 'Missions', href: '/missions' },
+          { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
+          { label: 'Profils métier', href: '/collaborateurs-ia/roles' },
+          { label: 'Workspace', href: '/workspace' },
           { label: 'Tarifs', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
-          { label: 'Nouvelle page d’accueil', href: '/accueil-2' },
-        ],
-      },
-      {
-        title: 'Écosystème',
-        links: [
-          { label: 'Devenir créateur', href: '/partenaires' },
-          { label: 'Proposer une expertise', href: '/partenaires' },
-          { label: 'Trouver un expert', href: '/collaborateurs-ia' },
-          { label: 'Hébergeurs', href: '/hebergeurs' },
-          { label: 'GitHub', href: 'https://github.com' },
         ],
       },
       {
@@ -41,35 +28,30 @@ const T = {
           { label: 'Sécurité', href: '/#confiance' },
         ],
       },
+      {
+        title: 'Informations',
+        links: [
+          { label: 'Mentions légales', href: '/mentions-legales' },
+          { label: 'Confidentialité', href: '/confidentialite' },
+          { label: 'Conditions', href: '/conditions' },
+        ],
+      },
     ],
   },
   en: {
-    tagline: 'Recruit without hiring.',
+    tagline: 'Unitalk turns AI agents into real collaborators.',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
-    legal: [
-      { label: 'Legal notice', href: '/mentions-legales' },
-      { label: 'Privacy', href: '/confidentialite' },
-      { label: 'Terms', href: '/conditions' },
-    ],
     columns: [
       {
         title: 'Product',
         links: [
-          { label: 'Workspace', href: '/#workspace' },
+          { label: 'Missions', href: '/missions' },
+          { label: 'AI Collaborators', href: '/collaborateurs-ia' },
+          { label: 'Business profiles', href: '/collaborateurs-ia/roles' },
+          { label: 'Workspace', href: '/workspace' },
           { label: 'Pricing', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
-          { label: 'New homepage', href: '/accueil-2' },
-        ],
-      },
-      {
-        title: 'Ecosystem',
-        links: [
-          { label: 'Become a creator', href: '/partenaires' },
-          { label: 'Offer an expertise', href: '/partenaires' },
-          { label: 'Find an expert', href: '/collaborateurs-ia' },
-          { label: 'Hosts', href: '/hebergeurs' },
-          { label: 'GitHub', href: 'https://github.com' },
         ],
       },
       {
@@ -78,6 +60,14 @@ const T = {
           { label: 'About', href: '/manifeste' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Security', href: '/#confiance' },
+        ],
+      },
+      {
+        title: 'Information',
+        links: [
+          { label: 'Legal notice', href: '/mentions-legales' },
+          { label: 'Privacy', href: '/confidentialite' },
+          { label: 'Terms', href: '/conditions' },
         ],
       },
     ],
@@ -93,7 +83,7 @@ export function SiteFooter() {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-12 lg:gap-x-10">
           {/* Brand + contact */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-4">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-6">
             <div className="flex items-center gap-2.5">
               <UnitalkLogo size={28} />
               <span className="font-inter text-base font-semibold text-[#F3EFE6]">Unitalk</span>
@@ -146,17 +136,8 @@ export function SiteFooter() {
           ))}
         </div>
 
-        {/* Legal links */}
-        <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-[rgba(243,239,230,0.12)] pt-6">
-          {t.legal.map((l) => (
-            <a key={l.label} href={l.href} className="text-xs text-[#A79E8E] transition-colors hover:text-[#F3EFE6]">
-              {l.label}
-            </a>
-          ))}
-        </div>
-
         {/* Bottom bar */}
-        <div className="mt-6 flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-[rgba(243,239,230,0.12)] pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-[#8F877A]">
             © {new Date().getFullYear()} Unitalk AI. {t.rights}
           </p>

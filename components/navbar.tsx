@@ -17,12 +17,12 @@ const CREATE_ORG = {
 
 // Compact dropdown for "Missions"
 const MISSIONS_MENU: NavLink[] = [
-  { fr: 'Trouver des clients', en: 'Find customers', href: '/missions/trouver-de-nouveaux-clients' },
-  { fr: 'Répondre aux clients', en: 'Answer customers', href: '/missions/repondre-a-mes-clients' },
-  { fr: 'Créer mes contenus', en: 'Create content', href: '/missions/creer-mes-contenus' },
-  { fr: 'Préparer et suivre mes réunions', en: 'Prepare & follow up meetings', href: '/missions/preparer-et-suivre-mes-reunions' },
-  { fr: 'Automatiser mes opérations', en: 'Automate operations', href: '/missions/automatiser-mes-operations' },
-  { fr: 'Voir toutes les missions', en: 'See all missions', href: '/missions', strong: true },
+  { fr: 'Toutes les missions', en: 'All missions', href: '/missions', strong: true },
+  { fr: 'Ventes', en: 'Sales', href: '/missions?domaine=ventes' },
+  { fr: 'Support client', en: 'Customer support', href: '/missions?domaine=support' },
+  { fr: 'Marketing', en: 'Marketing', href: '/missions?domaine=marketing' },
+  { fr: 'Réunions', en: 'Meetings', href: '/missions?domaine=reunions' },
+  { fr: 'Automatisation', en: 'Automation', href: '/missions?domaine=automatisation' },
 ]
 
 // Compact dropdown for "Collaborateurs IA"
@@ -57,6 +57,7 @@ const T = {
     createOrg: 'Recruter mon Collaborateur IA',
     createOrgShort: 'Recruter',
     featuredLabel: 'Mis en avant',
+    collabSignature: 'Une identité qui reste. Des expertises qui évoluent.',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
   },
@@ -70,6 +71,7 @@ const T = {
     createOrg: 'Hire my AI Collaborator',
     createOrgShort: 'Hire',
     featuredLabel: 'Featured',
+    collabSignature: 'One identity that stays. Expertise that evolves.',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
   },
@@ -275,6 +277,10 @@ export function Navbar({
                             </span>
                           </a>
                         ))}
+                        <div className="my-1.5 border-t border-[#E9E2D3]" />
+                        <p className="px-3 pb-1.5 pt-1 text-[11px] font-semibold italic leading-snug text-[#857C6E]">
+                          {t.collabSignature}
+                        </p>
                       </div>
                     </motion.div>
                   )}
