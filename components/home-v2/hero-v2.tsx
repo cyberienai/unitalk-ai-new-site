@@ -13,7 +13,7 @@ const T = {
     eyebrow: 'Une nouvelle façon de travailler',
     line1: 'Ne prenez pas',
     strike: 'un abonnement',
-    line2: 'Prenez un Collaborateur IA.',
+    line2: 'Recrutez un Collaborateur IA.',
     lead: 'Vous accueillez un Collaborateur IA qui appartient à votre organisation, garde une identité, une mémoire, et apprend votre métier.',
     domainLabel: 'Connectez votre site web',
     domainHelp: 'Alma en fait un Collaborateur IA prêt à travailler, façonné pour votre activité.',
@@ -202,7 +202,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
+        {/* Visual ��� organigramme : à chaque membre, son Collaborateur IA */}
         <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
             <div className="px-5 pt-5 pb-1 sm:px-6">
