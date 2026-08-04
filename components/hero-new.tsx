@@ -11,9 +11,8 @@ import { collaboratorHref } from '@/lib/collaborators-catalog'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    headline: 'Votre Collaborateur\u00A0IA est',
-    headlineAccent: 'prêt à commencer',
-    rotatingWords: ['générer du contenu', 'écrire du code', 'répondre à vos clients', 'prospecter de nouveaux clients', 'préparer vos réunions', 'automatiser vos tâches', 'rédiger vos comptes rendus', 'créer vos visuels', 'analyser vos données', 'planifier vos publications', 'gérer votre CRM', 'suivre votre trésorerie', 'assurer votre support', 'traduire vos documents'],
+    headline: 'Votre Collaborateur\u00A0IA est prêt à',
+    rotatingWords: ['commencer', 'générer du contenu', 'écrire du code', 'répondre à vos clients', 'prospecter', 'préparer vos réunions', 'automatiser vos tâches', 'rédiger vos rapports', 'créer vos visuels', 'analyser vos données', 'planifier vos posts', 'gérer votre CRM', 'suivre votre trésorerie', 'assurer votre support', 'traduire vos documents'],
     lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
     domainLabel: 'Indiquez l’adresse de votre site.',
     domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
@@ -37,9 +36,8 @@ const T = {
   },
   en: {
     eyebrow: 'You’re missing someone.',
-    headline: 'Your AI\u00A0Collaborator is',
-    headlineAccent: 'ready to start',
-    rotatingWords: ['generate content', 'write code', 'answer your customers', 'find new prospects', 'prepare your meetings', 'automate your tasks', 'draft your reports', 'create your visuals', 'analyze your data', 'schedule your posts', 'manage your CRM', 'track your cash flow', 'handle your support', 'translate your documents'],
+    headline: 'Your AI\u00A0Collaborator is ready to',
+    rotatingWords: ['get started', 'generate content', 'write code', 'answer your customers', 'find new prospects', 'prepare your meetings', 'automate your tasks', 'draft your reports', 'create your visuals', 'analyze your data', 'schedule your posts', 'manage your CRM', 'track your cash flow', 'handle your support', 'translate your documents'],
     lead: 'Add the professional know-how you need and connect it to your tools.',
     domainLabel: 'Enter your website address.',
     domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
@@ -101,32 +99,28 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.eyebrow}
           </motion.p>
           <motion.h1 {...enter(0.1)} className="text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-left md:leading-[0.96]">
-            {t.headline}{' '}
-            <span className="text-[#D10E63]">{t.headlineAccent}</span>
+            {t.headline}
           </motion.h1>
           <motion.div
             {...enter(0.14)}
-            className="mt-3 flex min-h-[1.9rem] flex-wrap items-baseline justify-center gap-x-2 text-lg font-semibold tracking-[-0.01em] sm:mt-4 sm:justify-start md:text-xl"
-            aria-live="off"
+            className="mt-1 flex min-h-[1.35em] items-start justify-center overflow-hidden text-center font-sf text-[clamp(1.7rem,3.4vw,2.8rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[#D10E63] sm:mt-1.5 sm:justify-start sm:text-left"
+            aria-hidden="true"
           >
-            <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63]" aria-hidden="true" />
-            <span className="relative inline-flex overflow-hidden">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={wordIndex}
-                  initial={reduceMotion ? false : { opacity: 0, y: '0.6em' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.6em' }}
-                  transition={{ duration: 0.4, ease }}
-                  className="text-[#D10E63]"
-                >
-                  {t.rotatingWords[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </span>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={wordIndex}
+                initial={reduceMotion ? false : { opacity: 0, y: '0.5em' }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: '-0.5em' }}
+                transition={{ duration: 0.4, ease }}
+                className="inline-block text-balance"
+              >
+                {t.rotatingWords[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
           </motion.div>
-          {/* Full list for assistive tech (rotation is decorative) */}
-          <p className="sr-only">{t.rotatingWords.join(', ')}.</p>
+          {/* Full sentence for assistive tech (rotation is decorative) */}
+          <p className="sr-only">{`${t.headline} ${t.rotatingWords.join(', ')}.`}</p>
           <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
