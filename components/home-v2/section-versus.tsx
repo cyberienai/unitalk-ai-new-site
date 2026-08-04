@@ -6,7 +6,7 @@ import { X, Check } from 'lucide-react'
 const T = {
   fr: {
     eyebrow: 'La différence',
-    title: 'Tout le monde vend un logiciel. Nous livrons un collègue.',
+    title: 'Tout le monde vend un logiciel. Nous livrons un Collaborateur IA.',
     subtitle: 'La catégorie « assistant IA » est saturée d’outils qui se ressemblent. Un Collaborateur IA joue dans une autre catégorie.',
     oldTitle: 'Un logiciel IA',
     oldTag: 'Ce que tout le monde vend',
@@ -17,12 +17,12 @@ const T = {
       { old: 'Repart de zéro à chaque conversation', neo: 'Garde une identité et une mémoire durables' },
       { old: 'Appartient à l’éditeur du logiciel', neo: 'Appartient à votre organisation' },
       { old: 'Vous devez tout lui réexpliquer', neo: 'Connaît déjà votre métier et vos outils' },
-      { old: 'Un outil de plus à piloter', neo: 'Un collègue à qui confier des missions' },
+      { old: 'Un outil de plus à piloter', neo: 'Un Collaborateur IA à qui confier des missions' },
     ],
   },
   en: {
     eyebrow: 'The difference',
-    title: 'Everyone sells software. We deliver a colleague.',
+    title: 'Everyone sells software. We deliver an AI Collaborator.',
     subtitle: 'The “AI assistant” category is crowded with tools that all look alike. An AI Collaborator plays in a different league.',
     oldTitle: 'AI software',
     oldTag: 'What everyone sells',
@@ -33,7 +33,7 @@ const T = {
       { old: 'Starts from scratch every conversation', neo: 'Keeps a lasting identity and memory' },
       { old: 'Belongs to the software vendor', neo: 'Belongs to your organization' },
       { old: 'You have to re-explain everything', neo: 'Already knows your business and tools' },
-      { old: 'One more tool to operate', neo: 'A colleague you hand missions to' },
+      { old: 'One more tool to operate', neo: 'An AI Collaborator you hand missions to' },
     ],
   },
 } as const
