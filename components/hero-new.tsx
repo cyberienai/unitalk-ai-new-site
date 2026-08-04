@@ -124,7 +124,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.lead}
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
-            <p className="mx-auto max-w-md text-center text-sm font-semibold text-[#3F3A33] sm:mx-0 sm:text-left">
+            <p className="mx-auto max-w-md text-center text-xs font-medium text-[#6B6560] sm:mx-0 sm:text-left">
               {t.domainLabel}
             </p>
             <form onSubmit={submitDomain} className="mx-auto mt-3.5 flex w-full max-w-md flex-col gap-3 sm:mx-0">
