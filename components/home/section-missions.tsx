@@ -67,13 +67,13 @@ export function SectionMissions({ lang }: { lang: Lang }) {
   const t = T[lang]
 
   return (
-    <section id="missions" className="scroll-mt-20 bg-[#F3EFE6] px-5 py-20 sm:px-8 sm:py-28">
+    <section id="missions" className="scroll-mt-20 border-t border-[#E9E2D4] bg-[#F3EFE6] px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-4xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.8, ease }}
         >
           <div className="flex justify-center">
             <Kicker>{t.kicker}</Kicker>
@@ -90,8 +90,8 @@ export function SectionMissions({ lang }: { lang: Lang }) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.1, ease }}
-          className="mt-10 grid grid-cols-2 gap-2.5 sm:mt-12 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
+          transition={{ duration: 0.8, delay: 0.15, ease }}
+          className="mt-12 grid grid-cols-2 gap-2.5 sm:mt-14 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
         >
           {t.missions.map((mission) => (
             <li key={mission} className="flex">
@@ -113,8 +113,8 @@ export function SectionMissions({ lang }: { lang: Lang }) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.2, ease }}
-          className="mt-12"
+          transition={{ duration: 0.8, delay: 0.3, ease }}
+          className="mt-14"
         >
           <Link
             href="/collaborateurs-ia"

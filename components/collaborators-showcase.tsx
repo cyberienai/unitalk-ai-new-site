@@ -252,7 +252,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   }
 
   return (
-    <section className="w-full bg-[#FBF9F3] py-20 sm:py-28">
+    <section className="w-full border-t border-[#E9E2D4] bg-[#FBF9F3] py-24 sm:py-32">
       <div className="editorial-shell">
         <header className="mx-auto max-w-2xl text-center">
           <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
@@ -261,7 +261,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
             {t.subtitle}
           </p>
         </header>
@@ -270,7 +270,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
         <div
           ref={scrollerRef}
           onScroll={onScroll}
-          className="mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 -mx-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:max-w-5xl sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 sm:[&>*]:w-auto"
+          className="mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 -mx-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:max-w-5xl sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 sm:[&>*]:w-auto"
         >
           {SHOWCASE.map((entry) => (
             <CollaboratorCard key={entry.slug} entry={entry} lang={lang} labels={labels} />
@@ -294,7 +294,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
         </div>
 
         {/* Tagline + all CTA */}
-        <div className="mt-12 flex flex-col items-center gap-5 text-center">
+        <div className="mt-16 flex flex-col items-center gap-5 text-center">
           <p className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-2xl">{t.tagline}</p>
           <Link
             href="/collaborateurs-ia/roles"

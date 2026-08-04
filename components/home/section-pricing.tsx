@@ -76,7 +76,7 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
   const t = T[lang]
 
   return (
-    <section id="tarifs" className="w-full bg-[#F3EFE6] py-20 sm:py-28">
+    <section id="tarifs" className="w-full border-t border-[#E9E2D4] bg-[#F3EFE6] py-24 sm:py-32">
       <div className="editorial-shell">
         <header className="mx-auto max-w-2xl text-center">
           <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
@@ -85,7 +85,7 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
             {t.subtitle}
           </p>
         </header>
@@ -94,8 +94,8 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease }}
-          className="premium-shadow mx-auto mt-12 max-w-lg overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#FBF9F3]"
+          transition={{ duration: 0.8, ease }}
+          className="premium-shadow mx-auto mt-14 max-w-lg overflow-hidden rounded-[2rem] border border-[#E4DCCF] bg-[#FBF9F3]"
         >
           <div className="border-b border-[#E4DCCF] p-8 text-center sm:p-10">
             <div className="flex items-end justify-center gap-1">
@@ -136,8 +136,8 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease }}
-          className="mx-auto mt-12 max-w-lg rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8"
+          transition={{ duration: 0.8, delay: 0.1, ease }}
+          className="mx-auto mt-6 max-w-lg rounded-[1.75rem] border border-[#E4DCCF] bg-[#FBF9F3] p-6 sm:p-8"
         >
           <h3 className="text-balance text-center font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">
             {t.tiersTitle}

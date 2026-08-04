@@ -48,7 +48,7 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="relative overflow-hidden border-t border-[#DcD4C4] bg-[#FBF9F3] py-12 sm:py-20 md:py-28"
+      className="relative overflow-hidden border-t border-[#E9E2D4] bg-[#FBF9F3] py-24 sm:py-32"
     >
       <div className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
