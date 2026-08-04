@@ -11,8 +11,8 @@ import { collaboratorHref } from '@/lib/collaborators-catalog'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    headline: 'Votre Collaborateur\u00A0IA est prêt à',
-    rotatingWords: ['commencer', 'générer du contenu', 'écrire du code', 'répondre à vos clients', 'prospecter', 'préparer vos réunions', 'automatiser vos tâches', 'rédiger vos rapports', 'créer vos visuels', 'analyser vos données', 'planifier vos posts', 'gérer votre CRM', 'suivre votre trésorerie', 'assurer votre support', 'traduire vos documents'],
+    headline: 'Votre Collaborateur\u00A0IA est prêt',
+    rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
     lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
     domainLabel: 'Indiquez l’adresse de votre site.',
     domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
@@ -37,8 +37,8 @@ const T = {
   },
   en: {
     eyebrow: 'You’re missing someone.',
-    headline: 'Your AI\u00A0Collaborator is ready to',
-    rotatingWords: ['get started', 'generate content', 'write code', 'answer your customers', 'find new prospects', 'prepare your meetings', 'automate your tasks', 'draft your reports', 'create your visuals', 'analyze your data', 'schedule your posts', 'manage your CRM', 'track your cash flow', 'handle your support', 'translate your documents'],
+    headline: 'Your AI\u00A0Collaborator is ready',
+    rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
     lead: 'Add the professional know-how you need and connect it to your tools.',
     domainLabel: 'Enter your website address.',
     domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
@@ -105,7 +105,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.h1>
           <motion.div
             {...enter(0.14)}
-            className="mt-1 flex min-h-[1.35em] items-start justify-center overflow-hidden text-center font-sf text-[clamp(1.7rem,3.4vw,2.8rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[#D10E63] sm:mt-1.5 sm:justify-start sm:text-left"
+            className="mt-1 flex min-h-[2.2em] items-start justify-center overflow-hidden text-balance text-center font-sf text-[clamp(2.4rem,5.2vw,5.3rem)] font-semibold leading-[1.0] tracking-[-0.055em] text-[#D10E63] sm:mt-1.5 sm:min-h-[2.1em] sm:justify-start sm:text-left"
             aria-hidden="true"
           >
             <AnimatePresence mode="wait" initial={false}>
