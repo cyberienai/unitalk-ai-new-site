@@ -6,6 +6,7 @@ import { useCallback, useRef, useState } from 'react'
 import { ArrowRight, MapPin, MessageCircle } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
+import { SectionCollaborator } from './home/section-collaborator'
 
 type ShowcaseEntry = {
   slug: string
@@ -197,7 +198,6 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       defaultProfileLabel: 'Profil par défaut',
       talk: 'Recruter',
       profiles: 'Voir ses profils',
-      tagline: 'Une identité. Plusieurs profils métier.',
       allCta: 'Voir tous les Collaborateurs IA',
       swipeHint: 'Glissez pour découvrir',
     },
@@ -210,7 +210,6 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       defaultProfileLabel: 'Default profile',
       talk: 'Hire',
       profiles: 'See its profiles',
-      tagline: 'One identity. Several job profiles.',
       allCta: 'See all AI Collaborators',
       swipeHint: 'Swipe to explore',
     },
@@ -283,9 +282,11 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           ))}
         </div>
 
-        {/* Tagline + all CTA */}
-        <div className="mt-16 flex flex-col items-center gap-5 text-center">
-          <p className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-2xl">{t.tagline}</p>
+        {/* Conclusion-preuve : la même identité (Emma) qui cumule des profils sans limite */}
+        <SectionCollaborator lang={lang} embedded />
+
+        {/* All CTA */}
+        <div className="mt-14 flex justify-center">
           <Link
             href="/collaborateurs-ia/roles"
             className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-[#DDD5CA] bg-[#FBF9F3] px-6 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
