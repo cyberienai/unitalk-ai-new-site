@@ -5,9 +5,30 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
+import { collaboratorHref } from '@/lib/collaborators-catalog'
 import { Kicker } from './section-kicker'
 
 const ease = [0.22, 1, 0.36, 1] as const
+
+// Chaque mission mène au Collaborateur IA qui la réalise.
+// L'ordre suit exactement celui des tableaux `missions` (identique FR/EN).
+const MISSION_SLUGS = [
+  'hugo', // Trouver de nouveaux clients
+  'ines', // Répondre à vos clients
+  'lea', // Créer vos contenus
+  'emma', // Préparer vos réunions
+  'arthur', // Écrire du code
+  'arthur', // Automatiser vos tâches
+  'nadia', // Analyser vos données
+  'hugo', // Gérer votre CRM
+  'nadia', // Suivre votre trésorerie
+  'lea', // Planifier vos publications
+  'lea', // Gérer votre blog
+  'emma', // Traduire vos documents
+  'emma', // Prendre des notes vocales
+  'emma', // Transcrire les réunions
+  'hugo', // Émettre des appels sortants
+] as const
 
 const T: Record<Lang, {
   kicker: string
@@ -124,10 +145,10 @@ export function SectionMissions({ lang }: { lang: Lang }) {
           transition={{ duration: 0.8, delay: 0.15, ease }}
           className="mt-12 grid grid-cols-2 gap-2.5 sm:mt-14 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
         >
-          {t.missions.map((mission) => (
+          {t.missions.map((mission, i) => (
             <li key={mission} className="flex">
               <Link
-                href="/collaborateurs-ia"
+                href={collaboratorHref(MISSION_SLUGS[i])}
                 className="group flex w-full items-center gap-2 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-3.5 py-2.5 text-left text-[13px] font-semibold leading-tight text-[#3F3A33] transition-all hover:-translate-y-0.5 hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto sm:rounded-full sm:px-5 sm:py-3 sm:text-sm"
               >
                 <span
