@@ -39,7 +39,6 @@ const T = {
     ],
     collaboratorLabel: 'Collaborateurs IA',
     scaleHeader: 'Rattaché à',
-    orgLink: 'Découvrir les Collaborateurs IA',
   },
   en: {
     avatarsLabel: 'A face, a voice, a business profile — shaped for your business',
@@ -72,7 +71,6 @@ const T = {
     ],
     collaboratorLabel: 'AI Collaborators',
     scaleHeader: 'Attached to',
-    orgLink: 'Discover the AI Collaborators',
   },
 } as const
 
@@ -238,10 +236,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{t.scaleHeader}</span><span /><span>{t.collaboratorLabel}</span></div>
-              <div className="relative">
-              <div className="overscroll-contain pr-1 sm:max-h-72 sm:overflow-y-auto [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
+              <div>
+              <div>
                 <div className="flex flex-col gap-2.5">
-                  {t.orgPairs.map((pair) => {
+                  {t.orgPairs.slice(0, 4).map((pair) => {
                     const initials = pair.human.slice(0, 2).toUpperCase()
                     const ScaleIcon = SCALE_ICONS[pair.scaleKind as keyof typeof SCALE_ICONS]
                     const isPerson = pair.scaleKind === 'person'
@@ -268,11 +266,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   })}
                 </div>
               </div>
-                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-10 bg-gradient-to-t from-[#FBF9F3] to-transparent sm:block" />
               </div>
-              <a href="/collaborateurs-ia" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
-                {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
-              </a>
             </div>
           </div>
           <p className="mt-3 px-2 text-center text-[11px] leading-5 text-[#6E665A] sm:text-left">{t.orgFootnote}</p>
