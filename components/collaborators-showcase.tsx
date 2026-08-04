@@ -199,7 +199,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       eyebrow: 'Les Collaborateurs IA',
       title: 'Choisissez celui qui rejoindra votre organisation.',
       subtitle:
-        'Chaque Collaborateur IA commence avec un profil métier. Ajoutez-lui ensuite les savoir-faire nécessaires à ses nouvelles missions.',
+        'Chaque Collaborateur IA commence par une identité : un visage, une voix, son email, son calendrier, son numéro de téléphone, ses contacts et ses fichiers. Ajoutez-lui ensuite les savoir-faire métier nécessaires à ses missions.',
       available: 'Disponible',
       defaultProfileLabel: 'Profil par défaut',
       belongs: 'Appartient à votre organisation',
@@ -213,7 +213,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       eyebrow: 'The AI Collaborators',
       title: 'Choose the one that will join your organization.',
       subtitle:
-        'Every AI Collaborator starts with a job profile. Then add the skills its new missions require.',
+        'Every AI Collaborator starts with an identity: a face, a voice, its email, calendar, phone number, contacts and files. Then add the professional know-how its missions require.',
       available: 'Available',
       defaultProfileLabel: 'Default profile',
       belongs: 'Belongs to your organization',
