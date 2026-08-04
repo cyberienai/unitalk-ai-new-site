@@ -95,7 +95,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.eyebrow}
           </motion.p>
 
-          <h1 className="text-balance text-center font-sf text-[clamp(2.6rem,6vw,5.6rem)] font-semibold leading-[0.95] tracking-[-0.055em] text-[#1C1A17] sm:text-left">
+          <h1 className="text-balance text-center font-sf text-[clamp(2.6rem,6vw,5.6rem)] font-semibold leading-[1.04] tracking-[-0.055em] text-[#1C1A17] sm:leading-[0.95] sm:text-left">
             <motion.span {...enter(0.1)} className="block">
               {t.line1}{' '}
               <span className="relative inline-block whitespace-nowrap text-[#8A8175]">
