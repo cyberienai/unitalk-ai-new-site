@@ -158,8 +158,16 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </button>
             </form>
             {/* Single secondary info level under the CTA: reassurances + one link */}
-            <div className="mt-4 flex flex-col items-start gap-2 text-xs font-medium text-[#6B6560] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1.5">
-              {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
+            <div className="mt-4 flex flex-row flex-wrap items-center gap-x-3 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:gap-x-5">
+              {t.heroProofs.map((proof, i) => (
+                <span
+                  key={proof}
+                  className={`flex items-center gap-1.5 whitespace-nowrap ${i === 2 ? 'hidden sm:flex' : ''}`}
+                >
+                  <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+                  {proof}
+                </span>
+              ))}
             </div>
             <div className="mt-3 hidden sm:block">
               <Link
