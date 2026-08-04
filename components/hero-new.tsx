@@ -20,6 +20,7 @@ const T = {
     domainCta: 'Découvrir mon Collaborateur IA',
     exploreCta: 'Voir les missions',
     heroProofs: ['Configuration personnalisée', 'Espace de travail privé', 'Essai gratuit 7 jours'],
+    heroTrialMobile: '7 jours d’essai gratuit',
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
     orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
@@ -45,6 +46,7 @@ const T = {
     domainCta: 'Discover my AI Collaborator',
     exploreCta: 'See the missions',
     heroProofs: ['Tailored setup', 'Private workspace', '7-day free trial'],
+    heroTrialMobile: '7-day free trial',
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
     orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
@@ -150,12 +152,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </button>
             </form>
             {/* Single secondary info level under the CTA: reassurances + one link */}
-            <div className="mt-4 flex flex-row flex-wrap items-center gap-x-3 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:gap-x-5">
-              {t.heroProofs.map((proof, i) => (
-                <span
-                  key={proof}
-                  className={`flex items-center gap-1.5 whitespace-nowrap ${i === 2 ? 'hidden sm:flex' : ''}`}
-                >
+            {/* Mobile: only the trial reassurance */}
+            <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-[#6B6560] sm:hidden">
+              <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+              {t.heroTrialMobile}
+            </div>
+            {/* Desktop: full list of reassurances */}
+            <div className="mt-4 hidden flex-row flex-wrap items-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:flex">
+              {t.heroProofs.map((proof) => (
+                <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
                   <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
                   {proof}
                 </span>
