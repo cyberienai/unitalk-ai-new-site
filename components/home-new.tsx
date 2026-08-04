@@ -5,7 +5,6 @@ import { Navbar } from './navbar'
 import { HeroV2 } from './home-v2/hero-v2'
 import { SectionReassurance } from './home/section-reassurance'
 import { SectionVersus } from './home-v2/section-versus'
-import { SectionProof } from './home/section-proof'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
 import { SectionPricing } from './home/section-pricing'
@@ -28,9 +27,6 @@ export function HomeNew() {
 
       {/* 2. La rupture — un logiciel IA vs un Collaborateur IA (argument le plus fort, cadre tout le reste) */}
       <SectionVersus lang={lang} />
-
-      {/* 3. La preuve — un Collaborateur IA au travail (voix → action → livrable) */}
-      <SectionProof lang={lang} />
 
       {/* Par mission — partez du besoin à confier */}
       <div id="missions">
