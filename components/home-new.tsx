@@ -3,6 +3,8 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroV2 } from './home-v2/hero-v2'
+import { SectionReassurance } from './home/section-reassurance'
+import { SectionHow } from './home/section-how'
 import { SectionVersus } from './home-v2/section-versus'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
@@ -20,20 +22,26 @@ export function HomeNew() {
       {/* Header / Navigation */}
       <Navbar />
 
-      {/* 1. Hero — Ne prenez pas un abonnement. Prenez un Collaborateur IA. */}
+      {/* 1. Hero — Ne prenez pas un abonnement. Recrutez un Collaborateur IA. */}
       <HeroV2 lang={lang} />
+
+      {/* Bande de réassurance factuelle */}
+      <SectionReassurance lang={lang} />
+
+      {/* Comment ça marche — 3 étapes */}
+      <SectionHow lang={lang} />
 
       {/* 2. La rupture — un logiciel IA vs un Collaborateur IA */}
       <SectionVersus lang={lang} />
 
-      {/* Catalogue des Collaborateurs IA */}
-      <div id="collaborateurs-ia">
-        <CollaboratorsShowcase lang={lang} />
-      </div>
-
-      {/* 2. Choisissez sa mission */}
+      {/* Par mission — partez du besoin à confier */}
       <div id="missions">
         <SectionMissions lang={lang} />
+      </div>
+
+      {/* Par profil — faites connaissance avec les Collaborateurs IA */}
+      <div id="collaborateurs-ia">
+        <CollaboratorsShowcase lang={lang} />
       </div>
 
       {/* 3. Votre Collaborateur IA */}

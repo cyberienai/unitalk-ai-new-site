@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Check, ArrowRight } from 'lucide-react'
+import { Check, ArrowRight, Infinity, Users, Server } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -14,19 +14,19 @@ const T = {
       'Un Collaborateur IA partagé par toute votre organisation. Pas de coût par membre, pas d’option cachée.',
     price: '49€',
     period: '/ mois',
-    features: [
+    highlights: [
+      { icon: Infinity, title: 'Profils & compétences illimités', desc: 'Ajoutez autant de savoir-faire métier que nécessaire.' },
+      { icon: Users, title: 'Un seul abonnement', desc: 'Partagé par toute votre organisation, sans coût par membre.' },
+      { icon: Server, title: 'Serveur IA privé & ressources dédiées', desc: 'Email, agenda, fichiers, contacts et numéro, isolés pour vous.' },
+    ],
+    includedLabel: 'Également inclus',
+    included: [
       '1 Collaborateur IA',
-      'Profils illimités',
-      'Compétences illimitées',
-      '10 millions de tokens*',
+      '10 millions de tokens par mois*',
       '30 min de supervision humaine par mois',
       'Onboarding personnalisé',
       'Accès à tous les modèles IA, dont ChatGPT',
-      'Ressources dédiées : email, agenda, fichiers, contacts, numéro de téléphone',
       'Toutes les modalités : texte, image, vidéo, audio, code',
-      'Un seul abonnement pour tous les membres de votre organisation',
-      'Agent Hermès v0.19',
-      'Serveur IA privé',
     ],
     cta: 'Recruter mon Collaborateur IA',
     secondary: 'Voir le détail des tarifs',
@@ -45,19 +45,19 @@ const T = {
       'One AI Collaborator shared across your whole organization. No per-seat cost, no hidden add-ons.',
     price: '€49',
     period: '/ month',
-    features: [
+    highlights: [
+      { icon: Infinity, title: 'Unlimited profiles & skills', desc: 'Add as much business know-how as you need.' },
+      { icon: Users, title: 'One subscription', desc: 'Shared across your whole organization, no per-seat cost.' },
+      { icon: Server, title: 'Private AI server & dedicated resources', desc: 'Email, calendar, files, contacts and number, isolated for you.' },
+    ],
+    includedLabel: 'Also included',
+    included: [
       '1 AI Collaborator',
-      'Unlimited profiles',
-      'Unlimited skills',
-      '10 million tokens*',
+      '10 million tokens per month*',
       '30 min of human supervision per month',
       'Personalized onboarding',
       'Access to every AI model, including ChatGPT',
-      'Dedicated resources: email, calendar, files, contacts, phone number',
       'Every modality: text, image, video, audio, code',
-      'One subscription for every member of your organization',
-      'Hermès agent v0.19',
-      'Private AI server',
     ],
     cta: 'Hire my AI Collaborator',
     secondary: 'See pricing details',
@@ -114,16 +114,39 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
           </div>
 
           <div className="p-8 sm:p-10">
-            <ul className="flex flex-col gap-3.5">
-              {t.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 text-[15px] leading-relaxed text-[#3F3A33]">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#D10E63]">
-                    <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  </span>
-                  {feature}
-                </li>
-              ))}
+            {/* 3 bénéfices phares */}
+            <ul className="flex flex-col gap-4">
+              {t.highlights.map((h) => {
+                const Icon = h.icon
+                return (
+                  <li key={h.title} className="flex items-start gap-3.5">
+                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]">
+                      <Icon className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-sf text-[15px] font-bold leading-tight text-[#1C1A17]">{h.title}</p>
+                      <p className="mt-1 text-[13px] leading-relaxed text-[#5F594F]">{h.desc}</p>
+                    </div>
+                  </li>
+                )
+              })}
             </ul>
+
+            {/* Le reste, groupé */}
+            <div className="mt-7 border-t border-[#E4DCCF] pt-6">
+              <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">
+                {t.includedLabel}
+              </p>
+              <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                {t.included.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2.5 text-[13px] leading-snug text-[#3F3A33]">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} aria-hidden="true" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div className="mt-6 rounded-2xl border border-[#E4DCCF] bg-[#F3EFE6] p-4">
               <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#D10E63]">
                 {t.billingTitle}
