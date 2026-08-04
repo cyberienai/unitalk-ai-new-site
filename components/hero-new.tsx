@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Globe, Network } from 'lucide-react'
@@ -11,7 +12,7 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
     headline: 'Votre Collaborateur\u00A0IA',
-    headlineAccent: 'est déjà prêt.',
+    headlineAccent: 'est prêt à commencer',
     lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
     domainLabel: 'Indiquez l’adresse de votre site.',
     domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
@@ -36,7 +37,7 @@ const T = {
   en: {
     eyebrow: 'You’re missing someone.',
     headline: 'Your AI\u00A0Collaborator',
-    headlineAccent: 'is ready to go.',
+    headlineAccent: 'is ready to start',
     lead: 'Add the professional know-how you need and connect it to your tools.',
     domainLabel: 'Enter your website address.',
     domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
@@ -95,11 +96,14 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <motion.p {...enter(0.18)} className="mx-auto mt-5 max-w-xl text-balance text-center text-base leading-7 text-[#5F594F] sm:mx-0 sm:mt-6 sm:text-left md:text-lg md:leading-8">
             {t.lead}
           </motion.p>
-          <motion.div {...enter(0.24)} className="mt-8 sm:mt-9">
+          <motion.div {...enter(0.24)} className="mt-7 sm:mt-9">
             <p className="mx-auto max-w-md text-center text-sm font-semibold text-[#3F3A33] sm:mx-0 sm:text-left">
               {t.domainLabel}
             </p>
-            <form onSubmit={submitDomain} className="mx-auto mt-3 flex w-full max-w-md flex-col gap-3 sm:mx-0">
+            <p className="mx-auto mt-1.5 max-w-md text-balance text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
+              {t.domainHelper}
+            </p>
+            <form onSubmit={submitDomain} className="mx-auto mt-3.5 flex w-full max-w-md flex-col gap-3 sm:mx-0">
               <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">
                 <span className="pl-4 pr-1 text-[#8A8175]" aria-hidden="true"><Globe className="h-4 w-4" /></span>
                 <input
@@ -117,11 +121,11 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {t.domainCta}<ArrowRight className="h-4 w-4" />
               </button>
             </form>
-            <p className="mx-auto mt-3 max-w-md text-balance text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
-              {t.domainHelper}
-            </p>
-            {/* Secondary link — hidden on mobile so the first screen keeps a single action */}
-            <div className="mt-3 hidden justify-center sm:flex sm:justify-start">
+            {/* Single secondary info level under the CTA: reassurances + one link */}
+            <div className="mt-4 flex flex-col items-start gap-2 text-xs font-medium text-[#6B6560] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1.5">
+              {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
+            </div>
+            <div className="mt-3 hidden sm:block">
               <Link
                 href="/#missions"
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#4E483F] underline-offset-4 transition-colors hover:text-[#D10E63] hover:underline"
@@ -130,9 +134,6 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-          </motion.div>
-          <motion.div {...enter(0.3)} className="mt-5 flex flex-col items-start gap-2 text-xs font-medium text-[#6B6560] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1.5">
-            {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>
 
@@ -157,6 +158,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </div>
             <div className="p-4 sm:p-6">
               <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{lang === 'fr' ? 'Équipe' : 'Team'}</span><span /><span>{t.collaboratorLabel}</span></div>
+              <div className="relative">
               <div className="overscroll-contain pr-1 sm:max-h-72 sm:overflow-y-auto [scrollbar-color:#D8D0C2_transparent] [scrollbar-width:thin]">
                 <div className="flex flex-col gap-2.5">
                   {t.orgPairs.map((pair) => {
@@ -173,13 +175,15 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                           aria-label={`${pair.ai} — ${lang === 'fr' ? 'voir le profil public' : 'view public profile'}`}
                           className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
                         >
-                          <div className="relative shrink-0"><img src={pair.avatar || '/placeholder.svg'} alt="" className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
+                          <div className="relative shrink-0"><Image src={pair.avatar || '/placeholder.svg'} alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
                           <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="text-[10px] font-medium leading-tight text-[#A80B50]">{pair.status}</p></div>
                         </Link>
                       </div>
                     )
                   })}
                 </div>
+              </div>
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-10 bg-gradient-to-t from-[#FBF9F3] to-transparent sm:block" />
               </div>
               <a href="/collaborateurs-ia" className="mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] py-2.5 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63]/[0.06]">
                 {t.orgLink}<ArrowRight className="h-3.5 w-3.5" />
