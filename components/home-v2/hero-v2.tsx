@@ -4,16 +4,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Globe, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, Globe } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    eyebrow: 'La fin des logiciels IA.',
+    avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à travailler',
+    eyebrow: 'Une nouvelle façon de travailler',
     line1: 'Ne prenez pas',
     strike: 'un abonnement',
     line2: 'Prenez un Collaborateur IA.',
-    lead: 'Unitalk ne vous vend pas un outil de plus. Vous accueillez un Collaborateur IA qui appartient à votre organisation, garde une identité, une mémoire, et apprend votre métier.',
+    lead: 'Vous accueillez un Collaborateur IA qui appartient à votre organisation, garde une identité, une mémoire, et apprend votre métier.',
     domainLabel: 'Connectez votre site web',
     domainHelp: 'Alma en fait un Collaborateur IA prêt à travailler, façonné pour votre activité.',
     domainPlaceholder: 'votreentreprise.com',
@@ -34,11 +35,12 @@ const T = {
     cardFootnote: 'Une identité qui reste. Des savoir-faire qui s’ajoutent.',
   },
   en: {
-    eyebrow: 'The end of AI software.',
+    avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to work',
+    eyebrow: 'A new way to work',
     line1: 'Don’t buy',
     strike: 'a subscription',
     line2: 'Hire an AI Collaborator.',
-    lead: 'Unitalk doesn’t sell you another tool. You welcome an AI Collaborator who belongs to your organization, keeps an identity, a memory, and learns your business.',
+    lead: 'You welcome an AI Collaborator who belongs to your organization, keeps an identity, a memory, and learns your business.',
     domainLabel: 'Connect your website',
     domainHelp: 'Alma turns it into an AI Collaborator ready to work, shaped for your business.',
     domainPlaceholder: 'yourcompany.com',
@@ -60,6 +62,15 @@ const T = {
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
+
+const HERO_AVATARS = [
+  { name: 'Emma', src: '/images/emma-avatar.png' },
+  { name: 'Léa', src: '/images/lea-avatar.png' },
+  { name: 'Arthur', src: '/images/arthur-avatar.png' },
+  { name: 'Hugo', src: '/images/hugo-avatar.png' },
+  { name: 'Nadia', src: '/images/nadia-avatar.png' },
+  { name: 'Inès', src: '/images/ines-avatar.png' },
+] as const
 
 export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
@@ -90,8 +101,33 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <div className="max-w-2xl">
-          <motion.p {...enter(0.04)} className="mb-5 flex items-center justify-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:justify-start">
-            <Sparkles className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden="true" />
+          <motion.div {...enter(0)} className="mb-5 flex items-center justify-center gap-3 sm:justify-start">
+            <ul className="flex items-center -space-x-2.5">
+              {HERO_AVATARS.map((a, i) => (
+                <motion.li
+                  key={a.name}
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.6, x: -6 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  transition={{ duration: 0.4, ease, delay: reduceMotion ? 0 : 0.06 * i }}
+                  className="relative"
+                  style={{ zIndex: HERO_AVATARS.length - i }}
+                >
+                  <Image
+                    src={a.src}
+                    alt={a.name}
+                    width={36}
+                    height={36}
+                    className="h-9 w-9 rounded-full object-cover ring-2 ring-[#F3EFE6]"
+                  />
+                </motion.li>
+              ))}
+            </ul>
+            <span className="max-w-[10rem] text-pretty text-[11px] font-medium leading-4 text-[#6E665A] sm:max-w-[13rem]">
+              {t.avatarsLabel}
+            </span>
+          </motion.div>
+
+          <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
             {t.eyebrow}
           </motion.p>
 

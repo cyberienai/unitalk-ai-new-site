@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Check, ArrowRight } from 'lucide-react'
-import { COLLABORATOR_TIERS } from '@/lib/pricing'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -32,12 +31,12 @@ const T = {
     cta: 'Démarrer l’essai gratuit',
     secondary: 'Voir le détail des tarifs',
     note: '7 jours d’essai gratuit, sans carte bancaire.',
+    billingTitle: 'Vous payez ce qu’il consomme',
+    billingItems: [
+      { k: 'Hébergement cloud', v: 'forfait mensuel fixe' },
+      { k: 'Modèles d’IA et APIs', v: 'à l’usage' },
+    ],
     asterisk: '* 10 millions de tokens inclus par mois. Tokens supplémentaires disponibles selon vos besoins.',
-    tiersTitle: 'Besoin de plusieurs Collaborateurs IA ?',
-    tiersSubtitle: 'Le premier est à 49€. Chaque Collaborateur IA supplémentaire coûte moins cher, toujours dans un seul abonnement pour toute l’organisation.',
-    tierUnitSuffix: '€ / mois par Collaborateur IA',
-    tierQuote: 'Sur devis',
-    orderCta: 'Composer ma commande',
   },
   en: {
     eyebrow: 'Pricing',
@@ -63,12 +62,12 @@ const T = {
     cta: 'Start the free trial',
     secondary: 'See pricing details',
     note: '7-day free trial, no credit card required.',
+    billingTitle: 'You pay for what it consumes',
+    billingItems: [
+      { k: 'Cloud hosting', v: 'fixed monthly plan' },
+      { k: 'AI models and APIs', v: 'usage-based' },
+    ],
     asterisk: '* 10 million tokens included per month. Additional tokens available as you need them.',
-    tiersTitle: 'Need several AI Collaborators?',
-    tiersSubtitle: 'The first one is €49. Each additional AI Collaborator costs less, still within one subscription for the whole organization.',
-    tierUnitSuffix: '€ / month per AI Collaborator',
-    tierQuote: 'Custom quote',
-    orderCta: 'Build my order',
   },
 } as const
 
@@ -76,7 +75,7 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
   const t = T[lang]
 
   return (
-    <section id="tarifs" className="w-full bg-[#F3EFE6] py-20 sm:py-28">
+    <section id="tarifs" className="w-full border-t border-[#E9E2D4] bg-[#F3EFE6] py-24 sm:py-32">
       <div className="editorial-shell">
         <header className="mx-auto max-w-2xl text-center">
           <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
@@ -85,7 +84,7 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
             {t.subtitle}
           </p>
         </header>
@@ -94,8 +93,8 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease }}
-          className="premium-shadow mx-auto mt-12 max-w-lg overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#FBF9F3]"
+          transition={{ duration: 0.8, ease }}
+          className="premium-shadow mx-auto mt-14 max-w-lg overflow-hidden rounded-[2rem] border border-[#E4DCCF] bg-[#FBF9F3]"
         >
           <div className="border-b border-[#E4DCCF] p-8 text-center sm:p-10">
             <div className="flex items-end justify-center gap-1">
@@ -125,50 +124,24 @@ export function SectionPricing({ lang }: { lang: 'fr' | 'en' }) {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 border-t border-[#E4DCCF] pt-4 text-xs leading-relaxed text-[#8A8175]">
+            <div className="mt-6 rounded-2xl border border-[#E4DCCF] bg-[#F3EFE6] p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#D10E63]">
+                {t.billingTitle}
+              </p>
+              <dl className="mt-2.5 flex flex-col gap-2">
+                {t.billingItems.map((item) => (
+                  <div key={item.k} className="flex items-baseline justify-between gap-3 text-sm">
+                    <dt className="text-[#3F3A33]">{item.k}</dt>
+                    <dt className="h-px flex-1 translate-y-[-2px] border-b border-dotted border-[#CFC6B6]" aria-hidden="true" />
+                    <dd className="font-semibold text-[#1C1A17]">{item.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-[#8A8175]">
               {t.asterisk}
             </p>
           </div>
-        </motion.div>
-
-        {/* Dégressif sur le nombre de Collaborateurs IA */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease }}
-          className="mx-auto mt-12 max-w-lg rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8"
-        >
-          <h3 className="text-balance text-center font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">
-            {t.tiersTitle}
-          </h3>
-          <p className="mx-auto mt-2 max-w-sm text-pretty text-center text-sm leading-relaxed text-[#5F594F]">
-            {t.tiersSubtitle}
-          </p>
-          <ul className="mt-6 flex flex-col divide-y divide-[#E4DCCF]">
-            {COLLABORATOR_TIERS.map((tier) => (
-              <li key={tier.min} className="flex items-center justify-between gap-4 py-3">
-                <span className="text-sm font-semibold text-[#3F3A33]">{tier.label[lang]}</span>
-                <span className="text-right text-sm font-bold text-[#1C1A17]">
-                  {tier.unit === null ? (
-                    <span className="text-[#D10E63]">{t.tierQuote}</span>
-                  ) : (
-                    <>
-                      {tier.unit}
-                      <span className="ml-1 text-xs font-medium text-[#8A8175]">{t.tierUnitSuffix}</span>
-                    </>
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/commande"
-            className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63] hover:text-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-          >
-            {t.orderCta}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
         </motion.div>
 
         <div className="mt-8 text-center">
