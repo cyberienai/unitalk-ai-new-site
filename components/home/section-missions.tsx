@@ -32,6 +32,9 @@ const T: Record<Lang, {
       'Suivre votre trésorerie',
       'Planifier vos publications',
       'Traduire vos documents',
+      'Prendre des notes vocales',
+      'Transcrire les réunions',
+      'Émettre des appels sortants',
     ],
   },
   en: {
@@ -51,6 +54,9 @@ const T: Record<Lang, {
       'Track your cash flow',
       'Schedule your posts',
       'Translate your documents',
+      'Take voice notes',
+      'Transcribe meetings',
+      'Make outbound calls',
     ],
   },
 }
