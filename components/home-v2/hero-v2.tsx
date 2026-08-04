@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Building2, Globe, Network, User, Users } from 'lucide-react'
 import { normalizeDomain } from '@/lib/discover-profiles'
+import { AlmaAvatar } from '@/components/alma-avatar'
 
 const T = {
   fr: {
@@ -20,6 +21,8 @@ const T = {
       'créer vos contenus',
       'automatiser vos opérations',
     ],
+    almaName: 'Alma',
+    almaRole: 'conseillère IA',
     lead: 'Alma analyse votre site Web et prépare sa première mission.',
     domainAria: 'Votre site web',
     domainPlaceholder: 'votreentreprise.com',
@@ -68,6 +71,8 @@ const T = {
       'create your content',
       'automate your operations',
     ],
+    almaName: 'Alma',
+    almaRole: 'AI advisor',
     lead: 'Alma analyzes your website and prepares its first mission.',
     domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
@@ -177,7 +182,18 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </span>
           </h1>
 
-          <motion.p {...enter(0.22)} className="mx-auto mt-6 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
+          <motion.div {...enter(0.2)} className="mt-6 flex items-center justify-center gap-2 sm:justify-start">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#E4DDCE] bg-[#F3EFE6]/70 py-1 pl-1 pr-3">
+              <AlmaAvatar size={24} showGlow={false} />
+              <span className="text-[13px] font-medium text-[#6E665A]">
+                <span className="font-bold text-[#1C1A17]">{t.almaName}</span>
+                <span className="px-1 text-[#B7AE9E]" aria-hidden="true">·</span>
+                {t.almaRole}
+              </span>
+            </span>
+          </motion.div>
+
+          <motion.p {...enter(0.24)} className="mx-auto mt-3 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
             {t.lead}
           </motion.p>
 
