@@ -3,11 +3,10 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroV2 } from './home-v2/hero-v2'
+import { SectionReassurance } from './home/section-reassurance'
 import { SectionVersus } from './home-v2/section-versus'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
-import { SectionCollaborator } from './home/section-collaborator'
-import { SectionWorkstation } from './home/section-workstation'
 import { SectionPricing } from './home/section-pricing'
 import { FaqSection } from './faq-section'
 import { SiteFooter } from './site-footer'
@@ -20,27 +19,24 @@ export function HomeNew() {
       {/* Header / Navigation */}
       <Navbar />
 
-      {/* 1. Hero — Ne prenez pas un abonnement. Prenez un Collaborateur IA. */}
+      {/* 1. Hero — Ne prenez pas un abonnement. Recrutez un Collaborateur IA. */}
       <HeroV2 lang={lang} />
 
-      {/* 2. La rupture — un logiciel IA vs un Collaborateur IA */}
+      {/* Bande de réassurance factuelle */}
+      <SectionReassurance lang={lang} />
+
+      {/* 2. La rupture — un logiciel IA vs un Collaborateur IA (argument le plus fort, cadre tout le reste) */}
       <SectionVersus lang={lang} />
 
-      {/* Catalogue des Collaborateurs IA */}
-      <div id="collaborateurs-ia">
-        <CollaboratorsShowcase lang={lang} />
-      </div>
-
-      {/* 2. Choisissez sa mission */}
+      {/* Par mission — partez du besoin à confier */}
       <div id="missions">
         <SectionMissions lang={lang} />
       </div>
 
-      {/* 3. Votre Collaborateur IA */}
-      <SectionCollaborator lang={lang} />
-
-      {/* 4. Son propre poste de travail */}
-      <SectionWorkstation lang={lang} />
+      {/* Par profil — faites connaissance avec les Collaborateurs IA */}
+      <div id="collaborateurs-ia">
+        <CollaboratorsShowcase lang={lang} />
+      </div>
 
       {/* 5. Tarif — un seul plan tout compris */}
       <SectionPricing lang={lang} />

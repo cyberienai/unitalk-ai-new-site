@@ -47,11 +47,10 @@ const T = {
   },
 }
 
-export function SectionCollaborator({ lang }: { lang: Lang }) {
+export function SectionCollaborator({ lang, embedded = false }: { lang: Lang; embedded?: boolean }) {
   const t = T[lang]
 
-  return (
-    <section className="border-t border-[#E9E2D4] bg-[#FBF9F3] px-5 py-24 sm:px-8 sm:py-32">
+  const inner = (
       <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[0.95fr_1.05fr]">
         {/* Copy */}
         <div className="max-w-xl">
@@ -134,6 +133,16 @@ export function SectionCollaborator({ lang }: { lang: Lang }) {
           </ol>
         </div>
       </div>
+  )
+
+  if (embedded) {
+    // Conclusion-preuve intégrée au showcase : pas de wrapper <section>, une simple séparation.
+    return <div className="mt-20 border-t border-[#E9E2D4] pt-16 sm:mt-24 sm:pt-20">{inner}</div>
+  }
+
+  return (
+    <section className="border-t border-[#E9E2D4] bg-[#FBF9F3] px-5 py-24 sm:px-8 sm:py-32">
+      {inner}
     </section>
   )
 }

@@ -2,11 +2,14 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Check, ArrowRight } from 'lucide-react'
+import { Check, ArrowRight, Infinity, Users, Server } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { COLLABORATOR_TIERS, CONSUMPTION_MODES } from '@/lib/pricing'
+import { SectionWorkstation } from './home/section-workstation'
 
 const ease = [0.22, 1, 0.36, 1] as const
+
+const HIGHLIGHT_ICONS = { infinity: Infinity, users: Users, server: Server } as const
 
 const T = {
   fr: {
@@ -18,22 +21,22 @@ const T = {
     price: '49€',
     period: '/ mois',
     planName: 'Le plan Unitalk',
-    features: [
+    highlights: [
+      { icon: 'infinity', title: 'Profils & compétences illimités', desc: 'Ajoutez autant de savoir-faire métier que nécessaire.' },
+      { icon: 'users', title: 'Un seul abonnement', desc: 'Partagé par toute votre organisation, sans coût par membre.' },
+      { icon: 'server', title: 'Serveur IA privé & ressources dédiées', desc: 'Email, agenda, fichiers, contacts et numéro, isolés pour vous.' },
+    ],
+    includedLabel: 'Également inclus',
+    included: [
       '1 Collaborateur IA',
-      'Profils illimités',
-      'Compétences illimitées',
-      '10 millions de tokens*',
+      '10 millions de tokens par mois*',
       '30 min de supervision humaine par mois',
       'Onboarding personnalisé',
       'Accès à tous les modèles IA, dont ChatGPT',
-      'Ressources dédiées : email, agenda, fichiers, contacts, numéro de téléphone',
       'Toutes les modalités : texte, image, vidéo, audio, code',
-      'Un seul abonnement pour tous les membres de votre organisation',
-      'Agent Hermès v0.19',
-      'Serveur IA privé',
     ],
     asterisk: '* 10 millions de tokens inclus par mois. Tokens supplémentaires disponibles selon vos besoins.',
-    cta: 'Démarrer l’essai gratuit',
+    cta: 'Recruter mon Collaborateur IA',
     orderCta: 'Composer ma commande',
     tiersEyebrow: 'Plusieurs Collaborateurs IA',
     tiersTitle: 'Un tarif dégressif dès le deuxième',
@@ -56,22 +59,22 @@ const T = {
     price: '€49',
     period: '/ month',
     planName: 'The Unitalk plan',
-    features: [
+    highlights: [
+      { icon: 'infinity', title: 'Unlimited profiles & skills', desc: 'Add as much business know-how as you need.' },
+      { icon: 'users', title: 'One subscription', desc: 'Shared across your whole organization, no per-seat cost.' },
+      { icon: 'server', title: 'Private AI server & dedicated resources', desc: 'Email, calendar, files, contacts and number, isolated for you.' },
+    ],
+    includedLabel: 'Also included',
+    included: [
       '1 AI Collaborator',
-      'Unlimited profiles',
-      'Unlimited skills',
-      '10 million tokens*',
+      '10 million tokens per month*',
       '30 min of human supervision per month',
       'Personalized onboarding',
       'Access to every AI model, including ChatGPT',
-      'Dedicated resources: email, calendar, files, contacts, phone number',
       'Every modality: text, image, video, audio, code',
-      'One subscription for every member of your organization',
-      'Hermès agent v0.19',
-      'Private AI server',
     ],
     asterisk: '* 10 million tokens included per month. Additional tokens available as you need them.',
-    cta: 'Start the free trial',
+    cta: 'Hire my AI Collaborator',
     orderCta: 'Build my order',
     tiersEyebrow: 'Several AI Collaborators',
     tiersTitle: 'A degressive price from the second one',
@@ -132,16 +135,39 @@ export function TarifsContent() {
             </Link>
           </div>
           <div className="p-8 sm:p-10">
-            <ul className="flex flex-col gap-3.5">
-              {t.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 text-[15px] leading-relaxed text-[#3F3A33]">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#D10E63]">
-                    <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  </span>
-                  {feature}
-                </li>
-              ))}
+            {/* 3 bénéfices phares */}
+            <ul className="flex flex-col gap-4">
+              {t.highlights.map((h) => {
+                const Icon = HIGHLIGHT_ICONS[h.icon as keyof typeof HIGHLIGHT_ICONS]
+                return (
+                  <li key={h.title} className="flex items-start gap-3.5">
+                    <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]">
+                      <Icon className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-sf text-[15px] font-bold leading-tight text-[#1C1A17]">{h.title}</p>
+                      <p className="mt-1 text-[13px] leading-relaxed text-[#5F594F]">{h.desc}</p>
+                    </div>
+                  </li>
+                )
+              })}
             </ul>
+
+            {/* Le reste, groupé */}
+            <div className="mt-7 border-t border-[#E4DCCF] pt-6">
+              <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">
+                {t.includedLabel}
+              </p>
+              <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                {t.included.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2.5 text-[13px] leading-snug text-[#3F3A33]">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} aria-hidden="true" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <p className="mt-6 border-t border-[#E4DCCF] pt-4 text-xs leading-relaxed text-[#8A8175]">{t.asterisk}</p>
           </div>
         </motion.div>
@@ -237,6 +263,9 @@ export function TarifsContent() {
         <p className="mt-10 text-center text-sm text-[#857C6E]">{t.reassure}</p>
         <p className="mt-2 text-center text-xs text-[#A79E8E]">{t.exampleNote}</p>
       </section>
+
+      {/* Ce que votre Collaborateur IA obtient — son propre poste de travail */}
+      <SectionWorkstation lang={lang} />
     </main>
   )
 }

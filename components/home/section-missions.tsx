@@ -5,9 +5,30 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
+import { collaboratorHref } from '@/lib/collaborators-catalog'
 import { Kicker } from './section-kicker'
 
 const ease = [0.22, 1, 0.36, 1] as const
+
+// Chaque mission mène au Collaborateur IA qui la réalise.
+// L'ordre suit exactement celui des tableaux `missions` (identique FR/EN).
+const MISSION_SLUGS = [
+  'hugo', // Trouver de nouveaux clients
+  'ines', // Répondre à vos clients
+  'lea', // Créer vos contenus
+  'emma', // Préparer vos réunions
+  'arthur', // Écrire du code
+  'arthur', // Automatiser vos tâches
+  'nadia', // Analyser vos données
+  'hugo', // Gérer votre CRM
+  'nadia', // Suivre votre trésorerie
+  'lea', // Planifier vos publications
+  'lea', // Gérer votre blog
+  'emma', // Traduire vos documents
+  'emma', // Prendre des notes vocales
+  'emma', // Transcrire les réunions
+  'hugo', // Émettre des appels sortants
+] as const
 
 const T: Record<Lang, {
   kicker: string
@@ -18,10 +39,10 @@ const T: Record<Lang, {
   missions: string[]
 }> = {
   fr: {
-    kicker: 'Il vous manque quelqu’un.',
+    kicker: 'Commencez par une mission',
     headline: 'Votre Collaborateur\u00A0IA est prêt',
     rotatingWords: ['à commencer', 'à générer du contenu', 'à écrire du code', 'à répondre à vos clients', 'à prospecter', 'à préparer vos réunions', 'à automatiser vos tâches', 'à rédiger vos rapports', 'à créer vos visuels', 'à analyser vos données', 'à planifier vos posts', 'à gérer votre blog', 'à gérer votre CRM', 'à suivre votre trésorerie', 'à assurer votre support', 'à traduire vos documents'],
-    subtitle: 'Une mission, un Collaborateur IA prêt à s’en charger.',
+    subtitle: 'Choisissez une mission, un Collaborateur IA s’en charge.',
     exploreAll: 'Explorer toutes les missions',
     missions: [
       'Trouver de nouveaux clients',
@@ -42,10 +63,10 @@ const T: Record<Lang, {
     ],
   },
   en: {
-    kicker: 'You’re missing someone.',
+    kicker: 'Start with a mission',
     headline: 'Your AI\u00A0Collaborator is ready',
     rotatingWords: ['to get started', 'to generate content', 'to write code', 'to answer your customers', 'to find new prospects', 'to prepare your meetings', 'to automate your tasks', 'to draft your reports', 'to create your visuals', 'to analyze your data', 'to schedule your posts', 'to manage your blog', 'to manage your CRM', 'to track your cash flow', 'to handle your support', 'to translate your documents'],
-    subtitle: 'One mission, one AI Collaborator ready to handle it.',
+    subtitle: 'Pick a mission, an AI Collaborator handles it.',
     exploreAll: 'Explore every mission',
     missions: [
       'Find new customers',
@@ -124,10 +145,10 @@ export function SectionMissions({ lang }: { lang: Lang }) {
           transition={{ duration: 0.8, delay: 0.15, ease }}
           className="mt-12 grid grid-cols-2 gap-2.5 sm:mt-14 sm:flex sm:flex-wrap sm:justify-center sm:gap-3"
         >
-          {t.missions.map((mission) => (
+          {t.missions.map((mission, i) => (
             <li key={mission} className="flex">
               <Link
-                href="/collaborateurs-ia"
+                href={collaboratorHref(MISSION_SLUGS[i])}
                 className="group flex w-full items-center gap-2 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-3.5 py-2.5 text-left text-[13px] font-semibold leading-tight text-[#3F3A33] transition-all hover:-translate-y-0.5 hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto sm:rounded-full sm:px-5 sm:py-3 sm:text-sm"
               >
                 <span

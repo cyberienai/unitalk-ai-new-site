@@ -10,18 +10,15 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 const T = {
   fr: {
     avatarsLabel: 'Emma, Léa, Arthur et 3 autres profils prêts à vous rejoindre',
-    eyebrow: 'Une nouvelle façon de travailler',
+    eyebrow: 'Recruter sans embaucher',
     line1: 'Ne prenez pas',
     strike: 'un abonnement',
-    line2: 'Recrutez un Collaborateur IA.',
+    line2: 'Recrutez votre Collaborateur IA.',
     lead: 'Il rejoint votre organisation, apprend votre métier et gagne en savoir-faire — sans jamais oublier.',
-    domainLabel: 'Connectez votre site web',
-    domainHelp: 'Alma en fait un Collaborateur IA prêt à travailler, façonné pour votre activité.',
+    domainLabel: 'Commencez par votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Recruter mon Collaborateur IA',
-    exploreCta: 'Voir comment',
     proofs: ['Prêt en quelques minutes', 'Un seul abonnement', 'Essai gratuit 7 jours'],
-    trialMobile: '7 jours d’essai gratuit',
     // organigramme
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
@@ -39,18 +36,15 @@ const T = {
   },
   en: {
     avatarsLabel: 'Emma, Léa, Arthur and 3 more profiles ready to join you',
-    eyebrow: 'A new way to work',
+    eyebrow: 'Hire without employing',
     line1: 'Don’t buy',
     strike: 'a subscription',
-    line2: 'Hire an AI Collaborator.',
+    line2: 'Hire your AI Collaborator.',
     lead: 'It joins your organization, learns your business and grows its know-how — never forgetting a thing.',
-    domainLabel: 'Connect your website',
-    domainHelp: 'Alma turns it into an AI Collaborator ready to work, shaped for your business.',
+    domainLabel: 'Start with your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Hire my AI Collaborator',
-    exploreCta: 'See how',
     proofs: ['Ready in minutes', 'One subscription', '7-day free trial'],
-    trialMobile: '7-day free trial',
     // organigramme
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
@@ -138,7 +132,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {t.eyebrow}
           </motion.p>
 
-          <h1 className="text-balance text-center font-sf text-[clamp(2.6rem,6vw,5.6rem)] font-semibold leading-[1.04] tracking-[-0.055em] text-[#1C1A17] sm:leading-[0.95] sm:text-left">
+          <h1 className="text-balance text-center font-sf text-[clamp(2.6rem,6vw,5.6rem)] font-semibold leading-[1.12] tracking-[-0.055em] text-[#1C1A17] sm:leading-[0.95] sm:text-left">
             <motion.span {...enter(0.1)} className="block">
               {t.line1}{' '}
               <span className="relative inline-block whitespace-nowrap text-[#8A8175]">
@@ -152,7 +146,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 />
               </span>
             </motion.span>
-            <motion.span {...enter(0.16)} className="mt-3 block text-[#D10E63] sm:mt-1">
+            <motion.span {...enter(0.16)} className="mt-4 block text-[#D10E63] sm:mt-1">
               {t.line2}
             </motion.span>
           </h1>
@@ -183,15 +177,8 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 {t.domainCta}<ArrowRight className="h-4 w-4" />
               </button>
             </form>
-            <p className="mx-auto mt-3 max-w-md text-center text-xs leading-5 text-[#8A8175] sm:mx-0 sm:text-left">
-              {t.domainHelp}
-            </p>
 
-            <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-medium text-[#6B6560] sm:hidden">
-              <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
-              {t.trialMobile}
-            </div>
-            <div className="mt-4 hidden flex-row flex-wrap items-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:flex">
+            <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
               {t.proofs.map((proof) => (
                 <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
                   <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
@@ -202,7 +189,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual ��� organigramme : à chaque membre, son Collaborateur IA */}
+        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
         <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
           <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
             <div className="px-5 pt-5 pb-1 sm:px-6">

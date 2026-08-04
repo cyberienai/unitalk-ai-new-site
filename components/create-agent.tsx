@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
+import { HowStepsPanel } from './signup/how-steps-panel'
 import { useLanguage } from '@/lib/language-context'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -185,6 +186,16 @@ export function CreateAgent() {
     done: 4,
   }
 
+  // Sync the "How it works" panel with the onboarding flow:
+  // connect (form) → Alma shapes (analysis) → starts working (call).
+  const howActiveIndex: Record<Step, number> = {
+    welcome: 0,
+    preparing: 1,
+    slot: 2,
+    confirm: 2,
+    done: 2,
+  }
+
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
       {/* Soft magenta glow */}
@@ -202,7 +213,14 @@ export function CreateAgent() {
         </a>
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-lg flex-col px-5 py-10 sm:py-14">
+      <div className="relative z-10 mx-auto grid w-full max-w-5xl gap-10 px-5 py-10 sm:py-14 lg:grid-cols-2 lg:items-start lg:gap-16 lg:px-8">
+        {/* Left — Comment ça marche, synchronisé avec l'étape en cours */}
+        <aside className="order-2 rounded-[1.75rem] border border-[#E4DCCF] bg-[#FBF9F3]/60 p-6 sm:p-8 lg:order-1 lg:sticky lg:top-14 lg:border-0 lg:bg-transparent lg:p-0">
+          <HowStepsPanel lang={lang} activeIndex={howActiveIndex[step]} />
+        </aside>
+
+        {/* Right — parcours d'inscription */}
+        <div className="order-1 flex w-full max-w-lg flex-col lg:order-2">
         {/* Progress */}
         <div className="mb-8">
           <div className="mb-2 flex items-center justify-between text-[11px] font-medium uppercase tracking-wider text-[#857C6E]">
@@ -456,6 +474,7 @@ export function CreateAgent() {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
     </main>
   )

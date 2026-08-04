@@ -3,9 +3,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useRef, useState } from 'react'
-import { ArrowRight, MapPin, MessageCircle, Building2 } from 'lucide-react'
+import { ArrowRight, MapPin, MessageCircle } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
+import { SectionCollaborator } from './home/section-collaborator'
 
 type ShowcaseEntry = {
   slug: string
@@ -96,7 +97,6 @@ function CollaboratorCard({
   labels: {
     available: string
     defaultProfileLabel: string
-    belongs: string
     talk: string
     profiles: string
   }
@@ -167,12 +167,6 @@ function CollaboratorCard({
       {/* Description */}
       <p className="mt-4 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{entry.pitch[lang]}</p>
 
-      {/* Ownership anchor */}
-      <p className="mt-4 flex items-center gap-1.5 text-[12px] font-medium text-[#6B6560]">
-        <Building2 className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
-        {labels.belongs}
-      </p>
-
       {/* Actions */}
       <div className="mt-5 flex flex-col gap-2">
         <Link
@@ -196,30 +190,26 @@ function CollaboratorCard({
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
-      eyebrow: 'Les Collaborateurs IA',
+      eyebrow: 'Commencez par une expertise',
       title: 'Choisissez celui qui rejoindra votre organisation.',
       subtitle:
         'Chaque Collaborateur IA commence par une identité : un visage, une voix, son email, son calendrier, son numéro de téléphone, ses contacts et ses fichiers. Ajoutez-lui ensuite les savoir-faire métier nécessaires à ses missions.',
       available: 'Disponible',
       defaultProfileLabel: 'Profil par défaut',
-      belongs: 'Appartient à votre organisation',
-      talk: 'Parler avec',
+      talk: 'Recruter',
       profiles: 'Voir ses profils',
-      tagline: 'Une identité. Plusieurs profils métier.',
       allCta: 'Voir tous les Collaborateurs IA',
       swipeHint: 'Glissez pour découvrir',
     },
     en: {
-      eyebrow: 'The AI Collaborators',
+      eyebrow: 'Start with an expertise',
       title: 'Choose the one that will join your organization.',
       subtitle:
         'Every AI Collaborator starts with an identity: a face, a voice, its email, calendar, phone number, contacts and files. Then add the professional know-how its missions require.',
       available: 'Available',
       defaultProfileLabel: 'Default profile',
-      belongs: 'Belongs to your organization',
-      talk: 'Talk with',
+      talk: 'Hire',
       profiles: 'See its profiles',
-      tagline: 'One identity. Several job profiles.',
       allCta: 'See all AI Collaborators',
       swipeHint: 'Swipe to explore',
     },
@@ -246,7 +236,6 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const labels = {
     available: t.available,
     defaultProfileLabel: t.defaultProfileLabel,
-    belongs: t.belongs,
     talk: t.talk,
     profiles: t.profiles,
   }
@@ -293,9 +282,11 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           ))}
         </div>
 
-        {/* Tagline + all CTA */}
-        <div className="mt-16 flex flex-col items-center gap-5 text-center">
-          <p className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-2xl">{t.tagline}</p>
+        {/* Conclusion-preuve : la même identité (Emma) qui cumule des profils sans limite */}
+        <SectionCollaborator lang={lang} embedded />
+
+        {/* All CTA */}
+        <div className="mt-14 flex justify-center">
           <Link
             href="/collaborateurs-ia/roles"
             className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-[#DDD5CA] bg-[#FBF9F3] px-6 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
