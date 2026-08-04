@@ -2,30 +2,30 @@
 
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
-import { ArrowRight, Check, Search, Clock, ShieldCheck, SlidersHorizontal, X, Compass, Plug, Eye } from 'lucide-react'
-import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
-import {
-  MISSIONS,
-  MISSION_CATEGORIES,
-  missionFacets,
-  DELAY_TBD,
-  STATUS_LABELS,
-  SECTOR_LABELS,
-  LANGUAGE_LABELS,
-  ZONE_LABELS,
-  FREQUENCY_LABELS,
-  DELIVERABLE_TYPE_LABELS,
-  type Mission,
-  type MissionStatus,
-} from '@/lib/missions-catalog'
+import { ArrowRight, Check, Search } from 'lucide-react'
+import { ROLE_DETAILS, collaboratorHref, type Bilingual } from '@/lib/collaborators-catalog'
+import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage, type Lang } from '@/lib/language-context'
 
 const CREATE_ORG_HREF = '/decouvrir'
-const PROFILES_HREF = '/collaborateurs-ia/roles'
 
-/** A verified delay is one that has been measured (verifiedAt set). Otherwise show TBD. */
-function missionDelay(m: Mission, lang: Lang): string {
-  return m.verifiedAt && m.deliveryTime ? m.deliveryTime[lang] : DELAY_TBD[lang]
+/**
+ * Four macro-families group the finer catalog categories, so the filter bar stays
+ * simple (5 chips incl. "All") even as the catalog grows. The mapping lives here in
+ * the component; the underlying mission data keeps its precise categories for the
+ * detail pages.
+ */
+type FamilyKey = 'grow' | 'serve' | 'build' | 'operate'
+
+const FAMILIES: { key: FamilyKey; label: Bilingual; cats: string[] }[] = [
+  { key: 'grow', label: { fr: 'Développer l’activité', en: 'Grow the business' }, cats: ['ventes', 'marketing'] },
+  { key: 'serve', label: { fr: 'Servir les clients', en: 'Serve customers' }, cats: ['support'] },
+  { key: 'build', label: { fr: 'Produire', en: 'Build' }, cats: ['developpement'] },
+  { key: 'operate', label: { fr: 'Piloter', en: 'Operate' }, cats: ['reunions', 'analyse', 'finance', 'automatisation'] },
+]
+
+function familyOf(category: string): FamilyKey {
+  return (FAMILIES.find((f) => f.cats.includes(category))?.key ?? 'operate') as FamilyKey
 }
 
 /** Avatar with a robust initials fallback (images are heavy and can fail to load). */
@@ -74,12 +74,6 @@ function Avatar({
   )
 }
 
-const STATUS_TONE: Record<MissionStatus, string> = {
-  available: 'bg-[#22A06B]/12 text-[#1B8253]',
-  'on-setup': 'bg-[#EDE7DA] text-[#6E665A]',
-  'coming-soon': 'bg-[#E4DDCE] text-[#8A8175]',
-}
-
 type Copy = {
   kicker: string
   title: string
@@ -108,25 +102,13 @@ type Copy = {
   catalogueTitle: string
   catalogueLead: string
   allLabel: string
-  deliverableWord: string
-  deliveryWord: string
-  profileWord: string
   collaboratorWord: string
-  // filters
-  moreFilters: string
-  hideFilters: string
-  resetFilters: string
-  facetSector: string
-  facetLanguage: string
-  facetZone: string
-  facetFrequency: string
-  facetDeliverable: string
-  facetStatus: string
+  seeMission: string
   // empty state
   emptyTitle: string
   emptyLead: string
   emptyCta: string
-  // proof
+  // demonstration
   proofKicker: string
   proofTitle: string
   proofLead: string
@@ -138,9 +120,6 @@ type Copy = {
   proofValidate: string
   proofCta: string
   keepLine: string
-  // band (replaces five-step flow)
-  bandText: string
-  bandLink: string
   // final cta
   ctaKicker: string
   ctaTitle: string
@@ -148,21 +127,6 @@ type Copy = {
   ctaPrimary: string
   ctaSecondary: string
   ctaReassurance: string
-  // expert support (optional human intervention)
-  expertKicker: string
-  expertTitle: string
-  expertLead: string
-  expertSteps: { title: string; body: string }[]
-  expertPrimary: string
-  expertSecondary: string
-  // partnership band
-  partnerKicker: string
-  partnerTitle: string
-  partnerLead: string
-  partnerNote: string
-  partnerAudiences: string[]
-  partnerPrimary: string
-  partnerSecondary: string
 }
 
 const T: Record<Lang, Copy> = {
@@ -194,21 +158,10 @@ const T: Record<Lang, Copy> = {
     widgetValidate: 'Valider',
     catalogueKicker: 'Explorez les missions',
     catalogueTitle: 'Des résultats concrets pour chaque métier.',
-    catalogueLead: 'Chaque mission précise le livrable attendu, le Collaborateur IA responsable, le profil mobilisé et les validations nécessaires.',
+    catalogueLead: 'Chaque mission précise le résultat attendu et le Collaborateur IA capable de la mener à bien.',
     allLabel: 'Toutes',
-    deliverableWord: 'Livrable',
-    deliveryWord: 'Délai',
-    profileWord: 'Profil mobilisé',
     collaboratorWord: 'Collaborateur IA',
-    moreFilters: 'Plus de filtres',
-    hideFilters: 'Masquer les filtres',
-    resetFilters: 'Réinitialiser',
-    facetSector: 'Secteur',
-    facetLanguage: 'Langue',
-    facetZone: 'Zone',
-    facetFrequency: 'Fréquence',
-    facetDeliverable: 'Type de livrable',
-    facetStatus: 'Statut',
+    seeMission: 'Voir la mission',
     emptyTitle: 'Aucune mission ne correspond exactement.',
     emptyLead: 'Décrivez votre besoin à notre conseillère IA. Elle préparera une première proposition.',
     emptyCta: 'Préparer ma mission',
@@ -223,35 +176,12 @@ const T: Record<Lang, Copy> = {
     proofValidate: 'Valider',
     proofCta: 'Voir le workspace',
     keepLine: 'Commencez par une mission. Gardez le Collaborateur IA.',
-    bandText: 'Chaque mission mobilise un profil métier. Votre Collaborateur IA conserve son identité et développe de nouveaux savoir-faire à mesure que vos besoins évoluent.',
-    bandLink: 'Explorer les profils métier',
     ctaKicker: 'Votre première mission',
     ctaTitle: 'Confiez-lui le résultat que vous attendez.',
     ctaLead: 'Notre conseillère IA analyse votre activité, prépare les savoir-faire nécessaires et configure le cadre de travail de votre Collaborateur IA.',
     ctaPrimary: 'Découvrir mon Collaborateur IA',
     ctaSecondary: 'Voir les tarifs',
     ctaReassurance: 'Analyse de votre activité · Workspace privé · Essai gratuit de 7 jours',
-    expertKicker: 'Un expert à vos côtés',
-    expertTitle: 'Faites-vous accompagner pour les missions les plus exigeantes.',
-    expertLead:
-      'Un expert IA peut cadrer votre besoin, préparer les outils et les données nécessaires, configurer votre Collaborateur IA et superviser la mission jusqu’au résultat.',
-    expertSteps: [
-      { title: 'Cadrage', body: 'Préciser le résultat, le périmètre et les critères de réussite.' },
-      { title: 'Intégration', body: 'Connecter les applications et préparer les données nécessaires.' },
-      { title: 'Configuration', body: 'Adapter les profils, les compétences, les permissions et les validations.' },
-      { title: 'Supervision', body: 'Suivre l’exécution, contrôler la qualité et améliorer le dispositif.' },
-    ],
-    expertPrimary: 'Trouver un expert IA',
-    expertSecondary: 'Proposer une expertise',
-    partnerKicker: 'Partenaires Unitalk',
-    partnerTitle: 'Déployez des Collaborateurs IA pour vos clients.',
-    partnerLead:
-      'Consultants, agences, formateurs et intégrateurs : utilisez Unitalk pour concevoir, déployer et améliorer les Collaborateurs IA de vos clients.',
-    partnerNote:
-      'Vous conservez votre expertise et votre relation client. Unitalk fournit le socle de travail, de gouvernance et d’exécution.',
-    partnerAudiences: ['Consultants', 'Agences', 'Formateurs', 'Intégrateurs'],
-    partnerPrimary: 'Devenir partenaire',
-    partnerSecondary: 'Publier une expertise',
   },
   en: {
     kicker: 'Concrete outcomes for your company',
@@ -281,21 +211,10 @@ const T: Record<Lang, Copy> = {
     widgetValidate: 'Approve',
     catalogueKicker: 'Explore the missions',
     catalogueTitle: 'Concrete outcomes for every role.',
-    catalogueLead: 'Each mission spells out the expected deliverable, the AI Collaborator responsible, the profile mobilized and the approvals required.',
+    catalogueLead: 'Each mission spells out the expected outcome and the AI Collaborator able to carry it out.',
     allLabel: 'All',
-    deliverableWord: 'Deliverable',
-    deliveryWord: 'Timeline',
-    profileWord: 'Profile mobilized',
     collaboratorWord: 'AI Collaborator',
-    moreFilters: 'More filters',
-    hideFilters: 'Hide filters',
-    resetFilters: 'Reset',
-    facetSector: 'Sector',
-    facetLanguage: 'Language',
-    facetZone: 'Zone',
-    facetFrequency: 'Frequency',
-    facetDeliverable: 'Deliverable type',
-    facetStatus: 'Status',
+    seeMission: 'See the mission',
     emptyTitle: 'No mission matches exactly.',
     emptyLead: 'Describe your need to our AI advisor. She will prepare a first proposal.',
     emptyCta: 'Prepare my mission',
@@ -310,116 +229,44 @@ const T: Record<Lang, Copy> = {
     proofValidate: 'Approve',
     proofCta: 'See the workspace',
     keepLine: 'Start with a mission. Keep the AI Collaborator.',
-    bandText: 'Every mission mobilizes a job profile. Your AI Collaborator keeps its identity and builds new know-how as your needs evolve.',
-    bandLink: 'Explore the job profiles',
     ctaKicker: 'Your first mission',
     ctaTitle: 'Hand it the result you expect.',
     ctaLead: 'Our AI advisor analyzes your business, prepares the necessary know-how and sets up the working framework of your AI Collaborator.',
     ctaPrimary: 'Discover my AI Collaborator',
     ctaSecondary: 'See pricing',
     ctaReassurance: 'Business analysis · Private workspace · 7-day free trial',
-    expertKicker: 'An expert by your side',
-    expertTitle: 'Get expert support for your most demanding missions.',
-    expertLead:
-      'An AI expert can scope your need, prepare the required tools and data, configure your AI Collaborator and supervise the mission through to the outcome.',
-    expertSteps: [
-      { title: 'Scoping', body: 'Define the outcome, the scope and the success criteria.' },
-      { title: 'Integration', body: 'Connect the apps and prepare the required data.' },
-      { title: 'Configuration', body: 'Adapt profiles, skills, permissions and approvals.' },
-      { title: 'Supervision', body: 'Track execution, control quality and improve the setup.' },
-    ],
-    expertPrimary: 'Find an AI expert',
-    expertSecondary: 'Offer an expertise',
-    partnerKicker: 'Unitalk partners',
-    partnerTitle: 'Deploy AI Collaborators for your clients.',
-    partnerLead:
-      'Consultants, agencies, trainers and integrators: use Unitalk to design, deploy and improve your clients’ AI Collaborators.',
-    partnerNote:
-      'You keep your expertise and your client relationship. Unitalk provides the work, governance and execution foundation.',
-    partnerAudiences: ['Consultants', 'Agencies', 'Trainers', 'Integrators'],
-    partnerPrimary: 'Become a partner',
-    partnerSecondary: 'Publish an expertise',
   },
 }
 
 function matchesQuery(m: Mission, lang: Lang, q: string) {
-  const haystack = `${m.title[lang]} ${m.description[lang]} ${m.profile[lang]} ${m.skills.map((s) => s[lang]).join(' ')}`.toLowerCase()
+  const haystack = `${m.title[lang]} ${m.description[lang]} ${m.result[lang]} ${m.profile[lang]} ${m.skills
+    .map((s) => s[lang])
+    .join(' ')}`.toLowerCase()
   return haystack.includes(q)
-}
-
-// Collect the facet values actually present in the data, so we never show an empty option.
-function collectFacetValues() {
-  const sectors = new Set<string>()
-  const languages = new Set<string>()
-  const zones = new Set<string>()
-  const frequencies = new Set<string>()
-  const deliverableTypes = new Set<string>()
-  const statuses = new Set<MissionStatus>()
-  for (const m of MISSIONS) {
-    const f = missionFacets(m)
-    f.sectors.forEach((s) => sectors.add(s))
-    f.languages.forEach((l) => languages.add(l))
-    f.zones.forEach((z) => zones.add(z))
-    frequencies.add(f.frequency)
-    deliverableTypes.add(f.deliverableType)
-    statuses.add(f.status)
-  }
-  return { sectors, languages, zones, frequencies, deliverableTypes, statuses }
-}
-
-type FacetState = {
-  sector: string | null
-  language: string | null
-  zone: string | null
-  frequency: string | null
-  deliverableType: string | null
-  status: MissionStatus | null
-}
-
-const EMPTY_FACETS: FacetState = {
-  sector: null,
-  language: null,
-  zone: null,
-  frequency: null,
-  deliverableType: null,
-  status: null,
 }
 
 export function MissionsContent() {
   const { lang } = useLanguage()
   const t = T[lang]
-  const [active, setActive] = useState<string>('all')
+  const [active, setActive] = useState<'all' | FamilyKey>('all')
   const [query, setQuery] = useState<string>('')
-  const [showFilters, setShowFilters] = useState<boolean>(false)
-  const [facets, setFacets] = useState<FacetState>(EMPTY_FACETS)
 
-  const available = useMemo(() => collectFacetValues(), [])
-
-  // Only keep categories that actually contain at least one Mission.
+  // Only keep families that actually contain at least one Mission.
   const filters = useMemo(() => {
-    const nonEmpty = MISSION_CATEGORIES.filter((c) => MISSIONS.some((m) => m.category === c.key))
-    return [{ key: 'all', label: t.allLabel }, ...nonEmpty.map((c) => ({ key: c.key, label: c.label[lang] }))]
+    const nonEmpty = FAMILIES.filter((f) => MISSIONS.some((m) => familyOf(m.category) === f.key))
+    return [{ key: 'all' as const, label: t.allLabel }, ...nonEmpty.map((f) => ({ key: f.key, label: f.label[lang] }))]
   }, [t, lang])
 
-  const categoryLabel = (key: string) => MISSION_CATEGORIES.find((c) => c.key === key)?.label[lang] ?? ''
-
-  const activeFacetCount = Object.values(facets).filter(Boolean).length
+  const familyLabel = (key: FamilyKey) => FAMILIES.find((f) => f.key === key)?.label[lang] ?? ''
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
     return MISSIONS.filter((m) => {
-      if (active !== 'all' && m.category !== active) return false
+      if (active !== 'all' && familyOf(m.category) !== active) return false
       if (q && !matchesQuery(m, lang, q)) return false
-      const f = missionFacets(m)
-      if (facets.sector && !f.sectors.includes(facets.sector)) return false
-      if (facets.language && !f.languages.includes(facets.language)) return false
-      if (facets.zone && !f.zones.includes(facets.zone)) return false
-      if (facets.frequency && f.frequency !== facets.frequency) return false
-      if (facets.deliverableType && f.deliverableType !== facets.deliverableType) return false
-      if (facets.status && f.status !== facets.status) return false
       return true
     })
-  }, [active, query, lang, facets])
+  }, [active, query, lang])
 
   const searchCount = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -435,7 +282,6 @@ export function MissionsContent() {
   const resetAll = () => {
     setQuery('')
     setActive('all')
-    setFacets(EMPTY_FACETS)
   }
 
   const matchText =
@@ -444,47 +290,6 @@ export function MissionsContent() {
       : `Mission${searchCount > 1 ? 's' : ''} ${searchCount > 1 ? 'match' : 'matches'}`
 
   const hugo = ROLE_DETAILS['hugo']
-
-  const FacetGroup = ({
-    label,
-    values,
-    labels,
-    selected,
-    onSelect,
-  }: {
-    label: string
-    values: string[]
-    labels: Record<string, { fr: string; en: string }>
-    selected: string | null
-    onSelect: (v: string | null) => void
-  }) => {
-    if (values.length === 0) return null
-    return (
-      <div>
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{label}</p>
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {values.map((v) => {
-            const isOn = selected === v
-            return (
-              <button
-                key={v}
-                type="button"
-                onClick={() => onSelect(isOn ? null : v)}
-                aria-pressed={isOn}
-                className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
-                  isOn
-                    ? 'border-[#D10E63] bg-[#D10E63]/10 text-[#D10E63]'
-                    : 'border-[#E4DDCE] bg-[#FBF9F3] text-[#4E483F] hover:border-[#D10E63]/40 hover:text-[#D10E63]'
-                }`}
-              >
-                {labels[v]?.[lang] ?? v}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-    )
-  }
 
   return (
     <main className="bg-[#F3EFE6]">
@@ -665,7 +470,7 @@ export function MissionsContent() {
             </p>
           </div>
 
-          {/* Filters (sticky) */}
+          {/* Filters (sticky) — four families + All */}
           <div className="sticky top-[68px] z-10 -mx-5 mt-6 border-y border-[#E4DDCE]/70 bg-[#F3EFE6]/90 px-5 py-3 backdrop-blur sm:top-[76px]">
             <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label={t.catalogueTitle}>
               {filters.map((f) => {
@@ -687,85 +492,7 @@ export function MissionsContent() {
                   </button>
                 )
               })}
-
-              {/* More filters toggle */}
-              <button
-                type="button"
-                onClick={() => setShowFilters((s) => !s)}
-                aria-expanded={showFilters}
-                className={`ml-auto inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-                  showFilters || activeFacetCount > 0
-                    ? 'border-[#D10E63] bg-[#D10E63]/10 text-[#D10E63]'
-                    : 'border-[#E4DDCE] bg-[#FBF9F3] text-[#4E483F] hover:border-[#D10E63]/40 hover:text-[#D10E63]'
-                }`}
-              >
-                <SlidersHorizontal className="h-4 w-4" />
-                {showFilters ? t.hideFilters : t.moreFilters}
-                {activeFacetCount > 0 && (
-                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#D10E63] px-1.5 text-[10px] font-bold text-[#FBF9F3]">
-                    {activeFacetCount}
-                  </span>
-                )}
-              </button>
             </div>
-
-            {/* Advanced filters panel — only facets present in the data are shown */}
-            {showFilters && (
-              <div className="mt-3 grid gap-4 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-4 sm:grid-cols-2 lg:grid-cols-3">
-                <FacetGroup
-                  label={t.facetSector}
-                  values={[...available.sectors]}
-                  labels={SECTOR_LABELS}
-                  selected={facets.sector}
-                  onSelect={(v) => setFacets((f) => ({ ...f, sector: v }))}
-                />
-                <FacetGroup
-                  label={t.facetLanguage}
-                  values={[...available.languages]}
-                  labels={LANGUAGE_LABELS}
-                  selected={facets.language}
-                  onSelect={(v) => setFacets((f) => ({ ...f, language: v }))}
-                />
-                <FacetGroup
-                  label={t.facetZone}
-                  values={[...available.zones]}
-                  labels={ZONE_LABELS}
-                  selected={facets.zone}
-                  onSelect={(v) => setFacets((f) => ({ ...f, zone: v }))}
-                />
-                <FacetGroup
-                  label={t.facetFrequency}
-                  values={[...available.frequencies]}
-                  labels={FREQUENCY_LABELS}
-                  selected={facets.frequency}
-                  onSelect={(v) => setFacets((f) => ({ ...f, frequency: v }))}
-                />
-                <FacetGroup
-                  label={t.facetDeliverable}
-                  values={[...available.deliverableTypes]}
-                  labels={DELIVERABLE_TYPE_LABELS}
-                  selected={facets.deliverableType}
-                  onSelect={(v) => setFacets((f) => ({ ...f, deliverableType: v }))}
-                />
-                <FacetGroup
-                  label={t.facetStatus}
-                  values={[...available.statuses]}
-                  labels={STATUS_LABELS}
-                  selected={facets.status}
-                  onSelect={(v) => setFacets((f) => ({ ...f, status: v as MissionStatus | null }))}
-                />
-                {activeFacetCount > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => setFacets(EMPTY_FACETS)}
-                    className="inline-flex w-fit items-center gap-1.5 self-end text-xs font-semibold text-[#8A8175] transition-colors hover:text-[#D10E63]"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                    {t.resetFilters}
-                  </button>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Grid */}
@@ -795,74 +522,35 @@ export function MissionsContent() {
               {visible.map((m) => {
                 const collab = ROLE_DETAILS[m.collaboratorSlug]
                 const collabName = collab?.name ?? m.profile[lang]
-                const deliverableShort = m.produces.map((p) => p[lang]).join(' · ')
-                const f = missionFacets(m)
-                const statusLabel = STATUS_LABELS[f.status][lang]
                 return (
-                  // Card is a flex column so the collaborator/profile block sits at the bottom.
-                  <article
+                  // Minimal card: family, title, one-line result, collaborator·profile, "See the mission".
+                  <Link
                     key={m.slug}
-                    className="group relative flex flex-col rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-6 transition-all duration-300 hover:border-[#D10E63]/30 hover:shadow-[0_20px_50px_rgba(28,26,23,0.07)]"
+                    href={`/missions/${m.slug}`}
+                    className="group flex flex-col rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-6 outline-none transition-all duration-300 hover:border-[#D10E63]/30 hover:shadow-[0_20px_50px_rgba(28,26,23,0.07)] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex w-fit items-center rounded-full bg-[#EDE7DA] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">
-                        {categoryLabel(m.category)}
+                    <span className="inline-flex w-fit items-center rounded-full bg-[#EDE7DA] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">
+                      {familyLabel(familyOf(m.category))}
+                    </span>
+
+                    <h3 className="mt-3 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] group-hover:text-[#D10E63]">
+                      {m.title[lang]}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#5F594F]">{m.result[lang]}</p>
+
+                    {/* Carried out by: AI Collaborator + Profile */}
+                    <div className="mt-auto flex items-center gap-2.5 pt-6">
+                      <Avatar src={collab?.avatar} name={collabName} size={32} />
+                      <span className="font-sf text-sm font-bold text-[#1C1A17]">
+                        {collabName} <span className="font-medium text-[#8A8175]">· {m.profile[lang]}</span>
                       </span>
-                      <span className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${STATUS_TONE[f.status]}`}>
-                        {statusLabel}
-                      </span>
                     </div>
 
-                    {/* Whole-card link to the Mission (covers title + description + deliverable) */}
-                    <Link href={`/missions/${m.slug}`} className="mt-3 flex flex-col outline-none">
-                      <span className="absolute inset-0 rounded-3xl" aria-hidden="true" />
-                      <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] group-hover:text-[#D10E63]">
-                        {m.title[lang]}
-                      </h3>
-                      <span className="mt-2 block text-sm leading-relaxed text-[#5F594F]">{m.description[lang]}</span>
-                    </Link>
-
-                    {/* Prestation summary */}
-                    <div className="mt-5 rounded-2xl bg-[#F3EFE6] p-4">
-                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.deliverableWord}</p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-[#1C1A17]">{deliverableShort}</p>
-                      <div className="mt-3 flex items-center gap-1.5 border-t border-[#E4DDCE] pt-3 text-xs text-[#5F594F]">
-                        <Clock className="h-3.5 w-3.5 shrink-0 text-[#8A8175]" />
-                        <span className="font-semibold text-[#4E483F]">{t.deliveryWord}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{missionDelay(m, lang)}</span>
-                      </div>
-                    </div>
-
-                    {/* Carried out by: AI Collaborator + Profile — distinct links, pushed to the bottom */}
-                    <div className="relative z-10 mt-auto flex items-center gap-2.5 pt-6">
-                      <Link
-                        href={collaboratorHref(m.collaboratorSlug)}
-                        className="flex items-center gap-2.5 rounded-lg outline-none hover:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                      >
-                        <Avatar src={collab?.avatar} name={collabName} size={32} />
-                        <span className="font-sf text-sm font-bold text-[#1C1A17] group-hover:text-inherit">
-                          {collabName} · <span className="font-medium text-[#6E665A]">{t.collaboratorWord}</span>
-                        </span>
-                      </Link>
-                    </div>
-                    <div className="relative z-10 mt-1 text-xs text-[#8A8175]">
-                      {t.profileWord} :{' '}
-                      <Link
-                        href={`/collaborateurs-ia/roles/${m.collaboratorSlug}`}
-                        className="inline-flex items-center gap-0.5 font-semibold text-[#4E483F] underline-offset-2 hover:text-[#D10E63] hover:underline"
-                      >
-                        {m.profile[lang]}
-                        <ArrowRight className="h-3 w-3" />
-                      </Link>
-                    </div>
-
-                    {/* Validation note */}
-                    <p className="relative z-10 mt-4 flex items-start gap-1.5 border-t border-[#EFE9DC] pt-4 text-xs leading-relaxed text-[#8A8175]">
-                      <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#8A8175]" />
-                      <span>{m.validation[lang]}</span>
-                    </p>
-                  </article>
+                    <span className="mt-4 inline-flex items-center gap-1.5 border-t border-[#EFE9DC] pt-4 text-sm font-semibold text-[#D10E63]">
+                      {t.seeMission}
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
                 )
               })}
             </div>
@@ -870,7 +558,7 @@ export function MissionsContent() {
         </div>
       </section>
 
-      {/* Proof — a Mission in action */}
+      {/* Demonstration — a single Mission in action */}
       <section className="bg-[#1C1A17] px-5 py-16 sm:px-8 sm:py-20">
         <div className="editorial-shell">
           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#F08FB5]">{t.proofKicker}</p>
@@ -905,10 +593,10 @@ export function MissionsContent() {
               </p>
               {/* Demonstrative controls only — no real sensitive action on the public page */}
               <div className="mt-6 flex flex-wrap gap-3">
-                <span className="inline-flex cursor-default items-center rounded-full border border-[#4A453D] px-4 py-2 text-sm font-semibold text-[#E7E2D8] transition-colors hover:border-[#6B6459] hover:text-[#FBF9F3]">
+                <span className="inline-flex cursor-default items-center rounded-full border border-[#4A453D] px-4 py-2 text-sm font-semibold text-[#E7E2D8]">
                   {t.proofReview}
                 </span>
-                <span className="inline-flex cursor-default items-center gap-1.5 rounded-full bg-[#D10E63] px-4 py-2 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B80C56]">
+                <span className="inline-flex cursor-default items-center gap-1.5 rounded-full bg-[#D10E63] px-4 py-2 text-sm font-bold text-[#FBF9F3]">
                   <Check className="h-4 w-4" strokeWidth={2.5} />
                   {t.proofValidate}
                 </span>
@@ -921,7 +609,6 @@ export function MissionsContent() {
             {t.keepLine}
           </p>
 
-          {/* Extra space below "See the Workspace" */}
           <div className="mt-6 pb-2">
             <Link
               href="/workspace"
@@ -930,115 +617,6 @@ export function MissionsContent() {
               {t.proofCta}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Profiles band — replaces the five-step flow (max height ~220px) */}
-      <section className="border-b border-[#E4DDCE] px-5 py-10 sm:px-8">
-        <div className="editorial-shell">
-          <div className="flex flex-col gap-4 rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-8">
-            <p className="max-w-3xl text-pretty font-sf text-base font-semibold leading-relaxed text-[#1C1A17] sm:text-lg">
-              {t.bandText}
-            </p>
-            <Link
-              href={PROFILES_HREF}
-              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#DcD4C4] bg-[#F3EFE6] px-5 py-2.5 text-sm font-bold text-[#1C1A17] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
-            >
-              {t.bandLink}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Expert support — optional human intervention, secondary to self-serve Missions */}
-      <section className="px-5 py-14 sm:px-8 sm:py-16">
-        <div className="editorial-shell">
-          <div className="rounded-[2rem] border border-[#E4DDCE] bg-[#FBF9F3] p-8 sm:p-12">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
-              {t.expertKicker}
-            </p>
-            <h2 className="mt-3 max-w-2xl text-balance font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-3xl">
-              {t.expertTitle}
-            </h2>
-            <p className="mt-4 max-w-3xl text-pretty text-base leading-7 text-[#4A443C]">{t.expertLead}</p>
-
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {t.expertSteps.map((step, i) => {
-                const StepIcon = [Compass, Plug, SlidersHorizontal, Eye][i]
-                return (
-                  <div key={step.title} className="rounded-2xl border border-[#EBE4D6] bg-[#F3EFE6] p-5">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1C1A17] text-[#FBF9F3]">
-                      <StepIcon className="h-4 w-4" />
-                    </span>
-                    <h3 className="mt-3 font-sf text-sm font-bold text-[#1C1A17]">{step.title}</h3>
-                    <p className="mt-1.5 text-pretty text-[13px] leading-6 text-[#5A5349]">{step.body}</p>
-                  </div>
-                )
-              })}
-            </div>
-
-            <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-              <Link
-                href="/expertises"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#1C1A17] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-              >
-                {t.expertPrimary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/expertises/publier"
-                className="inline-flex items-center gap-1.5 rounded-full px-4 py-3 text-sm font-bold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-              >
-                {t.expertSecondary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Partnership band — compact, sober, not a full magenta block */}
-      <section className="border-y border-[#E4DDCE] bg-[#ECE6D8] px-5 py-12 sm:px-8 sm:py-14">
-        <div className="editorial-shell">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-2xl">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8A7B5C]">
-                {t.partnerKicker}
-              </p>
-              <h2 className="mt-3 text-balance font-sf text-2xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-[28px]">
-                {t.partnerTitle}
-              </h2>
-              <p className="mt-3 text-pretty text-sm leading-7 text-[#4A443C] sm:text-base">{t.partnerLead}</p>
-              <p className="mt-3 text-pretty text-sm leading-7 text-[#5A5349]">{t.partnerNote}</p>
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {t.partnerAudiences.map((a) => (
-                  <li
-                    key={a}
-                    className="rounded-full border border-[#D8CFBB] bg-[#FBF9F3] px-3 py-1 text-xs font-semibold text-[#4A443C]"
-                  >
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex shrink-0 flex-col items-start gap-3 sm:flex-row lg:flex-col lg:items-stretch">
-              <Link
-                href="/partenaires"
-                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#1C1A17] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-              >
-                {t.partnerPrimary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/expertises/publier"
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#C9BFA8] px-5 py-3 text-sm font-bold text-[#1C1A17] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
-              >
-                {t.partnerSecondary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
           </div>
         </div>
       </section>
