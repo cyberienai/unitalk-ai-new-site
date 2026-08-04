@@ -16,7 +16,10 @@ export function HomeFinal() {
 
   return (
     <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
-      <Navbar />
+      <Navbar
+        ctaLabel={{ fr: 'Découvrir mon Collaborateur IA', en: 'Discover my AI Collaborator' }}
+        ctaShortLabel={{ fr: 'Découvrir', en: 'Discover' }}
+      />
 
       {/* 1. Hero — Il vous manque quelqu'un. */}
       <HeroV2 lang={lang} />

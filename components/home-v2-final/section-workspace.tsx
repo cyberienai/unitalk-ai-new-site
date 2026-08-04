@@ -74,14 +74,14 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   return (
     <section className="relative overflow-hidden bg-[#FBF9F3] py-20 sm:py-28">
       <div className="editorial-shell">
-        <div className="mx-auto max-w-2xl text-center">
+        <div className="max-w-2xl text-left">
           <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63]">
             {t.eyebrow}
           </p>
           <h2 className="text-balance font-sf text-[clamp(1.75rem,4vw,3rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[#1C1A17]">
             {t.title}
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#4E483F]">
+          <p className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#4E483F]">
             {t.intro}
           </p>
         </div>
