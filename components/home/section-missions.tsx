@@ -143,7 +143,9 @@ export function SectionMissions({ lang }: { lang: Lang }) {
 
   const totalPages = Math.ceil(t.missions.length / PAGE_SIZE)
   const [page, setPage] = useState(0)
-  const goTo = (p: number) => setPage((p + totalPages) % totalPages)
+  const goTo = (p: number) => setPage(((p % totalPages) + totalPages) % totalPages)
+  const nextPage = () => setPage((cur) => (cur + 1) % totalPages)
+  const prevPage = () => setPage((cur) => (cur - 1 + totalPages) % totalPages)
   const pageMissions = t.missions
     .map((label, i) => ({ label, slug: MISSION_SLUGS[i], i }))
     .slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
@@ -223,7 +225,7 @@ export function SectionMissions({ lang }: { lang: Lang }) {
             <div className="mt-8 flex items-center justify-center gap-4">
               <button
                 type="button"
-                onClick={() => goTo(page - 1)}
+                onClick={prevPage}
                 aria-label={t.prevPage}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FBF9F3] text-[#3F3A33] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
               >
@@ -245,7 +247,7 @@ export function SectionMissions({ lang }: { lang: Lang }) {
               </div>
               <button
                 type="button"
-                onClick={() => goTo(page + 1)}
+                onClick={nextPage}
                 aria-label={t.nextPage}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FBF9F3] text-[#3F3A33] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
               >
