@@ -20,7 +20,6 @@ const T = {
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Recruter mon Collaborateur IA',
     proofs: ['Prêt en quelques minutes', 'Un seul abonnement', 'Essai gratuit 7 jours'],
-    trialMobile: '7 jours d’essai gratuit',
     // organigramme
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
@@ -48,7 +47,6 @@ const T = {
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Hire my AI Collaborator',
     proofs: ['Ready in minutes', 'One subscription', '7-day free trial'],
-    trialMobile: '7-day free trial',
     // organigramme
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
@@ -185,11 +183,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               {t.domainHelp}
             </p>
 
-            <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-medium text-[#6B6560] sm:hidden">
-              <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
-              {t.trialMobile}
-            </div>
-            <div className="mt-4 hidden flex-row flex-wrap items-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:flex">
+            <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
               {t.proofs.map((proof) => (
                 <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
                   <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
