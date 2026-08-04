@@ -19,6 +19,7 @@ const T = {
       'analyser vos données',
       'répondre à vos clients',
       'créer vos contenus',
+      'automatiser vos opérations',
     ],
     lead: 'Alma analyse votre site Web et prépare le profil métier, les compétences et les outils nécessaires à sa première mission.',
     domainAria: 'Votre site web',
@@ -28,7 +29,7 @@ const T = {
     // organigramme
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
-    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
+    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département, un projet ou toute l’organisation.',
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
       { human: 'Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
@@ -51,6 +52,7 @@ const T = {
       'analyze your data',
       'answer your customers',
       'create your content',
+      'automate your operations',
     ],
     lead: 'Alma analyzes your website and prepares the business profile, skills and tools your AI Collaborator needs for its first mission.',
     domainAria: 'Your website',
@@ -60,7 +62,7 @@ const T = {
     // organigramme
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
-    orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
+    orgFootnote: 'Every AI Collaborator can work for a person, a team, a department, a project or the whole organization.',
     orgPairs: [
       { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
       { human: 'Marketing', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },

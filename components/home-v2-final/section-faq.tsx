@@ -13,19 +13,19 @@ const T = {
     items: [
       {
         q: 'Qu’est-ce qu’un profil métier ?',
-        a: 'Un profil métier, c’est un ensemble de savoir-faire que vous ajoutez à votre Collaborateur IA pour une mission : « Responsable du contenu », « Business developer », « Analyste data »… Il en gagne les compétences et les bons réflexes, sans changer d’identité.',
+        a: 'Un profil métier réunit les compétences et les méthodes nécessaires pour accomplir un ensemble de missions.',
       },
       {
-        q: 'Mon Collaborateur IA change-t-il quand j’ajoute un profil ?',
-        a: 'Non. Emma reste Emma : même identité, même mémoire, mêmes accès. Un nouveau profil ajoute des savoir-faire, il ne remplace pas ce qu’elle sait déjà faire.',
+        q: 'Dois-je choisir les compétences moi-même ?',
+        a: 'Non. Vous choisissez une mission. Alma identifie le profil métier, les compétences et les outils nécessaires, puis vous validez sa préparation.',
       },
       {
-        q: 'Combien de missions peut-il gérer ?',
-        a: 'Autant que nécessaire. Vous activez les profils métier dont vous avez besoin, au fil de vos priorités, sans limite et sans surcoût par profil.',
+        q: 'Mon Collaborateur IA change-t-il de métier ?',
+        a: 'Il conserve son identité, sa mémoire, ses accès et son historique. Vous pouvez lui ajouter plusieurs profils métier selon les besoins de votre organisation.',
       },
       {
-        q: 'Est-ce que je garde le contrôle sur son travail ?',
-        a: 'Oui. Votre Collaborateur IA avance dans son espace de travail et vous sollicite pour valider les étapes importantes. Rien n’est publié ou envoyé sans votre accord quand vous le souhaitez.',
+        q: 'Puis-je personnaliser son identité ?',
+        a: 'Oui. Après son arrivée, vous pouvez modifier son nom, son avatar et sa voix.',
       },
     ],
   },
@@ -35,19 +35,19 @@ const T = {
     items: [
       {
         q: 'What is a business profile?',
-        a: 'A business profile is a set of know-how you add to your AI Collaborator for a mission: “Content lead”, “Business developer”, “Data analyst”… It gains the skills and the right instincts, without changing identity.',
+        a: 'A business profile brings together the skills and methods needed to carry out a set of missions.',
       },
       {
-        q: 'Does my AI Collaborator change when I add a profile?',
-        a: 'No. Emma stays Emma: same identity, same memory, same access. A new profile adds know-how, it doesn’t replace what she already knows how to do.',
+        q: 'Do I have to choose the skills myself?',
+        a: 'No. You choose a mission. Alma identifies the business profile, skills and tools required, then you approve its preparation.',
       },
       {
-        q: 'How many missions can it handle?',
-        a: 'As many as needed. You activate the business profiles you need, as your priorities evolve, with no limit and no extra cost per profile.',
+        q: 'Does my AI Collaborator change job?',
+        a: 'It keeps its identity, memory, access and history. You can add several business profiles depending on your organization’s needs.',
       },
       {
-        q: 'Do I keep control over its work?',
-        a: 'Yes. Your AI Collaborator works in its workspace and asks you to approve the important steps. Nothing is published or sent without your consent when you want it that way.',
+        q: 'Can I personalize its identity?',
+        a: 'Yes. After it arrives, you can change its name, avatar and voice.',
       },
     ],
   },

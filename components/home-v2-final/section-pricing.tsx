@@ -1,25 +1,35 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, Plus } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
     eyebrow: 'Une offre pour commencer',
-    title: 'Tout ce qu’il faut pour lancer votre premier Collaborateur IA.',
+    title: 'Tout ce qu’il faut pour accueillir votre premier Collaborateur IA.',
     intro: 'Une seule offre, sans surprise. Vous ajoutez des profils métier quand vous en avez besoin.',
+    includedTitle: 'L’offre de départ comprend',
     included: [
-      'Un Collaborateur IA avec sa propre identité',
-      'Email, téléphone et calendrier dédiés',
-      'Mémoire durable, propre à votre organisation',
-      'Profils métier à activer selon vos besoins',
-      'Tous les modèles d’IA inclus (ChatGPT et les autres)',
-      'Connexion à vos outils (Google Workspace, Microsoft 365…)',
-      'Espace de travail avec validation des missions',
-      'Environnement hébergé en France, outils de conformité RGPD',
-      'Mise en place accompagnée',
+      'Votre Organisation Unitalk',
+      'Tous vos membres humains',
+      'Votre Workspace',
+      'Votre premier Collaborateur IA',
+      'Son environnement d’exécution privé',
+      'Son identité et ses services professionnels',
+      'Son premier profil métier',
+      'Sa mise en place avec Alma',
+      'L’accès au catalogue de modèles d’IA',
+    ],
+    extensionsTitle: 'Extensions',
+    extensionsIntro: 'Proposées séparément de l’offre de départ, selon vos besoins.',
+    extensions: [
+      'Collaborateurs IA supplémentaires',
+      'Profils métier supplémentaires',
+      'Serveur IA privé pour les applications et les données de l’organisation',
+      'Utilisation des modèles d’IA',
+      'Voix, téléphone et ressources de calcul supplémentaires',
     ],
     cta: 'Commencer l’essai gratuit',
     subtext: 'Essai gratuit 7 jours · Mise en place accompagnée',
@@ -27,18 +37,28 @@ const T = {
   },
   en: {
     eyebrow: 'A plan to get started',
-    title: 'Everything you need to launch your first AI Collaborator.',
+    title: 'Everything you need to welcome your first AI Collaborator.',
     intro: 'A single plan, no surprises. You add business profiles whenever you need them.',
+    includedTitle: 'The starter plan includes',
     included: [
-      'An AI Collaborator with its own identity',
-      'Dedicated email, phone and calendar',
-      'Durable memory, specific to your organization',
-      'Business profiles to activate as you need',
-      'Every AI model included (ChatGPT and the others)',
-      'Connection to your tools (Google Workspace, Microsoft 365…)',
-      'Workspace with mission approval',
-      'Environment hosted in France, GDPR compliance tools',
-      'Guided onboarding',
+      'Your Unitalk Organization',
+      'All your human members',
+      'Your Workspace',
+      'Your first AI Collaborator',
+      'Its private execution environment',
+      'Its professional identity and services',
+      'Its first business profile',
+      'Its setup with Alma',
+      'Access to the AI model catalog',
+    ],
+    extensionsTitle: 'Extensions',
+    extensionsIntro: 'Offered separately from the starter plan, as you need them.',
+    extensions: [
+      'Additional AI Collaborators',
+      'Additional business profiles',
+      'A private AI server for the organization’s applications and data',
+      'AI model usage',
+      'Additional voice, phone and compute resources',
     ],
     cta: 'Start the free trial',
     subtext: '7-day free trial · Guided onboarding',
@@ -71,6 +91,9 @@ export function SectionPricing({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.7, ease }}
           className="premium-shadow mx-auto mt-12 max-w-2xl rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8"
         >
+          <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]">
+            {t.includedTitle}
+          </p>
           <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
             {t.included.map((item) => (
               <li key={item} className="flex items-start gap-2.5 text-sm text-[#3F3A33]">
@@ -95,6 +118,29 @@ export function SectionPricing({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               {t.detail}
             </a>
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7, ease }}
+          className="mx-auto mt-6 max-w-2xl rounded-[1.5rem] border border-dashed border-[#D8D0C2] bg-[#F3EFE6]/50 p-6 sm:p-7"
+        >
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]">
+            {t.extensionsTitle}
+          </p>
+          <p className="mt-1.5 text-sm text-[#6B6560]">{t.extensionsIntro}</p>
+          <ul className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+            {t.extensions.map((item) => (
+              <li key={item} className="flex items-start gap-2.5 text-sm text-[#4E483F]">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FBF9F3] text-[#8A8175]">
+                  <Plus className="h-3 w-3" strokeWidth={2.5} />
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </motion.div>
       </div>
     </section>
