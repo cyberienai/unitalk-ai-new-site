@@ -4,9 +4,9 @@ import { ExpertisesPublierContent } from '@/components/expertises-publier-conten
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Proposer une Expertise · Unitalk',
+  title: 'Proposer une expertise · Unitalk',
   description:
-    'Consultants, agences, formateurs et intégrateurs : proposez une Expertise sur Unitalk et intervenez sur les Missions qui correspondent à votre savoir-faire.',
+    'Consultants, agences, formateurs et intégrateurs : proposez une expertise sur Unitalk et intervenez sur les missions qui correspondent à votre savoir-faire.',
   alternates: { canonical: '/expertises/publier' },
 }
 

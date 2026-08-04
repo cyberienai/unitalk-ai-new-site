@@ -14,8 +14,8 @@ const CREATE_ORG = {
   href: '/decouvrir',
   label: { fr: 'Créer mon organisation', en: 'Create my organization' },
   desc: {
-    fr: 'Notre conseillère IA prépare le contexte de votre organisation et ses premières Missions.',
-    en: 'Our AI advisor prepares your organization’s context and its first Missions.',
+    fr: 'Notre conseillère IA prépare le contexte de votre organisation et ses premières missions.',
+    en: 'Our AI advisor prepares your organization’s context and its first missions.',
   },
   cta: { fr: 'Commencer', en: 'Get started' },
 }
@@ -27,14 +27,14 @@ const MISSIONS_MENU: NavLink[] = [
   { fr: 'Créer mes contenus', en: 'Create content', href: '/missions/creer-mes-contenus' },
   { fr: 'Préparer et suivre mes réunions', en: 'Prepare & follow up meetings', href: '/missions/preparer-et-suivre-mes-reunions' },
   { fr: 'Automatiser mes opérations', en: 'Automate operations', href: '/missions/automatiser-mes-operations' },
-  { fr: 'Voir toutes les Missions', en: 'See all Missions', href: '/missions', strong: true },
+  { fr: 'Voir toutes les missions', en: 'See all missions', href: '/missions', strong: true },
 ]
 
 // Compact dropdown for "Collaborateurs IA"
 const COLLAB_MENU: NavLink[] = [
   { fr: 'Découvrir les Collaborateurs IA', en: 'Discover the AI Collaborators', href: '/collaborateurs-ia', strong: true },
-  { fr: 'Explorer les Profils métier', en: 'Explore job Profiles', href: '/collaborateurs-ia/roles' },
-  { fr: 'Créateurs et Expertises', en: 'Creators and Expertise', href: '/collaborateurs-ia' },
+  { fr: 'Explorer les profils métier', en: 'Explore job profiles', href: '/collaborateurs-ia/roles' },
+  { fr: 'Créateurs et expertises', en: 'Creators and expertise', href: '/collaborateurs-ia' },
 ]
 
 const COLLAB_FEATURED: Featured[] = [

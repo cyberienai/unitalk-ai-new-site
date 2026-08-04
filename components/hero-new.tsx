@@ -12,13 +12,13 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un.',
     headline: 'Votre Collaborateur\u00A0IA',
     headlineAccent: 'est déjà prêt.',
-    lead: 'Donnez-lui les savoir-faire métier dont vous avez besoin, connectez-le à vos outils, au sein de votre organisation.',
+    lead: 'Ajoutez-lui les savoir-faire métier dont vous avez besoin et connectez-le à vos outils.',
     domainLabel: 'Indiquez l’adresse de votre site.',
-    domainHelper: 'Alma analyse votre activité et prépare ses premières Missions.',
+    domainHelper: 'Notre conseillère IA, Alma, analyse votre activité et prépare ses premières missions.',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
-    exploreCta: 'Voir les Missions',
-    heroProofs: ['Analyse personnalisée', 'Espace de travail privé', 'Essai gratuit 7 jours'],
+    exploreCta: 'Voir les missions',
+    heroProofs: ['Configuration personnalisée', 'Espace de travail privé', 'Essai gratuit 7 jours'],
     orgTitle: 'Votre organisation',
     orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
     orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
@@ -37,13 +37,13 @@ const T = {
     eyebrow: 'You’re missing someone.',
     headline: 'Your AI\u00A0Collaborator',
     headlineAccent: 'is ready to go.',
-    lead: 'Give it the professional know-how you need, connect it to your tools, within your organization.',
+    lead: 'Add the professional know-how you need and connect it to your tools.',
     domainLabel: 'Enter your website address.',
-    domainHelper: 'Alma analyzes your business and prepares its first Missions.',
+    domainHelper: 'Our AI advisor, Alma, analyzes your business and prepares its first missions.',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
-    exploreCta: 'See the Missions',
-    heroProofs: ['Tailored analysis', 'Private workspace', '7-day free trial'],
+    exploreCta: 'See the missions',
+    heroProofs: ['Tailored setup', 'Private workspace', '7-day free trial'],
     orgTitle: 'Your organization',
     orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
     orgFootnote: 'Every AI Collaborator can work for a person, a team, a department or the whole organization.',
@@ -82,8 +82,8 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-16 pt-28 sm:min-h-[92svh] sm:pb-20 sm:pt-32 lg:pb-20 lg:pt-36">
-      <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[92svh] sm:pb-20 sm:pt-32 lg:pb-20 lg:pt-36">
+      <div className="editorial-shell relative grid items-center gap-6 sm:gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
         <div className="max-w-2xl">
           <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
             {t.eyebrow}
@@ -131,7 +131,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </Link>
             </div>
           </motion.div>
-          <motion.div {...enter(0.3)} className="mx-auto mt-5 flex w-fit flex-wrap justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:mx-0 sm:justify-start">
+          <motion.div {...enter(0.3)} className="mt-5 flex flex-col items-start gap-2 text-xs font-medium text-[#6B6560] sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1.5">
             {t.heroProofs.map((proof) => <span key={proof} className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />{proof}</span>)}
           </motion.div>
         </div>

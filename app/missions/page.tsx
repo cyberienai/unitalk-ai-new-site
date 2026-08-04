@@ -9,14 +9,14 @@ const SITE_URL = 'https://unitalk.ai'
 export const metadata: Metadata = {
   title: 'Missions pour Collaborateurs IA | Unitalk',
   description:
-    'Découvrez des Missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
+    'Découvrez des missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
   alternates: { canonical: '/missions' },
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/missions`,
     title: 'Missions pour Collaborateurs IA | Unitalk',
     description:
-      'Découvrez des Missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
+      'Découvrez des missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
   },
 }
 

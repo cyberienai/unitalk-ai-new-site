@@ -36,7 +36,7 @@ const T = {
         title: 'Écosystème',
         links: [
           { label: 'Devenir créateur', href: '/partenaires' },
-          { label: 'Proposer une Expertise', href: '/partenaires' },
+          { label: 'Proposer une expertise', href: '/partenaires' },
           { label: 'Trouver un expert', href: '/collaborateurs-ia' },
           { label: 'GitHub', href: 'https://github.com' },
         ],
@@ -83,7 +83,7 @@ const T = {
         title: 'Ecosystem',
         links: [
           { label: 'Become a creator', href: '/partenaires' },
-          { label: 'Offer an Expertise', href: '/partenaires' },
+          { label: 'Offer an expertise', href: '/partenaires' },
           { label: 'Find an expert', href: '/collaborateurs-ia' },
           { label: 'GitHub', href: 'https://github.com' },
         ],

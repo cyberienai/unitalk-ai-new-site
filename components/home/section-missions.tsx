@@ -31,11 +31,11 @@ const T: Record<Lang, {
   fr: {
     kicker: 'Choisissez sa mission',
     title: 'Que voulez-vous lui confier ?',
-    subtitle: 'Commencez par un résultat concret. Chaque Mission recommande le Profil et les outils nécessaires.',
+    subtitle: 'Commencez par un résultat concret. Chaque mission recommande le profil et les outils nécessaires.',
     toolsWord: 'Outils clés',
     resultWord: 'Résultat attendu',
     discover: 'Découvrir',
-    exploreAll: 'Explorer toutes les Missions',
+    exploreAll: 'Explorer toutes les missions',
     missions: [
       {
         id: 'clients',
@@ -82,11 +82,11 @@ const T: Record<Lang, {
   en: {
     kicker: 'Choose its mission',
     title: 'What do you want it to take on?',
-    subtitle: 'Start from a concrete result. Every Mission recommends the Profile and the tools needed.',
+    subtitle: 'Start from a concrete result. Every mission recommends the profile and the tools needed.',
     toolsWord: 'Key tools',
     resultWord: 'Expected result',
     discover: 'Discover',
-    exploreAll: 'Explore all Missions',
+    exploreAll: 'Explore all missions',
     missions: [
       {
         id: 'clients',

@@ -28,9 +28,9 @@ const T: Record<Lang, {
     kicker: 'Il appartient à votre Organisation',
     title: 'L’IA équipe des individus. Unitalk équipe l’Organisation.',
     subtitle:
-      'Vos Collaborateurs IA appartiennent à votre entreprise. Elle gouverne leurs Profils, leurs connaissances, leurs accès, leurs validations et leurs budgets.',
+      'Vos Collaborateurs IA appartiennent à votre entreprise. Elle gouverne leurs profils, leurs connaissances, leurs accès, leurs validations et leurs budgets.',
     pillars: [
-      { title: 'Son expérience reste dans votre Organisation', body: 'Son identité, sa mémoire, ses Profils privés, ses méthodes et ses résultats validés restent avec votre entreprise.', icon: Brain },
+      { title: 'Son expérience reste dans votre Organisation', body: 'Son identité, sa mémoire, ses profils privés, ses méthodes et ses résultats validés restent avec votre entreprise.', icon: Brain },
       { title: 'Vous définissez son autonomie', body: 'Décidez ce qu’il peut consulter, accomplir seul, soumettre à validation et dépenser.', icon: SlidersHorizontal },
       { title: 'Vous choisissez sa technologie', body: 'Propulsé par Hermès, moteur agentique open source, il utilise les modèles et l’hébergement de votre choix.', icon: Cpu },
     ],
@@ -40,16 +40,16 @@ const T: Record<Lang, {
     almaBodyA:
       'À partir de votre domaine, Alma identifie votre activité, vos offres, votre marché et vos concurrents. Vous vérifiez ses sources et choisissez ce qui doit être conservé.',
     almaBodyB:
-      'Elle recommande ensuite le Collaborateur IA et le Profil adaptés, prépare leur cadre de travail et accompagne la première Mission jusqu’au résultat.',
+      'Elle recommande ensuite le Collaborateur IA et le profil adaptés, prépare leur cadre de travail et accompagne la première mission jusqu’au résultat.',
     createCta: 'Créer mon organisation',
     hermesCta: 'Découvrir Hermès et l’open source',
-    timelineLabel: 'Du domaine à la première Mission',
+    timelineLabel: 'Du domaine à la première mission',
     steps: [
       { label: 'Domaine', icon: Globe },
       { label: 'Contexte sourcé', icon: FileSearch },
       { label: 'Collaborateur recommandé', icon: UserCheck },
       { label: 'Profil', icon: Layers },
-      { label: 'Première Mission', icon: Target },
+      { label: 'Première mission', icon: Target },
     ],
     chain: ['Organisation', 'Collaborateur IA', 'Modèles interchangeables'],
   },
@@ -57,9 +57,9 @@ const T: Record<Lang, {
     kicker: 'It belongs to your Organization',
     title: 'AI equips individuals. Unitalk equips the Organization.',
     subtitle:
-      'Your AI Collaborators belong to your company. It governs their Profiles, their knowledge, their access, their validations and their budgets.',
+      'Your AI Collaborators belong to your company. It governs their profiles, their knowledge, their access, their validations and their budgets.',
     pillars: [
-      { title: 'Its experience stays in your Organization', body: 'Its identity, its memory, its private Profiles, its methods and its validated results stay with your company.', icon: Brain },
+      { title: 'Its experience stays in your Organization', body: 'Its identity, its memory, its private profiles, its methods and its validated results stay with your company.', icon: Brain },
       { title: 'You define its autonomy', body: 'Decide what it can consult, do on its own, submit for validation and spend.', icon: SlidersHorizontal },
       { title: 'You choose its technology', body: 'Powered by Hermès, an open-source agentic engine, it uses the models and hosting of your choice.', icon: Cpu },
     ],
@@ -69,16 +69,16 @@ const T: Record<Lang, {
     almaBodyA:
       'From your domain, Alma identifies your business, your offers, your market and your competitors. You verify her sources and choose what should be kept.',
     almaBodyB:
-      'She then recommends the right AI Collaborator and Profile, prepares their working framework and guides the first Mission through to the result.',
+      'She then recommends the right AI Collaborator and profile, prepares their working framework and guides the first mission through to the result.',
     createCta: 'Create my organization',
     hermesCta: 'Discover Hermès and open source',
-    timelineLabel: 'From domain to first Mission',
+    timelineLabel: 'From domain to first mission',
     steps: [
       { label: 'Domain', icon: Globe },
       { label: 'Sourced context', icon: FileSearch },
       { label: 'Recommended Collaborator', icon: UserCheck },
       { label: 'Profile', icon: Layers },
-      { label: 'First Mission', icon: Target },
+      { label: 'First mission', icon: Target },
     ],
     chain: ['Organization', 'AI Collaborator', 'Interchangeable models'],
   },

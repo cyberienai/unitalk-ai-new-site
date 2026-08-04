@@ -10,7 +10,7 @@ import { Kicker } from './section-kicker'
 const T = {
   fr: {
     kicker: 'Votre Collaborateur IA',
-    title: 'Une identité qui reste. Des Profils qui évoluent.',
+    title: 'Une identité qui reste. Des profils qui évoluent.',
     subtitle:
       'Votre Collaborateur IA conserve sa fonction, sa mémoire, son contexte et son expérience. Ajoutez-lui de nouveaux savoir-faire à mesure que ses responsabilités évoluent.',
     name: 'Emma',
