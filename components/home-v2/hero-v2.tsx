@@ -10,7 +10,7 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
     title: 'Recrutez votre premier Collaborateur IA.',
-    readyLead: 'Votre Collaborateur IA est prêt à',
+    readyLead: 'Prêt à',
     missions: [
       'répondre à vos clients',
       'trouver de nouveaux prospects',
@@ -56,7 +56,7 @@ const T = {
   en: {
     eyebrow: 'Someone is missing.',
     title: 'Hire your first AI Collaborator.',
-    readyLead: 'Your AI Collaborator is ready to',
+    readyLead: 'Ready to',
     missions: [
       'answer your customers',
       'find new prospects',
