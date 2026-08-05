@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, MessageCircle } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
@@ -195,7 +195,8 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
       eyebrow: 'Par expertise',
-      title: 'Découvrez les Collaborateurs IA de votre organisation.',
+      title: 'Un Collaborateur IA pour',
+      rotatingWords: ['les ventes', 'le marketing', 'la finance', 'la relation client', 'le développement', 'la direction'],
       subtitle:
         'Choisissez le Collaborateur IA qui rejoindra votre équipe, selon l’expertise dont vous avez besoin. Alma personnalise ensuite ses profils, ses connaissances et ses missions.',
       available: 'Disponible',
@@ -209,7 +210,8 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
     },
     en: {
       eyebrow: 'By expertise',
-      title: 'Meet the AI Collaborators of your organization.',
+      title: 'An AI Collaborator for',
+      rotatingWords: ['sales', 'marketing', 'finance', 'customer relations', 'development', 'leadership'],
       subtitle:
         'Choose the AI Collaborator that will join your team, based on the expertise you need. Alma then personalizes its profiles, knowledge, and missions.',
       available: 'Available',
@@ -224,6 +226,15 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   })
 
   const reduceMotion = useReducedMotion()
+  const [wordIndex, setWordIndex] = useState(0)
+  useEffect(() => {
+    if (reduceMotion) return
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % t.rotatingWords.length)
+    }, 2200)
+    return () => clearInterval(id)
+  }, [reduceMotion, t.rotatingWords.length])
+
   const totalPages = Math.ceil(SHOWCASE.length / PAGE_SIZE)
   const [page, setPage] = useState(0)
   const goTo = (p: number) => setPage(((p % totalPages) + totalPages) % totalPages)
@@ -248,6 +259,24 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
+          <div
+            className="mt-1 flex min-h-[1.3em] items-start justify-center overflow-hidden text-balance font-sf text-3xl font-bold leading-[1.1] tracking-[-0.035em] text-[#D10E63] sm:text-4xl lg:text-[2.75rem]"
+            aria-hidden="true"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={wordIndex}
+                initial={reduceMotion ? false : { opacity: 0, y: '0.5em' }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: '-0.5em' }}
+                transition={{ duration: 0.4, ease }}
+                className="inline-block"
+              >
+                {t.rotatingWords[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+          <p className="sr-only">{`${t.title} ${t.rotatingWords.join(', ')}.`}</p>
           <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
             {t.subtitle}
           </p>
