@@ -12,11 +12,9 @@ const T = {
     contactPre: 'Une autre question ?',
     contactLink: 'Parlez-en à Alma',
     faqs: [
-      { q: 'Dois-je être expert en IA ?', a: "Non. Tout commence par une conversation avec Alma. Elle découvre votre entreprise, comprend vos objectifs et recrute les Collaborateurs IA adaptés. Vous n'avez rien à configurer." },
-      { q: 'Puis-je utiliser mes propres modèles IA ?', a: "Oui. Vous pouvez utiliser les crédits Unitalk ou connecter vos propres clés API. Vos Collaborateurs IA s'appuient sur les meilleurs modèles du marché, dont ChatGPT, et vous gardez le contrôle de vos coûts." },
-      { q: 'Les Collaborateurs IA remplacent-ils mes équipes ?', a: "Non. Ils travaillent aux côtés de vos collaborateurs pour exécuter des missions, automatiser des tâches et augmenter leur capacité d'action." },
-      { q: 'Puis-je héberger Unitalk sur mon infrastructure ?', a: 'Oui. Cloud, cloud privé, On-Premise ou Desktop. Votre infrastructure, votre choix. Les serveurs Unitalk sont hébergés en France pour la souveraineté de vos données.' },
-      { q: 'Puis-je créer mes propres Collaborateurs IA ?', a: 'Oui. Vous pouvez recruter des profils existants, les personnaliser ou créer les vôtres. Alma personnalise ensuite leurs expertises, leurs connaissances et leurs missions.' },
+      { q: 'Comment mon Collaborateur IA acquiert-il son savoir-faire ?', a: "Tout commence par une conversation avec Alma. Elle analyse votre activité et prépare le Collaborateur IA qu'il vous faut : ses profils, sa mémoire métier personnalisée et les compétences de l'agent Hermès. Ce savoir-faire s'enrichit au fil des missions." },
+      { q: 'Quels modèles d’IA puis-je utiliser, et avec mes propres clés API ?', a: "Vos Collaborateurs IA s'appuient sur les meilleurs modèles du marché, dont ChatGPT, Claude et Gemini. Vous utilisez les crédits Unitalk ou connectez vos propres clés API pour garder le contrôle de vos coûts." },
+      { q: 'Où sont hébergées mes données ?', a: 'Les serveurs Unitalk sont hébergés en France et l’ensemble est conforme au RGPD. Vous pouvez aussi choisir votre infrastructure : cloud, cloud privé, on-premise ou desktop.' },
     ],
   },
   en: {
@@ -26,11 +24,9 @@ const T = {
     contactPre: 'Another question?',
     contactLink: 'Talk to Alma about it',
     faqs: [
-      { q: 'Do I need to be an AI expert?', a: 'No. It all starts with a conversation with Alma. She learns about your company, understands your goals, and hires the right AI Collaborators. There is nothing to configure.' },
-      { q: 'Can I use my own AI models?', a: 'Yes. You can use Unitalk credits or connect your own API keys. Your AI Collaborators rely on the best models available, including ChatGPT, and you stay in control of your costs.' },
-      { q: 'Do AI Collaborators replace my teams?', a: 'No. They work alongside your team members to carry out missions, automate tasks, and increase their capacity to act.' },
-      { q: 'Can I host Unitalk on my own infrastructure?', a: 'Yes. Cloud, private cloud, On-Premise or Desktop. Your infrastructure, your choice. Unitalk servers are hosted in France for the sovereignty of your data.' },
-      { q: 'Can I create my own AI Collaborators?', a: 'Yes. You can hire existing profiles, personalize them, or create your own. Alma then personalizes their expertise, knowledge, and missions.' },
+      { q: 'How does my AI Collaborator gain its know-how?', a: 'It all starts with a conversation with Alma. She analyzes your business and prepares the AI Collaborator you need: its profiles, its personalized business memory, and the skills of the Hermès agent. This know-how grows with every mission.' },
+      { q: 'Which AI models can I use, and can I use my own API keys?', a: 'Your AI Collaborators rely on the best models available, including ChatGPT, Claude, and Gemini. Use Unitalk credits or connect your own API keys to stay in control of your costs.' },
+      { q: 'Where is my data hosted?', a: 'Unitalk servers are hosted in France and everything is GDPR compliant. You can also choose your own infrastructure: cloud, private cloud, on-premise, or desktop.' },
     ],
   },
 }
