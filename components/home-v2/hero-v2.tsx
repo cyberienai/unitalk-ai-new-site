@@ -23,8 +23,10 @@ const T = {
       'organiser vos réunions',
       'collaborer avec vos équipes',
     ],
-    almaLead:
-      'Discutez avec Alma. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
+    almaLeadPre: 'Discutez avec ',
+    almaName: 'Alma',
+    almaLeadPost:
+      '. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
     cta: 'Commencer gratuitement',
     proofs: ['7 jours gratuits', 'Hébergé en France', 'Conforme au RGPD'],
     // Visual — la fiche vivante d'Emma (le résultat)
@@ -64,8 +66,10 @@ const T = {
       'organize your meetings',
       'collaborate with your teams',
     ],
-    almaLead:
-      'Chat with Alma. She analyzes your company and prepares the AI Collaborator you need.',
+    almaLeadPre: 'Chat with ',
+    almaName: 'Alma',
+    almaLeadPost:
+      '. She analyzes your company and prepares the AI Collaborator you need.',
     cta: 'Start for free',
     proofs: ['7 days free', 'Hosted in France', 'GDPR compliant'],
     // Visual — Emma's live profile (the outcome)
@@ -171,7 +175,18 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.h1>
 
           <motion.p {...enter(0.24)} className="mx-auto mt-4 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
-            {t.almaLead}
+            {t.almaLeadPre}
+            <span className="inline-flex items-center gap-1.5 whitespace-nowrap font-semibold text-[#1C1A17]">
+              <Image
+                src="/alma-avatar.png"
+                alt=""
+                width={22}
+                height={22}
+                className="inline-block h-[1.25em] w-[1.25em] rounded-full object-cover align-[-0.28em] ring-1 ring-[#D10E63]/25"
+              />
+              {t.almaName}
+            </span>
+            {t.almaLeadPost}
           </motion.p>
 
           <motion.div {...enter(0.28)} className="mt-8 flex flex-col items-center gap-4 sm:items-start">
