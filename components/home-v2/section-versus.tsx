@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { X, Check } from 'lucide-react'
+import { Kicker } from '@/components/home/section-kicker'
 
 const T = {
   fr: {
@@ -56,7 +57,9 @@ export function SectionVersus({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.6, ease }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#F0658F]">{t.eyebrow}</p>
+          <div className="flex justify-center">
+            <Kicker dark>{t.eyebrow}</Kicker>
+          </div>
           <h2 className="mt-4 text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.03em] text-[#F3EFE6] sm:text-4xl md:text-5xl">
             {t.title}
           </h2>
