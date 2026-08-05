@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Calendar, Check, Mail, Phone, Sparkles } from 'lucide-react'
+import { Kicker } from '@/components/home/section-kicker'
 
 const T = {
   fr: {
@@ -176,9 +177,9 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
         <div className="max-w-2xl">
-          <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
-            {t.eyebrow}
-          </motion.p>
+          <motion.div {...enter(0.04)} className="mb-5 flex justify-center sm:mb-6 sm:justify-start">
+            <Kicker>{t.eyebrow}</Kicker>
+          </motion.div>
 
           <motion.h1
             {...enter(0.1)}
