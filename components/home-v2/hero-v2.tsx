@@ -139,7 +139,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[94svh] sm:pb-20 sm:pt-32 lg:pt-36">
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[92svh] sm:pb-16 sm:pt-28">
       {/* subtle editorial backdrop */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -right-32 -top-24 h-[36rem] w-[36rem] rounded-full bg-[#D10E63]/[0.06] blur-3xl" />
@@ -154,10 +154,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.h1
             {...enter(0.1)}
-            className="text-balance text-center font-sf text-[clamp(2rem,5vw,4.25rem)] font-semibold leading-[1.06] tracking-[-0.055em] text-[#1C1A17] sm:text-left sm:leading-[1]"
+            className="text-balance text-center font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17] sm:text-left"
           >
             <span className="block">{t.readyLead}</span>
-            <span className="relative block min-h-[3em]">
+            <span className="relative block min-h-[2.1em]">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={missionIndex}
