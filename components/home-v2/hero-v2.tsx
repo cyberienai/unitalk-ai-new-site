@@ -25,7 +25,7 @@ const T = {
       'collaborer avec vos équipes',
     ],
     almaLead:
-      'Discutez avec Alma. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
+      'Il rejoint votre organisation avec les savoir-faire métier et les outils nécessaires pour chaque mission.',
     cta: 'Recruter mon Collaborateur IA',
     proofs: ['Aucune carte bancaire', 'Essai gratuit 7 jours', 'Hébergé en France · Conforme RGPD'],
     // Visual — la fiche vivante d'Emma (le résultat)
@@ -67,7 +67,7 @@ const T = {
       'collaborate with your teams',
     ],
     almaLead:
-      'Chat with Alma. She analyzes your company and prepares the AI Collaborator you need.',
+      'It joins your organization with the business know-how and tools it needs for every mission.',
     cta: 'Hire my AI Collaborator',
     proofs: ['No credit card', '7-day free trial', 'Hosted in France · GDPR compliant'],
     // Visual — Emma's live profile (the outcome)
