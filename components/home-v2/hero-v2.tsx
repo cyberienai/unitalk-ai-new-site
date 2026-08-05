@@ -267,7 +267,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.4, ease }}
-                      className="ml-auto w-fit max-w-[92%] rounded-2xl rounded-tr-sm bg-[#1C1A17] px-3 py-2 font-mono text-[11px] leading-snug text-[#FBF9F3]"
+                      className="ml-auto w-fit max-w-[85%] break-all rounded-2xl rounded-tr-sm bg-[#1C1A17] px-3 py-2 font-mono text-[11px] leading-snug text-[#FBF9F3]"
                     >
                       {t.steps.url}
                     </motion.p>
