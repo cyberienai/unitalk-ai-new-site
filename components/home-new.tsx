@@ -3,7 +3,6 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroV2 } from './home-v2/hero-v2'
-import { SectionReassurance } from './home/section-reassurance'
 import { SectionStartWebsite } from './home-v2/section-start-website'
 import { SectionCollaboratorIdentity } from './home-v2/section-collaborator-identity'
 import { CollaboratorsShowcase } from './collaborators-showcase'
@@ -26,9 +25,6 @@ export function HomeNew() {
 
       {/* 1. Hero — Recrutez votre premier Collaborateur IA. */}
       <HeroV2 lang={lang} />
-
-      {/* Bande de réassurance factuelle */}
-      <SectionReassurance lang={lang} />
 
       {/* 2. Voie 1 — Commencez par le site Web de votre entreprise */}
       <SectionStartWebsite lang={lang} />
