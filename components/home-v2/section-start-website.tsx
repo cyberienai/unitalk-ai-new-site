@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import {
@@ -468,12 +469,15 @@ function DemoWindow({
     <div className="overflow-hidden rounded-[24px] border border-[#E3DED5] bg-[#FFFEFC] shadow-[0_20px_60px_-24px_rgba(26,26,26,0.18)]">
       {/* top bar */}
       <div className="flex items-center gap-3 border-b border-[#EDE8DE] px-5 py-4">
-        <span
-          aria-hidden="true"
-          className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#D10E63]/10"
-        >
-          <span className="h-4 w-4 rounded-md bg-[#D10E63]" />
-          <span className="absolute inset-0 rounded-xl ring-1 ring-inset ring-[#D10E63]/25" />
+        <span className="relative flex h-9 w-9 shrink-0 items-center justify-center">
+          <Image
+            src="/alma-avatar.png"
+            alt={t.almaName}
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-full object-cover"
+          />
+          <span aria-hidden="true" className="absolute inset-0 rounded-full ring-2 ring-inset ring-[#D10E63]/35" />
         </span>
         <div className="min-w-0">
           <p className="text-sm font-semibold text-[#1A1A1A]">{t.almaName}</p>
