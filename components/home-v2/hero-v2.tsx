@@ -28,7 +28,7 @@ const T = {
     almaLeadPost:
       '. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
     cta: 'Commencer gratuitement',
-    proofs: ['7 jours gratuits', 'Hébergé en France', 'Conforme au RGPD'],
+    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -71,7 +71,7 @@ const T = {
     almaLeadPost:
       '. She analyzes your company and prepares the AI Collaborator you need.',
     cta: 'Start for free',
-    proofs: ['7 days free', 'Hosted in France', 'GDPR compliant'],
+    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
