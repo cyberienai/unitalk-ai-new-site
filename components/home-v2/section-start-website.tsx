@@ -31,7 +31,7 @@ const CONTENT = {
   fr: {
     eyebrow: 'Commencez par votre site web',
     title: 'Entrez le nom de domaine de votre entreprise.',
-    subtitle: 'Alma analyse votre activité et vous propose les premières missions à confier.',
+    subtitle: 'Alma analyse votre activité, échange avec vous pour comprendre vos priorités et vous propose les premières missions à confier.',
     fieldLabel: 'Nom de domaine de votre entreprise',
     placeholder: 'votre-entreprise.com',
     cta: 'Analyser mon site',
@@ -104,7 +104,7 @@ const CONTENT = {
   en: {
     eyebrow: 'Start with your website',
     title: 'Enter your company’s domain name.',
-    subtitle: 'Alma analyzes your business and suggests the first missions to hand off.',
+    subtitle: 'Alma analyzes your business, talks with you to understand your priorities, and suggests the first missions to hand off.',
     fieldLabel: 'Your company’s domain name',
     placeholder: 'your-company.com',
     cta: 'Analyze my site',
