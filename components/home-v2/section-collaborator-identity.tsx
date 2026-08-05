@@ -16,6 +16,7 @@ import {
   Workflow,
   Wrench,
 } from 'lucide-react'
+import { Kicker } from '@/components/home/section-kicker'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -48,8 +49,8 @@ const T = {
     ficheRole: 'Collaboratrice IA · Assistante de direction',
     ficheStatus: 'Active',
     ficheContact: [
-      { icon: Phone, label: '+33 1 84 80 00 00' },
-      { icon: Mail, label: 'emma@votreentreprise.com' },
+      { icon: Phone, label: '+33 1 84 80 24 12' },
+      { icon: Mail, label: 'emma@solvea.fr' },
       { icon: Calendar, label: 'Agenda connecté' },
     ],
     expertisesLabel: 'Expertises',
@@ -85,8 +86,8 @@ const T = {
     ficheRole: 'AI Collaborator · Executive assistant',
     ficheStatus: 'Active',
     ficheContact: [
-      { icon: Phone, label: '+33 1 84 80 00 00' },
-      { icon: Mail, label: 'emma@yourcompany.com' },
+      { icon: Phone, label: '+33 1 84 80 24 12' },
+      { icon: Mail, label: 'emma@solvea.fr' },
       { icon: Calendar, label: 'Calendar connected' },
     ],
     expertisesLabel: 'Expertise',
@@ -109,7 +110,9 @@ export function SectionCollaboratorIdentity({ lang = 'fr' }: { lang?: 'fr' | 'en
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.7, ease }}
           >
-            <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.eyebrow}</p>
+            <div className="mb-4">
+              <Kicker>{t.eyebrow}</Kicker>
+            </div>
             <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
               {t.title}
             </h2>

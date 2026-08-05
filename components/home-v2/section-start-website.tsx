@@ -44,7 +44,7 @@ const CONTENT = {
     demoBadge: 'Démonstration',
     almaName: 'Alma',
     almaRole: 'Analyse de votre entreprise',
-    exampleDomain: 'www.exemple-entreprise.fr',
+    exampleDomain: 'www.solvea.fr',
     live: 'Analyse en direct',
     phase: {
       exploration: 'Alma consulte les informations publiques',
@@ -117,7 +117,7 @@ const CONTENT = {
     demoBadge: 'Demo',
     almaName: 'Alma',
     almaRole: 'Analyzing your company',
-    exampleDomain: 'www.example-company.com',
+    exampleDomain: 'www.solvea.fr',
     live: 'Live analysis',
     phase: {
       exploration: 'Alma reviews public information',
@@ -329,7 +329,7 @@ export function SectionStartWebsite({ lang = 'fr' }: { lang?: Lang }) {
       className="scroll-mt-20 border-t border-[#E3DED5] bg-[#F5F2EB] py-24 sm:py-32"
     >
       <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[42fr_58fr] lg:items-center lg:gap-16">
-        {/* LEFT — message + form */}
+        {/* LEFT ��� message + form */}
         <div className="max-w-xl">
           <Kicker>{t.eyebrow}</Kicker>
           <h2 className="mt-4 text-balance font-sf text-3xl font-bold leading-[1.08] tracking-[-0.035em] text-[#1A1A1A] sm:text-4xl lg:text-[2.6rem]">

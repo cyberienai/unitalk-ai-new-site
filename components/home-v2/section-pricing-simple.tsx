@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Building2, Cpu, LifeBuoy, Server, UserPlus } from 'lucide-react'
 import { CtaButton } from '@/components/ui/cta-button'
+import { Kicker } from '@/components/home/section-kicker'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -104,7 +105,9 @@ export function SectionPricingSimple({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.7, ease }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{t.eyebrow}</p>
+            <div className="mb-4 flex justify-center">
+              <Kicker>{t.eyebrow}</Kicker>
+            </div>
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
