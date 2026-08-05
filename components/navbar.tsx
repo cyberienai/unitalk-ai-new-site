@@ -12,7 +12,7 @@ type Featured = { name: string; role: { fr: string; en: string }; href: string; 
 
 const CREATE_ORG = {
   href: '/decouvrir',
-  label: { fr: 'Recruter mon Collaborateur IA', en: 'Hire my AI Collaborator' },
+  label: { fr: 'Commencer gratuitement', en: 'Start for free' },
 }
 
 // Compact dropdown for "Missions"
@@ -54,8 +54,8 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'Collaborateurs IA',
-    createOrg: 'Recruter mon Collaborateur IA',
-    createOrgShort: 'Recruter',
+    createOrg: 'Commencer gratuitement',
+    createOrgShort: 'Commencer',
     featuredLabel: 'Mis en avant',
     collabSignature: 'Une identité qui reste. Des expertises qui évoluent.',
     openMenu: 'Ouvrir le menu',
@@ -68,8 +68,8 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'AI Collaborators',
-    createOrg: 'Hire my AI Collaborator',
-    createOrgShort: 'Hire',
+    createOrg: 'Start for free',
+    createOrgShort: 'Start',
     featuredLabel: 'Featured',
     collabSignature: 'One identity that stays. Expertise that evolves.',
     openMenu: 'Open menu',

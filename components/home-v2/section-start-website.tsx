@@ -31,9 +31,9 @@ const CONTENT = {
   fr: {
     eyebrow: 'Commencez par votre site web',
     title: 'Entrez le nom de domaine de votre entreprise.',
-    subtitle: 'Alma analyse votre activité et vous propose les premières missions à confier.',
+    subtitle: 'Alma analyse votre activité, échange avec vous pour comprendre vos priorités et vous propose les premières missions à confier.',
     fieldLabel: 'Nom de domaine de votre entreprise',
-    placeholder: 'www.votre-entreprise.com',
+    placeholder: 'votre-entreprise.com',
     cta: 'Analyser mon site',
     analyzing: 'Analyse en cours…',
     invalid: 'Indiquez un nom de domaine valide.',
@@ -104,9 +104,9 @@ const CONTENT = {
   en: {
     eyebrow: 'Start with your website',
     title: 'Enter your company’s domain name.',
-    subtitle: 'Alma analyzes your business and suggests the first missions to hand off.',
+    subtitle: 'Alma analyzes your business, talks with you to understand your priorities, and suggests the first missions to hand off.',
     fieldLabel: 'Your company’s domain name',
-    placeholder: 'www.your-company.com',
+    placeholder: 'your-company.com',
     cta: 'Analyze my site',
     analyzing: 'Analyzing…',
     invalid: 'Enter a valid domain name.',
@@ -341,10 +341,10 @@ export function SectionStartWebsite({ lang = 'fr' }: { lang?: Lang }) {
             <label htmlFor="company-domain" className="sr-only">
               {t.fieldLabel}
             </label>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3">
               <div className="relative flex-1">
                 <Globe
-                  className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#8A857D]"
+                  className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-[#8A857D]"
                   aria-hidden="true"
                 />
                 <input
@@ -360,13 +360,13 @@ export function SectionStartWebsite({ lang = 'fr' }: { lang?: Lang }) {
                   placeholder={t.placeholder}
                   aria-invalid={status === 'invalid'}
                   aria-describedby={status === 'invalid' ? 'domain-error' : undefined}
-                  className="h-12 w-full rounded-full border border-[#E3DED5] bg-[#FFFEFC] pl-11 pr-4 text-sm text-[#1A1A1A] placeholder:text-[#A8A29A] focus:border-[#D10E63] focus:outline-none focus:ring-2 focus:ring-[#D10E63]/30"
+                  className="h-14 w-full rounded-full border border-[#E3DED5] bg-[#FFFEFC] pl-12 pr-5 text-base text-[#1A1A1A] shadow-sm placeholder:text-[#A8A29A] focus:border-[#D10E63] focus:outline-none focus:ring-2 focus:ring-[#D10E63]/30"
                 />
               </div>
               <button
                 type="submit"
                 disabled={status === 'analyzing'}
-                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5F2EB] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                className="group inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 text-base font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F5F2EB] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
               >
                 {status === 'analyzing' ? (
                   <>
