@@ -176,13 +176,13 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.p {...enter(0.24)} className="mx-auto mt-4 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
             {t.almaLeadPre}
-            <span className="inline-flex items-center gap-1.5 whitespace-nowrap font-semibold text-[#1C1A17]">
+            <span className="whitespace-nowrap font-semibold text-[#1C1A17]">
               <Image
                 src="/alma-avatar.png"
                 alt=""
                 width={22}
                 height={22}
-                className="inline-block h-[1.25em] w-[1.25em] rounded-full object-cover align-[-0.28em] ring-1 ring-[#D10E63]/25"
+                className="mr-1.5 inline-block h-[1.15em] w-[1.15em] rounded-full object-cover align-[-0.22em] ring-1 ring-[#D10E63]/25"
               />
               {t.almaName}
             </span>
