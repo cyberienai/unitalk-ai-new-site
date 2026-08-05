@@ -9,32 +9,45 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    avatarsLabel: 'Un visage, une voix, un profil métier — façonné pour votre activité',
     eyebrow: 'Il vous manque quelqu’un.',
     titleLead: 'Votre Collaborateur IA est prêt à',
     missions: [
-      'rédiger vos rapports',
-      'trouver de nouveaux clients',
-      'participer à vos réunions',
-      'analyser vos données',
       'répondre à vos clients',
-      'créer vos contenus',
-      'automatiser vos opérations',
+      'trouver de nouveaux clients',
+      'prendre vos rendez-vous',
+      'envoyer vos emails',
+      'préparer vos devis',
+      'gérer votre support',
+      'automatiser vos tâches',
+      'travailler avec votre équipe',
     ],
-    lead: 'Alma analyse votre site Web et prépare le profil métier, les compétences et les outils nécessaires à sa première mission.',
+    almaName: 'Alma',
+    almaRole: 'conseillère IA',
+    lead: 'Alma analyse votre site Web et prépare sa première mission.',
     domainAria: 'Votre site web',
     domainPlaceholder: 'votreentreprise.com',
     domainCta: 'Découvrir mon Collaborateur IA',
     proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
     // organigramme
     orgTitle: 'Votre organisation',
-    orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
-    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département, un projet ou toute l’organisation.',
+    orgLeadParts: [
+      { t: 'Il travaille pour ' },
+      { t: 'une personne', h: true },
+      { t: ', ' },
+      { t: 'une équipe', h: true },
+      { t: ', ' },
+      { t: 'un département', h: true },
+      { t: ', ' },
+      { t: 'un projet', h: true },
+      { t: ' ou ' },
+      { t: 'toute l’organisation', h: true },
+      { t: '.' },
+    ],
     orgPairs: [
-      { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
-      { human: 'Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
-      { human: 'Développement', dept: '3 équipes', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation', scaleKind: 'department', scaleLabel: 'Un département' },
-      { human: 'Toute l’organisation', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Organisation' },
+      { human: 'Une personne', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
+      { human: 'Équipe Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
+      { human: 'Département Sales', dept: '3 équipes', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'department', scaleLabel: 'Un département' },
+      { human: 'Toute votre organisation', dept: 'Acme', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Livraison', scaleKind: 'org', scaleLabel: 'Toute l’organisation' },
       { human: 'Finance', dept: '4 personnes', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse · Trésorerie · Reporting', scaleKind: 'team', scaleLabel: 'Une équipe' },
       { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi', scaleKind: 'person', scaleLabel: 'Une personne' },
     ],
@@ -42,32 +55,45 @@ const T = {
     scaleHeader: 'Rattaché à',
   },
   en: {
-    avatarsLabel: 'A face, a voice, a business profile — shaped for your business',
     eyebrow: 'Someone is missing.',
     titleLead: 'Your AI Collaborator is ready to',
     missions: [
-      'write your reports',
-      'find new customers',
-      'join your meetings',
-      'analyze your data',
       'answer your customers',
-      'create your content',
-      'automate your operations',
+      'find new customers',
+      'book your appointments',
+      'send your emails',
+      'prepare your quotes',
+      'handle your support',
+      'automate your tasks',
+      'work with your team',
     ],
-    lead: 'Alma analyzes your website and prepares the business profile, skills and tools your AI Collaborator needs for its first mission.',
+    almaName: 'Alma',
+    almaRole: 'AI advisor',
+    lead: 'Alma analyzes your website and prepares its first mission.',
     domainAria: 'Your website',
     domainPlaceholder: 'yourcompany.com',
     domainCta: 'Discover my AI Collaborator',
-    proofs: ['7-day free trial', 'Hosted in Europe', 'GDPR compliant'],
+    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
     // organigramme
     orgTitle: 'Your organization',
-    orgMeta: 'Dedicated or shared AI Collaborators. All of them belong to your organization.',
-    orgFootnote: 'Every AI Collaborator can work for a person, a team, a department, a project or the whole organization.',
+    orgLeadParts: [
+      { t: 'It works for ' },
+      { t: 'a person', h: true },
+      { t: ', ' },
+      { t: 'a team', h: true },
+      { t: ', ' },
+      { t: 'a department', h: true },
+      { t: ', ' },
+      { t: 'a project', h: true },
+      { t: ' or ' },
+      { t: 'the whole organization', h: true },
+      { t: '.' },
+    ],
     orgPairs: [
-      { human: 'Patrick', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
-      { human: 'Marketing', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
-      { human: 'Engineering', dept: '3 teams', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Code · Tests · Documentation', scaleKind: 'department', scaleLabel: 'A department' },
-      { human: 'Whole organization', dept: 'Acme', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'org', scaleLabel: 'Organization' },
+      { human: 'A person', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
+      { human: 'Marketing team', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
+      { human: 'Sales department', dept: '3 teams', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'department', scaleLabel: 'A department' },
+      { human: 'Your whole organization', dept: 'Acme', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Delivery', scaleKind: 'org', scaleLabel: 'Whole organization' },
       { human: 'Finance', dept: '4 people', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis · Cash flow · Reporting', scaleKind: 'team', scaleLabel: 'One team' },
       { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up', scaleKind: 'person', scaleLabel: 'One person' },
     ],
@@ -77,15 +103,6 @@ const T = {
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
-
-const HERO_AVATARS = [
-  { name: 'Emma', src: '/images/emma-avatar.png' },
-  { name: 'Léa', src: '/images/lea-avatar.png' },
-  { name: 'Arthur', src: '/images/arthur-avatar.png' },
-  { name: 'Hugo', src: '/images/hugo-avatar.png' },
-  { name: 'Nadia', src: '/images/nadia-avatar.png' },
-  { name: 'Inès', src: '/images/ines-avatar.png' },
-] as const
 
 const SCALE_ICONS = {
   person: User,
@@ -132,32 +149,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="max-w-2xl">
-          <motion.div {...enter(0)} className="mb-5 flex items-center justify-center gap-3 sm:justify-start">
-            <ul className="flex items-center -space-x-2.5">
-              {HERO_AVATARS.map((a, i) => (
-                <motion.li
-                  key={a.name}
-                  initial={reduceMotion ? false : { opacity: 0, scale: 0.6, x: -6 }}
-                  animate={{ opacity: 1, scale: 1, x: 0 }}
-                  transition={{ duration: 0.4, ease, delay: reduceMotion ? 0 : 0.06 * i }}
-                  className="relative"
-                  style={{ zIndex: HERO_AVATARS.length - i }}
-                >
-                  <Image
-                    src={a.src}
-                    alt={a.name}
-                    width={36}
-                    height={36}
-                    className="h-9 w-9 rounded-full object-cover ring-2 ring-[#F3EFE6]"
-                  />
-                </motion.li>
-              ))}
-            </ul>
-            <span className="max-w-[10rem] text-pretty text-[11px] font-medium leading-4 text-[#6E665A] sm:max-w-[13rem]">
-              {t.avatarsLabel}
-            </span>
-          </motion.div>
-
           <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
             {t.eyebrow}
           </motion.p>
@@ -182,7 +173,21 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </span>
           </h1>
 
-          <motion.p {...enter(0.22)} className="mx-auto mt-6 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
+          <motion.div {...enter(0.2)} className="mt-6 flex items-center justify-center gap-2 sm:justify-start">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#E4DDCE] bg-[#F3EFE6]/70 py-1 pl-1 pr-3">
+              <span className="relative shrink-0">
+                <Image src="/alma-avatar.png" alt="Alma" width={24} height={24} className="h-6 w-6 rounded-full object-cover ring-2 ring-[#D10E63]/35" />
+                <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border border-[#F3EFE6] bg-[#2E7D4F]" aria-hidden="true" />
+              </span>
+              <span className="text-[13px] font-medium text-[#6E665A]">
+                <span className="font-bold text-[#1C1A17]">{t.almaName}</span>
+                <span className="px-1 text-[#B7AE9E]" aria-hidden="true">·</span>
+                {t.almaRole}
+              </span>
+            </span>
+          </motion.div>
+
+          <motion.p {...enter(0.24)} className="mx-auto mt-3 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
             {t.lead}
           </motion.p>
 
@@ -224,16 +229,19 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               <Link
                 href="/decouvrir"
                 aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
-                className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#D10E63]/[0.05]"
+                className="group -mx-2 flex items-start gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-[#D10E63]/[0.05]"
               >
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
-                <div className="min-w-0">
-                  <p className="flex items-center gap-1.5 text-sm font-bold text-[#1C1A17]">
-                    {t.orgTitle}
-                    <ArrowRight className="h-3.5 w-3.5 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
-                  </p>
-                  <p className="text-[11px] text-[#6E665A]">{t.orgMeta}</p>
-                </div>
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
+                <p className="text-[13px] font-semibold leading-6 text-[#4E483F]">
+                  {t.orgLeadParts.map((part, i) =>
+                    part.h ? (
+                      <span key={i} className="font-bold text-[#D10E63]">{part.t}</span>
+                    ) : (
+                      <span key={i}>{part.t}</span>
+                    ),
+                  )}
+                  <ArrowRight className="ml-1 inline h-3.5 w-3.5 shrink-0 align-[-2px] text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+                </p>
               </Link>
             </div>
             <div className="p-4 sm:p-6">
@@ -242,17 +250,12 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               <div>
                 <div className="flex flex-col gap-2.5">
                   {t.orgPairs.slice(0, 4).map((pair) => {
-                    const initials = pair.human.slice(0, 2).toUpperCase()
                     const ScaleIcon = SCALE_ICONS[pair.scaleKind as keyof typeof SCALE_ICONS]
-                    const isPerson = pair.scaleKind === 'person'
                     return (
                       <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-stretch gap-2">
                         <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] font-mono text-[11px] font-bold tracking-wide text-[#5F594F]" aria-hidden="true">{isPerson ? initials : <ScaleIcon className="h-4 w-4" />}</span>
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-bold text-[#1C1A17]">{pair.human}</p>
-                            <span className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-[#6E665A]"><ScaleIcon className="h-3 w-3 text-[#8A8175]" aria-hidden="true" />{pair.scaleLabel}</span>
-                          </div>
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] text-[#5F594F]" aria-hidden="true"><ScaleIcon className="h-4 w-4" /></span>
+                          <p className="min-w-0 text-pretty text-sm font-semibold leading-tight text-[#1C1A17]">{pair.human}</p>
                         </div>
                         <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
                         <a
@@ -269,10 +272,9 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </div>
               </div>
               </div>
-            </div>
-          </div>
-          <p className="mt-3 px-2 text-center text-[11px] leading-5 text-[#6E665A] sm:text-left">{t.orgFootnote}</p>
-        </motion.div>
+              </div>
+              </div>
+            </motion.div>
       </div>
     </section>
   )

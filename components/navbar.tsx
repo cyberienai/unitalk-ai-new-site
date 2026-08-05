@@ -114,21 +114,12 @@ export function Navbar({
   ctaShortLabel?: { fr: string; en: string }
 } = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [openMenu, setOpenMenu] = useState<'missions' | 'collaborateurs' | null>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { lang, setLang } = useLanguage()
   const t = T[lang]
   const ctaFull = ctaLabel ? ctaLabel[lang] : t.createOrg
   const ctaShort = ctaShortLabel ? ctaShortLabel[lang] : t.createOrgShort
-
-  // Divider under the nav appears only once past the hero (≈ 2nd section)
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.6)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   // Lock body scroll while the mobile menu is open
   useEffect(() => {
@@ -163,7 +154,7 @@ export function Navbar({
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b bg-[#F3EFE6]/90 backdrop-blur-xl transition-colors duration-300 ${
-          scrolled || isMenuOpen || openMenu ? 'border-[#D8D0C2]/75' : 'border-transparent'
+          isMenuOpen || openMenu ? 'border-[#D8D0C2]/75' : 'border-transparent'
         }`}
       >
         <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
