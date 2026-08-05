@@ -8,7 +8,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-type Step = 'welcome' | 'preparing' | 'slot' | 'confirm' | 'done'
+type Step = 'welcome' | 'preparing' | 'schedule' | 'done'
 
 const T = {
   fr: {
@@ -43,8 +43,7 @@ const T = {
     readyTitle: 'C’est prêt.',
     slotBody: 'Choisissez le moment où je vous appelle.',
     slots: ['Maintenant', 'Dans 15 minutes', 'Cet après-midi', 'Demain'],
-    confirmSlot: 'Continuer',
-    // Confirm
+    // Récap de l'appel
     callTitle: 'Je vous appellerai au',
     duration: 'Durée',
     durationValue: '10 minutes',
@@ -56,7 +55,6 @@ const T = {
       'il commence à travailler',
     ],
     confirmCall: 'Confirmer l’appel',
-    changeSlot: 'Changer de créneau',
     // Done
     doneTitle: 'C’est confirmé.',
     doneBody: (slot: string, phone: string) =>
@@ -93,7 +91,6 @@ const T = {
     readyTitle: 'All set.',
     slotBody: 'Choose when I call you.',
     slots: ['Now', 'In 15 minutes', 'This afternoon', 'Tomorrow'],
-    confirmSlot: 'Continue',
     callTitle: 'I’ll call you at',
     duration: 'Duration',
     durationValue: '10 minutes',
@@ -105,7 +102,6 @@ const T = {
       'it starts working',
     ],
     confirmCall: 'Confirm the call',
-    changeSlot: 'Change time',
     doneTitle: 'It’s confirmed.',
     doneBody: (slot: string, phone: string) =>
       `I’ll call you ${slot.toLowerCase()} at ${phone}. Keep your phone close — talk to you soon.`,
@@ -181,9 +177,8 @@ export function CreateAgent() {
   const stepIndex: Record<Step, number> = {
     welcome: 1,
     preparing: 2,
-    slot: 3,
-    confirm: 4,
-    done: 4,
+    schedule: 3,
+    done: 3,
   }
 
   // Sync the "How it works" panel with the onboarding flow:
@@ -191,8 +186,7 @@ export function CreateAgent() {
   const howActiveIndex: Record<Step, number> = {
     welcome: 0,
     preparing: 1,
-    slot: 2,
-    confirm: 2,
+    schedule: 2,
     done: 2,
   }
 
@@ -224,13 +218,13 @@ export function CreateAgent() {
         {/* Progress */}
         <div className="mb-8">
           <div className="mb-2 flex items-center justify-between text-[11px] font-medium uppercase tracking-wider text-[#857C6E]">
-            <span>{t.stepLabel(stepIndex[step], 4)}</span>
+            <span>{t.stepLabel(stepIndex[step], 3)}</span>
           </div>
           <div className="h-1 w-full overflow-hidden rounded-full bg-[#E4DCCC]">
             <motion.div
               className="h-full rounded-full bg-[#D10E63]"
               initial={false}
-              animate={{ width: `${(stepIndex[step] / 4) * 100}%` }}
+              animate={{ width: `${(stepIndex[step] / 3) * 100}%` }}
               transition={{ duration: 0.5, ease }}
             />
           </div>
@@ -331,14 +325,14 @@ export function CreateAgent() {
               key="preparing"
               t={t}
               firstName={firstName || (lang === 'fr' ? 'à vous' : 'you')}
-              onDone={() => setStep('slot')}
+              onDone={() => setStep('schedule')}
             />
           )}
 
-          {/* STEP 3 — Slot */}
-          {step === 'slot' && (
+          {/* STEP 3 — Créneau + confirmation (fusionnés) */}
+          {step === 'schedule' && (
             <motion.div
-              key="slot"
+              key="schedule"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
@@ -352,7 +346,7 @@ export function CreateAgent() {
                 <span className="text-[#4F5BD5]">{t.readyTitle}</span> {t.slotBody}
               </h1>
 
-              <div className="mt-8 flex flex-col gap-3">
+              <div className="mt-8 grid grid-cols-2 gap-3">
                 {t.slots.map((s) => {
                   const active = slot === s
                   return (
@@ -360,7 +354,7 @@ export function CreateAgent() {
                       key={s}
                       type="button"
                       onClick={() => setSlot(s)}
-                      className={`flex items-center justify-between rounded-xl border px-5 py-4 text-left text-[15px] font-medium transition-colors ${
+                      className={`flex items-center justify-between rounded-xl border px-4 py-3.5 text-left text-[15px] font-medium transition-colors ${
                         active
                           ? 'border-[#D10E63] bg-[#FBF9F3] text-[#1C1A17]'
                           : 'border-[#DcD4C4] bg-[#FBF9F3] text-[#4E483F] hover:border-[#B8AE9A]'
@@ -368,7 +362,7 @@ export function CreateAgent() {
                     >
                       {s}
                       <span
-                        className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors ${
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
                           active ? 'border-[#D10E63] bg-[#D10E63] text-[#FBF9F3]' : 'border-[#CDC3B1] text-transparent'
                         }`}
                       >
@@ -379,66 +373,41 @@ export function CreateAgent() {
                 })}
               </div>
 
-              <button
-                type="button"
-                disabled={!slot}
-                onClick={() => setStep('confirm')}
-                className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                {t.confirmSlot}
-                <ArrowIcon />
-              </button>
-            </motion.div>
-          )}
-
-          {/* STEP 4 — Confirm call */}
-          {step === 'confirm' && (
-            <motion.div
-              key="confirm"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.45, ease }}
-            >
-              <AlmaBadge label={roleLabel} />
-
+              {/* Récap de l'appel + ce qu'Alma fait pendant */}
               <div className="mt-6 rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6">
-                <p className="text-sm text-[#857C6E]">{t.callTitle}</p>
-                <p className="mt-1 font-sf text-2xl font-bold tracking-tight text-[#1C1A17]">
-                  {phone || t.phonePh}
-                </p>
-                <div className="mt-4 flex items-center gap-2 text-sm text-[#4E483F]">
-                  <span className="text-[#857C6E]">{t.duration} :</span>
-                  <span className="font-medium text-[#1C1A17]">{t.durationValue}</span>
+                <div className="flex items-baseline justify-between gap-3">
+                  <div>
+                    <p className="text-sm text-[#857C6E]">{t.callTitle}</p>
+                    <p className="mt-1 font-sf text-2xl font-bold tracking-tight text-[#1C1A17]">
+                      {phone || t.phonePh}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-[#4F5BD5]/12 px-2.5 py-1 text-[11px] font-semibold text-[#4F5BD5]">
+                    {t.durationValue}
+                  </span>
+                </div>
+
+                <p className="mt-5 text-sm font-medium text-[#1C1A17]">{t.duringCall}</p>
+                <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  {t.during.map((d) => (
+                    <div key={d} className="flex items-center gap-2.5 text-sm text-[#4E483F]">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4F5BD5]/12 text-[#4F5BD5]">
+                        <CheckIcon />
+                      </span>
+                      {d}
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <p className="mt-6 text-sm font-medium text-[#1C1A17]">{t.duringCall}</p>
-              <div className="mt-3 flex flex-col gap-2.5">
-                {t.during.map((d) => (
-                  <div key={d} className="flex items-center gap-2.5 text-sm text-[#4E483F]">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4F5BD5]/12 text-[#4F5BD5]">
-                      <CheckIcon />
-                    </span>
-                    {d}
-                  </div>
-                ))}
-              </div>
-
               <button
                 type="button"
+                disabled={!slot}
                 onClick={() => setStep('done')}
-                className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+                className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {t.confirmCall}
                 <ArrowIcon />
-              </button>
-              <button
-                type="button"
-                onClick={() => setStep('slot')}
-                className="mt-3 w-full text-center text-sm text-[#857C6E] underline underline-offset-2 hover:text-[#1C1A17]"
-              >
-                {t.changeSlot}
               </button>
             </motion.div>
           )}
