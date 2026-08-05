@@ -41,11 +41,11 @@ const T: Record<
   }
 > = {
   fr: {
-    kicker: 'Missions',
-    headline1: 'Choisissez une mission.',
-    headline2: 'Alma prépare votre Collaborateur\u00A0IA.',
+    kicker: 'Commencez par une mission',
+    headline1: 'Que souhaitez-vous',
+    headline2: 'accomplir\u00A0?',
     subtitle:
-      'Sélectionnez ce que vous souhaitez accomplir. Alma adapte son profil métier, ses compétences et ses outils à votre entreprise.',
+      'Choisissez une mission. Alma prépare le profil métier et les compétences nécessaires à votre Collaborateur\u00A0IA.',
     exploreAll: 'Explorer toutes les missions',
     missions: [
       'Trouver des prospects qualifiés',
@@ -57,11 +57,11 @@ const T: Record<
     ],
   },
   en: {
-    kicker: 'Missions',
-    headline1: 'Choose a mission.',
-    headline2: 'Alma prepares your AI\u00A0Collaborator.',
+    kicker: 'Start with a mission',
+    headline1: 'What do you want',
+    headline2: 'to accomplish?',
     subtitle:
-      'Select what you want to accomplish. Alma tailors its business profile, skills, and tools to your company.',
+      'Choose a mission. Alma prepares the business profile and skills your AI\u00A0Collaborator needs.',
     exploreAll: 'Explore every mission',
     missions: [
       'Find qualified prospects',
