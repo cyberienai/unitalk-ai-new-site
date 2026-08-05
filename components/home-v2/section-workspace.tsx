@@ -82,7 +82,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
             <p className="mt-7 max-w-lg text-pretty text-[15px] font-semibold leading-relaxed text-[#1C1A17]">{t.closing}</p>
 
-            <CtaButton href="/decouvrir" className="mt-6">
+            <CtaButton href="/workspace" className="mt-6">
               {t.cta}
               <ArrowRight className="h-4 w-4" />
             </CtaButton>

@@ -139,7 +139,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[94svh] sm:pb-20 sm:pt-32 lg:pt-36">
+    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[92svh] sm:pb-16 sm:pt-28">
       {/* subtle editorial backdrop */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -right-32 -top-24 h-[36rem] w-[36rem] rounded-full bg-[#D10E63]/[0.06] blur-3xl" />
@@ -154,10 +154,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.h1
             {...enter(0.1)}
-            className="text-balance text-center font-sf text-[clamp(2rem,5vw,4.25rem)] font-semibold leading-[1.06] tracking-[-0.055em] text-[#1C1A17] sm:text-left sm:leading-[1]"
+            className="text-balance text-center font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17] sm:text-left"
           >
             <span className="block">{t.readyLead}</span>
-            <span className="relative block min-h-[3em]">
+            <span className="relative block min-h-[2.1em]">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={missionIndex}
@@ -171,7 +171,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </motion.span>
               </AnimatePresence>
             </span>
-            <span className="sr-only">{t.missions.join(', ')}.</span>
           </motion.h1>
 
           <motion.p {...enter(0.24)} className="mx-auto mt-4 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
@@ -395,21 +394,24 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   })}
                 </ul>
 
-                <AnimatePresence>
-                  {allDone && (
-                    <motion.p
-                      key="summary"
-                      initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4, ease }}
-                      className="mt-2 flex items-center gap-1.5 border-t border-white/[0.08] pt-2 text-[11px] font-semibold text-[#5FE38F]"
-                    >
-                      <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} aria-hidden="true" />
-                      {t.summary}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
+                {/* Espace réservé en permanence pour éviter tout saut de hauteur */}
+                <div className="mt-2 min-h-[1.75rem] border-t border-white/[0.08] pt-2">
+                  <AnimatePresence>
+                    {allDone && (
+                      <motion.p
+                        key="summary"
+                        initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, ease }}
+                        className="flex items-center gap-1.5 text-[11px] font-semibold text-[#5FE38F]"
+                      >
+                        <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} aria-hidden="true" />
+                        {t.summary}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
           </div>
