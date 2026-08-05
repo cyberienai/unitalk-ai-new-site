@@ -13,14 +13,14 @@ const ease = [0.22, 1, 0.36, 1] as const
 const COPY = {
   fr: {
     eyebrow: 'Commencez par votre site web',
-    title: 'Votre site web suffit pour commencer.',
+    title: 'Indiquez le site web de votre entreprise.',
     subtitle:
-      'Indiquez l’adresse de votre entreprise. Alma explore vos pages, comprend votre activité et vous propose les premières missions de votre Collaborateur IA.',
+      'Alma analyse votre activité, comprend vos objectifs et vous propose les premières missions à confier.',
     placeholder: 'www.votre-entreprise.com',
     inputLabel: 'Adresse de votre site web',
     cta: 'Analyser mon site',
     noSite: 'Vous n’avez pas de site web ? Discutez directement avec Alma.',
-    steps: ['Exploration', 'Compréhension', 'Missions', 'Recrutement'],
+    steps: ['Exploration', 'Compréhension', 'Missions', 'Proposition'],
     demo: {
       browsing: 'Alma explore votre site',
       pages: ['Accueil', 'Nos services', 'À propos', 'Tarifs', 'Contact'],
@@ -44,14 +44,14 @@ const COPY = {
   },
   en: {
     eyebrow: 'Start with your website',
-    title: 'Your website is all it takes to begin.',
+    title: 'Enter your company’s website.',
     subtitle:
-      'Enter your company’s address. Alma explores your pages, understands your business, and suggests the first missions for your AI Collaborator.',
+      'Alma analyzes your business, understands your goals, and suggests the first missions to hand off.',
     placeholder: 'www.your-company.com',
     inputLabel: 'Your website address',
     cta: 'Analyze my site',
     noSite: 'No website? Talk directly with Alma.',
-    steps: ['Exploration', 'Understanding', 'Missions', 'Hiring'],
+    steps: ['Exploration', 'Understanding', 'Missions', 'Proposal'],
     demo: {
       browsing: 'Alma is exploring your site',
       pages: ['Home', 'Our services', 'About', 'Pricing', 'Contact'],
