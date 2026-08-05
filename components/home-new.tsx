@@ -4,11 +4,16 @@ import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroV2 } from './home-v2/hero-v2'
 import { SectionReassurance } from './home/section-reassurance'
-import { SectionVersus } from './home-v2/section-versus'
+import { SectionWaysToStart } from './home-v2/section-ways-to-start'
+import { SectionCollaboratorIdentity } from './home-v2/section-collaborator-identity'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
-import { SectionPricing } from './home/section-pricing'
+import { SectionWorkspace } from './home-v2/section-workspace'
+import { SectionAlmaTimeline } from './home-v2/section-alma-timeline'
+import { SectionPricingSimple } from './home-v2/section-pricing-simple'
+import { SectionVersus } from './home-v2/section-versus'
 import { FaqSection } from './faq-section'
+import { SectionFinalCta } from './home-v2/section-final-cta'
 import { SiteFooter } from './site-footer'
 
 export function HomeNew() {
@@ -19,30 +24,45 @@ export function HomeNew() {
       {/* Header / Navigation */}
       <Navbar />
 
-      {/* 1. Hero — Ne prenez pas un abonnement. Recrutez un Collaborateur IA. */}
+      {/* 1. Hero — Recrutez votre premier Collaborateur IA. */}
       <HeroV2 lang={lang} />
 
       {/* Bande de réassurance factuelle */}
       <SectionReassurance lang={lang} />
 
-      {/* Par mission — partez du besoin à confier */}
+      {/* 2. Comment souhaitez-vous commencer ? — trois portes d'entrée */}
+      <SectionWaysToStart lang={lang} />
+
+      {/* 3. Par mission — partez du besoin à confier */}
       <div id="missions">
         <SectionMissions lang={lang} />
       </div>
 
-      {/* Par profil — faites connaissance avec les Collaborateurs IA */}
+      {/* 4. Par profil — faites connaissance avec les Collaborateurs IA */}
       <div id="collaborateurs-ia">
         <CollaboratorsShowcase lang={lang} />
       </div>
 
-      {/* 5. Tarif — un seul plan tout compris */}
-      <SectionPricing lang={lang} />
+      {/* 5. De véritables Collaborateurs IA — l'identité complète */}
+      <SectionCollaboratorIdentity lang={lang} />
 
-      {/* La différence — un logiciel IA vs un Collaborateur IA */}
+      {/* 6. Le workspace de votre organisation */}
+      <SectionWorkspace lang={lang} />
+
+      {/* 7. Alma vous accompagne dans la durée */}
+      <SectionAlmaTimeline lang={lang} />
+
+      {/* 8. Une offre simple */}
+      <SectionPricingSimple lang={lang} />
+
+      {/* 9. Pourquoi Unitalk ? — la différence */}
       <SectionVersus lang={lang} />
 
-      {/* Questions fréquentes */}
+      {/* 10. Questions fréquentes */}
       <FaqSection />
+
+      {/* 11. CTA final — vos Collaborateurs IA vous appartiennent */}
+      <SectionFinalCta lang={lang} />
 
       {/* Footer */}
       <SiteFooter />
