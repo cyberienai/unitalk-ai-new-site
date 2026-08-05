@@ -208,17 +208,26 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Visual — Emma en poste : cockpit sombre + halo magenta */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
-          {/* Halo magenta doux derrière la carte */}
-          <div aria-hidden="true" className="pointer-events-none absolute -inset-10 -z-10">
+          {/* Halo aurora bi-teinte derrière la carte */}
+          <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
             <motion.div
-              className="absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D10E63]/35 blur-[80px]"
-              animate={reduceMotion ? undefined : { scale: [1, 1.08, 1], opacity: [0.55, 0.8, 0.55] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute left-[42%] top-[46%] h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D10E63]/40 blur-[90px]"
+              animate={reduceMotion ? undefined : { x: ['-6%', '8%', '-6%'], y: ['-4%', '6%', '-4%'], scale: [1, 1.12, 1], opacity: [0.5, 0.85, 0.5] }}
+              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
             />
-            <div className="absolute right-2 top-4 h-40 w-40 rounded-full bg-[#F0658F]/25 blur-[60px]" />
+            <motion.div
+              className="absolute right-[10%] top-[10%] h-[55%] w-[55%] rounded-full bg-[#F2A65A]/25 blur-[80px]"
+              animate={reduceMotion ? undefined : { x: ['4%', '-8%', '4%'], y: ['2%', '10%', '2%'], scale: [1.05, 0.92, 1.05], opacity: [0.35, 0.6, 0.35] }}
+              transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute bottom-[6%] left-[18%] h-[45%] w-[45%] rounded-full bg-[#F0658F]/30 blur-[70px]"
+              animate={reduceMotion ? undefined : { x: ['0%', '10%', '0%'], y: ['0%', '-8%', '0%'], opacity: [0.3, 0.55, 0.3] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            />
           </div>
 
-          <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#17130F] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:-translate-y-1.5">
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#17130F] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.65)] transition-transform duration-500 group-hover:-translate-y-1.5">
             {/* liseré lumineux haut + grain radial */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F0658F]/60 to-transparent" />
             <div
@@ -226,6 +235,29 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               className="pointer-events-none absolute inset-0 opacity-70"
               style={{ background: 'radial-gradient(120% 80% at 85% -10%, rgba(209,14,99,0.16), transparent 55%)' }}
             />
+            {/* fine grille technique */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage:
+                  'linear-gradient(to right, #F6F1E8 1px, transparent 1px), linear-gradient(to bottom, #F6F1E8 1px, transparent 1px)',
+                backgroundSize: '34px 34px',
+                maskImage: 'radial-gradient(120% 90% at 80% 0%, black, transparent 70%)',
+                WebkitMaskImage: 'radial-gradient(120% 90% at 80% 0%, black, transparent 70%)',
+              }}
+            />
+            {/* reflet lumineux qui balaie la carte */}
+            {!reduceMotion && (
+              <motion.div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-y-8 w-1/3 -skew-x-12"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(246,241,232,0.10), transparent)' }}
+                initial={{ left: '-40%' }}
+                animate={{ left: ['-40%', '130%'] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 2.5 }}
+              />
+            )}
 
             {/* En-tête : Emma, identité + statut en poste */}
             <div className="relative flex items-center gap-3.5 border-b border-white/[0.08] bg-white/[0.02] p-5">
