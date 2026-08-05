@@ -10,7 +10,6 @@ import { CtaButton } from '@/components/ui/cta-button'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    title: 'Recrutez votre premier Collaborateur IA.',
     readyLead: 'Votre Collaborateur IA est prêt à',
     missions: [
       'répondre à vos clients',
@@ -52,7 +51,6 @@ const T = {
   },
   en: {
     eyebrow: 'Someone is missing.',
-    title: 'Hire your first AI Collaborator.',
     readyLead: 'Your AI Collaborator is ready to',
     missions: [
       'answer your customers',
@@ -154,32 +152,23 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             {...enter(0.1)}
             className="text-balance text-center font-sf text-[clamp(2rem,5vw,4.25rem)] font-semibold leading-[1.06] tracking-[-0.055em] text-[#1C1A17] sm:text-left sm:leading-[1]"
           >
-            {t.title}
+            <span className="block">{t.readyLead}</span>
+            <span className="relative block min-h-[3em]">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={missionIndex}
+                  initial={reduceMotion ? false : { opacity: 0, y: '0.35em' }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.35em' }}
+                  transition={{ duration: 0.4, ease }}
+                  className="block text-[#D10E63]"
+                >
+                  {t.missions[missionIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+            <span className="sr-only">{t.missions.join(', ')}.</span>
           </motion.h1>
-
-          <div className="mt-6 text-center sm:text-left">
-            <motion.p
-              {...enter(0.18)}
-              className="flex min-h-[3.5rem] flex-wrap items-start justify-center gap-x-2 font-sf text-lg font-semibold leading-tight text-[#4E483F] sm:justify-start md:min-h-[4.5rem] md:text-xl"
-            >
-              <span className="pt-1 md:pt-2">{t.readyLead}</span>
-              <span className="inline-flex items-start">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={missionIndex}
-                    initial={reduceMotion ? false : { opacity: 0, y: '0.4em' }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reduceMotion ? undefined : { opacity: 0, y: '-0.4em' }}
-                    transition={{ duration: 0.4, ease }}
-                    className="text-balance text-xl font-extrabold leading-tight tracking-tight text-[#D10E63] md:text-3xl"
-                  >
-                    {t.missions[missionIndex]}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-            </motion.p>
-            <p className="sr-only">{`${t.readyLead} ${t.missions.join(', ')}.`}</p>
-          </div>
 
           <motion.p {...enter(0.24)} className="mx-auto mt-4 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
             {t.almaLead}
