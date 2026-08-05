@@ -206,40 +206,62 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual — Emma en poste : le résultat, une collaboratrice qui travaille déjà */}
-        <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-md">
-          <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] transition-transform duration-500 hover:-translate-y-1">
+        {/* Visual — Emma en poste : cockpit sombre + halo magenta */}
+        <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
+          {/* Halo magenta doux derrière la carte */}
+          <div aria-hidden="true" className="pointer-events-none absolute -inset-10 -z-10">
+            <motion.div
+              className="absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D10E63]/35 blur-[80px]"
+              animate={reduceMotion ? undefined : { scale: [1, 1.08, 1], opacity: [0.55, 0.8, 0.55] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <div className="absolute right-2 top-4 h-40 w-40 rounded-full bg-[#F0658F]/25 blur-[60px]" />
+          </div>
+
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#17130F] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:-translate-y-1.5">
+            {/* liseré lumineux haut + grain radial */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F0658F]/60 to-transparent" />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 opacity-70"
+              style={{ background: 'radial-gradient(120% 80% at 85% -10%, rgba(209,14,99,0.16), transparent 55%)' }}
+            />
+
             {/* En-tête : Emma, identité + statut en poste */}
-            <div className="flex items-center gap-3.5 border-b border-[#E4DDCE] bg-[#F3EFE6]/50 p-5">
+            <div className="relative flex items-center gap-3.5 border-b border-white/[0.08] bg-white/[0.02] p-5">
               <span className="relative shrink-0">
+                <span
+                  aria-hidden="true"
+                  className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md"
+                />
                 <Image
                   src="/images/emma-avatar.png"
                   alt=""
                   width={52}
                   height={52}
-                  className="rounded-full object-cover ring-2 ring-[#D10E63]/25"
+                  className="relative rounded-full object-cover ring-2 ring-[#F0658F]/40"
                   style={{ height: 52, width: 52 }}
                 />
                 <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center" aria-hidden="true">
                   <motion.span
-                    className="absolute h-3.5 w-3.5 rounded-full bg-[#2E7D4F]/40"
+                    className="absolute h-3.5 w-3.5 rounded-full bg-[#4ADE80]/40"
                     animate={reduceMotion ? undefined : { scale: [1, 1.9], opacity: [0.6, 0] }}
                     transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
                   />
-                  <span className="h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#2E7D4F]" />
+                  <span className="h-2.5 w-2.5 rounded-full border-2 border-[#17130F] bg-[#4ADE80]" />
                 </span>
               </span>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-sf text-xl font-bold leading-tight text-[#1C1A17]">{t.ficheName}</p>
-                <p className="truncate text-[12px] font-medium leading-tight text-[#6B6560]">{t.ficheRole}</p>
+                <p className="truncate font-sf text-xl font-bold leading-tight text-[#F6F1E8]">{t.ficheName}</p>
+                <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.ficheRole}</p>
               </div>
-              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#2E7D4F]/25 bg-[#2E7D4F]/[0.08] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#2E7D4F]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#2E7D4F]" aria-hidden="true" />
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#5FE38F]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80]" aria-hidden="true" />
                 {t.statusLabel}
               </span>
             </div>
 
-            <div className="flex flex-col gap-4 p-5">
+            <div className="relative flex flex-col gap-4 p-5">
               {/* Coordonnées : Emma est une vraie coéquipière */}
               <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
                 {t.contact.map((c, i) => {
@@ -247,9 +269,9 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   return (
                     <li
                       key={c.label}
-                      className={`flex items-center gap-2 rounded-lg border border-[#E4DDCE] bg-[#F3EFE6]/60 px-2.5 py-1.5 text-[11px] font-medium text-[#3F3A33] ${i === 0 ? 'sm:col-span-2' : ''}`}
+                      className={`flex items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5 text-[11px] font-medium text-[#D8D2C6] ${i === 0 ? 'sm:col-span-2' : ''}`}
                     >
-                      <Icon className="h-3.5 w-3.5 shrink-0 text-[#D10E63]" aria-hidden="true" />
+                      <Icon className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
                       <span className="truncate">{c.label}</span>
                     </li>
                   )
@@ -263,7 +285,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   {t.expertises.map((e) => (
                     <span
                       key={e}
-                      className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/[0.06] px-2 py-0.5 text-[10px] font-semibold text-[#A80B50]"
+                      className="rounded-full border border-[#F0658F]/30 bg-[#D10E63]/[0.12] px-2 py-0.5 text-[10px] font-semibold text-[#F58AAB]"
                     >
                       {e}
                     </span>
@@ -272,14 +294,14 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               </div>
 
               {/* Activité en direct — l'accroche : elle travaille déjà */}
-              <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-3.5">
+              <div className="rounded-2xl border border-white/[0.08] bg-black/25 p-3.5">
                 <div className="mb-2.5 flex items-center justify-between">
                   <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.activityLabel}</span>
                   <span className="flex h-3 items-end gap-[2px]" aria-hidden="true">
                     {[6, 11, 8].map((h, i) => (
                       <motion.span
                         key={i}
-                        className="w-[2px] rounded-full bg-[#D10E63]"
+                        className="w-[2px] rounded-full bg-[#F0658F]"
                         style={{ height: h }}
                         animate={reduceMotion ? undefined : { scaleY: [1, 0.4, 1] }}
                         transition={{ duration: 0.9, ease: 'easeInOut', repeat: Infinity, delay: i * 0.12 }}
@@ -297,10 +319,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                         key={task}
                         className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[11px] font-medium transition-colors duration-500 ${
                           live
-                            ? 'bg-[#D10E63]/[0.06] text-[#1C1A17]'
+                            ? 'bg-[#D10E63]/[0.14] text-[#F6F1E8]'
                             : done
-                              ? 'text-[#3F3A33]'
-                              : 'text-[#B4AB9C]'
+                              ? 'text-[#D8D2C6]'
+                              : 'text-[#6E685E]'
                         }`}
                       >
                         <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
@@ -309,29 +331,29 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                               initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
                               transition={{ duration: 0.35, ease }}
-                              className="flex h-4 w-4 items-center justify-center rounded-full bg-[#2E7D4F]/12"
+                              className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15"
                             >
-                              <Check className="h-2.5 w-2.5 text-[#2E7D4F]" strokeWidth={3.5} />
+                              <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
                             </motion.span>
                           ) : live ? (
                             <span className="flex items-center gap-[2px]">
                               {[0, 1, 2].map((d) => (
                                 <motion.span
                                   key={d}
-                                  className="h-1 w-1 rounded-full bg-[#D10E63]"
+                                  className="h-1 w-1 rounded-full bg-[#F0658F]"
                                   animate={reduceMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
                                   transition={{ duration: 1, repeat: Infinity, delay: d * 0.18 }}
                                 />
                               ))}
                             </span>
                           ) : (
-                            <span className="h-1.5 w-1.5 rounded-full border border-[#CFC6B6]" />
+                            <span className="h-1.5 w-1.5 rounded-full border border-white/20" />
                           )}
                         </span>
                         <span className="flex-1 truncate">{task}</span>
                         {(done || live) && (
                           <span
-                            className={`shrink-0 font-mono text-[8px] font-bold uppercase tracking-[0.1em] ${live ? 'text-[#D10E63]' : 'text-[#2E7D4F]'}`}
+                            className={`shrink-0 font-mono text-[8px] font-bold uppercase tracking-[0.1em] ${live ? 'text-[#F0658F]' : 'text-[#5FE38F]'}`}
                           >
                             {live ? t.liveLabel : t.doneLabel}
                           </span>
@@ -349,7 +371,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.4, ease }}
-                      className="mt-2 flex items-center gap-1.5 border-t border-[#E4DDCE] pt-2 text-[11px] font-semibold text-[#2E7D4F]"
+                      className="mt-2 flex items-center gap-1.5 border-t border-white/[0.08] pt-2 text-[11px] font-semibold text-[#5FE38F]"
                     >
                       <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} aria-hidden="true" />
                       {t.summary}
