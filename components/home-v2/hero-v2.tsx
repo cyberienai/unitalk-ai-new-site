@@ -23,7 +23,7 @@ const T = {
       'organiser vos réunions',
       'collaborer avec vos équipes',
     ],
-    almaLeadPre: 'Discutez avec ',
+    almaLeadPre: 'Parlez avec ',
     almaName: 'Alma',
     almaLeadPost:
       '. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
