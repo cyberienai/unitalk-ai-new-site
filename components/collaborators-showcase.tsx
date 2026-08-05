@@ -246,7 +246,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
         </div>
 
         <div className="mt-14 flex justify-center">
-          <CtaButton href="/collaborateurs-ia/roles" variant="secondary">
+          <CtaButton href="/collaborateurs-ia/roles">
             {t.allCta}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </CtaButton>
