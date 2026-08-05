@@ -9,7 +9,7 @@ import { CtaButton } from '@/components/ui/cta-button'
 
 const T = {
   fr: {
-    eyebrow: 'Il vous manque quelqu’un.',
+    eyebrow: 'Il vous manque quelqu’un',
     readyLead: 'Votre Collaborateur IA est prêt à',
     missions: [
       'répondre à vos clients',
@@ -52,7 +52,7 @@ const T = {
     summary: 'Emma a bouclé sa matinée.',
   },
   en: {
-    eyebrow: 'Someone is missing.',
+    eyebrow: 'Someone is missing',
     readyLead: 'Your AI Collaborator is ready to',
     missions: [
       'answer your customers',
