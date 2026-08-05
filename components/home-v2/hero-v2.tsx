@@ -4,140 +4,167 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Building2, Check, Globe, Network, User, Users } from 'lucide-react'
-import { normalizeDomain } from '@/lib/discover-profiles'
+import { ArrowRight, Calendar, Check, Mail, Phone, Sparkles } from 'lucide-react'
 
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
-    titleLead: 'Votre Collaborateur IA est prêt à',
+    title: 'Recrutez votre premier Collaborateur IA.',
+    readyLead: 'Votre Collaborateur IA est prêt à',
     missions: [
       'répondre à vos clients',
-      'trouver de nouveaux clients',
-      'prendre vos rendez-vous',
-      'envoyer vos emails',
+      'trouver de nouveaux prospects',
+      'qualifier vos leads',
       'préparer vos devis',
-      'gérer votre support',
+      'envoyer vos emails',
+      'créer vos contenus',
+      'analyser vos documents',
       'automatiser vos tâches',
-      'travailler avec votre équipe',
+      'organiser vos réunions',
+      'collaborer avec vos équipes',
     ],
+    almaLead:
+      'Tout commence par une conversation avec Alma. En quelques minutes, elle découvre votre entreprise et recrute le Collaborateur IA qui vous correspond.',
+    cta: 'Recruter mon Collaborateur IA',
+    proofs: ['Aucune carte bancaire', 'Essai gratuit', 'Configuration en quelques minutes'],
+    // Visual — cinématique
     almaName: 'Alma',
     almaRole: 'conseillère IA',
-    lead: 'Alma analyse votre site Web et prépare sa première mission.',
-    domainAria: 'Votre site web',
-    domainPlaceholder: 'votreentreprise.com',
-    domainCta: 'Découvrir mon Collaborateur IA',
-    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
-    // organigramme
-    orgTitle: 'Votre organisation',
-    orgLeadParts: [
-      { t: 'Il travaille pour ' },
-      { t: 'une personne', h: true },
-      { t: ', ' },
-      { t: 'une équipe', h: true },
-      { t: ', ' },
-      { t: 'un département', h: true },
-      { t: ', ' },
-      { t: 'un projet', h: true },
-      { t: ' ou ' },
-      { t: 'toute l’organisation', h: true },
-      { t: '.' },
+    steps: {
+      ask: 'Quel est le site de votre entreprise ?',
+      url: 'www.monentreprise.com',
+      analyzing: 'J’analyse votre activité…',
+      found: 'J’ai identifié le bon profil.',
+      recommend: 'Je vous recommande Emma.',
+    },
+    analyzingLabel: 'Analyse en cours',
+    buildingLabel: 'Création du Collaborateur IA',
+    readyBadge: 'Emma est prête',
+    ficheEyebrow: 'Prend vie',
+    ficheName: 'Emma',
+    ficheRole: 'Collaboratrice IA · Assistante de direction',
+    contact: [
+      { icon: Phone, label: '+33 1 84 80 00 00' },
+      { icon: Mail, label: 'emma@monentreprise.com' },
+      { icon: Calendar, label: 'Agenda connecté' },
     ],
-    orgPairs: [
-      { human: 'Une personne', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting', scaleKind: 'person', scaleLabel: 'Une personne' },
-      { human: 'Équipe Marketing', dept: '5 personnes', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication', scaleKind: 'team', scaleLabel: 'Une équipe' },
-      { human: 'Département Sales', dept: '3 équipes', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospection · CRM · Reporting', scaleKind: 'department', scaleLabel: 'Un département' },
-      { human: 'Toute votre organisation', dept: 'Acme', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Livraison', scaleKind: 'org', scaleLabel: 'Toute l’organisation' },
-      { human: 'Finance', dept: '4 personnes', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analyse · Trésorerie · Reporting', scaleKind: 'team', scaleLabel: 'Une équipe' },
-      { human: 'Marc', dept: 'Relation client', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Réponses · Suivi', scaleKind: 'person', scaleLabel: 'Une personne' },
-    ],
-    collaboratorLabel: 'Collaborateurs IA',
-    scaleHeader: 'Rattaché à',
+    expertisesLabel: 'Expertises',
+    expertises: ['Agenda', 'Réunions', 'Reporting', 'Emails'],
+    missionsLabel: 'Missions',
+    ficheMissions: ['Préparer vos réunions', 'Suivre vos décisions'],
   },
   en: {
     eyebrow: 'Someone is missing.',
-    titleLead: 'Your AI Collaborator is ready to',
+    title: 'Hire your first AI Collaborator.',
+    readyLead: 'Your AI Collaborator is ready to',
     missions: [
       'answer your customers',
-      'find new customers',
-      'book your appointments',
-      'send your emails',
+      'find new prospects',
+      'qualify your leads',
       'prepare your quotes',
-      'handle your support',
+      'send your emails',
+      'create your content',
+      'analyze your documents',
       'automate your tasks',
-      'work with your team',
+      'organize your meetings',
+      'collaborate with your teams',
     ],
+    almaLead:
+      'It all starts with a conversation with Alma. In a few minutes, she learns about your company and hires the AI Collaborator that fits you.',
+    cta: 'Hire my AI Collaborator',
+    proofs: ['No credit card', 'Free trial', 'Set up in minutes'],
+    // Visual — cinematic
     almaName: 'Alma',
     almaRole: 'AI advisor',
-    lead: 'Alma analyzes your website and prepares its first mission.',
-    domainAria: 'Your website',
-    domainPlaceholder: 'yourcompany.com',
-    domainCta: 'Discover my AI Collaborator',
-    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
-    // organigramme
-    orgTitle: 'Your organization',
-    orgLeadParts: [
-      { t: 'It works for ' },
-      { t: 'a person', h: true },
-      { t: ', ' },
-      { t: 'a team', h: true },
-      { t: ', ' },
-      { t: 'a department', h: true },
-      { t: ', ' },
-      { t: 'a project', h: true },
-      { t: ' or ' },
-      { t: 'the whole organization', h: true },
-      { t: '.' },
+    steps: {
+      ask: 'What is your company website?',
+      url: 'www.mycompany.com',
+      analyzing: 'Analyzing your business…',
+      found: 'I found the right profile.',
+      recommend: 'I recommend Emma.',
+    },
+    analyzingLabel: 'Analyzing',
+    buildingLabel: 'Building the AI Collaborator',
+    readyBadge: 'Emma is ready',
+    ficheEyebrow: 'Coming to life',
+    ficheName: 'Emma',
+    ficheRole: 'AI Collaborator · Executive assistant',
+    contact: [
+      { icon: Phone, label: '+33 1 84 80 00 00' },
+      { icon: Mail, label: 'emma@mycompany.com' },
+      { icon: Calendar, label: 'Calendar connected' },
     ],
-    orgPairs: [
-      { human: 'A person', dept: 'Leadership', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistant · Meetings · Reporting', scaleKind: 'person', scaleLabel: 'One person' },
-      { human: 'Marketing team', dept: '5 people', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Content · Design · Publishing', scaleKind: 'team', scaleLabel: 'One team' },
-      { human: 'Sales department', dept: '3 teams', ai: 'Hugo', slug: 'hugo', avatar: '/images/hugo-avatar.png', status: 'Prospecting · CRM · Reporting', scaleKind: 'department', scaleLabel: 'A department' },
-      { human: 'Your whole organization', dept: 'Acme', ai: 'Arthur', slug: 'arthur', avatar: '/images/arthur-avatar.png', status: 'Roadmap · Specs · Delivery', scaleKind: 'org', scaleLabel: 'Whole organization' },
-      { human: 'Finance', dept: '4 people', ai: 'Nadia', slug: 'nadia', avatar: '/images/nadia-avatar.png', status: 'Analysis · Cash flow · Reporting', scaleKind: 'team', scaleLabel: 'One team' },
-      { human: 'Marc', dept: 'Customer care', ai: 'Inès', slug: 'ines', avatar: '/images/ines-avatar.png', status: 'Support · Replies · Follow-up', scaleKind: 'person', scaleLabel: 'One person' },
-    ],
-    collaboratorLabel: 'AI Collaborators',
-    scaleHeader: 'Attached to',
+    expertisesLabel: 'Expertise',
+    expertises: ['Calendar', 'Meetings', 'Reporting', 'Emails'],
+    missionsLabel: 'Missions',
+    ficheMissions: ['Prepare your meetings', 'Track your decisions'],
   },
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-const SCALE_ICONS = {
-  person: User,
-  team: Users,
-  department: Building2,
-  org: Network,
-} as const
+/**
+ * Cinématique "naissance d'Emma" — une machine à étapes en boucle.
+ * Chaque étape révèle un morceau de la conversation Alma ET, en parallèle,
+ * un morceau de la fiche du Collaborateur IA qui se construit.
+ *   0 idle      → carte vide, Alma pose sa question
+ *   1 url       → l'URL de l'entreprise apparaît
+ *   2 analyzing → barre d'analyse, la fiche s'amorce (photo)
+ *   3 contact   → coordonnées (email / téléphone / agenda)
+ *   4 expertise → expertises
+ *   5 missions  → missions + badge "Emma est prête"
+ *   6 hold      → maintien de l'état final avant reboucle
+ */
+const STEP_DURATIONS = [1400, 1500, 2200, 1300, 1300, 1600, 2200] as const
+const TOTAL_STEPS = STEP_DURATIONS.length
 
 export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const reduceMotion = useReducedMotion()
-  const [domain, setDomain] = useState('')
-  const domainPreview = normalizeDomain(domain)
 
+  // Verbes rotatifs du titre
   const [missionIndex, setMissionIndex] = useState(0)
   useEffect(() => {
     if (reduceMotion) return
     const id = setInterval(() => {
       setMissionIndex((i) => (i + 1) % t.missions.length)
-    }, 2400)
+    }, 2200)
     return () => clearInterval(id)
   }, [reduceMotion, t.missions.length])
 
-  const submitDomain = (e: React.FormEvent) => {
-    e.preventDefault()
-    window.location.href = domainPreview
-      ? `/decouvrir?domain=${encodeURIComponent(domainPreview)}`
-      : '/decouvrir'
-  }
+  // Machine à étapes de la cinématique
+  const [step, setStep] = useState(reduceMotion ? TOTAL_STEPS - 1 : 0)
+  useEffect(() => {
+    if (reduceMotion) {
+      setStep(TOTAL_STEPS - 1)
+      return
+    }
+    let timeout: ReturnType<typeof setTimeout>
+    let current = 0
+    setStep(0)
+    const tick = () => {
+      timeout = setTimeout(() => {
+        current = (current + 1) % TOTAL_STEPS
+        setStep(current)
+        tick()
+      }, STEP_DURATIONS[current])
+    }
+    tick()
+    return () => clearTimeout(timeout)
+  }, [reduceMotion, lang])
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.75, ease, delay: reduceMotion ? 0 : delay },
   })
+
+  // Seuils d'apparition de la fiche selon l'étape
+  const showFiche = step >= 2
+  const showContact = step >= 3
+  const showExpertise = step >= 4
+  const showMissions = step >= 5
+  const isReady = step >= 5
 
   return (
     <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[94svh] sm:pb-20 sm:pt-32 lg:pt-36">
@@ -147,71 +174,54 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:64px_64px]" />
       </div>
 
-      <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
         <div className="max-w-2xl">
           <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
             {t.eyebrow}
           </motion.p>
 
-          <h1 className="text-balance text-center font-sf text-[clamp(2rem,5vw,4.25rem)] font-semibold leading-[1.08] tracking-[-0.055em] text-[#1C1A17] sm:leading-[1] sm:text-left">
-            <motion.span {...enter(0.1)} className="block">
-              {t.titleLead}
-            </motion.span>
-            <span className="mt-2 block min-h-[1.1em] sm:mt-1">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={missionIndex}
-                  initial={reduceMotion ? false : { opacity: 0, y: '0.4em' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.4em' }}
-                  transition={{ duration: 0.45, ease }}
-                  className="block text-[#D10E63]"
-                >
-                  {t.missions[missionIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-          </h1>
+          <motion.h1
+            {...enter(0.1)}
+            className="text-balance text-center font-sf text-[clamp(2rem,5vw,4.25rem)] font-semibold leading-[1.06] tracking-[-0.055em] text-[#1C1A17] sm:text-left sm:leading-[1]"
+          >
+            {t.title}
+          </motion.h1>
 
-          <motion.div {...enter(0.2)} className="mt-6 flex items-center justify-center gap-2 sm:justify-start">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#E4DDCE] bg-[#F3EFE6]/70 py-1 pl-1 pr-3">
-              <span className="relative shrink-0">
-                <Image src="/alma-avatar.png" alt="Alma" width={24} height={24} className="h-6 w-6 rounded-full object-cover ring-2 ring-[#D10E63]/35" />
-                <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border border-[#F3EFE6] bg-[#2E7D4F]" aria-hidden="true" />
+          <div className="mt-6 text-center sm:text-left">
+            <motion.p {...enter(0.18)} className="flex flex-wrap items-center justify-center gap-x-2 font-sf text-lg font-semibold leading-snug text-[#4E483F] sm:justify-start md:text-xl">
+              <span>{t.readyLead}</span>
+              <span className="inline-flex min-h-[1.4em] items-center">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={missionIndex}
+                    initial={reduceMotion ? false : { opacity: 0, y: '0.4em' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduceMotion ? undefined : { opacity: 0, y: '-0.4em' }}
+                    transition={{ duration: 0.4, ease }}
+                    className="font-extrabold tracking-tight text-[#D10E63] text-xl md:text-3xl"
+                  >
+                    {t.missions[missionIndex]}
+                  </motion.span>
+                </AnimatePresence>
               </span>
-              <span className="text-[13px] font-medium text-[#6E665A]">
-                <span className="font-bold text-[#1C1A17]">{t.almaName}</span>
-                <span className="px-1 text-[#B7AE9E]" aria-hidden="true">·</span>
-                {t.almaRole}
-              </span>
-            </span>
-          </motion.div>
+            </motion.p>
+            <p className="sr-only">{`${t.readyLead} ${t.missions.join(', ')}.`}</p>
+          </div>
 
-          <motion.p {...enter(0.24)} className="mx-auto mt-3 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
-            {t.lead}
+          <motion.p {...enter(0.24)} className="mx-auto mt-4 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">
+            {t.almaLead}
           </motion.p>
 
-  <motion.div {...enter(0.28)} className="mt-8">
-  <form onSubmit={submitDomain} className="mx-auto flex w-full max-w-md flex-col gap-3 sm:mx-0">
-              <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/25">
-                <span className="pl-4 pr-1 text-[#8A8175]" aria-hidden="true"><Globe className="h-4 w-4" /></span>
-                <input
-                  value={domain}
-                  onChange={(e) => setDomain(e.target.value)}
-                  placeholder={t.domainPlaceholder}
-                  aria-label={t.domainAria}
-                  className="min-w-0 flex-1 bg-transparent py-3.5 pr-4 text-sm text-[#1C1A17] outline-none placeholder:text-[#A29A8C]"
-                />
-              </div>
-              <button
-                type="submit"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-              >
-                {t.domainCta}<ArrowRight className="h-4 w-4" />
-              </button>
-            </form>
+          <motion.div {...enter(0.28)} className="mt-8 flex flex-col items-center gap-4 sm:items-start">
+            <Link
+              href="/decouvrir"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            >
+              {t.cta}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
 
-            <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
+            <div className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
               {t.proofs.map((proof) => (
                 <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
                   <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
@@ -222,59 +232,205 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual — organigramme : à chaque membre, son Collaborateur IA */}
-        <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-xl" aria-label={t.orgTitle}>
-          <div className="premium-shadow overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3]">
-            <div className="px-5 pt-5 pb-1 sm:px-6">
-              <Link
-                href="/decouvrir"
-                aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
-                className="group -mx-2 flex items-start gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-[#D10E63]/[0.05]"
-              >
-                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>
-                <p className="text-[13px] font-semibold leading-6 text-[#4E483F]">
-                  {t.orgLeadParts.map((part, i) =>
-                    part.h ? (
-                      <span key={i} className="font-bold text-[#D10E63]">{part.t}</span>
-                    ) : (
-                      <span key={i}>{part.t}</span>
-                    ),
-                  )}
-                  <ArrowRight className="ml-1 inline h-3.5 w-3.5 shrink-0 align-[-2px] text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
-                </p>
-              </Link>
-            </div>
-            <div className="p-4 sm:p-6">
-              <div className="mb-3 grid grid-cols-[1fr_2.5rem_1fr] gap-2 px-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5F594F]"><span>{t.scaleHeader}</span><span /><span>{t.collaboratorLabel}</span></div>
-              <div>
-              <div>
-                <div className="flex flex-col gap-2.5">
-                  {t.orgPairs.slice(0, 4).map((pair) => {
-                    const ScaleIcon = SCALE_ICONS[pair.scaleKind as keyof typeof SCALE_ICONS]
-                    return (
-                      <div key={pair.human} className="grid grid-cols-[1fr_2.5rem_1fr] items-stretch gap-2">
-                        <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E4DDCE] text-[#5F594F]" aria-hidden="true"><ScaleIcon className="h-4 w-4" /></span>
-                          <p className="min-w-0 text-pretty text-sm font-semibold leading-tight text-[#1C1A17]">{pair.human}</p>
-                        </div>
-                        <div className="flex items-center" aria-hidden="true"><span className="h-px flex-1 bg-[#D10E63]/35" /><span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" /><span className="h-px flex-1 bg-[#D10E63]/35" /></div>
-                        <a
-                          href={`#collab-${pair.slug}`}
-                          aria-label={`${pair.ai} — ${lang === 'fr' ? `rattaché à ${pair.scaleLabel.toLowerCase()}, voir son profil` : `attached to ${pair.scaleLabel.toLowerCase()}, see its profile`}`}
-                          className="flex min-w-0 items-center gap-3 rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.045] p-3 transition-colors hover:border-[#D10E63]/45 hover:bg-[#D10E63]/[0.09]"
-                        >
-                          <div className="relative shrink-0"><Image src={pair.avatar || '/placeholder.svg'} alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" /><span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5" aria-hidden="true"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63] opacity-60 motion-reduce:hidden" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#D10E63]" /></span></div>
-                          <div className="min-w-0"><p className="truncate text-sm font-bold text-[#1C1A17]">{pair.ai}</p><p className="text-[10px] font-medium leading-tight text-[#A80B50]">{pair.status}</p></div>
-                        </a>
-                      </div>
-                    )
-                  })}
+        {/* Visual — cinématique : Alma analyse à gauche, Emma prend vie à droite */}
+        <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-xl">
+          <div className="premium-shadow grid overflow-hidden rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] sm:grid-cols-[0.92fr_1.08fr]">
+            {/* Alma — conversation */}
+            <div className="flex flex-col gap-3 border-b border-[#E4DDCE] bg-[#F3EFE6]/60 p-5 sm:border-b-0 sm:border-r">
+              <div className="flex items-center gap-2.5">
+                <span className="relative shrink-0">
+                  <Image src="/alma-avatar.png" alt="Alma" width={32} height={32} className="h-8 w-8 rounded-full object-cover ring-2 ring-[#D10E63]/35" />
+                  <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#FBF9F3] bg-[#2E7D4F]" aria-hidden="true" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold leading-tight text-[#1C1A17]">{t.almaName}</p>
+                  <p className="text-[11px] font-medium leading-tight text-[#8A8175]">{t.almaRole}</p>
                 </div>
               </div>
+
+              <div className="flex min-h-[9.5rem] flex-col gap-2">
+                {/* Question d'Alma */}
+                <motion.p
+                  initial={false}
+                  animate={{ opacity: step >= 0 ? 1 : 0, y: 0 }}
+                  className="w-fit max-w-[92%] rounded-2xl rounded-tl-sm border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-2 text-[12px] leading-snug text-[#3F3A33]"
+                >
+                  {t.steps.ask}
+                </motion.p>
+
+                {/* Réponse : URL de l'entreprise */}
+                <AnimatePresence>
+                  {step >= 1 && (
+                    <motion.p
+                      key="url"
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4, ease }}
+                      className="ml-auto w-fit max-w-[85%] break-all rounded-2xl rounded-tr-sm bg-[#1C1A17] px-3 py-2 font-mono text-[11px] leading-snug text-[#FBF9F3]"
+                    >
+                      {t.steps.url}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+
+                {/* Statut d'Alma : analyse → trouvé → recommandation */}
+                <AnimatePresence mode="wait">
+                  {step >= 2 && (
+                    <motion.p
+                      key={step >= 4 ? 'recommend' : step >= 3 ? 'found' : 'analyzing'}
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4, ease }}
+                      className="flex w-fit max-w-[92%] items-center gap-1.5 rounded-2xl rounded-tl-sm border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-2 text-[12px] leading-snug text-[#3F3A33]"
+                    >
+                      {step >= 4 ? (
+                        <>
+                          <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#D10E63]" aria-hidden="true" />
+                          {t.steps.recommend}
+                        </>
+                      ) : step >= 3 ? (
+                        <>
+                          <Check className="h-3.5 w-3.5 shrink-0 text-[#2E7D4F]" strokeWidth={3} aria-hidden="true" />
+                          {t.steps.found}
+                        </>
+                      ) : (
+                        t.steps.analyzing
+                      )}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
+
+              {/* Barre d'analyse / voix */}
+              <div className="mt-auto rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-2.5">
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.analyzingLabel}</span>
+                  <span className="flex h-3.5 items-end gap-[2px]" aria-hidden="true">
+                    {[6, 12, 8, 14, 9].map((h, i) => (
+                      <motion.span
+                        key={i}
+                        className="w-[2px] rounded-full bg-[#D10E63]"
+                        style={{ height: h }}
+                        animate={reduceMotion ? undefined : { scaleY: [1, 0.35, 1] }}
+                        transition={{ duration: 0.9, ease: 'easeInOut', repeat: Infinity, delay: i * 0.1 }}
+                      />
+                    ))}
+                  </span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-[#E4DDCE]">
+                  <motion.div
+                    className="h-full rounded-full bg-[#D10E63]"
+                    initial={false}
+                    animate={{ width: reduceMotion ? '100%' : `${Math.min(step / (TOTAL_STEPS - 2), 1) * 100}%` }}
+                    transition={{ duration: 0.6, ease }}
+                  />
+                </div>
               </div>
-              </div>
-            </motion.div>
+            </div>
+
+            {/* Emma — fiche qui se construit */}
+            <div className="relative p-5">
+              {/* État vide avant l'analyse */}
+              <AnimatePresence>
+                {!showFiche && (
+                  <motion.div
+                    key="empty"
+                    initial={false}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-5 text-center"
+                  >
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-[#CFC6B6]">
+                      <Sparkles className="h-5 w-5 text-[#C0B6A4]" aria-hidden="true" />
+                    </span>
+                    <p className="max-w-[12rem] text-[11px] font-medium leading-snug text-[#A79E90]">{t.buildingLabel}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* La fiche */}
+              <motion.div initial={false} animate={{ opacity: showFiche ? 1 : 0 }} transition={{ duration: 0.4, ease }}>
+                {/* En-tête : photo + nom */}
+                <motion.div
+                  initial={false}
+                  animate={{ opacity: showFiche ? 1 : 0, y: showFiche ? 0 : 10 }}
+                  transition={{ duration: 0.45, ease }}
+                  className="mb-4 flex items-center gap-3"
+                >
+                  <Image src="/images/emma-avatar.png" alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover ring-2 ring-[#D10E63]/25" />
+                  <div className="min-w-0">
+                    <span className="inline-flex items-center gap-1 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">
+                      <Sparkles className="h-3 w-3" /> {isReady ? t.readyBadge : t.ficheEyebrow}
+                    </span>
+                    <p className="truncate font-sf text-lg font-bold leading-tight text-[#1C1A17]">{t.ficheName}</p>
+                    <p className="truncate text-[11px] font-medium leading-tight text-[#6B6560]">{t.ficheRole}</p>
+                  </div>
+                </motion.div>
+
+                {/* Contact */}
+                <ul className="flex flex-col gap-1.5">
+                  {t.contact.map((c, i) => {
+                    const Icon = c.icon
+                    return (
+                      <motion.li
+                        key={c.label}
+                        initial={false}
+                        animate={{ opacity: showContact ? 1 : 0, y: showContact ? 0 : 8 }}
+                        transition={{ duration: 0.4, ease, delay: showContact && !reduceMotion ? i * 0.1 : 0 }}
+                        className="flex items-center gap-2.5 rounded-lg border border-[#E4DDCE] bg-[#F3EFE6]/70 px-2.5 py-1.5 text-[11px] font-medium text-[#3F3A33]"
+                      >
+                        <Icon className="h-3.5 w-3.5 shrink-0 text-[#D10E63]" aria-hidden="true" />
+                        <span className="truncate">{c.label}</span>
+                      </motion.li>
+                    )
+                  })}
+                </ul>
+
+                {/* Expertises */}
+                <motion.div
+                  initial={false}
+                  animate={{ opacity: showExpertise ? 1 : 0, y: showExpertise ? 0 : 8 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="mt-3"
+                >
+                  <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.expertisesLabel}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {t.expertises.map((e, i) => (
+                      <motion.span
+                        key={e}
+                        initial={false}
+                        animate={{ opacity: showExpertise ? 1 : 0, scale: showExpertise ? 1 : 0.9 }}
+                        transition={{ duration: 0.35, ease, delay: showExpertise && !reduceMotion ? i * 0.07 : 0 }}
+                        className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/[0.06] px-2 py-0.5 text-[10px] font-semibold text-[#A80B50]"
+                      >
+                        {e}
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Missions */}
+                <motion.div
+                  initial={false}
+                  animate={{ opacity: showMissions ? 1 : 0, y: showMissions ? 0 : 8 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="mt-3"
+                >
+                  <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.missionsLabel}</p>
+                  <ul className="flex flex-col gap-1">
+                    {t.ficheMissions.map((m) => (
+                      <li key={m} className="flex items-center gap-1.5 text-[11px] font-medium text-[#3F3A33]">
+                        <Check className="h-3 w-3 shrink-0 text-[#2E7D4F]" strokeWidth={3} aria-hidden="true" />
+                        {m}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
