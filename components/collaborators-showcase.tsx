@@ -1,296 +1,147 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
-import { useCallback, useRef, useState } from 'react'
-import { ArrowRight, MapPin, MessageCircle } from 'lucide-react'
-import { useT, type Lang } from '@/lib/language-context'
-import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
+import { CtaButton } from '@/components/ui/cta-button'
+import { motion } from 'framer-motion'
+import { ArrowRight, ArrowUpRight, Briefcase, PenLine, Code2 } from 'lucide-react'
+import type { Lang } from '@/lib/language-context'
+import { Kicker } from '@/components/home/section-kicker'
 
-type ShowcaseEntry = {
-  slug: string
-  role: { fr: string; en: string }
-  segments: { fr: string; en: string }
-  defaultProfile: { fr: string; en: string }
-  skills: { fr: string; en: string }
-  pitch: { fr: string; en: string }
-}
+const ease = [0.22, 1, 0.36, 1] as const
 
-// Les six Collaborateurs IA de l'illustration, en cartes statiques (fiables au chargement).
-const SHOWCASE: ShowcaseEntry[] = [
+// Trois profils métier par défaut = trois portes d'entrée simples.
+// Le parcours d'adaptation (domaine → missions → validation) se déroule ensuite avec Alma.
+const PROFILES = [
   {
-    slug: 'emma',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • Indépendants', en: 'SMBs • Startups • Freelancers' },
-    defaultProfile: { fr: 'Assistanat de direction', en: 'Executive assistant' },
-    skills: { fr: 'Agenda · Réunions · Reporting', en: 'Calendar · Meetings · Reporting' },
-    pitch: {
-      fr: 'Gère vos priorités, prépare vos réunions et suit les décisions.',
-      en: 'Manages your priorities, prepares your meetings and tracks decisions.',
+    key: 'assistanat',
+    icon: Briefcase,
+    name: { fr: 'Assistanat de direction', en: 'Executive assistant' },
+    desc: {
+      fr: 'Organiser les réunions, préparer les décisions et coordonner les priorités.',
+      en: 'Organize meetings, prepare decisions and coordinate priorities.',
     },
   },
   {
-    slug: 'lea',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • Agences', en: 'SMBs • Startups • Agencies' },
-    defaultProfile: { fr: 'Stratégie de contenu', en: 'Content strategist' },
-    skills: { fr: 'Contenus · Réseaux sociaux · SEO', en: 'Content · Social · SEO' },
-    pitch: {
-      fr: 'Rédige vos contenus, planifie vos publications et travaille votre référencement.',
-      en: 'Writes your content, schedules your posts and improves your search ranking.',
+    key: 'contenu',
+    icon: PenLine,
+    name: { fr: 'Stratégie de contenu', en: 'Content strategy' },
+    desc: {
+      fr: 'Planifier, produire et analyser les contenus de votre organisation.',
+      en: "Plan, produce and analyze your organization's content.",
     },
   },
   {
-    slug: 'arthur',
-    role: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
-    segments: { fr: 'Startups • SaaS • Studios', en: 'Startups • SaaS • Studios' },
-    defaultProfile: { fr: 'Développement', en: 'Developer' },
-    skills: { fr: 'Code · Intégrations · Data', en: 'Code · Integrations · Data' },
-    pitch: {
-      fr: 'Écrit votre code, connecte vos outils et exploite vos données.',
-      en: 'Writes your code, connects your tools and leverages your data.',
+    key: 'developpement',
+    icon: Code2,
+    name: { fr: 'Développement logiciel', en: 'Software development' },
+    desc: {
+      fr: 'Développer des fonctionnalités, corriger des erreurs et documenter le code.',
+      en: 'Build features, fix issues and document the code.',
     },
   },
-  {
-    slug: 'hugo',
-    role: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • ETI', en: 'SMBs • Startups • Mid-market' },
-    defaultProfile: { fr: 'Développement commercial', en: 'Sales development' },
-    skills: { fr: 'Prospection · CRM · Relances', en: 'Prospecting · CRM · Follow-ups' },
-    pitch: {
-      fr: 'Identifie vos prospects, qualifie les contacts et prépare vos relances.',
-      en: 'Identifies your prospects, qualifies contacts and prepares your follow-ups.',
-    },
+] as const
+
+const T: Record<
+  Lang,
+  { kicker: string; headline1: string; headline2: string; subtitle: string; choose: string; allCta: string }
+> = {
+  fr: {
+    kicker: 'Commencez par un profil métier',
+    headline1: 'De quel savoir-faire',
+    headline2: 'avez-vous besoin\u00A0?',
+    subtitle:
+      'Choisissez un profil métier. Alma l’adapte à votre activité et prépare les premières missions de votre Collaborateur\u00A0IA.',
+    choose: 'Choisir ce profil',
+    allCta: 'Explorer tous les profils métier',
   },
-  {
-    slug: 'nadia',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • ETI', en: 'SMBs • Startups • Mid-market' },
-    defaultProfile: { fr: 'Analyse financière', en: 'Financial analyst' },
-    skills: { fr: 'Trésorerie · Facturation · Reporting', en: 'Cash flow · Billing · Reporting' },
-    pitch: {
-      fr: 'Suit votre trésorerie, prépare vos factures et analyse vos résultats.',
-      en: 'Tracks your cash flow, prepares your invoices and analyzes your results.',
-    },
+  en: {
+    kicker: 'Start with a business profile',
+    headline1: 'Which know-how',
+    headline2: 'do you need?',
+    subtitle:
+      'Choose a business profile. Alma tailors it to your activity and prepares the first missions of your AI\u00A0Collaborator.',
+    choose: 'Choose this profile',
+    allCta: 'Explore all business profiles',
   },
-  {
-    slug: 'ines',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'E-commerce • SaaS • PME', en: 'E-commerce • SaaS • SMBs' },
-    defaultProfile: { fr: 'Support client', en: 'Customer support' },
-    skills: { fr: 'Demandes · Réponses · Suivi', en: 'Requests · Replies · Follow-up' },
-    pitch: {
-      fr: 'Répond à vos clients, traite les demandes courantes et escalade ce qui compte.',
-      en: 'Answers your customers, handles routine requests and escalates what matters.',
-    },
-  },
-]
-
-function CollaboratorCard({
-  entry,
-  lang,
-  labels,
-}: {
-  entry: ShowcaseEntry
-  lang: Lang
-  labels: {
-    available: string
-    defaultProfileLabel: string
-    talk: string
-    profiles: string
-  }
-}) {
-  const ai = ROLE_DETAILS[entry.slug]
-  if (!ai) return null
-  const skillChips = entry.skills[lang].split('·').map((s) => s.trim()).filter(Boolean)
-
-  return (
-    <article
-      id={`collab-${entry.slug}`}
-      className="group relative flex w-[82%] shrink-0 snap-center flex-col overflow-hidden rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)] target:border-[#D10E63] target:ring-2 target:ring-[#D10E63]/60 sm:w-auto sm:scroll-mt-28"
-    >
-      {/* Accent bar revealed on hover */}
-      <span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-[#D10E63] transition-transform duration-300 group-hover:scale-x-100"
-      />
-
-      {/* Header: avatar + availability */}
-      <div className="flex items-start justify-between">
-        <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1C1A17]/[0.08]">
-          <Image
-            src={ai.avatar || '/placeholder.svg'}
-            alt={ai.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="64px"
-          />
-        </span>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF9F3] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4E7C59]">
-          <span className="relative flex h-2 w-2" aria-hidden="true">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-          </span>
-          {labels.available}
-        </span>
-      </div>
-
-      {/* Identity */}
-      <div className="mt-5">
-        <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{ai.name}</h3>
-        <p className="mt-0.5 text-sm font-medium text-[#D10E63]">{entry.role[lang]}</p>
-        <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#6B6560]">
-          <MapPin className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
-          {entry.segments[lang]}
-        </p>
-      </div>
-
-      {/* Default profile + skill chips */}
-      <div className="mt-5 rounded-2xl border border-[#E4DCCF] bg-[#FBF9F3] p-4">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
-          {labels.defaultProfileLabel}
-        </p>
-        <p className="mt-1 text-[15px] font-bold text-[#1C1A17]">{entry.defaultProfile[lang]}</p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {skillChips.map((skill) => (
-            <span
-              key={skill}
-              className="rounded-full border border-[#E4DCCF] bg-[#F3EFE6] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]"
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Description */}
-      <p className="mt-4 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{entry.pitch[lang]}</p>
-
-      {/* Actions */}
-      <div className="mt-5 flex flex-col gap-2">
-        <Link
-          href={collaboratorHref(entry.slug)}
-          className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-        >
-          <MessageCircle className="h-4 w-4 shrink-0" />
-          <span className="truncate">{`${labels.talk} ${ai.name}`}</span>
-        </Link>
-        <Link
-          href={collaboratorHref(entry.slug)}
-          className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-[#DDD5CA] px-4 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
-        >
-          {labels.profiles}
-        </Link>
-      </div>
-    </article>
-  )
 }
 
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
-  const t = useT({
-    fr: {
-      eyebrow: 'Par métier',
-      title: 'Découvrez les Collaborateurs IA de votre organisation.',
-      subtitle:
-        'Choisissez le Collaborateur IA qui rejoindra votre équipe, selon le métier ou l’expertise dont vous avez besoin. Alma personnalise ensuite ses profils, ses connaissances et ses missions.',
-      available: 'Disponible',
-      defaultProfileLabel: 'Profil par défaut',
-      talk: 'Recruter',
-      profiles: 'Voir ses profils',
-      allCta: 'Voir tous les Collaborateurs IA',
-      swipeHint: 'Glissez pour découvrir',
-    },
-    en: {
-      eyebrow: 'By role',
-      title: 'Meet the AI Collaborators of your organization.',
-      subtitle:
-        'Choose the AI Collaborator that will join your team, based on the role or expertise you need. Alma then personalizes its profiles, knowledge, and missions.',
-      available: 'Available',
-      defaultProfileLabel: 'Default profile',
-      talk: 'Hire',
-      profiles: 'See its profiles',
-      allCta: 'See all AI Collaborators',
-      swipeHint: 'Swipe to explore',
-    },
-  })
-
-  const scrollerRef = useRef<HTMLDivElement>(null)
-  const [active, setActive] = useState(0)
-
-  const onScroll = useCallback(() => {
-    const el = scrollerRef.current
-    if (!el) return
-    const max = el.scrollWidth - el.clientWidth
-    const ratio = max > 0 ? el.scrollLeft / max : 0
-    setActive(Math.round(ratio * (SHOWCASE.length - 1)))
-  }, [])
-
-  const goTo = useCallback((index: number) => {
-    const el = scrollerRef.current
-    if (!el) return
-    const max = el.scrollWidth - el.clientWidth
-    el.scrollTo({ left: (max * index) / (SHOWCASE.length - 1), behavior: 'smooth' })
-  }, [])
-
-  const labels = {
-    available: t.available,
-    defaultProfileLabel: t.defaultProfileLabel,
-    talk: t.talk,
-    profiles: t.profiles,
-  }
+  const t = T[lang]
 
   return (
-    <section className="w-full border-t border-[#E9E2D4] bg-[#FBF9F3] py-24 sm:py-32">
-      <div className="editorial-shell">
-        <header className="mx-auto max-w-2xl text-center">
-          <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
-            {t.eyebrow}
-          </p>
-          <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
-            {t.title}
+    <section
+      id="collaborateurs-ia"
+      className="scroll-mt-20 border-t border-[#E9E2D4] bg-[#FBF9F3] px-5 py-24 sm:px-8 sm:py-32"
+    >
+      <div className="mx-auto max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, ease }}
+          className="mx-auto max-w-2xl text-center"
+        >
+          <div className="flex justify-center">
+            <Kicker>{t.kicker}</Kicker>
+          </div>
+          <h2 className="mt-4 text-balance font-sf text-[clamp(2rem,4.4vw,3.25rem)] font-bold leading-[1.05] tracking-[-0.03em] text-[#1C1A17]">
+            {t.headline1}
+            <br />
+            <span className="text-[#D10E63]">{t.headline2}</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-[#5F594F]">
             {t.subtitle}
           </p>
-        </header>
+        </motion.div>
 
-        {/* Mobile: swipe carousel with peek. Desktop: 3-col grid. */}
-        <div
-          ref={scrollerRef}
-          onScroll={onScroll}
-          className="mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 -mx-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:max-w-5xl sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 sm:[&>*]:w-auto"
+        <motion.ul
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, delay: 0.15, ease }}
+          className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {SHOWCASE.map((entry) => (
-            <CollaboratorCard key={entry.slug} entry={entry} lang={lang} labels={labels} />
+          {PROFILES.map(({ key, icon: Icon, name, desc }) => (
+            <li key={key} className="flex">
+              <Link
+                href={`/decouvrir?profil=${key}`}
+                className="group flex w-full flex-col gap-5 rounded-3xl border border-[#D8D0C2] bg-[#F3EFE6] p-5 text-left transition-all hover:-translate-y-1 hover:border-[#D10E63] hover:shadow-[0_20px_48px_rgba(28,26,23,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3]"
+              >
+                <span className="flex items-center justify-between">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#D10E63]/[0.08] text-[#D10E63] transition-colors group-hover:bg-[#D10E63] group-hover:text-[#FBF9F3]">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <ArrowUpRight className="h-5 w-5 text-[#B8AF9F] transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#D10E63]" />
+                </span>
+                <span className="flex flex-col gap-2">
+                  <span className="font-sf text-lg font-semibold leading-snug text-[#1C1A17]">
+                    {name[lang]}
+                  </span>
+                  <span className="text-pretty text-[14px] leading-relaxed text-[#5F594F]">
+                    {desc[lang]}
+                  </span>
+                </span>
+                <span className="mt-auto inline-flex items-center gap-1.5 font-sf text-sm font-semibold text-[#D10E63]">
+                  {t.choose}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            </li>
           ))}
-        </div>
+        </motion.ul>
 
-        {/* Dots (mobile only) */}
-        <div className="mt-5 flex items-center justify-center gap-2 sm:hidden">
-          {SHOWCASE.map((entry, i) => (
-            <button
-              key={entry.slug}
-              type="button"
-              onClick={() => goTo(i)}
-              aria-label={`${t.talk} ${ROLE_DETAILS[entry.slug]?.name ?? ''}`}
-              aria-current={active === i}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                active === i ? 'w-5 bg-[#D10E63]' : 'w-2 bg-[#D8D0C2] hover:bg-[#B8AF9F]'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* All CTA */}
-        <div className="mt-14 flex justify-center">
-          <Link
-            href="/collaborateurs-ia/roles"
-            className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-[#DDD5CA] bg-[#FBF9F3] px-6 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
-          >
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, delay: 0.3, ease }}
+          className="mt-14 flex justify-center"
+        >
+          <CtaButton href="/collaborateurs-ia/roles">
             {t.allCta}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
-        </div>
+            <ArrowRight className="h-4 w-4" />
+          </CtaButton>
+        </motion.div>
       </div>
     </section>
   )

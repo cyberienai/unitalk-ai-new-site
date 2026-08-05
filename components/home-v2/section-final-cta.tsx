@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
+import { CtaButton } from '@/components/ui/cta-button'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check } from 'lucide-react'
 
@@ -74,13 +74,10 @@ export function SectionFinalCta({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         </ul>
 
         <div className="mt-10 flex flex-col items-center gap-4">
-          <Link
-            href="/decouvrir"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1C1A17]"
-          >
+          <CtaButton href="/decouvrir" tone="dark">
             {t.cta}
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </CtaButton>
           <div className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#8A8175]">
             {t.proofs.map((proof) => (
               <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">

@@ -1,16 +1,17 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Calendar, Check, Mail, Phone, Sparkles } from 'lucide-react'
+import { Kicker } from '@/components/home/section-kicker'
+import { CtaButton } from '@/components/ui/cta-button'
 
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un.',
     title: 'Recrutez votre premier Collaborateur IA.',
-    readyLead: 'Votre Collaborateur IA est prêt à',
+    readyLead: 'Prêt à',
     missions: [
       'répondre à vos clients',
       'trouver de nouveaux prospects',
@@ -24,9 +25,9 @@ const T = {
       'collaborer avec vos équipes',
     ],
     almaLead:
-      'Tout commence par une conversation avec Alma. En quelques minutes, elle découvre votre entreprise et recrute le Collaborateur IA qui vous correspond.',
+      'Discutez avec Alma. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
     cta: 'Recruter mon Collaborateur IA',
-    proofs: ['Aucune carte bancaire', 'Essai gratuit', 'Configuration en quelques minutes'],
+    proofs: ['Aucune carte bancaire', 'Essai gratuit 7 jours', 'Hébergé en France · Conforme RGPD'],
     // Visual — cinématique
     almaName: 'Alma',
     almaRole: 'conseillère IA',
@@ -56,7 +57,7 @@ const T = {
   en: {
     eyebrow: 'Someone is missing.',
     title: 'Hire your first AI Collaborator.',
-    readyLead: 'Your AI Collaborator is ready to',
+    readyLead: 'Ready to',
     missions: [
       'answer your customers',
       'find new prospects',
@@ -70,9 +71,9 @@ const T = {
       'collaborate with your teams',
     ],
     almaLead:
-      'It all starts with a conversation with Alma. In a few minutes, she learns about your company and hires the AI Collaborator that fits you.',
+      'Chat with Alma. She analyzes your company and prepares the AI Collaborator you need.',
     cta: 'Hire my AI Collaborator',
-    proofs: ['No credit card', 'Free trial', 'Set up in minutes'],
+    proofs: ['No credit card', '7-day free trial', 'Hosted in France · GDPR compliant'],
     // Visual — cinematic
     almaName: 'Alma',
     almaRole: 'AI advisor',
@@ -176,9 +177,9 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
       <div className="editorial-shell relative grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
         <div className="max-w-2xl">
-          <motion.p {...enter(0.04)} className="mb-5 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D10E63] sm:mb-6 sm:text-left">
-            {t.eyebrow}
-          </motion.p>
+          <motion.div {...enter(0.04)} className="mb-5 flex justify-center sm:mb-6 sm:justify-start">
+            <Kicker>{t.eyebrow}</Kicker>
+          </motion.div>
 
           <motion.h1
             {...enter(0.1)}
@@ -188,9 +189,12 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.h1>
 
           <div className="mt-6 text-center sm:text-left">
-            <motion.p {...enter(0.18)} className="flex flex-wrap items-center justify-center gap-x-2 font-sf text-lg font-semibold leading-snug text-[#4E483F] sm:justify-start md:text-xl">
-              <span>{t.readyLead}</span>
-              <span className="inline-flex min-h-[1.4em] items-center">
+            <motion.p
+              {...enter(0.18)}
+              className="flex min-h-[3.5rem] flex-wrap items-start justify-center gap-x-2 font-sf text-lg font-semibold leading-tight text-[#4E483F] sm:justify-start md:min-h-[4.5rem] md:text-xl"
+            >
+              <span className="pt-1 md:pt-2">{t.readyLead}</span>
+              <span className="inline-flex items-start">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={missionIndex}
@@ -198,7 +202,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduceMotion ? undefined : { opacity: 0, y: '-0.4em' }}
                     transition={{ duration: 0.4, ease }}
-                    className="font-extrabold tracking-tight text-[#D10E63] text-xl md:text-3xl"
+                    className="text-balance text-xl font-extrabold leading-tight tracking-tight text-[#D10E63] md:text-3xl"
                   >
                     {t.missions[missionIndex]}
                   </motion.span>
@@ -213,13 +217,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
 
           <motion.div {...enter(0.28)} className="mt-8 flex flex-col items-center gap-4 sm:items-start">
-            <Link
-              href="/decouvrir"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-            >
+            <CtaButton href="/decouvrir">
               {t.cta}
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </CtaButton>
 
             <div className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
               {t.proofs.map((proof) => (
@@ -361,7 +362,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   <Image src="/images/emma-avatar.png" alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover ring-2 ring-[#D10E63]/25" />
                   <div className="min-w-0">
                     <span className="inline-flex items-center gap-1 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">
-                      <Sparkles className="h-3 w-3" /> {isReady ? t.readyBadge : t.ficheEyebrow}
+                      {isReady ? t.readyBadge : t.ficheEyebrow}
                     </span>
                     <p className="truncate font-sf text-lg font-bold leading-tight text-[#1C1A17]">{t.ficheName}</p>
                     <p className="truncate text-[11px] font-medium leading-tight text-[#6B6560]">{t.ficheRole}</p>

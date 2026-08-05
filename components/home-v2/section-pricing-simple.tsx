@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Building2, Cpu, LifeBuoy, Server, UserPlus } from 'lucide-react'
+import { CtaButton } from '@/components/ui/cta-button'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -173,13 +173,10 @@ export function SectionPricingSimple({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         </div>
 
         <div className="mt-10 text-center">
-          <Link
-            href="/tarifs"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-          >
+          <CtaButton href="/tarifs">
             {t.cta}
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </CtaButton>
         </div>
       </div>
     </section>
