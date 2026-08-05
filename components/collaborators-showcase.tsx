@@ -189,10 +189,10 @@ function CollaboratorCard({
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
-      eyebrow: 'Commencez par une expertise',
-      title: 'Une identité. Des profils métier et des compétences illimités.',
+      eyebrow: 'Par métier',
+      title: 'Découvrez les Collaborateurs IA de votre organisation.',
       subtitle:
-        'Chaque Collaborateur IA commence par une identité : un visage, une voix, son email, son calendrier, son numéro de téléphone, ses contacts et ses fichiers. Ajoutez-lui ensuite les savoir-faire métier nécessaires à ses missions.',
+        'Choisissez le Collaborateur IA qui rejoindra votre équipe, selon le métier ou l’expertise dont vous avez besoin. Alma personnalise ensuite ses profils, ses connaissances et ses missions.',
       available: 'Disponible',
       defaultProfileLabel: 'Profil par défaut',
       talk: 'Recruter',
@@ -201,10 +201,10 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
       swipeHint: 'Glissez pour découvrir',
     },
     en: {
-      eyebrow: 'Start with an expertise',
-      title: 'One identity. Unlimited business profiles and skills.',
+      eyebrow: 'By role',
+      title: 'Meet the AI Collaborators of your organization.',
       subtitle:
-        'Every AI Collaborator starts with an identity: a face, a voice, its email, calendar, phone number, contacts and files. Then add the professional know-how its missions require.',
+        'Choose the AI Collaborator that will join your team, based on the role or expertise you need. Alma then personalizes its profiles, knowledge, and missions.',
       available: 'Available',
       defaultProfileLabel: 'Default profile',
       talk: 'Hire',
