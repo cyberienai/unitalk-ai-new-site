@@ -27,7 +27,7 @@ const T = {
     almaLead:
       'Discutez avec Alma. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
     cta: 'Recruter mon Collaborateur IA',
-    proofs: ['Aucune carte bancaire', 'Essai gratuit', 'Configuration en quelques minutes'],
+    proofs: ['Aucune carte bancaire', 'Essai gratuit 7 jours', 'Hébergé en France · Conforme RGPD'],
     // Visual — cinématique
     almaName: 'Alma',
     almaRole: 'conseillère IA',
@@ -73,7 +73,7 @@ const T = {
     almaLead:
       'Chat with Alma. She analyzes your company and prepares the AI Collaborator you need.',
     cta: 'Hire my AI Collaborator',
-    proofs: ['No credit card', 'Free trial', 'Set up in minutes'],
+    proofs: ['No credit card', '7-day free trial', 'Hosted in France · GDPR compliant'],
     // Visual — cinematic
     almaName: 'Alma',
     almaRole: 'AI advisor',
