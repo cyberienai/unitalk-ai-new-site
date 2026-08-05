@@ -13,7 +13,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
-    eyebrow: 'Le plus simple',
+    eyebrow: 'Commencez par votre site web',
     title: 'Commencez par le site Web de votre entreprise',
     subtitle:
       'Indiquez votre adresse et Alma s’occupe du reste. Elle analyse votre activité, comprend vos objectifs et recrute les Collaborateurs IA qui vous correspondent.',
@@ -31,7 +31,7 @@ const T = {
     altCta: 'Parler directement avec Alma',
   },
   en: {
-    eyebrow: 'The simplest way',
+    eyebrow: 'Start with your website',
     title: 'Start with your company website',
     subtitle:
       'Enter your address and Alma takes care of the rest. She analyzes your business, understands your goals, and hires the AI Collaborators that fit you.',
