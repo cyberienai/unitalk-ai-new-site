@@ -4,13 +4,10 @@ import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroV2 } from './home-v2/hero-v2'
 import { SectionStartWebsite } from './home-v2/section-start-website'
-import { SectionCollaboratorIdentity } from './home-v2/section-collaborator-identity'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
-import { SectionWorkspace } from './home-v2/section-workspace'
-import { SectionAlmaTimeline } from './home-v2/section-alma-timeline'
+import { SectionEvolvesDelivers } from './home-v2/section-evolves-delivers'
 import { SectionPricingSimple } from './home-v2/section-pricing-simple'
-import { SectionVersus } from './home-v2/section-versus'
 import { FaqSection } from './faq-section'
 import { SectionFinalCta } from './home-v2/section-final-cta'
 import { SiteFooter } from './site-footer'
@@ -39,25 +36,16 @@ export function HomeNew() {
         <CollaboratorsShowcase lang={lang} />
       </div>
 
-      {/* 5. De véritables Collaborateurs IA — l'identité complète */}
-      <SectionCollaboratorIdentity lang={lang} />
+      {/* 5. Le Collaborateur IA évolue et livre dans le workspace */}
+      <SectionEvolvesDelivers lang={lang} />
 
-      {/* 6. Le workspace de votre organisation */}
-      <SectionWorkspace lang={lang} />
-
-      {/* 7. Alma vous accompagne dans la durée */}
-      <SectionAlmaTimeline lang={lang} />
-
-      {/* 8. Une offre simple */}
+      {/* 7. Une offre simple */}
       <SectionPricingSimple lang={lang} />
 
-      {/* 9. Pourquoi Unitalk ? — la différence */}
-      <SectionVersus lang={lang} />
-
-      {/* 10. Questions fréquentes */}
+      {/* 8. Questions fréquentes */}
       <FaqSection />
 
-      {/* 11. CTA final — vos Collaborateurs IA vous appartiennent */}
+      {/* 9. CTA final — vos Collaborateurs IA vous appartiennent */}
       <SectionFinalCta lang={lang} />
 
       {/* Footer */}
