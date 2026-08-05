@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { CtaButton } from '@/components/ui/cta-button'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, MessagesSquare, Users, Target, FileText, Wrench, Workflow, Brain } from 'lucide-react'
@@ -79,13 +79,10 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
             <p className="mt-7 max-w-lg text-pretty text-[15px] font-semibold leading-relaxed text-[#1C1A17]">{t.closing}</p>
 
-            <Link
-              href="/decouvrir"
-              className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-            >
+            <CtaButton href="/decouvrir" className="mt-6">
               {t.cta}
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </CtaButton>
           </motion.div>
 
           <motion.div

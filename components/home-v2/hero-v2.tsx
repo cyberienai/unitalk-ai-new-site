@@ -1,11 +1,11 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Calendar, Check, Mail, Phone, Sparkles } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
+import { CtaButton } from '@/components/ui/cta-button'
 
 const T = {
   fr: {
@@ -214,13 +214,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.p>
 
           <motion.div {...enter(0.28)} className="mt-8 flex flex-col items-center gap-4 sm:items-start">
-            <Link
-              href="/decouvrir"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-            >
+            <CtaButton href="/decouvrir">
               {t.cta}
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </CtaButton>
 
             <div className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
               {t.proofs.map((proof) => (

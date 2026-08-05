@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
+import { CtaButton } from '@/components/ui/cta-button'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, MessageCircle } from 'lucide-react'
@@ -173,19 +173,13 @@ function CollaboratorCard({
 
       {/* Actions */}
       <div className="mt-5 flex flex-col gap-2">
-        <Link
-          href={collaboratorHref(entry.slug)}
-          className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-        >
+        <CtaButton href={collaboratorHref(entry.slug)} size="sm" className="gap-1.5">
           <MessageCircle className="h-4 w-4 shrink-0" />
           <span className="truncate">{`${labels.talk} ${ai.name}`}</span>
-        </Link>
-        <Link
-          href={collaboratorHref(entry.slug)}
-          className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-[#DDD5CA] px-4 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
-        >
+        </CtaButton>
+        <CtaButton href={collaboratorHref(entry.slug)} variant="secondary" size="sm">
           {labels.profiles}
-        </Link>
+        </CtaButton>
       </div>
     </article>
   )
@@ -337,13 +331,10 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
 
         {/* All CTA */}
         <div className="mt-14 flex justify-center">
-          <Link
-            href="/collaborateurs-ia/roles"
-            className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-[#DDD5CA] bg-[#FBF9F3] px-6 text-sm font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]"
-          >
+          <CtaButton href="/collaborateurs-ia/roles" variant="secondary">
             {t.allCta}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
+          </CtaButton>
         </div>
       </div>
     </section>

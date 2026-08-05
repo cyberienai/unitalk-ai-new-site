@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { CtaButton } from '@/components/ui/cta-button'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -264,13 +265,10 @@ export function SectionMissions({ lang }: { lang: Lang }) {
           transition={{ duration: 0.8, delay: 0.3, ease }}
           className="mt-14"
         >
-          <Link
-            href="/collaborateurs-ia"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
-          >
+          <CtaButton href="/collaborateurs-ia">
             {t.exploreAll}
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </CtaButton>
         </motion.div>
       </div>
     </section>
