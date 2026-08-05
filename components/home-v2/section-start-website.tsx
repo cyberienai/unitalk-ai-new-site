@@ -4,8 +4,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Globe, Sparkles } from 'lucide-react'
+import { ArrowRight, Globe } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
+import { Kicker } from '@/components/home/section-kicker'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -69,10 +70,9 @@ export function SectionStartWebsite({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           transition={{ duration: 0.7, ease }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="mb-4 inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            {t.eyebrow}
-          </p>
+          <div className="mb-4 flex justify-center">
+            <Kicker>{t.eyebrow}</Kicker>
+          </div>
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>

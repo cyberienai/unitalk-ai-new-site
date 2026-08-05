@@ -2,10 +2,15 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCallback, useRef, useState } from 'react'
-import { ArrowRight, MapPin, MessageCircle } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin, MessageCircle } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
+import { Kicker } from '@/components/home/section-kicker'
+
+const ease = [0.22, 1, 0.36, 1] as const
+const PAGE_SIZE = 3
 
 type ShowcaseEntry = {
   slug: string
@@ -107,7 +112,7 @@ function CollaboratorCard({
   return (
     <article
       id={`collab-${entry.slug}`}
-      className="group relative flex w-[82%] shrink-0 snap-center flex-col overflow-hidden rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)] target:border-[#D10E63] target:ring-2 target:ring-[#D10E63]/60 sm:w-auto sm:scroll-mt-28"
+      className="group relative flex w-full flex-col overflow-hidden rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)]"
     >
       {/* Accent bar revealed on hover */}
       <span
@@ -189,48 +194,42 @@ function CollaboratorCard({
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
-      eyebrow: 'Par métier',
+      eyebrow: 'Par expertise',
       title: 'Découvrez les Collaborateurs IA de votre organisation.',
       subtitle:
-        'Choisissez le Collaborateur IA qui rejoindra votre équipe, selon le métier ou l’expertise dont vous avez besoin. Alma personnalise ensuite ses profils, ses connaissances et ses missions.',
+        'Choisissez le Collaborateur IA qui rejoindra votre équipe, selon l’expertise dont vous avez besoin. Alma personnalise ensuite ses profils, ses connaissances et ses missions.',
       available: 'Disponible',
       defaultProfileLabel: 'Profil par défaut',
       talk: 'Recruter',
       profiles: 'Voir ses profils',
       allCta: 'Voir tous les Collaborateurs IA',
-      swipeHint: 'Glissez pour découvrir',
+      prevPage: 'Collaborateurs précédents',
+      nextPage: 'Collaborateurs suivants',
+      goToPage: 'Voir le groupe de Collaborateurs IA',
     },
     en: {
-      eyebrow: 'By role',
+      eyebrow: 'By expertise',
       title: 'Meet the AI Collaborators of your organization.',
       subtitle:
-        'Choose the AI Collaborator that will join your team, based on the role or expertise you need. Alma then personalizes its profiles, knowledge, and missions.',
+        'Choose the AI Collaborator that will join your team, based on the expertise you need. Alma then personalizes its profiles, knowledge, and missions.',
       available: 'Available',
       defaultProfileLabel: 'Default profile',
       talk: 'Hire',
       profiles: 'See its profiles',
       allCta: 'See all AI Collaborators',
-      swipeHint: 'Swipe to explore',
+      prevPage: 'Previous collaborators',
+      nextPage: 'Next collaborators',
+      goToPage: 'Go to AI Collaborator group',
     },
   })
 
-  const scrollerRef = useRef<HTMLDivElement>(null)
-  const [active, setActive] = useState(0)
-
-  const onScroll = useCallback(() => {
-    const el = scrollerRef.current
-    if (!el) return
-    const max = el.scrollWidth - el.clientWidth
-    const ratio = max > 0 ? el.scrollLeft / max : 0
-    setActive(Math.round(ratio * (SHOWCASE.length - 1)))
-  }, [])
-
-  const goTo = useCallback((index: number) => {
-    const el = scrollerRef.current
-    if (!el) return
-    const max = el.scrollWidth - el.clientWidth
-    el.scrollTo({ left: (max * index) / (SHOWCASE.length - 1), behavior: 'smooth' })
-  }, [])
+  const reduceMotion = useReducedMotion()
+  const totalPages = Math.ceil(SHOWCASE.length / PAGE_SIZE)
+  const [page, setPage] = useState(0)
+  const goTo = (p: number) => setPage(((p % totalPages) + totalPages) % totalPages)
+  const nextPage = () => setPage((cur) => (cur + 1) % totalPages)
+  const prevPage = () => setPage((cur) => (cur - 1 + totalPages) % totalPages)
+  const pageEntries = SHOWCASE.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
 
   const labels = {
     available: t.available,
@@ -243,9 +242,9 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
     <section className="w-full border-t border-[#E9E2D4] bg-[#FBF9F3] py-24 sm:py-32">
       <div className="editorial-shell">
         <header className="mx-auto max-w-2xl text-center">
-          <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">
-            {t.eyebrow}
-          </p>
+          <div className="mb-4 flex justify-center">
+            <Kicker>{t.eyebrow}</Kicker>
+          </div>
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
@@ -254,32 +253,58 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           </p>
         </header>
 
-        {/* Mobile: swipe carousel with peek. Desktop: 3-col grid. */}
-        <div
-          ref={scrollerRef}
-          onScroll={onScroll}
-          className="mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 -mx-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:max-w-5xl sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 sm:[&>*]:w-auto"
-        >
-          {SHOWCASE.map((entry) => (
-            <CollaboratorCard key={entry.slug} entry={entry} lang={lang} labels={labels} />
-          ))}
+        {/* Paginated carousel (arrows + dots), like the missions section */}
+        <div className="mt-14 overflow-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={page}
+              initial={reduceMotion ? false : { opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, x: -24 }}
+              transition={{ duration: 0.35, ease }}
+              className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {pageEntries.map((entry) => (
+                <CollaboratorCard key={entry.slug} entry={entry} lang={lang} labels={labels} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* Dots (mobile only) */}
-        <div className="mt-5 flex items-center justify-center gap-2 sm:hidden">
-          {SHOWCASE.map((entry, i) => (
+        {totalPages > 1 && (
+          <div className="mt-8 flex items-center justify-center gap-4">
             <button
-              key={entry.slug}
               type="button"
-              onClick={() => goTo(i)}
-              aria-label={`${t.talk} ${ROLE_DETAILS[entry.slug]?.name ?? ''}`}
-              aria-current={active === i}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                active === i ? 'w-5 bg-[#D10E63]' : 'w-2 bg-[#D8D0C2] hover:bg-[#B8AF9F]'
-              }`}
-            />
-          ))}
-        </div>
+              onClick={prevPage}
+              aria-label={t.prevPage}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#F3EFE6] text-[#3F3A33] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3]"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`${t.goToPage} ${i + 1}`}
+                  aria-current={i === page ? 'true' : undefined}
+                  className={`h-2 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3] ${
+                    i === page ? 'w-6 bg-[#D10E63]' : 'w-2 bg-[#C9BFAF] hover:bg-[#D10E63]/60'
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={nextPage}
+              aria-label={t.nextPage}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#F3EFE6] text-[#3F3A33] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3]"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        )}
 
         {/* All CTA */}
         <div className="mt-14 flex justify-center">
