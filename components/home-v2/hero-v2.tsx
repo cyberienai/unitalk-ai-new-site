@@ -171,7 +171,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </motion.span>
               </AnimatePresence>
             </span>
-            <span className="sr-only">{t.missions.join(', ')}.</span>
           </motion.h1>
 
           <motion.p {...enter(0.24)} className="mx-auto mt-4 max-w-xl text-balance text-center text-base leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-lg">

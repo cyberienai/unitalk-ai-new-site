@@ -39,11 +39,12 @@ const CONTENT = {
     invalid: 'Indiquez un nom de domaine valide.',
     trust: 'Alma cite ses sources. Vous choisissez ce qu’elle conserve.',
     altPrompt: 'Vous préférez lui présenter votre activité ?',
-    altLink: 'Discuter directement avec Alma',
+    altLink: 'Parlez à Alma',
     replay: 'Revoir la démonstration',
     demoBadge: 'Démonstration',
     almaName: 'Alma',
     almaRole: 'Analyse de votre entreprise',
+    exampleTag: 'Exemple',
     exampleDomain: 'www.solvea.fr',
     live: 'Analyse en direct',
     phase: {
@@ -112,11 +113,12 @@ const CONTENT = {
     invalid: 'Enter a valid domain name.',
     trust: 'Alma cites its sources. You choose what it keeps.',
     altPrompt: 'Prefer to walk her through your business?',
-    altLink: 'Talk directly with Alma',
+    altLink: 'Talk to Alma',
     replay: 'Replay the demo',
     demoBadge: 'Demo',
     almaName: 'Alma',
     almaRole: 'Analyzing your company',
+    exampleTag: 'Example',
     exampleDomain: 'www.solvea.fr',
     live: 'Live analysis',
     phase: {
@@ -492,6 +494,9 @@ function DemoWindow({
       <div className="flex items-center justify-between gap-3 px-5 pt-4">
         <span className="inline-flex items-center gap-2 rounded-full bg-[#F5F2EB] px-3 py-1 font-mono text-[11px] text-[#5F5B57]">
           <Globe className="h-3.5 w-3.5 text-[#8A857D]" aria-hidden="true" />
+          <span className="rounded bg-[#E7E1D6] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em] text-[#8A857D]">
+            {t.exampleTag}
+          </span>
           {t.exampleDomain}
         </span>
         {phase !== 'profile' && (

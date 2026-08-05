@@ -386,8 +386,8 @@ export function SectionMissions({ lang }: { lang: Lang }) {
         </motion.div>
 
         <div className="mt-10 flex justify-center">
-          <CtaButton href="/collaborateurs-ia" variant="secondary" size="sm">
-            {t.exploreAll}
+                <CtaButton href="/missions" variant="secondary" size="sm">
+                  {t.exploreAll}
             <ArrowRight className="h-4 w-4" />
           </CtaButton>
         </div>
