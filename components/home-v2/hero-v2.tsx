@@ -9,7 +9,7 @@ import { CtaButton } from '@/components/ui/cta-button'
 
 const T = {
   fr: {
-    eyebrow: 'Il vous manque quelqu’un',
+    eyebrow: 'Il vous manque quelqu’un.',
     title: 'Recrutez votre premier Collaborateur IA.',
     readyLead: 'Votre Collaborateur IA est prêt à',
     missions: [
@@ -25,9 +25,9 @@ const T = {
       'collaborer avec vos équipes',
     ],
     almaLead:
-      'Il rejoint votre organisation avec les savoir-faire métier et les outils nécessaires pour chaque mission.',
-    cta: 'Recruter mon Collaborateur IA',
-    proofs: ['Aucune carte bancaire', 'Essai gratuit 7 jours', 'Hébergé en France · Conforme RGPD'],
+      'Discutez avec Alma. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
+    cta: 'Commencer gratuitement',
+    proofs: ['7 jours gratuits', 'Hébergé en France', 'Conforme au RGPD'],
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -51,7 +51,7 @@ const T = {
     summary: 'Emma a bouclé sa matinée.',
   },
   en: {
-    eyebrow: 'Someone is missing',
+    eyebrow: 'Someone is missing.',
     title: 'Hire your first AI Collaborator.',
     readyLead: 'Your AI Collaborator is ready to',
     missions: [
@@ -67,9 +67,9 @@ const T = {
       'collaborate with your teams',
     ],
     almaLead:
-      'It joins your organization with the business know-how and tools it needs for every mission.',
-    cta: 'Hire my AI Collaborator',
-    proofs: ['No credit card', '7-day free trial', 'Hosted in France · GDPR compliant'],
+      'Chat with Alma. She analyzes your company and prepares the AI Collaborator you need.',
+    cta: 'Start for free',
+    proofs: ['7 days free', 'Hosted in France', 'GDPR compliant'],
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
