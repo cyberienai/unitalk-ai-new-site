@@ -189,9 +189,12 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.h1>
 
           <div className="mt-6 text-center sm:text-left">
-            <motion.p {...enter(0.18)} className="flex flex-wrap items-center justify-center gap-x-2 font-sf text-lg font-semibold leading-snug text-[#4E483F] sm:justify-start md:text-xl">
-              <span>{t.readyLead}</span>
-              <span className="inline-flex min-h-[1.4em] items-center">
+            <motion.p
+              {...enter(0.18)}
+              className="flex min-h-[3.5rem] flex-wrap items-start justify-center gap-x-2 font-sf text-lg font-semibold leading-tight text-[#4E483F] sm:justify-start md:min-h-[4.5rem] md:text-xl"
+            >
+              <span className="pt-1 md:pt-2">{t.readyLead}</span>
+              <span className="inline-flex items-start">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={missionIndex}
@@ -199,7 +202,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduceMotion ? undefined : { opacity: 0, y: '-0.4em' }}
                     transition={{ duration: 0.4, ease }}
-                    className="font-extrabold tracking-tight text-[#D10E63] text-xl md:text-3xl"
+                    className="text-balance text-xl font-extrabold leading-tight tracking-tight text-[#D10E63] md:text-3xl"
                   >
                     {t.missions[missionIndex]}
                   </motion.span>
