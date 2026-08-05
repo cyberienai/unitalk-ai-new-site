@@ -1,246 +1,220 @@
 'use client'
 
-import Image from 'next/image'
 import { CtaButton } from '@/components/ui/cta-button'
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, MapPin, MessageCircle } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, Briefcase, Check, Code2, PenLine, Wrench } from 'lucide-react'
 import { useT, type Lang } from '@/lib/language-context'
-import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
 import { Kicker } from '@/components/home/section-kicker'
 
 const ease = [0.22, 1, 0.36, 1] as const
-const PAGE_SIZE = 3
 
-type ShowcaseEntry = {
-  slug: string
-  role: { fr: string; en: string }
-  segments: { fr: string; en: string }
-  defaultProfile: { fr: string; en: string }
-  skills: { fr: string; en: string }
-  pitch: { fr: string; en: string }
+type Profile = {
+  key: string
+  icon: typeof Briefcase
+  name: { fr: string; en: string }
+  sectors: { fr: string; en: string }[]
+  missions: { fr: string; en: string }[]
+  skills: { fr: string; en: string }[]
+  tools: string[]
 }
 
-// Les six Collaborateurs IA de l'illustration, en cartes statiques (fiables au chargement).
-const SHOWCASE: ShowcaseEntry[] = [
+// Profils métier par défaut (savoir-faire initial), sans identité nommée.
+// L'Organisation choisit ensuite le nom, l'avatar et la voix du Collaborateur IA.
+const PROFILES: Profile[] = [
   {
-    slug: 'emma',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • Indépendants', en: 'SMBs • Startups • Freelancers' },
-    defaultProfile: { fr: 'Assistanat de direction', en: 'Executive assistant' },
-    skills: { fr: 'Agenda · Réunions · Reporting', en: 'Calendar · Meetings · Reporting' },
-    pitch: {
-      fr: 'Gère vos priorités, prépare vos réunions et suit les décisions.',
-      en: 'Manages your priorities, prepares your meetings and tracks decisions.',
-    },
+    key: 'assistanat',
+    icon: Briefcase,
+    name: { fr: 'Assistanat de direction', en: 'Executive assistant' },
+    sectors: [
+      { fr: 'PME', en: 'SMBs' },
+      { fr: 'Startups', en: 'Startups' },
+      { fr: 'Indépendants', en: 'Freelancers' },
+    ],
+    missions: [
+      { fr: 'Organiser le comité de direction hebdomadaire', en: 'Organize the weekly leadership committee' },
+      { fr: 'Réserver et confirmer un déplacement complet', en: 'Book and confirm a full business trip' },
+      { fr: 'Préparer un dossier de décision avant réunion', en: 'Prepare a decision brief before a meeting' },
+    ],
+    skills: [
+      { fr: "Gestion d'agenda", en: 'Calendar management' },
+      { fr: 'Préparation de réunions', en: 'Meeting preparation' },
+      { fr: 'Coordination des déplacements', en: 'Travel coordination' },
+      { fr: 'Filtrage des demandes', en: 'Request triage' },
+    ],
+    tools: ['Email', 'Google Agenda', 'Notion', 'Slack', 'Zoom'],
   },
   {
-    slug: 'lea',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • Agences', en: 'SMBs • Startups • Agencies' },
-    defaultProfile: { fr: 'Stratégie de contenu', en: 'Content strategist' },
-    skills: { fr: 'Contenus · Réseaux sociaux · SEO', en: 'Content · Social · SEO' },
-    pitch: {
-      fr: 'Rédige vos contenus, planifie vos publications et travaille votre référencement.',
-      en: 'Writes your content, schedules your posts and improves your search ranking.',
-    },
+    key: 'contenu',
+    icon: PenLine,
+    name: { fr: 'Stratégie de contenu', en: 'Content strategy' },
+    sectors: [
+      { fr: 'PME', en: 'SMBs' },
+      { fr: 'Startups', en: 'Startups' },
+      { fr: 'Agences', en: 'Agencies' },
+    ],
+    missions: [
+      { fr: 'Définir la ligne éditoriale du trimestre', en: 'Define the quarterly editorial line' },
+      { fr: 'Rédiger une série d’articles de blog', en: 'Write a series of blog posts' },
+      { fr: "Analyser l'engagement des campagnes", en: 'Analyze campaign engagement' },
+    ],
+    skills: [
+      { fr: 'Stratégie de contenu', en: 'Content strategy' },
+      { fr: 'Calendrier éditorial', en: 'Editorial calendar' },
+      { fr: 'Rédaction et SEO', en: 'Writing and SEO' },
+      { fr: 'Analyse de performance', en: 'Performance analysis' },
+    ],
+    tools: ['CMS', 'Réseaux sociaux', 'Analytics', 'Notion', 'Canva'],
   },
   {
-    slug: 'arthur',
-    role: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
-    segments: { fr: 'Startups • SaaS • Studios', en: 'Startups • SaaS • Studios' },
-    defaultProfile: { fr: 'Développement', en: 'Developer' },
-    skills: { fr: 'Code · Intégrations · Data', en: 'Code · Integrations · Data' },
-    pitch: {
-      fr: 'Écrit votre code, connecte vos outils et exploite vos données.',
-      en: 'Writes your code, connects your tools and leverages your data.',
-    },
-  },
-  {
-    slug: 'hugo',
-    role: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • ETI', en: 'SMBs • Startups • Mid-market' },
-    defaultProfile: { fr: 'Développement commercial', en: 'Sales development' },
-    skills: { fr: 'Prospection · CRM · Relances', en: 'Prospecting · CRM · Follow-ups' },
-    pitch: {
-      fr: 'Identifie vos prospects, qualifie les contacts et prépare vos relances.',
-      en: 'Identifies your prospects, qualifies contacts and prepares your follow-ups.',
-    },
-  },
-  {
-    slug: 'nadia',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'PME • Startups • ETI', en: 'SMBs • Startups • Mid-market' },
-    defaultProfile: { fr: 'Analyse financière', en: 'Financial analyst' },
-    skills: { fr: 'Trésorerie · Facturation · Reporting', en: 'Cash flow · Billing · Reporting' },
-    pitch: {
-      fr: 'Suit votre trésorerie, prépare vos factures et analyse vos résultats.',
-      en: 'Tracks your cash flow, prepares your invoices and analyzes your results.',
-    },
-  },
-  {
-    slug: 'ines',
-    role: { fr: 'Collaboratrice IA', en: 'AI Collaborator' },
-    segments: { fr: 'E-commerce • SaaS • PME', en: 'E-commerce • SaaS • SMBs' },
-    defaultProfile: { fr: 'Support client', en: 'Customer support' },
-    skills: { fr: 'Demandes · Réponses · Suivi', en: 'Requests · Replies · Follow-up' },
-    pitch: {
-      fr: 'Répond à vos clients, traite les demandes courantes et escalade ce qui compte.',
-      en: 'Answers your customers, handles routine requests and escalates what matters.',
-    },
+    key: 'developpement',
+    icon: Code2,
+    name: { fr: 'Développement logiciel', en: 'Software development' },
+    sectors: [
+      { fr: 'Startups', en: 'Startups' },
+      { fr: 'SaaS', en: 'SaaS' },
+      { fr: 'Studios', en: 'Studios' },
+    ],
+    missions: [
+      { fr: 'Implémenter une nouvelle fonctionnalité', en: 'Implement a new feature' },
+      { fr: 'Corriger un lot de bugs prioritaires', en: 'Fix a batch of priority bugs' },
+      { fr: 'Documenter une API', en: 'Document an API' },
+    ],
+    skills: [
+      { fr: 'Écriture de code', en: 'Code writing' },
+      { fr: 'Revue de code', en: 'Code review' },
+      { fr: 'Correction de bugs', en: 'Bug fixing' },
+      { fr: 'Documentation technique', en: 'Technical documentation' },
+    ],
+    tools: ['GitHub', 'VS Code', 'Linear', 'Slack', 'CI/CD'],
   },
 ]
 
-function CollaboratorCard({
-  entry,
+function ProfileCard({
+  profile,
   lang,
   labels,
+  index,
+  reduceMotion,
 }: {
-  entry: ShowcaseEntry
+  profile: Profile
   lang: Lang
-  labels: {
-    available: string
-    defaultProfileLabel: string
-    talk: string
-    profiles: string
-  }
+  labels: { missionsLabel: string; skillsLabel: string; toolsLabel: string; choose: string }
+  index: number
+  reduceMotion: boolean | null
 }) {
-  const ai = ROLE_DETAILS[entry.slug]
-  if (!ai) return null
-  const skillChips = entry.skills[lang].split('·').map((s) => s.trim()).filter(Boolean)
-
+  const Icon = profile.icon
   return (
-    <article
-      id={`collab-${entry.slug}`}
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.5, ease, delay: index * 0.08 }}
       className="group relative flex w-full flex-col overflow-hidden rounded-3xl border border-[#E4DCCF] bg-[#F3EFE6] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_24px_60px_rgba(28,26,23,0.10)]"
     >
-      {/* Accent bar revealed on hover */}
       <span
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-[#D10E63] transition-transform duration-300 group-hover:scale-x-100"
       />
 
-      {/* Header: avatar + availability */}
-      <div className="flex items-start justify-between">
-        <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#1C1A17]/[0.08]">
-          <Image
-            src={ai.avatar || '/placeholder.svg'}
-            alt={ai.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="64px"
-          />
+      {/* Header: business icon + sector filters (no name, no portrait) */}
+      <div className="flex items-start justify-between gap-3">
+        <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#E4DCCF] bg-[#FBF9F3] text-[#D10E63]">
+          <Icon className="h-6 w-6" aria-hidden="true" />
         </span>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF9F3] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4E7C59]">
-          <span className="relative flex h-2 w-2" aria-hidden="true">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-          </span>
-          {labels.available}
-        </span>
-      </div>
-
-      {/* Identity */}
-      <div className="mt-5">
-        <h3 className="font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{ai.name}</h3>
-        <p className="mt-0.5 text-sm font-medium text-[#D10E63]">{entry.role[lang]}</p>
-        <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#6B6560]">
-          <MapPin className="h-3.5 w-3.5 shrink-0 text-[#A09789]" aria-hidden="true" />
-          {entry.segments[lang]}
-        </p>
-      </div>
-
-      {/* Default profile + skill chips */}
-      <div className="mt-5 rounded-2xl border border-[#E4DCCF] bg-[#FBF9F3] p-4">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
-          {labels.defaultProfileLabel}
-        </p>
-        <p className="mt-1 text-[15px] font-bold text-[#1C1A17]">{entry.defaultProfile[lang]}</p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {skillChips.map((skill) => (
+        <div className="flex flex-wrap justify-end gap-1.5">
+          {profile.sectors.map((s) => (
             <span
-              key={skill}
-              className="rounded-full border border-[#E4DCCF] bg-[#F3EFE6] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]"
+              key={s.en}
+              className="rounded-full border border-[#E4DCCF] bg-[#FBF9F3] px-2.5 py-1 text-[11px] font-semibold text-[#6B6560]"
             >
-              {skill}
+              {s[lang]}
             </span>
           ))}
         </div>
       </div>
 
-      {/* Description */}
-      <p className="mt-4 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{entry.pitch[lang]}</p>
+      {/* Profile name */}
+      <h3 className="mt-5 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{profile.name[lang]}</h3>
 
-      {/* Actions */}
-      <div className="mt-5 flex flex-col gap-2">
-        <CtaButton href={collaboratorHref(entry.slug)} size="sm" className="gap-1.5">
-          <MessageCircle className="h-4 w-4 shrink-0" />
-          <span className="truncate">{`${labels.talk} ${ai.name}`}</span>
-        </CtaButton>
-        <CtaButton href={collaboratorHref(entry.slug)} variant="secondary" size="sm">
-          {labels.profiles}
+      {/* Missions principales */}
+      <p className="mt-5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+        {labels.missionsLabel}
+      </p>
+      <ul className="mt-2 flex flex-col gap-2">
+        {profile.missions.map((m) => (
+          <li key={m.en} className="flex items-start gap-2 text-[14px] leading-snug text-[#4E483F]">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" aria-hidden="true" />
+            {m[lang]}
+          </li>
+        ))}
+      </ul>
+
+      {/* Compétences (4 max) */}
+      <p className="mt-5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+        {labels.skillsLabel}
+      </p>
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {profile.skills.slice(0, 4).map((skill) => (
+          <span
+            key={skill.en}
+            className="rounded-full border border-[#E4DCCF] bg-[#FBF9F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]"
+          >
+            {skill[lang]}
+          </span>
+        ))}
+      </div>
+
+      {/* Outils nécessaires */}
+      <p className="mt-5 flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+        <Wrench className="h-3.5 w-3.5" aria-hidden="true" />
+        {labels.toolsLabel}
+      </p>
+      <p className="mt-1.5 text-[13px] text-[#6B6560]">{profile.tools.join(' · ')}</p>
+
+      {/* CTA */}
+      <div className="mt-6 flex flex-col">
+        <CtaButton href="/decouvrir" size="sm">
+          {labels.choose}
+          <ArrowRight className="h-4 w-4" />
         </CtaButton>
       </div>
-    </article>
+    </motion.article>
   )
 }
 
 export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
   const t = useT({
     fr: {
-      eyebrow: 'Par expertise',
-      title: 'Un Collaborateur IA pour',
-      rotatingWords: ['les ventes', 'le marketing', 'la finance', 'la relation client', 'le développement', 'la direction'],
+      eyebrow: 'Profils métier',
+      title: 'Avec quel savoir-faire doit-il commencer ?',
       subtitle:
-        'Choisissez le Collaborateur IA qui rejoindra votre équipe, selon l’expertise dont vous avez besoin. Alma personnalise ensuite ses profils, ses connaissances et ses missions.',
-      available: 'Disponible',
-      defaultProfileLabel: 'Profil par défaut',
-      talk: 'Recruter',
-      profiles: 'Voir ses profils',
-      allCta: 'Voir tous les Collaborateurs IA',
-      prevPage: 'Collaborateurs précédents',
-      nextPage: 'Collaborateurs suivants',
-      goToPage: 'Voir le groupe de Collaborateurs IA',
+        'Votre Collaborateur IA rejoint votre organisation avec un profil métier par défaut. Vous choisissez ensuite son nom, son avatar et sa voix, puis vous pouvez lui ajouter d’autres profils.',
+      missionsLabel: 'Missions principales',
+      skillsLabel: 'Compétences',
+      toolsLabel: 'Outils nécessaires',
+      choose: 'Choisir ce profil',
+      allCta: 'Voir tous les profils métier',
     },
     en: {
-      eyebrow: 'By expertise',
-      title: 'An AI Collaborator for',
-      rotatingWords: ['sales', 'marketing', 'finance', 'customer relations', 'development', 'leadership'],
+      eyebrow: 'Business profiles',
+      title: 'Which know-how should it start with?',
       subtitle:
-        'Choose the AI Collaborator that will join your team, based on the expertise you need. Alma then personalizes its profiles, knowledge, and missions.',
-      available: 'Available',
-      defaultProfileLabel: 'Default profile',
-      talk: 'Hire',
-      profiles: 'See its profiles',
-      allCta: 'See all AI Collaborators',
-      prevPage: 'Previous collaborators',
-      nextPage: 'Next collaborators',
-      goToPage: 'Go to AI Collaborator group',
+        'Your AI Collaborator joins your organization with a default business profile. You then choose its name, avatar and voice, and can add more profiles later.',
+      missionsLabel: 'Key missions',
+      skillsLabel: 'Skills',
+      toolsLabel: 'Required tools',
+      choose: 'Choose this profile',
+      allCta: 'See all business profiles',
     },
   })
 
   const reduceMotion = useReducedMotion()
-  const [wordIndex, setWordIndex] = useState(0)
-  useEffect(() => {
-    if (reduceMotion) return
-    const id = setInterval(() => {
-      setWordIndex((i) => (i + 1) % t.rotatingWords.length)
-    }, 2200)
-    return () => clearInterval(id)
-  }, [reduceMotion, t.rotatingWords.length])
-
-  const totalPages = Math.ceil(SHOWCASE.length / PAGE_SIZE)
-  const [page, setPage] = useState(0)
-  const goTo = (p: number) => setPage(((p % totalPages) + totalPages) % totalPages)
-  const nextPage = () => setPage((cur) => (cur + 1) % totalPages)
-  const prevPage = () => setPage((cur) => (cur - 1 + totalPages) % totalPages)
-  const pageEntries = SHOWCASE.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
 
   const labels = {
-    available: t.available,
-    defaultProfileLabel: t.defaultProfileLabel,
-    talk: t.talk,
-    profiles: t.profiles,
+    missionsLabel: t.missionsLabel,
+    skillsLabel: t.skillsLabel,
+    toolsLabel: t.toolsLabel,
+    choose: t.choose,
   }
 
   return (
@@ -253,83 +227,24 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
-          <div
-            className="mt-1 flex min-h-[1.3em] items-start justify-center overflow-hidden text-balance font-sf text-3xl font-bold leading-[1.1] tracking-[-0.035em] text-[#D10E63] sm:text-4xl lg:text-[2.75rem]"
-            aria-hidden="true"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={wordIndex}
-                initial={reduceMotion ? false : { opacity: 0, y: '0.5em' }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: '-0.5em' }}
-                transition={{ duration: 0.4, ease }}
-                className="inline-block"
-              >
-                {t.rotatingWords[wordIndex]}
-              </motion.span>
-            </AnimatePresence>
-          </div>
-          <p className="sr-only">{`${t.title} ${t.rotatingWords.join(', ')}.`}</p>
           <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">
             {t.subtitle}
           </p>
         </header>
 
-        {/* Paginated carousel (arrows + dots), like the missions section */}
-        <div className="mt-14 overflow-hidden">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={page}
-              initial={reduceMotion ? false : { opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, x: -24 }}
-              transition={{ duration: 0.35, ease }}
-              className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {pageEntries.map((entry) => (
-                <CollaboratorCard key={entry.slug} entry={entry} lang={lang} labels={labels} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+        <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {PROFILES.map((profile, i) => (
+            <ProfileCard
+              key={profile.key}
+              profile={profile}
+              lang={lang}
+              labels={labels}
+              index={i}
+              reduceMotion={reduceMotion}
+            />
+          ))}
         </div>
 
-        {totalPages > 1 && (
-          <div className="mt-8 flex items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={prevPage}
-              aria-label={t.prevPage}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#F3EFE6] text-[#3F3A33] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3]"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <div className="flex items-center gap-2">
-              {Array.from({ length: totalPages }).map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => goTo(i)}
-                  aria-label={`${t.goToPage} ${i + 1}`}
-                  aria-current={i === page ? 'true' : undefined}
-                  className={`h-2 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3] ${
-                    i === page ? 'w-6 bg-[#D10E63]' : 'w-2 bg-[#C9BFAF] hover:bg-[#D10E63]/60'
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={nextPage}
-              aria-label={t.nextPage}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#F3EFE6] text-[#3F3A33] transition-colors hover:border-[#D10E63] hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3]"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-        )}
-
-        {/* All CTA */}
         <div className="mt-14 flex justify-center">
           <CtaButton href="/collaborateurs-ia/roles" variant="secondary">
             {t.allCta}
