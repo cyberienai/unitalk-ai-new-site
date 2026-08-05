@@ -25,7 +25,7 @@ const T = {
       'collaborer avec vos équipes',
     ],
     almaLead:
-      'Tout commence par une conversation avec Alma. En quelques minutes, elle découvre votre entreprise et recrute le Collaborateur IA qui vous correspond.',
+      'Discutez avec Alma. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
     cta: 'Recruter mon Collaborateur IA',
     proofs: ['Aucune carte bancaire', 'Essai gratuit', 'Configuration en quelques minutes'],
     // Visual — cinématique
@@ -71,7 +71,7 @@ const T = {
       'collaborate with your teams',
     ],
     almaLead:
-      'It all starts with a conversation with Alma. In a few minutes, she learns about your company and hires the AI Collaborator that fits you.',
+      'Chat with Alma. She analyzes your company and prepares the AI Collaborator you need.',
     cta: 'Hire my AI Collaborator',
     proofs: ['No credit card', 'Free trial', 'Set up in minutes'],
     // Visual — cinematic
