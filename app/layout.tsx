@@ -18,11 +18,65 @@ const playfairDisplay = Playfair_Display({
   weight: ['400', '500', '600', '700'],
 })
 
+const SITE_URL = 'https://unitalk.ai'
+const SITE_NAME = 'Unitalk'
+const DEFAULT_TITLE = 'Unitalk — Recrutez votre premier Collaborateur IA'
+const DEFAULT_DESCRIPTION =
+  'Unitalk crée des Collaborateurs IA qui rejoignent votre organisation avec les savoir-faire métier et les outils nécessaires. Alma analyse votre activité et prépare le Collaborateur IA qu’il vous faut. Hébergé en France, conforme au RGPD.'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://unitalk.ai'),
-  title: 'Unitalk.ai',
-  description: 'Transform your business with AI-powered interview solutions',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: DEFAULT_TITLE,
+    template: '%s | Unitalk',
+  },
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
   generator: 'v0.app',
+  keywords: [
+    'Collaborateur IA',
+    'agent IA',
+    'assistant IA',
+    'IA pour entreprise',
+    'automatisation',
+    'Unitalk',
+    'Alma',
+    'workspace IA',
+    'IA hébergée en France',
+    'RGPD',
+  ],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: 'technology',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  formatDetection: { telephone: false },
   icons: {
     icon: [
       {
@@ -42,6 +96,24 @@ export const metadata: Metadata = {
   },
 }
 
+// Structured data for search engines (schema.org).
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon.svg`,
+  description: DEFAULT_DESCRIPTION,
+}
+
+const webSiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: SITE_URL,
+  inLanguage: 'fr-FR',
+}
+
 export const viewport: Viewport = {
   colorScheme: 'light',
   themeColor: [
@@ -57,6 +129,14 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`bg-background ${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        />
         <LanguageProvider>
           <MyTeamProvider>
             <AlmaProvider>
