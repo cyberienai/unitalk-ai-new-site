@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { SlidersHorizontal, X } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { Mic, SlidersHorizontal, X } from 'lucide-react'
 import {
   MISSION_CATEGORIES,
   featuredMissions,
@@ -56,6 +57,7 @@ function facetLabel(group: MultiKey, value: string, lang: 'fr' | 'en'): string {
 
 export function MissionsContent() {
   const { lang } = useLanguage()
+  const reduce = useReducedMotion()
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -73,9 +75,33 @@ export function MissionsContent() {
   const [sort, setSort] = useState<SortKey>(() => sortFromParams(new URLSearchParams(searchParams.toString())))
 
   const [sheetOpen, setSheetOpen] = useState(false)
-  // The catalog is secondary: hidden until the user chooses to explore it, or
-  // when a filter/search refinement or a shared ?q=/filter URL requires it.
   const [preview, setPreview] = useState<Mission | null>(null)
+
+  // Alma can be collapsed for the session; it returns next visit.
+  const ALMA_HIDDEN_KEY = 'unitalk_missions_alma_hidden'
+  const [almaHidden, setAlmaHidden] = useState(false)
+  const almaRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(ALMA_HIDDEN_KEY) === '1') setAlmaHidden(true)
+    } catch {}
+  }, [])
+
+  const hideAlma = useCallback(() => {
+    setAlmaHidden(true)
+    try {
+      sessionStorage.setItem(ALMA_HIDDEN_KEY, '1')
+    } catch {}
+  }, [])
+
+  const showAlma = useCallback(() => {
+    setAlmaHidden(false)
+    try {
+      sessionStorage.removeItem(ALMA_HIDDEN_KEY)
+    } catch {}
+    requestAnimationFrame(() => almaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+  }, [])
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   const catalogRef = useRef<HTMLDivElement>(null)
@@ -181,6 +207,8 @@ export function MissionsContent() {
 
   // --- copy ------------------------------------------------------------------
   const t = {
+    recallText: lang === 'fr' ? 'Vous préférez décrire votre besoin ?' : 'Prefer to describe your need?',
+    recallCta: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     catalogTitle: lang === 'fr' ? 'Choisissez une mission' : 'Choose a mission',
     catalogSubtitle:
       lang === 'fr'
@@ -253,17 +281,45 @@ export function MissionsContent() {
 
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
-      {/* ------------------------------ HEADER ------------------------------ */}
       {/* ---------------------- ALMA SURFACE (primary) ---------------------- */}
-      {/* Voice-first entry: talk to Alma, watch the mission fiche build live. */}
-      {/* Fixed navbar is 76px tall; keep the same top offset as before. */}
-      <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
-        <AlmaSurface lang={lang} initialQuery={almaText} />
-      </div>
+      {/* Voice-first entry: talk to Alma, watch the mission fiche build live.
+          It can be collapsed for the session (returns next visit). */}
+      <AnimatePresence initial={false}>
+        {!almaHidden && (
+          <motion.div
+            key="alma-surface"
+            ref={almaRef}
+            initial={reduce ? false : { height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            {/* Fixed navbar is 76px tall; keep the same top offset as before. */}
+            <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
+              <AlmaSurface lang={lang} initialQuery={almaText} onHide={hideAlma} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ------------------------ CATALOG (always visible) ------------------------ */}
-      <div className="mx-auto max-w-[1240px] px-6 pb-24 pt-14 sm:pt-16">
-        <header className="mb-8 border-t border-[var(--store-line)] pt-8">
+      <div className={`mx-auto max-w-[1240px] px-6 pb-24 ${almaHidden ? 'pt-28 sm:pt-[124px] lg:pt-[144px]' : 'pt-14 sm:pt-16'}`}>
+        {/* Recall line — restore Alma once collapsed. */}
+        {almaHidden && (
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-2xl border border-[var(--store-line)] bg-[var(--store-surface)] px-5 py-4 text-center">
+            <p className="text-sm text-[var(--store-muted)]">{t.recallText}</p>
+            <button
+              type="button"
+              onClick={showAlma}
+              className="inline-flex min-h-[40px] items-center gap-2 rounded-full bg-[#D10E63] px-4 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+            >
+              <Mic className="h-4 w-4" />
+              {t.recallCta}
+            </button>
+          </div>
+        )}
+        <header className={`mb-8 pt-8 ${almaHidden ? '' : 'border-t border-[var(--store-line)]'}`}>
           <h2 className="font-sf text-2xl font-bold tracking-[-0.01em] text-[var(--store-text)] sm:text-[1.75rem]">
             {t.catalogTitle}
           </h2>

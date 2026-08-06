@@ -1,8 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowUp, Mic, Pause, Paperclip, Pencil, Play, Square, RotateCcw } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ArrowUp, Mic, Pause, Paperclip, Pencil, Play, Square, RotateCcw, X } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import type { Mission } from '@/lib/missions-catalog'
 import { getMission } from '@/lib/missions-catalog'
@@ -62,16 +62,20 @@ export function AlmaSurface({
   lang,
   initialQuery = '',
   loadRequest,
+  onHide,
 }: {
   lang: Lang
   initialQuery?: string
   loadRequest?: LoadRequest | null
+  onHide?: () => void
 }) {
   const reduce = useReducedMotion()
 
   const [stage, setStage] = useState<Stage>('intro')
   const [text, setText] = useState(initialQuery)
   const [demoOpen, setDemoOpen] = useState(false)
+  // Confirm popover shown only when a draft is under way.
+  const [confirmHide, setConfirmHide] = useState(false)
 
   const [draft, setDraft] = useState<MissionDraft | null>(null)
   const [shown, setShown] = useState<FicheShown>({})
@@ -109,6 +113,11 @@ export function AlmaSurface({
     talk: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     consent: lang === 'fr' ? 'Le micro s’active uniquement avec votre accord.' : 'The mic only turns on with your consent.',
     watch: lang === 'fr' ? 'Voir la démo · 45 s' : 'Watch the demo · 45 s',
+    hideAria: lang === 'fr' ? 'Masquer Alma' : 'Hide Alma',
+    hideConfirmTitle: lang === 'fr' ? 'Masquer Alma ?' : 'Hide Alma?',
+    hideConfirmBody: lang === 'fr' ? 'Votre brouillon reste enregistré.' : 'Your draft stays saved.',
+    hideConfirmYes: lang === 'fr' ? 'Masquer' : 'Hide',
+    hideConfirmNo: lang === 'fr' ? 'Annuler' : 'Cancel',
     writePh: lang === 'fr' ? 'Ou écrivez-le ici…' : 'Or write it here…',
     tryPrefix: lang === 'fr' ? 'Essayez :' : 'Try:',
     listening: lang === 'fr' ? 'Alma vous écoute' : 'Alma is listening',
@@ -140,6 +149,15 @@ export function AlmaSurface({
         ? 'Le micro n’est pas disponible. Vous pouvez écrire votre demande à Alma.'
         : 'The mic isn’t available. You can type your request to Alma.',
   }
+
+  // A draft is "under way" once Alma has started or the visitor has typed.
+  const draftInProgress = stage !== 'intro' || text.trim().length > 0
+
+  const requestHide = useCallback(() => {
+    if (!onHide) return
+    if (draftInProgress) setConfirmHide(true)
+    else onHide()
+  }, [onHide, draftInProgress])
 
   // --- timing helpers --------------------------------------------------------
   const clearAll = useCallback(() => {
@@ -496,6 +514,56 @@ export function AlmaSurface({
         className="overflow-hidden rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)]"
         aria-label={lang === 'fr' ? 'Préparer une mission avec Alma' : 'Prepare a mission with Alma'}
       >
+        {/* Hide Alma — top-right, all stages. Confirms only mid-draft. */}
+        {onHide && (
+          <div className="absolute right-3 top-3 z-30 sm:right-4 sm:top-4">
+            <button
+              type="button"
+              onClick={requestHide}
+              aria-label={t.hideAria}
+              title={t.hideAria}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/85 text-[var(--store-muted)] backdrop-blur-sm transition-colors hover:bg-[#FBF9F3] hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+            >
+              <X className="h-4 w-4" />
+            </button>
+            <AnimatePresence>
+              {confirmHide && (
+                <motion.div
+                  role="dialog"
+                  aria-label={t.hideConfirmTitle}
+                  initial={reduce ? false : { opacity: 0, y: -4, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
+                  transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute right-0 top-11 w-64 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-4 text-left shadow-[0_12px_32px_-16px_rgba(28,26,23,0.35)]"
+                >
+                  <p className="font-sf text-sm font-bold text-[var(--store-text)]">{t.hideConfirmTitle}</p>
+                  <p className="mt-1 text-[12.5px] leading-snug text-[var(--store-muted)]">{t.hideConfirmBody}</p>
+                  <div className="mt-3 flex items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setConfirmHide(false)}
+                      className="rounded-lg px-2.5 py-1.5 text-[13px] font-semibold text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)]"
+                    >
+                      {t.hideConfirmNo}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setConfirmHide(false)
+                        onHide()
+                      }}
+                      className="rounded-lg bg-[#D10E63] px-3 py-1.5 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+                    >
+                      {t.hideConfirmYes}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+
         <div className="grid lg:min-h-[400px] lg:grid-cols-[42%_58%]">
           {/* LEFT — Alma + conversation */}
           <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-5 lg:border-b-0 lg:border-r">
@@ -656,8 +724,9 @@ function IntroPresence({
 }) {
   return (
     <div className="flex h-full flex-col">
-      {/* Internal header line: identity on the left, quiet demo link on the right. */}
-      <div className="flex items-center justify-between gap-3">
+      {/* Internal header: identity left · demo link centered · (× lives at the
+          section top-right, so we reserve room on the right). */}
+      <div className="flex items-center gap-3 pr-11">
         <div className="flex items-center gap-2">
           <img src="/alma-avatar.png" alt="Alma" className="h-9 w-9 rounded-full object-cover ring-2 ring-[#D10E63]/30" />
           <p className="font-sf text-base font-bold text-[var(--store-text)]">{t.name}</p>
@@ -666,7 +735,7 @@ function IntroPresence({
           ref={demoTriggerRef}
           type="button"
           onClick={onDemo}
-          className="group inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-1.5 py-1 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+          className="group mx-auto inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-1.5 py-1 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
         >
           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/12 text-[#D10E63]" aria-hidden="true">
             <Play className="h-2.5 w-2.5" fill="currentColor" />
