@@ -56,7 +56,6 @@ const T = {
     ],
     doneLabel: 'Terminé',
     liveLabel: 'En cours',
-    summary: 'Emma a bouclé sa matinée.',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -106,7 +105,6 @@ const T = {
     ],
     doneLabel: 'Done',
     liveLabel: 'In progress',
-    summary: 'Emma wrapped up her morning.',
   },
 } as const
 
@@ -571,25 +569,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                           )
                         })}
                       </ul>
-
-                      {/* Espace réservé en permanence pour éviter tout saut de hauteur */}
-                      <div className="mt-2 min-h-[1.75rem] border-t border-white/[0.08] pt-2">
-                        <AnimatePresence>
-                          {allDone && (
-                            <motion.p
-                              key="summary"
-                              initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0 }}
-                              transition={{ duration: 0.4, ease }}
-                              className="flex items-center gap-1.5 text-[11px] font-semibold text-[#5FE38F]"
-                            >
-                              <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} aria-hidden="true" />
-                              {t.summary}
-                            </motion.p>
-                          )}
-                        </AnimatePresence>
-                      </div>
                     </div>
                   </div>
                 </motion.div>
