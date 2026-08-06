@@ -359,17 +359,24 @@ export function AlmaSurface({
 
   // --- clarifications --------------------------------------------------------
   const answerClarification = useCallback(
-    (c: Clarification, spoken: string) => {
+    (c: Clarification, spoken: string, replyIndex?: number) => {
       if (!draft) return
       setLastAnswer(spoken)
       setAnswerText('')
+
+      // Resolve the value that lands in the draft: per-reply value if the picked
+      // quick reply defines one, otherwise the clarification's fallback value.
+      const value =
+        replyIndex != null && c.replyValues && c.replyValues[replyIndex]
+          ? c.replyValues[replyIndex]
+          : c.add.value
 
       const idx = c.add.section === 'cadre' ? draft.cadre.length : draft.validations.length
       setDraft((d) => {
         if (!d) return d
         const next = { ...d }
-        if (c.add.section === 'cadre') next.cadre = [...d.cadre, c.add.value]
-        else next.validations = [...d.validations, c.add.value]
+        if (c.add.section === 'cadre') next.cadre = [...d.cadre, value]
+        else next.validations = [...d.validations, value]
         if (c.resolves) next.toClarify = d.toClarify.filter((h) => h.fr !== c.resolves)
         return next
       })
@@ -497,10 +504,10 @@ export function AlmaSurface({
                 lastAnswer={lastAnswer}
                 answerText={answerText}
                 setAnswerText={setAnswerText}
-                onQuick={(reply) => currentClar && answerClarification(currentClar, reply)}
-                onSend={() => {
-                  if (currentClar && answerText.trim()) answerClarification(currentClar, answerText.trim())
-                }}
+                    onQuick={(spoken, ri) => currentClar && answerClarification(currentClar, spoken, ri)}
+                    onSend={() => {
+                      if (currentClar && answerText.trim()) answerClarification(currentClar, answerText.trim())
+                    }}
                 onReset={reset}
                 lang={lang}
               />
@@ -627,7 +634,7 @@ function IntroPresence({
   onTalk: () => void
   onDemo: () => void
   onWrite: () => void
-  demoTriggerRef: React.RefObject<HTMLButtonElement>
+  demoTriggerRef: React.RefObject<HTMLButtonElement | null>
   micError: string | null
   starters: typeof STARTERS
   lang: Lang
@@ -886,7 +893,7 @@ function ConversePanel({
   lastAnswer: string | null
   answerText: string
   setAnswerText: (v: string) => void
-  onQuick: (reply: string) => void
+  onQuick: (spoken: string, replyIndex: number) => void
   onSend: () => void
   onReset: () => void
   lang: Lang
@@ -913,16 +920,21 @@ function ConversePanel({
           </p>
 
           <div className="mt-3 flex flex-wrap gap-2">
-            {clar.quickReplies.map((r) => (
-              <button
-                key={r[lang]}
-                type="button"
-                onClick={() => onQuick(clar.key === 'delai' ? clar.answer[lang] : r[lang])}
-                className="min-h-[40px] rounded-full border border-[#D10E63]/30 bg-[#FCEAF2]/60 px-3.5 py-1.5 text-sm font-semibold text-[#AD0C53] transition-colors hover:bg-[#FCEAF2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-              >
-                {r[lang]}
-              </button>
-            ))}
+            {clar.quickReplies.map((r, ri) => {
+              // Spoken answer shown in the bubble: per-reply answer if provided,
+              // otherwise the picked reply label itself.
+              const spoken = clar.replyAnswers?.[ri]?.[lang] ?? r[lang]
+              return (
+                <button
+                  key={r[lang]}
+                  type="button"
+                  onClick={() => onQuick(spoken, ri)}
+                  className="min-h-[40px] rounded-full border border-[#D10E63]/30 bg-[#FCEAF2]/60 px-3.5 py-1.5 text-sm font-semibold text-[#AD0C53] transition-colors hover:bg-[#FCEAF2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                >
+                  {r[lang]}
+                </button>
+              )
+            })}
           </div>
 
           <div className="mt-3 flex items-center gap-2 rounded-full border border-[#E7DFD0] bg-[#FBF9F3] px-2 py-1">

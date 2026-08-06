@@ -39,7 +39,7 @@ import {
 import { useLanguage } from '@/lib/language-context'
 import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar'
 import { StoreCard, FeaturedCard, RecentCard, AlmaBand } from '@/components/missions/store-card'
-import { WorkTable } from '@/components/missions/work-table'
+import { AlmaSurface } from '@/components/missions/alma-surface'
 import { PreviewDrawer } from '@/components/missions/preview-drawer'
 import { FilterSheet } from '@/components/missions/filter-sheet'
 
@@ -187,7 +187,7 @@ export function MissionsContent() {
 
   // --- copy ------------------------------------------------------------------
   const t = {
-    exploreAll: lang === 'fr' ? 'Ou explorez toutes les missions' : 'Or explore all missions',
+    exploreAll: lang === 'fr' ? 'Explorer les missions' : 'Explore the missions',
     featuredTitle: lang === 'fr' ? 'Missions recommandées' : 'Recommended missions',
     featuredDesc:
       lang === 'fr'
@@ -256,10 +256,11 @@ export function MissionsContent() {
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
       {/* ------------------------------ HEADER ------------------------------ */}
-      {/* ------------------------ WORK TABLE (primary) ------------------------ */}
+      {/* ---------------------- ALMA SURFACE (primary) ---------------------- */}
+      {/* Voice-first entry: talk to Alma, watch the mission fiche build live. */}
       {/* Fixed navbar is 76px tall; keep the same top offset as before. */}
       <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
-        <WorkTable lang={lang} initialQuery={almaText} />
+        <AlmaSurface lang={lang} initialQuery={almaText} />
       </div>
 
       {/* Toggle to reveal the full catalog, which is now secondary. */}
