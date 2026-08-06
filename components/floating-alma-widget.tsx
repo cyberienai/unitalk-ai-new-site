@@ -58,16 +58,17 @@ export function FloatingAlmaWidget() {
   // and on /accueil-2 it would overlap the interactive demo CTA.
   // Also hide it on /decouvrir, where the onboarding already features Alma as a
   // dedicated voice-agent panel. The chat window still opens via in-page buttons.
-  // `launcherSuppressed` lets a page hide it transiently (e.g. /missions when a
-  // mission preview or the tailored card is on screen) so it never overlaps a CTA.
+  // On the /missions marketplace it is removed entirely: Alma lives there as a
+  // native catalog card, so a floating widget would be redundant (spec §10).
+  // `launcherSuppressed` lets any page hide it transiently.
   const showLauncher =
     pathname !== '/' &&
     pathname !== '/accueil-2' &&
     pathname !== '/decouvrir' &&
+    pathname !== '/missions' &&
     !launcherSuppressed
-  // On /missions the widget must stay a small, unobtrusive round avatar — no
-  // auto-opening bubble that competes with the page's own CTAs (spec).
-  const isMissions = pathname === '/missions' || pathname.startsWith('/missions/')
+  // Mission detail pages keep a small, unobtrusive round avatar.
+  const isMissions = pathname.startsWith('/missions/')
 
   return (
     <>

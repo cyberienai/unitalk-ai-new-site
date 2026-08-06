@@ -7,31 +7,35 @@ import type { Lang } from '@/lib/language-context'
 import {
   SECTORS,
   ZONES,
+  LANGUAGES,
   MODALITIES,
+  AVAILABILITIES,
   type Facet,
   type StoreFilters,
 } from '@/lib/missions-store'
+import type { MultiKey } from './store-sidebar'
 
-type GroupKey = keyof StoreFilters
-
-const GROUPS: { key: Exclude<GroupKey, 'need'>; label: { fr: string; en: string }; all: { fr: string; en: string }; items: Facet[] }[] = [
-  { key: 'sector', label: { fr: 'Secteur', en: 'Sector' }, all: { fr: 'Tous les secteurs', en: 'All sectors' }, items: SECTORS },
-  { key: 'zone', label: { fr: 'Zone', en: 'Zone' }, all: { fr: 'Toutes les zones', en: 'All zones' }, items: ZONES },
-  { key: 'modalite', label: { fr: 'Modalité', en: 'Modality' }, all: { fr: 'Toutes les modalités', en: 'All modalities' }, items: MODALITIES },
+const GROUPS: { key: MultiKey; label: { fr: string; en: string }; items: Facet[] }[] = [
+  { key: 'secteur', label: { fr: 'Secteur', en: 'Sector' }, items: SECTORS },
+  { key: 'zone', label: { fr: 'Zone', en: 'Zone' }, items: ZONES },
+  { key: 'langue', label: { fr: 'Langue', en: 'Language' }, items: LANGUAGES },
+  { key: 'modalite', label: { fr: 'Modalité', en: 'Modality' }, items: MODALITIES },
 ]
 
 export function FilterSheet({
   open,
   filters,
   lang,
-  onSelect,
+  onToggleFacet,
+  onDisponibilite,
   onClear,
   onClose,
 }: {
   open: boolean
   filters: StoreFilters
   lang: Lang
-  onSelect: (key: GroupKey, val: string) => void
+  onToggleFacet: (group: MultiKey, value: string) => void
+  onDisponibilite: (value: string) => void
   onClear: () => void
   onClose: () => void
 }) {
@@ -39,11 +43,14 @@ export function FilterSheet({
 
   useEffect(() => {
     if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
     return () => {
+      window.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
     }
-  }, [open])
+  }, [open, onClose])
 
   return (
     <AnimatePresence>
@@ -67,7 +74,7 @@ export function FilterSheet({
             transition={{ type: 'tween', duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-[1.5rem] bg-[var(--store-page)] p-5 lg:hidden"
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="sticky -top-5 -mx-5 mb-4 flex items-center justify-between border-b border-[var(--store-line)] bg-[var(--store-page)] px-5 pb-3 pt-1">
               <h2 className="font-sf text-lg font-bold text-[var(--store-text)]">
                 {lang === 'fr' ? 'Filtres' : 'Filters'}
               </h2>
@@ -88,21 +95,41 @@ export function FilterSheet({
                     {g.label[lang]}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    <Chip label={g.all[lang]} active={filters[g.key] === 'all'} onClick={() => onSelect(g.key, 'all')} />
                     {g.items.map((f) => (
                       <Chip
                         key={f.key}
                         label={f.label[lang]}
-                        active={filters[g.key] === f.key}
-                        onClick={() => onSelect(g.key, f.key)}
+                        active={filters[g.key].includes(f.key)}
+                        onClick={() => onToggleFacet(g.key, f.key)}
                       />
                     ))}
                   </div>
                 </div>
               ))}
+
+              <div>
+                <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--store-muted)]">
+                  {lang === 'fr' ? 'Disponibilité' : 'Availability'}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Chip
+                    label={lang === 'fr' ? 'Toutes' : 'All'}
+                    active={filters.disponibilite === 'all'}
+                    onClick={() => onDisponibilite('all')}
+                  />
+                  {AVAILABILITIES.map((a) => (
+                    <Chip
+                      key={a.key}
+                      label={a.label[lang]}
+                      active={filters.disponibilite === a.key}
+                      onClick={() => onDisponibilite(a.key)}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div className="mt-6 flex gap-3">
+            <div className="sticky bottom-0 -mx-5 mt-6 flex gap-3 border-t border-[var(--store-line)] bg-[var(--store-page)] px-5 pb-1 pt-3">
               <button
                 type="button"
                 onClick={onClear}
@@ -131,8 +158,8 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
-        active ? 'bg-[#FCEAF2] text-[#AD0C53]' : 'border border-[var(--store-line)] text-[var(--store-text)]'
+      className={`min-h-[44px] rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+        active ? 'bg-[#FCEAF2] text-[#AD0C53] ring-1 ring-[#D10E63]/25' : 'border border-[var(--store-line)] text-[var(--store-text)]'
       }`}
     >
       {label}

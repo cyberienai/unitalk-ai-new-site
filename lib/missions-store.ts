@@ -168,6 +168,23 @@ export function buildParams(query: string, filters: StoreFilters, sort: SortKey,
 // How many catalog cards to reveal per "show more" click.
 export const PAGE_SIZE = 12
 
+// Human, honest relative date for "Ajoutées récemment". Uses the real dateAdded.
+export function relativeDate(iso: string, lang: Lang): string {
+  const then = new Date(iso + 'T00:00:00')
+  if (Number.isNaN(then.getTime())) return ''
+  const today = new Date()
+  const days = Math.round((today.getTime() - then.getTime()) / 86_400_000)
+  if (days <= 0) return lang === 'fr' ? "Ajoutée aujourd'hui" : 'Added today'
+  if (days === 1) return lang === 'fr' ? 'Ajoutée hier' : 'Added yesterday'
+  if (days < 30) return lang === 'fr' ? `Ajoutée il y a ${days} jours` : `Added ${days} days ago`
+  const label = then.toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+  return lang === 'fr' ? `Ajoutée le ${label}` : `Added on ${label}`
+}
+
 // --- Semantic search -------------------------------------------------------
 function normalize(s: string): string {
   return s

@@ -53,6 +53,22 @@ export function PreviewDrawer({
     notify: lang === 'fr' ? 'Être informé de sa disponibilité' : 'Get notified when available',
     detail: lang === 'fr' ? 'Voir la fiche détaillée' : 'See full details',
     close: lang === 'fr' ? 'Fermer' : 'Close',
+    validationWord: lang === 'fr' ? 'Règle de validation' : 'Validation rule',
+  }
+
+  const STATUS_EXPLAIN: Record<string, { fr: string; en: string }> = {
+    available: {
+      fr: 'Disponible : cette mission a été testée et peut démarrer dès maintenant.',
+      en: 'Available: this mission has been tested and can start right away.',
+    },
+    'on-setup': {
+      fr: 'Préparée par Alma : Alma met en place le profil, la mémoire et les compétences avant le premier lancement.',
+      en: 'Prepared by Alma: Alma sets up the profile, memory and skills before the first run.',
+    },
+    'coming-soon': {
+      fr: 'Bientôt disponible : cette mission est en cours de préparation et n’est pas encore activable.',
+      en: 'Coming soon: this mission is being prepared and cannot be activated yet.',
+    },
   }
 
   const status = mission ? missionFacets(mission).status : 'available'
@@ -79,7 +95,7 @@ export function PreviewDrawer({
             animate={reduce ? { opacity: 1 } : { x: 0 }}
             exit={reduce ? { opacity: 0 } : { x: '100%' }}
             transition={{ type: 'tween', duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed right-0 top-0 z-50 flex h-full w-full max-w-[460px] flex-col bg-[var(--store-page)]"
+            className="fixed right-0 top-0 z-50 flex h-full w-full flex-col bg-[var(--store-page)] sm:max-w-[468px]"
           >
             <div className="flex items-start justify-between gap-4 px-6 pt-6">
               <div>
@@ -105,6 +121,10 @@ export function PreviewDrawer({
 
             <div className="flex-1 overflow-y-auto px-6 py-5">
               <p className="text-sm leading-relaxed text-[var(--store-muted)]">{mission.result[lang]}</p>
+
+              <p className="mt-3 text-[12px] leading-relaxed text-[var(--store-muted)]/90">
+                {STATUS_EXPLAIN[status][lang]}
+              </p>
 
               <h3 className="mt-6 text-[13px] font-bold text-[var(--store-text)]">{t.receive}</h3>
               <ul className="mt-2 flex flex-col gap-1.5">
@@ -157,6 +177,13 @@ export function PreviewDrawer({
                     </div>
                   </>
                 )}
+              </div>
+
+              <div className="mt-5">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--store-muted)]">
+                  {t.validationWord}
+                </p>
+                <p className="mt-1 text-[13px] leading-relaxed text-[var(--store-text)]">{mission.validation[lang]}</p>
               </div>
 
               <p className="mt-5 border-l-2 border-[#D10E63] pl-3 text-[13px] leading-relaxed text-[var(--store-muted)]">

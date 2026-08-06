@@ -1,211 +1,284 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ArrowRight, Search, SlidersHorizontal, Sparkles, X } from 'lucide-react'
-import { MISSIONS, MISSION_CATEGORIES, missionFacets, type Mission } from '@/lib/missions-catalog'
+import { ArrowRight, Search, SlidersHorizontal, X } from 'lucide-react'
 import {
-  NEEDS,
+  MISSION_CATEGORIES,
+  featuredMissions,
+  recentMissions,
+  categoryCount,
+  FEATURED_SLUGS,
+  type Mission,
+} from '@/lib/missions-catalog'
+import {
+  CATEGORY_FACETS,
+  COLLECTION_FACETS,
   SECTORS,
   ZONES,
+  LANGUAGES,
   MODALITIES,
-  needOf,
+  AVAILABILITIES,
   searchMissions,
-  searchSuggestions,
+  matchesFilters,
   activeFilterCount,
+  advancedFilterCount,
+  toggleValue,
   sortMissions,
   filtersFromParams,
   sortFromParams,
+  viewFromParams,
   buildParams,
+  relativeDate,
   SORT_OPTIONS,
   DEFAULT_SORT,
   EMPTY_FILTERS,
-  HIGH_IMPACT_SLUGS,
-  isHighImpact,
   PAGE_SIZE,
   type Facet,
   type SortKey,
+  type ViewKey,
   type StoreFilters,
 } from '@/lib/missions-store'
 import { useLanguage } from '@/lib/language-context'
-import { useAlma } from '@/lib/alma-context'
-import { StoreSidebar } from '@/components/missions/store-sidebar'
-import { StoreCard, CustomCard } from '@/components/missions/store-card'
+import { StoreSidebar, type MultiKey, type DiscoverView } from '@/components/missions/store-sidebar'
+import { StoreCard, FeaturedCard, RecentCard, AlmaCard } from '@/components/missions/store-card'
 import { PreviewDrawer } from '@/components/missions/preview-drawer'
 import { FilterSheet } from '@/components/missions/filter-sheet'
 
-type GroupKey = keyof StoreFilters
+const FACET_SOURCES: Record<MultiKey, Facet[]> = {
+  secteur: SECTORS,
+  zone: ZONES,
+  langue: LANGUAGES,
+  modalite: MODALITIES,
+}
 
-// Resolve a facet value to its human label for the active-filter chips.
-function facetLabel(key: GroupKey, val: string, lang: 'fr' | 'en'): string {
-  const src: Facet[] = key === 'need' ? NEEDS : key === 'sector' ? SECTORS : key === 'zone' ? ZONES : MODALITIES
-  return src.find((f) => f.key === val)?.label[lang] ?? val
+function facetLabel(group: MultiKey, value: string, lang: 'fr' | 'en'): string {
+  return FACET_SOURCES[group].find((f) => f.key === value)?.label[lang] ?? value
 }
 
 export function MissionsContent() {
   const { lang } = useLanguage()
-  const { openAlma, setLauncherSuppressed } = useAlma()
-
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  // Initialize state from the URL so a reload / shared link restores everything.
+  // Initialize from the URL so a reload / shared link restores everything.
   const [query, setQuery] = useState(() => searchParams.get('q') ?? '')
   const [filters, setFilters] = useState<StoreFilters>(() =>
     filtersFromParams(new URLSearchParams(searchParams.toString())),
   )
   const [sort, setSort] = useState<SortKey>(() => sortFromParams(new URLSearchParams(searchParams.toString())))
+  const [view, setView] = useState<ViewKey>(() => viewFromParams(new URLSearchParams(searchParams.toString())))
 
   const [focused, setFocused] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [preview, setPreview] = useState<Mission | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
-  const searchWrapRef = useRef<HTMLDivElement>(null)
-  const customCardRef = useRef<HTMLDivElement>(null)
+
+  const searchRef = useRef<HTMLInputElement>(null)
+  const featuredRef = useRef<HTMLDivElement>(null)
+  const recentRef = useRef<HTMLDivElement>(null)
+  const catalogRef = useRef<HTMLDivElement>(null)
+  const previewTrigger = useRef<HTMLElement | null>(null)
 
   const trimmed = query.trim()
   const hasQuery = trimmed.length > 0
+  const filterCount = activeFilterCount(filters)
+  const advCount = advancedFilterCount(filters)
+  const hasAnyRefinement = hasQuery || filterCount > 0
+  const showEditorial = !hasAnyRefinement
+  const showCollections = !hasQuery || filters.collection !== 'all'
 
-  // Reflect state into the URL (?q=&besoin=&secteur=&zone=&modalite=&tri=).
+  // Reflect state into the URL (defaults omitted).
   useEffect(() => {
-    const qs = buildParams(query, filters, sort)
+    const qs = buildParams(query, filters, sort, view)
     const next = qs ? `${pathname}?${qs}` : pathname
     const current = `${pathname}${window.location.search}`
     if (next !== current) router.replace(next, { scroll: false })
-  }, [query, filters, sort, pathname, router])
+  }, [query, filters, sort, view, pathname, router])
 
-  // A query neutralizes the implicit category and keeps only explicit filters.
-  const filtered = useMemo(() => {
-    const ranked = searchMissions(trimmed, lang)
-    const list = ranked
-      .filter(({ mission }) => {
-        const f = missionFacets(mission)
-        if (filters.need !== 'all' && needOf(mission.category) !== filters.need) return false
-        if (filters.sector !== 'all' && !f.sectors.includes(filters.sector)) return false
-        if (filters.zone !== 'all' && !f.zones.includes(filters.zone)) return false
-        if (filters.modalite !== 'all' && f.modality !== filters.modalite) return false
-        return true
-      })
-      .map((s) => s.mission)
-    return sortMissions(list, sort, lang)
-  }, [trimmed, lang, filters, sort])
-
-  const suggestions = useMemo(
-    () => (hasQuery ? searchSuggestions(trimmed, lang, 3) : []),
-    [hasQuery, trimmed, lang],
-  )
-
-  const editorial = useMemo(
-    () => HIGH_IMPACT_SLUGS.map((slug) => MISSIONS.find((m) => m.slug === slug)).filter(Boolean) as Mission[],
-    [],
-  )
-
-  const filterCount = activeFilterCount(filters)
-  const showEditorial = !hasQuery && filterCount === 0
-  const hasAnyRefinement = hasQuery || filterCount > 0
-
-  // When the editorial row is shown, exclude those 3 missions from the catalog so
-  // they don't repeat immediately. When refining, everything matching is eligible.
-  const catalog = useMemo(
-    () => (showEditorial ? filtered.filter((m) => !isHighImpact(m.slug)) : filtered),
-    [filtered, showEditorial],
-  )
-
-  const total = catalog.length
-  const visible = catalog.slice(0, visibleCount)
-  const hasMore = visibleCount < total
-  const allShown = !hasMore
-
-  // Reset pagination whenever the result set changes (search, filters, sort).
+  // Reset pagination whenever the result set changes.
   useEffect(() => {
     setVisibleCount(PAGE_SIZE)
   }, [trimmed, filters, sort])
 
-  // Suppress the floating Alma launcher while a preview is open (it would overlap
-  // the preview CTA) or while the tailored card is on screen (redundant with it).
-  // On small screens the page already surfaces Alma CTAs, so keep it suppressed too.
+  // ⌘K / Ctrl+K focuses the search.
   useEffect(() => {
-    if (preview) {
-      setLauncherSuppressed(true)
-      return () => setLauncherSuppressed(false)
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        searchRef.current?.focus()
+      }
     }
-    const mql = window.matchMedia('(max-width: 767px)')
-    const el = customCardRef.current
-    let cardVisible = false
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
-    const sync = () => setLauncherSuppressed(mql.matches || cardVisible)
-    sync()
+  // Editorial data (stable).
+  const featured = useMemo(() => featuredMissions(), [])
+  const recent = useMemo(() => recentMissions(6), [])
 
-    const io = el
-      ? new IntersectionObserver(
-          ([entry]) => {
-            cardVisible = entry.isIntersecting
-            sync()
-          },
-          { rootMargin: '0px 0px -80px 0px' },
-        )
-      : null
-    if (io && el) io.observe(el)
-    mql.addEventListener('change', sync)
+  // Ranked + filtered list over all 144 missions.
+  const results = useMemo(() => {
+    const ranked = searchMissions(trimmed, lang)
+    const list = ranked.filter((s) => matchesFilters(s.mission, filters)).map((s) => s.mission)
+    // Keep relevance order for a text query on the default sort; otherwise sort.
+    if (hasQuery && sort === 'recommended') return list
+    return sortMissions(list, sort, lang)
+  }, [trimmed, hasQuery, lang, filters, sort])
 
-    return () => {
-      io?.disconnect()
-      mql.removeEventListener('change', sync)
-      setLauncherSuppressed(false)
-    }
-  }, [preview, setLauncherSuppressed, visible.length, allShown, hasAnyRefinement])
+  // Without any refinement, the first cards should not repeat the editorial rows.
+  const editorialSet = useMemo(() => {
+    const s = new Set<string>(FEATURED_SLUGS)
+    for (const m of recent) s.add(m.slug)
+    return s
+  }, [recent])
 
-  // Active filters (excluding 'all') for the removable chips row.
-  const activeChips = (Object.keys(filters) as GroupKey[])
-    .filter((k) => filters[k] !== 'all')
-    .map((k) => ({ key: k, value: filters[k], label: facetLabel(k, filters[k], lang) }))
+  const catalog = useMemo(
+    () => (showEditorial ? results.filter((m) => !editorialSet.has(m.slug)) : results),
+    [results, showEditorial, editorialSet],
+  )
 
-  function selectFilter(key: GroupKey, val: string) {
-    setFilters((prev) => ({ ...prev, [key]: val }))
+  // Counter reflects the true matching total (e.g. 144 with no filter). The grid
+  // paginates over `catalog`, which excludes the editorial rows so they don't
+  // repeat immediately — the two can legitimately differ by the excluded count.
+  const total = results.length
+  const poolTotal = catalog.length
+  const visible = catalog.slice(0, visibleCount)
+  const hasMore = visibleCount < poolTotal
+
+  // Category counts reflect the current query + facet filters (not the category itself).
+  const counts = useMemo(() => {
+    const base: StoreFilters = { ...filters, categorie: 'all' }
+    const ranked = searchMissions(trimmed, lang)
+    const pool = ranked.map((s) => s.mission).filter((m) => matchesFilters(m, base))
+    const map: Record<string, number> = {}
+    for (const c of CATEGORY_FACETS) map[c.key] = 0
+    for (const m of pool) map[m.category] = (map[m.category] ?? 0) + 1
+    return map
+  }, [filters, trimmed, lang])
+
+  const activeDiscover: DiscoverView = view === 'featured' ? 'featured' : view === 'recent' ? 'recent' : 'all'
+
+  // --- state mutators --------------------------------------------------------
+  const openPreview = useCallback((m: Mission, trigger: HTMLElement | null) => {
+    previewTrigger.current = trigger
+    setPreview(m)
+  }, [])
+
+  const closePreview = useCallback(() => {
+    setPreview(null)
+    previewTrigger.current?.focus()
+  }, [])
+
+  function selectCategory(key: string) {
+    setFilters((p) => ({ ...p, categorie: p.categorie === key ? 'all' : key }))
+    setView(null)
   }
-  function clearFilters() {
+  function selectCollection(key: string) {
+    setFilters((p) => ({ ...p, collection: p.collection === key ? 'all' : key }))
+  }
+  function toggleFacet(group: MultiKey, value: string) {
+    setFilters((p) => ({ ...p, [group]: toggleValue(p[group], value) }))
+  }
+  function selectDisponibilite(value: string) {
+    setFilters((p) => ({ ...p, disponibilite: value }))
+  }
+  function clearAll() {
     setFilters(EMPTY_FILTERS)
     setQuery('')
+    setView(null)
   }
 
+  const scrollTo = useCallback((ref: React.RefObject<HTMLDivElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
+
+  function onDiscover(v: DiscoverView) {
+    if (v === 'all') {
+      clearAll()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    setView(v)
+    scrollTo(v === 'featured' ? featuredRef : recentRef)
+  }
+
+  // Restore scroll to a section when arriving with ?vue=.
+  useEffect(() => {
+    if (view === 'featured') scrollTo(featuredRef)
+    else if (view === 'recent') scrollTo(recentRef)
+    // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // --- copy ------------------------------------------------------------------
   const t = {
-    eyebrow: lang === 'fr' ? 'Missions' : 'Missions',
+    eyebrow: 'Missions',
     title: lang === 'fr' ? 'Qu’aimeriez-vous confier ?' : 'What would you like to hand off?',
     lead:
       lang === 'fr'
-        ? 'Trouvez une mission prête à être adaptée au contexte de votre organisation.'
-        : 'Find a mission ready to be adapted to your organization’s context.',
+        ? 'Choisissez une mission ou décrivez votre objectif. Alma prépare le Collaborateur IA capable de l’accomplir dans votre organisation.'
+        : 'Choose a mission or describe your goal. Alma prepares the AI Collaborator able to carry it out in your organization.',
     placeholder:
       lang === 'fr' ? 'Décrivez votre objectif ou recherchez une mission…' : 'Describe your goal or search a mission…',
+    clearSearch: lang === 'fr' ? 'Effacer la recherche' : 'Clear search',
     almaHint: lang === 'fr' ? 'Vous ne savez pas comment le formuler ?' : 'Not sure how to phrase it?',
     almaLink: lang === 'fr' ? 'Parlez à Alma' : 'Talk to Alma',
-    editorialEyebrow: lang === 'fr' ? 'Pour commencer' : 'To get started',
-    editorialTitle: lang === 'fr' ? 'Missions à fort impact' : 'High-impact missions',
+    featuredTitle: lang === 'fr' ? 'À la une' : 'Featured',
+    featuredDesc:
+      lang === 'fr'
+        ? 'Une sélection de missions pour commencer avec des résultats immédiatement compréhensibles.'
+        : 'A selection of missions to start with immediately understandable results.',
+    recentTitle: lang === 'fr' ? 'Ajoutées récemment' : 'Recently added',
+    recentDesc:
+      lang === 'fr' ? 'Les dernières missions ajoutées au catalogue Unitalk.' : 'The latest missions added to the Unitalk catalog.',
     all: lang === 'fr' ? 'Toutes les missions' : 'All missions',
     results: lang === 'fr' ? 'Résultats' : 'Results',
-    count: (n: number) => (lang === 'fr' ? `${n} mission${n > 1 ? 's' : ''}` : `${n} mission${n > 1 ? 's' : ''}`),
+    count: (n: number) => `${n} mission${n > 1 ? 's' : ''}`,
     showMore: (n: number) =>
-      lang === 'fr' ? `Afficher ${n} missions supplémentaires` : `Show ${n} more missions`,
+      hasAnyRefinement
+        ? lang === 'fr'
+          ? `Afficher ${n} résultats supplémentaires`
+          : `Show ${n} more results`
+        : lang === 'fr'
+          ? `Afficher ${n} missions supplémentaires`
+          : `Show ${n} more missions`,
     sortLabel: lang === 'fr' ? 'Trier' : 'Sort',
     clear: lang === 'fr' ? 'Effacer les filtres' : 'Clear filters',
     searchChip: lang === 'fr' ? 'Recherche' : 'Search',
     filters: lang === 'fr' ? 'Filtres' : 'Filters',
-    suggMissions: lang === 'fr' ? 'Missions' : 'Missions',
-    almaSuggest:
-      lang === 'fr'
-        ? 'Votre objectif est plus spécifique ? Alma prépare une mission adaptée.'
-        : 'Is your goal more specific? Alma prepares a tailored mission.',
-    describe: lang === 'fr' ? 'Décrire mon besoin' : 'Describe my need',
-    noResult:
-      lang === 'fr'
-        ? 'Aucune mission exacte. Alma peut la cadrer pour votre organisation.'
-        : 'No exact mission. Alma can scope it for your organization.',
+    collectionsLabel: lang === 'fr' ? 'Collections' : 'Collections',
   }
 
-  const chips = [{ key: 'all', label: t.all }, ...NEEDS.map((n) => ({ key: n.key, label: n.label[lang] }))]
+  // Active-filter chips (query + categorie + collection + facets + disponibilité).
+  type Chip = { id: string; label: string; onRemove: () => void }
+  const chips: Chip[] = []
+  if (hasQuery) chips.push({ id: 'q', label: `${t.searchChip}: “${trimmed}”`, onRemove: () => setQuery('') })
+  if (filters.categorie !== 'all')
+    chips.push({
+      id: 'cat',
+      label: CATEGORY_FACETS.find((c) => c.key === filters.categorie)?.label[lang] ?? filters.categorie,
+      onRemove: () => setFilters((p) => ({ ...p, categorie: 'all' })),
+    })
+  if (filters.collection !== 'all')
+    chips.push({
+      id: 'col',
+      label: COLLECTION_FACETS.find((c) => c.key === filters.collection)?.label[lang] ?? filters.collection,
+      onRemove: () => setFilters((p) => ({ ...p, collection: 'all' })),
+    })
+  ;(['secteur', 'zone', 'langue', 'modalite'] as MultiKey[]).forEach((g) =>
+    filters[g].forEach((v) =>
+      chips.push({ id: `${g}-${v}`, label: facetLabel(g, v, lang), onRemove: () => toggleFacet(g, v) }),
+    ),
+  )
+  if (filters.disponibilite !== 'all')
+    chips.push({
+      id: 'dispo',
+      label: AVAILABILITIES.find((a) => a.key === filters.disponibilite)?.label[lang] ?? filters.disponibilite,
+      onRemove: () => selectDisponibilite('all'),
+    })
 
-  // Reusable sort control (native select = fully keyboard/ARIA friendly).
   const sortControl = (
     <label className="inline-flex items-center gap-2 text-sm text-[var(--store-muted)]">
       <span className="hidden sm:inline">{t.sortLabel}</span>
@@ -223,273 +296,305 @@ export function MissionsContent() {
     </label>
   )
 
+  // Collections pills (desktop + mobile share the markup).
+  const collectionsRow = (
+    <div
+      className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      style={{ scrollSnapType: 'x proximity' }}
+      role="group"
+      aria-label={t.collectionsLabel}
+    >
+      {COLLECTION_FACETS.map((c) => {
+        const active = filters.collection === c.key
+        return (
+          <button
+            key={c.key}
+            type="button"
+            onClick={() => selectCollection(c.key)}
+            aria-pressed={active}
+            style={{ scrollSnapAlign: 'start' }}
+            className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+              active
+                ? 'bg-[#FCEAF2] text-[#AD0C53] ring-1 ring-[#D10E63]/25'
+                : 'border border-[var(--store-line)] bg-[var(--store-surface)] text-[var(--store-text)] hover:border-[#D10E63]/40'
+            }`}
+          >
+            {c.label[lang]}
+          </button>
+        )
+      })}
+    </div>
+  )
+
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
-      {/* ------------------------------ HERO ------------------------------ */}
-      <section className="px-4 pb-8 pt-12 sm:pt-[72px]">
-        <div className="mx-auto max-w-[1200px]">
-          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
-          <h1 className="mt-3 font-sf text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[var(--store-text)]">
-            {t.title}
-          </h1>
-          <p className="mt-3 max-w-xl text-pretty text-base leading-relaxed text-[var(--store-muted)]">{t.lead}</p>
+      {/* ------------------------------ HEADER ------------------------------ */}
+      <header className="mx-auto max-w-[1240px] px-6 pb-8 pt-12 sm:pt-12 lg:pt-12">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
+        <h1 className="mt-3 max-w-3xl text-balance font-sf text-[clamp(1.875rem,4.5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[var(--store-text)]">
+          {t.title}
+        </h1>
+        <p className="mt-3 max-w-[680px] text-pretty text-base leading-relaxed text-[var(--store-muted)]">{t.lead}</p>
+      </header>
 
-          {/* Dominant search */}
-          <div ref={searchWrapRef} className="relative mt-7 max-w-2xl">
-            <div className="flex items-center gap-3 rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] px-4 py-3.5 transition-colors focus-within:border-[#D10E63]/60">
-              <Search className="h-5 w-5 shrink-0 text-[var(--store-muted)]" />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setTimeout(() => setFocused(false), 150)}
-                placeholder={t.placeholder}
-                aria-label={t.placeholder}
-                className="w-full bg-transparent text-sm text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
+      {/* ------------------------ SIDEBAR + MAIN ------------------------ */}
+      <div className="mx-auto max-w-[1240px] px-6 pb-24">
+        <div className="flex gap-8 lg:gap-10">
+          {/* Sidebar (desktop) */}
+          <aside className="hidden w-[220px] shrink-0 lg:block xl:w-[232px]">
+            <div className="sticky top-24">
+              <StoreSidebar
+                filters={filters}
+                lang={lang}
+                activeDiscover={activeDiscover}
+                counts={counts}
+                onDiscover={onDiscover}
+                onCategory={selectCategory}
+                onToggleFacet={toggleFacet}
+                onDisponibilite={selectDisponibilite}
               />
-              {hasQuery && (
-                <button
-                  type="button"
-                  onClick={() => setQuery('')}
-                  aria-label={lang === 'fr' ? 'Effacer la recherche' : 'Clear search'}
-                  className="shrink-0 rounded p-0.5 text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)]"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-
-            {/* Suggestions panel */}
-            {focused && hasQuery && (
-              <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] shadow-[0_16px_48px_-24px_rgba(36,31,29,0.5)]">
-                {suggestions.length > 0 && (
-                  <div className="p-2">
-                    <p className="px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-                      {t.suggMissions}
-                    </p>
-                    {suggestions.map((m) => (
-                      <button
-                        key={m.slug}
-                        type="button"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => setPreview(m)}
-                        className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-sm text-[var(--store-text)] transition-colors hover:bg-[var(--store-text)]/[0.04]"
-                      >
-                        {m.title[lang]}
-                        <ArrowRight className="h-3.5 w-3.5 text-[var(--store-muted)]" />
-                      </button>
-                    ))}
-                  </div>
-                )}
-                <div className="border-t border-[var(--store-line)] bg-[#FCEAF2]/40 p-3">
-                  <p className="text-[13px] leading-relaxed text-[var(--store-muted)]">{t.almaSuggest}</p>
-                  <button
-                    type="button"
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={openAlma}
-                    className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63]"
-                  >
-                    {t.describe}
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <p className="mt-3 text-[13px] text-[var(--store-muted)]">
-            {t.almaHint}{' '}
-            <button type="button" onClick={openAlma} className="font-semibold text-[#D10E63] hover:underline">
-              {t.almaLink} →
-            </button>
-          </p>
-        </div>
-      </section>
-
-      {/* Mobile category chips + filters trigger */}
-      <div className="px-4 lg:hidden">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ scrollSnapType: 'x proximity' }}>
-            {chips.map((c) => (
-              <button
-                key={c.key}
-                type="button"
-                onClick={() => selectFilter('need', c.key)}
-                style={{ scrollSnapAlign: 'start' }}
-                className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-                  filters.need === c.key
-                    ? 'bg-[#FCEAF2] text-[#AD0C53]'
-                    : 'border border-[var(--store-line)] text-[var(--store-text)]'
-                }`}
-              >
-                {c.label}
-              </button>
-            ))}
-          </div>
-          <div className="mt-3 flex items-center justify-between">
-            <span className="text-sm font-semibold text-[var(--store-muted)]">{t.count(total)}</span>
-            <button
-              type="button"
-              onClick={() => setSheetOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--store-line)] px-3 py-1.5 text-xs font-semibold text-[var(--store-text)]"
-            >
-              <SlidersHorizontal className="h-3.5 w-3.5" />
-              {t.filters}
-              {filterCount > 0 && (
-                <span className="ml-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D10E63] px-1 text-[10px] font-bold text-[#FBF9F3]">
-                  {filterCount}
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* ------------------------ SIDEBAR + CATALOG ------------------------ */}
-      <div className="px-4 pb-20 pt-6 sm:pt-8">
-        <div className="mx-auto flex max-w-[1200px] gap-10">
-          <aside className="hidden w-56 shrink-0 lg:block">
-            <div className="sticky top-20">
-              <StoreSidebar filters={filters} lang={lang} onSelect={selectFilter} />
             </div>
           </aside>
 
+          {/* Main column */}
           <div className="min-w-0 flex-1">
-            {/* Editorial selection (only when nothing is searched/filtered) */}
-            {showEditorial && (
-              <div className="mb-12">
-                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">
-                  {t.editorialEyebrow}
-                </p>
-                <h2 className="mt-2 font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
-                  {t.editorialTitle}
-                </h2>
-                <div className="mt-5 grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {editorial.map((m) => (
-                    <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={setPreview} />
-                  ))}
-                </div>
+            {/* Search */}
+            <div className="relative">
+              <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--store-line)] bg-[var(--store-surface)] px-4 transition-colors focus-within:border-[#D10E63]/60 focus-within:ring-2 focus-within:ring-[#D10E63]/20">
+                <Search className="h-5 w-5 shrink-0 text-[var(--store-muted)]" aria-hidden="true" />
+                <input
+                  ref={searchRef}
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onFocus={() => setFocused(true)}
+                  onBlur={() => setTimeout(() => setFocused(false), 150)}
+                  placeholder={t.placeholder}
+                  aria-label={t.placeholder}
+                  className="w-full bg-transparent text-sm text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
+                />
+                {hasQuery ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setQuery('')
+                      searchRef.current?.focus()
+                    }}
+                    aria-label={t.clearSearch}
+                    className="shrink-0 rounded p-0.5 text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)]"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                ) : (
+                  <kbd className="hidden shrink-0 items-center gap-0.5 rounded border border-[var(--store-line)] bg-[var(--store-page)] px-1.5 py-0.5 font-mono text-[10px] font-semibold text-[var(--store-muted)] sm:inline-flex">
+                    ⌘K
+                  </kbd>
+                )}
               </div>
-            )}
 
-            {/* Results toolbar: title + count (left) + sort (right). The count is a
-                sibling of the h2, never part of its accessible name. */}
-            <div className="mb-4 flex items-center justify-between gap-4">
-              <div className="flex items-baseline gap-2">
-                <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
-                  {hasAnyRefinement ? t.results : t.all}
-                </h2>
-                <span className="text-sm font-medium text-[var(--store-muted)]">{t.count(total)}</span>
-              </div>
-              {sortControl}
+              {focused && hasQuery && total === 0 && (
+                <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] p-3 shadow-[0_16px_48px_-24px_rgba(36,31,29,0.5)]">
+                  <p className="text-[13px] leading-relaxed text-[var(--store-muted)]">
+                    {lang === 'fr'
+                      ? 'Aucune mission exacte. Alma peut la préparer pour votre organisation.'
+                      : 'No exact mission. Alma can prepare it for your organization.'}
+                  </p>
+                </div>
+              )}
             </div>
 
-            {/* Active-filter chips + clear */}
-            {hasAnyRefinement && (
-              <div className="mb-6 flex flex-wrap items-center gap-2">
-                {hasQuery && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--store-line)] bg-[var(--store-surface)] py-1 pl-3 pr-1.5 text-xs font-medium text-[var(--store-text)]">
-                    <span className="text-[var(--store-muted)]">{t.searchChip}:</span> “{trimmed}”
-                    <button
-                      type="button"
-                      onClick={() => setQuery('')}
-                      aria-label={lang === 'fr' ? 'Retirer la recherche' : 'Remove search'}
-                      className="rounded-full p-0.5 text-[var(--store-muted)] transition-colors hover:bg-[var(--store-text)]/[0.08] hover:text-[var(--store-text)]"
-                    >
-                      <X className="h-3.5 w-3.5" />
-                    </button>
-                  </span>
-                )}
-                {activeChips.map((c) => (
-                  <span
-                    key={`${c.key}-${c.value}`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-[#D10E63]/25 bg-[#FCEAF2]/60 py-1 pl-3 pr-1.5 text-xs font-medium text-[#AD0C53]"
-                  >
-                    {c.label}
-                    <button
-                      type="button"
-                      onClick={() => selectFilter(c.key, 'all')}
-                      aria-label={`${lang === 'fr' ? 'Retirer' : 'Remove'} ${c.label}`}
-                      className="rounded-full p-0.5 transition-colors hover:bg-[#D10E63]/15"
-                    >
-                      <X className="h-3.5 w-3.5" />
-                    </button>
-                  </span>
-                ))}
+            {!hasQuery && (
+              <p className="mt-2.5 text-[13px] text-[var(--store-muted)]">
+                {t.almaHint}{' '}
+                <a href="/decouvrir" className="font-semibold text-[#D10E63] hover:underline">
+                  {t.almaLink} →
+                </a>
+              </p>
+            )}
+
+            {/* Collections pills */}
+            {showCollections && <div className="mt-5">{collectionsRow}</div>}
+
+            {/* Mobile: categories row + count + Filters */}
+            <div className="mt-4 lg:hidden">
+              <div
+                className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                style={{ scrollSnapType: 'x proximity' }}
+                role="group"
+                aria-label={lang === 'fr' ? 'Catégories' : 'Categories'}
+              >
                 <button
                   type="button"
-                  onClick={clearFilters}
-                  className="ml-1 text-xs font-semibold text-[var(--store-muted)] underline-offset-2 transition-colors hover:text-[#D10E63] hover:underline"
+                  onClick={() => setFilters((p) => ({ ...p, categorie: 'all' }))}
+                  aria-pressed={filters.categorie === 'all'}
+                  style={{ scrollSnapAlign: 'start' }}
+                  className={`min-h-[36px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                    filters.categorie === 'all'
+                      ? 'bg-[#FCEAF2] text-[#AD0C53]'
+                      : 'border border-[var(--store-line)] text-[var(--store-text)]'
+                  }`}
                 >
-                  {t.clear}
+                  {t.all}
+                </button>
+                {CATEGORY_FACETS.map((c) => (
+                  <button
+                    key={c.key}
+                    type="button"
+                    onClick={() => selectCategory(c.key)}
+                    aria-pressed={filters.categorie === c.key}
+                    style={{ scrollSnapAlign: 'start' }}
+                    className={`min-h-[36px] shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                      filters.categorie === c.key
+                        ? 'bg-[#FCEAF2] text-[#AD0C53]'
+                        : 'border border-[var(--store-line)] text-[var(--store-text)]'
+                    }`}
+                  >
+                    {c.label[lang]}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-sm font-semibold text-[var(--store-muted)]">{t.count(total)}</span>
+                <button
+                  type="button"
+                  onClick={() => setSheetOpen(true)}
+                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[var(--store-line)] px-3 py-1.5 text-xs font-semibold text-[var(--store-text)]"
+                >
+                  <SlidersHorizontal className="h-3.5 w-3.5" />
+                  {t.filters}
+                  {advCount > 0 && (
+                    <span className="ml-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D10E63] px-1 text-[10px] font-bold text-[#FBF9F3]">
+                      {advCount}
+                    </span>
+                  )}
                 </button>
               </div>
+            </div>
+
+            {/* Editorial sections */}
+            {showEditorial && (
+              <>
+                <section ref={featuredRef} className="mt-12 scroll-mt-24">
+                  <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
+                    {t.featuredTitle}
+                  </h2>
+                  <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.featuredDesc}</p>
+                  <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                    {featured.map((m) => (
+                      <FeaturedCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} />
+                    ))}
+                  </div>
+                </section>
+
+                {recent.length > 0 && (
+                  <section ref={recentRef} className="mt-14 scroll-mt-24">
+                    <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
+                      {t.recentTitle}
+                    </h2>
+                    <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.recentDesc}</p>
+                    <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                      {recent.map((m) => (
+                        <RecentCard
+                          key={m.slug}
+                          mission={m}
+                          categories={MISSION_CATEGORIES}
+                          lang={lang}
+                          dateLabel={relativeDate(m.dateAdded, lang)}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </>
             )}
 
-            {total === 0 ? (
-              /* No result at all → the tailored card replaces the entire grid. */
-              <>
-                {hasQuery && (
-                  <div className="mb-5 rounded-xl border border-[#D10E63]/25 bg-[#FCEAF2]/50 p-5">
-                    <p className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#AD0C53]">
-                      <Sparkles className="h-3.5 w-3.5" />
-                      {lang === 'fr' ? 'Préparée par Alma' : 'Prepared by Alma'}
-                    </p>
-                    <h3 className="mt-2 font-sf text-lg font-bold text-[var(--store-text)]">“{trimmed}”</h3>
-                    <p className="mt-1 text-sm text-[var(--store-muted)]">{t.noResult}</p>
-                  </div>
-                )}
-                <div ref={customCardRef} className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  <CustomCard lang={lang} onDescribe={openAlma} />
+            {/* Catalog */}
+            <section ref={catalogRef} className={`scroll-mt-24 ${showEditorial ? 'mt-14' : 'mt-8'}`}>
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <div className="flex items-baseline gap-2">
+                  <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
+                    {hasAnyRefinement ? t.results : t.all}
+                  </h2>
+                  <span className="text-sm font-medium text-[var(--store-muted)]">{t.count(total)}</span>
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {visible.map((m) => (
-                    <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={setPreview} />
+                {sortControl}
+              </div>
+
+              {chips.length > 0 && (
+                <div className="mb-6 flex flex-wrap items-center gap-2">
+                  {chips.map((c) => (
+                    <span
+                      key={c.id}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[#D10E63]/25 bg-[#FCEAF2]/60 py-1 pl-3 pr-1.5 text-xs font-medium text-[#AD0C53]"
+                    >
+                      {c.label}
+                      <button
+                        type="button"
+                        onClick={c.onRemove}
+                        aria-label={`${lang === 'fr' ? 'Retirer' : 'Remove'} ${c.label}`}
+                        className="rounded-full p-0.5 transition-colors hover:bg-[#D10E63]/15"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </span>
                   ))}
-                  {/* Tailored card sits right after the first page while more remain,
-                      as the natural exit for an unsatisfied browse. */}
-                  {hasMore && (
-                    <div ref={customCardRef} className="flex">
-                      <CustomCard lang={lang} onDescribe={openAlma} />
+                  <button
+                    type="button"
+                    onClick={clearAll}
+                    className="ml-1 text-xs font-semibold text-[var(--store-muted)] underline-offset-2 transition-colors hover:text-[#D10E63] hover:underline"
+                  >
+                    {t.clear}
+                  </button>
+                </div>
+              )}
+
+              {total === 0 ? (
+                <div className="grid auto-rows-fr gap-4 min-[900px]:grid-cols-2 min-[1400px]:grid-cols-3">
+                  <AlmaCard lang={lang} query={hasQuery ? trimmed : undefined} />
+                </div>
+              ) : (
+                <>
+                  <div className="grid auto-rows-fr gap-4 min-[900px]:grid-cols-2 min-[1400px]:grid-cols-3">
+                    {visible.map((m) => (
+                      <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={openPreview} />
+                    ))}
+                    {hasMore && (
+                      <div className="flex">
+                        <AlmaCard lang={lang} />
+                      </div>
+                    )}
+                  </div>
+
+                  {hasMore ? (
+                    <div className="mt-8 flex justify-center">
+                      <button
+                        type="button"
+                        onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+                        className="inline-flex items-center gap-2 rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                      >
+                        {t.showMore(Math.min(PAGE_SIZE, total - visibleCount))}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mt-4 grid auto-rows-fr gap-4 min-[900px]:grid-cols-2 min-[1400px]:grid-cols-3">
+                      <AlmaCard lang={lang} />
                     </div>
                   )}
-                </div>
-
-                {hasMore && (
-                  <div className="mt-8 flex justify-center">
-                    <button
-                      type="button"
-                      onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                    >
-                      {t.showMore(Math.min(PAGE_SIZE, total - visibleCount))}
-                    </button>
-                  </div>
-                )}
-
-                {/* When everything is visible, keep the tailored card at the very end. */}
-                {allShown && (
-                  <div ref={customCardRef} className="mt-5 grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                    <CustomCard lang={lang} onDescribe={openAlma} />
-                  </div>
-                )}
-              </>
-            )}
+                </>
+              )}
+            </section>
           </div>
         </div>
       </div>
 
-      <PreviewDrawer mission={preview} categories={MISSION_CATEGORIES} lang={lang} onClose={() => setPreview(null)} />
+      <PreviewDrawer mission={preview} categories={MISSION_CATEGORIES} lang={lang} onClose={closePreview} />
       <FilterSheet
         open={sheetOpen}
         filters={filters}
         lang={lang}
-        onSelect={selectFilter}
-        onClear={clearFilters}
+        onToggleFacet={toggleFacet}
+        onDisponibilite={selectDisponibilite}
+        onClear={clearAll}
         onClose={() => setSheetOpen(false)}
       />
     </main>
