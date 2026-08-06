@@ -326,8 +326,13 @@ export function MissionsContent() {
         <p className="mt-2.5 max-w-[720px] text-pretty text-[15px] leading-relaxed text-[var(--store-muted)]">{t.lead}</p>
       </header>
 
+      {/* Divider marking the transition from the hero to the search tool. */}
+      <div className="mx-auto max-w-[1240px] px-6">
+        <hr className="border-t border-[var(--store-line)]" />
+      </div>
+
       {/* ------------------------ SIDEBAR + MAIN ------------------------ */}
-      <div className="mx-auto max-w-[1240px] px-6 pb-24">
+      <div className="mx-auto max-w-[1240px] px-6 pb-24 pt-8">
         <div className="flex gap-8 lg:gap-10">
           {/* Sidebar (desktop) */}
           <aside className="hidden w-[220px] shrink-0 lg:block xl:w-[232px]">
