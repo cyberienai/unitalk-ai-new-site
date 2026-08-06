@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ChevronDown, SlidersHorizontal, X } from 'lucide-react'
+import { ChevronDown, ChevronUp, SlidersHorizontal, X } from 'lucide-react'
 import {
   MISSION_CATEGORIES,
   featuredMissions,
@@ -187,9 +187,9 @@ export function MissionsContent() {
 
   // --- copy ------------------------------------------------------------------
   const t = {
-    exploreLead:
-      lang === 'fr' ? 'Vous préférez partir d’une mission existante ?' : 'Prefer to start from an existing mission?',
+    exploreLead: lang === 'fr' ? 'Vous préférez choisir ?' : 'Prefer to choose?',
     exploreAll: lang === 'fr' ? 'Explorer les missions' : 'Explore the missions',
+    hideAll: lang === 'fr' ? 'Masquer les missions' : 'Hide the missions',
     featuredTitle: lang === 'fr' ? 'Missions recommandées' : 'Recommended missions',
     featuredDesc:
       lang === 'fr'
@@ -282,6 +282,18 @@ export function MissionsContent() {
 
       {/* ------------------------ SIDEBAR + MAIN (catalog) ------------------------ */}
       <div hidden={!catalogOpen} className="mx-auto max-w-[1240px] px-6 pb-24 pt-8">
+        {catalogOpen && (
+          <div className="mb-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setCatalogOpen(false)}
+              className="group inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-bold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+            >
+              {t.hideAll}
+              <ChevronUp className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
+            </button>
+          </div>
+        )}
         <div className="flex gap-8 lg:gap-10">
           {/* Sidebar (desktop) */}
           <aside className="hidden w-[220px] shrink-0 lg:block xl:w-[232px]">

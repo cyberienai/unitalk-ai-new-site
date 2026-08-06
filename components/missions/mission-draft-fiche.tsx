@@ -28,27 +28,36 @@ type SectionDef = {
 }
 
 /**
- * At rest (no draft yet) the fiche shows only three calm rubrics — never a
- * skeleton loader. The precise sections (rhythm, rules, validations) surface
- * once Alma starts structuring the mission.
+ * At rest (no draft yet) the fiche shows a real, slightly faded example mission
+ * under a light ivory veil — so the visitor sees exactly what Alma produces,
+ * without it looking already selected. Three concise rubrics, real values.
  */
-const REST_SECTIONS: { key: string; label: { fr: string; en: string }; help: { fr: string; en: string }; icon: typeof Target }[] = [
+const PREVIEW: { key: string; label: { fr: string; en: string }; value: { fr: string; en: string }; icon: typeof Target }[] = [
   {
     key: 'objective',
     label: { fr: 'Objectif', en: 'Objective' },
-    help: { fr: 'Ce que vous souhaitez accomplir.', en: 'What you want to accomplish.' },
+    value: {
+      fr: 'Obtenir le règlement des factures arrivées à échéance.',
+      en: 'Get payment for invoices that have come due.',
+    },
     icon: Target,
   },
   {
     key: 'result',
     label: { fr: 'Résultat attendu', en: 'Expected result' },
-    help: { fr: 'Ce qui devra être obtenu ou livré.', en: 'What must be achieved or delivered.' },
+    value: {
+      fr: 'Relances effectuées et situations bloquées transmises à l’équipe.',
+      en: 'Follow-ups done and blocked cases handed to the team.',
+    },
     icon: Sparkles,
   },
   {
     key: 'frame',
-    label: { fr: 'Cadre de travail', en: 'Working frame' },
-    help: { fr: 'Rythme, règles et validations.', en: 'Rhythm, rules and validations.' },
+    label: { fr: 'Cadre', en: 'Frame' },
+    value: {
+      fr: 'Chaque semaine · Validation avant contentieux',
+      en: 'Every week · Validation before litigation',
+    },
     icon: ScrollText,
   },
 ]
@@ -110,12 +119,9 @@ export function MissionDraftFiche({
   const reduce = useReducedMotion()
 
   const t = {
-    prep: lang === 'fr' ? 'Mission en préparation' : 'Mission in preparation',
-    prepTitle: lang === 'fr' ? 'Votre mission prendra forme ici.' : 'Your mission will take shape here.',
-    ghostExample:
-      lang === 'fr'
-        ? 'Par exemple : « Relancer les factures impayées » — objectif en cours de formulation…'
-        : 'For example: “Chase unpaid invoices” — objective being formulated…',
+    prep: lang === 'fr' ? 'Mission' : 'Mission',
+    prepTitle: lang === 'fr' ? 'Relancer les factures impayées' : 'Chase unpaid invoices',
+    veil: lang === 'fr' ? 'Votre mission apparaîtra ici' : 'Your mission will appear here',
     ready: lang === 'fr' ? 'Mission prête à être adaptée' : 'Mission ready to be adapted',
     footnote: lang === 'fr' ? 'Votre parole devient une mission.' : 'Your words become a mission.',
     nextStep: lang === 'fr' ? 'Prochaine étape' : 'Next step',
@@ -174,31 +180,34 @@ export function MissionDraftFiche({
         {draft ? draft.title[lang] : t.prepTitle}
       </h3>
 
-      {/* Light ghost example so the intent is legible before the first click. */}
-      {!draft && <p className="mt-1.5 text-pretty text-sm italic leading-relaxed text-[var(--store-muted)]">{t.ghostExample}</p>}
-
-      {/* Sections — three calm rubrics at rest, detailed build once Alma engages. */}
+      {/* Rest — a real example mission, slightly faded under a light ivory veil. */}
       {!draft ? (
-        <div className="mt-4 flex flex-1 flex-col gap-4">
-          {REST_SECTIONS.map((section) => {
-            const Icon = section.icon
-            return (
-              <div key={section.key} className="flex gap-3">
-                <span
-                  className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[var(--store-line)] text-[var(--store-muted)]"
-                  aria-hidden="true"
-                >
-                  <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
-                    {section.label[lang]}
-                  </p>
-                  <p className="mt-1 text-sm leading-relaxed text-[var(--store-muted)]">{section.help[lang]}</p>
+        <div className="relative mt-4 flex flex-1 flex-col">
+          <div className="flex flex-col gap-4 opacity-55" aria-hidden="true">
+            {PREVIEW.map((section) => {
+              const Icon = section.icon
+              return (
+                <div key={section.key} className="flex gap-3">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]">
+                    <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
+                      {section.label[lang]}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-[var(--store-text)]">{section.value[lang]}</p>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+
+          {/* Light veil: perceptible content, not "already selected". */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#FBF9F3]/45">
+            <span className="rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/90 px-4 py-1.5 text-xs font-semibold text-[var(--store-muted)] shadow-[0_1px_2px_rgba(28,26,23,0.05)]">
+              {t.veil}
+            </span>
+          </div>
         </div>
       ) : (
       <div className="mt-5 flex flex-1 flex-col gap-4">
