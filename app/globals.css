@@ -65,6 +65,13 @@
   --unitalk-blue: #3E6DA8;
   --unitalk-green: #2E7D4F;
 
+  /* Missions store (marketplace) — precise surfaces on a warm base */
+  --store-page: #F8F6F1;
+  --store-surface: #FFFFFF;
+  --store-text: #241F1D;
+  --store-muted: #6F6661;
+  --store-line: rgba(36, 31, 29, 0.09);
+
   --background: #F3EFE6;
   --foreground: #1C1A17;
   --card: #FBF9F3;

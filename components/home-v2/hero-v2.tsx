@@ -14,22 +14,21 @@ const T = {
     missions: [
       'répondre à vos clients',
       'trouver de nouveaux prospects',
-      'qualifier vos leads',
       'préparer vos devis',
+      'répondre au téléphone',
+      'organiser vos réunions',
+      'transcrire vos réunions',
       'envoyer vos emails',
       'créer vos contenus',
-      'analyser vos documents',
+      'mettre à jour votre CRM',
       'automatiser vos tâches',
-      'organiser vos réunions',
-      'collaborer avec vos équipes',
     ],
     almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
-      '. Elle découvre votre entreprise et construit le contexte dont votre Collaborateur IA a besoin pour travailler.',
-    cta: 'Commencer gratuitement',
-    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
-    announce: 'Trois façons de commencer : votre site web, une mission, ou un profil métier.',
+      '. Elle analyse votre entreprise, puis recrute le Collaborateur IA dont vous avez besoin.',
+    cta: 'Recruter mon Collaborateur IA',
+    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Configuré par Alma'],
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -58,22 +57,21 @@ const T = {
     missions: [
       'answer your customers',
       'find new prospects',
-      'qualify your leads',
       'prepare your quotes',
+      'answer the phone',
+      'organize your meetings',
+      'transcribe your meetings',
       'send your emails',
       'create your content',
-      'analyze your documents',
+      'update your CRM',
       'automate your tasks',
-      'organize your meetings',
-      'collaborate with your teams',
     ],
     almaLeadPre: 'Talk to ',
     almaName: 'Alma',
     almaLeadPost:
-      '. She gets to know your company and builds the context your AI Collaborator needs to work.',
-    cta: 'Start for free',
-    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
-    announce: 'Three ways to start: your website, a mission, or a business profile.',
+      '. She analyzes your company, then recruits the AI Collaborator you need.',
+    cta: 'Recruit my AI Collaborator',
+    proofs: ['7-day free trial', 'No credit card', 'Set up by Alma'],
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
@@ -205,9 +203,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               ))}
             </div>
 
-            <p className="max-w-md text-balance text-center text-[13px] leading-relaxed text-[#8A8175] sm:text-left">
-              {t.announce}
-            </p>
           </motion.div>
         </div>
 

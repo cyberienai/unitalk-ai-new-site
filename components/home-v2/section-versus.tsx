@@ -15,11 +15,11 @@ const T = {
     newTag: 'Chez vous',
     rows: [
       { old: 'Des assistants IA', neo: 'Des Collaborateurs IA' },
-      { old: 'Des agents', neo: 'Une équipe organisée' },
-      { old: 'Des prompts', neo: 'Des conversations naturelles' },
-      { old: 'Des workflows', neo: 'Des missions' },
-      { old: 'Des outils isolés', neo: 'Un workspace unifié' },
-      { old: 'Une IA qui répond', neo: 'Une organisation qui travaille' },
+      { old: 'Des conversations', neo: 'Du travail réalisé' },
+      { old: 'Des prompts', neo: 'Des missions' },
+      { old: 'Des outils séparés', neo: 'Un seul workspace' },
+      { old: 'Une IA isolée', neo: 'Une équipe hybride' },
+      { old: 'Une mémoire par conversation', neo: 'Une mémoire d’entreprise partagée' },
     ],
   },
   en: {
@@ -32,11 +32,11 @@ const T = {
     newTag: 'With you',
     rows: [
       { old: 'AI assistants', neo: 'AI Collaborators' },
-      { old: 'Agents', neo: 'An organized team' },
-      { old: 'Prompts', neo: 'Natural conversations' },
-      { old: 'Workflows', neo: 'Missions' },
-      { old: 'Isolated tools', neo: 'A unified workspace' },
-      { old: 'An AI that answers', neo: 'An organization that works' },
+      { old: 'Conversations', neo: 'Work actually done' },
+      { old: 'Prompts', neo: 'Missions' },
+      { old: 'Separate tools', neo: 'A single workspace' },
+      { old: 'An isolated AI', neo: 'A hybrid team' },
+      { old: 'One memory per conversation', neo: 'A shared company memory' },
     ],
   },
 } as const

@@ -140,7 +140,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'trouver-de-nouveaux-clients',
     category: 'ventes',
-    title: { fr: 'Trouver de nouveaux clients', en: 'Find new clients' },
+    title: { fr: 'Trouver des prospects qualifiés', en: 'Find qualified prospects' },
     description: {
       fr: 'Identifie les entreprises pertinentes, qualifie les contacts et prépare les prises de contact.',
       en: 'Identifies relevant companies, qualifies contacts and prepares outreach.',
@@ -228,7 +228,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'repondre-a-mes-clients',
     category: 'support',
-    title: { fr: 'Répondre à mes clients', en: 'Answer my customers' },
+    title: { fr: 'Répondre aux demandes des clients', en: 'Answer customer requests' },
     description: {
       fr: 'Analyse les demandes, prépare les réponses et transmet les cas sensibles.',
       en: 'Analyzes requests, drafts replies and escalates sensitive cases.',
@@ -316,7 +316,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'creer-mes-contenus',
     category: 'marketing',
-    title: { fr: 'Créer mes contenus', en: 'Create my content' },
+    title: { fr: 'Produire une campagne de contenu', en: 'Produce a content campaign' },
     description: {
       fr: 'Produit les textes, visuels, présentations ou vidéos adaptés à votre identité.',
       en: 'Produces the copy, visuals, decks or videos aligned with your identity.',
@@ -359,7 +359,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'animer-mes-reseaux-sociaux',
     category: 'marketing',
-    title: { fr: 'Animer mes réseaux sociaux', en: 'Run my social media' },
+    title: { fr: 'Préparer une semaine de publications', en: 'Prepare a week of posts' },
     description: {
       fr: 'Planifie le calendrier, prépare les publications et suit l’engagement.',
       en: 'Plans the calendar, prepares posts and tracks engagement.',
@@ -402,7 +402,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'ameliorer-mon-referencement',
     category: 'marketing',
-    title: { fr: 'Améliorer mon référencement', en: 'Improve my SEO' },
+    title: { fr: 'Préparer un plan d’optimisation SEO', en: 'Prepare an SEO optimization plan' },
     description: {
       fr: 'Analyse vos pages, identifie les opportunités et prépare les optimisations.',
       en: 'Analyzes your pages, identifies opportunities and prepares optimizations.',
@@ -447,7 +447,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'preparer-et-suivre-mes-reunions',
     category: 'reunions',
-    title: { fr: 'Préparer et suivre mes réunions', en: 'Prepare and follow up my meetings' },
+    title: { fr: 'Préparer une réunion et suivre les décisions', en: 'Prepare a meeting and track decisions' },
     description: {
       fr: 'Réunit le contexte, prépare l’ordre du jour, produit le compte rendu et suit les décisions.',
       en: 'Gathers context, prepares the agenda, produces minutes and tracks decisions.',
@@ -492,7 +492,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'preparer-mon-reporting-financier',
     category: 'analyse',
-    title: { fr: 'Préparer mon reporting financier', en: 'Prepare my financial report' },
+    title: { fr: 'Produire le reporting financier mensuel', en: 'Produce the monthly financial report' },
     description: {
       fr: 'Consolide les données, calcule les indicateurs et met en forme le reporting.',
       en: 'Consolidates data, computes metrics and formats the report.',
@@ -537,7 +537,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'automatiser-mes-operations',
     category: 'automatisation',
-    title: { fr: 'Automatiser mes opérations', en: 'Automate my operations' },
+    title: { fr: 'Automatiser une tâche répétitive', en: 'Automate a repetitive task' },
     description: {
       fr: 'Conçoit, exécute et surveille vos processus avec vos applications.',
       en: 'Designs, runs and monitors your processes with your apps.',
@@ -582,7 +582,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'developper-une-fonctionnalite',
     category: 'developpement',
-    title: { fr: 'Développer une fonctionnalité', en: 'Build a feature' },
+    title: { fr: 'Implémenter une fonctionnalité', en: 'Implement a feature' },
     description: {
       fr: 'Analyse le besoin, produit le code, exécute les tests et prépare la livraison.',
       en: 'Analyzes the need, writes the code, runs the tests and prepares delivery.',
@@ -625,7 +625,7 @@ export const MISSIONS: Mission[] = [
   {
     slug: 'corriger-un-lot-de-bugs',
     category: 'developpement',
-    title: { fr: 'Corriger un lot de bugs', en: 'Fix a batch of bugs' },
+    title: { fr: 'Corriger des anomalies prioritaires', en: 'Fix priority issues' },
     description: {
       fr: 'Reproduit les anomalies, identifie la cause et prépare les correctifs.',
       en: 'Reproduces issues, identifies the root cause and prepares fixes.',
