@@ -23,7 +23,7 @@ const T = {
     almaLeadPost:
       '. Elle analyse votre entreprise et recrute le Collaborateur IA adapté à votre organisation.',
     cta: 'Parler à Alma',
-    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Mis en service par Alma'],
+    proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
     almaPrepLabel: 'Solvea • Configuré par Alma',
     // Badge évolutif au-dessus de la carte (raconte l'histoire pendant l'animation)
     prepAnalyze: 'Analyse de Solvea…',
@@ -73,7 +73,7 @@ const T = {
     almaLeadPost:
       '. She analyzes your company and recruits the AI Collaborator that fits your organization.',
     cta: 'Talk to Alma',
-    proofs: ['7-day free trial', 'No credit card', 'Deployed by Alma'],
+    proofs: ['7-day free trial, no card', 'Hosted in France', 'Deployed by Alma'],
     almaPrepLabel: 'Solvea • Configured by Alma',
     // Evolving badge above the card (tells the story during the animation)
     prepAnalyze: 'Analyzing Solvea…',
