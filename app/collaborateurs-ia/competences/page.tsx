@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/site-footer'
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Compétences pour votre Collaborateur IA | Unitalk',
+  title: 'Compétences pour votre Collaborateur IA',
   description:
     'Les capacités qu’un Collaborateur IA développe au fil de ses missions : préparées, testées, validées selon les règles de votre entreprise, puis conservées.',
   alternates: { canonical: '/collaborateurs-ia/competences' },

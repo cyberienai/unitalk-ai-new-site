@@ -139,7 +139,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
   const singleType = filters.type !== 'all' ? (filters.type as StoreType) : null
   const heads = {
     all: {
-      title: lang === 'fr' ? 'Sélection du Store' : 'Store selection',
+      title: lang === 'fr' ? 'Le catalogue' : 'The catalog',
       desc:
         lang === 'fr'
           ? 'Des profils métier, des compétences et des applications pour équiper vos Collaborateurs IA.'
@@ -172,18 +172,18 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
 
   const t = {
     tabAlma: lang === 'fr' ? 'Parlez à Alma' : 'Talk to Alma',
-    tabCatalog: lang === 'fr' ? 'Explorer le Store' : 'Explore the Store',
+    tabCatalog: lang === 'fr' ? 'Explorer le catalogue' : 'Explore the catalog',
     sortLabel: lang === 'fr' ? 'Trier' : 'Sort',
     clear: lang === 'fr' ? 'Effacer les filtres' : 'Clear filters',
     searchChip: lang === 'fr' ? 'Recherche' : 'Search',
     filters: lang === 'fr' ? 'Filtres' : 'Filters',
-    browsed: lang === 'fr' ? 'Vous avez parcouru tout le Store.' : 'You’ve browsed all the Store.',
+    browsed: lang === 'fr' ? 'Vous avez parcouru tout le catalogue.' : 'You’ve browsed the whole catalog.',
     emptyTitle: lang === 'fr' ? 'Aucun élément ne correspond exactement' : 'No item matches exactly',
     emptyDesc:
       lang === 'fr'
         ? 'Décrivez à Alma ce que votre Collaborateur IA doit savoir faire. Elle composera le profil métier, les compétences et les applications adaptés.'
         : 'Describe to Alma what your AI Collaborator needs to do. She’ll compose the right job profile, skills and applications.',
-    compose: lang === 'fr' ? 'Composer avec Alma' : 'Compose with Alma',
+    compose: lang === 'fr' ? 'Préparer avec Alma' : 'Prepare with Alma',
     endInvite:
       lang === 'fr'
         ? 'Vous ne trouvez pas ce dont votre Collaborateur IA a besoin ?'
@@ -264,21 +264,21 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
       {/* ------------------------------ HERO ------------------------------ */}
       <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[136px]">
         <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#AD0C53]">
-          {lang === 'fr' ? 'Store' : 'Store'}
+          {lang === 'fr' ? 'Collaborateurs IA' : 'AI Collaborators'}
         </p>
         <h1 className="mt-3 max-w-3xl text-balance font-sf text-3xl font-bold leading-[1.08] tracking-[-0.02em] text-[var(--store-text)] sm:text-4xl lg:text-[44px]">
           {lang === 'fr' ? 'De quoi votre Collaborateur IA a-t-il besoin ?' : 'What does your AI Collaborator need?'}
         </h1>
         <p className="mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-[var(--store-muted)] sm:text-base">
           {lang === 'fr'
-            ? 'Explorez les profils métier, les compétences et les applications du Store. Alma les assemble selon sa mission et le contexte de votre Organisation.'
-            : 'Explore the Store’s job profiles, skills and applications. Alma assembles them for its mission and your Organization’s context.'}
+            ? 'Explorez les profils métier, les compétences et les applications. Alma les assemble selon sa mission et le contexte de votre Organisation.'
+            : 'Explore the job profiles, skills and applications. Alma assembles them for its mission and your Organization’s context.'}
         </p>
 
         {/* Tabs */}
         <div
           role="tablist"
-          aria-label={lang === 'fr' ? 'Modes du Store' : 'Store modes'}
+          aria-label={lang === 'fr' ? 'Modes d’exploration' : 'Browse modes'}
           className="mt-7 inline-flex gap-1 rounded-2xl border border-[var(--store-line)] bg-[var(--store-page)] p-1"
         >
           {tabButton('alma', t.tabAlma, MessageSquare)}

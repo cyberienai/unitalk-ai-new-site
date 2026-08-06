@@ -45,7 +45,7 @@ export function StoreFilters({
 
   return (
     <nav
-      aria-label={lang === 'fr' ? 'Filtres du Store' : 'Store filters'}
+      aria-label={lang === 'fr' ? 'Filtres du catalogue' : 'Catalog filters'}
       className="flex flex-col gap-7"
     >
       {/* TYPE — always first (section 5) */}

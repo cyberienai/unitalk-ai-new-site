@@ -15,9 +15,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const item = getStoreItem(TYPE_SLUG, slug)
-  if (!item) return { title: 'Profils métier · Unitalk' }
+  if (!item) return { title: 'Profils métier' }
   return {
-    title: `${item.name.fr} · ${TYPE_LABELS.profil.fr} · Unitalk`,
+    title: `${item.name.fr} · ${TYPE_LABELS.profil.fr}`,
     description: item.description.fr,
     alternates: { canonical: `/collaborateurs-ia/${TYPE_SLUG}/${slug}` },
     openGraph: {

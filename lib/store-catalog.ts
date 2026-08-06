@@ -1053,9 +1053,9 @@ export const EMPTY_STORE_FILTERS: StoreFilters = {
   editor: 'all',
 }
 
-// Type filter options (section 5). "all" = Tout le Store.
+// Type filter options (section 5). "all" = the whole catalog.
 export const TYPE_FACETS: Facet[] = [
-  { key: 'all', label: { fr: 'Tout le Store', en: 'All the Store' } },
+  { key: 'all', label: { fr: 'Tout le catalogue', en: 'The whole catalog' } },
   { key: 'profil', label: TYPE_LABELS_PLURAL.profil },
   { key: 'competence', label: TYPE_LABELS_PLURAL.competence },
   { key: 'application', label: TYPE_LABELS_PLURAL.application },

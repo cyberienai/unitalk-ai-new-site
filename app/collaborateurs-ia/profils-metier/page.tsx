@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/site-footer'
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Profils métier pour votre Collaborateur IA | Unitalk',
+  title: 'Profils métier pour votre Collaborateur IA',
   description:
     'Les rôles durables qu’un Collaborateur IA peut exercer : conseiller relation client, assistant de direction, commercial et bien d’autres, préparés avec Alma.',
   alternates: { canonical: '/collaborateurs-ia/profils-metier' },
