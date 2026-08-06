@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, IdCard, Sparkles, AppWindow, ArrowRight } from 'lucide-react'
+import { ChevronDown, IdCard, Sparkles, AppWindow, ArrowRight, UserRound } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 
@@ -15,30 +15,48 @@ const ALMA_CTA = {
   label: { fr: 'Commencer gratuitement', en: 'Start for free' } as Bi,
 }
 
-// Store dropdown — equipment for the AI Collaborator
-const STORE_EQUIPMENT: {
-  icon: typeof IdCard
-  title: Bi
-  desc: Bi
-  href: string
-}[] = [
+// Collaborateurs IA dropdown — the product hub.
+// "Découvrir" points to the central presentation; "Développer ses capacités"
+// groups the three catalogs (profils métier, compétences, applications).
+type MenuEntry = { icon: typeof IdCard; title: Bi; desc: Bi; href: string }
+
+const COLLAB_DISCOVER: MenuEntry = {
+  icon: UserRound,
+  title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
+  desc: {
+    fr: 'Une identité, une mémoire et une place dans votre entreprise.',
+    en: 'An identity, a memory and a place in your company.',
+  },
+  href: '/collaborateurs-ia',
+}
+
+const COLLAB_CAPABILITIES: MenuEntry[] = [
   {
     icon: IdCard,
     title: { fr: 'Profils métier', en: 'Job profiles' },
-    desc: { fr: 'Choisissez son rôle.', en: 'Choose its role.' },
-    href: '/store/profils-metier',
+    desc: {
+      fr: 'Les rôles durables qu’il peut exercer.',
+      en: 'The durable roles it can hold.',
+    },
+    href: '/collaborateurs-ia/profils-metier',
   },
   {
     icon: Sparkles,
     title: { fr: 'Compétences', en: 'Skills' },
-    desc: { fr: 'Développez ses savoir-faire.', en: 'Grow its know-how.' },
-    href: '/store/competences',
+    desc: {
+      fr: 'Les capacités qu’il développe au fil de ses missions.',
+      en: 'The capabilities it builds across its missions.',
+    },
+    href: '/collaborateurs-ia/competences',
   },
   {
     icon: AppWindow,
     title: { fr: 'Applications', en: 'Applications' },
-    desc: { fr: 'Connectez ses outils de travail.', en: 'Connect its work tools.' },
-    href: '/store/applications',
+    desc: {
+      fr: 'Les outils dans lesquels il travaille avec les autorisations accordées.',
+      en: 'The tools it works in with the permissions granted.',
+    },
+    href: '/collaborateurs-ia/applications',
   },
 ]
 
@@ -50,14 +68,13 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'Collaborateurs IA',
-    store: 'Store',
+    experts: 'Experts',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
-    storeMenu: 'Menu Store',
-    // Store panel
-    storeHeadTitle: 'Personnalisez votre Collaborateur IA',
-    storeHeadText: 'Son profil métier, ses compétences et ses applications.',
-    storeAll: 'Explorer le Store',
+    collabMenu: 'Menu Collaborateurs IA',
+    // Collaborateurs IA panel
+    menuDiscover: 'Découvrir',
+    menuCapabilities: 'Développer leurs capacités',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -66,13 +83,12 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'AI Collaborators',
-    store: 'Store',
+    experts: 'Experts',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
-    storeMenu: 'Store menu',
-    storeHeadTitle: 'Customize your AI Collaborator',
-    storeHeadText: 'Its job profile, skills and applications.',
-    storeAll: 'Explore the Store',
+    collabMenu: 'AI Collaborators menu',
+    menuDiscover: 'Discover',
+    menuCapabilities: 'Grow their capabilities',
   },
 }
 
@@ -128,21 +144,21 @@ function NavItem({ href, active, children }: { href: string; active: boolean; ch
 
 export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [storeOpen, setStoreOpen] = useState(false)
+  const [collabOpen, setCollabOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const storeRef = useRef<HTMLDivElement | null>(null)
-  const storeButtonRef = useRef<HTMLButtonElement | null>(null)
+  const collabRef = useRef<HTMLDivElement | null>(null)
+  const collabButtonRef = useRef<HTMLButtonElement | null>(null)
   const { lang, setLang } = useLanguage()
   const t = T[lang]
   const pathname = usePathname() || '/'
 
   // Active-state resolution
-  // Store owns the equipment namespace: /store and all its detail pages.
-  const isStoreActive = pathname.startsWith('/store')
-  const isCollabActive =
-    (pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')) &&
-    !pathname.startsWith('/collaborateurs-ia/roles')
+  // Collaborateurs IA owns the product hub: the presentation page and the three
+  // capability catalogs (profils métier, compétences, applications) plus details.
+  const isCollabActive = pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')
   const isMissionsActive = pathname === '/missions' || pathname.startsWith('/missions/')
+  // Experts: the human pillar — accompaniment around the Collaborateurs IA.
+  const isExpertsActive = pathname === '/experts' || pathname.startsWith('/experts/')
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'
 
@@ -163,27 +179,27 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Store dropdown: close on outside click
+  // Collaborateurs IA dropdown: close on outside click
   useEffect(() => {
-    if (!storeOpen) return
+    if (!collabOpen) return
     const onDown = (e: MouseEvent) => {
-      if (storeRef.current && !storeRef.current.contains(e.target as Node)) setStoreOpen(false)
+      if (collabRef.current && !collabRef.current.contains(e.target as Node)) setCollabOpen(false)
     }
     document.addEventListener('mousedown', onDown)
     return () => document.removeEventListener('mousedown', onDown)
-  }, [storeOpen])
+  }, [collabOpen])
 
-  // Store dropdown: close on Escape and return focus to the button
+  // Collaborateurs IA dropdown: close on Escape and return focus to the button
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && storeOpen) {
-        setStoreOpen(false)
-        storeButtonRef.current?.focus()
+      if (e.key === 'Escape' && collabOpen) {
+        setCollabOpen(false)
+        collabButtonRef.current?.focus()
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [storeOpen])
+  }, [collabOpen])
 
   const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
 
@@ -191,7 +207,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,backdrop-filter,border-color] duration-300 ${
-          scrolled || isMenuOpen || storeOpen
+          scrolled || isMenuOpen || collabOpen
             ? 'border-[#1C1A17]/[0.08] bg-[#F3EFE6]/96 backdrop-blur-[16px]'
             : 'border-transparent bg-transparent backdrop-blur-0'
         }`}
@@ -205,73 +221,91 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
             </a>
 
             <div className="hidden items-center gap-1 lg:flex">
-              <NavItem href="/collaborateurs-ia" active={isCollabActive}>
-                {t.collaborators}
-              </NavItem>
-
-              {/* Missions — direct link (the need), distinct from the Store (the equipment) */}
+              {/* Missions — the entry point: start from the need to accomplish */}
               <NavItem href="/missions" active={isMissionsActive}>
                 {t.missions}
               </NavItem>
 
-              {/* Store dropdown */}
-              <div ref={storeRef} className="relative">
+              {/* Collaborateurs IA — product hub dropdown (who takes the work on) */}
+              <div ref={collabRef} className="relative">
                 <button
-                  ref={storeButtonRef}
+                  ref={collabButtonRef}
                   type="button"
-                  id="store-trigger"
-                  onClick={() => setStoreOpen((v) => !v)}
-                  aria-expanded={storeOpen}
+                  id="collab-trigger"
+                  onClick={() => setCollabOpen((v) => !v)}
+                  aria-expanded={collabOpen}
                   aria-haspopup="true"
-                  aria-controls="store-menu"
-                  aria-current={isStoreActive ? 'page' : undefined}
+                  aria-controls="collab-menu"
+                  aria-current={isCollabActive ? 'page' : undefined}
                   className={`relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-                    isStoreActive || storeOpen ? 'text-[#D10E63]' : 'text-[#857C6E] hover:text-[#1C1A17]'
+                    isCollabActive || collabOpen ? 'text-[#D10E63]' : 'text-[#857C6E] hover:text-[#1C1A17]'
                   }`}
                 >
-                  {t.store}
+                  {t.collaborators}
                   <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform duration-200 ${storeOpen ? 'rotate-180' : ''}`}
+                    className={`h-3.5 w-3.5 transition-transform duration-200 ${collabOpen ? 'rotate-180' : ''}`}
                     aria-hidden="true"
                   />
                   <span
                     aria-hidden="true"
                     className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full bg-[#D10E63] transition-opacity duration-200 ${
-                      isStoreActive ? 'opacity-100' : 'opacity-0'
+                      isCollabActive ? 'opacity-100' : 'opacity-0'
                     }`}
                   />
                 </button>
 
                 <AnimatePresence>
-                  {storeOpen && (
+                  {collabOpen && (
                     <motion.div
-                      id="store-menu"
+                      id="collab-menu"
                       role="menu"
-                      aria-labelledby="store-trigger"
+                      aria-labelledby="collab-trigger"
                       initial={{ opacity: 0, y: 8, scale: 0.97 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                      style={{ transformOrigin: 'top right' }}
-                      className="absolute right-0 top-full w-[420px] max-w-[calc(100vw-2rem)] pt-2"
+                      style={{ transformOrigin: 'top left' }}
+                      className="absolute left-0 top-full w-[440px] max-w-[calc(100vw-2rem)] pt-2"
                     >
                       <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-3 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
-                        {/* Store scope: the equipment for a Collaborateur IA (not the missions) */}
-                        <div className="px-1.5 pb-3 pt-1">
-                          <p className="text-[15px] font-bold text-[#1C1A17]">{t.storeHeadTitle}</p>
-                          <p className="mt-0.5 text-[13px] leading-snug text-[#857C6E]">{t.storeHeadText}</p>
-                        </div>
+                        {/* Découvrir — the central presentation */}
+                        <p className="px-1.5 pb-1.5 pt-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#B0A796]">
+                          {t.menuDiscover}
+                        </p>
+                        <a
+                          href={COLLAB_DISCOVER.href}
+                          role="menuitem"
+                          onClick={() => setCollabOpen(false)}
+                          className="group flex min-h-[56px] items-center gap-3 rounded-xl px-2.5 outline-none transition-all duration-200 hover:bg-[#FDF1F6] hover:shadow-[0_6px_20px_-8px_rgba(209,14,99,0.4)] focus-visible:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                        >
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/[0.08] text-[#D10E63] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#D10E63]/[0.14]">
+                            <COLLAB_DISCOVER.icon className="h-[18px] w-[18px]" strokeWidth={1.8} aria-hidden="true" />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block text-base font-bold leading-tight text-[#1C1A17]">
+                              {COLLAB_DISCOVER.title[lang]}
+                            </span>
+                            <span className="mt-0.5 block text-[12px] leading-snug text-[#857C6E]">
+                              {COLLAB_DISCOVER.desc[lang]}
+                            </span>
+                          </span>
+                        </a>
 
-                        {/* Equipment entries */}
+                        <div className="my-2 border-t border-[#EFE8DA]" />
+
+                        {/* Développer ses capacités — the three catalogs */}
+                        <p className="px-1.5 pb-1.5 pt-0.5 text-[11px] font-bold uppercase tracking-[0.1em] text-[#B0A796]">
+                          {t.menuCapabilities}
+                        </p>
                         <div className="flex flex-col gap-0.5">
-                          {STORE_EQUIPMENT.map((item) => {
+                          {COLLAB_CAPABILITIES.map((item) => {
                             const Icon = item.icon
                             return (
                               <a
                                 key={item.href}
                                 href={item.href}
                                 role="menuitem"
-                                onClick={() => setStoreOpen(false)}
+                                onClick={() => setCollabOpen(false)}
                                 className="group flex min-h-[56px] items-center gap-3 rounded-xl px-2.5 outline-none transition-all duration-200 hover:bg-[#FDF1F6] hover:shadow-[0_6px_20px_-8px_rgba(209,14,99,0.4)] focus-visible:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
                               >
                                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/[0.08] text-[#D10E63] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#D10E63]/[0.14]">
@@ -285,24 +319,16 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                             )
                           })}
                         </div>
-
-                        <div className="my-2 border-t border-[#EFE8DA]" />
-
-                        {/* Explore all */}
-                        <a
-                          href="/store"
-                          role="menuitem"
-                          onClick={() => setStoreOpen(false)}
-                          className="group flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-[13px] font-bold text-[#D10E63] outline-none transition-colors hover:bg-[#FDF1F6] focus-visible:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                        >
-                          {t.storeAll}
-                          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                        </a>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
+
+              {/* Experts — the human pillar: accompaniment around the Collaborateurs IA */}
+              <NavItem href="/experts" active={isExpertsActive}>
+                {t.experts}
+              </NavItem>
 
               <NavItem href="/workspace" active={isWorkspaceActive}>
                 {t.workspace}
@@ -414,15 +440,8 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
               transition={{ duration: 0.2, ease: 'easeOut' }}
             >
               <nav className="flex flex-1 flex-col px-6 py-3">
-                {/* Primary links */}
+                {/* Primary links — same order as desktop: Missions first (the need) */}
                 <div className="border-b border-[#DcD4C4] py-3">
-                  <a
-                    href="/collaborateurs-ia"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.collaborators}
-                  </a>
                   <a
                     href="/missions"
                     onClick={() => setIsMenuOpen(false)}
@@ -431,16 +450,19 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                     {t.missions}
                   </a>
 
-                  {/* Store + equipment entries shown directly (no accordion) */}
-                  <a
-                    href="/store"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.store}
-                  </a>
+                  {/* Collaborateurs IA + its sub-pages shown directly (no accordion) */}
+                  <p className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17]">
+                    {t.collaborators}
+                  </p>
                   <div className="ml-3 border-l border-[#DcD4C4] pl-4">
-                    {STORE_EQUIPMENT.map((item) => (
+                    <a
+                      href={COLLAB_DISCOVER.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex min-h-12 items-center text-[15px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                    >
+                      {lang === 'fr' ? 'Découvrir les Collaborateurs IA' : 'Discover AI Collaborators'}
+                    </a>
+                    {COLLAB_CAPABILITIES.map((item) => (
                       <a
                         key={item.href}
                         href={item.href}
@@ -452,6 +474,13 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                     ))}
                   </div>
 
+                  <a
+                    href="/experts"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                  >
+                    {t.experts}
+                  </a>
                   <a
                     href="/workspace"
                     onClick={() => setIsMenuOpen(false)}

@@ -12,12 +12,23 @@ const T = {
       {
         title: 'Produit',
         links: [
-          { label: 'Missions', href: '/missions' },
           { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
-          { label: 'Profils métier', href: '/collaborateurs-ia/roles' },
+          { label: 'Missions', href: '/missions' },
+          { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
+          { label: 'Compétences', href: '/collaborateurs-ia/competences' },
+          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Tarifs', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
+        ],
+      },
+      {
+        title: 'Écosystème',
+        links: [
+          { label: 'Experts', href: '/experts' },
+          { label: 'Devenir expert', href: '/experts#devenir-expert' },
+          { label: 'Partenaires', href: '/partenaires' },
+          { label: 'Hermès', href: '/agent-hermes' },
         ],
       },
       {
@@ -46,12 +57,23 @@ const T = {
       {
         title: 'Product',
         links: [
-          { label: 'Missions', href: '/missions' },
           { label: 'AI Collaborators', href: '/collaborateurs-ia' },
-          { label: 'Business profiles', href: '/collaborateurs-ia/roles' },
+          { label: 'Missions', href: '/missions' },
+          { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
+          { label: 'Skills', href: '/collaborateurs-ia/competences' },
+          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Pricing', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
+        ],
+      },
+      {
+        title: 'Ecosystem',
+        links: [
+          { label: 'Experts', href: '/experts' },
+          { label: 'Become an expert', href: '/experts#devenir-expert' },
+          { label: 'Partners', href: '/partenaires' },
+          { label: 'Hermès', href: '/agent-hermes' },
         ],
       },
       {
@@ -83,7 +105,7 @@ export function SiteFooter() {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-12 lg:gap-x-10">
           {/* Brand + contact */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-6">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-4">
             <div className="flex items-center gap-2.5">
               <UnitalkLogo size={28} />
               <span className="font-inter text-base font-semibold text-[#F3EFE6]">Unitalk</span>

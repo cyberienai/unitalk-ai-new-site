@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { MISSIONS } from '@/lib/missions-catalog'
+import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -8,10 +9,10 @@ const STATIC_ROUTES = [
   '',
   '/missions',
   '/collaborateurs-ia',
-  '/collaborateurs-ia/comment-ca-fonctionne',
-  '/collaborateurs-ia/comparatif',
-  '/collaborateurs-ia/pourquoi-unitalk',
-  '/collaborateurs-ia/roles',
+  '/collaborateurs-ia/profils-metier',
+  '/collaborateurs-ia/competences',
+  '/collaborateurs-ia/applications',
+  '/experts',
   '/workspace',
   '/tarifs',
   '/solutions',
@@ -30,7 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${SITE_URL}${path}`,
     lastModified: now,
     changeFrequency: 'weekly',
-    priority: path === '' ? 1 : path === '/missions' ? 0.9 : 0.7,
+    priority:
+      path === ''
+        ? 1
+        : path === '/missions' || path === '/collaborateurs-ia' || path === '/experts'
+          ? 0.9
+          : 0.7,
   }))
 
   const missionEntries: MetadataRoute.Sitemap = MISSIONS.map((m) => ({
@@ -40,5 +46,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  return [...staticEntries, ...missionEntries]
+  // Profils métier, compétences and applications detail pages under the hub.
+  const catalogEntries: MetadataRoute.Sitemap = STORE_ITEMS.map((item) => ({
+    url: `${SITE_URL}${storeItemHref(item)}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }))
+
+  return [...staticEntries, ...missionEntries, ...catalogEntries]
 }

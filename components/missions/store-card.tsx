@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Eye, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import { ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
 
@@ -38,57 +38,48 @@ function MetaRow({ parts }: { parts: string[] }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Catalog card — full detail link + separate preview button           */
+/* Catalog card — whole card loads the mission into Alma (no cold page) */
 /* ------------------------------------------------------------------ */
 export function StoreCard({
   mission,
-  categories,
   lang,
-  onOpen,
+  onSelect,
 }: {
   mission: Mission
-  categories: MissionCategory[]
   lang: Lang
-  onOpen: (m: Mission, trigger: HTMLElement | null) => void
+  onSelect: (m: Mission, trigger: HTMLElement | null) => void
 }) {
-  const previewLabel = lang === 'fr' ? `Aperçu de ${mission.title[lang]}` : `Preview ${mission.title[lang]}`
+  const selectLabel =
+    lang === 'fr' ? `Confier « ${mission.title[lang]} » à Alma` : `Hand "${mission.title[lang]}" to Alma`
 
-  // Card and preview are SIBLINGS (no button nested in a link). The link owns the
-  // whole surface via an inset overlay; the preview button sits above it (z-10).
+  // The entire card is a button: clicking it loads the mission into Alma and
+  // triggers the flying-card handoff. Deliberately minimal — only title,
+  // description and the action; creator/category stay in the data model but are
+  // not surfaced until community missions ship.
   return (
-    <article
+    <button
+      type="button"
+      onClick={(e) => onSelect(mission, e.currentTarget)}
+      aria-label={selectLabel}
+      data-mission-card={mission.slug}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-6 transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-within:ring-2 focus-within:ring-[#D10E63]/40"
+      className="group relative flex w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-6 text-left transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <Link
-        href={`/missions/${mission.slug}`}
-        className="absolute inset-0 z-0 rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
-        aria-label={mission.title[lang]}
-      />
-
-      <h3 className="pointer-events-none relative z-0 line-clamp-2 pr-11 font-sf text-[19px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="line-clamp-2 font-sf text-[19px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="pointer-events-none relative z-0 mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
-        {mission.result[lang]}
-      </p>
-      <div className="pointer-events-none relative z-0 mt-4 flex items-end justify-between gap-3">
-        <MetaRow parts={metaParts(mission, categories, lang)} />
+      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
+      {/* Action row: a bare arrow at rest that unfolds into "Préciser avec Alma"
+          on hover/focus, so the whole card's purpose stays obvious. */}
+      <div className="mt-4 flex items-center justify-end gap-1.5">
+        <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold text-[#AD0C53] opacity-0 transition-all duration-200 group-hover:max-w-[200px] group-hover:opacity-100 group-focus-visible:max-w-[200px] group-focus-visible:opacity-100">
+          {lang === 'fr' ? 'Préciser avec Alma' : 'Refine with Alma'}
+        </span>
         <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
-
-      <button
-        type="button"
-        onClick={(e) => onOpen(mission, e.currentTarget)}
-        aria-label={previewLabel}
-        title={lang === 'fr' ? 'Aperçu rapide' : 'Quick preview'}
-        className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
-      >
-        <Eye className="h-4 w-4" />
-      </button>
-    </article>
+    </button>
   )
 }
 

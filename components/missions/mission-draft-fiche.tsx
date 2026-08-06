@@ -46,8 +46,8 @@ const PREVIEW: { key: string; label: { fr: string; en: string }; value: { fr: st
     key: 'result',
     label: { fr: 'Résultat attendu', en: 'Expected result' },
     value: {
-      fr: 'Relances effectuées et situations bloquées transmises à l’équipe.',
-      en: 'Follow-ups done and blocked cases handed to the team.',
+      fr: 'Relances effectuées et situations bloquées transmises.',
+      en: 'Follow-ups done and blocked cases handed over.',
     },
     icon: Sparkles,
   },
@@ -55,8 +55,8 @@ const PREVIEW: { key: string; label: { fr: string; en: string }; value: { fr: st
     key: 'frame',
     label: { fr: 'Cadre', en: 'Frame' },
     value: {
-      fr: 'Chaque semaine · Validation avant contentieux',
-      en: 'Every week · Validation before litigation',
+      fr: 'Hebdomadaire · Validation avant contentieux',
+      en: 'Weekly · Validation before litigation',
     },
     icon: ScrollText,
   },
@@ -119,9 +119,9 @@ export function MissionDraftFiche({
   const reduce = useReducedMotion()
 
   const t = {
-    prep: lang === 'fr' ? 'Mission' : 'Mission',
+    example: lang === 'fr' ? 'Exemple de mission' : 'Example mission',
+    yours: lang === 'fr' ? 'Votre mission' : 'Your mission',
     prepTitle: lang === 'fr' ? 'Relancer les factures impayées' : 'Chase unpaid invoices',
-    veil: lang === 'fr' ? 'Votre mission apparaîtra ici' : 'Your mission will appear here',
     ready: lang === 'fr' ? 'Mission prête à être adaptée' : 'Mission ready to be adapted',
     nextStep: lang === 'fr' ? 'Prochaine étape' : 'Next step',
     nextBody:
@@ -171,7 +171,7 @@ export function MissionDraftFiche({
           <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" aria-hidden="true" />
         )}
         <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#AD0C53]">
-          {ready ? t.ready : t.prep}
+          {ready ? t.ready : draft ? t.yours : t.example}
         </p>
       </div>
 
@@ -179,34 +179,26 @@ export function MissionDraftFiche({
         {draft ? draft.title[lang] : t.prepTitle}
       </h3>
 
-      {/* Rest — a real example mission, slightly faded under a light ivory veil. */}
+      {/* Rest — a real example mission, gently dimmed. No overlay: the eyebrow
+          already says "Exemple de mission", so the content stays fully legible. */}
       {!draft ? (
-        <div className="relative mt-4 flex flex-1 flex-col">
-          <div className="flex flex-col gap-4 opacity-55" aria-hidden="true">
-            {PREVIEW.map((section) => {
-              const Icon = section.icon
-              return (
-                <div key={section.key} className="flex gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]">
-                    <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
-                      {section.label[lang]}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-[var(--store-text)]">{section.value[lang]}</p>
-                  </div>
+        <div className="mt-4 flex flex-1 flex-col gap-3 opacity-[0.42]" aria-hidden="true">
+          {PREVIEW.map((section) => {
+            const Icon = section.icon
+            return (
+              <div key={section.key} className="flex gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]">
+                  <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
+                    {section.label[lang]}
+                  </p>
+                  <p className="mt-1 text-pretty text-sm leading-relaxed text-[var(--store-text)]">{section.value[lang]}</p>
                 </div>
-              )
-            })}
-          </div>
-
-          {/* Light veil: perceptible content, not "already selected". */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#FBF9F3]/45">
-            <span className="rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/90 px-4 py-1.5 text-xs font-semibold text-[var(--store-muted)] shadow-[0_1px_2px_rgba(28,26,23,0.05)]">
-              {t.veil}
-            </span>
-          </div>
+              </div>
+            )
+          })}
         </div>
       ) : (
       <div className="mt-5 flex flex-1 flex-col gap-4">

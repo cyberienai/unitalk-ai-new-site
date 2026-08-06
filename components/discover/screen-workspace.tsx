@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowRight, Check, Lock, Circle } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { getMission } from './types'
+import { ExpertDoor } from '@/components/experts/expert-door'
 
 export function ScreenWorkspace({ lang, missionSlug }: { lang: Lang; missionSlug: string }) {
   const t = COPY[lang]
@@ -99,6 +100,20 @@ export function ScreenWorkspace({ lang, missionSlug }: { lang: Lang; missionSlug
         >
           {t.connectTools}
         </Link>
+      </div>
+
+      {/* Once the first mission is ready, offer human help for the wider rollout.
+          Kept discreet and after the primary actions: the setup works without it. */}
+      <div className="mt-4">
+        <ExpertDoor
+          lang={lang}
+          title={
+            lang === 'fr'
+              ? 'Un déploiement plus large en tête ? Un expert peut vous accompagner.'
+              : 'A wider rollout in mind? An expert can support you.'
+          }
+          cta={lang === 'fr' ? 'Découvrir les experts' : 'Discover the experts'}
+        />
       </div>
     </div>
   )

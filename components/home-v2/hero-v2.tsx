@@ -40,8 +40,9 @@ const JOURNEY = {
       lines: ['traiter vos emails'],
       mission: 'Traiter vos emails',
       outcome: 'assigned',
+      firstCollab: true,
       items: [
-        { kind: 'profil', label: 'Assistante de direction', status: 'installed' },
+        { kind: 'profil', label: 'Assistante de direction', status: 'new' },
         { kind: 'competence', label: 'Gestion des emails', status: 'new' },
         { kind: 'application', label: 'Outlook', status: 'connected' },
       ],
@@ -89,8 +90,9 @@ const JOURNEY = {
       lines: ['handle your emails'],
       mission: 'Handle your emails',
       outcome: 'assigned',
+      firstCollab: true,
       items: [
-        { kind: 'profil', label: 'Executive assistant', status: 'installed' },
+        { kind: 'profil', label: 'Executive assistant', status: 'new' },
         { kind: 'competence', label: 'Email handling', status: 'new' },
         { kind: 'application', label: 'Outlook', status: 'connected' },
       ],
@@ -162,14 +164,18 @@ const T = {
     almaName: 'Alma',
     almaLeadPost: ' comprend votre entreprise et lui apporte les savoir-faire nécessaires pour l’accomplir.',
     cta: 'Parler à Alma',
-    proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
+    proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Propulsé par Hermès'],
     capContext: 'Alma analyse votre entreprise',
-    capReceived: 'Nouvelle mission',
+    capReceived: 'Nouvelle mission pour Solvea',
     capExamine: 'Alma vérifie qui peut prendre cette mission',
     capEquip: 'Alma prépare',
+    capForCompany: 'pour Solvea',
     capRecommend: 'Alma vérifie qui peut prendre cette mission',
     missionLabel: 'Mission',
     examineQuestion: 'Qui peut la prendre en charge ?',
+    examineFirst: 'Alma prépare votre première Collaboratrice IA.',
+    examineExistingSuffix: 'peut prendre cette mission.',
+    firstCollabBadge: 'En préparation',
     profilCompatible: 'Profil compatible',
     profilIncompatible: 'Profil non compatible',
     equipHeading: 'reçoit ce qui lui manque',
@@ -199,14 +205,18 @@ const T = {
     almaName: 'Alma',
     almaLeadPost: ' understands your company and gives it the know-how it needs to carry it out.',
     cta: 'Talk to Alma',
-    proofs: ['7-day free trial, no card', 'Hosted in France', 'Deployed by Alma'],
+    proofs: ['7-day free trial, no card', 'Hosted in France', 'Powered by Hermès'],
     capContext: 'Alma analyzes your company',
-    capReceived: 'New mission',
+    capReceived: 'New mission for Solvea',
     capExamine: 'Alma checks who can take this on',
     capEquip: 'Alma prepares',
+    capForCompany: 'for Solvea',
     capRecommend: 'Alma checks who can take this on',
     missionLabel: 'Mission',
     examineQuestion: 'Who can take it on?',
+    examineFirst: 'Alma is preparing your first AI Collaborator.',
+    examineExistingSuffix: 'can take this mission.',
+    firstCollabBadge: 'In preparation',
     profilCompatible: 'Compatible profile',
     profilIncompatible: 'Incompatible profile',
     equipHeading: 'gets what she is missing',
@@ -252,6 +262,8 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const [cycle, setCycle] = useState(0)
   const current = journey[cycle % journey.length]
   const isNewRole = current.outcome === 'newRole'
+  // First-ever Collaboratrice IA (Emma is being created) vs equipping an existing one.
+  const isFirstCollab = !isNewRole && 'firstCollab' in current && current.firstCollab === true
 
   const [phase, setPhase] = useState<Phase>('received')
   const [equipStep, setEquipStep] = useState(0)
@@ -362,7 +374,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
         ? t.capExamine
         : isNewRole
           ? t.capRecommend
-          : `${t.capEquip} ${holder.name}`
+          : `${t.capEquip} ${holder.name} ${t.capForCompany}`
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
@@ -706,7 +718,15 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                         {phase === 'examine' && (
                           <div>
                             <p className="mb-4 text-center font-sf text-[15px] font-semibold text-[#F6F1E8]">
-                              {t.examineQuestion}
+                              {isFirstCollab ? (
+                                t.examineFirst
+                              ) : isNewRole ? (
+                                t.examineQuestion
+                              ) : (
+                                <>
+                                  <span className="text-[#F58AAB]">{holder.name}</span> {t.examineExistingSuffix}
+                                </>
+                              )}
                             </p>
                             <div className="flex items-center gap-3 rounded-2xl border border-white/[0.1] bg-white/[0.03] px-3.5 py-3">
                               <img
@@ -722,11 +742,19 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                                 className={`inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold ${
                                   isNewRole
                                     ? 'border-[#F2A65A]/30 bg-[#F2A65A]/[0.12] text-[#F2C08A]'
-                                    : 'border-[#4ADE80]/25 bg-[#4ADE80]/[0.1] text-[#5FE38F]'
+                                    : isFirstCollab
+                                      ? 'border-[#F0658F]/30 bg-[#D10E63]/[0.12] text-[#F58AAB]'
+                                      : 'border-[#4ADE80]/25 bg-[#4ADE80]/[0.1] text-[#5FE38F]'
                                 }`}
                               >
-                                {isNewRole ? '—' : <Check className="h-2.5 w-2.5" strokeWidth={3} />}
-                                {isNewRole ? t.profilIncompatible : t.profilCompatible}
+                                {isNewRole ? (
+                                  '—'
+                                ) : isFirstCollab ? (
+                                  <Plus className="h-2.5 w-2.5" strokeWidth={3} aria-hidden="true" />
+                                ) : (
+                                  <Check className="h-2.5 w-2.5" strokeWidth={3} aria-hidden="true" />
+                                )}
+                                {isNewRole ? t.profilIncompatible : isFirstCollab ? t.firstCollabBadge : t.profilCompatible}
                               </span>
                             </div>
                             {isNewRole && <p className="mt-3 text-center text-[11.5px] leading-snug text-[#C7A98A]">{t.noneFit}</p>}
@@ -922,21 +950,20 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                         <div className="flex-1" />
 
-                        <div>
-                          <p className="mb-2 text-center text-[12px] font-medium text-[#A49E92] sm:text-left">
+                        {/* Conclusion, sans CTA concurrent : la seule action forte reste « Parler à Alma ». */}
+                        <motion.div
+                          initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4, ease, delay: 0.24 }}
+                          className="flex items-center gap-2.5 rounded-2xl border border-[#4ADE80]/20 bg-[#4ADE80]/[0.06] p-4"
+                        >
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#4ADE80]/15" aria-hidden="true">
+                            <Check className="h-4 w-4 text-[#5FE38F]" strokeWidth={3} />
+                          </span>
+                          <p className="text-[13px] font-medium leading-snug text-[#E4DED2]">
                             <span className="font-semibold text-[#F6F1E8]">{holder.name}</span> {t.readyForMission}
                           </p>
-                          <motion.a
-                            href="/decouvrir"
-                            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, ease, delay: 0.24 }}
-                            className="group/cta flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
-                          >
-                            {t.continueAlma}
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5" aria-hidden="true" />
-                          </motion.a>
-                        </div>
+                        </motion.div>
                       </div>
                     </>
                   ) : (

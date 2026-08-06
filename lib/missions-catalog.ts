@@ -606,7 +606,7 @@ const SEEDS: Seed[] = [
 
   // ---------------- DOCUMENTS & CONNAISSANCES ----------------
   m('documents', 'resumer-un-dossier', 'Résumer un dossier', 'Summarize a file', 'Une synthèse fidèle mettant en évidence les faits et points de décision.', 'A faithful summary highlighting the facts and decision points.', { status: 'on-setup' }),
-  m('documents', 'comparer-plusieurs-documents', 'Comparer plusieurs documents', 'Compare multiple documents', 'Les différences, convergences et contradictions sont clairement présentées.', 'Differences, overlaps and contradictions are clearly presented.'),
+  m('documents', 'comparer-plusieurs-documents', 'Analyser plusieurs documents', 'Analyze multiple documents', 'Les différences, convergences et contradictions sont clairement présentées.', 'Differences, overlaps and contradictions are clearly presented.'),
   m('documents', 'extraire-les-informations-cles', 'Extraire les informations clés', 'Extract key information', 'Les données recherchées sont structurées avec leur source.', 'The requested data is structured with its source.', { status: 'on-setup' }),
   m('documents', 'construire-une-base-de-connaissances', 'Construire une base de connaissances', 'Build a knowledge base', 'Des contenus organisés, reliés et faciles à retrouver.', 'Content organized, linked and easy to find.', { collections: ['produire-communiquer', 'piloter-organisation'] }),
   m('documents', 'mettre-a-jour-une-base-documentaire', 'Mettre à jour une base documentaire', 'Update a document base', 'Les contenus obsolètes et les informations nouvelles sont identifiés.', 'Outdated content and new information are identified.'),
@@ -692,8 +692,10 @@ export function categoryCount(categoryKey: string): number {
 export const FEATURED_SLUGS = [
   'trouver-de-nouveaux-clients',
   'repondre-a-mes-clients',
-  'preparer-un-comite-de-direction',
-  'automatiser-mes-operations',
+  'preparer-et-suivre-mes-reunions',
+  'relancer-les-factures-impayees',
+  'suivre-les-reclamations',
+  'comparer-plusieurs-documents',
 ]
 
 // Kept for backward compatibility with earlier UI (3 high-impact).
