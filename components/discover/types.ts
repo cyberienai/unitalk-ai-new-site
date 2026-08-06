@@ -1,17 +1,26 @@
 import type { Lang } from '@/lib/language-context'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
+import { normalizeDomain } from '@/lib/discover-profiles'
 
-export type Step = 'start' | 'context' | 'proposal' | 'connect' | 'workspace'
+export type Step = 'activate' | 'context' | 'collaborator' | 'applications' | 'workspace'
 export type Entry = 'company' | 'mission' | 'profile'
 
-export const STEP_ORDER: Step[] = ['start', 'context', 'proposal', 'connect', 'workspace']
+export const STEP_ORDER: Step[] = ['activate', 'context', 'collaborator', 'applications', 'workspace']
 
+// The first step's label is dynamic: it names the user's starting point.
 export const STEP_LABELS: Record<Step, { fr: string; en: string }> = {
-  start: { fr: 'Commencer', en: 'Start' },
+  activate: { fr: 'Point de départ', en: 'Starting point' },
   context: { fr: 'Contexte', en: 'Context' },
-  proposal: { fr: 'Proposition', en: 'Proposal' },
-  connect: { fr: 'Connexion', en: 'Sign in' },
+  collaborator: { fr: 'Collaborateur', en: 'Collaborator' },
+  applications: { fr: 'Applications', en: 'Apps' },
   workspace: { fr: 'Workspace', en: 'Workspace' },
+}
+
+// Entry-specific label used for the first step of the stepper.
+export const ENTRY_STEP_LABELS: Record<Entry, { fr: string; en: string }> = {
+  company: { fr: 'Entreprise', en: 'Company' },
+  mission: { fr: 'Mission', en: 'Mission' },
+  profile: { fr: 'Profil métier', en: 'Job profile' },
 }
 
 // Number of "context" items that fill the right column in step 2.
@@ -27,11 +36,37 @@ export type FlowState = {
 }
 
 export const INITIAL_STATE: FlowState = {
-  step: 'start',
-  entry: null,
+  step: 'activate',
+  entry: 'company',
   domain: '',
   missionSlug: 'trouver-de-nouveaux-clients',
   contextProgress: 0,
+}
+
+// The entry point is already chosen on the previous page and arrives via the
+// URL. We resolve it server-side so /decouvrir opens directly on activation.
+// Falls back to the "company" entry (Alma asks for the domain in-conversation).
+export function resolveInitialState(
+  params: Record<string, string | string[] | undefined>,
+): FlowState {
+  const get = (k: string) => {
+    const v = params[k]
+    return (Array.isArray(v) ? v[0] : v) ?? ''
+  }
+  const entryParam = get('entry').toLowerCase()
+  const domain = normalizeDomain(get('domain') || get('site'))
+  const missionParam = get('mission')
+  const profileParam = get('profil') || get('profile')
+
+  if (entryParam === 'mission' || missionParam) {
+    const m = missionParam ? MISSIONS.find((x) => x.slug === missionParam) : undefined
+    return { ...INITIAL_STATE, entry: 'mission', missionSlug: m?.slug ?? INITIAL_STATE.missionSlug, domain }
+  }
+  if (entryParam === 'profile' || entryParam === 'profil' || profileParam) {
+    const p = JOB_PROFILES.find((x) => x.key === profileParam)
+    return { ...INITIAL_STATE, entry: 'profile', missionSlug: p?.missionSlug ?? INITIAL_STATE.missionSlug, domain }
+  }
+  return { ...INITIAL_STATE, entry: 'company', domain }
 }
 
 // Category badge labels (kept in sync with the catalog categories used below).
