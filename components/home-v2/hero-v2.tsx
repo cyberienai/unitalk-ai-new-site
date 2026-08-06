@@ -30,19 +30,24 @@ const T = {
     cta: 'Parler à Alma',
     proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
     // En-tête de la carte pendant la préparation (l'avatar est celui d'Alma)
-    almaPreparing: 'prépare Emma',
-    // Étapes de préparation racontées dans la carte
+    almaPreparing: 'prépare Emma pour sa mission',
+    // Étapes racontées dans la carte — la mission est le pivot du recrutement
     prepSteps: [
       'Analyse de votre entreprise',
-      'Contexte de l’organisation préparé',
-      'Profil et compétences sélectionnés',
+      'Mission : traiter vos emails',
+      'Préparation d’Emma',
+      'Arrivée dans votre Organisation',
     ],
+    missionDetail: 'Résultat attendu, règles et validations précisés par Alma.',
     analyzeCaption: 'Sources publiques analysées',
     analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
     ficheReadySub: 'Contexte, compétences et applications préparés.',
+    ficheMissionLabel: 'Mission',
+    ficheMission: 'Traiter vos emails',
+    joinWorkspace: 'Rejoindre le Workspace',
     sharedContextLabel: 'Contexte partagé',
     sharedContext: ['Produits', 'Clients', 'Processus', 'Tarifs'],
     statusLabel: 'En poste',
@@ -85,19 +90,24 @@ const T = {
     cta: 'Talk to Alma',
     proofs: ['7-day free trial, no card', 'Hosted in France', 'Deployed by Alma'],
     // Card header while preparing (the avatar is Alma's)
-    almaPreparing: 'preparing Emma',
-    // Preparation steps told inside the card
+    almaPreparing: 'preparing Emma for her mission',
+    // Steps told inside the card — the mission is the pivot of the recruitment
     prepSteps: [
       'Analyzing your company',
-      'Organization context prepared',
-      'Profile and skills selected',
+      'Mission: handle your emails',
+      'Preparing Emma',
+      'Joining your Organization',
     ],
+    missionDetail: 'Expected outcome, rules and approvals defined by Alma.',
     analyzeCaption: 'Public sources analyzed',
     analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
     ficheReadySub: 'Context, skills and apps ready.',
+    ficheMissionLabel: 'Mission',
+    ficheMission: 'Handle your emails',
+    joinWorkspace: 'Join the Workspace',
     sharedContextLabel: 'Shared context',
     sharedContext: ['Products', 'Clients', 'Processes', 'Pricing'],
     statusLabel: 'Active',
@@ -122,7 +132,7 @@ const T = {
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-type Phase = 'analyzing' | 'building' | 'creating' | 'ready'
+type Phase = 'analyzing' | 'mission' | 'preparing' | 'ready'
 
 export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
@@ -175,24 +185,24 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       timers.push(setTimeout(() => setAnalyzeStep(i + 1), 380 * (i + 1)))
     })
     const afterAnalyze = 380 * t.analyzeSteps.length + 600
-    timers.push(setTimeout(() => setPhase('building'), afterAnalyze))
-    timers.push(setTimeout(() => setPhase('creating'), afterAnalyze + 1400))
-    timers.push(setTimeout(() => setPhase('ready'), afterAnalyze + 2800))
+    timers.push(setTimeout(() => setPhase('mission'), afterAnalyze))
+    timers.push(setTimeout(() => setPhase('preparing'), afterAnalyze + 1500))
+    timers.push(setTimeout(() => setPhase('ready'), afterAnalyze + 3000))
     return () => timers.forEach(clearTimeout)
   }, [reduceMotion, lang, t.analyzeSteps])
 
   const intro = phase !== 'ready'
-  // Étape courante du stepper (0 → 2 pendant l'intro, 3 = terminé)
-  const currentStep = phase === 'analyzing' ? 0 : phase === 'building' ? 1 : phase === 'creating' ? 2 : 3
+  // Étape courante du stepper (0 → 2 pendant l'intro, 4 = tout terminé une fois Emma arrivée)
+  const currentStep = phase === 'analyzing' ? 0 : phase === 'mission' ? 1 : phase === 'preparing' ? 2 : 4
   const analyzeCount = Math.min(analyzeStep, t.analyzeSteps.length)
-  // Progression globale : l'analyse remplit le premier tiers, puis chaque étape avance la barre
+  // Progression globale : l'analyse remplit le premier quart, puis chaque étape avance la barre
   const overallPct =
     phase === 'analyzing'
-      ? (analyzeCount / t.analyzeSteps.length) * 33
-      : phase === 'building'
-        ? 66
-        : phase === 'creating'
-          ? 90
+      ? (analyzeCount / t.analyzeSteps.length) * 25
+      : phase === 'mission'
+        ? 50
+        : phase === 'preparing'
+          ? 75
           : 100
 
   const enter = (delay: number) => ({
@@ -356,7 +366,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#F0658F]" aria-hidden="true" />
                   </div>
 
-                  {/* Stepper : les 3 étapes de préparation se complètent l'une après l'autre */}
+                  {/* Stepper : les 4 étapes du recrutement, pivotées autour de la mission */}
                   <ol className="mt-5 flex flex-1 flex-col justify-center gap-2.5">
                     {t.prepSteps.map((label, i) => {
                       const done = currentStep > i
@@ -429,6 +439,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                                 })}
                               </div>
                             </div>
+                          )}
+
+                          {/* Sous-contenu de l'étape 2 : ce qu'Alma précise pour la mission */}
+                          {i === 1 && (active || done) && (
+                            <p className="mt-2 pl-7 text-[11px] leading-snug text-[#A49E92]">{t.missionDetail}</p>
                           )}
                         </li>
                       )
