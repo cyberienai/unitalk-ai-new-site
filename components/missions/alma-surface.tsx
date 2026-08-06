@@ -596,58 +596,33 @@ export function AlmaSurface({
 type Copy = Record<string, string>
 
 /**
- * A single suggestion that fades between four real objectives every 5 s. It
- * stops the moment the visitor engages (hover, focus, typing) and, with
- * reduced motion, shows only the first line without rotating.
+ * One canonical suggestion — the same scenario as the example mission on the
+ * right (unpaid invoices). No rotation, so the two sides never disagree.
  */
-function RotatingExample({
-  starters,
+function CanonicalExample({
+  example,
   lang,
-  reduce,
-  paused,
   prefix,
   onPick,
 }: {
-  starters: typeof STARTERS
+  example: (typeof STARTERS)[number]
   lang: Lang
-  reduce: boolean
-  paused: boolean
   prefix: string
   onPick: (s: (typeof STARTERS)[number]) => void
 }) {
-  const [i, setI] = useState(0)
-  const [hover, setHover] = useState(false)
-  const stopped = reduce || paused || hover
-
-  useEffect(() => {
-    if (stopped) return
-    const id = setInterval(() => setI((n) => (n + 1) % starters.length), 5000)
-    return () => clearInterval(id)
-  }, [stopped, starters.length])
-
-  const current = starters[i]
   return (
     <button
       type="button"
-      onClick={() => onPick(current)}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      aria-label={`${prefix} ${current.text[lang]}`}
-      className="group mt-3 inline-flex min-h-[40px] w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      onClick={() => onPick(example)}
+      aria-label={`${prefix} ${example.text[lang]}`}
+      className="group mt-2.5 inline-flex min-h-[40px] w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
     >
       <span className="shrink-0 text-xs font-bold uppercase tracking-[0.06em] text-[#AD0C53]" aria-hidden="true">
         {prefix}
       </span>
-      <motion.span
-        key={current.slug}
-        initial={reduce ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="min-w-0 text-pretty text-sm leading-snug text-[var(--store-text)]"
-        aria-hidden="true"
-      >
-        {`« ${current.text[lang]} »`}
-      </motion.span>
+      <span className="min-w-0 text-pretty text-sm leading-snug text-[var(--store-text)]" aria-hidden="true">
+        {`« ${example.text[lang]} »`}
+      </span>
     </button>
   )
 }
@@ -679,9 +654,6 @@ function IntroPresence({
   lang: Lang
   onStarter: (s: (typeof STARTERS)[number]) => void
 }) {
-  const [focused, setFocused] = useState(false)
-  const examplePaused = focused || text.trim().length > 0
-
   return (
     <div className="flex h-full flex-col">
       {/* Internal header line: identity on the left, quiet demo link on the right. */}
@@ -706,7 +678,7 @@ function IntroPresence({
       </div>
 
       {/* Prompt + voice-first action */}
-      <h2 className="mt-5 text-balance font-sf text-lg font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h2 className="mt-4 text-balance font-sf text-lg font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {t.zoneTitle}
       </h2>
 
@@ -726,8 +698,6 @@ function IntroPresence({
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing && e.keyCode !== 229) {
               e.preventDefault()
@@ -740,25 +710,16 @@ function IntroPresence({
           className="max-h-[112px] min-h-[24px] w-full resize-none bg-transparent px-1.5 py-1 text-[15px] leading-relaxed text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
         />
         <div className="mt-1 flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              aria-label={t.attach}
-              title={t.attach}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F1EADF] hover:text-[var(--store-text)]"
-            >
-              <Paperclip className="h-[18px] w-[18px]" />
-            </button>
-            <button
-              type="button"
-              onClick={onTalk}
-              aria-label={t.talk}
-              title={t.talk}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F1EADF] hover:text-[var(--store-text)]"
-            >
-              <Mic className="h-[18px] w-[18px]" />
-            </button>
-          </div>
+          {/* Voice already has a prominent CTA above — the composer keeps only
+              attach + send, no redundant second mic. */}
+          <button
+            type="button"
+            aria-label={t.attach}
+            title={t.attach}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F1EADF] hover:text-[var(--store-text)]"
+          >
+            <Paperclip className="h-[18px] w-[18px]" />
+          </button>
           <button
             type="button"
             onClick={onSubmitText}
@@ -772,15 +733,8 @@ function IntroPresence({
         </div>
       </div>
 
-      {/* A single, rotating suggestion. */}
-      <RotatingExample
-        starters={starters}
-        lang={lang}
-        reduce={reduce}
-        paused={examplePaused}
-        prefix={t.tryPrefix}
-        onPick={onStarter}
-      />
+      {/* One canonical suggestion, matching the example mission on the right. */}
+      <CanonicalExample example={starters[0]} lang={lang} prefix={t.tryPrefix} onPick={onStarter} />
     </div>
   )
 }
