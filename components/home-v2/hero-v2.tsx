@@ -158,9 +158,9 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
     readyLead: 'Votre Collaborateur IA est prêt à',
-    almaLeadPre: 'Parlez à ',
+    almaLeadPre: 'Confiez-lui une mission. ',
     almaName: 'Alma',
-    almaLeadPost: '. Elle comprend votre entreprise et le prépare pour les missions que vous lui confiez.',
+    almaLeadPost: ' comprend votre entreprise et lui apporte les savoir-faire nécessaires pour l’accomplir.',
     cta: 'Parler à Alma',
     proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
     capContext: 'Alma analyse votre entreprise',
@@ -195,9 +195,9 @@ const T = {
   en: {
     eyebrow: 'Someone is missing',
     readyLead: 'Your AI Collaborator is ready to',
-    almaLeadPre: 'Talk to ',
+    almaLeadPre: 'Hand it a mission. ',
     almaName: 'Alma',
-    almaLeadPost: '. She understands your company and prepares it for the missions you hand off.',
+    almaLeadPost: ' understands your company and gives it the know-how it needs to carry it out.',
     cta: 'Talk to Alma',
     proofs: ['7-day free trial, no card', 'Hosted in France', 'Deployed by Alma'],
     capContext: 'Alma analyzes your company',
