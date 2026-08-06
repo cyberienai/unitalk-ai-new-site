@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, Check } from 'lucide-react'
+import { ChevronDown, Check, Info } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import {
   CATEGORY_FACETS,
@@ -44,8 +44,15 @@ export function StoreSidebar({
       aria-label={lang === 'fr' ? 'Navigation des missions' : 'Missions navigation'}
       className="flex max-h-[calc(100vh-7rem)] flex-col gap-7 overflow-y-auto pr-1 [scrollbar-width:thin]"
     >
-      {/* GROUP 1 — Type (origin) */}
-      <Group title={lang === 'fr' ? 'Type' : 'Type'}>
+      {/* GROUP 1 — Origin (who created & published the mission) */}
+      <Group
+        title={lang === 'fr' ? 'Créées par' : 'Created by'}
+        tooltip={
+          lang === 'fr'
+            ? 'Filtrez les missions selon leur créateur. Ne pas confondre le créateur avec la disponibilité de la mission.'
+            : 'Filter missions by their creator. Do not confuse the creator with the mission’s availability.'
+        }
+      >
         <ul className="flex flex-col gap-0.5">
           {ORIGIN_FACETS.map((o) => (
             <li key={o.key}>
@@ -119,12 +126,30 @@ export function StoreSidebar({
   )
 }
 
-function Group({ title, children }: { title: string; children: React.ReactNode }) {
+function Group({ title, tooltip, children }: { title: string; tooltip?: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="mb-2 px-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--store-muted)]">
-        {title}
-      </p>
+      <div className="mb-2 flex items-center gap-1.5 px-2.5">
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--store-muted)]">{title}</p>
+        {tooltip && (
+          <span className="group/tip relative inline-flex">
+            <button
+              type="button"
+              tabIndex={0}
+              aria-label={tooltip}
+              className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full text-[var(--store-muted)]/70 transition-colors hover:text-[#D10E63] focus-visible:text-[#D10E63] focus-visible:outline-none"
+            >
+              <Info className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
+            </button>
+            <span
+              role="tooltip"
+              className="pointer-events-none absolute left-1/2 top-full z-20 mt-1.5 w-56 -translate-x-1/2 rounded-lg bg-[#241F1D] px-3 py-2 text-[11px] font-medium normal-case leading-snug tracking-normal text-[#F3EFE6] opacity-0 shadow-lg transition-opacity duration-150 group-hover/tip:opacity-100 group-focus-within/tip:opacity-100"
+            >
+              {tooltip}
+            </span>
+          </span>
+        )}
+      </div>
       {children}
     </div>
   )

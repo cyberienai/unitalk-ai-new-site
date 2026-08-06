@@ -409,7 +409,7 @@ export function MissionsContent() {
               <div
                 className="mb-3 inline-flex rounded-lg border border-[var(--store-line)] bg-[var(--store-surface)] p-0.5"
                 role="group"
-                aria-label={lang === 'fr' ? 'Type' : 'Type'}
+                aria-label={lang === 'fr' ? 'Créées par' : 'Created by'}
               >
                 {ORIGIN_FACETS.map((o) => {
                   const active = filters.type === o.key

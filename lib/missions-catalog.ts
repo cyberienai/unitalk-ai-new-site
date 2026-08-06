@@ -19,10 +19,13 @@ export type MissionStatus = 'available' | 'on-setup' | 'coming-soon'
 // community. Every catalog mission is currently native; external is future-facing.
 export type MissionOrigin = 'native' | 'external'
 
+// Labels describe the mission's editorial origin (who created and published it),
+// not its availability. Kept short so they read cleanly in the sidebar, the mobile
+// switcher and the active-filter chips.
 export const ORIGIN_LABELS: Record<MissionOrigin | 'all', Bilingual> = {
-  all: { fr: 'Tous les types', en: 'Any Type' },
-  native: { fr: 'Natives (Unitalk)', en: 'Native (Unitalk)' },
-  external: { fr: 'Externes (Communauté)', en: 'External (Community)' },
+  all: { fr: 'Toutes', en: 'All' },
+  native: { fr: 'Unitalk', en: 'Unitalk' },
+  external: { fr: 'Communauté', en: 'Community' },
 }
 
 export type Mission = {
@@ -223,7 +226,7 @@ const CATEGORY_DEFAULTS: Record<string, CategoryDefault> = {
       { fr: 'Tri et classement', en: 'Sorting and filing' },
       { fr: 'Suivi de dossiers', en: 'File tracking' },
       { fr: 'Rédaction de courriers', en: 'Letter drafting' },
-      { fr: 'Gestion des échéances', en: 'Deadline management' },
+      { fr: 'Gestion des éch��ances', en: 'Deadline management' },
     ],
     tools: ['Email', 'Agenda', 'GED', 'Tableur'],
     sectors: ['services', 'public', 'sante', 'juridique'],
