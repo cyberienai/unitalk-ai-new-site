@@ -2,9 +2,8 @@
 
 import Link from 'next/link'
 import { ArrowRight, Eye, Sparkles } from 'lucide-react'
-import { missionFacets, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import type { Mission, MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
-import { StatusBadge } from './status-badge'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
 const SHADOW_REST = '0 0 0 1px rgba(36,31,29,0.09), 0 1px 2px rgba(36,31,29,0.02)'
@@ -18,12 +17,6 @@ function categoryLabel(cats: MissionCategory[], key: string, lang: Lang): string
 // Tiny eyebrow that frames the deliverable sentence as the concrete outcome.
 function resultLabel(lang: Lang): string {
   return lang === 'fr' ? 'Résultat' : 'Result'
-}
-
-// Status is only worth showing when it carries information. "Disponible" is the
-// default state and would be repetitive across the grid, so we hide it there.
-function informativeStatus(m: Mission): boolean {
-  return missionFacets(m).status !== 'available'
 }
 
 /* ------------------------------------------------------------------ */
@@ -40,8 +33,6 @@ export function StoreCard({
   lang: Lang
   onOpen: (m: Mission, trigger: HTMLElement | null) => void
 }) {
-  const status = missionFacets(mission).status
-  const showStatus = informativeStatus(mission)
   const previewLabel = lang === 'fr' ? `Aperçu de ${mission.title[lang]}` : `Preview ${mission.title[lang]}`
 
   // Card and preview are SIBLINGS (no button nested in a link). The link owns the
@@ -63,7 +54,6 @@ export function StoreCard({
         <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
           {categoryLabel(categories, mission.category, lang)}
         </span>
-        {showStatus && <StatusBadge status={status} lang={lang} />}
       </div>
       <h3 className="pointer-events-none relative z-0 mt-2.5 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
@@ -103,8 +93,6 @@ export function FeaturedCard({
   categories: MissionCategory[]
   lang: Lang
 }) {
-  const status = missionFacets(mission).status
-  const showStatus = informativeStatus(mission)
   return (
     <Link
       href={`/missions/${mission.slug}`}
@@ -117,7 +105,6 @@ export function FeaturedCard({
         <span className="line-clamp-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
           {categoryLabel(categories, mission.category, lang)}
         </span>
-        {showStatus && <StatusBadge status={status} lang={lang} />}
       </div>
       <h3 className="mt-2 line-clamp-2 font-sf text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
@@ -145,8 +132,6 @@ export function RecentCard({
   lang: Lang
   dateLabel?: string
 }) {
-  const status = missionFacets(mission).status
-  const showStatus = informativeStatus(mission)
   return (
     <Link
       href={`/missions/${mission.slug}`}
@@ -159,7 +144,6 @@ export function RecentCard({
         <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
           {categoryLabel(categories, mission.category, lang)}
         </span>
-        {showStatus && <StatusBadge status={status} lang={lang} />}
       </div>
       <h3 className="mt-2.5 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
