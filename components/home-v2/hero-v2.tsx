@@ -124,7 +124,7 @@ const T = {
     almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
-      '. Elle comprend votre Organisation, équipe le bon Collaborateur IA et prépare un nouveau poste lorsque c’est nécessaire.',
+      '. Elle comprend votre entreprise et le prépare pour les missions que vous lui confiez.',
     cta: 'Parler à Alma',
     proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
     capReceived: 'Nouvelle mission',
