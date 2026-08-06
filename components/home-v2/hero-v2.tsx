@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Building2, Calendar, Check, Layers, Loader2, Mail, Phone, UserRound } from 'lucide-react'
+import { ArrowRight, Calendar, Check, Layers, Loader2, Mail, Phone } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
 
@@ -37,10 +37,6 @@ const T = {
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
-    company: 'Solvea',
-    orgLabel: 'Organisation',
-    assignedLabel: 'Rattachée à',
-    owner: 'Patrick Chassany',
     sharedContextLabel: 'Contexte partagé',
     sharedContext: ['Produits', 'Clients', 'Processus', 'Tarifs'],
     statusLabel: 'En poste',
@@ -90,10 +86,6 @@ const T = {
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
-    company: 'Solvea',
-    orgLabel: 'Organization',
-    assignedLabel: 'Reports to',
-    owner: 'Patrick Chassany',
     sharedContextLabel: 'Shared context',
     sharedContext: ['Products', 'Clients', 'Processes', 'Pricing'],
     statusLabel: 'Active',
@@ -438,24 +430,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   </div>
 
                   <div className="relative flex flex-col gap-4 p-5">
-                    {/* Propriété : Emma appartient à l'organisation et a un référent */}
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5">
-                        <p className="font-mono text-[8px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.orgLabel}</p>
-                        <p className="mt-0.5 flex items-center gap-1.5 text-[12px] font-semibold text-[#F6F1E8]">
-                          <Building2 className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
-                          <span className="truncate">{t.company}</span>
-                        </p>
-                      </div>
-                      <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5">
-                        <p className="font-mono text-[8px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.assignedLabel}</p>
-                        <p className="mt-0.5 flex items-center gap-1.5 text-[12px] font-semibold text-[#F6F1E8]">
-                          <UserRound className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
-                          <span className="truncate">{t.owner}</span>
-                        </p>
-                      </div>
-                    </div>
-
                     {/* Coordonnées : Emma est une vraie coéquipière */}
                     <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
                       {t.contact.map((c, i) => {
