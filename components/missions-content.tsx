@@ -38,7 +38,7 @@ import {
 } from '@/lib/missions-store'
 import { useLanguage } from '@/lib/language-context'
 import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar'
-import { StoreCard, FeaturedCard, RecentCard, AlmaCard, AlmaBand } from '@/components/missions/store-card'
+import { StoreCard, FeaturedCard, RecentCard, AlmaBand } from '@/components/missions/store-card'
 import { PreviewDrawer } from '@/components/missions/preview-drawer'
 import { FilterSheet } from '@/components/missions/filter-sheet'
 
@@ -76,6 +76,7 @@ export function MissionsContent() {
 
   const searchRef = useRef<HTMLInputElement>(null)
   const catalogRef = useRef<HTMLDivElement>(null)
+  const loadMoreRef = useRef<HTMLDivElement>(null)
   const previewTrigger = useRef<HTMLElement | null>(null)
 
   const trimmed = query.trim()
@@ -174,6 +175,22 @@ export function MissionsContent() {
   const visible = catalog.slice(0, visibleCount)
   const hasMore = visibleCount < poolTotal
 
+  // Auto-load the next batch when the sentinel scrolls into view (no manual click).
+  // Re-attaching on visibleCount lets it fire again as the sentinel moves down.
+  useEffect(() => {
+    if (!hasMore) return
+    const el = loadMoreRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) setVisibleCount((n) => n + PAGE_SIZE)
+      },
+      { rootMargin: '600px 0px' },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [hasMore, visibleCount])
+
   // --- state mutators --------------------------------------------------------
   const openPreview = useCallback((m: Mission, trigger: HTMLElement | null) => {
     previewTrigger.current = trigger
@@ -244,14 +261,7 @@ export function MissionsContent() {
     all: lang === 'fr' ? 'Toutes les missions' : 'All missions',
     results: lang === 'fr' ? 'Résultats' : 'Results',
     count: (n: number) => `${n} mission${n > 1 ? 's' : ''}`,
-    showMore: (n: number) =>
-      hasAnyRefinement
-        ? lang === 'fr'
-          ? `Afficher ${n} résultats supplémentaires`
-          : `Show ${n} more results`
-        : lang === 'fr'
-          ? `Afficher ${n} missions supplémentaires`
-          : `Show ${n} more missions`,
+    allBrowsed: lang === 'fr' ? 'Vous avez parcouru toutes les missions.' : 'You’ve browsed all missions.',
     sortLabel: lang === 'fr' ? 'Trier' : 'Sort',
     clear: lang === 'fr' ? 'Effacer les filtres' : 'Clear filters',
     searchChip: lang === 'fr' ? 'Recherche' : 'Search',
@@ -561,29 +571,23 @@ export function MissionsContent() {
                     {visible.map((m) => (
                       <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={openPreview} />
                     ))}
-                    {/* General (unfiltered) view: keep Alma as the 13th card after the first 12. */}
-                    {!hasAnyRefinement && hasMore && (
-                      <div className="flex">
-                        <AlmaCard lang={lang} />
-                      </div>
-                    )}
                   </div>
 
                   {hasMore ? (
-                    <div className="mt-8 flex justify-center">
-                      <button
-                        type="button"
-                        onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
-                        className="inline-flex items-center gap-2 rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                      >
-                        {t.showMore(Math.min(PAGE_SIZE, poolTotal - visibleCount))}
-                      </button>
-                    </div>
+                    // Sentinel: crossing it (ahead of the fold) auto-loads the next batch.
+                    <div ref={loadMoreRef} aria-hidden="true" className="h-4" />
                   ) : (
-                    // Everything shown (typically a filtered set): full-width Alma band below.
-                    <div className="mt-4">
-                      <AlmaBand lang={lang} />
-                    </div>
+                    // End of the list: confirm the browse is complete, then invite Alma.
+                    <>
+                      <div className="mt-10 flex items-center gap-4" role="status">
+                        <span className="h-px flex-1 bg-[var(--store-line)]" aria-hidden="true" />
+                        <p className="text-sm font-medium text-[var(--store-muted)]">{t.allBrowsed}</p>
+                        <span className="h-px flex-1 bg-[var(--store-line)]" aria-hidden="true" />
+                      </div>
+                      <div className="mt-6">
+                        <AlmaBand lang={lang} />
+                      </div>
+                    </>
                   )}
                 </>
               )}
