@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { MISSIONS } from '@/lib/missions-catalog'
 import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
+import { COLLABORATOR_PAGE_SLUGS } from '@/lib/collaborator-pages'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -54,5 +55,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticEntries, ...missionEntries, ...catalogEntries]
+  // Incarnated Collaborateur IA landing pages (/collaborateurs/[slug]).
+  const collaboratorEntries: MetadataRoute.Sitemap = COLLABORATOR_PAGE_SLUGS.map((slug) => ({
+    url: `${SITE_URL}/collaborateurs/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries]
 }
