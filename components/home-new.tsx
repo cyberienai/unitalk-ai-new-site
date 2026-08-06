@@ -6,6 +6,7 @@ import { HeroV2 } from './home-v2/hero-v2'
 import { SectionStartWebsite } from './home-v2/section-start-website'
 import { CollaboratorsShowcase } from './collaborators-showcase'
 import { SectionMissions } from './home/section-missions'
+import { SectionCompanyMemory } from './home-v2/section-company-memory'
 import { SectionEvolvesDelivers } from './home-v2/section-evolves-delivers'
 import { SectionPricingSimple } from './home-v2/section-pricing-simple'
 import { FaqSection } from './faq-section'
@@ -36,7 +37,10 @@ export function HomeNew() {
         <CollaboratorsShowcase lang={lang} />
       </div>
 
-      {/* 5. Le Collaborateur IA évolue et livre dans le workspace */}
+      {/* 5. La mémoire d'entreprise partagée par tous les Collaborateurs IA */}
+      <SectionCompanyMemory lang={lang} />
+
+      {/* 6. Le Collaborateur IA évolue et livre dans le workspace */}
       <SectionEvolvesDelivers lang={lang} />
 
       {/* 7. Une offre simple */}

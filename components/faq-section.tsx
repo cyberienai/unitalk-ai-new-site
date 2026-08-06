@@ -13,6 +13,7 @@ const T = {
     contactLink: 'Parlez-en à Alma',
     faqs: [
       { q: 'Comment mon Collaborateur IA acquiert-il son savoir-faire ?', a: "Tout commence par une conversation avec Alma. Elle analyse votre activité et prépare le Collaborateur IA qu'il vous faut : ses profils, sa mémoire métier personnalisée et les compétences de l'agent Hermès. Ce savoir-faire s'enrichit au fil des missions." },
+      { q: 'Puis-je lire et modifier ce qu’Alma sait de mon entreprise ?', a: "Oui. La mémoire de votre entreprise est faite de fichiers lisibles (soul.md pour l'identité, user.md pour vos préférences, et la mémoire organisationnelle). Vous pouvez les consulter, les modifier et les exporter à tout moment : chaque version est conservée, et cette mémoire vous appartient." },
       { q: 'Quels modèles d’IA puis-je utiliser, et avec mes propres clés API ?', a: "Vos Collaborateurs IA s'appuient sur les meilleurs modèles du marché, dont ChatGPT, Claude et Gemini. Vous utilisez les crédits Unitalk ou connectez vos propres clés API pour garder le contrôle de vos coûts." },
       { q: 'Où sont hébergées mes données ?', a: 'Les serveurs Unitalk sont hébergés en France et l’ensemble est conforme au RGPD. Vous pouvez aussi choisir votre infrastructure : cloud, cloud privé, on-premise ou desktop.' },
     ],
@@ -25,6 +26,7 @@ const T = {
     contactLink: 'Talk to Alma about it',
     faqs: [
       { q: 'How does my AI Collaborator gain its know-how?', a: 'It all starts with a conversation with Alma. She analyzes your business and prepares the AI Collaborator you need: its profiles, its personalized business memory, and the skills of the Hermès agent. This know-how grows with every mission.' },
+      { q: 'Can I read and edit what Alma knows about my company?', a: 'Yes. Your company memory is made of readable files (soul.md for identity, user.md for your preferences, and the organizational memory). You can view, edit, and export them at any time: every version is kept, and this memory is yours.' },
       { q: 'Which AI models can I use, and can I use my own API keys?', a: 'Your AI Collaborators rely on the best models available, including ChatGPT, Claude, and Gemini. Use Unitalk credits or connect your own API keys to stay in control of your costs.' },
       { q: 'Where is my data hosted?', a: 'Unitalk servers are hosted in France and everything is GDPR compliant. You can also choose your own infrastructure: cloud, private cloud, on-premise, or desktop.' },
     ],
