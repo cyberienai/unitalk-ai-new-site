@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Calendar, Check, Clock, Layers, Loader2, Mail, Phone } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
@@ -128,15 +128,36 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const reduceMotion = useReducedMotion()
 
-  // Verbes rotatifs du titre
+  // Verbes rotatifs du titre.
+  // Ordre mélangé (différent à chaque visite) sans répétition immédiate d'un item,
+  // via une file d'attente reconstruite quand elle est vide.
   const [missionIndex, setMissionIndex] = useState(0)
+  const missionQueue = useRef<number[]>([])
+  // Réserve la largeur du conteneur sur le mot le plus long, calculé dynamiquement
+  // (reste juste si la liste change).
+  const longestMission = t.missions.reduce((a, b) => (b.length > a.length ? b : a), '')
   useEffect(() => {
-    if (reduceMotion) return
+    missionQueue.current = []
+    const n = t.missions.length
+    if (n <= 1) return
+    // Fisher-Yates ; on évite que le prochain premier item soit celui affiché.
+    const buildQueue = (avoid: number) => {
+      const arr = Array.from({ length: n }, (_, i) => i)
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[arr[i], arr[j]] = [arr[j], arr[i]]
+      }
+      if (arr[0] === avoid) [arr[0], arr[1]] = [arr[1], arr[0]]
+      return arr
+    }
     const id = setInterval(() => {
-      setMissionIndex((i) => (i + 1) % t.missions.length)
-    }, 3200)
+      setMissionIndex((prev) => {
+        if (missionQueue.current.length === 0) missionQueue.current = buildQueue(prev)
+        return missionQueue.current.shift() as number
+      })
+    }, 2800)
     return () => clearInterval(id)
-  }, [reduceMotion, t.missions.length])
+  }, [reduceMotion, t.missions])
 
   // Séquence Alma → Emma : on montre qu'Emma hérite du contexte construit par Alma
   const [phase, setPhase] = useState<Phase>(reduceMotion ? 'ready' : 'analyzing')
@@ -199,23 +220,21 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             className="text-balance text-center font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17] sm:text-left"
           >
             <span className="block">{t.readyLead}</span>
-            <span className="relative block min-h-[2.1em]">
+            {/* Le mot invisible réserve la largeur du plus long verbe → conteneur stable. */}
+            <span className="relative inline-block align-top text-[#D10E63]">
+              <span className="invisible" aria-hidden="true">
+                {longestMission}
+              </span>
               <AnimatePresence initial={false}>
                 <motion.span
                   key={missionIndex}
-                  initial={reduceMotion ? false : { opacity: 0, y: '0.2em' }}
+                  initial={reduceMotion ? false : { opacity: 0, y: '0.32em' }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.2em' }}
-                  transition={{ duration: 0.3, ease }}
-                  className="absolute inset-x-0 top-0 block text-[#D10E63]"
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: '-0.32em' }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.32, ease: 'easeInOut' }}
+                  className="absolute inset-0 block whitespace-nowrap"
                 >
                   {t.missions[missionIndex]}
-                  <motion.span
-                    aria-hidden="true"
-                    className="ml-1 inline-block h-[0.9em] w-[3px] translate-y-[0.08em] rounded-full bg-[#D10E63] align-middle"
-                    animate={reduceMotion ? undefined : { opacity: [1, 1, 0, 0] }}
-                    transition={{ duration: 1.1, repeat: Infinity, ease: 'linear', times: [0, 0.5, 0.5, 1] }}
-                  />
                 </motion.span>
               </AnimatePresence>
             </span>
