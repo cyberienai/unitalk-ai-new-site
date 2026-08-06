@@ -11,7 +11,7 @@ const T = {
   fr: {
     eyebrow: 'Par où commencer',
     title: 'Commencez comme vous voulez.',
-    subtitle: 'À partir de votre entreprise, d’une mission ou d’un Collaborateur IA. Alma prépare le reste.',
+    subtitle: 'À partir de votre site web, d’une mission ou d’un profil métier. Alma prépare le reste.',
     cards: [
       {
         icon: Globe,
@@ -49,7 +49,7 @@ const T = {
   en: {
     eyebrow: 'Where to start',
     title: 'Start however you want.',
-    subtitle: 'From your company, a mission or an AI Collaborator. Alma prepares the rest.',
+    subtitle: 'From your website, a mission or a job profile. Alma prepares the rest.',
     cards: [
       {
         icon: Globe,
