@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowUp, Mic, Pause, Paperclip, Pencil, Play, Square, RotateCcw } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
@@ -15,6 +14,7 @@ import {
   buildDecouvirHref,
   type MissionDraft,
   type Clarification,
+  type Bi,
 } from '@/lib/mission-draft'
 import { MissionDraftFiche, type FicheShown } from './mission-draft-fiche'
 import { AlmaDemoModal } from './alma-demo-modal'
@@ -22,6 +22,15 @@ import { AlmaDemoModal } from './alma-demo-modal'
 const CANONICAL_SLUG = 'relancer-les-factures-impayees'
 
 type Stage = 'intro' | 'listening' | 'clarifying' | 'ready'
+
+/** A clarification the user has confirmed, tracked so it can be revised in place. */
+type AnsweredClar = {
+  key: string
+  spoken: string
+  value: Bi
+  section: 'cadre' | 'validations'
+  itemIndex: number
+}
 
 // Four conversation starters — real, matchable objectives.
 const STARTERS: { text: { fr: string; en: string }; slug: string }[] = [
@@ -59,10 +68,8 @@ export function AlmaSurface({
   loadRequest?: LoadRequest | null
 }) {
   const reduce = useReducedMotion()
-  const router = useRouter()
 
   const [stage, setStage] = useState<Stage>('intro')
-  const [writer, setWriter] = useState(false)
   const [text, setText] = useState(initialQuery)
   const [demoOpen, setDemoOpen] = useState(false)
 
@@ -75,6 +82,11 @@ export function AlmaSurface({
   const [clarIndex, setClarIndex] = useState(0)
   const [lastAnswer, setLastAnswer] = useState<string | null>(null)
   const [answerText, setAnswerText] = useState('')
+  // Each confirmed clarification, so a single answer can be revised without redoing all.
+  const [answers, setAnswers] = useState<AnsweredClar[]>([])
+  const [editingKey, setEditingKey] = useState<string | null>(null)
+  // "Last meter" handoff feedback.
+  const [adapting, setAdapting] = useState(false)
 
   // Voice-mode transient state.
   const [typed, setTyped] = useState('')
@@ -91,23 +103,14 @@ export function AlmaSurface({
   const lastLoadKey = useRef<number | null>(null)
 
   const t = {
-    eyebrow: 'Missions',
-    title: lang === 'fr' ? 'Qu’aimeriez-vous confier ?' : 'What would you like to hand off?',
-    subtitle:
-      lang === 'fr'
-        ? 'Dites-le simplement à Alma. Elle vous écoute et transforme votre besoin en une mission claire.'
-        : 'Just tell Alma. She listens and turns your need into a clear mission.',
+    title: lang === 'fr' ? 'Dites à Alma ce que vous souhaitez confier.' : 'Tell Alma what you’d like to hand off.',
     name: 'Alma',
-    sayBody:
-      lang === 'fr'
-        ? 'Expliquez naturellement ce que vous souhaitez confier.'
-        : 'Explain naturally what you’d like to hand off.',
+    zoneTitle: lang === 'fr' ? 'Qu’est-ce qu’il faut faire ?' : 'What needs doing?',
     talk: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     consent: lang === 'fr' ? 'Le micro s’active uniquement avec votre accord.' : 'The mic only turns on with your consent.',
-    watch: lang === 'fr' ? 'Voir Alma en action · 45 s' : 'See Alma in action · 45 s',
-    prefWrite: lang === 'fr' ? 'ou écrire à Alma' : 'or write to Alma',
-    starters: lang === 'fr' ? 'Quelques exemples' : 'A few examples',
-    moreExamples: lang === 'fr' ? 'Voir d’autres exemples' : 'See more examples',
+    watch: lang === 'fr' ? 'Voir la démo · 45 s' : 'Watch the demo · 45 s',
+    writePh: lang === 'fr' ? 'Ou écrivez-le ici…' : 'Or write it here…',
+    tryPrefix: lang === 'fr' ? 'Essayez :' : 'Try:',
     listening: lang === 'fr' ? 'Alma vous écoute' : 'Alma is listening',
     micOn: lang === 'fr' ? 'Micro actif' : 'Mic on',
     pause: lang === 'fr' ? 'Pause' : 'Pause',
@@ -123,11 +126,14 @@ export function AlmaSurface({
     almaAsks: lang === 'fr' ? 'Alma vous demande' : 'Alma asks',
     answerPh: lang === 'fr' ? 'Répondez à Alma…' : 'Answer Alma…',
     send: lang === 'fr' ? 'Envoyer' : 'Send',
-    readyTitle: lang === 'fr' ? 'Votre mission est prête.' : 'Your mission is ready.',
+    readyTitle: lang === 'fr' ? 'Votre mission est claire.' : 'Your mission is clear.',
     readyBody:
       lang === 'fr'
-        ? 'Adaptez-la à votre entreprise, ou continuez à la préciser avec Alma.'
-        : 'Adapt it to your company, or keep refining it with Alma.',
+        ? 'Adaptons-la maintenant à votre entreprise.'
+        : 'Let’s adapt it to your company now.',
+    yourAnswers: lang === 'fr' ? 'Vos réponses' : 'Your answers',
+    edit: lang === 'fr' ? 'Modifier' : 'Edit',
+    cancelEdit: lang === 'fr' ? 'Annuler la modification' : 'Cancel edit',
     restart: lang === 'fr' ? 'Recommencer' : 'Start over',
     micDenied:
       lang === 'fr'
@@ -209,7 +215,6 @@ export function AlmaSurface({
   const start = useCallback(
     (mission: Mission, request: { fr: string; en: string }) => {
       stopMic()
-      setWriter(false)
       setStage('clarifying') // fiche building; will be corrected by materialize
       materialize(mission, request)
     },
@@ -307,7 +312,6 @@ export function AlmaSurface({
     setMicError(null)
     if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
       setMicError(t.micDenied)
-      setWriter(true)
       return
     }
     try {
@@ -316,7 +320,6 @@ export function AlmaSurface({
       runListening()
     } catch {
       setMicError(t.micDenied)
-      setWriter(true)
     }
   }, [runListening, t.micDenied])
 
@@ -344,7 +347,6 @@ export function AlmaSurface({
     clearAll()
     stopMic()
     setStage('intro')
-    setWriter(true)
     setTyped('')
     setSeconds(0)
   }, [clearAll, stopMic])
@@ -371,6 +373,36 @@ export function AlmaSurface({
           ? c.replyValues[replyIndex]
           : c.add.value
 
+      // --- Revision path: replace an already-confirmed answer in place. --------
+      if (editingKey) {
+        const existing = answers.find((a) => a.key === editingKey)
+        if (existing) {
+          setDraft((d) => {
+            if (!d) return d
+            const next = { ...d }
+            if (existing.section === 'cadre') {
+              const arr = [...d.cadre]
+              arr[existing.itemIndex] = value
+              next.cadre = arr
+            } else {
+              const arr = [...d.validations]
+              arr[existing.itemIndex] = value
+              next.validations = arr
+            }
+            return next
+          })
+          setAnswers((prev) => prev.map((a) => (a.key === editingKey ? { ...a, spoken, value } : a)))
+          flash(`${existing.section}:${existing.itemIndex}`)
+        }
+        setEditingKey(null)
+        after(reduce ? 0 : 300, () => {
+          setReady(true)
+          setStage('ready')
+        })
+        return
+      }
+
+      // --- Normal path: append a new confirmed answer. -------------------------
       const idx = c.add.section === 'cadre' ? draft.cadre.length : draft.validations.length
       setDraft((d) => {
         if (!d) return d
@@ -380,6 +412,7 @@ export function AlmaSurface({
         if (c.resolves) next.toClarify = d.toClarify.filter((h) => h.fr !== c.resolves)
         return next
       })
+      setAnswers((prev) => [...prev, { key: c.key, spoken, value, section: c.add.section, itemIndex: idx }])
       if (c.add.section === 'cadre') {
         setShown((s) => ({ ...s, cadre: (s.cadre ?? 0) + 1 }))
         flash(`cadre:${idx}`)
@@ -398,14 +431,26 @@ export function AlmaSurface({
         setClarIndex((i) => i + 1)
       }
     },
-    [draft, clarIndex, clarifications.length, flash, after, reduce],
+    [draft, editingKey, answers, clarIndex, clarifications.length, flash, after, reduce],
   )
+
+  // Re-ask a single confirmed clarification without redoing the whole mission.
+  const startEdit = useCallback((key: string) => {
+    setEditingKey(key)
+    setLastAnswer(null)
+    setStage('clarifying')
+  }, [])
+
+  const cancelEdit = useCallback(() => {
+    setEditingKey(null)
+    setLastAnswer(null)
+    setStage('ready')
+  }, [])
 
   const reset = useCallback(() => {
     clearAll()
     stopMic()
     setStage('intro')
-    setWriter(false)
     setDraft(null)
     setShown({})
     setReady(false)
@@ -413,33 +458,37 @@ export function AlmaSurface({
     setClarifications([])
     setClarIndex(0)
     setLastAnswer(null)
+    setAnswers([])
+    setEditingKey(null)
+    setAdapting(false)
     setText('')
     setTyped('')
     setSeconds(0)
     setMicError(null)
   }, [clearAll, stopMic])
 
+  // Handoff. The CTA is a real anchor (guaranteed navigation); this only saves
+  // the draft for read-your-writes and surfaces a brief loading state.
+  const adaptHref = draft ? buildDecouvirHref(draft) : '/decouvrir'
   const onAdapt = useCallback(() => {
     if (!draft) return
+    setAdapting(true)
     saveDraft(draft)
-    router.push(buildDecouvirHref(draft))
-  }, [draft, router])
+  }, [draft])
 
-  const currentClar = clarifications[clarIndex] ?? null
+  const currentClar = editingKey
+    ? clarifications.find((c) => c.key === editingKey) ?? null
+    : clarifications[clarIndex] ?? null
 
   const mmss = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
 
   return (
     <div>
-      {/* Header */}
-      <header className="mb-5 text-center sm:mb-6">
-        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#AD0C53]">{t.eyebrow}</p>
-        <h1 className="mt-2 text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.02em] text-[var(--store-text)] sm:text-4xl">
+      {/* Header — title only; the action sits directly beneath it. */}
+      <header className="mb-4 text-center sm:mb-5">
+        <h1 className="mx-auto max-w-2xl text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.02em] text-[var(--store-text)] sm:text-[2.5rem]">
           {t.title}
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-pretty text-sm leading-relaxed text-[var(--store-muted)] sm:text-base">
-          {t.subtitle}
-        </p>
       </header>
 
       {/* Continuous two-panel surface */}
@@ -447,34 +496,20 @@ export function AlmaSurface({
         className="overflow-hidden rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)]"
         aria-label={lang === 'fr' ? 'Préparer une mission avec Alma' : 'Prepare a mission with Alma'}
       >
-        <div className="grid lg:min-h-[420px] lg:grid-cols-[42%_58%]">
+        <div className="grid lg:min-h-[400px] lg:grid-cols-[42%_58%]">
           {/* LEFT — Alma + conversation */}
-          <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-7 lg:border-b-0 lg:border-r">
-            {stage === 'intro' && !writer && (
+          <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-5 lg:border-b-0 lg:border-r">
+            {stage === 'intro' && (
               <IntroPresence
                 reduce={!!reduce}
                 t={t}
-                onTalk={requestMic}
-                onDemo={() => setDemoOpen(true)}
-                onWrite={() => setWriter(true)}
-                demoTriggerRef={demoTriggerRef}
-                micError={micError}
-                starters={STARTERS}
-                lang={lang}
-                onStarter={(s) => start(resolveMission(s.slug, s.text[lang], lang), s.text)}
-              />
-            )}
-
-            {stage === 'intro' && writer && (
-              <WriteComposer
-                t={t}
                 text={text}
                 setText={setText}
-                onSubmit={submitWritten}
-                onVoice={() => {
-                  setWriter(false)
-                  setMicError(null)
-                }}
+                onSubmitText={submitWritten}
+                onTalk={requestMic}
+                onDemo={() => setDemoOpen(true)}
+                demoTriggerRef={demoTriggerRef}
+                micError={micError}
                 starters={STARTERS}
                 lang={lang}
                 onStarter={(s) => start(resolveMission(s.slug, s.text[lang], lang), s.text)}
@@ -504,10 +539,14 @@ export function AlmaSurface({
                 lastAnswer={lastAnswer}
                 answerText={answerText}
                 setAnswerText={setAnswerText}
-                    onQuick={(spoken, ri) => currentClar && answerClarification(currentClar, spoken, ri)}
-                    onSend={() => {
-                      if (currentClar && answerText.trim()) answerClarification(currentClar, answerText.trim())
-                    }}
+                onQuick={(spoken, ri) => currentClar && answerClarification(currentClar, spoken, ri)}
+                onSend={() => {
+                  if (currentClar && answerText.trim()) answerClarification(currentClar, answerText.trim())
+                }}
+                answers={answers}
+                editing={!!editingKey}
+                onEdit={startEdit}
+                onCancelEdit={cancelEdit}
                 onReset={reset}
                 lang={lang}
               />
@@ -515,13 +554,15 @@ export function AlmaSurface({
           </div>
 
           {/* RIGHT — living mission fiche */}
-          <div className="bg-[#FBF9F3] p-5 sm:p-7">
+          <div className="bg-[#FBF9F3] p-5 sm:p-5">
             <MissionDraftFiche
               draft={draft}
               shown={shown}
               justAdded={justAdded}
               ready={ready}
               lang={lang}
+              adaptHref={adaptHref}
+              adapting={adapting}
               onAdapt={onAdapt}
               onContinue={() => {
                 setReady(false)
@@ -554,88 +595,71 @@ export function AlmaSurface({
 
 type Copy = Record<string, string>
 
-function AlmaAvatar({ reduce, size = 'lg' }: { reduce: boolean; size?: 'lg' | 'sm' }) {
-  const dim = size === 'lg' ? 'h-16 w-16' : 'h-10 w-10'
-  return (
-    <span className={`relative inline-flex ${dim} items-center justify-center`}>
-      {!reduce && (
-        <>
-          <motion.span
-            className="absolute inset-0 rounded-full bg-[#D10E63]/15"
-            animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-            aria-hidden="true"
-          />
-          <motion.span
-            className="absolute inset-0 rounded-full bg-[#D10E63]/10"
-            animate={{ scale: [1, 1.6, 1], opacity: [0.35, 0, 0.35] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            aria-hidden="true"
-          />
-        </>
-      )}
-      <img
-        src="/alma-avatar.png"
-        alt="Alma"
-        className={`relative ${dim} rounded-full object-cover ring-2 ring-[#D10E63]/30`}
-      />
-    </span>
-  )
-}
-
-function StarterList({
+/**
+ * A single suggestion that fades between four real objectives every 5 s. It
+ * stops the moment the visitor engages (hover, focus, typing) and, with
+ * reduced motion, shows only the first line without rotating.
+ */
+function RotatingExample({
   starters,
   lang,
-  onStarter,
-  label,
-  moreLabel,
+  reduce,
+  paused,
+  prefix,
+  onPick,
 }: {
   starters: typeof STARTERS
   lang: Lang
-  onStarter: (s: (typeof STARTERS)[number]) => void
-  label: string
-  moreLabel: string
+  reduce: boolean
+  paused: boolean
+  prefix: string
+  onPick: (s: (typeof STARTERS)[number]) => void
 }) {
-  const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? starters : starters.slice(0, 2)
+  const [i, setI] = useState(0)
+  const [hover, setHover] = useState(false)
+  const stopped = reduce || paused || hover
+
+  useEffect(() => {
+    if (stopped) return
+    const id = setInterval(() => setI((n) => (n + 1) % starters.length), 5000)
+    return () => clearInterval(id)
+  }, [stopped, starters.length])
+
+  const current = starters[i]
   return (
-    <div className="mt-6">
-      <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">{label}</p>
-      <ul className="flex flex-col gap-0.5">
-        {visible.map((s) => (
-          <li key={s.slug}>
-            <button
-              type="button"
-              onClick={() => onStarter(s)}
-              className="group flex min-h-[40px] w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm leading-snug text-[var(--store-text)] transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-            >
-              <span className="font-mono text-[#D10E63]" aria-hidden="true">
-                {'»'}
-              </span>
-              <span className="text-pretty">{s.text[lang]}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-      {!expanded && starters.length > visible.length && (
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className="mt-1 inline-flex min-h-[36px] items-center rounded-lg px-2 text-xs font-semibold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-        >
-          {moreLabel}
-        </button>
-      )}
-    </div>
+    <button
+      type="button"
+      onClick={() => onPick(current)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      aria-label={`${prefix} ${current.text[lang]}`}
+      className="group mt-3 inline-flex min-h-[40px] w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+    >
+      <span className="shrink-0 text-xs font-bold uppercase tracking-[0.06em] text-[#AD0C53]" aria-hidden="true">
+        {prefix}
+      </span>
+      <motion.span
+        key={current.slug}
+        initial={reduce ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="min-w-0 text-pretty text-sm leading-snug text-[var(--store-text)]"
+        aria-hidden="true"
+      >
+        {`« ${current.text[lang]} »`}
+      </motion.span>
+    </button>
   )
 }
 
 function IntroPresence({
   reduce,
   t,
+  text,
+  setText,
+  onSubmitText,
   onTalk,
   onDemo,
-  onWrite,
   demoTriggerRef,
   micError,
   starters,
@@ -644,103 +668,76 @@ function IntroPresence({
 }: {
   reduce: boolean
   t: Copy
+  text: string
+  setText: (v: string) => void
+  onSubmitText: () => void
   onTalk: () => void
   onDemo: () => void
-  onWrite: () => void
   demoTriggerRef: React.RefObject<HTMLButtonElement | null>
   micError: string | null
   starters: typeof STARTERS
   lang: Lang
   onStarter: (s: (typeof STARTERS)[number]) => void
 }) {
+  const [focused, setFocused] = useState(false)
+  const examplePaused = focused || text.trim().length > 0
+
   return (
     <div className="flex h-full flex-col">
-      <div className="flex flex-col items-center text-center">
-        <AlmaAvatar reduce={reduce} />
-        <p className="mt-3 font-sf text-base font-bold text-[var(--store-text)]">{t.name}</p>
-        <p className="mt-1.5 max-w-xs text-pretty text-sm leading-relaxed text-[var(--store-muted)]">{t.sayBody}</p>
-
+      {/* Internal header line: identity on the left, quiet demo link on the right. */}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <img src="/alma-avatar.png" alt="Alma" className="h-9 w-9 rounded-full object-cover ring-2 ring-[#D10E63]/30" />
+          <p className="font-sf text-base font-bold text-[var(--store-text)]">{t.name}</p>
+        </div>
         <button
+          ref={demoTriggerRef}
           type="button"
-          onClick={onTalk}
-          className="mt-5 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-12px_rgba(209,14,99,0.7)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
+          onClick={onDemo}
+          className="group inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-1.5 py-1 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
         >
-          <Mic className="h-[18px] w-[18px]" />
-          {t.talk}
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/12 text-[#D10E63]" aria-hidden="true">
+            <Play className="h-2.5 w-2.5" fill="currentColor" />
+          </span>
+          <span className="text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors group-hover:text-[var(--store-text)] group-hover:underline">
+            {t.watch}
+          </span>
         </button>
-        <button
-          type="button"
-          onClick={onWrite}
-          className="mt-2 inline-flex min-h-[36px] items-center rounded-lg px-2 text-sm font-medium text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-        >
-          {t.prefWrite}
-        </button>
-        {micError && <p className="mt-2 max-w-xs text-xs font-medium text-[#B00B52]">{micError}</p>}
       </div>
 
-      <StarterList starters={starters} lang={lang} onStarter={onStarter} label={t.starters} moreLabel={t.moreExamples} />
+      {/* Prompt + voice-first action */}
+      <h2 className="mt-5 text-balance font-sf text-lg font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+        {t.zoneTitle}
+      </h2>
 
-      {/* Marketing proof — visually lighter than the entry modes, pinned to the bottom. */}
       <button
-        ref={demoTriggerRef}
         type="button"
-        onClick={onDemo}
-        className="group mt-auto flex items-center gap-3 rounded-xl border border-[#E7DFD0] bg-[#FBF9F3] px-3 py-2.5 text-left transition-colors hover:border-[#D10E63]/40 hover:bg-[#FCEAF2]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+        onClick={onTalk}
+        className="mt-3 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-12px_rgba(209,14,99,0.7)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
       >
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]" aria-hidden="true">
-          <Play className="h-4 w-4" fill="currentColor" />
-        </span>
-        <span className="text-sm font-semibold text-[var(--store-text)]">{t.watch}</span>
+        <Mic className="h-[18px] w-[18px]" />
+        {t.talk}
       </button>
-    </div>
-  )
-}
+      <p className="mt-1.5 text-xs leading-relaxed text-[var(--store-muted)]">{t.consent}</p>
+      {micError && <p className="mt-1 text-xs font-medium text-[#B00B52]">{micError}</p>}
 
-function WriteComposer({
-  t,
-  text,
-  setText,
-  onSubmit,
-  onVoice,
-  starters,
-  lang,
-  onStarter,
-}: {
-  t: Copy
-  text: string
-  setText: (v: string) => void
-  onSubmit: () => void
-  onVoice: () => void
-  starters: typeof STARTERS
-  lang: Lang
-  onStarter: (s: (typeof STARTERS)[number]) => void
-}) {
-  const ref = useRef<HTMLTextAreaElement>(null)
-  useEffect(() => {
-    ref.current?.focus()
-  }, [])
-  return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center gap-2">
-        <img src="/alma-avatar.png" alt="Alma" className="h-8 w-8 rounded-full object-cover ring-1 ring-[#D10E63]/30" />
-        <p className="font-sf text-sm font-bold text-[var(--store-text)]">{t.name}</p>
-      </div>
-
-      <div className="mt-4 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-2.5 transition-colors focus-within:border-[#D10E63]/50 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
+      {/* Always-visible written composer — same draft as the voice. */}
+      <div className="mt-3 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-2.5 transition-colors focus-within:border-[#D10E63]/50 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
         <textarea
-          ref={ref}
           value={text}
           onChange={(e) => setText(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing && e.keyCode !== 229) {
               e.preventDefault()
-              onSubmit()
+              onSubmitText()
             }
           }}
-          rows={2}
-          placeholder={t.placeholder}
-          aria-label={t.placeholder}
-          className="max-h-[112px] w-full resize-none bg-transparent px-1.5 py-1 text-[15px] leading-relaxed text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
+          rows={1}
+          placeholder={t.writePh}
+          aria-label={t.writePh}
+          className="max-h-[112px] min-h-[24px] w-full resize-none bg-transparent px-1.5 py-1 text-[15px] leading-relaxed text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
         />
         <div className="mt-1 flex items-center justify-between">
           <div className="flex items-center gap-1">
@@ -754,9 +751,9 @@ function WriteComposer({
             </button>
             <button
               type="button"
-              onClick={onVoice}
-              aria-label={t.toVoice}
-              title={t.toVoice}
+              onClick={onTalk}
+              aria-label={t.talk}
+              title={t.talk}
               className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F1EADF] hover:text-[var(--store-text)]"
             >
               <Mic className="h-[18px] w-[18px]" />
@@ -764,17 +761,26 @@ function WriteComposer({
           </div>
           <button
             type="button"
-            onClick={onSubmit}
+            onClick={onSubmitText}
+            disabled={!text.trim()}
             aria-label={t.prepare}
             title={t.prepare}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
           >
             <ArrowUp className="h-[18px] w-[18px]" />
           </button>
         </div>
       </div>
 
-      <StarterList starters={starters} lang={lang} onStarter={onStarter} label={t.starters} moreLabel={t.moreExamples} />
+      {/* A single, rotating suggestion. */}
+      <RotatingExample
+        starters={starters}
+        lang={lang}
+        reduce={reduce}
+        paused={examplePaused}
+        prefix={t.tryPrefix}
+        onPick={onStarter}
+      />
     </div>
   )
 }
@@ -895,6 +901,10 @@ function ConversePanel({
   setAnswerText,
   onQuick,
   onSend,
+  answers,
+  editing,
+  onEdit,
+  onCancelEdit,
   onReset,
   lang,
 }: {
@@ -906,6 +916,10 @@ function ConversePanel({
   setAnswerText: (v: string) => void
   onQuick: (spoken: string, replyIndex: number) => void
   onSend: () => void
+  answers: AnsweredClar[]
+  editing: boolean
+  onEdit: (key: string) => void
+  onCancelEdit: () => void
   onReset: () => void
   lang: Lang
 }) {
@@ -925,6 +939,15 @@ function ConversePanel({
 
       {stage === 'clarifying' && clar ? (
         <div className="mt-4">
+          {editing && (
+            <button
+              type="button"
+              onClick={onCancelEdit}
+              className="mb-2 inline-flex min-h-[32px] items-center gap-1 rounded-lg text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline"
+            >
+              {t.cancelEdit}
+            </button>
+          )}
           <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">{t.almaAsks}</p>
           <p className="mt-1.5 rounded-2xl rounded-tl-sm bg-[#F1EADF] px-3.5 py-2.5 text-sm leading-relaxed text-[var(--store-text)]">
             {clar.question[lang]}
@@ -978,6 +1001,30 @@ function ConversePanel({
           <p className="rounded-2xl rounded-tl-sm bg-[#F1EADF] px-3.5 py-2.5 text-sm leading-relaxed text-[var(--store-text)]">
             {t.readyTitle} {t.readyBody}
           </p>
+
+          {answers.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">{t.yourAnswers}</p>
+              <ul className="mt-2 flex flex-col gap-1.5">
+                {answers.map((a) => (
+                  <li
+                    key={a.key}
+                    className="flex items-start justify-between gap-2 rounded-xl border border-[#E7DFD0] bg-[#FBF9F3] px-3 py-2"
+                  >
+                    <span className="min-w-0 flex-1 text-sm leading-snug text-[var(--store-text)]">{a.value[lang]}</span>
+                    <button
+                      type="button"
+                      onClick={() => onEdit(a.key)}
+                      className="inline-flex shrink-0 items-center gap-1 rounded-lg px-1.5 py-1 text-xs font-semibold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      {t.edit}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 

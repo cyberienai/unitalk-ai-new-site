@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Target, Sparkles, CalendarClock, ScrollText, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check, Loader2, Target, Sparkles, CalendarClock, ScrollText, ShieldCheck } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import type { MissionDraft } from '@/lib/mission-draft'
 
@@ -28,27 +28,36 @@ type SectionDef = {
 }
 
 /**
- * At rest (no draft yet) the fiche shows only three calm rubrics — never a
- * skeleton loader. The precise sections (rhythm, rules, validations) surface
- * once Alma starts structuring the mission.
+ * At rest (no draft yet) the fiche shows a real, slightly faded example mission
+ * under a light ivory veil — so the visitor sees exactly what Alma produces,
+ * without it looking already selected. Three concise rubrics, real values.
  */
-const REST_SECTIONS: { key: string; label: { fr: string; en: string }; help: { fr: string; en: string }; icon: typeof Target }[] = [
+const PREVIEW: { key: string; label: { fr: string; en: string }; value: { fr: string; en: string }; icon: typeof Target }[] = [
   {
     key: 'objective',
     label: { fr: 'Objectif', en: 'Objective' },
-    help: { fr: 'Ce que vous souhaitez accomplir.', en: 'What you want to accomplish.' },
+    value: {
+      fr: 'Obtenir le règlement des factures arrivées à échéance.',
+      en: 'Get payment for invoices that have come due.',
+    },
     icon: Target,
   },
   {
     key: 'result',
     label: { fr: 'Résultat attendu', en: 'Expected result' },
-    help: { fr: 'Ce qui devra être obtenu ou livré.', en: 'What must be achieved or delivered.' },
+    value: {
+      fr: 'Relances effectuées et situations bloquées transmises à l’équipe.',
+      en: 'Follow-ups done and blocked cases handed to the team.',
+    },
     icon: Sparkles,
   },
   {
     key: 'frame',
-    label: { fr: 'Cadre de travail', en: 'Working frame' },
-    help: { fr: 'Rythme, règles et validations.', en: 'Rhythm, rules and validations.' },
+    label: { fr: 'Cadre', en: 'Frame' },
+    value: {
+      fr: 'Chaque semaine · Validation avant contentieux',
+      en: 'Every week · Validation before litigation',
+    },
     icon: ScrollText,
   },
 ]
@@ -92,6 +101,8 @@ export function MissionDraftFiche({
   justAdded,
   ready,
   lang,
+  adaptHref,
+  adapting,
   onAdapt,
   onContinue,
 }: {
@@ -100,23 +111,26 @@ export function MissionDraftFiche({
   justAdded: string | null
   ready: boolean
   lang: Lang
+  adaptHref: string
+  adapting: boolean
   onAdapt: () => void
   onContinue: () => void
 }) {
   const reduce = useReducedMotion()
 
   const t = {
-    prep: lang === 'fr' ? 'Mission en préparation' : 'Mission in preparation',
-    prepTitle: lang === 'fr' ? 'Votre mission prendra forme ici.' : 'Your mission will take shape here.',
+    prep: lang === 'fr' ? 'Mission' : 'Mission',
+    prepTitle: lang === 'fr' ? 'Relancer les factures impayées' : 'Chase unpaid invoices',
+    veil: lang === 'fr' ? 'Votre mission apparaîtra ici' : 'Your mission will appear here',
     ready: lang === 'fr' ? 'Mission prête à être adaptée' : 'Mission ready to be adapted',
-    footnote: lang === 'fr' ? 'Votre parole devient une mission.' : 'Your words become a mission.',
     nextStep: lang === 'fr' ? 'Prochaine étape' : 'Next step',
     nextBody:
       lang === 'fr'
         ? 'Alma va adapter cette mission au contexte de votre entreprise.'
         : 'Alma will adapt this mission to your company’s context.',
     adapt: lang === 'fr' ? 'Adapter à mon entreprise' : 'Adapt to my company',
-    keepGoing: lang === 'fr' ? 'Continuer à préciser avec Alma' : 'Keep refining with Alma',
+    preparing: lang === 'fr' ? 'Préparation…' : 'Preparing…',
+    keepGoing: lang === 'fr' ? 'Modifier la mission' : 'Edit the mission',
   }
 
   // Enter animation for a value that has just appeared.
@@ -165,28 +179,34 @@ export function MissionDraftFiche({
         {draft ? draft.title[lang] : t.prepTitle}
       </h3>
 
-      {/* Sections — three calm rubrics at rest, detailed build once Alma engages. */}
+      {/* Rest — a real example mission, slightly faded under a light ivory veil. */}
       {!draft ? (
-        <div className="mt-5 flex flex-1 flex-col gap-5">
-          {REST_SECTIONS.map((section) => {
-            const Icon = section.icon
-            return (
-              <div key={section.key} className="flex gap-3">
-                <span
-                  className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[var(--store-line)] text-[var(--store-muted)]"
-                  aria-hidden="true"
-                >
-                  <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
-                    {section.label[lang]}
-                  </p>
-                  <p className="mt-1 text-sm leading-relaxed text-[var(--store-muted)]">{section.help[lang]}</p>
+        <div className="relative mt-4 flex flex-1 flex-col">
+          <div className="flex flex-col gap-4 opacity-55" aria-hidden="true">
+            {PREVIEW.map((section) => {
+              const Icon = section.icon
+              return (
+                <div key={section.key} className="flex gap-3">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/10 text-[#D10E63]">
+                    <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
+                      {section.label[lang]}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-[var(--store-text)]">{section.value[lang]}</p>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+
+          {/* Light veil: perceptible content, not "already selected". */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#FBF9F3]/45">
+            <span className="rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/90 px-4 py-1.5 text-xs font-semibold text-[var(--store-muted)] shadow-[0_1px_2px_rgba(28,26,23,0.05)]">
+              {t.veil}
+            </span>
+          </div>
         </div>
       ) : (
       <div className="mt-5 flex flex-1 flex-col gap-4">
@@ -276,14 +296,26 @@ export function MissionDraftFiche({
         >
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#AD0C53]">{t.nextStep}</p>
           <p className="mt-1 text-sm leading-relaxed text-[var(--store-text)]">{t.nextBody}</p>
-          <button
-            type="button"
+          {/* Real anchor: navigation is guaranteed even if client routing hiccups. */}
+          <a
+            href={adaptHref}
             onClick={onAdapt}
-            className="group mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+            aria-disabled={adapting}
+            aria-busy={adapting}
+            className="group mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FCEAF2]"
           >
-            {t.adapt}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </button>
+            {adapting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {t.preparing}
+              </>
+            ) : (
+              <>
+                {t.adapt}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </>
+            )}
+          </a>
           <button
             type="button"
             onClick={onContinue}
@@ -292,11 +324,7 @@ export function MissionDraftFiche({
             {t.keepGoing}
           </button>
         </motion.div>
-      ) : (
-        <p className="mt-6 border-t border-[var(--store-line)] pt-4 text-xs leading-relaxed text-[var(--store-muted)]">
-          {t.footnote}
-        </p>
-      )}
+      ) : null}
     </div>
   )
 }
