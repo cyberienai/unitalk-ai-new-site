@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Calendar, Check, Mail, Phone } from 'lucide-react'
+import { ArrowRight, Calendar, Check, Globe, ListChecks, Mail, Phone, Users } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
 
@@ -27,9 +27,14 @@ const T = {
     almaName: 'Alma',
     almaLeadPost:
       '. Elle découvre votre entreprise et construit le contexte dont votre Collaborateur IA a besoin pour travailler.',
-    cta: 'Commencer gratuitement',
-    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
-    announce: 'Trois façons de commencer : votre site web, une mission, ou un profil métier.',
+    cta: 'Recruter mon Collaborateur IA',
+    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD', 'Il appartient à votre organisation'],
+    entriesLabel: 'Trois façons de commencer',
+    entries: [
+      { icon: Globe, label: 'Votre site web' },
+      { icon: ListChecks, label: 'Une mission' },
+      { icon: Users, label: 'Un Collaborateur IA' },
+    ],
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -71,9 +76,14 @@ const T = {
     almaName: 'Alma',
     almaLeadPost:
       '. She gets to know your company and builds the context your AI Collaborator needs to work.',
-    cta: 'Start for free',
-    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
-    announce: 'Three ways to start: your website, a mission, or a business profile.',
+    cta: 'Recruit my AI Collaborator',
+    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant', 'It belongs to your organization'],
+    entriesLabel: 'Three ways to start',
+    entries: [
+      { icon: Globe, label: 'Your website' },
+      { icon: ListChecks, label: 'A mission' },
+      { icon: Users, label: 'An AI Collaborator' },
+    ],
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
@@ -205,9 +215,27 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               ))}
             </div>
 
-            <p className="max-w-md text-balance text-center text-[13px] leading-relaxed text-[#8A8175] sm:text-left">
-              {t.announce}
-            </p>
+            <div className="mt-2 w-full max-w-md">
+              <p className="mb-3 text-center font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175] sm:text-left">
+                {t.entriesLabel}
+              </p>
+              <ul className="flex flex-col gap-2 sm:flex-row sm:gap-2.5">
+                {t.entries.map((entry) => {
+                  const Icon = entry.icon
+                  return (
+                    <li
+                      key={entry.label}
+                      className="flex flex-1 items-center gap-2.5 rounded-xl border border-[#E1D9C9] bg-[#FBF9F3]/70 px-3 py-2.5"
+                    >
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/[0.1] text-[#D10E63]">
+                        <Icon className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+                      </span>
+                      <span className="text-[13px] font-semibold leading-tight text-[#3B362F]">{entry.label}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
           </motion.div>
         </div>
 
