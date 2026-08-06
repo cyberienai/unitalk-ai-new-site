@@ -44,6 +44,7 @@ const T = {
         'Direction',
       ],
     },
+    unify: 'Quel que soit votre point de départ, vous poursuivez le même parcours avec Alma.',
   },
   en: {
     eyebrow: 'Alma prepares the rest',
@@ -71,6 +72,7 @@ const T = {
       cta: 'Explore job profiles',
       roles: ['Sales', 'Marketing', 'Executive assistance', 'Customer support', 'Human resources', 'Finance', 'Leadership'],
     },
+    unify: 'Whatever your starting point, you continue the same journey with Alma.',
   },
 } as const
 
@@ -308,6 +310,12 @@ export function SectionThreeWays({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </motion.div>
           ))}
         </div>
+
+        {/* Ties the three cards together: they are entry points into one journey,
+            not three separate funnels. Quiet, centered, no box or button. */}
+        <p className="mx-auto mt-8 max-w-2xl text-pretty text-center text-sm leading-relaxed text-[#8A8375]">
+          {t.unify}
+        </p>
       </div>
     </section>
   )
