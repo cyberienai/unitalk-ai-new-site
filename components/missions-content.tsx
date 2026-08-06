@@ -572,7 +572,7 @@ export function MissionsContent() {
                         onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
                         className="inline-flex items-center gap-2 rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
                       >
-                        {t.showMore(Math.min(PAGE_SIZE, total - visibleCount))}
+                        {t.showMore(Math.min(PAGE_SIZE, poolTotal - visibleCount))}
                       </button>
                     </div>
                   ) : (

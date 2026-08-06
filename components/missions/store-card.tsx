@@ -100,12 +100,12 @@ export function FeaturedCard({
     <Link
       href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex h-[168px] flex-col rounded-[10px] bg-[var(--store-surface)] p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex h-[188px] flex-col rounded-[10px] bg-[var(--store-surface)] p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
+        <span className="line-clamp-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
           {categoryLabel(categories, mission.category, lang)}
         </span>
         {showStatus && <StatusBadge status={status} lang={lang} />}
