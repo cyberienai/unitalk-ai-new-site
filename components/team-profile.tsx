@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, P
 import { useLanguage, useT } from '@/lib/language-context'
 import { ROLE_DETAILS, COLLABORATOR_INCLUDES } from '@/lib/collaborators-catalog'
 import { getAcmeAiBySlug } from '@/lib/acme-demo'
+import { COLLABORATOR_PAGE_SLUGS } from '@/lib/collaborator-pages'
 import { useMyTeam } from '@/lib/my-team-context'
 
 const META: Record<string, { rating: number; reviews: number }> = {
@@ -53,6 +54,10 @@ export function TeamProfile({ slug }: { slug: string }) {
       demoTitle: 'Voir en situation',
       demoBody: (name: string) => `Découvrez ${name} déployé chez Acme : son profil public et son espace équipe interne.`,
       demoCta: 'Ouvrir la démo Acme',
+      pageTitle: 'La page de ce métier',
+      pageBody: (name: string) =>
+        `Voyez ${name} en action : ses missions, son savoir-faire et comment il rejoint votre équipe.`,
+      pageCta: (name: string) => `Découvrir ${name} en action`,
     },
     en: {
       back: 'All roles',
@@ -75,6 +80,10 @@ export function TeamProfile({ slug }: { slug: string }) {
       demoTitle: 'See it in action',
       demoBody: (name: string) => `See ${name} deployed at Acme: their public profile and internal team space.`,
       demoCta: 'Open the Acme demo',
+      pageTitle: 'This role’s page',
+      pageBody: (name: string) =>
+        `See ${name} in action: the missions, the know-how and how they join your team.`,
+      pageCta: (name: string) => `See ${name} in action`,
     },
   })
 
@@ -157,6 +166,25 @@ export function TeamProfile({ slug }: { slug: string }) {
                 onClick={() => toggle({ slug, name: detail.name, role: detail.role[lang], avatar: detail.avatar })}
               />
             </div>
+
+            {/* Incarnated landing page for this persona — the marketing "living
+                profile". Only shown for slugs that actually have one. */}
+            {COLLABORATOR_PAGE_SLUGS.includes(slug) && (
+              <div className="mt-4 rounded-2xl border border-[#D10E63]/25 bg-[#FCEBF2] p-5">
+                <p className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#AD0C53]">
+                  <UserRound className="h-3.5 w-3.5" />
+                  {t.pageTitle}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[#6B6560]">{t.pageBody(detail.name)}</p>
+                <Link
+                  href={`/collaborateurs/${slug}`}
+                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-2.5"
+                >
+                  {t.pageCta(detail.name)}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            )}
 
             {getAcmeAiBySlug(slug) && (
               <div className="mt-4 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-5">
