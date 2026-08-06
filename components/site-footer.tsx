@@ -27,7 +27,8 @@ const T = {
         links: [
           { label: 'Experts', href: '/experts' },
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
-          { label: 'Proposer une mission', href: '/missions/proposer' },
+          { label: 'Partenaires', href: '/partenaires' },
+          { label: 'Hermès', href: '/agent-hermes' },
         ],
       },
       {
@@ -71,7 +72,8 @@ const T = {
         links: [
           { label: 'Experts', href: '/experts' },
           { label: 'Become an expert', href: '/experts#devenir-expert' },
-          { label: 'Propose a mission', href: '/missions/proposer' },
+          { label: 'Partners', href: '/partenaires' },
+          { label: 'Hermès', href: '/agent-hermes' },
         ],
       },
       {
