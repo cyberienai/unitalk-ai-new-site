@@ -328,7 +328,6 @@ export function MissionsContent() {
                 onType={selectType}
                 onCategory={selectCategory}
                 onToggleFacet={toggleFacet}
-                onDisponibilite={selectDisponibilite}
               />
             </div>
           </aside>

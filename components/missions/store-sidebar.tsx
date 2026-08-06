@@ -10,7 +10,6 @@ import {
   ZONES,
   LANGUAGES,
   MODALITIES,
-  AVAILABILITIES,
   type Facet,
   type StoreFilters,
 } from '@/lib/missions-store'
@@ -30,14 +29,12 @@ export function StoreSidebar({
   onType,
   onCategory,
   onToggleFacet,
-  onDisponibilite,
 }: {
   filters: StoreFilters
   lang: Lang
   onType: (key: string) => void
   onCategory: (key: string) => void
   onToggleFacet: (group: MultiKey, value: string) => void
-  onDisponibilite: (value: string) => void
 }) {
   return (
     <nav
@@ -101,25 +98,6 @@ export function StoreSidebar({
               ))}
             </Accordion>
           ))}
-          <Accordion
-            label={lang === 'fr' ? 'Disponibilité' : 'Availability'}
-            activeCount={filters.disponibilite !== 'all' ? 1 : 0}
-            defaultOpen={filters.disponibilite !== 'all'}
-          >
-            <RadioRow
-              label={lang === 'fr' ? 'Toutes' : 'All'}
-              checked={filters.disponibilite === 'all'}
-              onClick={() => onDisponibilite('all')}
-            />
-            {AVAILABILITIES.map((a) => (
-              <RadioRow
-                key={a.key}
-                label={a.label[lang]}
-                checked={filters.disponibilite === a.key}
-                onClick={() => onDisponibilite(a.key)}
-              />
-            ))}
-          </Accordion>
         </div>
       </Group>
     </nav>
@@ -237,24 +215,3 @@ function CheckRow({ label, checked, onClick }: { label: string; checked: boolean
   )
 }
 
-function RadioRow({ label, checked, onClick }: { label: string; checked: boolean; onClick: () => void }) {
-  return (
-    <li>
-      <button
-        type="button"
-        onClick={onClick}
-        aria-pressed={checked}
-        className="flex w-full items-center gap-2.5 rounded-[7px] px-2.5 py-1.5 text-left text-[13px] transition-colors hover:bg-[var(--store-text)]/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
-      >
-        <span
-          className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors ${
-            checked ? 'border-[#D10E63]' : 'border-[var(--store-line)]'
-          }`}
-        >
-          {checked && <span className="h-2 w-2 rounded-full bg-[#D10E63]" />}
-        </span>
-        <span className={checked ? 'font-medium text-[var(--store-text)]' : 'text-[var(--store-text)]'}>{label}</span>
-      </button>
-    </li>
-  )
-}
