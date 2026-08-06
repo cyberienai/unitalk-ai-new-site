@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
+import { AlmaFace } from '@/components/alma-face'
 
 type StepIconKey = 'call' | 'build' | 'guide' | 'human'
 
@@ -170,8 +171,8 @@ export function AccompagnementContent() {
       <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-14">
         <div className="grid gap-5 lg:grid-cols-2">
           {[
-            { title: t.almaCardTitle, desc: t.almaCardDesc, points: t.almaPoints, dark: false },
-            { title: t.humanCardTitle, desc: t.humanCardDesc, points: t.humanPoints, dark: false },
+            { title: t.almaCardTitle, desc: t.almaCardDesc, points: t.almaPoints, dark: false, face: true },
+            { title: t.humanCardTitle, desc: t.humanCardDesc, points: t.humanPoints, dark: false, face: false },
           ].map((card) => (
             <motion.div
               key={card.title}
@@ -182,6 +183,7 @@ export function AccompagnementContent() {
               className="flex flex-col rounded-3xl border border-[#DcD4C4] bg-[#FBF9F3] p-8"
             >
               <h2 className="font-sf text-2xl font-bold leading-snug text-[#1C1A17]" style={{ letterSpacing: '-0.02em' }}>
+                {card.face && <AlmaFace />}
                 {card.title}
               </h2>
               <p className="mt-3 text-sm sm:text-base leading-relaxed text-[#4E483F]">{card.desc}</p>
@@ -207,7 +209,11 @@ export function AccompagnementContent() {
             className="font-sf text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.1] text-[#FBF9F3] text-balance"
             style={{ letterSpacing: '-0.02em' }}
           >
-            {t.ctaTitle1}<span className="text-[#FF6FB0]">{t.ctaTitle2}</span>
+            {t.ctaTitle1}
+            <span className="text-[#FF6FB0]">
+              <AlmaFace />
+              {t.ctaTitle2}
+            </span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-[#C4BAA8]">
             {t.ctaDesc}
