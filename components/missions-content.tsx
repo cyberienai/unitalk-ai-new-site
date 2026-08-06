@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ArrowUp, Mic, Paperclip, SlidersHorizontal, X } from 'lucide-react'
+import { ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import {
   MISSION_CATEGORIES,
   featuredMissions,
@@ -39,6 +39,7 @@ import {
 import { useLanguage } from '@/lib/language-context'
 import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar'
 import { StoreCard, FeaturedCard, RecentCard, AlmaBand } from '@/components/missions/store-card'
+import { WorkTable } from '@/components/missions/work-table'
 import { PreviewDrawer } from '@/components/missions/preview-drawer'
 import { FilterSheet } from '@/components/missions/filter-sheet'
 
@@ -64,21 +65,20 @@ export function MissionsContent() {
   // `query` is kept internal (always empty) so downstream logic stays intact.
   const [query, setQuery] = useState('')
   // Conversational field sent to Alma. Prefilled from ?q= for a returning link.
-  const [almaText, setAlmaText] = useState(() => searchParams.get('q') ?? '')
+  // Prefill the work table from ?q= on a returning/shared link.
+  const almaText = searchParams.get('q') ?? ''
   const [filters, setFilters] = useState<StoreFilters>(() =>
     filtersFromParams(new URLSearchParams(searchParams.toString())),
   )
   const [sort, setSort] = useState<SortKey>(() => sortFromParams(new URLSearchParams(searchParams.toString())))
 
-  const [focused, setFocused] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
+  // The catalog is secondary: hidden until the user chooses to explore it, or
+  // when a filter/search refinement or a shared ?q=/filter URL requires it.
+  const [catalogOpen, setCatalogOpen] = useState(false)
   const [preview, setPreview] = useState<Mission | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
-  const [phIndex, setPhIndex] = useState(0)
-  const [phVisible, setPhVisible] = useState(true)
-  const [reduceMotion, setReduceMotion] = useState(false)
 
-  const searchRef = useRef<HTMLInputElement>(null)
   const catalogRef = useRef<HTMLDivElement>(null)
   const loadMoreRef = useRef<HTMLDivElement>(null)
   const previewTrigger = useRef<HTMLElement | null>(null)
@@ -89,6 +89,11 @@ export function MissionsContent() {
   const advCount = advancedFilterCount(filters)
   const hasAnyRefinement = hasQuery || filterCount > 0
   const showEditorial = !hasAnyRefinement
+
+  // A shared/refined URL (filters or search) should reveal the catalog directly.
+  useEffect(() => {
+    if (hasAnyRefinement) setCatalogOpen(true)
+  }, [hasAnyRefinement])
 
   // Reflect state into the URL (defaults omitted).
   useEffect(() => {
@@ -102,49 +107,6 @@ export function MissionsContent() {
   useEffect(() => {
     setVisibleCount(PAGE_SIZE)
   }, [trimmed, filters, sort])
-
-  // ⌘K / Ctrl+K focuses the search.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault()
-        searchRef.current?.focus()
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
-
-  // Honor the user's reduced-motion preference for the placeholder cross-fade.
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setReduceMotion(mq.matches)
-    update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
-  }, [])
-
-  // Rotate example goals in the placeholder (every 4s) with a fade transition,
-  // only while the field is idle and empty.
-  useEffect(() => {
-    if (focused || almaText.trim()) return
-    if (reduceMotion) {
-      const id = setInterval(() => setPhIndex((i) => i + 1), 4000)
-      return () => clearInterval(id)
-    }
-    let hideTimer: ReturnType<typeof setTimeout>
-    const id = setInterval(() => {
-      setPhVisible(false)
-      hideTimer = setTimeout(() => {
-        setPhIndex((i) => i + 1)
-        setPhVisible(true)
-      }, 350)
-    }, 4000)
-    return () => {
-      clearInterval(id)
-      clearTimeout(hideTimer)
-    }
-  }, [focused, almaText, reduceMotion])
 
   // Editorial data (stable).
   const featured = useMemo(() => featuredMissions(), [])
@@ -206,12 +168,6 @@ export function MissionsContent() {
     previewTrigger.current?.focus()
   }, [])
 
-  // The conversational field hands the objective to Alma on /decouvrir.
-  const askAlma = useCallback(() => {
-    const text = almaText.trim()
-    router.push(text ? `/decouvrir?q=${encodeURIComponent(text)}` : '/decouvrir')
-  }, [almaText, router])
-
   function selectType(key: string) {
     setFilters((p) => ({ ...p, type: key as StoreFilters['type'] }))
   }
@@ -231,34 +187,7 @@ export function MissionsContent() {
 
   // --- copy ------------------------------------------------------------------
   const t = {
-    eyebrow: 'Missions',
-    title: lang === 'fr' ? 'Qu’aimeriez-vous confier ?' : 'What would you like to hand off?',
-    lead:
-      lang === 'fr'
-        ? 'Choisissez une mission ou décrivez votre objectif à Alma. Elle prépare le Collaborateur IA capable de l’accomplir dans votre Organisation.'
-        : 'Choose a mission or describe your goal to Alma. She prepares the AI Collaborator able to accomplish it in your Organization.',
-    askAlma: lang === 'fr' ? 'Demandez à Alma' : 'Ask Alma',
-    send: lang === 'fr' ? 'Envoyer à Alma' : 'Send to Alma',
-    attach: lang === 'fr' ? 'Joindre un fichier' : 'Attach a file',
-    mic: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
-    placeholder:
-      lang === 'fr' ? 'Décrivez ce que vous souhaitez confier…' : 'Describe what you’d like to hand off…',
-    placeholderExamples:
-      lang === 'fr'
-        ? [
-            'Ex. Trouver des prospects correspondant à mes critères',
-            'Ex. Préparer mon prochain comité de direction',
-            'Ex. Répondre aux demandes reçues par email',
-            'Ex. Automatiser le suivi des factures en retard',
-            'Ex. Produire chaque lundi un rapport d’activité',
-          ]
-        : [
-            'e.g. Find prospects matching my criteria',
-            'e.g. Prepare my next leadership meeting',
-            'e.g. Reply to requests received by email',
-            'e.g. Automate follow-up on overdue invoices',
-            'e.g. Produce a weekly activity report every Monday',
-          ],
+    exploreAll: lang === 'fr' ? 'Ou explorez toutes les missions' : 'Or explore all missions',
     featuredTitle: lang === 'fr' ? 'Missions recommandées' : 'Recommended missions',
     featuredDesc:
       lang === 'fr'
@@ -327,23 +256,28 @@ export function MissionsContent() {
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
       {/* ------------------------------ HEADER ------------------------------ */}
-      {/* Fixed navbar is 76px tall; padding-top = 76px + the requested nav→title gap
-          (mobile ~36px, tablet 48px, desktop 68px). */}
-      <header className="mx-auto max-w-[1240px] px-6 pb-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
-        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
-        <h1 className="mt-2 max-w-3xl text-balance font-sf text-[clamp(1.625rem,3.6vw,2.375rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[var(--store-text)]">
-          {t.title}
-        </h1>
-        <p className="mt-2.5 max-w-[720px] text-pretty text-[15px] leading-relaxed text-[var(--store-muted)]">{t.lead}</p>
-      </header>
-
-      {/* Divider marking the transition from the hero to the search tool. */}
-      <div className="mx-auto max-w-[1240px] px-6">
-        <hr className="border-t border-[var(--store-line)]" />
+      {/* ------------------------ WORK TABLE (primary) ------------------------ */}
+      {/* Fixed navbar is 76px tall; keep the same top offset as before. */}
+      <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
+        <WorkTable lang={lang} initialQuery={almaText} />
       </div>
 
-      {/* ------------------------ SIDEBAR + MAIN ------------------------ */}
-      <div className="mx-auto max-w-[1240px] px-6 pb-24 pt-8">
+      {/* Toggle to reveal the full catalog, which is now secondary. */}
+      {!catalogOpen && (
+        <div className="mx-auto max-w-[1240px] px-6 pt-8">
+          <button
+            type="button"
+            onClick={() => setCatalogOpen(true)}
+            className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--store-line)] bg-[var(--store-surface)] px-6 py-4 text-sm font-semibold text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#AD0C53]"
+          >
+            {t.exploreAll}
+            <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+          </button>
+        </div>
+      )}
+
+      {/* ------------------------ SIDEBAR + MAIN (catalog) ------------------------ */}
+      <div hidden={!catalogOpen} className="mx-auto max-w-[1240px] px-6 pb-24 pt-8">
         <div className="flex gap-8 lg:gap-10">
           {/* Sidebar (desktop) */}
           <aside className="hidden w-[220px] shrink-0 lg:block xl:w-[232px]">
@@ -360,87 +294,6 @@ export function MissionsContent() {
 
           {/* Main column */}
           <div className="min-w-0 flex-1">
-            {/* Ask Alma — a conversational entry, not a live catalog search.
-                The catalog is browsed with the filters and categories below. */}
-            <div className="rounded-2xl border border-[var(--store-line)] bg-[var(--store-surface)] p-3 shadow-[0_1px_2px_rgba(36,31,29,0.04)] transition-colors focus-within:border-[#D10E63]/60 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
-              <label htmlFor="ask-alma" className="mb-2 flex items-center gap-2 px-1">
-                <img
-                  src="/alma-avatar.png"
-                  alt=""
-                  aria-hidden="true"
-                  className="h-6 w-6 rounded-full object-cover ring-1 ring-[#D10E63]/40"
-                />
-                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#AD0C53]">
-                  {t.askAlma}
-                </span>
-              </label>
-              <div className="relative px-1">
-                <input
-                  id="ask-alma"
-                  ref={searchRef}
-                  type="text"
-                  value={almaText}
-                  onChange={(e) => setAlmaText(e.target.value)}
-                  onFocus={() => setFocused(true)}
-                  onBlur={() => setTimeout(() => setFocused(false), 150)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) {
-                      e.preventDefault()
-                      askAlma()
-                    }
-                  }}
-                  placeholder={focused ? t.placeholder : ''}
-                  aria-label={t.placeholder}
-                  className="w-full bg-transparent text-[15px] text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
-                />
-                {!focused && !almaText.trim() && (
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 flex items-center overflow-hidden"
-                  >
-                    <span
-                      className="truncate text-[15px] text-[var(--store-muted)] transition-opacity duration-300"
-                      style={{ opacity: phVisible ? 1 : 0 }}
-                    >
-                      {t.placeholderExamples[phIndex % t.placeholderExamples.length]}
-                    </span>
-                  </span>
-                )}
-              </div>
-              <div className="mt-2 flex items-center justify-between px-1">
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={askAlma}
-                    aria-label={t.attach}
-                    title={t.attach}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)]"
-                  >
-                    <Paperclip className="h-[18px] w-[18px]" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={askAlma}
-                    aria-label={t.mic}
-                    title={t.mic}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)]"
-                  >
-                    <Mic className="h-[18px] w-[18px]" />
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  onClick={askAlma}
-                  aria-label={t.send}
-                  title={t.send}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#D10E63] px-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
-                >
-                  {t.send}
-                  <ArrowUp className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-
             {/* Mobile: Type switcher + categories row + count + Filters */}
             <div className="mt-4 lg:hidden">
               <div
