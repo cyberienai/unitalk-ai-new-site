@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, IdCard, Sparkles, Link2, Brain, ArrowRight } from 'lucide-react'
+import { ChevronDown, IdCard, Sparkles, AppWindow, ArrowRight } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 
@@ -35,16 +35,10 @@ const STORE_EQUIPMENT: {
     href: '/store/competences',
   },
   {
-    icon: Link2,
-    title: { fr: 'Connectivité', en: 'Connectivity' },
-    desc: { fr: 'Connectez vos outils.', en: 'Connect your tools.' },
-    href: '/store/connectivite',
-  },
-  {
-    icon: Brain,
-    title: { fr: 'Mémoire', en: 'Memory' },
-    desc: { fr: 'Partagez le contexte de votre organisation.', en: 'Share your organization’s context.' },
-    href: '/store/memoire',
+    icon: AppWindow,
+    title: { fr: 'Applications', en: 'Applications' },
+    desc: { fr: 'Connectez ses outils de travail.', en: 'Connect its work tools.' },
+    href: '/store/applications',
   },
 ]
 
@@ -62,7 +56,7 @@ const T = {
     storeMenu: 'Menu Store',
     // Store panel
     storeHeadTitle: 'Personnalisez votre Collaborateur IA',
-    storeHeadText: 'Son rôle, ses compétences, sa connectivité et sa mémoire.',
+    storeHeadText: 'Son profil métier, ses compétences et ses applications.',
     storeAll: 'Explorer le Store',
   },
   en: {
@@ -77,7 +71,7 @@ const T = {
     closeMenu: 'Close menu',
     storeMenu: 'Store menu',
     storeHeadTitle: 'Customize your AI Collaborator',
-    storeHeadText: 'Its role, skills, connectivity and memory.',
+    storeHeadText: 'Its job profile, skills and applications.',
     storeAll: 'Explore the Store',
   },
 }
