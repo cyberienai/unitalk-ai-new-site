@@ -21,16 +21,20 @@ const T = {
     almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
-      '. Elle découvre votre entreprise et prépare le Collaborateur IA dont votre organisation a besoin.',
+      '. Elle analyse votre entreprise et recrute le Collaborateur IA adapté à votre organisation.',
     cta: 'Parler à Alma',
     proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Préparé avec Alma'],
     almaPrepLabel: 'Préparée par Alma pour Solvea',
+    // Badge évolutif au-dessus de la carte (raconte l'histoire pendant l'animation)
+    prepAnalyze: 'Analyse de Solvea…',
+    prepBuilding: 'Construction du contexte…',
+    prepRecruiting: 'Recrutement d’Emma…',
     // Séquence Alma (avant l'arrivée d'Emma)
     analyzeLabel: 'Analyse de solvea.fr',
     analyzeCaption: 'Sources publiques analysées',
     analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'LinkedIn'],
     buildingLabel: 'Construction du contexte d’entreprise…',
-    creatingLabel: 'Création d’Emma…',
+    creatingLabel: 'Recrutement d’Emma…',
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -67,16 +71,20 @@ const T = {
     almaLeadPre: 'Talk to ',
     almaName: 'Alma',
     almaLeadPost:
-      '. She discovers your company and prepares the AI Collaborator your organization needs.',
+      '. She analyzes your company and recruits the AI Collaborator that fits your organization.',
     cta: 'Talk to Alma',
     proofs: ['7-day free trial', 'No credit card', 'Prepared with Alma'],
     almaPrepLabel: 'Prepared by Alma for Solvea',
+    // Evolving badge above the card (tells the story during the animation)
+    prepAnalyze: 'Analyzing Solvea…',
+    prepBuilding: 'Building the context…',
+    prepRecruiting: 'Recruiting Emma…',
     // Alma sequence (before Emma appears)
     analyzeLabel: 'Analyzing solvea.fr',
     analyzeCaption: 'Public sources analyzed',
     analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'LinkedIn'],
     buildingLabel: 'Building the company context…',
-    creatingLabel: 'Creating Emma…',
+    creatingLabel: 'Recruiting Emma…',
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
@@ -116,7 +124,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     if (reduceMotion) return
     const id = setInterval(() => {
       setMissionIndex((i) => (i + 1) % t.missions.length)
-    }, 2200)
+    }, 3200)
     return () => clearInterval(id)
   }, [reduceMotion, t.missions.length])
 
@@ -144,6 +152,15 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
   const intro = phase !== 'ready'
   const introLabel = phase === 'analyzing' ? t.analyzeLabel : phase === 'building' ? t.buildingLabel : t.creatingLabel
+  // Badge au-dessus de la carte : raconte l'histoire (analyse → contexte → recrutement → prête)
+  const prepBadge =
+    phase === 'analyzing'
+      ? t.prepAnalyze
+      : phase === 'building'
+        ? t.prepBuilding
+        : phase === 'creating'
+          ? t.prepRecruiting
+          : t.almaPrepLabel
   const analyzeCount = Math.min(analyzeStep, t.analyzeSteps.length)
   const analyzePct = phase === 'analyzing' ? (analyzeCount / t.analyzeSteps.length) * 100 : 100
 
@@ -173,14 +190,14 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           >
             <span className="block">{t.readyLead}</span>
             <span className="relative block min-h-[2.1em]">
-              <AnimatePresence mode="wait" initial={false}>
+              <AnimatePresence initial={false}>
                 <motion.span
                   key={missionIndex}
-                  initial={reduceMotion ? false : { opacity: 0, y: '0.35em' }}
+                  initial={reduceMotion ? false : { opacity: 0, y: '0.2em' }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.35em' }}
-                  transition={{ duration: 0.4, ease }}
-                  className="block text-[#D10E63]"
+                  exit={reduceMotion ? undefined : { opacity: 0, y: '-0.2em' }}
+                  transition={{ duration: 0.3, ease }}
+                  className="absolute inset-x-0 top-0 block text-[#D10E63]"
                 >
                   {t.missions[missionIndex]}
                 </motion.span>
@@ -223,7 +240,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Visual — Alma construit le contexte, puis Emma prend son poste */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
-          {/* Libellé discret : Emma est préparée par Alma pour l'entreprise */}
+          {/* Libellé évolutif : analyse → contexte → recrutement → préparée par Alma */}
           <p className="mb-3 flex items-center gap-1.5 pl-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#8F887C]">
             <Image
               src="/alma-avatar.png"
@@ -232,7 +249,31 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               height={16}
               className="h-3.5 w-3.5 rounded-full object-cover opacity-90 ring-1 ring-[#D10E63]/25"
             />
-            {t.almaPrepLabel}
+            <span className="relative flex min-w-0 items-center gap-1.5">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={prepBadge}
+                  initial={reduceMotion ? false : { opacity: 0, y: 3 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -3 }}
+                  transition={{ duration: 0.28, ease }}
+                  className="truncate"
+                >
+                  {prepBadge}
+                </motion.span>
+              </AnimatePresence>
+              {!intro && (
+                <motion.span
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, ease, delay: 0.1 }}
+                  className="flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#4ADE80]/20"
+                  aria-hidden="true"
+                >
+                  <Check className="h-2 w-2 text-[#3FBF6E]" strokeWidth={4} />
+                </motion.span>
+              )}
+            </span>
           </p>
 
           {/* Halo aurora bi-teinte derrière la carte */}
