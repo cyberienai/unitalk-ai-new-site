@@ -29,20 +29,20 @@ const T = {
       '. Elle analyse votre entreprise et recrute le Collaborateur IA adapté à votre organisation.',
     cta: 'Parler à Alma',
     proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
-    almaPrepLabel: 'Solvea • Configuré par Alma',
-    // Badge évolutif au-dessus de la carte (raconte l'histoire pendant l'animation)
-    prepAnalyze: 'Analyse de Solvea…',
-    prepBuilding: 'Construction du contexte…',
-    prepRecruiting: 'Recrutement d’Emma…',
-    // Séquence Alma (avant l'arrivée d'Emma)
-    analyzeLabel: 'Analyse de solvea.fr',
+    // En-tête de la carte pendant la préparation (l'avatar est celui d'Alma)
+    almaPreparing: 'prépare Emma',
+    // Étapes de préparation racontées dans la carte
+    prepSteps: [
+      'Analyse de votre entreprise',
+      'Contexte de l’organisation préparé',
+      'Profil et compétences sélectionnés',
+    ],
     analyzeCaption: 'Sources publiques analysées',
     analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
-    buildingLabel: 'Construction du contexte d’entreprise…',
-    creatingLabel: 'Recrutement d’Emma…',
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
+    ficheReadySub: 'Contexte, compétences et applications préparés.',
     sharedContextLabel: 'Contexte partagé',
     sharedContext: ['Produits', 'Clients', 'Processus', 'Tarifs'],
     statusLabel: 'En poste',
@@ -84,20 +84,20 @@ const T = {
       '. She analyzes your company and recruits the AI Collaborator that fits your organization.',
     cta: 'Talk to Alma',
     proofs: ['7-day free trial, no card', 'Hosted in France', 'Deployed by Alma'],
-    almaPrepLabel: 'Solvea • Configured by Alma',
-    // Evolving badge above the card (tells the story during the animation)
-    prepAnalyze: 'Analyzing Solvea…',
-    prepBuilding: 'Building the context…',
-    prepRecruiting: 'Recruiting Emma…',
-    // Alma sequence (before Emma appears)
-    analyzeLabel: 'Analyzing solvea.fr',
+    // Card header while preparing (the avatar is Alma's)
+    almaPreparing: 'preparing Emma',
+    // Preparation steps told inside the card
+    prepSteps: [
+      'Analyzing your company',
+      'Organization context prepared',
+      'Profile and skills selected',
+    ],
     analyzeCaption: 'Public sources analyzed',
     analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
-    buildingLabel: 'Building the company context…',
-    creatingLabel: 'Recruiting Emma…',
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
+    ficheReadySub: 'Context, skills and apps ready.',
     sharedContextLabel: 'Shared context',
     sharedContext: ['Products', 'Clients', 'Processes', 'Pricing'],
     statusLabel: 'Active',
@@ -172,28 +172,28 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     setAnalyzeStep(0)
     const timers: ReturnType<typeof setTimeout>[] = []
     t.analyzeSteps.forEach((_, i) => {
-      timers.push(setTimeout(() => setAnalyzeStep(i + 1), 430 * (i + 1)))
+      timers.push(setTimeout(() => setAnalyzeStep(i + 1), 380 * (i + 1)))
     })
-    const afterAnalyze = 430 * t.analyzeSteps.length + 520
+    const afterAnalyze = 380 * t.analyzeSteps.length + 600
     timers.push(setTimeout(() => setPhase('building'), afterAnalyze))
-    timers.push(setTimeout(() => setPhase('creating'), afterAnalyze + 1150))
-    timers.push(setTimeout(() => setPhase('ready'), afterAnalyze + 2300))
+    timers.push(setTimeout(() => setPhase('creating'), afterAnalyze + 1400))
+    timers.push(setTimeout(() => setPhase('ready'), afterAnalyze + 2800))
     return () => timers.forEach(clearTimeout)
   }, [reduceMotion, lang, t.analyzeSteps])
 
   const intro = phase !== 'ready'
-  const introLabel = phase === 'analyzing' ? t.analyzeLabel : phase === 'building' ? t.buildingLabel : t.creatingLabel
-  // Badge au-dessus de la carte : raconte l'histoire (analyse → contexte → recrutement → prête)
-  const prepBadge =
-    phase === 'analyzing'
-      ? t.prepAnalyze
-      : phase === 'building'
-        ? t.prepBuilding
-        : phase === 'creating'
-          ? t.prepRecruiting
-          : t.almaPrepLabel
+  // Étape courante du stepper (0 → 2 pendant l'intro, 3 = terminé)
+  const currentStep = phase === 'analyzing' ? 0 : phase === 'building' ? 1 : phase === 'creating' ? 2 : 3
   const analyzeCount = Math.min(analyzeStep, t.analyzeSteps.length)
-  const analyzePct = phase === 'analyzing' ? (analyzeCount / t.analyzeSteps.length) * 100 : 100
+  // Progression globale : l'analyse remplit le premier tiers, puis chaque étape avance la barre
+  const overallPct =
+    phase === 'analyzing'
+      ? (analyzeCount / t.analyzeSteps.length) * 33
+      : phase === 'building'
+        ? 66
+        : phase === 'creating'
+          ? 90
+          : 100
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
@@ -275,42 +275,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Visual — Alma construit le contexte, puis Emma prend son poste */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
-          {/* Libellé évolutif : analyse → contexte → recrutement → préparée par Alma */}
-          <p className="mb-3 flex items-center gap-1.5 pl-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#8F887C]">
-            <Image
-              src="/alma-avatar.png"
-              alt=""
-              width={16}
-              height={16}
-              className="h-3.5 w-3.5 rounded-full object-cover opacity-90 ring-1 ring-[#D10E63]/25"
-            />
-            <span className="relative flex min-w-0 items-center gap-1.5">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={prepBadge}
-                  initial={reduceMotion ? false : { opacity: 0, y: 3 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, y: -3 }}
-                  transition={{ duration: 0.28, ease }}
-                  className="truncate"
-                >
-                  {prepBadge}
-                </motion.span>
-              </AnimatePresence>
-              {!intro && (
-                <motion.span
-                  initial={reduceMotion ? false : { opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, ease, delay: 0.1 }}
-                  className="flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#4ADE80]/20"
-                  aria-hidden="true"
-                >
-                  <Check className="h-2 w-2 text-[#3FBF6E]" strokeWidth={4} />
-                </motion.span>
-              )}
-            </span>
-          </p>
-
           {/* Halo aurora bi-teinte derrière la carte */}
           <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
             <motion.div
@@ -387,87 +351,98 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="font-sf text-base font-bold leading-tight text-[#F6F1E8]">{t.almaName}</p>
-                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{introLabel}</p>
+                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.almaPreparing}</p>
                     </div>
                     <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#F0658F]" aria-hidden="true" />
                   </div>
 
-                  {/* Légende + compteur de sources analysées */}
-                  <div className="mt-5 flex items-center justify-between">
-                    <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">{t.analyzeCaption}</p>
-                    <span className="font-mono text-[11px] font-bold tabular-nums text-[#F58AAB]">
-                      {analyzeCount}
-                      <span className="text-[#948D7F]">/{t.analyzeSteps.length}</span>
-                    </span>
-                  </div>
-
-                  {/* Checklist des sources publiques analysées — centrée pour occuper l'espace */}
-                  <ul className="mt-3 flex flex-1 flex-col justify-center gap-2">
-                    {t.analyzeSteps.map((step, i) => {
-                      const checked = analyzeStep > i
+                  {/* Stepper : les 3 étapes de préparation se complètent l'une après l'autre */}
+                  <ol className="mt-5 flex flex-1 flex-col justify-center gap-2.5">
+                    {t.prepSteps.map((label, i) => {
+                      const done = currentStep > i
+                      const active = currentStep === i
                       return (
                         <li
-                          key={step}
-                          className={`flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-[12px] font-medium transition-colors duration-500 ${
-                            checked
-                              ? 'border-white/[0.08] bg-white/[0.03] text-[#D8D2C6]'
-                              : 'border-transparent text-[#948D7F]'
+                          key={label}
+                          className={`rounded-2xl border px-3.5 py-3 transition-colors duration-500 ${
+                            active
+                              ? 'border-[#F0658F]/30 bg-[#D10E63]/[0.08]'
+                              : done
+                                ? 'border-white/[0.08] bg-white/[0.02]'
+                                : 'border-transparent'
                           }`}
                         >
-                          <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
-                            {checked ? (
-                              <motion.span
-                                initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ duration: 0.3, ease }}
-                                className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15"
-                              >
-                                <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
-                              </motion.span>
-                            ) : (
-                              <span className="h-1.5 w-1.5 rounded-full border border-white/20" />
-                            )}
-                          </span>
-                          <span className="flex-1 truncate">{step}</span>
+                          <div className="flex items-center gap-2.5">
+                            <span className="flex h-5 w-5 shrink-0 items-center justify-center" aria-hidden="true">
+                              {done ? (
+                                <motion.span
+                                  initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  transition={{ duration: 0.3, ease }}
+                                  className="flex h-5 w-5 items-center justify-center rounded-full bg-[#4ADE80]/15"
+                                >
+                                  <Check className="h-3 w-3 text-[#5FE38F]" strokeWidth={3.5} />
+                                </motion.span>
+                              ) : active ? (
+                                <Loader2 className="h-4 w-4 animate-spin text-[#F0658F]" />
+                              ) : (
+                                <span className="h-2 w-2 rounded-full border border-white/20" />
+                              )}
+                            </span>
+                            <span
+                              className={`flex-1 text-[12.5px] font-semibold leading-tight ${
+                                active ? 'text-[#F6F1E8]' : done ? 'text-[#D8D2C6]' : 'text-[#948D7F]'
+                              }`}
+                            >
+                              {label}
+                            </span>
+                          </div>
+
+                          {/* Sous-contenu de l'étape 1 : les sources publiques scannées */}
+                          {i === 0 && (active || done) && (
+                            <div className="mt-3 pl-7">
+                              <div className="mb-2 flex items-center justify-between">
+                                <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">
+                                  {t.analyzeCaption}
+                                </span>
+                                <span className="font-mono text-[11px] font-bold tabular-nums text-[#F58AAB]">
+                                  {done ? t.analyzeSteps.length : analyzeCount}
+                                  <span className="text-[#948D7F]">/{t.analyzeSteps.length}</span>
+                                </span>
+                              </div>
+                              <div className="flex flex-wrap gap-1.5">
+                                {t.analyzeSteps.map((source, si) => {
+                                  const scanned = done || analyzeStep > si
+                                  return (
+                                    <span
+                                      key={source}
+                                      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-colors duration-300 ${
+                                        scanned
+                                          ? 'border-[#F0658F]/25 bg-[#D10E63]/[0.1] text-[#F58AAB]'
+                                          : 'border-white/[0.08] text-[#7C766B]'
+                                      }`}
+                                    >
+                                      {scanned && <Check className="h-2.5 w-2.5" strokeWidth={3} aria-hidden="true" />}
+                                      {source}
+                                    </span>
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          )}
                         </li>
                       )
                     })}
-                  </ul>
+                  </ol>
 
-                  {/* Barre de progression de l'analyse */}
+                  {/* Barre de progression globale de la préparation */}
                   <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/[0.07]" aria-hidden="true">
                     <motion.div
                       className="h-full rounded-full bg-gradient-to-r from-[#D10E63] to-[#F0658F]"
                       initial={false}
-                      animate={{ width: `${analyzePct}%` }}
+                      animate={{ width: `${overallPct}%` }}
                       transition={{ duration: 0.5, ease }}
                     />
-                  </div>
-
-                  {/* Statut de construction du contexte / création d'Emma */}
-                  <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-black/25 px-3.5 py-3">
-                    <span className="flex items-center gap-[3px]" aria-hidden="true">
-                      {[0, 1, 2].map((d) => (
-                        <motion.span
-                          key={d}
-                          className="h-1.5 w-1.5 rounded-full bg-[#F0658F]"
-                          animate={reduceMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1, repeat: Infinity, delay: d * 0.18 }}
-                        />
-                      ))}
-                    </span>
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.span
-                        key={introLabel}
-                        initial={reduceMotion ? false : { opacity: 0, y: 4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
-                        transition={{ duration: 0.3, ease }}
-                        className="text-[12px] font-semibold text-[#F6F1E8]"
-                      >
-                        {introLabel}
-                      </motion.span>
-                    </AnimatePresence>
                   </div>
                 </motion.div>
               ) : (
@@ -515,6 +490,19 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   </div>
 
                   <div className="relative flex flex-col gap-4 p-5">
+                    {/* Confirmation : ce qu'Alma a préparé pour Emma (clôture la séquence) */}
+                    <motion.div
+                      initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, ease, delay: 0.12 }}
+                      className="flex items-center gap-2 rounded-xl border border-[#4ADE80]/20 bg-[#4ADE80]/[0.06] px-3 py-2"
+                    >
+                      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#4ADE80]/15" aria-hidden="true">
+                        <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
+                      </span>
+                      <span className="text-[11px] font-medium text-[#CDE9D6]">{t.ficheReadySub}</span>
+                    </motion.div>
+
                     {/* Coordonnées : Emma est une vraie coéquipière */}
                     <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
                       {t.contact.map((c, i) => {
