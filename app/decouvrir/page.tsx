@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { DiscoverContent } from '@/components/discover-content'
+import { DiscoverFlow } from '@/components/discover/discover-flow'
 
 export const metadata: Metadata = {
-  title: 'Découvrir mon organisation · Unitalk',
+  title: 'Commencer avec Unitalk · Découvrir',
   description:
-    'Découvrez l’organisation de Collaborateurs IA adaptée à votre entreprise. Un aperçu de démonstration, à confirmer ensemble.',
+    'Partez de votre entreprise, d’une mission ou d’un savoir-faire. Alma construit le contexte de votre Organisation et prépare un Collaborateur IA pour une première mission concrète.',
 }
 
 export default function DecouvrirPage() {
-  return <DiscoverContent />
+  return <DiscoverFlow />
 }
