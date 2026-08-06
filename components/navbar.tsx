@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, IdCard, Sparkles, LayoutGrid, ArrowRight } from 'lucide-react'
+import { ChevronDown, IdCard, Sparkles, Link2, Brain, ArrowRight } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 
@@ -25,20 +25,26 @@ const STORE_EQUIPMENT: {
   {
     icon: IdCard,
     title: { fr: 'Profils métier', en: 'Job profiles' },
-    desc: { fr: 'Définissez le rôle de votre Collaborateur IA.', en: 'Define your AI Collaborator’s role.' },
+    desc: { fr: 'Choisissez son rôle.', en: 'Choose its role.' },
     href: '/store/profils-metier',
   },
   {
     icon: Sparkles,
     title: { fr: 'Compétences', en: 'Skills' },
-    desc: { fr: 'Ajoutez les savoir-faire nécessaires à ses missions.', en: 'Add the know-how its missions require.' },
+    desc: { fr: 'Développez ses savoir-faire.', en: 'Grow its know-how.' },
     href: '/store/competences',
   },
   {
-    icon: LayoutGrid,
-    title: { fr: 'Applications', en: 'Applications' },
-    desc: { fr: 'Connectez les services avec lesquels il travaillera.', en: 'Connect the services it will work with.' },
-    href: '/store/applications',
+    icon: Link2,
+    title: { fr: 'Connectivité', en: 'Connectivity' },
+    desc: { fr: 'Connectez vos outils.', en: 'Connect your tools.' },
+    href: '/store/connectivite',
+  },
+  {
+    icon: Brain,
+    title: { fr: 'Mémoire', en: 'Memory' },
+    desc: { fr: 'Partagez le contexte de votre organisation.', en: 'Share your organization’s context.' },
+    href: '/store/memoire',
   },
 ]
 
@@ -55,9 +61,9 @@ const T = {
     closeMenu: 'Fermer le menu',
     storeMenu: 'Menu Store',
     // Store panel
-    storeHeadTitle: 'Équipez votre Collaborateur IA',
-    storeHeadText: 'Choisissez son profil, ses compétences et ses applications.',
-    storeAll: 'Explorer tout le Store',
+    storeHeadTitle: 'Complétez votre Collaborateur IA',
+    storeHeadText: 'Son rôle, ses compétences, sa connectivité et sa mémoire.',
+    storeAll: 'Explorer le Store',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -70,9 +76,9 @@ const T = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     storeMenu: 'Store menu',
-    storeHeadTitle: 'Equip your AI Collaborator',
-    storeHeadText: 'Choose its profile, skills and applications.',
-    storeAll: 'Explore the whole Store',
+    storeHeadTitle: 'Complete your AI Collaborator',
+    storeHeadText: 'Its role, skills, connectivity and memory.',
+    storeAll: 'Explore the Store',
   },
 }
 
