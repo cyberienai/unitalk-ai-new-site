@@ -73,7 +73,7 @@ const T = {
     collabMenu: 'Menu Collaborateurs IA',
     // Collaborateurs IA panel
     menuDiscover: 'Découvrir',
-    menuCapabilities: 'Développer ses capacités',
+    menuCapabilities: 'Développer leurs capacités',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -86,7 +86,7 @@ const T = {
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'Discover',
-    menuCapabilities: 'Grow its capabilities',
+    menuCapabilities: 'Grow their capabilities',
   },
 }
 
@@ -217,7 +217,12 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
             </a>
 
             <div className="hidden items-center gap-1 lg:flex">
-              {/* Collaborateurs IA — product hub dropdown */}
+              {/* Missions — the entry point: start from the need to accomplish */}
+              <NavItem href="/missions" active={isMissionsActive}>
+                {t.missions}
+              </NavItem>
+
+              {/* Collaborateurs IA — product hub dropdown (who takes the work on) */}
               <div ref={collabRef} className="relative">
                 <button
                   ref={collabButtonRef}
@@ -316,11 +321,9 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                 </AnimatePresence>
               </div>
 
-              {/* Missions — direct public link (the need) */}
-              <NavItem href="/missions" active={isMissionsActive}>
-                {t.missions}
-              </NavItem>
-
+              {/* Future: an "Experts" entry belongs here, between Collaborateurs IA
+                  and Workspace. Kept out of the public nav until its pages exist —
+                  inserting it later requires no restructuring. */}
               <NavItem href="/workspace" active={isWorkspaceActive}>
                 {t.workspace}
               </NavItem>
@@ -431,17 +434,28 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
               transition={{ duration: 0.2, ease: 'easeOut' }}
             >
               <nav className="flex flex-1 flex-col px-6 py-3">
-                {/* Primary links */}
+                {/* Primary links — same order as desktop: Missions first (the need) */}
                 <div className="border-b border-[#DcD4C4] py-3">
-                  {/* Collaborateurs IA + capability catalogs shown directly (no accordion) */}
                   <a
-                    href={COLLAB_DISCOVER.href}
+                    href="/missions"
                     onClick={() => setIsMenuOpen(false)}
                     className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
-                    {t.collaborators}
+                    {t.missions}
                   </a>
+
+                  {/* Collaborateurs IA + its sub-pages shown directly (no accordion) */}
+                  <p className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17]">
+                    {t.collaborators}
+                  </p>
                   <div className="ml-3 border-l border-[#DcD4C4] pl-4">
+                    <a
+                      href={COLLAB_DISCOVER.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex min-h-12 items-center text-[15px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                    >
+                      {lang === 'fr' ? 'Découvrir les Collaborateurs IA' : 'Discover AI Collaborators'}
+                    </a>
                     {COLLAB_CAPABILITIES.map((item) => (
                       <a
                         key={item.href}
@@ -453,14 +467,6 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                       </a>
                     ))}
                   </div>
-
-                  <a
-                    href="/missions"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.missions}
-                  </a>
 
                   <a
                     href="/workspace"
