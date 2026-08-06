@@ -37,7 +37,7 @@ const T = {
     // Séquence Alma (avant l'arrivée d'Emma)
     analyzeLabel: 'Analyse de solvea.fr',
     analyzeCaption: 'Sources publiques analysées',
-    analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'LinkedIn'],
+    analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
     buildingLabel: 'Construction du contexte d’entreprise…',
     creatingLabel: 'Recrutement d’Emma…',
     // Visual — la fiche vivante d'Emma (le résultat)
@@ -92,7 +92,7 @@ const T = {
     // Alma sequence (before Emma appears)
     analyzeLabel: 'Analyzing solvea.fr',
     analyzeCaption: 'Public sources analyzed',
-    analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'LinkedIn'],
+    analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
     buildingLabel: 'Building the company context…',
     creatingLabel: 'Recruiting Emma…',
     // Visual — Emma's live profile (the outcome)
