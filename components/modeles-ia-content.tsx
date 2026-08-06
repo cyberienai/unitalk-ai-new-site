@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
+import { AlmaFace } from '@/components/alma-face'
 
 type FeatKey = 'best' | 'multimodal' | 'memory' | 'skills'
 
@@ -212,7 +213,11 @@ export function ModelesIaContent() {
             className="font-sf text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.1] text-[#FBF9F3] text-balance"
             style={{ letterSpacing: '-0.02em' }}
           >
-            {t.ctaTitle1}<span className="text-[#FF6FB0]">{t.ctaTitle2}</span>
+                {t.ctaTitle1}
+                <span className="text-[#FF6FB0]">
+                  <AlmaFace />
+                  {t.ctaTitle2}
+                </span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-[#C4BAA8]">
             {t.ctaDesc}

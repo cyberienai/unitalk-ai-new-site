@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useT } from '@/lib/language-context'
 import { ChevronRight } from 'lucide-react'
+import { AlmaFace } from '@/components/alma-face'
 
 type UseCaseKey = 'ecommerce' | 'saas' | 'services' | 'agency' | 'coaching' | 'consulting'
 
@@ -291,8 +292,11 @@ export function UseCasesContent() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            {t.ctaTitle1}
-            <span className="text-[#D10E63]">{t.ctaTitle2}</span>
+                {t.ctaTitle1}
+                <span className="text-[#D10E63]">
+                  <AlmaFace />
+                  {t.ctaTitle2}
+                </span>
           </motion.h2>
           <motion.p
             className="mb-8 text-lg leading-relaxed text-[#E7E1D6]"

@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, ArrowLeft, Globe, Check, Plus, Sparkles, RefreshCw } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, ArrowLeft, Globe, Check, Plus, Sparkles, RefreshCw, Mic } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { useMyTeam } from '@/lib/my-team-context'
+import { useAlma } from '@/lib/alma-context'
 import { UnitalkLogo } from './unitalk-logo'
 import { normalizeDomain, guessProfileKey, getProfile, type CompanyProfile } from '@/lib/discover-profiles'
 import { ROLE_DETAILS, type RoleDetail } from '@/lib/collaborators-catalog'
@@ -34,9 +35,16 @@ const T = {
     kicker: 'Découvrir mon organisation',
     title: 'Quel est le site de votre entreprise ?',
     subtitle:
-      'Unitalk vous propose une organisation de Collaborateurs IA adaptée à votre activité. Un aperçu de démonstration, à confirmer ensemble.',
+      'À partir de vos informations publiques et de votre échange, Alma construit la mémoire de votre entreprise, puis vous propose une organisation de Collaborateurs IA adaptée.',
     placeholder: 'votre-entreprise.com',
     cta: 'Lancer l’analyse',
+    // Voice panel
+    voiceRole: 'Agent vocal',
+    voiceOnline: 'En ligne',
+    voiceTitle: 'Vous préférez en parler ?',
+    voiceBody:
+      'De vive voix, Alma découvre votre entreprise et construit le contexte dont vos Collaborateurs IA ont besoin pour travailler.',
+    voiceCta: 'Parler à Alma',
     invalid: 'Entrez un domaine valide, par exemple unitalk.ai',
     recognized: 'Domaine reconnu',
     disclaimer:
@@ -75,9 +83,16 @@ const T = {
     kicker: 'Discover my organization',
     title: 'What is your company’s website?',
     subtitle:
-      'Unitalk proposes an organization of AI Collaborators tailored to your activity. A demo preview, to confirm together.',
+      'From your public information and your conversation, Alma builds your company memory, then proposes a tailored organization of AI Collaborators.',
     placeholder: 'your-company.com',
     cta: 'Start the analysis',
+    // Voice panel
+    voiceRole: 'Voice agent',
+    voiceOnline: 'Online',
+    voiceTitle: 'Prefer to talk it through?',
+    voiceBody:
+      'Out loud, Alma gets to know your company and builds the context your AI Collaborators need to work.',
+    voiceCta: 'Talk to Alma',
     invalid: 'Enter a valid domain, for example unitalk.ai',
     recognized: 'Domain recognized',
     disclaimer:
@@ -113,6 +128,8 @@ export function DiscoverContent() {
   const { lang } = useLanguage()
   const t = T[lang]
   const team = useMyTeam()
+  const { openAlma } = useAlma()
+  const reduceMotion = useReducedMotion()
 
   const [step, setStep] = useState<StepId>(1)
   const [domainInput, setDomainInput] = useState('')
@@ -217,70 +234,141 @@ export function DiscoverContent() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.35 }}
-              className="w-full max-w-xl text-center"
+              className="grid w-full max-w-5xl items-stretch gap-6 lg:grid-cols-2"
             >
-              <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">
-                {t.kicker}
-              </p>
-              <h1 className="text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
-                {t.title}
-              </h1>
-              <p className="mx-auto mt-4 max-w-md text-pretty text-sm leading-6 text-[#5F594F] sm:text-base">
-                {t.subtitle}
-              </p>
+              {/* Left — action */}
+              <div className="flex flex-col justify-center text-left">
+                <p className="mb-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">
+                  {t.kicker}
+                </p>
+                <h1 className="text-balance font-sf text-[clamp(1.8rem,3.4vw,2.7rem)] font-semibold leading-[1.05] tracking-[-0.03em]">
+                  {t.title}
+                </h1>
+                <p className="mt-4 max-w-md text-pretty text-sm leading-6 text-[#5F594F] sm:text-base">
+                  {t.subtitle}
+                </p>
 
-              <form onSubmit={submitDomain} className="mx-auto mt-8 flex max-w-md flex-col gap-3">
-                <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/20">
-                  <span className="pl-5 pr-1 text-sm text-[#9A9284]">https://</span>
-                  <input
-                    value={domainInput}
-                    onChange={(e) => {
-                      setDomainInput(e.target.value)
-                      if (error) setError(false)
-                    }}
-                    placeholder={t.placeholder}
-                    className="min-w-0 flex-1 bg-transparent py-3.5 text-sm text-[#1C1A17] outline-none placeholder:text-[#9A9284]"
-                    autoFocus
-                    aria-label={t.placeholder}
+                <form onSubmit={submitDomain} className="mt-8 flex max-w-md flex-col gap-3">
+                  <div className="flex items-center overflow-hidden rounded-full border border-[#D8D0C2] bg-[#FBF9F3] focus-within:border-[#D10E63] focus-within:ring-2 focus-within:ring-[#D10E63]/20">
+                    <span className="pl-5 pr-1 text-sm text-[#9A9284]">https://</span>
+                    <input
+                      value={domainInput}
+                      onChange={(e) => {
+                        setDomainInput(e.target.value)
+                        if (error) setError(false)
+                      }}
+                      placeholder={t.placeholder}
+                      className="min-w-0 flex-1 bg-transparent py-3.5 text-sm text-[#1C1A17] outline-none placeholder:text-[#9A9284]"
+                      autoFocus
+                      aria-label={t.placeholder}
+                    />
+                  </div>
+
+                  {/* Live mini-preview */}
+                  <AnimatePresence>
+                    {livePreview && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="flex items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-4 py-3 text-left">
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EFE7D8] text-[#6E665A]">
+                            <Globe className="h-4 w-4" />
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-semibold text-[#1C1A17]">{livePreview}</p>
+                            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#0E8A5F]">
+                              <Check className="h-3 w-3" />
+                              {t.recognized}
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {error && <p className="text-xs font-medium text-[#D10E63]">{t.invalid}</p>}
+                  <button
+                    type="submit"
+                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+                  >
+                    {t.cta}
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </form>
+
+                <p className="mt-6 max-w-md text-[11px] leading-5 text-[#9A9284]">{t.disclaimer}</p>
+              </div>
+
+              {/* Right — Alma as a voice agent */}
+              <div className="relative flex min-h-[22rem] flex-col items-center justify-center overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#17130F] px-6 py-10 text-center">
+                {/* magenta ambient glow */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 opacity-80"
+                  style={{ background: 'radial-gradient(120% 90% at 50% 0%, rgba(209,14,99,0.22), transparent 60%)' }}
+                />
+
+                {/* Avatar with pulsing voice rings */}
+                <div className="relative flex h-36 w-36 items-center justify-center">
+                  {!reduceMotion &&
+                    [0, 1, 2].map((i) => (
+                      <motion.span
+                        key={i}
+                        aria-hidden="true"
+                        className="absolute inset-0 rounded-full border border-[#F0658F]/40"
+                        initial={{ scale: 0.7, opacity: 0.5 }}
+                        animate={{ scale: 1.5, opacity: 0 }}
+                        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: i * 0.8 }}
+                      />
+                    ))}
+                  <span className="absolute inset-3 rounded-full bg-[#D10E63]/25 blur-md" />
+                  <img
+                    src="/alma-avatar.png"
+                    alt="Alma"
+                    className="relative h-24 w-24 rounded-full object-cover ring-2 ring-[#F0658F]/50"
                   />
                 </div>
 
-                {/* Live mini-preview */}
-                <AnimatePresence>
-                  {livePreview && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="flex items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] px-4 py-3 text-left">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EFE7D8] text-[#6E665A]">
-                          <Globe className="h-4 w-4" />
-                        </span>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-semibold text-[#1C1A17]">{livePreview}</p>
-                          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#0E8A5F]">
-                            <Check className="h-3 w-3" />
-                            {t.recognized}
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* Voice equalizer */}
+                <div className="mt-6 flex h-6 items-end gap-1" aria-hidden="true">
+                  {[0.5, 0.9, 0.35, 0.7, 1, 0.5, 0.8, 0.4].map((h, i) => (
+                    <motion.span
+                      key={i}
+                      className="w-1 rounded-full bg-[#F0658F]"
+                      style={{ height: `${h * 100}%` }}
+                      animate={reduceMotion ? undefined : { scaleY: [0.4, 1, 0.55, 0.9, 0.4] }}
+                      transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut', delay: i * 0.12 }}
+                    />
+                  ))}
+                </div>
 
-                {error && <p className="text-xs font-medium text-[#D10E63]">{t.invalid}</p>}
+                <div className="mt-5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#E7C9D4]">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#5FE38F] opacity-70" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#5FE38F]" />
+                  </span>
+                  {t.voiceRole} · {t.voiceOnline}
+                </div>
+
+                <h2 className="mt-4 font-sf text-xl font-semibold tracking-tight text-[#FBF9F3]">
+                  {t.voiceTitle}
+                </h2>
+                <p className="mt-2 max-w-xs text-pretty text-sm leading-6 text-[#C9C0B4]">
+                  {t.voiceBody}
+                </p>
+
                 <button
-                  type="submit"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+                  type="button"
+                  onClick={openAlma}
+                  className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#FBF9F3] px-6 text-sm font-bold text-[#17130F] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0658F] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17130F]"
                 >
-                  {t.cta}
-                  <ArrowRight className="h-4 w-4" />
+                  <Mic className="h-4 w-4" />
+                  {t.voiceCta}
                 </button>
-              </form>
-
-              <p className="mx-auto mt-6 max-w-md text-[11px] leading-5 text-[#9A9284]">{t.disclaimer}</p>
+              </div>
             </motion.div>
           )}
 

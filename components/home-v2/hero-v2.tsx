@@ -23,12 +23,13 @@ const T = {
       'organiser vos réunions',
       'collaborer avec vos équipes',
     ],
-    almaLeadPre: 'Parlez avec ',
+    almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
-      '. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
+      '. Elle découvre votre entreprise et construit le contexte dont votre Collaborateur IA a besoin pour travailler.',
     cta: 'Commencer gratuitement',
     proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
+    announce: 'Trois façons de commencer : votre site web, une mission, ou un profil métier.',
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -66,12 +67,13 @@ const T = {
       'organize your meetings',
       'collaborate with your teams',
     ],
-    almaLeadPre: 'Chat with ',
+    almaLeadPre: 'Talk to ',
     almaName: 'Alma',
     almaLeadPost:
-      '. She analyzes your company and prepares the AI Collaborator you need.',
+      '. She gets to know your company and builds the context your AI Collaborator needs to work.',
     cta: 'Start for free',
     proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
+    announce: 'Three ways to start: your website, a mission, or a business profile.',
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
@@ -202,10 +204,14 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </span>
               ))}
             </div>
+
+            <p className="max-w-md text-balance text-center text-[13px] leading-relaxed text-[#8A8175] sm:text-left">
+              {t.announce}
+            </p>
           </motion.div>
         </div>
 
-        {/* Visual — Emma en poste : cockpit sombre + halo magenta */}
+        {/* Visual ��� Emma en poste : cockpit sombre + halo magenta */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
           {/* Halo aurora bi-teinte derrière la carte */}
           <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
