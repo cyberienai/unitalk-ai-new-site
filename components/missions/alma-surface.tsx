@@ -40,20 +40,35 @@ const STARTERS: { text: { fr: string; en: string }; slug: string }[] = [
   { text: { fr: 'Trouve des prospects correspondant à ces critères.', en: 'Find prospects matching these criteria.' }, slug: 'trouver-de-nouveaux-clients' },
 ]
 
-// Understood cues surfaced during the canonical voice transcript.
-const VOICE_TRANSCRIPT = {
-  fr: 'Je voudrais relancer automatiquement chaque semaine les clients dont les factures sont arrivées à échéance…',
-  en: 'I’d like to automatically chase, every week, the customers whose invoices are past due…',
-}
-const UNDERSTOOD = [
-  { fr: 'chaque semaine', en: 'every week' },
-  { fr: 'clients', en: 'customers' },
-  { fr: 'factures à échéance', en: 'invoices past due' },
-  { fr: 'relancer', en: 'follow up' },
-]
-
 function resolveMission(slug: string, query: string, lang: Lang): Mission {
   return getMission(slug) ?? searchMissions(query, lang)[0]?.mission ?? getMission(CANONICAL_SLUG)!
+}
+
+/* Minimal shape of the Web Speech API we rely on (typed locally so the build
+   doesn't depend on DOM lib variants that omit SpeechRecognition). */
+type SpeechResult = { 0: { transcript: string }; isFinal: boolean }
+type SpeechEvent = { resultIndex: number; results: ArrayLike<SpeechResult> }
+type SpeechErrorEvent = { error: string }
+type SpeechRec = {
+  lang: string
+  continuous: boolean
+  interimResults: boolean
+  onstart: (() => void) | null
+  onresult: ((e: SpeechEvent) => void) | null
+  onerror: ((e: SpeechErrorEvent) => void) | null
+  onend: (() => void) | null
+  start: () => void
+  stop: () => void
+}
+
+/** Native browser speech recognition, if available (Chrome/Edge/Safari; not Firefox). */
+function getSpeechRecognition(): (new () => SpeechRec) | null {
+  if (typeof window === 'undefined') return null
+  const w = window as unknown as {
+    SpeechRecognition?: new () => SpeechRec
+    webkitSpeechRecognition?: new () => SpeechRec
+  }
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null
 }
 
 export type LoadRequest = { mission: Mission; key: number }
@@ -96,19 +111,24 @@ export function AlmaSurface({
 
   // Voice-mode transient state.
   const [typed, setTyped] = useState('')
-  const [cues, setCues] = useState(0)
   const [seconds, setSeconds] = useState(0)
-  const [paused, setPaused] = useState(false)
   const [micError, setMicError] = useState<string | null>(null)
   // True while the browser permission prompt is up (between click and grant).
   const [micRequesting, setMicRequesting] = useState(false)
+  // Written composer visibility is lifted here so the voice fallback can open it.
+  const [introWriting, setIntroWriting] = useState(initialQuery.trim().length > 0)
 
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
   const intervals = useRef<ReturnType<typeof setInterval>[]>([])
   const streamRef = useRef<MediaStream | null>(null)
   const demoTriggerRef = useRef<HTMLButtonElement>(null)
+  const writeFieldRef = useRef<HTMLTextAreaElement>(null)
   const ranInitial = useRef(false)
   const lastLoadKey = useRef<number | null>(null)
+  // Live speech recognition + its accumulating final transcript.
+  const recognitionRef = useRef<SpeechRec | null>(null)
+  const finalTranscriptRef = useRef('')
+  const wantListeningRef = useRef(false)
 
   const t = {
     title:
@@ -116,7 +136,7 @@ export function AlmaSurface({
         ? 'Dites à Alma ce que votre Collaborateur IA doit accomplir.'
         : 'Tell Alma what your AI Collaborator should accomplish.',
     name: 'Alma',
-    zoneTitle: lang === 'fr' ? 'Qu’est-ce qu’il faut faire ?' : 'What needs doing?',
+    zoneTitle: lang === 'fr' ? 'Quelle mission souhaitez-vous confier ?' : 'Which mission would you like to hand off?',
     talk: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     micHint:
       lang === 'fr'
@@ -124,7 +144,7 @@ export function AlmaSurface({
         : 'The mic only turns on after you allow it.',
     micRequesting:
       lang === 'fr' ? 'Autoriser le micro pour parler à Alma' : 'Allow the mic to talk to Alma',
-    writeToggle: lang === 'fr' ? 'Je préfère écrire' : 'I’d rather write',
+    writeToggle: lang === 'fr' ? 'Écrire à Alma' : 'Write to Alma',
     backToVoice: lang === 'fr' ? 'Revenir à la voix' : 'Back to voice',
     watch: lang === 'fr' ? 'Voir la démo · 45 s' : 'Watch the demo · 45 s',
     hideAria: lang === 'fr' ? 'Masquer Alma' : 'Hide Alma',
@@ -132,7 +152,7 @@ export function AlmaSurface({
     hideConfirmBody: lang === 'fr' ? 'Votre brouillon reste enregistré.' : 'Your draft stays saved.',
     hideConfirmYes: lang === 'fr' ? 'Masquer' : 'Hide',
     hideConfirmNo: lang === 'fr' ? 'Annuler' : 'Cancel',
-    writePh: lang === 'fr' ? 'Ou écrivez-le ici…' : 'Or write it here…',
+    writePh: lang === 'fr' ? 'Décrivez la mission à confier…' : 'Describe the mission to hand off…',
     tryPrefix: lang === 'fr' ? 'Essayez :' : 'Try:',
     listening: lang === 'fr' ? 'Alma vous écoute' : 'Alma is listening',
     micOn: lang === 'fr' ? 'Micro actif' : 'Mic on',
@@ -167,6 +187,13 @@ export function AlmaSurface({
       lang === 'fr'
         ? 'Le micro n’est pas disponible. Vous pouvez écrire votre demande à Alma.'
         : 'The mic isn’t available. You can type your request to Alma.',
+    micUnsupported:
+      lang === 'fr'
+        ? 'La reconnaissance vocale n’est pas disponible sur ce navigateur. Écrivez votre demande à Alma.'
+        : 'Speech recognition isn’t available in this browser. Type your request to Alma instead.',
+    sayHint: lang === 'fr' ? 'Vous pouvez dire :' : 'You can say:',
+    listeningPrompt:
+      lang === 'fr' ? 'Décrivez la mission à confier, à voix haute.' : 'Describe the mission to hand off, out loud.',
   }
 
   // A draft is "under way" once Alma has started or the visitor has typed.
@@ -198,6 +225,19 @@ export function AlmaSurface({
   const stopMic = useCallback(() => {
     streamRef.current?.getTracks().forEach((tr) => tr.stop())
     streamRef.current = null
+    wantListeningRef.current = false
+    const rec = recognitionRef.current
+    if (rec) {
+      rec.onend = null
+      rec.onresult = null
+      rec.onerror = null
+      try {
+        rec.stop()
+      } catch {
+        /* already stopped */
+      }
+      recognitionRef.current = null
+    }
   }, [])
 
   // Materialize a mission draft, then reveal it field by field into the fiche.
@@ -304,93 +344,101 @@ export function AlmaSurface({
     return () => document.removeEventListener('visibilitychange', onHidden)
   }, [stage, clearAll, stopMic])
 
-  // --- voice mode ------------------------------------------------------------
-  const runListening = useCallback(() => {
-    setStage('listening')
+  // --- voice mode (real transcription via the Web Speech API) ----------------
+  const openWriteFallback = useCallback(() => {
+    setStage('intro')
     setTyped('')
-    setCues(0)
     setSeconds(0)
-    setPaused(false)
+    setIntroWriting(true)
+    requestAnimationFrame(() => writeFieldRef.current?.focus())
+  }, [])
 
-    const full = VOICE_TRANSCRIPT[lang]
-    const words = full.split(' ')
-    let wi = 0
-
-    if (reduce) {
-      setTyped(full)
-      setCues(UNDERSTOOD.length)
-      after(400, () => {
+  // Build a recognition instance that appends finals to a ref and streams the
+  // interim text into the visible transcript. Chrome ends the session on a
+  // pause, so we transparently restart while the user still wants to listen.
+  const buildRecognition = useCallback((): SpeechRec | null => {
+    const SR = getSpeechRecognition()
+    if (!SR) return null
+    const rec = new SR()
+    rec.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
+    rec.continuous = true
+    rec.interimResults = true
+    rec.onstart = () => setMicRequesting(false)
+    rec.onresult = (e: SpeechEvent) => {
+      let interim = ''
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i]
+        if (res.isFinal) finalTranscriptRef.current += res[0].transcript + ' '
+        else interim += res[0].transcript
+      }
+      setTyped((finalTranscriptRef.current + interim).replace(/\s+/g, ' ').trim())
+    }
+    rec.onerror = (e: SpeechErrorEvent) => {
+      if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+        setMicRequesting(false)
         stopMic()
-        start(getMission(CANONICAL_SLUG)!, STARTERS[0].text)
-      })
+        setMicError(t.micDenied)
+        openWriteFallback()
+      }
+    }
+    rec.onend = () => {
+      if (wantListeningRef.current) {
+        try {
+          rec.start()
+        } catch {
+          /* transient restart race — ignore */
+        }
+      }
+    }
+    return rec
+  }, [lang, stopMic, t.micDenied, openWriteFallback])
+
+  const requestMic = useCallback(() => {
+    setMicError(null)
+    const rec = buildRecognition()
+    if (!rec) {
+      // Unsupported browser (e.g. Firefox): fall straight back to writing.
+      setMicError(t.micUnsupported)
+      openWriteFallback()
       return
     }
-
-    const typer = setInterval(() => {
-      wi += 1
-      setTyped(words.slice(0, wi).join(' '))
-      if (wi >= words.length) clearInterval(typer)
-    }, 130)
-    intervals.current.push(typer)
-
+    finalTranscriptRef.current = ''
+    setTyped('')
+    setSeconds(0)
+    setMicRequesting(true)
+    wantListeningRef.current = true
+    setStage('listening')
     const clock = setInterval(() => setSeconds((s) => s + 1), 1000)
     intervals.current.push(clock)
-
-    UNDERSTOOD.forEach((_, i) => after(900 + i * 700, () => setCues(i + 1)))
-
-    // After the sentence lands, stop the mic and build the mission.
-    after(words.length * 130 + 900, () => {
-      clearInterval(clock)
-      stopMic()
-      start(getMission(CANONICAL_SLUG)!, STARTERS[0].text)
-    })
-  }, [lang, reduce, after, stopMic, start])
-
-  const requestMic = useCallback(async () => {
-    setMicError(null)
-    if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-      setMicError(t.micDenied)
-      return
-    }
-    setMicRequesting(true)
+    recognitionRef.current = rec
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      streamRef.current = stream
-      runListening()
+      rec.start()
     } catch {
-      setMicError(t.micDenied)
-    } finally {
       setMicRequesting(false)
     }
-  }, [runListening, t.micDenied])
-
-  const togglePause = useCallback(() => {
-    setPaused((p) => {
-      const next = !p
-      if (next) {
-        clearAll()
-      } else {
-        // resume clock only; transcript already visible enough
-        const clock = setInterval(() => setSeconds((s) => s + 1), 1000)
-        intervals.current.push(clock)
-      }
-      return next
-    })
-  }, [clearAll])
+  }, [buildRecognition, t.micUnsupported, openWriteFallback])
 
   const finishListening = useCallback(() => {
+    wantListeningRef.current = false
+    const said = (finalTranscriptRef.current || typed).replace(/\s+/g, ' ').trim()
     clearAll()
     stopMic()
-    start(getMission(CANONICAL_SLUG)!, STARTERS[0].text)
-  }, [clearAll, stopMic, start])
+    if (said) {
+      const m = searchMissions(said, lang)[0]?.mission ?? getMission(CANONICAL_SLUG)!
+      start(m, { fr: said, en: said })
+    } else {
+      // Nothing captured — return to the intro rather than faking a mission.
+      setStage('intro')
+      setTyped('')
+      setSeconds(0)
+    }
+  }, [typed, lang, clearAll, stopMic, start])
 
   const switchToWrite = useCallback(() => {
     clearAll()
     stopMic()
-    setStage('intro')
-    setTyped('')
-    setSeconds(0)
-  }, [clearAll, stopMic])
+    openWriteFallback()
+  }, [clearAll, stopMic, openWriteFallback])
 
   // --- write mode ------------------------------------------------------------
   const submitWritten = useCallback(() => {
@@ -399,6 +447,17 @@ export function AlmaSurface({
     const m = searchMissions(q, lang)[0]?.mission ?? getMission(CANONICAL_SLUG)!
     start(m, { fr: q, en: q })
   }, [text, lang, start])
+
+  // Suggestion click: prefill the written composer (opening it) instead of
+  // auto-launching a mission — one conversation, never a faked one.
+  const pickExample = useCallback(
+    (s: (typeof STARTERS)[number]) => {
+      setText(s.text[lang])
+      setIntroWriting(true)
+      requestAnimationFrame(() => writeFieldRef.current?.focus())
+    },
+    [lang],
+  )
 
   // --- clarifications --------------------------------------------------------
   const answerClarification = useCallback(
@@ -507,6 +566,7 @@ export function AlmaSurface({
     setTyped('')
     setSeconds(0)
     setMicError(null)
+    setIntroWriting(false)
   }, [clearAll, stopMic])
 
   // Handoff. The CTA is a real anchor (guaranteed navigation); this only saves
@@ -524,6 +584,58 @@ export function AlmaSurface({
 
   const mmss = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
 
+  // Hide-Alma control — reused across the entry block and the conversation view.
+  const hideControl = onHide ? (
+    <div className="absolute right-3 top-3 z-30 sm:right-4 sm:top-4">
+      <button
+        type="button"
+        onClick={requestHide}
+        aria-label={t.hideAria}
+        title={t.hideAria}
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/85 text-[var(--store-muted)] backdrop-blur-sm transition-colors hover:bg-[#FBF9F3] hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      <AnimatePresence>
+        {confirmHide && (
+          <motion.div
+            role="dialog"
+            aria-label={t.hideConfirmTitle}
+            initial={reduce ? false : { opacity: 0, y: -4, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
+            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute right-0 top-11 w-64 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-4 text-left shadow-[0_12px_32px_-16px_rgba(28,26,23,0.35)]"
+          >
+            <p className="font-sf text-sm font-bold text-[var(--store-text)]">{t.hideConfirmTitle}</p>
+            <p className="mt-1 text-[12.5px] leading-snug text-[var(--store-muted)]">{t.hideConfirmBody}</p>
+            <div className="mt-3 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setConfirmHide(false)}
+                className="rounded-lg px-2.5 py-1.5 text-[13px] font-semibold text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)]"
+              >
+                {t.hideConfirmNo}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setConfirmHide(false)
+                  onHide()
+                }}
+                className="rounded-lg bg-[#D10E63] px-3 py-1.5 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+              >
+                {t.hideConfirmYes}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  ) : null
+
+  const entryStage = stage === 'intro' || stage === 'listening'
+
   return (
     <div>
       {/* Header — title only; the action sits directly beneath it. */}
@@ -533,98 +645,57 @@ export function AlmaSurface({
         </h1>
       </header>
 
-      {/* Continuous two-panel surface */}
-      <section
-        className="overflow-hidden rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)]"
-        aria-label={lang === 'fr' ? 'Préparer une mission avec Alma' : 'Prepare a mission with Alma'}
-      >
-        {/* Hide Alma — top-right, all stages. Confirms only mid-draft. */}
-        {onHide && (
-          <div className="absolute right-3 top-3 z-30 sm:right-4 sm:top-4">
-            <button
-              type="button"
-              onClick={requestHide}
-              aria-label={t.hideAria}
-              title={t.hideAria}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/85 text-[var(--store-muted)] backdrop-blur-sm transition-colors hover:bg-[#FBF9F3] hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-            >
-              <X className="h-4 w-4" />
-            </button>
-            <AnimatePresence>
-              {confirmHide && (
-                <motion.div
-                  role="dialog"
-                  aria-label={t.hideConfirmTitle}
-                  initial={reduce ? false : { opacity: 0, y: -4, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.98 }}
-                  transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute right-0 top-11 w-64 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-4 text-left shadow-[0_12px_32px_-16px_rgba(28,26,23,0.35)]"
-                >
-                  <p className="font-sf text-sm font-bold text-[var(--store-text)]">{t.hideConfirmTitle}</p>
-                  <p className="mt-1 text-[12.5px] leading-snug text-[var(--store-muted)]">{t.hideConfirmBody}</p>
-                  <div className="mt-3 flex items-center justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setConfirmHide(false)}
-                      className="rounded-lg px-2.5 py-1.5 text-[13px] font-semibold text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)]"
-                    >
-                      {t.hideConfirmNo}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setConfirmHide(false)
-                        onHide()
-                      }}
-                      className="rounded-lg bg-[#D10E63] px-3 py-1.5 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
-                    >
-                      {t.hideConfirmYes}
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )}
+      {entryStage ? (
+        // Single, centered Alma space — voice-first. No right column, no divider.
+        <section
+          className="relative mx-auto max-w-[720px] rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] p-6 shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)] sm:p-8"
+          aria-label={lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma'}
+        >
+          {hideControl}
+          {stage === 'intro' && (
+            <IntroPresence
+              reduce={!!reduce}
+              t={t}
+              text={text}
+              setText={setText}
+              onSubmitText={submitWritten}
+              onTalk={requestMic}
+              onDemo={() => setDemoOpen(true)}
+              demoTriggerRef={demoTriggerRef}
+              micError={micError}
+              micRequesting={micRequesting}
+              example={STARTERS[0]}
+              lang={lang}
+              writing={introWriting}
+              setWriting={setIntroWriting}
+              writeRef={writeFieldRef}
+              onPickExample={pickExample}
+            />
+          )}
 
-        <div className="grid lg:min-h-[400px] lg:grid-cols-[42%_58%]">
-          {/* LEFT — Alma + conversation */}
-          <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-5 lg:border-b-0 lg:border-r">
-            {stage === 'intro' && (
-              <IntroPresence
-                reduce={!!reduce}
-                t={t}
-                text={text}
-                setText={setText}
-                onSubmitText={submitWritten}
-                onTalk={requestMic}
-                onDemo={() => setDemoOpen(true)}
-                demoTriggerRef={demoTriggerRef}
-                micError={micError}
-                micRequesting={micRequesting}
-                starters={STARTERS}
-                lang={lang}
-                onStarter={(s) => start(resolveMission(s.slug, s.text[lang], lang), s.text)}
-              />
-            )}
-
-            {stage === 'listening' && (
-              <ListeningPanel
-                reduce={!!reduce}
-                t={t}
-                typed={typed}
-                cues={cues}
-                mmss={mmss}
-                paused={paused}
-                onPause={togglePause}
-                onFinish={finishListening}
-                onWrite={switchToWrite}
-                lang={lang}
-              />
-            )}
-
-            {(stage === 'clarifying' || stage === 'ready') && (
+          {stage === 'listening' && (
+            <ListeningPanel
+              reduce={!!reduce}
+              t={t}
+              typed={typed}
+              mmss={mmss}
+              onFinish={finishListening}
+              onWrite={switchToWrite}
+              example={STARTERS[0]}
+              lang={lang}
+            />
+          )}
+        </section>
+      ) : (
+        // Conversation view — two-panel surface with the living mission fiche.
+        <section
+          className="relative overflow-hidden rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)]"
+          aria-label={lang === 'fr' ? 'Préparer une mission avec Alma' : 'Prepare a mission with Alma'}
+        >
+          {hideControl}
+          <div className="grid lg:min-h-[400px] lg:grid-cols-[42%_58%]">
+            {/* LEFT — Alma + conversation */}
+            <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-5 lg:border-b-0 lg:border-r">
               <ConversePanel
                 t={t}
                 stage={stage}
@@ -644,28 +715,28 @@ export function AlmaSurface({
                 loadedTitle={loadedTitle}
                 lang={lang}
               />
-            )}
-          </div>
+            </div>
 
-          {/* RIGHT — living mission fiche */}
-          <div className="bg-[#FBF9F3] p-5 sm:p-5">
-            <MissionDraftFiche
-              draft={draft}
-              shown={shown}
-              justAdded={justAdded}
-              ready={ready}
-              lang={lang}
-              adaptHref={adaptHref}
-              adapting={adapting}
-              onAdapt={onAdapt}
-              onContinue={() => {
-                setReady(false)
-                setStage('clarifying')
-              }}
-            />
+            {/* RIGHT — living mission fiche */}
+            <div className="bg-[#FBF9F3] p-5 sm:p-5">
+              <MissionDraftFiche
+                draft={draft}
+                shown={shown}
+                justAdded={justAdded}
+                ready={ready}
+                lang={lang}
+                adaptHref={adaptHref}
+                adapting={adapting}
+                onAdapt={onAdapt}
+                onContinue={() => {
+                  setReady(false)
+                  setStage('clarifying')
+                }}
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <AlmaDemoModal
         open={demoOpen}
@@ -689,11 +760,8 @@ export function AlmaSurface({
 
 type Copy = Record<string, string>
 
-/**
- * One canonical suggestion — the same scenario as the example mission on the
- * right (unpaid invoices). No rotation, so the two sides never disagree.
- */
-function CanonicalExample({
+/** One canonical suggestion — a phrase to say or to prefill the composer with. */
+function SuggestionLine({
   example,
   lang,
   prefix,
@@ -709,7 +777,7 @@ function CanonicalExample({
       type="button"
       onClick={() => onPick(example)}
       aria-label={`${prefix} ${example.text[lang]}`}
-      className="group mt-2.5 inline-flex min-h-[40px] w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      className="group mt-5 inline-flex min-h-[40px] max-w-full items-center justify-center gap-2 rounded-xl px-3 py-2 text-center transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
     >
       <span className="shrink-0 text-xs font-bold uppercase tracking-[0.06em] text-[#AD0C53]" aria-hidden="true">
         {prefix}
@@ -732,9 +800,12 @@ function IntroPresence({
   demoTriggerRef,
   micError,
   micRequesting,
-  starters,
+  example,
   lang,
-  onStarter,
+  writing,
+  setWriting,
+  writeRef,
+  onPickExample,
 }: {
   reduce: boolean
   t: Copy
@@ -746,14 +817,14 @@ function IntroPresence({
   demoTriggerRef: React.RefObject<HTMLButtonElement | null>
   micError: string | null
   micRequesting: boolean
-  starters: typeof STARTERS
+  example: (typeof STARTERS)[number]
   lang: Lang
-  onStarter: (s: (typeof STARTERS)[number]) => void
+  writing: boolean
+  setWriting: (v: boolean) => void
+  writeRef: React.RefObject<HTMLTextAreaElement | null>
+  onPickExample: (s: (typeof STARTERS)[number]) => void
 }) {
-  // The written composer stays hidden until the visitor chooses to write.
-  const [writing, setWriting] = useState(text.trim().length > 0)
   const [micHover, setMicHover] = useState(false)
-  const writeRef = useRef<HTMLTextAreaElement>(null)
 
   const openWriting = () => {
     setWriting(true)
@@ -761,38 +832,38 @@ function IntroPresence({
   }
 
   return (
-    <div className="flex h-full flex-col">
-      {/* Internal header: identity left · demo link centered · (× lives at the
-          section top-right, so we reserve room on the right). */}
-      <div className="flex items-center gap-3 pr-11">
-        <div className="flex items-center gap-2">
-          <img src="/alma-avatar.png" alt="Alma" className="h-9 w-9 rounded-full object-cover ring-2 ring-[#D10E63]/30" />
-          <p className="font-sf text-base font-bold text-[var(--store-text)]">{t.name}</p>
-        </div>
-        <button
-          ref={demoTriggerRef}
-          type="button"
-          onClick={onDemo}
-          className="group mx-auto inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-1.5 py-1 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-        >
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/12 text-[#D10E63]" aria-hidden="true">
-            <Play className="h-2.5 w-2.5" fill="currentColor" />
-          </span>
-          <span className="text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors group-hover:text-[var(--store-text)] group-hover:underline">
-            {t.watch}
-          </span>
-        </button>
-      </div>
+    <div className="mx-auto flex max-w-[520px] flex-col items-center text-center">
+      {/* 1. Alma, slightly larger */}
+      <img
+        src="/alma-avatar.png"
+        alt="Alma"
+        className="h-16 w-16 rounded-full object-cover ring-2 ring-[#D10E63]/30"
+      />
+      {/* 2. Name */}
+      <p className="mt-3 font-sf text-lg font-bold text-[var(--store-text)]">{t.name}</p>
+      {/* 3. Secondary demo link */}
+      <button
+        ref={demoTriggerRef}
+        type="button"
+        onClick={onDemo}
+        className="group mt-1.5 inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-1.5 py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      >
+        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/12 text-[#D10E63]" aria-hidden="true">
+          <Play className="h-2.5 w-2.5" fill="currentColor" />
+        </span>
+        <span className="text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors group-hover:text-[var(--store-text)] group-hover:underline">
+          {t.watch}
+        </span>
+      </button>
 
-      {/* Prompt + voice-first action */}
-      <h2 className="mt-4 text-balance font-sf text-lg font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      {/* 4. Main question */}
+      <h2 className="mt-5 text-balance font-sf text-2xl font-bold leading-tight tracking-[-0.01em] text-[var(--store-text)] sm:text-[1.75rem]">
         {t.zoneTitle}
       </h2>
 
-      {/* Voice button. Reassurance is on-demand: a tooltip on hover/focus, and
-          the permission message only while the browser prompt is up — never a
-          permanent line that hints at risk before the user thinks of it. */}
-      <div className="relative mt-3">
+      {/* 5. Dominant voice action. Reassurance is on-demand (tooltip on
+          hover/focus); the permission message shows only while the prompt is up. */}
+      <div className="relative mt-6 w-full max-w-[380px]">
         <button
           type="button"
           onClick={onTalk}
@@ -801,9 +872,9 @@ function IntroPresence({
           onFocus={() => setMicHover(true)}
           onBlur={() => setMicHover(false)}
           aria-describedby="alma-mic-hint"
-          className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-12px_rgba(209,14,99,0.7)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
+          className="inline-flex min-h-[56px] w-full items-center justify-center gap-2.5 rounded-full bg-[#D10E63] px-6 py-3.5 text-base font-bold text-[#FBF9F3] shadow-[0_10px_28px_-12px_rgba(209,14,99,0.75)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF7F2]"
         >
-          <Mic className="h-[18px] w-[18px]" />
+          <Mic className="h-5 w-5" />
           {t.talk}
         </button>
         <AnimatePresence>
@@ -822,18 +893,15 @@ function IntroPresence({
           )}
         </AnimatePresence>
       </div>
-      {micRequesting && (
-        <p className="mt-2 text-center text-xs font-semibold text-[#AD0C53]">{t.micRequesting}</p>
-      )}
-      {micError && <p className="mt-1 text-xs font-medium text-[#B00B52]">{micError}</p>}
+      {micRequesting && <p className="mt-2 text-xs font-semibold text-[#AD0C53]">{t.micRequesting}</p>}
+      {micError && <p className="mt-2 max-w-[420px] text-pretty text-xs font-medium text-[#B00B52]">{micError}</p>}
 
-      {/* Written mode is opt-in: the composer stays hidden until requested, so
-          the initial state is voice-first and uncluttered. */}
+      {/* 6. Secondary write link — deliberately not a second primary CTA. */}
       {!writing ? (
         <button
           type="button"
           onClick={openWriting}
-          className="mt-3 inline-flex min-h-[40px] items-center gap-1.5 self-start rounded-lg px-1.5 py-1 text-sm font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+          className="mt-3 inline-flex min-h-[40px] items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
         >
           <Pencil className="h-4 w-4" />
           {t.writeToggle}
@@ -843,9 +911,9 @@ function IntroPresence({
           initial={reduce ? false : { height: 0, opacity: 0 }}
           animate={{ height: 'auto', opacity: 1 }}
           transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-          className="overflow-hidden"
+          className="mt-4 w-full max-w-[420px] overflow-hidden text-left"
         >
-          <div className="mt-3 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-2.5 transition-colors focus-within:border-[#D10E63]/50 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
+          <div className="rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-2.5 transition-colors focus-within:border-[#D10E63]/50 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
             <textarea
               ref={writeRef}
               value={text}
@@ -876,7 +944,7 @@ function IntroPresence({
                 disabled={!text.trim()}
                 aria-label={t.prepare}
                 title={t.prepare}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3]"
               >
                 <ArrowUp className="h-[18px] w-[18px]" />
               </button>
@@ -885,7 +953,7 @@ function IntroPresence({
           <button
             type="button"
             onClick={() => setWriting(false)}
-            className="mt-2 inline-flex items-center gap-1.5 self-start rounded-lg px-1.5 py-1 text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+            className="mt-2 inline-flex items-center gap-1.5 rounded-lg px-1.5 py-1 text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
           >
             <Mic className="h-3.5 w-3.5" />
             {t.backToVoice}
@@ -893,8 +961,8 @@ function IntroPresence({
         </motion.div>
       )}
 
-      {/* One canonical suggestion, matching the example mission on the right. */}
-      <CanonicalExample example={starters[0]} lang={lang} prefix={t.tryPrefix} onPick={onStarter} />
+      {/* 7. One canonical suggestion. */}
+      <SuggestionLine example={example} lang={lang} prefix={t.tryPrefix} onPick={onPickExample} />
     </div>
   )
 }
@@ -903,92 +971,82 @@ function ListeningPanel({
   reduce,
   t,
   typed,
-  cues,
   mmss,
-  paused,
-  onPause,
   onFinish,
   onWrite,
+  example,
   lang,
 }: {
   reduce: boolean
   t: Copy
   typed: string
-  cues: number
   mmss: string
-  paused: boolean
-  onPause: () => void
   onFinish: () => void
   onWrite: () => void
+  example: (typeof STARTERS)[number]
   lang: Lang
 }) {
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-            {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63]/60" />}
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#D10E63]" />
-          </span>
-          <p className="font-sf text-base font-bold text-[var(--store-text)]">{t.listening}</p>
-        </div>
-        <span className="rounded-full bg-[#D10E63]/10 px-2 py-0.5 font-mono text-xs font-semibold text-[#AD0C53]">
-          {t.micOn} · {mmss}
+    <div className="mx-auto flex max-w-[520px] flex-col items-center text-center">
+      {/* Status — announced to assistive tech. */}
+      <div className="flex items-center gap-2" aria-live="polite">
+        <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+          {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D10E63]/60" />}
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#D10E63]" />
         </span>
+        <p className="font-sf text-lg font-bold text-[var(--store-text)]">{t.listening}</p>
+      </div>
+      <span className="mt-2 rounded-full bg-[#D10E63]/10 px-2.5 py-0.5 font-mono text-xs font-semibold text-[#AD0C53]">
+        {t.micOn} · {mmss}
+      </span>
+
+      {/* Mic + waveform (static bars when reduced motion is preferred). */}
+      <div className="mt-6 flex items-center justify-center gap-3">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]" aria-hidden="true">
+          <Mic className="h-5 w-5" />
+        </span>
+        <div className="flex items-end gap-1" aria-hidden="true">
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <motion.span
+              key={i}
+              className="w-1.5 rounded-full bg-[#D10E63]"
+              initial={{ height: 8 }}
+              animate={reduce ? { height: 12 } : { height: [8, 8 + ((i % 3) + 1) * 12, 8] }}
+              transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.08, ease: 'easeInOut' }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Reactive waveform */}
-      <div className="mt-5 flex items-end justify-center gap-1" aria-hidden="true">
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-          <motion.span
-            key={i}
-            className="w-1.5 rounded-full bg-[#D10E63]"
-            initial={{ height: 8 }}
-            animate={reduce || paused ? { height: 12 } : { height: [8, 8 + ((i % 3) + 1) * 12, 8] }}
-            transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.08, ease: 'easeInOut' }}
-          />
-        ))}
-      </div>
-
-      {/* Continuous transcript */}
-      <div className="mt-5 min-h-[92px] rounded-2xl bg-[#FBF9F3]/70 p-4">
+      {/* Live transcript */}
+      <div className="mt-6 min-h-[92px] w-full rounded-2xl bg-[#FBF9F3]/70 p-4 text-left">
         <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
           {lang === 'fr' ? 'Transcription' : 'Transcript'}
         </p>
         <p className="mt-1.5 text-sm leading-relaxed text-[var(--store-text)]" aria-live="polite">
-          {typed}
-          {!reduce && <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-[#D10E63] align-middle" />}
+          {typed ? (
+            <>
+              {typed}
+              {!reduce && <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-[#D10E63] align-middle" />}
+            </>
+          ) : (
+            <span className="text-[var(--store-muted)]">{t.listeningPrompt}</span>
+          )}
         </p>
       </div>
 
-      {/* Understood cues */}
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        {UNDERSTOOD.slice(0, cues).map((u) => (
-          <motion.span
-            key={u[lang]}
-            initial={reduce ? false : { opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-full border border-[#D10E63]/25 bg-[#FCEAF2]/70 px-2.5 py-0.5 text-xs font-medium text-[#AD0C53]"
-          >
-            {u[lang]}
-          </motion.span>
-        ))}
-      </div>
+      {/* Suggestion to pronounce — guidance, never an auto-launch. */}
+      <p className="mt-3 text-pretty text-xs text-[var(--store-muted)]">
+        <span className="font-semibold text-[#AD0C53]">{t.sayHint} </span>
+        {`« ${example.text[lang]} »`}
+      </p>
 
-      {/* Controls */}
-      <div className="mt-auto flex flex-wrap items-center gap-2 pt-6">
-        <button
-          type="button"
-          onClick={onPause}
-          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg border border-[#E7DFD0] px-3 py-2 text-sm font-semibold text-[var(--store-text)] transition-colors hover:bg-[#F1EADF]"
-        >
-          {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
-          {paused ? t.resume : t.pause}
-        </button>
+      {/* Controls: validate (finish) or switch to writing. */}
+      <div className="mt-6 flex w-full flex-wrap items-center justify-center gap-2">
         <button
           type="button"
           onClick={onFinish}
-          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-[#D10E63] px-3 py-2 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+          className="inline-flex min-h-[48px] items-center gap-1.5 rounded-full bg-[#D10E63] px-5 py-2.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF7F2]"
         >
           <Square className="h-3.5 w-3.5" />
           {t.finish}
@@ -996,7 +1054,7 @@ function ListeningPanel({
         <button
           type="button"
           onClick={onWrite}
-          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)]"
+          className="inline-flex min-h-[48px] items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
         >
           <Pencil className="h-4 w-4" />
           {t.toWrite}
