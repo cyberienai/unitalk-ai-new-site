@@ -107,7 +107,10 @@ export function AlmaSurface({
   const lastLoadKey = useRef<number | null>(null)
 
   const t = {
-    title: lang === 'fr' ? 'Dites à Alma ce que vous souhaitez confier.' : 'Tell Alma what you’d like to hand off.',
+    title:
+      lang === 'fr'
+        ? 'Dites à Alma ce que votre Collaborateur IA doit accomplir.'
+        : 'Tell Alma what your AI Collaborator should accomplish.',
     name: 'Alma',
     zoneTitle: lang === 'fr' ? 'Qu’est-ce qu’il faut faire ?' : 'What needs doing?',
     talk: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
