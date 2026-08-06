@@ -641,6 +641,7 @@ export function AlmaSurface({
                 onEdit={startEdit}
                 onCancelEdit={cancelEdit}
                 onReset={reset}
+                loadedTitle={loadedTitle}
                 lang={lang}
               />
             )}
@@ -1019,6 +1020,7 @@ function ConversePanel({
   onEdit,
   onCancelEdit,
   onReset,
+  loadedTitle,
   lang,
 }: {
   t: Copy
@@ -1034,6 +1036,7 @@ function ConversePanel({
   onEdit: (key: string) => void
   onCancelEdit: () => void
   onReset: () => void
+  loadedTitle: string | null
   lang: Lang
 }) {
   return (
@@ -1042,6 +1045,15 @@ function ConversePanel({
         <img src="/alma-avatar.png" alt="Alma" className="h-9 w-9 rounded-full object-cover ring-1 ring-[#D10E63]/30" />
         <p className="font-sf text-sm font-bold text-[var(--store-text)]">{t.name}</p>
       </div>
+
+      {/* Opening line when the mission came from the catalog. */}
+      {loadedTitle && (
+        <p className="mt-4 rounded-2xl rounded-tl-sm bg-[#F1EADF] px-3.5 py-2.5 text-sm leading-relaxed text-[var(--store-text)]">
+          {t.handoffPre}
+          <span className="font-semibold">{loadedTitle}</span>
+          {t.handoffPost}
+        </p>
+      )}
 
       {lastAnswer && (
         <div className="mt-4 self-end rounded-2xl rounded-br-sm bg-[#D10E63] px-3.5 py-2 text-sm text-[#FBF9F3]">

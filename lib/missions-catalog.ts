@@ -692,8 +692,10 @@ export function categoryCount(categoryKey: string): number {
 export const FEATURED_SLUGS = [
   'trouver-de-nouveaux-clients',
   'repondre-a-mes-clients',
-  'preparer-un-comite-de-direction',
-  'automatiser-mes-operations',
+  'preparer-et-suivre-mes-reunions',
+  'relancer-les-factures-impayees',
+  'suivre-les-reclamations',
+  'comparer-plusieurs-documents',
 ]
 
 // Kept for backward compatibility with earlier UI (3 high-impact).
