@@ -1028,7 +1028,7 @@ export function getStoreItemBySlug(slug: string): StoreItem | undefined {
 }
 
 export function storeItemHref(item: StoreItem): string {
-  return `/store/${TYPE_SLUGS[item.type]}/${item.slug}`
+  return `/collaborateurs-ia/${TYPE_SLUGS[item.type]}/${item.slug}`
 }
 
 /* ========================================================================= */

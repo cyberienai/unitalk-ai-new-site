@@ -47,8 +47,8 @@ export function StoreAlmaConsole({
       suggestionsLabel: 'Ou essayez :',
       listening: 'Alma vous écoute…',
       panelIdle: 'Décrivez un besoin pour qu’Alma prépare une recommandation.',
-      panelFound: 'Alma a repéré dans le Store :',
-      compose: 'Composer avec Alma',
+      panelFound: 'Alma a repéré pour votre Collaborateur IA :',
+      compose: 'Préparer avec Alma',
       units: {
         profil: (n: number) => `${n} profil${n > 1 ? 's' : ''} métier`,
         competence: (n: number) => `${n} compétence${n > 1 ? 's' : ''}`,
@@ -68,8 +68,8 @@ export function StoreAlmaConsole({
       suggestionsLabel: 'Or try:',
       listening: 'Alma is listening…',
       panelIdle: 'Describe a need and Alma will prepare a recommendation.',
-      panelFound: 'Alma spotted in the Store:',
-      compose: 'Compose with Alma',
+      panelFound: 'Alma found for your AI Collaborator:',
+      compose: 'Prepare with Alma',
       units: {
         profil: (n: number) => `${n} job profile${n > 1 ? 's' : ''}`,
         competence: (n: number) => `${n} skill${n > 1 ? 's' : ''}`,

@@ -70,9 +70,12 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
   if (!item) return null
 
   const t = {
-    back: lang === 'fr' ? 'Retour au Store' : 'Back to Store',
+    back:
+      lang === 'fr'
+        ? `Retour aux ${TYPE_LABELS_PLURAL[item.type].fr.toLowerCase()}`
+        : `Back to ${TYPE_LABELS_PLURAL[item.type].en.toLowerCase()}`,
     add: lang === 'fr' ? 'Ajouter à un Collaborateur' : 'Add to a Collaborator',
-    compose: lang === 'fr' ? 'Composer avec Alma' : 'Compose with Alma',
+    compose: lang === 'fr' ? 'Préparer avec Alma' : 'Prepare with Alma',
     createdBy: lang === 'fr' ? 'Créé par' : 'Created by',
     editor: lang === 'fr' ? 'Éditeur' : 'Editor',
     roleInOrg: lang === 'fr' ? 'Rôle dans l’Organisation' : 'Role in the Organization',
@@ -99,7 +102,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
     <main className="min-h-screen bg-[var(--store-page)]">
       <div className="mx-auto max-w-[820px] px-6 pb-24 pt-28 sm:pt-[124px] lg:pt-[136px]">
         <Link
-          href={`/store/${TYPE_SLUGS[item.type]}`}
+          href={`/collaborateurs-ia/${TYPE_SLUGS[item.type]}`}
           className="inline-flex items-center gap-2 text-sm font-medium text-[var(--store-muted)] transition-colors hover:text-[#AD0C53]"
         >
           <ArrowLeft className="h-4 w-4" />

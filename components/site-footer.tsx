@@ -12,9 +12,11 @@ const T = {
       {
         title: 'Produit',
         links: [
-          { label: 'Missions', href: '/missions' },
           { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
-          { label: 'Profils métier', href: '/collaborateurs-ia/roles' },
+          { label: 'Missions', href: '/missions' },
+          { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
+          { label: 'Compétences', href: '/collaborateurs-ia/competences' },
+          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Tarifs', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },
@@ -50,9 +52,11 @@ const T = {
       {
         title: 'Product',
         links: [
-          { label: 'Missions', href: '/missions' },
           { label: 'AI Collaborators', href: '/collaborateurs-ia' },
-          { label: 'Business profiles', href: '/collaborateurs-ia/roles' },
+          { label: 'Missions', href: '/missions' },
+          { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
+          { label: 'Skills', href: '/collaborateurs-ia/competences' },
+          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Pricing', href: '/tarifs' },
           { label: 'Open source', href: '/manifeste' },

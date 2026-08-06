@@ -289,7 +289,7 @@ export function SectionThreeWays({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             </LinkCard>,
             <LinkCard
               key="profile"
-              href="/store/profils-metier"
+              href="/collaborateurs-ia/profils-metier"
               icon={UserRound}
               label={t.profile.label}
               desc={t.profile.desc}
