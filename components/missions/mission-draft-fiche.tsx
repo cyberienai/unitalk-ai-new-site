@@ -27,6 +27,32 @@ type SectionDef = {
   icon: typeof Target
 }
 
+/**
+ * At rest (no draft yet) the fiche shows only three calm rubrics — never a
+ * skeleton loader. The precise sections (rhythm, rules, validations) surface
+ * once Alma starts structuring the mission.
+ */
+const REST_SECTIONS: { key: string; label: { fr: string; en: string }; help: { fr: string; en: string }; icon: typeof Target }[] = [
+  {
+    key: 'objective',
+    label: { fr: 'Objectif', en: 'Objective' },
+    help: { fr: 'Ce que vous souhaitez accomplir.', en: 'What you want to accomplish.' },
+    icon: Target,
+  },
+  {
+    key: 'result',
+    label: { fr: 'Résultat attendu', en: 'Expected result' },
+    help: { fr: 'Ce qui devra être obtenu ou livré.', en: 'What must be achieved or delivered.' },
+    icon: Sparkles,
+  },
+  {
+    key: 'frame',
+    label: { fr: 'Cadre de travail', en: 'Working frame' },
+    help: { fr: 'Rythme, règles et validations.', en: 'Rhythm, rules and validations.' },
+    icon: ScrollText,
+  },
+]
+
 const SECTIONS: SectionDef[] = [
   {
     key: 'objective',
@@ -83,10 +109,7 @@ export function MissionDraftFiche({
     prep: lang === 'fr' ? 'Mission en préparation' : 'Mission in preparation',
     prepTitle: lang === 'fr' ? 'Votre mission prendra forme ici.' : 'Your mission will take shape here.',
     ready: lang === 'fr' ? 'Mission prête à être adaptée' : 'Mission ready to be adapted',
-    footnote:
-      lang === 'fr'
-        ? 'Parlez naturellement. Alma s’occupe de structurer le travail.'
-        : 'Speak naturally. Alma takes care of structuring the work.',
+    footnote: lang === 'fr' ? 'Votre parole devient une mission.' : 'Your words become a mission.',
     nextStep: lang === 'fr' ? 'Prochaine étape' : 'Next step',
     nextBody:
       lang === 'fr'
@@ -142,7 +165,30 @@ export function MissionDraftFiche({
         {draft ? draft.title[lang] : t.prepTitle}
       </h3>
 
-      {/* Sections */}
+      {/* Sections — three calm rubrics at rest, detailed build once Alma engages. */}
+      {!draft ? (
+        <div className="mt-5 flex flex-1 flex-col gap-5">
+          {REST_SECTIONS.map((section) => {
+            const Icon = section.icon
+            return (
+              <div key={section.key} className="flex gap-3">
+                <span
+                  className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[var(--store-line)] text-[var(--store-muted)]"
+                  aria-hidden="true"
+                >
+                  <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">
+                    {section.label[lang]}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--store-muted)]">{section.help[lang]}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      ) : (
       <div className="mt-5 flex flex-1 flex-col gap-4">
         {SECTIONS.map((section) => {
           const Icon = section.icon
@@ -219,6 +265,7 @@ export function MissionDraftFiche({
           )
         })}
       </div>
+      )}
 
       {/* Footer: footnote while building, handoff when ready */}
       {ready && draft ? (
@@ -254,15 +301,7 @@ export function MissionDraftFiche({
   )
 }
 
-/** Very light ghost lines used for an incomplete section. */
+/** Quiet help text for a section Alma hasn’t filled yet — no skeleton bars. */
 function GhostHelp({ text }: { text: string }) {
-  return (
-    <div className="mt-1">
-      <p className="text-sm leading-relaxed text-[var(--store-muted)]">{text}</p>
-      <div className="mt-2 flex flex-col gap-1.5" aria-hidden="true">
-        <span className="h-2 w-full rounded-full bg-[var(--store-line)]" />
-        <span className="h-2 w-2/3 rounded-full bg-[var(--store-line)]" />
-      </div>
-    </div>
-  )
+  return <p className="mt-1 text-sm leading-relaxed text-[var(--store-muted)]">{text}</p>
 }

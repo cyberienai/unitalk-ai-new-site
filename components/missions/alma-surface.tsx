@@ -98,16 +98,16 @@ export function AlmaSurface({
         ? 'Dites-le simplement à Alma. Elle vous écoute et transforme votre besoin en une mission claire.'
         : 'Just tell Alma. She listens and turns your need into a clear mission.',
     name: 'Alma',
-    sayTitle: lang === 'fr' ? 'Dites-le à Alma' : 'Tell Alma',
     sayBody:
       lang === 'fr'
-        ? 'Expliquez ce que vous aimeriez confier, comme vous le feriez à une collègue.'
-        : 'Explain what you’d like to hand off, as you would to a colleague.',
+        ? 'Expliquez naturellement ce que vous souhaitez confier.'
+        : 'Explain naturally what you’d like to hand off.',
     talk: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     consent: lang === 'fr' ? 'Le micro s’active uniquement avec votre accord.' : 'The mic only turns on with your consent.',
     watch: lang === 'fr' ? 'Voir Alma en action · 45 s' : 'See Alma in action · 45 s',
-    prefWrite: lang === 'fr' ? 'Je préfère écrire' : 'I’d rather write',
+    prefWrite: lang === 'fr' ? 'ou écrire à Alma' : 'or write to Alma',
     starters: lang === 'fr' ? 'Quelques exemples' : 'A few examples',
+    moreExamples: lang === 'fr' ? 'Voir d’autres exemples' : 'See more examples',
     listening: lang === 'fr' ? 'Alma vous écoute' : 'Alma is listening',
     micOn: lang === 'fr' ? 'Micro actif' : 'Mic on',
     pause: lang === 'fr' ? 'Pause' : 'Pause',
@@ -447,7 +447,7 @@ export function AlmaSurface({
         className="overflow-hidden rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)]"
         aria-label={lang === 'fr' ? 'Préparer une mission avec Alma' : 'Prepare a mission with Alma'}
       >
-        <div className="grid lg:min-h-[470px] lg:grid-cols-[42%_58%]">
+        <div className="grid lg:min-h-[420px] lg:grid-cols-[42%_58%]">
           {/* LEFT — Alma + conversation */}
           <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-7 lg:border-b-0 lg:border-r">
             {stage === 'intro' && !writer && (
@@ -588,22 +588,26 @@ function StarterList({
   lang,
   onStarter,
   label,
+  moreLabel,
 }: {
   starters: typeof STARTERS
   lang: Lang
   onStarter: (s: (typeof STARTERS)[number]) => void
   label: string
+  moreLabel: string
 }) {
+  const [expanded, setExpanded] = useState(false)
+  const visible = expanded ? starters : starters.slice(0, 2)
   return (
-    <div className="mt-auto pt-6">
+    <div className="mt-6">
       <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">{label}</p>
       <ul className="flex flex-col gap-0.5">
-        {starters.map((s) => (
+        {visible.map((s) => (
           <li key={s.slug}>
             <button
               type="button"
               onClick={() => onStarter(s)}
-              className="group flex min-h-[44px] w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm leading-snug text-[var(--store-text)] transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+              className="group flex min-h-[40px] w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm leading-snug text-[var(--store-text)] transition-colors hover:bg-[#D10E63]/8 focus-visible:bg-[#D10E63]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
             >
               <span className="font-mono text-[#D10E63]" aria-hidden="true">
                 {'»'}
@@ -613,6 +617,15 @@ function StarterList({
           </li>
         ))}
       </ul>
+      {!expanded && starters.length > visible.length && (
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="mt-1 inline-flex min-h-[36px] items-center rounded-lg px-2 text-xs font-semibold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+        >
+          {moreLabel}
+        </button>
+      )}
     </div>
   )
 }
@@ -644,8 +657,7 @@ function IntroPresence({
     <div className="flex h-full flex-col">
       <div className="flex flex-col items-center text-center">
         <AlmaAvatar reduce={reduce} />
-        <p className="mt-3 font-sf text-sm font-bold text-[var(--store-text)]">{t.name}</p>
-        <h2 className="mt-2 font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">{t.sayTitle}</h2>
+        <p className="mt-3 font-sf text-base font-bold text-[var(--store-text)]">{t.name}</p>
         <p className="mt-1.5 max-w-xs text-pretty text-sm leading-relaxed text-[var(--store-muted)]">{t.sayBody}</p>
 
         <button
@@ -656,31 +668,30 @@ function IntroPresence({
           <Mic className="h-[18px] w-[18px]" />
           {t.talk}
         </button>
-        <p className="mt-2 text-xs text-[var(--store-muted)]">{t.consent}</p>
+        <button
+          type="button"
+          onClick={onWrite}
+          className="mt-2 inline-flex min-h-[36px] items-center rounded-lg px-2 text-sm font-medium text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+        >
+          {t.prefWrite}
+        </button>
         {micError && <p className="mt-2 max-w-xs text-xs font-medium text-[#B00B52]">{micError}</p>}
-
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-          <button
-            ref={demoTriggerRef}
-            type="button"
-            onClick={onDemo}
-            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-2 text-sm font-semibold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-          >
-            <Play className="h-4 w-4" />
-            {t.watch}
-          </button>
-          <button
-            type="button"
-            onClick={onWrite}
-            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-          >
-            <Pencil className="h-4 w-4" />
-            {t.prefWrite}
-          </button>
-        </div>
       </div>
 
-      <StarterList starters={starters} lang={lang} onStarter={onStarter} label={t.starters} />
+      <StarterList starters={starters} lang={lang} onStarter={onStarter} label={t.starters} moreLabel={t.moreExamples} />
+
+      {/* Marketing proof — visually lighter than the entry modes, pinned to the bottom. */}
+      <button
+        ref={demoTriggerRef}
+        type="button"
+        onClick={onDemo}
+        className="group mt-auto flex items-center gap-3 rounded-xl border border-[#E7DFD0] bg-[#FBF9F3] px-3 py-2.5 text-left transition-colors hover:border-[#D10E63]/40 hover:bg-[#FCEAF2]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      >
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]" aria-hidden="true">
+          <Play className="h-4 w-4" fill="currentColor" />
+        </span>
+        <span className="text-sm font-semibold text-[var(--store-text)]">{t.watch}</span>
+      </button>
     </div>
   )
 }
@@ -763,7 +774,7 @@ function WriteComposer({
         </div>
       </div>
 
-      <StarterList starters={starters} lang={lang} onStarter={onStarter} label={t.starters} />
+      <StarterList starters={starters} lang={lang} onStarter={onStarter} label={t.starters} moreLabel={t.moreExamples} />
     </div>
   )
 }
