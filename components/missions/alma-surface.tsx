@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowUp, Mic, Pause, Paperclip, Pencil, Play, Square, RotateCcw, X } from 'lucide-react'
+import { ArrowUp, Mic, Paperclip, Pencil, Play, Square, RotateCcw, X } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import type { Mission } from '@/lib/missions-catalog'
 import { getMission } from '@/lib/missions-catalog'
