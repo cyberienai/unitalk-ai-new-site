@@ -81,6 +81,8 @@ export function AlmaSurface({
   const [shown, setShown] = useState<FicheShown>({})
   const [justAdded, setJustAdded] = useState<string | null>(null)
   const [ready, setReady] = useState(false)
+  // Title of a mission picked from the catalog — drives Alma's opening line.
+  const [loadedTitle, setLoadedTitle] = useState<string | null>(null)
 
   const [clarifications, setClarifications] = useState<Clarification[]>([])
   const [clarIndex, setClarIndex] = useState(0)
@@ -144,6 +146,11 @@ export function AlmaSurface({
     prepare: lang === 'fr' ? 'Préparer la mission' : 'Prepare the mission',
     attach: lang === 'fr' ? 'Joindre un document' : 'Attach a document',
     you: lang === 'fr' ? 'Vous' : 'You',
+    // Alma's opening line when a mission is loaded from the catalog. Split so the
+    // mission title can be emphasised between the two halves.
+    handoffPre: lang === 'fr' ? 'Vous souhaitez confier « ' : 'You’d like to hand off "',
+    handoffPost:
+      lang === 'fr' ? ' ». Précisons ensemble le résultat attendu.' : '". Let’s define the expected result together.',
     almaAsks: lang === 'fr' ? 'Alma vous demande' : 'Alma asks',
     answerPh: lang === 'fr' ? 'Répondez à Alma…' : 'Answer Alma…',
     send: lang === 'fr' ? 'Envoyer' : 'Send',
@@ -265,8 +272,9 @@ export function AlmaSurface({
   useEffect(() => {
     if (!loadRequest || loadRequest.key === lastLoadKey.current) return
     lastLoadKey.current = loadRequest.key
+    setLoadedTitle(loadRequest.mission.title[lang])
     start(loadRequest.mission, loadRequest.mission.title)
-  }, [loadRequest, start])
+  }, [loadRequest, start, lang])
 
   // Persist the draft as it evolves so /decouvrir can pick it up.
   useEffect(() => {
@@ -487,6 +495,7 @@ export function AlmaSurface({
     setDraft(null)
     setShown({})
     setReady(false)
+    setLoadedTitle(null)
     setJustAdded(null)
     setClarifications([])
     setClarIndex(0)

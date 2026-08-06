@@ -7,8 +7,6 @@ import { Mic, SlidersHorizontal, X } from 'lucide-react'
 import {
   MISSION_CATEGORIES,
   featuredMissions,
-  recentMissions,
-  categoryCount,
   FEATURED_SLUGS,
   type Mission,
 } from '@/lib/missions-catalog'
@@ -39,9 +37,8 @@ import {
 } from '@/lib/missions-store'
 import { useLanguage } from '@/lib/language-context'
 import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar'
-import { StoreCard, FeaturedCard, RecentCard, AlmaBand } from '@/components/missions/store-card'
-import { AlmaSurface } from '@/components/missions/alma-surface'
-import { PreviewDrawer } from '@/components/missions/preview-drawer'
+import { StoreCard, AlmaBand } from '@/components/missions/store-card'
+import { AlmaSurface, type LoadRequest } from '@/components/missions/alma-surface'
 import { FilterSheet } from '@/components/missions/filter-sheet'
 
 const FACET_SOURCES: Record<MultiKey, Facet[]> = {
@@ -75,7 +72,11 @@ export function MissionsContent() {
   const [sort, setSort] = useState<SortKey>(() => sortFromParams(new URLSearchParams(searchParams.toString())))
 
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [preview, setPreview] = useState<Mission | null>(null)
+
+  // A picked mission is loaded straight into Alma (no cold detail page).
+  const [loadRequest, setLoadRequest] = useState<LoadRequest | null>(null)
+  // Flying "ghost" card played during the handoff to Alma.
+  const [ghost, setGhost] = useState<{ mission: Mission; from: DOMRect } | null>(null)
 
   // Alma can be collapsed for the session; it returns next visit.
   const ALMA_HIDDEN_KEY = 'unitalk_missions_alma_hidden'
@@ -106,7 +107,6 @@ export function MissionsContent() {
 
   const catalogRef = useRef<HTMLDivElement>(null)
   const loadMoreRef = useRef<HTMLDivElement>(null)
-  const previewTrigger = useRef<HTMLElement | null>(null)
 
   const trimmed = query.trim()
   const hasQuery = trimmed.length > 0
@@ -128,9 +128,8 @@ export function MissionsContent() {
     setVisibleCount(PAGE_SIZE)
   }, [trimmed, filters, sort])
 
-  // Editorial data (stable).
+  // The 6 imposed missions that open the grid (stable order).
   const featured = useMemo(() => featuredMissions(), [])
-  const recent = useMemo(() => recentMissions(6), [])
 
   // Ranked + filtered list over all 144 missions.
   const results = useMemo(() => {
@@ -141,21 +140,14 @@ export function MissionsContent() {
     return sortMissions(list, sort, lang)
   }, [trimmed, hasQuery, lang, filters, sort])
 
-  // Without any refinement, the first cards should not repeat the editorial rows.
-  const editorialSet = useMemo(() => {
-    const s = new Set<string>(FEATURED_SLUGS)
-    for (const m of recent) s.add(m.slug)
-    return s
-  }, [recent])
+  // A single grid: with no refinement, the 6 featured missions lead, then the
+  // rest of the catalog (deduplicated). Under filters/search, plain results.
+  const catalog = useMemo(() => {
+    if (!showEditorial) return results
+    const featuredSet = new Set<string>(FEATURED_SLUGS)
+    return [...featured, ...results.filter((m) => !featuredSet.has(m.slug))]
+  }, [results, showEditorial, featured])
 
-  const catalog = useMemo(
-    () => (showEditorial ? results.filter((m) => !editorialSet.has(m.slug)) : results),
-    [results, showEditorial, editorialSet],
-  )
-
-  // Counter reflects the true matching total (e.g. 144 with no filter). The grid
-  // paginates over `catalog`, which excludes the editorial rows so they don't
-  // repeat immediately — the two can legitimately differ by the excluded count.
   const total = results.length
   const poolTotal = catalog.length
   const visible = catalog.slice(0, visibleCount)
@@ -177,16 +169,35 @@ export function MissionsContent() {
     return () => observer.disconnect()
   }, [hasMore, visibleCount])
 
-  // --- state mutators --------------------------------------------------------
-  const openPreview = useCallback((m: Mission, trigger: HTMLElement | null) => {
-    previewTrigger.current = trigger
-    setPreview(m)
-  }, [])
+  // --- card → Alma handoff ---------------------------------------------------
+  // Clicking a card loads the mission into Alma. A short "flying card" bridges
+  // the two so the move reads as continuous; reduced motion skips straight to
+  // the load. If Alma was collapsed, it is restored first.
+  const loadIntoAlma = useCallback(
+    (m: Mission) => {
+      setAlmaHidden(false)
+      try {
+        sessionStorage.removeItem(ALMA_HIDDEN_KEY)
+      } catch {}
+      setLoadRequest({ mission: m, key: Date.now() })
+      requestAnimationFrame(() => almaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    },
+    [],
+  )
 
-  const closePreview = useCallback(() => {
-    setPreview(null)
-    previewTrigger.current?.focus()
-  }, [])
+  const selectMission = useCallback(
+    (m: Mission, trigger: HTMLElement | null) => {
+      if (reduce || !trigger) {
+        loadIntoAlma(m)
+        return
+      }
+      setGhost({ mission: m, from: trigger.getBoundingClientRect() })
+      loadIntoAlma(m)
+      // Clear the ghost once its flight is over.
+      window.setTimeout(() => setGhost(null), 620)
+    },
+    [reduce, loadIntoAlma],
+  )
 
   function selectType(key: string) {
     setFilters((p) => ({ ...p, type: key as StoreFilters['type'] }))
@@ -205,6 +216,41 @@ export function MissionsContent() {
     setQuery('')
   }
 
+  // Short category labels used only in the left rail (not the global taxonomy).
+  const railCategoryLabels = useMemo<Record<string, string>>(
+    () =>
+      lang === 'fr'
+        ? {
+            ventes: 'Ventes et prospection',
+            'relation-client': 'Service client',
+            marketing: 'Marketing et communication',
+            reunions: 'Réunions et coordination',
+            administration: 'Assistanat et organisation',
+            finance: 'Finance et administration',
+            rh: 'RH et recrutement',
+            direction: 'Direction et pilotage',
+            documents: 'Documents et connaissances',
+            analyse: 'Analyse et veille',
+            operations: 'Opérations et automatisation',
+            produit: 'Produit et technologie',
+          }
+        : {
+            ventes: 'Sales & prospecting',
+            'relation-client': 'Customer service',
+            marketing: 'Marketing & communication',
+            reunions: 'Meetings & coordination',
+            administration: 'Assistance & organization',
+            finance: 'Finance & admin',
+            rh: 'HR & recruiting',
+            direction: 'Leadership & steering',
+            documents: 'Documents & knowledge',
+            analyse: 'Analysis & monitoring',
+            operations: 'Operations & automation',
+            produit: 'Product & technology',
+          },
+    [lang],
+  )
+
   // --- copy ------------------------------------------------------------------
   const t = {
     recallText: lang === 'fr' ? 'Vous préférez décrire votre besoin ?' : 'Prefer to describe your need?',
@@ -214,16 +260,6 @@ export function MissionsContent() {
       lang === 'fr'
         ? 'Parcourez les missions prêtes à confier, ou affinez avec les filtres.'
         : 'Browse ready-to-hand-off missions, or refine with the filters.',
-    featuredTitle: lang === 'fr' ? 'Missions recommandées' : 'Recommended missions',
-    featuredDesc:
-      lang === 'fr'
-        ? 'Des missions prêtes à être adaptées à votre Organisation par Alma.'
-        : 'Missions ready to be adapted to your Organization by Alma.',
-    recentTitle: lang === 'fr' ? 'Nouvelles missions' : 'New missions',
-    recentDesc:
-      lang === 'fr'
-        ? 'Une sélection des dernières missions publiées dans le catalogue.'
-        : 'A selection of the latest missions published in the catalog.',
     all: lang === 'fr' ? 'Toutes les missions' : 'All missions',
     results: lang === 'fr' ? 'Résultats' : 'Results',
     count: (n: number) => `${n} mission${n > 1 ? 's' : ''}`,
@@ -297,7 +333,7 @@ export function MissionsContent() {
           >
             {/* Fixed navbar is 76px tall; keep the same top offset as before. */}
             <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
-              <AlmaSurface lang={lang} initialQuery={almaText} onHide={hideAlma} />
+              <AlmaSurface lang={lang} initialQuery={almaText} onHide={hideAlma} loadRequest={loadRequest} />
             </div>
           </motion.div>
         )}
@@ -335,6 +371,7 @@ export function MissionsContent() {
                 onType={selectType}
                 onCategory={selectCategory}
                 onToggleFacet={toggleFacet}
+                categoryLabels={railCategoryLabels}
               />
             </div>
           </aside>
@@ -419,39 +456,8 @@ export function MissionsContent() {
               </div>
             </div>
 
-            {/* Editorial sections */}
-            {showEditorial && (
-              <>
-                <section className="mt-8 scroll-mt-24">
-                  <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
-                    {t.featuredTitle}
-                  </h2>
-                  <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.featuredDesc}</p>
-                  <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {featured.map((m) => (
-                      <FeaturedCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} />
-                    ))}
-                  </div>
-                </section>
-
-                {recent.length > 0 && (
-                  <section className="mt-10 scroll-mt-24">
-                    <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
-                      {t.recentTitle}
-                    </h2>
-                    <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.recentDesc}</p>
-                    <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                      {recent.map((m) => (
-                        <RecentCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} />
-                      ))}
-                    </div>
-                  </section>
-                )}
-              </>
-            )}
-
-            {/* Catalog */}
-            <section ref={catalogRef} className={`scroll-mt-24 ${showEditorial ? 'mt-10' : 'mt-6'}`}>
+            {/* Catalog — a single grid, led by the 6 featured missions. */}
+            <section ref={catalogRef} className="mt-6 scroll-mt-24">
               <div className="mb-4 flex items-center justify-between gap-4">
                 <div className="flex items-baseline gap-2">
                   <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
@@ -497,7 +503,13 @@ export function MissionsContent() {
                 <>
                   <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {visible.map((m) => (
-                      <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={openPreview} />
+                      <StoreCard
+                        key={m.slug}
+                        mission={m}
+                        categories={MISSION_CATEGORIES}
+                        lang={lang}
+                        onSelect={selectMission}
+                      />
                     ))}
                   </div>
 
@@ -524,7 +536,6 @@ export function MissionsContent() {
         </div>
       </div>
 
-      <PreviewDrawer mission={preview} categories={MISSION_CATEGORIES} lang={lang} onClose={closePreview} />
       <FilterSheet
         open={sheetOpen}
         filters={filters}
@@ -534,6 +545,40 @@ export function MissionsContent() {
         onClear={clearAll}
         onClose={() => setSheetOpen(false)}
       />
+
+      {/* Flying card: a brief ghost that lifts from the clicked card and glides
+          up toward Alma, so the handoff reads as one continuous motion. */}
+      <AnimatePresence>
+        {ghost && (
+          <motion.div
+            aria-hidden="true"
+            initial={{
+              position: 'fixed',
+              top: ghost.from.top,
+              left: ghost.from.left,
+              width: ghost.from.width,
+              height: ghost.from.height,
+              opacity: 1,
+              scale: 1,
+              zIndex: 60,
+            }}
+            animate={{
+              top: Math.max(96, ghost.from.top - 260),
+              left: ghost.from.left + ghost.from.width / 2 - 90,
+              width: 180,
+              height: 84,
+              opacity: 0,
+              scale: 0.7,
+            }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-none overflow-hidden rounded-[10px] border border-[#D10E63]/40 bg-[var(--store-surface)] p-4 shadow-[0_18px_40px_-12px_rgba(209,14,99,0.4)]"
+          >
+            <p className="line-clamp-2 font-sf text-sm font-bold leading-snug text-[var(--store-text)]">
+              {ghost.mission.title[lang]}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   )
 }

@@ -29,12 +29,16 @@ export function StoreSidebar({
   onType,
   onCategory,
   onToggleFacet,
+  categoryLabels,
 }: {
   filters: StoreFilters
   lang: Lang
   onType: (key: string) => void
   onCategory: (key: string) => void
   onToggleFacet: (group: MultiKey, value: string) => void
+  /** Optional short labels for the rail only (keyed by category key), so the
+   *  sidebar can read more compactly without changing the global taxonomy. */
+  categoryLabels?: Record<string, string>
 }) {
   return (
     <nav
@@ -69,7 +73,7 @@ export function StoreSidebar({
           {CATEGORY_FACETS.map((c) => (
             <li key={c.key}>
               <RowButton
-                label={c.label[lang]}
+                label={categoryLabels?.[c.key] ?? c.label[lang]}
                 active={filters.categorie === c.key}
                 onClick={() => onCategory(c.key)}
               />
