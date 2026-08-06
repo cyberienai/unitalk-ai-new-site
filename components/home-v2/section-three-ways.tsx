@@ -17,8 +17,8 @@ const T = {
         icon: Globe,
         badge: 'Le plus rapide',
         label: 'À partir de votre entreprise',
-        desc: 'Vous avez déjà un site web. Alma analyse votre entreprise, construit son contexte et prépare le Collaborateur IA le plus adapté à vos besoins.',
-        cta: 'Analyser mon entreprise',
+        desc: 'Indiquez votre nom de domaine. Alma explore votre site et les informations publiques disponibles, construit le contexte de votre entreprise et prépare le Collaborateur IA le plus adapté à vos besoins.',
+        cta: 'Analyser mon site web',
         href: '/decouvrir',
       },
       {
@@ -55,8 +55,8 @@ const T = {
         icon: Globe,
         badge: 'Fastest',
         label: 'From your company',
-        desc: 'You already have a website. Alma analyzes your company, builds its context and prepares the AI Collaborator best suited to your needs.',
-        cta: 'Analyze my company',
+        desc: 'Enter your domain name. Alma explores your website and the public information available, builds your company context and prepares the AI Collaborator best suited to your needs.',
+        cta: 'Analyze my website',
         href: '/decouvrir',
       },
       {
