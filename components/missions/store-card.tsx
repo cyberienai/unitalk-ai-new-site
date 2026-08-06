@@ -239,29 +239,31 @@ export function AlmaBand({
   return (
     <Link
       href={href}
-      className="group relative flex flex-col gap-4 overflow-hidden rounded-[10px] bg-[#241F1D] p-6 text-[#F3EFE6] transition-transform duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 sm:flex-row sm:items-center sm:gap-6 sm:p-7"
+      className="group relative flex flex-col gap-5 overflow-hidden rounded-xl border border-white/[0.08] bg-[#241F1D] p-6 text-[#F3EFE6] transition-[transform,border-color] duration-200 hover:-translate-y-px hover:border-[#D10E63]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-7"
     >
-      <img
-        src="/alma-avatar.png"
-        alt=""
+      {/* Subtle brand glow anchored to the CTA side, purely decorative. */}
+      <span
         aria-hidden="true"
-        className="h-11 w-11 shrink-0 rounded-full object-cover ring-1 ring-[#D10E63]/50"
+        className="pointer-events-none absolute -right-16 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-[#D10E63]/[0.14] blur-3xl"
       />
-      <div className="min-w-0 flex-1">
-        <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#F5A9CC]">
-          <Sparkles className="h-3.5 w-3.5" />
-          Alma
-        </span>
-        <h3 className="mt-1.5 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[#FBF9F3] text-balance">
+      <div className="relative min-w-0 flex-1">
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#F5A9CC]">Alma</span>
+        <h3 className="mt-1.5 font-sf text-[20px] font-semibold leading-snug tracking-[-0.01em] text-[#FBF9F3] text-balance">
           {title}
         </h3>
-        <p className="mt-1 max-w-2xl text-sm leading-[1.5] text-[#C9C1B8]">
+        <p className="mt-1.5 max-w-2xl text-sm leading-[1.55] text-[#C9C1B8]">
           {lang === 'fr'
             ? 'Décrivez votre objectif à Alma. Elle préparera le Collaborateur IA adapté à votre organisation.'
             : 'Describe your goal to Alma. She’ll prepare the AI Collaborator suited to your organization.'}
         </p>
       </div>
-      <span className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3] transition-colors group-hover:bg-[#B60C56]">
+      <span className="relative inline-flex shrink-0 items-center gap-3 rounded-full bg-[#D10E63] py-1.5 pl-1.5 pr-5 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-8px_rgba(209,14,99,0.7)] transition-colors group-hover:bg-[#B60C56]">
+        <img
+          src="/alma-avatar.png"
+          alt=""
+          aria-hidden="true"
+          className="h-9 w-9 rounded-full object-cover ring-2 ring-white/25"
+        />
         {lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma'}
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
       </span>
