@@ -47,8 +47,8 @@ const T: Record<
 > = {
   fr: {
     kicker: 'Si vous savez déjà qui recruter',
-    headline1: 'De quel savoir-faire',
-    headline2: 'avez-vous besoin\u00A0?',
+    headline1: 'Choisissez',
+    headline2: 'un profil métier.',
     subtitle:
       'Choisissez un profil métier. Alma l’adapte à votre activité et prépare ses premières missions.',
     choose: 'Choisir ce profil',
@@ -56,8 +56,8 @@ const T: Record<
   },
   en: {
     kicker: 'If you already know who to hire',
-    headline1: 'Which know-how',
-    headline2: 'do you need?',
+    headline1: 'Choose',
+    headline2: 'a business profile.',
     subtitle:
       'Choose a business profile. Alma tailors it to your activity and prepares its first missions.',
     choose: 'Choose this profile',

@@ -142,8 +142,8 @@ const MISSIONS: Mission[] = [
 const T = {
   fr: {
     kicker: 'Si vous avez une mission en tête',
-    headline1: 'Que souhaitez-vous',
-    headline2: 'accomplir\u00A0?',
+    headline1: 'Choisissez',
+    headline2: 'une mission.',
     subtitle:
       'Choisissez une mission. Alma prépare le profil métier et les compétences nécessaires à votre Collaborateur\u00A0IA.',
     prepares: 'Alma prépare',
@@ -157,8 +157,8 @@ const T = {
   },
   en: {
     kicker: 'If you have a mission in mind',
-    headline1: 'What do you want',
-    headline2: 'to accomplish?',
+    headline1: 'Choose',
+    headline2: 'a mission.',
     subtitle:
       'Choose a mission. Alma prepares the business profile and skills your AI\u00A0Collaborator needs.',
     prepares: 'Alma prepares',
