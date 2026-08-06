@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Calendar, Check, Layers, Loader2, Mail, Phone } from 'lucide-react'
+import { ArrowRight, Calendar, Check, Clock, Layers, Loader2, Mail, Phone } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
 
@@ -12,23 +12,19 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un',
     readyLead: 'Votre Collaborateur IA est prêt à',
     missions: [
-      'répondre à vos clients',
-      'trouver de nouveaux prospects',
-      'préparer vos devis',
       'répondre au téléphone',
+      'traiter vos emails',
       'organiser vos réunions',
-      'transcrire vos réunions',
-      'envoyer vos emails',
-      'créer vos contenus',
-      'mettre à jour votre CRM',
-      'automatiser vos tâches',
+      'préparer vos comptes rendus',
+      'coordonner votre agenda',
     ],
     almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
-      '. Elle analyse votre entreprise, puis recrute le Collaborateur IA dont vous avez besoin.',
-    cta: 'Recruter mon Collaborateur IA',
-    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Configuré par Alma'],
+      '. Elle découvre votre entreprise et prépare le Collaborateur IA dont votre organisation a besoin.',
+    cta: 'Parler à Alma',
+    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Préparé avec Alma'],
+    almaPrepLabel: 'Préparée par Alma pour Solvea',
     // Séquence Alma (avant l'arrivée d'Emma)
     analyzeLabel: 'Analyse de solvea.fr',
     analyzeCaption: 'Sources publiques analysées',
@@ -47,37 +43,34 @@ const T = {
       { icon: Calendar, label: 'Agenda connecté' },
     ],
     expertisesLabel: 'Expertises',
-    expertises: ['Agenda', 'Réunions', 'Reporting', 'Emails'],
+    expertises: ['Agenda', 'Réunions', 'Reporting', 'Emails', 'Téléphone'],
     activityLabel: 'En ce moment',
     activities: [
-      'Prépare le comité de direction de lundi',
-      'A répondu à 3 demandes clients',
-      'Planifie un point avec un prospect',
+      { label: 'Prépare le comité de direction de lundi', status: 'live' },
+      { label: 'A transmis le compte rendu de la réunion d’équipe', status: 'done' },
+      { label: 'Organise les rendez-vous de la semaine', status: 'upcoming' },
     ],
     doneLabel: 'Terminé',
     liveLabel: 'En cours',
+    upcomingLabel: 'À venir',
   },
   en: {
     eyebrow: 'Someone is missing',
     readyLead: 'Your AI Collaborator is ready to',
     missions: [
-      'answer your customers',
-      'find new prospects',
-      'prepare your quotes',
       'answer the phone',
+      'handle your emails',
       'organize your meetings',
-      'transcribe your meetings',
-      'send your emails',
-      'create your content',
-      'update your CRM',
-      'automate your tasks',
+      'prepare your minutes',
+      'coordinate your calendar',
     ],
     almaLeadPre: 'Talk to ',
     almaName: 'Alma',
     almaLeadPost:
-      '. She analyzes your company, then recruits the AI Collaborator you need.',
-    cta: 'Recruit my AI Collaborator',
-    proofs: ['7-day free trial', 'No credit card', 'Set up by Alma'],
+      '. She discovers your company and prepares the AI Collaborator your organization needs.',
+    cta: 'Talk to Alma',
+    proofs: ['7-day free trial', 'No credit card', 'Prepared with Alma'],
+    almaPrepLabel: 'Prepared by Alma for Solvea',
     // Alma sequence (before Emma appears)
     analyzeLabel: 'Analyzing solvea.fr',
     analyzeCaption: 'Public sources analyzed',
@@ -96,23 +89,20 @@ const T = {
       { icon: Calendar, label: 'Calendar connected' },
     ],
     expertisesLabel: 'Expertise',
-    expertises: ['Calendar', 'Meetings', 'Reporting', 'Emails'],
+    expertises: ['Calendar', 'Meetings', 'Reporting', 'Emails', 'Phone'],
     activityLabel: 'Right now',
     activities: [
-      'Preparing Monday’s leadership meeting',
-      'Answered 3 customer requests',
-      'Scheduling a call with a prospect',
+      { label: 'Preparing Monday’s leadership meeting', status: 'live' },
+      { label: 'Sent the team meeting minutes', status: 'done' },
+      { label: 'Organizing this week’s appointments', status: 'upcoming' },
     ],
     doneLabel: 'Done',
     liveLabel: 'In progress',
+    upcomingLabel: 'Upcoming',
   },
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
-
-// Progression des tâches d'Emma : 0,1,2 = tâche active, 3 = tout terminé (hold), puis reboucle.
-const TASK_STEPS = 4
-const STEP_MS = 2200
 
 type Phase = 'analyzing' | 'building' | 'creating' | 'ready'
 
@@ -152,25 +142,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     return () => timers.forEach(clearTimeout)
   }, [reduceMotion, lang, t.analyzeSteps])
 
-  // Progression des tâches d'Emma — démarre une fois Emma en poste
-  const [taskStep, setTaskStep] = useState(reduceMotion ? TASK_STEPS - 1 : 0)
-  useEffect(() => {
-    if (reduceMotion) {
-      setTaskStep(TASK_STEPS - 1)
-      return
-    }
-    if (phase !== 'ready') {
-      setTaskStep(0)
-      return
-    }
-    setTaskStep(0)
-    const id = setInterval(() => {
-      setTaskStep((s) => (s + 1) % TASK_STEPS)
-    }, STEP_MS)
-    return () => clearInterval(id)
-  }, [reduceMotion, phase])
-
-  const allDone = taskStep >= t.activities.length
   const intro = phase !== 'ready'
   const introLabel = phase === 'analyzing' ? t.analyzeLabel : phase === 'building' ? t.buildingLabel : t.creatingLabel
   const analyzeCount = Math.min(analyzeStep, t.analyzeSteps.length)
@@ -252,6 +223,18 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
         {/* Visual — Alma construit le contexte, puis Emma prend son poste */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
+          {/* Libellé discret : Emma est préparée par Alma pour l'entreprise */}
+          <p className="mb-3 flex items-center gap-1.5 pl-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#8F887C]">
+            <Image
+              src="/alma-avatar.png"
+              alt=""
+              width={16}
+              height={16}
+              className="h-3.5 w-3.5 rounded-full object-cover opacity-90 ring-1 ring-[#D10E63]/25"
+            />
+            {t.almaPrepLabel}
+          </p>
+
           {/* Halo aurora bi-teinte derrière la carte */}
           <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
             <motion.div
@@ -518,31 +501,22 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       </div>
 
                       <ul className="flex flex-col gap-1.5">
-                        {t.activities.map((task, i) => {
-                          const done = allDone || i < taskStep
-                          const live = !allDone && i === taskStep
+                        {t.activities.map((task) => {
+                          const live = task.status === 'live'
+                          const done = task.status === 'done'
                           return (
                             <li
-                              key={task}
-                              className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[11px] font-medium transition-colors duration-500 ${
+                              key={task.label}
+                              className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[11px] font-medium ${
                                 live
-                                  ? 'bg-[#D10E63]/[0.14] text-[#F6F1E8]'
+                                  ? 'border border-[#F0658F]/40 bg-[#D10E63]/[0.14] text-[#F6F1E8]'
                                   : done
-                                    ? 'text-[#D8D2C6]'
-                                    : 'text-[#6E685E]'
+                                    ? 'text-[#B7B1A6]'
+                                    : 'text-[#CFC9BD]'
                               }`}
                             >
                               <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
-                                {done ? (
-                                  <motion.span
-                                    initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    transition={{ duration: 0.35, ease }}
-                                    className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15"
-                                  >
-                                    <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
-                                  </motion.span>
-                                ) : live ? (
+                                {live ? (
                                   <span className="flex items-center gap-[2px]">
                                     {[0, 1, 2].map((d) => (
                                       <motion.span
@@ -553,18 +527,22 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                                       />
                                     ))}
                                   </span>
+                                ) : done ? (
+                                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15">
+                                    <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
+                                  </span>
                                 ) : (
-                                  <span className="h-1.5 w-1.5 rounded-full border border-white/20" />
+                                  <Clock className="h-3.5 w-3.5 text-[#8F887C]" strokeWidth={2.25} />
                                 )}
                               </span>
-                              <span className="flex-1 truncate">{task}</span>
-                              {(done || live) && (
-                                <span
-                                  className={`shrink-0 font-mono text-[8px] font-bold uppercase tracking-[0.1em] ${live ? 'text-[#F0658F]' : 'text-[#5FE38F]'}`}
-                                >
-                                  {live ? t.liveLabel : t.doneLabel}
-                                </span>
-                              )}
+                              <span className="flex-1 truncate">{task.label}</span>
+                              <span
+                                className={`shrink-0 font-mono text-[8px] font-bold uppercase tracking-[0.1em] ${
+                                  live ? 'text-[#F0658F]' : done ? 'text-[#5FE38F]' : 'text-[#8F887C]'
+                                }`}
+                              >
+                                {live ? t.liveLabel : done ? t.doneLabel : t.upcomingLabel}
+                              </span>
                             </li>
                           )
                         })}
