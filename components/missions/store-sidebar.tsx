@@ -5,6 +5,7 @@ import { ChevronDown, Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import {
   CATEGORY_FACETS,
+  ORIGIN_FACETS,
   SECTORS,
   ZONES,
   LANGUAGES,
@@ -15,13 +16,6 @@ import {
 } from '@/lib/missions-store'
 
 export type MultiKey = 'secteur' | 'zone' | 'langue' | 'modalite'
-export type DiscoverView = 'all' | 'featured' | 'recent'
-
-const DISCOVER: { key: DiscoverView; label: { fr: string; en: string } }[] = [
-  { key: 'all', label: { fr: 'Toutes les missions', en: 'All missions' } },
-  { key: 'featured', label: { fr: 'À la une', en: 'Featured' } },
-  { key: 'recent', label: { fr: 'Ajoutées récemment', en: 'Recently added' } },
-]
 
 const FILTER_GROUPS: { key: MultiKey; label: { fr: string; en: string }; items: Facet[] }[] = [
   { key: 'secteur', label: { fr: 'Secteur', en: 'Sector' }, items: SECTORS },
@@ -33,18 +27,16 @@ const FILTER_GROUPS: { key: MultiKey; label: { fr: string; en: string }; items: 
 export function StoreSidebar({
   filters,
   lang,
-  activeDiscover,
   counts,
-  onDiscover,
+  onType,
   onCategory,
   onToggleFacet,
   onDisponibilite,
 }: {
   filters: StoreFilters
   lang: Lang
-  activeDiscover: DiscoverView
   counts: Record<string, number>
-  onDiscover: (v: DiscoverView) => void
+  onType: (key: string) => void
   onCategory: (key: string) => void
   onToggleFacet: (group: MultiKey, value: string) => void
   onDisponibilite: (value: string) => void
@@ -54,15 +46,15 @@ export function StoreSidebar({
       aria-label={lang === 'fr' ? 'Navigation des missions' : 'Missions navigation'}
       className="flex max-h-[calc(100vh-7rem)] flex-col gap-7 overflow-y-auto pr-1 [scrollbar-width:thin]"
     >
-      {/* GROUP 1 — Découvrir */}
-      <Group title={lang === 'fr' ? 'Découvrir' : 'Discover'}>
+      {/* GROUP 1 — Type (origin) */}
+      <Group title={lang === 'fr' ? 'Type' : 'Type'}>
         <ul className="flex flex-col gap-0.5">
-          {DISCOVER.map((d) => (
-            <li key={d.key}>
+          {ORIGIN_FACETS.map((o) => (
+            <li key={o.key}>
               <RowButton
-                label={d.label[lang]}
-                active={activeDiscover === d.key && filters.categorie === 'all'}
-                onClick={() => onDiscover(d.key)}
+                label={o.label[lang]}
+                active={filters.type === o.key}
+                onClick={() => onType(o.key)}
               />
             </li>
           ))}

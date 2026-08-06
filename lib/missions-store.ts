@@ -12,9 +12,11 @@ import {
   LANGUAGE_LABELS,
   MODALITY_LABELS,
   STATUS_LABELS,
+  ORIGIN_LABELS,
   SEARCH_SYNONYMS,
   type Mission,
   type MissionStatus,
+  type MissionOrigin,
 } from '@/lib/missions-catalog'
 import type { Bilingual } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
@@ -42,8 +44,15 @@ export const AVAILABILITIES: Facet[] = (['available', 'on-setup', 'coming-soon']
 export const CATEGORY_FACETS: Facet[] = MISSION_CATEGORIES.map((c) => ({ key: c.key, label: c.label }))
 export const COLLECTION_FACETS: Facet[] = MISSION_COLLECTIONS.map((c) => ({ key: c.key, label: c.label }))
 
+// Origin (type) options for the "Type" switcher that replaces the Discover nav.
+export const ORIGIN_FACETS: Facet[] = (['all', 'native', 'external'] as (MissionOrigin | 'all')[]).map((k) => ({
+  key: k,
+  label: ORIGIN_LABELS[k],
+}))
+
 // --- Filter state ----------------------------------------------------------
 export type StoreFilters = {
+  type: MissionOrigin | 'all'
   categorie: string | 'all'
   collection: string | 'all'
   secteur: string[]
@@ -54,6 +63,7 @@ export type StoreFilters = {
 }
 
 export const EMPTY_FILTERS: StoreFilters = {
+  type: 'all',
   categorie: 'all',
   collection: 'all',
   secteur: [],
@@ -66,6 +76,7 @@ export const EMPTY_FILTERS: StoreFilters = {
 // Count used for the "Effacer les filtres" affordance and active chips.
 export function activeFilterCount(f: StoreFilters): number {
   return (
+    (f.type !== 'all' ? 1 : 0) +
     (f.categorie !== 'all' ? 1 : 0) +
     (f.collection !== 'all' ? 1 : 0) +
     f.secteur.length +
@@ -87,6 +98,7 @@ export function toggleValue(list: string[], value: string): string[] {
 
 // --- Filtering -------------------------------------------------------------
 export function matchesFilters(m: Mission, f: StoreFilters): boolean {
+  if (f.type !== 'all' && m.origin !== f.type) return false
   if (f.categorie !== 'all' && m.category !== f.categorie) return false
   if (f.collection !== 'all' && !m.collections.includes(f.collection)) return false
   if (f.secteur.length && !f.secteur.some((s) => m.sectors.includes(s))) return false
@@ -118,9 +130,6 @@ export function sortMissions(list: Mission[], sort: SortKey, lang: Lang): Missio
   return copy
 }
 
-// --- View ------------------------------------------------------------------
-export type ViewKey = 'featured' | 'recent' | null
-
 // --- URL <-> state ---------------------------------------------------------
 function multi(params: URLSearchParams, key: string): string[] {
   const v = params.get(key)
@@ -128,7 +137,9 @@ function multi(params: URLSearchParams, key: string): string[] {
 }
 
 export function filtersFromParams(params: URLSearchParams): StoreFilters {
+  const type = params.get('type')
   return {
+    type: type === 'native' || type === 'external' ? type : 'all',
     categorie: params.get('categorie') || 'all',
     collection: params.get('collection') || 'all',
     secteur: multi(params, 'secteur'),
@@ -144,15 +155,11 @@ export function sortFromParams(params: URLSearchParams): SortKey {
   return v === 'recent' || v === 'az' ? v : DEFAULT_SORT
 }
 
-export function viewFromParams(params: URLSearchParams): ViewKey {
-  const v = params.get('vue')
-  return v === 'featured' || v === 'recent' ? v : null
-}
-
 // Builds a clean query string, omitting defaults so URLs stay tidy.
-export function buildParams(query: string, filters: StoreFilters, sort: SortKey, view: ViewKey): string {
+export function buildParams(query: string, filters: StoreFilters, sort: SortKey): string {
   const p = new URLSearchParams()
   if (query.trim()) p.set('q', query.trim())
+  if (filters.type !== 'all') p.set('type', filters.type)
   if (filters.categorie !== 'all') p.set('categorie', filters.categorie)
   if (filters.collection !== 'all') p.set('collection', filters.collection)
   if (filters.secteur.length) p.set('secteur', filters.secteur.join(','))
@@ -161,7 +168,6 @@ export function buildParams(query: string, filters: StoreFilters, sort: SortKey,
   if (filters.modalite.length) p.set('modalite', filters.modalite.join(','))
   if (filters.disponibilite !== 'all') p.set('disponibilite', filters.disponibilite)
   if (sort !== DEFAULT_SORT) p.set('tri', sort)
-  if (view) p.set('vue', view)
   return p.toString()
 }
 

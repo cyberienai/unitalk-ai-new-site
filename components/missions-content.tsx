@@ -27,20 +27,19 @@ import {
   sortMissions,
   filtersFromParams,
   sortFromParams,
-  viewFromParams,
   buildParams,
   relativeDate,
+  ORIGIN_FACETS,
   SORT_OPTIONS,
   DEFAULT_SORT,
   EMPTY_FILTERS,
   PAGE_SIZE,
   type Facet,
   type SortKey,
-  type ViewKey,
   type StoreFilters,
 } from '@/lib/missions-store'
 import { useLanguage } from '@/lib/language-context'
-import { StoreSidebar, type MultiKey, type DiscoverView } from '@/components/missions/store-sidebar'
+import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar'
 import { StoreCard, FeaturedCard, RecentCard, AlmaCard } from '@/components/missions/store-card'
 import { PreviewDrawer } from '@/components/missions/preview-drawer'
 import { FilterSheet } from '@/components/missions/filter-sheet'
@@ -68,7 +67,6 @@ export function MissionsContent() {
     filtersFromParams(new URLSearchParams(searchParams.toString())),
   )
   const [sort, setSort] = useState<SortKey>(() => sortFromParams(new URLSearchParams(searchParams.toString())))
-  const [view, setView] = useState<ViewKey>(() => viewFromParams(new URLSearchParams(searchParams.toString())))
 
   const [focused, setFocused] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
@@ -76,8 +74,6 @@ export function MissionsContent() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   const searchRef = useRef<HTMLInputElement>(null)
-  const featuredRef = useRef<HTMLDivElement>(null)
-  const recentRef = useRef<HTMLDivElement>(null)
   const catalogRef = useRef<HTMLDivElement>(null)
   const previewTrigger = useRef<HTMLElement | null>(null)
 
@@ -91,11 +87,11 @@ export function MissionsContent() {
 
   // Reflect state into the URL (defaults omitted).
   useEffect(() => {
-    const qs = buildParams(query, filters, sort, view)
+    const qs = buildParams(query, filters, sort)
     const next = qs ? `${pathname}?${qs}` : pathname
     const current = `${pathname}${window.location.search}`
     if (next !== current) router.replace(next, { scroll: false })
-  }, [query, filters, sort, view, pathname, router])
+  }, [query, filters, sort, pathname, router])
 
   // Reset pagination whenever the result set changes.
   useEffect(() => {
@@ -158,8 +154,6 @@ export function MissionsContent() {
     return map
   }, [filters, trimmed, lang])
 
-  const activeDiscover: DiscoverView = view === 'featured' ? 'featured' : view === 'recent' ? 'recent' : 'all'
-
   // --- state mutators --------------------------------------------------------
   const openPreview = useCallback((m: Mission, trigger: HTMLElement | null) => {
     previewTrigger.current = trigger
@@ -171,9 +165,11 @@ export function MissionsContent() {
     previewTrigger.current?.focus()
   }, [])
 
+  function selectType(key: string) {
+    setFilters((p) => ({ ...p, type: key as StoreFilters['type'] }))
+  }
   function selectCategory(key: string) {
     setFilters((p) => ({ ...p, categorie: p.categorie === key ? 'all' : key }))
-    setView(null)
   }
   function selectCollection(key: string) {
     setFilters((p) => ({ ...p, collection: p.collection === key ? 'all' : key }))
@@ -187,30 +183,7 @@ export function MissionsContent() {
   function clearAll() {
     setFilters(EMPTY_FILTERS)
     setQuery('')
-    setView(null)
   }
-
-  const scrollTo = useCallback((ref: React.RefObject<HTMLDivElement | null>) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [])
-
-  function onDiscover(v: DiscoverView) {
-    if (v === 'all') {
-      clearAll()
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-      return
-    }
-    setView(v)
-    scrollTo(v === 'featured' ? featuredRef : recentRef)
-  }
-
-  // Restore scroll to a section when arriving with ?vue=.
-  useEffect(() => {
-    if (view === 'featured') scrollTo(featuredRef)
-    else if (view === 'recent') scrollTo(recentRef)
-    // run once on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // --- copy ------------------------------------------------------------------
   const t = {
@@ -255,6 +228,12 @@ export function MissionsContent() {
   type Chip = { id: string; label: string; onRemove: () => void }
   const chips: Chip[] = []
   if (hasQuery) chips.push({ id: 'q', label: `${t.searchChip}: “${trimmed}”`, onRemove: () => setQuery('') })
+  if (filters.type !== 'all')
+    chips.push({
+      id: 'type',
+      label: ORIGIN_FACETS.find((o) => o.key === filters.type)?.label[lang] ?? filters.type,
+      onRemove: () => setFilters((p) => ({ ...p, type: 'all' })),
+    })
   if (filters.categorie !== 'all')
     chips.push({
       id: 'cat',
@@ -346,9 +325,8 @@ export function MissionsContent() {
               <StoreSidebar
                 filters={filters}
                 lang={lang}
-                activeDiscover={activeDiscover}
                 counts={counts}
-                onDiscover={onDiscover}
+                onType={selectType}
                 onCategory={selectCategory}
                 onToggleFacet={toggleFacet}
                 onDisponibilite={selectDisponibilite}
@@ -415,8 +393,30 @@ export function MissionsContent() {
             {/* Collections pills */}
             {showCollections && <div className="mt-5">{collectionsRow}</div>}
 
-            {/* Mobile: categories row + count + Filters */}
+            {/* Mobile: Type switcher + categories row + count + Filters */}
             <div className="mt-4 lg:hidden">
+              <div
+                className="mb-3 inline-flex rounded-lg border border-[var(--store-line)] bg-[var(--store-surface)] p-0.5"
+                role="group"
+                aria-label={lang === 'fr' ? 'Type' : 'Type'}
+              >
+                {ORIGIN_FACETS.map((o) => {
+                  const active = filters.type === o.key
+                  return (
+                    <button
+                      key={o.key}
+                      type="button"
+                      onClick={() => selectType(o.key)}
+                      aria-pressed={active}
+                      className={`min-h-[32px] whitespace-nowrap rounded-[6px] px-3 py-1 text-xs font-semibold transition-colors ${
+                        active ? 'bg-[#FCEAF2] text-[#AD0C53]' : 'text-[var(--store-muted)]'
+                      }`}
+                    >
+                      {o.label[lang]}
+                    </button>
+                  )
+                })}
+              </div>
               <div
                 className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 style={{ scrollSnapType: 'x proximity' }}
@@ -474,7 +474,7 @@ export function MissionsContent() {
             {/* Editorial sections */}
             {showEditorial && (
               <>
-                <section ref={featuredRef} className="mt-12 scroll-mt-24">
+                <section className="mt-12 scroll-mt-24">
                   <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
                     {t.featuredTitle}
                   </h2>
@@ -487,7 +487,7 @@ export function MissionsContent() {
                 </section>
 
                 {recent.length > 0 && (
-                  <section ref={recentRef} className="mt-14 scroll-mt-24">
+                  <section className="mt-14 scroll-mt-24">
                     <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
                       {t.recentTitle}
                     </h2>

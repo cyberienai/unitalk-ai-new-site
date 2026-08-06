@@ -15,6 +15,16 @@ export type MissionCollection = { key: string; label: Bilingual }
 // Availability status. Nothing is "available" until it has been tested for real.
 export type MissionStatus = 'available' | 'on-setup' | 'coming-soon'
 
+// Origin of a mission: authored and maintained by Unitalk, or contributed by the
+// community. Every catalog mission is currently native; external is future-facing.
+export type MissionOrigin = 'native' | 'external'
+
+export const ORIGIN_LABELS: Record<MissionOrigin | 'all', Bilingual> = {
+  all: { fr: 'Tous les types', en: 'Any Type' },
+  native: { fr: 'Natives (Unitalk)', en: 'Native (Unitalk)' },
+  external: { fr: 'Externes (Communauté)', en: 'External (Community)' },
+}
+
 export type Mission = {
   slug: string
   category: string
@@ -38,6 +48,7 @@ export type Mission = {
   zones: string[]
   modalities: string[]
   status: MissionStatus
+  origin: MissionOrigin
   availabilityReason: Bilingual
   regulated: boolean
   dateAdded: string
@@ -329,6 +340,7 @@ const CATEGORY_DEFAULTS: Record<string, CategoryDefault> = {
 // --- Seed authoring ---------------------------------------------------------
 type SeedOpts = {
   status?: MissionStatus
+  origin?: MissionOrigin
   collections?: string[]
   sectors?: string[]
   zones?: string[]
@@ -466,6 +478,7 @@ function buildMission(seed: Seed, index: number): Mission {
     zones: o.zones ?? ['france', 'ue', 'international'],
     modalities: [o.modality ?? def.modality],
     status,
+    origin: o.origin ?? 'native',
     availabilityReason: availabilityReason(status),
     regulated,
     dateAdded: o.dateAdded ?? fallbackDate(index),
