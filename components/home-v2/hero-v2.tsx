@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Calendar, Check, Clock, Layers, Loader2, Mail, Phone } from 'lucide-react'
+import { ArrowRight, Calendar, Check, Clock, Layers, Loader2, Mail, Phone, Target } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
 
@@ -505,17 +505,28 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   </div>
 
                   <div className="relative flex flex-col gap-4 p-5">
-                    {/* Confirmation : ce qu'Alma a préparé pour Emma (clôture la séquence) */}
+                    {/* Mission : le pivot du recrutement, mis en avant sur la fiche d'Emma */}
                     <motion.div
                       initial={reduceMotion ? false : { opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease, delay: 0.12 }}
-                      className="flex items-center gap-2 rounded-xl border border-[#4ADE80]/20 bg-[#4ADE80]/[0.06] px-3 py-2"
+                      className="rounded-2xl border border-[#F0658F]/25 bg-[#D10E63]/[0.08] p-3.5"
                     >
-                      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#4ADE80]/15" aria-hidden="true">
-                        <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
-                      </span>
-                      <span className="text-[11px] font-medium text-[#CDE9D6]">{t.ficheReadySub}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/20" aria-hidden="true">
+                          <Target className="h-3 w-3 text-[#F58AAB]" strokeWidth={2.5} />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#F58AAB]">
+                            {t.ficheMissionLabel}
+                          </p>
+                          <p className="truncate text-[13px] font-semibold text-[#F6F1E8]">{t.ficheMission}</p>
+                        </div>
+                        <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#4ADE80]/15" aria-hidden="true">
+                          <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
+                        </span>
+                      </div>
+                      <p className="mt-2 text-[11px] leading-snug text-[#CDBFC4]">{t.ficheReadySub}</p>
                     </motion.div>
 
                     {/* Coordonnées : Emma est une vraie coéquipière */}
@@ -632,6 +643,18 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                         })}
                       </ul>
                     </div>
+
+                    {/* CTA final : Emma rejoint le Workspace de l'organisation */}
+                    <motion.a
+                      href="/decouvrir"
+                      initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, ease, delay: 0.24 }}
+                      className="group/cta flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-2.5 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
+                    >
+                      {t.joinWorkspace}
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5" aria-hidden="true" />
+                    </motion.a>
                   </div>
                 </motion.div>
               )}
