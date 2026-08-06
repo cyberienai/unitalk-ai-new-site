@@ -26,8 +26,8 @@ const CONTEXT_KEY = 'unitalk_hero_context_seen'
 
 // Le Collaborateur IA durable au cœur de la démonstration.
 const HOLDER = {
-  fr: { name: 'Emma', role: 'Assistante de direction' },
-  en: { name: 'Emma', role: 'Executive assistant' },
+  fr: { name: 'Emma', role: 'Assistante de direction', avatar: '/images/emma-avatar.png' },
+  en: { name: 'Emma', role: 'Executive assistant', avatar: '/images/emma-avatar.png' },
 } as const
 
 type ItemKind = 'profil' | 'competence' | 'application'
@@ -78,6 +78,7 @@ const JOURNEY = {
       newRole: {
         name: 'Chloé',
         role: 'Collaboratrice IA commerciale',
+        avatar: '/images/chloe-avatar.png',
         reasons: ['Profil commercial distinct', 'Accès au CRM', 'Règles tarifaires', 'Suivi commercial régulier'],
       },
     },
@@ -126,6 +127,7 @@ const JOURNEY = {
       newRole: {
         name: 'Chloé',
         role: 'Sales AI Collaborator',
+        avatar: '/images/chloe-avatar.png',
         reasons: ['Distinct sales profile', 'CRM access', 'Pricing rules', 'Ongoing sales follow-up'],
       },
     },
@@ -707,13 +709,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                               {t.examineQuestion}
                             </p>
                             <div className="flex items-center gap-3 rounded-2xl border border-white/[0.1] bg-white/[0.03] px-3.5 py-3">
-                              <span
-                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-sf text-sm font-bold text-[#FBF9F3]"
-                                style={{ background: 'linear-gradient(135deg, #D10E63, #F0658F)' }}
-                                aria-hidden="true"
-                              >
-                                {holder.name.charAt(0)}
-                              </span>
+                              <img
+                                src={holder.avatar || '/placeholder.svg'}
+                                alt={holder.name}
+                                className="h-10 w-10 shrink-0 rounded-full object-cover"
+                              />
                               <div className="min-w-0 flex-1">
                                 <p className="truncate text-sm font-bold text-[#F6F1E8]">{holder.name}</p>
                                 <p className="truncate text-[11.5px] text-[#A49E92]">{holder.role}</p>
@@ -784,13 +784,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                             <p className="mb-3 font-sf text-[15px] font-semibold text-[#F6F1E8]">{t.recommendHeading}</p>
                             <div className="rounded-2xl border border-[#F0658F]/25 bg-[#D10E63]/[0.08] p-3.5">
                               <div className="flex items-center gap-3">
-                                <span
-                                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-sf text-sm font-bold text-[#FBF9F3] ring-2 ring-[#F0658F]/40"
-                                  style={{ background: 'linear-gradient(135deg, #7C3AED, #D10E63)' }}
-                                  aria-hidden="true"
-                                >
-                                  {current.newRole.name.charAt(0)}
-                                </span>
+                                <img
+                                  src={current.newRole.avatar || '/placeholder.svg'}
+                                  alt={current.newRole.name}
+                                  className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                                />
                                 <div className="min-w-0 flex-1">
                                   <p className="truncate text-sm font-bold text-[#F6F1E8]">{current.newRole.name}</p>
                                   <p className="truncate text-[11.5px] text-[#CDBFC4]">{current.newRole.role}</p>
@@ -839,13 +837,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <div className="relative flex items-center gap-3.5 border-b border-white/[0.08] bg-white/[0.02] p-5">
                         <span className="relative shrink-0">
                           <span aria-hidden="true" className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md" />
-                          <span
-                            className="relative flex h-[52px] w-[52px] items-center justify-center rounded-full font-sf text-xl font-bold text-[#FBF9F3] ring-2 ring-[#F0658F]/40"
-                            style={{ background: 'linear-gradient(135deg, #D10E63, #F0658F)' }}
-                            aria-hidden="true"
-                          >
-                            {holder.name.charAt(0)}
-                          </span>
+                          <img
+                            src={holder.avatar || '/placeholder.svg'}
+                            alt={holder.name}
+                            className="relative h-[52px] w-[52px] rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                          />
                           <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center" aria-hidden="true">
                             <motion.span
                               className="absolute h-3.5 w-3.5 rounded-full bg-[#4ADE80]/40"
@@ -966,13 +962,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                         <div className="mt-3 rounded-2xl border border-[#F0658F]/25 bg-[#D10E63]/[0.08] p-4">
                           <div className="flex items-center gap-3">
-                            <span
-                              className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full font-sf text-lg font-bold text-[#FBF9F3] ring-2 ring-[#F0658F]/40"
-                              style={{ background: 'linear-gradient(135deg, #7C3AED, #D10E63)' }}
-                              aria-hidden="true"
-                            >
-                              {current.newRole.name.charAt(0)}
-                            </span>
+                            <img
+                              src={current.newRole.avatar || '/placeholder.svg'}
+                              alt={current.newRole.name}
+                              className="h-[46px] w-[46px] shrink-0 rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                            />
                             <div className="min-w-0 flex-1">
                               <p className="truncate font-sf text-base font-bold text-[#F6F1E8]">{current.newRole.name}</p>
                               <p className="truncate text-[12px] text-[#CDBFC4]">{current.newRole.role}</p>
