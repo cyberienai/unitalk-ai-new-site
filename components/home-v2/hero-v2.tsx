@@ -364,7 +364,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[92svh] sm:pb-16 sm:pt-28">
+    <section className="hero-viewport relative flex items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:pb-16 sm:pt-28">
       {/* subtle editorial backdrop */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -right-32 -top-24 h-[36rem] w-[36rem] rounded-full bg-[#D10E63]/[0.06] blur-3xl" />
