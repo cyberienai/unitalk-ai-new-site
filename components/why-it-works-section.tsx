@@ -33,7 +33,7 @@ const T = {
       {
         icon: Brain,
         title: 'Shared Context',
-        description: 'Your team and your agents share the same context, decisions, and company memory. Zero information lost.',
+        description: 'Your team and your agents share the same context, decisions, and company knowledge. Zero information lost.',
       },
       {
         icon: Users,

@@ -61,7 +61,7 @@ const T = {
     feats: {
       best: { title: 'Accès aux meilleurs modèles', desc: 'GPT, Claude, Gemini et plus — toujours le bon modèle pour la bonne tâche.' },
       multimodal: { title: 'Multimodal', desc: 'Voix, texte, image, audio, code : votre agent comprend et produit tous les formats.' },
-      memory: { title: 'Mémoire persistante', desc: 'Une mémoire d’entreprise qui se souvient de tout, d’un échange à l’autre.' },
+      memory: { title: 'Mémoire persistante', desc: 'Un contexte d’entreprise qui se souvient de tout, d’un échange à l’autre.' },
       skills: { title: 'Compétences extensibles', desc: 'Des compétences auto-apprises et une connexion à 3 000+ apps via MCP.' },
     } as Record<FeatKey, Feat>,
     ctaTitle1: 'Pas sûr du bon choix ? ',
@@ -92,7 +92,7 @@ const T = {
     feats: {
       best: { title: 'Access to the best models', desc: 'GPT, Claude, Gemini and more — always the right model for the right task.' },
       multimodal: { title: 'Multimodal', desc: 'Voice, text, image, audio, code: your agent understands and produces every format.' },
-      memory: { title: 'Persistent memory', desc: 'A company memory that remembers everything, from one exchange to the next.' },
+      memory: { title: 'Persistent memory', desc: 'A company context that remembers everything, from one exchange to the next.' },
       skills: { title: 'Extensible skills', desc: 'Self-taught skills and a connection to 3,000+ apps via MCP.' },
     } as Record<FeatKey, Feat>,
     ctaTitle1: 'Not sure which to pick? ',

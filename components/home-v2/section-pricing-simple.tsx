@@ -32,7 +32,7 @@ const T = {
         title: 'Chaque Collaborateur IA',
         items: [
           'Identité complète : email, téléphone et calendrier',
-          'Mémoire d’entreprise partagée',
+          'Contexte d’entreprise partagé',
           'Expertises illimitées',
           'Missions illimitées',
           'Outils et automatisations',
@@ -71,7 +71,7 @@ const T = {
         title: 'Each AI Collaborator',
         items: [
           'Full identity: email, phone and calendar',
-          'Shared company memory',
+          'Shared company context',
           'Unlimited expertise',
           'Unlimited missions',
           'Tools and automations',

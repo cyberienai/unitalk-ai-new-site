@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Calendar, Check, Mail, Phone } from 'lucide-react'
+import { ArrowRight, Building2, Calendar, Check, Layers, Loader2, Mail, Phone, UserRound } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
 
@@ -29,10 +29,20 @@ const T = {
       '. Elle analyse votre entreprise, puis recrute le Collaborateur IA dont vous avez besoin.',
     cta: 'Recruter mon Collaborateur IA',
     proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Configuré par Alma'],
+    // Séquence Alma (avant l'arrivée d'Emma)
+    analyzeLabel: 'Analyse de solvea.fr',
+    analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'LinkedIn'],
+    buildingLabel: 'Construction du contexte d’entreprise…',
+    creatingLabel: 'Création d’Emma…',
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
     company: 'Solvea',
+    orgLabel: 'Organisation',
+    assignedLabel: 'Rattachée à',
+    owner: 'Patrick Chassany',
+    sharedContextLabel: 'Contexte partagé',
+    sharedContext: ['Produits', 'Clients', 'Processus', 'Tarifs'],
     statusLabel: 'En poste',
     contact: [
       { icon: Mail, label: 'emma@solvea.fr' },
@@ -72,10 +82,20 @@ const T = {
       '. She analyzes your company, then recruits the AI Collaborator you need.',
     cta: 'Recruit my AI Collaborator',
     proofs: ['7-day free trial', 'No credit card', 'Set up by Alma'],
+    // Alma sequence (before Emma appears)
+    analyzeLabel: 'Analyzing solvea.fr',
+    analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'LinkedIn'],
+    buildingLabel: 'Building the company context…',
+    creatingLabel: 'Creating Emma…',
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
     company: 'Solvea',
+    orgLabel: 'Organization',
+    assignedLabel: 'Reports to',
+    owner: 'Patrick Chassany',
+    sharedContextLabel: 'Shared context',
+    sharedContext: ['Products', 'Clients', 'Processes', 'Pricing'],
     statusLabel: 'Active',
     contact: [
       { icon: Mail, label: 'emma@solvea.fr' },
@@ -102,6 +122,8 @@ const ease = [0.22, 1, 0.36, 1] as const
 const TASK_STEPS = 4
 const STEP_MS = 2200
 
+type Phase = 'analyzing' | 'building' | 'creating' | 'ready'
+
 export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const reduceMotion = useReducedMotion()
@@ -116,11 +138,37 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
     return () => clearInterval(id)
   }, [reduceMotion, t.missions.length])
 
-  // Progression des tâches d'Emma (l'accroche : elle travaille déjà)
+  // Séquence Alma → Emma : on montre qu'Emma hérite du contexte construit par Alma
+  const [phase, setPhase] = useState<Phase>(reduceMotion ? 'ready' : 'analyzing')
+  const [analyzeStep, setAnalyzeStep] = useState(reduceMotion ? 99 : 0)
+  useEffect(() => {
+    if (reduceMotion) {
+      setPhase('ready')
+      setAnalyzeStep(99)
+      return
+    }
+    setPhase('analyzing')
+    setAnalyzeStep(0)
+    const timers: ReturnType<typeof setTimeout>[] = []
+    t.analyzeSteps.forEach((_, i) => {
+      timers.push(setTimeout(() => setAnalyzeStep(i + 1), 430 * (i + 1)))
+    })
+    const afterAnalyze = 430 * t.analyzeSteps.length + 520
+    timers.push(setTimeout(() => setPhase('building'), afterAnalyze))
+    timers.push(setTimeout(() => setPhase('creating'), afterAnalyze + 1150))
+    timers.push(setTimeout(() => setPhase('ready'), afterAnalyze + 2300))
+    return () => timers.forEach(clearTimeout)
+  }, [reduceMotion, lang, t.analyzeSteps])
+
+  // Progression des tâches d'Emma — démarre une fois Emma en poste
   const [taskStep, setTaskStep] = useState(reduceMotion ? TASK_STEPS - 1 : 0)
   useEffect(() => {
     if (reduceMotion) {
       setTaskStep(TASK_STEPS - 1)
+      return
+    }
+    if (phase !== 'ready') {
+      setTaskStep(0)
       return
     }
     setTaskStep(0)
@@ -128,9 +176,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
       setTaskStep((s) => (s + 1) % TASK_STEPS)
     }, STEP_MS)
     return () => clearInterval(id)
-  }, [reduceMotion, lang])
+  }, [reduceMotion, phase])
 
   const allDone = taskStep >= t.activities.length
+  const intro = phase !== 'ready'
+  const introLabel = phase === 'analyzing' ? t.analyzeLabel : phase === 'building' ? t.buildingLabel : t.creatingLabel
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
@@ -206,7 +256,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual ��� Emma en poste : cockpit sombre + halo magenta */}
+        {/* Visual — Alma construit le contexte, puis Emma prend son poste */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
           {/* Halo aurora bi-teinte derrière la carte */}
           <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
@@ -259,162 +309,295 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               />
             )}
 
-            {/* En-tête : Emma, identité + statut en poste */}
-            <div className="relative flex items-center gap-3.5 border-b border-white/[0.08] bg-white/[0.02] p-5">
-              <span className="relative shrink-0">
-                <span
-                  aria-hidden="true"
-                  className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md"
-                />
-                <Image
-                  src="/images/emma-avatar.png"
-                  alt=""
-                  width={52}
-                  height={52}
-                  className="relative rounded-full object-cover ring-2 ring-[#F0658F]/40"
-                  style={{ height: 52, width: 52 }}
-                />
-                <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center" aria-hidden="true">
-                  <motion.span
-                    className="absolute h-3.5 w-3.5 rounded-full bg-[#4ADE80]/40"
-                    animate={reduceMotion ? undefined : { scale: [1, 1.9], opacity: [0.6, 0] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
-                  />
-                  <span className="h-2.5 w-2.5 rounded-full border-2 border-[#17130F] bg-[#4ADE80]" />
-                </span>
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-sf text-xl font-bold leading-tight text-[#F6F1E8]">{t.ficheName}</p>
-                <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.ficheRole}</p>
-              </div>
-              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#5FE38F]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80]" aria-hidden="true" />
-                {t.statusLabel}
-              </span>
-            </div>
-
-            <div className="relative flex flex-col gap-4 p-5">
-              {/* Coordonnées : Emma est une vraie coéquipière */}
-              <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-                {t.contact.map((c, i) => {
-                  const Icon = c.icon
-                  return (
-                    <li
-                      key={c.label}
-                      className={`flex items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5 text-[11px] font-medium text-[#D8D2C6] ${i === 0 ? 'sm:col-span-2' : ''}`}
-                    >
-                      <Icon className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
-                      <span className="truncate">{c.label}</span>
-                    </li>
-                  )
-                })}
-              </ul>
-
-              {/* Expertises */}
-              <div>
-                <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.expertisesLabel}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {t.expertises.map((e) => (
-                    <span
-                      key={e}
-                      className="rounded-full border border-[#F0658F]/30 bg-[#D10E63]/[0.12] px-2 py-0.5 text-[10px] font-semibold text-[#F58AAB]"
-                    >
-                      {e}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Activité en direct — l'accroche : elle travaille déjà */}
-              <div className="rounded-2xl border border-white/[0.08] bg-black/25 p-3.5">
-                <div className="mb-2.5 flex items-center justify-between">
-                  <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.activityLabel}</span>
-                  <span className="flex h-3 items-end gap-[2px]" aria-hidden="true">
-                    {[6, 11, 8].map((h, i) => (
-                      <motion.span
-                        key={i}
-                        className="w-[2px] rounded-full bg-[#F0658F]"
-                        style={{ height: h }}
-                        animate={reduceMotion ? undefined : { scaleY: [1, 0.4, 1] }}
-                        transition={{ duration: 0.9, ease: 'easeInOut', repeat: Infinity, delay: i * 0.12 }}
+            <AnimatePresence mode="wait" initial={false}>
+              {intro ? (
+                /* ── Séquence Alma : analyse → contexte → création d'Emma ── */
+                <motion.div
+                  key="alma-intro"
+                  initial={reduceMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="relative flex min-h-[540px] flex-col p-5"
+                >
+                  <div className="flex items-center gap-3.5 border-b border-white/[0.08] pb-4">
+                    <span className="relative shrink-0">
+                      <span aria-hidden="true" className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md" />
+                      <Image
+                        src="/alma-avatar.png"
+                        alt=""
+                        width={44}
+                        height={44}
+                        className="relative rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                        style={{ height: 44, width: 44 }}
                       />
-                    ))}
-                  </span>
-                </div>
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-sf text-base font-bold leading-tight text-[#F6F1E8]">{t.almaName}</p>
+                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{introLabel}</p>
+                    </div>
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#F0658F]" aria-hidden="true" />
+                  </div>
 
-                <ul className="flex flex-col gap-1.5">
-                  {t.activities.map((task, i) => {
-                    const done = allDone || i < taskStep
-                    const live = !allDone && i === taskStep
-                    return (
-                      <li
-                        key={task}
-                        className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[11px] font-medium transition-colors duration-500 ${
-                          live
-                            ? 'bg-[#D10E63]/[0.14] text-[#F6F1E8]'
-                            : done
-                              ? 'text-[#D8D2C6]'
-                              : 'text-[#6E685E]'
-                        }`}
-                      >
-                        <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
-                          {done ? (
-                            <motion.span
-                              initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              transition={{ duration: 0.35, ease }}
-                              className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15"
-                            >
-                              <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
-                            </motion.span>
-                          ) : live ? (
-                            <span className="flex items-center gap-[2px]">
-                              {[0, 1, 2].map((d) => (
-                                <motion.span
-                                  key={d}
-                                  className="h-1 w-1 rounded-full bg-[#F0658F]"
-                                  animate={reduceMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
-                                  transition={{ duration: 1, repeat: Infinity, delay: d * 0.18 }}
-                                />
-                              ))}
-                            </span>
-                          ) : (
-                            <span className="h-1.5 w-1.5 rounded-full border border-white/20" />
-                          )}
-                        </span>
-                        <span className="flex-1 truncate">{task}</span>
-                        {(done || live) && (
-                          <span
-                            className={`shrink-0 font-mono text-[8px] font-bold uppercase tracking-[0.1em] ${live ? 'text-[#F0658F]' : 'text-[#5FE38F]'}`}
-                          >
-                            {live ? t.liveLabel : t.doneLabel}
+                  {/* Checklist des sources publiques analysées */}
+                  <ul className="mt-4 flex flex-col gap-1.5">
+                    {t.analyzeSteps.map((step, i) => {
+                      const checked = analyzeStep > i
+                      return (
+                        <li
+                          key={step}
+                          className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 text-[12px] font-medium transition-colors duration-500 ${
+                            checked
+                              ? 'border-white/[0.08] bg-white/[0.03] text-[#D8D2C6]'
+                              : 'border-transparent text-[#6E685E]'
+                          }`}
+                        >
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
+                            {checked ? (
+                              <motion.span
+                                initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.3, ease }}
+                                className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15"
+                              >
+                                <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
+                              </motion.span>
+                            ) : (
+                              <span className="h-1.5 w-1.5 rounded-full border border-white/20" />
+                            )}
                           </span>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
+                          <span className="flex-1 truncate">{step}</span>
+                        </li>
+                      )
+                    })}
+                  </ul>
 
-                {/* Espace réservé en permanence pour éviter tout saut de hauteur */}
-                <div className="mt-2 min-h-[1.75rem] border-t border-white/[0.08] pt-2">
-                  <AnimatePresence>
-                    {allDone && (
-                      <motion.p
-                        key="summary"
-                        initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                  {/* Statut de construction du contexte / création d'Emma */}
+                  <div className="mt-auto flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-black/25 px-3.5 py-3">
+                    <span className="flex items-center gap-[3px]" aria-hidden="true">
+                      {[0, 1, 2].map((d) => (
+                        <motion.span
+                          key={d}
+                          className="h-1.5 w-1.5 rounded-full bg-[#F0658F]"
+                          animate={reduceMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
+                          transition={{ duration: 1, repeat: Infinity, delay: d * 0.18 }}
+                        />
+                      ))}
+                    </span>
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.span
+                        key={introLabel}
+                        initial={reduceMotion ? false : { opacity: 0, y: 4 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4, ease }}
-                        className="flex items-center gap-1.5 text-[11px] font-semibold text-[#5FE38F]"
+                        exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+                        transition={{ duration: 0.3, ease }}
+                        className="text-[12px] font-semibold text-[#F6F1E8]"
                       >
-                        <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} aria-hidden="true" />
-                        {t.summary}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
+                        {introLabel}
+                      </motion.span>
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              ) : (
+                /* ── Emma en poste (le résultat) ── */
+                <motion.div
+                  key="emma-card"
+                  initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease }}
+                >
+                  {/* En-tête : Emma, identité + statut en poste */}
+                  <div className="relative flex items-center gap-3.5 border-b border-white/[0.08] bg-white/[0.02] p-5">
+                    <span className="relative shrink-0">
+                      <span aria-hidden="true" className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md" />
+                      <Image
+                        src="/images/emma-avatar.png"
+                        alt=""
+                        width={52}
+                        height={52}
+                        className="relative rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                        style={{ height: 52, width: 52 }}
+                      />
+                      <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center" aria-hidden="true">
+                        <motion.span
+                          className="absolute h-3.5 w-3.5 rounded-full bg-[#4ADE80]/40"
+                          animate={reduceMotion ? undefined : { scale: [1, 1.9], opacity: [0.6, 0] }}
+                          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+                        />
+                        <span className="h-2.5 w-2.5 rounded-full border-2 border-[#17130F] bg-[#4ADE80]" />
+                      </span>
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-sf text-xl font-bold leading-tight text-[#F6F1E8]">{t.ficheName}</p>
+                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.ficheRole}</p>
+                    </div>
+                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#5FE38F]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80]" aria-hidden="true" />
+                      {t.statusLabel}
+                    </span>
+                  </div>
+
+                  <div className="relative flex flex-col gap-4 p-5">
+                    {/* Propriété : Emma appartient à l'organisation et a un référent */}
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5">
+                        <p className="font-mono text-[8px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.orgLabel}</p>
+                        <p className="mt-0.5 flex items-center gap-1.5 text-[12px] font-semibold text-[#F6F1E8]">
+                          <Building2 className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
+                          <span className="truncate">{t.company}</span>
+                        </p>
+                      </div>
+                      <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5">
+                        <p className="font-mono text-[8px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{t.assignedLabel}</p>
+                        <p className="mt-0.5 flex items-center gap-1.5 text-[12px] font-semibold text-[#F6F1E8]">
+                          <UserRound className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
+                          <span className="truncate">{t.owner}</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Coordonnées : Emma est une vraie coéquipière */}
+                    <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                      {t.contact.map((c, i) => {
+                        const Icon = c.icon
+                        return (
+                          <li
+                            key={c.label}
+                            className={`flex items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5 text-[11px] font-medium text-[#D8D2C6] ${i === 0 ? 'sm:col-span-2' : ''}`}
+                          >
+                            <Icon className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
+                            <span className="truncate">{c.label}</span>
+                          </li>
+                        )
+                      })}
+                    </ul>
+
+                    {/* Contexte partagé : Emma hérite du contexte construit par Alma */}
+                    <div className="rounded-2xl border border-[#F0658F]/20 bg-[#D10E63]/[0.06] p-3.5">
+                      <p className="mb-2 flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#F58AAB]">
+                        <Layers className="h-3 w-3" aria-hidden="true" />
+                        {t.sharedContextLabel}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {t.sharedContext.map((c) => (
+                          <span
+                            key={c}
+                            className="rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 text-[10px] font-semibold text-[#E4DED2]"
+                          >
+                            {c}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Expertises */}
+                    <div>
+                      <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.expertisesLabel}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {t.expertises.map((e) => (
+                          <span
+                            key={e}
+                            className="rounded-full border border-[#F0658F]/30 bg-[#D10E63]/[0.12] px-2 py-0.5 text-[10px] font-semibold text-[#F58AAB]"
+                          >
+                            {e}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Activité en direct — l'accroche : elle travaille déjà */}
+                    <div className="rounded-2xl border border-white/[0.08] bg-black/25 p-3.5">
+                      <div className="mb-2.5 flex items-center justify-between">
+                        <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.activityLabel}</span>
+                        <span className="flex h-3 items-end gap-[2px]" aria-hidden="true">
+                          {[6, 11, 8].map((h, i) => (
+                            <motion.span
+                              key={i}
+                              className="w-[2px] rounded-full bg-[#F0658F]"
+                              style={{ height: h }}
+                              animate={reduceMotion ? undefined : { scaleY: [1, 0.4, 1] }}
+                              transition={{ duration: 0.9, ease: 'easeInOut', repeat: Infinity, delay: i * 0.12 }}
+                            />
+                          ))}
+                        </span>
+                      </div>
+
+                      <ul className="flex flex-col gap-1.5">
+                        {t.activities.map((task, i) => {
+                          const done = allDone || i < taskStep
+                          const live = !allDone && i === taskStep
+                          return (
+                            <li
+                              key={task}
+                              className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[11px] font-medium transition-colors duration-500 ${
+                                live
+                                  ? 'bg-[#D10E63]/[0.14] text-[#F6F1E8]'
+                                  : done
+                                    ? 'text-[#D8D2C6]'
+                                    : 'text-[#6E685E]'
+                              }`}
+                            >
+                              <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
+                                {done ? (
+                                  <motion.span
+                                    initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ duration: 0.35, ease }}
+                                    className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15"
+                                  >
+                                    <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
+                                  </motion.span>
+                                ) : live ? (
+                                  <span className="flex items-center gap-[2px]">
+                                    {[0, 1, 2].map((d) => (
+                                      <motion.span
+                                        key={d}
+                                        className="h-1 w-1 rounded-full bg-[#F0658F]"
+                                        animate={reduceMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
+                                        transition={{ duration: 1, repeat: Infinity, delay: d * 0.18 }}
+                                      />
+                                    ))}
+                                  </span>
+                                ) : (
+                                  <span className="h-1.5 w-1.5 rounded-full border border-white/20" />
+                                )}
+                              </span>
+                              <span className="flex-1 truncate">{task}</span>
+                              {(done || live) && (
+                                <span
+                                  className={`shrink-0 font-mono text-[8px] font-bold uppercase tracking-[0.1em] ${live ? 'text-[#F0658F]' : 'text-[#5FE38F]'}`}
+                                >
+                                  {live ? t.liveLabel : t.doneLabel}
+                                </span>
+                              )}
+                            </li>
+                          )
+                        })}
+                      </ul>
+
+                      {/* Espace réservé en permanence pour éviter tout saut de hauteur */}
+                      <div className="mt-2 min-h-[1.75rem] border-t border-white/[0.08] pt-2">
+                        <AnimatePresence>
+                          {allDone && (
+                            <motion.p
+                              key="summary"
+                              initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.4, ease }}
+                              className="flex items-center gap-1.5 text-[11px] font-semibold text-[#5FE38F]"
+                            >
+                              <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} aria-hidden="true" />
+                              {t.summary}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
       </div>
