@@ -31,6 +31,7 @@ const T = {
     proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Configuré par Alma'],
     // Séquence Alma (avant l'arrivée d'Emma)
     analyzeLabel: 'Analyse de solvea.fr',
+    analyzeCaption: 'Sources publiques analysées',
     analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'LinkedIn'],
     buildingLabel: 'Construction du contexte d’entreprise…',
     creatingLabel: 'Création d’Emma…',
@@ -80,6 +81,7 @@ const T = {
     proofs: ['7-day free trial', 'No credit card', 'Set up by Alma'],
     // Alma sequence (before Emma appears)
     analyzeLabel: 'Analyzing solvea.fr',
+    analyzeCaption: 'Public sources analyzed',
     analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'LinkedIn'],
     buildingLabel: 'Building the company context…',
     creatingLabel: 'Creating Emma…',
@@ -173,6 +175,8 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const allDone = taskStep >= t.activities.length
   const intro = phase !== 'ready'
   const introLabel = phase === 'analyzing' ? t.analyzeLabel : phase === 'building' ? t.buildingLabel : t.creatingLabel
+  const analyzeCount = Math.min(analyzeStep, t.analyzeSteps.length)
+  const analyzePct = phase === 'analyzing' ? (analyzeCount / t.analyzeSteps.length) * 100 : 100
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
@@ -310,7 +314,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   animate={{ opacity: 1 }}
                   exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
                   transition={{ duration: 0.4, ease }}
-                  className="relative flex min-h-[540px] flex-col p-5"
+                  className="relative flex min-h-[520px] flex-col p-5"
                 >
                   <div className="flex items-center gap-3.5 border-b border-white/[0.08] pb-4">
                     <span className="relative shrink-0">
@@ -331,14 +335,23 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#F0658F]" aria-hidden="true" />
                   </div>
 
-                  {/* Checklist des sources publiques analysées */}
-                  <ul className="mt-4 flex flex-col gap-1.5">
+                  {/* Légende + compteur de sources analysées */}
+                  <div className="mt-5 flex items-center justify-between">
+                    <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.analyzeCaption}</p>
+                    <span className="font-mono text-[11px] font-bold tabular-nums text-[#F58AAB]">
+                      {analyzeCount}
+                      <span className="text-[#6E685E]">/{t.analyzeSteps.length}</span>
+                    </span>
+                  </div>
+
+                  {/* Checklist des sources publiques analysées — centrée pour occuper l'espace */}
+                  <ul className="mt-3 flex flex-1 flex-col justify-center gap-2">
                     {t.analyzeSteps.map((step, i) => {
                       const checked = analyzeStep > i
                       return (
                         <li
                           key={step}
-                          className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 text-[12px] font-medium transition-colors duration-500 ${
+                          className={`flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-[12px] font-medium transition-colors duration-500 ${
                             checked
                               ? 'border-white/[0.08] bg-white/[0.03] text-[#D8D2C6]'
                               : 'border-transparent text-[#6E685E]'
@@ -364,8 +377,18 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     })}
                   </ul>
 
+                  {/* Barre de progression de l'analyse */}
+                  <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/[0.07]" aria-hidden="true">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-[#D10E63] to-[#F0658F]"
+                      initial={false}
+                      animate={{ width: `${analyzePct}%` }}
+                      transition={{ duration: 0.5, ease }}
+                    />
+                  </div>
+
                   {/* Statut de construction du contexte / création d'Emma */}
-                  <div className="mt-auto flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-black/25 px-3.5 py-3">
+                  <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-black/25 px-3.5 py-3">
                     <span className="flex items-center gap-[3px]" aria-hidden="true">
                       {[0, 1, 2].map((d) => (
                         <motion.span
