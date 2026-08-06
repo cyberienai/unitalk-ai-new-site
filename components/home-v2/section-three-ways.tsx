@@ -11,8 +11,8 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
-    eyebrow: 'Alma prépare le reste',
-    title: 'Commencez par ce que vous savez déjà.',
+    eyebrow: 'Trois points de départ. Un seul parcours.',
+    title: 'Par où souhaitez-vous commencer ?',
     subtitle:
       'Votre entreprise, une mission ou un profil métier : choisissez votre point de départ. Alma prépare le Collaborateur IA qu’il vous faut.',
     company: {
@@ -47,8 +47,8 @@ const T = {
     unify: 'Quel que soit votre point de départ, vous poursuivez le même parcours avec Alma.',
   },
   en: {
-    eyebrow: 'Alma prepares the rest',
-    title: 'Start with what you already know.',
+    eyebrow: 'Three starting points. One journey.',
+    title: 'Where would you like to start?',
     subtitle:
       'Your company, a mission or a job profile: choose your starting point. Alma prepares the AI Collaborator you need.',
     company: {
