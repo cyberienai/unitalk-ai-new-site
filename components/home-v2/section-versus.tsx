@@ -19,7 +19,7 @@ const T = {
       { old: 'Des prompts', neo: 'Des missions' },
       { old: 'Des outils séparés', neo: 'Un seul workspace' },
       { old: 'Une IA isolée', neo: 'Une équipe hybride' },
-      { old: 'Une mémoire par conversation', neo: 'Une mémoire d’entreprise' },
+      { old: 'Une mémoire par conversation', neo: 'Une mémoire d’entreprise partagée' },
     ],
   },
   en: {
@@ -36,7 +36,7 @@ const T = {
       { old: 'Prompts', neo: 'Missions' },
       { old: 'Separate tools', neo: 'A single workspace' },
       { old: 'An isolated AI', neo: 'A hybrid team' },
-      { old: 'One memory per conversation', neo: 'A company memory' },
+      { old: 'One memory per conversation', neo: 'A shared company memory' },
     ],
   },
 } as const

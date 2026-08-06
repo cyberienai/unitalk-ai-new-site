@@ -31,6 +31,7 @@ const T = {
         icon: UserRound,
         label: 'Avec un Collaborateur IA',
         desc: 'Vous recherchez un métier ou une expertise. Choisissez un Collaborateur IA et Alma l’adapte à votre entreprise.',
+        roles: ['Commercial', 'Assistante', 'Support', 'Marketing', 'Finance', 'RH', 'Direction'],
         cta: 'Explorer les Collaborateurs IA',
         href: '/collaborateurs-ia',
       },
@@ -59,6 +60,7 @@ const T = {
         icon: UserRound,
         label: 'With an AI Collaborator',
         desc: 'You are looking for a role or an expertise. Choose an AI Collaborator and Alma adapts it to your company.',
+        roles: ['Sales', 'Assistant', 'Support', 'Marketing', 'Finance', 'HR', 'Leadership'],
         cta: 'Explore AI Collaborators',
         href: '/collaborateurs-ia',
       },
@@ -108,7 +110,21 @@ export function SectionThreeWays({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     <Icon className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
                   </span>
                   <h3 className="mt-5 font-sf text-lg font-bold tracking-[-0.02em] text-[#1C1A17]">{card.label}</h3>
-                  <p className="mt-2 flex-1 text-[14px] leading-relaxed text-[#5A544A]">{card.desc}</p>
+                  <p className="mt-2 text-[14px] leading-relaxed text-[#5A544A]">{card.desc}</p>
+                  {'roles' in card && card.roles ? (
+                    <ul className="mt-4 flex flex-1 flex-wrap content-start gap-1.5">
+                      {card.roles.map((role) => (
+                        <li
+                          key={role}
+                          className="rounded-full border border-[#E4DCCF] bg-[#FBF9F3] px-2.5 py-1 text-[11px] font-semibold text-[#5A544A]"
+                        >
+                          {role}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span className="flex-1" aria-hidden="true" />
+                  )}
                   <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63]">
                     {card.cta}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
