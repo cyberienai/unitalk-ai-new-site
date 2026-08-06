@@ -26,8 +26,8 @@ const CONTEXT_KEY = 'unitalk_hero_context_seen'
 
 // Le Collaborateur IA durable au cœur de la démonstration.
 const HOLDER = {
-  fr: { name: 'Emma', role: 'Assistante de direction', avatar: '/images/emma-avatar.png' },
-  en: { name: 'Emma', role: 'Executive assistant', avatar: '/images/emma-avatar.png' },
+  fr: { name: 'Emma', role: 'Assistante de direction IA', avatar: '/images/emma-avatar.png' },
+  en: { name: 'Emma', role: 'AI executive assistant', avatar: '/images/emma-avatar.png' },
 } as const
 
 type ItemKind = 'profil' | 'competence' | 'application'
