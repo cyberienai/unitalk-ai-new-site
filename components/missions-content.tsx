@@ -2,7 +2,21 @@
 
 import Link from 'next/link'
 import { useMemo, useRef, useState } from 'react'
-import { ArrowRight, Check, Search, Sparkles, Clock } from 'lucide-react'
+import {
+  ArrowRight,
+  Check,
+  Search,
+  Sparkles,
+  Clock,
+  TrendingUp,
+  Headphones,
+  PenLine,
+  Gauge,
+  Workflow,
+  Code2,
+  Package,
+  type LucideIcon,
+} from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage, type Lang } from '@/lib/language-context'
 import type { Bilingual } from '@/lib/collaborators-catalog'
@@ -27,6 +41,15 @@ const DOMAINS: { key: DomainKey; label: Bilingual; cats: string[] }[] = [
 
 function domainOf(category: string): DomainKey {
   return (DOMAINS.find((d) => d.cats.includes(category))?.key ?? 'operate') as DomainKey
+}
+
+const DOMAIN_ICONS: Record<DomainKey, LucideIcon> = {
+  sales: TrendingUp,
+  support: Headphones,
+  content: PenLine,
+  operate: Gauge,
+  automate: Workflow,
+  build: Code2,
 }
 
 /* -------------------------------------------------------------------------- */
@@ -144,7 +167,7 @@ type Copy = {
 
 const COPY: Record<Lang, Copy> = {
   fr: {
-    kicker: 'Le store des missions',
+    kicker: 'Le catalogue des missions',
     title: 'Quel résultat voulez-vous obtenir ?',
     lead: 'Décrivez votre objectif. On vous propose la mission qui y répond — et le livrable que vous recevrez.',
     searchPlaceholder: 'Ex. : trouver de nouveaux clients, répondre plus vite au support…',
@@ -169,7 +192,7 @@ const COPY: Record<Lang, Copy> = {
     filtersDomain: 'Domaine',
     filtersResult: 'Type de résultat',
     filtersAll: 'Tous',
-    deliverableLabel: 'Livrable',
+    deliverableLabel: 'Ce que vous recevez',
     chooseMission: 'Choisir cette mission',
     resultLabel: 'Résultat',
     stepsKicker: 'Après votre choix',
@@ -185,7 +208,7 @@ const COPY: Record<Lang, Copy> = {
     ctaNote: 'Essai gratuit 7 jours · Mise en place accompagnée',
   },
   en: {
-    kicker: 'The mission store',
+    kicker: 'The mission catalog',
     title: 'What result do you want?',
     lead: 'Describe your goal. We suggest the mission that delivers it — and the output you’ll receive.',
     searchPlaceholder: 'e.g. find new clients, answer support faster…',
@@ -210,7 +233,7 @@ const COPY: Record<Lang, Copy> = {
     filtersDomain: 'Domain',
     filtersResult: 'Result type',
     filtersAll: 'All',
-    deliverableLabel: 'Output',
+    deliverableLabel: 'What you receive',
     chooseMission: 'Choose this mission',
     resultLabel: 'Result',
     stepsKicker: 'After you choose',
@@ -233,25 +256,37 @@ function MissionCard({ mission, lang, t }: { mission: Mission; lang: Lang; t: Co
   return (
     <Link
       href={`/missions/${mission.slug}`}
-      className="group flex h-full flex-col rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5 transition-all hover:border-[#D10E63]/40 hover:shadow-[0_12px_40px_-24px_rgba(0,0,0,0.35)]"
+      className="group flex h-full flex-col rounded-2xl border border-[#E7E0D2] bg-[#FBF9F3] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D10E63]/45 hover:shadow-[0_20px_50px_-30px_rgba(28,26,23,0.55)]"
     >
-      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
-        {resultLabel(mission.slug, lang)}
-      </span>
-      <h3 className="mt-2 text-pretty font-sf text-lg font-bold leading-snug text-[#1C1A17]">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        {resultLabel(mission.slug, lang) && (
+          <span className="inline-flex w-fit items-center rounded-full bg-[#D10E63]/[0.08] px-2.5 py-1 text-[11px] font-semibold text-[#A80B50]">
+            {resultLabel(mission.slug, lang)}
+          </span>
+        )}
+        <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-xs font-medium text-[#8A8175]">
+          <Clock className="h-3.5 w-3.5" />
+          {mission.deliveryTime[lang]}
+        </span>
+      </div>
+      <h3 className="mt-3 text-pretty font-sf text-lg font-bold leading-snug tracking-[-0.01em] text-[#1C1A17]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{mission.result[lang]}</p>
-      <div className="mt-4 rounded-xl border border-[#E4DDCE] bg-[#F3EFE6] p-3">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">
-          {t.deliverableLabel}
-        </p>
-        <p className="mt-1 text-[13px] leading-relaxed text-[#3B362F]">{mission.deliverable[lang]}</p>
+      <p className="mt-2 text-sm leading-relaxed text-[#5A544A]">{mission.result[lang]}</p>
+
+      <div className="mt-auto pt-5">
+        <div className="border-t border-[#EBE4D6] pt-4">
+          <p className="flex items-center gap-2 text-xs font-semibold text-[#8A8175]">
+            <Package className="h-4 w-4 text-[#D10E63]" strokeWidth={2} />
+            {t.deliverableLabel}
+          </p>
+          <p className="mt-1.5 text-[13px] leading-relaxed text-[#3B362F]">{mission.deliverable[lang]}</p>
+        </div>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63]">
+          {t.chooseMission}
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </span>
       </div>
-      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63]">
-        {t.chooseMission}
-        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-      </span>
     </Link>
   )
 }
@@ -261,11 +296,11 @@ function CustomMissionCard({ query, lang, t }: { query: string; lang: Lang; t: C
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col justify-between rounded-2xl border border-dashed border-[#D10E63]/40 bg-[#D10E63]/[0.04] p-5 transition-colors hover:bg-[#D10E63]/[0.08]"
+      className="group flex h-full flex-col justify-between rounded-2xl border border-dashed border-[#D10E63]/40 bg-[#D10E63]/[0.04] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#D10E63]/[0.08]"
     >
       <div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/10 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#A80B50]">
-          <Sparkles className="h-3 w-3" />
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63]/10 px-2.5 py-1 text-[11px] font-semibold text-[#A80B50]">
+          <Sparkles className="h-3.5 w-3.5" />
           {lang === 'fr' ? 'Sur mesure' : 'Tailored'}
         </span>
         <h3 className="mt-3 text-pretty font-sf text-lg font-bold leading-snug text-[#1C1A17]">
@@ -334,15 +369,20 @@ export function MissionsContent() {
   return (
     <main className="bg-[#F7F4EC]">
       {/* ------------------------------- HERO ------------------------------- */}
-      <section className="relative overflow-hidden border-b border-[#E4DDCE] px-4 pb-14 pt-16 sm:pt-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.28em] text-[#D10E63]">
+      <section className="relative overflow-hidden bg-[#1C1A17] px-4 pb-16 pt-20 sm:pt-28">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'radial-gradient(60% 55% at 50% -5%, rgba(209,14,99,0.30), transparent 70%)' }}
+        />
+        <div className="relative mx-auto max-w-3xl text-center">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.28em] text-[#FF7DAC]">
             {t.kicker}
           </p>
-          <h1 className="mt-4 text-balance font-sf text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[#1C1A17]">
+          <h1 className="mt-5 text-balance font-sf text-[clamp(2.1rem,5.2vw,3.6rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-[#FBF9F3]">
             {t.title}
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#4E483F] sm:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#C6BFB3] sm:text-lg">
             {t.lead}
           </p>
 
@@ -351,31 +391,31 @@ export function MissionsContent() {
               e.preventDefault()
               submit()
             }}
-            className="mx-auto mt-8 flex w-full max-w-xl flex-col gap-3 sm:flex-row"
+            className="mx-auto mt-9 flex w-full max-w-2xl items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] p-2 backdrop-blur transition-colors focus-within:border-[#D10E63]/60 sm:gap-3"
           >
             <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#8A8175]" />
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#8E867A]" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t.searchPlaceholder}
                 aria-label={t.searchPlaceholder}
-                className="w-full rounded-xl border border-[#D8D0C2] bg-[#FBF9F3] py-3.5 pl-12 pr-4 text-sm text-[#1C1A17] outline-none transition-colors placeholder:text-[#9A9184] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/20"
+                className="w-full bg-transparent py-3 pl-12 pr-2 text-sm text-[#FBF9F3] outline-none placeholder:text-[#8E867A]"
               />
             </div>
             <button
               type="submit"
-              className="shrink-0 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B53]"
+              className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
             >
-              {t.searchButton}
+              <span className="hidden sm:inline">{t.searchButton}</span>
+              <ArrowRight className="hidden h-4 w-4 sm:inline" />
+              <Search className="h-4 w-4 sm:hidden" />
             </button>
           </form>
 
           <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-2">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
-              {t.examplesLabel}
-            </span>
+            <span className="text-xs font-medium text-[#8E867A]">{t.examplesLabel}</span>
             {t.examples.map((ex) => (
               <button
                 key={ex}
@@ -389,7 +429,7 @@ export function MissionsContent() {
                     resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
                   )
                 }}
-                className="rounded-full border border-[#D8D0C2] bg-[#FBF9F3] px-3 py-1.5 text-xs font-medium text-[#4E483F] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63]"
+                className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-[#D9D2C6] transition-colors hover:border-[#D10E63]/60 hover:text-[#FF7DAC]"
               >
                 {ex}
               </button>
@@ -398,8 +438,8 @@ export function MissionsContent() {
 
           <ul className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {t.reassurance.map((r) => (
-              <li key={r} className="inline-flex items-center gap-1.5 text-xs font-medium text-[#5F594F]">
-                <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+              <li key={r} className="inline-flex items-center gap-1.5 text-xs font-medium text-[#9A9184]">
+                <Check className="h-3.5 w-3.5 text-[#FF7DAC]" strokeWidth={2.5} />
                 {r}
               </li>
             ))}
@@ -411,9 +451,7 @@ export function MissionsContent() {
       <div ref={resultsRef} className="scroll-mt-4 border-b border-[#E4DDCE] bg-[#FBF9F3]/70 px-4 py-4">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
-              {t.filtersDomain}
-            </span>
+            <span className="text-xs font-medium text-[#8A8175]">{t.filtersDomain}</span>
             <button
               type="button"
               onClick={() => setDomain('all')}
@@ -441,7 +479,7 @@ export function MissionsContent() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <label htmlFor="result-type" className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+            <label htmlFor="result-type" className="text-xs font-medium text-[#8A8175]">
               {t.filtersResult}
             </label>
             <select
@@ -479,10 +517,14 @@ export function MissionsContent() {
               {DOMAINS.map((d) => {
                 const items = MISSIONS.filter((m) => d.cats.includes(m.category))
                 if (items.length === 0) return null
+                const Icon = DOMAIN_ICONS[d.key]
                 return (
                   <div key={d.key}>
-                    <div className="mb-5 flex items-baseline justify-between gap-4">
-                      <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[#1C1A17] sm:text-2xl">
+                    <div className="mb-5 flex items-center justify-between gap-4">
+                      <h2 className="flex items-center gap-3 font-sf text-xl font-bold tracking-[-0.01em] text-[#1C1A17] sm:text-2xl">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63]/[0.09] text-[#D10E63]">
+                          <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
+                        </span>
                         {d.label[lang]}
                       </h2>
                       <button
@@ -555,14 +597,18 @@ export function MissionsContent() {
           <h2 className="mt-3 max-w-2xl text-balance font-sf text-[clamp(1.5rem,3.5vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17]">
             {t.stepsTitle}
           </h2>
-          <ol className="mt-8 grid gap-5 sm:grid-cols-3">
+          <ol className="relative mt-10 grid gap-8 sm:grid-cols-3">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-6 right-6 top-6 hidden h-px bg-[#E4DDCE] sm:block"
+            />
             {t.steps.map((s, i) => (
-              <li key={s.title} className="rounded-2xl border border-[#E4DDCE] bg-[#F7F4EC] p-5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1C1A17] font-sf text-sm font-bold text-[#FBF9F3]">
+              <li key={s.title} className="relative">
+                <span className="relative flex h-12 w-12 items-center justify-center rounded-full border border-[#E4DDCE] bg-[#FBF9F3] font-sf text-lg font-bold text-[#D10E63]">
                   {i + 1}
                 </span>
-                <h3 className="mt-4 font-sf text-base font-bold text-[#1C1A17]">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{s.text}</p>
+                <h3 className="mt-5 font-sf text-base font-bold text-[#1C1A17]">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#4E483F] sm:max-w-[15rem]">{s.text}</p>
               </li>
             ))}
           </ol>
