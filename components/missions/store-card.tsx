@@ -19,6 +19,13 @@ function resultLabel(lang: Lang): string {
   return lang === 'fr' ? 'Résultat' : 'Result'
 }
 
+// Who authored the mission — the only trust signal we surface on a card, using
+// real catalog data (no invented availability, difficulty or social proof).
+function creatorLabel(origin: Mission['origin'], lang: Lang): string {
+  if (origin === 'external') return lang === 'fr' ? 'Par la communauté' : 'By the community'
+  return lang === 'fr' ? 'Par Unitalk' : 'By Unitalk'
+}
+
 /* ------------------------------------------------------------------ */
 /* Catalog card — full detail link + separate preview button           */
 /* ------------------------------------------------------------------ */
@@ -64,7 +71,8 @@ export function StoreCard({
       <p className="pointer-events-none relative z-0 mt-1 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">
         {mission.result[lang]}
       </p>
-      <div className="pointer-events-none relative z-0 mt-auto flex items-center pt-3">
+      <div className="pointer-events-none relative z-0 mt-auto flex items-center justify-between pt-3">
+        <span className="text-xs font-medium text-[var(--store-muted)]">{creatorLabel(mission.origin, lang)}</span>
         <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
       </div>
 
@@ -113,7 +121,10 @@ export function FeaturedCard({
         {resultLabel(lang)}
       </p>
       <p className="mt-1 line-clamp-2 text-[13px] leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      <ArrowRight className="mt-auto ml-auto h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+      <div className="mt-auto flex items-center justify-between pt-3">
+        <span className="text-xs font-medium text-[var(--store-muted)]">{creatorLabel(mission.origin, lang)}</span>
+        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+      </div>
     </Link>
   )
 }
@@ -152,11 +163,12 @@ export function RecentCard({
         {resultLabel(lang)}
       </p>
       <p className="mt-1 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      {dateLabel ? (
-        <span className="mt-auto pt-3 text-xs font-medium text-[var(--store-muted)]">{dateLabel}</span>
-      ) : (
-        <ArrowRight className="mt-auto ml-auto h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
-      )}
+      <div className="mt-auto flex items-center justify-between pt-3">
+        <span className="text-xs font-medium text-[var(--store-muted)]">
+          {dateLabel ?? creatorLabel(mission.origin, lang)}
+        </span>
+        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+      </div>
     </Link>
   )
 }

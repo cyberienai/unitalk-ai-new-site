@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ArrowRight, Search, SlidersHorizontal, X } from 'lucide-react'
+import { ArrowUp, Mic, Paperclip, SlidersHorizontal, X } from 'lucide-react'
 import {
   MISSION_CATEGORIES,
   featuredMissions,
@@ -59,8 +59,12 @@ export function MissionsContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  // Initialize from the URL so a reload / shared link restores everything.
-  const [query, setQuery] = useState(() => searchParams.get('q') ?? '')
+  // The catalog is browsed with the left-hand filters and categories only — the
+  // text field is a conversational entry to Alma, not a live catalog search.
+  // `query` is kept internal (always empty) so downstream logic stays intact.
+  const [query, setQuery] = useState('')
+  // Conversational field sent to Alma. Prefilled from ?q= for a returning link.
+  const [almaText, setAlmaText] = useState(() => searchParams.get('q') ?? '')
   const [filters, setFilters] = useState<StoreFilters>(() =>
     filtersFromParams(new URLSearchParams(searchParams.toString())),
   )
@@ -123,7 +127,7 @@ export function MissionsContent() {
   // Rotate example goals in the placeholder (every 4s) with a fade transition,
   // only while the field is idle and empty.
   useEffect(() => {
-    if (focused || hasQuery) return
+    if (focused || almaText.trim()) return
     if (reduceMotion) {
       const id = setInterval(() => setPhIndex((i) => i + 1), 4000)
       return () => clearInterval(id)
@@ -140,7 +144,7 @@ export function MissionsContent() {
       clearInterval(id)
       clearTimeout(hideTimer)
     }
-  }, [focused, hasQuery, reduceMotion])
+  }, [focused, almaText, reduceMotion])
 
   // Editorial data (stable).
   const featured = useMemo(() => featuredMissions(), [])
@@ -202,6 +206,12 @@ export function MissionsContent() {
     previewTrigger.current?.focus()
   }, [])
 
+  // The conversational field hands the objective to Alma on /decouvrir.
+  const askAlma = useCallback(() => {
+    const text = almaText.trim()
+    router.push(text ? `/decouvrir?q=${encodeURIComponent(text)}` : '/decouvrir')
+  }, [almaText, router])
+
   function selectType(key: string) {
     setFilters((p) => ({ ...p, type: key as StoreFilters['type'] }))
   }
@@ -225,10 +235,14 @@ export function MissionsContent() {
     title: lang === 'fr' ? 'Qu’aimeriez-vous confier ?' : 'What would you like to hand off?',
     lead:
       lang === 'fr'
-        ? 'Choisissez une mission ou décrivez votre objectif. Chaque mission prépare un Collaborateur IA avec son profil métier, ses compétences, ses applications et le contexte de votre organisation.'
-        : 'Choose a mission or describe your goal. Each mission prepares an AI Collaborator with its job profile, skills, applications and your organization’s context.',
+        ? 'Choisissez une mission ou décrivez votre objectif à Alma. Elle prépare le Collaborateur IA capable de l’accomplir dans votre Organisation.'
+        : 'Choose a mission or describe your goal to Alma. She prepares the AI Collaborator able to accomplish it in your Organization.',
+    askAlma: lang === 'fr' ? 'Demandez à Alma' : 'Ask Alma',
+    send: lang === 'fr' ? 'Envoyer à Alma' : 'Send to Alma',
+    attach: lang === 'fr' ? 'Joindre un fichier' : 'Attach a file',
+    mic: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     placeholder:
-      lang === 'fr' ? 'Décrivez votre objectif ou recherchez une mission…' : 'Describe your goal or search a mission…',
+      lang === 'fr' ? 'Décrivez ce que vous souhaitez confier…' : 'Describe what you’d like to hand off…',
     placeholderExamples:
       lang === 'fr'
         ? [
@@ -245,14 +259,11 @@ export function MissionsContent() {
             'e.g. Automate follow-up on overdue invoices',
             'e.g. Produce a weekly activity report every Monday',
           ],
-    clearSearch: lang === 'fr' ? 'Effacer la recherche' : 'Clear search',
-    almaHint: lang === 'fr' ? 'Vous ne savez pas comment le formuler ?' : 'Not sure how to phrase it?',
-    almaLink: lang === 'fr' ? 'Parlez à Alma' : 'Talk to Alma',
-    featuredTitle: lang === 'fr' ? 'Pour commencer' : 'To get started',
+    featuredTitle: lang === 'fr' ? 'Missions recommandées' : 'Recommended missions',
     featuredDesc:
       lang === 'fr'
-        ? 'Une sélection de missions aux résultats immédiatement compréhensibles.'
-        : 'A selection of missions with immediately understandable results.',
+        ? 'Des missions prêtes à être adaptées à votre Organisation par Alma.'
+        : 'Missions ready to be adapted to your Organization by Alma.',
     recentTitle: lang === 'fr' ? 'Nouvelles missions' : 'New missions',
     recentDesc:
       lang === 'fr'
@@ -349,74 +360,86 @@ export function MissionsContent() {
 
           {/* Main column */}
           <div className="min-w-0 flex-1">
-            {/* Search */}
-            <div className="relative">
-              <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--store-line)] bg-[var(--store-surface)] px-4 transition-colors focus-within:border-[#D10E63]/60 focus-within:ring-2 focus-within:ring-[#D10E63]/20">
-                <Search className="h-5 w-5 shrink-0 text-[var(--store-muted)]" aria-hidden="true" />
-                <div className="relative min-w-0 flex-1">
-                  <input
-                    ref={searchRef}
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setTimeout(() => setFocused(false), 150)}
-                    placeholder={focused ? t.placeholder : ''}
-                    aria-label={t.placeholder}
-                    className="w-full bg-transparent text-sm text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
-                  />
-                  {!focused && !hasQuery && (
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center overflow-hidden"
-                    >
-                      <span
-                        className="truncate text-sm text-[var(--store-muted)] transition-opacity duration-300"
-                        style={{ opacity: phVisible ? 1 : 0 }}
-                      >
-                        {t.placeholderExamples[phIndex % t.placeholderExamples.length]}
-                      </span>
-                    </span>
-                  )}
-                </div>
-                {hasQuery ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setQuery('')
-                      searchRef.current?.focus()
-                    }}
-                    aria-label={t.clearSearch}
-                    className="shrink-0 rounded p-0.5 text-[var(--store-muted)] transition-colors hover:text-[var(--store-text)]"
+            {/* Ask Alma — a conversational entry, not a live catalog search.
+                The catalog is browsed with the filters and categories below. */}
+            <div className="rounded-2xl border border-[var(--store-line)] bg-[var(--store-surface)] p-3 shadow-[0_1px_2px_rgba(36,31,29,0.04)] transition-colors focus-within:border-[#D10E63]/60 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
+              <label htmlFor="ask-alma" className="mb-2 flex items-center gap-2 px-1">
+                <img
+                  src="/alma-avatar.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-6 w-6 rounded-full object-cover ring-1 ring-[#D10E63]/40"
+                />
+                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#AD0C53]">
+                  {t.askAlma}
+                </span>
+              </label>
+              <div className="relative px-1">
+                <input
+                  id="ask-alma"
+                  ref={searchRef}
+                  type="text"
+                  value={almaText}
+                  onChange={(e) => setAlmaText(e.target.value)}
+                  onFocus={() => setFocused(true)}
+                  onBlur={() => setTimeout(() => setFocused(false), 150)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) {
+                      e.preventDefault()
+                      askAlma()
+                    }
+                  }}
+                  placeholder={focused ? t.placeholder : ''}
+                  aria-label={t.placeholder}
+                  className="w-full bg-transparent text-[15px] text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
+                />
+                {!focused && !almaText.trim() && (
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 flex items-center overflow-hidden"
                   >
-                    <X className="h-4 w-4" />
-                  </button>
-                ) : (
-                  <kbd className="hidden shrink-0 items-center gap-0.5 rounded border border-[var(--store-line)] bg-[var(--store-page)] px-1.5 py-0.5 font-mono text-[10px] font-semibold text-[var(--store-muted)] sm:inline-flex">
-                    ⌘K
-                  </kbd>
+                    <span
+                      className="truncate text-[15px] text-[var(--store-muted)] transition-opacity duration-300"
+                      style={{ opacity: phVisible ? 1 : 0 }}
+                    >
+                      {t.placeholderExamples[phIndex % t.placeholderExamples.length]}
+                    </span>
+                  </span>
                 )}
               </div>
-
-              {focused && hasQuery && total === 0 && (
-                <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] p-3 shadow-[0_16px_48px_-24px_rgba(36,31,29,0.5)]">
-                  <p className="text-[13px] leading-relaxed text-[var(--store-muted)]">
-                    {lang === 'fr'
-                      ? 'Aucune mission exacte. Alma peut la préparer pour votre organisation.'
-                      : 'No exact mission. Alma can prepare it for your organization.'}
-                  </p>
+              <div className="mt-2 flex items-center justify-between px-1">
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={askAlma}
+                    aria-label={t.attach}
+                    title={t.attach}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)]"
+                  >
+                    <Paperclip className="h-[18px] w-[18px]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={askAlma}
+                    aria-label={t.mic}
+                    title={t.mic}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)]"
+                  >
+                    <Mic className="h-[18px] w-[18px]" />
+                  </button>
                 </div>
-              )}
+                <button
+                  type="button"
+                  onClick={askAlma}
+                  aria-label={t.send}
+                  title={t.send}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#D10E63] px-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
+                >
+                  {t.send}
+                  <ArrowUp className="h-4 w-4" />
+                </button>
+              </div>
             </div>
-
-            {!hasQuery && (
-              <p className="mt-2.5 text-[13px] text-[var(--store-muted)]">
-                {t.almaHint}{' '}
-                <a href="/decouvrir" className="font-semibold text-[#D10E63] hover:underline">
-                  {t.almaLink} →
-                </a>
-              </p>
-            )}
 
             {/* Mobile: Type switcher + categories row + count + Filters */}
             <div className="mt-4 lg:hidden">
@@ -504,7 +527,7 @@ export function MissionsContent() {
                     {t.featuredTitle}
                   </h2>
                   <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.featuredDesc}</p>
-                  <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2">
+                  <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {featured.map((m) => (
                       <FeaturedCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} />
                     ))}
@@ -517,7 +540,7 @@ export function MissionsContent() {
                       {t.recentTitle}
                     </h2>
                     <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.recentDesc}</p>
-                    <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {recent.map((m) => (
                         <RecentCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} />
                       ))}
@@ -572,7 +595,7 @@ export function MissionsContent() {
                 <AlmaBand lang={lang} query={hasQuery ? trimmed : undefined} />
               ) : (
                 <>
-                  <div className="grid auto-rows-fr gap-4 min-[900px]:grid-cols-2 min-[1400px]:grid-cols-3">
+                  <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {visible.map((m) => (
                       <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={openPreview} />
                     ))}
