@@ -1,8 +1,10 @@
 'use client'
 
-import { ArrowRight, Sparkles } from 'lucide-react'
-import type { Mission, MissionCategory } from '@/lib/missions-catalog'
+import Link from 'next/link'
+import { ArrowRight, Eye, Sparkles } from 'lucide-react'
+import { missionFacets, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
+import { StatusBadge } from './status-badge'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
 const SHADOW_REST = '0 0 0 1px rgba(36,31,29,0.09), 0 2px 2px rgba(36,31,29,0.025)'
@@ -23,31 +25,51 @@ export function StoreCard({
   lang: Lang
   onOpen: (m: Mission) => void
 }) {
+  const status = missionFacets(mission).status
+
+  // Whole card is a real link (new tab, copy address, keyboard, history all work).
   return (
-    <button
-      type="button"
-      onClick={() => onOpen(mission)}
+    <Link
+      href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group flex h-[210px] w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] text-left transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex h-[228px] w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] text-left transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
       onFocus={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onBlur={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-        {categoryLabel(categories, mission.category, lang)}
-      </span>
-      <h3 className="mt-2.5 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <div className="flex items-center justify-between gap-2">
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
+          {categoryLabel(categories, mission.category, lang)}
+        </span>
+        <StatusBadge status={status} lang={lang} />
+      </div>
+      <h3 className="mt-2.5 line-clamp-2 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
       <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
         {mission.result[lang]}
       </p>
-      <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-[#D10E63]">
-        {lang === 'fr' ? 'Voir la mission' : 'View mission'}
-        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-      </span>
-    </button>
+      <div className="mt-auto flex items-center justify-between gap-2 pt-3">
+        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#D10E63]">
+          {lang === 'fr' ? 'Voir la mission' : 'View mission'}
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </span>
+        {/* Quick preview — sits inside the link, so stop the navigation when used. */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onOpen(mission)
+          }}
+          className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[13px] font-medium text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+        >
+          <Eye className="h-3.5 w-3.5" />
+          {lang === 'fr' ? 'Aperçu' : 'Preview'}
+        </button>
+      </div>
+    </Link>
   )
 }
 
@@ -63,16 +85,16 @@ export function CustomCard({ lang, onDescribe }: { lang: Lang; onDescribe: () =>
           'radial-gradient(rgba(209,14,99,0.14) 1px, transparent 1px)',
         backgroundSize: '14px 14px',
       }}
-      className="group flex h-[210px] w-full flex-col rounded-[10px] bg-[#FCEAF2]/50 p-[22px] text-left transition-transform duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group flex h-[228px] w-full flex-col rounded-[10px] bg-[#FCEAF2]/50 p-[22px] text-left transition-transform duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
     >
       <span className="inline-flex w-fit items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#A80B50]">
         <Sparkles className="h-3.5 w-3.5" />
         {lang === 'fr' ? 'Sur mesure' : 'Tailored'}
       </span>
-      <h3 className="mt-2.5 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="mt-2.5 line-clamp-2 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {lang === 'fr' ? 'Votre mission n’est pas encore ici ?' : 'Your mission isn’t here yet?'}
       </h3>
-      <p className="mt-2 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">
+      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
         {lang === 'fr'
           ? 'Décrivez votre objectif. Alma prépare la mission, le profil métier et les compétences nécessaires.'
           : 'Describe your goal. Alma prepares the mission, the job profile and the skills needed.'}

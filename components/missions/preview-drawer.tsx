@@ -3,9 +3,10 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, X, Check } from 'lucide-react'
-import type { Mission, MissionCategory } from '@/lib/missions-catalog'
+import { ArrowRight, X, Check, Bell } from 'lucide-react'
+import { missionFacets, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
+import { StatusBadge } from './status-badge'
 
 const CREATE_ORG_HREF = '/decouvrir'
 
@@ -43,14 +44,19 @@ export function PreviewDrawer({
     prepares: lang === 'fr' ? 'Alma préparera' : 'Alma will prepare',
     profile: lang === 'fr' ? 'Profil métier' : 'Job profile',
     skills: lang === 'fr' ? 'Compétences' : 'Skills',
+    apps: lang === 'fr' ? 'Applications nécessaires' : 'Required apps',
     continuity:
       lang === 'fr'
         ? 'Cette mission enrichit les savoir-faire de votre Collaborateur IA. Son identité, sa mémoire et son historique restent continus.'
         : 'This mission enriches your AI Collaborator’s know-how. Its identity, memory and history stay continuous.',
-    entrust: lang === 'fr' ? 'Confier cette mission' : 'Entrust this mission',
+    entrust: lang === 'fr' ? 'Préparer cette mission avec Alma' : 'Prepare this mission with Alma',
+    notify: lang === 'fr' ? 'Être informé de sa disponibilité' : 'Get notified when available',
     detail: lang === 'fr' ? 'Voir la fiche détaillée' : 'See full details',
     close: lang === 'fr' ? 'Fermer' : 'Close',
   }
+
+  const status = mission ? missionFacets(mission).status : 'available'
+  const comingSoon = status === 'coming-soon'
 
   return (
     <AnimatePresence>
@@ -77,9 +83,12 @@ export function PreviewDrawer({
           >
             <div className="flex items-start justify-between gap-4 px-6 pt-6">
               <div>
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-                  {categoryLabel(categories, mission.category, lang)}
-                </span>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
+                    {categoryLabel(categories, mission.category, lang)}
+                  </span>
+                  <StatusBadge status={status} lang={lang} />
+                </div>
                 <h2 className="mt-2 font-sf text-[22px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
                   {mission.title[lang]}
                 </h2>
@@ -131,6 +140,23 @@ export function PreviewDrawer({
                     </span>
                   ))}
                 </div>
+                {mission.tools.length > 0 && (
+                  <>
+                    <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-[var(--store-muted)]">
+                      {t.apps}
+                    </p>
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {mission.tools.map((tool) => (
+                        <span
+                          key={tool}
+                          className="rounded-full border border-[var(--store-line)] bg-[var(--store-page)] px-2.5 py-1 text-xs font-medium text-[var(--store-text)]"
+                        >
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
 
               <p className="mt-5 border-l-2 border-[#D10E63] pl-3 text-[13px] leading-relaxed text-[var(--store-muted)]">
@@ -140,11 +166,24 @@ export function PreviewDrawer({
 
             <div className="border-t border-[var(--store-line)] bg-[var(--store-surface)] px-6 py-4">
               <Link
-                href={`${CREATE_ORG_HREF}?mission=${mission.slug}`}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B90C57]"
+                href={comingSoon ? `${CREATE_ORG_HREF}?notify=${mission.slug}` : `${CREATE_ORG_HREF}?mission=${mission.slug}`}
+                className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition-colors ${
+                  comingSoon
+                    ? 'border border-[var(--store-line)] bg-[var(--store-page)] text-[var(--store-text)] hover:bg-[var(--store-text)]/[0.05]'
+                    : 'bg-[#D10E63] text-[#FBF9F3] hover:bg-[#B90C57]'
+                }`}
               >
-                {t.entrust}
-                <ArrowRight className="h-4 w-4" />
+                {comingSoon ? (
+                  <>
+                    <Bell className="h-4 w-4" />
+                    {t.notify}
+                  </>
+                ) : (
+                  <>
+                    {t.entrust}
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
               </Link>
               <Link
                 href={`/missions/${mission.slug}`}

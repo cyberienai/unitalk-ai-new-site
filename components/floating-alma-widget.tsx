@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
@@ -60,57 +59,21 @@ export function FloatingAlmaWidget() {
   // Also hide it on /decouvrir, where the onboarding already features Alma as a
   // dedicated voice-agent panel. The chat window still opens via in-page buttons.
   const showLauncher = pathname !== '/' && pathname !== '/accueil-2' && pathname !== '/decouvrir'
+  // On /missions the widget must stay a small, unobtrusive round avatar — no
+  // auto-opening bubble that competes with the page's own CTAs (spec).
   const isMissions = pathname === '/missions' || pathname.startsWith('/missions/')
-  const [bubbleDismissed, setBubbleDismissed] = useState(false)
-  const showMissionsBubble = showLauncher && isMissions && !isOpen && !bubbleDismissed
 
   return (
     <>
       {/* Floating launcher — Alma as a living presence, not a support bot */}
       {showLauncher && (
         <div className="fixed bottom-6 right-6 z-40 flex items-end gap-3">
-          {/* Contextual Missions bubble: Alma can help prepare a Mission */}
-          <AnimatePresence>
-            {showMissionsBubble && (
-              <motion.div
-                initial={{ opacity: 0, x: 12, scale: 0.96 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 12, scale: 0.96 }}
-                transition={{ delay: 0.9, duration: 0.3 }}
-                className="mb-1 max-w-[15rem] rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-3.5 shadow-[0_16px_40px_-16px_rgba(28,26,23,0.4)]"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <p className="text-pretty text-[13px] font-medium leading-snug text-[#3F3A33]">{t.tipMissions}</p>
-                  <button
-                    onClick={() => setBubbleDismissed(true)}
-                    aria-label={t.tooltipClose}
-                    className="-mr-1 -mt-1 shrink-0 rounded-full p-1 text-[#8A8175] transition-colors hover:text-[#1C1A17]"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                  </button>
-                </div>
-                <button
-                  onClick={toggleAlma}
-                  className="mt-2.5 inline-flex items-center gap-1 rounded-full bg-[#D10E63] px-3 py-1.5 text-xs font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00C54]"
-                >
-                  {t.ctaMissions}
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
           <motion.button
             onClick={toggleAlma}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.3 }}
-            className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#F3EFE6] shadow-[0_12px_32px_-8px_rgba(28,26,23,0.35)] ring-2 ring-[#D10E63]/40 transition-transform hover:scale-105"
+            className={`relative flex items-center justify-center rounded-full bg-[#F3EFE6] shadow-[0_12px_32px_-8px_rgba(28,26,23,0.35)] ring-2 ring-[#D10E63]/40 transition-transform hover:scale-105 ${isMissions ? 'h-12 w-12' : 'h-16 w-16'}`}
             aria-label={isOpen ? t.tooltipClose : t.tipHome}
           >
             {isOpen ? (
