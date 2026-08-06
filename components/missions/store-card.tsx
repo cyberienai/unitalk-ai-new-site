@@ -14,18 +14,6 @@ function categoryLabel(cats: MissionCategory[], key: string, lang: Lang): string
   return cats.find((c) => c.key === key)?.label[lang] ?? key
 }
 
-// Tiny eyebrow that frames the deliverable sentence as the concrete outcome.
-function resultLabel(lang: Lang): string {
-  return lang === 'fr' ? 'Résultat' : 'Result'
-}
-
-// Who authored the mission — the only trust signal we surface on a card, using
-// real catalog data (no invented availability, difficulty or social proof).
-function creatorLabel(origin: Mission['origin'], lang: Lang): string {
-  if (origin === 'external') return lang === 'fr' ? 'Par la communauté' : 'By the community'
-  return lang === 'fr' ? 'Par Unitalk' : 'By Unitalk'
-}
-
 /* ------------------------------------------------------------------ */
 /* Catalog card — full detail link + separate preview button           */
 /* ------------------------------------------------------------------ */
@@ -47,7 +35,7 @@ export function StoreCard({
   return (
     <article
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex h-[227px] w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 focus-within:ring-2 focus-within:ring-[#D10E63]/40 hover:-translate-y-px"
+      className="group relative flex w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-6 transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-within:ring-2 focus-within:ring-[#D10E63]/40"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
@@ -57,23 +45,17 @@ export function StoreCard({
         aria-label={mission.title[lang]}
       />
 
-      <div className="pointer-events-none relative z-0 flex flex-wrap items-center gap-x-2 gap-y-1.5 pr-11">
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-          {categoryLabel(categories, mission.category, lang)}
-        </span>
-      </div>
-      <h3 className="pointer-events-none relative z-0 mt-2.5 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <span className="pointer-events-none relative z-0 pr-11 text-[13px] font-medium text-[var(--store-muted)]">
+        {categoryLabel(categories, mission.category, lang)}
+      </span>
+      <h3 className="pointer-events-none relative z-0 mt-2 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="pointer-events-none relative z-0 mt-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B89AA6]">
-        {resultLabel(lang)}
-      </p>
-      <p className="pointer-events-none relative z-0 mt-1 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">
+      <p className="pointer-events-none relative z-0 mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
         {mission.result[lang]}
       </p>
-      <div className="pointer-events-none relative z-0 mt-auto flex items-center justify-between pt-3">
-        <span className="text-xs font-medium text-[var(--store-muted)]">{creatorLabel(mission.origin, lang)}</span>
-        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+      <div className="pointer-events-none relative z-0 mt-4 flex items-center justify-end">
+        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
 
       <button
@@ -105,25 +87,19 @@ export function FeaturedCard({
     <Link
       href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex min-h-[211px] flex-col rounded-[10px] bg-[var(--store-surface)] p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex flex-col rounded-[10px] bg-[var(--store-surface)] p-6 transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <div className="flex items-center justify-between gap-2">
-        <span className="line-clamp-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-          {categoryLabel(categories, mission.category, lang)}
-        </span>
-      </div>
-      <h3 className="mt-2 line-clamp-2 font-sf text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <span className="text-[13px] font-medium text-[var(--store-muted)]">
+        {categoryLabel(categories, mission.category, lang)}
+      </span>
+      <h3 className="mt-2 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B89AA6]">
-        {resultLabel(lang)}
-      </p>
-      <p className="mt-1 line-clamp-2 text-[13px] leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      <div className="mt-auto flex items-center justify-between pt-3">
-        <span className="text-xs font-medium text-[var(--store-muted)]">{creatorLabel(mission.origin, lang)}</span>
-        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+      <p className="mt-2 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
+      <div className="mt-4 flex items-center justify-end">
+        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </Link>
   )
@@ -147,27 +123,20 @@ export function RecentCard({
     <Link
       href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex min-h-[243px] flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex flex-col rounded-[10px] bg-[var(--store-surface)] p-6 transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <div className="flex items-center justify-between gap-2">
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-          {categoryLabel(categories, mission.category, lang)}
-        </span>
-      </div>
-      <h3 className="mt-2.5 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <span className="text-[13px] font-medium text-[var(--store-muted)]">
+        {categoryLabel(categories, mission.category, lang)}
+      </span>
+      <h3 className="mt-2 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B89AA6]">
-        {resultLabel(lang)}
-      </p>
-      <p className="mt-1 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      <div className="mt-auto flex items-center justify-between pt-3">
-        <span className="text-xs font-medium text-[var(--store-muted)]">
-          {dateLabel ?? creatorLabel(mission.origin, lang)}
-        </span>
-        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
+      <div className="mt-4 flex items-center justify-between">
+        <span className="text-xs font-medium text-[var(--store-muted)]">{dateLabel ?? ''}</span>
+        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </Link>
   )
