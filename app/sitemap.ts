@@ -12,6 +12,7 @@ const STATIC_ROUTES = [
   '/collaborateurs-ia/profils-metier',
   '/collaborateurs-ia/competences',
   '/collaborateurs-ia/applications',
+  '/experts',
   '/workspace',
   '/tarifs',
   '/solutions',
@@ -30,7 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${SITE_URL}${path}`,
     lastModified: now,
     changeFrequency: 'weekly',
-    priority: path === '' ? 1 : path === '/missions' || path === '/collaborateurs-ia' ? 0.9 : 0.7,
+    priority:
+      path === ''
+        ? 1
+        : path === '/missions' || path === '/collaborateurs-ia' || path === '/experts'
+          ? 0.9
+          : 0.7,
   }))
 
   const missionEntries: MetadataRoute.Sitemap = MISSIONS.map((m) => ({

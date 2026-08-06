@@ -68,6 +68,7 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'Collaborateurs IA',
+    experts: 'Experts',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     collabMenu: 'Menu Collaborateurs IA',
@@ -82,6 +83,7 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'AI Collaborators',
+    experts: 'Experts',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
@@ -155,6 +157,8 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   // capability catalogs (profils métier, compétences, applications) plus details.
   const isCollabActive = pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')
   const isMissionsActive = pathname === '/missions' || pathname.startsWith('/missions/')
+  // Experts: the human pillar — accompaniment around the Collaborateurs IA.
+  const isExpertsActive = pathname === '/experts' || pathname.startsWith('/experts/')
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'
 
@@ -321,9 +325,11 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                 </AnimatePresence>
               </div>
 
-              {/* Future: an "Experts" entry belongs here, between Collaborateurs IA
-                  and Workspace. Kept out of the public nav until its pages exist —
-                  inserting it later requires no restructuring. */}
+              {/* Experts — the human pillar: accompaniment around the Collaborateurs IA */}
+              <NavItem href="/experts" active={isExpertsActive}>
+                {t.experts}
+              </NavItem>
+
               <NavItem href="/workspace" active={isWorkspaceActive}>
                 {t.workspace}
               </NavItem>
@@ -468,6 +474,13 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                     ))}
                   </div>
 
+                  <a
+                    href="/experts"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                  >
+                    {t.experts}
+                  </a>
                   <a
                     href="/workspace"
                     onClick={() => setIsMenuOpen(false)}

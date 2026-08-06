@@ -23,8 +23,12 @@ const T = {
         ],
       },
       {
-        title: 'Créateurs',
-        links: [{ label: 'Proposer une mission', href: '/missions/proposer' }],
+        title: 'Écosystème',
+        links: [
+          { label: 'Experts', href: '/experts' },
+          { label: 'Devenir expert', href: '/experts#devenir-expert' },
+          { label: 'Proposer une mission', href: '/missions/proposer' },
+        ],
       },
       {
         title: 'Entreprise',
@@ -63,8 +67,12 @@ const T = {
         ],
       },
       {
-        title: 'Creators',
-        links: [{ label: 'Propose a mission', href: '/missions/proposer' }],
+        title: 'Ecosystem',
+        links: [
+          { label: 'Experts', href: '/experts' },
+          { label: 'Become an expert', href: '/experts#devenir-expert' },
+          { label: 'Propose a mission', href: '/missions/proposer' },
+        ],
       },
       {
         title: 'Company',
