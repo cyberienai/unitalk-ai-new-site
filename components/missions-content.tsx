@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ChevronDown, ChevronUp, SlidersHorizontal, X } from 'lucide-react'
+import { SlidersHorizontal, X } from 'lucide-react'
 import {
   MISSION_CATEGORIES,
   featuredMissions,
@@ -75,7 +75,6 @@ export function MissionsContent() {
   const [sheetOpen, setSheetOpen] = useState(false)
   // The catalog is secondary: hidden until the user chooses to explore it, or
   // when a filter/search refinement or a shared ?q=/filter URL requires it.
-  const [catalogOpen, setCatalogOpen] = useState(false)
   const [preview, setPreview] = useState<Mission | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
@@ -89,11 +88,6 @@ export function MissionsContent() {
   const advCount = advancedFilterCount(filters)
   const hasAnyRefinement = hasQuery || filterCount > 0
   const showEditorial = !hasAnyRefinement
-
-  // A shared/refined URL (filters or search) should reveal the catalog directly.
-  useEffect(() => {
-    if (hasAnyRefinement) setCatalogOpen(true)
-  }, [hasAnyRefinement])
 
   // Reflect state into the URL (defaults omitted).
   useEffect(() => {
@@ -187,9 +181,11 @@ export function MissionsContent() {
 
   // --- copy ------------------------------------------------------------------
   const t = {
-    exploreLead: lang === 'fr' ? 'Vous préférez choisir ?' : 'Prefer to choose?',
-    exploreAll: lang === 'fr' ? 'Explorer les missions' : 'Explore the missions',
-    hideAll: lang === 'fr' ? 'Masquer les missions' : 'Hide the missions',
+    catalogTitle: lang === 'fr' ? 'Choisissez une mission' : 'Choose a mission',
+    catalogSubtitle:
+      lang === 'fr'
+        ? 'Parcourez les missions prêtes à confier, ou affinez avec les filtres.'
+        : 'Browse ready-to-hand-off missions, or refine with the filters.',
     featuredTitle: lang === 'fr' ? 'Missions recommandées' : 'Recommended missions',
     featuredDesc:
       lang === 'fr'
@@ -265,35 +261,14 @@ export function MissionsContent() {
         <AlmaSurface lang={lang} initialQuery={almaText} />
       </div>
 
-      {/* Editorial transition to the catalog, which is now secondary. */}
-      {!catalogOpen && (
-        <div className="mx-auto flex max-w-[1240px] flex-col items-center px-6 pt-10 text-center">
-          <p className="text-sm text-[var(--store-muted)]">{t.exploreLead}</p>
-          <button
-            type="button"
-            onClick={() => setCatalogOpen(true)}
-            className="group mt-1 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-bold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-          >
-            {t.exploreAll}
-            <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-          </button>
-        </div>
-      )}
-
-      {/* ------------------------ SIDEBAR + MAIN (catalog) ------------------------ */}
-      <div hidden={!catalogOpen} className="mx-auto max-w-[1240px] px-6 pb-24 pt-8">
-        {catalogOpen && (
-          <div className="mb-6 flex justify-center">
-            <button
-              type="button"
-              onClick={() => setCatalogOpen(false)}
-              className="group inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-bold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-            >
-              {t.hideAll}
-              <ChevronUp className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
-            </button>
-          </div>
-        )}
+      {/* ------------------------ CATALOG (always visible) ------------------------ */}
+      <div className="mx-auto max-w-[1240px] px-6 pb-24 pt-14 sm:pt-16">
+        <header className="mb-8 border-t border-[var(--store-line)] pt-8">
+          <h2 className="font-sf text-2xl font-bold tracking-[-0.01em] text-[var(--store-text)] sm:text-[1.75rem]">
+            {t.catalogTitle}
+          </h2>
+          <p className="mt-1.5 text-pretty text-sm leading-relaxed text-[var(--store-muted)]">{t.catalogSubtitle}</p>
+        </header>
         <div className="flex gap-8 lg:gap-10">
           {/* Sidebar (desktop) */}
           <aside className="hidden w-[220px] shrink-0 lg:block xl:w-[232px]">

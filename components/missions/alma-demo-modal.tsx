@@ -22,12 +22,11 @@ const SCENE_MS = 8000
 const T: Record<Lang, Record<string, string>> = {
   fr: {
     open_eyebrow: 'ALMA EN ACTION',
-    open_title: 'Une demande devient une mission.',
+    open_title: 'Vous parlez. La mission prend forme.',
     open_text:
-      'Découvrez comment Alma transforme quelques phrases en travail structuré avant de l’adapter au contexte de votre entreprise.',
+      'En 45 secondes, voyez quelques phrases devenir une mission structurée, prête à être adaptée à votre entreprise.',
     open_cta: 'Lancer la démo',
-    open_note: '45 secondes · Le son reste désactivé tant que vous ne l’activez pas.',
-    open_muted: 'Voir sans le son',
+    open_note: '45 secondes · sans son',
     close: 'Fermer',
     closeDemo: 'Fermer la démo',
     you: 'Vous',
@@ -46,15 +45,21 @@ const T: Record<Lang, Record<string, string>> = {
     finalCta: 'Essayer avec ma propre demande',
     finalSecondary: 'Revoir la démo',
     missionTitle: 'Relancer les factures impayées',
+    vig_sentence: '« Relance chaque semaine les factures impayées. »',
+    vig_f1: 'Objectif',
+    vig_f1v: 'Obtenir le règlement des factures échues',
+    vig_f2: 'Rythme',
+    vig_f2v: 'Chaque semaine',
+    vig_f3: 'Cadre',
+    vig_f3v: 'Validation avant contentieux',
   },
   en: {
     open_eyebrow: 'ALMA IN ACTION',
-    open_title: 'A request becomes a mission.',
+    open_title: 'You speak. The mission takes shape.',
     open_text:
-      'See how Alma turns a few sentences into structured work before adapting it to your company’s context.',
+      'In 45 seconds, watch a few sentences become a structured mission, ready to be adapted to your company.',
     open_cta: 'Start the demo',
-    open_note: '45 seconds · Sound stays off until you turn it on.',
-    open_muted: 'Watch without sound',
+    open_note: '45 seconds · no sound',
     close: 'Close',
     closeDemo: 'Close the demo',
     you: 'You',
@@ -73,6 +78,13 @@ const T: Record<Lang, Record<string, string>> = {
     finalCta: 'Try with my own request',
     finalSecondary: 'Replay the demo',
     missionTitle: 'Chase unpaid invoices',
+    vig_sentence: '“Chase unpaid invoices every week.”',
+    vig_f1: 'Objective',
+    vig_f1v: 'Get payment for overdue invoices',
+    vig_f2: 'Rhythm',
+    vig_f2v: 'Every week',
+    vig_f3: 'Frame',
+    vig_f3v: 'Validation before litigation',
   },
 }
 
@@ -161,6 +173,83 @@ const FIELDS: FieldReveal[] = [
     from: 3,
   },
 ]
+
+/**
+ * Silent preview of the promise on the opening screen: the spoken sentence
+ * appears, a rose pulse marks Alma "thinking", then three structured fields
+ * reveal in sequence. It runs once (not a loop) and is skipped for reduced
+ * motion, which shows the end state directly.
+ */
+function OpeningVignette({ t, reduce }: { t: Record<string, string>; reduce: boolean }) {
+  // step 0: sentence · 1: rose pulse · 2+: fields revealed
+  const [step, setStep] = useState(reduce ? 3 : 0)
+  const fields = [
+    { k: t.vig_f1, v: t.vig_f1v },
+    { k: t.vig_f2, v: t.vig_f2v },
+    { k: t.vig_f3, v: t.vig_f3v },
+  ]
+
+  useEffect(() => {
+    if (reduce) return
+    const timers = [
+      setTimeout(() => setStep(1), 900),
+      setTimeout(() => setStep(2), 1700),
+      setTimeout(() => setStep(3), 2200),
+      setTimeout(() => setStep(4), 2700),
+    ]
+    return () => timers.forEach(clearTimeout)
+  }, [reduce])
+
+  return (
+    <div className="mx-auto mt-7 w-full max-w-sm rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-4 text-left shadow-[0_1px_2px_rgba(28,26,23,0.04)]">
+      {/* Spoken sentence */}
+      <div className="flex items-start gap-2.5">
+        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#1C1A17]/[0.06] text-[10px] font-bold text-[#5B534A]">
+          {t.you.slice(0, 2)}
+        </span>
+        <motion.p
+          initial={reduce ? false : { opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="text-pretty text-[13.5px] leading-snug text-[#2A2622]"
+        >
+          {t.vig_sentence}
+        </motion.p>
+      </div>
+
+      {/* Rose pulse — Alma structuring */}
+      <div className="my-3 flex items-center gap-2" aria-hidden="true">
+        <span className="relative flex h-2 w-2">
+          {!reduce && step >= 1 && step < 4 && (
+            <motion.span
+              className="absolute inline-flex h-full w-full rounded-full bg-[#D10E63]/60"
+              animate={{ scale: [1, 2.4, 1], opacity: [0.6, 0, 0.6] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          )}
+          <span className={`relative inline-flex h-2 w-2 rounded-full ${step >= 1 ? 'bg-[#D10E63]' : 'bg-[#E7DFD0]'}`} />
+        </span>
+        <span className="h-px flex-1 bg-[#EFE8DB]" />
+      </div>
+
+      {/* Structured fields */}
+      <div className="flex flex-col gap-2">
+        {fields.map((f, i) => (
+          <motion.div
+            key={f.k}
+            initial={reduce ? false : { opacity: 0, y: 4 }}
+            animate={step >= 2 + i ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 }}
+            transition={{ duration: 0.35 }}
+            className="flex items-baseline gap-2"
+          >
+            <span className="w-16 shrink-0 text-[10px] font-bold uppercase tracking-[0.08em] text-[#AD0C53]">{f.k}</span>
+            <span className="text-pretty text-[12.5px] leading-snug text-[#3A3630]">{f.v}</span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export function AlmaDemoModal({
   open,
@@ -292,43 +381,31 @@ export function AlmaDemoModal({
         </button>
 
         {!started ? (
-          /* ---- Opening screen (§16) ---- */
-          <div className="flex flex-1 flex-col items-center justify-center px-6 py-16 text-center sm:px-10">
+          /* ---- Opening screen ---- */
+          <div className="flex flex-1 flex-col items-center justify-center px-6 py-10 text-center sm:px-10 sm:py-12">
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#AD0C53]">
               {t.open_eyebrow}
             </p>
-            <h2 className="mt-4 max-w-2xl text-balance font-sf text-[clamp(1.6rem,3.2vw,2.6rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
+            <h2 className="mt-3 max-w-xl text-balance font-sf text-[clamp(1.5rem,2.8vw,2.2rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
               {t.open_title}
             </h2>
-            <p className="mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-[#5B534A]">{t.open_text}</p>
+            <p className="mt-3 max-w-md text-pretty text-[14.5px] leading-relaxed text-[#5B534A]">{t.open_text}</p>
+
+            {/* Silent preview of the promise (once). */}
+            <OpeningVignette t={t} reduce={!!reduce} />
+
             <button
               type="button"
               onClick={() => {
                 setStarted(true)
                 setPlaying(true)
               }}
-              className="mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-semibold text-[#FBF9F3] shadow-[0_12px_30px_-10px_rgba(209,14,99,0.6)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+              className="mt-7 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-semibold text-[#FBF9F3] shadow-[0_12px_30px_-10px_rgba(209,14,99,0.6)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
             >
               <Play className="h-4 w-4" fill="currentColor" />
               {t.open_cta}
             </button>
-            <p className="mt-4 text-[12.5px] text-[#8A8073]">{t.open_note}</p>
-            <div className="mt-3 flex items-center gap-4 text-[13px]">
-              <button
-                type="button"
-                onClick={() => {
-                  setSound(false)
-                  setStarted(true)
-                  setPlaying(true)
-                }}
-                className="font-semibold text-[#AD0C53] underline-offset-4 hover:underline"
-              >
-                {t.open_muted}
-              </button>
-              <button type="button" onClick={onClose} className="text-[#8A8073] hover:text-[#5B534A]">
-                {t.close}
-              </button>
-            </div>
+            <p className="mt-3 text-[12.5px] text-[#8A8073]">{t.open_note}</p>
           </div>
         ) : (
           /* ---- Player ---- */
