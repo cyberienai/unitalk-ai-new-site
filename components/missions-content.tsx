@@ -35,6 +35,7 @@ import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar
 import { StoreCard, AlmaBand } from '@/components/missions/store-card'
 import { AlmaSurface, type LoadRequest } from '@/components/missions/alma-surface'
 import { FilterSheet } from '@/components/missions/filter-sheet'
+import { ExpertDoor } from '@/components/experts/expert-door'
 
 const FACET_SOURCES: Record<MultiKey, Facet[]> = {
   secteur: SECTORS,
@@ -261,6 +262,11 @@ export function MissionsContent() {
         ? 'Vous avez conçu une mission utile à d’autres entreprises ?'
         : 'Have you designed a mission useful to other companies?',
     proposeCta: lang === 'fr' ? 'Proposer une mission' : 'Propose a mission',
+    complexQuestion:
+      lang === 'fr'
+        ? 'Une mission trop large pour une seule fiche ? Un expert peut la cadrer avec vous.'
+        : 'A mission too broad for a single card? An expert can frame it with you.',
+    complexCta: lang === 'fr' ? 'Être accompagné' : 'Get support',
     sortLabel: lang === 'fr' ? 'Trier' : 'Sort',
     clear: lang === 'fr' ? 'Effacer les filtres' : 'Clear filters',
     searchChip: lang === 'fr' ? 'Recherche' : 'Search',
@@ -509,6 +515,20 @@ export function MissionsContent() {
                           </span>
                         </span>
                       </Link>
+
+                      {/* Complex mission → the Experts pillar. Discreet, at the very
+                          end, carrying any drafted description so /experts can
+                          prefill Alma. Never competes with "Parler à Alma". */}
+                      <div className="mt-4">
+                        <ExpertDoor
+                          lang={lang}
+                          href={`/experts?entry=mission${
+                            almaText.trim() ? `&draft=${encodeURIComponent(almaText.trim())}` : ''
+                          }`}
+                          title={t.complexQuestion}
+                          cta={t.complexCta}
+                        />
+                      </div>
                     </>
                   )}
                 </>

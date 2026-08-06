@@ -54,22 +54,38 @@ export function ExpertsContent() {
     if (params.get('entry') !== 'mission') return
     const id = params.get('draft')
     if (!id) return
-    const draft = loadDraft(id)
-    if (!draft) return
     seedCounter.current += 1
-    const text = {
-      fr: `${draft.objective.fr} ${draft.result.fr}`.trim(),
-      en: `${draft.objective.en} ${draft.result.en}`.trim(),
+    // Two carriers are supported (both keep company context private):
+    //  1. a stored MissionDraft id (structured objective + result), or
+    //  2. raw text drafted in the Missions Alma field (no stored draft).
+    const draft = loadDraft(id)
+    const consentNote = {
+      fr: 'Projet transmis depuis vos missions. Le contexte de votre entreprise n’est pas partagé sans votre accord.',
+      en: 'Project carried over from your missions. Your company context is not shared without your consent.',
     }
-    setSeed({
-      text,
-      level: 'deploiement',
-      note: {
-        fr: `Projet transmis depuis votre mission « ${draft.title.fr} ». Le contexte de votre entreprise n’est pas partagé sans votre accord.`,
-        en: `Project carried over from your mission "${draft.title.en}". Your company context is not shared without your consent.`,
-      },
-      key: seedCounter.current,
-    })
+    if (draft) {
+      setSeed({
+        text: {
+          fr: `${draft.objective.fr} ${draft.result.fr}`.trim(),
+          en: `${draft.objective.en} ${draft.result.en}`.trim(),
+        },
+        level: 'deploiement',
+        note: {
+          fr: `Projet transmis depuis votre mission « ${draft.title.fr} ». Le contexte de votre entreprise n’est pas partagé sans votre accord.`,
+          en: `Project carried over from your mission "${draft.title.en}". Your company context is not shared without your consent.`,
+        },
+        key: seedCounter.current,
+      })
+    } else {
+      // Raw drafted text — seed both languages with what the user typed.
+      const raw = id.trim()
+      setSeed({
+        text: { fr: raw, en: raw },
+        level: 'deploiement',
+        note: consentNote,
+        key: seedCounter.current,
+      })
+    }
     // Scroll to Alma once mounted.
     requestAnimationFrame(() => almaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
   }, [])

@@ -2,12 +2,14 @@
 
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowDown, Brain, Check, Mail, Phone, Sparkles, UserRound, Wrench, X } from 'lucide-react'
-import { useT } from '@/lib/language-context'
+import { useT, useLanguage } from '@/lib/language-context'
+import { ExpertDoor } from '@/components/experts/expert-door'
 
 const CARD_ICONS = [UserRound, Brain, Wrench, Sparkles]
 const WORK_ICONS = [Mail, ArrowDown, Phone, Check]
 
 export function CollabWhatContent() {
+  const { lang } = useLanguage()
   const t = useT({
     fr: {
       eyebrow: 'Assistant vs Collaborateur',
@@ -195,6 +197,22 @@ export function CollabWhatContent() {
                 </motion.div>
               )
             })}
+          </div>
+
+          {/* Discreet door to the human pillar. The Collaborateurs IA stand on
+              their own; setting them up with an expert is an option, not a
+              prerequisite — hence the understated placement at the end. */}
+          <div className="mx-auto mt-12 max-w-2xl text-left">
+            <ExpertDoor
+              lang={lang}
+              tone="dark"
+              title={
+                lang === 'fr'
+                  ? 'Vous préférez être accompagné pour les mettre en place ?'
+                  : 'Prefer to be supported setting them up?'
+              }
+              cta={lang === 'fr' ? 'Voir les experts' : 'See the experts'}
+            />
           </div>
         </div>
       </section>

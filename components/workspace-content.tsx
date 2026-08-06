@@ -24,6 +24,7 @@ import {
 import { useLanguage, type Lang } from '@/lib/language-context'
 import { getMission, DELAY_TBD } from '@/lib/missions-catalog'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { ExternalExpertRole } from '@/components/experts/external-expert-role'
 
 type Feature = { icon: React.ComponentType<{ className?: string }>; title: string; body: string }
 type Step = { title: string; body: string }
@@ -466,6 +467,9 @@ export function WorkspaceContent() {
           </Link>
         </div>
       </section>
+
+      {/* Expert externe — a scoped, temporary human role in the Workspace. */}
+      <ExternalExpertRole lang={lang} />
 
       {/* Final CTA */}
       <section className="px-5 py-24 text-center sm:px-8 sm:py-32">
