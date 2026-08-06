@@ -256,7 +256,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 6 }}
                       transition={{ duration: 0.16 }}
-                      className="absolute left-0 top-full w-[420px] max-w-[calc(100vw-2rem)] pt-2"
+                      className="absolute right-0 top-full w-[420px] max-w-[calc(100vw-2rem)] pt-2"
                     >
                       <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-3 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
                         {/* Store scope: the equipment for a Collaborateur IA (not the missions) */}

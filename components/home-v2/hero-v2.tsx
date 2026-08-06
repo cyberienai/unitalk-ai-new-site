@@ -359,10 +359,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                   {/* Légende + compteur de sources analysées */}
                   <div className="mt-5 flex items-center justify-between">
-                    <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.analyzeCaption}</p>
+                    <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">{t.analyzeCaption}</p>
                     <span className="font-mono text-[11px] font-bold tabular-nums text-[#F58AAB]">
                       {analyzeCount}
-                      <span className="text-[#6E685E]">/{t.analyzeSteps.length}</span>
+                      <span className="text-[#948D7F]">/{t.analyzeSteps.length}</span>
                     </span>
                   </div>
 
@@ -376,7 +376,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                           className={`flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-[12px] font-medium transition-colors duration-500 ${
                             checked
                               ? 'border-white/[0.08] bg-white/[0.03] text-[#D8D2C6]'
-                              : 'border-transparent text-[#6E685E]'
+                              : 'border-transparent text-[#948D7F]'
                           }`}
                         >
                           <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
@@ -511,7 +511,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                     {/* Expertises */}
                     <div>
-                      <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.expertisesLabel}</p>
+                      <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">{t.expertisesLabel}</p>
                       <div className="flex flex-wrap gap-1.5">
                         {t.expertises.map((e) => (
                           <span
@@ -527,7 +527,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     {/* Activité en direct — l'accroche : elle travaille déjà */}
                     <div className="rounded-2xl border border-white/[0.08] bg-black/25 p-3.5">
                       <div className="mb-2.5 flex items-center justify-between">
-                        <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{t.activityLabel}</span>
+                        <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">{t.activityLabel}</span>
                         <span className="flex h-3 items-end gap-[2px]" aria-hidden="true">
                           {[6, 11, 8].map((h, i) => (
                             <motion.span
