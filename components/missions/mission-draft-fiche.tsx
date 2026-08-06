@@ -123,7 +123,6 @@ export function MissionDraftFiche({
     prepTitle: lang === 'fr' ? 'Relancer les factures impayées' : 'Chase unpaid invoices',
     veil: lang === 'fr' ? 'Votre mission apparaîtra ici' : 'Your mission will appear here',
     ready: lang === 'fr' ? 'Mission prête à être adaptée' : 'Mission ready to be adapted',
-    footnote: lang === 'fr' ? 'Votre parole devient une mission.' : 'Your words become a mission.',
     nextStep: lang === 'fr' ? 'Prochaine étape' : 'Next step',
     nextBody:
       lang === 'fr'
@@ -325,11 +324,7 @@ export function MissionDraftFiche({
             {t.keepGoing}
           </button>
         </motion.div>
-      ) : (
-        <p className="mt-6 border-t border-[var(--store-line)] pt-4 text-xs leading-relaxed text-[var(--store-muted)]">
-          {t.footnote}
-        </p>
-      )}
+      ) : null}
     </div>
   )
 }

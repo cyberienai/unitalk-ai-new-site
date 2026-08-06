@@ -496,9 +496,9 @@ export function AlmaSurface({
         className="overflow-hidden rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)]"
         aria-label={lang === 'fr' ? 'Préparer une mission avec Alma' : 'Prepare a mission with Alma'}
       >
-        <div className="grid lg:min-h-[440px] lg:grid-cols-[42%_58%]">
+        <div className="grid lg:min-h-[400px] lg:grid-cols-[42%_58%]">
           {/* LEFT — Alma + conversation */}
-          <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+          <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-5 lg:border-b-0 lg:border-r">
             {stage === 'intro' && (
               <IntroPresence
                 reduce={!!reduce}
@@ -554,7 +554,7 @@ export function AlmaSurface({
           </div>
 
           {/* RIGHT — living mission fiche */}
-          <div className="bg-[#FBF9F3] p-5 sm:p-6">
+          <div className="bg-[#FBF9F3] p-5 sm:p-5">
             <MissionDraftFiche
               draft={draft}
               shown={shown}
