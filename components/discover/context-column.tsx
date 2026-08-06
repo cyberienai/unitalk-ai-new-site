@@ -1,9 +1,8 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { Check, Mic, MessageSquare, ShieldCheck, FileText, Lock } from 'lucide-react'
+import { Check, ShieldCheck, FileText, Lock } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { useAlma } from '@/lib/alma-context'
 import { CONTEXT_ITEMS_TOTAL, getMission, type FlowState } from './types'
 
 function AlmaHead({ className = 'h-10 w-10' }: { className?: string }) {
@@ -17,63 +16,55 @@ function AlmaHead({ className = 'h-10 w-10' }: { className?: string }) {
   )
 }
 
-/** Step 1 + generic: dark Alma card (voice / write). */
-function AlmaCard({ lang }: { lang: Lang }) {
-  const { openAlma } = useAlma()
-  const t = {
-    fr: {
-      badge: 'Alma · Conseillère IA',
-      title: 'Vous préférez en parler ?',
-      body: 'Présentez votre activité à Alma. Elle vous écoute, précise vos priorités et prépare la suite avec vous.',
-      talk: 'Parler à Alma',
-      write: 'Écrire à Alma',
-      micro: 'Le micro est activé uniquement avec votre accord.',
-    },
-    en: {
-      badge: 'Alma · AI advisor',
-      title: 'Prefer to talk it through?',
-      body: 'Introduce your business to Alma. She listens, sharpens your priorities and prepares what comes next with you.',
-      talk: 'Talk to Alma',
-      write: 'Write to Alma',
-      micro: 'The mic turns on only with your consent.',
-    },
-  }[lang]
+/** Step 1: recap of the already-chosen entry point + guarantees. */
+function EntryRecap({ state, lang }: { state: FlowState; lang: Lang }) {
+  const entry = state.entry ?? 'company'
+  const mission = getMission(state.missionSlug)
+  const heading = {
+    company: { fr: 'Votre entreprise', en: 'Your company' },
+    mission: { fr: 'Votre mission', en: 'Your mission' },
+    profile: { fr: 'Votre profil métier', en: 'Your job profile' },
+  }[entry][lang]
+  const factLabel =
+    entry === 'company'
+      ? lang === 'fr'
+        ? 'Site à analyser'
+        : 'Site to analyze'
+      : lang === 'fr'
+        ? 'Première mission'
+        : 'First mission'
+  const fact =
+    entry === 'company'
+      ? state.domain || (lang === 'fr' ? 'À préciser avec Alma' : 'To confirm with Alma')
+      : mission.title[lang]
+  const guarantees =
+    lang === 'fr'
+      ? ['7 jours gratuits', 'Hébergé en France', 'Conforme au RGPD']
+      : ['7 days free', 'Hosted in France', 'GDPR compliant']
 
   return (
-    <div className="rounded-2xl bg-[#17130F] p-6 text-[#FBF9F3]">
-      <div className="flex items-center gap-3">
-        <AlmaHead />
-        <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#FF7DAC]">
-            {t.badge}
-          </p>
-          <p className="mt-0.5 flex items-center gap-1.5 text-xs text-[#C6BFB3]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80]" />
-            {lang === 'fr' ? 'En ligne' : 'Online'}
-          </p>
-        </div>
+    <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-6">
+      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
+        {lang === 'fr' ? 'Point de départ' : 'Starting point'}
+      </p>
+      <h3 className="mt-3 font-sf text-lg font-bold tracking-[-0.01em] text-[#1C1A17]">{heading}</h3>
+      <div className="mt-4 rounded-xl border border-[#E4DDCE] bg-white/60 p-3.5">
+        <p className="text-xs font-medium text-[#8A8175]">{factLabel}</p>
+        <p className="mt-0.5 text-sm font-semibold text-[#1C1A17]">{fact}</p>
       </div>
-      <h3 className="mt-5 font-sf text-xl font-bold leading-snug tracking-[-0.01em]">{t.title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-[#C6BFB3]">{t.body}</p>
-      <div className="mt-5 flex flex-col gap-2.5">
-        <button
-          type="button"
-          onClick={openAlma}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
-        >
-          <Mic className="h-4 w-4" />
-          {t.talk}
-        </button>
-        <button
-          type="button"
-          onClick={openAlma}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-white/[0.09]"
-        >
-          <MessageSquare className="h-4 w-4" />
-          {t.write}
-        </button>
-      </div>
-      <p className="mt-4 text-[11px] leading-relaxed text-[#8E867A]">{t.micro}</p>
+      <p className="mt-4 text-[11px] leading-relaxed text-[#8A8175]">
+        {lang === 'fr'
+          ? 'Alma part de ce point pour construire le contexte de votre Organisation. Vous gardez la main à chaque étape.'
+          : 'Alma starts from here to build your Organization context. You stay in control at every step.'}
+      </p>
+      <ul className="mt-4 flex flex-col gap-2.5 border-t border-[#EBE4D6] pt-4">
+        {guarantees.map((g) => (
+          <li key={g} className="flex items-center gap-2.5 text-sm text-[#3B362F]">
+            <Check className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
+            {g}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -202,10 +193,10 @@ function Reassurance({ lang }: { lang: Lang }) {
 export function ContextColumn({ state, lang }: { state: FlowState; lang: Lang }) {
   return (
     <div className="lg:sticky lg:top-8">
-      {state.step === 'start' && <AlmaCard lang={lang} />}
+      {state.step === 'activate' && <EntryRecap state={state} lang={lang} />}
       {state.step === 'context' && <ContextPanel lang={lang} progress={state.contextProgress} />}
-      {state.step === 'proposal' && <ProposalSummary lang={lang} missionSlug={state.missionSlug} />}
-      {(state.step === 'connect' || state.step === 'workspace') && <Reassurance lang={lang} />}
+      {state.step === 'collaborator' && <ProposalSummary lang={lang} missionSlug={state.missionSlug} />}
+      {(state.step === 'applications' || state.step === 'workspace') && <Reassurance lang={lang} />}
     </div>
   )
 }

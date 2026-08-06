@@ -1,49 +1,45 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Network, ChevronDown } from 'lucide-react'
+import { ChevronDown, IdCard, Sparkles, AppWindow, ArrowRight } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
-import { NavbarTeamCart } from '@/components/navbar-team-cart'
 
-type NavLink = { fr: string; en: string; href: string; strong?: boolean }
-type Featured = { name: string; role: { fr: string; en: string }; href: string; avatar: string }
+type Lang = 'fr' | 'en'
+type Bi = { fr: string; en: string }
 
-const CREATE_ORG = {
+const ALMA_CTA = {
   href: '/decouvrir',
-  label: { fr: 'Commencer gratuitement', en: 'Start for free' },
+  label: { fr: 'Commencer gratuitement', en: 'Start for free' } as Bi,
 }
 
-// Compact dropdown for "Missions"
-const MISSIONS_MENU: NavLink[] = [
-  { fr: 'Toutes les missions', en: 'All missions', href: '/missions', strong: true },
-  { fr: 'Ventes', en: 'Sales', href: '/missions?domaine=ventes' },
-  { fr: 'Support client', en: 'Customer support', href: '/missions?domaine=support' },
-  { fr: 'Marketing', en: 'Marketing', href: '/missions?domaine=marketing' },
-  { fr: 'Réunions', en: 'Meetings', href: '/missions?domaine=reunions' },
-  { fr: 'Automatisation', en: 'Automation', href: '/missions?domaine=automatisation' },
-]
-
-// Compact dropdown for "Collaborateurs IA"
-const COLLAB_MENU: NavLink[] = [
-  { fr: 'Découvrir les Collaborateurs IA', en: 'Discover the AI Collaborators', href: '/collaborateurs-ia', strong: true },
-  { fr: 'Explorer les profils métier', en: 'Explore job profiles', href: '/collaborateurs-ia/roles' },
-  { fr: 'Comment ça fonctionne', en: 'How it works', href: '/collaborateurs-ia/comment-ca-fonctionne' },
-]
-
-const COLLAB_FEATURED: Featured[] = [
-  { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, href: '/emma', avatar: '/images/emma-avatar.png' },
-  { name: 'Hugo', role: { fr: 'Commercial', en: 'Sales' }, href: '/@hugo', avatar: '/images/hugo-avatar.png' },
-  { name: 'Inès', role: { fr: 'Relation client', en: 'Customer care' }, href: '/@ines', avatar: '/images/ines-avatar.png' },
-]
-
-// Mobile burger links (flat, per the recommended structure)
-const MOBILE_LINKS: NavLink[] = [
-  { fr: 'Missions', en: 'Missions', href: '/missions' },
-  { fr: 'Collaborateurs IA', en: 'AI Collaborators', href: '/collaborateurs-ia' },
-  { fr: 'Workspace', en: 'Workspace', href: '/workspace' },
-  { fr: 'Tarifs', en: 'Pricing', href: '/tarifs' },
+// Store dropdown — equipment for the AI Collaborator
+const STORE_EQUIPMENT: {
+  icon: typeof IdCard
+  title: Bi
+  desc: Bi
+  href: string
+}[] = [
+  {
+    icon: IdCard,
+    title: { fr: 'Profils métier', en: 'Job profiles' },
+    desc: { fr: 'Choisissez son rôle.', en: 'Choose its role.' },
+    href: '/store/profils-metier',
+  },
+  {
+    icon: Sparkles,
+    title: { fr: 'Compétences', en: 'Skills' },
+    desc: { fr: 'Développez ses savoir-faire.', en: 'Grow its know-how.' },
+    href: '/store/competences',
+  },
+  {
+    icon: AppWindow,
+    title: { fr: 'Applications', en: 'Applications' },
+    desc: { fr: 'Connectez ses outils de travail.', en: 'Connect its work tools.' },
+    href: '/store/applications',
+  },
 ]
 
 const T = {
@@ -54,12 +50,14 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'Collaborateurs IA',
-    createOrg: 'Commencer gratuitement',
-    createOrgShort: 'Commencer',
-    featuredLabel: 'Mis en avant',
-    collabSignature: 'Une identité qui reste. Des expertises qui évoluent.',
+    store: 'Store',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
+    storeMenu: 'Menu Store',
+    // Store panel
+    storeHeadTitle: 'Personnalisez votre Collaborateur IA',
+    storeHeadText: 'Son profil métier, ses compétences et ses applications.',
+    storeAll: 'Explorer le Store',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -68,12 +66,13 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'AI Collaborators',
-    createOrg: 'Start for free',
-    createOrgShort: 'Start',
-    featuredLabel: 'Featured',
-    collabSignature: 'One identity that stays. Expertise that evolves.',
+    store: 'Store',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
+    storeMenu: 'Store menu',
+    storeHeadTitle: 'Customize your AI Collaborator',
+    storeHeadText: 'Its job profile, skills and applications.',
+    storeAll: 'Explore the Store',
   },
 }
 
@@ -106,20 +105,46 @@ function UkFlag() {
   )
 }
 
-export function Navbar({
-  ctaLabel,
-  ctaShortLabel,
-}: {
-  ctaLabel?: { fr: string; en: string }
-  ctaShortLabel?: { fr: string; en: string }
-} = {}) {
+/** Desktop primary nav link with hover/focus/active states. */
+function NavItem({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      aria-current={active ? 'page' : undefined}
+      className={`relative rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
+        active ? 'text-[#D10E63]' : 'text-[#857C6E] hover:text-[#1C1A17]'
+      }`}
+    >
+      {children}
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full bg-[#D10E63] transition-opacity duration-200 ${
+          active ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+    </a>
+  )
+}
+
+export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [openMenu, setOpenMenu] = useState<'missions' | 'collaborateurs' | null>(null)
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [storeOpen, setStoreOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const storeRef = useRef<HTMLDivElement | null>(null)
+  const storeButtonRef = useRef<HTMLButtonElement | null>(null)
   const { lang, setLang } = useLanguage()
   const t = T[lang]
-  const ctaFull = ctaLabel ? ctaLabel[lang] : t.createOrg
-  const ctaShort = ctaShortLabel ? ctaShortLabel[lang] : t.createOrgShort
+  const pathname = usePathname() || '/'
+
+  // Active-state resolution
+  // Store owns the equipment namespace: /store and all its detail pages.
+  const isStoreActive = pathname.startsWith('/store')
+  const isCollabActive =
+    (pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')) &&
+    !pathname.startsWith('/collaborateurs-ia/roles')
+  const isMissionsActive = pathname === '/missions' || pathname.startsWith('/missions/')
+  const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
+  const isPricingActive = pathname === '/tarifs'
 
   // Lock body scroll while the mobile menu is open
   useEffect(() => {
@@ -130,35 +155,47 @@ export function Navbar({
     }
   }, [isMenuOpen])
 
-  // Close dropdowns on Escape
+  // Subtle bottom border once the page is scrolled
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Store dropdown: close on outside click
+  useEffect(() => {
+    if (!storeOpen) return
+    const onDown = (e: MouseEvent) => {
+      if (storeRef.current && !storeRef.current.contains(e.target as Node)) setStoreOpen(false)
+    }
+    document.addEventListener('mousedown', onDown)
+    return () => document.removeEventListener('mousedown', onDown)
+  }, [storeOpen])
+
+  // Store dropdown: close on Escape and return focus to the button
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpenMenu(null)
+      if (e.key === 'Escape' && storeOpen) {
+        setStoreOpen(false)
+        storeButtonRef.current?.focus()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  }, [storeOpen])
 
   const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
-
-  const openDropdown = (menu: 'missions' | 'collaborateurs') => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    setOpenMenu(menu)
-  }
-  const scheduleClose = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    closeTimer.current = setTimeout(() => setOpenMenu(null), 120)
-  }
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 border-b bg-[#F3EFE6]/90 backdrop-blur-xl transition-colors duration-300 ${
-          isMenuOpen || openMenu ? 'border-[#D8D0C2]/75' : 'border-transparent'
+        className={`fixed inset-x-0 top-0 z-50 border-b bg-[#F3EFE6]/85 backdrop-blur-xl transition-colors duration-300 ${
+          scrolled || isMenuOpen || storeOpen ? 'border-[#D8D0C2]/70' : 'border-transparent'
         }`}
       >
-        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-          {/* Left: Logo + primary nav */}
+        <nav className="editorial-shell flex h-[76px] items-center justify-between">
+          {/* Group 1 — Identity + Group 2 — Navigation */}
           <div className="flex items-center gap-8 xl:gap-10">
             <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
               <UnitalkLogo size={24} />
@@ -166,164 +203,141 @@ export function Navbar({
             </a>
 
             <div className="hidden items-center gap-1 lg:flex">
-              {/* Missions dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => openDropdown('missions')}
-                onMouseLeave={scheduleClose}
-              >
+              <NavItem href="/collaborateurs-ia" active={isCollabActive}>
+                {t.collaborators}
+              </NavItem>
+
+              {/* Missions — direct link (the need), distinct from the Store (the equipment) */}
+              <NavItem href="/missions" active={isMissionsActive}>
+                {t.missions}
+              </NavItem>
+
+              {/* Store dropdown */}
+              <div ref={storeRef} className="relative">
                 <button
+                  ref={storeButtonRef}
                   type="button"
-                  onClick={() => setOpenMenu(openMenu === 'missions' ? null : 'missions')}
-                  aria-expanded={openMenu === 'missions'}
-                  className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
+                  id="store-trigger"
+                  onClick={() => setStoreOpen((v) => !v)}
+                  aria-expanded={storeOpen}
+                  aria-haspopup="true"
+                  aria-controls="store-menu"
+                  aria-current={isStoreActive ? 'page' : undefined}
+                  className={`relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
+                    isStoreActive || storeOpen ? 'text-[#D10E63]' : 'text-[#857C6E] hover:text-[#1C1A17]'
+                  }`}
                 >
-                  {t.missions}
-                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${openMenu === 'missions' ? 'rotate-180' : ''}`} />
+                  {t.store}
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 transition-transform duration-200 ${storeOpen ? 'rotate-180' : ''}`}
+                    aria-hidden="true"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full bg-[#D10E63] transition-opacity duration-200 ${
+                      isStoreActive ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
                 </button>
+
                 <AnimatePresence>
-                  {openMenu === 'missions' && (
+                  {storeOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6 }}
-                      transition={{ duration: 0.16 }}
-                      className="absolute left-0 top-full w-64 pt-2"
+                      id="store-menu"
+                      role="menu"
+                      aria-labelledby="store-trigger"
+                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                      style={{ transformOrigin: 'top right' }}
+                      className="absolute right-0 top-full w-[420px] max-w-[calc(100vw-2rem)] pt-2"
                     >
-                      <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-2 shadow-[0_20px_50px_rgba(28,26,23,0.12)]">
-                        {MISSIONS_MENU.map((link) => (
-                          <a
-                            key={link.fr}
-                            href={link.href}
-                            onClick={() => setOpenMenu(null)}
-                            className={`flex min-h-11 items-center rounded-[10px] px-3 text-sm outline-none transition-[background-color,color,transform] duration-150 hover:translate-x-0.5 hover:bg-[#F5F2EB] focus-visible:translate-x-0.5 focus-visible:bg-[#F5F2EB] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-                              link.strong
-                                ? 'font-bold text-[#D10E63]'
-                                : 'font-medium text-[#3F3A33] hover:text-[#1C1A17] focus-visible:text-[#1C1A17]'
-                            }`}
-                          >
-                            {link[lang]}
-                          </a>
-                        ))}
+                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-3 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
+                        {/* Store scope: the equipment for a Collaborateur IA (not the missions) */}
+                        <div className="px-1.5 pb-3 pt-1">
+                          <p className="text-[15px] font-bold text-[#1C1A17]">{t.storeHeadTitle}</p>
+                          <p className="mt-0.5 text-[13px] leading-snug text-[#857C6E]">{t.storeHeadText}</p>
+                        </div>
+
+                        {/* Equipment entries */}
+                        <div className="flex flex-col gap-0.5">
+                          {STORE_EQUIPMENT.map((item) => {
+                            const Icon = item.icon
+                            return (
+                              <a
+                                key={item.href}
+                                href={item.href}
+                                role="menuitem"
+                                onClick={() => setStoreOpen(false)}
+                                className="group flex min-h-[56px] items-center gap-3 rounded-xl px-2.5 outline-none transition-all duration-200 hover:bg-[#FDF1F6] hover:shadow-[0_6px_20px_-8px_rgba(209,14,99,0.4)] focus-visible:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                              >
+                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/[0.08] text-[#D10E63] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#D10E63]/[0.14]">
+                                  <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} aria-hidden="true" />
+                                </span>
+                                <span className="min-w-0">
+                                  <span className="block text-base font-bold leading-tight text-[#1C1A17]">{item.title[lang]}</span>
+                                  <span className="mt-0.5 block text-[12px] leading-snug text-[#857C6E]">{item.desc[lang]}</span>
+                                </span>
+                              </a>
+                            )
+                          })}
+                        </div>
+
+                        <div className="my-2 border-t border-[#EFE8DA]" />
+
+                        {/* Explore all */}
+                        <a
+                          href="/store"
+                          role="menuitem"
+                          onClick={() => setStoreOpen(false)}
+                          className="group flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-[13px] font-bold text-[#D10E63] outline-none transition-colors hover:bg-[#FDF1F6] focus-visible:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                        >
+                          {t.storeAll}
+                          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                        </a>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
 
-              {/* Collaborateurs IA dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => openDropdown('collaborateurs')}
-                onMouseLeave={scheduleClose}
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpenMenu(openMenu === 'collaborateurs' ? null : 'collaborateurs')}
-                  aria-expanded={openMenu === 'collaborateurs'}
-                  className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
-                >
-                  {t.collaborators}
-                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${openMenu === 'collaborateurs' ? 'rotate-180' : ''}`} />
-                </button>
-                <AnimatePresence>
-                  {openMenu === 'collaborateurs' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6 }}
-                      transition={{ duration: 0.16 }}
-                      className="absolute left-0 top-full w-72 pt-2"
-                    >
-                      <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-2 shadow-[0_20px_50px_rgba(28,26,23,0.12)]">
-                        {COLLAB_MENU.map((link) => (
-                          <a
-                            key={link.fr}
-                            href={link.href}
-                            onClick={() => setOpenMenu(null)}
-                            className={`flex min-h-11 items-center rounded-[10px] px-3 text-sm outline-none transition-[background-color,color,transform] duration-150 hover:translate-x-0.5 hover:bg-[#F5F2EB] focus-visible:translate-x-0.5 focus-visible:bg-[#F5F2EB] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-                              link.strong
-                                ? 'font-bold text-[#D10E63]'
-                                : 'font-medium text-[#3F3A33] hover:text-[#1C1A17] focus-visible:text-[#1C1A17]'
-                            }`}
-                          >
-                            {link[lang]}
-                          </a>
-                        ))}
-                        <div className="my-1.5 border-t border-[#E9E2D3]" />
-                        <p className="px-3 pb-1 pt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#A79C89]">
-                          {t.featuredLabel}
-                        </p>
-                        {COLLAB_FEATURED.map((c) => (
-                          <a
-                            key={c.name}
-                            href={c.href}
-                            onClick={() => setOpenMenu(null)}
-                            className="flex min-h-11 items-center gap-3 rounded-[10px] px-3 py-1.5 outline-none transition-[background-color,transform] duration-150 hover:translate-x-0.5 hover:bg-[#F5F2EB] focus-visible:translate-x-0.5 focus-visible:bg-[#F5F2EB] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                          >
-                            <img src={c.avatar || '/placeholder.svg'} alt="" className="h-8 w-8 rounded-full object-cover" />
-                            <span className="min-w-0">
-                              <span className="block text-sm font-bold leading-tight text-[#1C1A17]">{c.name}</span>
-                              <span className="block truncate text-[11px] text-[#6E665A]">{c.role[lang]}</span>
-                            </span>
-                          </a>
-                        ))}
-                        <div className="my-1.5 border-t border-[#E9E2D3]" />
-                        <p className="px-3 pb-1.5 pt-1 text-[11px] font-semibold italic leading-snug text-[#857C6E]">
-                          {t.collabSignature}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Workspace direct link */}
-              <a
-                href="/workspace"
-                className="rounded-full px-3 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17]"
-              >
+              <NavItem href="/workspace" active={isWorkspaceActive}>
                 {t.workspace}
-              </a>
+              </NavItem>
+              <NavItem href="/tarifs" active={isPricingActive}>
+                {t.pricing}
+              </NavItem>
             </div>
           </div>
 
-          {/* Right: utilities */}
+          {/* Group 3 — Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <a
-              href="/tarifs"
-              className="hidden px-2 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17] lg:inline-flex"
-            >
-              {t.pricing}
-            </a>
-            <a
-              href="/signup"
-              className="hidden px-2 py-2 text-sm font-medium text-[#857C6E] transition-colors hover:text-[#1C1A17] lg:inline-flex"
-            >
-              {t.signIn}
-            </a>
             <button
               onClick={toggleLang}
-              className="hidden items-center gap-1.5 px-1.5 py-2 text-xs font-medium text-[#1C1A17] transition-colors hover:text-[#D10E63] lg:inline-flex"
+              className="hidden items-center gap-1.5 rounded-md px-1.5 py-2 text-xs font-medium text-[#1C1A17] outline-none transition-colors hover:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 lg:inline-flex"
               aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
             >
               {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
 
-            {/* Full CTA on desktop */}
-            <span className="hidden lg:block">
-              <NavbarTeamCart startLabel={ctaFull} createOrgHref={CREATE_ORG.href} />
-            </span>
-
-            {/* Persistent compact CTA on mobile/tablet */}
             <a
-              href={CREATE_ORG.href}
-              className="inline-flex h-10 items-center justify-center rounded-full bg-[#D10E63] px-4 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:hidden"
+              href="/connexion"
+              className="hidden rounded-md px-2 py-2 text-sm font-medium text-[#857C6E] outline-none transition-colors hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 lg:inline-flex"
             >
-              {ctaShort}
+              {t.signIn}
             </a>
 
+            {/* Primary CTA — compact, priority */}
+            <a
+              href={ALMA_CTA.href}
+              className="hidden h-10 items-center justify-center rounded-full bg-[#D10E63] px-5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:inline-flex"
+            >
+              {ALMA_CTA.label[lang]}
+            </a>
+
+            {/* Mobile burger */}
             <button
               onClick={() => setIsMenuOpen((v) => !v)}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#DcD4C4] bg-[#FBF9F3] text-[#1C1A17] transition-colors hover:bg-[#EAE3D4] lg:hidden"
@@ -381,7 +395,7 @@ export function Navbar({
         {isMenuOpen && (
           <>
             <motion.div
-              className="fixed inset-0 top-16 z-30 hidden bg-black/20 backdrop-blur-sm lg:block"
+              className="fixed inset-0 top-[76px] z-30 bg-black/20 backdrop-blur-sm lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -391,36 +405,84 @@ export function Navbar({
 
             <motion.div
               id="menu-panel"
-              className="scrollbar-hide fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col overflow-y-auto overflow-x-hidden border-[#DcD4C4] bg-[#F3EFE6] lg:inset-x-auto lg:right-0 lg:mr-4 lg:w-auto lg:max-w-sm lg:border-l"
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ duration: 0.22, ease: 'easeOut' }}
+              className="scrollbar-hide fixed inset-x-0 bottom-0 top-[76px] z-40 flex flex-col overflow-y-auto overflow-x-hidden bg-[#F3EFE6] lg:hidden"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
             >
-              <nav className="flex flex-1 flex-col px-0 py-3">
+              <nav className="flex flex-1 flex-col px-6 py-3">
                 {/* Primary links */}
-                <div className="border-b border-[#DcD4C4] px-8 py-4">
-                  {MOBILE_LINKS.map((link) => (
-                    <a
-                      key={link.fr}
-                      href={link.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="block py-2.5 text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                    >
-                      {link[lang]}
-                    </a>
-                  ))}
+                <div className="border-b border-[#DcD4C4] py-3">
                   <a
-                    href="/signup"
+                    href="/collaborateurs-ia"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block py-2.5 text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                  >
+                    {t.collaborators}
+                  </a>
+                  <a
+                    href="/missions"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                  >
+                    {t.missions}
+                  </a>
+
+                  {/* Store + equipment entries shown directly (no accordion) */}
+                  <a
+                    href="/store"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                  >
+                    {t.store}
+                  </a>
+                  <div className="ml-3 border-l border-[#DcD4C4] pl-4">
+                    {STORE_EQUIPMENT.map((item) => (
+                      <a
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex min-h-12 items-center text-[15px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                      >
+                        {item.title[lang]}
+                      </a>
+                    ))}
+                  </div>
+
+                  <a
+                    href="/workspace"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                  >
+                    {t.workspace}
+                  </a>
+                  <a
+                    href="/tarifs"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                  >
+                    {t.pricing}
+                  </a>
+                  <a
+                    href="/connexion"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.signIn}
                   </a>
+                  <button
+                    onClick={toggleLang}
+                    className="flex min-h-12 w-full items-center gap-2 text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
+                  >
+                    {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
+                    {lang === 'fr' ? 'Français — FR' : 'English — EN'}
+                  </button>
                 </div>
 
                 {/* Contact */}
-                <div className="border-b border-[#DcD4C4] px-8 py-4">
+                <div className="border-b border-[#DcD4C4] py-4">
                   <a
                     href="tel:+33189713394"
                     className="group flex items-center gap-2 py-1.5 text-xs font-normal text-[#4E483F] transition-colors hover:text-[#1C1A17]"
@@ -442,27 +504,14 @@ export function Navbar({
                   </a>
                 </div>
 
-                {/* Language */}
-                <div className="px-8 py-4">
-                  <button
-                    onClick={toggleLang}
-                    className="flex items-center gap-2 py-1.5 text-xs font-normal text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                    aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
-                  >
-                    {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
-                    {lang === 'fr' ? 'Français' : 'English'}
-                  </button>
-                </div>
-
                 {/* Fixed CTA */}
-                <div className="mt-auto border-t border-[#DcD4C4] px-8 py-4">
+                <div className="mt-auto py-4">
                   <a
-                    href={CREATE_ORG.href}
+                    href={ALMA_CTA.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B10B53]"
+                    className="flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B10B53]"
                   >
-                    <Network className="h-4 w-4" />
-                    {CREATE_ORG.label[lang]}
+                    {ALMA_CTA.label[lang]}
                   </a>
                 </div>
               </nav>

@@ -71,7 +71,7 @@ export function MissionDetailContent({ slug }: { slug: string }) {
 
   const collab = ROLE_DETAILS[mission.collaboratorSlug]
   const category = MISSION_CATEGORIES.find((c) => c.key === mission.category)
-  const related = relatedMissions(slug)
+  const related = relatedMissions(mission)
 
   return (
     <main className="bg-[#F3EFE6]">

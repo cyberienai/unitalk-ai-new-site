@@ -1,34 +1,40 @@
 // Catalog of Missions: concrete outcomes you can hand to an AI Collaborator.
 // A Mission = a result to achieve. It mobilizes a job Profile, is carried out by
 // an AI Collaborator inside the Workspace, and ends with your validation.
+//
+// 144 missions = 12 business categories x 12 missions. Each mission is authored
+// as a compact SEED; buildMission() derives the richer detail-page fields
+// (objective, steps, deliverable, produces, validation, profile) from the
+// structured data so the catalog stays consistent and maintainable.
 
 import type { Bilingual } from '@/lib/collaborators-catalog'
 
-export type MissionCategory = {
-  key: string
-  label: Bilingual
-}
+export type MissionCategory = { key: string; label: Bilingual }
+export type MissionCollection = { key: string; label: Bilingual }
 
 // Availability status. Nothing is "available" until it has been tested for real.
 export type MissionStatus = 'available' | 'on-setup' | 'coming-soon'
 
-// Advanced filter facets. Resolved per Mission (category defaults + optional overrides),
-// so the catalog can grow to hundreds of Missions without editing each object.
-export type MissionFacets = {
-  sectors: string[]
-  languages: string[]
-  zones: string[]
-  frequency: string
-  deliverableType: string
-  status: MissionStatus
+// Origin of a mission: authored and maintained by Unitalk, or contributed by the
+// community. Every catalog mission is currently native; external is future-facing.
+export type MissionOrigin = 'native' | 'external'
+
+// Labels describe the mission's editorial origin (who created and published it),
+// not its availability. Kept short so they read cleanly in the sidebar, the mobile
+// switcher and the active-filter chips.
+export const ORIGIN_LABELS: Record<MissionOrigin | 'all', Bilingual> = {
+  all: { fr: 'Toutes', en: 'All' },
+  native: { fr: 'Unitalk', en: 'Unitalk' },
+  external: { fr: 'Communauté', en: 'Community' },
 }
 
 export type Mission = {
   slug: string
   category: string
+  collections: string[]
   title: Bilingual
-  description: Bilingual
   result: Bilingual
+  description: Bilingual
   objective: Bilingual
   steps: Bilingual[]
   deliverable: Bilingual
@@ -39,13 +45,20 @@ export type Mission = {
   tools: string[]
   profile: Bilingual
   collaboratorSlug: string
-  // Optional, future-proofing fields (per-Mission overrides + provenance).
-  facets?: Partial<MissionFacets>
-  verifiedAt?: string
-  price?: string
+  // Facets used by filters.
+  sectors: string[]
+  languages: string[]
+  zones: string[]
+  modalities: string[]
+  status: MissionStatus
+  origin: MissionOrigin
+  availabilityReason: Bilingual
+  regulated: boolean
+  dateAdded: string
+  order: number
+  keywords: string[]
 }
 
-// Shown instead of an unverified delay. No delay is promised until it is measured.
 export const DELAY_TBD: Bilingual = {
   fr: 'Délai confirmé après cadrage',
   en: 'Timeline confirmed after scoping',
@@ -53,643 +66,667 @@ export const DELAY_TBD: Bilingual = {
 
 export const STATUS_LABELS: Record<MissionStatus, Bilingual> = {
   available: { fr: 'Disponible', en: 'Available' },
-  'on-setup': { fr: 'Sur configuration', en: 'On setup' },
+  'on-setup': { fr: 'Préparée par Alma', en: 'Prepared by Alma' },
   'coming-soon': { fr: 'Bientôt disponible', en: 'Coming soon' },
 }
 
+// --- Taxonomy: 12 stable business categories -------------------------------
+export const MISSION_CATEGORIES: MissionCategory[] = [
+  { key: 'ventes', label: { fr: 'Ventes & développement commercial', en: 'Sales & business development' } },
+  { key: 'relation-client', label: { fr: 'Relation client & support', en: 'Customer relations & support' } },
+  { key: 'marketing', label: { fr: 'Marketing & communication', en: 'Marketing & communication' } },
+  { key: 'reunions', label: { fr: 'Réunions & coordination', en: 'Meetings & coordination' } },
+  { key: 'administration', label: { fr: 'Administration & organisation', en: 'Administration & organization' } },
+  { key: 'finance', label: { fr: 'Finance & gestion', en: 'Finance & management' } },
+  { key: 'rh', label: { fr: 'RH & recrutement', en: 'HR & recruiting' } },
+  { key: 'direction', label: { fr: 'Direction & pilotage', en: 'Leadership & steering' } },
+  { key: 'documents', label: { fr: 'Documents & connaissances', en: 'Documents & knowledge' } },
+  { key: 'analyse', label: { fr: 'Analyse, recherche & veille', en: 'Analysis, research & monitoring' } },
+  { key: 'operations', label: { fr: 'Opérations & automatisation', en: 'Operations & automation' } },
+  { key: 'produit', label: { fr: 'Produit, design & technologie', en: 'Product, design & technology' } },
+]
+
+// --- Editorial collections (cross-cutting goals) ---------------------------
+export const MISSION_COLLECTIONS: MissionCollection[] = [
+  { key: 'developper-activite', label: { fr: "Développer l'activité", en: 'Grow the business' } },
+  { key: 'servir-clients', label: { fr: 'Servir les clients', en: 'Serve customers' } },
+  { key: 'produire-communiquer', label: { fr: 'Produire et communiquer', en: 'Create and communicate' } },
+  { key: 'piloter-organisation', label: { fr: "Piloter l'organisation", en: 'Steer the organization' } },
+  { key: 'automatiser-operations', label: { fr: 'Automatiser les opérations', en: 'Automate operations' } },
+  { key: 'developper-produits', label: { fr: 'Développer les produits', en: 'Build products' } },
+  { key: 'recruter-accompagner', label: { fr: 'Recruter et accompagner', en: 'Recruit and support' } },
+]
+
+// --- Filter facet labels ----------------------------------------------------
 export const SECTOR_LABELS: Record<string, Bilingual> = {
-  saas: { fr: 'SaaS et logiciels', en: 'SaaS & software' },
-  ecommerce: { fr: 'E-commerce', en: 'E-commerce' },
-  industrie: { fr: 'Industrie', en: 'Industry' },
+  commerce: { fr: 'Commerce & e-commerce', en: 'Retail & e-commerce' },
   immobilier: { fr: 'Immobilier', en: 'Real estate' },
+  hospitality: { fr: 'Hôtellerie, restauration & tourisme', en: 'Hospitality & tourism' },
+  construction: { fr: 'Construction & BTP', en: 'Construction' },
+  industrie: { fr: 'Industrie & fabrication', en: 'Industry & manufacturing' },
+  transport: { fr: 'Transport & logistique', en: 'Transport & logistics' },
+  sante: { fr: 'Santé & médico-social', en: 'Health & care' },
+  juridique: { fr: 'Juridique & conformité', en: 'Legal & compliance' },
+  finance: { fr: 'Banque, assurance & services financiers', en: 'Banking, insurance & financial services' },
+  education: { fr: 'Éducation & formation', en: 'Education & training' },
   services: { fr: 'Services professionnels', en: 'Professional services' },
-  'banque-assurance': { fr: 'Banque et assurance', en: 'Banking & insurance' },
-  sante: { fr: 'Santé', en: 'Healthcare' },
-  education: { fr: 'Éducation', en: 'Education' },
-  transport: { fr: 'Transport et logistique', en: 'Transport & logistics' },
   public: { fr: 'Secteur public', en: 'Public sector' },
+  associations: { fr: 'Associations', en: 'Nonprofits' },
+}
+
+export const ZONE_LABELS: Record<string, Bilingual> = {
+  france: { fr: 'France', en: 'France' },
+  belgique: { fr: 'Belgique', en: 'Belgium' },
+  suisse: { fr: 'Suisse', en: 'Switzerland' },
+  ue: { fr: 'Union européenne', en: 'European Union' },
+  international: { fr: 'International', en: 'International' },
 }
 
 export const LANGUAGE_LABELS: Record<string, Bilingual> = {
   fr: { fr: 'Français', en: 'French' },
   en: { fr: 'Anglais', en: 'English' },
+  es: { fr: 'Espagnol', en: 'Spanish' },
+  de: { fr: 'Allemand', en: 'German' },
+  it: { fr: 'Italien', en: 'Italian' },
+  multi: { fr: 'Multilingue', en: 'Multilingual' },
 }
 
-export const ZONE_LABELS: Record<string, Bilingual> = {
-  france: { fr: 'France', en: 'France' },
-  europe: { fr: 'Europe', en: 'Europe' },
-  international: { fr: 'International', en: 'International' },
-}
-
-export const FREQUENCY_LABELS: Record<string, Bilingual> = {
-  oneoff: { fr: 'Ponctuelle', en: 'One-off' },
-  recurring: { fr: 'Récurrente', en: 'Recurring' },
-  ongoing: { fr: 'En continu', en: 'Ongoing' },
-}
-
-export const DELIVERABLE_TYPE_LABELS: Record<string, Bilingual> = {
-  liste: { fr: 'Liste / CRM', en: 'List / CRM' },
-  reponses: { fr: 'Réponses', en: 'Replies' },
-  contenu: { fr: 'Contenu', en: 'Content' },
-  'compte-rendu': { fr: 'Compte rendu', en: 'Minutes' },
-  rapport: { fr: 'Rapport', en: 'Report' },
-  processus: { fr: 'Processus', en: 'Process' },
+export const MODALITY_LABELS: Record<string, Bilingual> = {
+  telephone: { fr: 'Téléphone', en: 'Phone' },
+  email: { fr: 'Email', en: 'Email' },
+  chat: { fr: 'Chat', en: 'Chat' },
+  reunion: { fr: 'Réunion', en: 'Meeting' },
+  documents: { fr: 'Documents', en: 'Documents' },
+  donnees: { fr: 'Données', en: 'Data' },
+  image: { fr: 'Image', en: 'Image' },
+  audio: { fr: 'Audio', en: 'Audio' },
+  video: { fr: 'Vidéo', en: 'Video' },
   code: { fr: 'Code', en: 'Code' },
+  automatisation: { fr: 'Automatisation', en: 'Automation' },
 }
 
-// Category-based facet defaults. Reasonable, non-verified metadata.
-const CATEGORY_FACETS: Record<string, Omit<MissionFacets, 'status'>> = {
-  ventes: { sectors: ['saas', 'services', 'industrie'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'liste' },
-  support: { sectors: ['ecommerce', 'saas', 'banque-assurance'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'ongoing', deliverableType: 'reponses' },
-  marketing: { sectors: ['ecommerce', 'saas', 'immobilier'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'contenu' },
-  reunions: { sectors: ['services', 'public', 'industrie'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'compte-rendu' },
-  analyse: { sectors: ['banque-assurance', 'industrie', 'public'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'rapport' },
-  finance: { sectors: ['banque-assurance', 'services'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'recurring', deliverableType: 'rapport' },
-  automatisation: { sectors: ['industrie', 'transport', 'ecommerce'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'ongoing', deliverableType: 'processus' },
-  developpement: { sectors: ['saas'], languages: ['fr', 'en'], zones: ['france', 'international'], frequency: 'oneoff', deliverableType: 'code' },
+// --- Per-category defaults (skills, profile, tools, facets) ------------------
+type CategoryDefault = {
+  collection: string
+  collaboratorSlug: string
+  profile: Bilingual
+  skills: Bilingual[]
+  tools: string[]
+  sectors: string[]
+  modality: string
+  regulated: boolean
 }
 
-// Resolve the facets of a Mission: category defaults, overridable per Mission.
-// Status defaults to 'on-setup' — never 'available' without a real test (verifiedAt).
-export function missionFacets(m: Mission): MissionFacets {
-  const base = CATEGORY_FACETS[m.category] ?? CATEGORY_FACETS.ventes
-  const status: MissionStatus = m.facets?.status ?? (m.verifiedAt ? 'available' : 'on-setup')
+const CATEGORY_DEFAULTS: Record<string, CategoryDefault> = {
+  ventes: {
+    collection: 'developper-activite',
+    collaboratorSlug: 'hugo',
+    profile: { fr: 'Commercial', en: 'Sales rep' },
+    skills: [
+      { fr: 'Prospection et qualification', en: 'Prospecting and qualification' },
+      { fr: 'Personnalisation des messages', en: 'Message personalization' },
+      { fr: 'Suivi du pipeline', en: 'Pipeline tracking' },
+      { fr: 'Préparation de rendez-vous', en: 'Meeting preparation' },
+    ],
+    tools: ['CRM', 'Email', 'LinkedIn', 'Agenda'],
+    sectors: ['commerce', 'services', 'industrie', 'immobilier'],
+    modality: 'email',
+    regulated: false,
+  },
+  'relation-client': {
+    collection: 'servir-clients',
+    collaboratorSlug: 'ines',
+    profile: { fr: 'Support client', en: 'Customer support' },
+    skills: [
+      { fr: 'Traitement des demandes', en: 'Request handling' },
+      { fr: 'Priorisation et routage', en: 'Prioritization and routing' },
+      { fr: 'Rédaction de réponses', en: 'Reply drafting' },
+      { fr: 'Suivi de satisfaction', en: 'Satisfaction follow-up' },
+    ],
+    tools: ['Email', 'Helpdesk', 'Chat', 'Base de connaissances'],
+    sectors: ['commerce', 'hospitality', 'finance', 'services'],
+    modality: 'email',
+    regulated: false,
+  },
+  marketing: {
+    collection: 'produire-communiquer',
+    collaboratorSlug: 'lea',
+    profile: { fr: 'Content strategist', en: 'Content strategist' },
+    skills: [
+      { fr: 'Ligne éditoriale', en: 'Editorial line' },
+      { fr: 'Rédaction et SEO', en: 'Writing and SEO' },
+      { fr: 'Déclinaison multicanal', en: 'Multichannel repurposing' },
+      { fr: 'Analyse de performance', en: 'Performance analysis' },
+    ],
+    tools: ['CMS', 'Réseaux sociaux', 'Analytics', 'Canva'],
+    sectors: ['commerce', 'immobilier', 'hospitality', 'education'],
+    modality: 'documents',
+    regulated: false,
+  },
+  reunions: {
+    collection: 'piloter-organisation',
+    collaboratorSlug: 'emma',
+    profile: { fr: 'Assistant de direction', en: 'Executive assistant' },
+    skills: [
+      { fr: "Préparation d'ordre du jour", en: 'Agenda preparation' },
+      { fr: 'Comptes rendus', en: 'Minutes' },
+      { fr: 'Suivi des actions', en: 'Action tracking' },
+      { fr: "Coordination d'agendas", en: 'Calendar coordination' },
+    ],
+    tools: ['Agenda', 'Visioconférence', 'Notion', 'Email'],
+    sectors: ['services', 'public', 'associations', 'education'],
+    modality: 'reunion',
+    regulated: false,
+  },
+  administration: {
+    collection: 'piloter-organisation',
+    collaboratorSlug: 'emma',
+    profile: { fr: 'Assistant administratif', en: 'Administrative assistant' },
+    skills: [
+      { fr: 'Tri et classement', en: 'Sorting and filing' },
+      { fr: 'Suivi de dossiers', en: 'File tracking' },
+      { fr: 'Rédaction de courriers', en: 'Letter drafting' },
+      { fr: 'Gestion des éch��ances', en: 'Deadline management' },
+    ],
+    tools: ['Email', 'Agenda', 'GED', 'Tableur'],
+    sectors: ['services', 'public', 'sante', 'juridique'],
+    modality: 'documents',
+    regulated: false,
+  },
+  finance: {
+    collection: 'piloter-organisation',
+    collaboratorSlug: 'nadia',
+    profile: { fr: 'Analyste financier', en: 'Financial analyst' },
+    skills: [
+      { fr: 'Préparation de reporting', en: 'Reporting preparation' },
+      { fr: 'Contrôle et rapprochement', en: 'Control and reconciliation' },
+      { fr: "Analyse d'écarts", en: 'Variance analysis' },
+      { fr: "Consolidation d'indicateurs", en: 'KPI consolidation' },
+    ],
+    tools: ['Tableur', 'ERP', 'BI', 'Email'],
+    sectors: ['finance', 'services', 'industrie', 'commerce'],
+    modality: 'documents',
+    regulated: true,
+  },
+  rh: {
+    collection: 'recruter-accompagner',
+    collaboratorSlug: 'emma',
+    profile: { fr: 'Chargé RH', en: 'HR officer' },
+    skills: [
+      { fr: "Rédaction d'offres", en: 'Job posting writing' },
+      { fr: 'Analyse de candidatures', en: 'Application screening' },
+      { fr: "Préparation d'entretiens", en: 'Interview preparation' },
+      { fr: "Suivi de l'intégration", en: 'Onboarding follow-up' },
+    ],
+    tools: ['ATS', 'Email', 'Agenda', 'Base documentaire'],
+    sectors: ['services', 'industrie', 'public', 'sante'],
+    modality: 'documents',
+    regulated: true,
+  },
+  direction: {
+    collection: 'piloter-organisation',
+    collaboratorSlug: 'emma',
+    profile: { fr: 'Chef de cabinet', en: 'Chief of staff' },
+    skills: [
+      { fr: "Consolidation d'indicateurs", en: 'KPI consolidation' },
+      { fr: 'Notes de décision', en: 'Decision memos' },
+      { fr: 'Suivi des décisions', en: 'Decision tracking' },
+      { fr: 'Synthèses exécutives', en: 'Executive summaries' },
+    ],
+    tools: ['Tableur', 'BI', 'Notion', 'Email'],
+    sectors: ['services', 'industrie', 'public', 'associations'],
+    modality: 'documents',
+    regulated: false,
+  },
+  documents: {
+    collection: 'produire-communiquer',
+    collaboratorSlug: 'lea',
+    profile: { fr: 'Documentaliste', en: 'Knowledge manager' },
+    skills: [
+      { fr: 'Synthèse de documents', en: 'Document summarization' },
+      { fr: "Extraction d'informations", en: 'Information extraction' },
+      { fr: 'Structuration de contenus', en: 'Content structuring' },
+      { fr: 'Contrôle de cohérence', en: 'Consistency checking' },
+    ],
+    tools: ['GED', 'Traitement de texte', 'Base de connaissances', 'PDF'],
+    sectors: ['juridique', 'public', 'services', 'education'],
+    modality: 'documents',
+    regulated: false,
+  },
+  analyse: {
+    collection: 'piloter-organisation',
+    collaboratorSlug: 'nadia',
+    profile: { fr: 'Analyste / veilleur', en: 'Analyst / researcher' },
+    skills: [
+      { fr: 'Veille et recherche', en: 'Monitoring and research' },
+      { fr: 'Analyse comparative', en: 'Comparative analysis' },
+      { fr: 'Traitement de données', en: 'Data processing' },
+      { fr: 'Restitution structurée', en: 'Structured reporting' },
+    ],
+    tools: ['Veille', 'Tableur', 'BI', 'Sources publiques'],
+    sectors: ['commerce', 'finance', 'industrie', 'services'],
+    modality: 'donnees',
+    regulated: false,
+  },
+  operations: {
+    collection: 'automatiser-operations',
+    collaboratorSlug: 'arthur',
+    profile: { fr: 'Automation specialist', en: 'Automation specialist' },
+    skills: [
+      { fr: 'Cartographie de processus', en: 'Process mapping' },
+      { fr: 'Automatisation', en: 'Automation' },
+      { fr: 'Contrôle qualité des données', en: 'Data quality control' },
+      { fr: 'Supervision et alertes', en: 'Monitoring and alerts' },
+    ],
+    tools: ['Automatisation', 'API', 'Tableur', 'Supervision'],
+    sectors: ['industrie', 'transport', 'commerce', 'construction'],
+    modality: 'automatisation',
+    regulated: false,
+  },
+  produit: {
+    collection: 'developper-produits',
+    collaboratorSlug: 'arthur',
+    profile: { fr: 'Produit / technologie', en: 'Product / engineering' },
+    skills: [
+      { fr: 'Synthèse des besoins', en: 'Needs synthesis' },
+      { fr: 'Spécifications et récits', en: 'Specs and user stories' },
+      { fr: "Analyse d'interface", en: 'Interface analysis' },
+      { fr: 'Documentation technique', en: 'Technical documentation' },
+    ],
+    tools: ['Gestion de produit', 'Design', 'Dépôt de code', 'Documentation'],
+    sectors: ['services', 'commerce', 'education', 'industrie'],
+    modality: 'code',
+    regulated: false,
+  },
+}
+
+// --- Seed authoring ---------------------------------------------------------
+type SeedOpts = {
+  status?: MissionStatus
+  origin?: MissionOrigin
+  collections?: string[]
+  sectors?: string[]
+  zones?: string[]
+  languages?: string[]
+  modality?: string
+  regulated?: boolean
+  dateAdded?: string
+}
+type Seed = {
+  category: string
+  slug: string
+  titleFr: string
+  titleEn: string
+  resultFr: string
+  resultEn: string
+  opts?: SeedOpts
+}
+
+function m(
+  category: string,
+  slug: string,
+  titleFr: string,
+  titleEn: string,
+  resultFr: string,
+  resultEn: string,
+  opts?: SeedOpts,
+): Seed {
+  return { category, slug, titleFr, titleEn, resultFr, resultEn, opts }
+}
+
+const bi = (fr: string, en: string): Bilingual => ({ fr, en })
+
+// Deterministic fallback date so "recently added" is stable and honest:
+// older the further down the list, unless the seed sets an explicit dateAdded.
+const FALLBACK_BASE = new Date('2026-03-01T00:00:00Z').getTime()
+function fallbackDate(index: number): string {
+  const d = new Date(FALLBACK_BASE - index * 2 * 86400000)
+  return d.toISOString().slice(0, 10)
+}
+
+function availabilityReason(status: MissionStatus): Bilingual {
+  if (status === 'available') {
+    return {
+      fr: 'Cette mission a été testée de bout en bout et peut démarrer rapidement.',
+      en: 'This mission has been tested end to end and can start quickly.',
+    }
+  }
+  if (status === 'on-setup') {
+    return {
+      fr: "Alma peut préparer aujourd'hui le profil métier, les compétences et le cadre de validation nécessaires.",
+      en: 'Alma can prepare the job profile, skills and validation framework needed today.',
+    }
+  }
   return {
-    sectors: m.facets?.sectors ?? base.sectors,
-    languages: m.facets?.languages ?? base.languages,
-    zones: m.facets?.zones ?? base.zones,
-    frequency: m.facets?.frequency ?? base.frequency,
-    deliverableType: m.facets?.deliverableType ?? base.deliverableType,
-    status,
+    fr: "Cette mission n'est pas encore ouverte. Décrivez votre besoin et Alma vous prévient dès qu'elle est prête.",
+    en: 'This mission is not open yet. Describe your need and Alma will let you know as soon as it is ready.',
   }
 }
 
-export const MISSION_CATEGORIES: MissionCategory[] = [
-  { key: 'ventes', label: { fr: 'Ventes', en: 'Sales' } },
-  { key: 'support', label: { fr: 'Support client', en: 'Customer support' } },
-  { key: 'marketing', label: { fr: 'Marketing et contenu', en: 'Marketing and content' } },
-  { key: 'reunions', label: { fr: 'Réunions et coordination', en: 'Meetings and coordination' } },
-  { key: 'analyse', label: { fr: 'Analyse et documents', en: 'Analysis and documents' } },
-  { key: 'finance', label: { fr: 'Finance', en: 'Finance' } },
-  { key: 'automatisation', label: { fr: 'Automatisation', en: 'Automation' } },
-  { key: 'developpement', label: { fr: 'Développement', en: 'Development' } },
-]
-
-export const MISSIONS: Mission[] = [
-  // ---------------- VENTES ----------------
-  {
-    slug: 'trouver-de-nouveaux-clients',
-    category: 'ventes',
-    title: { fr: 'Trouver des prospects qualifiés', en: 'Find qualified prospects' },
-    description: {
-      fr: 'Identifie les entreprises pertinentes, qualifie les contacts et prépare les prises de contact.',
-      en: 'Identifies relevant companies, qualifies contacts and prepares outreach.',
+function deriveSteps(): Bilingual[] {
+  return [
+    {
+      fr: 'Vous décrivez votre contexte, vos règles et le résultat attendu.',
+      en: 'You describe your context, your rules and the expected result.',
     },
-    result: {
-      fr: 'Une liste de prospects qualifiés et des messages prêts à valider.',
-      en: 'A list of qualified prospects and messages ready to approve.',
+    {
+      fr: 'Alma prépare le Collaborateur IA : profil métier, compétences et cadre de validation.',
+      en: 'Alma prepares the AI Collaborator: job profile, skills and validation framework.',
     },
-    objective: {
-      fr: 'Construire un flux régulier de prospects qualifiés, sans passer vos journées à chercher et à écrire des messages.',
-      en: 'Build a steady flow of qualified prospects without spending your days searching and writing messages.',
+    {
+      fr: 'Le Collaborateur réalise la mission et vous présente le livrable.',
+      en: 'The Collaborator carries out the mission and presents the deliverable.',
     },
-    steps: [
-      { fr: 'Vous décrivez votre client idéal et votre offre.', en: 'You describe your ideal customer and your offer.' },
-      { fr: 'Le Collaborateur recherche et qualifie les entreprises correspondantes.', en: 'The Collaborator researches and qualifies matching companies.' },
-      { fr: 'Il prépare des messages de prise de contact personnalisés.', en: 'It drafts personalized outreach messages.' },
-      { fr: 'Vous validez la liste et les messages avant tout envoi.', en: 'You approve the list and messages before anything is sent.' },
-    ],
-    deliverable: {
-      fr: 'Un tableau de 30 prospects qualifiés avec, pour chacun, le contact, le contexte et un message personnalisé prêt à envoyer.',
-      en: 'A sheet of 30 qualified prospects with, for each, the contact, context and a personalized message ready to send.',
+    {
+      fr: 'Vous validez, ajustez si besoin, puis intégrez le résultat.',
+      en: 'You review, adjust if needed, then integrate the result.',
     },
-    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
-    validation: { fr: 'Votre accord est requis avant tout envoi.', en: 'Your approval is required before anything is sent.' },
-    produces: [
-      { fr: 'Liste de prospects qualifiés', en: 'Qualified prospect list' },
-      { fr: 'Messages de prise de contact', en: 'Outreach messages' },
-      { fr: 'Fiches contexte par entreprise', en: 'Context sheets per company' },
-    ],
-    skills: [
-      { fr: 'Recherche', en: 'Research' },
-      { fr: 'Qualification', en: 'Qualification' },
-      { fr: 'CRM', en: 'CRM' },
-      { fr: 'Rédaction', en: 'Writing' },
-    ],
-    tools: ['Web', 'CRM', 'Email', 'LinkedIn'],
-    profile: { fr: 'Commercial', en: 'Sales Rep' },
-    collaboratorSlug: 'hugo',
-  },
-  {
-    slug: 'relancer-les-opportunites',
-    category: 'ventes',
-    title: { fr: 'Relancer les opportunités dormantes', en: 'Re-engage dormant opportunities' },
-    description: {
-      fr: 'Repère les affaires sans nouvelle, prépare les relances et remet le pipeline en mouvement.',
-      en: 'Spots stalled deals, prepares follow-ups and gets the pipeline moving again.',
-    },
-    result: {
-      fr: 'Des relances prêtes à valider pour chaque opportunité endormie.',
-      en: 'Follow-ups ready to approve for every dormant opportunity.',
-    },
-    objective: {
-      fr: 'Ne plus laisser filer les affaires en cours faute de suivi, et rouvrir les conversations au bon moment.',
-      en: 'Stop losing deals for lack of follow-up, and reopen conversations at the right moment.',
-    },
-    steps: [
-      { fr: 'Le Collaborateur analyse votre pipeline et repère les affaires sans activité récente.', en: 'The Collaborator reviews your pipeline and finds deals with no recent activity.' },
-      { fr: 'Il reconstitue le contexte de chaque opportunité.', en: 'It reconstructs the context of each opportunity.' },
-      { fr: 'Il rédige une relance adaptée à chaque situation.', en: 'It drafts a follow-up tailored to each situation.' },
-      { fr: 'Vous validez et le suivi est mis à jour dans le CRM.', en: 'You approve and the CRM is updated.' },
-    ],
-    deliverable: {
-      fr: 'Une file de relances personnalisées, classées par priorité, avec le contexte de chaque affaire.',
-      en: 'A queue of personalized follow-ups, ranked by priority, with the context of each deal.',
-    },
-    deliveryTime: { fr: '1 jour ouvré', en: '1 business day' },
-    validation: { fr: 'Votre accord est requis avant toute relance.', en: 'Your approval is required before any follow-up.' },
-    produces: [
-      { fr: 'Relances personnalisées', en: 'Personalized follow-ups' },
-      { fr: 'Pipeline priorisé', en: 'Prioritized pipeline' },
-      { fr: 'CRM à jour', en: 'Updated CRM' },
-    ],
-    skills: [
-      { fr: 'Analyse du pipeline', en: 'Pipeline analysis' },
-      { fr: 'Priorisation', en: 'Prioritization' },
-      { fr: 'Rédaction', en: 'Writing' },
-      { fr: 'Suivi', en: 'Follow-up' },
-    ],
-    tools: ['CRM', 'Email', 'Calendrier'],
-    profile: { fr: 'Commercial', en: 'Sales Rep' },
-    collaboratorSlug: 'hugo',
-  },
-
-  // ---------------- SUPPORT ----------------
-  {
-    slug: 'repondre-a-mes-clients',
-    category: 'support',
-    title: { fr: 'Répondre aux demandes des clients', en: 'Answer customer requests' },
-    description: {
-      fr: 'Analyse les demandes, prépare les réponses et transmet les cas sensibles.',
-      en: 'Analyzes requests, drafts replies and escalates sensitive cases.',
-    },
-    result: {
-      fr: 'Des demandes traitées et une file de validations claire.',
-      en: 'Requests handled and a clear approval queue.',
-    },
-    objective: {
-      fr: 'Répondre plus vite à vos clients tout en gardant la main sur les réponses sensibles.',
-      en: 'Answer your customers faster while keeping control over sensitive replies.',
-    },
-    steps: [
-      { fr: 'Les demandes entrantes sont classées par type et par urgence.', en: 'Incoming requests are sorted by type and urgency.' },
-      { fr: 'Le Collaborateur prépare une réponse à partir de vos ressources.', en: 'The Collaborator drafts a reply from your resources.' },
-      { fr: 'Les cas simples sont prêts à envoyer, les cas sensibles sont signalés.', en: 'Simple cases are ready to send, sensitive ones are flagged.' },
-      { fr: 'Vous validez avant envoi et la base de connaissances s’enrichit.', en: 'You approve before sending and the knowledge base grows.' },
-    ],
-    deliverable: {
-      fr: 'Une file de réponses prêtes à valider, avec les cas sensibles clairement identifiés.',
-      en: 'A queue of replies ready to approve, with sensitive cases clearly identified.',
-    },
-    deliveryTime: { fr: 'En continu', en: 'Ongoing' },
-    validation: { fr: 'Validation requise avant l’envoi des réponses sensibles.', en: 'Approval required before sending sensitive replies.' },
-    produces: [
-      { fr: 'Réponses prêtes à valider', en: 'Replies ready to approve' },
-      { fr: 'File de cas escaladés', en: 'Escalated case queue' },
-      { fr: 'Base de connaissances enrichie', en: 'Enriched knowledge base' },
-    ],
-    skills: [
-      { fr: 'Classification', en: 'Classification' },
-      { fr: 'Recherche', en: 'Research' },
-      { fr: 'Rédaction', en: 'Writing' },
-      { fr: 'Escalade', en: 'Escalation' },
-    ],
-    tools: ['Email', 'Helpdesk', 'Base de connaissances', 'Chat'],
-    profile: { fr: 'Support client', en: 'Customer Support' },
-    collaboratorSlug: 'ines',
-  },
-  {
-    slug: 'construire-ma-faq',
-    category: 'support',
-    title: { fr: 'Construire ma FAQ et mes réponses types', en: 'Build my FAQ and canned replies' },
-    description: {
-      fr: 'Analyse les demandes récurrentes et prépare des réponses réutilisables.',
-      en: 'Analyzes recurring requests and prepares reusable replies.',
-    },
-    result: {
-      fr: 'Une FAQ claire et des réponses types prêtes à réutiliser.',
-      en: 'A clear FAQ and canned replies ready to reuse.',
-    },
-    objective: {
-      fr: 'Réduire le volume de demandes répétitives en outillant votre support avec de bonnes réponses prêtes à l’emploi.',
-      en: 'Reduce repetitive requests by equipping your support with solid ready-to-use answers.',
-    },
-    steps: [
-      { fr: 'Le Collaborateur analyse l’historique des demandes.', en: 'The Collaborator analyzes the request history.' },
-      { fr: 'Il regroupe les questions récurrentes par thème.', en: 'It groups recurring questions by topic.' },
-      { fr: 'Il rédige une réponse claire pour chacune.', en: 'It writes a clear answer for each.' },
-      { fr: 'Vous validez et publiez la FAQ.', en: 'You approve and publish the FAQ.' },
-    ],
-    deliverable: {
-      fr: 'Une FAQ structurée par thème et un jeu de réponses types prêtes à insérer dans vos échanges.',
-      en: 'A FAQ structured by topic and a set of canned replies ready to drop into your exchanges.',
-    },
-    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
-    validation: { fr: 'Votre accord est requis avant publication.', en: 'Your approval is required before publishing.' },
-    produces: [
-      { fr: 'FAQ structurée', en: 'Structured FAQ' },
-      { fr: 'Réponses types', en: 'Canned replies' },
-      { fr: 'Thèmes récurrents identifiés', en: 'Recurring topics identified' },
-    ],
-    skills: [
-      { fr: 'Analyse', en: 'Analysis' },
-      { fr: 'Synthèse', en: 'Synthesis' },
-      { fr: 'Rédaction', en: 'Writing' },
-      { fr: 'Organisation', en: 'Organization' },
-    ],
-    tools: ['Helpdesk', 'Base de connaissances', 'Documents'],
-    profile: { fr: 'Support client', en: 'Customer Support' },
-    collaboratorSlug: 'ines',
-  },
-
-  // ---------------- MARKETING ----------------
-  {
-    slug: 'creer-mes-contenus',
-    category: 'marketing',
-    title: { fr: 'Produire une campagne de contenu', en: 'Produce a content campaign' },
-    description: {
-      fr: 'Produit les textes, visuels, présentations ou vidéos adaptés à votre identité.',
-      en: 'Produces the copy, visuals, decks or videos aligned with your identity.',
-    },
-    result: {
-      fr: 'Des contenus prêts à examiner et publier.',
-      en: 'Content ready to review and publish.',
-    },
-    objective: {
-      fr: 'Alimenter vos canaux avec des contenus réguliers et cohérents, sans y consacrer toutes vos semaines.',
-      en: 'Feed your channels with regular, consistent content without spending all your weeks on it.',
-    },
-    steps: [
-      { fr: 'Vous donnez le sujet, le ton et le canal visé.', en: 'You give the topic, tone and target channel.' },
-      { fr: 'Le Collaborateur rédige et met en forme le contenu.', en: 'The Collaborator writes and formats the content.' },
-      { fr: 'Il l’adapte à chaque canal (article, post, visuel).', en: 'It adapts it to each channel (article, post, visual).' },
-      { fr: 'Vous examinez, ajustez et publiez.', en: 'You review, adjust and publish.' },
-    ],
-    deliverable: {
-      fr: 'Un article de blog, sa déclinaison en posts pour les réseaux sociaux et un visuel d’illustration, prêts à publier.',
-      en: 'A blog post, its social-media variations and an illustration, ready to publish.',
-    },
-    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
-    validation: { fr: 'Votre accord est requis avant publication.', en: 'Your approval is required before publishing.' },
-    produces: [
-      { fr: 'Articles et posts', en: 'Articles and posts' },
-      { fr: 'Visuels', en: 'Visuals' },
-      { fr: 'Déclinaisons par canal', en: 'Per-channel variations' },
-    ],
-    skills: [
-      { fr: 'Rédaction', en: 'Writing' },
-      { fr: 'Design', en: 'Design' },
-      { fr: 'Publication', en: 'Publishing' },
-      { fr: 'Analyse', en: 'Analysis' },
-    ],
-    tools: ['Documents', 'Images', 'Vidéo', 'Réseaux sociaux'],
-    profile: { fr: 'Création de contenu', en: 'Content creation' },
-    collaboratorSlug: 'lea',
-  },
-  {
-    slug: 'animer-mes-reseaux-sociaux',
-    category: 'marketing',
-    title: { fr: 'Préparer une semaine de publications', en: 'Prepare a week of posts' },
-    description: {
-      fr: 'Planifie le calendrier, prépare les publications et suit l’engagement.',
-      en: 'Plans the calendar, prepares posts and tracks engagement.',
-    },
-    result: {
-      fr: 'Un calendrier de publications prêt à valider et à programmer.',
-      en: 'A posting calendar ready to approve and schedule.',
-    },
-    objective: {
-      fr: 'Tenir une présence régulière sur vos réseaux sans devoir y penser chaque jour.',
-      en: 'Keep a regular presence on your networks without having to think about it every day.',
-    },
-    steps: [
-      { fr: 'Le Collaborateur propose un calendrier éditorial.', en: 'The Collaborator proposes an editorial calendar.' },
-      { fr: 'Il prépare chaque publication et son visuel.', en: 'It prepares each post and its visual.' },
-      { fr: 'Vous validez la semaine en un coup d’œil.', en: 'You approve the week at a glance.' },
-      { fr: 'Il suit l’engagement et ajuste les prochains contenus.', en: 'It tracks engagement and adjusts upcoming content.' },
-    ],
-    deliverable: {
-      fr: 'Un calendrier d’une semaine de publications, visuels inclus, prêt à programmer.',
-      en: 'A one-week posting calendar, visuals included, ready to schedule.',
-    },
-    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
-    validation: { fr: 'Votre accord est requis avant programmation.', en: 'Your approval is required before scheduling.' },
-    produces: [
-      { fr: 'Calendrier éditorial', en: 'Editorial calendar' },
-      { fr: 'Publications et visuels', en: 'Posts and visuals' },
-      { fr: 'Suivi de l’engagement', en: 'Engagement tracking' },
-    ],
-    skills: [
-      { fr: 'Planification', en: 'Planning' },
-      { fr: 'Rédaction', en: 'Writing' },
-      { fr: 'Design', en: 'Design' },
-      { fr: 'Analyse', en: 'Analysis' },
-    ],
-    tools: ['Réseaux sociaux', 'Images', 'Analytics'],
-    profile: { fr: 'Réseaux sociaux', en: 'Social Media Manager' },
-    collaboratorSlug: 'lea',
-  },
-  {
-    slug: 'ameliorer-mon-referencement',
-    category: 'marketing',
-    title: { fr: 'Préparer un plan d’optimisation SEO', en: 'Prepare an SEO optimization plan' },
-    description: {
-      fr: 'Analyse vos pages, identifie les opportunités et prépare les optimisations.',
-      en: 'Analyzes your pages, identifies opportunities and prepares optimizations.',
-    },
-    result: {
-      fr: 'Un plan d’optimisation clair et des contenus prêts à publier.',
-      en: 'A clear optimization plan and content ready to publish.',
-    },
-    objective: {
-      fr: 'Gagner en visibilité sur les moteurs de recherche avec un plan d’action concret.',
-      en: 'Gain visibility on search engines with a concrete action plan.',
-    },
-    steps: [
-      { fr: 'Le Collaborateur audite vos pages et vos mots-clés.', en: 'The Collaborator audits your pages and keywords.' },
-      { fr: 'Il identifie les opportunités les plus rentables.', en: 'It identifies the highest-value opportunities.' },
-      { fr: 'Il prépare les optimisations et les nouveaux contenus.', en: 'It prepares the optimizations and new content.' },
-      { fr: 'Vous validez et suivez les positions dans le temps.', en: 'You approve and track rankings over time.' },
-    ],
-    deliverable: {
-      fr: 'Un audit priorisé, une liste de mots-clés cibles et un premier contenu optimisé prêt à publier.',
-      en: 'A prioritized audit, a list of target keywords and a first optimized piece ready to publish.',
-    },
-    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
-    validation: { fr: 'Votre accord est requis avant mise en ligne.', en: 'Your approval is required before going live.' },
-    produces: [
-      { fr: 'Audit SEO priorisé', en: 'Prioritized SEO audit' },
-      { fr: 'Mots-clés cibles', en: 'Target keywords' },
-      { fr: 'Contenus optimisés', en: 'Optimized content' },
-    ],
-    skills: [
-      { fr: 'Audit', en: 'Audit' },
-      { fr: 'Recherche de mots-clés', en: 'Keyword research' },
-      { fr: 'Rédaction', en: 'Writing' },
-      { fr: 'Analyse', en: 'Analysis' },
-    ],
-    tools: ['Web', 'Analytics', 'CMS', 'Documents'],
-    profile: { fr: 'Référencement naturel', en: 'SEO Specialist' },
-    collaboratorSlug: 'lea',
-  },
-
-  // ---------------- REUNIONS ----------------
-  {
-    slug: 'preparer-et-suivre-mes-reunions',
-    category: 'reunions',
-    title: { fr: 'Préparer une réunion et suivre les décisions', en: 'Prepare a meeting and track decisions' },
-    description: {
-      fr: 'Réunit le contexte, prépare l’ordre du jour, produit le compte rendu et suit les décisions.',
-      en: 'Gathers context, prepares the agenda, produces minutes and tracks decisions.',
-    },
-    result: {
-      fr: 'Un compte rendu structuré et des actions suivies jusqu’à leur clôture.',
-      en: 'A structured recap and actions followed through to completion.',
-    },
-    objective: {
-      fr: 'Arriver préparé à chaque réunion et ne plus perdre les décisions une fois la réunion terminée.',
-      en: 'Arrive prepared to every meeting and stop losing decisions once the meeting is over.',
-    },
-    steps: [
-      { fr: 'Le Collaborateur réunit le contexte et prépare l’ordre du jour.', en: 'The Collaborator gathers context and prepares the agenda.' },
-      { fr: 'Pendant la réunion, il prend des notes structurées.', en: 'During the meeting, it takes structured notes.' },
-      { fr: 'Il produit un compte rendu et une liste d’actions.', en: 'It produces minutes and an action list.' },
-      { fr: 'Il suit chaque action jusqu’à sa clôture.', en: 'It follows each action through to completion.' },
-    ],
-    deliverable: {
-      fr: 'Un ordre du jour avant la réunion, un compte rendu après, et une liste d’actions assignées et suivies.',
-      en: 'An agenda before the meeting, minutes after, and a list of assigned, tracked actions.',
-    },
-    deliveryTime: { fr: 'Avant et après chaque réunion', en: 'Before and after each meeting' },
-    validation: { fr: 'Vous validez l’ordre du jour et le compte rendu.', en: 'You approve the agenda and the minutes.' },
-    produces: [
-      { fr: 'Ordre du jour', en: 'Agenda' },
-      { fr: 'Compte rendu structuré', en: 'Structured minutes' },
-      { fr: 'Actions suivies', en: 'Tracked actions' },
-    ],
-    skills: [
-      { fr: 'Recherche', en: 'Research' },
-      { fr: 'Synthèse', en: 'Synthesis' },
-      { fr: 'Transcription', en: 'Transcription' },
-      { fr: 'Suivi', en: 'Follow-up' },
-    ],
-    tools: ['Agenda', 'Visioconférence', 'Documents'],
-    profile: { fr: 'Assistant de réunion', en: 'Meeting assistant' },
-    collaboratorSlug: 'emma',
-  },
-
-  // ---------------- FINANCE ----------------
-  {
-    slug: 'preparer-mon-reporting-financier',
-    category: 'analyse',
-    title: { fr: 'Produire le reporting financier mensuel', en: 'Produce the monthly financial report' },
-    description: {
-      fr: 'Consolide les données, calcule les indicateurs et met en forme le reporting.',
-      en: 'Consolidates data, computes metrics and formats the report.',
-    },
-    result: {
-      fr: 'Un reporting clair, prêt à examiner et à présenter.',
-      en: 'A clear report, ready to review and present.',
-    },
-    objective: {
-      fr: 'Obtenir un reporting fiable et lisible chaque mois, sans les heures de consolidation manuelle.',
-      en: 'Get a reliable, readable report every month, without the hours of manual consolidation.',
-    },
-    steps: [
-      { fr: 'Le Collaborateur récupère et consolide vos données.', en: 'The Collaborator gathers and consolidates your data.' },
-      { fr: 'Il calcule les indicateurs et repère les écarts.', en: 'It computes the metrics and spots variances.' },
-      { fr: 'Il met en forme un reporting clair et commenté.', en: 'It formats a clear, commented report.' },
-      { fr: 'Vous examinez et présentez en confiance.', en: 'You review and present with confidence.' },
-    ],
-    deliverable: {
-      fr: 'Un reporting mensuel mis en forme, avec les indicateurs clés, les écarts commentés et un résumé pour la direction.',
-      en: 'A formatted monthly report, with key metrics, commented variances and an executive summary.',
-    },
-    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
-    validation: { fr: 'Vous examinez le reporting avant diffusion.', en: 'You review the report before it is shared.' },
-    produces: [
-      { fr: 'Reporting mis en forme', en: 'Formatted report' },
-      { fr: 'Indicateurs clés', en: 'Key metrics' },
-      { fr: 'Résumé de direction', en: 'Executive summary' },
-    ],
-    skills: [
-      { fr: 'Consolidation', en: 'Consolidation' },
-      { fr: 'Analyse financière', en: 'Financial analysis' },
-      { fr: 'Reporting', en: 'Reporting' },
-      { fr: 'Synthèse', en: 'Synthesis' },
-    ],
-    tools: ['Tableur', 'ERP', 'BI', 'Documents'],
-    profile: { fr: 'Analyste financière', en: 'Financial Analyst' },
-    collaboratorSlug: 'nadia',
-  },
-
-  // ---------------- AUTOMATISATION ----------------
-  {
-    slug: 'automatiser-mes-operations',
-    category: 'automatisation',
-    title: { fr: 'Automatiser une tâche répétitive', en: 'Automate a repetitive task' },
-    description: {
-      fr: 'Conçoit, exécute et surveille vos processus avec vos applications.',
-      en: 'Designs, runs and monitors your processes with your apps.',
-    },
-    result: {
-      fr: 'Un processus automatisé, documenté et surveillé.',
-      en: 'An automated, documented and monitored process.',
-    },
-    objective: {
-      fr: 'Supprimer les tâches manuelles répétitives en les confiant à un processus fiable et surveillé.',
-      en: 'Remove repetitive manual tasks by handing them to a reliable, monitored process.',
-    },
-    steps: [
-      { fr: 'Vous décrivez le processus à automatiser.', en: 'You describe the process to automate.' },
-      { fr: 'Le Collaborateur le conçoit et le connecte à vos applications.', en: 'The Collaborator designs it and connects it to your apps.' },
-      { fr: 'Il le teste sur des cas réels avant mise en service.', en: 'It tests it on real cases before going live.' },
-      { fr: 'Il le surveille et vous alerte en cas d’anomalie.', en: 'It monitors it and alerts you on anomalies.' },
-    ],
-    deliverable: {
-      fr: 'Un processus automatisé opérationnel, sa documentation et un tableau de surveillance.',
-      en: 'A live automated process, its documentation and a monitoring dashboard.',
-    },
-    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
-    validation: { fr: 'Votre accord est requis avant mise en service.', en: 'Your approval is required before going live.' },
-    produces: [
-      { fr: 'Processus automatisé', en: 'Automated process' },
-      { fr: 'Documentation', en: 'Documentation' },
-      { fr: 'Surveillance et alertes', en: 'Monitoring and alerts' },
-    ],
-    skills: [
-      { fr: 'Conception', en: 'Design' },
-      { fr: 'Intégration', en: 'Integration' },
-      { fr: 'Contrôle', en: 'Monitoring' },
-      { fr: 'Reprise', en: 'Recovery' },
-    ],
-    tools: ['n8n', 'API', 'Applications métier'],
-    profile: { fr: 'Automatisation', en: 'Automation' },
-    collaboratorSlug: 'arthur',
-  },
-
-  // ---------------- DEVELOPPEMENT ----------------
-  {
-    slug: 'developper-une-fonctionnalite',
-    category: 'developpement',
-    title: { fr: 'Implémenter une fonctionnalité', en: 'Implement a feature' },
-    description: {
-      fr: 'Analyse le besoin, produit le code, exécute les tests et prépare la livraison.',
-      en: 'Analyzes the need, writes the code, runs the tests and prepares delivery.',
-    },
-    result: {
-      fr: 'Une fonctionnalité documentée et prête à examiner.',
-      en: 'A documented feature ready to review.',
-    },
-    objective: {
-      fr: 'Avancer sur votre feuille de route produit avec des livraisons propres et testées.',
-      en: 'Move forward on your product roadmap with clean, tested deliveries.',
-    },
-    steps: [
-      { fr: 'Vous décrivez la fonctionnalité attendue.', en: 'You describe the expected feature.' },
-      { fr: 'Le Collaborateur conçoit et écrit le code.', en: 'The Collaborator designs and writes the code.' },
-      { fr: 'Il exécute les tests et documente son travail.', en: 'It runs the tests and documents its work.' },
-      { fr: 'Vous examinez la contribution avant de la fusionner.', en: 'You review the contribution before merging.' },
-    ],
-    deliverable: {
-      fr: 'Une contribution de code testée, documentée et prête à être relue puis fusionnée.',
-      en: 'A tested, documented code contribution ready to be reviewed and merged.',
-    },
-    deliveryTime: { fr: '3 jours ouvrés', en: '3 business days' },
-    validation: { fr: 'Vous examinez la contribution avant fusion.', en: 'You review the contribution before merging.' },
-    produces: [
-      { fr: 'Code testé', en: 'Tested code' },
-      { fr: 'Documentation technique', en: 'Technical documentation' },
-      { fr: 'Contribution prête à fusionner', en: 'Contribution ready to merge' },
-    ],
-    skills: [
-      { fr: 'Architecture', en: 'Architecture' },
-      { fr: 'Code', en: 'Code' },
-      { fr: 'Tests', en: 'Tests' },
-      { fr: 'Documentation', en: 'Documentation' },
-    ],
-    tools: ['GitHub', 'Terminal', 'Environnement de développement'],
-    profile: { fr: 'Développement', en: 'Development' },
-    collaboratorSlug: 'arthur',
-  },
-  {
-    slug: 'corriger-un-lot-de-bugs',
-    category: 'developpement',
-    title: { fr: 'Corriger des anomalies prioritaires', en: 'Fix priority issues' },
-    description: {
-      fr: 'Reproduit les anomalies, identifie la cause et prépare les correctifs.',
-      en: 'Reproduces issues, identifies the root cause and prepares fixes.',
-    },
-    result: {
-      fr: 'Des correctifs testés, prêts à examiner et à livrer.',
-      en: 'Tested fixes, ready to review and ship.',
-    },
-    objective: {
-      fr: 'Réduire votre dette de bugs sans mobiliser l’équipe sur des correctifs répétitifs.',
-      en: 'Reduce your bug backlog without tying up the team on repetitive fixes.',
-    },
-    steps: [
-      { fr: 'Le Collaborateur reproduit chaque anomalie signalée.', en: 'The Collaborator reproduces each reported issue.' },
-      { fr: 'Il identifie la cause et prépare un correctif.', en: 'It identifies the cause and prepares a fix.' },
-      { fr: 'Il teste que le correctif ne casse rien d’autre.', en: 'It tests that the fix breaks nothing else.' },
-      { fr: 'Vous examinez et livrez en confiance.', en: 'You review and ship with confidence.' },
-    ],
-    deliverable: {
-      fr: 'Un lot de correctifs testés, chacun accompagné de la cause identifiée et des tests associés.',
-      en: 'A batch of tested fixes, each with the identified cause and its associated tests.',
-    },
-    deliveryTime: { fr: '2 jours ouvrés', en: '2 business days' },
-    validation: { fr: 'Vous examinez les correctifs avant livraison.', en: 'You review the fixes before shipping.' },
-    produces: [
-      { fr: 'Correctifs testés', en: 'Tested fixes' },
-      { fr: 'Causes identifiées', en: 'Identified root causes' },
-      { fr: 'Tests de non-régression', en: 'Regression tests' },
-    ],
-    skills: [
-      { fr: 'Diagnostic', en: 'Diagnosis' },
-      { fr: 'Code', en: 'Code' },
-      { fr: 'Tests', en: 'Tests' },
-      { fr: 'Revue', en: 'Review' },
-    ],
-    tools: ['GitHub', 'Terminal', 'Environnement de développement'],
-    profile: { fr: 'Développement', en: 'Development' },
-    collaboratorSlug: 'arthur',
-  },
-]
-
-// Slugs renamed for SEO. Old slugs redirect to the new ones (see next.config).
-export const MISSION_SLUG_REDIRECTS: Record<string, string> = {
-  'trouver-des-clients': 'trouver-de-nouveaux-clients',
-  'repondre-aux-clients': 'repondre-a-mes-clients',
-  'preparer-mes-reunions': 'preparer-et-suivre-mes-reunions',
-  'organiser-la-faq': 'construire-ma-faq',
-  'animer-mes-reseaux': 'animer-mes-reseaux-sociaux',
-  'preparer-mon-reporting': 'preparer-mon-reporting-financier',
-  'corriger-des-bugs': 'corriger-un-lot-de-bugs',
+  ]
 }
 
+function tokenize(s: string): string[] {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 3)
+}
+
+function buildMission(seed: Seed, index: number): Mission {
+  const def = CATEGORY_DEFAULTS[seed.category]
+  const o = seed.opts ?? {}
+  const status: MissionStatus = o.status ?? 'coming-soon'
+  const regulated = o.regulated ?? def.regulated
+  const title = bi(seed.titleFr, seed.titleEn)
+  const result = bi(seed.resultFr, seed.resultEn)
+  const collections = o.collections ?? [def.collection]
+
+  const validation: Bilingual = regulated
+    ? {
+        fr: 'Validation professionnelle requise : le Collaborateur prépare, mais un professionnel habilité valide avant toute décision ou envoi engageant.',
+        en: 'Professional validation required: the Collaborator prepares, but a qualified professional validates before any binding decision or send.',
+      }
+    : {
+        fr: "Rien n'est envoyé ni finalisé sans votre validation. Vous gardez le contrôle à chaque étape.",
+        en: 'Nothing is sent or finalized without your approval. You stay in control at every step.',
+      }
+
+  return {
+    slug: seed.slug,
+    category: seed.category,
+    collections,
+    title,
+    result,
+    description: result,
+    objective: {
+      fr: `Vous confiez « ${seed.titleFr.toLowerCase()} » à un Collaborateur IA préparé par Alma. ${seed.resultFr}`,
+      en: `You hand "${seed.titleEn.toLowerCase()}" to an AI Collaborator prepared by Alma. ${seed.resultEn}`,
+    },
+    steps: deriveSteps(),
+    deliverable: result,
+    deliveryTime: DELAY_TBD,
+    validation,
+    produces: [
+      { fr: 'Le livrable décrit ci-dessus, prêt à valider.', en: 'The deliverable described above, ready to approve.' },
+      { fr: 'Un historique clair des sources et des étapes.', en: 'A clear trail of sources and steps.' },
+    ],
+    skills: def.skills,
+    tools: def.tools,
+    profile: def.profile,
+    collaboratorSlug: def.collaboratorSlug,
+    sectors: o.sectors ?? def.sectors,
+    languages: o.languages ?? ['fr', 'en'],
+    zones: o.zones ?? ['france', 'ue', 'international'],
+    modalities: [o.modality ?? def.modality],
+    status,
+    origin: o.origin ?? 'native',
+    availabilityReason: availabilityReason(status),
+    regulated,
+    dateAdded: o.dateAdded ?? fallbackDate(index),
+    order: index,
+    keywords: Array.from(new Set([...tokenize(seed.titleFr), ...tokenize(seed.titleEn)])),
+  }
+}
+
+// --- SEEDS: 12 categories x 12 missions = 144 -------------------------------
+const SEEDS: Seed[] = [
+  // ---------------- VENTES & DÉVELOPPEMENT COMMERCIAL ----------------
+  m('ventes', 'trouver-de-nouveaux-clients', 'Trouver des prospects qualifiés', 'Find qualified prospects', 'Une liste de prospects correspondant à vos critères, prête à être examinée.', 'A list of prospects matching your criteria, ready to review.', { status: 'available', dateAdded: '2026-05-12' }),
+  m('ventes', 'qualifier-les-demandes-entrantes', 'Qualifier les demandes entrantes', 'Qualify inbound requests', 'Des opportunités enrichies, classées et orientées vers la bonne personne.', 'Enriched opportunities, sorted and routed to the right person.', { status: 'on-setup' }),
+  m('ventes', 'preparer-une-campagne-de-prospection', 'Préparer une campagne de prospection', 'Prepare an outreach campaign', 'Une cible, une séquence de contact et des messages prêts à valider.', 'A target, a contact sequence and messages ready to approve.'),
+  m('ventes', 'personnaliser-les-messages-de-prospection', 'Personnaliser les messages de prospection', 'Personalize outreach messages', 'Des messages adaptés au contexte de chaque prospect.', 'Messages tailored to each prospect’s context.', { status: 'on-setup' }),
+  m('ventes', 'preparer-les-rendez-vous-commerciaux', 'Préparer les rendez-vous commerciaux', 'Prepare sales meetings', 'Un dossier synthétique avec le contexte, les enjeux et les points à aborder.', 'A concise brief with context, stakes and talking points.'),
+  m('ventes', 'rediger-les-comptes-rendus-commerciaux', 'Rédiger les comptes rendus commerciaux', 'Write sales call summaries', 'Une synthèse structurée avec les besoins, objections et prochaines actions.', 'A structured summary with needs, objections and next actions.'),
+  m('ventes', 'relancer-les-opportunites', 'Relancer les opportunités en attente', 'Follow up on pending opportunities', 'Des relances contextualisées, prêtes à être validées et envoyées.', 'Contextual follow-ups, ready to approve and send.', { status: 'on-setup' }),
+  m('ventes', 'preparer-les-devis', 'Préparer les devis', 'Prepare quotes', 'Des devis complets, construits selon vos offres et prêts à valider.', 'Complete quotes built from your offers and ready to approve.'),
+  m('ventes', 'mettre-a-jour-le-crm', 'Mettre à jour le CRM', 'Update the CRM', 'Des fiches, étapes et prochaines actions tenues à jour après chaque échange.', 'Records, stages and next actions kept up to date after each exchange.', { status: 'on-setup', modality: 'automatisation' }),
+  m('ventes', 'analyser-le-pipeline-commercial', 'Analyser le pipeline commercial', 'Analyze the sales pipeline', 'Une vue claire des opportunités, des risques et des priorités.', 'A clear view of opportunities, risks and priorities.', { collections: ['developper-activite', 'piloter-organisation'], modality: 'donnees' }),
+  m('ventes', 'preparer-une-revue-commerciale', 'Préparer une revue commerciale', 'Prepare a sales review', 'Un rapport synthétique sur le pipeline, les résultats et les actions attendues.', 'A concise report on pipeline, results and expected actions.', { collections: ['developper-activite', 'piloter-organisation'] }),
+  m('ventes', 'identifier-les-opportunites-de-vente-additionnelle', 'Identifier les opportunités de vente additionnelle', 'Spot upsell opportunities', 'Une sélection de clients et d’offres complémentaires pertinentes à examiner.', 'A shortlist of customers and relevant add-on offers to review.'),
+
+  // ---------------- RELATION CLIENT & SUPPORT ----------------
+  m('relation-client', 'repondre-a-mes-clients', 'Répondre aux demandes reçues par email', 'Answer requests received by email', 'Des réponses contextualisées et une file claire des cas à valider.', 'Contextual replies and a clear queue of cases to approve.', { status: 'available', dateAdded: '2026-05-20', languages: ['fr', 'en', 'es', 'multi'] }),
+  m('relation-client', 'repondre-aux-appels-clients', 'Répondre aux appels des clients', 'Answer customer calls', 'Des appels pris en charge, qualifiés et transmis selon vos règles.', 'Calls handled, qualified and routed according to your rules.', { modality: 'telephone', languages: ['fr', 'en', 'es', 'multi'] }),
+  m('relation-client', 'trier-et-orienter-les-demandes', 'Trier et orienter les demandes', 'Sort and route requests', 'Chaque demande est classée, priorisée et dirigée vers le bon interlocuteur.', 'Each request is sorted, prioritized and routed to the right person.', { status: 'on-setup' }),
+  m('relation-client', 'suivre-les-reclamations', 'Suivre les réclamations', 'Track complaints', 'Un suivi structuré avec historique, prochaine action et délai attendu.', 'Structured tracking with history, next action and expected timeline.'),
+  m('relation-client', 'preparer-les-reponses-aux-avis', 'Préparer les réponses aux avis en ligne', 'Draft responses to online reviews', 'Des réponses adaptées, prêtes à être vérifiées et publiées.', 'Tailored responses, ready to check and publish.', { status: 'on-setup' }),
+  m('relation-client', 'construire-ma-faq', 'Construire une FAQ', 'Build a FAQ', 'Une base de réponses claire, organisée à partir des demandes récurrentes.', 'A clear answer base, organized from recurring requests.', { status: 'available', dateAdded: '2026-05-02', modality: 'documents' }),
+  m('relation-client', 'enrichir-la-base-de-connaissances', 'Enrichir la base de connaissances', 'Enrich the knowledge base', 'Des articles actualisés à partir des nouveaux cas résolus.', 'Articles updated from newly resolved cases.', { modality: 'documents' }),
+  m('relation-client', 'informer-les-clients-de-l-avancement', 'Informer les clients de l’avancement', 'Keep customers informed of progress', 'Des messages de suivi envoyés aux étapes importantes de chaque dossier.', 'Follow-up messages sent at the key milestones of each case.', { status: 'on-setup' }),
+  m('relation-client', 'suivre-la-satisfaction-client', 'Suivre la satisfaction client', 'Track customer satisfaction', 'Une synthèse des retours, des irritants et des situations à traiter.', 'A summary of feedback, pain points and situations to address.', { modality: 'donnees' }),
+  m('relation-client', 'preparer-les-revues-de-comptes-clients', 'Préparer les revues de comptes clients', 'Prepare customer account reviews', 'Un dossier complet sur l’usage, les demandes et les prochaines priorités.', 'A complete file on usage, requests and next priorities.'),
+  m('relation-client', 'detecter-les-clients-a-risque', 'Détecter les clients à risque', 'Detect at-risk customers', 'Une liste de situations sensibles accompagnée des signaux observés.', 'A list of sensitive situations with the observed signals.', { modality: 'donnees' }),
+  m('relation-client', 'preparer-l-accueil-des-nouveaux-clients', 'Préparer l’accueil des nouveaux clients', 'Prepare new customer onboarding', 'Un parcours d’arrivée, des messages et des ressources adaptés à chaque client.', 'An onboarding path, messages and resources tailored to each customer.'),
+
+  // ---------------- MARKETING & COMMUNICATION ----------------
+  m('marketing', 'construire-un-calendrier-editorial', 'Construire un calendrier éditorial', 'Build an editorial calendar', 'Un programme de publications aligné sur vos objectifs et vos temps forts.', 'A publishing plan aligned with your goals and key moments.'),
+  m('marketing', 'animer-mes-reseaux-sociaux', 'Rédiger des publications pour les réseaux sociaux', 'Write social media posts', 'Des publications adaptées à chaque réseau, prêtes à relire et programmer.', 'Posts tailored to each network, ready to review and schedule.', { status: 'on-setup', languages: ['fr', 'en', 'es', 'multi'] }),
+  m('marketing', 'preparer-une-newsletter', 'Préparer une newsletter', 'Prepare a newsletter', 'Une newsletter structurée, rédigée et prête à valider.', 'A structured newsletter, written and ready to approve.', { status: 'on-setup' }),
+  m('marketing', 'ameliorer-mon-referencement', 'Rédiger un article optimisé pour le référencement', 'Write an SEO-optimized article', 'Un article documenté et structuré autour de la recherche ciblée.', 'A researched article structured around the targeted search.', { status: 'on-setup' }),
+  m('marketing', 'preparer-une-campagne-emailing', 'Préparer une campagne emailing', 'Prepare an email campaign', 'Une séquence complète avec objets, messages et appels à l’action.', 'A complete sequence with subject lines, messages and calls to action.', { modality: 'email' }),
+  m('marketing', 'decliner-un-contenu-multicanal', 'Décliner un contenu sur plusieurs canaux', 'Repurpose content across channels', 'Plusieurs formats cohérents produits à partir d’un contenu source.', 'Several consistent formats produced from a single source content.'),
+  m('marketing', 'rediger-une-page-de-vente', 'Rédiger une page de vente', 'Write a sales page', 'Une page structurée autour de l’offre, des bénéfices et de l’action attendue.', 'A page structured around the offer, benefits and expected action.'),
+  m('marketing', 'produire-des-fiches-produits', 'Produire des fiches produits', 'Produce product sheets', 'Des fiches homogènes, complètes et prêtes à publier.', 'Consistent, complete product sheets ready to publish.', { status: 'on-setup', sectors: ['commerce', 'immobilier', 'industrie', 'hospitality'] }),
+  m('marketing', 'preparer-un-communique-de-presse', 'Préparer un communiqué de presse', 'Prepare a press release', 'Un communiqué clair accompagné des informations utiles aux journalistes.', 'A clear release with the information journalists need.'),
+  m('marketing', 'creer-mes-contenus', 'Analyser les performances des contenus', 'Analyze content performance', 'Une synthèse des résultats et des recommandations pour la prochaine période.', 'A summary of results and recommendations for the next period.', { modality: 'donnees' }),
+  m('marketing', 'surveiller-l-image-de-marque', 'Surveiller l’image de marque', 'Monitor brand image', 'Une veille des mentions, thèmes émergents et situations à traiter.', 'Monitoring of mentions, emerging themes and situations to address.', { modality: 'donnees' }),
+  m('marketing', 'preparer-une-campagne-de-communication', 'Préparer une campagne de communication', 'Prepare a communication campaign', 'Un plan de campagne avec messages, formats, calendrier et validations.', 'A campaign plan with messages, formats, schedule and approvals.'),
+
+  // ---------------- RÉUNIONS & COORDINATION ----------------
+  m('reunions', 'preparer-l-ordre-du-jour', 'Préparer l’ordre du jour d’une réunion', 'Prepare a meeting agenda', 'Un ordre du jour structuré à partir des sujets et documents disponibles.', 'A structured agenda built from the available topics and documents.'),
+  m('reunions', 'preparer-les-participants', 'Préparer les participants', 'Brief the participants', 'Chaque participant reçoit le contexte et les documents utiles avant la réunion.', 'Each participant gets the context and useful documents before the meeting.'),
+  m('reunions', 'transcrire-une-reunion', 'Transcrire une réunion', 'Transcribe a meeting', 'Une transcription fidèle, horodatée et consultable.', 'A faithful, timestamped and searchable transcription.', { status: 'on-setup', modality: 'audio' }),
+  m('reunions', 'preparer-et-suivre-mes-reunions', 'Rédiger le compte rendu', 'Write the minutes', 'Une synthèse claire des échanges, décisions et prochaines actions.', 'A clear summary of the discussion, decisions and next actions.', { status: 'available', dateAdded: '2026-05-08' }),
+  m('reunions', 'extraire-les-decisions', 'Extraire les décisions', 'Extract the decisions', 'Une liste des décisions avec leur contexte et leur responsable.', 'A list of decisions with their context and owner.', { status: 'on-setup' }),
+  m('reunions', 'suivre-les-actions-decidees', 'Suivre les actions décidées', 'Track agreed actions', 'Un suivi actualisé des actions, responsables, échéances et blocages.', 'An up-to-date tracker of actions, owners, deadlines and blockers.'),
+  m('reunions', 'coordonner-les-agendas', 'Coordonner les agendas', 'Coordinate calendars', 'Des créneaux proposés et confirmés sans multiplication des échanges.', 'Slots proposed and confirmed without endless back-and-forth.', { modality: 'automatisation' }),
+  m('reunions', 'preparer-un-comite-de-direction', 'Préparer un comité de direction', 'Prepare an executive committee', 'Un dossier complet avec indicateurs, ordre du jour et documents de séance.', 'A complete pack with metrics, agenda and session documents.', { status: 'available', dateAdded: '2026-06-01', collections: ['piloter-organisation'] }),
+  m('reunions', 'preparer-une-reunion-commerciale', 'Préparer une réunion commerciale', 'Prepare a sales meeting', 'Un dossier client avec objectifs, historique et sujets à traiter.', 'A client brief with objectives, history and topics to cover.', { collections: ['piloter-organisation', 'developper-activite'] }),
+  m('reunions', 'organiser-un-evenement-interne', 'Organiser un événement interne', 'Organize an internal event', 'Un planning, des invitations et un suivi logistique prêts à être validés.', 'A schedule, invitations and logistics tracking ready to approve.'),
+  m('reunions', 'produire-une-synthese-hebdomadaire', 'Produire une synthèse hebdomadaire', 'Produce a weekly summary', 'Une vue consolidée des réunions, décisions et actions de la semaine.', 'A consolidated view of the week’s meetings, decisions and actions.', { status: 'on-setup' }),
+  m('reunions', 'relancer-les-responsables-d-actions', 'Relancer les responsables d’actions', 'Follow up with action owners', 'Des rappels contextualisés envoyés selon les échéances définies.', 'Contextual reminders sent according to the set deadlines.', { modality: 'automatisation' }),
+
+  // ---------------- ADMINISTRATION & ORGANISATION ----------------
+  m('administration', 'organiser-les-rendez-vous', 'Organiser les rendez-vous', 'Organize appointments', 'Des rendez-vous planifiés selon les disponibilités et les priorités.', 'Appointments scheduled by availability and priority.', { modality: 'automatisation' }),
+  m('administration', 'trier-la-boite-de-reception', 'Trier la boîte de réception', 'Sort the inbox', 'Des messages classés, priorisés et orientés vers la bonne action.', 'Messages sorted, prioritized and routed to the right action.', { status: 'on-setup', modality: 'email' }),
+  m('administration', 'preparer-les-courriers-recurrents', 'Préparer les courriers récurrents', 'Prepare recurring letters', 'Des courriers personnalisés, conformes aux modèles et prêts à valider.', 'Personalized letters, matching your templates and ready to approve.', { status: 'on-setup' }),
+  m('administration', 'suivre-les-dossiers-administratifs', 'Suivre les dossiers administratifs', 'Track administrative files', 'Une vue à jour des pièces, échéances et prochaines actions.', 'An up-to-date view of documents, deadlines and next actions.'),
+  m('administration', 'controler-la-completude-des-dossiers', 'Contrôler la complétude des dossiers', 'Check file completeness', 'Les documents manquants et les anomalies sont clairement identifiés.', 'Missing documents and anomalies are clearly identified.'),
+  m('administration', 'classer-les-documents', 'Classer les documents', 'File documents', 'Des documents nommés, organisés et rangés selon vos règles.', 'Documents named, organized and filed according to your rules.', { status: 'on-setup' }),
+  m('administration', 'preparer-les-deplacements', 'Préparer les déplacements professionnels', 'Prepare business travel', 'Un itinéraire, des réservations proposées et un dossier de voyage complet.', 'An itinerary, proposed bookings and a complete travel file.'),
+  m('administration', 'gerer-les-demandes-internes', 'Gérer les demandes internes', 'Handle internal requests', 'Des demandes enregistrées, orientées et suivies jusqu’à leur résolution.', 'Requests logged, routed and tracked through to resolution.'),
+  m('administration', 'preparer-un-dossier-de-signature', 'Préparer un dossier de signature', 'Prepare a signature package', 'Un dossier complet avec les documents, signataires et échéances.', 'A complete package with documents, signatories and deadlines.'),
+  m('administration', 'suivre-les-echeances-administratives', 'Suivre les échéances administratives', 'Track administrative deadlines', 'Un calendrier actualisé avec alertes et responsabilités.', 'An updated calendar with alerts and responsibilities.'),
+  m('administration', 'mettre-a-jour-les-procedures-internes', 'Mettre à jour les procédures internes', 'Update internal procedures', 'Des procédures cohérentes, actualisées et faciles à consulter.', 'Consistent, up-to-date procedures that are easy to consult.'),
+  m('administration', 'preparer-l-arrivee-d-un-prestataire', 'Préparer l’arrivée d’un prestataire', 'Prepare a vendor’s arrival', 'Les informations, accès et documents nécessaires sont prêts avant son arrivée.', 'The information, access and documents needed are ready before arrival.'),
+
+  // ---------------- FINANCE & GESTION (regulated) ----------------
+  m('finance', 'preparer-les-elements-de-facturation', 'Préparer les éléments de facturation', 'Prepare billing items', 'Les prestations et montants à facturer sont rassemblés et contrôlés.', 'The services and amounts to bill are gathered and checked.'),
+  m('finance', 'preparer-les-factures', 'Préparer les factures', 'Prepare invoices', 'Des factures conformes aux données disponibles, prêtes à valider.', 'Invoices consistent with the available data, ready to approve.', { status: 'on-setup' }),
+  m('finance', 'relancer-les-factures-impayees', 'Relancer les factures impayées', 'Follow up on unpaid invoices', 'Des relances adaptées à chaque situation et un suivi actualisé.', 'Follow-ups tailored to each situation and an updated tracker.', { status: 'on-setup', modality: 'email' }),
+  m('finance', 'suivre-la-tresorerie', 'Suivre la trésorerie', 'Track cash flow', 'Une position de trésorerie claire et une liste des mouvements attendus.', 'A clear cash position and a list of expected movements.', { modality: 'donnees' }),
+  m('finance', 'preparer-mon-reporting-financier', 'Préparer le reporting financier mensuel', 'Prepare the monthly financial report', 'Un reporting structuré avec les évolutions et écarts importants.', 'A structured report with key trends and variances.', { status: 'on-setup', modality: 'donnees' }),
+  m('finance', 'analyser-les-ecarts-budgetaires', 'Analyser les écarts budgétaires', 'Analyze budget variances', 'Les principaux écarts sont identifiés, expliqués et documentés.', 'The main variances are identified, explained and documented.', { modality: 'donnees' }),
+  m('finance', 'preparer-les-previsions-budgetaires', 'Préparer les prévisions budgétaires', 'Prepare budget forecasts', 'Une projection construite à partir des hypothèses validées.', 'A projection built from validated assumptions.', { modality: 'donnees' }),
+  m('finance', 'controler-les-notes-de-frais', 'Contrôler les notes de frais', 'Check expense reports', 'Les pièces manquantes, doublons et anomalies sont signalés avant validation.', 'Missing receipts, duplicates and anomalies are flagged before approval.', { status: 'on-setup' }),
+  m('finance', 'comparer-les-offres-fournisseurs', 'Comparer les offres fournisseurs', 'Compare supplier offers', 'Une comparaison structurée des prix, conditions et engagements.', 'A structured comparison of prices, terms and commitments.'),
+  m('finance', 'suivre-les-renouvellements', 'Suivre les renouvellements', 'Track renewals', 'Les contrats et abonnements à renouveler sont identifiés avant échéance.', 'Contracts and subscriptions to renew are identified before the deadline.'),
+  m('finance', 'preparer-une-revue-des-couts', 'Préparer une revue des coûts', 'Prepare a cost review', 'Une synthèse des dépenses et des pistes d’optimisation à examiner.', 'A summary of spending and optimization avenues to review.', { modality: 'donnees' }),
+  m('finance', 'consolider-les-indicateurs-de-gestion', 'Consolider les indicateurs de gestion', 'Consolidate management KPIs', 'Un tableau de suivi actualisé à partir des différentes sources autorisées.', 'An updated dashboard built from the various authorized sources.', { dateAdded: '2026-08-02', modality: 'donnees' }),
+
+  // ---------------- RH & RECRUTEMENT (regulated) ----------------
+  m('rh', 'rediger-une-fiche-de-poste', 'Rédiger une fiche de poste', 'Write a job description', 'Une fiche claire décrivant la mission, les responsabilités et les compétences attendues.', 'A clear description of the role, responsibilities and expected skills.', { status: 'on-setup' }),
+  m('rh', 'preselectionner-les-candidatures', 'Présélectionner les candidatures', 'Shortlist applications', 'Une sélection argumentée selon les critères validés par l’équipe RH.', 'A justified shortlist based on the criteria approved by HR.'),
+  m('rh', 'analyser-les-cv', 'Analyser les CV', 'Analyze resumes', 'Une synthèse comparable des expériences et compétences déclarées.', 'A comparable summary of declared experience and skills.', { status: 'on-setup' }),
+  m('rh', 'preparer-les-entretiens', 'Préparer les entretiens', 'Prepare interviews', 'Un dossier candidat et une trame d’entretien adaptés au poste.', 'A candidate brief and an interview guide tailored to the role.'),
+  m('rh', 'organiser-les-entretiens', 'Organiser les entretiens', 'Schedule interviews', 'Des créneaux coordonnés et des confirmations envoyées aux participants.', 'Coordinated slots and confirmations sent to participants.', { modality: 'automatisation' }),
+  m('rh', 'rediger-les-comptes-rendus-d-entretien', 'Rédiger les comptes rendus d’entretien', 'Write interview notes', 'Une synthèse structurée des éléments observés pendant l’entretien.', 'A structured summary of what was observed during the interview.', { status: 'on-setup' }),
+  m('rh', 'preparer-l-arrivee-d-un-collaborateur', 'Préparer l’arrivée d’un collaborateur', 'Prepare an employee’s onboarding', 'Un parcours d’intégration avec documents, rendez-vous et responsabilités.', 'An onboarding path with documents, meetings and responsibilities.'),
+  m('rh', 'repondre-aux-questions-rh', 'Répondre aux questions RH internes', 'Answer internal HR questions', 'Des réponses fondées sur les politiques internes et les sources autorisées.', 'Answers grounded in internal policies and authorized sources.', { modality: 'chat' }),
+  m('rh', 'preparer-un-plan-de-formation', 'Préparer un plan de formation', 'Prepare a training plan', 'Un programme adapté aux besoins, priorités et disponibilités.', 'A program tailored to needs, priorities and availability.', { dateAdded: '2026-07-30' }),
+  m('rh', 'suivre-les-formations', 'Suivre les formations', 'Track training', 'Une vue à jour des inscriptions, progrès et attestations.', 'An up-to-date view of enrollments, progress and certificates.'),
+  m('rh', 'preparer-les-campagnes-d-entretiens', 'Préparer les campagnes d’entretiens', 'Prepare review campaigns', 'Un calendrier, des supports et des relances prêts pour chaque équipe.', 'A schedule, materials and reminders ready for each team.'),
+  m('rh', 'analyser-les-retours-des-collaborateurs', 'Analyser les retours des collaborateurs', 'Analyze employee feedback', 'Une synthèse anonymisée des thèmes, tendances et points d’attention.', 'An anonymized summary of themes, trends and points of attention.', { modality: 'donnees' }),
+
+  // ---------------- DIRECTION & PILOTAGE ----------------
+  m('direction', 'preparer-le-dossier-de-comite', 'Préparer le dossier de comité de direction', 'Prepare the board committee pack', 'Un dossier consolidé avec indicateurs, décisions attendues et documents utiles.', 'A consolidated pack with metrics, expected decisions and useful documents.'),
+  m('direction', 'produire-un-rapport-d-activite', 'Produire un rapport d’activité', 'Produce an activity report', 'Une synthèse structurée des réalisations, résultats et priorités.', 'A structured summary of achievements, results and priorities.', { status: 'on-setup' }),
+  m('direction', 'suivre-les-objectifs', 'Suivre les objectifs de l’organisation', 'Track organizational objectives', 'Une vue actualisée des objectifs, progrès, risques et responsables.', 'An updated view of objectives, progress, risks and owners.', { modality: 'donnees' }),
+  m('direction', 'preparer-une-revue-strategique', 'Préparer une revue stratégique', 'Prepare a strategic review', 'Un dossier mettant en évidence les évolutions, scénarios et arbitrages.', 'A file highlighting changes, scenarios and trade-offs.'),
+  m('direction', 'suivre-les-decisions-de-direction', 'Suivre les décisions de direction', 'Track leadership decisions', 'Un registre des décisions, responsables, échéances et états d’avancement.', 'A register of decisions, owners, deadlines and progress.'),
+  m('direction', 'consolider-les-indicateurs-cles', 'Consolider les indicateurs clés', 'Consolidate key metrics', 'Un tableau cohérent à partir des sources validées par l’organisation.', 'A consistent dashboard from the sources validated by the organization.', { modality: 'donnees' }),
+  m('direction', 'preparer-une-note-de-decision', 'Préparer une note de décision', 'Prepare a decision memo', 'Une synthèse des options, conséquences et éléments à arbitrer.', 'A summary of options, consequences and points to arbitrate.'),
+  m('direction', 'produire-une-synthese-executive', 'Produire une synthèse exécutive', 'Produce an executive summary', 'Une lecture courte des faits importants et des actions attendues.', 'A short read of the key facts and expected actions.', { status: 'on-setup' }),
+  m('direction', 'suivre-les-risques-operationnels', 'Suivre les risques opérationnels', 'Track operational risks', 'Une cartographie actualisée des risques, signaux et mesures prévues.', 'An updated map of risks, signals and planned measures.'),
+  m('direction', 'preparer-une-communication-interne', 'Préparer une communication interne', 'Prepare internal communication', 'Un message structuré expliquant une décision ou une évolution importante.', 'A structured message explaining an important decision or change.', { status: 'on-setup' }),
+  m('direction', 'coordonner-un-projet-transversal', 'Coordonner un projet transversal', 'Coordinate a cross-functional project', 'Un suivi partagé des actions, dépendances, responsables et blocages.', 'A shared tracker of actions, dependencies, owners and blockers.', { dateAdded: '2026-07-28' }),
+  m('direction', 'preparer-une-revue-de-performance', 'Préparer une revue de performance', 'Prepare a performance review', 'Une synthèse des résultats, écarts et priorités de la prochaine période.', 'A summary of results, gaps and priorities for the next period.', { modality: 'donnees' }),
+
+  // ---------------- DOCUMENTS & CONNAISSANCES ----------------
+  m('documents', 'resumer-un-dossier', 'Résumer un dossier', 'Summarize a file', 'Une synthèse fidèle mettant en évidence les faits et points de décision.', 'A faithful summary highlighting the facts and decision points.', { status: 'on-setup' }),
+  m('documents', 'comparer-plusieurs-documents', 'Comparer plusieurs documents', 'Compare multiple documents', 'Les différences, convergences et contradictions sont clairement présentées.', 'Differences, overlaps and contradictions are clearly presented.'),
+  m('documents', 'extraire-les-informations-cles', 'Extraire les informations clés', 'Extract key information', 'Les données recherchées sont structurées avec leur source.', 'The requested data is structured with its source.', { status: 'on-setup' }),
+  m('documents', 'construire-une-base-de-connaissances', 'Construire une base de connaissances', 'Build a knowledge base', 'Des contenus organisés, reliés et faciles à retrouver.', 'Content organized, linked and easy to find.', { collections: ['produire-communiquer', 'piloter-organisation'] }),
+  m('documents', 'mettre-a-jour-une-base-documentaire', 'Mettre à jour une base documentaire', 'Update a document base', 'Les contenus obsolètes et les informations nouvelles sont identifiés.', 'Outdated content and new information are identified.'),
+  m('documents', 'rediger-une-procedure', 'Rédiger une procédure', 'Write a procedure', 'Une procédure claire, structurée et directement applicable.', 'A clear, structured and directly applicable procedure.', { status: 'on-setup' }),
+  m('documents', 'transformer-des-notes-en-document', 'Transformer des notes en document', 'Turn notes into a document', 'Un document cohérent produit à partir de notes dispersées.', 'A coherent document produced from scattered notes.'),
+  m('documents', 'preparer-une-presentation', 'Préparer une présentation', 'Prepare a presentation', 'Une présentation structurée avec messages, données et déroulé.', 'A structured presentation with messages, data and flow.'),
+  m('documents', 'classer-un-fonds-documentaire', 'Classer un fonds documentaire', 'Organize a document collection', 'Des documents catégorisés selon une nomenclature cohérente.', 'Documents categorized with a consistent taxonomy.'),
+  m('documents', 'verifier-la-coherence-d-un-document', 'Vérifier la cohérence d’un document', 'Check a document’s consistency', 'Les contradictions, omissions et incohérences sont signalées.', 'Contradictions, omissions and inconsistencies are flagged.'),
+  m('documents', 'produire-une-chronologie', 'Produire une chronologie', 'Produce a timeline', 'Les événements sont ordonnés avec dates, sources et liens utiles.', 'Events are ordered with dates, sources and useful links.'),
+  m('documents', 'preparer-un-dossier-de-reference', 'Préparer un dossier de référence', 'Prepare a reference file', 'Les documents et informations essentiels sont réunis dans un espace structuré.', 'Essential documents and information are gathered in a structured space.'),
+
+  // ---------------- ANALYSE, RECHERCHE & VEILLE ----------------
+  m('analyse', 'realiser-une-veille-concurrentielle', 'Réaliser une veille concurrentielle', 'Run competitive monitoring', 'Une synthèse régulière des mouvements, offres et communications concurrentes.', 'A regular summary of competitor moves, offers and communications.', { status: 'on-setup', collections: ['piloter-organisation', 'developper-activite'] }),
+  m('analyse', 'surveiller-un-marche', 'Surveiller un marché', 'Monitor a market', 'Les évolutions importantes, nouveaux acteurs et signaux faibles sont identifiés.', 'Key shifts, new entrants and weak signals are identified.'),
+  m('analyse', 'comparer-les-offres-concurrentes', 'Comparer les offres concurrentes', 'Compare competitor offers', 'Une matrice comparable des fonctionnalités, prix et positionnements.', 'A comparable matrix of features, prices and positioning.', { status: 'on-setup' }),
+  m('analyse', 'analyser-les-ventes', 'Analyser les ventes', 'Analyze sales', 'Les tendances, écarts et facteurs significatifs sont mis en évidence.', 'Trends, gaps and significant drivers are highlighted.', { modality: 'donnees' }),
+  m('analyse', 'analyser-les-retours-clients', 'Analyser les retours clients', 'Analyze customer feedback', 'Les thèmes, attentes et irritants sont regroupés et quantifiés.', 'Themes, expectations and pain points are grouped and quantified.', { modality: 'donnees' }),
+  m('analyse', 'rechercher-des-informations-publiques', 'Rechercher des informations publiques', 'Research public information', 'Une recherche documentée avec sources, dates et niveau de confiance.', 'Documented research with sources, dates and confidence level.'),
+  m('analyse', 'preparer-une-etude-de-marche', 'Préparer une étude de marché', 'Prepare a market study', 'Un dossier structuré sur le marché, les clients et les principaux acteurs.', 'A structured file on the market, customers and key players.'),
+  m('analyse', 'suivre-les-actualites-d-un-secteur', 'Suivre les actualités d’un secteur', 'Track industry news', 'Une sélection qualifiée des informations ayant un impact potentiel.', 'A qualified selection of news with potential impact.'),
+  m('analyse', 'detecter-les-tendances-emergentes', 'Détecter les tendances émergentes', 'Detect emerging trends', 'Des signaux regroupés par thème et accompagnés de leur source.', 'Signals grouped by theme and accompanied by their source.'),
+  m('analyse', 'analyser-un-ensemble-de-donnees', 'Analyser un ensemble de données', 'Analyze a dataset', 'Une synthèse des tendances et anomalies observées dans les données fournies.', 'A summary of trends and anomalies observed in the provided data.', { modality: 'donnees' }),
+  m('analyse', 'preparer-un-benchmark', 'Préparer un benchmark', 'Prepare a benchmark', 'Une comparaison structurée selon les critères définis par l’équipe.', 'A structured comparison based on the criteria set by the team.'),
+  m('analyse', 'produire-une-note-de-veille', 'Produire une note de veille', 'Produce a monitoring brief', 'Une note courte présentant les faits, conséquences possibles et sources.', 'A short brief with the facts, possible consequences and sources.', { status: 'on-setup', dateAdded: '2026-08-05' }),
+
+  // ---------------- OPÉRATIONS & AUTOMATISATION ----------------
+  m('operations', 'automatiser-mes-operations', 'Automatiser une tâche répétitive', 'Automate a repetitive task', 'Un processus documenté, contrôlé et surveillé après validation.', 'A process documented, controlled and monitored after approval.', { status: 'available', dateAdded: '2026-06-10' }),
+  m('operations', 'synchroniser-les-donnees', 'Synchroniser les données entre applications', 'Sync data across applications', 'Des informations cohérentes et mises à jour entre les services autorisés.', 'Consistent, up-to-date information across the authorized services.'),
+  m('operations', 'mettre-a-jour-le-crm-automatiquement', 'Mettre à jour le CRM automatiquement', 'Update the CRM automatically', 'Les fiches et activités sont actualisées à partir des événements validés.', 'Records and activities are updated from the validated events.'),
+  m('operations', 'controler-l-execution-d-un-processus', 'Contrôler l’exécution d’un processus', 'Monitor a process execution', 'Les étapes, retards et anomalies sont suivis dans une vue unique.', 'Steps, delays and anomalies are tracked in a single view.'),
+  m('operations', 'detecter-les-anomalies-operationnelles', 'Détecter les anomalies opérationnelles', 'Detect operational anomalies', 'Les situations inhabituelles sont signalées avec leur contexte.', 'Unusual situations are flagged with their context.', { modality: 'donnees' }),
+  m('operations', 'preparer-les-alertes-metier', 'Préparer les alertes métier', 'Set up business alerts', 'Des alertes pertinentes sont générées selon les seuils définis.', 'Relevant alerts are generated based on the defined thresholds.'),
+  m('operations', 'traiter-les-demandes-recurrentes', 'Traiter les demandes récurrentes', 'Handle recurring requests', 'Les demandes standard sont exécutées selon un processus validé.', 'Standard requests are executed following an approved process.'),
+  m('operations', 'coordonner-un-processus-d-approbation', 'Coordonner un processus d’approbation', 'Coordinate an approval process', 'Chaque validation est adressée à la bonne personne et suivie jusqu’à décision.', 'Each approval is routed to the right person and tracked to a decision.'),
+  m('operations', 'controler-la-qualite-des-donnees', 'Contrôler la qualité des données', 'Check data quality', 'Les doublons, valeurs manquantes et incohérences sont identifiés.', 'Duplicates, missing values and inconsistencies are identified.', { status: 'on-setup', modality: 'donnees' }),
+  m('operations', 'preparer-un-rapport-d-exploitation', 'Préparer un rapport d’exploitation', 'Prepare an operations report', 'Une synthèse des volumes, incidents, délais et actions importantes.', 'A summary of volumes, incidents, delays and key actions.', { modality: 'donnees' }),
+  m('operations', 'suivre-les-engagements-fournisseurs', 'Suivre les engagements fournisseurs', 'Track supplier commitments', 'Les échéances, niveaux de service et écarts sont consolidés.', 'Deadlines, service levels and gaps are consolidated.'),
+  m('operations', 'documenter-un-processus-automatise', 'Documenter un processus automatisé', 'Document an automated process', 'Une documentation claire décrit les déclencheurs, étapes, contrôles et limites.', 'Clear documentation describes triggers, steps, controls and limits.', { status: 'on-setup', dateAdded: '2026-07-25' }),
+
+  // ---------------- PRODUIT, DESIGN & TECHNOLOGIE ----------------
+  m('produit', 'synthetiser-les-retours-utilisateurs', 'Synthétiser les retours utilisateurs', 'Synthesize user feedback', 'Les besoins, irritants et demandes sont regroupés par thème et priorité.', 'Needs, pain points and requests are grouped by theme and priority.', { status: 'on-setup', modality: 'donnees' }),
+  m('produit', 'preparer-une-specification-fonctionnelle', 'Préparer une spécification fonctionnelle', 'Prepare a functional spec', 'Une spécification claire avec besoins, comportements et critères d’acceptation.', 'A clear spec with needs, behaviors and acceptance criteria.'),
+  m('produit', 'rediger-des-recits-utilisateurs', 'Rédiger des récits utilisateurs', 'Write user stories', 'Des récits structurés accompagnés de critères de validation.', 'Structured stories with validation criteria.', { status: 'on-setup' }),
+  m('produit', 'preparer-une-feuille-de-route-produit', 'Préparer une feuille de route produit', 'Prepare a product roadmap', 'Une proposition de priorités reliée aux objectifs et dépendances.', 'A proposed set of priorities tied to objectives and dependencies.'),
+  m('produit', 'analyser-une-interface', 'Analyser une interface', 'Analyze an interface', 'Les problèmes de compréhension, d’accessibilité et de conversion sont documentés.', 'Comprehension, accessibility and conversion issues are documented.'),
+  m('produit', 'preparer-une-maquette-fonctionnelle', 'Préparer une maquette fonctionnelle', 'Prepare a functional mockup', 'Une proposition d’interface structurée autour du parcours attendu.', 'An interface proposal structured around the expected journey.', { modality: 'image' }),
+  m('produit', 'produire-des-variantes-visuelles', 'Produire des variantes visuelles', 'Produce visual variants', 'Des déclinaisons cohérentes respectant les contraintes de marque.', 'Consistent variations that respect the brand constraints.', { modality: 'image' }),
+  m('produit', 'preparer-une-video-explicative', 'Préparer une vidéo explicative', 'Prepare an explainer video', 'Un scénario, un découpage et les éléments nécessaires à la production.', 'A script, a storyboard and the elements needed for production.', { modality: 'video' }),
+  m('produit', 'analyser-une-anomalie-technique', 'Analyser une anomalie technique', 'Analyze a technical bug', 'Une hypothèse de cause, des preuves et un plan de correction sont documentés.', 'A root-cause hypothesis, evidence and a fix plan are documented.', { modality: 'code' }),
+  m('produit', 'preparer-les-tests-d-une-fonctionnalite', 'Préparer les tests d’une fonctionnalité', 'Prepare feature tests', 'Des scénarios de test couvrent les comportements attendus et les cas limites.', 'Test scenarios cover the expected behaviors and edge cases.', { modality: 'code' }),
+  m('produit', 'reviser-une-modification-de-code', 'Réviser une modification de code', 'Review a code change', 'Les risques, défauts et améliorations sont présentés de manière argumentée.', 'Risks, defects and improvements are presented with clear reasoning.', { modality: 'code' }),
+  m('produit', 'rediger-la-documentation-technique', 'Rédiger la documentation technique', 'Write technical documentation', 'Une documentation claire décrit l’installation, l’utilisation et les limites.', 'Clear documentation describes installation, usage and limits.', { status: 'on-setup', dateAdded: '2026-08-04', modality: 'code' }),
+]
+
+export const MISSIONS: Mission[] = SEEDS.map((seed, i) => buildMission(seed, i))
+
+// --- Helpers ----------------------------------------------------------------
 export function getMission(slug: string): Mission | undefined {
-  return MISSIONS.find((m) => m.slug === slug)
+  return MISSIONS.find((mi) => mi.slug === slug)
 }
 
-export function missionsByCategory(category: string): Mission[] {
-  return MISSIONS.filter((m) => m.category === category)
+export function relatedMissions(mission: Mission, count = 3): Mission[] {
+  return MISSIONS.filter((mi) => mi.category === mission.category && mi.slug !== mission.slug).slice(0, count)
 }
 
-export function relatedMissions(slug: string, limit = 3): Mission[] {
-  const current = getMission(slug)
-  if (!current) return []
-  const sameCat = MISSIONS.filter((m) => m.slug !== slug && m.category === current.category)
-  const others = MISSIONS.filter((m) => m.slug !== slug && m.category !== current.category)
-  return [...sameCat, ...others].slice(0, limit)
+// Thin adapter kept for components that read resolved facets off a mission.
+export function missionFacets(mi: Mission) {
+  return {
+    sectors: mi.sectors,
+    zones: mi.zones,
+    languages: mi.languages,
+    modalities: mi.modalities,
+    modality: mi.modalities[0],
+    status: mi.status,
+  }
 }
+
+export function categoryCount(categoryKey: string): number {
+  return MISSIONS.filter((mi) => mi.category === categoryKey).length
+}
+
+// Editorial "À la une" selection (4 missions across different functions).
+export const FEATURED_SLUGS = [
+  'trouver-de-nouveaux-clients',
+  'repondre-a-mes-clients',
+  'preparer-un-comite-de-direction',
+  'automatiser-mes-operations',
+]
+
+// Kept for backward compatibility with earlier UI (3 high-impact).
+export const HIGH_IMPACT_SLUGS = ['trouver-de-nouveaux-clients', 'repondre-a-mes-clients', 'automatiser-mes-operations']
+
+export function featuredMissions(): Mission[] {
+  return FEATURED_SLUGS.map((s) => getMission(s)).filter(Boolean) as Mission[]
+}
+
+// "Ajoutées récemment": the newest by real dateAdded.
+export function recentMissions(count = 6): Mission[] {
+  return [...MISSIONS].sort((a, b) => (a.dateAdded < b.dateAdded ? 1 : -1)).slice(0, count)
+}
+
+// Search synonym groups (any term in a group matches the others).
+export const SEARCH_SYNONYMS: string[][] = [
+  ['prospect', 'lead', 'opportunite'],
+  ['client', 'acheteur', 'usager'],
+  ['support', 'sav', 'relation client'],
+  ['email', 'e-mail', 'courriel', 'messagerie'],
+  ['telephone', 'appel', 'standard'],
+  ['reunion', 'rendez-vous', 'meeting'],
+  ['compte rendu', 'synthese', 'proces-verbal'],
+  ['vente', 'commercial', 'prospection'],
+  ['facture', 'facturation', 'reglement'],
+  ['impaye', 'retard de paiement', 'relance'],
+  ['recrutement', 'candidature', 'cv'],
+  ['document', 'fichier', 'pdf', 'dossier'],
+  ['veille', 'recherche', 'surveillance'],
+  ['automatisation', 'processus', 'workflow'],
+  ['logiciel', 'application', 'outil'],
+  ['code', 'developpement', 'programmation'],
+  ['contenu', 'article', 'publication'],
+  ['reseau social', 'social media'],
+  ['tableau de bord', 'reporting', 'indicateur'],
+]

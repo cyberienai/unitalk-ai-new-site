@@ -16,6 +16,13 @@ const nextConfig = {
       { source: '/missions/animer-mes-reseaux', destination: '/missions/animer-mes-reseaux-sociaux', permanent: true },
       { source: '/missions/preparer-mon-reporting', destination: '/missions/preparer-mon-reporting-financier', permanent: true },
       { source: '/missions/corriger-des-bugs', destination: '/missions/corriger-un-lot-de-bugs', permanent: true },
+
+      // Retired the /collaborateurs-ia 5-tab sub-nav. The page is now one continuous
+      // narration; former tabs redirect to the surviving surface (permanent 301).
+      { source: '/collaborateurs-ia/comment-ca-fonctionne', destination: '/collaborateurs-ia#demonstration', permanent: true },
+      { source: '/collaborateurs-ia/roles', destination: '/store/profils-metier', permanent: true },
+      { source: '/collaborateurs-ia/comparatif', destination: '/collaborateurs-ia', permanent: true },
+      { source: '/collaborateurs-ia/pourquoi-unitalk', destination: '/collaborateurs-ia#gouvernance', permanent: true },
     ]
   },
 }

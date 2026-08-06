@@ -9,7 +9,7 @@ const T = {
   fr: {
     kicker: 'Alma',
     titleA: 'Vous ne savez pas lequel choisir ?',
-    titleB: 'Parlez avec Alma.',
+    titleB: 'Parlez avec Alma',
     role: 'Votre Conseillère IA',
     lead: 'Elle comprend votre entreprise, identifie vos besoins et vous recommande les Collaborateurs IA les plus adaptés.',
     cta: 'Parler avec Alma',
@@ -24,7 +24,7 @@ const T = {
   en: {
     kicker: 'Alma',
     titleA: 'Not sure which one to choose?',
-    titleB: 'Talk with Alma.',
+    titleB: 'Talk with Alma',
     role: 'Your AI Advisor',
     lead: 'She understands your company, identifies your needs and recommends the AI Collaborators that fit you best.',
     cta: 'Talk with Alma',

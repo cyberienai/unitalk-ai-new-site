@@ -2,26 +2,30 @@
 
 import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { STEP_ORDER, STEP_LABELS, type Step } from './types'
+import { STEP_ORDER, STEP_LABELS, ENTRY_STEP_LABELS, type Entry, type Step } from './types'
 
 export function FlowStepper({
   current,
+  entry,
   lang,
   onStepClick,
 }: {
   current: Step
+  entry: Entry
   lang: Lang
   onStepClick: (step: Step) => void
 }) {
   const currentIndex = STEP_ORDER.indexOf(current)
+  // The first step names the user's starting point (Company / Mission / Job profile).
+  const labelFor = (step: Step) => (step === 'activate' ? ENTRY_STEP_LABELS[entry][lang] : STEP_LABELS[step][lang])
 
   return (
     <nav aria-label={lang === 'fr' ? 'Progression' : 'Progress'} className="w-full">
       {/* Mobile: textual status */}
       <p className="text-center font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#8A8175] sm:hidden">
         {lang === 'fr'
-          ? `Étape ${currentIndex + 1} sur ${STEP_ORDER.length} · ${STEP_LABELS[current].fr}`
-          : `Step ${currentIndex + 1} of ${STEP_ORDER.length} · ${STEP_LABELS[current].en}`}
+          ? `Étape ${currentIndex + 1} sur ${STEP_ORDER.length} · ${labelFor(current)}`
+          : `Step ${currentIndex + 1} of ${STEP_ORDER.length} · ${labelFor(current)}`}
       </p>
 
       {/* Desktop: compact numbered stepper */}
@@ -59,7 +63,7 @@ export function FlowStepper({
                 >
                   {done ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : i + 1}
                 </span>
-                {STEP_LABELS[step][lang]}
+                {labelFor(step)}
               </button>
               {i < STEP_ORDER.length - 1 && (
                 <span aria-hidden="true" className="h-px w-4 bg-[#D8D0C2]" />

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Navbar } from '@/components/navbar'
 import { MissionsContent } from '@/components/missions-content'
 import { SiteFooter } from '@/components/site-footer'
@@ -7,7 +8,9 @@ import { MISSIONS } from '@/lib/missions-catalog'
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Missions pour Collaborateurs IA | Unitalk',
+  // The root layout applies a `%s | Unitalk` template, so the bare title here
+  // renders as "Missions pour Collaborateurs IA | Unitalk" (no duplicate).
+  title: 'Missions pour Collaborateurs IA',
   description:
     'Découvrez des missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
   alternates: { canonical: '/missions' },
@@ -41,7 +44,9 @@ export default function MissionsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
       <Navbar />
-      <MissionsContent />
+      <Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]" />}>
+        <MissionsContent />
+      </Suspense>
       <SiteFooter />
     </>
   )

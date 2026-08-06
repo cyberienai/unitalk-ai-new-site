@@ -7,23 +7,20 @@ import { useLanguage } from '@/lib/language-context'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { FlowStepper } from './flow-stepper'
 import { ContextColumn } from './context-column'
-import { ScreenStart } from './screen-start'
+import { ScreenActivate } from './screen-activate'
 import { ScreenContext } from './screen-context'
 import { ScreenProposal } from './screen-proposal'
 import { ScreenConnect } from './screen-connect'
 import { ScreenWorkspace } from './screen-workspace'
-import { INITIAL_STATE, STEP_ORDER, type Entry, type FlowState, type Step } from './types'
+import { INITIAL_STATE, STEP_ORDER, type FlowState, type Step } from './types'
 
-export function DiscoverFlow() {
+export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState }) {
   const { lang, setLang } = useLanguage()
   const reduce = useReducedMotion()
-  const [state, setState] = useState<FlowState>(INITIAL_STATE)
+  const [state, setState] = useState<FlowState>(initial)
 
   function goTo(step: Step) {
     setState((s) => ({ ...s, step }))
-  }
-  function startWith(patch: { entry: Entry; domain: string; missionSlug: string }) {
-    setState((s) => ({ ...s, ...patch, step: 'context', contextProgress: 0 }))
   }
 
   const anim = reduce
@@ -40,7 +37,7 @@ export function DiscoverFlow() {
         </a>
 
         <div className="hidden flex-1 justify-center md:flex">
-          <FlowStepper current={state.step} lang={lang} onStepClick={goTo} />
+          <FlowStepper current={state.step} entry={state.entry ?? 'company'} lang={lang} onStepClick={goTo} />
         </div>
 
         <div className="flex shrink-0 items-center gap-3">
@@ -70,7 +67,7 @@ export function DiscoverFlow() {
 
       {/* Mobile stepper */}
       <div className="border-b border-[#E4DDCE] px-5 py-3 md:hidden">
-        <FlowStepper current={state.step} lang={lang} onStepClick={goTo} />
+        <FlowStepper current={state.step} entry={state.entry ?? 'company'} lang={lang} onStepClick={goTo} />
       </div>
 
       {/* Stage: persistent 65 / 35 layout */}
@@ -80,19 +77,26 @@ export function DiscoverFlow() {
           <div className="min-w-0">
             <AnimatePresence mode="wait">
               <motion.div key={state.step} {...anim}>
-                {state.step === 'start' && <ScreenStart lang={lang} onStart={startWith} />}
+                {state.step === 'activate' && (
+                  <ScreenActivate
+                    lang={lang}
+                    entry={state.entry ?? 'company'}
+                    missionSlug={state.missionSlug}
+                    onActivate={() => goTo('context')}
+                  />
+                )}
                 {state.step === 'context' && (
                   <ScreenContext
                     lang={lang}
                     domain={state.domain}
                     onProgress={(n) => setState((s) => ({ ...s, contextProgress: Math.max(s.contextProgress, n) }))}
-                    onContinue={() => goTo('proposal')}
+                    onContinue={() => goTo('collaborator')}
                   />
                 )}
-                {state.step === 'proposal' && (
-                  <ScreenProposal lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('connect')} />
+                {state.step === 'collaborator' && (
+                  <ScreenProposal lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('applications')} />
                 )}
-                {state.step === 'connect' && <ScreenConnect lang={lang} onContinue={() => goTo('workspace')} />}
+                {state.step === 'applications' && <ScreenConnect lang={lang} onContinue={() => goTo('workspace')} />}
                 {state.step === 'workspace' && <ScreenWorkspace lang={lang} missionSlug={state.missionSlug} />}
               </motion.div>
             </AnimatePresence>

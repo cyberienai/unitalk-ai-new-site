@@ -4,38 +4,29 @@ import { useEffect } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import {
-  SECTORS,
-  ZONES,
-  LANGUAGES,
-  MODALITIES,
-  AVAILABILITIES,
-  type Facet,
-  type StoreFilters,
-} from '@/lib/missions-store'
-import type { MultiKey } from './store-sidebar'
+import type { StoreFilters as Filters } from '@/lib/store-catalog'
+import { StoreFilters } from './store-filters'
 
-const GROUPS: { key: MultiKey; label: { fr: string; en: string }; items: Facet[] }[] = [
-  { key: 'secteur', label: { fr: 'Secteur', en: 'Sector' }, items: SECTORS },
-  { key: 'zone', label: { fr: 'Zone', en: 'Zone' }, items: ZONES },
-  { key: 'langue', label: { fr: 'Langue', en: 'Language' }, items: LANGUAGES },
-  { key: 'modalite', label: { fr: 'Modalité', en: 'Modality' }, items: MODALITIES },
-]
-
-export function FilterSheet({
+// Mobile bottom sheet: same shell as the Missions filter sheet, but it hosts the
+// shared StoreFilters rail so desktop and mobile stay in lockstep.
+export function StoreFilterSheet({
   open,
   filters,
   lang,
-  onToggleFacet,
-  onDisponibilite,
+  onType,
+  onCreator,
+  onFacet,
+  onEditor,
   onClear,
   onClose,
 }: {
   open: boolean
-  filters: StoreFilters
+  filters: Filters
   lang: Lang
-  onToggleFacet: (group: MultiKey, value: string) => void
-  onDisponibilite: (value: string) => void
+  onType: (key: string) => void
+  onCreator: (key: string) => void
+  onFacet: (key: string) => void
+  onEditor: (key: string) => void
   onClear: () => void
   onClose: () => void
 }) {
@@ -88,46 +79,14 @@ export function FilterSheet({
               </button>
             </div>
 
-            <div className="flex flex-col gap-6">
-              {GROUPS.map((g) => (
-                <div key={g.key}>
-                  <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-                    {g.label[lang]}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {g.items.map((f) => (
-                      <Chip
-                        key={f.key}
-                        label={f.label[lang]}
-                        active={filters[g.key].includes(f.key)}
-                        onClick={() => onToggleFacet(g.key, f.key)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              <div>
-                <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-                  {lang === 'fr' ? 'Disponibilité' : 'Availability'}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <Chip
-                    label={lang === 'fr' ? 'Toutes' : 'All'}
-                    active={filters.disponibilite === 'all'}
-                    onClick={() => onDisponibilite('all')}
-                  />
-                  {AVAILABILITIES.map((a) => (
-                    <Chip
-                      key={a.key}
-                      label={a.label[lang]}
-                      active={filters.disponibilite === a.key}
-                      onClick={() => onDisponibilite(a.key)}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+            <StoreFilters
+              filters={filters}
+              lang={lang}
+              onType={onType}
+              onCreator={onCreator}
+              onFacet={onFacet}
+              onEditor={onEditor}
+            />
 
             <div className="sticky bottom-0 -mx-5 mt-6 flex gap-3 border-t border-[var(--store-line)] bg-[var(--store-page)] px-5 pb-1 pt-3">
               <button
@@ -142,27 +101,12 @@ export function FilterSheet({
                 onClick={onClose}
                 className="flex-1 rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-bold text-[#FBF9F3]"
               >
-                {lang === 'fr' ? 'Voir les missions' : 'View missions'}
+                {lang === 'fr' ? 'Voir les résultats' : 'View results'}
               </button>
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
-  )
-}
-
-function Chip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={`min-h-[44px] rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-        active ? 'bg-[#FCEAF2] text-[#AD0C53] ring-1 ring-[#D10E63]/25' : 'border border-[var(--store-line)] text-[var(--store-text)]'
-      }`}
-    >
-      {label}
-    </button>
   )
 }

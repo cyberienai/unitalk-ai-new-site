@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, ArrowDown, Brain, Check, Mail, Phone, Sparkles, UserRound, Wrench, X } from 'lucide-react'
 import { useT } from '@/lib/language-context'
-import { CollabSubNav } from './collab-subnav'
 
 const CARD_ICONS = [UserRound, Brain, Wrench, Sparkles]
 const WORK_ICONS = [Mail, ArrowDown, Phone, Check]
@@ -84,8 +83,6 @@ export function CollabWhatContent() {
 
   return (
     <main className="w-full bg-[#F3EFE6]">
-      <CollabSubNav active="/collaborateurs-ia" />
-
       {/* Hero */}
       <section className="px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
@@ -122,7 +119,7 @@ export function CollabWhatContent() {
       </section>
 
       {/* Comparison table */}
-      <section className="border-t border-[#DDD5CA] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section id="gouvernance" className="scroll-mt-20 border-t border-[#DDD5CA] px-5 py-20 sm:scroll-mt-24 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <h2 className="text-balance text-center font-sf text-3xl font-semibold text-[#1C1A17] [letter-spacing:-0.03em] sm:text-5xl">{t.tableTitle}</h2>
           <div className="mt-12 overflow-hidden rounded-3xl border border-[#DDD5CA] bg-[#FBF9F3]">
@@ -147,7 +144,7 @@ export function CollabWhatContent() {
       </section>
 
       {/* What makes a collaborator */}
-      <section className="border-t border-[#DDD5CA] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <section id="workspace" className="scroll-mt-20 border-t border-[#DDD5CA] px-5 py-20 sm:scroll-mt-24 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-balance text-center font-sf text-3xl font-semibold text-[#1C1A17] [letter-spacing:-0.03em] sm:text-5xl">{t.makeTitle}</h2>
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -175,7 +172,7 @@ export function CollabWhatContent() {
       </section>
 
       {/* They work like your teams */}
-      <section className="border-t border-[#DDD5CA] bg-[#1C1A17] px-5 py-20 text-[#FBF9F3] sm:px-6 sm:py-28 lg:px-8">
+      <section id="demonstration" className="scroll-mt-20 border-t border-[#DDD5CA] bg-[#1C1A17] px-5 py-20 text-[#FBF9F3] sm:scroll-mt-24 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-balance font-sf text-3xl font-semibold [letter-spacing:-0.03em] sm:text-5xl">{t.workTitle}</h2>
           <p className="mt-5 text-[#BDB5A9]">{t.workSubtitle}</p>
