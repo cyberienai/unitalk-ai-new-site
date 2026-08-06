@@ -11,7 +11,7 @@ const T = {
   fr: {
     eyebrow: 'Par où commencer',
     title: 'Recrutez comme vous voulez.',
-    subtitle: 'À partir de votre site web, d’une mission ou d’un profil métier. Alma prépare le reste.',
+    subtitle: 'À partir de votre site web, d’une mission ou d’un profil métier. Alma\u00A0prépare\u00A0le\u00A0reste.',
     cards: [
       {
         icon: Globe,
@@ -49,7 +49,7 @@ const T = {
   en: {
     eyebrow: 'Where to start',
     title: 'Recruit however you want.',
-    subtitle: 'From your website, a mission or a job profile. Alma prepares the rest.',
+    subtitle: 'From your website, a mission or a job profile. Alma\u00A0prepares\u00A0the\u00A0rest.',
     cards: [
       {
         icon: Globe,
@@ -198,7 +198,7 @@ export function SectionThreeWays({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           <h2 className="text-balance font-sf text-3xl font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] sm:text-4xl lg:text-[2.75rem]">
             {t.title}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-[#5F594F]">{t.subtitle}</p>
+          <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-[#5F594F]">{t.subtitle}</p>
         </motion.header>
 
         <div className="mx-auto mt-12 grid max-w-5xl items-stretch gap-5 sm:mt-14 md:grid-cols-3">
