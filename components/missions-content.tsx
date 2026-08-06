@@ -28,7 +28,6 @@ import {
   filtersFromParams,
   sortFromParams,
   buildParams,
-  relativeDate,
   ORIGIN_FACETS,
   SORT_OPTIONS,
   DEFAULT_SORT,
@@ -40,7 +39,7 @@ import {
 } from '@/lib/missions-store'
 import { useLanguage } from '@/lib/language-context'
 import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar'
-import { StoreCard, FeaturedCard, RecentCard, AlmaCard } from '@/components/missions/store-card'
+import { StoreCard, FeaturedCard, RecentCard, AlmaCard, AlmaBand } from '@/components/missions/store-card'
 import { PreviewDrawer } from '@/components/missions/preview-drawer'
 import { FilterSheet } from '@/components/missions/filter-sheet'
 
@@ -203,9 +202,11 @@ export function MissionsContent() {
       lang === 'fr'
         ? 'Une sélection de missions pour commencer avec des résultats immédiatement compréhensibles.'
         : 'A selection of missions to start with immediately understandable results.',
-    recentTitle: lang === 'fr' ? 'Ajoutées récemment' : 'Recently added',
+    recentTitle: lang === 'fr' ? 'Nouvelles missions' : 'New missions',
     recentDesc:
-      lang === 'fr' ? 'Les dernières missions ajoutées au catalogue Unitalk.' : 'The latest missions added to the Unitalk catalog.',
+      lang === 'fr'
+        ? 'Une sélection des dernières missions publiées dans le catalogue.'
+        : 'A selection of the latest missions published in the catalog.',
     all: lang === 'fr' ? 'Toutes les missions' : 'All missions',
     results: lang === 'fr' ? 'Résultats' : 'Results',
     count: (n: number) => `${n} mission${n > 1 ? 's' : ''}`,
@@ -479,7 +480,7 @@ export function MissionsContent() {
                     {t.featuredTitle}
                   </h2>
                   <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.featuredDesc}</p>
-                  <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                  <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2">
                     {featured.map((m) => (
                       <FeaturedCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} />
                     ))}
@@ -494,13 +495,7 @@ export function MissionsContent() {
                     <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[var(--store-muted)]">{t.recentDesc}</p>
                     <div className="mt-5 grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-3">
                       {recent.map((m) => (
-                        <RecentCard
-                          key={m.slug}
-                          mission={m}
-                          categories={MISSION_CATEGORIES}
-                          lang={lang}
-                          dateLabel={relativeDate(m.dateAdded, lang)}
-                        />
+                        <RecentCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} />
                       ))}
                     </div>
                   </section>
@@ -549,16 +544,16 @@ export function MissionsContent() {
               )}
 
               {total === 0 ? (
-                <div className="grid auto-rows-fr gap-4 min-[900px]:grid-cols-2 min-[1400px]:grid-cols-3">
-                  <AlmaCard lang={lang} query={hasQuery ? trimmed : undefined} />
-                </div>
+                // No result: the Alma band replaces the grid entirely.
+                <AlmaBand lang={lang} query={hasQuery ? trimmed : undefined} />
               ) : (
                 <>
                   <div className="grid auto-rows-fr gap-4 min-[900px]:grid-cols-2 min-[1400px]:grid-cols-3">
                     {visible.map((m) => (
                       <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={openPreview} />
                     ))}
-                    {hasMore && (
+                    {/* General (unfiltered) view: keep Alma as the 13th card after the first 12. */}
+                    {!hasAnyRefinement && hasMore && (
                       <div className="flex">
                         <AlmaCard lang={lang} />
                       </div>
@@ -576,8 +571,9 @@ export function MissionsContent() {
                       </button>
                     </div>
                   ) : (
-                    <div className="mt-4 grid auto-rows-fr gap-4 min-[900px]:grid-cols-2 min-[1400px]:grid-cols-3">
-                      <AlmaCard lang={lang} />
+                    // Everything shown (typically a filtered set): full-width Alma band below.
+                    <div className="mt-4">
+                      <AlmaBand lang={lang} />
                     </div>
                   )}
                 </>

@@ -53,7 +53,7 @@ export function StoreCard({
         aria-label={mission.title[lang]}
       />
 
-      <div className="pointer-events-none relative z-0 flex items-center justify-between gap-2">
+      <div className="pointer-events-none relative z-0 flex flex-wrap items-center gap-x-2 gap-y-1.5 pr-11">
         <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
           {categoryLabel(categories, mission.category, lang)}
         </span>
@@ -100,7 +100,7 @@ export function FeaturedCard({
     <Link
       href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex h-[188px] flex-col rounded-[10px] bg-[var(--store-surface)] p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex min-h-[196px] flex-col rounded-[10px] bg-[var(--store-surface)] p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
@@ -131,7 +131,7 @@ export function RecentCard({
   mission: Mission
   categories: MissionCategory[]
   lang: Lang
-  dateLabel: string
+  dateLabel?: string
 }) {
   const status = missionFacets(mission).status
   const showStatus = informativeStatus(mission)
@@ -139,7 +139,7 @@ export function RecentCard({
     <Link
       href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex h-[200px] flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex min-h-[228px] flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
@@ -153,7 +153,11 @@ export function RecentCard({
         {mission.title[lang]}
       </h3>
       <p className="mt-2 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      <span className="mt-auto pt-3 text-xs font-medium text-[var(--store-muted)]">{dateLabel}</span>
+      {dateLabel ? (
+        <span className="mt-auto pt-3 text-xs font-medium text-[var(--store-muted)]">{dateLabel}</span>
+      ) : (
+        <ArrowRight className="mt-auto ml-auto h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
+      )}
     </Link>
   )
 }
@@ -205,6 +209,60 @@ export function AlmaCard({
           : 'Describe your goal. Alma prepares the mission, the job profile and the skills needed.'}
       </p>
       <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-bold text-[#F5A9CC]">
+        {lang === 'fr' ? 'Décrire mon objectif' : 'Describe my goal'}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </Link>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Alma band — full-width horizontal strip below a filtered result set */
+/* ------------------------------------------------------------------ */
+export function AlmaBand({
+  lang,
+  query,
+  href = '/decouvrir',
+}: {
+  lang: Lang
+  query?: string
+  href?: string
+}) {
+  const hasQuery = Boolean(query && query.trim())
+  const title = hasQuery
+    ? lang === 'fr'
+      ? `Préparer « ${query} » avec Alma`
+      : `Prepare "${query}" with Alma`
+    : lang === 'fr'
+      ? 'Votre mission n’est pas encore ici ?'
+      : 'Your mission isn’t here yet?'
+
+  return (
+    <Link
+      href={href}
+      className="group relative flex flex-col gap-4 overflow-hidden rounded-[10px] bg-[#241F1D] p-6 text-[#F3EFE6] transition-transform duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 sm:flex-row sm:items-center sm:gap-6 sm:p-7"
+    >
+      <img
+        src="/alma-avatar.png"
+        alt=""
+        aria-hidden="true"
+        className="h-11 w-11 shrink-0 rounded-full object-cover ring-1 ring-[#D10E63]/50"
+      />
+      <div className="min-w-0 flex-1">
+        <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#F5A9CC]">
+          <Sparkles className="h-3.5 w-3.5" />
+          {lang === 'fr' ? 'Préparée par Alma' : 'Prepared by Alma'}
+        </span>
+        <h3 className="mt-1.5 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[#FBF9F3] text-balance">
+          {title}
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm leading-[1.5] text-[#C9C1B8]">
+          {lang === 'fr'
+            ? 'Décrivez votre objectif. Alma prépare la mission, le profil métier et les compétences nécessaires.'
+            : 'Describe your goal. Alma prepares the mission, the job profile and the skills needed.'}
+        </p>
+      </div>
+      <span className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3] transition-colors group-hover:bg-[#B60C56]">
         {lang === 'fr' ? 'Décrire mon objectif' : 'Describe my goal'}
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
       </span>
