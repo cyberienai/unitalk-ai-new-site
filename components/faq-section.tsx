@@ -13,7 +13,7 @@ const T = {
     contactLink: 'Parlez-en à Alma',
     faqs: [
       { q: 'Dois-je être expert en IA ?', a: "Non. Tout commence par une simple conversation avec Alma. Elle découvre votre entreprise et prépare le Collaborateur IA dont vous avez besoin, sans que vous ayez à rédiger le moindre prompt." },
-      { q: 'Mon Collaborateur IA m’appartient-il ?', a: "Oui. Il appartient à votre organisation. Son identité, sa mémoire d’entreprise et son savoir-faire restent les vôtres : vous pouvez les consulter, les modifier et les exporter à tout moment." },
+      { q: 'Mon Collaborateur IA m’appartient-il ?', a: "Oui. Il appartient à votre organisation. Son identité, son contexte d’entreprise et son savoir-faire restent les vôtres : vous pouvez les consulter, les modifier et les exporter à tout moment." },
       { q: 'Puis-je utiliser mes propres modèles d’IA ?', a: "Oui. Vos Collaborateurs IA s’appuient sur les meilleurs modèles du marché, dont ChatGPT, Claude et Gemini. Utilisez les crédits Unitalk ou connectez vos propres clés API pour garder le contrôle de vos coûts." },
       { q: 'Puis-je héberger Unitalk chez moi ?', a: "Oui. Unitalk Cloud (hébergé en France et conforme au RGPD), chez votre propre hébergeur, on-premise, ou localement avec Unitalk Desktop." },
     ],
@@ -26,7 +26,7 @@ const T = {
     contactLink: 'Talk to Alma about it',
     faqs: [
       { q: 'Do I need to be an AI expert?', a: 'No. It all starts with a simple conversation with Alma. She gets to know your company and prepares the AI Collaborator you need, without you writing a single prompt.' },
-      { q: 'Does my AI Collaborator belong to me?', a: 'Yes. It belongs to your organization. Its identity, company memory, and know-how stay yours: you can view, edit, and export them at any time.' },
+      { q: 'Does my AI Collaborator belong to me?', a: 'Yes. It belongs to your organization. Its identity, company context, and know-how stay yours: you can view, edit, and export them at any time.' },
       { q: 'Can I use my own AI models?', a: 'Yes. Your AI Collaborators rely on the best models available, including ChatGPT, Claude, and Gemini. Use Unitalk credits or connect your own API keys to stay in control of your costs.' },
       { q: 'Can I host Unitalk myself?', a: 'Yes. Unitalk Cloud (hosted in France and GDPR compliant), with your own host, on-premise, or locally with Unitalk Desktop.' },
     ],

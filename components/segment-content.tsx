@@ -93,7 +93,7 @@ const DATA: Record<SegmentKey, { fr: Block; en: Block }> = {
       title1: 'Un agent par personne. ',
       title2: 'Une équipe qui double.',
       subtitle:
-        'Donnez à chaque collaborateur son propre agent, avec une mémoire d’entreprise partagée. Vos process, vos données et votre savoir-faire circulent — sans jamais se perdre.',
+        'Donnez à chaque collaborateur son propre agent, avec un contexte d’entreprise partagé. Vos process, vos données et votre savoir-faire circulent — sans jamais se perdre.',
       painTitle: 'Ce qui freine votre équipe',
       pain: [
         'Le savoir reste bloqué dans la tête de quelques personnes.',
@@ -119,7 +119,7 @@ const DATA: Record<SegmentKey, { fr: Block; en: Block }> = {
       title1: 'One agent per person. ',
       title2: 'A team that doubles.',
       subtitle:
-        'Give every colleague their own agent, with a shared company memory. Your processes, your data and your know-how flow — without ever getting lost.',
+        'Give every colleague their own agent, with a shared company context. Your processes, your data and your know-how flow — without ever getting lost.',
       painTitle: 'What holds your team back',
       pain: [
         'Knowledge stays locked in a few people’s heads.',

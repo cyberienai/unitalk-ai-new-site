@@ -61,7 +61,7 @@ const T = {
     stack: [
       { label: 'Applications IA', note: 'Ce que vos équipes utilisent' },
       { label: 'Agents IA', note: 'Profils, rôles, personnalités' },
-      { label: 'Mémoire d’entreprise', note: 'Contexte partagé & gouverné' },
+      { label: 'Contexte d’entreprise', note: 'Partagé & gouverné' },
       { label: 'Hermes Intelligence Kernel', note: 'Le moteur open source', kernel: true },
       { label: 'Infrastructure', note: 'Cloud ou on-premise' },
     ],
@@ -132,7 +132,7 @@ const T = {
     stack: [
       { label: 'AI applications', note: 'What your teams use' },
       { label: 'AI agents', note: 'Profiles, roles, personalities' },
-      { label: 'Company memory', note: 'Shared & governed context' },
+      { label: 'Company context', note: 'Shared & governed' },
       { label: 'Hermes Intelligence Kernel', note: 'The open-source engine', kernel: true },
       { label: 'Infrastructure', note: 'Cloud or on-premise' },
     ],

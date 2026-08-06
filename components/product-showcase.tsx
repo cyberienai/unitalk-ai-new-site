@@ -22,7 +22,7 @@ const T = {
     model: 'Modèle',
     idLine1: 'voix · email · agenda',
     idLine2: 'contacts · fichiers',
-    idLine3: 'mémoire d’entreprise',
+    idLine3: 'contexte d’entreprise',
     listening: 'vous écoute…',
     profiles: [
       { name: 'Patrick', role: 'Commercial', color: '#D10E63' },
@@ -49,7 +49,7 @@ const T = {
     model: 'Model',
     idLine1: 'voice · email · calendar',
     idLine2: 'contacts · files',
-    idLine3: 'company memory',
+    idLine3: 'company context',
     listening: 'is listening…',
     profiles: [
       { name: 'Patrick', role: 'Sales', color: '#D10E63' },

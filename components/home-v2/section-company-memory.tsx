@@ -13,18 +13,18 @@ type FileId = 'soul' | 'user' | 'org'
 
 const T = {
   fr: {
-    eyebrow: 'Une mémoire, pas un prompt',
-    cta: 'Découvrir la mémoire d’entreprise',
+    eyebrow: 'Un contexte, pas un prompt',
+    cta: 'Découvrir le contexte d’entreprise',
     title: 'Vos Collaborateurs partagent la même connaissance de votre entreprise.',
     subtitle:
-      'Avant la première mission, Alma collecte vos informations publiques et vous pose quelques questions. De cet échange naît une mémoire d’entreprise, lisible et modifiable, qui vous appartient. Chaque nouveau Collaborateur en hérite dès son premier jour.',
+      'Avant la première mission, Alma collecte vos informations publiques et vous pose quelques questions. De cet échange naît un contexte d’entreprise, lisible et modifiable, qui vous appartient. Chaque nouveau Collaborateur en hérite dès son premier jour.',
     points: [
       { icon: Globe, label: 'Construite à partir de vos informations publiques et de votre entretien avec Alma.' },
       { icon: MessagesSquare, label: 'Lisible et modifiable : vous gardez le contrôle de ce qu’elle contient.' },
       { icon: Users, label: 'Partagée par tous vos Collaborateurs IA, dès le premier jour.' },
     ],
-    closing: 'Les modèles se louent. Cette mémoire, elle, vous appartient.',
-    panelTitle: 'Mémoire d’entreprise',
+    closing: 'Les modèles se louent. Ce contexte, lui, vous appartient.',
+    panelTitle: 'Contexte d’entreprise',
     panelSub: 'Solvea',
     ownedBadge: 'Vous appartient',
     files: [
@@ -58,18 +58,18 @@ const T = {
     } as Record<FileId, { h: string; muted: boolean }[]>,
   },
   en: {
-    eyebrow: 'A memory, not a prompt',
-    cta: 'Explore company memory',
+    eyebrow: 'Context, not a prompt',
+    cta: 'Explore company context',
     title: 'Your Collaborators share the same knowledge of your company.',
     subtitle:
-      'Before the first mission, Alma gathers your public information and asks you a few questions. From that conversation comes a company memory — readable, editable, and yours. Every new Collaborator inherits it from day one.',
+      'Before the first mission, Alma gathers your public information and asks you a few questions. From that conversation comes a company context — readable, editable, and yours. Every new Collaborator inherits it from day one.',
     points: [
       { icon: Globe, label: 'Built from your public information and your conversation with Alma.' },
       { icon: MessagesSquare, label: 'Readable and editable: you stay in control of what it contains.' },
       { icon: Users, label: 'Shared by all your AI Collaborators, from day one.' },
     ],
-    closing: 'Models are rented. This memory is yours.',
-    panelTitle: 'Company memory',
+    closing: 'Models are rented. This context is yours.',
+    panelTitle: 'Company context',
     panelSub: 'Solvea',
     ownedBadge: 'Yours',
     files: [

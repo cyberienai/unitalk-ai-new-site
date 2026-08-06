@@ -31,7 +31,7 @@ const CONTENT = {
   fr: {
     eyebrow: 'Si vous partez de zéro',
     title: 'Laissez Alma découvrir votre entreprise.',
-    subtitle: 'Entrez votre nom de domaine. Alma rassemble ce qui est public sur votre activité, vous pose quelques questions, et construit la mémoire d’entreprise sur laquelle travailleront tous vos Collaborateurs IA.',
+    subtitle: 'Entrez votre nom de domaine. Alma rassemble ce qui est public sur votre activité, vous pose quelques questions, et construit le contexte d’entreprise sur lequel travailleront tous vos Collaborateurs IA.',
     fieldLabel: 'Nom de domaine de votre entreprise',
     placeholder: 'votre-entreprise.com',
     cta: 'Analyser mon site',
@@ -105,7 +105,7 @@ const CONTENT = {
   en: {
     eyebrow: 'If you’re starting from scratch',
     title: 'Let Alma discover your company.',
-    subtitle: 'Enter your domain name. Alma gathers what’s public about your business, asks you a few questions, and builds the company memory that all your AI Collaborators will work from.',
+    subtitle: 'Enter your domain name. Alma gathers what’s public about your business, asks you a few questions, and builds the company context that all your AI Collaborators will work from.',
     fieldLabel: 'Your company’s domain name',
     placeholder: 'your-company.com',
     cta: 'Analyze my site',

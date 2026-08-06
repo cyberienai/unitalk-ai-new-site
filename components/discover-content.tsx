@@ -83,7 +83,7 @@ const T = {
     kicker: 'Discover my organization',
     title: 'What is your company’s website?',
     subtitle:
-      'From your public information and your conversation, Alma builds your company memory, then proposes a tailored organization of AI Collaborators.',
+      'From your public information and your conversation, Alma builds your company context, then proposes a tailored organization of AI Collaborators.',
     placeholder: 'your-company.com',
     cta: 'Start the analysis',
     // Voice panel

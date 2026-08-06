@@ -36,7 +36,7 @@ export function CollabWhyContent() {
         { title: 'Gateway', body: 'A single gateway to your apps and models, with no lock-in to one provider.' },
         { title: 'Open Source', body: 'An open, auditable foundation: no black box, no proprietary lock-in.' },
         { title: 'Private server', body: 'Deploy on your own server or in our sovereign cloud, your rules.' },
-        { title: 'Memory', body: 'A permanent company memory that belongs to your teams, not to the model.' },
+        { title: 'Memory', body: 'A permanent company context that belongs to your teams, not to the model.' },
         { title: 'GDPR', body: 'European hosting and GDPR compliance by design.' },
         { title: 'Security', body: 'Encryption, access control and traceability of every collaborator\'s actions.' },
         { title: 'Organization', body: 'Every AI Collaborator takes its place in your org chart, with its own rights.' },

@@ -37,7 +37,7 @@ const COMPARISONS: Comparison[] = [
     themLabel: { fr: 'Claude', en: 'Claude' },
     them: [
       { fr: 'Excellent en rédaction, mais isolé', en: 'Great at writing, but isolated' },
-      { fr: 'Pas de mémoire d\'entreprise', en: 'No company memory' },
+      { fr: 'Pas de contexte d\'entreprise', en: 'No company context' },
       { fr: 'Ne travaille pas dans vos apps', en: 'Does not work inside your apps' },
     ],
     us: [
