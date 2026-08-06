@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Target, Sparkles, CalendarClock, ScrollText, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check, Loader2, Target, Sparkles, CalendarClock, ScrollText, ShieldCheck } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import type { MissionDraft } from '@/lib/mission-draft'
 
@@ -92,6 +92,8 @@ export function MissionDraftFiche({
   justAdded,
   ready,
   lang,
+  adaptHref,
+  adapting,
   onAdapt,
   onContinue,
 }: {
@@ -100,6 +102,8 @@ export function MissionDraftFiche({
   justAdded: string | null
   ready: boolean
   lang: Lang
+  adaptHref: string
+  adapting: boolean
   onAdapt: () => void
   onContinue: () => void
 }) {
@@ -108,6 +112,10 @@ export function MissionDraftFiche({
   const t = {
     prep: lang === 'fr' ? 'Mission en préparation' : 'Mission in preparation',
     prepTitle: lang === 'fr' ? 'Votre mission prendra forme ici.' : 'Your mission will take shape here.',
+    ghostExample:
+      lang === 'fr'
+        ? 'Par exemple : « Relancer les factures impayées » — objectif en cours de formulation…'
+        : 'For example: “Chase unpaid invoices” — objective being formulated…',
     ready: lang === 'fr' ? 'Mission prête à être adaptée' : 'Mission ready to be adapted',
     footnote: lang === 'fr' ? 'Votre parole devient une mission.' : 'Your words become a mission.',
     nextStep: lang === 'fr' ? 'Prochaine étape' : 'Next step',
@@ -116,7 +124,8 @@ export function MissionDraftFiche({
         ? 'Alma va adapter cette mission au contexte de votre entreprise.'
         : 'Alma will adapt this mission to your company’s context.',
     adapt: lang === 'fr' ? 'Adapter à mon entreprise' : 'Adapt to my company',
-    keepGoing: lang === 'fr' ? 'Continuer à préciser avec Alma' : 'Keep refining with Alma',
+    preparing: lang === 'fr' ? 'Préparation…' : 'Preparing…',
+    keepGoing: lang === 'fr' ? 'Modifier la mission' : 'Edit the mission',
   }
 
   // Enter animation for a value that has just appeared.
@@ -165,9 +174,12 @@ export function MissionDraftFiche({
         {draft ? draft.title[lang] : t.prepTitle}
       </h3>
 
+      {/* Light ghost example so the intent is legible before the first click. */}
+      {!draft && <p className="mt-1.5 text-pretty text-sm italic leading-relaxed text-[var(--store-muted)]">{t.ghostExample}</p>}
+
       {/* Sections — three calm rubrics at rest, detailed build once Alma engages. */}
       {!draft ? (
-        <div className="mt-5 flex flex-1 flex-col gap-5">
+        <div className="mt-4 flex flex-1 flex-col gap-4">
           {REST_SECTIONS.map((section) => {
             const Icon = section.icon
             return (
@@ -276,14 +288,26 @@ export function MissionDraftFiche({
         >
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#AD0C53]">{t.nextStep}</p>
           <p className="mt-1 text-sm leading-relaxed text-[var(--store-text)]">{t.nextBody}</p>
-          <button
-            type="button"
+          {/* Real anchor: navigation is guaranteed even if client routing hiccups. */}
+          <a
+            href={adaptHref}
             onClick={onAdapt}
-            className="group mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
+            aria-disabled={adapting}
+            aria-busy={adapting}
+            className="group mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FCEAF2]"
           >
-            {t.adapt}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </button>
+            {adapting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {t.preparing}
+              </>
+            ) : (
+              <>
+                {t.adapt}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </>
+            )}
+          </a>
           <button
             type="button"
             onClick={onContinue}

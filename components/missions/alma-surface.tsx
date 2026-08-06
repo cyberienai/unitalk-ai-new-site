@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowUp, Mic, Pause, Paperclip, Pencil, Play, Square, RotateCcw } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
@@ -15,6 +14,7 @@ import {
   buildDecouvirHref,
   type MissionDraft,
   type Clarification,
+  type Bi,
 } from '@/lib/mission-draft'
 import { MissionDraftFiche, type FicheShown } from './mission-draft-fiche'
 import { AlmaDemoModal } from './alma-demo-modal'
@@ -22,6 +22,15 @@ import { AlmaDemoModal } from './alma-demo-modal'
 const CANONICAL_SLUG = 'relancer-les-factures-impayees'
 
 type Stage = 'intro' | 'listening' | 'clarifying' | 'ready'
+
+/** A clarification the user has confirmed, tracked so it can be revised in place. */
+type AnsweredClar = {
+  key: string
+  spoken: string
+  value: Bi
+  section: 'cadre' | 'validations'
+  itemIndex: number
+}
 
 // Four conversation starters — real, matchable objectives.
 const STARTERS: { text: { fr: string; en: string }; slug: string }[] = [
@@ -59,7 +68,6 @@ export function AlmaSurface({
   loadRequest?: LoadRequest | null
 }) {
   const reduce = useReducedMotion()
-  const router = useRouter()
 
   const [stage, setStage] = useState<Stage>('intro')
   const [writer, setWriter] = useState(false)
@@ -75,6 +83,11 @@ export function AlmaSurface({
   const [clarIndex, setClarIndex] = useState(0)
   const [lastAnswer, setLastAnswer] = useState<string | null>(null)
   const [answerText, setAnswerText] = useState('')
+  // Each confirmed clarification, so a single answer can be revised without redoing all.
+  const [answers, setAnswers] = useState<AnsweredClar[]>([])
+  const [editingKey, setEditingKey] = useState<string | null>(null)
+  // "Last meter" handoff feedback.
+  const [adapting, setAdapting] = useState(false)
 
   // Voice-mode transient state.
   const [typed, setTyped] = useState('')
@@ -105,7 +118,8 @@ export function AlmaSurface({
     talk: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     consent: lang === 'fr' ? 'Le micro s’active uniquement avec votre accord.' : 'The mic only turns on with your consent.',
     watch: lang === 'fr' ? 'Voir Alma en action · 45 s' : 'See Alma in action · 45 s',
-    prefWrite: lang === 'fr' ? 'ou écrire à Alma' : 'or write to Alma',
+    or: lang === 'fr' ? 'ou' : 'or',
+    writePh: lang === 'fr' ? 'Décrivez votre besoin à Alma…' : 'Describe your need to Alma…',
     starters: lang === 'fr' ? 'Quelques exemples' : 'A few examples',
     moreExamples: lang === 'fr' ? 'Voir d’autres exemples' : 'See more examples',
     listening: lang === 'fr' ? 'Alma vous écoute' : 'Alma is listening',
@@ -123,11 +137,14 @@ export function AlmaSurface({
     almaAsks: lang === 'fr' ? 'Alma vous demande' : 'Alma asks',
     answerPh: lang === 'fr' ? 'Répondez à Alma…' : 'Answer Alma…',
     send: lang === 'fr' ? 'Envoyer' : 'Send',
-    readyTitle: lang === 'fr' ? 'Votre mission est prête.' : 'Your mission is ready.',
+    readyTitle: lang === 'fr' ? 'Votre mission est claire.' : 'Your mission is clear.',
     readyBody:
       lang === 'fr'
-        ? 'Adaptez-la à votre entreprise, ou continuez à la préciser avec Alma.'
-        : 'Adapt it to your company, or keep refining it with Alma.',
+        ? 'Adaptons-la maintenant à votre entreprise — ou ajustez une réponse ci-dessous.'
+        : 'Let’s adapt it to your company now — or adjust an answer below.',
+    yourAnswers: lang === 'fr' ? 'Vos réponses' : 'Your answers',
+    edit: lang === 'fr' ? 'Modifier' : 'Edit',
+    cancelEdit: lang === 'fr' ? 'Annuler la modification' : 'Cancel edit',
     restart: lang === 'fr' ? 'Recommencer' : 'Start over',
     micDenied:
       lang === 'fr'
@@ -371,6 +388,36 @@ export function AlmaSurface({
           ? c.replyValues[replyIndex]
           : c.add.value
 
+      // --- Revision path: replace an already-confirmed answer in place. --------
+      if (editingKey) {
+        const existing = answers.find((a) => a.key === editingKey)
+        if (existing) {
+          setDraft((d) => {
+            if (!d) return d
+            const next = { ...d }
+            if (existing.section === 'cadre') {
+              const arr = [...d.cadre]
+              arr[existing.itemIndex] = value
+              next.cadre = arr
+            } else {
+              const arr = [...d.validations]
+              arr[existing.itemIndex] = value
+              next.validations = arr
+            }
+            return next
+          })
+          setAnswers((prev) => prev.map((a) => (a.key === editingKey ? { ...a, spoken, value } : a)))
+          flash(`${existing.section}:${existing.itemIndex}`)
+        }
+        setEditingKey(null)
+        after(reduce ? 0 : 300, () => {
+          setReady(true)
+          setStage('ready')
+        })
+        return
+      }
+
+      // --- Normal path: append a new confirmed answer. -------------------------
       const idx = c.add.section === 'cadre' ? draft.cadre.length : draft.validations.length
       setDraft((d) => {
         if (!d) return d
@@ -380,6 +427,7 @@ export function AlmaSurface({
         if (c.resolves) next.toClarify = d.toClarify.filter((h) => h.fr !== c.resolves)
         return next
       })
+      setAnswers((prev) => [...prev, { key: c.key, spoken, value, section: c.add.section, itemIndex: idx }])
       if (c.add.section === 'cadre') {
         setShown((s) => ({ ...s, cadre: (s.cadre ?? 0) + 1 }))
         flash(`cadre:${idx}`)
@@ -398,8 +446,21 @@ export function AlmaSurface({
         setClarIndex((i) => i + 1)
       }
     },
-    [draft, clarIndex, clarifications.length, flash, after, reduce],
+    [draft, editingKey, answers, clarIndex, clarifications.length, flash, after, reduce],
   )
+
+  // Re-ask a single confirmed clarification without redoing the whole mission.
+  const startEdit = useCallback((key: string) => {
+    setEditingKey(key)
+    setLastAnswer(null)
+    setStage('clarifying')
+  }, [])
+
+  const cancelEdit = useCallback(() => {
+    setEditingKey(null)
+    setLastAnswer(null)
+    setStage('ready')
+  }, [])
 
   const reset = useCallback(() => {
     clearAll()
@@ -413,19 +474,27 @@ export function AlmaSurface({
     setClarifications([])
     setClarIndex(0)
     setLastAnswer(null)
+    setAnswers([])
+    setEditingKey(null)
+    setAdapting(false)
     setText('')
     setTyped('')
     setSeconds(0)
     setMicError(null)
   }, [clearAll, stopMic])
 
+  // Handoff. The CTA is a real anchor (guaranteed navigation); this only saves
+  // the draft for read-your-writes and surfaces a brief loading state.
+  const adaptHref = draft ? buildDecouvirHref(draft) : '/decouvrir'
   const onAdapt = useCallback(() => {
     if (!draft) return
+    setAdapting(true)
     saveDraft(draft)
-    router.push(buildDecouvirHref(draft))
-  }, [draft, router])
+  }, [draft])
 
-  const currentClar = clarifications[clarIndex] ?? null
+  const currentClar = editingKey
+    ? clarifications.find((c) => c.key === editingKey) ?? null
+    : clarifications[clarIndex] ?? null
 
   const mmss = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
 
@@ -447,16 +516,18 @@ export function AlmaSurface({
         className="overflow-hidden rounded-[28px] border border-[#E7DFD0] bg-[#FBF7F2] shadow-[0_1px_2px_rgba(28,26,23,0.04),0_12px_32px_-24px_rgba(28,26,23,0.25)]"
         aria-label={lang === 'fr' ? 'Préparer une mission avec Alma' : 'Prepare a mission with Alma'}
       >
-        <div className="grid lg:min-h-[420px] lg:grid-cols-[42%_58%]">
+        <div className="grid lg:min-h-[440px] lg:grid-cols-[42%_58%]">
           {/* LEFT — Alma + conversation */}
-          <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-7 lg:border-b-0 lg:border-r">
+          <div className="relative flex flex-col border-b border-[#EBE3D6] bg-[#FBF3F1] p-5 sm:p-6 lg:border-b-0 lg:border-r">
             {stage === 'intro' && !writer && (
               <IntroPresence
                 reduce={!!reduce}
                 t={t}
+                text={text}
+                setText={setText}
+                onSubmitText={submitWritten}
                 onTalk={requestMic}
                 onDemo={() => setDemoOpen(true)}
-                onWrite={() => setWriter(true)}
                 demoTriggerRef={demoTriggerRef}
                 micError={micError}
                 starters={STARTERS}
@@ -504,10 +575,14 @@ export function AlmaSurface({
                 lastAnswer={lastAnswer}
                 answerText={answerText}
                 setAnswerText={setAnswerText}
-                    onQuick={(spoken, ri) => currentClar && answerClarification(currentClar, spoken, ri)}
-                    onSend={() => {
-                      if (currentClar && answerText.trim()) answerClarification(currentClar, answerText.trim())
-                    }}
+                onQuick={(spoken, ri) => currentClar && answerClarification(currentClar, spoken, ri)}
+                onSend={() => {
+                  if (currentClar && answerText.trim()) answerClarification(currentClar, answerText.trim())
+                }}
+                answers={answers}
+                editing={!!editingKey}
+                onEdit={startEdit}
+                onCancelEdit={cancelEdit}
                 onReset={reset}
                 lang={lang}
               />
@@ -515,13 +590,15 @@ export function AlmaSurface({
           </div>
 
           {/* RIGHT — living mission fiche */}
-          <div className="bg-[#FBF9F3] p-5 sm:p-7">
+          <div className="bg-[#FBF9F3] p-5 sm:p-6">
             <MissionDraftFiche
               draft={draft}
               shown={shown}
               justAdded={justAdded}
               ready={ready}
               lang={lang}
+              adaptHref={adaptHref}
+              adapting={adapting}
               onAdapt={onAdapt}
               onContinue={() => {
                 setReady(false)
@@ -599,7 +676,7 @@ function StarterList({
   const [expanded, setExpanded] = useState(false)
   const visible = expanded ? starters : starters.slice(0, 2)
   return (
-    <div className="mt-6">
+    <div className="mt-4">
       <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">{label}</p>
       <ul className="flex flex-col gap-0.5">
         {visible.map((s) => (
@@ -633,9 +710,11 @@ function StarterList({
 function IntroPresence({
   reduce,
   t,
+  text,
+  setText,
+  onSubmitText,
   onTalk,
   onDemo,
-  onWrite,
   demoTriggerRef,
   micError,
   starters,
@@ -644,9 +723,11 @@ function IntroPresence({
 }: {
   reduce: boolean
   t: Copy
+  text: string
+  setText: (v: string) => void
+  onSubmitText: () => void
   onTalk: () => void
   onDemo: () => void
-  onWrite: () => void
   demoTriggerRef: React.RefObject<HTMLButtonElement | null>
   micError: string | null
   starters: typeof STARTERS
@@ -657,40 +738,67 @@ function IntroPresence({
     <div className="flex h-full flex-col">
       <div className="flex flex-col items-center text-center">
         <AlmaAvatar reduce={reduce} />
-        <p className="mt-3 font-sf text-base font-bold text-[var(--store-text)]">{t.name}</p>
-        <p className="mt-1.5 max-w-xs text-pretty text-sm leading-relaxed text-[var(--store-muted)]">{t.sayBody}</p>
+        <p className="mt-2.5 font-sf text-base font-bold text-[var(--store-text)]">{t.name}</p>
 
         <button
           type="button"
           onClick={onTalk}
-          className="mt-5 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-12px_rgba(209,14,99,0.7)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
+          className="mt-3 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-12px_rgba(209,14,99,0.7)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
         >
           <Mic className="h-[18px] w-[18px]" />
           {t.talk}
         </button>
-        <button
-          type="button"
-          onClick={onWrite}
-          className="mt-2 inline-flex min-h-[36px] items-center rounded-lg px-2 text-sm font-medium text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-        >
-          {t.prefWrite}
-        </button>
         {micError && <p className="mt-2 max-w-xs text-xs font-medium text-[#B00B52]">{micError}</p>}
+
+        {/* Voice is the signature gesture; writing sits right beneath it, unpunished. */}
+        <div className="mt-2.5 flex w-full max-w-sm items-center gap-2" aria-hidden="true">
+          <span className="h-px flex-1 bg-[var(--store-line)]" />
+          <span className="text-xs font-medium text-[var(--store-muted)]">{t.or}</span>
+          <span className="h-px flex-1 bg-[var(--store-line)]" />
+        </div>
+        <div className="mt-2.5 flex w-full max-w-sm items-center gap-2 rounded-full border border-[#E7DFD0] bg-[#FBF9F3] px-2 py-1 transition-colors focus-within:border-[#D10E63]/50 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) {
+                e.preventDefault()
+                onSubmitText()
+              }
+            }}
+            placeholder={t.writePh}
+            aria-label={t.writePh}
+            className="min-w-0 flex-1 bg-transparent px-2.5 py-1.5 text-sm text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
+          />
+          <button
+            type="button"
+            onClick={onSubmitText}
+            disabled={!text.trim()}
+            aria-label={t.prepare}
+            title={t.prepare}
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+          >
+            <ArrowUp className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
       <StarterList starters={starters} lang={lang} onStarter={onStarter} label={t.starters} moreLabel={t.moreExamples} />
 
-      {/* Marketing proof — visually lighter than the entry modes, pinned to the bottom. */}
+      {/* Marketing proof — a quiet link, not a second primary CTA. */}
       <button
         ref={demoTriggerRef}
         type="button"
         onClick={onDemo}
-        className="group mt-auto flex items-center gap-3 rounded-xl border border-[#E7DFD0] bg-[#FBF9F3] px-3 py-2.5 text-left transition-colors hover:border-[#D10E63]/40 hover:bg-[#FCEAF2]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+        className="group mt-auto inline-flex items-center gap-2 self-start rounded-lg py-1.5 pr-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
       >
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]" aria-hidden="true">
-          <Play className="h-4 w-4" fill="currentColor" />
+        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/12 text-[#D10E63]" aria-hidden="true">
+          <Play className="h-3 w-3" fill="currentColor" />
         </span>
-        <span className="text-sm font-semibold text-[var(--store-text)]">{t.watch}</span>
+        <span className="text-sm font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors group-hover:text-[var(--store-text)] group-hover:underline">
+          {t.watch}
+        </span>
       </button>
     </div>
   )
@@ -895,6 +1003,10 @@ function ConversePanel({
   setAnswerText,
   onQuick,
   onSend,
+  answers,
+  editing,
+  onEdit,
+  onCancelEdit,
   onReset,
   lang,
 }: {
@@ -906,6 +1018,10 @@ function ConversePanel({
   setAnswerText: (v: string) => void
   onQuick: (spoken: string, replyIndex: number) => void
   onSend: () => void
+  answers: AnsweredClar[]
+  editing: boolean
+  onEdit: (key: string) => void
+  onCancelEdit: () => void
   onReset: () => void
   lang: Lang
 }) {
@@ -925,6 +1041,15 @@ function ConversePanel({
 
       {stage === 'clarifying' && clar ? (
         <div className="mt-4">
+          {editing && (
+            <button
+              type="button"
+              onClick={onCancelEdit}
+              className="mb-2 inline-flex min-h-[32px] items-center gap-1 rounded-lg text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline"
+            >
+              {t.cancelEdit}
+            </button>
+          )}
           <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">{t.almaAsks}</p>
           <p className="mt-1.5 rounded-2xl rounded-tl-sm bg-[#F1EADF] px-3.5 py-2.5 text-sm leading-relaxed text-[var(--store-text)]">
             {clar.question[lang]}
@@ -978,6 +1103,30 @@ function ConversePanel({
           <p className="rounded-2xl rounded-tl-sm bg-[#F1EADF] px-3.5 py-2.5 text-sm leading-relaxed text-[var(--store-text)]">
             {t.readyTitle} {t.readyBody}
           </p>
+
+          {answers.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--store-muted)]">{t.yourAnswers}</p>
+              <ul className="mt-2 flex flex-col gap-1.5">
+                {answers.map((a) => (
+                  <li
+                    key={a.key}
+                    className="flex items-start justify-between gap-2 rounded-xl border border-[#E7DFD0] bg-[#FBF9F3] px-3 py-2"
+                  >
+                    <span className="min-w-0 flex-1 text-sm leading-snug text-[var(--store-text)]">{a.value[lang]}</span>
+                    <button
+                      type="button"
+                      onClick={() => onEdit(a.key)}
+                      className="inline-flex shrink-0 items-center gap-1 rounded-lg px-1.5 py-1 text-xs font-semibold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      {t.edit}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 
