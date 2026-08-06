@@ -37,6 +37,7 @@ const JOURNEY = {
   fr: [
     {
       action: 'traiter vos emails',
+      lines: ['traiter vos emails'],
       mission: 'Traiter vos emails',
       outcome: 'assigned',
       items: [
@@ -47,6 +48,7 @@ const JOURNEY = {
     },
     {
       action: 'préparer vos comptes rendus',
+      lines: ['préparer vos', 'comptes rendus'],
       mission: 'Préparer vos comptes rendus',
       outcome: 'assigned',
       items: [
@@ -58,6 +60,7 @@ const JOURNEY = {
     },
     {
       action: 'organiser votre agenda',
+      lines: ['organiser votre', 'agenda'],
       mission: 'Organiser votre agenda',
       outcome: 'assigned',
       items: [
@@ -69,6 +72,7 @@ const JOURNEY = {
     },
     {
       action: 'trouver vos prospects',
+      lines: ['trouver vos', 'prospects'],
       mission: 'Trouver vos prospects',
       outcome: 'newRole',
       newRole: {
@@ -81,6 +85,7 @@ const JOURNEY = {
   en: [
     {
       action: 'handle your emails',
+      lines: ['handle your emails'],
       mission: 'Handle your emails',
       outcome: 'assigned',
       items: [
@@ -91,6 +96,7 @@ const JOURNEY = {
     },
     {
       action: 'prepare your meeting notes',
+      lines: ['prepare your', 'meeting notes'],
       mission: 'Prepare your meeting notes',
       outcome: 'assigned',
       items: [
@@ -102,6 +108,7 @@ const JOURNEY = {
     },
     {
       action: 'organize your calendar',
+      lines: ['organize your', 'calendar'],
       mission: 'Organize your calendar',
       outcome: 'assigned',
       items: [
@@ -113,6 +120,7 @@ const JOURNEY = {
     },
     {
       action: 'find your prospects',
+      lines: ['find your', 'prospects'],
       mission: 'Find your prospects',
       outcome: 'newRole',
       newRole: {
@@ -344,9 +352,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           ? 78
           : 100
 
-  // Largeur réservée sur le plus long verbe → conteneur du titre stable.
-  const longestAction = journey.reduce((a, c) => (c.action.length > a.length ? c.action : a), '')
-
   const caption = inContext
     ? t.capContext
     : phase === 'received'
@@ -379,25 +384,35 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.h1
             {...enter(0.1)}
-            className="text-balance text-center font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17] sm:text-left"
+            className="font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17]"
           >
-            <span className="block">{t.readyLead}</span>
-            <span className="relative inline-block align-top text-[#D10E63]">
-              <span className="invisible" aria-hidden="true">
-                {longestAction}
+            {/* Continuous sentence for assistive tech — no visual line breaks announced. */}
+            <span className="sr-only">
+              {t.readyLead} {current.action}.
+            </span>
+
+            {/* Visual composition: fixed lead line + a dynamic area that reserves
+                two lines of height so the paragraph and CTA never shift. */}
+            <span aria-hidden="true" className="block text-center sm:text-left">
+              <span className="block text-balance">{t.readyLead}</span>
+              <span className="relative mt-1 block min-h-[2.1em]">
+                <AnimatePresence initial={false}>
+                  <motion.span
+                    key={cycle}
+                    initial={reduceMotion ? false : { opacity: 0, y: '0.3em' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: '-0.3em' }}
+                    transition={reduceMotion ? { duration: 0 } : { duration: 0.4, ease: 'easeInOut' }}
+                    className="absolute inset-x-0 top-0 block text-[#D10E63]"
+                  >
+                    {current.lines.map((line, i) => (
+                      <span key={i} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </motion.span>
+                </AnimatePresence>
               </span>
-              <AnimatePresence initial={false}>
-                <motion.span
-                  key={cycle}
-                  initial={reduceMotion ? false : { opacity: 0, y: '0.32em' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: '-0.32em' }}
-                  transition={reduceMotion ? { duration: 0 } : { duration: 0.36, ease: 'easeInOut' }}
-                  className="absolute inset-0 block whitespace-nowrap"
-                >
-                  {current.action}
-                </motion.span>
-              </AnimatePresence>
             </span>
           </motion.h1>
 
