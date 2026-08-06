@@ -14,6 +14,11 @@ function categoryLabel(cats: MissionCategory[], key: string, lang: Lang): string
   return cats.find((c) => c.key === key)?.label[lang] ?? key
 }
 
+// Tiny eyebrow that frames the deliverable sentence as the concrete outcome.
+function resultLabel(lang: Lang): string {
+  return lang === 'fr' ? 'Résultat' : 'Result'
+}
+
 // Status is only worth showing when it carries information. "Disponible" is the
 // default state and would be repetitive across the grid, so we hide it there.
 function informativeStatus(m: Mission): boolean {
@@ -43,7 +48,7 @@ export function StoreCard({
   return (
     <article
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex h-[212px] w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 focus-within:ring-2 focus-within:ring-[#D10E63]/40 hover:-translate-y-px"
+      className="group relative flex h-[227px] w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 focus-within:ring-2 focus-within:ring-[#D10E63]/40 hover:-translate-y-px"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
@@ -62,7 +67,10 @@ export function StoreCard({
       <h3 className="pointer-events-none relative z-0 mt-2.5 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="pointer-events-none relative z-0 mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
+      <p className="pointer-events-none relative z-0 mt-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B89AA6]">
+        {resultLabel(lang)}
+      </p>
+      <p className="pointer-events-none relative z-0 mt-1 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">
         {mission.result[lang]}
       </p>
       <div className="pointer-events-none relative z-0 mt-auto flex items-center pt-3">
@@ -100,7 +108,7 @@ export function FeaturedCard({
     <Link
       href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex min-h-[196px] flex-col rounded-[10px] bg-[var(--store-surface)] p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex min-h-[211px] flex-col rounded-[10px] bg-[var(--store-surface)] p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
@@ -113,7 +121,10 @@ export function FeaturedCard({
       <h3 className="mt-2 line-clamp-2 font-sf text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-1.5 line-clamp-2 text-[13px] leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
+      <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B89AA6]">
+        {resultLabel(lang)}
+      </p>
+      <p className="mt-1 line-clamp-2 text-[13px] leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
       <ArrowRight className="mt-auto ml-auto h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-0.5" />
     </Link>
   )
@@ -139,7 +150,7 @@ export function RecentCard({
     <Link
       href={`/missions/${mission.slug}`}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex min-h-[228px] flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex min-h-[243px] flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
@@ -152,7 +163,10 @@ export function RecentCard({
       <h3 className="mt-2.5 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
+      <p className="mt-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B89AA6]">
+        {resultLabel(lang)}
+      </p>
+      <p className="mt-1 line-clamp-2 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
       {dateLabel ? (
         <span className="mt-auto pt-3 text-xs font-medium text-[var(--store-muted)]">{dateLabel}</span>
       ) : (

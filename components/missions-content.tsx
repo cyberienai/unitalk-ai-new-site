@@ -13,7 +13,6 @@ import {
 } from '@/lib/missions-catalog'
 import {
   CATEGORY_FACETS,
-  COLLECTION_FACETS,
   SECTORS,
   ZONES,
   LANGUAGES,
@@ -71,6 +70,7 @@ export function MissionsContent() {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [preview, setPreview] = useState<Mission | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [phIndex, setPhIndex] = useState(0)
 
   const searchRef = useRef<HTMLInputElement>(null)
   const catalogRef = useRef<HTMLDivElement>(null)
@@ -82,7 +82,6 @@ export function MissionsContent() {
   const advCount = advancedFilterCount(filters)
   const hasAnyRefinement = hasQuery || filterCount > 0
   const showEditorial = !hasAnyRefinement
-  const showCollections = !hasQuery || filters.collection !== 'all'
 
   // Reflect state into the URL (defaults omitted).
   useEffect(() => {
@@ -108,6 +107,13 @@ export function MissionsContent() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+
+  // Rotate example goals in the placeholder while the field is idle and empty.
+  useEffect(() => {
+    if (focused) return
+    const id = setInterval(() => setPhIndex((i) => i + 1), 3200)
+    return () => clearInterval(id)
+  }, [focused])
 
   // Editorial data (stable).
   const featured = useMemo(() => featuredMissions(), [])
@@ -142,17 +148,6 @@ export function MissionsContent() {
   const visible = catalog.slice(0, visibleCount)
   const hasMore = visibleCount < poolTotal
 
-  // Category counts reflect the current query + facet filters (not the category itself).
-  const counts = useMemo(() => {
-    const base: StoreFilters = { ...filters, categorie: 'all' }
-    const ranked = searchMissions(trimmed, lang)
-    const pool = ranked.map((s) => s.mission).filter((m) => matchesFilters(m, base))
-    const map: Record<string, number> = {}
-    for (const c of CATEGORY_FACETS) map[c.key] = 0
-    for (const m of pool) map[m.category] = (map[m.category] ?? 0) + 1
-    return map
-  }, [filters, trimmed, lang])
-
   // --- state mutators --------------------------------------------------------
   const openPreview = useCallback((m: Mission, trigger: HTMLElement | null) => {
     previewTrigger.current = trigger
@@ -169,9 +164,6 @@ export function MissionsContent() {
   }
   function selectCategory(key: string) {
     setFilters((p) => ({ ...p, categorie: p.categorie === key ? 'all' : key }))
-  }
-  function selectCollection(key: string) {
-    setFilters((p) => ({ ...p, collection: p.collection === key ? 'all' : key }))
   }
   function toggleFacet(group: MultiKey, value: string) {
     setFilters((p) => ({ ...p, [group]: toggleValue(p[group], value) }))
@@ -190,18 +182,34 @@ export function MissionsContent() {
     title: lang === 'fr' ? 'Qu’aimeriez-vous confier ?' : 'What would you like to hand off?',
     lead:
       lang === 'fr'
-        ? 'Choisissez une mission ou décrivez votre objectif. Alma prépare le Collaborateur IA capable de l’accomplir dans votre organisation.'
-        : 'Choose a mission or describe your goal. Alma prepares the AI Collaborator able to carry it out in your organization.',
+        ? 'Choisissez une mission ou décrivez votre objectif. Chaque mission prépare un Collaborateur IA avec son profil métier, ses compétences, ses applications et le contexte de votre organisation.'
+        : 'Choose a mission or describe your goal. Each mission prepares an AI Collaborator with its job profile, skills, applications and your organization’s context.',
     placeholder:
       lang === 'fr' ? 'Décrivez votre objectif ou recherchez une mission…' : 'Describe your goal or search a mission…',
+    placeholderExamples:
+      lang === 'fr'
+        ? [
+            'Trouver des prospects qualifiés…',
+            'Répondre aux demandes clients…',
+            'Préparer mes publications LinkedIn…',
+            'Relancer mes factures impayées…',
+            'Rédiger des fiches produit…',
+          ]
+        : [
+            'Find qualified prospects…',
+            'Answer customer requests…',
+            'Prepare my LinkedIn posts…',
+            'Chase unpaid invoices…',
+            'Write product descriptions…',
+          ],
     clearSearch: lang === 'fr' ? 'Effacer la recherche' : 'Clear search',
     almaHint: lang === 'fr' ? 'Vous ne savez pas comment le formuler ?' : 'Not sure how to phrase it?',
     almaLink: lang === 'fr' ? 'Parlez à Alma' : 'Talk to Alma',
-    featuredTitle: lang === 'fr' ? 'À la une' : 'Featured',
+    featuredTitle: lang === 'fr' ? 'Pour commencer' : 'To get started',
     featuredDesc:
       lang === 'fr'
-        ? 'Une sélection de missions pour commencer avec des résultats immédiatement compréhensibles.'
-        : 'A selection of missions to start with immediately understandable results.',
+        ? 'Une sélection de missions aux résultats immédiatement compréhensibles.'
+        : 'A selection of missions with immediately understandable results.',
     recentTitle: lang === 'fr' ? 'Nouvelles missions' : 'New missions',
     recentDesc:
       lang === 'fr'
@@ -222,7 +230,6 @@ export function MissionsContent() {
     clear: lang === 'fr' ? 'Effacer les filtres' : 'Clear filters',
     searchChip: lang === 'fr' ? 'Recherche' : 'Search',
     filters: lang === 'fr' ? 'Filtres' : 'Filters',
-    collectionsLabel: lang === 'fr' ? 'Collections' : 'Collections',
   }
 
   // Active-filter chips (query + categorie + collection + facets + disponibilité).
@@ -240,12 +247,6 @@ export function MissionsContent() {
       id: 'cat',
       label: CATEGORY_FACETS.find((c) => c.key === filters.categorie)?.label[lang] ?? filters.categorie,
       onRemove: () => setFilters((p) => ({ ...p, categorie: 'all' })),
-    })
-  if (filters.collection !== 'all')
-    chips.push({
-      id: 'col',
-      label: COLLECTION_FACETS.find((c) => c.key === filters.collection)?.label[lang] ?? filters.collection,
-      onRemove: () => setFilters((p) => ({ ...p, collection: 'all' })),
     })
   ;(['secteur', 'zone', 'langue', 'modalite'] as MultiKey[]).forEach((g) =>
     filters[g].forEach((v) =>
@@ -276,45 +277,15 @@ export function MissionsContent() {
     </label>
   )
 
-  // Collections pills (desktop + mobile share the markup).
-  const collectionsRow = (
-    <div
-      className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      style={{ scrollSnapType: 'x proximity' }}
-      role="group"
-      aria-label={t.collectionsLabel}
-    >
-      {COLLECTION_FACETS.map((c) => {
-        const active = filters.collection === c.key
-        return (
-          <button
-            key={c.key}
-            type="button"
-            onClick={() => selectCollection(c.key)}
-            aria-pressed={active}
-            style={{ scrollSnapAlign: 'start' }}
-            className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
-              active
-                ? 'bg-[#FCEAF2] text-[#AD0C53] ring-1 ring-[#D10E63]/25'
-                : 'border border-[var(--store-line)] bg-[var(--store-surface)] text-[var(--store-text)] hover:border-[#D10E63]/40'
-            }`}
-          >
-            {c.label[lang]}
-          </button>
-        )
-      })}
-    </div>
-  )
-
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
       {/* ------------------------------ HEADER ------------------------------ */}
-      <header className="mx-auto max-w-[1240px] px-6 pb-8 pt-12 sm:pt-12 lg:pt-12">
+      <header className="mx-auto max-w-[1240px] px-6 pb-6 pt-9">
         <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
-        <h1 className="mt-3 max-w-3xl text-balance font-sf text-[clamp(1.875rem,4.5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[var(--store-text)]">
+        <h1 className="mt-2 max-w-3xl text-balance font-sf text-[clamp(1.625rem,3.6vw,2.375rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[var(--store-text)]">
           {t.title}
         </h1>
-        <p className="mt-3 max-w-[680px] text-pretty text-base leading-relaxed text-[var(--store-muted)]">{t.lead}</p>
+        <p className="mt-2.5 max-w-[720px] text-pretty text-[15px] leading-relaxed text-[var(--store-muted)]">{t.lead}</p>
       </header>
 
       {/* ------------------------ SIDEBAR + MAIN ------------------------ */}
@@ -326,7 +297,6 @@ export function MissionsContent() {
               <StoreSidebar
                 filters={filters}
                 lang={lang}
-                counts={counts}
                 onType={selectType}
                 onCategory={selectCategory}
                 onToggleFacet={toggleFacet}
@@ -348,7 +318,7 @@ export function MissionsContent() {
                   onChange={(e) => setQuery(e.target.value)}
                   onFocus={() => setFocused(true)}
                   onBlur={() => setTimeout(() => setFocused(false), 150)}
-                  placeholder={t.placeholder}
+                  placeholder={focused ? t.placeholder : t.placeholderExamples[phIndex % t.placeholderExamples.length]}
                   aria-label={t.placeholder}
                   className="w-full bg-transparent text-sm text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
                 />
@@ -390,9 +360,6 @@ export function MissionsContent() {
                 </a>
               </p>
             )}
-
-            {/* Collections pills */}
-            {showCollections && <div className="mt-5">{collectionsRow}</div>}
 
             {/* Mobile: Type switcher + categories row + count + Filters */}
             <div className="mt-4 lg:hidden">
@@ -475,7 +442,7 @@ export function MissionsContent() {
             {/* Editorial sections */}
             {showEditorial && (
               <>
-                <section className="mt-12 scroll-mt-24">
+                <section className="mt-8 scroll-mt-24">
                   <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
                     {t.featuredTitle}
                   </h2>
@@ -488,7 +455,7 @@ export function MissionsContent() {
                 </section>
 
                 {recent.length > 0 && (
-                  <section className="mt-14 scroll-mt-24">
+                  <section className="mt-10 scroll-mt-24">
                     <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
                       {t.recentTitle}
                     </h2>
@@ -504,7 +471,7 @@ export function MissionsContent() {
             )}
 
             {/* Catalog */}
-            <section ref={catalogRef} className={`scroll-mt-24 ${showEditorial ? 'mt-14' : 'mt-8'}`}>
+            <section ref={catalogRef} className={`scroll-mt-24 ${showEditorial ? 'mt-10' : 'mt-6'}`}>
               <div className="mb-4 flex items-center justify-between gap-4">
                 <div className="flex items-baseline gap-2">
                   <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">

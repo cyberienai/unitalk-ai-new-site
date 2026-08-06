@@ -27,7 +27,6 @@ const FILTER_GROUPS: { key: MultiKey; label: { fr: string; en: string }; items: 
 export function StoreSidebar({
   filters,
   lang,
-  counts,
   onType,
   onCategory,
   onToggleFacet,
@@ -35,7 +34,6 @@ export function StoreSidebar({
 }: {
   filters: StoreFilters
   lang: Lang
-  counts: Record<string, number>
   onType: (key: string) => void
   onCategory: (key: string) => void
   onToggleFacet: (group: MultiKey, value: string) => void
@@ -68,7 +66,6 @@ export function StoreSidebar({
             <li key={c.key}>
               <RowButton
                 label={c.label[lang]}
-                count={counts[c.key]}
                 active={filters.categorie === c.key}
                 onClick={() => onCategory(c.key)}
               />
@@ -135,12 +132,10 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 
 function RowButton({
   label,
-  count,
   active,
   onClick,
 }: {
   label: string
-  count?: number
   active: boolean
   onClick: () => void
 }) {
@@ -149,18 +144,13 @@ function RowButton({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`flex w-full items-center justify-between gap-2 rounded-[7px] px-2.5 py-2 text-left text-[13px] leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 ${
+      className={`flex w-full items-center gap-2 rounded-[7px] px-2.5 py-1.5 text-left text-[13px] leading-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 ${
         active
           ? 'bg-[#FCEAF2] font-semibold text-[#AD0C53]'
-          : 'text-[var(--store-text)] hover:bg-[var(--store-text)]/[0.04]'
+          : 'text-[var(--store-muted)] hover:bg-[var(--store-text)]/[0.04] hover:text-[var(--store-text)]'
       }`}
     >
       <span className="min-w-0">{label}</span>
-      {typeof count === 'number' && (
-        <span className={`shrink-0 text-xs tabular-nums ${active ? 'text-[#AD0C53]' : 'text-[var(--store-muted)]'}`}>
-          {count}
-        </span>
-      )}
     </button>
   )
 }
