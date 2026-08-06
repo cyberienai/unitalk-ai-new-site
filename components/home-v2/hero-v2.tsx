@@ -1,209 +1,173 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Calendar, Check, Clock, Layers, Loader2, Mail, Phone, Target } from 'lucide-react'
+import { ArrowRight, Check, Layers, Loader2, Target } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
+
+/**
+ * Catalogue des collaborateurs de la démo.
+ * La mission affichée dans la carte est synchronisée avec le verbe qui défile
+ * dans le titre : quand l'action change, le profil préparé change aussi.
+ * `g` sert uniquement aux accords français (prête / préparée).
+ */
+const CATALOG = {
+  fr: [
+    { action: 'traiter vos emails', name: 'Emma', role: 'Assistante de direction', mission: 'Traiter vos emails', g: 'f' },
+    { action: 'répondre à vos appels', name: 'Lucas', role: 'Chargé de la relation téléphonique', mission: 'Répondre à vos appels', g: 'm' },
+    { action: 'trouver vos prospects', name: 'Sarah', role: 'Business developer', mission: 'Trouver vos prospects', g: 'f' },
+    { action: 'mettre à jour votre CRM', name: 'Thomas', role: 'Assistant CRM & opérations', mission: 'Mettre à jour votre CRM', g: 'm' },
+    { action: 'préparer vos devis', name: 'Chloé', role: 'Assistante commerciale', mission: 'Préparer vos devis', g: 'f' },
+    { action: 'créer vos présentations', name: 'Hugo', role: 'Designer de présentations', mission: 'Créer vos présentations', g: 'm' },
+    { action: 'gérer votre support', name: 'Léa', role: 'Chargée de support client', mission: 'Gérer votre support', g: 'f' },
+    { action: 'transcrire vos réunions', name: 'Malik', role: 'Assistant de réunion', mission: 'Transcrire vos réunions', g: 'm' },
+    { action: 'rédiger vos comptes rendus', name: 'Camille', role: 'Rédactrice de comptes rendus', mission: 'Rédiger vos comptes rendus', g: 'f' },
+    { action: 'générer vos visuels', name: 'Noah', role: 'Designer visuel', mission: 'Générer vos visuels', g: 'm' },
+  ],
+  en: [
+    { action: 'handle your emails', name: 'Emma', role: 'Executive assistant', mission: 'Handle your emails', g: 'f' },
+    { action: 'answer your calls', name: 'Lucas', role: 'Phone relationship agent', mission: 'Answer your calls', g: 'm' },
+    { action: 'find your prospects', name: 'Sarah', role: 'Business developer', mission: 'Find your prospects', g: 'f' },
+    { action: 'update your CRM', name: 'Thomas', role: 'CRM & operations assistant', mission: 'Update your CRM', g: 'm' },
+    { action: 'prepare your quotes', name: 'Chloé', role: 'Sales assistant', mission: 'Prepare your quotes', g: 'f' },
+    { action: 'create your presentations', name: 'Hugo', role: 'Presentation designer', mission: 'Create your presentations', g: 'm' },
+    { action: 'manage your support', name: 'Léa', role: 'Customer support agent', mission: 'Manage your support', g: 'f' },
+    { action: 'transcribe your meetings', name: 'Malik', role: 'Meeting assistant', mission: 'Transcribe your meetings', g: 'm' },
+    { action: 'write your meeting notes', name: 'Camille', role: 'Minutes writer', mission: 'Write your meeting notes', g: 'f' },
+    { action: 'generate your visuals', name: 'Noah', role: 'Visual designer', mission: 'Generate your visuals', g: 'm' },
+  ],
+} as const
 
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
     readyLead: 'Votre Collaborateur IA sait déjà',
-    missions: [
-      'traiter vos emails',
-      'répondre à vos appels',
-      'trouver vos prospects',
-      'mettre à jour votre CRM',
-      'préparer vos devis',
-      'créer vos présentations',
-      'gérer votre support',
-      'transcrire vos réunions',
-      'rédiger vos comptes rendus',
-      'générer vos visuels',
-    ],
     almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
       '. Elle analyse votre entreprise et recrute le Collaborateur IA adapté à votre organisation.',
     cta: 'Parler à Alma',
     proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
-    // En-tête de la carte pendant la préparation (l'avatar est celui d'Alma)
-    almaPreparing: 'prépare Emma pour sa mission',
-    // Étapes racontées dans la carte — la mission est le pivot du recrutement
-    prepSteps: [
-      'Analyse de votre entreprise',
-      'Mission : traiter vos emails',
-      'Préparation d’Emma',
-      'Arrivée dans votre Organisation',
+    // En-tête de la carte (l'avatar est celui d'Alma qui prépare le collaborateur)
+    almaPrepares: 'prépare',
+    // Les quatre étapes du recrutement, pivotées autour de la mission
+    stepTitles: [
+      'Votre Organisation est identifiée',
+      'Son contexte est construit',
+      'La mission est définie',
+      'Le Collaborateur IA est préparé',
     ],
-    missionDetail: 'Résultat attendu, règles et validations précisés par Alma.',
-    analyzeCaption: 'Sources publiques analysées',
-    analyzeSteps: ['Produits', 'Tarifs', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
-    // Visual — la fiche vivante d'Emma (le résultat)
-    ficheName: 'Emma',
-    ficheRole: 'Collaboratrice IA · Assistante de direction',
-    ficheReadySub: 'Contexte, compétences et applications préparés.',
-    ficheMissionLabel: 'Mission',
-    ficheMission: 'Traiter vos emails',
+    identifyCaption: 'Informations publiques analysées',
+    identifySources: ['Site internet', 'Données SIRENE', 'DNS publics', 'LinkedIn', 'Mentions légales'],
+    identifyResult: 'Identité juridique, domaine officiel et présence numérique vérifiés.',
+    contextItems: ['Produits & services', 'Clients & marchés', 'Tarifs', 'Processus & documents publics', 'Ton & charte graphique'],
+    missionBullets: ['Résultat attendu', 'Règles de traitement', 'Actions autorisées', 'Validations humaines'],
+    prepBullets: ['Profil métier', 'Compétences', 'Applications', 'Accès & validations'],
+    // Fiche finale (synthétique)
+    missionLabel: 'Mission',
+    contextNote: 'dans le contexte de votre Organisation',
+    inheritedLabel: 'Contexte hérité',
+    inherited: ['Produits', 'Clients', 'Processus', 'Tarifs'],
     joinWorkspace: 'Rejoindre le Workspace',
-    sharedContextLabel: 'Contexte partagé',
-    sharedContext: ['Produits', 'Clients', 'Processus', 'Tarifs'],
-    statusLabel: 'En poste',
-    contact: [
-      { icon: Mail, label: 'emma@solvea.fr' },
-      { icon: Phone, label: '+33 1 84 80 24 12' },
-      { icon: Calendar, label: 'Agenda connecté' },
-    ],
-    expertisesLabel: 'Expertises',
-    expertises: ['Agenda', 'Réunions', 'Reporting', 'Emails', 'Téléphone'],
-    activityLabel: 'En ce moment',
-    activities: [
-      { label: 'Prépare le comité de direction de lundi', status: 'live' },
-      { label: 'A transmis le compte rendu de la réunion d’équipe', status: 'done' },
-      { label: 'Organise les rendez-vous de la semaine', status: 'upcoming' },
-    ],
-    doneLabel: 'Terminé',
-    liveLabel: 'En cours',
-    upcomingLabel: 'À venir',
   },
   en: {
     eyebrow: 'Someone is missing',
     readyLead: 'Your AI Collaborator already knows how to',
-    missions: [
-      'handle your emails',
-      'answer your calls',
-      'find your prospects',
-      'update your CRM',
-      'prepare your quotes',
-      'create your presentations',
-      'manage your support',
-      'transcribe your meetings',
-      'write your meeting notes',
-      'generate your visuals',
-    ],
     almaLeadPre: 'Talk to ',
     almaName: 'Alma',
     almaLeadPost:
       '. She analyzes your company and recruits the AI Collaborator that fits your organization.',
     cta: 'Talk to Alma',
     proofs: ['7-day free trial, no card', 'Hosted in France', 'Deployed by Alma'],
-    // Card header while preparing (the avatar is Alma's)
-    almaPreparing: 'preparing Emma for her mission',
-    // Steps told inside the card — the mission is the pivot of the recruitment
-    prepSteps: [
-      'Analyzing your company',
-      'Mission: handle your emails',
-      'Preparing Emma',
-      'Joining your Organization',
+    almaPrepares: 'is preparing',
+    stepTitles: [
+      'Your Organization is identified',
+      'Its context is built',
+      'The mission is defined',
+      'The AI Collaborator is prepared',
     ],
-    missionDetail: 'Expected outcome, rules and approvals defined by Alma.',
-    analyzeCaption: 'Public sources analyzed',
-    analyzeSteps: ['Products', 'Pricing', 'Services', 'FAQ', 'Blog', 'LinkedIn'],
-    // Visual — Emma's live profile (the outcome)
-    ficheName: 'Emma',
-    ficheRole: 'AI Collaborator · Executive assistant',
-    ficheReadySub: 'Context, skills and apps ready.',
-    ficheMissionLabel: 'Mission',
-    ficheMission: 'Handle your emails',
+    identifyCaption: 'Public information analyzed',
+    identifySources: ['Website', 'SIRENE data', 'Public DNS', 'LinkedIn', 'Legal notice'],
+    identifyResult: 'Legal identity, official domain and online presence verified.',
+    contextItems: ['Products & services', 'Clients & markets', 'Pricing', 'Public processes & documents', 'Tone & brand style'],
+    missionBullets: ['Expected outcome', 'Processing rules', 'Allowed actions', 'Human approvals'],
+    prepBullets: ['Job profile', 'Skills', 'Applications', 'Access & approvals'],
+    missionLabel: 'Mission',
+    contextNote: 'in the context of your Organization',
+    inheritedLabel: 'Inherited context',
+    inherited: ['Products', 'Clients', 'Processes', 'Pricing'],
     joinWorkspace: 'Join the Workspace',
-    sharedContextLabel: 'Shared context',
-    sharedContext: ['Products', 'Clients', 'Processes', 'Pricing'],
-    statusLabel: 'Active',
-    contact: [
-      { icon: Mail, label: 'emma@solvea.fr' },
-      { icon: Phone, label: '+33 1 84 80 24 12' },
-      { icon: Calendar, label: 'Calendar connected' },
-    ],
-    expertisesLabel: 'Expertise',
-    expertises: ['Calendar', 'Meetings', 'Reporting', 'Emails', 'Phone'],
-    activityLabel: 'Right now',
-    activities: [
-      { label: 'Preparing Monday’s leadership meeting', status: 'live' },
-      { label: 'Sent the team meeting minutes', status: 'done' },
-      { label: 'Organizing this week’s appointments', status: 'upcoming' },
-    ],
-    doneLabel: 'Done',
-    liveLabel: 'In progress',
-    upcomingLabel: 'Upcoming',
   },
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-type Phase = 'analyzing' | 'mission' | 'preparing' | 'ready'
+type Phase = 'identify' | 'context' | 'mission' | 'preparing' | 'ready'
 
 export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
+  const catalog = CATALOG[lang]
   const reduceMotion = useReducedMotion()
 
-  // Verbes rotatifs du titre.
-  // Ordre mélangé (différent à chaque visite) sans répétition immédiate d'un item,
-  // via une file d'attente reconstruite quand elle est vide.
-  const [missionIndex, setMissionIndex] = useState(0)
-  const missionQueue = useRef<number[]>([])
-  // Réserve la largeur du conteneur sur le mot le plus long, calculé dynamiquement
-  // (reste juste si la liste change).
-  const longestMission = t.missions.reduce((a, b) => (b.length > a.length ? b : a), '')
-  useEffect(() => {
-    missionQueue.current = []
-    const n = t.missions.length
-    if (n <= 1) return
-    // Fisher-Yates ; on évite que le prochain premier item soit celui affiché.
-    const buildQueue = (avoid: number) => {
-      const arr = Array.from({ length: n }, (_, i) => i)
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[arr[i], arr[j]] = [arr[j], arr[i]]
-      }
-      if (arr[0] === avoid) [arr[0], arr[1]] = [arr[1], arr[0]]
-      return arr
-    }
-    const id = setInterval(() => {
-      setMissionIndex((prev) => {
-        if (missionQueue.current.length === 0) missionQueue.current = buildQueue(prev)
-        return missionQueue.current.shift() as number
-      })
-    }, 2800)
-    return () => clearInterval(id)
-  }, [reduceMotion, t.missions])
+  // Cycle courant : pilote À LA FOIS le verbe du titre et le profil préparé
+  // dans la carte (synchronisation lockstep titre ↔ démonstration).
+  const [cycle, setCycle] = useState(0)
+  const current = catalog[cycle % catalog.length]
 
-  // Séquence Alma → Emma : on montre qu'Emma hérite du contexte construit par Alma
-  const [phase, setPhase] = useState<Phase>(reduceMotion ? 'ready' : 'analyzing')
-  const [analyzeStep, setAnalyzeStep] = useState(reduceMotion ? 99 : 0)
+  // Machine à états de la démonstration, rejouée à chaque cycle.
+  const [phase, setPhase] = useState<Phase>(reduceMotion ? 'ready' : 'identify')
+  const [sourceStep, setSourceStep] = useState(reduceMotion ? 99 : 0)
+
   useEffect(() => {
-    if (reduceMotion) {
-      setPhase('ready')
-      setAnalyzeStep(99)
-      return
-    }
-    setPhase('analyzing')
-    setAnalyzeStep(0)
+    const sources = t.identifySources
     const timers: ReturnType<typeof setTimeout>[] = []
-    t.analyzeSteps.forEach((_, i) => {
-      timers.push(setTimeout(() => setAnalyzeStep(i + 1), 380 * (i + 1)))
+
+    if (reduceMotion) {
+      // Pas d'animation : on montre la fiche finale et on change de profil lentement.
+      setPhase('ready')
+      setSourceStep(sources.length)
+      timers.push(setTimeout(() => setCycle((c) => (c + 1) % catalog.length), 4200))
+      return () => timers.forEach(clearTimeout)
+    }
+
+    setPhase('identify')
+    setSourceStep(0)
+    sources.forEach((_, i) => {
+      timers.push(setTimeout(() => setSourceStep(i + 1), 300 * (i + 1)))
     })
-    const afterAnalyze = 380 * t.analyzeSteps.length + 600
-    timers.push(setTimeout(() => setPhase('mission'), afterAnalyze))
-    timers.push(setTimeout(() => setPhase('preparing'), afterAnalyze + 1500))
-    timers.push(setTimeout(() => setPhase('ready'), afterAnalyze + 3000))
+    const afterIdentify = 300 * sources.length + 700
+    timers.push(setTimeout(() => setPhase('context'), afterIdentify))
+    timers.push(setTimeout(() => setPhase('mission'), afterIdentify + 1200))
+    timers.push(setTimeout(() => setPhase('preparing'), afterIdentify + 2400))
+    timers.push(setTimeout(() => setPhase('ready'), afterIdentify + 3600))
+    // Fin du cycle : on passe au collaborateur / à la mission suivante.
+    timers.push(setTimeout(() => setCycle((c) => (c + 1) % catalog.length), afterIdentify + 3600 + 3000))
     return () => timers.forEach(clearTimeout)
-  }, [reduceMotion, lang, t.analyzeSteps])
+  }, [cycle, reduceMotion, t.identifySources, catalog.length])
 
   const intro = phase !== 'ready'
-  // Étape courante du stepper (0 → 2 pendant l'intro, 4 = tout terminé une fois Emma arrivée)
-  const currentStep = phase === 'analyzing' ? 0 : phase === 'mission' ? 1 : phase === 'preparing' ? 2 : 4
-  const analyzeCount = Math.min(analyzeStep, t.analyzeSteps.length)
-  // Progression globale : l'analyse remplit le premier quart, puis chaque étape avance la barre
+  const stepOf: Record<Phase, number> = { identify: 0, context: 1, mission: 2, preparing: 3, ready: 4 }
+  const currentStep = stepOf[phase]
+  const sourceCount = Math.min(sourceStep, t.identifySources.length)
   const overallPct =
-    phase === 'analyzing'
-      ? (analyzeCount / t.analyzeSteps.length) * 25
-      : phase === 'mission'
-        ? 50
-        : phase === 'preparing'
-          ? 75
-          : 100
+    phase === 'identify'
+      ? (sourceCount / t.identifySources.length) * 20
+      : phase === 'context'
+        ? 40
+        : phase === 'mission'
+          ? 60
+          : phase === 'preparing'
+            ? 80
+            : 100
+
+  const isF = current.g === 'f'
+  const readyBadge = isF ? 'Prête' : 'Prêt'
+  const contextNote = lang === 'fr' ? `Préparé${isF ? 'e' : ''} ${t.contextNote}` : `Prepared ${t.contextNote}`
+
+  // Largeur réservée sur le plus long verbe → conteneur du titre stable.
+  const longestAction = catalog.reduce((a, c) => (c.action.length > a.length ? c.action : a), '')
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 18 },
@@ -230,21 +194,21 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             className="text-balance text-center font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17] sm:text-left"
           >
             <span className="block">{t.readyLead}</span>
-            {/* Le mot invisible réserve la largeur du plus long verbe → conteneur stable. */}
+            {/* Le verbe invisible réserve la largeur du plus long → conteneur stable. */}
             <span className="relative inline-block align-top text-[#D10E63]">
               <span className="invisible" aria-hidden="true">
-                {longestMission}
+                {longestAction}
               </span>
               <AnimatePresence initial={false}>
                 <motion.span
-                  key={missionIndex}
+                  key={cycle}
                   initial={reduceMotion ? false : { opacity: 0, y: '0.32em' }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: '-0.32em' }}
-                  transition={reduceMotion ? { duration: 0 } : { duration: 0.32, ease: 'easeInOut' }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.36, ease: 'easeInOut' }}
                   className="absolute inset-0 block whitespace-nowrap"
                 >
-                  {t.missions[missionIndex]}
+                  {current.action}
                 </motion.span>
               </AnimatePresence>
             </span>
@@ -279,11 +243,10 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </span>
               ))}
             </div>
-
           </motion.div>
         </div>
 
-        {/* Visual — Alma construit le contexte, puis Emma prend son poste */}
+        {/* Visual — Alma identifie, construit le contexte, définit la mission, prépare le collaborateur */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
           {/* Halo aurora bi-teinte derrière la carte */}
           <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
@@ -338,7 +301,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
             <AnimatePresence mode="wait" initial={false}>
               {intro ? (
-                /* ── Séquence Alma : analyse → contexte → création d'Emma ── */
+                /* ── Séquence Alma : identification → contexte → mission → préparation ── */
                 <motion.div
                   key="alma-intro"
                   initial={reduceMotion ? false : { opacity: 0 }}
@@ -361,16 +324,19 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="font-sf text-base font-bold leading-tight text-[#F6F1E8]">{t.almaName}</p>
-                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.almaPreparing}</p>
+                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">
+                        {t.almaPrepares} {current.name}
+                      </p>
                     </div>
                     <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#F0658F]" aria-hidden="true" />
                   </div>
 
-                  {/* Stepper : les 4 étapes du recrutement, pivotées autour de la mission */}
-                  <ol className="mt-5 flex flex-1 flex-col justify-center gap-2.5">
-                    {t.prepSteps.map((label, i) => {
+                  {/* Stepper : 4 étapes ; seule l'étape active déploie son détail (hauteur stable) */}
+                  <ol className="mt-5 flex flex-1 flex-col justify-center gap-2">
+                    {t.stepTitles.map((label, i) => {
                       const done = currentStep > i
                       const active = currentStep === i
+                      const title = i === 2 ? `${t.missionLabel} : ${current.mission}` : label
                       return (
                         <li
                           key={label}
@@ -404,53 +370,102 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                                 active ? 'text-[#F6F1E8]' : done ? 'text-[#D8D2C6]' : 'text-[#948D7F]'
                               }`}
                             >
-                              {label}
+                              {title}
                             </span>
                           </div>
 
-                          {/* Sous-contenu de l'étape 1 : les sources publiques scannées */}
-                          {i === 0 && (active || done) && (
-                            <div className="mt-3 pl-7">
-                              <div className="mb-2 flex items-center justify-between">
-                                <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">
-                                  {t.analyzeCaption}
-                                </span>
-                                <span className="font-mono text-[11px] font-bold tabular-nums text-[#F58AAB]">
-                                  {done ? t.analyzeSteps.length : analyzeCount}
-                                  <span className="text-[#948D7F]">/{t.analyzeSteps.length}</span>
-                                </span>
-                              </div>
-                              <div className="flex flex-wrap gap-1.5">
-                                {t.analyzeSteps.map((source, si) => {
-                                  const scanned = done || analyzeStep > si
-                                  return (
-                                    <span
-                                      key={source}
-                                      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-colors duration-300 ${
-                                        scanned
-                                          ? 'border-[#F0658F]/25 bg-[#D10E63]/[0.1] text-[#F58AAB]'
-                                          : 'border-white/[0.08] text-[#7C766B]'
-                                      }`}
-                                    >
-                                      {scanned && <Check className="h-2.5 w-2.5" strokeWidth={3} aria-hidden="true" />}
-                                      {source}
-                                    </span>
-                                  )
-                                })}
-                              </div>
-                            </div>
-                          )}
+                          {/* Détail de l'étape active uniquement */}
+                          <AnimatePresence>
+                            {active && (
+                              <motion.div
+                                initial={reduceMotion ? false : { opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3, ease }}
+                                className="overflow-hidden pl-7"
+                              >
+                                {/* Étape 1 — informations publiques (SIRENE, DNS… prouvent la profondeur) */}
+                                {i === 0 && (
+                                  <div className="pt-3">
+                                    <div className="mb-2 flex items-center justify-between">
+                                      <span className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#B0A99B]">
+                                        {t.identifyCaption}
+                                      </span>
+                                      <span className="font-mono text-[11px] font-bold tabular-nums text-[#F58AAB]">
+                                        {sourceCount}
+                                        <span className="text-[#948D7F]">/{t.identifySources.length}</span>
+                                      </span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1.5">
+                                      {t.identifySources.map((source, si) => {
+                                        const scanned = sourceStep > si
+                                        return (
+                                          <span
+                                            key={source}
+                                            className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-colors duration-300 ${
+                                              scanned
+                                                ? 'border-[#F0658F]/25 bg-[#D10E63]/[0.1] text-[#F58AAB]'
+                                                : 'border-white/[0.08] text-[#7C766B]'
+                                            }`}
+                                          >
+                                            {scanned && <Check className="h-2.5 w-2.5" strokeWidth={3} aria-hidden="true" />}
+                                            {source}
+                                          </span>
+                                        )
+                                      })}
+                                    </div>
+                                    {sourceStep >= t.identifySources.length && (
+                                      <p className="mt-2 text-[10.5px] leading-snug text-[#9E978B]">{t.identifyResult}</p>
+                                    )}
+                                  </div>
+                                )}
 
-                          {/* Sous-contenu de l'étape 2 : ce qu'Alma précise pour la mission */}
-                          {i === 1 && (active || done) && (
-                            <p className="mt-2 pl-7 text-[11px] leading-snug text-[#A49E92]">{t.missionDetail}</p>
-                          )}
+                                {/* Étape 2 — contexte structuré (dont le ton et la charte, extraits du site) */}
+                                {i === 1 && (
+                                  <div className="flex flex-wrap gap-1.5 pt-3">
+                                    {t.contextItems.map((item) => (
+                                      <span
+                                        key={item}
+                                        className="rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 text-[10px] font-semibold text-[#E4DED2]"
+                                      >
+                                        {item}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+
+                                {/* Étape 3 — cadrage de la mission par Alma */}
+                                {i === 2 && (
+                                  <ul className="grid grid-cols-2 gap-1.5 pt-3">
+                                    {t.missionBullets.map((b) => (
+                                      <li key={b} className="flex items-center gap-1.5 text-[10.5px] font-medium text-[#CFC9BD]">
+                                        <span className="h-1 w-1 shrink-0 rounded-full bg-[#F0658F]" aria-hidden="true" />
+                                        {b}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+
+                                {/* Étape 4 — ce qu'Alma réunit pour le collaborateur */}
+                                {i === 3 && (
+                                  <ul className="grid grid-cols-2 gap-1.5 pt-3">
+                                    {t.prepBullets.map((b) => (
+                                      <li key={b} className="flex items-center gap-1.5 text-[10.5px] font-medium text-[#CFC9BD]">
+                                        <span className="h-1 w-1 shrink-0 rounded-full bg-[#F0658F]" aria-hidden="true" />
+                                        {b}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </li>
                       )
                     })}
                   </ol>
 
-                  {/* Barre de progression globale de la préparation */}
+                  {/* Barre de progression globale */}
                   <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/[0.07]" aria-hidden="true">
                     <motion.div
                       className="h-full rounded-full bg-gradient-to-r from-[#D10E63] to-[#F0658F]"
@@ -461,25 +476,25 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   </div>
                 </motion.div>
               ) : (
-                /* ── Emma en poste (le résultat) ── */
+                /* ── Fiche synthétique : le collaborateur est prêt pour sa mission ── */
                 <motion.div
-                  key="emma-card"
+                  key="ready-card"
                   initial={reduceMotion ? false : { opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, ease }}
+                  className="flex min-h-[520px] flex-col"
                 >
-                  {/* En-tête : Emma, identité + statut en poste */}
+                  {/* En-tête : identité du collaborateur préparé + statut prêt */}
                   <div className="relative flex items-center gap-3.5 border-b border-white/[0.08] bg-white/[0.02] p-5">
                     <span className="relative shrink-0">
                       <span aria-hidden="true" className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md" />
-                      <Image
-                        src="/images/emma-avatar.png"
-                        alt=""
-                        width={52}
-                        height={52}
-                        className="relative rounded-full object-cover ring-2 ring-[#F0658F]/40"
-                        style={{ height: 52, width: 52 }}
-                      />
+                      <span
+                        className="relative flex h-[52px] w-[52px] items-center justify-center rounded-full font-sf text-xl font-bold text-[#FBF9F3] ring-2 ring-[#F0658F]/40"
+                        style={{ background: 'linear-gradient(135deg, #D10E63, #F0658F)' }}
+                        aria-hidden="true"
+                      >
+                        {current.name.charAt(0)}
+                      </span>
                       <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center" aria-hidden="true">
                         <motion.span
                           className="absolute h-3.5 w-3.5 rounded-full bg-[#4ADE80]/40"
@@ -490,8 +505,8 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       </span>
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-sf text-xl font-bold leading-tight text-[#F6F1E8]">{t.ficheName}</p>
-                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.ficheRole}</p>
+                      <p className="truncate font-sf text-xl font-bold leading-tight text-[#F6F1E8]">{current.name}</p>
+                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{current.role}</p>
                     </div>
                     <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#5FE38F]">
                       <motion.span
@@ -500,59 +515,43 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                         animate={reduceMotion ? undefined : { opacity: [1, 0.4, 1], scale: [1, 0.85, 1] }}
                         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                       />
-                      {t.statusLabel}
+                      {readyBadge}
                     </span>
                   </div>
 
-                  <div className="relative flex flex-col gap-4 p-5">
-                    {/* Mission : le pivot du recrutement, mis en avant sur la fiche d'Emma */}
+                  <div className="relative flex flex-1 flex-col gap-4 p-5">
+                    {/* Mission : le pivot du recrutement, mis en avant */}
                     <motion.div
                       initial={reduceMotion ? false : { opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease, delay: 0.12 }}
-                      className="rounded-2xl border border-[#F0658F]/25 bg-[#D10E63]/[0.08] p-3.5"
+                      className="rounded-2xl border border-[#F0658F]/25 bg-[#D10E63]/[0.08] p-4"
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/20" aria-hidden="true">
-                          <Target className="h-3 w-3 text-[#F58AAB]" strokeWidth={2.5} />
+                      <div className="flex items-center gap-2.5">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/20" aria-hidden="true">
+                          <Target className="h-3.5 w-3.5 text-[#F58AAB]" strokeWidth={2.5} />
                         </span>
                         <div className="min-w-0 flex-1">
                           <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#F58AAB]">
-                            {t.ficheMissionLabel}
+                            {t.missionLabel}
                           </p>
-                          <p className="truncate text-[13px] font-semibold text-[#F6F1E8]">{t.ficheMission}</p>
+                          <p className="truncate text-[14px] font-semibold text-[#F6F1E8]">{current.mission}</p>
                         </div>
                         <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#4ADE80]/15" aria-hidden="true">
                           <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
                         </span>
                       </div>
-                      <p className="mt-2 text-[11px] leading-snug text-[#CDBFC4]">{t.ficheReadySub}</p>
+                      <p className="mt-2.5 text-[11px] leading-snug text-[#CDBFC4]">{contextNote}</p>
                     </motion.div>
 
-                    {/* Coordonnées : Emma est une vraie coéquipière */}
-                    <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
-                      {t.contact.map((c, i) => {
-                        const Icon = c.icon
-                        return (
-                          <li
-                            key={c.label}
-                            className={`flex items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5 text-[11px] font-medium text-[#D8D2C6] ${i === 0 ? 'sm:col-span-2' : ''}`}
-                          >
-                            <Icon className="h-3.5 w-3.5 shrink-0 text-[#F0658F]" aria-hidden="true" />
-                            <span className="truncate">{c.label}</span>
-                          </li>
-                        )
-                      })}
-                    </ul>
-
-                    {/* Contexte partagé : Emma hérite du contexte construit par Alma */}
+                    {/* Contexte hérité de l'analyse d'Alma */}
                     <div className="rounded-2xl border border-[#F0658F]/20 bg-[#D10E63]/[0.06] p-3.5">
                       <p className="mb-2 flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#F58AAB]">
                         <Layers className="h-3 w-3" aria-hidden="true" />
-                        {t.sharedContextLabel}
+                        {t.inheritedLabel}
                       </p>
                       <div className="flex flex-wrap gap-1.5">
-                        {t.sharedContext.map((c) => (
+                        {t.inherited.map((c) => (
                           <span
                             key={c}
                             className="rounded-full border border-white/[0.1] bg-white/[0.05] px-2 py-0.5 text-[10px] font-semibold text-[#E4DED2]"
@@ -563,94 +562,15 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       </div>
                     </div>
 
-                    {/* Expertises */}
-                    <div>
-                      <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">{t.expertisesLabel}</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {t.expertises.map((e) => (
-                          <span
-                            key={e}
-                            className="rounded-full border border-[#F0658F]/30 bg-[#D10E63]/[0.12] px-2 py-0.5 text-[10px] font-semibold text-[#F58AAB]"
-                          >
-                            {e}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                    <div className="flex-1" />
 
-                    {/* Activité en direct — l'accroche : elle travaille déjà */}
-                    <div className="rounded-2xl border border-white/[0.08] bg-black/25 p-3.5">
-                      <div className="mb-2.5 flex items-center justify-between">
-                        <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B0A99B]">{t.activityLabel}</span>
-                        <span className="flex h-3 items-end gap-[2px]" aria-hidden="true">
-                          {[6, 11, 8].map((h, i) => (
-                            <motion.span
-                              key={i}
-                              className="w-[2px] rounded-full bg-[#F0658F]"
-                              style={{ height: h }}
-                              animate={reduceMotion ? undefined : { scaleY: [1, 0.4, 1] }}
-                              transition={{ duration: 0.9, ease: 'easeInOut', repeat: Infinity, delay: i * 0.12 }}
-                            />
-                          ))}
-                        </span>
-                      </div>
-
-                      <ul className="flex flex-col gap-1.5">
-                        {t.activities.map((task) => {
-                          const live = task.status === 'live'
-                          const done = task.status === 'done'
-                          return (
-                            <li
-                              key={task.label}
-                              className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[11px] font-medium ${
-                                live
-                                  ? 'border border-[#F0658F]/40 bg-[#D10E63]/[0.14] text-[#F6F1E8]'
-                                  : done
-                                    ? 'text-[#B7B1A6]'
-                                    : 'text-[#CFC9BD]'
-                              }`}
-                            >
-                              <span className="flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden="true">
-                                {live ? (
-                                  <span className="flex items-center gap-[2px]">
-                                    {[0, 1, 2].map((d) => (
-                                      <motion.span
-                                        key={d}
-                                        className="h-1 w-1 rounded-full bg-[#F0658F]"
-                                        animate={reduceMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
-                                        transition={{ duration: 1, repeat: Infinity, delay: d * 0.18 }}
-                                      />
-                                    ))}
-                                  </span>
-                                ) : done ? (
-                                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#4ADE80]/15">
-                                    <Check className="h-2.5 w-2.5 text-[#5FE38F]" strokeWidth={3.5} />
-                                  </span>
-                                ) : (
-                                  <Clock className="h-3.5 w-3.5 text-[#8F887C]" strokeWidth={2.25} />
-                                )}
-                              </span>
-                              <span className="flex-1 truncate">{task.label}</span>
-                              <span
-                                className={`shrink-0 font-mono text-[8px] font-bold uppercase tracking-[0.1em] ${
-                                  live ? 'text-[#F0658F]' : done ? 'text-[#5FE38F]' : 'text-[#8F887C]'
-                                }`}
-                              >
-                                {live ? t.liveLabel : done ? t.doneLabel : t.upcomingLabel}
-                              </span>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </div>
-
-                    {/* CTA final : Emma rejoint le Workspace de l'organisation */}
+                    {/* CTA final : le collaborateur rejoint le Workspace */}
                     <motion.a
                       href="/decouvrir"
                       initial={reduceMotion ? false : { opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease, delay: 0.24 }}
-                      className="group/cta flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-2.5 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
+                      className="group/cta flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
                     >
                       {t.joinWorkspace}
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5" aria-hidden="true" />
