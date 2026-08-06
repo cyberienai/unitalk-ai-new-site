@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowRight, Eye, Sparkles } from 'lucide-react'
-import type { Mission, MissionCategory } from '@/lib/missions-catalog'
+import { ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
@@ -12,6 +12,29 @@ const SHADOW_HOVER =
 
 function categoryLabel(cats: MissionCategory[], key: string, lang: Lang): string {
   return cats.find((c) => c.key === key)?.label[lang] ?? key
+}
+
+// Discreet, secondary metadata shown at the bottom of every card: category,
+// creator and — only when it is worth flagging (coming soon) — availability.
+// The default available/on-setup states are kept out to avoid visual noise.
+function metaParts(mission: Mission, cats: MissionCategory[], lang: Lang): string[] {
+  const parts = [categoryLabel(cats, mission.category, lang), ORIGIN_LABELS[mission.origin][lang]]
+  if (mission.status === 'coming-soon') parts.push(STATUS_LABELS[mission.status][lang])
+  return parts
+}
+
+// Small dot-separated meta row, reused by all card variants.
+function MetaRow({ parts }: { parts: string[] }) {
+  return (
+    <p className="pointer-events-none relative z-0 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs font-medium text-[var(--store-muted)]">
+      {parts.map((part, i) => (
+        <span key={part} className="inline-flex items-center gap-x-1.5">
+          {i > 0 && <span aria-hidden="true">·</span>}
+          {part}
+        </span>
+      ))}
+    </p>
+  )
 }
 
 /* ------------------------------------------------------------------ */
@@ -45,17 +68,15 @@ export function StoreCard({
         aria-label={mission.title[lang]}
       />
 
-      <span className="pointer-events-none relative z-0 pr-11 text-[13px] font-medium text-[var(--store-muted)]">
-        {categoryLabel(categories, mission.category, lang)}
-      </span>
-      <h3 className="pointer-events-none relative z-0 mt-2 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="pointer-events-none relative z-0 line-clamp-2 pr-11 font-sf text-[19px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
       <p className="pointer-events-none relative z-0 mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
         {mission.result[lang]}
       </p>
-      <div className="pointer-events-none relative z-0 mt-4 flex items-center justify-end">
-        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-1" />
+      <div className="pointer-events-none relative z-0 mt-4 flex items-end justify-between gap-3">
+        <MetaRow parts={metaParts(mission, categories, lang)} />
+        <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
 
       <button
@@ -91,15 +112,13 @@ export function FeaturedCard({
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <span className="text-[13px] font-medium text-[var(--store-muted)]">
-        {categoryLabel(categories, mission.category, lang)}
-      </span>
-      <h3 className="mt-2 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="line-clamp-2 font-sf text-[19px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
       <p className="mt-2 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      <div className="mt-4 flex items-center justify-end">
-        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-1" />
+      <div className="mt-4 flex items-end justify-between gap-3">
+        <MetaRow parts={metaParts(mission, categories, lang)} />
+        <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </Link>
   )
@@ -127,16 +146,13 @@ export function RecentCard({
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <span className="text-[13px] font-medium text-[var(--store-muted)]">
-        {categoryLabel(categories, mission.category, lang)}
-      </span>
-      <h3 className="mt-2 line-clamp-2 font-sf text-[18px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="line-clamp-2 font-sf text-[19px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
       <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-xs font-medium text-[var(--store-muted)]">{dateLabel ?? ''}</span>
-        <ArrowRight className="h-4 w-4 text-[#D10E63] transition-transform group-hover:translate-x-1" />
+      <div className="mt-4 flex items-end justify-between gap-3">
+        <MetaRow parts={[...metaParts(mission, categories, lang), ...(dateLabel ? [dateLabel] : [])]} />
+        <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </Link>
   )
