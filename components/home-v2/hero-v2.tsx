@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Calendar, Check, Globe, ListChecks, Mail, Phone, Users } from 'lucide-react'
+import { ArrowRight, Calendar, Check, Mail, Phone } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
 
@@ -14,27 +14,21 @@ const T = {
     missions: [
       'répondre à vos clients',
       'trouver de nouveaux prospects',
-      'qualifier vos leads',
       'préparer vos devis',
+      'répondre au téléphone',
+      'organiser vos réunions',
+      'transcrire vos visioconférences',
       'envoyer vos emails',
       'créer vos contenus',
-      'analyser vos documents',
+      'mettre à jour votre CRM',
       'automatiser vos tâches',
-      'organiser vos réunions',
-      'collaborer avec vos équipes',
     ],
     almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
-      '. Elle découvre votre entreprise et construit le contexte dont votre Collaborateur IA a besoin pour travailler.',
+      '. En quelques minutes, elle découvre votre entreprise et recrute le Collaborateur IA dont vous avez besoin.',
     cta: 'Recruter mon Collaborateur IA',
     proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD', 'Il appartient à votre organisation'],
-    entriesLabel: 'Trois façons de commencer',
-    entries: [
-      { icon: Globe, label: 'Votre site web' },
-      { icon: ListChecks, label: 'Une mission' },
-      { icon: Users, label: 'Un Collaborateur IA' },
-    ],
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -63,27 +57,21 @@ const T = {
     missions: [
       'answer your customers',
       'find new prospects',
-      'qualify your leads',
       'prepare your quotes',
+      'answer the phone',
+      'organize your meetings',
+      'transcribe your video calls',
       'send your emails',
       'create your content',
-      'analyze your documents',
+      'update your CRM',
       'automate your tasks',
-      'organize your meetings',
-      'collaborate with your teams',
     ],
     almaLeadPre: 'Talk to ',
     almaName: 'Alma',
     almaLeadPost:
-      '. She gets to know your company and builds the context your AI Collaborator needs to work.',
+      '. In minutes, she gets to know your company and recruits the AI Collaborator you need.',
     cta: 'Recruit my AI Collaborator',
     proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant', 'It belongs to your organization'],
-    entriesLabel: 'Three ways to start',
-    entries: [
-      { icon: Globe, label: 'Your website' },
-      { icon: ListChecks, label: 'A mission' },
-      { icon: Users, label: 'An AI Collaborator' },
-    ],
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
@@ -215,27 +203,6 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               ))}
             </div>
 
-            <div className="mt-2 w-full max-w-md">
-              <p className="mb-3 text-center font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175] sm:text-left">
-                {t.entriesLabel}
-              </p>
-              <ul className="flex flex-col gap-2 sm:flex-row sm:gap-2.5">
-                {t.entries.map((entry) => {
-                  const Icon = entry.icon
-                  return (
-                    <li
-                      key={entry.label}
-                      className="flex flex-1 items-center gap-2.5 rounded-xl border border-[#E1D9C9] bg-[#FBF9F3]/70 px-3 py-2.5"
-                    >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/[0.1] text-[#D10E63]">
-                        <Icon className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
-                      </span>
-                      <span className="text-[13px] font-semibold leading-tight text-[#3B362F]">{entry.label}</span>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
           </motion.div>
         </div>
 

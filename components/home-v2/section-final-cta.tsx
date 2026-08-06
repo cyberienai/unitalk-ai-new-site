@@ -17,7 +17,7 @@ const T = {
       'Recrutez votre premier Collaborateur IA.',
       'Construisez l’organisation IA de votre entreprise.',
     ],
-    cta: 'Commencer gratuitement',
+    cta: 'Recruter mon Collaborateur IA',
     proofs: ['Aucune carte bancaire', 'Essai gratuit', 'Configuration en quelques minutes'],
   },
   en: {
@@ -29,7 +29,7 @@ const T = {
       'Hire your first AI Collaborator.',
       'Build your company’s AI organization.',
     ],
-    cta: 'Start for free',
+    cta: 'Recruit my AI Collaborator',
     proofs: ['No credit card', 'Free trial', 'Set up in minutes'],
   },
 } as const
