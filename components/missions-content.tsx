@@ -291,7 +291,7 @@ export function MissionsContent() {
 
   const sortControl = (
     <label className="inline-flex items-center gap-2 text-sm text-[var(--store-muted)]">
-      <span className="hidden sm:inline">{t.sortLabel}</span>
+      <span>{t.sortLabel}</span>
       <select
         value={sort}
         onChange={(e) => setSort(e.target.value as SortKey)}
@@ -371,7 +371,7 @@ export function MissionsContent() {
             {/* Mobile: Type switcher + categories row + count + Filters */}
             <div className="mt-4 lg:hidden">
               <div
-                className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 style={{ scrollSnapType: 'x proximity' }}
                 role="group"
                 aria-label={lang === 'fr' ? 'Catégories' : 'Categories'}
@@ -426,12 +426,16 @@ export function MissionsContent() {
 
             {/* Catalog — a single grid, led by the 6 featured missions. */}
             <section ref={catalogRef} className="mt-6 scroll-mt-24">
-              <div className="mb-4 flex items-center justify-between gap-4">
+              <div className="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <div className="flex items-baseline gap-2">
                   <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
                     {hasAnyRefinement ? t.results : t.all}
                   </h2>
-                  <span className="text-sm font-medium text-[var(--store-muted)]">{t.count(total)}</span>
+                  {/* Count already appears in the mobile filter row (<lg); only show
+                      it here on desktop, where that row is hidden. */}
+                  <span className="hidden text-sm font-medium text-[var(--store-muted)] lg:inline">
+                    {t.count(total)}
+                  </span>
                 </div>
                 {sortControl}
               </div>
