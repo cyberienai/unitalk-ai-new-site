@@ -157,7 +157,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
 
   // Subtle bottom border once the page is scrolled
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => setScrolled(window.scrollY > 20)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -190,8 +190,10 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 border-b bg-[#F3EFE6]/85 backdrop-blur-xl transition-colors duration-300 ${
-          scrolled || isMenuOpen || storeOpen ? 'border-[#D8D0C2]/70' : 'border-transparent'
+        className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,backdrop-filter,border-color] duration-300 ${
+          scrolled || isMenuOpen || storeOpen
+            ? 'border-[#1C1A17]/[0.08] bg-[#F3EFE6]/96 backdrop-blur-[16px]'
+            : 'border-transparent bg-transparent backdrop-blur-0'
         }`}
       >
         <nav className="editorial-shell flex h-[76px] items-center justify-between">

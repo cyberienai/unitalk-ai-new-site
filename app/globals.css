@@ -117,6 +117,24 @@
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+    /* Lock the ivory surface at the root so no white band can show during
+       load, hydration, overscroll or dynamic mobile browser-bar changes. */
+    background-color: #f3efe6;
+  }
+  body {
+    background-color: #f3efe6;
+  }
+
+  /* Full-viewport hero: 100vh fallback, exact 100svh where supported. The
+     fixed header overlays the hero, so its height is intentionally NOT
+     subtracted here. */
+  .hero-viewport {
+    min-height: 100vh;
+  }
+  @supports (min-height: 100svh) {
+    .hero-viewport {
+      min-height: 100svh;
+    }
   }
 
   /* Visible, branded focus state for keyboard users */

@@ -39,7 +39,7 @@ import {
 import { useLanguage } from '@/lib/language-context'
 import { StoreSidebar, type MultiKey } from '@/components/missions/store-sidebar'
 import { StoreCard, FeaturedCard, RecentCard, AlmaBand } from '@/components/missions/store-card'
-import { WorkTable } from '@/components/missions/work-table'
+import { AlmaSurface } from '@/components/missions/alma-surface'
 import { PreviewDrawer } from '@/components/missions/preview-drawer'
 import { FilterSheet } from '@/components/missions/filter-sheet'
 
@@ -187,7 +187,9 @@ export function MissionsContent() {
 
   // --- copy ------------------------------------------------------------------
   const t = {
-    exploreAll: lang === 'fr' ? 'Ou explorez toutes les missions' : 'Or explore all missions',
+    exploreLead:
+      lang === 'fr' ? 'Vous préférez partir d’une mission existante ?' : 'Prefer to start from an existing mission?',
+    exploreAll: lang === 'fr' ? 'Explorer les missions' : 'Explore the missions',
     featuredTitle: lang === 'fr' ? 'Missions recommandées' : 'Recommended missions',
     featuredDesc:
       lang === 'fr'
@@ -256,19 +258,21 @@ export function MissionsContent() {
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
       {/* ------------------------------ HEADER ------------------------------ */}
-      {/* ------------------------ WORK TABLE (primary) ------------------------ */}
+      {/* ---------------------- ALMA SURFACE (primary) ---------------------- */}
+      {/* Voice-first entry: talk to Alma, watch the mission fiche build live. */}
       {/* Fixed navbar is 76px tall; keep the same top offset as before. */}
       <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
-        <WorkTable lang={lang} initialQuery={almaText} />
+        <AlmaSurface lang={lang} initialQuery={almaText} />
       </div>
 
-      {/* Toggle to reveal the full catalog, which is now secondary. */}
+      {/* Editorial transition to the catalog, which is now secondary. */}
       {!catalogOpen && (
-        <div className="mx-auto max-w-[1240px] px-6 pt-8">
+        <div className="mx-auto flex max-w-[1240px] flex-col items-center px-6 pt-10 text-center">
+          <p className="text-sm text-[var(--store-muted)]">{t.exploreLead}</p>
           <button
             type="button"
             onClick={() => setCatalogOpen(true)}
-            className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-[var(--store-line)] bg-[var(--store-surface)] px-6 py-4 text-sm font-semibold text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#AD0C53]"
+            className="group mt-1 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-bold text-[#AD0C53] underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
           >
             {t.exploreAll}
             <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />

@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { AppWindow, ArrowRight, Check, Loader2, Plus, Sparkles, Target, UserRound } from 'lucide-react'
+import { AppWindow, ArrowRight, Check, Globe, Loader2, Plus, ShieldCheck, Sparkles, Target, UserRound } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { CtaButton } from '@/components/ui/cta-button'
 
@@ -11,16 +11,23 @@ import { CtaButton } from '@/components/ui/cta-button'
  * Le hero raconte UN Collaborateur IA durable (Emma) qui développe ses
  * capacités mission après mission, plutôt qu'un recrutement à chaque tâche.
  *
- * Pour chaque mission, Alma : comprend la mission → examine l'équipe →
- * équipe le Collaborateur compatible (profils métier, compétences,
+ * Phase 0 (une seule fois par session) : Alma analyse l'entreprise (Solvea)
+ * et construit le contexte partagé — ce qui prouve que les profils et
+ * compétences ajoutés ensuite ne sont pas génériques. Un repère permanent
+ * « Contexte Solvea actif » reste ensuite visible.
+ *
+ * Pour chaque mission, Alma : comprend la mission → vérifie qui peut la
+ * prendre → équipe le Collaborateur compatible (profils métier, compétences,
  * applications) → attribue la mission. Elle ne prépare un nouveau poste que
- * lorsqu'aucun Collaborateur existant ne convient réellement (scénario Chloé).
+ * lorsqu'aucun Collaborateur existant ne convient (scénario Chloé).
  */
+
+const CONTEXT_KEY = 'unitalk_hero_context_seen'
 
 // Le Collaborateur IA durable au cœur de la démonstration.
 const HOLDER = {
-  fr: { name: 'Emma', role: 'Assistante de direction' },
-  en: { name: 'Emma', role: 'Executive assistant' },
+  fr: { name: 'Emma', role: 'Assistante de direction IA', avatar: '/images/emma-avatar.png' },
+  en: { name: 'Emma', role: 'AI executive assistant', avatar: '/images/emma-avatar.png' },
 } as const
 
 type ItemKind = 'profil' | 'competence' | 'application'
@@ -30,16 +37,18 @@ const JOURNEY = {
   fr: [
     {
       action: 'traiter vos emails',
+      lines: ['traiter vos emails'],
       mission: 'Traiter vos emails',
       outcome: 'assigned',
       items: [
         { kind: 'profil', label: 'Assistante de direction', status: 'installed' },
-        { kind: 'competence', label: 'Gestion des emails', status: 'installed' },
-        { kind: 'application', label: 'Outlook', status: 'installed' },
+        { kind: 'competence', label: 'Gestion des emails', status: 'new' },
+        { kind: 'application', label: 'Outlook', status: 'connected' },
       ],
     },
     {
       action: 'préparer vos comptes rendus',
+      lines: ['préparer vos', 'comptes rendus'],
       mission: 'Préparer vos comptes rendus',
       outcome: 'assigned',
       items: [
@@ -51,22 +60,25 @@ const JOURNEY = {
     },
     {
       action: 'organiser votre agenda',
+      lines: ['organiser votre', 'agenda'],
       mission: 'Organiser votre agenda',
       outcome: 'assigned',
       items: [
         { kind: 'profil', label: 'Assistante de direction', status: 'installed' },
-        { kind: 'competence', label: 'Rédaction de comptes rendus', status: 'installed' },
+        { kind: 'competence', label: 'Gestion des disponibilités', status: 'installed' },
         { kind: 'competence', label: 'Planification d’agenda', status: 'new' },
         { kind: 'application', label: 'Google Agenda', status: 'connected' },
       ],
     },
     {
       action: 'trouver vos prospects',
+      lines: ['trouver vos', 'prospects'],
       mission: 'Trouver vos prospects',
       outcome: 'newRole',
       newRole: {
         name: 'Chloé',
         role: 'Collaboratrice IA commerciale',
+        avatar: '/images/chloe-avatar.png',
         reasons: ['Profil commercial distinct', 'Accès au CRM', 'Règles tarifaires', 'Suivi commercial régulier'],
       },
     },
@@ -74,16 +86,18 @@ const JOURNEY = {
   en: [
     {
       action: 'handle your emails',
+      lines: ['handle your emails'],
       mission: 'Handle your emails',
       outcome: 'assigned',
       items: [
         { kind: 'profil', label: 'Executive assistant', status: 'installed' },
-        { kind: 'competence', label: 'Email handling', status: 'installed' },
-        { kind: 'application', label: 'Outlook', status: 'installed' },
+        { kind: 'competence', label: 'Email handling', status: 'new' },
+        { kind: 'application', label: 'Outlook', status: 'connected' },
       ],
     },
     {
       action: 'prepare your meeting notes',
+      lines: ['prepare your', 'meeting notes'],
       mission: 'Prepare your meeting notes',
       outcome: 'assigned',
       items: [
@@ -95,98 +109,125 @@ const JOURNEY = {
     },
     {
       action: 'organize your calendar',
+      lines: ['organize your', 'calendar'],
       mission: 'Organize your calendar',
       outcome: 'assigned',
       items: [
         { kind: 'profil', label: 'Executive assistant', status: 'installed' },
-        { kind: 'competence', label: 'Minutes writing', status: 'installed' },
+        { kind: 'competence', label: 'Availability management', status: 'installed' },
         { kind: 'competence', label: 'Calendar planning', status: 'new' },
         { kind: 'application', label: 'Google Calendar', status: 'connected' },
       ],
     },
     {
       action: 'find your prospects',
+      lines: ['find your', 'prospects'],
       mission: 'Find your prospects',
       outcome: 'newRole',
       newRole: {
         name: 'Chloé',
         role: 'Sales AI Collaborator',
+        avatar: '/images/chloe-avatar.png',
         reasons: ['Distinct sales profile', 'CRM access', 'Pricing rules', 'Ongoing sales follow-up'],
       },
     },
   ],
 } as const
 
+// Phase 0 — analyse initiale de l'entreprise (jouée une fois par session).
+const CONTEXT = {
+  fr: {
+    domain: 'solvea.fr',
+    groups: [
+      { title: 'Identité', sources: ['Données SIRENE', 'Mentions légales', 'DNS publics'] },
+      { title: 'Activité', sources: ['Site et contenus publics', 'LinkedIn'] },
+    ],
+    built: ['Produits et services', 'Clients et marchés', 'Tarifs', 'Procédures publiques', 'Ton et identité visuelle'],
+  },
+  en: {
+    domain: 'solvea.fr',
+    groups: [
+      { title: 'Identity', sources: ['SIRENE data', 'Legal notice', 'Public DNS'] },
+      { title: 'Activity', sources: ['Website and public content', 'LinkedIn'] },
+    ],
+    built: ['Products and services', 'Customers and markets', 'Pricing', 'Public procedures', 'Tone and visual identity'],
+  },
+} as const
+
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
     readyLead: 'Votre Collaborateur IA est prêt à',
-    almaLeadPre: 'Parlez à ',
+    almaLeadPre: 'Confiez-lui une mission. ',
     almaName: 'Alma',
-    almaLeadPost:
-      '. Elle comprend votre entreprise et le prépare pour les missions que vous lui confiez.',
+    almaLeadPost: ' comprend votre entreprise et lui apporte les savoir-faire nécessaires pour l’accomplir.',
     cta: 'Parler à Alma',
     proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Mis en service par Alma'],
+    capContext: 'Alma analyse votre entreprise',
     capReceived: 'Nouvelle mission',
-    capExamine: 'Alma examine votre équipe',
-    capEquip: 'Alma équipe',
-    capRecommend: 'Alma évalue votre équipe',
+    capExamine: 'Alma vérifie qui peut prendre cette mission',
+    capEquip: 'Alma prépare',
+    capRecommend: 'Alma vérifie qui peut prendre cette mission',
     missionLabel: 'Mission',
     examineQuestion: 'Qui peut la prendre en charge ?',
     profilCompatible: 'Profil compatible',
     profilIncompatible: 'Profil non compatible',
     equipHeading: 'reçoit ce qui lui manque',
-    alreadyEquipped: 'est déjà équipée pour cette mission',
     readyBadge: 'Prête',
-    readyHeading: 'est prête',
-    openWorkspace: 'Ouvrir dans le Workspace',
+    readyForMission: 'est prête pour cette mission',
+    continueAlma: 'Continuer avec Alma',
     noneFit: 'Aucun Collaborateur IA actuel n’est adapté à ce rôle.',
     recommendHeading: 'Alma recommande un nouveau poste',
     newRoleBadge: 'Nouveau poste',
-    actPrepare: 'Préparer ce Collaborateur IA',
-    actEquipExisting: 'Équiper un existant',
-    actCompare: 'Comparer',
     kindName: { profil: 'Profil métier', competence: 'Compétence', application: 'Application' },
     status: {
-      installed: { profil: 'Déjà installé', competence: 'Déjà installée', application: 'Déjà connectée' },
+      installed: { profil: 'Actif', competence: 'Active', application: 'Connecté' },
       new: { profil: 'Ajouté', competence: 'Ajoutée', application: 'Ajoutée' },
-      connected: { profil: 'Connecté', competence: 'Connectée', application: 'Connectée' },
+      connected: { profil: 'Connecté', competence: 'Connectée', application: 'Connecté' },
     },
+    domainLabel: 'Domaine',
+    contextIdentified: 'Solvea identifiée',
+    contextIdentifiedSub: 'Activité, identité juridique et présence numérique vérifiées.',
+    contextBuilding: 'Contexte partagé construit',
+    contextReady: 'Le contexte de Solvea est prêt.',
+    contextChip: 'Contexte Solvea actif',
   },
   en: {
     eyebrow: 'Someone is missing',
     readyLead: 'Your AI Collaborator is ready to',
-    almaLeadPre: 'Talk to ',
+    almaLeadPre: 'Hand it a mission. ',
     almaName: 'Alma',
-    almaLeadPost:
-      '. She understands your Organization, equips the right AI Collaborator and prepares a new role when needed.',
+    almaLeadPost: ' understands your company and gives it the know-how it needs to carry it out.',
     cta: 'Talk to Alma',
     proofs: ['7-day free trial, no card', 'Hosted in France', 'Deployed by Alma'],
+    capContext: 'Alma analyzes your company',
     capReceived: 'New mission',
-    capExamine: 'Alma reviews your team',
-    capEquip: 'Alma equips',
-    capRecommend: 'Alma reviews your team',
+    capExamine: 'Alma checks who can take this on',
+    capEquip: 'Alma prepares',
+    capRecommend: 'Alma checks who can take this on',
     missionLabel: 'Mission',
     examineQuestion: 'Who can take it on?',
     profilCompatible: 'Compatible profile',
     profilIncompatible: 'Incompatible profile',
     equipHeading: 'gets what she is missing',
-    alreadyEquipped: 'is already equipped for this mission',
     readyBadge: 'Ready',
-    readyHeading: 'is ready',
-    openWorkspace: 'Open in the Workspace',
+    readyForMission: 'is ready for this mission',
+    continueAlma: 'Continue with Alma',
     noneFit: 'No current AI Collaborator fits this role.',
     recommendHeading: 'Alma recommends a new role',
     newRoleBadge: 'New role',
-    actPrepare: 'Prepare this AI Collaborator',
-    actEquipExisting: 'Equip an existing one',
-    actCompare: 'Compare',
     kindName: { profil: 'Job profile', competence: 'Skill', application: 'Application' },
     status: {
-      installed: { profil: 'Already installed', competence: 'Already installed', application: 'Already connected' },
+      installed: { profil: 'Active', competence: 'Active', application: 'Connected' },
       new: { profil: 'Added', competence: 'Added', application: 'Added' },
       connected: { profil: 'Connected', competence: 'Connected', application: 'Connected' },
     },
+    domainLabel: 'Domain',
+    contextIdentified: 'Solvea identified',
+    contextIdentifiedSub: 'Business activity, legal identity and digital presence verified.',
+    contextBuilding: 'Shared context built',
+    contextReady: 'Solvea’s context is ready.',
+    contextChip: 'Solvea context active',
   },
 } as const
 
@@ -194,55 +235,128 @@ const ease = [0.22, 1, 0.36, 1] as const
 const KIND_ICON = { profil: UserRound, competence: Sparkles, application: AppWindow } as const
 
 type Phase = 'received' | 'examine' | 'equip' | 'ready'
+type Stage = 'context' | 'missions'
 
 export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const journey = JOURNEY[lang]
   const holder = HOLDER[lang]
+  const ctx = CONTEXT[lang]
   const reduceMotion = useReducedMotion()
 
-  // Cycle courant : pilote le verbe du titre ET la mission jouée dans la carte.
+  // Décision prise au montage (SSR-safe) : rejoue-t-on la phase 0 ?
+  const [decided, setDecided] = useState(false)
+  const [stage, setStage] = useState<Stage>('missions')
+  const [contextActive, setContextActive] = useState(false)
+
   const [cycle, setCycle] = useState(0)
   const current = journey[cycle % journey.length]
   const isNewRole = current.outcome === 'newRole'
 
-  const [phase, setPhase] = useState<Phase>(reduceMotion ? 'ready' : 'received')
-  const [equipStep, setEquipStep] = useState(reduceMotion ? 99 : 0)
+  const [phase, setPhase] = useState<Phase>('received')
+  const [equipStep, setEquipStep] = useState(0)
+  const [p0, setP0] = useState(0)
 
+  // Décision unique au montage — évite tout décalage d'hydratation.
   useEffect(() => {
+    let seen = false
+    try {
+      seen = sessionStorage.getItem(CONTEXT_KEY) === '1'
+    } catch {
+      seen = false
+    }
+    if (reduceMotion) {
+      setContextActive(true)
+      setStage('missions')
+      setPhase('ready')
+      setEquipStep(99)
+      setDecided(true)
+      return
+    }
+    if (seen) {
+      setContextActive(true)
+      setStage('missions')
+    } else {
+      setStage('context')
+    }
+    setDecided(true)
+  }, [reduceMotion])
+
+  // Phase 0 — analyse de l'entreprise (≤ 4 s), une seule fois.
+  useEffect(() => {
+    if (!decided || stage !== 'context' || reduceMotion) return
+    const timers: ReturnType<typeof setTimeout>[] = []
+    setP0(0)
+    timers.push(setTimeout(() => setP0(1), 500)) // groupe Identité
+    timers.push(setTimeout(() => setP0(2), 1300)) // groupe Activité
+    timers.push(setTimeout(() => setP0(3), 2100)) // entreprise identifiée
+    timers.push(setTimeout(() => setP0(4), 2900)) // contexte construit
+    timers.push(
+      setTimeout(() => {
+        try {
+          sessionStorage.setItem(CONTEXT_KEY, '1')
+        } catch {
+          /* ignore */
+        }
+        setContextActive(true)
+        setCycle(0)
+        setStage('missions')
+      }, 4200),
+    )
+    return () => timers.forEach(clearTimeout)
+  }, [decided, stage, reduceMotion])
+
+  // Cycle des missions — rythme ralenti pour la lisibilité.
+  useEffect(() => {
+    if (!decided || stage !== 'missions' || reduceMotion) return
     const m = journey[cycle % journey.length]
     const itemCount = m.outcome === 'assigned' ? m.items.length : 0
     const timers: ReturnType<typeof setTimeout>[] = []
 
-    if (reduceMotion) {
-      setPhase('ready')
-      setEquipStep(99)
-      timers.push(setTimeout(() => setCycle((c) => (c + 1) % journey.length), 5000))
-      return () => timers.forEach(clearTimeout)
-    }
-
     setPhase('received')
     setEquipStep(0)
     timers.push(setTimeout(() => setPhase('examine'), 1300))
-    timers.push(setTimeout(() => setPhase('equip'), 2900))
+    timers.push(setTimeout(() => setPhase('equip'), 3100))
     for (let i = 0; i < itemCount; i++) {
-      timers.push(setTimeout(() => setEquipStep(i + 1), 2900 + 320 * (i + 1)))
+      timers.push(setTimeout(() => setEquipStep(i + 1), 3100 + 550 * (i + 1)))
     }
-    const equipDur = m.outcome === 'assigned' ? 1000 + 320 * itemCount : 2400
-    const readyAt = 2900 + equipDur
+    const equipDur = m.outcome === 'assigned' ? 900 + 550 * itemCount : 2600
+    const readyAt = 3100 + equipDur
     timers.push(setTimeout(() => setPhase('ready'), readyAt))
-    timers.push(setTimeout(() => setCycle((c) => (c + 1) % journey.length), readyAt + 3600))
+    timers.push(setTimeout(() => setCycle((c) => (c + 1) % journey.length), readyAt + 5000))
     return () => timers.forEach(clearTimeout)
-  }, [cycle, reduceMotion, journey])
+  }, [decided, stage, cycle, reduceMotion, journey])
 
+  // Reduced motion : on fait tourner les missions sans animation intermédiaire.
+  useEffect(() => {
+    if (!decided || !reduceMotion) return
+    const id = setInterval(() => setCycle((c) => (c + 1) % journey.length), 5000)
+    return () => clearInterval(id)
+  }, [decided, reduceMotion, journey])
+
+  const inContext = stage === 'context'
   const intro = phase !== 'ready'
-  const overallPct = phase === 'received' ? 15 : phase === 'examine' ? 42 : phase === 'equip' ? 78 : 100
+  const overallPct = inContext
+    ? p0 <= 0
+      ? 12
+      : p0 === 1
+        ? 32
+        : p0 === 2
+          ? 55
+          : p0 === 3
+            ? 78
+            : 100
+    : phase === 'received'
+      ? 15
+      : phase === 'examine'
+        ? 42
+        : phase === 'equip'
+          ? 78
+          : 100
 
-  // Largeur réservée sur le plus long verbe → conteneur du titre stable.
-  const longestAction = journey.reduce((a, c) => (c.action.length > a.length ? c.action : a), '')
-
-  const caption =
-    phase === 'received'
+  const caption = inContext
+    ? t.capContext
+    : phase === 'received'
       ? t.capReceived
       : phase === 'examine'
         ? t.capExamine
@@ -257,7 +371,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   })
 
   return (
-    <section className="relative flex min-h-0 items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:min-h-[92svh] sm:pb-16 sm:pt-28">
+    <section className="hero-viewport relative flex items-center overflow-hidden bg-[#F3EFE6] pb-14 pt-24 sm:pb-16 sm:pt-28">
       {/* subtle editorial backdrop */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -right-32 -top-24 h-[36rem] w-[36rem] rounded-full bg-[#D10E63]/[0.06] blur-3xl" />
@@ -272,25 +386,35 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <motion.h1
             {...enter(0.1)}
-            className="text-balance text-center font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17] sm:text-left"
+            className="font-sf text-[clamp(1.9rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#1C1A17]"
           >
-            <span className="block">{t.readyLead}</span>
-            <span className="relative inline-block align-top text-[#D10E63]">
-              <span className="invisible" aria-hidden="true">
-                {longestAction}
+            {/* Continuous sentence for assistive tech — no visual line breaks announced. */}
+            <span className="sr-only">
+              {t.readyLead} {current.action}.
+            </span>
+
+            {/* Visual composition: fixed lead line + a dynamic area that reserves
+                two lines of height so the paragraph and CTA never shift. */}
+            <span aria-hidden="true" className="block text-center sm:text-left">
+              <span className="block text-balance">{t.readyLead}</span>
+              <span className="relative mt-1 block min-h-[2.1em]">
+                <AnimatePresence initial={false}>
+                  <motion.span
+                    key={cycle}
+                    initial={reduceMotion ? false : { opacity: 0, y: '0.3em' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: '-0.3em' }}
+                    transition={reduceMotion ? { duration: 0 } : { duration: 0.4, ease: 'easeInOut' }}
+                    className="absolute inset-x-0 top-0 block text-[#D10E63]"
+                  >
+                    {current.lines.map((line, i) => (
+                      <span key={i} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </motion.span>
+                </AnimatePresence>
               </span>
-              <AnimatePresence initial={false}>
-                <motion.span
-                  key={cycle}
-                  initial={reduceMotion ? false : { opacity: 0, y: '0.32em' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: '-0.32em' }}
-                  transition={reduceMotion ? { duration: 0 } : { duration: 0.36, ease: 'easeInOut' }}
-                  className="absolute inset-0 block whitespace-nowrap"
-                >
-                  {current.action}
-                </motion.span>
-              </AnimatePresence>
             </span>
           </motion.h1>
 
@@ -326,7 +450,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </motion.div>
         </div>
 
-        {/* Visual — Alma comprend, examine l'équipe, équipe le Collaborateur, attribue la mission */}
+        {/* Visual — Alma comprend l'entreprise, puis équipe le Collaborateur mission après mission */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
           {/* Halo aurora bi-teinte derrière la carte */}
           <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
@@ -377,9 +501,158 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               />
             )}
 
+            {/* Repère permanent : contexte de l'entreprise actif */}
+            <AnimatePresence initial={false}>
+              {contextActive && (
+                <motion.div
+                  key="context-chip"
+                  initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="relative flex items-center justify-center gap-1.5 border-b border-white/[0.06] bg-[#4ADE80]/[0.06] py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#7FE3A6]"
+                >
+                  <ShieldCheck className="h-3 w-3" strokeWidth={2.5} aria-hidden="true" />
+                  {t.contextChip}
+                  <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <AnimatePresence mode="wait" initial={false}>
-              {intro ? (
-                /* ── Séquence : mission reçue → équipe examinée → équipement ── */
+              {!decided ? (
+                /* ── Frame neutre (SSR + 1er rendu) : évite tout flash de mission ── */
+                <motion.div key="boot" className="relative flex min-h-[520px] flex-col p-5">
+                  <div className="flex items-center gap-3.5 border-b border-white/[0.08] pb-4">
+                    <Image
+                      src="/alma-avatar.png"
+                      alt=""
+                      width={44}
+                      height={44}
+                      className="rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                      style={{ height: 44, width: 44 }}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="font-sf text-base font-bold leading-tight text-[#F6F1E8]">{t.almaName}</p>
+                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.capContext}</p>
+                    </div>
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#F0658F]" aria-hidden="true" />
+                  </div>
+                </motion.div>
+              ) : inContext ? (
+                /* ── Phase 0 — Alma analyse l'entreprise (une fois par session) ── */
+                <motion.div
+                  key="context-card"
+                  initial={reduceMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="relative flex min-h-[520px] flex-col p-5"
+                >
+                  <div className="flex items-center gap-3.5 border-b border-white/[0.08] pb-4">
+                    <span className="relative shrink-0">
+                      <span aria-hidden="true" className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md" />
+                      <Image
+                        src="/alma-avatar.png"
+                        alt=""
+                        width={44}
+                        height={44}
+                        className="relative rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                        style={{ height: 44, width: 44 }}
+                      />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-sf text-base font-bold leading-tight text-[#F6F1E8]">{t.almaName}</p>
+                      <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{caption}</p>
+                    </div>
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin text-[#F0658F]" aria-hidden="true" />
+                  </div>
+
+                  <div className="flex flex-1 flex-col gap-3 pt-4">
+                    {/* Domaine reçu */}
+                    <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2.5">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/[0.05]" aria-hidden="true">
+                        <Globe className="h-3.5 w-3.5 text-[#D8D2C6]" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#8A8377]">{t.domainLabel}</p>
+                        <p className="truncate text-[13px] font-semibold text-[#F6F1E8]">{ctx.domain}</p>
+                      </div>
+                      <Check className="h-3.5 w-3.5 shrink-0 text-[#5FE38F]" strokeWidth={3} aria-hidden="true" />
+                    </div>
+
+                    {/* Deux groupes de sources vérifiées */}
+                    <div className="grid grid-cols-2 gap-2">
+                      {ctx.groups.map((g, gi) => {
+                        const shown = p0 > gi
+                        return (
+                          <motion.div
+                            key={g.title}
+                            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                            animate={shown ? { opacity: 1, y: 0 } : { opacity: 0.25, y: 0 }}
+                            transition={{ duration: 0.35, ease }}
+                            className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-2.5"
+                          >
+                            <p className="mb-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#F58AAB]">{g.title}</p>
+                            <ul className="flex flex-col gap-1">
+                              {g.sources.map((s) => (
+                                <li key={s} className="flex items-center gap-1.5 text-[11px] leading-tight text-[#D8D2C6]">
+                                  <Check className="h-2.5 w-2.5 shrink-0 text-[#5FE38F]" strokeWidth={3} aria-hidden="true" />
+                                  <span className="truncate">{s}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        )
+                      })}
+                    </div>
+
+                    {/* Entreprise identifiée */}
+                    <motion.div
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={p0 > 2 ? { opacity: 1, y: 0 } : { opacity: 0.2, y: 0 }}
+                      transition={{ duration: 0.35, ease }}
+                      className="flex items-center gap-2.5 rounded-xl border border-[#4ADE80]/20 bg-[#4ADE80]/[0.07] px-3 py-2.5"
+                    >
+                      <ShieldCheck className="h-4 w-4 shrink-0 text-[#5FE38F]" strokeWidth={2.5} aria-hidden="true" />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[12.5px] font-bold leading-tight text-[#F6F1E8]">{t.contextIdentified}</p>
+                        <p className="truncate text-[10.5px] leading-tight text-[#A49E92]">{t.contextIdentifiedSub}</p>
+                      </div>
+                    </motion.div>
+
+                    {/* Contexte partagé construit */}
+                    <motion.div
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={p0 > 3 ? { opacity: 1, y: 0 } : { opacity: 0.2, y: 0 }}
+                      transition={{ duration: 0.35, ease }}
+                    >
+                      <p className="mb-2 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#8A8377]">{t.contextBuilding}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {ctx.built.map((b) => (
+                          <span key={b} className="rounded-full border border-white/[0.1] bg-white/[0.03] px-2 py-1 text-[10.5px] font-medium text-[#D8D2C6]">
+                            {b}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="mt-3 flex items-center gap-1.5 text-[12.5px] font-semibold text-[#5FE38F]">
+                        <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden="true" />
+                        {t.contextReady}
+                      </p>
+                    </motion.div>
+                  </div>
+
+                  <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/[0.07]" aria-hidden="true">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-[#D10E63] to-[#F0658F]"
+                      initial={false}
+                      animate={{ width: `${overallPct}%` }}
+                      transition={{ duration: 0.5, ease }}
+                    />
+                  </div>
+                </motion.div>
+              ) : intro ? (
+                /* ── Séquence : mission reçue → équipe vérifiée → équipement ── */
                 <motion.div
                   key="alma-intro"
                   initial={reduceMotion ? false : { opacity: 0 }}
@@ -429,20 +702,18 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                           </div>
                         )}
 
-                        {/* État 2 — Équipe examinée */}
+                        {/* État 2 — Alma vérifie qui peut prendre la mission */}
                         {phase === 'examine' && (
                           <div>
                             <p className="mb-4 text-center font-sf text-[15px] font-semibold text-[#F6F1E8]">
                               {t.examineQuestion}
                             </p>
                             <div className="flex items-center gap-3 rounded-2xl border border-white/[0.1] bg-white/[0.03] px-3.5 py-3">
-                              <span
-                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-sf text-sm font-bold text-[#FBF9F3]"
-                                style={{ background: 'linear-gradient(135deg, #D10E63, #F0658F)' }}
-                                aria-hidden="true"
-                              >
-                                {holder.name.charAt(0)}
-                              </span>
+                              <img
+                                src={holder.avatar || '/placeholder.svg'}
+                                alt={holder.name}
+                                className="h-10 w-10 shrink-0 rounded-full object-cover"
+                              />
                               <div className="min-w-0 flex-1">
                                 <p className="truncate text-sm font-bold text-[#F6F1E8]">{holder.name}</p>
                                 <p className="truncate text-[11.5px] text-[#A49E92]">{holder.role}</p>
@@ -513,13 +784,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                             <p className="mb-3 font-sf text-[15px] font-semibold text-[#F6F1E8]">{t.recommendHeading}</p>
                             <div className="rounded-2xl border border-[#F0658F]/25 bg-[#D10E63]/[0.08] p-3.5">
                               <div className="flex items-center gap-3">
-                                <span
-                                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-sf text-sm font-bold text-[#FBF9F3] ring-2 ring-[#F0658F]/40"
-                                  style={{ background: 'linear-gradient(135deg, #7C3AED, #D10E63)' }}
-                                  aria-hidden="true"
-                                >
-                                  {current.newRole.name.charAt(0)}
-                                </span>
+                                <img
+                                  src={current.newRole.avatar || '/placeholder.svg'}
+                                  alt={current.newRole.name}
+                                  className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                                />
                                 <div className="min-w-0 flex-1">
                                   <p className="truncate text-sm font-bold text-[#F6F1E8]">{current.newRole.name}</p>
                                   <p className="truncate text-[11.5px] text-[#CDBFC4]">{current.newRole.role}</p>
@@ -568,13 +837,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <div className="relative flex items-center gap-3.5 border-b border-white/[0.08] bg-white/[0.02] p-5">
                         <span className="relative shrink-0">
                           <span aria-hidden="true" className="absolute -inset-1 rounded-full bg-[#D10E63]/30 blur-md" />
-                          <span
-                            className="relative flex h-[52px] w-[52px] items-center justify-center rounded-full font-sf text-xl font-bold text-[#FBF9F3] ring-2 ring-[#F0658F]/40"
-                            style={{ background: 'linear-gradient(135deg, #D10E63, #F0658F)' }}
-                            aria-hidden="true"
-                          >
-                            {holder.name.charAt(0)}
-                          </span>
+                          <img
+                            src={holder.avatar || '/placeholder.svg'}
+                            alt={holder.name}
+                            className="relative h-[52px] w-[52px] rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                          />
                           <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center" aria-hidden="true">
                             <motion.span
                               className="absolute h-3.5 w-3.5 rounded-full bg-[#4ADE80]/40"
@@ -655,20 +922,25 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                         <div className="flex-1" />
 
-                        <motion.a
-                          href="/decouvrir"
-                          initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4, ease, delay: 0.24 }}
-                          className="group/cta flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
-                        >
-                          {t.openWorkspace}
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5" aria-hidden="true" />
-                        </motion.a>
+                        <div>
+                          <p className="mb-2 text-center text-[12px] font-medium text-[#A49E92] sm:text-left">
+                            <span className="font-semibold text-[#F6F1E8]">{holder.name}</span> {t.readyForMission}
+                          </p>
+                          <motion.a
+                            href="/decouvrir"
+                            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, ease, delay: 0.24 }}
+                            className="group/cta flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
+                          >
+                            {t.continueAlma}
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5" aria-hidden="true" />
+                          </motion.a>
+                        </div>
                       </div>
                     </>
                   ) : (
-                    /* Décision : Alma propose un nouveau poste, l'utilisateur décide */
+                    /* Décision : Alma propose un nouveau poste, l'utilisateur poursuit avec Alma */
                     <div className="relative flex flex-1 flex-col p-5">
                       <div className="flex items-center gap-3.5 border-b border-white/[0.08] pb-4">
                         <Image
@@ -690,13 +962,11 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                         <div className="mt-3 rounded-2xl border border-[#F0658F]/25 bg-[#D10E63]/[0.08] p-4">
                           <div className="flex items-center gap-3">
-                            <span
-                              className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full font-sf text-lg font-bold text-[#FBF9F3] ring-2 ring-[#F0658F]/40"
-                              style={{ background: 'linear-gradient(135deg, #7C3AED, #D10E63)' }}
-                              aria-hidden="true"
-                            >
-                              {current.newRole.name.charAt(0)}
-                            </span>
+                            <img
+                              src={current.newRole.avatar || '/placeholder.svg'}
+                              alt={current.newRole.name}
+                              className="h-[46px] w-[46px] shrink-0 rounded-full object-cover ring-2 ring-[#F0658F]/40"
+                            />
                             <div className="min-w-0 flex-1">
                               <p className="truncate font-sf text-base font-bold text-[#F6F1E8]">{current.newRole.name}</p>
                               <p className="truncate text-[12px] text-[#CDBFC4]">{current.newRole.role}</p>
@@ -717,30 +987,14 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                         <div className="flex-1" />
 
-                        {/* L'utilisateur décide — Alma ne crée rien automatiquement */}
-                        <div className="mt-4 flex flex-col gap-2">
-                          <a
-                            href="/decouvrir"
-                            className="group/cta flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
-                          >
-                            {t.actPrepare}
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5" aria-hidden="true" />
-                          </a>
-                          <div className="grid grid-cols-2 gap-2">
-                            <a
-                              href="/decouvrir"
-                              className="flex items-center justify-center rounded-xl border border-white/[0.12] px-3 py-2.5 text-[12px] font-semibold text-[#D8D2C6] transition-colors hover:bg-white/[0.05]"
-                            >
-                              {t.actEquipExisting}
-                            </a>
-                            <a
-                              href="/decouvrir"
-                              className="flex items-center justify-center rounded-xl border border-white/[0.12] px-3 py-2.5 text-[12px] font-semibold text-[#D8D2C6] transition-colors hover:bg-white/[0.05]"
-                            >
-                              {t.actCompare}
-                            </a>
-                          </div>
-                        </div>
+                        {/* Un seul CTA — la décision détaillée se poursuit sur /decouvrir */}
+                        <a
+                          href="/decouvrir"
+                          className="group/cta mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-3 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
+                        >
+                          {t.continueAlma}
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-0.5" aria-hidden="true" />
+                        </a>
                       </div>
                     </div>
                   )}
