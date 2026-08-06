@@ -144,7 +144,6 @@ function CompanyCard({ t }: { t: CompanyCopy }) {
           placeholder={t.placeholder}
           className="h-11 w-full rounded-xl border border-[#DcD4C4] bg-[#FDFCF9] px-3.5 text-sm text-[#1C1A17] outline-none transition-colors placeholder:text-[#B7B0A4] focus:border-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
         />
-        <span className="mt-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#B7B0A4]">{t.demo}</span>
       </div>
 
       <button
