@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Mic, SlidersHorizontal, X } from 'lucide-react'
@@ -255,6 +256,11 @@ export function MissionsContent() {
     results: lang === 'fr' ? 'Résultats' : 'Results',
     count: (n: number) => `${n} mission${n > 1 ? 's' : ''}`,
     allBrowsed: lang === 'fr' ? 'Vous avez parcouru toutes les missions.' : 'You’ve browsed all missions.',
+    proposeQuestion:
+      lang === 'fr'
+        ? 'Vous avez conçu une mission utile à d’autres entreprises ?'
+        : 'Have you designed a mission useful to other companies?',
+    proposeCta: lang === 'fr' ? 'Proposer une mission' : 'Propose a mission',
     sortLabel: lang === 'fr' ? 'Trier' : 'Sort',
     clear: lang === 'fr' ? 'Effacer les filtres' : 'Clear filters',
     searchChip: lang === 'fr' ? 'Recherche' : 'Search',
@@ -483,6 +489,22 @@ export function MissionsContent() {
                       <div className="mt-6">
                         <AlmaBand lang={lang} />
                       </div>
+
+                      {/* Creator entry point — a thin, tinted band placed only at
+                          the very end, for people who already grasp the format.
+                          Not in the hero, filters, or next to "Parler à Alma". */}
+                      <Link
+                        href="/missions/proposer"
+                        className="group mt-4 flex flex-col gap-2 rounded-xl border border-[var(--store-line)] bg-[#FCEAF2] px-5 py-4 transition-colors hover:border-[#D10E63]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                      >
+                        <span className="text-sm leading-relaxed text-[var(--store-text)]">{t.proposeQuestion}</span>
+                        <span className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#AD0C53]">
+                          {t.proposeCta}
+                          <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                            →
+                          </span>
+                        </span>
+                      </Link>
                     </>
                   )}
                 </>

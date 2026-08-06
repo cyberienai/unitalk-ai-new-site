@@ -21,6 +21,10 @@ const T = {
         ],
       },
       {
+        title: 'Créateurs',
+        links: [{ label: 'Proposer une mission', href: '/missions/proposer' }],
+      },
+      {
         title: 'Entreprise',
         links: [
           { label: 'À propos', href: '/manifeste' },
@@ -55,6 +59,10 @@ const T = {
         ],
       },
       {
+        title: 'Creators',
+        links: [{ label: 'Propose a mission', href: '/missions/proposer' }],
+      },
+      {
         title: 'Company',
         links: [
           { label: 'About', href: '/manifeste' },
@@ -83,7 +91,7 @@ export function SiteFooter() {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-12 lg:gap-x-10">
           {/* Brand + contact */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-6">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-4">
             <div className="flex items-center gap-2.5">
               <UnitalkLogo size={28} />
               <span className="font-inter text-base font-semibold text-[#F3EFE6]">Unitalk</span>
