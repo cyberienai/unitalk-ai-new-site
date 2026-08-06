@@ -151,6 +151,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   const isCollabActive =
     (pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')) &&
     !pathname.startsWith('/collaborateurs-ia/roles')
+  const isMissionsActive = pathname === '/missions' || pathname.startsWith('/missions/')
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'
 
@@ -213,6 +214,11 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
             <div className="hidden items-center gap-1 lg:flex">
               <NavItem href="/collaborateurs-ia" active={isCollabActive}>
                 {t.collaborators}
+              </NavItem>
+
+              {/* Missions — direct link (the need), distinct from the Store (the equipment) */}
+              <NavItem href="/missions" active={isMissionsActive}>
+                {t.missions}
               </NavItem>
 
               {/* Store dropdown */}
