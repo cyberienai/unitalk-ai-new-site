@@ -29,9 +29,9 @@ type MissionId = 'qualify' | 'prepare' | 'faq'
 
 const CONTENT = {
   fr: {
-    eyebrow: 'Commencez par votre site web',
-    title: 'Entrez le nom de domaine de votre entreprise.',
-    subtitle: 'À partir de vos informations publiques et de quelques minutes d’échange, Alma construit la mémoire de votre entreprise — partagée par tous vos Collaborateurs IA — puis vous propose les premières missions à confier.',
+    eyebrow: 'Si vous partez de zéro',
+    title: 'Laissez Alma découvrir votre entreprise.',
+    subtitle: 'Entrez votre nom de domaine. Alma rassemble ce qui est public sur votre activité, vous pose quelques questions, et construit la mémoire d’entreprise sur laquelle travailleront tous vos Collaborateurs IA.',
     fieldLabel: 'Nom de domaine de votre entreprise',
     placeholder: 'votre-entreprise.com',
     cta: 'Analyser mon site',
@@ -103,9 +103,9 @@ const CONTENT = {
     } as Record<MissionId, { profil: string; skills: string[]; tools: string[] }>,
   },
   en: {
-    eyebrow: 'Start with your website',
-    title: 'Enter your company’s domain name.',
-    subtitle: 'From your public information and a few minutes of conversation, Alma builds your company memory — shared by all your AI Collaborators — then suggests the first missions to hand off.',
+    eyebrow: 'If you’re starting from scratch',
+    title: 'Let Alma discover your company.',
+    subtitle: 'Enter your domain name. Alma gathers what’s public about your business, asks you a few questions, and builds the company memory that all your AI Collaborators will work from.',
     fieldLabel: 'Your company’s domain name',
     placeholder: 'your-company.com',
     cta: 'Analyze my site',

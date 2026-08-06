@@ -141,7 +141,7 @@ const MISSIONS: Mission[] = [
 
 const T = {
   fr: {
-    kicker: 'Commencez par une mission',
+    kicker: 'Si vous avez une mission en tête',
     headline1: 'Que souhaitez-vous',
     headline2: 'accomplir\u00A0?',
     subtitle:
@@ -156,7 +156,7 @@ const T = {
     groupLabel: 'Choisir une mission',
   },
   en: {
-    kicker: 'Start with a mission',
+    kicker: 'If you have a mission in mind',
     headline1: 'What do you want',
     headline2: 'to accomplish?',
     subtitle:

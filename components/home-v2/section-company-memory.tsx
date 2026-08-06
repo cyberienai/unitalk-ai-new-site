@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Check, FileText, Globe, MessagesSquare, Users } from 'lucide-react'
+import { ArrowRight, Check, FileText, Globe, MessagesSquare, Users } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -12,7 +13,8 @@ type FileId = 'soul' | 'user' | 'org'
 
 const T = {
   fr: {
-    eyebrow: 'La mémoire de votre entreprise',
+    eyebrow: 'Une mémoire, pas un prompt',
+    cta: 'Découvrir la mémoire d’entreprise',
     title: 'Vos Collaborateurs partagent la même connaissance de votre entreprise.',
     subtitle:
       'Avant la première mission, Alma collecte vos informations publiques et vous pose quelques questions. De cet échange naît une mémoire d’entreprise, lisible et modifiable, qui vous appartient. Chaque nouveau Collaborateur en hérite dès son premier jour.',
@@ -56,7 +58,8 @@ const T = {
     } as Record<FileId, { h: string; muted: boolean }[]>,
   },
   en: {
-    eyebrow: 'Your company memory',
+    eyebrow: 'A memory, not a prompt',
+    cta: 'Explore company memory',
     title: 'Your Collaborators share the same knowledge of your company.',
     subtitle:
       'Before the first mission, Alma gathers your public information and asks you a few questions. From that conversation comes a company memory — readable, editable, and yours. Every new Collaborator inherits it from day one.',
@@ -141,6 +144,14 @@ export function SectionCompanyMemory({ lang }: { lang: Lang }) {
           <p className="mt-8 border-l-2 border-[#D10E63] pl-4 font-sf text-lg font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17] text-pretty">
             {t.closing}
           </p>
+
+          <Link
+            href="/workspace"
+            className="group mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#B10A52] transition-colors hover:text-[#8C0840] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+          >
+            {t.cta}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
         </motion.div>
 
         {/* Right — memory files preview */}

@@ -29,6 +29,7 @@ const T = {
       '. Elle analyse votre entreprise et prépare le Collaborateur IA qu’il vous faut.',
     cta: 'Commencer gratuitement',
     proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD'],
+    announce: 'Trois façons de commencer : votre site web, une mission, ou un profil métier.',
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -72,6 +73,7 @@ const T = {
       '. She analyzes your company and prepares the AI Collaborator you need.',
     cta: 'Start for free',
     proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant'],
+    announce: 'Three ways to start: your website, a mission, or a business profile.',
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
@@ -202,10 +204,14 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 </span>
               ))}
             </div>
+
+            <p className="max-w-md text-balance text-center text-[13px] leading-relaxed text-[#8A8175] sm:text-left">
+              {t.announce}
+            </p>
           </motion.div>
         </div>
 
-        {/* Visual — Emma en poste : cockpit sombre + halo magenta */}
+        {/* Visual ��� Emma en poste : cockpit sombre + halo magenta */}
         <motion.div {...enter(0.2)} className="group relative mx-auto w-full max-w-md">
           {/* Halo aurora bi-teinte derrière la carte */}
           <div aria-hidden="true" className="pointer-events-none absolute -inset-16 -z-10">
