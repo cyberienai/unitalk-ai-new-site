@@ -10,7 +10,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 const T = {
   fr: {
     eyebrow: 'Par où commencer',
-    title: 'Commencez comme vous voulez.',
+    title: 'Recrutez comme vous voulez.',
     subtitle: 'À partir de votre site web, d’une mission ou d’un profil métier. Alma prépare le reste.',
     cards: [
       {
@@ -48,7 +48,7 @@ const T = {
   },
   en: {
     eyebrow: 'Where to start',
-    title: 'Start however you want.',
+    title: 'Recruit however you want.',
     subtitle: 'From your website, a mission or a job profile. Alma prepares the rest.',
     cards: [
       {
