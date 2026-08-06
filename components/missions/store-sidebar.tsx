@@ -7,7 +7,7 @@ import {
   NEEDS,
   SECTORS,
   ZONES,
-  DELIVERABLES,
+  MODALITIES,
   type Facet,
   type StoreFilters,
 } from '@/lib/missions-store'
@@ -18,14 +18,14 @@ const GROUP_LABELS: Record<GroupKey, { fr: string; en: string }> = {
   need: { fr: 'Besoin', en: 'Need' },
   sector: { fr: 'Secteur', en: 'Sector' },
   zone: { fr: 'Zone', en: 'Zone' },
-  deliverable: { fr: 'Livrable', en: 'Deliverable' },
+  modalite: { fr: 'Modalité', en: 'Modality' },
 }
 
 const ALL_LABELS: Record<GroupKey, { fr: string; en: string }> = {
   need: { fr: 'Toutes les missions', en: 'All missions' },
   sector: { fr: 'Tous les secteurs', en: 'All sectors' },
   zone: { fr: 'Toutes les zones', en: 'All zones' },
-  deliverable: { fr: 'Tous les livrables', en: 'All deliverables' },
+  modalite: { fr: 'Toutes les modalités', en: 'All modalities' },
 }
 
 function FilterGroup({
@@ -107,7 +107,7 @@ export function StoreSidebar({
       <FilterGroup groupKey="need" items={NEEDS as Facet[]} value={filters.need} lang={lang} onSelect={onSelect} />
       <FilterGroup groupKey="sector" items={SECTORS} value={filters.sector} lang={lang} onSelect={onSelect} />
       <FilterGroup groupKey="zone" items={ZONES} value={filters.zone} lang={lang} onSelect={onSelect} />
-      <FilterGroup groupKey="deliverable" items={DELIVERABLES} value={filters.deliverable} lang={lang} onSelect={onSelect} />
+      <FilterGroup groupKey="modalite" items={MODALITIES} value={filters.modalite} lang={lang} onSelect={onSelect} />
     </nav>
   )
 }

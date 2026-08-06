@@ -7,7 +7,7 @@ import {
   missionFacets,
   SECTOR_LABELS,
   ZONE_LABELS,
-  DELIVERABLE_TYPE_LABELS,
+  MODALITY_LABELS,
   type Mission,
 } from '@/lib/missions-catalog'
 import type { Bilingual } from '@/lib/collaborators-catalog'
@@ -42,22 +42,72 @@ function facetsPresent(pick: (m: Mission) => string[], labels: Record<string, Bi
 
 export const SECTORS: Facet[] = facetsPresent((m) => missionFacets(m).sectors, SECTOR_LABELS)
 export const ZONES: Facet[] = facetsPresent((m) => missionFacets(m).zones, ZONE_LABELS)
-export const DELIVERABLES: Facet[] = facetsPresent(
-  (m) => [missionFacets(m).deliverableType],
-  DELIVERABLE_TYPE_LABELS,
-)
+// Modality replaces the old "deliverable" facet: how the Collaborator works, not a technical output.
+export const MODALITIES: Facet[] = facetsPresent((m) => [missionFacets(m).modality], MODALITY_LABELS)
 
 export type StoreFilters = {
   need: string | 'all'
   sector: string | 'all'
   zone: string | 'all'
-  deliverable: string | 'all'
+  modalite: string | 'all'
 }
 
-export const EMPTY_FILTERS: StoreFilters = { need: 'all', sector: 'all', zone: 'all', deliverable: 'all' }
+export const EMPTY_FILTERS: StoreFilters = { need: 'all', sector: 'all', zone: 'all', modalite: 'all' }
 
 export function activeFilterCount(f: StoreFilters): number {
-  return [f.need, f.sector, f.zone, f.deliverable].filter((v) => v !== 'all').length
+  return [f.need, f.sector, f.zone, f.modalite].filter((v) => v !== 'all').length
+}
+
+// --- Sort ------------------------------------------------------------------
+export type SortKey = 'recommended' | 'recent' | 'az'
+export const DEFAULT_SORT: SortKey = 'recommended'
+
+export const SORT_OPTIONS: { key: SortKey; label: Bilingual }[] = [
+  { key: 'recommended', label: { fr: 'Recommandées', en: 'Recommended' } },
+  { key: 'recent', label: { fr: 'Plus récentes', en: 'Most recent' } },
+  { key: 'az', label: { fr: 'Ordre alphabétique', en: 'Alphabetical' } },
+]
+
+// Catalog index = authoring order. Later in the array == more recently added.
+const ORDER = new Map(MISSIONS.map((m, i) => [m.slug, i]))
+
+export function sortMissions(list: Mission[], sort: SortKey, lang: Lang): Mission[] {
+  if (sort === 'recommended') return list
+  const copy = [...list]
+  if (sort === 'recent') {
+    copy.sort((a, b) => (ORDER.get(b.slug) ?? 0) - (ORDER.get(a.slug) ?? 0))
+  } else if (sort === 'az') {
+    copy.sort((a, b) => a.title[lang].localeCompare(b.title[lang], lang))
+  }
+  return copy
+}
+
+// --- URL <-> state ---------------------------------------------------------
+// Query keys are French-facing, per the product URLs (?besoin=, ?secteur=, …).
+export function filtersFromParams(params: URLSearchParams): StoreFilters {
+  return {
+    need: params.get('besoin') || 'all',
+    sector: params.get('secteur') || 'all',
+    zone: params.get('zone') || 'all',
+    modalite: params.get('modalite') || 'all',
+  }
+}
+
+export function sortFromParams(params: URLSearchParams): SortKey {
+  const v = params.get('tri')
+  return v === 'recent' || v === 'az' ? v : DEFAULT_SORT
+}
+
+// Builds the query string for the given state, omitting defaults so URLs stay clean.
+export function buildParams(query: string, filters: StoreFilters, sort: SortKey): string {
+  const p = new URLSearchParams()
+  if (query.trim()) p.set('q', query.trim())
+  if (filters.need !== 'all') p.set('besoin', filters.need)
+  if (filters.sector !== 'all') p.set('secteur', filters.sector)
+  if (filters.zone !== 'all') p.set('zone', filters.zone)
+  if (filters.modalite !== 'all') p.set('modalite', filters.modalite)
+  if (sort !== DEFAULT_SORT) p.set('tri', sort)
+  return p.toString()
 }
 
 // --- Editorial selection when no org context is known ("Pour commencer"). ---
@@ -83,6 +133,32 @@ const SYNONYMS: Record<string, string[]> = {
   'automatiser-mes-operations': ['automatiser', 'automatisation', 'workflow', 'repetitif', 'operation', 'process', 'tache'],
   'developper-une-fonctionnalite': ['fonctionnalite', 'feature', 'developpement', 'code', 'produit', 'implementer'],
   'corriger-un-lot-de-bugs': ['bug', 'anomalie', 'correction', 'incident', 'qa', 'ticket technique', 'fix'],
+  'qualifier-les-leads-entrants': ['lead', 'qualification', 'entrant', 'inbound', 'scoring', 'tri', 'prospect'],
+  'prospection-telephonique': ['telephone', 'appel', 'cold call', 'phoning', 'prospection', 'script', 'appels'],
+  'preparer-mes-rendez-vous-commerciaux': ['rendez-vous', 'meeting', 'commercial', 'dossier', 'preparation', 'closing'],
+  'rediger-mes-devis': ['devis', 'quote', 'chiffrage', 'proposition', 'prix', 'tarif'],
+  'traiter-les-avis-clients': ['avis', 'review', 'note', 'commentaire', 'reputation', 'feedback'],
+  'assurer-le-support-telephonique': ['telephone', 'appel', 'hotline', 'support', 'standard', 'call'],
+  'suivre-la-satisfaction-client': ['satisfaction', 'nps', 'csat', 'enquete', 'sondage', 'retour client'],
+  'rediger-ma-newsletter': ['newsletter', 'email', 'infolettre', 'emailing', 'abonnes', 'diffusion'],
+  'produire-mes-fiches-produits': ['fiche produit', 'catalogue', 'ecommerce', 'description', 'produit', 'seo'],
+  'preparer-mes-campagnes-emailing': ['emailing', 'campagne', 'email', 'segmentation', 'newsletter', 'envoi'],
+  'transcrire-mes-reunions': ['transcription', 'transcrire', 'reunion', 'notes', 'compte rendu', 'audio'],
+  'coordonner-les-agendas': ['agenda', 'calendrier', 'planning', 'creneau', 'rendez-vous', 'disponibilite'],
+  'organiser-un-evenement-interne': ['evenement', 'event', 'seminaire', 'logistique', 'organisation', 'reunion'],
+  'analyser-mes-donnees': ['analyse', 'donnees', 'data', 'statistiques', 'tendance', 'insight'],
+  'produire-un-tableau-de-bord': ['tableau de bord', 'dashboard', 'kpi', 'indicateur', 'reporting', 'bi'],
+  'realiser-une-veille-concurrentielle': ['veille', 'concurrence', 'concurrentielle', 'marche', 'benchmark', 'competitor'],
+  'suivre-ma-tresorerie': ['tresorerie', 'cash', 'cashflow', 'liquidite', 'finance', 'flux'],
+  'relancer-les-factures-impayees': ['facture', 'impaye', 'relance', 'recouvrement', 'paiement', 'retard'],
+  'preparer-mes-notes-de-frais': ['note de frais', 'frais', 'depense', 'justificatif', 'remboursement', 'expense'],
+  'etablir-mes-previsions-budgetaires': ['budget', 'prevision', 'previsionnel', 'forecast', 'ecart', 'planification'],
+  'connecter-mes-applications': ['integration', 'connecter', 'api', 'application', 'outil', 'synchronisation'],
+  'synchroniser-mon-crm': ['crm', 'synchronisation', 'sync', 'donnees', 'integration', 'nettoyage'],
+  'automatiser-la-saisie-de-donnees': ['saisie', 'donnees', 'ocr', 'extraction', 'automatiser', 'ressaisie'],
+  'surveiller-mes-processus': ['surveillance', 'monitoring', 'alerte', 'processus', 'panne', 'supervision'],
+  'reviser-le-code': ['revue', 'review', 'code', 'relecture', 'qualite', 'pull request'],
+  'rediger-la-documentation-technique': ['documentation', 'doc', 'technique', 'api', 'readme', 'redaction'],
 }
 
 function normalize(s: string): string {

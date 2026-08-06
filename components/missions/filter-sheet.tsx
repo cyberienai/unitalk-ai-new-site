@@ -7,7 +7,7 @@ import type { Lang } from '@/lib/language-context'
 import {
   SECTORS,
   ZONES,
-  DELIVERABLES,
+  MODALITIES,
   type Facet,
   type StoreFilters,
 } from '@/lib/missions-store'
@@ -17,7 +17,7 @@ type GroupKey = keyof StoreFilters
 const GROUPS: { key: Exclude<GroupKey, 'need'>; label: { fr: string; en: string }; all: { fr: string; en: string }; items: Facet[] }[] = [
   { key: 'sector', label: { fr: 'Secteur', en: 'Sector' }, all: { fr: 'Tous les secteurs', en: 'All sectors' }, items: SECTORS },
   { key: 'zone', label: { fr: 'Zone', en: 'Zone' }, all: { fr: 'Toutes les zones', en: 'All zones' }, items: ZONES },
-  { key: 'deliverable', label: { fr: 'Livrable', en: 'Deliverable' }, all: { fr: 'Tous les livrables', en: 'All deliverables' }, items: DELIVERABLES },
+  { key: 'modalite', label: { fr: 'Modalité', en: 'Modality' }, all: { fr: 'Toutes les modalités', en: 'All modalities' }, items: MODALITIES },
 ]
 
 export function FilterSheet({
