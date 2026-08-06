@@ -246,11 +246,11 @@ export function AlmaBand({
   const hasQuery = Boolean(query && query.trim())
   const title = hasQuery
     ? lang === 'fr'
-      ? `Préparer « ${query} » avec Alma`
-      : `Prepare "${query}" with Alma`
+      ? `Aucune mission pour « ${query} » ?`
+      : `No mission for "${query}"?`
     : lang === 'fr'
-      ? 'Votre mission n’est pas encore ici ?'
-      : 'Your mission isn’t here yet?'
+      ? 'Vous ne trouvez pas la mission recherchée ?'
+      : 'Can’t find the mission you’re looking for?'
 
   return (
     <Link
@@ -266,19 +266,19 @@ export function AlmaBand({
       <div className="min-w-0 flex-1">
         <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#F5A9CC]">
           <Sparkles className="h-3.5 w-3.5" />
-          {lang === 'fr' ? 'Préparée par Alma' : 'Prepared by Alma'}
+          Alma
         </span>
         <h3 className="mt-1.5 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[#FBF9F3] text-balance">
           {title}
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-[1.5] text-[#C9C1B8]">
           {lang === 'fr'
-            ? 'Décrivez votre objectif. Alma prépare la mission, le profil métier et les compétences nécessaires.'
-            : 'Describe your goal. Alma prepares the mission, the job profile and the skills needed.'}
+            ? 'Décrivez votre objectif à Alma. Elle préparera le Collaborateur IA adapté à votre organisation.'
+            : 'Describe your goal to Alma. She’ll prepare the AI Collaborator suited to your organization.'}
         </p>
       </div>
       <span className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3] transition-colors group-hover:bg-[#B60C56]">
-        {lang === 'fr' ? 'Décrire mon objectif' : 'Describe my goal'}
+        {lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma'}
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
       </span>
     </Link>
