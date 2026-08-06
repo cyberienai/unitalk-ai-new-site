@@ -26,7 +26,7 @@ const T = {
     almaLeadPre: 'Parlez à ',
     almaName: 'Alma',
     almaLeadPost:
-      '. En quelques minutes, elle découvre votre entreprise et recrute le Collaborateur IA dont vous avez besoin.',
+      '. Elle analyse votre entreprise, puis recrute le Collaborateur IA dont vous avez besoin.',
     cta: 'Recruter mon Collaborateur IA',
     proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Configuré par Alma'],
     // Visual — la fiche vivante d'Emma (le résultat)
@@ -69,7 +69,7 @@ const T = {
     almaLeadPre: 'Talk to ',
     almaName: 'Alma',
     almaLeadPost:
-      '. In minutes, she gets to know your company and recruits the AI Collaborator you need.',
+      '. She analyzes your company, then recruits the AI Collaborator you need.',
     cta: 'Recruit my AI Collaborator',
     proofs: ['7-day free trial', 'No credit card', 'Set up by Alma'],
     // Visual — Emma's live profile (the outcome)
