@@ -71,6 +71,8 @@ export function MissionsContent() {
   const [preview, setPreview] = useState<Mission | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [phIndex, setPhIndex] = useState(0)
+  const [phVisible, setPhVisible] = useState(true)
+  const [reduceMotion, setReduceMotion] = useState(false)
 
   const searchRef = useRef<HTMLInputElement>(null)
   const catalogRef = useRef<HTMLDivElement>(null)
@@ -108,12 +110,36 @@ export function MissionsContent() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // Rotate example goals in the placeholder while the field is idle and empty.
+  // Honor the user's reduced-motion preference for the placeholder cross-fade.
   useEffect(() => {
-    if (focused) return
-    const id = setInterval(() => setPhIndex((i) => i + 1), 3200)
-    return () => clearInterval(id)
-  }, [focused])
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => setReduceMotion(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  // Rotate example goals in the placeholder (every 4s) with a fade transition,
+  // only while the field is idle and empty.
+  useEffect(() => {
+    if (focused || hasQuery) return
+    if (reduceMotion) {
+      const id = setInterval(() => setPhIndex((i) => i + 1), 4000)
+      return () => clearInterval(id)
+    }
+    let hideTimer: ReturnType<typeof setTimeout>
+    const id = setInterval(() => {
+      setPhVisible(false)
+      hideTimer = setTimeout(() => {
+        setPhIndex((i) => i + 1)
+        setPhVisible(true)
+      }, 350)
+    }, 4000)
+    return () => {
+      clearInterval(id)
+      clearTimeout(hideTimer)
+    }
+  }, [focused, hasQuery, reduceMotion])
 
   // Editorial data (stable).
   const featured = useMemo(() => featuredMissions(), [])
@@ -189,18 +215,18 @@ export function MissionsContent() {
     placeholderExamples:
       lang === 'fr'
         ? [
-            'Trouver des prospects qualifiés…',
-            'Répondre aux demandes clients…',
-            'Préparer mes publications LinkedIn…',
-            'Relancer mes factures impayées…',
-            'Rédiger des fiches produit…',
+            'Ex. Trouver des prospects correspondant à mes critères',
+            'Ex. Préparer mon prochain comité de direction',
+            'Ex. Répondre aux demandes reçues par email',
+            'Ex. Automatiser le suivi des factures en retard',
+            'Ex. Produire chaque lundi un rapport d’activité',
           ]
         : [
-            'Find qualified prospects…',
-            'Answer customer requests…',
-            'Prepare my LinkedIn posts…',
-            'Chase unpaid invoices…',
-            'Write product descriptions…',
+            'e.g. Find prospects matching my criteria',
+            'e.g. Prepare my next leadership meeting',
+            'e.g. Reply to requests received by email',
+            'e.g. Automate follow-up on overdue invoices',
+            'e.g. Produce a weekly activity report every Monday',
           ],
     clearSearch: lang === 'fr' ? 'Effacer la recherche' : 'Clear search',
     almaHint: lang === 'fr' ? 'Vous ne savez pas comment le formuler ?' : 'Not sure how to phrase it?',
@@ -280,7 +306,9 @@ export function MissionsContent() {
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
       {/* ------------------------------ HEADER ------------------------------ */}
-      <header className="mx-auto max-w-[1240px] px-6 pb-6 pt-9">
+      {/* Fixed navbar is 76px tall; padding-top = 76px + the requested nav→title gap
+          (mobile ~36px, tablet 48px, desktop 68px). */}
+      <header className="mx-auto max-w-[1240px] px-6 pb-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
         <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
         <h1 className="mt-2 max-w-3xl text-balance font-sf text-[clamp(1.625rem,3.6vw,2.375rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[var(--store-text)]">
           {t.title}
@@ -311,17 +339,32 @@ export function MissionsContent() {
             <div className="relative">
               <div className="flex h-12 items-center gap-3 rounded-lg border border-[var(--store-line)] bg-[var(--store-surface)] px-4 transition-colors focus-within:border-[#D10E63]/60 focus-within:ring-2 focus-within:ring-[#D10E63]/20">
                 <Search className="h-5 w-5 shrink-0 text-[var(--store-muted)]" aria-hidden="true" />
-                <input
-                  ref={searchRef}
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onFocus={() => setFocused(true)}
-                  onBlur={() => setTimeout(() => setFocused(false), 150)}
-                  placeholder={focused ? t.placeholder : t.placeholderExamples[phIndex % t.placeholderExamples.length]}
-                  aria-label={t.placeholder}
-                  className="w-full bg-transparent text-sm text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
-                />
+                <div className="relative min-w-0 flex-1">
+                  <input
+                    ref={searchRef}
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setTimeout(() => setFocused(false), 150)}
+                    placeholder={focused ? t.placeholder : ''}
+                    aria-label={t.placeholder}
+                    className="w-full bg-transparent text-sm text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
+                  />
+                  {!focused && !hasQuery && (
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center overflow-hidden"
+                    >
+                      <span
+                        className="truncate text-sm text-[var(--store-muted)] transition-opacity duration-300"
+                        style={{ opacity: phVisible ? 1 : 0 }}
+                      >
+                        {t.placeholderExamples[phIndex % t.placeholderExamples.length]}
+                      </span>
+                    </span>
+                  )}
+                </div>
                 {hasQuery ? (
                   <button
                     type="button"
