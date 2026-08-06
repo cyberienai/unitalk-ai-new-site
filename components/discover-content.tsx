@@ -43,7 +43,7 @@ const T = {
     voiceOnline: 'En ligne',
     voiceTitle: 'Vous préférez en parler ?',
     voiceBody:
-      'Alma vous répond de vive voix, comprend votre activité et prépare vos Collaborateurs IA avec vous.',
+      'De vive voix, Alma découvre votre entreprise et construit le contexte dont vos Collaborateurs IA ont besoin pour travailler.',
     voiceCta: 'Parler à Alma',
     invalid: 'Entrez un domaine valide, par exemple unitalk.ai',
     recognized: 'Domaine reconnu',
@@ -91,7 +91,7 @@ const T = {
     voiceOnline: 'Online',
     voiceTitle: 'Prefer to talk it through?',
     voiceBody:
-      'Alma answers out loud, understands your business, and prepares your AI Collaborators with you.',
+      'Out loud, Alma gets to know your company and builds the context your AI Collaborators need to work.',
     voiceCta: 'Talk to Alma',
     invalid: 'Enter a valid domain, for example unitalk.ai',
     recognized: 'Domain recognized',
