@@ -55,7 +55,8 @@ export const DELAY_TBD: Bilingual = {
 
 export const STATUS_LABELS: Record<MissionStatus, Bilingual> = {
   available: { fr: 'Disponible', en: 'Available' },
-  'on-setup': { fr: 'Sur configuration', en: 'On setup' },
+  // "on-setup" = a mission Alma can genuinely prepare today (profils, soul.md, skills).
+  'on-setup': { fr: 'Préparée par Alma', en: 'Prepared by Alma' },
   'coming-soon': { fr: 'Bientôt disponible', en: 'Coming soon' },
 }
 

@@ -26,50 +26,53 @@ export function StoreCard({
   onOpen: (m: Mission) => void
 }) {
   const status = missionFacets(mission).status
+  const previewLabel = lang === 'fr' ? `Aperçu de ${mission.title[lang]}` : `Preview ${mission.title[lang]}`
 
-  // Whole card is a real link (new tab, copy address, keyboard, history all work).
+  // Card and preview are SIBLINGS (no button nested in a link). The link owns the
+  // whole surface via an inset overlay; the preview button sits above it (z-10).
   return (
-    <Link
-      href={`/missions/${mission.slug}`}
+    <article
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex h-[228px] w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] text-left transition-[transform,box-shadow] duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex h-[228px] w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-[22px] transition-[transform,box-shadow] duration-200 focus-within:ring-2 focus-within:ring-[#D10E63]/40 hover:-translate-y-px"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
-      onFocus={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
-      onBlur={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <div className="flex items-center justify-between gap-2">
+      {/* Whole-card link → detail page. Absolute overlay makes the entire card clickable. */}
+      <Link
+        href={`/missions/${mission.slug}`}
+        className="absolute inset-0 z-0 rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+        aria-label={mission.title[lang]}
+      />
+
+      <div className="pointer-events-none relative z-0 flex items-center justify-between gap-2">
         <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--store-muted)]">
           {categoryLabel(categories, mission.category, lang)}
         </span>
         <StatusBadge status={status} lang={lang} />
       </div>
-      <h3 className="mt-2.5 line-clamp-2 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="pointer-events-none relative z-0 mt-2.5 line-clamp-2 font-sf text-[19px] font-semibold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
+      <p className="pointer-events-none relative z-0 mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">
         {mission.result[lang]}
       </p>
-      <div className="mt-auto flex items-center justify-between gap-2 pt-3">
-        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#D10E63]">
-          {lang === 'fr' ? 'Voir la mission' : 'View mission'}
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      <div className="pointer-events-none relative z-0 mt-auto flex items-center pt-3">
+        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#D10E63] transition-transform group-hover:translate-x-0.5">
+          <ArrowRight className="h-4 w-4" />
         </span>
-        {/* Quick preview — sits inside the link, so stop the navigation when used. */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            onOpen(mission)
-          }}
-          className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[13px] font-medium text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
-        >
-          <Eye className="h-3.5 w-3.5" />
-          {lang === 'fr' ? 'Aperçu' : 'Preview'}
-        </button>
       </div>
-    </Link>
+
+      {/* Sibling preview button — above the link overlay, icon-only, accessible label. */}
+      <button
+        type="button"
+        onClick={() => onOpen(mission)}
+        aria-label={previewLabel}
+        title={lang === 'fr' ? 'Aperçu rapide' : 'Quick preview'}
+        className="absolute bottom-4 right-4 z-10 inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--store-muted)] transition-colors hover:bg-[#F3F0E9] hover:text-[var(--store-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      >
+        <Eye className="h-4 w-4" />
+      </button>
+    </article>
   )
 }
 

@@ -50,7 +50,7 @@ const T = {
 }
 
 export function FloatingAlmaWidget() {
-  const { isOpen, toggleAlma, closeAlma } = useAlma()
+  const { isOpen, toggleAlma, closeAlma, launcherSuppressed } = useAlma()
   const { lang } = useLanguage()
   const t = T[lang]
   const pathname = usePathname()
@@ -58,7 +58,13 @@ export function FloatingAlmaWidget() {
   // and on /accueil-2 it would overlap the interactive demo CTA.
   // Also hide it on /decouvrir, where the onboarding already features Alma as a
   // dedicated voice-agent panel. The chat window still opens via in-page buttons.
-  const showLauncher = pathname !== '/' && pathname !== '/accueil-2' && pathname !== '/decouvrir'
+  // `launcherSuppressed` lets a page hide it transiently (e.g. /missions when a
+  // mission preview or the tailored card is on screen) so it never overlaps a CTA.
+  const showLauncher =
+    pathname !== '/' &&
+    pathname !== '/accueil-2' &&
+    pathname !== '/decouvrir' &&
+    !launcherSuppressed
   // On /missions the widget must stay a small, unobtrusive round avatar — no
   // auto-opening bubble that competes with the page's own CTAs (spec).
   const isMissions = pathname === '/missions' || pathname.startsWith('/missions/')

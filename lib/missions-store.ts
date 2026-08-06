@@ -116,6 +116,13 @@ export const HIGH_IMPACT_SLUGS = [
   'repondre-a-mes-clients',
   'preparer-et-suivre-mes-reunions',
 ]
+const HIGH_IMPACT_SET = new Set(HIGH_IMPACT_SLUGS)
+export function isHighImpact(slug: string): boolean {
+  return HIGH_IMPACT_SET.has(slug)
+}
+
+// How many catalog cards to reveal per "show more" click.
+export const PAGE_SIZE = 12
 
 // --- Semantic search -------------------------------------------------------
 // Lightweight synonym expansion per mission so a described goal matches the

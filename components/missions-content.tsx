@@ -21,6 +21,8 @@ import {
   DEFAULT_SORT,
   EMPTY_FILTERS,
   HIGH_IMPACT_SLUGS,
+  isHighImpact,
+  PAGE_SIZE,
   type Facet,
   type SortKey,
   type StoreFilters,
@@ -42,7 +44,7 @@ function facetLabel(key: GroupKey, val: string, lang: 'fr' | 'en'): string {
 
 export function MissionsContent() {
   const { lang } = useLanguage()
-  const { openAlma } = useAlma()
+  const { openAlma, setLauncherSuppressed } = useAlma()
 
   const router = useRouter()
   const pathname = usePathname()
@@ -58,7 +60,9 @@ export function MissionsContent() {
   const [focused, setFocused] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [preview, setPreview] = useState<Mission | null>(null)
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const searchWrapRef = useRef<HTMLDivElement>(null)
+  const customCardRef = useRef<HTMLDivElement>(null)
 
   const trimmed = query.trim()
   const hasQuery = trimmed.length > 0
@@ -101,6 +105,57 @@ export function MissionsContent() {
   const showEditorial = !hasQuery && filterCount === 0
   const hasAnyRefinement = hasQuery || filterCount > 0
 
+  // When the editorial row is shown, exclude those 3 missions from the catalog so
+  // they don't repeat immediately. When refining, everything matching is eligible.
+  const catalog = useMemo(
+    () => (showEditorial ? filtered.filter((m) => !isHighImpact(m.slug)) : filtered),
+    [filtered, showEditorial],
+  )
+
+  const total = catalog.length
+  const visible = catalog.slice(0, visibleCount)
+  const hasMore = visibleCount < total
+  const allShown = !hasMore
+
+  // Reset pagination whenever the result set changes (search, filters, sort).
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE)
+  }, [trimmed, filters, sort])
+
+  // Suppress the floating Alma launcher while a preview is open (it would overlap
+  // the preview CTA) or while the tailored card is on screen (redundant with it).
+  // On small screens the page already surfaces Alma CTAs, so keep it suppressed too.
+  useEffect(() => {
+    if (preview) {
+      setLauncherSuppressed(true)
+      return () => setLauncherSuppressed(false)
+    }
+    const mql = window.matchMedia('(max-width: 767px)')
+    const el = customCardRef.current
+    let cardVisible = false
+
+    const sync = () => setLauncherSuppressed(mql.matches || cardVisible)
+    sync()
+
+    const io = el
+      ? new IntersectionObserver(
+          ([entry]) => {
+            cardVisible = entry.isIntersecting
+            sync()
+          },
+          { rootMargin: '0px 0px -80px 0px' },
+        )
+      : null
+    if (io && el) io.observe(el)
+    mql.addEventListener('change', sync)
+
+    return () => {
+      io?.disconnect()
+      mql.removeEventListener('change', sync)
+      setLauncherSuppressed(false)
+    }
+  }, [preview, setLauncherSuppressed, visible.length, allShown, hasAnyRefinement])
+
   // Active filters (excluding 'all') for the removable chips row.
   const activeChips = (Object.keys(filters) as GroupKey[])
     .filter((k) => filters[k] !== 'all')
@@ -130,6 +185,8 @@ export function MissionsContent() {
     all: lang === 'fr' ? 'Toutes les missions' : 'All missions',
     results: lang === 'fr' ? 'Résultats' : 'Results',
     count: (n: number) => (lang === 'fr' ? `${n} mission${n > 1 ? 's' : ''}` : `${n} mission${n > 1 ? 's' : ''}`),
+    showMore: (n: number) =>
+      lang === 'fr' ? `Afficher ${n} missions supplémentaires` : `Show ${n} more missions`,
     sortLabel: lang === 'fr' ? 'Trier' : 'Sort',
     clear: lang === 'fr' ? 'Effacer les filtres' : 'Clear filters',
     searchChip: lang === 'fr' ? 'Recherche' : 'Search',
@@ -271,7 +328,7 @@ export function MissionsContent() {
             ))}
           </div>
           <div className="mt-3 flex items-center justify-between">
-            <span className="text-sm font-semibold text-[var(--store-muted)]">{t.count(filtered.length)}</span>
+            <span className="text-sm font-semibold text-[var(--store-muted)]">{t.count(total)}</span>
             <button
               type="button"
               onClick={() => setSheetOpen(true)}
@@ -316,12 +373,15 @@ export function MissionsContent() {
               </div>
             )}
 
-            {/* Results toolbar: count (left) + sort (right) */}
+            {/* Results toolbar: title + count (left) + sort (right). The count is a
+                sibling of the h2, never part of its accessible name. */}
             <div className="mb-4 flex items-center justify-between gap-4">
-              <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
-                {hasAnyRefinement ? t.results : t.all}
-                <span className="ml-2 text-sm font-medium text-[var(--store-muted)]">{t.count(filtered.length)}</span>
-              </h2>
+              <div className="flex items-baseline gap-2">
+                <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
+                  {hasAnyRefinement ? t.results : t.all}
+                </h2>
+                <span className="text-sm font-medium text-[var(--store-muted)]">{t.count(total)}</span>
+              </div>
               {sortControl}
             </div>
 
@@ -367,23 +427,58 @@ export function MissionsContent() {
               </div>
             )}
 
-            {hasQuery && filtered.length === 0 && (
-              <div className="mb-5 rounded-xl border border-[#D10E63]/25 bg-[#FCEAF2]/50 p-5">
-                <p className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#AD0C53]">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  {lang === 'fr' ? 'Préparée par Alma' : 'Prepared by Alma'}
-                </p>
-                <h3 className="mt-2 font-sf text-lg font-bold text-[var(--store-text)]">“{trimmed}”</h3>
-                <p className="mt-1 text-sm text-[var(--store-muted)]">{t.noResult}</p>
-              </div>
-            )}
+            {total === 0 ? (
+              /* No result at all → the tailored card replaces the entire grid. */
+              <>
+                {hasQuery && (
+                  <div className="mb-5 rounded-xl border border-[#D10E63]/25 bg-[#FCEAF2]/50 p-5">
+                    <p className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#AD0C53]">
+                      <Sparkles className="h-3.5 w-3.5" />
+                      {lang === 'fr' ? 'Préparée par Alma' : 'Prepared by Alma'}
+                    </p>
+                    <h3 className="mt-2 font-sf text-lg font-bold text-[var(--store-text)]">“{trimmed}”</h3>
+                    <p className="mt-1 text-sm text-[var(--store-muted)]">{t.noResult}</p>
+                  </div>
+                )}
+                <div ref={customCardRef} className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                  <CustomCard lang={lang} onDescribe={openAlma} />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                  {visible.map((m) => (
+                    <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={setPreview} />
+                  ))}
+                  {/* Tailored card sits right after the first page while more remain,
+                      as the natural exit for an unsatisfied browse. */}
+                  {hasMore && (
+                    <div ref={customCardRef} className="flex">
+                      <CustomCard lang={lang} onDescribe={openAlma} />
+                    </div>
+                  )}
+                </div>
 
-            <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((m) => (
-                <StoreCard key={m.slug} mission={m} categories={MISSION_CATEGORIES} lang={lang} onOpen={setPreview} />
-              ))}
-              <CustomCard lang={lang} onDescribe={openAlma} />
-            </div>
+                {hasMore && (
+                  <div className="mt-8 flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+                      className="inline-flex items-center gap-2 rounded-xl border border-[var(--store-line)] bg-[var(--store-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#D10E63] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                    >
+                      {t.showMore(Math.min(PAGE_SIZE, total - visibleCount))}
+                    </button>
+                  </div>
+                )}
+
+                {/* When everything is visible, keep the tailored card at the very end. */}
+                {allShown && (
+                  <div ref={customCardRef} className="mt-5 grid auto-rows-fr gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                    <CustomCard lang={lang} onDescribe={openAlma} />
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
