@@ -42,12 +42,10 @@ function MetaRow({ parts }: { parts: string[] }) {
 /* ------------------------------------------------------------------ */
 export function StoreCard({
   mission,
-  categories,
   lang,
   onSelect,
 }: {
   mission: Mission
-  categories: MissionCategory[]
   lang: Lang
   onSelect: (m: Mission, trigger: HTMLElement | null) => void
 }) {
@@ -55,7 +53,9 @@ export function StoreCard({
     lang === 'fr' ? `Confier « ${mission.title[lang]} » à Alma` : `Hand "${mission.title[lang]}" to Alma`
 
   // The entire card is a button: clicking it loads the mission into Alma and
-  // triggers the flying-card handoff. No detail link, no preview button.
+  // triggers the flying-card handoff. Deliberately minimal — only title,
+  // description and the action; creator/category stay in the data model but are
+  // not surfaced until community missions ship.
   return (
     <button
       type="button"
@@ -71,8 +71,12 @@ export function StoreCard({
         {mission.title[lang]}
       </h3>
       <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      <div className="mt-4 flex items-end justify-between gap-3">
-        <MetaRow parts={metaParts(mission, categories, lang)} />
+      {/* Action row: a bare arrow at rest that unfolds into "Préciser avec Alma"
+          on hover/focus, so the whole card's purpose stays obvious. */}
+      <div className="mt-4 flex items-center justify-end gap-1.5">
+        <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold text-[#AD0C53] opacity-0 transition-all duration-200 group-hover:max-w-[200px] group-hover:opacity-100 group-focus-visible:max-w-[200px] group-focus-visible:opacity-100">
+          {lang === 'fr' ? 'Préciser avec Alma' : 'Refine with Alma'}
+        </span>
         <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </button>

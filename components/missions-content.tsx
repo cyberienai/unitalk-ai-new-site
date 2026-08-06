@@ -4,12 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Mic, SlidersHorizontal, X } from 'lucide-react'
-import {
-  MISSION_CATEGORIES,
-  featuredMissions,
-  FEATURED_SLUGS,
-  type Mission,
-} from '@/lib/missions-catalog'
+import { featuredMissions, FEATURED_SLUGS, type Mission } from '@/lib/missions-catalog'
 import {
   CATEGORY_FACETS,
   SECTORS,
@@ -26,7 +21,6 @@ import {
   filtersFromParams,
   sortFromParams,
   buildParams,
-  ORIGIN_FACETS,
   SORT_OPTIONS,
   DEFAULT_SORT,
   EMPTY_FILTERS,
@@ -199,9 +193,6 @@ export function MissionsContent() {
     [reduce, loadIntoAlma],
   )
 
-  function selectType(key: string) {
-    setFilters((p) => ({ ...p, type: key as StoreFilters['type'] }))
-  }
   function selectCategory(key: string) {
     setFilters((p) => ({ ...p, categorie: p.categorie === key ? 'all' : key }))
   }
@@ -274,12 +265,6 @@ export function MissionsContent() {
   type Chip = { id: string; label: string; onRemove: () => void }
   const chips: Chip[] = []
   if (hasQuery) chips.push({ id: 'q', label: `${t.searchChip}: “${trimmed}”`, onRemove: () => setQuery('') })
-  if (filters.type !== 'all')
-    chips.push({
-      id: 'type',
-      label: ORIGIN_FACETS.find((o) => o.key === filters.type)?.label[lang] ?? filters.type,
-      onRemove: () => setFilters((p) => ({ ...p, type: 'all' })),
-    })
   if (filters.categorie !== 'all')
     chips.push({
       id: 'cat',
@@ -368,7 +353,6 @@ export function MissionsContent() {
               <StoreSidebar
                 filters={filters}
                 lang={lang}
-                onType={selectType}
                 onCategory={selectCategory}
                 onToggleFacet={toggleFacet}
                 categoryLabels={railCategoryLabels}
@@ -380,28 +364,6 @@ export function MissionsContent() {
           <div className="min-w-0 flex-1">
             {/* Mobile: Type switcher + categories row + count + Filters */}
             <div className="mt-4 lg:hidden">
-              <div
-                className="mb-3 inline-flex rounded-lg border border-[var(--store-line)] bg-[var(--store-surface)] p-0.5"
-                role="group"
-                aria-label={lang === 'fr' ? 'Créées par' : 'Created by'}
-              >
-                {ORIGIN_FACETS.map((o) => {
-                  const active = filters.type === o.key
-                  return (
-                    <button
-                      key={o.key}
-                      type="button"
-                      onClick={() => selectType(o.key)}
-                      aria-pressed={active}
-                      className={`min-h-[32px] whitespace-nowrap rounded-[6px] px-3 py-1 text-xs font-semibold transition-colors ${
-                        active ? 'bg-[#FCEAF2] text-[#AD0C53]' : 'text-[var(--store-muted)]'
-                      }`}
-                    >
-                      {o.label[lang]}
-                    </button>
-                  )
-                })}
-              </div>
               <div
                 className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 style={{ scrollSnapType: 'x proximity' }}
@@ -503,13 +465,7 @@ export function MissionsContent() {
                 <>
                   <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {visible.map((m) => (
-                      <StoreCard
-                        key={m.slug}
-                        mission={m}
-                        categories={MISSION_CATEGORIES}
-                        lang={lang}
-                        onSelect={selectMission}
-                      />
+                      <StoreCard key={m.slug} mission={m} lang={lang} onSelect={selectMission} />
                     ))}
                   </div>
 

@@ -5,7 +5,6 @@ import { ChevronDown, Check, Info } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import {
   CATEGORY_FACETS,
-  ORIGIN_FACETS,
   SECTORS,
   ZONES,
   LANGUAGES,
@@ -26,14 +25,12 @@ const FILTER_GROUPS: { key: MultiKey; label: { fr: string; en: string }; items: 
 export function StoreSidebar({
   filters,
   lang,
-  onType,
   onCategory,
   onToggleFacet,
   categoryLabels,
 }: {
   filters: StoreFilters
   lang: Lang
-  onType: (key: string) => void
   onCategory: (key: string) => void
   onToggleFacet: (group: MultiKey, value: string) => void
   /** Optional short labels for the rail only (keyed by category key), so the
@@ -45,29 +42,7 @@ export function StoreSidebar({
       aria-label={lang === 'fr' ? 'Navigation des missions' : 'Missions navigation'}
       className="scrollbar-hide flex max-h-[calc(100vh-7rem)] flex-col gap-7 overflow-y-auto pr-1"
     >
-      {/* GROUP 1 — Origin (who created & published the mission) */}
-      <Group
-        title={lang === 'fr' ? 'Créées par' : 'Created by'}
-        tooltip={
-          lang === 'fr'
-            ? 'Filtrez les missions selon leur créateur. Ne pas confondre le créateur avec la disponibilité de la mission.'
-            : 'Filter missions by their creator. Do not confuse the creator with the mission’s availability.'
-        }
-      >
-        <ul className="flex flex-col gap-0.5">
-          {ORIGIN_FACETS.map((o) => (
-            <li key={o.key}>
-              <RowButton
-                label={o.label[lang]}
-                active={filters.type === o.key}
-                onClick={() => onType(o.key)}
-              />
-            </li>
-          ))}
-        </ul>
-      </Group>
-
-      {/* GROUP 2 — Catégories */}
+      {/* GROUP 1 — Catégories */}
       <Group title={lang === 'fr' ? 'Catégories' : 'Categories'}>
         <ul className="flex flex-col gap-0.5">
           {CATEGORY_FACETS.map((c) => (
