@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Check, Pencil, FileText } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
+import { getProfile, guessProfileKey } from '@/lib/discover-profiles'
 
 type Beat = {
   kind: 'observation' | 'question'
@@ -154,21 +155,32 @@ function buildBeats(domain: string): Beat[] {
   const about = domain
     ? { fr: `page « À propos » de ${domain} · Consultée aujourd’hui`, en: `${domain} “About” page · Read today` }
     : { fr: 'pages publiques · Consultées aujourd’hui', en: 'public pages · Read today' }
+
+  // Honest, scripted analysis: from the domain we pick a plausible profile type
+  // and present it as a hypothesis to confirm — never as a factual crawl result.
+  const profile = getProfile(guessProfileKey(domain))
+  const firstObservation: { fr: string; en: string } = domain
+    ? {
+        fr: `D’après ${domain}, votre activité ressemble à : « ${profile.label.fr} ». ${profile.tagline.fr} Est-ce exact ?`,
+        en: `Based on ${domain}, your activity looks like: “${profile.label.en}”. ${profile.tagline.en} Is that right?`,
+      }
+    : {
+        fr: `Sans site indiqué, je pars d’une hypothèse : « ${profile.label.fr} ». ${profile.tagline.fr} Dites-moi si je me trompe.`,
+        en: `Without a site, I start from a hypothesis: “${profile.label.en}”. ${profile.tagline.en} Tell me if I’m wrong.`,
+      }
+
   return [
     {
       kind: 'observation',
-      text: {
-        fr: 'J’ai compris que votre entreprise développe des solutions d’intelligence artificielle pour les organisations.',
-        en: 'I understood that your company builds artificial-intelligence solutions for organizations.',
-      },
+      text: firstObservation,
       source: home,
       progressAfter: 1,
     },
     {
       kind: 'observation',
       text: {
-        fr: 'Votre offre semble destinée aux dirigeants et aux équipes qui souhaitent déployer des Collaborateurs IA. Est-ce exact ?',
-        en: 'Your offer seems aimed at leaders and teams that want to deploy AI Collaborators. Is that right?',
+        fr: 'Je vous proposerai un premier Collaborateur IA adapté à cette activité. Vous pourrez tout ajuster ensuite.',
+        en: 'I’ll suggest a first AI Collaborator suited to this activity. You’ll be able to adjust everything afterwards.',
       },
       source: about,
       progressAfter: 3,

@@ -31,6 +31,9 @@ export type FlowState = {
   entry: Entry | null
   domain: string
   missionSlug: string
+  // Id of the mission draft built on /missions, handed off via the URL.
+  // '' when the user starts fresh (company/profile entry, no draft).
+  draftId: string
   // 0..CONTEXT_ITEMS_TOTAL — how much of the Organization context is built.
   contextProgress: number
 }
@@ -40,6 +43,7 @@ export const INITIAL_STATE: FlowState = {
   entry: 'company',
   domain: '',
   missionSlug: 'trouver-de-nouveaux-clients',
+  draftId: '',
   contextProgress: 0,
 }
 
@@ -57,16 +61,18 @@ export function resolveInitialState(
   const domain = normalizeDomain(get('domain') || get('site'))
   const missionParam = get('mission')
   const profileParam = get('profil') || get('profile')
+  // The draft id handed off from /missions (read client-side in the flow).
+  const draftId = get('draft')
 
   if (entryParam === 'mission' || missionParam) {
     const m = missionParam ? MISSIONS.find((x) => x.slug === missionParam) : undefined
-    return { ...INITIAL_STATE, entry: 'mission', missionSlug: m?.slug ?? INITIAL_STATE.missionSlug, domain }
+    return { ...INITIAL_STATE, entry: 'mission', missionSlug: m?.slug ?? INITIAL_STATE.missionSlug, domain, draftId }
   }
   if (entryParam === 'profile' || entryParam === 'profil' || profileParam) {
     const p = JOB_PROFILES.find((x) => x.key === profileParam)
-    return { ...INITIAL_STATE, entry: 'profile', missionSlug: p?.missionSlug ?? INITIAL_STATE.missionSlug, domain }
+    return { ...INITIAL_STATE, entry: 'profile', missionSlug: p?.missionSlug ?? INITIAL_STATE.missionSlug, domain, draftId }
   }
-  return { ...INITIAL_STATE, entry: 'company', domain }
+  return { ...INITIAL_STATE, entry: 'company', domain, draftId }
 }
 
 // Category badge labels (kept in sync with the catalog categories used below).

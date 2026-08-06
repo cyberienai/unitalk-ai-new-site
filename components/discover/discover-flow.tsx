@@ -97,7 +97,14 @@ export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState 
                   <ScreenProposal lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('applications')} />
                 )}
                 {state.step === 'applications' && <ScreenConnect lang={lang} onContinue={() => goTo('workspace')} />}
-                {state.step === 'workspace' && <ScreenWorkspace lang={lang} missionSlug={state.missionSlug} />}
+                {state.step === 'workspace' && (
+                  <ScreenWorkspace
+                    lang={lang}
+                    missionSlug={state.missionSlug}
+                    draftId={state.draftId}
+                    domain={state.domain}
+                  />
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
