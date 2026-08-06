@@ -24,10 +24,11 @@ const T: Record<Lang, Record<string, string>> = {
     open_eyebrow: 'ALMA EN ACTION',
     open_title: 'Vous parlez. La mission prend forme.',
     open_text:
-      'En 45 secondes, voyez quelques phrases devenir une mission structurée, prête à être adaptée à votre entreprise.',
+      'En 45 secondes, voyez Alma transformer quelques phrases en une mission claire, avec son objectif, ses règles et ses validations.',
     open_cta: 'Lancer la démo',
-    open_note: '45 secondes · sans son',
+    open_note: 'Sans son par défaut · Vous gardez le contrôle',
     close: 'Fermer',
+    closeAria: 'Fermer la démo',
     closeDemo: 'Fermer la démo',
     you: 'Vous',
     alma: 'Alma',
@@ -57,10 +58,11 @@ const T: Record<Lang, Record<string, string>> = {
     open_eyebrow: 'ALMA IN ACTION',
     open_title: 'You speak. The mission takes shape.',
     open_text:
-      'In 45 seconds, watch a few sentences become a structured mission, ready to be adapted to your company.',
+      'In 45 seconds, watch Alma turn a few sentences into a clear mission — with its objective, rules and validations.',
     open_cta: 'Start the demo',
-    open_note: '45 seconds · no sound',
+    open_note: 'Sound off by default · You stay in control',
     close: 'Close',
+    closeAria: 'Close the demo',
     closeDemo: 'Close the demo',
     you: 'You',
     alma: 'Alma',
@@ -370,14 +372,14 @@ export function AlmaDemoModal({
         transition={{ duration: 0.28, ease: 'easeOut' }}
         className="relative flex max-h-[calc(100svh-24px)] w-full max-w-[min(1200px,calc(100vw-32px))] flex-col overflow-hidden rounded-[26px] border border-[#E7DFD0] bg-[#F8F6F1] shadow-[0_40px_120px_-40px_rgba(28,26,23,0.55)] sm:max-h-[calc(100svh-48px)] sm:rounded-[30px]"
       >
-        {/* Close */}
+        {/* Close — icon only, 44px target, labelled for assistive tech. */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-3 z-20 inline-flex h-9 items-center gap-1.5 rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/90 px-3 text-[13px] font-semibold text-[var(--store-text,#2A2622)] transition-colors hover:bg-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 sm:right-4 sm:top-4"
+          aria-label={t.closeAria}
+          className="absolute right-3 top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E7DFD0] bg-[#FBF9F3]/90 text-[var(--store-text,#2A2622)] transition-colors hover:bg-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 sm:right-4 sm:top-4"
         >
-          <X className="h-4 w-4" />
-          <span className="hidden sm:inline">{t.close}</span>
+          <X className="h-5 w-5" />
         </button>
 
         {!started ? (
@@ -400,7 +402,7 @@ export function AlmaDemoModal({
                 setStarted(true)
                 setPlaying(true)
               }}
-              className="mt-7 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-semibold text-[#FBF9F3] shadow-[0_12px_30px_-10px_rgba(209,14,99,0.6)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+              className="mt-7 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
             >
               <Play className="h-4 w-4" fill="currentColor" />
               {t.open_cta}
