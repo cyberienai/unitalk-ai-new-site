@@ -39,7 +39,7 @@ export function StoreSidebar({
   return (
     <nav
       aria-label={lang === 'fr' ? 'Navigation des missions' : 'Missions navigation'}
-      className="flex max-h-[calc(100vh-7rem)] flex-col gap-7 overflow-y-auto pr-1 [scrollbar-width:thin]"
+      className="scrollbar-hide flex max-h-[calc(100vh-7rem)] flex-col gap-7 overflow-y-auto pr-1"
     >
       {/* GROUP 1 — Origin (who created & published the mission) */}
       <Group
