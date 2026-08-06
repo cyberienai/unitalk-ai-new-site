@@ -25,20 +25,20 @@ const STORE_EQUIPMENT: {
   {
     icon: IdCard,
     title: { fr: 'Profils métier', en: 'Job profiles' },
-    desc: { fr: 'Choisissez le rôle de votre Collaborateur IA.', en: 'Choose your AI Collaborator’s role.' },
-    href: '/collaborateurs-ia/roles',
+    desc: { fr: 'Définissez le rôle de votre Collaborateur IA.', en: 'Define your AI Collaborator’s role.' },
+    href: '/store/profils-metier',
   },
   {
     icon: Sparkles,
     title: { fr: 'Compétences', en: 'Skills' },
-    desc: { fr: 'Ajoutez les savoir-faire nécessaires à sa mission.', en: 'Add the know-how its mission requires.' },
-    href: '/competences',
+    desc: { fr: 'Ajoutez les savoir-faire nécessaires à ses missions.', en: 'Add the know-how its missions require.' },
+    href: '/store/competences',
   },
   {
     icon: LayoutGrid,
     title: { fr: 'Applications', en: 'Applications' },
     desc: { fr: 'Connectez les services avec lesquels il travaillera.', en: 'Connect the services it will work with.' },
-    href: '/applications',
+    href: '/store/applications',
   },
 ]
 
@@ -57,9 +57,6 @@ const T = {
     // Store panel
     storeHeadTitle: 'Équipez votre Collaborateur IA',
     storeHeadText: 'Choisissez son profil, ses compétences et ses applications.',
-    storeNeedTitle: 'Vous savez déjà quoi déléguer ?',
-    storeNeedLink: 'Explorer les missions',
-    storeEquipLabel: 'Équipement',
     storeAll: 'Explorer tout le Store',
   },
   en: {
@@ -75,9 +72,6 @@ const T = {
     storeMenu: 'Store menu',
     storeHeadTitle: 'Equip your AI Collaborator',
     storeHeadText: 'Choose its profile, skills and applications.',
-    storeNeedTitle: 'Already know what to delegate?',
-    storeNeedLink: 'Explore missions',
-    storeEquipLabel: 'Equipment',
     storeAll: 'Explore the whole Store',
   },
 }
@@ -143,11 +137,8 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   const pathname = usePathname() || '/'
 
   // Active-state resolution
-  const isStoreActive =
-    pathname.startsWith('/store') ||
-    pathname.startsWith('/collaborateurs-ia/roles') ||
-    pathname.startsWith('/competences') ||
-    pathname.startsWith('/applications')
+  // Store owns the equipment namespace: /store and all its detail pages.
+  const isStoreActive = pathname.startsWith('/store')
   const isCollabActive =
     (pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')) &&
     !pathname.startsWith('/collaborateurs-ia/roles')
@@ -262,26 +253,11 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                       className="absolute left-0 top-full w-[420px] max-w-[calc(100vw-2rem)] pt-2"
                     >
                       <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-3 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
-                        {/* User need — missions (distinct from equipment) */}
-                        <a
-                          href="/missions"
-                          role="menuitem"
-                          onClick={() => setStoreOpen(false)}
-                          className="group flex min-h-[56px] items-center justify-between gap-3 rounded-xl border border-[#EFE8DA] bg-[#FBF9F3] px-3.5 outline-none transition-colors hover:border-[#F3C9DB] hover:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                        >
-                          <span className="min-w-0">
-                            <span className="block text-sm font-bold text-[#1C1A17]">{t.storeNeedTitle}</span>
-                            <span className="mt-0.5 inline-flex items-center gap-1 text-[13px] font-semibold text-[#D10E63]">
-                              {t.storeNeedLink}
-                              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                            </span>
-                          </span>
-                        </a>
-
-                        {/* Equipment label */}
-                        <p className="px-1.5 pb-1 pt-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#A79C89]">
-                          {t.storeEquipLabel}
-                        </p>
+                        {/* Store scope: the equipment for a Collaborateur IA (not the missions) */}
+                        <div className="px-1.5 pb-3 pt-1">
+                          <p className="text-sm font-bold text-[#1C1A17]">{t.storeHeadTitle}</p>
+                          <p className="mt-0.5 text-[13px] leading-snug text-[#857C6E]">{t.storeHeadText}</p>
+                        </div>
 
                         {/* Equipment entries */}
                         <div className="flex flex-col gap-0.5">
