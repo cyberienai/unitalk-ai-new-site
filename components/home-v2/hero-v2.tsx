@@ -28,7 +28,7 @@ const T = {
     almaLeadPost:
       '. En quelques minutes, elle découvre votre entreprise et recrute le Collaborateur IA dont vous avez besoin.',
     cta: 'Recruter mon Collaborateur IA',
-    proofs: ['Essai gratuit 7 jours', 'Hébergé en France', 'Conforme au RGPD', 'Il appartient à votre organisation'],
+    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Configuré par Alma'],
     // Visual — la fiche vivante d'Emma (le résultat)
     ficheName: 'Emma',
     ficheRole: 'Collaboratrice IA · Assistante de direction',
@@ -71,7 +71,7 @@ const T = {
     almaLeadPost:
       '. In minutes, she gets to know your company and recruits the AI Collaborator you need.',
     cta: 'Recruit my AI Collaborator',
-    proofs: ['7-day free trial', 'Hosted in France', 'GDPR compliant', 'It belongs to your organization'],
+    proofs: ['7-day free trial', 'No credit card', 'Set up by Alma'],
     // Visual — Emma's live profile (the outcome)
     ficheName: 'Emma',
     ficheRole: 'AI Collaborator · Executive assistant',
