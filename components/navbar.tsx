@@ -61,7 +61,7 @@ const T = {
     closeMenu: 'Fermer le menu',
     storeMenu: 'Menu Store',
     // Store panel
-    storeHeadTitle: 'Complétez votre Collaborateur IA',
+    storeHeadTitle: 'Personnalisez votre Collaborateur IA',
     storeHeadText: 'Son rôle, ses compétences, sa connectivité et sa mémoire.',
     storeAll: 'Explorer le Store',
   },
@@ -76,7 +76,7 @@ const T = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     storeMenu: 'Store menu',
-    storeHeadTitle: 'Complete your AI Collaborator',
+    storeHeadTitle: 'Customize your AI Collaborator',
     storeHeadText: 'Its role, skills, connectivity and memory.',
     storeAll: 'Explore the Store',
   },
@@ -261,7 +261,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                       <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-3 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
                         {/* Store scope: the equipment for a Collaborateur IA (not the missions) */}
                         <div className="px-1.5 pb-3 pt-1">
-                          <p className="text-sm font-bold text-[#1C1A17]">{t.storeHeadTitle}</p>
+                          <p className="text-[15px] font-bold text-[#1C1A17]">{t.storeHeadTitle}</p>
                           <p className="mt-0.5 text-[13px] leading-snug text-[#857C6E]">{t.storeHeadText}</p>
                         </div>
 
@@ -281,7 +281,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                                   <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} aria-hidden="true" />
                                 </span>
                                 <span className="min-w-0">
-                                  <span className="block text-sm font-bold leading-tight text-[#1C1A17]">{item.title[lang]}</span>
+                                  <span className="block text-base font-bold leading-tight text-[#1C1A17]">{item.title[lang]}</span>
                                   <span className="mt-0.5 block text-[12px] leading-snug text-[#857C6E]">{item.desc[lang]}</span>
                                 </span>
                               </a>
