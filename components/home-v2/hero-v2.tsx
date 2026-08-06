@@ -200,6 +200,12 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                   className="absolute inset-x-0 top-0 block text-[#D10E63]"
                 >
                   {t.missions[missionIndex]}
+                  <motion.span
+                    aria-hidden="true"
+                    className="ml-1 inline-block h-[0.9em] w-[3px] translate-y-[0.08em] rounded-full bg-[#D10E63] align-middle"
+                    animate={reduceMotion ? undefined : { opacity: [1, 1, 0, 0] }}
+                    transition={{ duration: 1.1, repeat: Infinity, ease: 'linear', times: [0, 0.5, 0.5, 1] }}
+                  />
                 </motion.span>
               </AnimatePresence>
             </span>
@@ -469,7 +475,12 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                       <p className="truncate text-[12px] font-medium leading-tight text-[#A49E92]">{t.ficheRole}</p>
                     </div>
                     <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#5FE38F]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80]" aria-hidden="true" />
+                      <motion.span
+                        className="h-1.5 w-1.5 rounded-full bg-[#4ADE80]"
+                        aria-hidden="true"
+                        animate={reduceMotion ? undefined : { opacity: [1, 0.4, 1], scale: [1, 0.85, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                      />
                       {t.statusLabel}
                     </span>
                   </div>

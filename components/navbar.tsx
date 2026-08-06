@@ -252,10 +252,11 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                       id="store-menu"
                       role="menu"
                       aria-labelledby="store-trigger"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6 }}
-                      transition={{ duration: 0.16 }}
+                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                      style={{ transformOrigin: 'top right' }}
                       className="absolute right-0 top-full w-[420px] max-w-[calc(100vw-2rem)] pt-2"
                     >
                       <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-3 shadow-[0_20px_50px_rgba(28,26,23,0.14)]">
@@ -275,9 +276,9 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                                 href={item.href}
                                 role="menuitem"
                                 onClick={() => setStoreOpen(false)}
-                                className="group flex min-h-[56px] items-center gap-3 rounded-xl px-2.5 outline-none transition-colors hover:bg-[#FDF1F6] focus-visible:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+                                className="group flex min-h-[56px] items-center gap-3 rounded-xl px-2.5 outline-none transition-all duration-200 hover:bg-[#FDF1F6] hover:shadow-[0_6px_20px_-8px_rgba(209,14,99,0.4)] focus-visible:bg-[#FDF1F6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
                               >
-                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/[0.08] text-[#D10E63]">
+                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#D10E63]/[0.08] text-[#D10E63] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-[#D10E63]/[0.14]">
                                   <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} aria-hidden="true" />
                                 </span>
                                 <span className="min-w-0">

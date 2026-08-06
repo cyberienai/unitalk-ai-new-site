@@ -8,7 +8,8 @@ import { StatusBadge } from './status-badge'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
 const SHADOW_REST = '0 0 0 1px rgba(36,31,29,0.09), 0 1px 2px rgba(36,31,29,0.02)'
-const SHADOW_HOVER = '0 0 0 1px rgba(209,14,99,0.32), 0 8px 24px rgba(36,31,29,0.06)'
+const SHADOW_HOVER =
+  '0 0 0 1px rgba(209,14,99,0.32), 0 8px 24px rgba(36,31,29,0.06), 0 6px 28px -6px rgba(209,14,99,0.22)'
 
 function categoryLabel(cats: MissionCategory[], key: string, lang: Lang): string {
   return cats.find((c) => c.key === key)?.label[lang] ?? key
