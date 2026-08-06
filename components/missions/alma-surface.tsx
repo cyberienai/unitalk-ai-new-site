@@ -98,6 +98,8 @@ export function AlmaSurface({
   const [seconds, setSeconds] = useState(0)
   const [paused, setPaused] = useState(false)
   const [micError, setMicError] = useState<string | null>(null)
+  // True while the browser permission prompt is up (between click and grant).
+  const [micRequesting, setMicRequesting] = useState(false)
 
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
   const intervals = useRef<ReturnType<typeof setInterval>[]>([])
@@ -114,7 +116,14 @@ export function AlmaSurface({
     name: 'Alma',
     zoneTitle: lang === 'fr' ? 'Qu’est-ce qu’il faut faire ?' : 'What needs doing?',
     talk: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
-    consent: lang === 'fr' ? 'Le micro s’active uniquement avec votre accord.' : 'The mic only turns on with your consent.',
+    micHint:
+      lang === 'fr'
+        ? 'Le micro ne s’active qu’après votre autorisation.'
+        : 'The mic only turns on after you allow it.',
+    micRequesting:
+      lang === 'fr' ? 'Autoriser le micro pour parler à Alma' : 'Allow the mic to talk to Alma',
+    writeToggle: lang === 'fr' ? 'Je préfère écrire' : 'I’d rather write',
+    backToVoice: lang === 'fr' ? 'Revenir à la voix' : 'Back to voice',
     watch: lang === 'fr' ? 'Voir la démo · 45 s' : 'Watch the demo · 45 s',
     hideAria: lang === 'fr' ? 'Masquer Alma' : 'Hide Alma',
     hideConfirmTitle: lang === 'fr' ? 'Masquer Alma ?' : 'Hide Alma?',
@@ -335,12 +344,15 @@ export function AlmaSurface({
       setMicError(t.micDenied)
       return
     }
+    setMicRequesting(true)
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       streamRef.current = stream
       runListening()
     } catch {
       setMicError(t.micDenied)
+    } finally {
+      setMicRequesting(false)
     }
   }, [runListening, t.micDenied])
 
@@ -581,6 +593,7 @@ export function AlmaSurface({
                 onDemo={() => setDemoOpen(true)}
                 demoTriggerRef={demoTriggerRef}
                 micError={micError}
+                micRequesting={micRequesting}
                 starters={STARTERS}
                 lang={lang}
                 onStarter={(s) => start(resolveMission(s.slug, s.text[lang], lang), s.text)}
@@ -708,6 +721,7 @@ function IntroPresence({
   onDemo,
   demoTriggerRef,
   micError,
+  micRequesting,
   starters,
   lang,
   onStarter,
@@ -721,10 +735,21 @@ function IntroPresence({
   onDemo: () => void
   demoTriggerRef: React.RefObject<HTMLButtonElement | null>
   micError: string | null
+  micRequesting: boolean
   starters: typeof STARTERS
   lang: Lang
   onStarter: (s: (typeof STARTERS)[number]) => void
 }) {
+  // The written composer stays hidden until the visitor chooses to write.
+  const [writing, setWriting] = useState(text.trim().length > 0)
+  const [micHover, setMicHover] = useState(false)
+  const writeRef = useRef<HTMLTextAreaElement>(null)
+
+  const openWriting = () => {
+    setWriting(true)
+    requestAnimationFrame(() => writeRef.current?.focus())
+  }
+
   return (
     <div className="flex h-full flex-col">
       {/* Internal header: identity left · demo link centered · (× lives at the
@@ -754,56 +779,109 @@ function IntroPresence({
         {t.zoneTitle}
       </h2>
 
-      <button
-        type="button"
-        onClick={onTalk}
-        className="mt-3 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-12px_rgba(209,14,99,0.7)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
-      >
-        <Mic className="h-[18px] w-[18px]" />
-        {t.talk}
-      </button>
-      <p className="mt-1.5 text-xs leading-relaxed text-[var(--store-muted)]">{t.consent}</p>
+      {/* Voice button. Reassurance is on-demand: a tooltip on hover/focus, and
+          the permission message only while the browser prompt is up — never a
+          permanent line that hints at risk before the user thinks of it. */}
+      <div className="relative mt-3">
+        <button
+          type="button"
+          onClick={onTalk}
+          onMouseEnter={() => setMicHover(true)}
+          onMouseLeave={() => setMicHover(false)}
+          onFocus={() => setMicHover(true)}
+          onBlur={() => setMicHover(false)}
+          aria-describedby="alma-mic-hint"
+          className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-[#FBF9F3] shadow-[0_8px_24px_-12px_rgba(209,14,99,0.7)] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
+        >
+          <Mic className="h-[18px] w-[18px]" />
+          {t.talk}
+        </button>
+        <AnimatePresence>
+          {micHover && !micRequesting && (
+            <motion.span
+              id="alma-mic-hint"
+              role="tooltip"
+              initial={reduce ? false : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: 4 }}
+              transition={{ duration: 0.14 }}
+              className="pointer-events-none absolute left-1/2 top-full z-20 mt-2 w-max max-w-[260px] -translate-x-1/2 rounded-lg border border-[#E7DFD0] bg-[#2A2622] px-2.5 py-1.5 text-center text-xs font-medium text-[#FBF9F3] shadow-[0_8px_20px_-10px_rgba(28,26,23,0.5)]"
+            >
+              {t.micHint}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </div>
+      {micRequesting && (
+        <p className="mt-2 text-center text-xs font-semibold text-[#AD0C53]">{t.micRequesting}</p>
+      )}
       {micError && <p className="mt-1 text-xs font-medium text-[#B00B52]">{micError}</p>}
 
-      {/* Always-visible written composer — same draft as the voice. */}
-      <div className="mt-3 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-2.5 transition-colors focus-within:border-[#D10E63]/50 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing && e.keyCode !== 229) {
-              e.preventDefault()
-              onSubmitText()
-            }
-          }}
-          rows={1}
-          placeholder={t.writePh}
-          aria-label={t.writePh}
-          className="max-h-[112px] min-h-[24px] w-full resize-none bg-transparent px-1.5 py-1 text-[15px] leading-relaxed text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
-        />
-        <div className="mt-1 flex items-center justify-between">
-          {/* Voice already has a prominent CTA above — the composer keeps only
-              attach + send, no redundant second mic. */}
+      {/* Written mode is opt-in: the composer stays hidden until requested, so
+          the initial state is voice-first and uncluttered. */}
+      {!writing ? (
+        <button
+          type="button"
+          onClick={openWriting}
+          className="mt-3 inline-flex min-h-[40px] items-center gap-1.5 self-start rounded-lg px-1.5 py-1 text-sm font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+        >
+          <Pencil className="h-4 w-4" />
+          {t.writeToggle}
+        </button>
+      ) : (
+        <motion.div
+          initial={reduce ? false : { height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          className="overflow-hidden"
+        >
+          <div className="mt-3 rounded-2xl border border-[#E7DFD0] bg-[#FBF9F3] p-2.5 transition-colors focus-within:border-[#D10E63]/50 focus-within:ring-2 focus-within:ring-[#D10E63]/15">
+            <textarea
+              ref={writeRef}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing && e.keyCode !== 229) {
+                  e.preventDefault()
+                  onSubmitText()
+                }
+              }}
+              rows={1}
+              placeholder={t.writePh}
+              aria-label={t.writePh}
+              className="max-h-[112px] min-h-[24px] w-full resize-none bg-transparent px-1.5 py-1 text-[15px] leading-relaxed text-[var(--store-text)] outline-none placeholder:text-[var(--store-muted)]"
+            />
+            <div className="mt-1 flex items-center justify-between">
+              <button
+                type="button"
+                aria-label={t.attach}
+                title={t.attach}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F1EADF] hover:text-[var(--store-text)]"
+              >
+                <Paperclip className="h-[18px] w-[18px]" />
+              </button>
+              <button
+                type="button"
+                onClick={onSubmitText}
+                disabled={!text.trim()}
+                aria-label={t.prepare}
+                title={t.prepare}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
+              >
+                <ArrowUp className="h-[18px] w-[18px]" />
+              </button>
+            </div>
+          </div>
           <button
             type="button"
-            aria-label={t.attach}
-            title={t.attach}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[var(--store-muted)] transition-colors hover:bg-[#F1EADF] hover:text-[var(--store-text)]"
+            onClick={() => setWriting(false)}
+            className="mt-2 inline-flex items-center gap-1.5 self-start rounded-lg px-1.5 py-1 text-xs font-semibold text-[var(--store-muted)] underline-offset-4 transition-colors hover:text-[var(--store-text)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
           >
-            <Paperclip className="h-[18px] w-[18px]" />
+            <Mic className="h-3.5 w-3.5" />
+            {t.backToVoice}
           </button>
-          <button
-            type="button"
-            onClick={onSubmitText}
-            disabled={!text.trim()}
-            aria-label={t.prepare}
-            title={t.prepare}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF3F1]"
-          >
-            <ArrowUp className="h-[18px] w-[18px]" />
-          </button>
-        </div>
-      </div>
+        </motion.div>
+      )}
 
       {/* One canonical suggestion, matching the example mission on the right. */}
       <CanonicalExample example={starters[0]} lang={lang} prefix={t.tryPrefix} onPick={onStarter} />
