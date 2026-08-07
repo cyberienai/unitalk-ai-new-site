@@ -69,9 +69,10 @@ export const SCENARIOS: Scenario[] = [
 
 const T = {
   fr: {
-    company: 'Solvea',
+    demo: 'Démonstration',
+    company: 'Solvea, entreprise exemple',
     scenarioWord: 'Scénario',
-    preparing: 'Mission en préparation',
+    preparing: 'Alma prépare une mission',
     sophie: 'Sophie · Dirigeante',
     almaFrames: 'Alma structure la mission',
     missionLabel: 'Mission',
@@ -87,9 +88,10 @@ const T = {
     of: 'sur',
   },
   en: {
-    company: 'Solvea',
+    demo: 'Demonstration',
+    company: 'Solvea, sample company',
     scenarioWord: 'Scenario',
-    preparing: 'Mission in preparation',
+    preparing: 'Alma is preparing a mission',
     sophie: 'Sophie · Founder',
     almaFrames: 'Alma structures the mission',
     missionLabel: 'Mission',
@@ -146,10 +148,11 @@ export function HeroTheatre({
 
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#EAE3D6] px-5 pb-3 pt-4">
-        <div>
-          <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.company}</p>
-          <p className="text-[13px] text-[#655F56]">{t.preparing}</p>
-        </div>
+          <div>
+            <p className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#B00C54]">{t.demo}</p>
+            <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.company}</p>
+            <p className="text-[13px] text-[#655F56]">{t.preparing}</p>
+          </div>
         <div className="text-right">
           <p className="text-[13px] font-medium text-[#655F56]">
             {t.scenarioWord} {two(index + 1)} / {two(SCENARIOS.length)}
