@@ -78,21 +78,21 @@ export function SectionComparison() {
               transition={{ duration: 0.45, ease, delay: i * 0.08 }}
               className="relative grid grid-cols-2 border-t border-[#E4DDCE]"
             >
-              {/* left — warm, inert */}
-              <div className="flex items-center justify-end bg-[#EDE7DA]/70 px-5 py-5 text-right sm:px-7">
+              {/* left — warm, inert (text kept clear of the central seam) */}
+              <div className="flex items-center justify-end bg-[#EDE7DA]/70 py-5 pl-5 pr-10 text-right sm:pl-7 sm:pr-12">
                 <p className="text-[14px] leading-snug text-[#857C6E] sm:text-[15px]">{before}</p>
               </div>
-              {/* right — anthracite, owned */}
-              <div className="flex items-center bg-[#1C1A17] px-5 py-5 sm:px-7">
+              {/* right — anthracite, owned (text kept clear of the central seam) */}
+              <div className="flex items-center bg-[#1C1A17] py-5 pl-10 pr-5 sm:pl-12 sm:pr-7">
                 <p className="text-[14px] font-medium leading-snug text-[#F4F1EA] sm:text-[15px]">{after}</p>
               </div>
 
-              {/* the mission thread crossing the line, node on the seam */}
+              {/* the mission thread node sitting on the seam — short ticks only */}
               <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
                 <span className="relative flex items-center">
-                  <span className="block h-px w-8 bg-gradient-to-r from-transparent to-[#D10E63] sm:w-12" />
-                  <span className="block h-[9px] w-[9px] rounded-full bg-[#D10E63] ring-4 ring-[#1C1A17]/0" />
-                  <span className="block h-px w-8 bg-gradient-to-r from-[#D10E63] to-[#D10E63]/30 sm:w-12" />
+                  <span className="block h-px w-3 bg-gradient-to-r from-transparent to-[#D10E63]" />
+                  <span className="block h-[10px] w-[10px] rounded-full bg-[#D10E63] ring-2 ring-[#F4F1EA]" />
+                  <span className="block h-px w-3 bg-gradient-to-r from-[#D10E63] to-transparent" />
                 </span>
               </span>
             </motion.div>
