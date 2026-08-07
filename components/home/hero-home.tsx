@@ -27,7 +27,7 @@ const T = {
     sub: 'Parlez à Alma. Elle analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
     cta: 'Parler à Alma',
     secondary: 'Découvrir les Collaborateurs IA',
-    proofs: ['Essai 7 jours sans CB', 'Hébergé en France', 'Propulsé par Hermes'],
+    proofs: ['Essai 7 jours sans CB', 'Hébergé en France', 'Votre intelligence appartient à votre entreprise'],
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -36,7 +36,7 @@ const T = {
     sub: 'Talk to Alma. She analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
     cta: 'Talk to Alma',
     secondary: 'Discover AI Collaborators',
-    proofs: ['7-day trial, no card', 'Hosted in France', 'Powered by Hermes'],
+    proofs: ['7-day trial, no card', 'Hosted in France', 'Your intelligence belongs to your company'],
   },
 } as const
 
