@@ -117,17 +117,25 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                 )}
                 {isLast && on ? (
                   <span className="block translate-x-[2px]">
-                    <MissionSeal size={20} color={GREEN} />
+                    <MissionSeal size={22} color={GREEN} />
                   </span>
                 ) : (
                   <span
-                    className="relative block h-3.5 w-3.5 translate-y-[2px] rounded-full transition-all duration-500"
+                    className="relative flex h-4 w-4 translate-y-[2px] items-center justify-center rounded-full transition-all duration-500"
                     style={{
                       backgroundColor: on ? colorFor(i) : '#F3EFE6',
-                      border: on ? 'none' : '1.5px solid #D3CABA',
-                      boxShadow: on ? `0 0 0 4px ${colorFor(i)}1F` : 'none',
+                      border: on ? `1px solid ${colorFor(i)}` : '1.5px solid #D3CABA',
+                      boxShadow: on
+                        ? `0 0 0 5px ${colorFor(i)}14, 0 2px 6px -1px ${colorFor(i)}55`
+                        : 'inset 0 0 0 3px #F3EFE6',
                     }}
-                  />
+                  >
+                    {/* bright concentric core — reads like a lit beacon */}
+                    <span
+                      className="block h-1.5 w-1.5 rounded-full transition-opacity duration-500"
+                      style={{ backgroundColor: '#FFFDF9', opacity: on ? 0.9 : 0 }}
+                    />
+                  </span>
                 )}
               </span>
             )
