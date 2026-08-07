@@ -161,11 +161,7 @@ export function HeroTheatre({
               </div>
             </div>
           </div>
-        <div className="flex flex-col items-end gap-2">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[#8A8272]">
-            {two(index + 1)} <span className="text-[#C3BAAA]">/</span> {two(SCENARIOS.length)}
-          </p>
-          <div className="flex items-center justify-end gap-1.5">
+        <div className="flex items-center justify-end gap-1.5">
             {SCENARIOS.map((sc, i) => (
               <button
                 key={sc.mission.en}
@@ -176,7 +172,6 @@ export function HeroTheatre({
                 className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'w-7 bg-[#B00C54]' : 'w-1.5 bg-[#DED6C8] hover:bg-[#BDB3A1]'}`}
               />
             ))}
-          </div>
         </div>
       </div>
 
