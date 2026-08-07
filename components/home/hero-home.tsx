@@ -40,26 +40,9 @@ const T = {
   },
 } as const
 
-/** Rotating title actions, grouped by business area. Independent of the theatre. */
-const HERO_ACTIONS = [
-  { dept: { fr: 'Sales', en: 'Sales' }, action: { fr: 'cibler et qualifier vos prospects', en: 'target and qualify your prospects' } },
-  { dept: { fr: 'Sales', en: 'Sales' }, action: { fr: 'décrocher plus de rendez-vous', en: 'book more meetings' } },
-  { dept: { fr: 'Marketing', en: 'Marketing' }, action: { fr: 'créer et publier vos contenus', en: 'create and publish your content' } },
-  { dept: { fr: 'Marketing', en: 'Marketing' }, action: { fr: 'analyser vos campagnes marketing', en: 'analyze your marketing campaigns' } },
-  { dept: { fr: 'RH', en: 'HR' }, action: { fr: 'présélectionner vos candidats', en: 'shortlist your candidates' } },
-  { dept: { fr: 'RH', en: 'HR' }, action: { fr: 'mener vos pré-entretiens par téléphone', en: 'run your phone pre-interviews' } },
-  { dept: { fr: 'Support', en: 'Support' }, action: { fr: 'répondre à vos clients 24 h/24', en: 'answer your customers 24/7' } },
-  { dept: { fr: 'Support', en: 'Support' }, action: { fr: 'résoudre les demandes courantes', en: 'resolve common requests' } },
-  { dept: { fr: 'Téléphone · voix', en: 'Phone · voice' }, action: { fr: 'qualifier vos prospects par téléphone', en: 'qualify your prospects by phone' } },
-  { dept: { fr: 'Téléphone · voix', en: 'Phone · voice' }, action: { fr: 'répondre à vos appels sans attente', en: 'answer your calls with no wait' } },
-  { dept: { fr: 'Finance', en: 'Finance' }, action: { fr: 'relancer vos factures impayées', en: 'chase your unpaid invoices' } },
-  { dept: { fr: 'Finance', en: 'Finance' }, action: { fr: 'anticiper vos besoins de trésorerie', en: 'anticipate your cash-flow needs' } },
-] as const
-
 const ease = [0.22, 1, 0.36, 1] as const
-const SCENARIO_MS = 5200
-const ACTION_MS = 2800
-const RESUME_AFTER_MS = 9000
+const SCENARIO_MS = 5000
+const RESUME_AFTER_MS = 12000
 
 export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
@@ -70,17 +53,8 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
   const [playing, setPlaying] = useState(true)
   const resumeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Title actions rotate on their own clock, decoupled from the theatre.
-  const [actionIndex, setActionIndex] = useState(0)
-
   useEffect(() => {
     if (reduce) setPlaying(false)
-  }, [reduce])
-
-  useEffect(() => {
-    if (reduce) return
-    const id = setInterval(() => setActionIndex((v) => (v + 1) % HERO_ACTIONS.length), ACTION_MS)
-    return () => clearInterval(id)
   }, [reduce])
 
   // The single autoplay timer: advances the shared scenario index.
@@ -113,7 +87,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
     setPlaying((v) => !v)
   }, [])
 
-  const current = HERO_ACTIONS[actionIndex]
+  const current = SCENARIOS[index]
 
   return (
     <section className="relative overflow-hidden bg-[#F3EFE6] pb-10 pt-24 sm:pt-28 lg:pb-12">
@@ -135,7 +109,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
               <span className="relative mt-3 block min-h-[4.2em] lg:min-h-[3.1em]">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
-                    key={actionIndex}
+                    key={index}
                     initial={reduce ? false : { opacity: 0, y: '0.35em' }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduce ? { opacity: 0 } : { opacity: 0, y: '-0.35em' }}

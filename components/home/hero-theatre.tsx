@@ -19,22 +19,184 @@ import type { Lang } from '@/lib/language-context'
 export type Bi = { fr: string; en: string }
 const p = (b: Bi, l: Lang) => b[l]
 
+export type Collaborator = {
+  name: string
+  role: Bi
+  avatar: string
+  /** 'new' = Alma proposes a new Collaborator; 'existing' = already in the org. */
+  status: 'new' | 'existing'
+}
+
 export type Scenario = {
+  /** Business area, shown as the H1 kicker. */
+  dept: Bi
   /** H1 tail, e.g. "relancer vos factures impayées". */
   action: Bi
   human: Bi
+  almaReply: Bi
+  collab: Collaborator
   mission: Bi
   validation: Bi
   skills: [Bi, Bi]
   firstAction: Bi
 }
 
-/** All scenarios equip the SAME durable Collaborator (Emma), on-doctrine: a
- *  Collaborateur IA accumulates capabilities across missions. */
+/** Twelve missions, two per business area. On-doctrine (durable Collaborators):
+ *  the first mission of an area proposes a NEW Collaborator, the second equips
+ *  the SAME existing one — capabilities accumulate, they are never disposable. */
 export const SCENARIOS: Scenario[] = [
+  // ── Sales · Chloé ──────────────────────────────────────────────
   {
+    dept: { fr: 'Sales', en: 'Sales' },
+    action: { fr: 'cibler et qualifier vos prospects', en: 'target and qualify your prospects' },
+    human: { fr: 'Trouve et qualifie nos prospects les plus prometteurs.', en: 'Find and qualify our most promising prospects.' },
+    almaReply: { fr: 'Je structure la mission et je vous propose Chloé, une nouvelle Collaboratrice IA commerciale.', en: 'I’m structuring the mission and I propose Chloé, a new sales AI Collaborator.' },
+    collab: { name: 'Chloé', role: { fr: 'Commerciale', en: 'Sales rep' }, avatar: '/images/chloe-avatar.png', status: 'new' },
+    mission: { fr: 'Cibler et qualifier les prospects', en: 'Target and qualify prospects' },
+    validation: { fr: 'Vous validez la liste avant tout contact', en: 'You approve the list before any outreach' },
+    skills: [
+      { fr: 'Ciblage des comptes', en: 'Account targeting' },
+      { fr: 'Qualification des prospects', en: 'Prospect qualification' },
+    ],
+    firstAction: { fr: 'Analyser votre marché et vos clients actuels.', en: 'Analyze your market and current customers.' },
+  },
+  {
+    dept: { fr: 'Sales', en: 'Sales' },
+    action: { fr: 'décrocher plus de rendez-vous', en: 'book more meetings' },
+    human: { fr: 'Décroche plus de rendez-vous avec ces prospects.', en: 'Book more meetings with these prospects.' },
+    almaReply: { fr: 'Chloé, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Chloé, already in your organization, can take this mission — I’m adding a skill.' },
+    collab: { name: 'Chloé', role: { fr: 'Commerciale', en: 'Sales rep' }, avatar: '/images/chloe-avatar.png', status: 'existing' },
+    mission: { fr: 'Décrocher des rendez-vous', en: 'Book meetings' },
+    validation: { fr: 'Vous validez les messages avant envoi', en: 'You approve messages before they go out' },
+    skills: [
+      { fr: 'Prise de contact personnalisée', en: 'Personalized outreach' },
+      { fr: 'Prise de rendez-vous', en: 'Meeting booking' },
+    ],
+    firstAction: { fr: 'Rédiger une première séquence de contact.', en: 'Draft a first outreach sequence.' },
+  },
+  // ── Marketing · Léa ────────────────────────────────────────────
+  {
+    dept: { fr: 'Marketing', en: 'Marketing' },
+    action: { fr: 'créer et publier vos contenus', en: 'create and publish your content' },
+    human: { fr: 'Crée et publie nos contenus chaque semaine.', en: 'Create and publish our content every week.' },
+    almaReply: { fr: 'Je structure la mission et je vous propose Léa, une nouvelle Collaboratrice IA marketing.', en: 'I’m structuring the mission and I propose Léa, a new marketing AI Collaborator.' },
+    collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'new' },
+    mission: { fr: 'Créer et publier les contenus', en: 'Create and publish content' },
+    validation: { fr: 'Vous validez chaque contenu avant publication', en: 'You approve each piece before it’s published' },
+    skills: [
+      { fr: 'Rédaction éditoriale', en: 'Editorial writing' },
+      { fr: 'Planification des publications', en: 'Publishing schedule' },
+    ],
+    firstAction: { fr: 'Proposer un calendrier éditorial.', en: 'Propose an editorial calendar.' },
+  },
+  {
+    dept: { fr: 'Marketing', en: 'Marketing' },
+    action: { fr: 'analyser vos campagnes marketing', en: 'analyze your marketing campaigns' },
+    human: { fr: 'Analyse les résultats de nos campagnes.', en: 'Analyze the results of our campaigns.' },
+    almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Léa, already in your organization, can take this mission — I’m adding a skill.' },
+    collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'existing' },
+    mission: { fr: 'Analyser les campagnes', en: 'Analyze campaigns' },
+    validation: { fr: 'Vous validez les recommandations avant action', en: 'You approve recommendations before action' },
+    skills: [
+      { fr: 'Analyse des performances', en: 'Performance analysis' },
+      { fr: 'Recommandations d’optimisation', en: 'Optimization recommendations' },
+    ],
+    firstAction: { fr: 'Rassembler les indicateurs des campagnes.', en: 'Gather the campaign metrics.' },
+  },
+  // ── RH · Hugo ──────────────────────────────────────────────────
+  {
+    dept: { fr: 'RH', en: 'HR' },
+    action: { fr: 'présélectionner vos candidats', en: 'shortlist your candidates' },
+    human: { fr: 'Présélectionne les candidats pour ce poste.', en: 'Shortlist the candidates for this role.' },
+    almaReply: { fr: 'Je structure la mission et je vous propose Hugo, un nouveau Collaborateur IA RH.', en: 'I’m structuring the mission and I propose Hugo, a new HR AI Collaborator.' },
+    collab: { name: 'Hugo', role: { fr: 'Chargé de recrutement', en: 'Recruiter' }, avatar: '/images/hugo-avatar.png', status: 'new' },
+    mission: { fr: 'Présélectionner les candidats', en: 'Shortlist candidates' },
+    validation: { fr: 'Vous validez la présélection avant tout contact', en: 'You approve the shortlist before any contact' },
+    skills: [
+      { fr: 'Tri des candidatures', en: 'Application screening' },
+      { fr: 'Évaluation des profils', en: 'Profile assessment' },
+    ],
+    firstAction: { fr: 'Analyser la fiche de poste et les candidatures.', en: 'Analyze the job spec and applications.' },
+  },
+  {
+    dept: { fr: 'RH', en: 'HR' },
+    action: { fr: 'mener vos pré-entretiens par téléphone', en: 'run your phone pre-interviews' },
+    human: { fr: 'Mène les pré-entretiens téléphoniques des candidats retenus.', en: 'Run the phone pre-interviews with shortlisted candidates.' },
+    almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Hugo, already in your organization, can take this mission — I’m adding a skill.' },
+    collab: { name: 'Hugo', role: { fr: 'Chargé de recrutement', en: 'Recruiter' }, avatar: '/images/hugo-avatar.png', status: 'existing' },
+    mission: { fr: 'Mener les pré-entretiens', en: 'Run pre-interviews' },
+    validation: { fr: 'Vous validez la trame avant les appels', en: 'You approve the script before the calls' },
+    skills: [
+      { fr: 'Entretien téléphonique', en: 'Phone interview' },
+      { fr: 'Synthèse des candidats', en: 'Candidate summary' },
+    ],
+    firstAction: { fr: 'Préparer la trame de pré-entretien.', en: 'Prepare the pre-interview script.' },
+  },
+  // ── Support · Nadia ────────────────────────────────────────────
+  {
+    dept: { fr: 'Support', en: 'Support' },
+    action: { fr: 'répondre à vos clients 24 h/24', en: 'answer your customers 24/7' },
+    human: { fr: 'Réponds à nos clients 24 h/24.', en: 'Answer our customers 24/7.' },
+    almaReply: { fr: 'Je structure la mission et je vous propose Nadia, une nouvelle Collaboratrice IA support.', en: 'I’m structuring the mission and I propose Nadia, a new support AI Collaborator.' },
+    collab: { name: 'Nadia', role: { fr: 'Support client', en: 'Customer support' }, avatar: '/images/nadia-avatar.png', status: 'new' },
+    mission: { fr: 'Répondre aux clients 24 h/24', en: 'Answer customers 24/7' },
+    validation: { fr: 'Vous validez les réponses sensibles', en: 'You approve sensitive replies' },
+    skills: [
+      { fr: 'Réponse aux demandes', en: 'Request handling' },
+      { fr: 'Escalade des cas complexes', en: 'Complex-case escalation' },
+    ],
+    firstAction: { fr: 'Analyser vos demandes clients récentes.', en: 'Analyze your recent customer requests.' },
+  },
+  {
+    dept: { fr: 'Support', en: 'Support' },
+    action: { fr: 'résoudre les demandes courantes', en: 'resolve common requests' },
+    human: { fr: 'Résous seule les demandes les plus courantes.', en: 'Resolve the most common requests on your own.' },
+    almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Nadia, already in your organization, can take this mission — I’m adding a skill.' },
+    collab: { name: 'Nadia', role: { fr: 'Support client', en: 'Customer support' }, avatar: '/images/nadia-avatar.png', status: 'existing' },
+    mission: { fr: 'Résoudre les demandes courantes', en: 'Resolve common requests' },
+    validation: { fr: 'Vous validez les procédures automatisées', en: 'You approve the automated procedures' },
+    skills: [
+      { fr: 'Résolution autonome', en: 'Autonomous resolution' },
+      { fr: 'Base de connaissances', en: 'Knowledge base' },
+    ],
+    firstAction: { fr: 'Identifier les demandes les plus fréquentes.', en: 'Identify the most frequent requests.' },
+  },
+  // ── Téléphone · voix · Iris ────────────────────────────────────
+  {
+    dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
+    action: { fr: 'qualifier vos prospects par téléphone', en: 'qualify your prospects by phone' },
+    human: { fr: 'Appelle et qualifie nos prospects par téléphone.', en: 'Call and qualify our prospects by phone.' },
+    almaReply: { fr: 'Je structure la mission et je vous propose Iris, une nouvelle Collaboratrice IA vocale.', en: 'I’m structuring the mission and I propose Iris, a new voice AI Collaborator.' },
+    collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'new' },
+    mission: { fr: 'Qualifier les prospects par téléphone', en: 'Qualify prospects by phone' },
+    validation: { fr: 'Vous validez le script avant les appels', en: 'You approve the script before the calls' },
+    skills: [
+      { fr: 'Appel sortant', en: 'Outbound calling' },
+      { fr: 'Qualification à l’oral', en: 'Spoken qualification' },
+    ],
+    firstAction: { fr: 'Préparer le script d’appel.', en: 'Prepare the call script.' },
+  },
+  {
+    dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
+    action: { fr: 'répondre à vos appels sans attente', en: 'answer your calls with no wait' },
+    human: { fr: 'Réponds à nos appels entrants sans temps d’attente.', en: 'Answer our inbound calls with no wait time.' },
+    almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Iris, already in your organization, can take this mission — I’m adding a skill.' },
+    collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'existing' },
+    mission: { fr: 'Répondre aux appels entrants', en: 'Answer inbound calls' },
+    validation: { fr: 'Vous validez les transferts vers un humain', en: 'You approve transfers to a human' },
+    skills: [
+      { fr: 'Accueil téléphonique', en: 'Phone reception' },
+      { fr: 'Routage des appels', en: 'Call routing' },
+    ],
+    firstAction: { fr: 'Cartographier les motifs d’appel.', en: 'Map the reasons customers call.' },
+  },
+  // ── Finance · Emma ─────────────────────────────────────────────
+  {
+    dept: { fr: 'Finance', en: 'Finance' },
     action: { fr: 'relancer vos factures impayées', en: 'chase your unpaid invoices' },
     human: { fr: 'Relance chaque semaine nos factures impayées.', en: 'Chase our unpaid invoices every week.' },
+    almaReply: { fr: 'Je structure la mission et je vous propose Emma, une nouvelle Collaboratrice IA finance.', en: 'I’m structuring the mission and I propose Emma, a new finance AI Collaborator.' },
+    collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'new' },
     mission: { fr: 'Relancer les factures impayées', en: 'Chase unpaid invoices' },
     validation: { fr: 'Vous validez avant tout passage en contentieux', en: 'You approve before any collections' },
     skills: [
@@ -44,26 +206,18 @@ export const SCENARIOS: Scenario[] = [
     firstAction: { fr: 'Identifier les échéances dépassées.', en: 'Identify overdue due dates.' },
   },
   {
-    action: { fr: 'préparer votre comité de direction', en: 'prepare your executive committee' },
-    human: { fr: 'Prépare le dossier de notre prochain comité de direction.', en: 'Prepare the file for our next executive committee.' },
-    mission: { fr: 'Préparer un comité de direction', en: 'Prepare an executive committee' },
-    validation: { fr: 'Vous validez le dossier avant diffusion', en: 'You approve the file before it circulates' },
+    dept: { fr: 'Finance', en: 'Finance' },
+    action: { fr: 'anticiper vos besoins de trésorerie', en: 'anticipate your cash-flow needs' },
+    human: { fr: 'Anticipe nos besoins de trésorerie pour les mois à venir.', en: 'Anticipate our cash-flow needs for the coming months.' },
+    almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Emma, already in your organization, can take this mission — I’m adding a skill.' },
+    collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'existing' },
+    mission: { fr: 'Anticiper la trésorerie', en: 'Anticipate cash flow' },
+    validation: { fr: 'Vous validez les hypothèses de prévision', en: 'You approve the forecast assumptions' },
     skills: [
-      { fr: 'Collecter les indicateurs', en: 'Gather the indicators' },
-      { fr: 'Préparer un dossier de décision', en: 'Prepare a decision file' },
+      { fr: 'Prévision de trésorerie', en: 'Cash-flow forecasting' },
+      { fr: 'Suivi des encaissements', en: 'Receivables tracking' },
     ],
-    firstAction: { fr: 'Demander les données aux responsables.', en: 'Request the data from team leads.' },
-  },
-  {
-    action: { fr: 'rédiger vos comptes rendus', en: 'write your meeting notes' },
-    human: { fr: 'Rédige les comptes rendus de nos réunions.', en: 'Write the notes from our meetings.' },
-    mission: { fr: 'Rédiger les comptes rendus', en: 'Write meeting notes' },
-    validation: { fr: 'Vous relisez avant partage', en: 'You review before sharing' },
-    skills: [
-      { fr: 'Synthèse de réunion', en: 'Meeting synthesis' },
-      { fr: 'Diffusion structurée', en: 'Structured distribution' },
-    ],
-    firstAction: { fr: 'Récupérer l’ordre du jour et les notes.', en: 'Collect the agenda and the notes.' },
+    firstAction: { fr: 'Réunir vos flux d’encaissement et de dépenses.', en: 'Collect your inflows and outflows.' },
   },
 ]
 
@@ -74,13 +228,13 @@ const T = {
     sophieRole: 'Dirigeante de Solvea',
     almaRole: 'Customer success Unitalk',
     almaName: 'Alma',
-    almaReply: 'Je structure la mission et je vous recommande Emma, déjà dans votre organisation.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
-    assign: 'Emma peut prendre cette mission',
-    emmaRole: 'Assistante de direction',
-    existing: 'Collaboratrice IA existante',
+    canTake: 'peut prendre cette mission',
+    newCollab: 'nouveau Collaborateur IA proposé',
+    existing: 'déjà dans votre organisation',
     recommended: 'Affectation recommandée',
+    proposed: 'Nouveau Collaborateur',
     skillsTitle: 'Deux compétences à développer',
     firstLabel: 'Première action',
     pause: 'Pause',
@@ -93,13 +247,13 @@ const T = {
     sophieRole: 'Founder of Solvea',
     almaRole: 'Customer success Unitalk',
     almaName: 'Alma',
-    almaReply: 'I’m structuring the mission and I recommend Emma, already in your organization.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
-    assign: 'Emma can take this mission',
-    emmaRole: 'Executive assistant',
-    existing: 'Existing AI Collaborator',
+    canTake: 'can take this mission',
+    newCollab: 'new AI Collaborator proposed',
+    existing: 'already in your organization',
     recommended: 'Recommended assignment',
+    proposed: 'New Collaborator',
     skillsTitle: 'Two skills to develop',
     firstLabel: 'First action',
     pause: 'Pause',
@@ -218,7 +372,7 @@ export function HeroTheatre({
             {/* Alma replies — incoming chat message */}
             <motion.div {...nodeAnim(0.1)} className="mt-2.5 flex items-end gap-2.5">
               <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-              <p className="max-w-[85%] rounded-[16px] rounded-bl-[5px] border border-[#EBE3D5] bg-[#F6F1E8] px-4 py-2.5 text-[14px] leading-relaxed text-[#2C2822]">{t.almaReply}</p>
+              <p className="max-w-[85%] rounded-[16px] rounded-bl-[5px] border border-[#EBE3D5] bg-[#F6F1E8] px-4 py-2.5 text-[14px] leading-relaxed text-[#2C2822]">{p(s.almaReply, lang)}</p>
             </motion.div>
 
             {/* The mission sheet Alma attaches to her reply — crossed by the thread */}
@@ -252,19 +406,28 @@ export function HeroTheatre({
                 </p>
               </motion.div>
 
-              {/* Assignment — discreet seal, no neon badge */}
-              <motion.div {...nodeAnim(0.22)} className="relative pb-5">
+              {/* Assignment — the Collaborator Alma proposes or equips */}
+              <motion.div key={`assign-${index}`} {...nodeAnim(0.22)} className="relative pb-5">
                 <span className="absolute -left-[31px] top-px flex h-[19px] w-[19px] items-center justify-center rounded-full bg-[#FFFDF9] ring-[1.5px] ring-[#B00C54]">
-                  <Image src="/images/emma-avatar.png" alt="" width={17} height={17} className="h-[17px] w-[17px] rounded-full object-cover" />
+                  <Image src={s.collab.avatar} alt="" width={17} height={17} className="h-[17px] w-[17px] rounded-full object-cover" />
                 </span>
-                <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">{t.assign}</p>
+                <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">
+                  {s.collab.status === 'new' ? `${s.collab.name} — ${t.newCollab}` : `${s.collab.name} ${t.canTake}`}
+                </p>
                 <p className="mt-0.5 text-[13px] text-[#6B6459]">
-                  {t.emmaRole} · {t.existing}
+                  {s.collab.status === 'existing' ? `${p(s.collab.role, lang)} · ${t.existing}` : p(s.collab.role, lang)}
                 </p>
-                <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#EAF0F5] px-2.5 py-1 text-[11.5px] font-semibold tracking-[0.01em] text-[#2C5F8A]">
-                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#2C5F8A]" />
-                  {t.recommended}
-                </p>
+                {s.collab.status === 'new' ? (
+                  <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#FBEAF1] px-2.5 py-1 text-[11.5px] font-semibold tracking-[0.01em] text-[#B00C54]">
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#B00C54]" />
+                    {t.proposed}
+                  </p>
+                ) : (
+                  <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#EAF0F5] px-2.5 py-1 text-[11.5px] font-semibold tracking-[0.01em] text-[#2C5F8A]">
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#2C5F8A]" />
+                    {t.recommended}
+                  </p>
+                )}
               </motion.div>
 
               {/* Skills to develop */}
