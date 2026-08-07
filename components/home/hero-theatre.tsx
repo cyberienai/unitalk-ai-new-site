@@ -134,13 +134,27 @@ export function HeroTheatre({
       : { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, ease, delay } }
 
   return (
-    <div
-      className="relative w-full overflow-hidden rounded-[22px] border border-[#E4DCCE] bg-[#FFFDF9] text-[#1C1A17]"
+    <motion.div
+      className="group relative w-full overflow-hidden rounded-[22px] border border-[#E4DCCE] bg-[#FFFDF9] text-[#1C1A17] transition-colors duration-300 hover:border-[#D9B9C8]"
       style={{ boxShadow: '0 1px 1px rgba(48,37,28,0.04), 0 8px 20px -8px rgba(48,37,28,0.10), 0 34px 64px -24px rgba(48,37,28,0.16)' }}
+      initial={false}
+      whileHover={
+        reduce
+          ? undefined
+          : {
+              y: -6,
+              boxShadow:
+                '0 2px 2px rgba(48,37,28,0.05), 0 14px 30px -10px rgba(176,12,84,0.14), 0 46px 80px -28px rgba(48,37,28,0.24)',
+              transition: { duration: 0.4, ease },
+            }
+      }
     >
-      {/* Hairline top edge with a discreet magenta signature. */}
+      {/* Hairline top edge with a magenta signature that sweeps across on hover. */}
       <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#1C1A17]/25 to-transparent" />
-      <span aria-hidden className="absolute left-0 top-0 h-px w-16 bg-[#B00C54]" />
+      <span
+        aria-hidden
+        className="absolute left-0 top-0 h-px w-16 bg-[#B00C54] transition-[width] duration-500 ease-out group-hover:w-full"
+      />
 
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#EFE8DB] px-6 pb-3.5 pt-4">
@@ -277,6 +291,6 @@ export function HeroTheatre({
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   )
 }
