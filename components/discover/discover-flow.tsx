@@ -90,6 +90,7 @@ export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState 
                   <ScreenContext
                     lang={lang}
                     domain={state.domain}
+                    missionSlug={state.missionSlug}
                     onProgress={(n) => setState((s) => ({ ...s, contextProgress: Math.max(s.contextProgress, n) }))}
                     onContinue={() => goTo('savoirfaire')}
                   />

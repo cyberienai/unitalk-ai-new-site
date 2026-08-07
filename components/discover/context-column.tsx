@@ -72,9 +72,10 @@ function EntryRecap({ state, lang }: { state: FlowState; lang: Lang }) {
 /** Step 2: Organization context building live. */
 function ContextPanel({ lang, progress }: { lang: Lang; progress: number }) {
   const reduce = useReducedMotion()
+  // 6 slots so the bar fills smoothly; blocks confirm at progress 1, 2, 3 and 6.
   const items = {
-    fr: ['Activité comprise', 'Offre identifiée', 'Clients précisés', 'Priorité définie', 'Méthodes recueillies', 'Validations préparées'],
-    en: ['Business understood', 'Offer identified', 'Customers clarified', 'Priority defined', 'Methods captured', 'Approvals prepared'],
+    fr: ['Activité comprise', 'Offre identifiée', 'Clients précisés', 'Vocabulaire métier', 'Contexte relié à la mission', 'Prêt pour les savoir-faire'],
+    en: ['Business understood', 'Offer identified', 'Customers clarified', 'Business vocabulary', 'Context linked to mission', 'Ready for know-how'],
   }[lang]
 
   return (
