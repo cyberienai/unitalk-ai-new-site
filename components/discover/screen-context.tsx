@@ -38,6 +38,7 @@ export function ScreenContext({
   const [domainInput, setDomainInput] = useState(domain || '')
   const [showAlt, setShowAlt] = useState(false)
   const [source, setSource] = useState<{ kind: SourceKind; label: Bi } | null>(null)
+  const [scanTarget, setScanTarget] = useState<{ kind: SourceKind; text: string }>({ kind: 'site', text: '' })
   const [blocks, setBlocks] = useState<Block[]>([])
   const [confirmed, setConfirmed] = useState<Record<string, boolean>>({})
   const [editingKey, setEditingKey] = useState<string | null>(null)
@@ -45,8 +46,14 @@ export function ScreenContext({
 
   const normalized = normalizeDomain(domainInput)
 
-  function startAnalysis(profileKey: string, src: { kind: SourceKind; label: Bi }, built: Block[]) {
+  function startAnalysis(
+    profileKey: string,
+    src: { kind: SourceKind; label: Bi },
+    built: Block[],
+    target: string,
+  ) {
     setSource(src)
+    setScanTarget({ kind: src.kind, text: target })
     setBlocks(built)
     setConfirmed({})
     onProgress(0)
@@ -59,6 +66,7 @@ export function ScreenContext({
       guessProfileKey(normalized),
       { kind: 'site', label: { fr: `${normalized} · analysé aujourd’hui`, en: `${normalized} · analyzed today` } },
       buildBlocksFromDomain(normalized, missionSlug),
+      normalized,
     )
   }
 
@@ -67,6 +75,7 @@ export function ScreenContext({
       'default',
       { kind: 'import', label: { fr: `Document importé · ${fileName}`, en: `Imported document · ${fileName}` } },
       buildBlocksFromDomain('', missionSlug),
+      fileName,
     )
   }
 
@@ -75,6 +84,7 @@ export function ScreenContext({
       'default',
       { kind: 'creation', label: { fr: 'Entreprise en création', en: 'Company being created' } },
       buildCreationBlocks(missionSlug),
+      lang === 'fr' ? 'entreprise en création' : 'company being created',
     )
   }
 
@@ -109,14 +119,14 @@ export function ScreenContext({
         {phase === 'review' ? t.reviewLead : t.lead}
       </p>
 
-      {/* Alma prompt bubble — reframes per phase. On the input phase, Alma's
-          voice lives inside the hero field below, so we skip the plain bubble. */}
-      {phase !== 'input' && (
+      {/* Alma prompt bubble — reframes per phase. On the input and analyzing
+          phases Alma's voice lives inside the field / the scanner, so we skip
+          the plain boxed bubble there. */}
+      {(phase === 'describe' || phase === 'review') && (
         <div className="mt-5 flex items-start gap-3 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
           <AlmaHead className="h-9 w-9" />
           <p className="flex-1 text-[15px] font-semibold leading-relaxed text-[#1C1A17]">
             {phase === 'describe' && t.almaDescribe}
-            {phase === 'analyzing' && t.almaAnalyzing}
             {phase === 'review' && t.almaReview}
           </p>
         </div>
@@ -255,7 +265,7 @@ export function ScreenContext({
         {/* PHASE 2 — scripted analysis of the provided source */}
         {phase === 'analyzing' && (
           <motion.div key="analyzing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <AnalyzingView lang={lang} sourceLabel={source?.label ?? null} onDone={() => setPhase('review')} />
+            <AnalyzingView lang={lang} target={scanTarget} onDone={() => setPhase('review')} />
           </motion.div>
         )}
 
@@ -380,8 +390,17 @@ export function ScreenContext({
 /* Analyzing view — honest scripted steps, never a real crawl.                */
 /* -------------------------------------------------------------------------- */
 
-function AnalyzingView({ lang, sourceLabel, onDone }: { lang: Lang; sourceLabel: Bi | null; onDone: () => void }) {
+function AnalyzingView({
+  lang,
+  target,
+  onDone,
+}: {
+  lang: Lang
+  target: { kind: SourceKind; text: string }
+  onDone: () => void
+}) {
   const reduce = useReducedMotion()
+  const t = COPY[lang]
   const steps = ANALYZE_STEPS[lang]
   const [active, setActive] = useState(0)
 
@@ -400,32 +419,83 @@ function AnalyzingView({ lang, sourceLabel, onDone }: { lang: Lang; sourceLabel:
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const prefix = target.kind === 'site' ? 'https://' : '↳'
+
   return (
-    <div className="mt-4 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-6">
-      {sourceLabel && (
-        <p className="mb-4 text-[12px] font-medium text-[#8A8175]">{sourceLabel[lang]}</p>
-      )}
-      <ul className="flex flex-col gap-3">
-        {steps.map((label, i) => {
-          const done = i < active
-          const current = i === active
-          return (
-            <li key={label} className="flex items-center gap-3">
-              <span
-                className={[
-                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-colors',
-                  done ? 'bg-[#2E9E5B] text-[#FBF9F3]' : current ? 'bg-[#D10E63]/15 text-[#D10E63]' : 'border border-[#D8D0C2] text-transparent',
-                ].join(' ')}
+    <div className="mt-10 max-w-xl">
+      {/* THE LIVING ADDRESS BAR — the signature of this step. The source the
+          user gave freezes onto the hairline and a light beam sweeps across it
+          while Alma reads. One orchestrated motion, disabled for reduced-motion. */}
+      <div className="relative overflow-hidden pb-4">
+        <div className="flex items-baseline gap-3">
+          <span className="shrink-0 select-none font-mono text-base text-[#C7BFB0] sm:text-lg">{prefix}</span>
+          <span className="min-w-0 flex-1 truncate text-2xl font-medium tracking-[-0.01em] text-[#1C1A17] sm:text-3xl">
+            {target.text}
+          </span>
+          <span className="ml-auto inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#A80B50]">
+            <motion.span
+              aria-hidden
+              className="h-1.5 w-1.5 rounded-full bg-[#D10E63]"
+              animate={reduce ? {} : { opacity: [1, 0.25, 1] }}
+              transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            {t.scanReading}
+          </span>
+        </div>
+
+        {/* soft wide beam sweeping the whole bar */}
+        {!reduce && (
+          <motion.span
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-[#D10E63]/12 to-transparent"
+            initial={{ x: '-60%' }}
+            animate={{ x: '160%' }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        )}
+
+        {/* the hairline itself: dim base + a bright segment scanning along it */}
+        <span aria-hidden className="absolute bottom-0 left-0 h-px w-full bg-[#D8D0C2]" />
+        {!reduce && (
+          <motion.span
+            aria-hidden
+            className="absolute bottom-0 left-0 h-px w-1/3 bg-gradient-to-r from-transparent via-[#D10E63] to-transparent"
+            initial={{ x: '-50%' }}
+            animate={{ x: '300%' }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        )}
+      </div>
+
+      {/* Alma reads aloud — lines stream in, one at a time. */}
+      <div className="mt-7 flex flex-col gap-2.5">
+        <AnimatePresence initial={false}>
+          {steps.map((label, i) => {
+            if (i > active) return null
+            const done = i < active
+            return (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: done ? 0.55 : 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center gap-2.5"
               >
-                {done ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : current ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
-              </span>
-              <span className={done || current ? 'text-sm font-semibold text-[#1C1A17]' : 'text-sm text-[#9A9184]'}>
-                {label}
-              </span>
-            </li>
-          )
-        })}
-      </ul>
+                <span className="flex h-4 w-4 shrink-0 items-center justify-center">
+                  {done ? (
+                    <Check className="h-3.5 w-3.5 text-[#2E9E5B]" strokeWidth={3} />
+                  ) : (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin text-[#D10E63]" />
+                  )}
+                </span>
+                <span className={done ? 'text-sm text-[#8A8175]' : 'text-[15px] font-semibold text-[#1C1A17]'}>
+                  {label}
+                </span>
+              </motion.div>
+            )
+          })}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }
@@ -665,6 +735,7 @@ const COPY = {
     almaAsk: 'Donnez-moi l’adresse de votre site. Je le lis, je vous montre ma lecture — et vous gardez le dernier mot.',
     almaDescribe: 'Pas de site ? Répondez à quelques questions : je reconstitue votre contexte à partir de vos réponses.',
     almaAnalyzing: 'J’analyse la source que vous m’avez donnée…',
+    scanReading: 'Lecture',
     almaReview: 'Voici ma lecture. Elle n’est pas gravée dans le marbre — corrigez tout ce qui doit l’être.',
     domainLabel: 'L’adresse de votre site web',
     domainPlaceholder: 'votre-entreprise.fr',
@@ -713,6 +784,7 @@ const COPY = {
     almaAsk: 'Give me your website address. I’ll read it, show you my reading — and you keep the final say.',
     almaDescribe: 'No website? Answer a few questions: I’ll rebuild your context from your answers.',
     almaAnalyzing: 'Analyzing the source you gave me…',
+    scanReading: 'Reading',
     almaReview: 'Here is my reading. It’s not set in stone — correct anything that needs it.',
     domainLabel: 'Your website address',
     domainPlaceholder: 'your-company.com',
