@@ -69,12 +69,11 @@ export const SCENARIOS: Scenario[] = [
 
 const T = {
   fr: {
-    demo: 'Démonstration',
-    company: 'Solvea',
     scenarioWord: 'Scénario',
-    preparing: 'Alma prépare une mission',
+    almaName: 'Alma',
+    almaStatus: 'Orchestratrice · en ligne',
     sophie: 'Sophie · Dirigeante de Solvea, entreprise exemple',
-    almaFrames: 'Alma structure la mission',
+    almaReply: 'Je structure la mission et je vous recommande Emma, déjà dans votre organisation.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
     assign: 'Emma peut prendre cette mission',
@@ -88,12 +87,11 @@ const T = {
     of: 'sur',
   },
   en: {
-    demo: 'Demonstration',
-    company: 'Solvea',
     scenarioWord: 'Scenario',
-    preparing: 'Alma is preparing a mission',
+    almaName: 'Alma',
+    almaStatus: 'Orchestrator · online',
     sophie: 'Sophie · Founder of Solvea, sample company',
-    almaFrames: 'Alma structures the mission',
+    almaReply: 'I’m structuring the mission and I recommend Emma, already in your organization.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
     assign: 'Emma can take this mission',
@@ -148,10 +146,15 @@ export function HeroTheatre({
 
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#EAE3D6] px-5 pb-3 pt-4">
-          <div>
-            <p className="mb-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#B00C54]">{t.demo}</p>
-            <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.company}</p>
-            <p className="text-[13px] text-[#655F56]">{t.preparing}</p>
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#B00C54]">
+              <Image src="/alma-avatar.png" alt="" width={26} height={26} className="h-[26px] w-[26px] rounded-full object-cover" />
+              <span aria-hidden className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#FFFDF9] bg-[#5A7052]" />
+            </span>
+            <div>
+              <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.almaName}</p>
+              <p className="text-[13px] text-[#655F56]">{t.almaStatus}</p>
+            </div>
           </div>
         <div className="text-right">
           <p className="text-[13px] font-medium text-[#655F56]">
@@ -182,27 +185,30 @@ export function HeroTheatre({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28, ease }}
           >
-            {/* Human ask — softly rosy, no massive bubble */}
-            <motion.div {...nodeAnim(0.02)} className="flex items-start gap-2.5">
-              <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
-              <div className="min-w-0">
+            {/* Sophie speaks to Alma — outgoing chat message */}
+            <motion.div {...nodeAnim(0.02)} className="flex items-start justify-end gap-2.5">
+              <div className="flex min-w-0 flex-col items-end">
                 <p className="text-[13px] font-semibold text-[#1C1A17]">{t.sophie}</p>
-                <p className="mt-1 rounded-2xl rounded-tl-sm bg-[#FBEAF1] px-3.5 py-2 text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
+                <p className="mt-1 rounded-2xl rounded-tr-sm bg-[#FBEAF1] px-3.5 py-2 text-right text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
               </div>
+              <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
             </motion.div>
 
-            {/* Mission thread crossing the blocks */}
+            {/* Alma replies — incoming chat message */}
+            <motion.div {...nodeAnim(0.1)} className="mt-3 flex items-start gap-2.5">
+              <Image src="/alma-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
+              <p className="min-w-0 rounded-2xl rounded-tl-sm bg-[#F4EEE4] px-3.5 py-2 text-[14px] leading-relaxed text-[#2C2822]">{t.almaReply}</p>
+            </motion.div>
+
+            {/* The mission sheet Alma attaches to her reply — crossed by the thread */}
             <div className="relative mt-4 pl-[30px]">
               <span aria-hidden className="absolute left-[9px] top-1 bottom-3 w-px bg-[#E1D9CB]" />
               <span aria-hidden className="absolute left-[9px] top-1 h-[62%] w-px bg-[#B00C54]" />
 
-              {/* Alma frames → mission + validation */}
+              {/* Mission + validation */}
               <motion.div {...nodeAnim(0.14)} className="relative pb-4">
-                <span className="absolute -left-[30px] top-1 flex h-[19px] w-[19px] items-center justify-center rounded-full bg-[#B00C54]">
-                  <Image src="/alma-avatar.png" alt="" width={15} height={15} className="h-[15px] w-[15px] rounded-full object-cover" />
-                </span>
-                <p className="text-[14px] font-semibold text-[#1C1A17]">{t.almaFrames}</p>
-                <div className="mt-2 rounded-xl border border-[#EAE3D6] bg-[#FBF7EF] px-3.5 py-2.5">
+                <span className="absolute -left-[30px] top-1.5 h-[15px] w-[15px] rounded-full bg-[#B00C54]" />
+                <div className="rounded-xl border border-[#EAE3D6] bg-[#FBF7EF] px-3.5 py-2.5">
                   <FieldLabel>{t.missionLabel}</FieldLabel>
                   <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.mission, lang)}</p>
                   <div className="mt-2 border-t border-[#EFE8DB] pt-2">
