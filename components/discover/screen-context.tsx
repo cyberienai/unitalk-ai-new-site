@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Pencil, Globe, Upload, MessageSquare, Building2, Loader2 } from 'lucide-react'
+import { ArrowRight, Check, Pencil, Globe, Upload, MessageSquare, Building2, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import { getProfile, guessProfileKey, normalizeDomain } from '@/lib/discover-profiles'
@@ -109,16 +109,18 @@ export function ScreenContext({
         {phase === 'review' ? t.reviewLead : t.lead}
       </p>
 
-      {/* Alma prompt bubble — always visible, reframes per phase. */}
-      <div className="mt-5 flex items-start gap-3 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
-        <AlmaHead className="h-9 w-9" />
-        <p className="flex-1 text-[15px] font-semibold leading-relaxed text-[#1C1A17]">
-          {phase === 'input' && t.almaAsk}
-          {phase === 'describe' && t.almaDescribe}
-          {phase === 'analyzing' && t.almaAnalyzing}
-          {phase === 'review' && t.almaReview}
-        </p>
-      </div>
+      {/* Alma prompt bubble — reframes per phase. On the input phase, Alma's
+          voice lives inside the hero field below, so we skip the plain bubble. */}
+      {phase !== 'input' && (
+        <div className="mt-5 flex items-start gap-3 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
+          <AlmaHead className="h-9 w-9" />
+          <p className="flex-1 text-[15px] font-semibold leading-relaxed text-[#1C1A17]">
+            {phase === 'describe' && t.almaDescribe}
+            {phase === 'analyzing' && t.almaAnalyzing}
+            {phase === 'review' && t.almaReview}
+          </p>
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         {/* PHASE 1 — the source (site first, never an invented context) */}
@@ -130,43 +132,86 @@ export function ScreenContext({
             exit={{ opacity: 0 }}
             className="mt-4"
           >
-            <div className="rounded-2xl border border-[#E4DDCE] bg-white/60 p-5">
-              <label htmlFor="company-domain" className="flex items-center gap-2 text-sm font-semibold text-[#1C1A17]">
-                <Globe className="h-4 w-4 text-[#D10E63]" />
+            {/* Hero domain entry — the signature moment of this step. */}
+            <div className="relative overflow-hidden rounded-3xl border border-[#E4DDCE] bg-gradient-to-b from-white to-[#FCFAF4] p-6 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_18px_40px_-24px_rgba(28,26,23,0.35)] sm:p-8">
+              {/* Alma speaks, right where the action happens. */}
+              <div className="flex items-start gap-3">
+                <AlmaHead className="h-10 w-10 shrink-0" />
+                <div className="flex-1">
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A8175]">
+                    {t.almaName}
+                  </p>
+                  <p className="mt-1 text-pretty text-[15px] font-semibold leading-relaxed text-[#1C1A17]">
+                    {t.almaAsk}
+                  </p>
+                </div>
+              </div>
+
+              {/* The field itself — large, focused, with an https:// affordance. */}
+              <label htmlFor="company-domain" className="sr-only">
                 {t.domainLabel}
               </label>
-              <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-6 flex items-center gap-2 rounded-2xl border-2 border-[#E4DDCE] bg-white px-3 transition-colors focus-within:border-[#D10E63] sm:gap-3 sm:px-4">
+                <Globe className="h-5 w-5 shrink-0 text-[#D10E63]" />
+                <span className="hidden shrink-0 font-mono text-sm text-[#B7AE9E] sm:inline">https://</span>
                 <input
                   id="company-domain"
                   type="text"
                   inputMode="url"
+                  autoComplete="url"
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.nativeEvent.isComposing) analyzeSite()
                   }}
                   placeholder={t.domainPlaceholder}
-                  className="flex-1 rounded-xl border border-[#D8D0C2] bg-white px-4 py-3 text-sm text-[#1C1A17] outline-none placeholder:text-[#9A9184] focus:border-[#D10E63]"
+                  className="min-w-0 flex-1 border-0 bg-transparent py-4 text-base font-medium text-[#1C1A17] outline-none placeholder:font-normal placeholder:text-[#B7AE9E] sm:text-lg"
                 />
                 <button
                   type="button"
                   onClick={analyzeSite}
                   disabled={!normalized}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40"
+                  className="my-1.5 inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3] transition-all hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40 sm:px-5"
+                  aria-label={t.analyze}
                 >
-                  {t.analyze}
+                  <span className="hidden sm:inline">{t.analyze}</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
-              <p className="mt-2.5 text-[12px] leading-relaxed text-[#8A8175]">{t.domainHint}</p>
+
+              <p className="mt-3 flex items-start gap-1.5 text-[12px] leading-relaxed text-[#8A8175]">
+                <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#9A9184]" />
+                {t.domainHint}
+              </p>
+
+              {/* What Alma will extract — sets expectations, load-bearing. */}
+              <div className="mt-6 border-t border-[#EFE8DA] pt-5">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">
+                  {t.willReadLabel}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {t.willRead.map((chip) => (
+                    <span
+                      key={chip}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-1.5 text-[13px] font-medium text-[#3B362F]"
+                    >
+                      <Sparkles className="h-3 w-3 text-[#D10E63]" />
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
+            {/* No-site path — a clear secondary door, not a buried link. */}
             <button
               type="button"
               onClick={() => setShowAlt((s) => !s)}
-              className="mt-4 text-sm font-semibold text-[#A80B50] underline decoration-[#D10E63]/30 underline-offset-4 hover:decoration-[#D10E63]"
+              aria-expanded={showAlt}
+              className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#E4DDCE] bg-white/50 px-4 py-2 text-sm font-semibold text-[#3B362F] transition-colors hover:border-[#D10E63]/40 hover:text-[#A80B50]"
             >
               {t.noSite}
+              <ArrowRight className={['h-3.5 w-3.5 transition-transform', showAlt ? 'rotate-90' : ''].join(' ')} />
             </button>
 
             <AnimatePresence>
@@ -631,19 +676,22 @@ const ANALYZE_STEPS: Record<Lang, string[]> = {
 const COPY = {
   fr: {
     kicker: 'Étape 2 · Votre entreprise',
-    title: 'Votre mission est prête. Présentez-moi votre entreprise.',
-    lead: 'Indiquez votre site : je l’analyse et je vous montre ce que j’en comprends. Je n’invente rien — vous confirmez ou corrigez chaque point.',
+    title: 'Un lien suffit pour que je comprenne votre entreprise.',
+    lead: 'Collez l’adresse de votre site. Je le lis en quelques secondes et je reconstitue votre activité, votre offre, vos clients et votre vocabulaire — puis vous validez, point par point. Je n’invente rien.',
     reviewTitle: 'Voici ce que je comprends de votre entreprise.',
     reviewLead: 'Confirmez ce qui est juste, corrigez le reste. Ce contexte servira à toutes les missions, pas seulement celle-ci.',
-    almaAsk: 'Quel est le site de votre entreprise ? Je l’analyse et je vous montre ma lecture, à valider.',
+    almaName: 'Alma',
+    almaAsk: 'Donnez-moi l’adresse de votre site. Je le lis, je vous montre ma lecture — et vous gardez le dernier mot.',
     almaDescribe: 'Pas de site ? Répondez à quelques questions : je reconstitue votre contexte à partir de vos réponses.',
     almaAnalyzing: 'J’analyse la source que vous m’avez donnée…',
     almaReview: 'Voici ma lecture. Elle n’est pas gravée dans le marbre — corrigez tout ce qui doit l’être.',
-    domainLabel: 'Le site de votre entreprise',
-    domainPlaceholder: 'exemple.fr',
-    domainHint: 'Analyse de démonstration : je m’appuie sur votre domaine pour proposer une lecture à confirmer, pas un audit.',
-    analyze: 'Analyser mon entreprise',
-    noSite: 'Mon entreprise n’a pas de site web',
+    domainLabel: 'L’adresse de votre site web',
+    domainPlaceholder: 'votre-entreprise.fr',
+    domainHint: 'Lecture de démonstration à partir de votre domaine — une base à confirmer ensemble, pas un audit. Rien n’est enregistré sans votre accord.',
+    analyze: 'Analyser mon site',
+    willReadLabel: 'Ce que je vais lire pour vous',
+    willRead: ['Votre activité', 'Votre offre', 'Vos clients', 'Votre vocabulaire métier'],
+    noSite: 'Mon entreprise n’a pas encore de site',
     srcImport: 'Importer une présentation',
     srcImportDesc: 'Plaquette, PDF ou présentation de votre activité.',
     srcDescribe: 'Décrire mon activité avec Alma',
@@ -676,19 +724,22 @@ const COPY = {
   },
   en: {
     kicker: 'Step 2 · Your company',
-    title: 'Your mission is ready. Now introduce your company.',
-    lead: 'Enter your website: I analyze it and show you what I understand. I invent nothing — you confirm or correct every point.',
+    title: 'One link is all I need to understand your company.',
+    lead: 'Paste your website address. I read it in seconds and rebuild your business, your offer, your customers and your vocabulary — then you validate, point by point. I invent nothing.',
     reviewTitle: 'Here is what I understand about your company.',
     reviewLead: 'Confirm what’s right, correct the rest. This context will serve every mission, not just this one.',
-    almaAsk: 'What is your company’s website? I’ll analyze it and show you my reading, for you to confirm.',
+    almaName: 'Alma',
+    almaAsk: 'Give me your website address. I’ll read it, show you my reading — and you keep the final say.',
     almaDescribe: 'No website? Answer a few questions: I’ll rebuild your context from your answers.',
     almaAnalyzing: 'Analyzing the source you gave me…',
     almaReview: 'Here is my reading. It’s not set in stone — correct anything that needs it.',
-    domainLabel: 'Your company website',
-    domainPlaceholder: 'example.com',
-    domainHint: 'Demonstration analysis: I use your domain to propose a reading to confirm, not an audit.',
-    analyze: 'Analyze my company',
-    noSite: 'My company has no website',
+    domainLabel: 'Your website address',
+    domainPlaceholder: 'your-company.com',
+    domainHint: 'A demonstration reading from your domain — a starting point to confirm together, not an audit. Nothing is saved without your consent.',
+    analyze: 'Analyze my site',
+    willReadLabel: 'What I’ll read for you',
+    willRead: ['Your business', 'Your offer', 'Your customers', 'Your business vocabulary'],
+    noSite: 'My company doesn’t have a website yet',
     srcImport: 'Import a presentation',
     srcImportDesc: 'Brochure, PDF or a deck about your business.',
     srcDescribe: 'Describe my business with Alma',
