@@ -6,7 +6,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    dialogLabel: 'Discuter avec Alma',
+    dialogLabel: 'Parlez avec Alma',
     almaAlt: "Portrait d'Alma",
     role: 'Je crée vos agents et les aide à progresser',
     online: 'En ligne',
