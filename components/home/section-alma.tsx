@@ -12,7 +12,7 @@ const T = {
     titleB: 'Parlez avec Alma',
     role: 'Votre Conseillère IA',
     lead: 'Elle comprend votre entreprise, identifie vos besoins et vous recommande les Collaborateurs IA les plus adaptés.',
-    cta: 'Parler avec Alma',
+    cta: 'Parlez avec Alma',
     recoTitle: 'Recommandations d’Alma',
     recos: [
       { name: 'Emma', role: 'Assistante de direction IA', score: 98, avatar: '/images/emma-avatar.png' },
