@@ -135,7 +135,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                     alt="Alma"
                     width={26}
                     height={26}
-                    className="mx-1 inline-block h-[26px] w-[26px] -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
+                    className="ml-1.5 mr-2.5 inline-block h-[26px] w-[26px] -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
                   />
                   {t.sub.slice(i)}
                 </>
