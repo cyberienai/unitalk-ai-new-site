@@ -71,8 +71,8 @@ const T = {
   fr: {
     scenarioWord: 'Scénario',
     almaName: 'Alma',
-    almaStatus: 'Orchestratrice · en ligne',
-    sophie: 'Sophie · Dirigeante de Solvea, entreprise exemple',
+    almaStatus: 'Orchestratrice IA',
+    sophie: 'Sophie · Dirigeante de Solvea',
     almaReply: 'Je structure la mission et je vous recommande Emma, déjà dans votre organisation.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
@@ -89,8 +89,8 @@ const T = {
   en: {
     scenarioWord: 'Scenario',
     almaName: 'Alma',
-    almaStatus: 'Orchestrator · online',
-    sophie: 'Sophie · Founder of Solvea, sample company',
+    almaStatus: 'AI Orchestrator',
+    sophie: 'Sophie · Founder of Solvea',
     almaReply: 'I’m structuring the mission and I recommend Emma, already in your organization.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
@@ -149,7 +149,7 @@ export function HeroTheatre({
           <div className="flex items-center gap-2.5">
             <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#B00C54]">
               <Image src="/alma-avatar.png" alt="" width={26} height={26} className="h-[26px] w-[26px] rounded-full object-cover" />
-              <span aria-hidden className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#FFFDF9] bg-[#5A7052]" />
+              <span aria-hidden className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#FFFDF9] bg-[#2C5F8A]" />
             </span>
             <div>
               <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.almaName}</p>
@@ -212,8 +212,8 @@ export function HeroTheatre({
                   <FieldLabel>{t.missionLabel}</FieldLabel>
                   <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.mission, lang)}</p>
                   <div className="mt-2 flex items-center gap-2 border-t border-[#EFE8DB] pt-2">
-                    <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-[#5A7052]" />
-                    <p className="text-[14px] text-[#5A7052]">
+                    <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-[#2C5F8A]" />
+                    <p className="text-[14px] text-[#2C5F8A]">
                       <span className="font-semibold">{t.validationLabel} · </span>
                       {p(s.validation, lang)}
                     </p>
@@ -230,8 +230,8 @@ export function HeroTheatre({
                 <p className="mt-0.5 text-[13.5px] text-[#655F56]">
                   {t.emmaRole} · {t.existing}
                 </p>
-                    <p className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#5A7052]">
-                      <span aria-hidden className="h-2 w-2 rounded-full bg-[#5A7052]" />
+                    <p className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#2C5F8A]">
+                      <span aria-hidden className="h-2 w-2 rounded-full bg-[#2C5F8A]" />
                   {t.recommended}
                 </p>
               </motion.div>
@@ -252,7 +252,7 @@ export function HeroTheatre({
 
               {/* First action */}
               <motion.div {...nodeAnim(0.38)} className="relative">
-                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full bg-[#5A7052]" />
+                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full bg-[#2C5F8A]" />
                 <FieldLabel>{t.firstLabel}</FieldLabel>
                 <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.firstAction, lang)}</p>
               </motion.div>
