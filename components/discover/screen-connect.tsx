@@ -3,7 +3,7 @@
 import { ArrowRight, Eye, Zap, Lock, ShieldCheck } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { getMission } from './types'
-import { getStoreItemBySlug } from '@/lib/store-catalog'
+import { TOOL_TYPE_ACCESS } from './tool-access'
 
 export function ScreenConnect({
   lang,
@@ -17,10 +17,13 @@ export function ScreenConnect({
   const t = COPY[lang]
   const m = getMission(missionSlug)
 
+  // m.tools holds tool *types* for the mission's profile (e.g. Tableur, ERP,
+  // Email). We present each as a category of application with the data it would
+  // read and the actions allowed — types, not yet a specific connected product.
   const apps = m.tools
-    .map((slug) => getStoreItemBySlug(slug))
+    .map((label) => TOOL_TYPE_ACCESS[label])
     .filter((x): x is NonNullable<typeof x> => Boolean(x))
-    .slice(0, 3)
+    .slice(0, 4)
 
   return (
     <div>
@@ -34,20 +37,22 @@ export function ScreenConnect({
       <div className="mt-6 flex flex-col gap-4">
         {apps.length > 0 ? (
           apps.map((a) => (
-            <div key={a.slug} className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
+            <div key={a.name.en} className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
               <div className="flex items-baseline justify-between gap-3">
                 <p className="font-sf text-base font-bold text-[#1C1A17]">{a.name[lang]}</p>
-                {a.editor && <span className="text-xs font-medium text-[#8A8175]">{a.editor}</span>}
+                <span className="rounded-full bg-[#EBE4D6] px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8A8175]">
+                  {t.toolType}
+                </span>
               </div>
 
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <AccessBlock icon={Eye} label={t.dataRead}>
-                  {(a.dataAccessed ?? [{ fr: 'Données autorisées', en: 'Authorized data' }]).map((d) => (
+                  {a.dataAccessed.map((d) => (
                     <li key={d[lang]}>{d[lang]}</li>
                   ))}
                 </AccessBlock>
                 <AccessBlock icon={Zap} label={t.actions}>
-                  {(a.actions ?? a.uses ?? [{ fr: 'Actions autorisées', en: 'Authorized actions' }]).map((d) => (
+                  {a.actions.map((d) => (
                     <li key={d[lang]}>{d[lang]}</li>
                   ))}
                 </AccessBlock>
@@ -55,7 +60,7 @@ export function ScreenConnect({
 
               <p className="mt-4 flex items-start gap-2 border-t border-[#EBE4D6] pt-3 text-[13px] leading-relaxed text-[#5A544A]">
                 <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#8A8175]" />
-                {a.connection?.[lang] ?? t.connectionFallback}
+                {a.connection[lang]}
               </p>
             </div>
           ))
@@ -124,6 +129,7 @@ const COPY = {
     lead: 'Chaque application est reliée par une connexion sécurisée. Vous voyez exactement les données consultées et les actions permises, et vous gardez la main sur chaque validation sensible.',
     dataRead: 'Données consultées',
     actions: 'Actions autorisées',
+    toolType: 'Type d’outil',
     connectionFallback: 'Connexion sécurisée, révocable à tout moment depuis votre Workspace.',
     limitsTitle: 'Limites et validations humaines',
     appsEmpty: 'Aucun accès externe n’est requis à cette étape. Votre Collaborateur IA travaille à partir des sources publiques et du contexte de votre entreprise.',
@@ -136,6 +142,7 @@ const COPY = {
     lead: 'Each application is linked through a secure connection. You see exactly which data is read and which actions are allowed, and you keep control over every sensitive approval.',
     dataRead: 'Data accessed',
     actions: 'Authorized actions',
+    toolType: 'Tool type',
     connectionFallback: 'Secure connection, revocable at any time from your Workspace.',
     limitsTitle: 'Limits and human approvals',
     appsEmpty: 'No external access is required at this step. Your AI Collaborator works from public sources and your company context.',

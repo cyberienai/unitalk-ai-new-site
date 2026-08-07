@@ -5,25 +5,33 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, Check, Lock, Circle, Loader2, AlertCircle } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { getMission } from './types'
+import { getMission, type Assignment } from './types'
 import { ExpertDoor } from '@/components/experts/expert-door'
 import { loadDraft, type MissionDraft } from '@/lib/mission-draft'
 import { createWorkspaceMission } from '@/lib/workspace-missions'
+import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 
 export function ScreenWorkspace({
   lang,
   missionSlug,
   draftId,
   domain,
+  assignment,
+  assignedSlug,
 }: {
   lang: Lang
   missionSlug: string
   draftId: string
   domain: string
+  assignment: Assignment
+  assignedSlug: string
 }) {
   const t = COPY[lang]
   const m = getMission(missionSlug)
   const router = useRouter()
+
+  // The collaborator carrying the mission, resolved from the assignment step.
+  const responsible = ROLE_DETAILS[assignedSlug]?.name ?? m.profile[lang]
 
   // The draft Alma built on /missions, handed off by id. Loaded client-side.
   const [draft, setDraft] = useState<MissionDraft | null>(null)
@@ -86,7 +94,16 @@ export function ScreenWorkspace({
       <div className="mt-7 grid gap-4 sm:grid-cols-2">
         <Card label={t.collaborator}>
           <p className="font-sf text-base font-bold text-[#1C1A17]">
-            {t.activeProfile} : <span className="text-[#A80B50]">{m.profile[lang]}</span>
+            {t.responsible} : <span className="text-[#A80B50]">{responsible}</span>
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed text-[#8A8175]">
+            {assignment === 'existing'
+              ? lang === 'fr'
+                ? `Profil ${m.profile[lang].toLowerCase()} · fait évoluer un Collaborateur existant`
+                : `${m.profile[lang]} profile · evolves an existing Collaborateur`
+              : lang === 'fr'
+                ? `Profil ${m.profile[lang].toLowerCase()} · nouveau Collaborateur mis en service`
+                : `${m.profile[lang]} profile · new Collaborateur commissioned`}
           </p>
         </Card>
         <Card label={t.activeMission}>
@@ -212,7 +229,8 @@ function Card({ label, children }: { label: string; children: React.ReactNode })
 const COPY = {
   fr: {
     title: 'Votre première mission est prête.',
-    collaborator: 'Collaborateur IA préparé',
+    collaborator: 'Collaborateur IA responsable',
+    responsible: 'Responsable',
     activeProfile: 'Profil actif',
     activeMission: 'Mission active',
     objective: 'Objectif',
@@ -231,7 +249,8 @@ const COPY = {
   },
   en: {
     title: 'Your first mission is ready.',
-    collaborator: 'AI Collaborator prepared',
+    collaborator: 'Responsible AI Collaborator',
+    responsible: 'Responsible',
     activeProfile: 'Active profile',
     activeMission: 'Active mission',
     objective: 'Objective',
