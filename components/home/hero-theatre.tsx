@@ -211,9 +211,12 @@ export function HeroTheatre({
                 <div className="rounded-xl border border-[#EAE3D6] bg-[#FBF7EF] px-3.5 py-2.5">
                   <FieldLabel>{t.missionLabel}</FieldLabel>
                   <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.mission, lang)}</p>
-                  <div className="mt-2 border-t border-[#EFE8DB] pt-2">
-                    <FieldLabel>{t.validationLabel}</FieldLabel>
-                    <p className="text-[14px] text-[#3E3830]">{p(s.validation, lang)}</p>
+                  <div className="mt-2 flex items-center gap-2 border-t border-[#EFE8DB] pt-2">
+                    <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-[#5A7052]" />
+                    <p className="text-[14px] text-[#5A7052]">
+                      <span className="font-semibold">{t.validationLabel} · </span>
+                      {p(s.validation, lang)}
+                    </p>
                   </div>
                 </div>
               </motion.div>
