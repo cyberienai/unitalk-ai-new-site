@@ -70,8 +70,9 @@ export const SCENARIOS: Scenario[] = [
 const T = {
   fr: {
     scenarioWord: 'Scénario',
-    convoTitle: 'Conversation',
-    convoSub: 'Sophie, dirigeante de Solvea · Alma',
+    sophieName: 'Sophie',
+    sophieRole: 'Dirigeante de Solvea',
+    almaRole: 'Chief of Staff',
     almaName: 'Alma',
     sophie: 'Sophie · Dirigeante de Solvea',
     almaReply: 'Je structure la mission et je vous recommande Emma, déjà dans votre organisation.',
@@ -89,8 +90,9 @@ const T = {
   },
   en: {
     scenarioWord: 'Scenario',
-    convoTitle: 'Conversation',
-    convoSub: 'Sophie, founder of Solvea · Alma',
+    sophieName: 'Sophie',
+    sophieRole: 'Founder of Solvea',
+    almaRole: 'Chief of Staff',
     almaName: 'Alma',
     sophie: 'Sophie · Founder of Solvea',
     almaReply: 'I’m structuring the mission and I recommend Emma, already in your organization.',
@@ -148,14 +150,21 @@ export function HeroTheatre({
 
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#EAE3D6] px-5 pb-3 pt-4">
-          <div className="flex items-center gap-2.5">
-            <span className="flex shrink-0 items-center">
-              <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-2 ring-[#FFFDF9]" />
-              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="-ml-2.5 h-[30px] w-[30px] rounded-full object-cover ring-2 ring-[#FFFDF9]" />
-            </span>
-            <div>
-              <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.convoTitle}</p>
-              <p className="text-[13px] text-[#655F56]">{t.convoSub}</p>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
+              <div className="leading-tight">
+                <p className="text-[14px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.sophieName}</p>
+                <p className="text-[12px] text-[#655F56]">{t.sophieRole}</p>
+              </div>
+            </div>
+            <span aria-hidden className="h-6 w-px bg-[#E0D8C9]" />
+            <div className="flex items-center gap-2">
+              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
+              <div className="leading-tight">
+                <p className="text-[14px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.almaName}</p>
+                <p className="text-[12px] text-[#B00C54]">{t.almaRole}</p>
+              </div>
             </div>
           </div>
         <div className="text-right">
