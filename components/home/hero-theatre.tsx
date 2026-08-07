@@ -70,8 +70,9 @@ export const SCENARIOS: Scenario[] = [
 const T = {
   fr: {
     scenarioWord: 'Scénario',
+    convoTitle: 'Conversation',
+    convoSub: 'Sophie, dirigeante de Solvea · Alma',
     almaName: 'Alma',
-    almaStatus: 'Orchestratrice IA',
     sophie: 'Sophie · Dirigeante de Solvea',
     almaReply: 'Je structure la mission et je vous recommande Emma, déjà dans votre organisation.',
     missionLabel: 'Mission',
@@ -88,8 +89,9 @@ const T = {
   },
   en: {
     scenarioWord: 'Scenario',
+    convoTitle: 'Conversation',
+    convoSub: 'Sophie, founder of Solvea · Alma',
     almaName: 'Alma',
-    almaStatus: 'AI Orchestrator',
     sophie: 'Sophie · Founder of Solvea',
     almaReply: 'I’m structuring the mission and I recommend Emma, already in your organization.',
     missionLabel: 'Mission',
@@ -147,13 +149,13 @@ export function HeroTheatre({
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#EAE3D6] px-5 pb-3 pt-4">
           <div className="flex items-center gap-2.5">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#B00C54]">
-              <Image src="/alma-avatar.png" alt="" width={26} height={26} className="h-[26px] w-[26px] rounded-full object-cover" />
-              <span aria-hidden className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#FFFDF9] bg-[#2C5F8A]" />
+            <span className="flex shrink-0 items-center">
+              <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-2 ring-[#FFFDF9]" />
+              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="-ml-2.5 h-[30px] w-[30px] rounded-full object-cover ring-2 ring-[#FFFDF9]" />
             </span>
             <div>
-              <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.almaName}</p>
-              <p className="text-[13px] text-[#655F56]">{t.almaStatus}</p>
+              <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.convoTitle}</p>
+              <p className="text-[13px] text-[#655F56]">{t.convoSub}</p>
             </div>
           </div>
         <div className="text-right">
@@ -209,8 +211,10 @@ export function HeroTheatre({
               <motion.div {...nodeAnim(0.14)} className="relative pb-4">
                 <span className="absolute -left-[30px] top-1.5 h-[15px] w-[15px] rounded-full bg-[#B00C54]" />
                 <div className="rounded-xl border border-[#EAE3D6] bg-[#FBF7EF] px-3.5 py-2.5">
-                  <FieldLabel>{t.missionLabel}</FieldLabel>
-                  <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.mission, lang)}</p>
+                  <p className="text-[15px] text-[#1C1A17]">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#8A8272]">{t.missionLabel} · </span>
+                    <span className="font-medium">{p(s.mission, lang)}</span>
+                  </p>
                   <div className="mt-2 flex items-center gap-2 border-t border-[#EFE8DB] pt-2">
                     <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-[#2C5F8A]" />
                     <p className="text-[14px] text-[#2C5F8A]">
