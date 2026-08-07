@@ -44,13 +44,13 @@ export function ScreenContext({
   return (
     <div>
       <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.kicker}</p>
-      <h1 className="mt-4 text-balance font-sf text-[clamp(1.7rem,3.6vw,2.6rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
+      <h1 className="mt-3 text-balance font-sf text-[clamp(1.5rem,3vw,2.1rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
         {t.title}
       </h1>
-      <p className="mt-4 max-w-xl text-base leading-relaxed text-[#4E483F]">{t.lead}</p>
+      <p className="mt-2.5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.lead}</p>
 
-      {/* Conversation log */}
-      <div className="mt-8 flex flex-col gap-4">
+      {/* Conversation log — kept high so the first exchange sits above the fold. */}
+      <div className="mt-5 flex flex-col gap-4">
         {beats.slice(0, index).map((b, i) => (
           <div key={i} className="flex items-start gap-2.5 opacity-60">
             <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/15 text-[#A80B50]">
@@ -179,8 +179,8 @@ function buildBeats(domain: string): Beat[] {
     {
       kind: 'observation',
       text: {
-        fr: 'Je vous proposerai un premier Collaborateur IA adapté à cette activité. Vous pourrez tout ajuster ensuite.',
-        en: 'I’ll suggest a first AI Collaborator suited to this activity. You’ll be able to adjust everything afterwards.',
+        fr: 'Avec ce contexte, je pourrai décomposer la mission en savoir-faire concrets, puis identifier qui peut la prendre en charge. Vous validez chaque étape.',
+        en: 'With this context, I can break the mission down into concrete know-how, then identify who can carry it. You approve every step.',
       },
       source: about,
       progressAfter: 3,
@@ -206,29 +206,29 @@ function buildBeats(domain: string): Beat[] {
 
 const COPY = {
   fr: {
-    kicker: 'Le contexte de votre Organisation',
-    title: 'Alma découvre comment votre entreprise travaille.',
-    lead: 'Elle rassemble les informations publiques disponibles, échange avec vous pour préciser ce que votre site ne dit pas et construit une mémoire organisationnelle que vous pouvez consulter et modifier.',
+    kicker: 'Étape 2 · Votre entreprise',
+    title: 'Votre mission est prête. Présentez-moi votre entreprise.',
+    lead: 'À partir de votre site et des informations publiques, je reconstitue votre activité, vos produits, vos clients et votre vocabulaire, puis je détermine les savoir-faire nécessaires. Vous confirmez ou corrigez à chaque étape.',
     confirm: 'Confirmer',
     correct: 'Corriger',
     correctPlaceholder: 'Précisez ce qu’Alma devrait retenir…',
     answerPlaceholder: 'Votre réponse…',
     save: 'Enregistrer',
     send: 'Répondre',
-    doneNote: 'Le contexte de votre Organisation est prêt. Alma peut maintenant préparer un Collaborateur IA pour une première mission.',
-    continue: 'Continuer',
+    doneNote: 'Le contexte de votre entreprise est prêt. Je vais maintenant décomposer la mission en savoir-faire concrets.',
+    continue: 'Voir les savoir-faire nécessaires',
   },
   en: {
-    kicker: 'Your Organization context',
-    title: 'Alma learns how your company works.',
-    lead: 'She gathers the available public information, talks with you to clarify what your site doesn’t say, and builds an organizational memory you can review and edit.',
+    kicker: 'Step 2 · Your company',
+    title: 'Your mission is ready. Now introduce your company.',
+    lead: 'From your website and public information, I rebuild your business, products, customers and vocabulary, then determine the know-how required. You confirm or correct at every step.',
     confirm: 'Confirm',
     correct: 'Correct',
     correctPlaceholder: 'Tell Alma what she should keep instead…',
     answerPlaceholder: 'Your answer…',
     save: 'Save',
     send: 'Answer',
-    doneNote: 'Your Organization context is ready. Alma can now prepare an AI Collaborator for a first mission.',
-    continue: 'Continue',
+    doneNote: 'Your company context is ready. I will now break the mission down into concrete know-how.',
+    continue: 'See the required know-how',
   },
 } as const

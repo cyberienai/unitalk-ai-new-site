@@ -1,67 +1,90 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Eye, Zap, Lock, ShieldCheck } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
+import { getMission } from './types'
+import { getStoreItemBySlug } from '@/lib/store-catalog'
 
-export function ScreenConnect({ lang, onContinue }: { lang: Lang; onContinue: () => void }) {
+export function ScreenConnect({
+  lang,
+  missionSlug,
+  onContinue,
+}: {
+  lang: Lang
+  missionSlug: string
+  onContinue: () => void
+}) {
   const t = COPY[lang]
-  const [email, setEmail] = useState('')
+  const m = getMission(missionSlug)
+
+  const apps = m.tools
+    .map((slug) => getStoreItemBySlug(slug))
+    .filter((x): x is NonNullable<typeof x> => Boolean(x))
+    .slice(0, 3)
 
   return (
-    <div className="max-w-md">
+    <div>
       <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.kicker}</p>
-      <h1 className="mt-4 text-balance font-sf text-[clamp(1.7rem,3.6vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
+      <h1 className="mt-3 text-balance font-sf text-[clamp(1.5rem,3vw,2.1rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
         {t.title}
       </h1>
-      <p className="mt-4 text-base leading-relaxed text-[#4E483F]">{t.lead}</p>
+      <p className="mt-2.5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.lead}</p>
+
+      {/* Per-app authorization: exactly what the Collaborateur can read and do. */}
+      <div className="mt-6 flex flex-col gap-4">
+        {apps.length > 0 ? (
+          apps.map((a) => (
+            <div key={a.slug} className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="font-sf text-base font-bold text-[#1C1A17]">{a.name[lang]}</p>
+                {a.editor && <span className="text-xs font-medium text-[#8A8175]">{a.editor}</span>}
+              </div>
+
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <AccessBlock icon={Eye} label={t.dataRead}>
+                  {(a.dataAccessed ?? [{ fr: 'Données autorisées', en: 'Authorized data' }]).map((d) => (
+                    <li key={d[lang]}>{d[lang]}</li>
+                  ))}
+                </AccessBlock>
+                <AccessBlock icon={Zap} label={t.actions}>
+                  {(a.actions ?? a.uses ?? [{ fr: 'Actions autorisées', en: 'Authorized actions' }]).map((d) => (
+                    <li key={d[lang]}>{d[lang]}</li>
+                  ))}
+                </AccessBlock>
+              </div>
+
+              <p className="mt-4 flex items-start gap-2 border-t border-[#EBE4D6] pt-3 text-[13px] leading-relaxed text-[#5A544A]">
+                <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#8A8175]" />
+                {a.connection?.[lang] ?? t.connectionFallback}
+              </p>
+            </div>
+          ))
+        ) : (
+          <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
+            <p className="text-sm leading-relaxed text-[#3B362F]">{t.appsEmpty}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Limits & human validation */}
+      <div className="mt-4 flex items-start gap-3 rounded-2xl border border-[#E4DDCE] bg-[#F3EFE6] p-4">
+        <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#D10E63]" />
+        <div>
+          <p className="text-sm font-semibold text-[#1C1A17]">{t.limitsTitle}</p>
+          <p className="mt-1 text-sm leading-relaxed text-[#3B362F]">{m.validation[lang]}</p>
+        </div>
+      </div>
 
       <button
         type="button"
         onClick={onContinue}
-        className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#1C1A17] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#000]"
+        className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
       >
-        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#FBF9F3] text-[10px] font-bold text-[#1C1A17]">
-          G
-        </span>
-        {t.google}
+        {t.cta}
+        <ArrowRight className="h-4 w-4" />
       </button>
 
-      <div className="my-5 flex items-center gap-3">
-        <span className="h-px flex-1 bg-[#D8D0C2]" />
-        <span className="text-xs font-medium uppercase tracking-wider text-[#8A8175]">{t.or}</span>
-        <span className="h-px flex-1 bg-[#D8D0C2]" />
-      </div>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          onContinue()
-        }}
-      >
-        <label htmlFor="connect-email" className="text-sm font-medium text-[#3B362F]">
-          {t.emailLabel}
-        </label>
-        <input
-          id="connect-email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="prenom@votre-entreprise.fr"
-          className="mt-2 w-full rounded-xl border border-[#D8D0C2] bg-[#FBF9F3] px-4 py-3 text-sm text-[#1C1A17] outline-none placeholder:text-[#9A9184] focus:border-[#D10E63]"
-        />
-        <button
-          type="submit"
-          className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
-        >
-          {t.emailCta}
-          <ArrowRight className="h-4 w-4" />
-        </button>
-      </form>
-
-      <p className="mt-5 text-[13px] leading-relaxed text-[#8A8175]">{t.legal}</p>
-      <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+      <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
         {t.reassurance.map((r) => (
           <li key={r} className="text-xs font-medium text-[#5F594F]">
             {r}
@@ -72,29 +95,51 @@ export function ScreenConnect({ lang, onContinue }: { lang: Lang; onContinue: ()
   )
 }
 
+function AccessBlock({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  label: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <p className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">
+        <Icon className="h-3.5 w-3.5" />
+        {label}
+      </p>
+      <ul className="mt-2 flex list-disc flex-col gap-1 pl-4 text-sm leading-relaxed text-[#3B362F] marker:text-[#D10E63]">
+        {children}
+      </ul>
+    </div>
+  )
+}
+
 const COPY = {
   fr: {
-    kicker: 'Enregistrez votre préparation',
-    title: 'Retrouvez votre Collaborateur IA dans votre Workspace.',
-    lead: 'Connectez-vous pour enregistrer le contexte construit avec Alma et commencer votre essai gratuit de 7 jours.',
-    google: 'Continuer avec Google',
-    or: 'ou',
-    emailLabel: 'Adresse e-mail professionnelle',
-    emailCta: 'Continuer avec mon e-mail',
-    legal:
-      'En continuant, vous acceptez les Conditions d’utilisation et reconnaissez avoir pris connaissance de la Politique de confidentialité.',
-    reassurance: ['7 jours gratuits', 'Hébergé en France', 'Conforme au RGPD'],
+    kicker: 'Étape 5 · Accès',
+    title: 'Autorisez précisément ce que votre Collaborateur IA peut faire.',
+    lead: 'Chaque application est reliée par une connexion sécurisée. Vous voyez exactement les données consultées et les actions permises, et vous gardez la main sur chaque validation sensible.',
+    dataRead: 'Données consultées',
+    actions: 'Actions autorisées',
+    connectionFallback: 'Connexion sécurisée, révocable à tout moment depuis votre Workspace.',
+    limitsTitle: 'Limites et validations humaines',
+    appsEmpty: 'Aucun accès externe n’est requis à cette étape. Votre Collaborateur IA travaille à partir des sources publiques et du contexte de votre entreprise.',
+    cta: 'Valider les accès',
+    reassurance: ['Essai gratuit', 'Hébergé en France', 'Conforme au RGPD', 'Accès révocables'],
   },
   en: {
-    kicker: 'Save your preparation',
-    title: 'Find your AI Collaborator in your Workspace.',
-    lead: 'Sign in to save the context built with Alma and start your 7-day free trial.',
-    google: 'Continue with Google',
-    or: 'or',
-    emailLabel: 'Work email address',
-    emailCta: 'Continue with my email',
-    legal:
-      'By continuing, you accept the Terms of Use and acknowledge the Privacy Policy.',
-    reassurance: ['7 days free', 'Hosted in France', 'GDPR compliant'],
+    kicker: 'Step 5 · Access',
+    title: 'Authorize exactly what your AI Collaborator can do.',
+    lead: 'Each application is linked through a secure connection. You see exactly which data is read and which actions are allowed, and you keep control over every sensitive approval.',
+    dataRead: 'Data accessed',
+    actions: 'Authorized actions',
+    connectionFallback: 'Secure connection, revocable at any time from your Workspace.',
+    limitsTitle: 'Limits and human approvals',
+    appsEmpty: 'No external access is required at this step. Your AI Collaborator works from public sources and your company context.',
+    cta: 'Approve access',
+    reassurance: ['Free trial', 'Hosted in France', 'GDPR compliant', 'Revocable access'],
   },
 } as const

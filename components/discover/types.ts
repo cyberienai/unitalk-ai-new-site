@@ -2,26 +2,33 @@ import type { Lang } from '@/lib/language-context'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
-export type Step = 'activate' | 'context' | 'collaborator' | 'applications' | 'workspace'
+// Six-step model: the work is defined (Mission ✓), then Alma understands the
+// company, composes the required know-how, chooses who will carry it, authorizes
+// its tools, and finally creates the mission in the Workspace.
+export type Step = 'mission' | 'entreprise' | 'savoirfaire' | 'affectation' | 'acces' | 'workspace'
 export type Entry = 'company' | 'mission' | 'profile'
 
-export const STEP_ORDER: Step[] = ['activate', 'context', 'collaborator', 'applications', 'workspace']
+export const STEP_ORDER: Step[] = ['mission', 'entreprise', 'savoirfaire', 'affectation', 'acces', 'workspace']
 
-// The first step's label is dynamic: it names the user's starting point.
+// Canonical step labels. The first node ("mission") is relabelled per entry.
 export const STEP_LABELS: Record<Step, { fr: string; en: string }> = {
-  activate: { fr: 'Point de départ', en: 'Starting point' },
-  context: { fr: 'Contexte', en: 'Context' },
-  collaborator: { fr: 'Collaborateur', en: 'Collaborator' },
-  applications: { fr: 'Applications', en: 'Apps' },
+  mission: { fr: 'Mission', en: 'Mission' },
+  entreprise: { fr: 'Entreprise', en: 'Company' },
+  savoirfaire: { fr: 'Savoir-faire', en: 'Know-how' },
+  affectation: { fr: 'Affectation', en: 'Assignment' },
+  acces: { fr: 'Accès', en: 'Access' },
   workspace: { fr: 'Workspace', en: 'Workspace' },
 }
 
 // Entry-specific label used for the first step of the stepper.
 export const ENTRY_STEP_LABELS: Record<Entry, { fr: string; en: string }> = {
-  company: { fr: 'Entreprise', en: 'Company' },
+  company: { fr: 'Votre besoin', en: 'Your need' },
   mission: { fr: 'Mission', en: 'Mission' },
   profile: { fr: 'Profil métier', en: 'Job profile' },
 }
+
+// The assignment decision made on the "affectation" step.
+export type Assignment = 'existing' | 'new'
 
 // Number of "context" items that fill the right column in step 2.
 export const CONTEXT_ITEMS_TOTAL = 6
@@ -34,17 +41,23 @@ export type FlowState = {
   // Id of the mission draft built on /missions, handed off via the URL.
   // '' when the user starts fresh (company/profile entry, no draft).
   draftId: string
-  // 0..CONTEXT_ITEMS_TOTAL — how much of the Organization context is built.
+  // 0..CONTEXT_ITEMS_TOTAL — how much of the company context is built.
   contextProgress: number
+  // Whether the mission is assigned to an existing Collaborateur IA or a new one.
+  assignment: Assignment
+  // Slug of the Collaborateur IA that will carry the mission (existing persona).
+  assignedSlug: string
 }
 
 export const INITIAL_STATE: FlowState = {
-  step: 'activate',
+  step: 'entreprise',
   entry: 'company',
   domain: '',
   missionSlug: 'trouver-de-nouveaux-clients',
   draftId: '',
   contextProgress: 0,
+  assignment: 'existing',
+  assignedSlug: '',
 }
 
 // The entry point is already chosen on the previous page and arrives via the
@@ -66,13 +79,40 @@ export function resolveInitialState(
 
   if (entryParam === 'mission' || missionParam) {
     const m = missionParam ? MISSIONS.find((x) => x.slug === missionParam) : undefined
-    return { ...INITIAL_STATE, entry: 'mission', missionSlug: m?.slug ?? INITIAL_STATE.missionSlug, domain, draftId }
+    const slug = m?.slug ?? INITIAL_STATE.missionSlug
+    // The work is already defined → Mission ✓, start on the Company step.
+    return {
+      ...INITIAL_STATE,
+      step: 'entreprise',
+      entry: 'mission',
+      missionSlug: slug,
+      assignedSlug: getMission(slug).collaboratorSlug,
+      domain,
+      draftId,
+    }
   }
   if (entryParam === 'profile' || entryParam === 'profil' || profileParam) {
     const p = JOB_PROFILES.find((x) => x.key === profileParam)
-    return { ...INITIAL_STATE, entry: 'profile', missionSlug: p?.missionSlug ?? INITIAL_STATE.missionSlug, domain, draftId }
+    const slug = p?.missionSlug ?? INITIAL_STATE.missionSlug
+    // No mission yet → start on the "mission" node (Alma helps define it).
+    return {
+      ...INITIAL_STATE,
+      step: 'mission',
+      entry: 'profile',
+      missionSlug: slug,
+      assignedSlug: getMission(slug).collaboratorSlug,
+      domain,
+      draftId,
+    }
   }
-  return { ...INITIAL_STATE, entry: 'company', domain, draftId }
+  return {
+    ...INITIAL_STATE,
+    step: 'mission',
+    entry: 'company',
+    assignedSlug: getMission(INITIAL_STATE.missionSlug).collaboratorSlug,
+    domain,
+    draftId,
+  }
 }
 
 // Category badge labels (kept in sync with the catalog categories used below).

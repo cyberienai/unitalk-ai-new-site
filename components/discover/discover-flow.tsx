@@ -9,10 +9,11 @@ import { FlowStepper } from './flow-stepper'
 import { ContextColumn } from './context-column'
 import { ScreenActivate } from './screen-activate'
 import { ScreenContext } from './screen-context'
-import { ScreenProposal } from './screen-proposal'
+import { ScreenSavoirFaire } from './screen-savoirfaire'
+import { ScreenAffectation } from './screen-affectation'
 import { ScreenConnect } from './screen-connect'
 import { ScreenWorkspace } from './screen-workspace'
-import { INITIAL_STATE, STEP_ORDER, type FlowState, type Step } from './types'
+import { INITIAL_STATE, STEP_ORDER, type Assignment, type FlowState, type Step } from './types'
 
 export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState }) {
   const { lang, setLang } = useLanguage()
@@ -77,32 +78,46 @@ export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState 
           <div className="min-w-0">
             <AnimatePresence mode="wait">
               <motion.div key={state.step} {...anim}>
-                {state.step === 'activate' && (
+                {state.step === 'mission' && (
                   <ScreenActivate
                     lang={lang}
                     entry={state.entry ?? 'company'}
                     missionSlug={state.missionSlug}
-                    onActivate={() => goTo('context')}
+                    onActivate={() => goTo('entreprise')}
                   />
                 )}
-                {state.step === 'context' && (
+                {state.step === 'entreprise' && (
                   <ScreenContext
                     lang={lang}
                     domain={state.domain}
                     onProgress={(n) => setState((s) => ({ ...s, contextProgress: Math.max(s.contextProgress, n) }))}
-                    onContinue={() => goTo('collaborator')}
+                    onContinue={() => goTo('savoirfaire')}
                   />
                 )}
-                {state.step === 'collaborator' && (
-                  <ScreenProposal lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('applications')} />
+                {state.step === 'savoirfaire' && (
+                  <ScreenSavoirFaire lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('affectation')} />
                 )}
-                {state.step === 'applications' && <ScreenConnect lang={lang} onContinue={() => goTo('workspace')} />}
+                {state.step === 'affectation' && (
+                  <ScreenAffectation
+                    lang={lang}
+                    missionSlug={state.missionSlug}
+                    assignedSlug={state.assignedSlug}
+                    assignment={state.assignment}
+                    onChoose={(a: Assignment) => setState((s) => ({ ...s, assignment: a }))}
+                    onContinue={() => goTo('acces')}
+                  />
+                )}
+                {state.step === 'acces' && (
+                  <ScreenConnect lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('workspace')} />
+                )}
                 {state.step === 'workspace' && (
                   <ScreenWorkspace
                     lang={lang}
                     missionSlug={state.missionSlug}
                     draftId={state.draftId}
                     domain={state.domain}
+                    assignment={state.assignment}
+                    assignedSlug={state.assignedSlug}
                   />
                 )}
               </motion.div>

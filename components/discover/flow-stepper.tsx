@@ -16,8 +16,8 @@ export function FlowStepper({
   onStepClick: (step: Step) => void
 }) {
   const currentIndex = STEP_ORDER.indexOf(current)
-  // The first step names the user's starting point (Company / Mission / Job profile).
-  const labelFor = (step: Step) => (step === 'activate' ? ENTRY_STEP_LABELS[entry][lang] : STEP_LABELS[step][lang])
+  // The first node names the user's starting point (Need / Mission / Job profile).
+  const labelFor = (step: Step) => (step === 'mission' ? ENTRY_STEP_LABELS[entry][lang] : STEP_LABELS[step][lang])
 
   return (
     <nav aria-label={lang === 'fr' ? 'Progression' : 'Progress'} className="w-full">
