@@ -256,9 +256,11 @@ export function HeroTheatre({
 
               {/* First action */}
               <motion.div {...nodeAnim(0.38)} className="relative">
-                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full bg-[#2C5F8A]" />
-                <FieldLabel>{t.firstLabel}</FieldLabel>
-                <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.firstAction, lang)}</p>
+                <span className="absolute -left-[30px] top-1.5 h-[15px] w-[15px] rounded-full bg-[#2C5F8A]" />
+                <p className="text-[15px] text-[#1C1A17]">
+                  <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#8A8272]">{t.firstLabel} · </span>
+                  <span className="font-medium">{p(s.firstAction, lang)}</span>
+                </p>
               </motion.div>
             </div>
           </motion.div>
