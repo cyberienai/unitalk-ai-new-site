@@ -216,19 +216,13 @@ export function HeroTheatre({
               {/* Mission + validation */}
               <motion.div {...nodeAnim(0.14)} className="relative pb-4">
                 <span className="absolute -left-[30px] top-1.5 h-[15px] w-[15px] rounded-full bg-[#B00C54]" />
-                <div className="rounded-xl border border-[#EAE3D6] bg-[#FBF7EF] px-3.5 py-2.5">
-                  <p className="text-[15px] text-[#1C1A17]">
-                    <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#8A8272]">{t.missionLabel} · </span>
-                    <span className="font-medium">{p(s.mission, lang)}</span>
-                  </p>
-                  <div className="mt-2 flex items-center gap-2 border-t border-[#EFE8DB] pt-2">
-                    <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-[#2C5F8A]" />
-                    <p className="text-[14px] text-[#2C5F8A]">
-                      <span className="font-semibold">{t.validationLabel} · </span>
-                      {p(s.validation, lang)}
-                    </p>
-                  </div>
-                </div>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A79E8C]">{t.missionLabel}</p>
+                <p className="mt-0.5 text-[15px] font-medium text-[#1C1A17]">{p(s.mission, lang)}</p>
+                <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#2C5F8A]">
+                  <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#2C5F8A]" />
+                  <span className="font-medium">{t.validationLabel}</span>
+                  <span className="text-[#5B7F9E]">· {p(s.validation, lang)}</span>
+                </p>
               </motion.div>
 
               {/* Assignment — discreet seal, no neon badge */}
@@ -263,10 +257,8 @@ export function HeroTheatre({
               {/* First action */}
               <motion.div {...nodeAnim(0.38)} className="relative">
                 <span className="absolute -left-[30px] top-1.5 h-[15px] w-[15px] rounded-full bg-[#2C5F8A]" />
-                <p className="text-[15px] text-[#1C1A17]">
-                  <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#8A8272]">{t.firstLabel} · </span>
-                  <span className="font-medium">{p(s.firstAction, lang)}</span>
-                </p>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A79E8C]">{t.firstLabel}</p>
+                <p className="mt-0.5 text-[15px] font-medium text-[#1C1A17]">{p(s.firstAction, lang)}</p>
               </motion.div>
             </div>
           </motion.div>
