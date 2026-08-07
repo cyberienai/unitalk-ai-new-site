@@ -1,110 +1,156 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Boxes } from 'lucide-react'
-import { Kicker } from '@/components/home/section-kicker'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { ArrowRight, Check, Monitor } from 'lucide-react'
+import type { Lang } from '@/lib/language-context'
+import { MissionThread, type ThreadStep } from '@/components/home/mission-thread'
+
+/**
+ * WORKSPACE PROOF — the mission thread advances on its own up to a human
+ * decision, then stops. A real "Valider" button lets the visitor clear the
+ * gate; only then does the thread turn green and reach the result. This is the
+ * homepage's clearest statement that decisions stay human.
+ */
 
 const T = {
   fr: {
-    kicker: 'Votre espace de travail',
-    title: 'Un seul espace pour toute votre intelligence.',
-    lead: 'Vos équipes travaillent avec les meilleurs modèles IA, vos applications, vos documents, vos automatisations et vos Collaborateurs IA — dans un espace privé qui appartient à votre entreprise.',
-    center: 'Workspace',
-    centerSub: 'Espace privé',
-    models: 'Modèles IA',
-    tools: 'Vos outils',
-    modelNodes: ['ChatGPT', 'Claude', 'Gemini', 'Mistral'],
-    toolNodes: ['CRM', 'ERP', 'Email', 'Agenda', 'Drive'],
+    title: 'Le travail avance. Les décisions restent humaines.',
+    sub: 'Le Collaborateur IA porte la mission jusqu’à votre validation — jamais au-delà sans votre accord.',
+    emma: 'Emma',
+    sophie: 'Sophie',
+    emmaLine: '3 relances prêtes. Une concerne un client sensible — je te la soumets avant envoi.',
+    sophieLine: 'Parfait, j’envoie les deux autres et je regarde la troisième.',
+    steps: [
+      { label: 'Emma prépare les relances' },
+      { label: 'Cas sensibles regroupés' },
+      { label: 'Validation de Marc', gate: true, gatePending: 'En attente de votre accord', gateDone: 'Validé' },
+      { label: 'Envoi des relances' },
+      { label: 'Réponses classées, paiements suivis' },
+    ] as ThreadStep[],
+    validate: 'Valider et poursuivre',
+    validated: 'Mission validée',
+    surfaces: 'Sur desktop, le web, vos messageries et en terminal — le même Collaborateur, partout où vous travaillez.',
+    cta: 'Découvrir le Workspace',
   },
   en: {
-    kicker: 'Your workspace',
-    title: 'One space for all your intelligence.',
-    lead: 'Your teams work with the best AI models, your applications, your documents, your automations and your AI Collaborators — in a private space that belongs to your company.',
-    center: 'Workspace',
-    centerSub: 'Private space',
-    models: 'AI models',
-    tools: 'Your tools',
-    modelNodes: ['ChatGPT', 'Claude', 'Gemini', 'Mistral'],
-    toolNodes: ['CRM', 'ERP', 'Email', 'Calendar', 'Drive'],
+    title: 'Work moves forward. Decisions stay human.',
+    sub: 'The AI Collaborator carries the mission up to your validation — never beyond it without your agreement.',
+    emma: 'Emma',
+    sophie: 'Sophie',
+    emmaLine: '3 reminders ready. One is for a sensitive client — I’ll submit it before sending.',
+    sophieLine: 'Great, send the other two and I’ll look at the third.',
+    steps: [
+      { label: 'Emma prepares the reminders' },
+      { label: 'Sensitive cases grouped' },
+      { label: 'Marc’s validation', gate: true, gatePending: 'Awaiting your agreement', gateDone: 'Validated' },
+      { label: 'Reminders sent' },
+      { label: 'Replies filed, payments tracked' },
+    ] as ThreadStep[],
+    validate: 'Validate and continue',
+    validated: 'Mission validated',
+    surfaces: 'On desktop, the web, your messaging apps and in the terminal — the same Collaborator, wherever you work.',
+    cta: 'Discover the Workspace',
   },
 } as const
 
-function Node({ label, delay }: { label: string; delay: number }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.4, delay }}
-      className="inline-flex items-center rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-4 py-2 text-sm font-semibold text-[#4E483F]"
-    >
-      {label}
-    </motion.span>
-  )
-}
+const ease = [0.22, 1, 0.36, 1] as const
 
-export function SectionWorkspace({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
+export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
+  const reduce = useReducedMotion()
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-120px' })
+
+  const gateIndex = t.steps.findIndex((s) => s.gate)
+  const [validated, setValidated] = useState(false)
+  const [reached, setReached] = useState(false)
+
+  // Draw the thread up to the gate once the panel is in view.
+  useEffect(() => {
+    if (reduce) {
+      setReached(true)
+      return
+    }
+    if (inView) {
+      const id = window.setTimeout(() => setReached(true), 350)
+      return () => window.clearTimeout(id)
+    }
+  }, [inView, reduce])
+
+  const active = validated ? t.steps.length : reached ? gateIndex : 0
 
   return (
-    <section className="bg-[#EFE9DD] py-20 sm:py-28">
-      <div className="editorial-shell">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="flex justify-center">
-            <Kicker>{t.kicker}</Kicker>
-          </div>
-          <h2 className="mt-4 text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[#1C1A17]">
+    <section className="bg-[#F3EFE6] py-24 sm:py-32">
+      <div className="editorial-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="max-w-xl">
+          <h2 className="text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
             {t.title}
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-7 text-[#5F594F]">{t.lead}</p>
+          <p className="mt-4 max-w-lg text-pretty text-[17px] leading-relaxed text-[#4E483F] md:text-[19px]">{t.sub}</p>
+          <p className="mt-8 flex items-start gap-2.5 border-t border-[#DcD4C4] pt-6 text-[15px] leading-relaxed text-[#4E483F]">
+            <Monitor className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
+            {t.surfaces}
+          </p>
+          <Link
+            href="/workspace"
+            className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#1C1A17] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:decoration-[#D10E63]"
+          >
+            {t.cta}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        <div className="mx-auto mt-14 max-w-3xl">
-          <div className="rounded-[2rem] border border-[#E0D8C9] bg-[#F7F3EA] p-6 sm:p-10">
-            {/* Models */}
-            <p className="mb-3 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
-              {t.models}
-            </p>
-            <div className="flex flex-wrap justify-center gap-2.5">
-              {t.modelNodes.map((n, i) => (
-                <Node key={n} label={n} delay={i * 0.06} />
-              ))}
-            </div>
-
-            {/* Converging line */}
-            <div className="mx-auto my-6 h-8 w-px bg-gradient-to-b from-[#D10E63]/10 to-[#D10E63]/50" aria-hidden="true" />
-
-            {/* Center workspace */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mx-auto flex max-w-sm items-center gap-4 rounded-3xl border border-[#D10E63]/30 bg-[#D10E63] p-6 text-[#FBF9F3] shadow-[0_20px_60px_rgba(209,14,99,0.25)]"
-            >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FBF9F3]/15">
-                <Boxes className="h-6 w-6" />
-              </span>
+        {/* Workspace panel */}
+        <motion.div
+          ref={ref}
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={inView || reduce ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease }}
+          className="rounded-[24px] border border-[#E4DDCE] bg-[#FBF9F3] p-5 shadow-[0_24px_70px_-40px_rgba(28,26,23,0.4)] sm:p-6"
+        >
+          {/* Dialogue */}
+          <div className="flex flex-col gap-3 border-b border-[#EEE7DA] pb-5">
+            <div className="flex items-start gap-2.5">
+              <Image src="/images/emma-avatar.png" alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover ring-1 ring-[#D10E63]/20" />
               <div>
-                <p className="font-sf text-xl font-bold tracking-[-0.02em]">{t.center}</p>
-                <p className="text-sm text-[#FBF9F3]/80">{t.centerSub}</p>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#AD0C53]">{t.emma}</p>
+                <p className="mt-1 rounded-2xl rounded-tl-sm bg-[#F1EADF] px-3.5 py-2.5 text-[13.5px] leading-relaxed text-[#2A2622]">{t.emmaLine}</p>
               </div>
-            </motion.div>
-
-            {/* Converging line */}
-            <div className="mx-auto my-6 h-8 w-px bg-gradient-to-t from-[#D10E63]/10 to-[#D10E63]/50" aria-hidden="true" />
-
-            {/* Tools */}
-            <p className="mb-3 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
-              {t.tools}
-            </p>
-            <div className="flex flex-wrap justify-center gap-2.5">
-              {t.toolNodes.map((n, i) => (
-                <Node key={n} label={n} delay={i * 0.06} />
-              ))}
+            </div>
+            <div className="flex flex-row-reverse items-start gap-2.5 text-right">
+              <Image src="/images/sophie-avatar.png" alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover ring-1 ring-[#D10E63]/20" />
+              <div>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A8073]">{t.sophie}</p>
+                <p className="mt-1 inline-block rounded-2xl rounded-tr-sm bg-[#1C1A17] px-3.5 py-2.5 text-left text-[13.5px] leading-relaxed text-[#F3EFE6]">{t.sophieLine}</p>
+              </div>
             </div>
           </div>
-        </div>
+
+          {/* The mission thread */}
+          <div className="pt-5">
+            <MissionThread steps={t.steps} active={active} validated={validated} />
+
+            {!validated ? (
+              <button
+                type="button"
+                onClick={() => setValidated(true)}
+                disabled={!reached}
+                className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-[14px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {t.validate}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            ) : (
+              <p className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#2E9E5B]/30 bg-[#EAF6EF] px-6 py-2.5 text-[14px] font-bold text-[#1F7A46]">
+                <Check className="h-4 w-4" strokeWidth={3} />
+                {t.validated}
+              </p>
+            )}
+          </div>
+        </motion.div>
       </div>
     </section>
   )
