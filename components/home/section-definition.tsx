@@ -145,7 +145,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                 initial={reduce ? false : { opacity: 0, y: 14 }}
                 animate={on ? { opacity: 1, y: 0 } : reduce ? { opacity: 1 } : { opacity: 0.32, y: 0 }}
                 transition={{ duration: 0.55, ease }}
-                className="group relative pl-6 md:px-7 md:first:pl-0 lg:md:px-8"
+                className="group relative pl-6 md:px-7 lg:md:px-8"
               >
                 {/* Mobile: short vertical thread accent on the left of each block */}
                 <span
