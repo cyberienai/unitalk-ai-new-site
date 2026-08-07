@@ -88,7 +88,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function SectionHermes({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   return (
-    <section className="relative overflow-hidden bg-[#1C1A17] py-16 text-[#F3EFE6] sm:py-24">
+    <section className="relative overflow-hidden bg-[#1C1A17] py-14 text-[#F3EFE6] sm:py-20">
       <div className="editorial-shell relative max-w-3xl text-center">
         <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#E8A0BF]">{t.eyebrow}</p>
         <h2 className="mx-auto mt-4 max-w-2xl text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em]">
@@ -102,7 +102,7 @@ export function SectionHermes({ lang = 'fr' }: { lang?: Lang }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease }}
-          className="mx-auto mt-12 max-w-xl rounded-lg border border-white/12 bg-white/[0.03] text-left"
+          className="mx-auto mt-10 max-w-xl rounded-lg border border-white/12 bg-white/[0.03] text-left"
         >
           {/* Registry header */}
           <div className="flex items-center justify-between gap-3 border-b border-white/10 px-6 py-3.5">

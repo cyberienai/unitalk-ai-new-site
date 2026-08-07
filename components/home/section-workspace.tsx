@@ -117,7 +117,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   const outcome = decision ? t.outcomes[decision] : null
 
   return (
-    <section className="bg-[#F3EFE6] py-16 sm:py-24">
+    <section className="bg-[#F3EFE6] py-14 sm:py-20">
       <div className="editorial-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="max-w-xl">
           <h2 className="text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">

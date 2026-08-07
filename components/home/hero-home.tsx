@@ -94,20 +94,20 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
     <section className="relative overflow-hidden bg-[#F3EFE6] pb-14 pt-28 sm:pt-32 lg:pb-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
 
-      <div className="editorial-shell relative grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-12 xl:gap-16">
+      <div className="editorial-shell relative grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 xl:gap-20">
         {/* Copy */}
-        <div className="max-w-xl">
+        <div className="min-w-0 max-w-xl">
           <div className="mb-5 flex justify-center sm:justify-start">
             <Kicker>{t.eyebrow}</Kicker>
           </div>
 
-          <h1 className="font-sf text-[clamp(2.15rem,4.6vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-[#1C1A17]">
+          <h1 className="font-sf text-[clamp(2rem,4vw,3.15rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1C1A17]">
             {/* One stable accessible sentence, announced once (does not rotate). */}
             <span className="sr-only">{t.srSentence}</span>
             {/* Visual, decorative only. */}
             <span aria-hidden="true" className="block text-center sm:text-left">
               <span className="block text-balance">{t.lead}</span>
-              <span className="relative mt-1 block min-h-[2.2em]">
+              <span className="relative mt-2 block min-h-[3.3em]">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
                     key={index}
@@ -124,7 +124,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
             </span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-xl text-balance text-center text-[17px] leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-[19px]">
+          <p className="mx-auto mt-5 max-w-full text-balance text-center text-[17px] leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-[18px]">
             {t.sub}
           </p>
 

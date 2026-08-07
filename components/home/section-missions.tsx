@@ -51,7 +51,7 @@ export function SectionMissions() {
   const missions = HOMEPAGE_SLUGS.map((slug) => getMission(slug)).filter(Boolean)
 
   return (
-    <section id="missions" className="border-t border-[#E7E0D2] bg-[#EFE9DD] px-6 py-16 sm:py-24">
+    <section id="missions" className="border-t border-[#E7E0D2] bg-[#EFE9DD] px-6 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -82,7 +82,7 @@ export function SectionMissions() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="group flex h-full flex-col rounded-3xl border border-[#E4DDCE] bg-[#F7F4ED] p-7 text-left transition-all hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_20px_40px_-28px_rgba(28,26,23,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFE9DD]"
+                className="group flex h-full flex-col rounded-3xl border border-[#E4DDCE] bg-[#F7F4ED] p-7 text-left transition-[transform,border-color] duration-300 hover:-translate-y-0.5 hover:border-[#D10E63]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFE9DD]"
               >
                 <h3 className="text-balance text-xl font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17]">
                   {pick(m.title, lang)}
@@ -90,9 +90,13 @@ export function SectionMissions() {
                 <p className="mt-3 flex-1 text-pretty text-[15px] leading-relaxed text-[#5A5348]">
                   {BLURBS[m.slug]?.[lang] ?? pick(m.description, lang)}
                 </p>
-                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#A80B50]">
-                  {t.precise}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                {/* Hover thread: a magenta line grows toward the Alma handoff. */}
+                <span className="mt-6 flex items-center gap-3">
+                  <span className="h-px w-6 origin-left bg-[#D10E63] transition-transform duration-300 group-hover:scale-x-[2.2]" />
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A80B50]">
+                    {t.precise}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </span>
                 </span>
               </motion.button>
             )
