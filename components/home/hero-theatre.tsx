@@ -110,11 +110,6 @@ const T = {
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-/** Section label: small caps only where it genuinely labels a field. */
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#80786D]">{children}</p>
-}
-
 export function HeroTheatre({
   lang = 'fr',
   index,
@@ -140,36 +135,37 @@ export function HeroTheatre({
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-[20px] border border-[#DDD5C8] bg-[#FFFDF9] text-[#1C1A17]"
-      style={{ boxShadow: '0 24px 70px rgba(48, 37, 28, 0.12)' }}
+      className="relative w-full overflow-hidden rounded-[22px] border border-[#E4DCCE] bg-[#FFFDF9] text-[#1C1A17]"
+      style={{ boxShadow: '0 1px 1px rgba(48,37,28,0.04), 0 8px 20px -8px rgba(48,37,28,0.10), 0 34px 64px -24px rgba(48,37,28,0.16)' }}
     >
-      {/* Thin anthracite top edge — reads like a professional object. */}
-      <span aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-[#1C1A17]" />
+      {/* Hairline top edge with a discreet magenta signature. */}
+      <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#1C1A17]/25 to-transparent" />
+      <span aria-hidden className="absolute left-0 top-0 h-px w-16 bg-[#B00C54]" />
 
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#EAE3D6] px-5 pb-3 pt-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
+      <div className="flex items-center justify-between border-b border-[#EFE8DB] px-6 pb-3.5 pt-4">
+          <div className="flex items-center gap-3.5">
+            <div className="flex items-center gap-2.5">
+              <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
               <div className="leading-tight">
-                <p className="text-[14px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.sophieName}</p>
-                <p className="text-[12px] text-[#655F56]">{t.sophieRole}</p>
+                <p className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.sophieName}</p>
+                <p className="text-[11.5px] tracking-[0.01em] text-[#6B6459]">{t.sophieRole}</p>
               </div>
             </div>
-            <span aria-hidden className="h-6 w-px bg-[#E0D8C9]" />
-            <div className="flex items-center gap-2">
-              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
+            <span aria-hidden className="h-7 w-px bg-[#E7DFD0]" />
+            <div className="flex items-center gap-2.5">
+              <Image src="/alma-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
               <div className="leading-tight">
-                <p className="text-[14px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.almaName}</p>
-                <p className="text-[12px] text-[#B00C54]">{t.almaRole}</p>
+                <p className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.almaName}</p>
+                <p className="text-[11.5px] font-medium tracking-[0.01em] text-[#B00C54]">{t.almaRole}</p>
               </div>
             </div>
           </div>
-        <div className="text-right">
-          <p className="text-[13px] font-medium text-[#655F56]">
-            {t.scenarioWord} {two(index + 1)} / {two(SCENARIOS.length)}
+        <div className="flex flex-col items-end gap-2">
+          <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[#8A8272]">
+            {two(index + 1)} <span className="text-[#C3BAAA]">/</span> {two(SCENARIOS.length)}
           </p>
-          <div className="mt-1.5 flex items-center justify-end gap-1.5">
+          <div className="flex items-center justify-end gap-1.5">
             {SCENARIOS.map((sc, i) => (
               <button
                 key={sc.mission.en}
@@ -177,7 +173,7 @@ export function HeroTheatre({
                 onClick={() => onSelect(i)}
                 aria-label={`${t.scenarioWord} ${i + 1} ${t.of} ${SCENARIOS.length} — ${p(sc.mission, lang)}`}
                 aria-current={i === index}
-                className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-[#B00C54]' : 'w-1.5 bg-[#D8D0C2] hover:bg-[#B7AD9B]'}`}
+                className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'w-7 bg-[#B00C54]' : 'w-1.5 bg-[#DED6C8] hover:bg-[#BDB3A1]'}`}
               />
             ))}
           </div>
@@ -185,7 +181,7 @@ export function HeroTheatre({
       </div>
 
       {/* Stage */}
-      <div className="px-5 py-5">
+      <div className="px-6 py-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
@@ -195,59 +191,57 @@ export function HeroTheatre({
             transition={{ duration: 0.28, ease }}
           >
             {/* Sophie speaks to Alma — outgoing chat message */}
-            <motion.div {...nodeAnim(0.02)} className="flex items-start justify-end gap-2.5">
-              <div className="flex min-w-0 flex-col items-end">
-                <p className="rounded-2xl rounded-tr-sm bg-[#FBEAF1] px-3.5 py-2 text-right text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
-              </div>
-              <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
+            <motion.div {...nodeAnim(0.02)} className="flex items-end justify-end gap-2.5">
+              <p className="max-w-[85%] rounded-[16px] rounded-br-[5px] border border-[#F3D9E5] bg-[#FBEAF1] px-4 py-2.5 text-right text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
+              <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
             </motion.div>
 
             {/* Alma replies — incoming chat message */}
-            <motion.div {...nodeAnim(0.1)} className="mt-3 flex items-start gap-2.5">
-              <Image src="/alma-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
-              <p className="min-w-0 rounded-2xl rounded-tl-sm bg-[#F4EEE4] px-3.5 py-2 text-[14px] leading-relaxed text-[#2C2822]">{t.almaReply}</p>
+            <motion.div {...nodeAnim(0.1)} className="mt-2.5 flex items-end gap-2.5">
+              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+              <p className="max-w-[85%] rounded-[16px] rounded-bl-[5px] border border-[#EBE3D5] bg-[#F6F1E8] px-4 py-2.5 text-[14px] leading-relaxed text-[#2C2822]">{t.almaReply}</p>
             </motion.div>
 
             {/* The mission sheet Alma attaches to her reply — crossed by the thread */}
-            <div className="relative mt-4 pl-[30px]">
-              <span aria-hidden className="absolute left-[9px] top-1 bottom-3 w-px bg-[#E1D9CB]" />
-              <span aria-hidden className="absolute left-[9px] top-1 h-[62%] w-px bg-[#B00C54]" />
+            <div className="relative mt-5 pl-8">
+              <span aria-hidden className="absolute left-2 top-1.5 bottom-3 w-px bg-[#E7DFD0]" />
+              <span aria-hidden className="absolute left-2 top-1.5 h-[58%] w-px bg-gradient-to-b from-[#B00C54] to-[#B00C54]/45" />
 
               {/* Mission + validation */}
-              <motion.div {...nodeAnim(0.14)} className="relative pb-4">
-                <span className="absolute -left-[30px] top-1.5 h-[15px] w-[15px] rounded-full bg-[#B00C54]" />
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A79E8C]">{t.missionLabel}</p>
-                <p className="mt-0.5 text-[15px] font-medium text-[#1C1A17]">{p(s.mission, lang)}</p>
-                <p className="mt-1.5 flex items-center gap-1.5 text-[13px] text-[#2C5F8A]">
-                  <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#2C5F8A]" />
-                  <span className="font-medium">{t.validationLabel}</span>
-                  <span className="text-[#5B7F9E]">· {p(s.validation, lang)}</span>
+              <motion.div {...nodeAnim(0.14)} className="relative pb-5">
+                <span className="absolute -left-[27px] top-[5px] h-[11px] w-[11px] rounded-full bg-[#B00C54] ring-[3px] ring-[#FFFDF9]" />
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AFA695]">{t.missionLabel}</p>
+                <p className="mt-1 text-[15px] font-medium tracking-[-0.005em] text-[#1C1A17]">{p(s.mission, lang)}</p>
+                <p className="mt-2 flex items-center gap-1.5 text-[12.5px] text-[#2C5F8A]">
+                  <span aria-hidden className="h-1 w-1 shrink-0 rounded-full bg-[#2C5F8A]" />
+                  <span className="font-semibold">{t.validationLabel}</span>
+                  <span className="text-[#6C8DA8]">· {p(s.validation, lang)}</span>
                 </p>
               </motion.div>
 
               {/* Assignment — discreet seal, no neon badge */}
-              <motion.div {...nodeAnim(0.22)} className="relative pb-4">
-                <span className="absolute -left-[30px] top-0.5 flex h-[19px] w-[19px] items-center justify-center rounded-full bg-[#FFFDF9] ring-[1.5px] ring-[#B00C54]">
+              <motion.div {...nodeAnim(0.22)} className="relative pb-5">
+                <span className="absolute -left-[31px] top-px flex h-[19px] w-[19px] items-center justify-center rounded-full bg-[#FFFDF9] ring-[1.5px] ring-[#B00C54]">
                   <Image src="/images/emma-avatar.png" alt="" width={17} height={17} className="h-[17px] w-[17px] rounded-full object-cover" />
                 </span>
-                <p className="text-[14px] font-semibold text-[#1C1A17]">{t.assign}</p>
-                <p className="mt-0.5 text-[13.5px] text-[#655F56]">
+                <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">{t.assign}</p>
+                <p className="mt-0.5 text-[13px] text-[#6B6459]">
                   {t.emmaRole} · {t.existing}
                 </p>
-                    <p className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#2C5F8A]">
-                      <span aria-hidden className="h-2 w-2 rounded-full bg-[#2C5F8A]" />
+                <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#EAF0F5] px-2.5 py-1 text-[11.5px] font-semibold tracking-[0.01em] text-[#2C5F8A]">
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#2C5F8A]" />
                   {t.recommended}
                 </p>
               </motion.div>
 
               {/* Skills to develop */}
-              <motion.div {...nodeAnim(0.3)} className="relative pb-4">
-                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full border-[1.5px] border-[#B00C54] bg-[#FFFDF9]" />
-                <p className="text-[14px] font-semibold text-[#1C1A17]">{t.skillsTitle}</p>
-                <ul className="mt-2 flex flex-col gap-1.5">
+              <motion.div {...nodeAnim(0.3)} className="relative pb-5">
+                <span className="absolute -left-[27px] top-[5px] h-[11px] w-[11px] rounded-full border-[1.5px] border-[#B00C54] bg-[#FFFDF9]" />
+                <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">{t.skillsTitle}</p>
+                <ul className="mt-2.5 flex flex-col gap-2">
                   {s.skills.map((sk) => (
-                    <li key={sk.en} className="flex items-center gap-2 text-[14px] text-[#3E3830]">
-                      <span aria-hidden className="text-[#B00C54]">+</span>
+                    <li key={sk.en} className="flex items-center gap-2.5 text-[14px] text-[#3E3830]">
+                      <span aria-hidden className="h-px w-3 shrink-0 bg-[#D89BB6]" />
                       {p(sk, lang)}
                     </li>
                   ))}
@@ -256,9 +250,9 @@ export function HeroTheatre({
 
               {/* First action */}
               <motion.div {...nodeAnim(0.38)} className="relative">
-                <span className="absolute -left-[30px] top-1.5 h-[15px] w-[15px] rounded-full bg-[#2C5F8A]" />
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#A79E8C]">{t.firstLabel}</p>
-                <p className="mt-0.5 text-[15px] font-medium text-[#1C1A17]">{p(s.firstAction, lang)}</p>
+                <span className="absolute -left-[27px] top-[5px] h-[11px] w-[11px] rounded-full bg-[#2C5F8A] ring-[3px] ring-[#FFFDF9]" />
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AFA695]">{t.firstLabel}</p>
+                <p className="mt-1 text-[15px] font-medium tracking-[-0.005em] text-[#1C1A17]">{p(s.firstAction, lang)}</p>
               </motion.div>
             </div>
           </motion.div>
@@ -266,24 +260,24 @@ export function HeroTheatre({
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-3 border-t border-[#EAE3D6] px-5 py-3">
+      <div className="flex items-center justify-between border-t border-[#EFE8DB] bg-[#FCFAF4] px-6 py-3">
         <button
           type="button"
           onClick={onTogglePlay}
-          className="inline-flex items-center gap-2 rounded-full border border-[#D8D0C2] bg-[#FBF7EF] px-4 py-2 text-[13px] font-semibold text-[#1C1A17] transition-colors hover:bg-[#F1EADF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF9]"
+          className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#6B6459] transition-colors hover:text-[#1C1A17] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FCFAF4] rounded-md"
         >
           {playing ? (
             <>
-              <Pause className="h-4 w-4" /> {t.pause}
+              <Pause className="h-3.5 w-3.5" /> {t.pause}
             </>
           ) : (
             <>
-              <Play className="h-4 w-4" fill="currentColor" /> {t.play}
+              <Play className="h-3.5 w-3.5" fill="currentColor" /> {t.play}
             </>
           )}
         </button>
-        <span className="text-[13px] font-medium text-[#655F56]">
-          {two(index + 1)} {t.of} {two(SCENARIOS.length)}
+        <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[#A79E8C]">
+          {t.scenarioWord} {two(index + 1)}
         </span>
       </div>
     </div>
