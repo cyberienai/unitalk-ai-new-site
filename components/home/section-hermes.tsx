@@ -46,7 +46,7 @@ const T = {
     limitV: 'Transmission au contentieux bloquée sans validation humaine.',
     share: 'Privée par défaut · Partage autorisé avec l’équipe Finance',
     signature: 'Hermes — The agent that grows with you.',
-    link: 'Découvrir Hermes',
+    link: 'Découvrir les Collaborateurs IA',
   },
   en: {
     eyebrow: 'Powered by Hermes',
@@ -79,7 +79,7 @@ const T = {
     limitV: 'Escalation to collections is blocked without human validation.',
     share: 'Private by default · Sharing allowed with the Finance team',
     signature: 'Hermes — The agent that grows with you.',
-    link: 'Discover Hermes',
+    link: 'Discover AI Collaborators',
   },
 } as const
 
@@ -164,7 +164,7 @@ export function SectionHermes({ lang = 'fr' }: { lang?: Lang }) {
 
         <p className="mt-8 font-sf text-[15px] font-medium italic tracking-[-0.01em] text-white/45">{t.signature}</p>
         <Link
-          href="/agent-hermes"
+          href="/collaborateurs-ia"
           className="mt-3 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#F2BCD3] underline decoration-white/20 underline-offset-4 transition-colors hover:text-white hover:decoration-[#D10E63]"
         >
           {t.link}
