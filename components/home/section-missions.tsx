@@ -18,7 +18,7 @@ const BLURBS: Record<string, { fr: string; en: string }> = {
     en: 'Contextual reminders, filed replies, and blocked cases handed to your team.',
   },
   'repondre-a-mes-clients': {
-    fr: 'Réponses rédigées dans votre ton, priorisées, et cas délicats remontés avant envoi.',
+    fr: 'Réponses rédigées dans votre ton, priorisées et cas délicats remontés avant envoi.',
     en: 'Replies drafted in your tone, prioritized, and tricky cases raised before sending.',
   },
   'preparer-un-comite-de-direction': {

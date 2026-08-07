@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { HeroTheatre, SCENARIOS } from '@/components/home/hero-theatre'
@@ -21,6 +21,7 @@ import { useAlma } from '@/components/home/alma-panel-context'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
+    srSentence: 'Votre Collaborateur IA est prêt à accomplir vos missions.',
     lead: 'Votre Collaborateur IA est prêt à',
     sub: 'Confiez une mission à Alma. Elle comprend comment votre entreprise travaille et prépare le Collaborateur IA capable de l’accomplir.',
     cta: 'Parler à Alma',
@@ -30,6 +31,7 @@ const T = {
   },
   en: {
     eyebrow: 'Someone is missing',
+    srSentence: 'Your AI Collaborator is ready to carry out your missions.',
     lead: 'Your AI Collaborator is ready to',
     sub: 'Hand a mission to Alma. She understands how your company works and prepares the AI Collaborator able to carry it out.',
     cta: 'Talk to Alma',
@@ -100,8 +102,8 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           </div>
 
           <h1 className="font-sf text-[clamp(2.15rem,4.6vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-[#1C1A17]">
-            {/* One accessible sentence, announced once. */}
-            <span className="sr-only">{`${t.lead} ${action}.`}</span>
+            {/* One stable accessible sentence, announced once (does not rotate). */}
+            <span className="sr-only">{t.srSentence}</span>
             {/* Visual, decorative only. */}
             <span aria-hidden="true" className="block text-center sm:text-left">
               <span className="block text-balance">{t.lead}</span>
@@ -148,12 +150,12 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
             <div className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
               {t.proofs.map((proof) => (
                 <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
-                  <Check className="h-3.5 w-3.5 text-[#D10E63]" strokeWidth={2.5} />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
                   {proof}
                 </span>
               ))}
               <span className="flex items-center gap-1.5 whitespace-nowrap text-[#857C6E]">
-                <span className="h-1 w-1 rounded-full bg-[#D10E63]" />
+                <span className="h-1.5 w-1.5 rounded-full border-[1.5px] border-[#857C6E]" />
                 {t.openSource}
               </span>
             </div>

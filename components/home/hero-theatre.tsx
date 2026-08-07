@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Check, Pause, Play, Sparkles, UserCheck } from 'lucide-react'
+import { Pause, Play } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 
 /**
@@ -33,7 +33,7 @@ export type Scenario = {
 export const SCENARIOS: Scenario[] = [
   {
     action: { fr: 'relancer vos factures impayées', en: 'chase your unpaid invoices' },
-    human: { fr: '« Emma, relance nos factures impayées chaque semaine. »', en: '“Emma, chase our unpaid invoices every week.”' },
+    human: { fr: '« Relance chaque semaine nos factures impayées. »', en: '“Chase our unpaid invoices every week.”' },
     mission: { fr: 'Relancer les factures impayées', en: 'Chase unpaid invoices' },
     validation: { fr: 'Marc valide avant tout contentieux', en: 'Marc approves before any collections' },
     skills: [
@@ -44,7 +44,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     action: { fr: 'préparer vos comités de direction', en: 'prepare your executive committees' },
-    human: { fr: '« Emma, prépare le dossier du prochain comité. »', en: '“Emma, prepare the file for the next committee.”' },
+    human: { fr: '« Prépare le dossier de notre prochain comité de direction. »', en: '“Prepare the file for our next executive committee.”' },
     mission: { fr: 'Préparer un comité de direction', en: 'Prepare an executive committee' },
     validation: { fr: 'Vous validez le dossier avant diffusion', en: 'You approve the file before it circulates' },
     skills: [
@@ -55,7 +55,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     action: { fr: 'rédiger vos comptes rendus', en: 'write your meeting notes' },
-    human: { fr: '« Emma, rédige les comptes rendus de nos réunions. »', en: '“Emma, write the notes from our meetings.”' },
+    human: { fr: '« Rédige les comptes rendus de nos réunions. »', en: '“Write the notes from our meetings.”' },
     mission: { fr: 'Rédiger les comptes rendus', en: 'Write meeting notes' },
     validation: { fr: 'Vous relisez avant partage', en: 'You review before sharing' },
     skills: [
@@ -81,7 +81,7 @@ const T = {
     pause: 'Pause',
     play: 'Lecture',
     of: 'sur',
-    almaFrames: 'Alma structure la mission et prépare Emma.',
+    almaFrames: 'Alma structure la mission et recommande Emma.',
   },
   en: {
     context: 'Solvea context active',
@@ -97,7 +97,7 @@ const T = {
     pause: 'Pause',
     play: 'Play',
     of: 'of',
-    almaFrames: 'Alma frames the mission and prepares Emma.',
+    almaFrames: 'Alma frames the mission and recommends Emma.',
   },
 } as const
 
@@ -179,14 +179,12 @@ export function HeroTheatre({
 
               {/* Node: mission + validation */}
               <motion.div {...nodeAnim(0.16)} className="relative flex gap-3 pb-3">
-                <span className="relative z-10 mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#D10E63]">
-                  <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
-                </span>
+                <span className="relative z-10 mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D10E63]" />
                 <div className="min-w-0">
                   <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white/40">{t.missionLabel}</p>
                   <p className="text-[14px] font-semibold text-[#F3EFE6]">{p(s.mission, lang)}</p>
                   <p className="mt-1 inline-flex items-center gap-1.5 text-[12px] text-white/55">
-                    <UserCheck className="h-3.5 w-3.5 text-[#E8A0BF]" /> {p(s.validation, lang)}
+                    <span className="h-2 w-2 shrink-0 rounded-full border-[1.5px] border-[#E8A0BF]" /> {p(s.validation, lang)}
                   </p>
                 </div>
               </motion.div>
@@ -200,15 +198,15 @@ export function HeroTheatre({
                   <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                     <span className="text-[14px] font-semibold text-[#F3EFE6]">{t.emma}</span>
                     <span className="text-[12px] text-white/45">{t.emmaRole}</span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#153D28] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-[#7FE0A6]">
-                      <Check className="h-2.5 w-2.5" /> {t.compatible}
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#153D28] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-[#7FE0A6]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B]" /> {t.compatible}
                     </span>
                   </p>
                   <p className="mt-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#E8A0BF]">{t.skillsLabel}</p>
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {s.skills.map((sk) => (
-                      <span key={sk.en} className="inline-flex items-center gap-1 rounded-full border border-dashed border-[#D10E63]/50 px-2.5 py-0.5 text-[12px] text-[#F3C6DB]">
-                        <Sparkles className="h-3 w-3" /> {p(sk, lang)}
+                      <span key={sk.en} className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-[#D10E63]/50 px-2.5 py-0.5 text-[12px] text-[#F3C6DB]">
+                        <span aria-hidden className="font-mono text-[11px] leading-none text-[#D10E63]">+</span> {p(sk, lang)}
                       </span>
                     ))}
                   </div>

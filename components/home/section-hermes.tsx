@@ -2,14 +2,16 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, GitBranch, ShieldCheck, UserCheck, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { Kicker } from '@/components/home/section-kicker'
+import { RegistreRow } from '@/components/home/signs'
 
 /**
- * HERMÈS REVEAL — the engine behind the Collaborators, shown as a single skill
- * card that outlives the mission that created it. One card, centred, on an
- * anthracite surface. Actions are discreet; Hermes is the quiet motor.
+ * HERMÈS REVEAL — the engine behind the Collaborators, shown as a COMPETENCE
+ * REGISTRY entry, not a workflow card. The skill is treated as an asset
+ * inscribed in a professional register: identifier, owner, version, source,
+ * status, scope — then trigger, method and the human limit. No generic icons,
+ * no rose circles, no shield: the documentary frame carries the meaning.
  */
 
 const T = {
@@ -17,54 +19,66 @@ const T = {
     eyebrow: 'Propulsé par Hermes',
     title: 'Une mission accomplie. Une compétence qui reste.',
     sub: 'Hermes est le moteur des Collaborateurs IA. Chaque mission réussie devient une compétence versionnée, gouvernée par votre entreprise.',
+    registreLabel: 'Compétence Hermes',
+    skillId: 'SKL-FIN-014',
+    skill: 'Suivre une facture impayée',
     owner: 'Propriétaire',
     ownerV: 'Solvea',
-    skill: 'Relance des factures impayées',
-    version: 'Version 1.0',
+    version: 'Version',
+    versionV: '1.0',
+    source: 'Source',
+    sourceV: 'Méthode transmise par Sophie',
+    statut: 'Statut',
+    statutV: 'Testée · Validée',
+    scope: 'Périmètre',
+    scopeV: 'Équipe Finance',
     trigger: 'Déclencheur',
-    triggerV: 'Chaque lundi, factures échues depuis 7 jours',
-    stepsLabel: 'Méthode',
+    triggerV: 'Facture échue depuis sept jours',
+    methodLabel: 'Méthode',
     steps: [
-      'Identifier les factures échues',
-      'Préparer une relance adaptée à chaque client',
-      'Soumettre les cas sensibles à validation',
-      'Envoyer après accord',
-      'Classer les réponses et suivre les paiements',
+      'Vérifier les litiges ouverts',
+      'Retrouver le dernier échange',
+      'Préparer la relance',
+      'Classer la réponse',
+      'Planifier la suite',
     ],
     limit: 'Limite',
-    limitV: 'Aucun contentieux sans validation humaine',
-    tested: 'Testée sur une mission réelle',
-    source: 'Méthode transmise par Sophie',
-    validatedBy: 'Validée par Sophie',
+    limitV: 'Transmission au contentieux bloquée sans validation humaine.',
     share: 'Privée par défaut · Partage autorisé avec l’équipe Finance',
-    signature: 'The agent that grows with you.',
+    signature: 'Hermes — The agent that grows with you.',
     link: 'Découvrir Hermes',
   },
   en: {
     eyebrow: 'Powered by Hermes',
     title: 'A mission done. A skill that stays.',
     sub: 'Hermes is the engine behind AI Collaborators. Every successful mission becomes a versioned skill, governed by your company.',
+    registreLabel: 'Hermes competence',
+    skillId: 'SKL-FIN-014',
+    skill: 'Chasing an unpaid invoice',
     owner: 'Owner',
     ownerV: 'Solvea',
-    skill: 'Chasing unpaid invoices',
-    version: 'Version 1.0',
+    version: 'Version',
+    versionV: '1.0',
+    source: 'Source',
+    sourceV: 'Method taught by Sophie',
+    statut: 'Status',
+    statutV: 'Tested · Validated',
+    scope: 'Scope',
+    scopeV: 'Finance team',
     trigger: 'Trigger',
-    triggerV: 'Every Monday, invoices overdue by 7 days',
-    stepsLabel: 'Method',
+    triggerV: 'Invoice overdue by seven days',
+    methodLabel: 'Method',
     steps: [
-      'Identify overdue invoices',
-      'Draft a reminder tailored to each client',
-      'Submit sensitive cases for approval',
-      'Send once approved',
-      'File replies and track payments',
+      'Check for open disputes',
+      'Retrieve the last exchange',
+      'Draft the reminder',
+      'File the reply',
+      'Schedule the follow-up',
     ],
     limit: 'Limit',
-    limitV: 'No collections without human approval',
-    tested: 'Tested on a real mission',
-    source: 'Method taught by Sophie',
-    validatedBy: 'Validated by Sophie',
+    limitV: 'Escalation to collections is blocked without human validation.',
     share: 'Private by default · Sharing allowed with the Finance team',
-    signature: 'The agent that grows with you.',
+    signature: 'Hermes — The agent that grows with you.',
     link: 'Discover Hermes',
   },
 } as const
@@ -75,82 +89,83 @@ export function SectionHermes({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   return (
     <section className="relative overflow-hidden bg-[#1C1A17] py-16 text-[#F3EFE6] sm:py-24">
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#D10E63]/30 to-transparent" />
-
       <div className="editorial-shell relative max-w-3xl text-center">
-        <div className="flex justify-center">
-          <Kicker dark>{t.eyebrow}</Kicker>
-        </div>
-        <h2 className="mx-auto mt-5 max-w-2xl text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em]">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#E8A0BF]">{t.eyebrow}</p>
+        <h2 className="mx-auto mt-4 max-w-2xl text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em]">
           {t.title}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-pretty text-[17px] leading-relaxed text-white/60">{t.sub}</p>
 
-        {/* The skill card */}
+        {/* The competence registry entry */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease }}
-          className="mx-auto mt-12 max-w-xl rounded-[24px] border border-white/12 bg-white/[0.04] p-6 text-left sm:p-8"
+          className="mx-auto mt-12 max-w-xl rounded-lg border border-white/12 bg-white/[0.03] text-left"
         >
-          <div className="flex items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white/50">
-              {t.owner} · {t.ownerV}
-            </span>
-            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9AE6B4]">
-              <GitBranch className="h-3 w-3" /> {t.version}
-            </span>
+          {/* Registry header */}
+          <div className="flex items-center justify-between gap-3 border-b border-white/10 px-6 py-3.5">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white/45">{t.registreLabel}</span>
+            <span className="font-mono text-[11px] font-semibold tracking-[0.14em] text-[#9AE6B4]">{t.skillId}</span>
           </div>
 
-          <p className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[#9AE6B4]/25 bg-[#9AE6B4]/[0.08] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#9AE6B4]">
-            <Check className="h-3 w-3" strokeWidth={3} /> {t.tested}
-          </p>
+          <div className="px-6 py-5 sm:px-7">
+            <h3 className="font-sf text-[1.35rem] font-semibold tracking-[-0.02em] text-[#F3EFE6]">{t.skill}</h3>
 
-          <h3 className="mt-4 font-sf text-xl font-semibold tracking-[-0.02em] text-[#F3EFE6]">{t.skill}</h3>
-          <p className="mt-1.5 inline-flex items-center gap-1.5 text-[12.5px] text-white/45">
-            <Sparkles className="h-3.5 w-3.5 text-[#E8A0BF]" /> {t.source}
-          </p>
-
-          <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#E8A0BF]">{t.trigger}</p>
-            <p className="mt-1 text-[13.5px] leading-relaxed text-[#EFE9DE]">{t.triggerV}</p>
-          </div>
-
-          <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white/40">{t.stepsLabel}</p>
-          <ol className="mt-2 space-y-1.5">
-            {t.steps.map((step, i) => (
-              <li key={step} className="flex items-start gap-2.5 text-[13.5px] leading-snug text-[#EFE9DE]">
-                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/20 font-mono text-[9px] font-bold text-[#F3C6DB]">
-                  {i + 1}
-                </span>
-                {step}
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-[#D10E63]/25 bg-[#D10E63]/[0.08] p-3.5">
-            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#F3C6DB]" />
-            <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#F3C6DB]">{t.limit}</p>
-              <p className="mt-0.5 text-[13.5px] leading-snug text-[#F5DCE7]">{t.limitV}</p>
+            {/* Registry fields */}
+            <div className="mt-4 divide-y divide-white/[0.07] border-y border-white/[0.07]">
+              <RegistreRow label={t.owner} value={t.ownerV} />
+              <RegistreRow label={t.version} value={t.versionV} valueClassName="font-mono" />
+              <RegistreRow label={t.source} value={t.sourceV} />
+              <RegistreRow
+                label={t.statut}
+                value={
+                  <span className="inline-flex items-center gap-1.5 text-[#9AE6B4]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B]" />
+                    {t.statutV}
+                  </span>
+                }
+              />
+              <RegistreRow label={t.scope} value={t.scopeV} />
             </div>
-          </div>
 
-          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/10 pt-4 text-[12.5px] text-white/55">
-            <span className="inline-flex items-center gap-1.5">
-              <UserCheck className="h-3.5 w-3.5 text-[#9AE6B4]" /> {t.validatedBy}
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Check className="h-3.5 w-3.5 text-[#9AE6B4]" /> {t.share}
-            </span>
+            {/* Trigger */}
+            <div className="mt-5">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#E8A0BF]">{t.trigger}</p>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#EFE9DE]">{t.triggerV}</p>
+            </div>
+
+            {/* Method */}
+            <div className="mt-5">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white/40">{t.methodLabel}</p>
+              <ol className="mt-2 space-y-1.5">
+                {t.steps.map((step, i) => (
+                  <li key={step} className="flex items-baseline gap-3 text-[13.5px] leading-snug text-[#EFE9DE]">
+                    <span className="w-5 shrink-0 font-mono text-[11px] font-semibold text-white/35">{`0${i + 1}`}</span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* Limit — the human boundary, stated plainly */}
+            <div className="mt-5 border-l-2 border-[#D10E63] pl-4">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#F3C6DB]">{t.limit}</p>
+              <p className="mt-1 text-[13.5px] leading-snug text-[#F5DCE7]">{t.limitV}</p>
+            </div>
+
+            {/* Governance footer */}
+            <p className="mt-5 border-t border-white/10 pt-4 font-mono text-[11px] leading-relaxed tracking-[0.02em] text-white/45">
+              {t.share}
+            </p>
           </div>
         </motion.div>
 
-        <p className="mt-10 font-sf text-lg font-medium italic tracking-[-0.01em] text-white/70">{t.signature}</p>
+        <p className="mt-8 font-sf text-[15px] font-medium italic tracking-[-0.01em] text-white/45">{t.signature}</p>
         <Link
           href="/agent-hermes"
-          className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#F2BCD3] underline decoration-white/20 underline-offset-4 transition-colors hover:text-white hover:decoration-[#D10E63]"
+          className="mt-3 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#F2BCD3] underline decoration-white/20 underline-offset-4 transition-colors hover:text-white hover:decoration-[#D10E63]"
         >
           {t.link}
           <ArrowRight className="h-4 w-4" />

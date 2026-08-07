@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { Check, UserCheck } from 'lucide-react'
+import { MissionSeal } from '@/components/home/signs'
 
 /**
  * THE MISSION THREAD — the recurring visual signature of the homepage.
@@ -86,23 +86,22 @@ export function MissionThread({
                   transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
                 />
               )}
-              <span
-                className="relative flex h-[22px] w-[22px] items-center justify-center rounded-full transition-colors duration-300"
-                style={{
-                  backgroundColor: nodeDone ? nodeColor : 'transparent',
-                  border: nodeDone ? 'none' : `1.5px solid ${nodeColor}`,
-                }}
-              >
-                {isGate ? (
-                  validated ? (
-                    <Check className="h-3 w-3 text-[#FBF9F3]" strokeWidth={3} />
-                  ) : (
-                    <UserCheck className="h-3 w-3" style={{ color: MAGENTA }} strokeWidth={2.5} />
-                  )
-                ) : nodeDone ? (
-                  <Check className="h-3 w-3 text-[#FBF9F3]" strokeWidth={3} />
-                ) : null}
-              </span>
+              {isGate && validated ? (
+                // Cleared gate: the proprietary validation seal, not a check.
+                <span className="relative flex h-[22px] w-[22px] items-center justify-center">
+                  <MissionSeal size={22} color={GREEN} />
+                </span>
+              ) : (
+                // Everything else is a plain node: filled when reached, a hollow
+                // ring while pending — an arrêt visible in front of a decision.
+                <span
+                  className="relative flex h-[14px] w-[14px] items-center justify-center rounded-full transition-colors duration-300"
+                  style={{
+                    backgroundColor: reached && !isGate ? nodeColor : 'transparent',
+                    border: reached && !isGate ? 'none' : `1.5px solid ${nodeColor}`,
+                  }}
+                />
+              )}
             </span>
 
             {/* Label */}
@@ -116,10 +115,14 @@ export function MissionThread({
               {step.sub && <p className="mt-0.5 text-[13px] leading-snug text-[#857C6E]">{step.sub}</p>}
               {isGate && (step.gatePending || step.gateDone) && (
                 <p
-                  className="mt-1 inline-flex items-center gap-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition-colors duration-300"
+                  className="mt-1 inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition-colors duration-300"
                   style={{ color: validated ? GREEN : MAGENTA }}
                 >
-                  {validated ? <Check className="h-3 w-3" strokeWidth={3} /> : <UserCheck className="h-3 w-3" strokeWidth={2.5} />}
+                  {validated ? (
+                    <MissionSeal size={13} color={GREEN} />
+                  ) : (
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: MAGENTA }} />
+                  )}
                   {validated ? step.gateDone : step.gatePending}
                 </p>
               )}

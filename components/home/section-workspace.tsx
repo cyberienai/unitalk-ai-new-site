@@ -1,66 +1,89 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Monitor } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { MissionThread, type ThreadStep } from '@/components/home/mission-thread'
+import { MissionSeal } from '@/components/home/signs'
 
 /**
- * WORKSPACE PROOF — the mission thread advances on its own up to a human
- * decision, then stops. A real "Valider" button lets the visitor clear the
- * gate; only then does the thread turn green and reach the result. This is the
- * homepage's clearest statement that decisions stay human.
+ * WORKSPACE PROOF — an operational mission SHEET, not a chatbot. Three zones:
+ * header (mission id + status), activity (a timestamped log on the mission
+ * thread), and a real decision (the visitor is the human validator). The
+ * thread runs down the activity and STOPS at the decision; it only turns green
+ * and reaches the outcome once a person chooses. This is the clearest statement
+ * that decisions stay human.
  */
+
+const MAGENTA = '#D10E63'
+const GREEN = '#2E7D4F'
+const ease = [0.22, 1, 0.36, 1] as const
+
+type Decision = null | 'validate' | 'refuse' | 'modify'
 
 const T = {
   fr: {
     title: 'Le travail avance. Les décisions restent humaines.',
     sub: 'Le Collaborateur IA porte la mission jusqu’à votre validation — jamais au-delà sans votre accord.',
-    emma: 'Emma',
-    sophie: 'Sophie',
-    emmaLine: '3 relances prêtes. Une concerne un client sensible — je te la soumets avant envoi.',
-    sophieLine: 'Parfait, j’envoie les deux autres et je regarde la troisième.',
-    steps: [
-      { label: 'Emma prépare les relances' },
-      { label: 'Cas sensibles regroupés' },
-      { label: 'Validation de Marc', gate: true, gatePending: 'En attente de votre accord', gateDone: 'Validé' },
-      { label: 'Envoi des relances' },
-      { label: 'Réponses classées, paiements suivis' },
-    ] as ThreadStep[],
-    decisionLabel: 'Votre décision',
-    validate: 'J’approuve et j’envoie',
-    review: 'Je relis d’abord',
-    validated: 'Vous avez validé — Emma poursuit',
     surfaces: 'Sur desktop, le web, vos messageries et en terminal — le même Collaborateur, partout où vous travaillez.',
     cta: 'Découvrir le Workspace',
+    missionId: 'Mission FIN-042',
+    statusPending: 'En attente de validation',
+    statusValidated: 'Validée',
+    statusRefused: 'Décision refusée',
+    statusModify: 'À revoir',
+    missionTitle: 'Relancer les factures impayées',
+    responsable: 'Responsable : Emma · Équipe Finance',
+    activityLabel: 'Activité',
+    activity: [
+      { time: '10:14', text: 'Emma a identifié 12 factures échues.' },
+      { time: '10:16', text: '2 dossiers comportent un litige ouvert.' },
+      { time: '10:18', text: '10 relances sont prêtes à partir.' },
+    ],
+    decisionLabel: 'Décision requise',
+    decisionClient: 'Client Dupont · 14 800 €',
+    decisionQuestion: 'Transmettre ce dossier au contentieux ?',
+    refuse: 'Refuser',
+    modify: 'Modifier',
+    validate: 'Valider',
+    outcomes: {
+      validate: { time: '10:21', text: 'Décision enregistrée. Emma transmet le dossier et poursuit la mission.' },
+      refuse: { time: '10:21', text: 'Dossier non transmis. Emma le maintient en suivi et vous alerte à la prochaine échéance.' },
+      modify: { time: '10:21', text: 'Emma reprend le dossier avec vos consignes avant toute transmission.' },
+    },
   },
   en: {
     title: 'Work moves forward. Decisions stay human.',
     sub: 'The AI Collaborator carries the mission up to your validation — never beyond it without your agreement.',
-    emma: 'Emma',
-    sophie: 'Sophie',
-    emmaLine: '3 reminders ready. One is for a sensitive client — I’ll submit it before sending.',
-    sophieLine: 'Great, send the other two and I’ll look at the third.',
-    steps: [
-      { label: 'Emma prepares the reminders' },
-      { label: 'Sensitive cases grouped' },
-      { label: 'Marc’s validation', gate: true, gatePending: 'Awaiting your agreement', gateDone: 'Validated' },
-      { label: 'Reminders sent' },
-      { label: 'Replies filed, payments tracked' },
-    ] as ThreadStep[],
-    decisionLabel: 'Your decision',
-    validate: 'I approve and send',
-    review: 'I’ll review first',
-    validated: 'You validated — Emma continues',
     surfaces: 'On desktop, the web, your messaging apps and in the terminal — the same Collaborator, wherever you work.',
     cta: 'Discover the Workspace',
+    missionId: 'Mission FIN-042',
+    statusPending: 'Awaiting validation',
+    statusValidated: 'Validated',
+    statusRefused: 'Decision declined',
+    statusModify: 'To review',
+    missionTitle: 'Chase unpaid invoices',
+    responsable: 'Owner: Emma · Finance team',
+    activityLabel: 'Activity',
+    activity: [
+      { time: '10:14', text: 'Emma identified 12 overdue invoices.' },
+      { time: '10:16', text: '2 files carry an open dispute.' },
+      { time: '10:18', text: '10 reminders are ready to send.' },
+    ],
+    decisionLabel: 'Decision required',
+    decisionClient: 'Dupont · €14,800',
+    decisionQuestion: 'Escalate this file to collections?',
+    refuse: 'Decline',
+    modify: 'Amend',
+    validate: 'Validate',
+    outcomes: {
+      validate: { time: '10:21', text: 'Decision recorded. Emma escalates the file and continues the mission.' },
+      refuse: { time: '10:21', text: 'File not escalated. Emma keeps it under watch and alerts you at the next due date.' },
+      modify: { time: '10:21', text: 'Emma resumes the file with your instructions before any escalation.' },
+    },
   },
 } as const
-
-const ease = [0.22, 1, 0.36, 1] as const
 
 export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
@@ -68,11 +91,10 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-120px' })
 
-  const gateIndex = t.steps.findIndex((s) => s.gate)
-  const [validated, setValidated] = useState(false)
   const [reached, setReached] = useState(false)
+  const [decision, setDecision] = useState<Decision>(null)
+  const validated = decision === 'validate'
 
-  // Draw the thread up to the gate once the panel is in view.
   useEffect(() => {
     if (reduce) {
       setReached(true)
@@ -84,7 +106,15 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
     }
   }, [inView, reduce])
 
-  const active = validated ? t.steps.length : reached ? gateIndex : 0
+  const status = !decision
+    ? { label: t.statusPending, color: '#D10E63', bg: 'rgba(209,14,99,0.1)' }
+    : decision === 'validate'
+      ? { label: t.statusValidated, color: '#1F7A46', bg: 'rgba(46,158,91,0.12)' }
+      : decision === 'refuse'
+        ? { label: t.statusRefused, color: '#8A8073', bg: 'rgba(138,128,115,0.14)' }
+        : { label: t.statusModify, color: '#8A8073', bg: 'rgba(138,128,115,0.14)' }
+
+  const outcome = decision ? t.outcomes[decision] : null
 
   return (
     <section className="bg-[#F3EFE6] py-16 sm:py-24">
@@ -94,10 +124,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             {t.title}
           </h2>
           <p className="mt-4 max-w-lg text-pretty text-[17px] leading-relaxed text-[#4E483F] md:text-[19px]">{t.sub}</p>
-          <p className="mt-8 flex items-start gap-2.5 border-t border-[#DcD4C4] pt-6 text-[15px] leading-relaxed text-[#4E483F]">
-            <Monitor className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" />
-            {t.surfaces}
-          </p>
+          <p className="mt-8 border-t border-[#DcD4C4] pt-6 text-[15px] leading-relaxed text-[#4E483F]">{t.surfaces}</p>
           <Link
             href="/workspace"
             className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#1C1A17] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:decoration-[#D10E63]"
@@ -107,64 +134,136 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
           </Link>
         </div>
 
-        {/* Workspace panel */}
+        {/* The mission sheet */}
         <motion.div
           ref={ref}
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={inView || reduce ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease }}
-          className="rounded-[24px] border border-[#E4DDCE] bg-[#FBF9F3] p-5 shadow-[0_24px_70px_-40px_rgba(28,26,23,0.4)] sm:p-6"
+          className="overflow-hidden rounded-lg border border-[#E4DDCE] bg-[#FBF9F3] shadow-[0_24px_70px_-40px_rgba(28,26,23,0.4)]"
         >
-          {/* Dialogue */}
-          <div className="flex flex-col gap-3 border-b border-[#EEE7DA] pb-5">
-            <div className="flex items-start gap-2.5">
-              <Image src="/images/emma-avatar.png" alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover ring-1 ring-[#D10E63]/20" />
-              <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#AD0C53]">{t.emma}</p>
-                <p className="mt-1 rounded-2xl rounded-tl-sm bg-[#F1EADF] px-3.5 py-2.5 text-[13.5px] leading-relaxed text-[#2A2622]">{t.emmaLine}</p>
-              </div>
+          {/* Header */}
+          <div className="flex items-start justify-between gap-3 border-b border-[#EEE7DA] px-5 py-4 sm:px-6">
+            <div>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8073]">{t.missionId}</p>
+              <h3 className="mt-1.5 font-sf text-[1.15rem] font-semibold tracking-[-0.015em] text-[#1C1A17]">{t.missionTitle}</h3>
+              <p className="mt-1 text-[13px] text-[#6B6459]">{t.responsable}</p>
             </div>
-            <div className="flex flex-row-reverse items-start gap-2.5 text-right">
-              <Image src="/images/sophie-avatar.png" alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover ring-1 ring-[#D10E63]/20" />
-              <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A8073]">{t.sophie}</p>
-                <p className="mt-1 inline-block rounded-2xl rounded-tr-sm bg-[#1C1A17] px-3.5 py-2.5 text-left text-[13.5px] leading-relaxed text-[#F3EFE6]">{t.sophieLine}</p>
-              </div>
-            </div>
+            <span
+              className="shrink-0 rounded-full px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.12em] transition-colors"
+              style={{ color: status.color, backgroundColor: status.bg }}
+            >
+              {status.label}
+            </span>
           </div>
 
-          {/* The mission thread */}
-          <div className="pt-5">
-            <MissionThread steps={t.steps} active={active} validated={validated} />
+          {/* Activity + decision, on the mission thread */}
+          <div className="px-5 py-5 sm:px-6">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8073]">{t.activityLabel}</p>
 
-            {!validated ? (
-              <div className="mt-5 rounded-2xl border border-[#E4DDCE] bg-[#F1EADF]/60 p-3.5">
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#AD0C53]">{t.decisionLabel}</p>
-                <div className="mt-2.5 flex flex-col gap-2 sm:flex-row">
-                  <button
-                    type="button"
-                    onClick={() => setValidated(true)}
-                    disabled={!reached}
-                    className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 text-[14px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    <Check className="h-4 w-4" strokeWidth={3} />
-                    {t.validate}
-                  </button>
-                  <button
-                    type="button"
-                    disabled={!reached}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#D2C9B8] bg-transparent px-5 text-[14px] font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    {t.review}
-                  </button>
+            <ol className="mt-3">
+              {t.activity.map((a, i) => (
+                <li key={a.time} className="relative flex gap-4 pb-4">
+                  {/* spine */}
+                  <span aria-hidden className="absolute left-[6px] top-3 h-full w-px bg-[#E4DDCE]" />
+                  <span
+                    className="relative z-10 mt-1 h-3 w-3 shrink-0 rounded-full transition-colors duration-500"
+                    style={{ backgroundColor: reached ? MAGENTA : 'transparent', border: reached ? 'none' : '1.5px solid #DcD4C4' }}
+                  />
+                  <p className="text-[13.5px] leading-snug text-[#2A2622]">
+                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{a.time}</span>
+                    {a.text}
+                  </p>
+                </li>
+              ))}
+
+              {/* Decision node — the gate */}
+              <li className="relative flex gap-4">
+                {outcome && <span aria-hidden className="absolute left-[6px] top-3 h-full w-px bg-[#C7E3D2]" />}
+                <span className="relative z-10 mt-0.5 flex h-3 w-3 shrink-0 items-center justify-center">
+                  {validated ? (
+                    <MissionSeal size={18} color={GREEN} className="-translate-x-0.5 -translate-y-0.5" />
+                  ) : (
+                    <>
+                      {!decision && !reduce && reached && (
+                        <motion.span
+                          className="absolute inset-0 rounded-full"
+                          style={{ backgroundColor: MAGENTA }}
+                          animate={{ scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] }}
+                          transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                        />
+                      )}
+                      <span
+                        className="relative h-3 w-3 rounded-full"
+                        style={{
+                          backgroundColor: decision ? '#B4AB99' : 'transparent',
+                          border: decision ? 'none' : `1.5px solid ${MAGENTA}`,
+                        }}
+                      />
+                    </>
+                  )}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  {!decision ? (
+                    <div className="rounded-md border border-[#E4DDCE] bg-[#F1EADF]/70 p-4">
+                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#AD0C53]">{t.decisionLabel}</p>
+                      <p className="mt-2 text-[15px] font-semibold text-[#1C1A17]">{t.decisionClient}</p>
+                      <p className="mt-0.5 text-[13.5px] text-[#4E483F]">{t.decisionQuestion}</p>
+                      <div className="mt-3.5 flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setDecision('validate')}
+                          disabled={!reached}
+                          className="inline-flex min-h-10 items-center justify-center rounded-full bg-[#D10E63] px-5 text-[13.5px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {t.validate}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDecision('modify')}
+                          disabled={!reached}
+                          className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#D2C9B8] px-5 text-[13.5px] font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {t.modify}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDecision('refuse')}
+                          disabled={!reached}
+                          className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#D2C9B8] px-5 text-[13.5px] font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {t.refuse}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="pt-0.5 text-[15px] font-semibold text-[#1C1A17]">
+                      {t.decisionClient} — {status.label}
+                    </p>
+                  )}
                 </div>
-              </div>
-            ) : (
-              <p className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#2E9E5B]/30 bg-[#EAF6EF] px-6 py-2.5 text-[14px] font-bold text-[#1F7A46]">
-                <Check className="h-4 w-4" strokeWidth={3} />
-                {t.validated}
-              </p>
-            )}
+              </li>
+
+              {/* Outcome line — only after a decision */}
+              {outcome && (
+                <motion.li
+                  initial={reduce ? false : { opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="relative flex gap-4 pt-4"
+                >
+                  <span
+                    className="relative z-10 mt-1 h-3 w-3 shrink-0 rounded-full"
+                    style={{ backgroundColor: validated ? GREEN : '#B4AB99' }}
+                  />
+                  <p className="text-[13.5px] leading-snug text-[#2A2622]">
+                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{outcome.time}</span>
+                    {outcome.text}
+                  </p>
+                </motion.li>
+              )}
+            </ol>
           </div>
         </motion.div>
       </div>
