@@ -36,7 +36,7 @@ export const SCENARIOS: Scenario[] = [
     action: { fr: 'relancer vos factures impayées', en: 'chase your unpaid invoices' },
     human: { fr: 'Relance chaque semaine nos factures impayées.', en: 'Chase our unpaid invoices every week.' },
     mission: { fr: 'Relancer les factures impayées', en: 'Chase unpaid invoices' },
-    validation: { fr: 'Marc valide avant tout contentieux', en: 'Marc approves before any collections' },
+    validation: { fr: 'Vous validez avant tout passage en contentieux', en: 'You approve before any collections' },
     skills: [
       { fr: 'Relance des factures', en: 'Invoice chasing' },
       { fr: 'Suivi des paiements', en: 'Payment tracking' },
