@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
@@ -123,6 +124,13 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           </h1>
 
           <p className="mx-auto mt-5 max-w-full text-balance text-center text-[17px] leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-[18px]">
+            <Image
+              src="/alma-avatar.png"
+              alt="Alma"
+              width={28}
+              height={28}
+              className="mr-2 inline-block h-7 w-7 -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
+            />
             {t.sub}
           </p>
 
