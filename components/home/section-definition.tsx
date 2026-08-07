@@ -27,7 +27,7 @@ const T = {
       { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle comprend votre entreprise et définit avec vous la mission à accomplir.', chip: 'Mission définie' },
       { n: '02', head: 'Le collaborateur', big: 'Alma prépare votre Collaborateur IA.', proof: 'Profil métier, instructions, compétences, modèle IA et connexion à vos applications.', chip: 'Collaborateur prêt' },
       { n: '03', head: 'La mission', big: 'Il accomplit la mission.', proof: 'Vous gardez le contrôle : il ne fait jamais rien sans votre accord.', chip: 'Sous votre contrôle' },
-      { n: '04', head: 'Ce qui reste', big: 'Votre savoir-faire vous appartient.', proof: 'Chaque mission accomplie enrichit votre savoir-faire et fait progresser votre entreprise.', chip: 'Savoir-faire possédé' },
+      { n: '04', head: 'Ce qui reste', big: 'Votre savoir-faire vous appartient.', proof: 'Chaque mission accomplie enrichit le savoir-faire et la mémoire de votre entreprise.', chip: 'Savoir-faire possédé' },
     ],
   },
   en: {
