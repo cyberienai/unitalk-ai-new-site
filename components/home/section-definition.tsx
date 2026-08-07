@@ -24,23 +24,26 @@ const T = {
     eyebrow: 'Comment ça marche',
     title: 'Des Collaborateurs IA qui grandissent avec votre entreprise',
     cols: [
-      { n: '01', head: 'Alma', big: 'Vous parlez à Alma.', proof: 'Elle crée le contexte de votre entreprise et définit avec vous la mission à accomplir.', chip: 'Mission définie' },
-      { n: '02', head: 'Le collaborateur', big: 'Alma personnalise votre Collaborateur IA.', proof: 'Profil métier, instructions, compétences, modèle IA, connexion à vos applications.', chip: 'Collaborateur prêt' },
-      { n: '03', head: 'La mission', big: 'Le Collaborateur IA l’accomplit.', proof: 'Vous gardez le contrôle et approuvez si nécessaire. Il ne fait jamais rien sans votre accord.', chip: 'Sous votre contrôle' },
-      { n: '04', head: 'Ce qui reste', big: 'Le savoir-faire vous appartient.', proof: 'Chaque mission accomplie enrichit votre savoir-faire et fait progresser votre entreprise. Vous ne louez pas une intelligence, vous la possédez.', chip: 'Savoir-faire possédé' },
+      { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle comprend votre entreprise et définit avec vous la mission à accomplir.', chip: 'Mission définie' },
+      { n: '02', head: 'Le collaborateur', big: 'Alma prépare votre Collaborateur IA.', proof: 'Profil métier, instructions, compétences, modèle IA et connexion à vos applications.', chip: 'Collaborateur prêt' },
+      { n: '03', head: 'La mission', big: 'Il accomplit la mission.', proof: 'Vous gardez le contrôle : il ne fait jamais rien sans votre accord.', chip: 'Sous votre contrôle' },
+      { n: '04', head: 'Ce qui reste', big: 'Le savoir-faire vous appartient.', proof: 'Chaque mission accomplie enrichit votre savoir-faire et fait progresser votre entreprise.', chip: 'Savoir-faire possédé' },
     ],
   },
   en: {
     eyebrow: 'How it works',
     title: 'AI Collaborators that grow with your company',
     cols: [
-      { n: '01', head: 'Alma', big: 'You talk to Alma.', proof: 'She creates your company context and defines the mission with you.', chip: 'Mission defined' },
-      { n: '02', head: 'The collaborator', big: 'Alma tailors your AI Collaborator.', proof: 'Business profile, instructions, skills, AI model, connection to your apps.', chip: 'Collaborator ready' },
-      { n: '03', head: 'The mission', big: 'The AI Collaborator carries it out.', proof: 'You stay in control and approve when needed. It never does anything without your consent.', chip: 'Under your control' },
-      { n: '04', head: 'What stays', big: 'The know-how belongs to you.', proof: 'Every completed mission enriches your know-how and moves your company forward. You don’t rent intelligence, you own it.', chip: 'Know-how owned' },
+      { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She understands your company and defines the mission with you.', chip: 'Mission defined' },
+      { n: '02', head: 'The collaborator', big: 'Alma prepares your AI Collaborator.', proof: 'Business profile, instructions, skills, AI model and connection to your apps.', chip: 'Collaborator ready' },
+      { n: '03', head: 'The mission', big: 'It carries out the mission.', proof: 'You stay in control: it never does anything without your consent.', chip: 'Under your control' },
+      { n: '04', head: 'What stays', big: 'The know-how belongs to you.', proof: 'Every completed mission enriches your know-how and moves your company forward.', chip: 'Know-how owned' },
     ],
   },
 } as const
+
+const NODE_LEFT = [0, 33.333, 66.666, 100] as const
+const SEG_MS = 720
 
 export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
@@ -48,25 +51,23 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-120px' })
 
-  // phase: 0 idle · 1 magenta drawn to the gate · 2 validated (green + skill)
-  const [phase, setPhase] = useState(0)
+  // active = how many steps have been revealed (0..4). The thread and cards
+  // light up one after another, telling the story left → right.
+  const [active, setActive] = useState(0)
 
   useEffect(() => {
     if (reduce) {
-      setPhase(2)
+      setActive(4)
       return
     }
     if (!inView) return
-    const a = window.setTimeout(() => setPhase(1), 300)
-    const b = window.setTimeout(() => setPhase(2), 1500)
-    return () => {
-      window.clearTimeout(a)
-      window.clearTimeout(b)
-    }
+    const timers = [0, 1, 2, 3].map((i) =>
+      window.setTimeout(() => setActive(i + 1), 350 + i * SEG_MS),
+    )
+    return () => timers.forEach((id) => window.clearTimeout(id))
   }, [inView, reduce])
 
-  const drawn = phase >= 1
-  const validated = phase >= 2
+  const colorFor = (i: number) => (i === 3 ? GREEN : MAGENTA)
 
   return (
     <section className="bg-[#F3EFE6] py-14 sm:py-20">
@@ -76,106 +77,104 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           {t.title}
         </h2>
 
-        {/* Horizontal thread band (desktop) — 4 nodes, gate before the last */}
-        <div aria-hidden className="relative mt-8 hidden h-6 md:block">
-          {/* base hairline */}
-          <span className="absolute inset-x-0 top-[11px] h-px bg-[#DcD4C4]" />
-          {/* magenta draw: steps 1→3, up to the decision gate (~84%) */}
-          <motion.span
-            className="absolute left-0 top-[11px] h-[1.5px] origin-left"
-            style={{ right: '16%', backgroundColor: MAGENTA }}
-            initial={reduce ? false : { scaleX: 0 }}
-            animate={{ scaleX: drawn ? 1 : 0 }}
-            transition={{ duration: reduce ? 0 : 1.1, ease }}
+        {/* Horizontal thread band (desktop) — 4 nodes, drawn segment by segment */}
+        <div aria-hidden className="relative mt-10 hidden h-5 md:block">
+          {/* base dotted guide across the full width */}
+          <span
+            className="absolute inset-x-0 top-[9px] h-px"
+            style={{ backgroundImage: 'linear-gradient(to right,#D3CABA 0 4px,transparent 4px 9px)', backgroundSize: '9px 1px' }}
           />
-          {/* green draw: from the gate to node 4, only after validation */}
-          <motion.span
-            className="absolute top-[11px] h-[1.5px] origin-left"
-            style={{ left: '84%', right: 0, backgroundColor: GREEN }}
-            initial={reduce ? false : { scaleX: 0 }}
-            animate={{ scaleX: validated ? 1 : 0 }}
-            transition={{ duration: reduce ? 0 : 0.5, ease }}
-          />
-          {/* nodes at each column start: 0% / 25% / 50% / 75% */}
-          {[0, 25, 50, 75].map((left, i) => {
+          {/* connecting segments between consecutive nodes */}
+          {[0, 1, 2].map((seg) => (
+            <motion.span
+              key={seg}
+              className="absolute top-[9px] h-[2px] origin-left rounded-full"
+              style={{
+                left: `${NODE_LEFT[seg]}%`,
+                width: `${NODE_LEFT[seg + 1] - NODE_LEFT[seg]}%`,
+                background: seg === 2 ? `linear-gradient(to right, ${MAGENTA}, ${GREEN})` : MAGENTA,
+              }}
+              initial={reduce ? false : { scaleX: 0 }}
+              animate={{ scaleX: active > seg + 1 ? 1 : 0 }}
+              transition={{ duration: reduce ? 0 : SEG_MS / 1000, ease }}
+            />
+          ))}
+          {/* nodes */}
+          {NODE_LEFT.map((left, i) => {
+            const on = active > i
             const isLast = i === 3
             return (
               <span key={left} className="absolute top-0 -translate-x-1/2" style={{ left: `${left}%` }}>
-                {isLast ? (
-                  validated ? (
-                    <MissionSeal size={22} color={GREEN} />
-                  ) : (
-                    <span className="block h-[14px] w-[14px] translate-x-1 translate-y-1 rounded-full border-[1.5px] border-[#DcD4C4]" />
-                  )
+                {/* soft halo pulse as a node switches on */}
+                {on && !reduce && (
+                  <motion.span
+                    className="absolute left-1/2 top-[9px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                    style={{ backgroundColor: colorFor(i) }}
+                    initial={{ scale: 1, opacity: 0.45 }}
+                    animate={{ scale: 2.6, opacity: 0 }}
+                    transition={{ duration: 0.9, ease: 'easeOut' }}
+                  />
+                )}
+                {isLast && on ? (
+                  <span className="block translate-x-[2px]">
+                    <MissionSeal size={20} color={GREEN} />
+                  </span>
                 ) : (
                   <span
-                    className="block h-[14px] w-[14px] translate-x-1 translate-y-1 rounded-full transition-colors duration-500"
-                    style={{ backgroundColor: drawn ? MAGENTA : 'transparent', border: drawn ? 'none' : '1.5px solid #DcD4C4' }}
+                    className="relative block h-3.5 w-3.5 translate-y-[2px] rounded-full transition-all duration-500"
+                    style={{
+                      backgroundColor: on ? colorFor(i) : '#F3EFE6',
+                      border: on ? 'none' : '1.5px solid #D3CABA',
+                      boxShadow: on ? `0 0 0 4px ${colorFor(i)}1F` : 'none',
+                    }}
                   />
                 )}
               </span>
             )
           })}
-          {/* the decision gate: a pulsing stop between node 3 and node 4 */}
-          <span className="absolute top-0 -translate-x-1/2" style={{ left: '84%' }}>
-            {!validated && !reduce && drawn && (
-              <motion.span
-                className="absolute left-1 top-1 h-[14px] w-[14px] rounded-full"
-                style={{ backgroundColor: MAGENTA }}
-                animate={{ scale: [1, 2, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            )}
-            <span
-              className="relative block h-[14px] w-[14px] translate-x-1 translate-y-1 rounded-full transition-colors duration-500"
-              style={{ backgroundColor: validated ? GREEN : 'transparent', border: `1.5px solid ${validated ? GREEN : MAGENTA}` }}
-            />
-          </span>
         </div>
 
         {/* Columns — one continuous surface split by hairlines */}
-        <div className="mt-6 grid gap-y-10 md:grid-cols-4 md:gap-y-0 md:divide-x md:divide-[#DcD4C4]">
+        <div className="mt-7 grid gap-y-9 md:grid-cols-4 md:gap-y-0 md:divide-x md:divide-[#E1D9C9]">
           {t.cols.map((c, i) => {
-            const done = i < 3 ? drawn : validated
+            const on = active > i
+            const accent = colorFor(i)
             return (
               <motion.div
                 key={c.n}
-                initial={reduce ? false : { opacity: 0, y: 16 }}
-                animate={inView || reduce ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, ease, delay: reduce ? 0 : 0.15 * i }}
-                className="relative pl-6 md:px-7 md:first:pl-0 lg:md:px-8"
+                initial={reduce ? false : { opacity: 0, y: 14 }}
+                animate={on ? { opacity: 1, y: 0 } : reduce ? { opacity: 1 } : { opacity: 0.32, y: 0 }}
+                transition={{ duration: 0.55, ease }}
+                className="group relative pl-6 md:px-7 md:first:pl-0 lg:md:px-8"
               >
-                {/* Mobile: a short vertical thread accent on the left of each block */}
+                {/* Mobile: short vertical thread accent on the left of each block */}
                 <span
                   aria-hidden
-                  className="absolute left-0 top-1 h-full w-px md:hidden"
-                  style={{ backgroundColor: i === 3 && validated ? GREEN : done ? MAGENTA : '#DcD4C4' }}
+                  className="absolute left-0 top-1 h-full w-px transition-colors duration-500 md:hidden"
+                  style={{ backgroundColor: on ? accent : '#DcD4C4' }}
                 />
                 <span
                   aria-hidden
-                  className="absolute left-[-3px] top-1 h-[8px] w-[8px] rounded-full md:hidden"
-                  style={{ backgroundColor: i === 3 ? (validated ? GREEN : 'transparent') : done ? MAGENTA : 'transparent', border: `1.5px solid ${i === 3 && !validated ? MAGENTA : done ? MAGENTA : '#DcD4C4'}` }}
+                  className="absolute left-[-3px] top-1 h-[9px] w-[9px] rounded-full transition-all duration-500 md:hidden"
+                  style={{ backgroundColor: on ? accent : 'transparent', border: `1.5px solid ${on ? accent : '#DcD4C4'}` }}
                 />
 
                 <div className="flex items-baseline gap-2.5">
-                  <span className="font-mono text-[13px] font-bold text-[#D10E63]">{c.n}</span>
+                  <span className="font-mono text-[13px] font-bold" style={{ color: accent }}>{c.n}</span>
                   <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8073]">{c.head}</span>
                 </div>
-                <p className="mt-3 text-balance font-sf text-[clamp(1.2rem,1.9vw,1.55rem)] font-semibold leading-[1.14] tracking-[-0.02em] text-[#1C1A17]">
+                <p className="mt-3 text-balance font-sf text-[clamp(1.15rem,1.8vw,1.5rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-[#1C1A17]">
                   {c.big}
                 </p>
-                <p className="mt-3 text-pretty text-[15px] leading-relaxed text-[#5A5348]">{c.proof}</p>
+                <p className="mt-2.5 text-pretty text-[14.5px] leading-relaxed text-[#5A5348]">{c.proof}</p>
                 <motion.p
                   initial={false}
-                  animate={{ opacity: (i === 3 ? validated : done) ? 1 : 0.35 }}
+                  animate={{ opacity: on ? 1 : 0.3 }}
                   transition={{ duration: 0.4 }}
-                  className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.12em]"
-                  style={{ color: i === 3 ? (validated ? GREEN : '#8A8073') : MAGENTA }}
+                  className="mt-5 inline-flex items-center gap-2 rounded-full py-1 pr-3 font-mono text-[10.5px] font-bold uppercase tracking-[0.12em]"
+                  style={{ color: on ? accent : '#8A8073' }}
                 >
-                  <span
-                    className="h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: i === 3 ? (validated ? GREEN : '#8A8073') : MAGENTA }}
-                  />
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#8A8073' }} />
                   {c.chip}
                 </motion.p>
               </motion.div>
