@@ -74,7 +74,6 @@ const T = {
     sophieRole: 'Dirigeante de Solvea',
     almaRole: 'Chief of Staff',
     almaName: 'Alma',
-    sophie: 'Sophie · Dirigeante de Solvea',
     almaReply: 'Je structure la mission et je vous recommande Emma, déjà dans votre organisation.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
@@ -94,7 +93,6 @@ const T = {
     sophieRole: 'Founder of Solvea',
     almaRole: 'Chief of Staff',
     almaName: 'Alma',
-    sophie: 'Sophie · Founder of Solvea',
     almaReply: 'I’m structuring the mission and I recommend Emma, already in your organization.',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
@@ -199,8 +197,7 @@ export function HeroTheatre({
             {/* Sophie speaks to Alma — outgoing chat message */}
             <motion.div {...nodeAnim(0.02)} className="flex items-start justify-end gap-2.5">
               <div className="flex min-w-0 flex-col items-end">
-                <p className="text-[13px] font-semibold text-[#1C1A17]">{t.sophie}</p>
-                <p className="mt-1 rounded-2xl rounded-tr-sm bg-[#FBEAF1] px-3.5 py-2 text-right text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
+                <p className="rounded-2xl rounded-tr-sm bg-[#FBEAF1] px-3.5 py-2 text-right text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
               </div>
               <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
             </motion.div>
