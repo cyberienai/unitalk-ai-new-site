@@ -161,7 +161,8 @@ export function HeroTheatre({
               </div>
             </div>
           </div>
-        <div className="flex items-center justify-end gap-1.5">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
             {SCENARIOS.map((sc, i) => (
               <button
                 key={sc.mission.en}
@@ -172,6 +173,15 @@ export function HeroTheatre({
                 className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'w-7 bg-[#B00C54]' : 'w-1.5 bg-[#DED6C8] hover:bg-[#BDB3A1]'}`}
               />
             ))}
+          </div>
+          <button
+            type="button"
+            onClick={onTogglePlay}
+            aria-label={playing ? t.pause : t.play}
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#E4DCCE] bg-[#FCFAF4] text-[#6B6459] transition-colors hover:border-[#D3C9B7] hover:text-[#1C1A17] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF9]"
+          >
+            {playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" fill="currentColor" />}
+          </button>
         </div>
       </div>
 
@@ -252,28 +262,6 @@ export function HeroTheatre({
             </div>
           </motion.div>
         </AnimatePresence>
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center justify-between border-t border-[#EFE8DB] bg-[#FCFAF4] px-6 py-3">
-        <button
-          type="button"
-          onClick={onTogglePlay}
-          className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#6B6459] transition-colors hover:text-[#1C1A17] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FCFAF4] rounded-md"
-        >
-          {playing ? (
-            <>
-              <Pause className="h-3.5 w-3.5" /> {t.pause}
-            </>
-          ) : (
-            <>
-              <Play className="h-3.5 w-3.5" fill="currentColor" /> {t.play}
-            </>
-          )}
-        </button>
-        <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[#A79E8C]">
-          {t.scenarioWord} {two(index + 1)}
-        </span>
       </div>
     </div>
   )
