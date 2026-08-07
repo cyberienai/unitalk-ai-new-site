@@ -70,10 +70,10 @@ export const SCENARIOS: Scenario[] = [
 const T = {
   fr: {
     demo: 'Démonstration',
-    company: 'Solvea, entreprise exemple',
+    company: 'Solvea',
     scenarioWord: 'Scénario',
     preparing: 'Alma prépare une mission',
-    sophie: 'Sophie · Dirigeante',
+    sophie: 'Sophie · Dirigeante de Solvea, entreprise exemple',
     almaFrames: 'Alma structure la mission',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
@@ -89,10 +89,10 @@ const T = {
   },
   en: {
     demo: 'Demonstration',
-    company: 'Solvea, sample company',
+    company: 'Solvea',
     scenarioWord: 'Scenario',
     preparing: 'Alma is preparing a mission',
-    sophie: 'Sophie · Founder',
+    sophie: 'Sophie · Founder of Solvea, sample company',
     almaFrames: 'Alma structures the mission',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
