@@ -209,8 +209,22 @@ export function HeroTheatre({
 
             {/* The mission sheet Alma attaches to her reply — crossed by the thread */}
             <div className="relative mt-5 pl-8">
-              <span aria-hidden className="absolute left-2 top-1.5 bottom-3 w-px bg-[#E7DFD0]" />
-              <span aria-hidden className="absolute left-2 top-1.5 h-[58%] w-px bg-gradient-to-b from-[#B00C54] to-[#B00C54]/45" />
+              {/* Base rail — faint dotted guide */}
+              <span
+                aria-hidden
+                className="absolute left-[7.5px] top-1.5 bottom-3 w-px"
+                style={{ backgroundImage: 'linear-gradient(to bottom, #DCD3C4 0 3px, transparent 3px 7px)', backgroundSize: '1px 7px' }}
+              />
+              {/* Living thread — draws down as the nodes reveal */}
+              <motion.span
+                key={index}
+                aria-hidden
+                className="absolute left-2 top-1.5 bottom-3 w-[1.5px] origin-top -translate-x-1/2 rounded-full"
+                style={{ background: 'linear-gradient(to bottom, #B00C54 0%, #C24A7E 55%, rgba(176,12,84,0.15) 100%)' }}
+                initial={reduce ? false : { scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 1.05, ease, delay: 0.14 }}
+              />
 
               {/* Mission + validation */}
               <motion.div {...nodeAnim(0.14)} className="relative pb-5">
