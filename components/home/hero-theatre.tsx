@@ -6,13 +6,14 @@ import { Pause, Play } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 
 /**
- * PRODUCT THEATRE — an anthracite panel that plays ONE synchronized scenario at
- * a time. The parent (HeroHome) owns the active index so the rotating H1 action
- * and this panel are always the SAME mission — one state machine, never two
- * timers. Each scenario shows the full contract, top to bottom:
- *   human ask → structured mission → collaborator + skills → first action
- * Rejouer / Pause are functional; sound is never used. Static under
- * prefers-reduced-motion (scenario 0, no autoplay).
+ * PRODUCT THEATRE — a LIGHT operational register (not a dark futuristic panel).
+ * The parent (HeroHome) owns the active index so the rotating H1 action and this
+ * panel are always the SAME mission — one state machine, never two timers. Each
+ * scenario reads top to bottom like a working document:
+ *   header → human ask → Alma frames → assignment → skills → first action
+ * All secondary text is AA on warm white (>= #655F56); no 9px microtext, no
+ * all-caps whisper labels, no glow. Rejouer / Pause are functional; static under
+ * prefers-reduced-motion.
  */
 
 export type Bi = { fr: string; en: string }
@@ -33,75 +34,84 @@ export type Scenario = {
 export const SCENARIOS: Scenario[] = [
   {
     action: { fr: 'relancer vos factures impayées', en: 'chase your unpaid invoices' },
-    human: { fr: '« Relance chaque semaine nos factures impayées. »', en: '“Chase our unpaid invoices every week.”' },
+    human: { fr: 'Relance chaque semaine nos factures impayées.', en: 'Chase our unpaid invoices every week.' },
     mission: { fr: 'Relancer les factures impayées', en: 'Chase unpaid invoices' },
     validation: { fr: 'Marc valide avant tout contentieux', en: 'Marc approves before any collections' },
     skills: [
       { fr: 'Relance des factures', en: 'Invoice chasing' },
       { fr: 'Suivi des paiements', en: 'Payment tracking' },
     ],
-    firstAction: { fr: 'Identifier les échéances dépassées', en: 'Identify overdue due dates' },
+    firstAction: { fr: 'Identifier les échéances dépassées.', en: 'Identify overdue due dates.' },
   },
   {
-    action: { fr: 'préparer vos comités de direction', en: 'prepare your executive committees' },
-    human: { fr: '« Prépare le dossier de notre prochain comité de direction. »', en: '“Prepare the file for our next executive committee.”' },
+    action: { fr: 'préparer votre comité de direction', en: 'prepare your executive committee' },
+    human: { fr: 'Prépare le dossier de notre prochain comité de direction.', en: 'Prepare the file for our next executive committee.' },
     mission: { fr: 'Préparer un comité de direction', en: 'Prepare an executive committee' },
     validation: { fr: 'Vous validez le dossier avant diffusion', en: 'You approve the file before it circulates' },
     skills: [
-      { fr: 'Collecte des indicateurs', en: 'Indicator gathering' },
-      { fr: 'Dossier de décision', en: 'Decision file' },
+      { fr: 'Collecter les indicateurs', en: 'Gather the indicators' },
+      { fr: 'Préparer un dossier de décision', en: 'Prepare a decision file' },
     ],
-    firstAction: { fr: 'Demander les données aux responsables', en: 'Request the data from team leads' },
+    firstAction: { fr: 'Demander les données aux responsables.', en: 'Request the data from team leads.' },
   },
   {
     action: { fr: 'rédiger vos comptes rendus', en: 'write your meeting notes' },
-    human: { fr: '« Rédige les comptes rendus de nos réunions. »', en: '“Write the notes from our meetings.”' },
+    human: { fr: 'Rédige les comptes rendus de nos réunions.', en: 'Write the notes from our meetings.' },
     mission: { fr: 'Rédiger les comptes rendus', en: 'Write meeting notes' },
     validation: { fr: 'Vous relisez avant partage', en: 'You review before sharing' },
     skills: [
       { fr: 'Synthèse de réunion', en: 'Meeting synthesis' },
       { fr: 'Diffusion structurée', en: 'Structured distribution' },
     ],
-    firstAction: { fr: 'Récupérer l’ordre du jour et les notes', en: 'Collect the agenda and the notes' },
+    firstAction: { fr: 'Récupérer l’ordre du jour et les notes.', en: 'Collect the agenda and the notes.' },
   },
 ]
 
 const T = {
   fr: {
-    context: 'Contexte Solvea actif',
+    company: 'Solvea',
+    scenarioWord: 'Scénario',
+    preparing: 'Mission en préparation',
     sophie: 'Sophie · Dirigeante',
-    alma: 'Alma',
-    emma: 'Emma',
-    emmaRole: 'Assistante de direction',
-    compatible: 'Collaboratrice existante',
+    almaFrames: 'Alma structure la mission',
     missionLabel: 'Mission',
-    validationLabel: 'Validation humaine',
-    skillsLabel: 'Compétences à ajouter',
+    validationLabel: 'Validation',
+    assign: 'Emma peut prendre cette mission',
+    emmaRole: 'Assistante de direction',
+    existing: 'Collaboratrice IA existante',
+    recommended: 'Affectation recommandée',
+    skillsTitle: 'Deux compétences à développer',
     firstLabel: 'Première action',
     pause: 'Pause',
-    play: 'Lecture',
+    play: 'Rejouer',
     of: 'sur',
-    almaFrames: 'Alma structure la mission et recommande Emma.',
   },
   en: {
-    context: 'Solvea context active',
+    company: 'Solvea',
+    scenarioWord: 'Scenario',
+    preparing: 'Mission in preparation',
     sophie: 'Sophie · Founder',
-    alma: 'Alma',
-    emma: 'Emma',
-    emmaRole: 'Executive assistant',
-    compatible: 'Existing Collaborator',
+    almaFrames: 'Alma structures the mission',
     missionLabel: 'Mission',
-    validationLabel: 'Human validation',
-    skillsLabel: 'Skills to add',
+    validationLabel: 'Validation',
+    assign: 'Emma can take this mission',
+    emmaRole: 'Executive assistant',
+    existing: 'Existing AI Collaborator',
+    recommended: 'Recommended assignment',
+    skillsTitle: 'Two skills to develop',
     firstLabel: 'First action',
     pause: 'Pause',
-    play: 'Play',
+    play: 'Replay',
     of: 'of',
-    almaFrames: 'Alma frames the mission and recommends Emma.',
   },
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
+
+/** Section label: small caps only where it genuinely labels a field. */
+function FieldLabel({ children }: { children: React.ReactNode }) {
+  return <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#80786D]">{children}</p>
+}
 
 export function HeroTheatre({
   lang = 'fr',
@@ -119,107 +129,120 @@ export function HeroTheatre({
   const t = T[lang]
   const reduce = useReducedMotion()
   const s = SCENARIOS[index]
+  const two = (n: number) => String(n).padStart(2, '0')
 
-  // Staggered reveal of the four thread nodes on each scenario change.
   const nodeAnim = (delay: number) =>
     reduce
       ? { initial: false as const, animate: { opacity: 1, y: 0 } }
       : { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, ease, delay } }
 
   return (
-    <div className="relative w-full overflow-hidden rounded-[26px] border border-white/10 bg-[#1C1A17] text-[#F3EFE6] shadow-[0_40px_90px_-50px_rgba(0,0,0,0.9)]">
+    <div
+      className="relative w-full overflow-hidden rounded-[20px] border border-[#DDD5C8] bg-[#FFFDF9] text-[#1C1A17]"
+      style={{ boxShadow: '0 24px 70px rgba(48, 37, 28, 0.12)' }}
+    >
+      {/* Thin anthracite top edge — reads like a professional object. */}
+      <span aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-[#1C1A17]" />
+
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
-        <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#9AE6B4]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B]" />
-          {t.context}
-        </span>
-        <div className="flex items-center gap-1.5">
-          {SCENARIOS.map((sc, i) => (
-            <button
-              key={sc.mission.en}
-              type="button"
-              onClick={() => onSelect(i)}
-              aria-label={`${i + 1} ${t.of} ${SCENARIOS.length} — ${p(sc.mission, lang)}`}
-              aria-current={i === index}
-              className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-[#E51872]' : 'w-1.5 bg-white/25 hover:bg-white/40'}`}
-            />
-          ))}
+      <div className="flex items-center justify-between border-b border-[#EAE3D6] px-5 pb-3 pt-4">
+        <div>
+          <p className="text-[15px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.company}</p>
+          <p className="text-[13px] text-[#655F56]">{t.preparing}</p>
+        </div>
+        <div className="text-right">
+          <p className="text-[13px] font-medium text-[#655F56]">
+            {t.scenarioWord} {two(index + 1)} / {two(SCENARIOS.length)}
+          </p>
+          <div className="mt-1.5 flex items-center justify-end gap-1.5">
+            {SCENARIOS.map((sc, i) => (
+              <button
+                key={sc.mission.en}
+                type="button"
+                onClick={() => onSelect(i)}
+                aria-label={`${t.scenarioWord} ${i + 1} ${t.of} ${SCENARIOS.length} — ${p(sc.mission, lang)}`}
+                aria-current={i === index}
+                className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-[#B00C54]' : 'w-1.5 bg-[#D8D0C2] hover:bg-[#B7AD9B]'}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Stage — one scenario, four synced nodes on the magenta thread */}
+      {/* Stage */}
       <div className="px-5 py-5">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.28, ease }}
           >
-            {/* Human ask */}
+            {/* Human ask — softly rosy, no massive bubble */}
             <motion.div {...nodeAnim(0.02)} className="flex items-start gap-2.5">
-              <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-white/15" />
-              <div>
-                <p className="mb-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#E8A0BF]">{t.sophie}</p>
-                <p className="inline-block rounded-2xl rounded-tl-sm bg-white/[0.08] px-3.5 py-2 text-[13.5px] leading-relaxed text-[#EFE9DE]">{p(s.human, lang)}</p>
+              <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#E6DDCF]" />
+              <div className="min-w-0">
+                <p className="text-[13px] font-semibold text-[#1C1A17]">{t.sophie}</p>
+                <p className="mt-1 rounded-2xl rounded-tl-sm bg-[#FBEAF1] px-3.5 py-2 text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
               </div>
             </motion.div>
 
-            {/* Alma framing note */}
-            <motion.p {...nodeAnim(0.1)} className="mt-3 flex items-center gap-2 pl-[38px] text-[12px] text-white/45">
-              <Image src="/alma-avatar.png" alt="" width={18} height={18} className="h-[18px] w-[18px] rounded-full object-cover" />
-              {t.almaFrames}
-            </motion.p>
+            {/* Mission thread crossing the blocks */}
+            <div className="relative mt-4 pl-[30px]">
+              <span aria-hidden className="absolute left-[9px] top-1 bottom-3 w-px bg-[#E1D9CB]" />
+              <span aria-hidden className="absolute left-[9px] top-1 h-[62%] w-px bg-[#B00C54]" />
 
-            {/* The mission thread */}
-            <div className="relative mt-3 pl-[38px]">
-              <span aria-hidden className="absolute left-[46px] top-2 bottom-2 w-px bg-gradient-to-b from-[#D10E63]/60 via-[#D10E63]/40 to-[#2E9E5B]/60" />
-
-              {/* Node: mission + validation */}
-              <motion.div {...nodeAnim(0.16)} className="relative flex gap-3 pb-3">
-                <span className="relative z-10 mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#D10E63]" />
-                <div className="min-w-0">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white/40">{t.missionLabel}</p>
-                  <p className="text-[14px] font-semibold text-[#F3EFE6]">{p(s.mission, lang)}</p>
-                  <p className="mt-1 inline-flex items-center gap-1.5 text-[12px] text-white/55">
-                    <span className="h-2 w-2 shrink-0 rounded-full border-[1.5px] border-[#E8A0BF]" /> {p(s.validation, lang)}
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Node: collaborator + skills */}
-              <motion.div {...nodeAnim(0.24)} className="relative flex gap-3 pb-3">
-                <span className="relative z-10 mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#1C1A17] ring-2 ring-[#D10E63]/60">
-                  <Image src="/images/emma-avatar.png" alt="" width={16} height={16} className="h-4 w-4 rounded-full object-cover" />
+              {/* Alma frames → mission + validation */}
+              <motion.div {...nodeAnim(0.14)} className="relative pb-4">
+                <span className="absolute -left-[30px] top-1 flex h-[19px] w-[19px] items-center justify-center rounded-full bg-[#B00C54]">
+                  <Image src="/alma-avatar.png" alt="" width={15} height={15} className="h-[15px] w-[15px] rounded-full object-cover" />
                 </span>
-                <div className="min-w-0">
-                  <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                    <span className="text-[14px] font-semibold text-[#F3EFE6]">{t.emma}</span>
-                    <span className="text-[12px] text-white/45">{t.emmaRole}</span>
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#153D28] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-[#7FE0A6]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B]" /> {t.compatible}
-                    </span>
-                  </p>
-                  <p className="mt-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#E8A0BF]">{t.skillsLabel}</p>
-                  <div className="mt-1 flex flex-wrap gap-1.5">
-                    {s.skills.map((sk) => (
-                      <span key={sk.en} className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-[#D10E63]/50 px-2.5 py-0.5 text-[12px] text-[#F3C6DB]">
-                        <span aria-hidden className="font-mono text-[11px] leading-none text-[#D10E63]">+</span> {p(sk, lang)}
-                      </span>
-                    ))}
+                <p className="text-[14px] font-semibold text-[#1C1A17]">{t.almaFrames}</p>
+                <div className="mt-2 rounded-xl border border-[#EAE3D6] bg-[#FBF7EF] px-3.5 py-2.5">
+                  <FieldLabel>{t.missionLabel}</FieldLabel>
+                  <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.mission, lang)}</p>
+                  <div className="mt-2 border-t border-[#EFE8DB] pt-2">
+                    <FieldLabel>{t.validationLabel}</FieldLabel>
+                    <p className="text-[14px] text-[#3E3830]">{p(s.validation, lang)}</p>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Node: first action */}
-              <motion.div {...nodeAnim(0.32)} className="relative flex gap-3">
-                <span className="relative z-10 mt-0.5 h-4 w-4 shrink-0 rounded-full bg-[#2E9E5B]" />
-                <div className="min-w-0">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white/40">{t.firstLabel}</p>
-                  <p className="text-[14px] font-medium text-[#F3EFE6]">{p(s.firstAction, lang)}</p>
-                </div>
+              {/* Assignment — discreet seal, no neon badge */}
+              <motion.div {...nodeAnim(0.22)} className="relative pb-4">
+                <span className="absolute -left-[30px] top-0.5 flex h-[19px] w-[19px] items-center justify-center rounded-full bg-[#FFFDF9] ring-[1.5px] ring-[#B00C54]">
+                  <Image src="/images/emma-avatar.png" alt="" width={17} height={17} className="h-[17px] w-[17px] rounded-full object-cover" />
+                </span>
+                <p className="text-[14px] font-semibold text-[#1C1A17]">{t.assign}</p>
+                <p className="mt-0.5 text-[13.5px] text-[#655F56]">
+                  {t.emmaRole} · {t.existing}
+                </p>
+                <p className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#286344]">
+                  <span aria-hidden className="h-2 w-2 rounded-full bg-[#286344]" />
+                  {t.recommended}
+                </p>
+              </motion.div>
+
+              {/* Skills to develop */}
+              <motion.div {...nodeAnim(0.3)} className="relative pb-4">
+                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full border-[1.5px] border-[#B00C54] bg-[#FFFDF9]" />
+                <p className="text-[14px] font-semibold text-[#1C1A17]">{t.skillsTitle}</p>
+                <ul className="mt-2 flex flex-col gap-1.5">
+                  {s.skills.map((sk) => (
+                    <li key={sk.en} className="flex items-center gap-2 text-[14px] text-[#3E3830]">
+                      <span aria-hidden className="text-[#B00C54]">+</span>
+                      {p(sk, lang)}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+
+              {/* First action */}
+              <motion.div {...nodeAnim(0.38)} className="relative">
+                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full bg-[#286344]" />
+                <FieldLabel>{t.firstLabel}</FieldLabel>
+                <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.firstAction, lang)}</p>
               </motion.div>
             </div>
           </motion.div>
@@ -227,11 +250,11 @@ export function HeroTheatre({
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-2 border-t border-white/10 px-5 py-3">
+      <div className="flex items-center gap-3 border-t border-[#EAE3D6] px-5 py-3">
         <button
           type="button"
           onClick={onTogglePlay}
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-[13px] font-semibold text-[#F3EFE6] transition-colors hover:bg-white/10"
+          className="inline-flex items-center gap-2 rounded-full border border-[#D8D0C2] bg-[#FBF7EF] px-4 py-2 text-[13px] font-semibold text-[#1C1A17] transition-colors hover:bg-[#F1EADF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF9]"
         >
           {playing ? (
             <>
@@ -243,8 +266,8 @@ export function HeroTheatre({
             </>
           )}
         </button>
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-white/40">
-          {index + 1} {t.of} {SCENARIOS.length}
+        <span className="text-[13px] font-medium text-[#655F56]">
+          {two(index + 1)} {t.of} {two(SCENARIOS.length)}
         </span>
       </div>
     </div>

@@ -18,7 +18,7 @@ const T = {
   fr: {
     eyebrow: 'Propulsé par Hermes',
     title: 'Une mission accomplie. Une compétence qui reste.',
-    sub: 'Hermes est le moteur des Collaborateurs IA. Chaque mission réussie devient une compétence versionnée, gouvernée par votre entreprise.',
+    sub: 'Hermes est le moteur des Collaborateurs IA. Lorsqu’une mission révèle une méthode réutilisable, Hermes la transforme en compétence testée, versionnée et gouvernée par votre entreprise.',
     registreLabel: 'Compétence Hermes',
     skillId: 'SKL-FIN-014',
     skill: 'Suivre une facture impayée',
@@ -51,7 +51,7 @@ const T = {
   en: {
     eyebrow: 'Powered by Hermes',
     title: 'A mission done. A skill that stays.',
-    sub: 'Hermes is the engine behind AI Collaborators. Every successful mission becomes a versioned skill, governed by your company.',
+    sub: 'Hermes is the engine behind AI Collaborators. When a mission reveals a reusable method, Hermes turns it into a tested, versioned skill governed by your company.',
     registreLabel: 'Hermes competence',
     skillId: 'SKL-FIN-014',
     skill: 'Chasing an unpaid invoice',

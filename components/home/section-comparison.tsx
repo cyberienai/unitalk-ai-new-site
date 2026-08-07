@@ -14,8 +14,8 @@ import { motion } from 'framer-motion'
 const COPY = {
   fr: {
     kicker: 'La différence',
-    title: 'Un agent suit une méthode.',
-    titleAccent: 'Unitalk transforme la vôtre en compétence.',
+    title: 'Un agent applique une méthode standard.',
+    titleAccent: 'Unitalk transforme la vôtre en compétence réutilisable.',
     lead: 'Les agents prêts à l’emploi sont devenus performants. La vraie différence ne se joue plus sur la capacité brute, mais sur ce qui vous appartient : la méthode, l’identité et l’expérience accumulée.',
     beforeTitle: 'Un agent prêt à l’emploi',
     afterTitle: 'Un Collaborateur IA Unitalk',
@@ -28,8 +28,8 @@ const COPY = {
   },
   en: {
     kicker: 'The difference',
-    title: 'An off-the-shelf agent follows a method.',
-    titleAccent: 'Unitalk turns yours into a skill.',
+    title: 'An off-the-shelf agent applies a standard method.',
+    titleAccent: 'Unitalk turns yours into a reusable skill.',
     lead: 'Off-the-shelf agents have become capable. The real difference is no longer raw capability, but what belongs to you: the method, the identity and the experience you accumulate.',
     beforeTitle: 'An off-the-shelf agent',
     afterTitle: 'A Unitalk AI Collaborator',
