@@ -22,6 +22,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 const T = {
   fr: {
     eyebrow: 'Comment ça marche',
+    title: 'Des Collaborateurs IA qui grandissent avec votre entreprise',
     cols: [
       { n: '01', head: 'Alma', big: 'Vous parlez à Alma.', proof: 'Elle crée le contexte de votre entreprise et définit avec vous la mission à accomplir.', chip: 'Mission définie' },
       { n: '02', head: 'Le collaborateur', big: 'Alma personnalise votre Collaborateur IA.', proof: 'Profil métier, instructions, compétences, modèle IA, connexion à vos applications.', chip: 'Collaborateur prêt' },
@@ -31,6 +32,7 @@ const T = {
   },
   en: {
     eyebrow: 'How it works',
+    title: 'AI Collaborators that grow with your company',
     cols: [
       { n: '01', head: 'Alma', big: 'You talk to Alma.', proof: 'She creates your company context and defines the mission with you.', chip: 'Mission defined' },
       { n: '02', head: 'The collaborator', big: 'Alma tailors your AI Collaborator.', proof: 'Business profile, instructions, skills, AI model, connection to your apps.', chip: 'Collaborator ready' },
@@ -70,6 +72,9 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
     <section className="bg-[#F3EFE6] py-14 sm:py-20">
       <div className="editorial-shell" ref={ref}>
         <Kicker>{t.eyebrow}</Kicker>
+        <h2 className="mt-4 max-w-3xl text-balance font-sf text-[clamp(1.6rem,3vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-[#1C1A17]">
+          {t.title}
+        </h2>
 
         {/* Horizontal thread band (desktop) — 4 nodes, gate before the last */}
         <div aria-hidden className="relative mt-8 hidden h-6 md:block">
