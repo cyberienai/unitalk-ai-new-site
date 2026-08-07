@@ -27,7 +27,6 @@ const T = {
     cta: 'Parler à Alma',
     secondary: 'Découvrir les Collaborateurs IA',
     proofs: ['Essai 7 jours', 'Sans carte bancaire', 'Hébergé en France'],
-    openSource: 'Open source au cœur',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -37,7 +36,6 @@ const T = {
     cta: 'Talk to Alma',
     secondary: 'Discover AI Collaborators',
     proofs: ['7-day trial', 'No credit card', 'Hosted in France'],
-    openSource: 'Open source at the core',
   },
 } as const
 
@@ -154,10 +152,6 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                   {proof}
                 </span>
               ))}
-              <span className="flex items-center gap-1.5 whitespace-nowrap text-[#857C6E]">
-                <span className="h-1.5 w-1.5 rounded-full border-[1.5px] border-[#857C6E]" />
-                {t.openSource}
-              </span>
             </div>
           </div>
         </div>
