@@ -1,33 +1,28 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
-import { HeroTheatre } from '@/components/home/hero-theatre'
+import { HeroTheatre, SCENARIOS } from '@/components/home/hero-theatre'
 import { useAlma } from '@/components/home/alma-panel-context'
 
 /**
- * HERO — one H1 with a rotating magenta action, a single strong CTA that opens
- * the Alma panel, and the product theatre alongside it. The rotating line is
- * aria-hidden; the full sentence is announced once via sr-only, and freezes on
- * the first action under prefers-reduced-motion.
+ * HERO — ONE state machine. A single scenario index drives both the rotating H1
+ * action and the theatre panel, so the headline and the demonstration are
+ * always the same mission (no two independent timers). The full sentence is
+ * announced once via sr-only; the animated line is aria-hidden with a reserved,
+ * stable height and a single active layer (no text overlap). Freezes on the
+ * first scenario under prefers-reduced-motion.
  */
 
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
     lead: 'Votre Collaborateur IA est prêt à',
-    actions: [
-      'relancer vos factures impayées',
-      'répondre à vos clients',
-      'préparer vos comités de direction',
-      'suivre vos réclamations',
-      'trouver vos prospects',
-    ],
-    sub: 'Décrivez une mission à Alma. Elle comprend votre entreprise et confie le travail au bon Collaborateur IA — qui grandit à chaque mission.',
+    sub: 'Confiez une mission à Alma. Elle comprend comment votre entreprise travaille et prépare le Collaborateur IA capable de l’accomplir.',
     cta: 'Parler à Alma',
     secondary: 'Découvrir les Collaborateurs IA',
     proofs: ['Essai 7 jours', 'Sans carte bancaire', 'Hébergé en France'],
@@ -36,14 +31,7 @@ const T = {
   en: {
     eyebrow: 'Someone is missing',
     lead: 'Your AI Collaborator is ready to',
-    actions: [
-      'chase your unpaid invoices',
-      'answer your customers',
-      'prepare your executive committees',
-      'track your complaints',
-      'find your prospects',
-    ],
-    sub: 'Describe a mission to Alma. She understands your company and hands the work to the right AI Collaborator — one that grows with every mission.',
+    sub: 'Hand a mission to Alma. She understands how your company works and prepares the AI Collaborator able to carry it out.',
     cta: 'Talk to Alma',
     secondary: 'Discover AI Collaborators',
     proofs: ['7-day trial', 'No credit card', 'Hosted in France'],
@@ -52,26 +40,55 @@ const T = {
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
+const SCENARIO_MS = 5200
+const RESUME_AFTER_MS = 9000
 
 export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   const reduce = useReducedMotion()
   const { openAlma } = useAlma()
-  const [i, setI] = useState(0)
+
+  const [index, setIndex] = useState(0)
+  const [playing, setPlaying] = useState(true)
+  const resumeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    if (reduce) return
-    const id = setInterval(() => setI((v) => (v + 1) % t.actions.length), 3200)
-    return () => clearInterval(id)
-  }, [reduce, t.actions.length])
+    if (reduce) setPlaying(false)
+  }, [reduce])
 
-  const current = reduce ? t.actions[0] : t.actions[i]
+  // The single autoplay timer: advances the shared scenario index.
+  useEffect(() => {
+    if (!playing || reduce) return
+    const id = setTimeout(() => setIndex((v) => (v + 1) % SCENARIOS.length), SCENARIO_MS)
+    return () => clearTimeout(id)
+  }, [playing, index, reduce])
+
+  useEffect(() => () => resumeRef.current && clearTimeout(resumeRef.current), [])
+
+  // Manual selection: jump, pause autoplay, then resume the cycle after a delay
+  // so a manual pick never races a concurrent autoplay tick.
+  const select = useCallback(
+    (i: number) => {
+      setIndex(i)
+      setPlaying(false)
+      if (resumeRef.current) clearTimeout(resumeRef.current)
+      if (!reduce) resumeRef.current = setTimeout(() => setPlaying(true), RESUME_AFTER_MS)
+    },
+    [reduce],
+  )
+
+  const togglePlay = useCallback(() => {
+    if (resumeRef.current) clearTimeout(resumeRef.current)
+    setPlaying((v) => !v)
+  }, [])
+
+  const action = SCENARIOS[index].action[lang]
 
   return (
-    <section className="relative overflow-hidden bg-[#F3EFE6] pb-16 pt-28 sm:pt-32 lg:pb-24">
+    <section className="relative overflow-hidden bg-[#F3EFE6] pb-14 pt-28 sm:pt-32 lg:pb-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
 
-      <div className="editorial-shell relative grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
+      <div className="editorial-shell relative grid items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
         {/* Copy */}
         <div className="max-w-2xl">
           <div className="mb-5 flex justify-center sm:justify-start">
@@ -79,22 +96,22 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           </div>
 
           <h1 className="font-sf text-[clamp(2.35rem,5.4vw,4.25rem)] font-semibold leading-[1.03] tracking-[-0.045em] text-[#1C1A17]">
-            <span className="sr-only">
-              {t.lead} {current}.
-            </span>
-            <span aria-hidden className="block text-center sm:text-left">
+            {/* One accessible sentence, announced once. */}
+            <span className="sr-only">{`${t.lead} ${action}.`}</span>
+            {/* Visual, decorative only. */}
+            <span aria-hidden="true" className="block text-center sm:text-left">
               <span className="block text-balance">{t.lead}</span>
               <span className="relative mt-1 block min-h-[2.2em]">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
-                    key={current}
+                    key={index}
                     initial={reduce ? false : { opacity: 0, y: '0.35em' }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduce ? { opacity: 0 } : { opacity: 0, y: '-0.35em' }}
-                    transition={reduce ? { duration: 0 } : { duration: 0.45, ease }}
+                    transition={reduce ? { duration: 0 } : { duration: 0.4, ease }}
                     className="absolute inset-x-0 top-0 block text-balance text-[#D10E63]"
                   >
-                    {current}
+                    {action}
                   </motion.span>
                 </AnimatePresence>
               </span>
@@ -139,14 +156,14 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           </div>
         </div>
 
-        {/* Theatre */}
+        {/* Theatre — driven by the same index */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease, delay: reduce ? 0 : 0.2 }}
           className="mx-auto w-full max-w-md lg:max-w-none"
         >
-          <HeroTheatre lang={lang} />
+          <HeroTheatre lang={lang} index={index} playing={playing} onTogglePlay={togglePlay} onSelect={select} />
         </motion.div>
       </div>
     </section>

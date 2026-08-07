@@ -9,14 +9,14 @@ import { Kicker } from '@/components/home/section-kicker'
 /**
  * HERMÈS REVEAL — the engine behind the Collaborators, shown as a single skill
  * card that outlives the mission that created it. One card, centred, on an
- * anthracite surface. Actions are discreet; Hermès is the quiet motor.
+ * anthracite surface. Actions are discreet; Hermes is the quiet motor.
  */
 
 const T = {
   fr: {
-    eyebrow: 'Propulsé par Hermès',
+    eyebrow: 'Propulsé par Hermes',
     title: 'Une mission accomplie. Une compétence qui reste.',
-    sub: 'Hermès est le moteur des Collaborateurs IA. Chaque mission réussie devient une compétence versionnée, gouvernée par votre entreprise.',
+    sub: 'Hermes est le moteur des Collaborateurs IA. Chaque mission réussie devient une compétence versionnée, gouvernée par votre entreprise.',
     owner: 'Propriétaire',
     ownerV: 'Solvea',
     skill: 'Relance des factures impayées',
@@ -33,15 +33,17 @@ const T = {
     ],
     limit: 'Limite',
     limitV: 'Aucun contentieux sans validation humaine',
+    tested: 'Testée sur une mission réelle',
+    source: 'Méthode transmise par Sophie',
     validatedBy: 'Validée par Sophie',
-    share: 'Partageable dans votre Organisation',
+    share: 'Privée par défaut · Partage autorisé avec l’équipe Finance',
     signature: 'The agent that grows with you.',
-    link: 'Découvrir Hermès',
+    link: 'Découvrir Hermes',
   },
   en: {
-    eyebrow: 'Powered by Hermès',
+    eyebrow: 'Powered by Hermes',
     title: 'A mission done. A skill that stays.',
-    sub: 'Hermès is the engine behind AI Collaborators. Every successful mission becomes a versioned skill, governed by your company.',
+    sub: 'Hermes is the engine behind AI Collaborators. Every successful mission becomes a versioned skill, governed by your company.',
     owner: 'Owner',
     ownerV: 'Solvea',
     skill: 'Chasing unpaid invoices',
@@ -58,10 +60,12 @@ const T = {
     ],
     limit: 'Limit',
     limitV: 'No collections without human approval',
+    tested: 'Tested on a real mission',
+    source: 'Method taught by Sophie',
     validatedBy: 'Validated by Sophie',
-    share: 'Shareable across your Organization',
+    share: 'Private by default · Sharing allowed with the Finance team',
     signature: 'The agent that grows with you.',
-    link: 'Discover Hermès',
+    link: 'Discover Hermes',
   },
 } as const
 

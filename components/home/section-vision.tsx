@@ -8,18 +8,20 @@ import { ArrowRight } from 'lucide-react'
 const COPY = {
   fr: {
     kicker: 'La vision',
-    title: 'Bientôt, chaque entreprise dirigera une équipe d’IA.',
-    lead: 'Pas une collection d’outils, mais des Collaborateurs durables qui connaissent votre entreprise, agissent dans vos outils et grandissent avec vous. Unitalk vous donne une longueur d’avance.',
-    proof: ['Essai gratuit', 'Hébergé en France', 'Propulsé par Hermès'],
-    cta: 'Parler à Alma',
+    title: 'Chaque mission doit rendre votre entreprise plus capable.',
+    lead: 'Vos Collaborateurs IA accomplissent le travail. Les méthodes et les compétences que vous validez restent dans votre entreprise.',
+    owned: ['Ne louez pas votre intelligence.', 'Possédez-la.'],
+    proof: ['Essai gratuit', 'Hébergé en France', 'Propulsé par Hermes'],
+    cta: 'Confier une première mission',
     ctaNote: 'Décrivez un besoin. Alma s’occupe du reste.',
   },
   en: {
     kicker: 'The vision',
-    title: 'Soon, every company will lead a team of AIs.',
-    lead: 'Not a collection of tools, but durable Collaborators that know your company, act inside your tools and grow with you. Unitalk gives you a head start.',
-    proof: ['Free trial', 'Hosted in France', 'Powered by Hermès'],
-    cta: 'Talk to Alma',
+    title: 'Every mission should make your company more capable.',
+    lead: 'Your AI Collaborators do the work. The methods and skills you validate stay inside your company.',
+    owned: ['Don’t rent your intelligence.', 'Own it.'],
+    proof: ['Free trial', 'Hosted in France', 'Powered by Hermes'],
+    cta: 'Hand over a first mission',
     ctaNote: 'Describe a need. Alma handles the rest.',
   },
 }
@@ -47,7 +49,12 @@ export function SectionVision() {
         </motion.h2>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#B8B0A4] sm:text-lg">{t.lead}</p>
 
-        <div className="mt-10 flex flex-col items-center gap-4">
+        <p className="mt-10 text-balance font-sf text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-[#F4F1EA] sm:text-3xl">
+          {t.owned[0]}{' '}
+          <span className="text-[#E8A0BE]">{t.owned[1]}</span>
+        </p>
+
+        <div className="mt-8 flex flex-col items-center gap-4">
           <button
             type="button"
             onClick={() => openAlma()}

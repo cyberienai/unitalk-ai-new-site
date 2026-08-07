@@ -132,13 +132,13 @@ const T = {
     calloutBody:
       'Vos conversations, fichiers et mémoires restent chez l’hébergeur souverain que vous choisissez. Ils ne sont ni lus, ni revendus, ni utilisés pour entraîner des modèles.',
     hostedIn: 'Hébergé en',
-    importEyebrow: 'Vous avez déjà un agent Hermès ?',
-    importTitle: 'Importez un profil de Collaborateur IA dans votre Hermès, en un clic.',
+    importEyebrow: 'Vous avez déjà un agent Hermes ?',
+    importTitle: 'Importez un profil de Collaborateur IA dans votre Hermes, en un clic.',
     importBody:
-      'Vous faites déjà tourner votre propre agent Hermès chez votre hébergeur ? Prenez le meilleur profil métier de nos Collaborateurs IA et importez-le directement dans votre Hermès existant. Pas de migration, pas de reconfiguration : vous partez du savoir-faire, pas de zéro.',
+      'Vous faites déjà tourner votre propre agent Hermes chez votre hébergeur ? Prenez le meilleur profil métier de nos Collaborateurs IA et importez-le directement dans votre Hermes existant. Pas de migration, pas de reconfiguration : vous partez du savoir-faire, pas de zéro.',
     importSteps: [
-      { q: 'J’ai déjà un agent Hermès', a: 'Livré en un clic, sur votre infrastructure.' },
-      { q: 'Puis-je importer le profil d’un Collaborateur IA dans mon Hermès ?', a: 'Oui, en un clic.' },
+      { q: 'J’ai déjà un agent Hermes', a: 'Livré en un clic, sur votre infrastructure.' },
+      { q: 'Puis-je importer le profil d’un Collaborateur IA dans mon Hermes ?', a: 'Oui, en un clic.' },
     ],
     importHostsLabel: 'Compatible avec votre hébergeur',
     importCta: 'Importer un profil',
@@ -155,13 +155,13 @@ const T = {
     calloutBody:
       'Your conversations, files and memories stay with the sovereign host you choose. They are never read, resold, or used to train models.',
     hostedIn: 'Hosted in',
-    importEyebrow: 'Already running a Hermès agent?',
-    importTitle: 'Import an AI Collaborator profile into your Hermès, in one click.',
+    importEyebrow: 'Already running a Hermes agent?',
+    importTitle: 'Import an AI Collaborator profile into your Hermes, in one click.',
     importBody:
-      'Already running your own Hermès agent at your host? Take the best job profile from our AI Collaborators and import it straight into your existing Hermès. No migration, no reconfiguration: you start from the know-how, not from scratch.',
+      'Already running your own Hermes agent at your host? Take the best job profile from our AI Collaborators and import it straight into your existing Hermes. No migration, no reconfiguration: you start from the know-how, not from scratch.',
     importSteps: [
-      { q: 'I already have a Hermès agent', a: 'Delivered in one click, on your infrastructure.' },
-      { q: 'Can I import an AI Collaborator profile into my Hermès?', a: 'Yes, in one click.' },
+      { q: 'I already have a Hermes agent', a: 'Delivered in one click, on your infrastructure.' },
+      { q: 'Can I import an AI Collaborator profile into my Hermes?', a: 'Yes, in one click.' },
     ],
     importHostsLabel: 'Works with your host',
     importCta: 'Import a profile',
@@ -268,7 +268,7 @@ export function HebergeursContent() {
         </div>
       </section>
 
-      {/* Import into existing Hermès */}
+      {/* Import into existing Hermes */}
       <section className="mx-auto max-w-6xl px-6 pt-14 pb-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -16,7 +16,7 @@ import { SiteFooter } from './site-footer'
  * Homepage as a continuous demonstration, not a SaaS landing page.
  * A single AlmaProvider mounts one Alma panel that every "Parler à Alma" CTA
  * (hero, missions, vision) opens. Scenes alternate ivory / anthracite and the
- * "mission thread" motif recurs in the Hermès and Workspace scenes.
+ * "mission thread" motif recurs in the Hermes and Workspace scenes.
  */
 export function HomeNew() {
   const { lang } = useLanguage()
@@ -32,7 +32,7 @@ export function HomeNew() {
         {/* 2. Product definition — three plain-language truths */}
         <SectionDefinition lang={lang} />
 
-        {/* 3. Hermès reveal — where know-how becomes a real capability */}
+        {/* 3. Hermes reveal — where know-how becomes a real capability */}
         <SectionHermes lang={lang} />
 
         {/* 4. Workspace proof — the mission thread stops at the human gate */}

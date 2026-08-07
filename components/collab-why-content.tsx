@@ -14,7 +14,7 @@ export function CollabWhyContent() {
       title: 'La plateforme qui rend les Collaborateurs IA possibles.',
       subtitle: 'Une infrastructure pensée pour l\'entreprise : souveraine, ouverte et sécurisée.',
       pillars: [
-        { title: 'Hermès', body: "Notre moteur d'orchestration qui donne aux Collaborateurs IA leur capacité à raisonner et à agir." },
+        { title: 'Hermes', body: "Notre moteur d'orchestration qui donne aux Collaborateurs IA leur capacité à raisonner et à agir." },
         { title: 'Gateway', body: 'Une passerelle unique vers vos applications et vos modèles, sans dépendance à un seul fournisseur.' },
         { title: 'Open Source', body: 'Une base ouverte et auditable : pas de boîte noire, pas de verrouillage propriétaire.' },
         { title: 'Serveur privé', body: 'Déployez sur votre propre serveur ou dans notre cloud souverain, selon vos règles.' },

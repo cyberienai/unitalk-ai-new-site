@@ -5,7 +5,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    tagline: 'Unitalk transforme les agents IA en vrais collaborateurs.',
+    tagline: 'Des Collaborateurs IA qui progressent avec votre entreprise.',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
     columns: [
@@ -28,13 +28,13 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
           { label: 'Partenaires', href: '/partenaires' },
-          { label: 'Hermès', href: '/agent-hermes' },
+          { label: 'Hermes', href: '/agent-hermes' },
         ],
       },
       {
         title: 'Entreprise',
         links: [
-          { label: 'À propos', href: '/manifeste' },
+          { label: 'À propos', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Sécurité', href: '/#confiance' },
         ],
@@ -50,7 +50,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'Unitalk turns AI agents into real collaborators.',
+    tagline: 'AI Collaborators that grow more capable with your company.',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
     columns: [
@@ -73,13 +73,13 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Become an expert', href: '/experts#devenir-expert' },
           { label: 'Partners', href: '/partenaires' },
-          { label: 'Hermès', href: '/agent-hermes' },
+          { label: 'Hermes', href: '/agent-hermes' },
         ],
       },
       {
         title: 'Company',
         links: [
-          { label: 'About', href: '/manifeste' },
+          { label: 'About', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Security', href: '/#confiance' },
         ],

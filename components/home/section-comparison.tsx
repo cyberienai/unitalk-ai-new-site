@@ -3,45 +3,49 @@
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { motion } from 'framer-motion'
-import { X, Check } from 'lucide-react'
+import { Check } from 'lucide-react'
 
 const COPY = {
   fr: {
     kicker: 'La différence',
-    title: 'Un outil s’utilise. Un Collaborateur IA s’en occupe.',
-    lead: 'La plupart des IA attendent une consigne, produisent une réponse, puis oublient. Un Collaborateur IA garde le contexte, agit dans la durée et progresse à chaque mission.',
-    beforeTitle: 'Un assistant classique',
-    afterTitle: 'Un Collaborateur IA',
+    title: 'Un agent prêt à l’emploi vous donne une capacité.',
+    titleAccent: 'Unitalk développe la vôtre.',
+    lead: 'Les agents prêts à l’emploi sont devenus performants. La vraie différence ne se joue plus sur la capacité brute, mais sur ce qui vous appartient : la méthode, l’identité et l’expérience accumulée.',
+    beforeTitle: 'Un agent prêt à l’emploi',
+    afterTitle: 'Un Collaborateur IA Unitalk',
     before: [
-      'Repart de zéro à chaque échange',
-      'N’a aucun accès à vos outils',
-      'Ne retient ni vos règles ni votre ton',
-      'S’arrête dès que vous fermez la fenêtre',
+      'Des compétences identiques pour tous',
+      'Un résultat produit dans le service',
+      'Une identité liée à une fonction',
+      'Un contexte conservé par la plateforme',
     ],
     after: [
-      'Garde le contexte de votre entreprise',
-      'Agit dans vos outils, avec vos accès',
-      'Applique vos règles et votre langage',
-      'Accumule un savoir-faire mission après mission',
+      'Une méthode propre à votre entreprise',
+      'Une compétence testée et versionnée',
+      'Une identité persistante',
+      'Un partage et des accès gouvernés',
+      'Une expérience conservée dans votre Workspace',
     ],
   },
   en: {
     kicker: 'The difference',
-    title: 'A tool gets used. An AI Collaborator takes care of it.',
-    lead: 'Most AIs wait for an instruction, produce an answer, then forget. An AI Collaborator keeps the context, acts over time, and grows with every mission.',
-    beforeTitle: 'A classic assistant',
-    afterTitle: 'An AI Collaborator',
+    title: 'An off-the-shelf agent gives you a capability.',
+    titleAccent: 'Unitalk builds yours.',
+    lead: 'Off-the-shelf agents have become capable. The real difference is no longer raw capability, but what belongs to you: the method, the identity and the experience you accumulate.',
+    beforeTitle: 'An off-the-shelf agent',
+    afterTitle: 'A Unitalk AI Collaborator',
     before: [
-      'Starts from scratch every exchange',
-      'Has no access to your tools',
-      'Remembers neither your rules nor your tone',
-      'Stops the moment you close the window',
+      'The same skills for everyone',
+      'A result produced inside the service',
+      'An identity tied to a function',
+      'Context kept by the platform',
     ],
     after: [
-      'Keeps your company’s context',
-      'Acts inside your tools, with your access',
-      'Applies your rules and your language',
-      'Builds know-how mission after mission',
+      'A method specific to your company',
+      'A tested and versioned skill',
+      'A persistent identity',
+      'Governed sharing and access',
+      'Experience kept in your Workspace',
     ],
   },
 }
@@ -55,7 +59,7 @@ export function SectionComparison() {
       <div className="mx-auto max-w-5xl">
         <Kicker>{t.kicker}</Kicker>
         <h2 className="mt-5 max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17] sm:text-4xl md:text-5xl">
-          {t.title}
+          {t.title} <span className="text-[#D10E63]">{t.titleAccent}</span>
         </h2>
         <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.lead}</p>
 
@@ -67,7 +71,7 @@ export function SectionComparison() {
               {t.before.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-[15px] leading-snug text-[#857C6E]">
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#CFC6B4]">
-                    <X className="h-3 w-3 text-[#9A9184]" strokeWidth={2.5} />
+                    <span className="h-[2px] w-2.5 rounded-full bg-[#B4AB99]" aria-hidden />
                   </span>
                   {item}
                 </li>

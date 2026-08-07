@@ -12,17 +12,17 @@ import type { Lang } from '@/lib/language-context'
 const T = {
   fr: {
     lines: [
-      { big: 'Vous parlez à Alma.', proof: 'Une mission structurée : objectif, rythme, validations.' },
-      { big: 'Votre Collaborateur IA accomplit le travail.', proof: 'Dans votre Workspace, avec vos accès et vos règles.' },
-      { big: 'Chaque mission développe son savoir-faire.', proof: 'Profils métier, compétences et applications qui s’accumulent.' },
+      { big: 'Vous parlez à Alma.', proof: 'Elle précise l’objectif, les règles et les validations.' },
+      { big: 'Votre Collaborateur IA accomplit le travail.', proof: 'Dans votre Workspace, avec les accès et les limites que vous avez définis.' },
+      { big: 'Il développe son savoir-faire au fil des missions.', proof: 'Les méthodes validées peuvent devenir des compétences réutilisables.' },
     ],
     closing: 'Ce savoir-faire reste dans votre entreprise.',
   },
   en: {
     lines: [
-      { big: 'You talk to Alma.', proof: 'A structured mission: objective, cadence, validations.' },
-      { big: 'Your AI Collaborator does the work.', proof: 'In your Workspace, with your access and your rules.' },
-      { big: 'Every mission grows its know-how.', proof: 'Job profiles, skills and applications that accumulate.' },
+      { big: 'You talk to Alma.', proof: 'She sets the objective, the rules and the validations.' },
+      { big: 'Your AI Collaborator does the work.', proof: 'In your Workspace, with the access and limits you have defined.' },
+      { big: 'It builds its know-how over the missions.', proof: 'Validated methods can become reusable skills.' },
     ],
     closing: 'That know-how stays inside your company.',
   },

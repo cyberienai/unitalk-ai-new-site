@@ -183,8 +183,8 @@ export const TEAM_HUMANS: Record<string, Human> = {
     email: 'antoine@unitalk.ai',
     pairSlug: 'arthur',
     bio: {
-      fr: "Antoine dirige l'ingénierie d'Unitalk et conçoit la plateforme Hermès. Il développe main dans la main avec Arthur, son partenaire IA.",
-      en: 'Antoine leads Unitalk engineering and designs the Hermès platform. He builds hand in hand with Arthur, his AI partner.',
+      fr: "Antoine dirige l'ingénierie d'Unitalk et conçoit la plateforme Hermes. Il développe main dans la main avec Arthur, son partenaire IA.",
+      en: 'Antoine leads Unitalk engineering and designs the Hermes platform. He builds hand in hand with Arthur, his AI partner.',
     },
   },
   clairedubois: {
@@ -231,7 +231,7 @@ export const TEAM_HUMANS: Record<string, Human> = {
 // Ce avec quoi chaque Collaborateur IA est livré (identique pour tous)
 export const COLLABORATOR_INCLUDES: { title: Bilingual; body: Bilingual }[] = [
   {
-    title: { fr: 'Un agent Hermès', en: 'A Hermès agent' },
+    title: { fr: 'Un agent Hermes', en: 'A Hermes agent' },
     body: {
       fr: 'Le moteur qui raisonne, décide et agit pour lui.',
       en: 'The engine that reasons, decides and acts for it.',
