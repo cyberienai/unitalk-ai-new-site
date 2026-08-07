@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Pencil, Globe, Upload, MessageSquare, Building2, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, Pencil, Upload, MessageSquare, Building2, Loader2 } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import { getProfile, guessProfileKey, normalizeDomain } from '@/lib/discover-profiles'
@@ -132,87 +132,68 @@ export function ScreenContext({
             exit={{ opacity: 0 }}
             className="mt-4"
           >
-            {/* Hero domain entry — the signature moment of this step. */}
-            <div className="relative overflow-hidden rounded-3xl border border-[#E4DDCE] bg-gradient-to-b from-white to-[#FCFAF4] p-6 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_18px_40px_-24px_rgba(28,26,23,0.35)] sm:p-8">
-              {/* Alma speaks, right where the action happens. */}
-              <div className="flex items-start gap-3">
-                <AlmaHead className="h-10 w-10 shrink-0" />
-                <div className="flex-1">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A8175]">
-                    {t.almaName}
-                  </p>
-                  <p className="mt-1 text-pretty text-[15px] font-semibold leading-relaxed text-[#1C1A17]">
-                    {t.almaAsk}
-                  </p>
-                </div>
+            {/* Source entry — a single, quiet focal point. No card, no chrome:
+                one refined underline field carries the whole moment. */}
+            <div className="mt-10 max-w-xl">
+              {/* Alma, understated — one line, not a boxed bubble. */}
+              <div className="flex items-center gap-2.5">
+                <AlmaHead className="h-6 w-6 shrink-0" />
+                <p className="text-[13px] leading-relaxed text-[#6B6459]">
+                  <span className="font-semibold text-[#1C1A17]">{t.almaName}</span>
+                  <span className="mx-1.5 text-[#C7BFB0]">·</span>
+                  {t.almaAsk}
+                </p>
               </div>
 
-              {/* The field itself — large, focused, with an https:// affordance. */}
+              {/* The field — large type on a hairline that draws the eye. */}
               <label htmlFor="company-domain" className="sr-only">
                 {t.domainLabel}
               </label>
-              <div className="mt-6 flex items-center gap-2 rounded-2xl border-2 border-[#E4DDCE] bg-white px-3 transition-colors focus-within:border-[#D10E63] sm:gap-3 sm:px-4">
-                <Globe className="h-5 w-5 shrink-0 text-[#D10E63]" />
-                <span className="hidden shrink-0 font-mono text-sm text-[#B7AE9E] sm:inline">https://</span>
+              <div className="mt-7 flex items-baseline gap-3 border-b border-[#D8D0C2] pb-4 transition-colors duration-300 focus-within:border-[#1C1A17]">
+                <span className="shrink-0 select-none font-mono text-base text-[#C7BFB0] sm:text-lg">https://</span>
                 <input
                   id="company-domain"
                   type="text"
                   inputMode="url"
                   autoComplete="url"
+                  autoFocus
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.nativeEvent.isComposing) analyzeSite()
                   }}
                   placeholder={t.domainPlaceholder}
-                  className="min-w-0 flex-1 border-0 bg-transparent py-4 text-base font-medium text-[#1C1A17] outline-none placeholder:font-normal placeholder:text-[#B7AE9E] sm:text-lg"
+                  className="min-w-0 flex-1 border-0 bg-transparent text-2xl font-medium tracking-[-0.01em] text-[#1C1A17] outline-none placeholder:font-normal placeholder:text-[#C7BFB0] sm:text-3xl"
                 />
                 <button
                   type="button"
                   onClick={analyzeSite}
                   disabled={!normalized}
-                  className="my-1.5 inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-4 py-2.5 text-sm font-bold text-[#FBF9F3] transition-all hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40 sm:px-5"
-                  aria-label={t.analyze}
+                  className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#A80B50] transition-colors disabled:cursor-not-allowed disabled:text-[#C7BFB0]"
                 >
-                  <span className="hidden sm:inline">{t.analyze}</span>
-                  <ArrowRight className="h-4 w-4" />
+                  {t.analyze}
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-enabled:group-hover:translate-x-0.5" />
                 </button>
               </div>
 
-              <p className="mt-3 flex items-start gap-1.5 text-[12px] leading-relaxed text-[#8A8175]">
-                <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#9A9184]" />
-                {t.domainHint}
+              {/* One quiet promise line — replaces the noisy chips. */}
+              <p className="mt-5 text-pretty text-[13px] leading-relaxed text-[#6B6459]">
+                <span className="text-[#9A9184]">{t.willReadLabel} — </span>
+                {t.willReadInline}
               </p>
 
-              {/* What Alma will extract — sets expectations, load-bearing. */}
-              <div className="mt-6 border-t border-[#EFE8DA] pt-5">
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">
-                  {t.willReadLabel}
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {t.willRead.map((chip) => (
-                    <span
-                      key={chip}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-3 py-1.5 text-[13px] font-medium text-[#3B362F]"
-                    >
-                      <Sparkles className="h-3 w-3 text-[#D10E63]" />
-                      {chip}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+              <p className="mt-2 text-[12px] leading-relaxed text-[#9A9184]">{t.domainHint}</p>
 
-            {/* No-site path — a clear secondary door, not a buried link. */}
-            <button
-              type="button"
-              onClick={() => setShowAlt((s) => !s)}
-              aria-expanded={showAlt}
-              className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#E4DDCE] bg-white/50 px-4 py-2 text-sm font-semibold text-[#3B362F] transition-colors hover:border-[#D10E63]/40 hover:text-[#A80B50]"
-            >
-              {t.noSite}
-              <ArrowRight className={['h-3.5 w-3.5 transition-transform', showAlt ? 'rotate-90' : ''].join(' ')} />
-            </button>
+              {/* No-site path — an understated editorial link. */}
+              <button
+                type="button"
+                onClick={() => setShowAlt((s) => !s)}
+                aria-expanded={showAlt}
+                className="mt-8 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#8A8175] underline decoration-[#D8D0C2] underline-offset-[5px] transition-colors hover:text-[#A80B50] hover:decoration-[#D10E63]/50"
+              >
+                {t.noSite}
+              </button>
+            </div>
 
             <AnimatePresence>
               {showAlt && (
@@ -689,8 +670,8 @@ const COPY = {
     domainPlaceholder: 'votre-entreprise.fr',
     domainHint: 'Lecture de démonstration à partir de votre domaine — une base à confirmer ensemble, pas un audit. Rien n’est enregistré sans votre accord.',
     analyze: 'Analyser mon site',
-    willReadLabel: 'Ce que je vais lire pour vous',
-    willRead: ['Votre activité', 'Votre offre', 'Vos clients', 'Votre vocabulaire métier'],
+    willReadLabel: 'Ce que je lis pour vous',
+    willReadInline: 'votre activité, votre offre, vos clients et votre vocabulaire métier.',
     noSite: 'Mon entreprise n’a pas encore de site',
     srcImport: 'Importer une présentation',
     srcImportDesc: 'Plaquette, PDF ou présentation de votre activité.',
@@ -737,8 +718,8 @@ const COPY = {
     domainPlaceholder: 'your-company.com',
     domainHint: 'A demonstration reading from your domain — a starting point to confirm together, not an audit. Nothing is saved without your consent.',
     analyze: 'Analyze my site',
-    willReadLabel: 'What I’ll read for you',
-    willRead: ['Your business', 'Your offer', 'Your customers', 'Your business vocabulary'],
+    willReadLabel: 'What I read for you',
+    willReadInline: 'your business, your offer, your customers and your business vocabulary.',
     noSite: 'My company doesn’t have a website yet',
     srcImport: 'Import a presentation',
     srcImportDesc: 'Brochure, PDF or a deck about your business.',
