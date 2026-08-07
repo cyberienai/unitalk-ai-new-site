@@ -1,395 +1,102 @@
 'use client'
 
-import Image from 'next/image'
-import { useId, useState } from 'react'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Users, MessageSquare, Mail, BarChart3, FileText, Repeat, Check } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import { CtaButton } from '@/components/ui/cta-button'
-import type { Lang } from '@/lib/language-context'
-import { collaboratorHref } from '@/lib/collaborators-catalog'
-import { Kicker } from './section-kicker'
+import { useLanguage } from '@/lib/language-context'
+import { Kicker } from '@/components/home/section-kicker'
+import { getMission, pick } from '@/components/discover/types'
+import { MISSION_CATEGORIES } from '@/lib/missions-catalog'
+import { useAlma } from '@/components/home/alma-panel-context'
+import { motion } from 'framer-motion'
+import { ArrowUpRight, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
-const ease = [0.22, 1, 0.36, 1] as const
+const HOMEPAGE_SLUGS = ['relancer-les-factures-impayees', 'repondre-a-mes-clients', 'preparer-un-comite-de-direction']
 
-type MissionCopy = {
-  mission: string
-  profile: string
-  department: string
-  skills: [string, string, string]
-  tools: [string, string, string]
-}
-
-type Mission = {
-  slug: string
-  icon: LucideIcon
-  fr: MissionCopy
-  en: MissionCopy
-}
-
-// Each mission maps to the business profile Alma prepares (not an identity).
-const MISSIONS: Mission[] = [
-  {
-    slug: 'hugo',
-    icon: Users,
-    fr: {
-      mission: 'Trouver des prospects qualifiés',
-      profile: 'Développement commercial',
-      department: 'Ventes',
-      skills: ['Prospection ciblée', 'Qualification des leads', 'Prise de rendez-vous'],
-      tools: ['CRM', 'LinkedIn', 'Email'],
-    },
-    en: {
-      mission: 'Find qualified prospects',
-      profile: 'Business development',
-      department: 'Sales',
-      skills: ['Targeted prospecting', 'Lead qualification', 'Meeting booking'],
-      tools: ['CRM', 'LinkedIn', 'Email'],
-    },
-  },
-  {
-    slug: 'ines',
-    icon: MessageSquare,
-    fr: {
-      mission: 'Répondre aux demandes des clients',
-      profile: 'Relation client',
-      department: 'Support',
-      skills: ['Réponses instantanées', 'Suivi des tickets', 'Escalade intelligente'],
-      tools: ['Helpdesk', 'Email', 'Chat'],
-    },
-    en: {
-      mission: 'Answer customer requests',
-      profile: 'Customer relations',
-      department: 'Support',
-      skills: ['Instant replies', 'Ticket tracking', 'Smart escalation'],
-      tools: ['Helpdesk', 'Email', 'Chat'],
-    },
-  },
-  {
-    slug: 'lea',
-    icon: Mail,
-    fr: {
-      mission: 'Préparer une newsletter',
-      profile: 'Stratégie de contenu',
-      department: 'Marketing',
-      skills: ['Rédaction éditoriale', 'Ligne éditoriale', 'Segmentation'],
-      tools: ['Email', 'CMS', 'Analytics'],
-    },
-    en: {
-      mission: 'Prepare a newsletter',
-      profile: 'Content strategy',
-      department: 'Marketing',
-      skills: ['Editorial writing', 'Editorial voice', 'Segmentation'],
-      tools: ['Email', 'CMS', 'Analytics'],
-    },
-  },
-  {
-    slug: 'nadia',
-    icon: BarChart3,
-    fr: {
-      mission: 'Analyser les ventes du mois',
-      profile: 'Analyse financière',
-      department: 'Finance',
-      skills: ['Tableaux de bord', 'Analyse des écarts', 'Prévisions'],
-      tools: ['Tableur', 'ERP', 'BI'],
-    },
-    en: {
-      mission: 'Analyze the month’s sales',
-      profile: 'Financial analysis',
-      department: 'Finance',
-      skills: ['Dashboards', 'Variance analysis', 'Forecasts'],
-      tools: ['Spreadsheet', 'ERP', 'BI'],
-    },
-  },
-  {
-    slug: 'emma',
-    icon: FileText,
-    fr: {
-      mission: 'Produire le compte rendu d’une réunion',
-      profile: 'Assistanat de direction',
-      department: 'Direction',
-      skills: ['Prise de notes', 'Synthèse claire', 'Plan d’actions'],
-      tools: ['Agenda', 'Docs', 'Email'],
-    },
-    en: {
-      mission: 'Produce a meeting summary',
-      profile: 'Executive assistance',
-      department: 'Leadership',
-      skills: ['Note taking', 'Clear synthesis', 'Action plan'],
-      tools: ['Calendar', 'Docs', 'Email'],
-    },
-  },
-  {
-    slug: 'arthur',
-    icon: Repeat,
-    fr: {
-      mission: 'Automatiser une tâche répétitive',
-      profile: 'Développement logiciel',
-      department: 'Développement',
-      skills: ['Scripts & intégrations', 'Connexion d’outils', 'Fiabilité'],
-      tools: ['API', 'Zapier', 'Webhooks'],
-    },
-    en: {
-      mission: 'Automate a repetitive task',
-      profile: 'Software development',
-      department: 'Engineering',
-      skills: ['Scripts & integrations', 'Tool wiring', 'Reliability'],
-      tools: ['API', 'Zapier', 'Webhooks'],
-    },
-  },
-]
-
-const T = {
+const COPY = {
   fr: {
-    kicker: 'Si vous avez une mission en tête',
-    headline1: 'Choisissez',
-    headline2: 'une mission.',
-    subtitle:
-      'Choisissez une mission. Alma prépare le profil métier et les compétences nécessaires à votre Collaborateur\u00A0IA.',
-    prepares: 'Alma prépare',
-    profileLabel: 'Profil métier',
-    skillsLabel: 'Compétences clés',
-    toolsLabel: 'Outils',
-    ready: 'Prêt en quelques minutes',
-    cta: 'Préparer avec Alma',
-    exploreAll: 'Explorer toutes les missions',
-    groupLabel: 'Choisir une mission',
+    kicker: 'Missions',
+    title: 'Commencez par ce qu’il faut accomplir.',
+    lead: 'Chaque mission part d’un besoin concret. Choisissez-en une : Alma la cadre avec vous, puis l’adapte à votre entreprise.',
+    all: 'Explorer toutes les missions',
+    precise: 'Préciser avec Alma',
+    result: 'Résultat attendu',
   },
   en: {
-    kicker: 'If you have a mission in mind',
-    headline1: 'Choose',
-    headline2: 'a mission.',
-    subtitle:
-      'Choose a mission. Alma prepares the business profile and skills your AI\u00A0Collaborator needs.',
-    prepares: 'Alma prepares',
-    profileLabel: 'Business profile',
-    skillsLabel: 'Key skills',
-    toolsLabel: 'Tools',
-    ready: 'Ready in minutes',
-    cta: 'Prepare with Alma',
-    exploreAll: 'Explore every mission',
-    groupLabel: 'Choose a mission',
+    kicker: 'Missions',
+    title: 'Start from what needs to get done.',
+    lead: 'Every mission starts from a concrete need. Pick one: Alma frames it with you, then adapts it to your company.',
+    all: 'Explore every mission',
+    precise: 'Refine with Alma',
+    result: 'Expected outcome',
   },
-} as const
+}
 
-export function SectionMissions({ lang }: { lang: Lang }) {
-  const t = T[lang]
-  const reduceMotion = useReducedMotion()
-  const panelId = useId()
+function categoryLabel(key: string, lang: 'fr' | 'en') {
+  const cat = MISSION_CATEGORIES.find((c) => c.key === key)
+  return cat ? pick(cat.label, lang) : key
+}
 
-  const [selected, setSelected] = useState(0)
-  const [hovered, setHovered] = useState<number | null>(null)
-  const active = hovered ?? selected
-
-  const mission = MISSIONS[active]
-  const copy = mission[lang]
+export function SectionMissions() {
+  const { lang } = useLanguage()
+  const { openAlma } = useAlma()
+  const t = COPY[lang]
+  const missions = HOMEPAGE_SLUGS.map((slug) => getMission(slug)).filter(Boolean)
 
   return (
-    <section
-      id="missions"
-      className="scroll-mt-20 border-t border-[#E9E2D4] bg-[#F3EFE6] px-5 py-24 sm:px-8 sm:py-32"
-    >
-      <div className="mx-auto max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.8, ease }}
-          className="mx-auto max-w-2xl text-center"
-        >
-          <div className="flex justify-center">
+    <section id="missions" className="border-t border-[#E7E0D2] bg-[#EFE9DD] px-6 py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
             <Kicker>{t.kicker}</Kicker>
+            <h2 className="mt-5 max-w-2xl text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17] sm:text-4xl md:text-5xl">
+              {t.title}
+            </h2>
+            <p className="mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.lead}</p>
           </div>
-          <h2 className="mt-4 text-balance font-sf text-[clamp(2rem,4.4vw,3.25rem)] font-bold leading-[1.05] tracking-[-0.03em] text-[#1C1A17]">
-            {t.headline1}
-            <br />
-            <span className="text-[#D10E63]">{t.headline2}</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-[#5F594F]">
-            {t.subtitle}
-          </p>
-        </motion.div>
+          <Link
+            href="/missions"
+            className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#A80B50] transition-colors hover:text-[#D10E63]"
+          >
+            {t.all}
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
 
-        {/* Mission tags */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, delay: 0.1, ease }}
-          role="group"
-          aria-label={t.groupLabel}
-          className="mx-auto mt-12 flex max-w-3xl flex-wrap items-center justify-center gap-2.5 sm:mt-14 sm:gap-3"
-        >
-          {MISSIONS.map((m, i) => {
-            const Icon = m.icon
-            const isActive = i === selected
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
+          {missions.map((m, i) => {
+            if (!m) return null
             return (
               <motion.button
                 key={m.slug}
                 type="button"
-                aria-pressed={isActive}
-                aria-controls={panelId}
-                onClick={() => setSelected(i)}
-                onFocus={() => setSelected(i)}
-                onPointerEnter={() => setHovered(i)}
-                onPointerLeave={() => setHovered(null)}
-                whileHover={reduceMotion ? undefined : { y: -2 }}
-                whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                transition={{ duration: 0.2, ease }}
-                className={`group inline-flex items-center gap-2 rounded-full border py-2 pl-2 pr-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] ${
-                  isActive
-                    ? 'border-[#D10E63] bg-[#D10E63] text-[#FBF9F3] shadow-[0_10px_28px_rgba(209,14,99,0.28)]'
-                    : 'border-[#D8D0C2] bg-[#FBF9F3] text-[#3F3A33] hover:border-[#D10E63]/45 hover:text-[#1C1A17]'
-                }`}
+                onClick={() => openAlma(m.slug)}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.45, delay: i * 0.08 }}
+                className="group flex h-full flex-col rounded-3xl border border-[#E4DDCE] bg-[#F7F4ED] p-7 text-left transition-all hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_20px_40px_-28px_rgba(28,26,23,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFE9DD]"
               >
-                <span
-                  className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${
-                    isActive ? 'bg-[#FBF9F3]/20 text-[#FBF9F3]' : 'bg-[#D10E63]/[0.08] text-[#D10E63]'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" aria-hidden="true" />
+                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#A80B50]">
+                  {categoryLabel(m.category, lang)}
                 </span>
-                {m[lang].mission}
+                <h3 className="mt-4 text-balance text-xl font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17]">
+                  {pick(m.title, lang)}
+                </h3>
+                <p className="mt-3 flex-1 text-pretty text-[14px] leading-relaxed text-[#6B6459]">
+                  {pick(m.description, lang)}
+                </p>
+                <span className="mt-6 border-t border-[#E7E0D2] pt-4">
+                  <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#9A9184]">
+                    {t.result}
+                  </span>
+                  <span className="mt-1.5 block text-[13px] leading-snug text-[#3B362F]">{pick(m.result, lang)}</span>
+                </span>
+                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#A80B50]">
+                  {t.precise}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
               </motion.button>
             )
           })}
-        </motion.div>
-
-        {/* Live preview panel — Alma prepares the business profile */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.8, delay: 0.15, ease }}
-          id={panelId}
-          className="relative mx-auto mt-8 max-w-3xl overflow-hidden rounded-[28px] border border-[#E4DCCF] bg-[#FBF9F3] shadow-[0_30px_80px_-40px_rgba(28,26,23,0.4)] sm:mt-10"
-        >
-          {/* reasoning scan bar (retriggers on change) */}
-          {!reduceMotion && (
-            <motion.span
-              key={active}
-              aria-hidden="true"
-              initial={{ scaleX: 0, opacity: 0.9 }}
-              animate={{ scaleX: 1, opacity: 0 }}
-              transition={{ duration: 0.6, ease }}
-              className="absolute inset-x-0 top-0 h-[2px] origin-left bg-gradient-to-r from-transparent via-[#D10E63] to-transparent"
-            />
-          )}
-
-          {/* header: Alma + profile title */}
-          <div className="flex items-center gap-3 border-b border-[#EFE8DA] px-5 py-4 sm:px-7">
-            <span className="relative flex h-10 w-10 shrink-0 items-center justify-center">
-              <Image
-                src="/alma-avatar.png"
-                alt="Alma"
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full object-cover"
-              />
-              <span aria-hidden="true" className="absolute inset-0 rounded-full ring-2 ring-inset ring-[#D10E63]/35" />
-              {!reduceMotion && (
-                <motion.span
-                  aria-hidden="true"
-                  className="absolute inset-0 rounded-full ring-2 ring-[#D10E63]/40"
-                  animate={{ scale: [1, 1.35], opacity: [0.5, 0] }}
-                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
-                />
-              )}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">
-                {t.prepares}
-              </p>
-              <div className="mt-0.5 flex min-h-[1.6rem] items-center">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.h3
-                    key={copy.profile}
-                    initial={reduceMotion ? false : { opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
-                    transition={{ duration: 0.28, ease }}
-                    className="truncate font-sf text-lg font-bold leading-tight tracking-[-0.01em] text-[#1C1A17]"
-                  >
-                    {copy.profile}
-                  </motion.h3>
-                </AnimatePresence>
-              </div>
-            </div>
-            <span className="hidden shrink-0 rounded-full border border-[#E4DCCF] bg-[#F3EFE6] px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#6B6459] sm:inline-block">
-              {copy.department}
-            </span>
-          </div>
-
-          {/* body: skills + tools, animated per selection */}
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={mission.slug}
-              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, ease }}
-              className="grid gap-6 px-5 py-6 sm:grid-cols-2 sm:px-7 sm:py-7"
-            >
-              <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A9184]">
-                  {t.skillsLabel}
-                </p>
-                <ul className="mt-3 space-y-2">
-                  {copy.skills.map((skill, i) => (
-                    <motion.li
-                      key={skill}
-                      initial={reduceMotion ? false : { opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: 0.06 + i * 0.07, ease }}
-                      className="flex items-center gap-2.5 text-sm font-medium text-[#3F3A33]"
-                    >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/[0.1] text-[#D10E63]">
-                        <Check className="h-3 w-3" aria-hidden="true" />
-                      </span>
-                      {skill}
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A9184]">
-                  {t.toolsLabel}
-                </p>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {copy.tools.map((tool, i) => (
-                    <motion.li
-                      key={tool}
-                      initial={reduceMotion ? false : { opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: 0.12 + i * 0.07, ease }}
-                      className="rounded-lg border border-[#E4DCCF] bg-[#F3EFE6] px-3 py-1.5 text-xs font-semibold text-[#4E483F]"
-                    >
-                      {tool}
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* footer: reassurance + CTA */}
-          <div className="flex flex-col gap-3 border-t border-[#EFE8DA] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
-            <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8C8477]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#22A06B]" aria-hidden="true" />
-              {t.ready}
-            </span>
-            <CtaButton href={collaboratorHref(mission.slug)} size="sm">
-              {t.cta}
-              <ArrowRight className="h-4 w-4" />
-            </CtaButton>
-          </div>
-        </motion.div>
-
-        <div className="mt-10 flex justify-center">
-                <CtaButton href="/missions" variant="secondary" size="sm">
-                  {t.exploreAll}
-            <ArrowRight className="h-4 w-4" />
-          </CtaButton>
         </div>
       </div>
     </section>

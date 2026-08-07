@@ -93,7 +93,17 @@ const SUGGESTIONS: Bi[] = [
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-export function AlmaPanel({ open, onClose, lang }: { open: boolean; onClose: () => void; lang: Lang }) {
+export function AlmaPanel({
+  open,
+  onClose,
+  lang,
+  initialSlug = null,
+}: {
+  open: boolean
+  onClose: () => void
+  lang: Lang
+  initialSlug?: string | null
+}) {
   const t = T[lang]
   const router = useRouter()
   const reduce = useReducedMotion()
@@ -110,10 +120,18 @@ export function AlmaPanel({ open, onClose, lang }: { open: boolean; onClose: () 
     if (open) {
       setMode('written')
       setInput('')
-      setSent(null)
-      setSlug(null)
+      // When opened from a mission card, prefill the structured mission so the
+      // user lands straight on the framed result rather than a blank prompt.
+      if (initialSlug) {
+        const m = getMission(initialSlug)
+        setSent(m ? pick(m.title, lang) : null)
+        setSlug(initialSlug)
+      } else {
+        setSent(null)
+        setSlug(null)
+      }
     }
-  }, [open])
+  }, [open, initialSlug, lang])
 
   useEffect(() => {
     if (!open) return

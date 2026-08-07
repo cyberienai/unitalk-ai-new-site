@@ -109,7 +109,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
             <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
               <button
                 type="button"
-                onClick={openAlma}
+                onClick={() => openAlma()}
                 className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto"
               >
                 {t.cta}

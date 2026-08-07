@@ -353,7 +353,7 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
   )
 }
 
-function MissionCard({ t, reduce }: { t: (typeof T)['fr']; reduce: boolean }) {
+function MissionCard({ t, reduce }: { t: (typeof T)['fr' | 'en']; reduce: boolean }) {
   const rows = [
     { icon: UserRound, k: t.fObjective, v: t.fObjectiveV },
     { icon: Sparkles, k: t.fCadence, v: t.fCadenceV },

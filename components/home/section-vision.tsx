@@ -1,0 +1,73 @@
+'use client'
+
+import { useLanguage } from '@/lib/language-context'
+import { useAlma } from '@/components/home/alma-panel-context'
+import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+
+const COPY = {
+  fr: {
+    kicker: 'La vision',
+    title: 'Bientôt, chaque entreprise dirigera une équipe d’IA.',
+    lead: 'Pas une collection d’outils, mais des Collaborateurs durables qui connaissent votre entreprise, agissent dans vos outils et grandissent avec vous. Unitalk vous donne une longueur d’avance.',
+    proof: ['Essai gratuit', 'Hébergé en France', 'Propulsé par Hermès'],
+    cta: 'Parler à Alma',
+    ctaNote: 'Décrivez un besoin. Alma s’occupe du reste.',
+  },
+  en: {
+    kicker: 'The vision',
+    title: 'Soon, every company will lead a team of AIs.',
+    lead: 'Not a collection of tools, but durable Collaborators that know your company, act inside your tools and grow with you. Unitalk gives you a head start.',
+    proof: ['Free trial', 'Hosted in France', 'Powered by Hermès'],
+    cta: 'Talk to Alma',
+    ctaNote: 'Describe a need. Alma handles the rest.',
+  },
+}
+
+export function SectionVision() {
+  const { lang } = useLanguage()
+  const { openAlma } = useAlma()
+  const t = COPY[lang]
+
+  return (
+    <section className="relative overflow-hidden border-t border-[#2A2723] bg-[#161412] px-6 py-28 sm:py-36">
+      {/* single quiet magenta thread anchoring the dark scene */}
+      <span aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-24 w-px -translate-x-1/2 bg-gradient-to-b from-[#D10E63] to-transparent" />
+
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#E8A0BE]">{t.kicker}</p>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.02em] text-[#F4F1EA] sm:text-5xl md:text-6xl"
+        >
+          {t.title}
+        </motion.h2>
+        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#B8B0A4] sm:text-lg">{t.lead}</p>
+
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <button
+            type="button"
+            onClick={() => openAlma()}
+            className="group inline-flex items-center gap-2.5 rounded-full bg-[#D10E63] px-8 py-4 text-base font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#161412]"
+          >
+            {t.cta}
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+          </button>
+          <p className="text-[13px] text-[#8C8477]">{t.ctaNote}</p>
+        </div>
+
+        <ul className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {t.proof.map((p) => (
+            <li key={p} className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8C8477]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#22A06B]" aria-hidden />
+              {p}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
