@@ -221,8 +221,8 @@ export function HeroTheatre({
                 <p className="mt-0.5 text-[13.5px] text-[#655F56]">
                   {t.emmaRole} · {t.existing}
                 </p>
-                <p className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#286344]">
-                  <span aria-hidden className="h-2 w-2 rounded-full bg-[#286344]" />
+                    <p className="mt-1.5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#5A7052]">
+                      <span aria-hidden className="h-2 w-2 rounded-full bg-[#5A7052]" />
                   {t.recommended}
                 </p>
               </motion.div>
@@ -243,7 +243,7 @@ export function HeroTheatre({
 
               {/* First action */}
               <motion.div {...nodeAnim(0.38)} className="relative">
-                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full bg-[#286344]" />
+                <span className="absolute -left-[30px] top-1 h-[15px] w-[15px] rounded-full bg-[#5A7052]" />
                 <FieldLabel>{t.firstLabel}</FieldLabel>
                 <p className="text-[15px] font-medium text-[#1C1A17]">{p(s.firstAction, lang)}</p>
               </motion.div>
