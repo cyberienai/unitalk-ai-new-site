@@ -51,7 +51,7 @@ export function SectionMissions() {
   const missions = HOMEPAGE_SLUGS.map((slug) => getMission(slug)).filter(Boolean)
 
   return (
-    <section id="missions" className="border-t border-[#E7E0D2] bg-[#EFE9DD] px-6 py-24 sm:py-32">
+    <section id="missions" className="border-t border-[#E7E0D2] bg-[#EFE9DD] px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>

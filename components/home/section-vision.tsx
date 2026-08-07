@@ -32,7 +32,7 @@ export function SectionVision() {
   const t = COPY[lang]
 
   return (
-    <section className="relative overflow-hidden border-t border-[#2A2723] bg-[#161412] px-6 py-28 sm:py-36">
+    <section className="relative overflow-hidden border-t border-[#2A2723] bg-[#161412] px-6 py-20 sm:py-28">
       {/* single quiet magenta thread anchoring the dark scene */}
       <span aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-24 w-px -translate-x-1/2 bg-gradient-to-b from-[#D10E63] to-transparent" />
 

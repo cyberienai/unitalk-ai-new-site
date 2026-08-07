@@ -55,7 +55,7 @@ export function SectionComparison() {
   const t = COPY[lang]
 
   return (
-    <section className="border-t border-[#E7E0D2] bg-[#F4F1EA] px-6 py-24 sm:py-32">
+    <section className="border-t border-[#E7E0D2] bg-[#F4F1EA] px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-5xl">
         <Kicker>{t.kicker}</Kicker>
         <h2 className="mt-5 max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17] sm:text-4xl md:text-5xl">

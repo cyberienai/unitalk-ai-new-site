@@ -63,7 +63,11 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
     return () => clearTimeout(id)
   }, [playing, index, reduce])
 
-  useEffect(() => () => resumeRef.current && clearTimeout(resumeRef.current), [])
+  useEffect(() => {
+    return () => {
+      if (resumeRef.current) clearTimeout(resumeRef.current)
+    }
+  }, [])
 
   // Manual selection: jump, pause autoplay, then resume the cycle after a delay
   // so a manual pick never races a concurrent autoplay tick.
@@ -88,14 +92,14 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
     <section className="relative overflow-hidden bg-[#F3EFE6] pb-14 pt-28 sm:pt-32 lg:pb-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
 
-      <div className="editorial-shell relative grid items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
+      <div className="editorial-shell relative grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-12 xl:gap-16">
         {/* Copy */}
-        <div className="max-w-2xl">
+        <div className="max-w-xl">
           <div className="mb-5 flex justify-center sm:justify-start">
             <Kicker>{t.eyebrow}</Kicker>
           </div>
 
-          <h1 className="font-sf text-[clamp(2.35rem,5.4vw,4.25rem)] font-semibold leading-[1.03] tracking-[-0.045em] text-[#1C1A17]">
+          <h1 className="font-sf text-[clamp(2.15rem,4.6vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-[#1C1A17]">
             {/* One accessible sentence, announced once. */}
             <span className="sr-only">{`${t.lead} ${action}.`}</span>
             {/* Visual, decorative only. */}

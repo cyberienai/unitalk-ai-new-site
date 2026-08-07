@@ -33,9 +33,9 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   return (
-    <section className="bg-[#F3EFE6] py-24 sm:py-32">
+    <section className="bg-[#F3EFE6] py-16 sm:py-24">
       <div className="editorial-shell max-w-3xl">
-        <ol className="flex flex-col gap-16 sm:gap-20">
+        <ol className="flex flex-col gap-12 sm:gap-14">
           {t.lines.map((line, i) => (
             <motion.li
               key={line.big}
@@ -58,7 +58,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease }}
-          className="mt-16 border-t border-[#DcD4C4] pt-8 text-balance font-sf text-[clamp(1.35rem,2.6vw,1.9rem)] font-semibold leading-snug tracking-[-0.02em] text-[#1C1A17] sm:mt-20"
+          className="mt-12 border-t border-[#DcD4C4] pt-8 text-balance font-sf text-[clamp(1.35rem,2.6vw,1.9rem)] font-semibold leading-snug tracking-[-0.02em] text-[#1C1A17] sm:mt-14"
         >
           {t.closing}
         </motion.p>

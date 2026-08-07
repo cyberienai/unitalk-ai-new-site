@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, GitBranch, ShieldCheck, UserCheck } from 'lucide-react'
+import { ArrowRight, Check, GitBranch, ShieldCheck, UserCheck, Sparkles } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -74,7 +74,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function SectionHermes({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   return (
-    <section className="relative overflow-hidden bg-[#1C1A17] py-24 text-[#F3EFE6] sm:py-32">
+    <section className="relative overflow-hidden bg-[#1C1A17] py-16 text-[#F3EFE6] sm:py-24">
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#D10E63]/30 to-transparent" />
 
       <div className="editorial-shell relative max-w-3xl text-center">
@@ -103,7 +103,14 @@ export function SectionHermes({ lang = 'fr' }: { lang?: Lang }) {
             </span>
           </div>
 
+          <p className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[#9AE6B4]/25 bg-[#9AE6B4]/[0.08] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#9AE6B4]">
+            <Check className="h-3 w-3" strokeWidth={3} /> {t.tested}
+          </p>
+
           <h3 className="mt-4 font-sf text-xl font-semibold tracking-[-0.02em] text-[#F3EFE6]">{t.skill}</h3>
+          <p className="mt-1.5 inline-flex items-center gap-1.5 text-[12.5px] text-white/45">
+            <Sparkles className="h-3.5 w-3.5 text-[#E8A0BF]" /> {t.source}
+          </p>
 
           <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#E8A0BF]">{t.trigger}</p>

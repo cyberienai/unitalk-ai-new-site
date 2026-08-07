@@ -30,8 +30,10 @@ const T = {
       { label: 'Envoi des relances' },
       { label: 'Réponses classées, paiements suivis' },
     ] as ThreadStep[],
-    validate: 'Valider et poursuivre',
-    validated: 'Mission validée',
+    decisionLabel: 'Votre décision',
+    validate: 'J’approuve et j’envoie',
+    review: 'Je relis d’abord',
+    validated: 'Vous avez validé — Emma poursuit',
     surfaces: 'Sur desktop, le web, vos messageries et en terminal — le même Collaborateur, partout où vous travaillez.',
     cta: 'Découvrir le Workspace',
   },
@@ -49,8 +51,10 @@ const T = {
       { label: 'Reminders sent' },
       { label: 'Replies filed, payments tracked' },
     ] as ThreadStep[],
-    validate: 'Validate and continue',
-    validated: 'Mission validated',
+    decisionLabel: 'Your decision',
+    validate: 'I approve and send',
+    review: 'I’ll review first',
+    validated: 'You validated — Emma continues',
     surfaces: 'On desktop, the web, your messaging apps and in the terminal — the same Collaborator, wherever you work.',
     cta: 'Discover the Workspace',
   },
@@ -83,7 +87,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   const active = validated ? t.steps.length : reached ? gateIndex : 0
 
   return (
-    <section className="bg-[#F3EFE6] py-24 sm:py-32">
+    <section className="bg-[#F3EFE6] py-16 sm:py-24">
       <div className="editorial-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="max-w-xl">
           <h2 className="text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
@@ -134,17 +138,29 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             <MissionThread steps={t.steps} active={active} validated={validated} />
 
             {!validated ? (
-              <button
-                type="button"
-                onClick={() => setValidated(true)}
-                disabled={!reached}
-                className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-[14px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                {t.validate}
-                <ArrowRight className="h-4 w-4" />
-              </button>
+              <div className="mt-5 rounded-2xl border border-[#E4DDCE] bg-[#F1EADF]/60 p-3.5">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#AD0C53]">{t.decisionLabel}</p>
+                <div className="mt-2.5 flex flex-col gap-2 sm:flex-row">
+                  <button
+                    type="button"
+                    onClick={() => setValidated(true)}
+                    disabled={!reached}
+                    className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 text-[14px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    <Check className="h-4 w-4" strokeWidth={3} />
+                    {t.validate}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!reached}
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#D2C9B8] bg-transparent px-5 text-[14px] font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {t.review}
+                  </button>
+                </div>
+              </div>
             ) : (
-              <p className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#2E9E5B]/30 bg-[#EAF6EF] px-6 py-2.5 text-[14px] font-bold text-[#1F7A46]">
+              <p className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#2E9E5B]/30 bg-[#EAF6EF] px-6 py-2.5 text-[14px] font-bold text-[#1F7A46]">
                 <Check className="h-4 w-4" strokeWidth={3} />
                 {t.validated}
               </p>
