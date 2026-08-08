@@ -25,8 +25,8 @@ type Decision = null | 'validate' | 'refuse' | 'modify'
 const T = {
   fr: {
     title: 'Le travail s’exécute plus vite. Les décisions restent humaines.',
-    sub: 'Le Collaborateur IA porte la mission jusqu’à votre validation — jamais au-delà sans votre accord.',
-    surfaces: 'Sur desktop, le web, vos messageries et en terminal — le même Collaborateur, partout où vous travaillez.',
+    sub: 'Collaborateurs humains et IA collaborent dans le même espace de travail.',
+    surfaces: 'Sur desktop, le web, vos messageries et en terminal — accédez à tous vos collaborateurs, partout où vous travaillez.',
     cta: 'Découvrir le Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'En attente de validation',
@@ -55,8 +55,8 @@ const T = {
   },
   en: {
     title: 'Work gets done faster. Decisions stay human.',
-    sub: 'The AI Collaborator carries the mission up to your validation — never beyond it without your agreement.',
-    surfaces: 'On desktop, the web, your messaging apps and in the terminal — the same Collaborator, wherever you work.',
+    sub: 'Human and AI collaborators work together in the same workspace.',
+    surfaces: 'On desktop, the web, your messaging apps and in the terminal — reach all your collaborators, wherever you work.',
     cta: 'Discover the Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'Awaiting validation',
