@@ -174,20 +174,18 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
             </span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-full text-balance text-center text-[17px] leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-[18px]">
-            <Image
-              src="/alma-avatar.png"
-              alt="Alma"
-              width={26}
-              height={26}
-              className="mr-2.5 inline-block h-[26px] w-[26px] -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
-            />
-            {t.sub}
-            <InfoTooltip label={t.detailLabel}>{t.detail}</InfoTooltip>
+          <p className="mx-auto mt-5 flex max-w-full items-center justify-center gap-1.5 text-center text-[17px] sm:mx-0 sm:justify-start sm:text-left md:text-[18px]">
+            <Link
+              href="/collaborateurs-ia"
+              className="inline-flex items-center gap-1.5 font-semibold text-[#4E483F] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:text-[#1C1A17] hover:decoration-[#D10E63]"
+            >
+              {t.secondary}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </p>
 
           <div className="mt-8 flex flex-col items-center gap-4 sm:items-start">
-            <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
+            <div className="flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row">
               <button
                 type="button"
                 onClick={() => openAlma()}
@@ -196,13 +194,17 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                 {t.cta}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </button>
-              <Link
-                href="/collaborateurs-ia"
-                className="inline-flex min-h-12 items-center justify-center gap-1.5 text-[15px] font-semibold text-[#4E483F] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:text-[#1C1A17] hover:decoration-[#D10E63]"
-              >
-                {t.secondary}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <span className="inline-flex items-center text-[15px] leading-relaxed text-[#4E483F] md:text-[16px]">
+                <Image
+                  src="/alma-avatar.png"
+                  alt="Alma"
+                  width={24}
+                  height={24}
+                  className="mr-2 inline-block h-6 w-6 -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
+                />
+                {t.sub}
+                <InfoTooltip label={t.detailLabel}>{t.detail}</InfoTooltip>
+              </span>
             </div>
 
             <div className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
