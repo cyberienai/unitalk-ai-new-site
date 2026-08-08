@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react'
 const COPY = {
   fr: {
     kicker: 'La vision',
-    title: 'Votre entreprise devient plus capable, mission après mission.',
+    title: 'Votre entreprise devient plus intelligente et plus autonome, mission après mission.',
     lead: 'Vos Collaborateurs IA accomplissent le travail. Les méthodes, la mémoire et les compétences que vous validez restent dans votre entreprise.',
     owned: ['Ne louez pas votre intelligence.', 'Possédez-la.'],
     proof: ['Essai gratuit', 'Hébergé en France', 'Propulsé par Hermes'],
@@ -17,7 +17,7 @@ const COPY = {
   },
   en: {
     kicker: 'The vision',
-    title: 'Your company becomes more capable, mission after mission.',
+    title: 'Your company becomes smarter and more autonomous, mission after mission.',
     lead: 'Your AI Collaborators do the work. The methods, memory and skills you validate stay inside your company.',
     owned: ['Don’t rent your intelligence.', 'Own it.'],
     proof: ['Free trial', 'Hosted in France', 'Powered by Hermes'],
