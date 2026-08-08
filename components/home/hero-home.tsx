@@ -106,7 +106,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
             {/* Visual, decorative only. */}
             <span aria-hidden="true" className="block text-center sm:text-left">
               <span className="block text-balance">{t.lead}</span>
-              <span className="relative mt-3 block min-h-[4.2em] lg:min-h-[3.1em]">
+              <span className="relative mt-3 block min-h-[3.1em] lg:min-h-[2.4em]">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
                     key={index}

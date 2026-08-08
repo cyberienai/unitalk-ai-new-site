@@ -48,7 +48,7 @@ export const SCENARIOS: Scenario[] = [
   // ── Sales · Chloé ──────────────────────────────────────────────
   {
     dept: { fr: 'Sales', en: 'Sales' },
-    action: { fr: 'cibler et qualifier vos prospects', en: 'target and qualify your prospects' },
+    action: { fr: 'qualifier vos prospects', en: 'qualify your prospects' },
     human: { fr: 'Trouve et qualifie nos prospects les plus prometteurs.', en: 'Find and qualify our most promising prospects.' },
     almaReply: { fr: 'Je structure la mission et je vous propose Chloé, une nouvelle Collaboratrice IA commerciale.', en: 'I’m structuring the mission and I propose Chloé, a new sales AI Collaborator.' },
     collab: { name: 'Chloé', role: { fr: 'Commerciale', en: 'Sales rep' }, avatar: '/images/chloe-avatar.png', status: 'new' },
@@ -77,7 +77,7 @@ export const SCENARIOS: Scenario[] = [
   // ── Marketing · Léa ────────────────────────────────────────────
   {
     dept: { fr: 'Marketing', en: 'Marketing' },
-    action: { fr: 'créer et publier vos contenus', en: 'create and publish your content' },
+    action: { fr: 'publier vos contenus', en: 'publish your content' },
     human: { fr: 'Crée et publie nos contenus chaque semaine.', en: 'Create and publish our content every week.' },
     almaReply: { fr: 'Je structure la mission et je vous propose Léa, une nouvelle Collaboratrice IA marketing.', en: 'I’m structuring the mission and I propose Léa, a new marketing AI Collaborator.' },
     collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'new' },
@@ -91,7 +91,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     dept: { fr: 'Marketing', en: 'Marketing' },
-    action: { fr: 'analyser vos campagnes marketing', en: 'analyze your marketing campaigns' },
+    action: { fr: 'analyser vos campagnes', en: 'analyze your campaigns' },
     human: { fr: 'Analyse les résultats de nos campagnes.', en: 'Analyze the results of our campaigns.' },
     almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Léa, already in your organization, can take this mission — I’m adding a skill.' },
     collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'existing' },
@@ -120,7 +120,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     dept: { fr: 'RH', en: 'HR' },
-    action: { fr: 'mener vos pré-entretiens par téléphone', en: 'run your phone pre-interviews' },
+    action: { fr: 'mener vos pré-entretiens', en: 'run your pre-interviews' },
     human: { fr: 'Mène les pré-entretiens téléphoniques des candidats retenus.', en: 'Run the phone pre-interviews with shortlisted candidates.' },
     almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Hugo, already in your organization, can take this mission — I’m adding a skill.' },
     collab: { name: 'Hugo', role: { fr: 'Chargé de recrutement', en: 'Recruiter' }, avatar: '/images/hugo-avatar.png', status: 'existing' },
@@ -164,7 +164,7 @@ export const SCENARIOS: Scenario[] = [
   // ── Téléphone · voix · Iris ────────────────────────────────────
   {
     dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
-    action: { fr: 'qualifier vos prospects par téléphone', en: 'qualify your prospects by phone' },
+    action: { fr: 'qualifier vos appels', en: 'qualify your calls' },
     human: { fr: 'Appelle et qualifie nos prospects par téléphone.', en: 'Call and qualify our prospects by phone.' },
     almaReply: { fr: 'Je structure la mission et je vous propose Iris, une nouvelle Collaboratrice IA vocale.', en: 'I’m structuring the mission and I propose Iris, a new voice AI Collaborator.' },
     collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'new' },
@@ -178,7 +178,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
-    action: { fr: 'répondre à vos appels sans attente', en: 'answer your calls with no wait' },
+    action: { fr: 'répondre à vos appels', en: 'answer your calls' },
     human: { fr: 'Réponds à nos appels entrants sans temps d’attente.', en: 'Answer our inbound calls with no wait time.' },
     almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Iris, already in your organization, can take this mission — I’m adding a skill.' },
     collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'existing' },
@@ -193,7 +193,7 @@ export const SCENARIOS: Scenario[] = [
   // ── Finance · Emma ─────────────────────────────────────────────
   {
     dept: { fr: 'Finance', en: 'Finance' },
-    action: { fr: 'relancer vos factures impayées', en: 'chase your unpaid invoices' },
+    action: { fr: 'relancer vos impayés', en: 'chase your unpaid invoices' },
     human: { fr: 'Relance chaque semaine nos factures impayées.', en: 'Chase our unpaid invoices every week.' },
     almaReply: { fr: 'Je structure la mission et je vous propose Emma, une nouvelle Collaboratrice IA finance.', en: 'I’m structuring the mission and I propose Emma, a new finance AI Collaborator.' },
     collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'new' },
@@ -207,7 +207,7 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     dept: { fr: 'Finance', en: 'Finance' },
-    action: { fr: 'anticiper vos besoins de trésorerie', en: 'anticipate your cash-flow needs' },
+    action: { fr: 'anticiper votre trésorerie', en: 'anticipate your cash flow' },
     human: { fr: 'Anticipe nos besoins de trésorerie pour les mois à venir.', en: 'Anticipate our cash-flow needs for the coming months.' },
     almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Emma, already in your organization, can take this mission — I’m adding a skill.' },
     collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'existing' },
