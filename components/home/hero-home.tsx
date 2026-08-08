@@ -24,7 +24,9 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un',
     srSentence: 'Votre Collaborateur IA est prêt à accomplir vos missions.',
     lead: 'Votre Collaborateur IA est prêt à',
-    sub: 'Parlez à Alma. Elle analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
+    sub: 'Parlez à Alma. Elle s’occupe du reste.',
+    detail: 'Elle analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
+    detailLabel: 'En savoir plus sur ce qu’Alma prépare',
     cta: 'Parler à Alma',
     secondary: 'Découvrir les Collaborateurs IA',
     proofs: ['Essai 7 jours sans CB', 'Hébergé en France', 'Propulsé par Hermes'],
@@ -33,7 +35,9 @@ const T = {
     eyebrow: 'Someone is missing',
     srSentence: 'Your AI Collaborator is ready to carry out your missions.',
     lead: 'Your AI Collaborator is ready to',
-    sub: 'Talk to Alma. She analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
+    sub: 'Talk to Alma. She takes care of the rest.',
+    detail: 'She analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
+    detailLabel: 'Learn more about what Alma prepares',
     cta: 'Talk to Alma',
     secondary: 'Discover AI Collaborators',
     proofs: ['7-day trial, no card', 'Hosted in France', 'Powered by Hermes'],
@@ -43,6 +47,47 @@ const T = {
 const ease = [0.22, 1, 0.36, 1] as const
 const SCENARIO_MS = 5000
 const RESUME_AFTER_MS = 12000
+
+/** Small, accessible info tooltip (hover + keyboard focus). Reveals the longer
+ *  explanation of what Alma prepares, kept out of the main headline. */
+function InfoTooltip({ label, children }: { label: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <span className="relative inline-flex align-middle">
+      <button
+        type="button"
+        aria-label={label}
+        aria-expanded={open}
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        onClick={() => setOpen((v) => !v)}
+        className="ml-1.5 inline-flex h-[18px] w-[18px] -translate-y-px items-center justify-center rounded-full border border-[#D9CFBD] bg-[#FBF7EF] text-[11px] font-bold leading-none text-[#8A7F72] outline-none transition-colors duration-200 hover:border-[#D10E63] hover:bg-[#FBF3F7] hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      >
+        i
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.span
+            role="tooltip"
+            initial={{ opacity: 0, y: 4, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.98 }}
+            transition={{ duration: 0.16, ease }}
+            className="absolute bottom-full left-1/2 z-20 mb-2 w-[264px] -translate-x-1/2 rounded-xl border border-[#E4DDCE] bg-white px-3.5 py-2.5 text-left text-[13px] font-normal leading-relaxed text-[#4E483F] shadow-[0_16px_40px_-12px_rgba(28,26,23,0.28)]"
+          >
+            {children}
+            <span
+              aria-hidden="true"
+              className="absolute left-1/2 top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-[5px] rotate-45 border-b border-r border-[#E4DDCE] bg-white"
+            />
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </span>
+  )
+}
 
 export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
@@ -143,11 +188,12 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                     height={26}
                     className="ml-1.5 mr-2.5 inline-block h-[26px] w-[26px] -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
                   />
-                  {t.sub.slice(i)}
-                </>
-              )
-            })()}
-          </p>
+                {t.sub.slice(i)}
+                    </>
+                  )
+                })()}
+                <InfoTooltip label={t.detailLabel}>{t.detail}</InfoTooltip>
+              </p>
 
           <div className="mt-8 flex flex-col items-center gap-4 sm:items-start">
             <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
