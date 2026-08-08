@@ -312,8 +312,8 @@ export function HeroTheatre({
       />
 
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#EFE8DB] px-6 pb-3.5 pt-4">
-          <div className="flex items-center gap-3.5">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-b border-[#EFE8DB] px-4 pb-3.5 pt-4 sm:px-6">
+          <div className="flex items-center gap-2.5 sm:gap-3.5">
             <div className="flex items-center gap-2.5">
               <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
               <div className="leading-tight">
@@ -355,7 +355,7 @@ export function HeroTheatre({
       </div>
 
       {/* Stage */}
-      <div className="px-6 py-6">
+      <div className="px-4 py-5 sm:px-6 sm:py-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}

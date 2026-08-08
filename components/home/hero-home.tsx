@@ -138,7 +138,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
     <section className="relative overflow-hidden bg-[#F3EFE6] pb-10 pt-24 sm:pt-28 lg:pb-12">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
 
-      <div className="editorial-shell relative grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 xl:gap-20">
+      <div className="editorial-shell relative grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 xl:gap-20">
         {/* Copy */}
         <div className="min-w-0 max-w-xl">
           <div className="mb-5 flex justify-center sm:justify-start">

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Mic, SlidersHorizontal, X } from 'lucide-react'
+import { ChevronRight, Mic, SlidersHorizontal, X } from 'lucide-react'
 import { featuredMissions, FEATURED_SLUGS, type Mission } from '@/lib/missions-catalog'
 import {
   CATEGORY_FACETS,
@@ -72,23 +72,34 @@ export function MissionsContent() {
   // A picked mission is loaded straight into Alma (no cold detail page).
   const [loadRequest, setLoadRequest] = useState<LoadRequest | null>(null)
   // Flying "ghost" card played during the handoff to Alma.
-  const [ghost, setGhost] = useState<{ mission: Mission; from: DOMRect } | null>(null)
+  const [ghost, setGhost] = useState<{ mission: Mission; from: DOMRect; to: { top: number; left: number } } | null>(
+    null,
+  )
 
-  // Alma can be collapsed for the session; it returns next visit.
+  // Two-panel bureau: either side can collapse to a rail for the session, and
+  // both never collapse at once — collapsing one always restores the other.
   const ALMA_HIDDEN_KEY = 'unitalk_missions_alma_hidden'
+  const CATALOG_HIDDEN_KEY = 'unitalk_missions_catalog_hidden'
   const [almaHidden, setAlmaHidden] = useState(false)
-  const almaRef = useRef<HTMLDivElement>(null)
+  const [catalogHidden, setCatalogHidden] = useState(false)
+  // Mobile shows a single panel at a time via a segmented control.
+  const [mobilePane, setMobilePane] = useState<'alma' | 'catalog'>('alma')
+  const almaPanelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     try {
+      // Prefer Alma if a stale session somehow marked both collapsed.
       if (sessionStorage.getItem(ALMA_HIDDEN_KEY) === '1') setAlmaHidden(true)
+      else if (sessionStorage.getItem(CATALOG_HIDDEN_KEY) === '1') setCatalogHidden(true)
     } catch {}
   }, [])
 
   const hideAlma = useCallback(() => {
     setAlmaHidden(true)
+    setCatalogHidden(false)
     try {
       sessionStorage.setItem(ALMA_HIDDEN_KEY, '1')
+      sessionStorage.removeItem(CATALOG_HIDDEN_KEY)
     } catch {}
   }, [])
 
@@ -97,7 +108,23 @@ export function MissionsContent() {
     try {
       sessionStorage.removeItem(ALMA_HIDDEN_KEY)
     } catch {}
-    requestAnimationFrame(() => almaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    requestAnimationFrame(() => almaPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+  }, [])
+
+  const hideCatalog = useCallback(() => {
+    setCatalogHidden(true)
+    setAlmaHidden(false)
+    try {
+      sessionStorage.setItem(CATALOG_HIDDEN_KEY, '1')
+      sessionStorage.removeItem(ALMA_HIDDEN_KEY)
+    } catch {}
+  }, [])
+
+  const showCatalog = useCallback(() => {
+    setCatalogHidden(false)
+    try {
+      sessionStorage.removeItem(CATALOG_HIDDEN_KEY)
+    } catch {}
   }, [])
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
@@ -171,12 +198,17 @@ export function MissionsContent() {
   // the load. If Alma was collapsed, it is restored first.
   const loadIntoAlma = useCallback(
     (m: Mission) => {
+      // Return to the balanced two-panel view: Alma shows the loaded mission and
+      // the catalog stays visible for continued browsing.
       setAlmaHidden(false)
+      setCatalogHidden(false)
+      setMobilePane('alma')
       try {
         sessionStorage.removeItem(ALMA_HIDDEN_KEY)
+        sessionStorage.removeItem(CATALOG_HIDDEN_KEY)
       } catch {}
       setLoadRequest({ mission: m, key: Date.now() })
-      requestAnimationFrame(() => almaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+      requestAnimationFrame(() => almaPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
     },
     [],
   )
@@ -187,7 +219,13 @@ export function MissionsContent() {
         loadIntoAlma(m)
         return
       }
-      setGhost({ mission: m, from: trigger.getBoundingClientRect() })
+      const from = trigger.getBoundingClientRect()
+      const panel = almaPanelRef.current?.getBoundingClientRect()
+      // Aim the flying card at the left-hand Alma panel; fall back to up-left.
+      const to = panel
+        ? { top: Math.max(96, panel.top + 120), left: panel.left + panel.width / 2 - 90 }
+        : { top: Math.max(96, from.top - 240), left: from.left + from.width / 2 - 90 }
+      setGhost({ mission: m, from, to })
       loadIntoAlma(m)
       // Clear the ghost once its flight is over.
       window.setTimeout(() => setGhost(null), 620)
@@ -248,15 +286,24 @@ export function MissionsContent() {
   const t = {
     recallText: lang === 'fr' ? 'Vous préférez décrire votre besoin ?' : 'Prefer to describe your need?',
     recallCta: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
-    catalogTitle: lang === 'fr' ? 'Choisissez une mission' : 'Choose a mission',
+    paneAlma: 'Alma',
+    paneCatalog: lang === 'fr' ? 'Formations' : 'Trainings',
+    almaLabel: 'ALMA',
+    catalogLabel: lang === 'fr' ? 'FORMATIONS' : 'TRAININGS',
+    railAlma: 'Alma',
+    railCatalog: lang === 'fr' ? 'Formations' : 'Trainings',
+    showAlma: lang === 'fr' ? 'Afficher Alma' : 'Show Alma',
+    hideCatalog: lang === 'fr' ? 'Réduire les formations' : 'Collapse trainings',
+    showCatalog: lang === 'fr' ? 'Afficher les formations' : 'Show trainings',
+    catalogTitle: lang === 'fr' ? 'Choisissez une formation' : 'Choose a training',
     catalogSubtitle:
       lang === 'fr'
-        ? 'Parcourez les missions prêtes à confier, ou affinez avec les filtres.'
-        : 'Browse ready-to-hand-off missions, or refine with the filters.',
-    all: lang === 'fr' ? 'Toutes les missions' : 'All missions',
+        ? 'Parcourez les formations prêtes à confier, ou affinez avec les filtres.'
+        : 'Browse ready-to-hand-off trainings, or refine with the filters.',
+    all: lang === 'fr' ? 'Toutes les formations' : 'All trainings',
     results: lang === 'fr' ? 'Résultats' : 'Results',
-    count: (n: number) => `${n} mission${n > 1 ? 's' : ''}`,
-    allBrowsed: lang === 'fr' ? 'Vous avez parcouru toutes les missions.' : 'You’ve browsed all missions.',
+    count: (n: number) => (lang === 'fr' ? `${n} formation${n > 1 ? 's' : ''}` : `${n} training${n > 1 ? 's' : ''}`),
+    allBrowsed: lang === 'fr' ? 'Vous avez parcouru toutes les formations.' : 'You’ve browsed all trainings.',
     proposeQuestion:
       lang === 'fr'
         ? 'Vous avez conçu une mission utile à d’autres entreprises ?'
@@ -314,54 +361,118 @@ export function MissionsContent() {
 
   return (
     <main className="min-h-screen bg-[var(--store-page)] text-[var(--store-text)]">
-      {/* ---------------------- ALMA SURFACE (primary) ---------------------- */}
-      {/* Voice-first entry: talk to Alma, watch the mission fiche build live.
-          It can be collapsed for the session (returns next visit). */}
-      <AnimatePresence initial={false}>
-        {!almaHidden && (
-          <motion.div
-            key="alma-surface"
-            ref={almaRef}
-            initial={reduce ? false : { height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
+      {/* Mobile: one panel at a time via a segmented control. */}
+      <div className="px-4 pt-24 sm:px-6 sm:pt-28 lg:hidden">
+        <div
+          role="tablist"
+          aria-label={lang === 'fr' ? 'Basculer entre Alma et les formations' : 'Switch between Alma and trainings'}
+          className="flex gap-1 rounded-full border border-[var(--store-line)] bg-[var(--store-surface)] p-1"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mobilePane === 'alma'}
+            onClick={() => setMobilePane('alma')}
+            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              mobilePane === 'alma' ? 'bg-[#D10E63] text-[#FBF9F3]' : 'text-[var(--store-muted)]'
+            }`}
           >
-            {/* Fixed navbar is 76px tall; keep the same top offset as before. */}
-            <div className="mx-auto max-w-[1240px] px-6 pt-28 sm:pt-[124px] lg:pt-[144px]">
-              <AlmaSurface lang={lang} initialQuery={almaText} onHide={hideAlma} loadRequest={loadRequest} />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {t.paneAlma}
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mobilePane === 'catalog'}
+            onClick={() => setMobilePane('catalog')}
+            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              mobilePane === 'catalog' ? 'bg-[#D10E63] text-[#FBF9F3]' : 'text-[var(--store-muted)]'
+            }`}
+          >
+            {t.paneCatalog}
+          </button>
+        </div>
+      </div>
 
-      {/* ------------------------ CATALOG (always visible) ------------------------ */}
-      <div className={`mx-auto max-w-[1240px] px-6 pb-24 ${almaHidden ? 'pt-28 sm:pt-[124px] lg:pt-[144px]' : 'pt-14 sm:pt-16'}`}>
-        {/* Recall line — restore Alma once collapsed. */}
-        {almaHidden && (
-          <div className="mb-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-2xl border border-[var(--store-line)] bg-[var(--store-surface)] px-5 py-4 text-center">
-            <p className="text-sm text-[var(--store-muted)]">{t.recallText}</p>
+      {/* Desktop: two-panel bureau under the fixed 76px navbar. */}
+      <div className="lg:mt-[76px] lg:flex lg:h-[calc(100dvh-76px)]">
+        {/* --------------------------- LEFT — Alma --------------------------- */}
+        <section
+          ref={almaPanelRef}
+          aria-label={t.paneAlma}
+          className={`${mobilePane === 'alma' ? 'block' : 'hidden'} lg:block lg:h-full lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-[var(--store-line)] ${
+            almaHidden ? 'lg:w-14' : catalogHidden ? 'lg:flex-1' : 'lg:w-[42%] xl:w-[40%]'
+          }`}
+        >
+          {almaHidden ? (
             <button
               type="button"
               onClick={showAlma}
-              className="inline-flex min-h-[40px] items-center gap-2 rounded-full bg-[#D10E63] px-4 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+              aria-label={t.showAlma}
+              title={t.showAlma}
+              className="hidden h-full w-14 flex-col items-center gap-3 bg-[var(--store-surface)] py-5 text-[var(--store-muted)] transition-colors hover:text-[#D10E63] lg:flex"
             >
               <Mic className="h-4 w-4" />
-              {t.recallCta}
+              <span className="rotate-180 text-xs font-bold uppercase tracking-[0.14em] [writing-mode:vertical-rl]">
+                {t.railAlma}
+              </span>
             </button>
-          </div>
-        )}
-        <header className={`mb-8 pt-8 ${almaHidden ? '' : 'border-t border-[var(--store-line)]'}`}>
-          <h2 className="font-sf text-2xl font-bold tracking-[-0.01em] text-[var(--store-text)] sm:text-[1.75rem]">
-            {t.catalogTitle}
-          </h2>
-          <p className="mt-1.5 text-pretty text-sm leading-relaxed text-[var(--store-muted)]">{t.catalogSubtitle}</p>
-        </header>
-        <div className="flex gap-8 lg:gap-10">
+          ) : (
+            <div className="px-4 pb-10 pt-6 sm:px-6 lg:pt-8">
+              <div className="mb-4 hidden lg:block">
+                <span className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--store-muted)]">
+                  {t.almaLabel}
+                </span>
+              </div>
+              <AlmaSurface lang={lang} initialQuery={almaText} onHide={hideAlma} loadRequest={loadRequest} />
+            </div>
+          )}
+        </section>
+
+        {/* --------------------- RIGHT — Formations catalog --------------------- */}
+        <section
+          aria-label={t.paneCatalog}
+          className={`${mobilePane === 'catalog' ? 'block' : 'hidden'} lg:block lg:h-full lg:overflow-y-auto ${
+            catalogHidden ? 'lg:w-14 lg:shrink-0' : 'lg:flex-1'
+          }`}
+        >
+          {catalogHidden ? (
+            <button
+              type="button"
+              onClick={showCatalog}
+              aria-label={t.showCatalog}
+              title={t.showCatalog}
+              className="hidden h-full w-14 flex-col items-center gap-3 bg-[var(--store-surface)] py-5 text-[var(--store-muted)] transition-colors hover:text-[#D10E63] lg:flex"
+            >
+              <span className="rotate-180 text-xs font-bold uppercase tracking-[0.14em] [writing-mode:vertical-rl]">
+                {t.railCatalog}
+              </span>
+            </button>
+          ) : (
+            <div className="px-4 pb-24 pt-6 sm:px-6 lg:px-8 lg:pt-8">
+              <div className="mb-5 flex items-center gap-3">
+                <span className="hidden text-xs font-bold uppercase tracking-[0.16em] text-[var(--store-muted)] lg:inline">
+                  {t.catalogLabel}
+                </span>
+                <button
+                  type="button"
+                  onClick={hideCatalog}
+                  aria-label={t.hideCatalog}
+                  title={t.hideCatalog}
+                  className="ml-auto hidden h-8 w-8 items-center justify-center rounded-full border border-[var(--store-line)] text-[var(--store-muted)] transition-colors hover:border-[#D10E63]/40 hover:text-[#D10E63] lg:inline-flex"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+              <header className="mb-8">
+                <h2 className="font-sf text-2xl font-bold tracking-[-0.01em] text-[var(--store-text)] sm:text-[1.75rem]">
+                  {t.catalogTitle}
+                </h2>
+                <p className="mt-1.5 text-pretty text-sm leading-relaxed text-[var(--store-muted)]">{t.catalogSubtitle}</p>
+              </header>
+              <div className="flex gap-8 lg:gap-10">
           {/* Sidebar (desktop) */}
-          <aside className="hidden w-[220px] shrink-0 lg:block xl:w-[232px]">
-            <div className="sticky top-24">
+          <aside className="hidden w-[220px] shrink-0 xl:block xl:w-[232px]">
+            <div className="sticky top-4">
               <StoreSidebar
                 filters={filters}
                 lang={lang}
@@ -374,10 +485,10 @@ export function MissionsContent() {
 
           {/* Main column */}
           <div className="min-w-0 flex-1">
-            {/* Mobile: Type switcher + categories row + count + Filters */}
-            <div className="mt-4 lg:hidden">
+            {/* Narrow panel + mobile: categories row + count + Filters */}
+            <div className="mt-4 xl:hidden">
               <div
-                className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 style={{ scrollSnapType: 'x proximity' }}
                 role="group"
                 aria-label={lang === 'fr' ? 'Catégories' : 'Categories'}
@@ -437,9 +548,9 @@ export function MissionsContent() {
                   <h2 className="font-sf text-xl font-bold tracking-[-0.01em] text-[var(--store-text)]">
                     {hasAnyRefinement ? t.results : t.all}
                   </h2>
-                  {/* Count already appears in the mobile filter row (<lg); only show
-                      it here on desktop, where that row is hidden. */}
-                  <span className="hidden text-sm font-medium text-[var(--store-muted)] lg:inline">
+                  {/* Count already appears in the narrow-panel filter row (<xl);
+                      only show it here on wide layouts, where that row is hidden. */}
+                  <span className="hidden text-sm font-medium text-[var(--store-muted)] xl:inline">
                     {t.count(total)}
                   </span>
                 </div>
@@ -479,7 +590,7 @@ export function MissionsContent() {
                 <AlmaBand lang={lang} query={hasQuery ? trimmed : undefined} />
               ) : (
                 <>
-                  <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {visible.map((m) => (
                       <StoreCard key={m.slug} mission={m} lang={lang} onSelect={selectMission} />
                     ))}
@@ -535,7 +646,10 @@ export function MissionsContent() {
               )}
             </section>
           </div>
-        </div>
+              </div>
+            </div>
+          )}
+        </section>
       </div>
 
       <FilterSheet
@@ -565,8 +679,8 @@ export function MissionsContent() {
               zIndex: 60,
             }}
             animate={{
-              top: Math.max(96, ghost.from.top - 260),
-              left: ghost.from.left + ghost.from.width / 2 - 90,
+              top: ghost.to.top,
+              left: ghost.to.left,
               width: 180,
               height: 84,
               opacity: 0,
