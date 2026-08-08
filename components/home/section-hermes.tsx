@@ -45,7 +45,7 @@ const T = {
     limit: 'Limite',
     limitV: 'Transmission au contentieux bloquée sans validation humaine.',
     share: 'Privée par défaut · Partage autorisé avec l’équipe Finance',
-    signature: 'Votre entreprise développe de nouvelles capacités opérationnelles à la demande et capitalise sur les compétences et les connaissances de ses Collaborateurs IA.',
+    signature: 'Unitalk est la plateforme d’IA et d’automatisation native pour les agents Hermes autonomes et open source.',
     link: 'Découvrir les Collaborateurs IA',
   },
   en: {
@@ -78,7 +78,7 @@ const T = {
     limit: 'Limit',
     limitV: 'Escalation to collections is blocked without human validation.',
     share: 'Private by default · Sharing allowed with the Finance team',
-    signature: 'Your company builds new operational capabilities on demand and capitalizes on the skills and knowledge of its AI Collaborators.',
+    signature: 'Unitalk is the native AI and automation platform for autonomous, open-source Hermes agents.',
     link: 'Discover AI Collaborators',
   },
 } as const
