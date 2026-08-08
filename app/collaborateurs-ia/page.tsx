@@ -1,20 +1,13 @@
 import type { Metadata } from 'next'
-import { Navbar } from '@/components/navbar'
-import { CollabWhatContent } from '@/components/collab-what-content'
-import { SiteFooter } from '@/components/site-footer'
+import { CollaborateursContent } from '@/components/collaborateurs-ia/collaborateurs-content'
 
 export const metadata: Metadata = {
-  title: "Qu'est-ce qu'un Collaborateur IA ? · Unitalk",
+  title: 'Collaborateurs IA pour entreprise — Unitalk',
   description:
-    "Les Collaborateurs IA sont une nouvelle catégorie d'employés : une identité, une mémoire, des outils et une place dans votre organigramme. Découvrez ce qui les distingue d'un simple chatbot.",
+    'Confiez des missions à des Collaborateurs IA qui travaillent avec vos équipes. Leurs compétences validées restent réutilisables et partageables dans votre entreprise.',
+  alternates: { canonical: '/collaborateurs-ia' },
 }
 
 export default function CollaborateursIaPage() {
-  return (
-    <>
-      <Navbar />
-      <CollabWhatContent />
-      <SiteFooter />
-    </>
-  )
+  return <CollaborateursContent />
 }
