@@ -14,30 +14,34 @@ import { motion } from 'framer-motion'
 const COPY = {
   fr: {
     kicker: 'La différence',
-    title: 'Un agent applique une méthode standard.',
-    titleAccent: 'Unitalk transforme la vôtre en compétence réutilisable.',
-    lead: 'Les agents prêts à l’emploi sont devenus performants. La vraie différence ne se joue plus sur la capacité brute, mais sur ce qui vous appartient : la méthode, l’identité et l’expérience accumulée.',
-    beforeTitle: 'Un agent prêt à l’emploi',
-    afterTitle: 'Un Collaborateur IA Unitalk',
+    title: 'Des Collaborateurs IA sur mesure',
+    titleAccent: 'en 1 h max.',
+    lead: 'Prêts à rejoindre votre organisation pour vous aider à gérer l’intelligence de votre entreprise. Pas des outils individuels isolés.',
+    beforeTitle: 'Des outils isolés',
+    afterTitle: 'Un Collaborateur IA',
     rows: [
-      ['Méthode standard', 'Méthode propre à votre entreprise'],
-      ['Compétence identique pour tous', 'Compétence testée et versionnée'],
-      ['Agent lié à une fonction', 'Identité persistante, profils évolutifs'],
-      ['Résultat produit', 'Expérience conservée dans le Workspace'],
+      ['Des comptes anonymes, sans identité propre', 'Une identité : une voix, un numéro de téléphone, un email, un calendrier'],
+      ['Aucune mémoire, aucun contexte partagé', 'Une mémoire et des connaissances, connectées à vos applications'],
+      ['Un outil figé sur une seule fonction', 'De multiples profils métier'],
+      ['Des fonctionnalités qui ne progressent pas', 'Des compétences qui s’accumulent'],
+      ['Des abonnements dispersés, un modèle par outil', 'Son propre espace de travail, avec l’accès aux meilleurs modèles d’IA et à toutes leurs modalités : texte, images, audio, vidéo et code'],
+      ['Autant d’interfaces que d’outils', 'Une interface universelle pour tout gérer'],
     ],
   },
   en: {
     kicker: 'The difference',
-    title: 'An off-the-shelf agent applies a standard method.',
-    titleAccent: 'Unitalk turns yours into a reusable skill.',
-    lead: 'Off-the-shelf agents have become capable. The real difference is no longer raw capability, but what belongs to you: the method, the identity and the experience you accumulate.',
-    beforeTitle: 'An off-the-shelf agent',
-    afterTitle: 'A Unitalk AI Collaborator',
+    title: 'Custom AI Collaborators',
+    titleAccent: 'in under an hour.',
+    lead: 'Ready to join your organization and help you manage your company’s intelligence. Not isolated, individual tools.',
+    beforeTitle: 'Isolated tools',
+    afterTitle: 'An AI Collaborator',
     rows: [
-      ['Standard method', 'A method specific to your company'],
-      ['The same skill for everyone', 'A tested and versioned skill'],
-      ['Agent tied to a function', 'Persistent identity, evolving profiles'],
-      ['A result produced', 'Experience kept in your Workspace'],
+      ['Anonymous accounts, no identity of their own', 'An identity: a voice, a phone number, an email, a calendar'],
+      ['No memory, no shared context', 'A memory and knowledge, connected to your apps'],
+      ['A tool locked to a single function', 'Multiple job profiles'],
+      ['Features that never grow', 'Skills that accumulate'],
+      ['Scattered subscriptions, one model per tool', 'Its own workspace, with access to the best AI models and all their modalities: text, images, audio, video and code'],
+      ['As many interfaces as tools', 'One universal interface to manage everything'],
     ],
   },
 } as const
@@ -79,11 +83,11 @@ export function SectionComparison() {
               className="relative grid grid-cols-2 border-t border-[#E4DDCE]"
             >
               {/* left — warm, inert (text kept clear of the central seam) */}
-              <div className="flex items-center justify-end bg-[#EDE7DA]/70 py-5 pl-5 pr-10 text-right sm:pl-7 sm:pr-12">
+              <div className="flex items-start justify-end bg-[#EDE7DA]/70 py-5 pl-5 pr-10 text-right sm:pl-7 sm:pr-12">
                 <p className="text-[14px] leading-snug text-[#857C6E] sm:text-[15px]">{before}</p>
               </div>
               {/* right — anthracite, owned (text kept clear of the central seam) */}
-              <div className="flex items-center bg-[#1C1A17] py-5 pl-10 pr-5 sm:pl-12 sm:pr-7">
+              <div className="flex items-start bg-[#1C1A17] py-5 pl-10 pr-5 sm:pl-12 sm:pr-7">
                 <p className="text-[14px] font-medium leading-snug text-[#F4F1EA] sm:text-[15px]">{after}</p>
               </div>
 
