@@ -29,7 +29,7 @@ const T = {
     detailLabel: 'En savoir plus sur ce qu’Alma prépare',
     cta: 'Parler à Alma',
     secondary: 'Découvrir les Collaborateurs IA',
-    proofs: ['Essai 7 jours sans CB', 'Hébergé en France', 'Propulsé par Hermes'],
+    proofs: ['Essai 7 jours sans CB', 'Hébergé en France', 'Appartient à votre entreprise'],
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -40,7 +40,7 @@ const T = {
     detailLabel: 'Learn more about what Alma prepares',
     cta: 'Talk to Alma',
     secondary: 'Discover AI Collaborators',
-    proofs: ['7-day trial, no card', 'Hosted in France', 'Powered by Hermes'],
+    proofs: ['7-day trial, no card', 'Hosted in France', 'Owned by your company'],
   },
 } as const
 
