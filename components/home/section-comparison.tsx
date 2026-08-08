@@ -17,6 +17,7 @@ const COPY = {
     title: 'Des Collaborateurs IA sur mesure',
     titleAccent: 'en 1 h max.',
     lead: 'Prêts à rejoindre votre organisation pour vous aider à gérer l’intelligence de votre entreprise. Pas des outils individuels isolés.',
+    onboarding: '30 min d’onboarding humain et IA',
     beforeTitle: 'Des outils isolés',
     afterTitle: 'Un Collaborateur IA',
     rows: [
@@ -33,6 +34,7 @@ const COPY = {
     title: 'Custom AI Collaborators',
     titleAccent: 'in under an hour.',
     lead: 'Ready to join your organization and help you manage your company’s intelligence. Not isolated, individual tools.',
+    onboarding: '30 min of human + AI onboarding',
     beforeTitle: 'Isolated tools',
     afterTitle: 'An AI Collaborator',
     rows: [
@@ -60,6 +62,11 @@ export function SectionComparison() {
           {t.title} <span className="text-[#D10E63]">{t.titleAccent}</span>
         </h2>
         <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.lead}</p>
+
+        <span className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#E4C6D4] bg-[#FBF3F7] py-1.5 pl-3 pr-4 text-[13px] font-semibold text-[#B00C54]">
+          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+          {t.onboarding}
+        </span>
 
         {/* The transforming lines */}
         <div className="mt-10 overflow-hidden rounded-lg border border-[#E4DDCE]">
