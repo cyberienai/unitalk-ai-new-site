@@ -45,7 +45,7 @@ const T = {
     limit: 'Limite',
     limitV: 'Transmission au contentieux bloquée sans validation humaine.',
     share: 'Privée par défaut · Partage autorisé avec l’équipe Finance',
-    signature: 'Hermes — The agent that grows with you.',
+    signature: 'Votre entreprise développe de nouvelles capacités opérationnelles à la demande et capitalise sur les compétences et les connaissances de ses Collaborateurs IA.',
     link: 'Découvrir les Collaborateurs IA',
   },
   en: {
@@ -78,7 +78,7 @@ const T = {
     limit: 'Limit',
     limitV: 'Escalation to collections is blocked without human validation.',
     share: 'Private by default · Sharing allowed with the Finance team',
-    signature: 'Hermes — The agent that grows with you.',
+    signature: 'Your company builds new operational capabilities on demand and capitalizes on the skills and knowledge of its AI Collaborators.',
     link: 'Discover AI Collaborators',
   },
 } as const
@@ -162,7 +162,9 @@ export function SectionHermes({ lang = 'fr' }: { lang?: Lang }) {
           </div>
         </motion.div>
 
-        <p className="mt-8 font-sf text-[15px] font-medium italic tracking-[-0.01em] text-white/45">{t.signature}</p>
+        <p className="mx-auto mt-9 max-w-lg text-pretty font-sf text-[clamp(1.05rem,1.8vw,1.3rem)] font-medium leading-snug tracking-[-0.015em] text-white/80">
+          {t.signature}
+        </p>
         <Link
           href="/collaborateurs-ia"
           className="mt-3 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#F2BCD3] underline decoration-white/20 underline-offset-4 transition-colors hover:text-white hover:decoration-[#D10E63]"
