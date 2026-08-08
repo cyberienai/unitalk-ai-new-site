@@ -18,8 +18,8 @@ const ALMA_CTA = {
 // Collaborateurs IA dropdown — the product hub.
 // "Découvrir" points to the central presentation; "Développer leurs capacités"
 // groups the three catalogs (profils métier, compétences, applications);
-// "Être accompagné" is the human pillar — Marie accompanies the AI, she does
-// not replace it.
+// "Être guidé par Alma" points to Alma, the AI advisor who turns a need into a
+// ready mission and organizes the work.
 type MenuEntry = { title: Bi; desc: Bi; href: string }
 
 const COLLAB_DISCOVER: MenuEntry = {
@@ -59,12 +59,12 @@ const COLLAB_CAPABILITIES: MenuEntry[] = [
 ]
 
 const COLLAB_ACCOMPANIMENT: MenuEntry = {
-  title: { fr: 'Marie', en: 'Marie' },
+  title: { fr: 'Alma', en: 'Alma' },
   desc: {
-    fr: 'L’accompagnement humain de vos Collaborateurs IA — pour les guider, pas les remplacer.',
-    en: 'The human support behind your AI Collaborators — to guide them, not replace them.',
+    fr: 'La conseillère IA qui transforme votre besoin en mission prête à accomplir.',
+    en: 'The AI advisor who turns your need into a mission ready to run.',
   },
-  href: '/experts',
+  href: '/alma',
 }
 
 const T = {
@@ -82,7 +82,7 @@ const T = {
     // Collaborateurs IA panel
     menuDiscover: 'Découvrir',
     menuCapabilities: 'Développer leurs capacités',
-    menuAccompaniment: 'Être accompagné',
+    menuAccompaniment: 'Être guidé par Alma',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -97,7 +97,7 @@ const T = {
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'Discover',
     menuCapabilities: 'Grow their capabilities',
-    menuAccompaniment: 'Get human support',
+    menuAccompaniment: 'Get guided by Alma',
   },
 }
 
@@ -319,7 +319,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
 
                         <div className="my-2 border-t border-[#EFE8DA]" />
 
-                        {/* Être accompagné — the human pillar (Marie accompanies, never replaces) */}
+                        {/* Être guidé par Alma — the AI advisor who prepares the mission */}
                         <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B0A796]">
                           {t.menuAccompaniment}
                         </p>
