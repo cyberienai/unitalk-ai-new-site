@@ -9,7 +9,7 @@ const COPY = {
   fr: {
     kicker: 'La vision',
     title: 'Votre entreprise devient plus capable, mission après mission.',
-    lead: 'Vos Collaborateurs IA accomplissent le travail. Les méthodes et les compétences que vous validez restent dans votre entreprise.',
+    lead: 'Vos Collaborateurs IA accomplissent le travail. Les méthodes, la mémoire et les compétences que vous validez restent dans votre entreprise.',
     owned: ['Ne louez pas votre intelligence.', 'Possédez-la.'],
     proof: ['Essai gratuit', 'Hébergé en France', 'Propulsé par Hermes'],
     cta: 'Confier une première mission',
@@ -18,7 +18,7 @@ const COPY = {
   en: {
     kicker: 'The vision',
     title: 'Your company becomes more capable, mission after mission.',
-    lead: 'Your AI Collaborators do the work. The methods and skills you validate stay inside your company.',
+    lead: 'Your AI Collaborators do the work. The methods, memory and skills you validate stay inside your company.',
     owned: ['Don’t rent your intelligence.', 'Own it.'],
     proof: ['Free trial', 'Hosted in France', 'Powered by Hermes'],
     cta: 'Hand over a first mission',
