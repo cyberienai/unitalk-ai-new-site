@@ -1,33 +1,30 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
-import { Navbar } from '@/components/navbar'
-import { StoreContent } from '@/components/store-content'
-import { SiteFooter } from '@/components/site-footer'
+import { ProfilsContent } from '@/components/collaborateurs-ia/profils/profils-content'
 
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Profils métier pour votre Collaborateur IA',
+  title: 'Profils métier pour Collaborateurs IA — Unitalk',
   description:
-    'Les rôles durables qu’un Collaborateur IA peut exercer : conseiller relation client, assistant de direction, commercial et bien d’autres, préparés avec Alma.',
+    'Choisissez les responsabilités durables de votre Collaborateur IA. Alma adapte chaque profil métier à votre entreprise, à ses missions et à ses règles.',
+  keywords: [
+    'profil métier IA',
+    'Collaborateur IA par métier',
+    'rôle IA en entreprise',
+    'assistant de direction IA',
+    'commercial IA',
+    'support client IA',
+  ],
   alternates: { canonical: '/collaborateurs-ia/profils-metier' },
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/collaborateurs-ia/profils-metier`,
-    title: 'Profils métier pour votre Collaborateur IA | Unitalk',
+    title: 'Profils métier pour Collaborateurs IA — Unitalk',
     description:
-      'Les rôles durables qu’un Collaborateur IA peut exercer, préparés avec Alma.',
+      'Choisissez les responsabilités durables de votre Collaborateur IA. Alma adapte chaque profil métier à votre entreprise, à ses missions et à ses règles.',
   },
 }
 
 export default function ProfilsMetierPage() {
-  return (
-    <>
-      <Navbar />
-      <Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]" />}>
-        <StoreContent initialType="profil" />
-      </Suspense>
-      <SiteFooter />
-    </>
-  )
+  return <ProfilsContent />
 }
