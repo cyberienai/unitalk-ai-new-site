@@ -6,7 +6,7 @@ import { SiteFooter } from '@/components/site-footer'
 export const metadata: Metadata = {
   title: 'Pourquoi Unitalk ? · Collaborateurs IA · Unitalk',
   description:
-    "Hermès, Gateway, open source, serveur privé, mémoire, RGPD, sécurité, organisation et identité : l'infrastructure souveraine qui rend les Collaborateurs IA possibles.",
+    "Hermes, Gateway, open source, serveur privé, mémoire, RGPD, sécurité, organisation et identité : l'infrastructure souveraine qui rend les Collaborateurs IA possibles.",
 }
 
 export default function PourquoiUnitalkPage() {

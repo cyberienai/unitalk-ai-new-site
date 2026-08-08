@@ -54,8 +54,8 @@ function EntryRecap({ state, lang }: { state: FlowState; lang: Lang }) {
       </div>
       <p className="mt-4 text-[11px] leading-relaxed text-[#8A8175]">
         {lang === 'fr'
-          ? 'Alma part de ce point pour construire le contexte de votre Organisation. Vous gardez la main à chaque étape.'
-          : 'Alma starts from here to build your Organization context. You stay in control at every step.'}
+          ? 'Alma part de ce point pour construire le contexte de votre entreprise. Vous gardez la main à chaque étape.'
+          : 'Alma starts from here to build your company context. You stay in control at every step.'}
       </p>
       <ul className="mt-4 flex flex-col gap-2.5 border-t border-[#EBE4D6] pt-4">
         {guarantees.map((g) => (
@@ -72,15 +72,16 @@ function EntryRecap({ state, lang }: { state: FlowState; lang: Lang }) {
 /** Step 2: Organization context building live. */
 function ContextPanel({ lang, progress }: { lang: Lang; progress: number }) {
   const reduce = useReducedMotion()
+  // 6 slots so the bar fills smoothly; blocks confirm at progress 1, 2, 3 and 6.
   const items = {
-    fr: ['Activité comprise', 'Offre identifiée', 'Clients précisés', 'Priorité définie', 'Méthodes recueillies', 'Validations préparées'],
-    en: ['Business understood', 'Offer identified', 'Customers clarified', 'Priority defined', 'Methods captured', 'Approvals prepared'],
+    fr: ['Activité comprise', 'Offre identifiée', 'Clients précisés', 'Vocabulaire métier', 'Contexte relié à la mission', 'Prêt pour les savoir-faire'],
+    en: ['Business understood', 'Offer identified', 'Customers clarified', 'Business vocabulary', 'Context linked to mission', 'Ready for know-how'],
   }[lang]
 
   return (
     <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-6">
       <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">
-        {lang === 'fr' ? 'Contexte de l’Organisation' : 'Organization context'}
+        {lang === 'fr' ? 'Contexte de votre entreprise' : 'Your company context'}
       </p>
       <ul className="mt-4 flex flex-col gap-2.5">
         {items.map((label, i) => {
@@ -190,13 +191,52 @@ function Reassurance({ lang }: { lang: Lang }) {
   )
 }
 
+/** Locked mission decisions — kept visible while Alma works the later steps. */
+function MissionRecap({ lang, missionSlug }: { lang: Lang; missionSlug: string }) {
+  const m = getMission(missionSlug)
+  const rows = [
+    { label: lang === 'fr' ? 'Résultat attendu' : 'Expected result', value: m.result[lang] },
+    { label: lang === 'fr' ? 'Rythme' : 'Cadence', value: m.deliveryTime[lang] },
+    { label: lang === 'fr' ? 'Validation' : 'Approval', value: m.validation[lang] },
+  ]
+  return (
+    <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-6">
+      <div className="flex items-center gap-2">
+        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#2E9E5B] text-[#FBF9F3]">
+          <Check className="h-3 w-3" strokeWidth={3} />
+        </span>
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#1F7A45]">
+          {lang === 'fr' ? 'Mission définie' : 'Mission defined'}
+        </p>
+      </div>
+      <h3 className="mt-3 font-sf text-base font-bold leading-snug tracking-[-0.01em] text-[#1C1A17]">
+        {m.title[lang]}
+      </h3>
+      <dl className="mt-4 flex flex-col gap-3 border-t border-[#EBE4D6] pt-4">
+        {rows.map((r) => (
+          <div key={r.label}>
+            <dt className="text-[11px] font-medium text-[#8A8175]">{r.label}</dt>
+            <dd className="mt-0.5 text-[13px] leading-relaxed text-[#3B362F]">{r.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
+
 export function ContextColumn({ state, lang }: { state: FlowState; lang: Lang }) {
   return (
-    <div className="lg:sticky lg:top-8">
-      {state.step === 'activate' && <EntryRecap state={state} lang={lang} />}
-      {state.step === 'context' && <ContextPanel lang={lang} progress={state.contextProgress} />}
-      {state.step === 'collaborator' && <ProposalSummary lang={lang} missionSlug={state.missionSlug} />}
-      {(state.step === 'applications' || state.step === 'workspace') && <Reassurance lang={lang} />}
+    <div className="flex flex-col gap-4 lg:sticky lg:top-8">
+      {state.step === 'mission' && <EntryRecap state={state} lang={lang} />}
+      {state.step === 'entreprise' && (
+        <>
+          <MissionRecap lang={lang} missionSlug={state.missionSlug} />
+          <ContextPanel lang={lang} progress={state.contextProgress} />
+        </>
+      )}
+      {state.step === 'savoirfaire' && <MissionRecap lang={lang} missionSlug={state.missionSlug} />}
+      {state.step === 'affectation' && <ProposalSummary lang={lang} missionSlug={state.missionSlug} />}
+      {(state.step === 'acces' || state.step === 'workspace') && <Reassurance lang={lang} />}
     </div>
   )
 }

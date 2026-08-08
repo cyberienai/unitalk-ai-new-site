@@ -109,7 +109,7 @@ const content = {
     memberAccent: 'Il devient un membre de votre organisation.',
     deliveredLabel: 'Chaque Collaborateur IA est livré avec :',
     delivered: [
-      'Un agent Hermès',
+      'Un agent Hermes',
       'De la mémoire collaborative',
       'Ses propres outils et ressources',
       'Son hébergement sur Unitalk AI Cloud ou l’un de ses partenaires',
@@ -297,7 +297,7 @@ const content = {
     memberAccent: 'It becomes a member of your organization.',
     deliveredLabel: 'Every AI Collaborator ships with:',
     delivered: [
-      'A Hermès agent',
+      'A Hermes agent',
       'Collaborative memory',
       'Its own tools and resources',
       'Its hosting on Unitalk AI Cloud or one of its partners',

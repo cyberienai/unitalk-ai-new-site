@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Navbar } from '@/components/navbar'
-import { WorkspaceContent } from '@/components/workspace-content'
+import { WorkspaceSwitch } from '@/components/workspace/workspace-switch'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function WorkspacePage() {
     <>
       <Navbar />
       <Suspense fallback={<div className="min-h-screen bg-[#F3EFE6]" />}>
-        <WorkspaceContent />
+        <WorkspaceSwitch />
       </Suspense>
       <SiteFooter />
     </>

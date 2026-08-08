@@ -1,110 +1,271 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Boxes } from 'lucide-react'
-import { Kicker } from '@/components/home/section-kicker'
+import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+import type { Lang } from '@/lib/language-context'
+import { MissionSeal } from '@/components/home/signs'
+
+/**
+ * WORKSPACE PROOF — an operational mission SHEET, not a chatbot. Three zones:
+ * header (mission id + status), activity (a timestamped log on the mission
+ * thread), and a real decision (the visitor is the human validator). The
+ * thread runs down the activity and STOPS at the decision; it only turns green
+ * and reaches the outcome once a person chooses. This is the clearest statement
+ * that decisions stay human.
+ */
+
+const MAGENTA = '#D10E63'
+const GREEN = '#2E7D4F'
+const ease = [0.22, 1, 0.36, 1] as const
+
+type Decision = null | 'validate' | 'refuse' | 'modify'
 
 const T = {
   fr: {
-    kicker: 'Votre espace de travail',
-    title: 'Un seul espace pour toute votre intelligence.',
-    lead: 'Vos équipes travaillent avec les meilleurs modèles IA, vos applications, vos documents, vos automatisations et vos Collaborateurs IA — dans un espace privé qui appartient à votre entreprise.',
-    center: 'Workspace',
-    centerSub: 'Espace privé',
-    models: 'Modèles IA',
-    tools: 'Vos outils',
-    modelNodes: ['ChatGPT', 'Claude', 'Gemini', 'Mistral'],
-    toolNodes: ['CRM', 'ERP', 'Email', 'Agenda', 'Drive'],
+    title: 'Le travail s’exécute plus vite. Les décisions restent humaines.',
+    sub: 'Collaborateurs humains et IA collaborent dans le même espace de travail.',
+    surfaces: 'Sur desktop, le web, vos messageries et en terminal — accédez à tous vos collaborateurs, partout où vous travaillez.',
+    cta: 'Découvrir le Workspace',
+    missionId: 'Mission FIN-042',
+    statusPending: 'En attente de validation',
+    statusValidated: 'Validée',
+    statusRefused: 'Décision refusée',
+    statusModify: 'À revoir',
+    missionTitle: 'Relancer les factures impayées',
+    responsable: 'Responsable : Emma · Équipe Finance',
+    activityLabel: 'Activité',
+    activity: [
+      { time: '10:14', text: 'Emma a identifié 12 factures échues.' },
+      { time: '10:16', text: '2 dossiers comportent un litige ouvert.' },
+      { time: '10:18', text: '10 relances sont prêtes à partir.' },
+    ],
+    decisionLabel: 'Décision requise',
+    decisionClient: 'Client Dupont · 14 800 €',
+    decisionQuestion: 'Transmettre ce dossier au contentieux ?',
+    refuse: 'Refuser',
+    modify: 'Modifier',
+    validate: 'Valider',
+    outcomes: {
+      validate: { time: '10:21', text: 'Décision enregistrée. Emma transmet le dossier et poursuit la mission.' },
+      refuse: { time: '10:21', text: 'Dossier non transmis. Emma le maintient en suivi et vous alerte à la prochaine échéance.' },
+      modify: { time: '10:21', text: 'Emma reprend le dossier avec vos consignes avant toute transmission.' },
+    },
   },
   en: {
-    kicker: 'Your workspace',
-    title: 'One space for all your intelligence.',
-    lead: 'Your teams work with the best AI models, your applications, your documents, your automations and your AI Collaborators — in a private space that belongs to your company.',
-    center: 'Workspace',
-    centerSub: 'Private space',
-    models: 'AI models',
-    tools: 'Your tools',
-    modelNodes: ['ChatGPT', 'Claude', 'Gemini', 'Mistral'],
-    toolNodes: ['CRM', 'ERP', 'Email', 'Calendar', 'Drive'],
+    title: 'Work gets done faster. Decisions stay human.',
+    sub: 'Human and AI collaborators work together in the same workspace.',
+    surfaces: 'On desktop, the web, your messaging apps and in the terminal — reach all your collaborators, wherever you work.',
+    cta: 'Discover the Workspace',
+    missionId: 'Mission FIN-042',
+    statusPending: 'Awaiting validation',
+    statusValidated: 'Validated',
+    statusRefused: 'Decision declined',
+    statusModify: 'To review',
+    missionTitle: 'Chase unpaid invoices',
+    responsable: 'Owner: Emma · Finance team',
+    activityLabel: 'Activity',
+    activity: [
+      { time: '10:14', text: 'Emma identified 12 overdue invoices.' },
+      { time: '10:16', text: '2 files carry an open dispute.' },
+      { time: '10:18', text: '10 reminders are ready to send.' },
+    ],
+    decisionLabel: 'Decision required',
+    decisionClient: 'Dupont · €14,800',
+    decisionQuestion: 'Escalate this file to collections?',
+    refuse: 'Decline',
+    modify: 'Amend',
+    validate: 'Validate',
+    outcomes: {
+      validate: { time: '10:21', text: 'Decision recorded. Emma escalates the file and continues the mission.' },
+      refuse: { time: '10:21', text: 'File not escalated. Emma keeps it under watch and alerts you at the next due date.' },
+      modify: { time: '10:21', text: 'Emma resumes the file with your instructions before any escalation.' },
+    },
   },
 } as const
 
-function Node({ label, delay }: { label: string; delay: number }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.4, delay }}
-      className="inline-flex items-center rounded-full border border-[#E4DDCE] bg-[#FBF9F3] px-4 py-2 text-sm font-semibold text-[#4E483F]"
-    >
-      {label}
-    </motion.span>
-  )
-}
-
-export function SectionWorkspace({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
+export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
+  const reduce = useReducedMotion()
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-120px' })
+
+  const [reached, setReached] = useState(false)
+  const [decision, setDecision] = useState<Decision>(null)
+  const validated = decision === 'validate'
+
+  useEffect(() => {
+    if (reduce) {
+      setReached(true)
+      return
+    }
+    if (inView) {
+      const id = window.setTimeout(() => setReached(true), 350)
+      return () => window.clearTimeout(id)
+    }
+  }, [inView, reduce])
+
+  const status = !decision
+    ? { label: t.statusPending, color: '#D10E63', bg: 'rgba(209,14,99,0.1)' }
+    : decision === 'validate'
+      ? { label: t.statusValidated, color: '#1F7A46', bg: 'rgba(46,158,91,0.12)' }
+      : decision === 'refuse'
+        ? { label: t.statusRefused, color: '#8A8073', bg: 'rgba(138,128,115,0.14)' }
+        : { label: t.statusModify, color: '#8A8073', bg: 'rgba(138,128,115,0.14)' }
+
+  const outcome = decision ? t.outcomes[decision] : null
 
   return (
-    <section className="bg-[#EFE9DD] py-20 sm:py-28">
-      <div className="editorial-shell">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="flex justify-center">
-            <Kicker>{t.kicker}</Kicker>
-          </div>
-          <h2 className="mt-4 text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[#1C1A17]">
+    <section className="bg-[#F3EFE6] py-14 sm:py-20">
+      <div className="editorial-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="max-w-xl">
+          <h2 className="text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
             {t.title}
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-7 text-[#5F594F]">{t.lead}</p>
+          <p className="mt-4 max-w-lg text-pretty text-[17px] leading-relaxed text-[#4E483F] md:text-[19px]">{t.sub}</p>
+          <p className="mt-8 border-t border-[#DcD4C4] pt-6 text-[15px] leading-relaxed text-[#4E483F]">{t.surfaces}</p>
+          <Link
+            href="/workspace"
+            className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#1C1A17] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:decoration-[#D10E63]"
+          >
+            {t.cta}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        <div className="mx-auto mt-14 max-w-3xl">
-          <div className="rounded-[2rem] border border-[#E0D8C9] bg-[#F7F3EA] p-6 sm:p-10">
-            {/* Models */}
-            <p className="mb-3 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
-              {t.models}
-            </p>
-            <div className="flex flex-wrap justify-center gap-2.5">
-              {t.modelNodes.map((n, i) => (
-                <Node key={n} label={n} delay={i * 0.06} />
-              ))}
+        {/* The mission sheet */}
+        <motion.div
+          ref={ref}
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={inView || reduce ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease }}
+          className="overflow-hidden rounded-lg border border-[#E4DDCE] bg-[#FBF9F3] shadow-[0_24px_70px_-40px_rgba(28,26,23,0.4)]"
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between gap-3 border-b border-[#EEE7DA] px-5 py-4 sm:px-6">
+            <div>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8073]">{t.missionId}</p>
+              <h3 className="mt-1.5 font-sf text-[1.15rem] font-semibold tracking-[-0.015em] text-[#1C1A17]">{t.missionTitle}</h3>
+              <p className="mt-1 text-[13px] text-[#6B6459]">{t.responsable}</p>
             </div>
-
-            {/* Converging line */}
-            <div className="mx-auto my-6 h-8 w-px bg-gradient-to-b from-[#D10E63]/10 to-[#D10E63]/50" aria-hidden="true" />
-
-            {/* Center workspace */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mx-auto flex max-w-sm items-center gap-4 rounded-3xl border border-[#D10E63]/30 bg-[#D10E63] p-6 text-[#FBF9F3] shadow-[0_20px_60px_rgba(209,14,99,0.25)]"
+            <span
+              className="shrink-0 rounded-full px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.12em] transition-colors"
+              style={{ color: status.color, backgroundColor: status.bg }}
             >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FBF9F3]/15">
-                <Boxes className="h-6 w-6" />
-              </span>
-              <div>
-                <p className="font-sf text-xl font-bold tracking-[-0.02em]">{t.center}</p>
-                <p className="text-sm text-[#FBF9F3]/80">{t.centerSub}</p>
-              </div>
-            </motion.div>
-
-            {/* Converging line */}
-            <div className="mx-auto my-6 h-8 w-px bg-gradient-to-t from-[#D10E63]/10 to-[#D10E63]/50" aria-hidden="true" />
-
-            {/* Tools */}
-            <p className="mb-3 text-center font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
-              {t.tools}
-            </p>
-            <div className="flex flex-wrap justify-center gap-2.5">
-              {t.toolNodes.map((n, i) => (
-                <Node key={n} label={n} delay={i * 0.06} />
-              ))}
-            </div>
+              {status.label}
+            </span>
           </div>
-        </div>
+
+          {/* Activity + decision, on the mission thread */}
+          <div className="px-5 py-5 sm:px-6">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8073]">{t.activityLabel}</p>
+
+            <ol className="mt-3">
+              {t.activity.map((a, i) => (
+                <li key={a.time} className="relative flex gap-4 pb-4">
+                  {/* spine */}
+                  <span aria-hidden className="absolute left-[6px] top-3 h-full w-px bg-[#E4DDCE]" />
+                  <span
+                    className="relative z-10 mt-1 h-3 w-3 shrink-0 rounded-full transition-colors duration-500"
+                    style={{ backgroundColor: reached ? MAGENTA : 'transparent', border: reached ? 'none' : '1.5px solid #DcD4C4' }}
+                  />
+                  <p className="text-[13.5px] leading-snug text-[#2A2622]">
+                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{a.time}</span>
+                    {a.text}
+                  </p>
+                </li>
+              ))}
+
+              {/* Decision node — the gate */}
+              <li className="relative flex gap-4">
+                {outcome && <span aria-hidden className="absolute left-[6px] top-3 h-full w-px bg-[#C7E3D2]" />}
+                <span className="relative z-10 mt-0.5 flex h-3 w-3 shrink-0 items-center justify-center">
+                  {validated ? (
+                    <MissionSeal size={18} color={GREEN} className="-translate-x-0.5 -translate-y-0.5" />
+                  ) : (
+                    <>
+                      {!decision && !reduce && reached && (
+                        <motion.span
+                          className="absolute inset-0 rounded-full"
+                          style={{ backgroundColor: MAGENTA }}
+                          animate={{ scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] }}
+                          transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                        />
+                      )}
+                      <span
+                        className="relative h-3 w-3 rounded-full"
+                        style={{
+                          backgroundColor: decision ? '#B4AB99' : 'transparent',
+                          border: decision ? 'none' : `1.5px solid ${MAGENTA}`,
+                        }}
+                      />
+                    </>
+                  )}
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  {!decision ? (
+                    <div className="rounded-md border border-[#E4DDCE] bg-[#F1EADF]/70 p-4">
+                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#AD0C53]">{t.decisionLabel}</p>
+                      <p className="mt-2 text-[15px] font-semibold text-[#1C1A17]">{t.decisionClient}</p>
+                      <p className="mt-0.5 text-[13.5px] text-[#4E483F]">{t.decisionQuestion}</p>
+                      <div className="mt-3.5 flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setDecision('validate')}
+                          disabled={!reached}
+                          className="inline-flex min-h-10 items-center justify-center rounded-full bg-[#D10E63] px-5 text-[13.5px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#B00B52] disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {t.validate}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDecision('modify')}
+                          disabled={!reached}
+                          className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#D2C9B8] px-5 text-[13.5px] font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {t.modify}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDecision('refuse')}
+                          disabled={!reached}
+                          className="inline-flex min-h-10 items-center justify-center rounded-full border border-[#D2C9B8] px-5 text-[13.5px] font-semibold text-[#4E483F] transition-colors hover:border-[#1C1A17] disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {t.refuse}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="pt-0.5 text-[15px] font-semibold text-[#1C1A17]">
+                      {t.decisionClient} — {status.label}
+                    </p>
+                  )}
+                </div>
+              </li>
+
+              {/* Outcome line — only after a decision */}
+              {outcome && (
+                <motion.li
+                  initial={reduce ? false : { opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="relative flex gap-4 pt-4"
+                >
+                  <span
+                    className="relative z-10 mt-1 h-3 w-3 shrink-0 rounded-full"
+                    style={{ backgroundColor: validated ? GREEN : '#B4AB99' }}
+                  />
+                  <p className="text-[13.5px] leading-snug text-[#2A2622]">
+                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{outcome.time}</span>
+                    {outcome.text}
+                  </p>
+                </motion.li>
+              )}
+            </ol>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

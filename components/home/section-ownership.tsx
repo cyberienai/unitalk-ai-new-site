@@ -32,7 +32,7 @@ const T: Record<Lang, {
     pillars: [
       { title: 'Son expérience reste dans votre Organisation', body: 'Son identité, sa mémoire, ses profils privés, ses méthodes et ses résultats validés restent avec votre entreprise.', icon: Brain },
       { title: 'Vous définissez son autonomie', body: 'Décidez ce qu’il peut consulter, accomplir seul, soumettre à validation et dépenser.', icon: SlidersHorizontal },
-      { title: 'Vous choisissez sa technologie', body: 'Propulsé par Hermès, moteur agentique open source, il utilise les modèles et l’hébergement de votre choix.', icon: Cpu },
+      { title: 'Vous choisissez sa technologie', body: 'Propulsé par Hermes, moteur agentique open source, il utilise les modèles et l’hébergement de votre choix.', icon: Cpu },
     ],
     quote: 'Changez de modèle, pas de collaborateur.',
     almaKicker: 'Alma',
@@ -42,7 +42,7 @@ const T: Record<Lang, {
     almaBodyB:
       'Elle recommande ensuite le Collaborateur IA et le profil adaptés, prépare leur cadre de travail et accompagne la première mission jusqu’au résultat.',
     createCta: 'Créer mon organisation',
-    hermesCta: 'Découvrir Hermès et l’open source',
+    hermesCta: 'Découvrir Hermes et l’open source',
     timelineLabel: 'Du domaine à la première mission',
     steps: [
       { label: 'Domaine', icon: Globe },
@@ -61,7 +61,7 @@ const T: Record<Lang, {
     pillars: [
       { title: 'Its experience stays in your Organization', body: 'Its identity, its memory, its private profiles, its methods and its validated results stay with your company.', icon: Brain },
       { title: 'You define its autonomy', body: 'Decide what it can consult, do on its own, submit for validation and spend.', icon: SlidersHorizontal },
-      { title: 'You choose its technology', body: 'Powered by Hermès, an open-source agentic engine, it uses the models and hosting of your choice.', icon: Cpu },
+      { title: 'You choose its technology', body: 'Powered by Hermes, an open-source agentic engine, it uses the models and hosting of your choice.', icon: Cpu },
     ],
     quote: 'Change the model, not the collaborator.',
     almaKicker: 'Alma',
@@ -71,7 +71,7 @@ const T: Record<Lang, {
     almaBodyB:
       'She then recommends the right AI Collaborator and profile, prepares their working framework and guides the first mission through to the result.',
     createCta: 'Create my organization',
-    hermesCta: 'Discover Hermès and open source',
+    hermesCta: 'Discover Hermes and open source',
     timelineLabel: 'From domain to first mission',
     steps: [
       { label: 'Domain', icon: Globe },

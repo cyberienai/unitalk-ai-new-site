@@ -5,7 +5,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    tagline: 'Unitalk transforme les agents IA en vrais collaborateurs.',
+    tagline: 'Des Collaborateurs IA qui progressent avec votre entreprise.',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
     columns: [
@@ -28,13 +28,13 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
           { label: 'Partenaires', href: '/partenaires' },
-          { label: 'Hermès', href: '/agent-hermes' },
+          { label: 'Hermes', href: '/agent-hermes' },
         ],
       },
       {
         title: 'Entreprise',
         links: [
-          { label: 'À propos', href: '/manifeste' },
+          { label: 'À propos', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Sécurité', href: '/#confiance' },
         ],
@@ -50,7 +50,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'Unitalk turns AI agents into real collaborators.',
+    tagline: 'AI Collaborators that grow more capable with your company.',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
     columns: [
@@ -73,13 +73,13 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Become an expert', href: '/experts#devenir-expert' },
           { label: 'Partners', href: '/partenaires' },
-          { label: 'Hermès', href: '/agent-hermes' },
+          { label: 'Hermes', href: '/agent-hermes' },
         ],
       },
       {
         title: 'Company',
         links: [
-          { label: 'About', href: '/manifeste' },
+          { label: 'About', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Security', href: '/#confiance' },
         ],
@@ -113,25 +113,16 @@ export function SiteFooter() {
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#A79E8E]">
               {t.tagline}
             </p>
-            <div className="mt-5 flex flex-col gap-2.5">
-              <a
-                href="tel:+33189713394"
-                className="group inline-flex items-center gap-2 text-sm text-[#C9C0B0] transition-colors hover:text-[#F3EFE6]"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="flex-shrink-0 text-[#F0559B]">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <span className="underline underline-offset-2">01 89 71 33 94</span>
+            <div className="mt-6 flex flex-col gap-4">
+              <a href="tel:+33189713394" className="group inline-flex flex-col gap-1">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8F877A]">
+                  {lang === 'fr' ? 'Téléphone' : 'Phone'}
+                </span>
+                <span className="text-sm text-[#C9C0B0] transition-colors group-hover:text-[#F3EFE6]">01 89 71 33 94</span>
               </a>
-              <a
-                href="mailto:hello@unitalk.ai"
-                className="group inline-flex items-center gap-2 text-sm text-[#C9C0B0] transition-colors hover:text-[#F3EFE6]"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="flex-shrink-0 text-[#F0559B]">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="m22 7-10 6L2 7" />
-                </svg>
-                <span className="underline underline-offset-2">hello@unitalk.ai</span>
+              <a href="mailto:hello@unitalk.ai" className="group inline-flex flex-col gap-1">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8F877A]">Email</span>
+                <span className="text-sm text-[#C9C0B0] transition-colors group-hover:text-[#F3EFE6]">hello@unitalk.ai</span>
               </a>
             </div>
           </div>
@@ -147,7 +138,7 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-[#A79E8E] transition-colors hover:text-[#F3EFE6]"
+                      className="inline-block text-sm text-[#A79E8E] transition-all duration-200 hover:translate-x-0.5 hover:text-[#F3EFE6]"
                     >
                       {link.label}
                     </a>
