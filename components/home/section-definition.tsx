@@ -78,7 +78,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
         </h2>
 
         {/* Horizontal thread band (desktop) — 4 nodes, drawn segment by segment */}
-        <div aria-hidden className="relative mt-10 hidden h-5 md:block">
+        <div aria-hidden className="relative mt-10 hidden h-5 lg:block">
           {/* base dotted guide across the full width */}
           <span
             className="absolute inset-x-0 top-[9px] h-px"
@@ -143,7 +143,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
         </div>
 
         {/* Columns — one continuous surface split by hairlines */}
-        <div className="mt-7 grid gap-y-9 md:grid-cols-4 md:gap-y-0 md:divide-x md:divide-[#E1D9C9]">
+        <div className="mt-7 grid gap-y-9 md:grid-cols-2 md:gap-x-8 md:gap-y-10 lg:grid-cols-4 lg:gap-x-0 lg:gap-y-0 lg:divide-x lg:divide-[#E1D9C9]">
           {t.cols.map((c, i) => {
             const on = active > i
             const accent = colorFor(i)
@@ -153,17 +153,17 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                 initial={reduce ? false : { opacity: 0, y: 14 }}
                 animate={on ? { opacity: 1, y: 0 } : reduce ? { opacity: 1 } : { opacity: 0.32, y: 0 }}
                 transition={{ duration: 0.55, ease }}
-                className="group relative pl-6 md:px-7 lg:md:px-8"
+                className="group relative pl-6 lg:px-8"
               >
                 {/* Mobile: short vertical thread accent on the left of each block */}
                 <span
                   aria-hidden
-                  className="absolute left-0 top-1 h-full w-px transition-colors duration-500 md:hidden"
+                  className="absolute left-0 top-1 h-full w-px transition-colors duration-500 lg:hidden"
                   style={{ backgroundColor: on ? accent : '#DcD4C4' }}
                 />
                 <span
                   aria-hidden
-                  className="absolute left-[-3px] top-1 h-[9px] w-[9px] rounded-full transition-all duration-500 md:hidden"
+                  className="absolute left-[-3px] top-1 h-[9px] w-[9px] rounded-full transition-all duration-500 lg:hidden"
                   style={{ backgroundColor: on ? accent : 'transparent', border: `1.5px solid ${on ? accent : '#DcD4C4'}` }}
                 />
 
