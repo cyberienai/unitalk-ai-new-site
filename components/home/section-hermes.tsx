@@ -18,7 +18,7 @@ const T = {
   fr: {
     eyebrow: 'Propulsé par Hermes',
     title: 'Une mission accomplie. Une compétence qui reste.',
-    sub: 'Unitalk est la plateforme d’IA et d’automatisation native pour les agents Hermes autonomes et open source.',
+    sub: 'Votre entreprise développe de nouvelles capacités opérationnelles à la demande et capitalise sur les compétences et les connaissances de ses Collaborateurs IA.',
     registreLabel: 'Compétence Hermes',
     skillId: 'SKL-FIN-014',
     skill: 'Suivre une facture impayée',
@@ -51,7 +51,7 @@ const T = {
   en: {
     eyebrow: 'Powered by Hermes',
     title: 'A mission done. A skill that stays.',
-    sub: 'Unitalk is the native AI and automation platform for autonomous, open-source Hermes agents.',
+    sub: 'Your company builds new operational capabilities on demand and capitalizes on the skills and knowledge of its AI Collaborators.',
     registreLabel: 'Hermes competence',
     skillId: 'SKL-FIN-014',
     skill: 'Chasing an unpaid invoice',
