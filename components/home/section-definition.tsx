@@ -22,7 +22,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 const T = {
   fr: {
     eyebrow: 'Comment ça marche',
-    title: 'Des Collaborateurs IA qui grandissent avec votre entreprise',
+    title: 'Des Collaborateurs IA qui progressent avec votre entreprise',
     cols: [
       { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle comprend votre entreprise et définit avec vous la mission à accomplir.', chip: 'Mission définie' },
       { n: '02', head: 'Le collaborateur', big: 'Alma prépare votre Collaborateur IA.', proof: 'Profil métier, instructions, compétences, modèle IA et connexion à vos applications.', chip: 'Collaborateur prêt' },
@@ -32,7 +32,7 @@ const T = {
   },
   en: {
     eyebrow: 'How it works',
-    title: 'AI Collaborators that grow with your company',
+    title: 'AI Collaborators that progress with your company',
     cols: [
       { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She understands your company and defines the mission with you.', chip: 'Mission defined' },
       { n: '02', head: 'The collaborator', big: 'Alma prepares your AI Collaborator.', proof: 'Business profile, instructions, skills, AI model and connection to your apps.', chip: 'Collaborator ready' },
