@@ -24,7 +24,7 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un',
     srSentence: 'Votre Collaborateur IA est prêt à accomplir vos missions.',
     lead: 'Votre Collaborateur IA est prêt à',
-    sub: 'Parlez à Alma. Elle s’occupe du reste.',
+    sub: 'Elle s’occupe du reste.',
     detail: 'Elle analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
     detailLabel: 'En savoir plus sur ce qu’Alma prépare',
     cta: 'Parler à Alma',
@@ -35,7 +35,7 @@ const T = {
     eyebrow: 'Someone is missing',
     srSentence: 'Your AI Collaborator is ready to carry out your missions.',
     lead: 'Your AI Collaborator is ready to',
-    sub: 'Talk to Alma. She takes care of the rest.',
+    sub: 'She takes care of the rest.',
     detail: 'She analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
     detailLabel: 'Learn more about what Alma prepares',
     cta: 'Talk to Alma',
@@ -175,25 +175,16 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           </h1>
 
           <p className="mx-auto mt-5 max-w-full text-balance text-center text-[17px] leading-relaxed text-[#4E483F] sm:mx-0 sm:text-left md:text-[18px]">
-            {(() => {
-              const i = t.sub.indexOf('Alma')
-              if (i === -1) return t.sub
-              return (
-                <>
-                  {t.sub.slice(0, i)}
-                  <Image
-                    src="/alma-avatar.png"
-                    alt="Alma"
-                    width={26}
-                    height={26}
-                    className="ml-1.5 mr-2.5 inline-block h-[26px] w-[26px] -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
-                  />
-                {t.sub.slice(i)}
-                    </>
-                  )
-                })()}
-                <InfoTooltip label={t.detailLabel}>{t.detail}</InfoTooltip>
-              </p>
+            <Image
+              src="/alma-avatar.png"
+              alt="Alma"
+              width={26}
+              height={26}
+              className="mr-2.5 inline-block h-[26px] w-[26px] -translate-y-px rounded-full object-cover align-middle ring-1 ring-[#E4DCCE]"
+            />
+            {t.sub}
+            <InfoTooltip label={t.detailLabel}>{t.detail}</InfoTooltip>
+          </p>
 
           <div className="mt-8 flex flex-col items-center gap-4 sm:items-start">
             <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
