@@ -198,10 +198,14 @@ export function MissionsContent() {
   // the load. If Alma was collapsed, it is restored first.
   const loadIntoAlma = useCallback(
     (m: Mission) => {
+      // Return to the balanced two-panel view: Alma shows the loaded mission and
+      // the catalog stays visible for continued browsing.
       setAlmaHidden(false)
+      setCatalogHidden(false)
       setMobilePane('alma')
       try {
         sessionStorage.removeItem(ALMA_HIDDEN_KEY)
+        sessionStorage.removeItem(CATALOG_HIDDEN_KEY)
       } catch {}
       setLoadRequest({ mission: m, key: Date.now() })
       requestAnimationFrame(() => almaPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
