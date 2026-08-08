@@ -24,20 +24,20 @@ const T = {
     eyebrow: 'Comment ça marche',
     title: 'Des Collaborateurs IA qui progressent avec votre entreprise',
     cols: [
-      { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle comprend votre entreprise et définit avec vous la mission à accomplir.', chip: 'Mission définie' },
-      { n: '02', head: 'Le collaborateur', big: 'Alma prépare votre Collaborateur IA.', proof: 'Profil métier, instructions, compétences, modèle IA et connexion à vos applications.', chip: 'Collaborateur prêt' },
-      { n: '03', head: 'La mission', big: 'Il accomplit votre mission.', proof: 'Vous gardez le contrôle : il ne fait jamais rien sans votre accord.', chip: 'Sous votre contrôle' },
-      { n: '04', head: 'Ce qui reste', big: 'Votre savoir-faire vous appartient.', proof: 'Chaque mission accomplie enrichit le savoir-faire et la mémoire de votre entreprise.', chip: 'Savoir-faire possédé' },
+      { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise le résultat attendu, les règles et les décisions qui devront rester humaines.', chip: 'Mission définie' },
+      { n: '02', head: 'L’affectation', big: 'Alma prépare le bon Collaborateur IA.', proof: 'Elle vérifie qui peut prendre la mission et ajoute uniquement les profils métier, les compétences et les applications qui manquent.', chip: 'Collaborateur prêt' },
+      { n: '03', head: 'Le travail', big: 'Il accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
+      { n: '04', head: 'Ce qui reste', big: 'Votre entreprise conserve le savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable et partageable.', chip: 'Compétence conservée' },
     ],
   },
   en: {
     eyebrow: 'How it works',
     title: 'AI Collaborators that progress with your company',
     cols: [
-      { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She understands your company and defines the mission with you.', chip: 'Mission defined' },
-      { n: '02', head: 'The collaborator', big: 'Alma prepares your AI Collaborator.', proof: 'Business profile, instructions, skills, AI model and connection to your apps.', chip: 'Collaborator ready' },
-      { n: '03', head: 'The mission', big: 'It carries out the mission.', proof: 'You stay in control: it never does anything without your consent.', chip: 'Under your control' },
-      { n: '04', head: 'What stays', big: 'The know-how belongs to you.', proof: 'Every completed mission enriches your know-how and moves your company forward.', chip: 'Know-how owned' },
+      { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She clarifies the expected outcome, the rules and the decisions that must stay human.', chip: 'Mission defined' },
+      { n: '02', head: 'The assignment', big: 'Alma prepares the right AI Collaborator.', proof: 'She checks who can take the mission and adds only the job profiles, skills and applications that are missing.', chip: 'Collaborator ready' },
+      { n: '03', head: 'The work', big: 'It carries out the mission.', proof: 'It acts within the defined scope and asks you whenever a human decision is needed.', chip: 'Mission in progress' },
+      { n: '04', head: 'What stays', big: 'Your company keeps the know-how.', proof: 'A tested and validated method can become a reusable, shareable skill.', chip: 'Skill preserved' },
     ],
   },
 } as const
