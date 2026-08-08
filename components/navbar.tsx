@@ -176,6 +176,7 @@ function NavItem({ href, active, children }: { href: string; active: boolean; ch
 export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [collabOpen, setCollabOpen] = useState(false)
+  const [mobileCollabOpen, setMobileCollabOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const collabRef = useRef<HTMLDivElement | null>(null)
   const collabButtonRef = useRef<HTMLButtonElement | null>(null)
@@ -197,6 +198,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   useEffect(() => {
     const isMobile = window.innerWidth < 1024
     if (isMobile) document.body.style.overflow = isMenuOpen ? 'hidden' : ''
+    if (!isMenuOpen) setMobileCollabOpen(false)
     return () => {
       document.body.style.overflow = ''
     }
@@ -438,93 +440,111 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
 
             <motion.div
               id="menu-panel"
-              className="scrollbar-hide fixed inset-x-0 bottom-0 top-[76px] z-40 flex flex-col overflow-y-auto overflow-x-hidden bg-[#F3EFE6] lg:hidden"
+              className="fixed inset-x-0 bottom-0 top-[76px] z-40 flex flex-col overflow-hidden bg-[#F3EFE6] lg:hidden"
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
             >
-              <nav className="flex flex-1 flex-col px-6 py-3">
+              {/* Scrollable link area — leaves the CTA footer always visible */}
+              <nav className="scrollbar-hide flex-1 overflow-y-auto overflow-x-hidden px-6 py-2">
                 {/* Primary links — same order as desktop: Missions first (the need) */}
-                <div className="border-b border-[#DcD4C4] py-3">
+                <div className="divide-y divide-[#E4DDCE]">
                   <a
                     href="/missions"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.missions}
                   </a>
 
-                  {/* Collaborateurs IA + its sub-pages shown directly (no accordion) */}
-                  <p className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17]">
-                    {t.collaborators}
-                  </p>
-                  <div className="ml-3 border-l border-[#DcD4C4] pl-4">
-                    <a
-                      href={COLLAB_DISCOVER.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex min-h-12 items-center text-[15px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                  {/* Collaborateurs IA — collapsible so the menu stays short */}
+                  <div className="py-1">
+                    <button
+                      type="button"
+                      onClick={() => setMobileCollabOpen((v) => !v)}
+                      aria-expanded={mobileCollabOpen}
+                      aria-controls="mobile-collab-sub"
+                      className="flex min-h-11 w-full items-center justify-between text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                     >
-                      {lang === 'fr' ? 'Découvrir les Collaborateurs IA' : 'Discover AI Collaborators'}
-                    </a>
-
-                    <p className="pt-3 pb-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B0A796]">
-                      {t.menuCapabilities}
-                    </p>
-                    {COLLAB_CAPABILITIES.map((item) => (
-                      <a
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="flex min-h-12 items-center text-[15px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
-                      >
-                        {item.title[lang]}
-                      </a>
-                    ))}
-
-                    <p className="pt-3 pb-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B0A796]">
-                      {t.menuAccompaniment}
-                    </p>
-                    <a
-                      href={COLLAB_ACCOMPANIMENT.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex min-h-12 items-center text-[15px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
-                    >
-                      {COLLAB_ACCOMPANIMENT.title[lang]}
-                    </a>
+                      {t.collaborators}
+                      <ChevronDown
+                        aria-hidden="true"
+                        className={`h-4 w-4 text-[#6B6252] transition-transform duration-200 ${mobileCollabOpen ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {mobileCollabOpen && (
+                        <motion.div
+                          id="mobile-collab-sub"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
+                            <a
+                              href={COLLAB_DISCOVER.href}
+                              onClick={() => setIsMenuOpen(false)}
+                              className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                            >
+                              {lang === 'fr' ? 'Découvrir les Collaborateurs IA' : 'Discover AI Collaborators'}
+                            </a>
+                            {COLLAB_CAPABILITIES.map((item) => (
+                              <a
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                              >
+                                {item.title[lang]}
+                              </a>
+                            ))}
+                            <a
+                              href={COLLAB_ACCOMPANIMENT.href}
+                              onClick={() => setIsMenuOpen(false)}
+                              className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                            >
+                              {COLLAB_ACCOMPANIMENT.title[lang]}
+                            </a>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <a
                     href="/experts"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.experts}
                   </a>
                   <a
                     href="/workspace"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.workspace}
                   </a>
                   <a
                     href="/tarifs"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.pricing}
                   </a>
                   <a
                     href="/connexion"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.signIn}
                   </a>
                   <button
                     onClick={toggleLang}
-                    className="flex min-h-12 w-full items-center gap-2 text-base font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
+                    className="flex min-h-11 w-full items-center gap-2 text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                     aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
                   >
                     {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
@@ -533,10 +553,10 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                 </div>
 
                 {/* Contact */}
-                <div className="border-b border-[#DcD4C4] py-4">
+                <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-[#E4DDCE] pt-3">
                   <a
                     href="tel:+33189713394"
-                    className="group flex items-center gap-2 py-1.5 text-xs font-normal text-[#4E483F] transition-colors hover:text-[#1C1A17]"
+                    className="group flex items-center gap-2 py-1 text-[13px] font-medium text-[#4E483F] transition-colors hover:text-[#1C1A17]"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="flex-shrink-0 text-[#D10E63]">
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
@@ -545,7 +565,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                   </a>
                   <a
                     href="mailto:hello@unitalk.ai"
-                    className="group flex items-center gap-2 py-1.5 text-xs font-normal text-[#4E483F] transition-colors hover:text-[#1C1A17]"
+                    className="group flex items-center gap-2 py-1 text-[13px] font-medium text-[#4E483F] transition-colors hover:text-[#1C1A17]"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="flex-shrink-0 text-[#D10E63]">
                       <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -554,18 +574,18 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                     <span className="underline underline-offset-2">hello@unitalk.ai</span>
                   </a>
                 </div>
-
-                {/* Fixed CTA */}
-                <div className="mt-auto py-4">
-                  <a
-                    href={ALMA_CTA.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B10B53]"
-                  >
-                    {ALMA_CTA.label[lang]}
-                  </a>
-                </div>
               </nav>
+
+              {/* Sticky CTA footer — always visible above the fold */}
+              <div className="shrink-0 border-t border-[#DcD4C4] bg-[#F3EFE6] px-6 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
+                <a
+                  href={ALMA_CTA.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 py-3 text-[15px] font-bold text-[#FBF9F3] shadow-[0_8px_24px_-8px_rgba(209,14,99,0.5)] transition-colors hover:bg-[#B10B53]"
+                >
+                  {ALMA_CTA.label[lang]}
+                </a>
+              </div>
             </motion.div>
           </>
         )}
