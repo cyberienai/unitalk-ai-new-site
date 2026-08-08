@@ -47,7 +47,7 @@ export type Scenario = {
 export const SCENARIOS: Scenario[] = [
   // ── Sales · Chloé ──────────────────────────────────────────────
   {
-    dept: { fr: 'Sales', en: 'Sales' },
+    dept: { fr: 'Ventes', en: 'Sales' },
     action: { fr: 'qualifier vos prospects', en: 'qualify your prospects' },
     human: { fr: 'Trouve et qualifie nos prospects les plus prometteurs.', en: 'Find and qualify our most promising prospects.' },
     almaReply: { fr: 'Je structure la mission et je vous propose Chloé, une nouvelle Collaboratrice IA commerciale.', en: 'I’m structuring the mission and I propose Chloé, a new sales AI Collaborator.' },
@@ -61,7 +61,7 @@ export const SCENARIOS: Scenario[] = [
     firstAction: { fr: 'Analyser votre marché et vos clients actuels.', en: 'Analyze your market and current customers.' },
   },
   {
-    dept: { fr: 'Sales', en: 'Sales' },
+    dept: { fr: 'Ventes', en: 'Sales' },
     action: { fr: 'décrocher plus de rendez-vous', en: 'book more meetings' },
     human: { fr: 'Décroche plus de rendez-vous avec ces prospects.', en: 'Book more meetings with these prospects.' },
     almaReply: { fr: 'Chloé, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Chloé, already in your organization, can take this mission — I’m adding a skill.' },
