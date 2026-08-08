@@ -20,9 +20,9 @@ const playfairDisplay = Playfair_Display({
 
 const SITE_URL = 'https://unitalk.ai'
 const SITE_NAME = 'Unitalk'
-const DEFAULT_TITLE = 'Unitalk — Recrutez votre premier Collaborateur IA'
+const DEFAULT_TITLE = 'Unitalk — Des Collaborateurs IA qui progressent avec votre entreprise'
 const DEFAULT_DESCRIPTION =
-  'Unitalk crée des Collaborateurs IA qui rejoignent votre organisation avec les savoir-faire métier et les outils nécessaires. Alma analyse votre activité et prépare le Collaborateur IA qu’il vous faut. Hébergé en France, conforme au RGPD.'
+  'Unitalk crée des Collaborateurs IA qui rejoignent votre organisation, prennent vos missions et gagnent des compétences au fil du temps. Alma analyse votre activité et prépare le bon Collaborateur IA. Les savoir-faire validés restent dans votre entreprise. Hébergé en France, conforme au RGPD.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

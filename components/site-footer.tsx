@@ -50,7 +50,7 @@ const T = {
     ],
   },
   en: {
-    tagline: 'AI Collaborators that grow more capable with your company.',
+    tagline: 'Own your intelligence.',
     dataFrance: 'Data hosted in France',
     rights: 'All rights reserved.',
     columns: [

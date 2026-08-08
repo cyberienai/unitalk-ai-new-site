@@ -8,21 +8,21 @@ import { ArrowRight } from 'lucide-react'
 const COPY = {
   fr: {
     kicker: 'Mission après mission',
-    title: 'Votre entreprise devient plus intelligente et plus autonome.',
-    lead: 'Vos Collaborateurs IA accomplissent le travail. Les méthodes, la mémoire et les compétences que vous validez restent dans votre entreprise.',
+    title: 'Votre entreprise devient plus capable, mission après mission.',
+    lead: 'Vos Collaborateurs IA accomplissent le travail. Les méthodes, les compétences et l’expérience que vous validez restent dans votre entreprise.',
     owned: ['Ne louez pas votre intelligence.', 'Possédez-la.'],
-    proof: ['Essai gratuit', 'Hébergé en France', 'Propulsé par Hermes'],
+    proof: ['7 jours gratuits', 'Sans carte bancaire', 'Hébergé en France'],
     cta: 'Confier une première mission',
-    ctaNote: 'Décrivez un besoin. Alma s’occupe du reste.',
+    ctaNote: 'Décrivez votre besoin. Alma prépare la suite.',
   },
   en: {
     kicker: 'Mission after mission',
-    title: 'Your company becomes smarter and more autonomous.',
-    lead: 'Your AI Collaborators do the work. The methods, memory and skills you validate stay inside your company.',
+    title: 'Your company becomes more capable, mission after mission.',
+    lead: 'Your AI Collaborators do the work. The methods, skills and experience you validate stay inside your company.',
     owned: ['Don’t rent your intelligence.', 'Own it.'],
-    proof: ['Free trial', 'Hosted in France', 'Powered by Hermes'],
+    proof: ['7-day trial', 'No credit card', 'Hosted in France'],
     cta: 'Hand over a first mission',
-    ctaNote: 'Describe a need. Alma handles the rest.',
+    ctaNote: 'Describe your need. Alma prepares the next steps.',
   },
 }
 

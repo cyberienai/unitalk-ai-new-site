@@ -66,6 +66,7 @@ export function FloatingAlmaWidget() {
     pathname !== '/accueil-2' &&
     pathname !== '/decouvrir' &&
     pathname !== '/missions' &&
+    pathname !== '/alma' &&
     !launcherSuppressed
   // Mission detail pages keep a small, unobtrusive round avatar.
   const isMissions = pathname.startsWith('/missions/')

@@ -14,36 +14,34 @@ import { motion } from 'framer-motion'
 const COPY = {
   fr: {
     kicker: 'La différence',
-    title: 'Des Collaborateurs IA sur mesure',
-    titleAccent: 'en 1 h max.',
-    lead: 'Prêts à rejoindre votre organisation pour vous aider à gérer l’intelligence de votre entreprise. Pas des outils individuels isolés.',
-    onboarding: '30 min d’onboarding humain et IA',
-    beforeTitle: 'Des outils isolés',
-    afterTitle: 'Un Collaborateur IA',
+    title: 'Une capacité prête à l’emploi.',
+    titleAccent: 'Un savoir-faire construit pour votre entreprise.',
+    lead: 'Un agent générique peut produire un résultat. Unitalk conserve l’identité, les méthodes et l’expérience qui permettent à votre entreprise de le reproduire.',
+    beforeTitle: 'Agent prêt à l’emploi',
+    afterTitle: 'Collaborateur IA Unitalk',
     rows: [
-      ['Des comptes anonymes, sans identité propre', 'Une identité : une voix, un numéro de téléphone, un email, un calendrier'],
-      ['Aucune mémoire, aucun contexte partagé', 'Une mémoire et des connaissances, connectées à vos applications'],
-      ['Un outil figé sur une seule fonction', 'De multiples profils métier'],
-      ['Des fonctionnalités qui ne progressent pas', 'Des compétences qui s’accumulent'],
-      ['Des abonnements dispersés, un modèle par outil', 'Son propre espace de travail, avec l’accès aux meilleurs modèles d’IA et à toutes leurs modalités : texte, images, audio, vidéo et code'],
-      ['Autant d’interfaces que d’outils', 'Une interface universelle pour tout gérer'],
+      ['Méthode standard', 'Méthode propre à votre entreprise'],
+      ['Identité liée à une fonction', 'Identité persistante, plusieurs profils métier'],
+      ['Compétence identique pour tous', 'Compétence testée et versionnée'],
+      ['Contexte détenu par le service', 'Mémoire gouvernée par votre entreprise'],
+      ['Résultat produit', 'Expérience conservée et réutilisable'],
+      ['Modèle imposé ou central', 'Modèles autorisés adaptés à chaque tâche'],
     ],
   },
   en: {
     kicker: 'The difference',
-    title: 'Custom AI Collaborators',
-    titleAccent: 'in under an hour.',
-    lead: 'Ready to join your organization and help you manage your company’s intelligence. Not isolated, individual tools.',
-    onboarding: '30 min of human + AI onboarding',
-    beforeTitle: 'Isolated tools',
-    afterTitle: 'An AI Collaborator',
+    title: 'A ready-made capability.',
+    titleAccent: 'A know-how built for your company.',
+    lead: 'A generic agent can produce a result. Unitalk keeps the identity, methods and experience that let your company reproduce it.',
+    beforeTitle: 'Off-the-shelf agent',
+    afterTitle: 'Unitalk AI Collaborator',
     rows: [
-      ['Anonymous accounts, no identity of their own', 'An identity: a voice, a phone number, an email, a calendar'],
-      ['No memory, no shared context', 'A memory and knowledge, connected to your apps'],
-      ['A tool locked to a single function', 'Multiple job profiles'],
-      ['Features that never grow', 'Skills that accumulate'],
-      ['Scattered subscriptions, one model per tool', 'Its own workspace, with access to the best AI models and all their modalities: text, images, audio, video and code'],
-      ['As many interfaces as tools', 'One universal interface to manage everything'],
+      ['Standard method', 'A method specific to your company'],
+      ['Identity tied to one function', 'Persistent identity, multiple job profiles'],
+      ['The same skill for everyone', 'A tested and versioned skill'],
+      ['Context owned by the department', 'Memory governed by your company'],
+      ['A result produced', 'Experience kept and reusable'],
+      ['An imposed or central model', 'Authorized models suited to each task'],
     ],
   },
 } as const
@@ -59,14 +57,9 @@ export function SectionComparison() {
       <div className="mx-auto max-w-5xl">
         <Kicker>{t.kicker}</Kicker>
         <h2 className="mt-5 max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17] sm:text-4xl md:text-5xl">
-          {t.title} <span className="text-[#D10E63]">{t.titleAccent}</span>
+          {t.title} <span className="block text-[#D10E63]">{t.titleAccent}</span>
         </h2>
         <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.lead}</p>
-
-        <span className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#E4C6D4] bg-[#FBF3F7] py-1.5 pl-3 pr-4 text-[13px] font-semibold text-[#B00C54]">
-          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-          {t.onboarding}
-        </span>
 
         {/* The transforming lines */}
         <div className="mt-10 overflow-hidden rounded-lg border border-[#E4DDCE]">
@@ -90,11 +83,11 @@ export function SectionComparison() {
               className="relative grid grid-cols-2 border-t border-[#E4DDCE]"
             >
               {/* left — warm, inert (text kept clear of the central seam) */}
-              <div className="flex items-start justify-end bg-[#EDE7DA]/70 py-5 pl-5 pr-10 text-right sm:pl-7 sm:pr-12">
+              <div className="flex items-center justify-end bg-[#EDE7DA]/70 py-5 pl-5 pr-10 text-right sm:pl-7 sm:pr-12">
                 <p className="text-[14px] leading-snug text-[#857C6E] sm:text-[15px]">{before}</p>
               </div>
               {/* right — anthracite, owned (text kept clear of the central seam) */}
-              <div className="flex items-start bg-[#1C1A17] py-5 pl-10 pr-5 sm:pl-12 sm:pr-7">
+              <div className="flex items-center bg-[#1C1A17] py-5 pl-10 pr-5 sm:pl-12 sm:pr-7">
                 <p className="text-[14px] font-medium leading-snug text-[#F4F1EA] sm:text-[15px]">{after}</p>
               </div>
 

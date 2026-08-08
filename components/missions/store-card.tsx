@@ -71,11 +71,11 @@ export function StoreCard({
         {mission.title[lang]}
       </h3>
       <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      {/* Action row: a bare arrow at rest that unfolds into "Préciser avec Alma"
+      {/* Action row: a bare arrow at rest that unfolds into "Confier cette mission"
           on hover/focus, so the whole card's purpose stays obvious. */}
       <div className="mt-4 flex items-center justify-end gap-1.5">
-        <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold text-[#AD0C53] opacity-0 transition-all duration-200 group-hover:max-w-[200px] group-hover:opacity-100 group-focus-visible:max-w-[200px] group-focus-visible:opacity-100">
-          {lang === 'fr' ? 'Préciser avec Alma' : 'Refine with Alma'}
+        <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold text-[#AD0C53] opacity-0 transition-all duration-200 group-hover:max-w-[220px] group-hover:opacity-100 group-focus-visible:max-w-[220px] group-focus-visible:opacity-100">
+          {lang === 'fr' ? 'Confier cette mission' : 'Assign this mission'}
         </span>
         <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>

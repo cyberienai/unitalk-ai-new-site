@@ -24,7 +24,7 @@ type Decision = null | 'validate' | 'refuse' | 'modify'
 
 const T = {
   fr: {
-    title: 'Le travail s’exécute plus vite. Les décisions restent humaines.',
+    title: 'Les humains décident. Les Collaborateurs IA agissent.',
     sub: 'Collaborateurs humains et IA collaborent dans le même espace de travail.',
     surfaces: 'Sur desktop, le web, vos messageries et en terminal — accédez à tous vos collaborateurs, partout où vous travaillez.',
     cta: 'Découvrir le Workspace',
@@ -54,7 +54,7 @@ const T = {
     },
   },
   en: {
-    title: 'Work gets done faster. Decisions stay human.',
+    title: 'Humans decide. AI Collaborators act.',
     sub: 'Human and AI collaborators work together in the same workspace.',
     surfaces: 'On desktop, the web, your messaging apps and in the terminal — reach all your collaborators, wherever you work.',
     cta: 'Discover the Workspace',
