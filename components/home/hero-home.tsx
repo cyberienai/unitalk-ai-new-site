@@ -24,7 +24,7 @@ const T = {
     promise: 'Il répond à vos clients, travaille avec vos équipes et progresse à chaque mission.',
     missions: [
       'répondre à vos appels',
-      'participer à vos visioconférences',
+      'participer à vos réunions',
       'traiter vos emails',
       'qualifier vos prospects',
       'prendre vos rendez-vous',
@@ -45,7 +45,7 @@ const T = {
     promise: 'It answers your customers, works with your teams and improves with every mission.',
     missions: [
       'answer your calls',
-      'join your video calls',
+      'join your meetings',
       'handle your emails',
       'qualify your prospects',
       'book your meetings',
@@ -102,7 +102,10 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           <div className="mt-6">
             <span className="sr-only">{t.srSentence}</span>
             <span aria-hidden="true" className="flex flex-col items-center gap-1.5 sm:flex-row sm:items-baseline sm:gap-2.5">
-              <span className="relative block min-h-[1.5em] w-full overflow-hidden text-center sm:text-left">
+              {/* Reserve two lines so a long mission wraps cleanly instead of
+                  being clipped by the container; one-line items stay vertically
+                  centered. text-balance keeps wrapped lines even. */}
+              <span className="relative block min-h-[2.6em] w-full overflow-hidden text-center sm:text-left">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
                     key={index}
@@ -110,7 +113,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                     exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12, filter: 'blur(4px)' }}
                     transition={reduce ? { duration: 0 } : { duration: 0.4, ease }}
-                    className="absolute inset-x-0 top-0 block whitespace-nowrap font-sf text-[20px] font-semibold leading-tight tracking-[-0.02em] text-[#D10E63] sm:text-[23px]"
+                    className="absolute inset-0 flex items-center justify-center text-balance font-sf text-[20px] font-semibold leading-tight tracking-[-0.02em] text-[#D10E63] sm:justify-start sm:text-[23px]"
                   >
                     {t.missions[index]}
                   </motion.span>
