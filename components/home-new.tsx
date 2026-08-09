@@ -32,14 +32,14 @@ export function HomeNew() {
         {/* 2. Product definition — three plain-language truths */}
         <SectionDefinition lang={lang} />
 
-        {/* 3. Hermes reveal — where know-how becomes a real capability */}
+        {/* 3. Missions — entrust one, Alma frames it */}
+        <SectionMissions />
+
+        {/* 4. Hermes reveal — where know-how becomes a real capability */}
         <SectionHermes lang={lang} />
 
-        {/* 4. Workspace proof — the mission thread stops at the human gate */}
+        {/* 5. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />
-
-        {/* 5. Missions — entrust one, Alma frames it */}
-        <SectionMissions />
 
         {/* 6. Comparison — a tool vs a durable Collaborator */}
         <SectionComparison />
