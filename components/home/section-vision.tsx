@@ -1,32 +1,23 @@
 'use client'
 
 import { useLanguage } from '@/lib/language-context'
-import { useAlma } from '@/components/home/alma-panel-context'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
 
 const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre entreprise devient plus capable. Mission après mission.',
     owned: ['Ne louez pas votre intelligence.', 'Possédez-la.'],
-    proof: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
-    cta: 'Confier une mission',
-    ctaNote: 'Décrivez votre besoin. Alma prépare la suite.',
   },
   en: {
     kicker: 'Mission after mission',
     title: 'Your company becomes more capable. Mission after mission.',
     owned: ['Don’t rent your intelligence.', 'Own it.'],
-    proof: ['7 days for your first mission', 'No card', 'Hosted in France'],
-    cta: 'Hand over a mission',
-    ctaNote: 'Describe your need. Alma prepares the next steps.',
   },
 }
 
 export function SectionVision() {
   const { lang } = useLanguage()
-  const { openAlma } = useAlma()
   const t = COPY[lang]
 
   return (
@@ -50,27 +41,6 @@ export function SectionVision() {
           {t.owned[0]}{' '}
           <span className="text-[#E8A0BE]">{t.owned[1]}</span>
         </p>
-
-        <div className="mt-8 flex flex-col items-center gap-4">
-          <button
-            type="button"
-            onClick={() => openAlma()}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-[#D10E63] px-8 py-4 text-base font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#161412]"
-          >
-            {t.cta}
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
-          </button>
-          <p className="text-[13px] text-[#8C8477]">{t.ctaNote}</p>
-        </div>
-
-        <ul className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {t.proof.map((p) => (
-            <li key={p} className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8C8477]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#22A06B]" aria-hidden />
-              {p}
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   )

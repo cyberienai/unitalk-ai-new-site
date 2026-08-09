@@ -8,6 +8,7 @@ import { SectionDefinition } from './home/section-definition'
 import { SectionWorkspace } from './home/section-workspace'
 import { SectionComparison } from './home/section-comparison'
 import { SectionVision } from './home/section-vision'
+import { SectionEcosystem } from './home/section-ecosystem'
 import { SectionArticles } from './home/section-articles'
 import { SiteFooter } from './site-footer'
 
@@ -37,10 +38,13 @@ export function HomeNew() {
         {/* 4. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />
 
-        {/* 5. Vision + conversion */}
+        {/* 5. Vision — pure affirmation, the company grows mission after mission */}
         <SectionVision />
 
-        {/* 6. Editorial close — thought-leadership articles + light newsletter */}
+        {/* 6. Ecosystem — sovereign memory vs collective progress, then final conversion */}
+        <SectionEcosystem />
+
+        {/* 7. Editorial close — thought-leadership articles + light newsletter */}
         <SectionArticles />
 
         <SiteFooter />
