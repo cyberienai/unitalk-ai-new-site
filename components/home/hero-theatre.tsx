@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useState, type ReactNode } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Pause, Play } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
@@ -225,10 +226,9 @@ export const SCENARIOS: Scenario[] = [
 const T = {
   fr: {
     scenarioWord: 'Scénario',
-    sophieName: 'Sophie',
-    sophieRole: 'Dirigeante de Solvea',
-    almaRole: 'Unitalk',
-    almaName: 'Alma',
+    almaLine: 'Alma prépare le Collaborateur IA qui accomplira votre mission.',
+    sophieTip: 'Sophie · Dirigeante de Solvea',
+    almaTip: 'Alma · Customer success IA · Unitalk',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
     canTake: 'peut prendre cette mission',
@@ -244,10 +244,9 @@ const T = {
   },
   en: {
     scenarioWord: 'Scenario',
-    sophieName: 'Sophie',
-    sophieRole: 'Founder of Solvea',
-    almaRole: 'Unitalk',
-    almaName: 'Alma',
+    almaLine: 'Alma prepares the AI Collaborator that will carry out your mission.',
+    sophieTip: 'Sophie · Founder of Solvea',
+    almaTip: 'Alma · AI Customer success · Unitalk',
     missionLabel: 'Mission',
     validationLabel: 'Validation',
     canTake: 'can take this mission',
@@ -264,6 +263,56 @@ const T = {
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
+
+/** An avatar that reveals a small identity tooltip on hover and keyboard focus.
+ *  Alignment/placement are tunable so the label never escapes the card's
+ *  overflow-hidden bounds (e.g. the right-edge Sophie avatar opens left). */
+function AvatarTip({
+  label,
+  align = 'center',
+  place = 'top',
+  wrapperClassName = '',
+  children,
+}: {
+  label: string
+  align?: 'start' | 'center' | 'end'
+  place?: 'top' | 'bottom'
+  wrapperClassName?: string
+  children: ReactNode
+}) {
+  const [open, setOpen] = useState(false)
+  const reduce = useReducedMotion()
+  const alignClass = align === 'center' ? 'left-1/2 -translate-x-1/2' : align === 'start' ? 'left-0' : 'right-0'
+  const placeClass = place === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
+  return (
+    <span
+      className={`group/av relative inline-flex shrink-0 cursor-default rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-1 focus-visible:ring-offset-[#FFFDF9] ${wrapperClassName}`}
+      tabIndex={0}
+      role="img"
+      aria-label={label}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
+    >
+      {children}
+      <AnimatePresence>
+        {open && (
+          <motion.span
+            role="tooltip"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: place === 'top' ? 3 : -3 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: place === 'top' ? 3 : -3 }}
+            transition={{ duration: reduce ? 0 : 0.14, ease }}
+            className={`pointer-events-none absolute z-30 w-max max-w-[210px] whitespace-normal rounded-lg border border-[#E4DDCE] bg-white px-2.5 py-1.5 text-center text-[12px] font-medium leading-snug text-[#3E3830] shadow-[0_12px_30px_-10px_rgba(28,26,23,0.3)] ${placeClass} ${alignClass}`}
+          >
+            {label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </span>
+  )
+}
 
 export function HeroTheatre({
   lang = 'fr',
@@ -313,22 +362,11 @@ export function HeroTheatre({
 
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-b border-[#EFE8DB] px-4 pb-3.5 pt-4 sm:px-6">
-          <div className="flex items-center gap-2.5 sm:gap-3.5">
-            <div className="flex items-center gap-2.5">
-              <Image src="/images/sophie-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-              <div className="leading-tight">
-                <p className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.sophieName}</p>
-                <p className="text-[11.5px] tracking-[0.01em] text-[#6B6459]">{t.sophieRole}</p>
-              </div>
-            </div>
-            <span aria-hidden className="h-7 w-px bg-[#E7DFD0]" />
-            <div className="flex items-center gap-2.5">
-              <Image src="/alma-avatar.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-              <div className="leading-tight">
-                <p className="text-[13.5px] font-semibold tracking-[-0.01em] text-[#1C1A17]">{t.almaName}</p>
-                <p className="text-[11.5px] font-medium tracking-[0.01em] text-[#B00C54]">{t.almaRole}</p>
-              </div>
-            </div>
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+            <AvatarTip label={t.almaTip} align="start" place="bottom">
+              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+            </AvatarTip>
+            <p className="max-w-[34ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]">{t.almaLine}</p>
           </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
@@ -367,12 +405,16 @@ export function HeroTheatre({
             {/* Sophie speaks to Alma — outgoing chat message */}
             <motion.div {...nodeAnim(0.02)} className="flex items-end justify-end gap-2.5">
               <p className="max-w-[85%] rounded-[16px] rounded-br-[5px] border border-[#F3D9E5] bg-[#FBEAF1] px-4 py-2.5 text-right text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
-              <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+              <AvatarTip label={t.sophieTip} align="end">
+                <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+              </AvatarTip>
             </motion.div>
 
             {/* Alma replies — incoming chat message */}
             <motion.div {...nodeAnim(0.1)} className="mt-2.5 flex items-end gap-2.5">
-              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+              <AvatarTip label={t.almaTip} align="start">
+                <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+              </AvatarTip>
               <p className="max-w-[85%] rounded-[16px] rounded-bl-[5px] border border-[#EBE3D5] bg-[#F6F1E8] px-4 py-2.5 text-[14px] leading-relaxed text-[#2C2822]">{p(s.almaReply, lang)}</p>
             </motion.div>
 
@@ -409,9 +451,13 @@ export function HeroTheatre({
 
               {/* Assignment — the Collaborator Alma proposes or equips */}
               <motion.div key={`assign-${index}`} {...nodeAnim(0.22)} className="relative pb-5">
-                <span className="absolute -left-[31px] top-px flex h-[19px] w-[19px] items-center justify-center rounded-full bg-[#FFFDF9] ring-[1.5px] ring-[#B00C54]">
+                <AvatarTip
+                  label={`${s.collab.name} · ${p(s.collab.role, lang)}`}
+                  align="start"
+                  wrapperClassName="absolute -left-[31px] top-px h-[19px] w-[19px] items-center justify-center bg-[#FFFDF9] ring-[1.5px] ring-[#B00C54]"
+                >
                   <Image src={s.collab.avatar} alt="" width={17} height={17} className="h-[17px] w-[17px] rounded-full object-cover" />
-                </span>
+                </AvatarTip>
                 <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">
                   {s.collab.status === 'new' ? `${s.collab.name} · ${t.newCollab}` : `${s.collab.name} ${t.canTake}`}
                 </p>
