@@ -25,7 +25,7 @@ const T = {
     title: 'Des Collaborateurs IA qui progressent avec votre entreprise',
     cols: [
       { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise le résultat attendu, les règles et les décisions qui devront rester humaines.', chip: 'Mission définie' },
-      { n: '02', head: 'L’affectation', big: 'Alma prépare le bon Collaborateur IA.', proof: 'Elle vérifie qui peut prendre la mission et ajoute uniquement les profils métier, les compétences et les applications qui manquent.', chip: 'Collaborateur prêt' },
+      { n: '02', head: 'L’affectation', big: 'Alma prépare le bon Collaborateur IA.', proof: 'Elle vérifie qui peut prendre la mission et prépare son environnement de travail : profil métier, compétences, applications, modèle IA et instructions nécessaires à son exécution.', chip: 'Collaborateur prêt' },
       { n: '03', head: 'Le travail', big: 'Il accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
       { n: '04', head: 'Ce qui reste', big: 'Votre entreprise conserve le savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable et partageable.', chip: 'Compétence acquise' },
     ],
@@ -35,7 +35,7 @@ const T = {
     title: 'AI Collaborators that progress with your company',
     cols: [
       { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She clarifies the expected outcome, the rules and the decisions that must stay human.', chip: 'Mission defined' },
-      { n: '02', head: 'The assignment', big: 'Alma prepares the right AI Collaborator.', proof: 'She checks who can take the mission and adds only the job profiles, skills and applications that are missing.', chip: 'Collaborator ready' },
+      { n: '02', head: 'The assignment', big: 'Alma prepares the right AI Collaborator.', proof: 'She checks who can take the mission and prepares its working environment: job profile, skills, applications, AI model and the instructions it needs to carry it out.', chip: 'Collaborator ready' },
       { n: '03', head: 'The work', big: 'It carries out the mission.', proof: 'It acts within the defined scope and asks you whenever a human decision is needed.', chip: 'Mission in progress' },
       { n: '04', head: 'What stays', big: 'Your company keeps the know-how.', proof: 'A tested and validated method can become a reusable, shareable skill.', chip: 'Skill preserved' },
     ],
