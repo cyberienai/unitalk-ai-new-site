@@ -12,14 +12,19 @@ const T = {
       {
         title: 'Produit',
         links: [
-          { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
+          {
+            label: 'Collaborateurs IA',
+            href: '/collaborateurs-ia',
+            children: [
+              { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
+              { label: 'Compétences', href: '/collaborateurs-ia/competences' },
+              { label: 'Applications', href: '/collaborateurs-ia/applications' },
+            ],
+          },
           { label: 'Missions', href: '/missions' },
-          { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
-          { label: 'Compétences', href: '/collaborateurs-ia/competences' },
-          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Tarifs', href: '/tarifs' },
-          { label: 'Open source', href: '/manifeste' },
+          { label: 'AI Native Pack', href: '/tarifs' },
         ],
       },
       {
@@ -28,7 +33,17 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
           { label: 'Partenaires', href: '/partenaires' },
+          { label: 'Open source', href: '/manifeste' },
+        ],
+      },
+      {
+        title: 'Ressources',
+        links: [
+          { label: 'Blog', href: '/blog' },
+          { label: 'Changelog', href: '/changelog' },
           { label: 'Hermes', href: '/agent-hermes' },
+          { label: 'AI Gateway', href: '/ai-gateway' },
+          { label: 'AI server', href: '/ai-server' },
         ],
       },
       {
@@ -37,11 +52,6 @@ const T = {
           { label: 'À propos', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Sécurité', href: '/#confiance' },
-        ],
-      },
-      {
-        title: 'Informations',
-        links: [
           { label: 'Mentions légales', href: '/mentions-legales' },
           { label: 'Confidentialité', href: '/confidentialite' },
           { label: 'Conditions', href: '/conditions' },
@@ -57,14 +67,19 @@ const T = {
       {
         title: 'Product',
         links: [
-          { label: 'AI Collaborators', href: '/collaborateurs-ia' },
+          {
+            label: 'AI Collaborators',
+            href: '/collaborateurs-ia',
+            children: [
+              { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
+              { label: 'Skills', href: '/collaborateurs-ia/competences' },
+              { label: 'Applications', href: '/collaborateurs-ia/applications' },
+            ],
+          },
           { label: 'Missions', href: '/missions' },
-          { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
-          { label: 'Skills', href: '/collaborateurs-ia/competences' },
-          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Pricing', href: '/tarifs' },
-          { label: 'Open source', href: '/manifeste' },
+          { label: 'AI Native Pack', href: '/tarifs' },
         ],
       },
       {
@@ -73,7 +88,17 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Become an expert', href: '/experts#devenir-expert' },
           { label: 'Partners', href: '/partenaires' },
+          { label: 'Open source', href: '/manifeste' },
+        ],
+      },
+      {
+        title: 'Resources',
+        links: [
+          { label: 'Blog', href: '/blog' },
+          { label: 'Changelog', href: '/changelog' },
           { label: 'Hermes', href: '/agent-hermes' },
+          { label: 'AI Gateway', href: '/ai-gateway' },
+          { label: 'AI server', href: '/ai-server' },
         ],
       },
       {
@@ -82,11 +107,6 @@ const T = {
           { label: 'About', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Security', href: '/#confiance' },
-        ],
-      },
-      {
-        title: 'Information',
-        links: [
           { label: 'Legal notice', href: '/mentions-legales' },
           { label: 'Privacy', href: '/confidentialite' },
           { label: 'Terms', href: '/conditions' },
@@ -142,6 +162,20 @@ export function SiteFooter() {
                     >
                       {link.label}
                     </a>
+                    {'children' in link && link.children ? (
+                      <ul className="mt-2.5 space-y-2 border-l border-[rgba(243,239,230,0.14)] pl-3">
+                        {link.children.map((child) => (
+                          <li key={child.label}>
+                            <a
+                              href={child.href}
+                              className="inline-block text-[13px] text-[#8F877A] transition-all duration-200 hover:translate-x-0.5 hover:text-[#C9C0B0]"
+                            >
+                              {child.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
                   </li>
                 ))}
               </ul>

@@ -10,6 +10,7 @@ import { SectionWorkspace } from './home/section-workspace'
 import { SectionComparison } from './home/section-comparison'
 import { SectionMissions } from './home/section-missions'
 import { SectionVision } from './home/section-vision'
+import { SectionArticles } from './home/section-articles'
 import { SiteFooter } from './site-footer'
 
 /**
@@ -32,20 +33,23 @@ export function HomeNew() {
         {/* 2. Product definition — three plain-language truths */}
         <SectionDefinition lang={lang} />
 
-        {/* 3. Hermes reveal — where know-how becomes a real capability */}
-        <SectionHermes lang={lang} />
+        {/* 3. Missions — entrust one, Alma frames it */}
+        <SectionMissions />
 
-        {/* 4. Workspace proof — the mission thread stops at the human gate */}
-        <SectionWorkspace lang={lang} />
-
-        {/* 5. Comparison — a tool vs a durable Collaborator */}
+        {/* 4. Comparison — a tool vs a durable Collaborator */}
         <SectionComparison />
 
-        {/* 6. Missions — entrust one, Alma frames it */}
-        <SectionMissions />
+        {/* 5. Workspace proof — the mission thread stops at the human gate */}
+        <SectionWorkspace lang={lang} />
+
+        {/* 6. Hermes reveal — where know-how becomes a real capability */}
+        <SectionHermes lang={lang} />
 
         {/* 7. Vision + conversion */}
         <SectionVision />
+
+        {/* 8. Editorial close — thought-leadership articles + light newsletter */}
+        <SectionArticles />
 
         <SiteFooter />
       </div>

@@ -22,25 +22,25 @@ import { useAlma } from '@/components/home/alma-panel-context'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
-    srSentence: 'Votre Collaborateur IA est prêt à accomplir vos missions.',
-    lead: 'Votre Collaborateur IA est prêt à',
+    srSentence: 'Un Collaborateur IA est prêt à accomplir vos missions.',
+    lead: 'Un Collaborateur IA est prêt à',
     sub: 'Alma prépare la suite.',
     detail: 'Alma, Customer success IA, analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
     detailLabel: 'En savoir plus sur ce qu’Alma prépare',
     cta: 'Parler à Alma',
-    secondary: 'Découvrir les Collaborateurs IA',
-    proofs: ['Essai 7 jours sans CB', 'Hébergé en France', 'Les savoir-faire validés restent dans votre entreprise'],
+    secondary: 'Confier une mission',
+    proofs: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
   },
   en: {
     eyebrow: 'Someone is missing',
-    srSentence: 'Your AI Collaborator is ready to carry out your missions.',
-    lead: 'Your AI Collaborator is ready to',
+    srSentence: 'An AI Collaborator is ready to carry out your missions.',
+    lead: 'An AI Collaborator is ready to',
     sub: 'Alma prepares the next steps.',
     detail: 'Alma, AI Customer success, analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
     detailLabel: 'Learn more about what Alma prepares',
     cta: 'Talk to Alma',
-    secondary: 'Discover AI Collaborators',
-    proofs: ['7-day trial, no card', 'Hosted in France', 'Validated know-how stays in your company'],
+    secondary: 'Hand over a mission',
+    proofs: ['7 days for your first mission', 'No card', 'Hosted in France'],
   },
 } as const
 
@@ -176,7 +176,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
 
           <p className="mx-auto mt-5 flex max-w-full items-center justify-center gap-1.5 text-center text-[17px] sm:mx-0 sm:justify-start sm:text-left md:text-[18px]">
             <Link
-              href="/collaborateurs-ia"
+              href="/missions"
               className="inline-flex items-center gap-1.5 font-semibold text-[#4E483F] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:text-[#1C1A17] hover:decoration-[#D10E63]"
             >
               {t.secondary}

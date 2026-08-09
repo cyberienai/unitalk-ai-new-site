@@ -33,14 +33,14 @@ const COPY = {
     title: 'Commencez par ce qu’il faut accomplir.',
     lead: 'Chaque mission part d’un besoin concret. Choisissez-en une : Alma la cadre avec vous, puis l’adapte à votre entreprise.',
     all: 'Explorer toutes les missions',
-    precise: 'Préciser avec Alma',
+    precise: 'Confier cette mission',
   },
   en: {
     kicker: 'Missions',
     title: 'Start from what needs to get done.',
     lead: 'Every mission starts from a concrete need. Pick one: Alma frames it with you, then adapts it to your company.',
     all: 'Explore every mission',
-    precise: 'Refine with Alma',
+    precise: 'Take on this mission',
   },
 }
 
@@ -90,13 +90,9 @@ export function SectionMissions() {
                 <p className="mt-3 flex-1 text-pretty text-[15px] leading-relaxed text-[#5A5348]">
                   {BLURBS[m.slug]?.[lang] ?? pick(m.description, lang)}
                 </p>
-                {/* Hover thread: a magenta line grows toward the Alma handoff. */}
-                <span className="mt-6 flex items-center gap-3">
-                  <span className="h-px w-6 origin-left bg-[#D10E63] transition-transform duration-300 group-hover:scale-x-[2.2]" />
-                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A80B50]">
-                    {t.precise}
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-                  </span>
+                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#A80B50]">
+                  {t.precise}
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </span>
               </motion.button>
             )

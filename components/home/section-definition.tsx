@@ -27,7 +27,7 @@ const T = {
       { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise le résultat attendu, les règles et les décisions qui devront rester humaines.', chip: 'Mission définie' },
       { n: '02', head: 'L’affectation', big: 'Alma prépare le bon Collaborateur IA.', proof: 'Elle vérifie qui peut prendre la mission et ajoute uniquement les profils métier, les compétences et les applications qui manquent.', chip: 'Collaborateur prêt' },
       { n: '03', head: 'Le travail', big: 'Il accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
-      { n: '04', head: 'Ce qui reste', big: 'Votre entreprise conserve le savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable et partageable.', chip: 'Compétence conservée' },
+      { n: '04', head: 'Ce qui reste', big: 'Votre entreprise conserve le savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable et partageable.', chip: 'Compétence acquise' },
     ],
   },
   en: {
@@ -77,63 +77,89 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           {t.title}
         </h2>
 
-        {/* Horizontal thread band (desktop) — 4 nodes, drawn segment by segment */}
-        <div aria-hidden className="relative mt-10 hidden h-5 lg:block">
-          {/* base dotted guide across the full width */}
+        {/* Horizontal thread band (desktop) — 4 nodes, drawn segment by segment.
+            A leading "comet" glides along each segment as the thread inscribes
+            itself; the last segment warms from magenta to green (the handoff). */}
+        <div aria-hidden className="relative mt-12 hidden h-6 lg:block">
+          {/* base rail: dotted guide for the not-yet-drawn path */}
           <span
-            className="absolute inset-x-0 top-[9px] h-px"
-            style={{ backgroundImage: 'linear-gradient(to right,#D3CABA 0 4px,transparent 4px 9px)', backgroundSize: '9px 1px' }}
+            className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2"
+            style={{ backgroundImage: 'linear-gradient(to right,#CDC4B2 0 3px,transparent 3px 10px)', backgroundSize: '10px 1px' }}
           />
           {/* connecting segments between consecutive nodes */}
-          {[0, 1, 2].map((seg) => (
-            <motion.span
-              key={seg}
-              className="absolute top-[9px] h-[2px] origin-left rounded-full"
-              style={{
-                left: `${NODE_LEFT[seg]}%`,
-                width: `${NODE_LEFT[seg + 1] - NODE_LEFT[seg]}%`,
-                background: seg === 2 ? `linear-gradient(to right, ${MAGENTA}, ${GREEN})` : MAGENTA,
-              }}
-              initial={reduce ? false : { scaleX: 0 }}
-              animate={{ scaleX: active > seg + 1 ? 1 : 0 }}
-              transition={{ duration: reduce ? 0 : SEG_MS / 1000, ease }}
-            />
-          ))}
+          {[0, 1, 2].map((seg) => {
+            const drawn = active > seg + 1
+            const segColor = seg === 2 ? GREEN : MAGENTA
+            return (
+              <span
+                key={seg}
+                className="absolute top-1/2 -translate-y-1/2"
+                style={{
+                  // Inset 14px on each side so the line stops short of the node
+                  // icons instead of running under (and through) them.
+                  left: `calc(${NODE_LEFT[seg]}% + 14px)`,
+                  width: `calc(${NODE_LEFT[seg + 1] - NODE_LEFT[seg]}% - 28px)`,
+                }}
+              >
+                {/* the inscribed line */}
+                <motion.span
+                  className="absolute inset-x-0 top-1/2 h-[3px] origin-left -translate-y-1/2 rounded-full"
+                  style={{
+                    background: seg === 2 ? `linear-gradient(to right, ${MAGENTA}, ${GREEN})` : MAGENTA,
+                    boxShadow: `0 1px 8px -1px ${segColor}66`,
+                  }}
+                  initial={reduce ? false : { scaleX: 0 }}
+                  animate={{ scaleX: drawn ? 1 : 0 }}
+                  transition={{ duration: reduce ? 0 : SEG_MS / 1000, ease }}
+                />
+                {/* traveling comet head — rides the drawing tip */}
+                {!reduce && (
+                  <motion.span
+                    className="absolute top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                    style={{ backgroundColor: segColor, boxShadow: `0 0 10px 2px ${segColor}` }}
+                    initial={{ left: '0%', opacity: 0 }}
+                    animate={drawn ? { left: '100%', opacity: [0, 1, 1, 0] } : { left: '0%', opacity: 0 }}
+                    transition={{ duration: SEG_MS / 1000, ease, times: [0, 0.15, 0.8, 1] }}
+                  />
+                )}
+              </span>
+            )
+          })}
           {/* nodes */}
           {NODE_LEFT.map((left, i) => {
             const on = active > i
             const isLast = i === 3
             return (
-              <span key={left} className="absolute top-0 -translate-x-1/2" style={{ left: `${left}%` }}>
+              <span key={left} className="absolute top-1/2 z-10 -translate-x-1/2 -translate-y-1/2" style={{ left: `${left}%` }}>
                 {/* soft halo pulse as a node switches on */}
                 {on && !reduce && (
                   <motion.span
-                    className="absolute left-1/2 top-[9px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                    className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full"
                     style={{ backgroundColor: colorFor(i) }}
-                    initial={{ scale: 1, opacity: 0.45 }}
-                    animate={{ scale: 2.6, opacity: 0 }}
-                    transition={{ duration: 0.9, ease: 'easeOut' }}
+                    initial={{ scale: 1, opacity: 0.5 }}
+                    animate={{ scale: 3, opacity: 0 }}
+                    transition={{ duration: 1, ease: 'easeOut' }}
                   />
                 )}
                 {isLast && on ? (
-                  <span className="block translate-x-[2px]">
-                    <MissionSeal size={22} color={GREEN} />
+                  <span className="block">
+                    <MissionSeal size={24} color={GREEN} />
                   </span>
                 ) : (
                   <span
-                    className="relative flex h-4 w-4 translate-y-[2px] items-center justify-center rounded-full transition-all duration-500"
+                    className="relative flex h-[18px] w-[18px] items-center justify-center rounded-full transition-all duration-500"
                     style={{
                       backgroundColor: on ? colorFor(i) : '#F3EFE6',
-                      border: on ? `1px solid ${colorFor(i)}` : '1.5px solid #D3CABA',
+                      border: on ? `1px solid ${colorFor(i)}` : '1.5px solid #CDC4B2',
                       boxShadow: on
-                        ? `0 0 0 5px ${colorFor(i)}14, 0 2px 6px -1px ${colorFor(i)}55`
+                        ? `0 0 0 6px ${colorFor(i)}12, 0 3px 8px -1px ${colorFor(i)}55`
                         : 'inset 0 0 0 3px #F3EFE6',
                     }}
                   >
                     {/* bright concentric core — reads like a lit beacon */}
                     <span
                       className="block h-1.5 w-1.5 rounded-full transition-opacity duration-500"
-                      style={{ backgroundColor: '#FFFDF9', opacity: on ? 0.9 : 0 }}
+                      style={{ backgroundColor: '#FFFDF9', opacity: on ? 0.95 : 0 }}
                     />
                   </span>
                 )}
@@ -182,7 +208,13 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                   className="mt-5 inline-flex items-center gap-2 rounded-full py-1 pr-3 font-mono text-[10.5px] font-bold uppercase tracking-[0.12em]"
                   style={{ color: on ? accent : '#8A8073' }}
                 >
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#8A8073' }} />
+                  {c.n === '04' ? (
+                    <span aria-hidden className="text-[11px] leading-none">
+                      ✓
+                    </span>
+                  ) : (
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#8A8073' }} />
+                  )}
                   {c.chip}
                 </motion.p>
               </motion.div>

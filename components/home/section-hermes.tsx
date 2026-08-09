@@ -18,7 +18,7 @@ const T = {
   fr: {
     eyebrow: 'Propulsé par Hermes',
     title: 'Une mission accomplie. Une compétence qui reste.',
-    sub: 'Votre entreprise développe de nouvelles capacités opérationnelles à la demande et capitalise sur les compétences et les connaissances de ses Collaborateurs IA.',
+    sub: 'Les Collaborateurs IA ne travaillent pas seulement pour votre entreprise. Ils l’aident à construire ses propres capacités.',
     registreLabel: 'Compétence Hermes',
     skillId: 'SKL-FIN-014',
     skill: 'Suivre une facture impayée',
@@ -45,13 +45,13 @@ const T = {
     limit: 'Limite',
     limitV: 'Transmission au contentieux bloquée sans validation humaine.',
     share: 'Privée par défaut · Partage autorisé avec l’équipe Finance',
-    signature: 'Unitalk est la plateforme collaborative d’IA et d’automatisation native pour les agents Hermes autonomes et open source.',
+    signature: 'Propulsé par Hermes, le moteur open source de Unitalk.',
     link: 'Découvrir les Collaborateurs IA',
   },
   en: {
     eyebrow: 'Powered by Hermes',
     title: 'A mission done. A skill that stays.',
-    sub: 'Your company builds new operational capabilities on demand and capitalizes on the skills and knowledge of its AI Collaborators.',
+    sub: 'AI Collaborators don’t just work for your company. They help it build its own capabilities.',
     registreLabel: 'Hermes competence',
     skillId: 'SKL-FIN-014',
     skill: 'Chasing an unpaid invoice',
@@ -78,7 +78,7 @@ const T = {
     limit: 'Limit',
     limitV: 'Escalation to collections is blocked without human validation.',
     share: 'Private by default · Sharing allowed with the Finance team',
-    signature: 'Unitalk is the collaborative, native AI and automation platform for autonomous, open-source Hermes agents.',
+    signature: 'Powered by Hermes, Unitalk’s open-source engine.',
     link: 'Discover AI Collaborators',
   },
 } as const

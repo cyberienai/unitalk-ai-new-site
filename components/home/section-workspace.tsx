@@ -6,6 +6,7 @@ import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { MissionSeal } from '@/components/home/signs'
+import { Kicker } from '@/components/home/section-kicker'
 
 /**
  * WORKSPACE PROOF — an operational mission SHEET, not a chatbot. Three zones:
@@ -24,9 +25,10 @@ type Decision = null | 'validate' | 'refuse' | 'modify'
 
 const T = {
   fr: {
+    kicker: 'Workspace',
     title: 'Les humains décident. Les Collaborateurs IA agissent.',
     sub: 'Collaborateurs humains et IA collaborent dans le même espace de travail.',
-    surfaces: 'Sur desktop, le web, vos messageries et en terminal — accédez à tous vos collaborateurs, partout où vous travaillez.',
+    surfaces: 'Un seul espace pour suivre le travail, intervenir quand c’est nécessaire et laisser vos Collaborateurs IA agir.',
     cta: 'Découvrir le Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'En attente de validation',
@@ -54,9 +56,10 @@ const T = {
     },
   },
   en: {
+    kicker: 'Workspace',
     title: 'Humans decide. AI Collaborators act.',
     sub: 'Human and AI collaborators work together in the same workspace.',
-    surfaces: 'On desktop, the web, your messaging apps and in the terminal — reach all your collaborators, wherever you work.',
+    surfaces: 'A single space to follow the work, step in when needed and let your AI Collaborators act.',
     cta: 'Discover the Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'Awaiting validation',
@@ -120,7 +123,8 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
     <section className="bg-[#F3EFE6] py-14 sm:py-20">
       <div className="editorial-shell grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="max-w-xl">
-          <h2 className="text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
+          <Kicker>{t.kicker}</Kicker>
+          <h2 className="mt-4 text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
             {t.title}
           </h2>
           <p className="mt-4 max-w-lg text-pretty text-[17px] leading-relaxed text-[#4E483F] md:text-[19px]">{t.sub}</p>
@@ -239,7 +243,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
                     </div>
                   ) : (
                     <p className="pt-0.5 text-[15px] font-semibold text-[#1C1A17]">
-                      {t.decisionClient} — {status.label}
+                      {t.decisionClient} · {status.label}
                     </p>
                   )}
                 </div>

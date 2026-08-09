@@ -39,6 +39,10 @@ export type Mission = {
   steps: Bilingual[]
   deliverable: Bilingual
   deliveryTime: Bilingual
+  // Scope facets shown on the mission fiche (freelance-style framing): how much
+  // work is involved, and whether the mission runs once or recurs.
+  volume: Bilingual
+  cadence: Bilingual
   validation: Bilingual
   produces: Bilingual[]
   skills: Bilingual[]
@@ -62,6 +66,18 @@ export type Mission = {
 export const DELAY_TBD: Bilingual = {
   fr: 'Délai confirmé après cadrage',
   en: 'Timeline confirmed after scoping',
+}
+
+// A mission describes a result, not a headcount — the exact quantity is agreed
+// during scoping. Recurrence is the key edge over a one-shot freelance brief.
+export const VOLUME_TBD: Bilingual = {
+  fr: 'Défini lors du cadrage',
+  en: 'Defined during scoping',
+}
+
+export const CADENCE_DEFAULT: Bilingual = {
+  fr: 'Ponctuel ou récurrent',
+  en: 'One-off or recurring',
 }
 
 export const STATUS_LABELS: Record<MissionStatus, Bilingual> = {
@@ -467,6 +483,8 @@ function buildMission(seed: Seed, index: number): Mission {
     steps: deriveSteps(),
     deliverable: result,
     deliveryTime: DELAY_TBD,
+    volume: VOLUME_TBD,
+    cadence: CADENCE_DEFAULT,
     validation,
     produces: [
       { fr: 'Le livrable décrit ci-dessus, prêt à valider.', en: 'The deliverable described above, ready to approve.' },
