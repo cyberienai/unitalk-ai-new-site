@@ -14,12 +14,8 @@ const T = {
         links: [
           { label: 'Collaborateurs IA', href: '/collaborateurs-ia' },
           { label: 'Missions', href: '/missions' },
-          { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
-          { label: 'Compétences', href: '/collaborateurs-ia/competences' },
-          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Tarifs', href: '/tarifs' },
-          { label: 'Open source', href: '/manifeste' },
         ],
       },
       {
@@ -29,6 +25,14 @@ const T = {
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
           { label: 'Partenaires', href: '/partenaires' },
           { label: 'Hermes', href: '/agent-hermes' },
+          { label: 'Open source', href: '/manifeste' },
+        ],
+      },
+      {
+        title: 'Ressources',
+        links: [
+          { label: 'Blog', href: '/blog' },
+          { label: 'Changelog', href: '/changelog' },
         ],
       },
       {
@@ -37,11 +41,6 @@ const T = {
           { label: 'À propos', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Sécurité', href: '/#confiance' },
-        ],
-      },
-      {
-        title: 'Informations',
-        links: [
           { label: 'Mentions légales', href: '/mentions-legales' },
           { label: 'Confidentialité', href: '/confidentialite' },
           { label: 'Conditions', href: '/conditions' },
@@ -59,12 +58,8 @@ const T = {
         links: [
           { label: 'AI Collaborators', href: '/collaborateurs-ia' },
           { label: 'Missions', href: '/missions' },
-          { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
-          { label: 'Skills', href: '/collaborateurs-ia/competences' },
-          { label: 'Applications', href: '/collaborateurs-ia/applications' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Pricing', href: '/tarifs' },
-          { label: 'Open source', href: '/manifeste' },
         ],
       },
       {
@@ -74,6 +69,14 @@ const T = {
           { label: 'Become an expert', href: '/experts#devenir-expert' },
           { label: 'Partners', href: '/partenaires' },
           { label: 'Hermes', href: '/agent-hermes' },
+          { label: 'Open source', href: '/manifeste' },
+        ],
+      },
+      {
+        title: 'Resources',
+        links: [
+          { label: 'Blog', href: '/blog' },
+          { label: 'Changelog', href: '/changelog' },
         ],
       },
       {
@@ -82,11 +85,6 @@ const T = {
           { label: 'About', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Security', href: '/#confiance' },
-        ],
-      },
-      {
-        title: 'Information',
-        links: [
           { label: 'Legal notice', href: '/mentions-legales' },
           { label: 'Privacy', href: '/confidentialite' },
           { label: 'Terms', href: '/conditions' },

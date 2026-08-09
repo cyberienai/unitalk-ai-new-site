@@ -10,6 +10,7 @@ import { SectionWorkspace } from './home/section-workspace'
 import { SectionComparison } from './home/section-comparison'
 import { SectionMissions } from './home/section-missions'
 import { SectionVision } from './home/section-vision'
+import { SectionArticles } from './home/section-articles'
 import { SiteFooter } from './site-footer'
 
 /**
@@ -46,6 +47,9 @@ export function HomeNew() {
 
         {/* 7. Vision + conversion */}
         <SectionVision />
+
+        {/* 8. Editorial close — thought-leadership articles + light newsletter */}
+        <SectionArticles />
 
         <SiteFooter />
       </div>
