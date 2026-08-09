@@ -26,7 +26,7 @@ const T = {
   fr: {
     title: 'Les humains décident. Les Collaborateurs IA agissent.',
     sub: 'Collaborateurs humains et IA collaborent dans le même espace de travail.',
-    surfaces: 'Sur desktop, le web, vos messageries et en terminal — accédez à tous vos collaborateurs, partout où vous travaillez.',
+    surfaces: 'Un seul espace pour suivre le travail, intervenir quand c’est nécessaire et laisser vos Collaborateurs IA agir.',
     cta: 'Découvrir le Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'En attente de validation',
@@ -56,7 +56,7 @@ const T = {
   en: {
     title: 'Humans decide. AI Collaborators act.',
     sub: 'Human and AI collaborators work together in the same workspace.',
-    surfaces: 'On desktop, the web, your messaging apps and in the terminal — reach all your collaborators, wherever you work.',
+    surfaces: 'A single space to follow the work, step in when needed and let your AI Collaborators act.',
     cta: 'Discover the Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'Awaiting validation',
