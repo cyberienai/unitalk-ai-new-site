@@ -27,7 +27,7 @@ const T = {
       { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise le résultat attendu, les règles et les décisions qui devront rester humaines.', chip: 'Mission définie' },
       { n: '02', head: 'L’affectation', big: 'Alma prépare le bon Collaborateur IA.', proof: 'Elle vérifie qui peut prendre la mission et ajoute uniquement les profils métier, les compétences et les applications qui manquent.', chip: 'Collaborateur prêt' },
       { n: '03', head: 'Le travail', big: 'Il accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
-      { n: '04', head: 'Ce qui reste', big: 'Votre entreprise conserve le savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable et partageable.', chip: 'Compétence conservée' },
+      { n: '04', head: 'Ce qui reste', big: 'Votre entreprise conserve le savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable et partageable.', chip: 'Compétence acquise' },
     ],
   },
   en: {
@@ -182,7 +182,13 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                   className="mt-5 inline-flex items-center gap-2 rounded-full py-1 pr-3 font-mono text-[10.5px] font-bold uppercase tracking-[0.12em]"
                   style={{ color: on ? accent : '#8A8073' }}
                 >
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#8A8073' }} />
+                  {c.n === '04' ? (
+                    <span aria-hidden className="text-[11px] leading-none">
+                      ✓
+                    </span>
+                  ) : (
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#8A8073' }} />
+                  )}
                   {c.chip}
                 </motion.p>
               </motion.div>
