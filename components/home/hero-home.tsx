@@ -63,7 +63,7 @@ function InfoTooltip({ label, children }: { label: string; children: React.React
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
         onClick={() => setOpen((v) => !v)}
-        className="ml-1.5 inline-flex h-[18px] w-[18px] -translate-y-px items-center justify-center rounded-full border border-[#D9CFBD] bg-[#FBF7EF] text-[11px] font-bold leading-none text-[#8A7F72] outline-none transition-colors duration-200 hover:border-[#D10E63] hover:bg-[#FBF3F7] hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+        className="ml-1.5 inline-flex h-[18px] w-[18px] -translate-y-px items-center justify-center rounded-full border border-[#D9CFBD] bg-[#FBF7EF] text-[11px] font-bold leading-none text-[#6E655A] outline-none transition-colors duration-200 hover:border-[#D10E63] hover:bg-[#FBF3F7] hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
       >
         i
       </button>
@@ -163,7 +163,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                   >
                     <span className="mb-2 flex items-center justify-center gap-2 sm:justify-start">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-                      <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-[#8A7F72]">
+                      <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-[#6E655A]">
                         {current.dept[lang]}
                       </span>
                     </span>

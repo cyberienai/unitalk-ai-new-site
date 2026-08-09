@@ -281,7 +281,7 @@ export function AlmaPanel({
             {/* Suggestions (before first send) */}
             {!sent && (
               <div className="mt-5">
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8073]">{t.suggestionsLabel}</p>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E655A]">{t.suggestionsLabel}</p>
                 <div className="mt-2 flex flex-col gap-2">
                   {SUGGESTIONS.map((s) => (
                     <button
@@ -303,7 +303,7 @@ export function AlmaPanel({
           <div className="flex min-h-0 flex-col overflow-y-auto bg-[#FBF9F3] p-5 sm:p-6">
             <span
               className={`inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${
-                mission ? 'bg-[#E7F5EC] text-[#1F7A46]' : 'bg-[#F1EADF] text-[#8A8073]'
+                mission ? 'bg-[#E7F5EC] text-[#1F7A46]' : 'bg-[#F1EADF] text-[#6E655A]'
               }`}
             >
               {mission && <Check className="h-3 w-3" />}
@@ -339,7 +339,7 @@ export function AlmaPanel({
                         transition={{ duration: 0.3, delay: reduce ? 0 : 0.1 + i * 0.1 }}
                         className="rounded-xl border border-[#EAE2D5] bg-white/60 px-3.5 py-2.5"
                       >
-                        <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A8073]">{f.k}</dt>
+                        <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6E655A]">{f.k}</dt>
                         <dd className="mt-0.5 text-[13.5px] leading-relaxed text-[#2A2622]">{f.v}</dd>
                       </motion.div>
                     ))}

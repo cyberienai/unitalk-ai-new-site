@@ -114,8 +114,8 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
     : decision === 'validate'
       ? { label: t.statusValidated, color: '#1F7A46', bg: 'rgba(46,158,91,0.12)' }
       : decision === 'refuse'
-        ? { label: t.statusRefused, color: '#8A8073', bg: 'rgba(138,128,115,0.14)' }
-        : { label: t.statusModify, color: '#8A8073', bg: 'rgba(138,128,115,0.14)' }
+        ? { label: t.statusRefused, color: '#6E655A', bg: 'rgba(138,128,115,0.14)' }
+        : { label: t.statusModify, color: '#6E655A', bg: 'rgba(138,128,115,0.14)' }
 
   const outcome = decision ? t.outcomes[decision] : null
 
@@ -149,7 +149,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
           {/* Header */}
           <div className="flex items-start justify-between gap-3 border-b border-[#EEE7DA] px-5 py-4 sm:px-6">
             <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8073]">{t.missionId}</p>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E655A]">{t.missionId}</p>
               <h3 className="mt-1.5 font-sf text-[1.15rem] font-semibold tracking-[-0.015em] text-[#1C1A17]">{t.missionTitle}</h3>
               <p className="mt-1 text-[13px] text-[#6B6459]">{t.responsable}</p>
             </div>
@@ -163,7 +163,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
 
           {/* Activity + decision, on the mission thread */}
           <div className="px-5 py-5 sm:px-6">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8073]">{t.activityLabel}</p>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E655A]">{t.activityLabel}</p>
 
             <ol className="mt-3">
               {t.activity.map((a, i) => (

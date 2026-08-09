@@ -12,7 +12,7 @@ type Bi = { fr: string; en: string }
 
 const ALMA_CTA = {
   href: '/decouvrir',
-  label: { fr: 'Commencer gratuitement', en: 'Start for free' } as Bi,
+  label: { fr: 'Confier une mission', en: 'Hand over a mission' } as Bi,
 }
 
 // Collaborateurs IA dropdown — the product hub.

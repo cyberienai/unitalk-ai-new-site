@@ -14,9 +14,9 @@ import { motion } from 'framer-motion'
 const COPY = {
   fr: {
     kicker: 'La différence',
-    title: 'Une capacité prête à l’emploi.',
-    titleAccent: 'Un savoir-faire construit pour votre entreprise.',
-    lead: 'Un agent générique peut produire un résultat. Unitalk conserve l’identité, les méthodes et l’expérience qui permettent à votre entreprise de le reproduire.',
+    title: 'Une mission accomplie.',
+    titleAccent: 'Une compétence qui reste.',
+    lead: 'Un agent générique produit un résultat. Avec Unitalk, les méthodes et l’expérience que votre entreprise valide deviennent des compétences réutilisables.',
     beforeTitle: 'Agent prêt à l’emploi',
     afterTitle: 'Collaborateur IA Unitalk',
     rows: [
@@ -30,9 +30,9 @@ const COPY = {
   },
   en: {
     kicker: 'The difference',
-    title: 'A ready-made capability.',
-    titleAccent: 'A know-how built for your company.',
-    lead: 'A generic agent can produce a result. Unitalk keeps the identity, methods and experience that let your company reproduce it.',
+    title: 'A mission accomplished.',
+    titleAccent: 'A skill that stays.',
+    lead: 'A generic agent produces a result. With Unitalk, the methods and experience your company validates become reusable skills.',
     beforeTitle: 'Off-the-shelf agent',
     afterTitle: 'Unitalk AI Collaborator',
     rows: [
