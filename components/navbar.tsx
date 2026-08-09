@@ -18,8 +18,8 @@ const ALMA_CTA = {
 // Collaborateurs IA dropdown — the product hub.
 // "Découvrir" points to the central presentation; "Développer leurs capacités"
 // groups the three catalogs (profils métier, compétences, applications);
-// "Être guidé par Alma" points to Alma, the AI advisor who turns a need into a
-// ready mission and organizes the work.
+// "Être accompagné" pairs Alma (the AI advisor who turns a need into a mission)
+// with the human experts network — side by side.
 type MenuEntry = { title: Bi; desc: Bi; href: string }
 
 const COLLAB_DISCOVER: MenuEntry = {
@@ -58,14 +58,24 @@ const COLLAB_CAPABILITIES: MenuEntry[] = [
   },
 ]
 
-const COLLAB_ACCOMPANIMENT: MenuEntry = {
-  title: { fr: 'Alma', en: 'Alma' },
-  desc: {
-    fr: 'La conseillère IA qui transforme votre besoin en mission prête à accomplir.',
-    en: 'The AI advisor who turns your need into a mission ready to run.',
+const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
+  {
+    title: { fr: 'Alma', en: 'Alma' },
+    desc: {
+      fr: 'La conseillère IA qui transforme votre besoin en mission.',
+      en: 'The AI advisor who turns your need into a mission.',
+    },
+    href: '/alma',
   },
-  href: '/alma',
-}
+  {
+    title: { fr: 'Experts humains', en: 'Human experts' },
+    desc: {
+      fr: 'L’accompagnement humain, votre réseau de spécialistes.',
+      en: 'Human support, your network of specialists.',
+    },
+    href: '/experts',
+  },
+]
 
 const T = {
   fr: {
@@ -75,14 +85,13 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'Collaborateurs IA',
-    experts: 'Experts',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     collabMenu: 'Menu Collaborateurs IA',
     // Collaborateurs IA panel
     menuDiscover: 'Découvrir',
     menuCapabilities: 'Développer leurs capacités',
-    menuAccompaniment: 'Être guidé par Alma',
+    menuAccompaniment: 'Être accompagné',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -91,13 +100,12 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     collaborators: 'AI Collaborators',
-    experts: 'Experts',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'Discover',
     menuCapabilities: 'Grow their capabilities',
-    menuAccompaniment: 'Get guided by Alma',
+    menuAccompaniment: 'Get support',
   },
 }
 
@@ -190,7 +198,6 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   const isCollabActive = pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')
   const isMissionsActive = pathname === '/missions' || pathname.startsWith('/missions/')
   // Experts: the human pillar — accompaniment around the Collaborateurs IA.
-  const isExpertsActive = pathname === '/experts' || pathname.startsWith('/experts/')
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'
 
@@ -302,7 +309,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                     >
                       <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-2.5 shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
                         {/* Découvrir — the central presentation */}
-                        <p className="px-4 pb-1 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B0A796]">
+                        <p className="px-4 pb-1 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                           {t.menuDiscover}
                         </p>
                         <CollabMenuLink entry={COLLAB_DISCOVER} lang={lang} onSelect={() => setCollabOpen(false)} />
@@ -310,7 +317,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                         <div className="my-2 border-t border-[#EFE8DA]" />
 
                         {/* Développer leurs capacités — the three catalogs */}
-                        <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B0A796]">
+                        <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                           {t.menuCapabilities}
                         </p>
                         <div className="flex flex-col">
@@ -321,21 +328,20 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
 
                         <div className="my-2 border-t border-[#EFE8DA]" />
 
-                        {/* Être guidé par Alma — the AI advisor who prepares the mission */}
-                        <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B0A796]">
+                        {/* Être accompagné — Alma + the human experts, side by side */}
+                        <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                           {t.menuAccompaniment}
                         </p>
-                        <CollabMenuLink entry={COLLAB_ACCOMPANIMENT} lang={lang} onSelect={() => setCollabOpen(false)} />
+                        <div className="grid grid-cols-2 gap-1">
+                          {COLLAB_ACCOMPANIMENT.map((item) => (
+                            <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
+                          ))}
+                        </div>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
-
-              {/* Experts — the human pillar: accompaniment around the Collaborateurs IA */}
-              <NavItem href="/experts" active={isExpertsActive}>
-                {t.experts}
-              </NavItem>
 
               <NavItem href="/workspace" active={isWorkspaceActive}>
                 {t.workspace}
@@ -501,26 +507,22 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                                 {item.title[lang]}
                               </a>
                             ))}
-                            <a
-                              href={COLLAB_ACCOMPANIMENT.href}
-                              onClick={() => setIsMenuOpen(false)}
-                              className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
-                            >
-                              {COLLAB_ACCOMPANIMENT.title[lang]}
-                            </a>
+                            {COLLAB_ACCOMPANIMENT.map((item) => (
+                              <a
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                              >
+                                {item.title[lang]}
+                              </a>
+                            ))}
                           </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
 
-                  <a
-                    href="/experts"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.experts}
-                  </a>
                   <a
                     href="/workspace"
                     onClick={() => setIsMenuOpen(false)}
