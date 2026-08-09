@@ -22,7 +22,6 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un ?',
     headline: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
     promise: 'Il répond à vos clients, travaille avec vos équipes et progresse à chaque mission.',
-    tickerLead: 'Il sait déjà',
     missions: [
       'répondre à vos appels',
       'participer à vos visioconférences',
@@ -44,7 +43,6 @@ const T = {
     eyebrow: 'Missing someone?',
     headline: 'Your company can count on its own AI Collaborator.',
     promise: 'It answers your customers, works with your teams and improves with every mission.',
-    tickerLead: 'It already knows how to',
     missions: [
       'answer your calls',
       'join your video calls',
@@ -104,7 +102,6 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           <div className="mt-6">
             <span className="sr-only">{t.srSentence}</span>
             <span aria-hidden="true" className="flex flex-col items-center gap-1.5 sm:flex-row sm:items-baseline sm:gap-2.5">
-              <span className="shrink-0 whitespace-nowrap font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8A8071]">{t.tickerLead}</span>
               <span className="relative block min-h-[1.5em] w-full overflow-hidden text-center sm:text-left">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
@@ -131,14 +128,13 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
 
-            <div className="flex flex-row flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
-              {t.proofs.map((proof, i) => (
-                <span key={proof} className="flex items-center gap-3 whitespace-nowrap">
-                  {i > 0 && <span aria-hidden className="h-3 w-px bg-[#D8CFBF]" />}
-                  <span className="flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-                    {proof}
-                  </span>
+            {/* Reassurance — three flex bullets, each carries its own dot so a
+                wrap never strands a separator at the start of a line. */}
+            <div className="flex flex-row flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
+              {t.proofs.map((proof) => (
+                <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+                  {proof}
                 </span>
               ))}
             </div>

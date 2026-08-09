@@ -35,7 +35,8 @@ const IRIS_AVATAR = '/images/iris-avatar.png'
 
 const T = {
   fr: {
-    almaLine: 'Alma prépare votre Collaborateur IA.',
+    almaLine: 'Alma prépare la mission.',
+    almaLineIris: 'Alma prépare Iris pour cette nouvelle responsabilité.',
     frames: ['Besoin', 'Mission', 'Affectation', 'Action', 'Au travail'],
     // 01
     human: 'J’ai besoin que quelqu’un réponde aux appels entrants et qualifie les demandes.',
@@ -68,7 +69,8 @@ const T = {
     of: 'sur',
   },
   en: {
-    almaLine: 'Alma prepares your AI Collaborator.',
+    almaLine: 'Alma prepares the mission.',
+    almaLineIris: 'Alma prepares Iris for this new responsibility.',
     frames: ['Need', 'Mission', 'Assignment', 'Action', 'At work'],
     human: 'I need someone to answer inbound calls and qualify the requests.',
     almaReply: 'I’m preparing the mission.',
@@ -152,13 +154,24 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
       >
         {/* Hairline top edge with a magenta signature that sweeps across on hover. */}
         <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#1C1A17]/25 to-transparent" />
-        <span aria-hidden className="absolute left-0 top-0 h-px w-16 bg-[#B00C54] transition-[width] duration-500 ease-out group-hover:w-full" />
+        <span aria-hidden className="absolute left-0 top-0 h-px w-0 bg-[#B00C54] transition-[width] duration-500 ease-out group-hover:w-full" />
 
         {/* Header — Alma + frame progress + play/pause */}
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-b border-[#EFE8DB] px-4 pb-3.5 pt-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
             <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-            <p className="max-w-[30ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]">{t.almaLine}</p>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={frame >= 2 ? 'iris' : 'mission'}
+                initial={reduce ? false : { opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                transition={{ duration: 0.3, ease }}
+                className="max-w-[34ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]"
+              >
+                {frame >= 2 ? t.almaLineIris : t.almaLine}
+              </motion.p>
+            </AnimatePresence>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
@@ -203,7 +216,7 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
               {frame === 0 && (
                 <div>
                   <motion.div {...node(0.02)} className="flex items-end justify-end gap-2.5">
-                    <p className="max-w-[85%] rounded-[16px] rounded-br-[5px] border border-[#F3D9E5] bg-[#FBEAF1] px-4 py-2.5 text-right text-[14px] leading-relaxed text-[#3A2530]">{t.human}</p>
+                    <p className="max-w-[85%] rounded-[16px] rounded-br-[5px] border border-[#F3D9E5] bg-[#FBEAF1] px-4 py-2.5 text-left text-[14px] leading-relaxed text-[#3A2530]">{t.human}</p>
                     <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
                   </motion.div>
                   <motion.div {...node(0.14)} className="mt-3 flex items-end gap-2.5">
@@ -334,10 +347,25 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
         </div>
       </motion.div>
 
-      {/* Persistent signature — the thesis of the whole animation */}
-      <p className="mt-5 text-balance text-center font-sf text-[17px] font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17] sm:text-[18px]">
-        {t.signature}
-      </p>
+      {/* Signature — the thesis of the animation. Deliberately withheld until
+          the final frame so it reads as the conclusion, not a preview. Height
+          is reserved so revealing it never shifts the layout. Always shown
+          under reduced motion (the animation is frozen on frame 01). */}
+      <div className="mt-5 flex min-h-[3.2em] items-start justify-center sm:min-h-[1.7em]">
+        <AnimatePresence>
+          {(frame === 4 || reduce) && (
+            <motion.p
+              initial={reduce ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease }}
+              className="text-balance text-center font-sf text-[17px] font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17] sm:text-[18px]"
+            >
+              {t.signature}
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }
