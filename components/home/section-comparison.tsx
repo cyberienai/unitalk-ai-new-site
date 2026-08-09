@@ -16,7 +16,7 @@ const COPY = {
     kicker: 'La différence',
     title: 'Une mission accomplie.',
     titleAccent: 'Une compétence qui reste.',
-    lead: 'Un agent générique produit un résultat. Avec Unitalk, les méthodes et l’expérience que votre entreprise valide deviennent des compétences réutilisables.',
+    lead: 'Un agent IA générique produit un résultat. Avec votre Collaborateur IA Unitalk, les méthodes et l’expérience que votre entreprise valide deviennent des compétences réutilisables.',
     beforeTitle: 'Agent prêt à l’emploi',
     afterTitle: 'Collaborateur IA Unitalk',
     rows: [
