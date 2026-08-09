@@ -19,15 +19,7 @@ const COPY = {
       { label: 'Blocage', value: 'Connexion au système de facturation privé' },
       { label: 'Action attendue', value: 'Vérifier l’intégration et les droits nécessaires' },
     ] as SpecRow[],
-    receivesTitle: 'L’intervenant reçoit',
-    receives: [
-      'le besoin',
-      'les échanges utiles',
-      'le contexte confirmé',
-      'les décisions déjà prises',
-      'les applications concernées',
-      'le blocage précis',
-    ],
+    handover: 'L’expert reçoit les éléments déjà validés et intervient sans vous demander de tout réexpliquer.',
     conclusion: 'Vous ne recommencez pas votre explication.',
     link: 'Découvrir les experts Unitalk',
   },
@@ -43,15 +35,7 @@ const COPY = {
       { label: 'Blocker', value: 'Connection to the private billing system' },
       { label: 'Expected action', value: 'Check the integration and the required rights' },
     ] as SpecRow[],
-    receivesTitle: 'The person taking over receives',
-    receives: [
-      'the need',
-      'the useful exchanges',
-      'the confirmed context',
-      'the decisions already made',
-      'the applications involved',
-      'the precise blocker',
-    ],
+    handover: 'The expert receives the elements already validated and steps in without asking you to explain everything again.',
     conclusion: 'You do not start your explanation over.',
     link: 'Discover Unitalk experts',
   },
@@ -82,17 +66,7 @@ export function SectionTransmettre() {
           </motion.div>
 
           <div className="flex flex-col gap-6">
-            <div>
-              <p className="text-[13px] font-semibold text-[#B8B0A4]">{t.receivesTitle}</p>
-              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                {t.receives.map((r) => (
-                  <li key={r} className="flex items-start gap-2 text-[15px] leading-relaxed text-[#E7E1D6]">
-                    <Check aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-[#5FD3A0]" />
-                    <span>{r}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <p className="text-pretty text-[16px] leading-relaxed text-[#D8D1C5]">{t.handover}</p>
 
             <p className="flex items-start gap-2 text-[17px] font-semibold leading-relaxed text-[#F4F1EA]">
               <Check aria-hidden className="mt-1 h-4 w-4 shrink-0 text-[#5FD3A0]" />
