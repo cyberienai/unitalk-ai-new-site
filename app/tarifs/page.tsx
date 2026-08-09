@@ -4,9 +4,9 @@ import { TarifsContent } from '@/components/tarifs-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Tarif · Unitalk',
+  title: 'Tarifs · Unitalk',
   description:
-    'Un prix clair, sans surprise. Solo pour vous lancer, Team pour équiper vos collaborateurs, Business pour votre infrastructure IA privée. Gratuit pour démarrer, sans carte bancaire.',
+    'Votre Collaborateur IA dès 49 € par mois. Creator pour créer votre Collaborateur IA, Partner pour le déployer chez vos clients, Platform pour construire sur notre infrastructure. Alma incluse. 7 jours d’essai, sans carte bancaire.',
 }
 
 export default function TarifsPage() {
