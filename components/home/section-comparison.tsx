@@ -19,8 +19,9 @@ const COPY = {
     lead: 'Un agent IA générique produit un résultat. Votre Collaborateur IA conserve l’expérience que vous validez et peut la réutiliser dans ses prochaines missions.',
     beforeTitle: 'Agent IA générique',
     afterTitle: 'Collaborateur IA Unitalk',
-    conclusionTitle: 'Les méthodes que vous validez restent dans votre entreprise.',
-    conclusionSub: 'Elles peuvent être versionnées, réutilisées et transformées en compétences pour vos prochaines missions.',
+    conclusionTitle: 'Un résultat aujourd’hui.',
+    conclusionAccent: 'La capacité de le reproduire demain.',
+    conclusionSub: 'Les méthodes que vous validez restent dans votre entreprise. Elles peuvent être conservées, versionnées et transformées en compétences réutilisables pour vos prochaines missions.',
     rows: [
       ['Identité définie par un usage', 'Identité persistante, plusieurs profils métier'],
       ['Compétence générique', 'Compétences testées et versionnées'],
@@ -36,8 +37,9 @@ const COPY = {
     lead: 'A generic AI agent produces a result. Your AI Collaborator keeps the experience you validate and can reuse it in its next missions.',
     beforeTitle: 'Generic AI agent',
     afterTitle: 'Unitalk AI Collaborator',
-    conclusionTitle: 'The methods you validate stay in your company.',
-    conclusionSub: 'They can be versioned, reused and turned into skills for your next missions.',
+    conclusionTitle: 'A result today.',
+    conclusionAccent: 'The ability to reproduce it tomorrow.',
+    conclusionSub: 'The methods you validate stay in your company. They can be kept, versioned and turned into reusable skills for your next missions.',
     rows: [
       ['Identity defined by a use case', 'Persistent identity, multiple job profiles'],
       ['A generic skill', 'Tested and versioned skills'],
@@ -115,7 +117,7 @@ export function SectionComparison() {
           transition={{ duration: 0.5, ease }}
           className="mt-10 max-w-3xl text-balance text-xl font-semibold leading-[1.2] tracking-[-0.01em] text-[#1C1A17] sm:text-2xl"
         >
-          {t.conclusionTitle}
+          {t.conclusionTitle} <span className="text-[#D10E63]">{t.conclusionAccent}</span>
         </motion.p>
         <p className="mt-2 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.conclusionSub}</p>
       </div>
