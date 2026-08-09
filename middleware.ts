@@ -2,7 +2,9 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { SESSION_COOKIE } from '@/lib/mock-auth'
 
 // Routes that require a (simulated) session.
-const PROTECTED = ['/workspace', '/decouvrir']
+// /decouvrir is intentionally PUBLIC: a visitor defines the mission first and
+// only signs in at the end of the flow (mission → adapt → connect).
+const PROTECTED = ['/workspace']
 
 export function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl
@@ -20,5 +22,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/workspace/:path*', '/decouvrir/:path*'],
+  matcher: ['/workspace/:path*'],
 }
