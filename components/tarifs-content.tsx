@@ -744,7 +744,7 @@ export function TarifsContent() {
       <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6 sm:pb-24">
         <div className="grid gap-4 sm:grid-cols-2">
           <Link
-            href="/partenaires"
+            href="/partenaires/deployer"
             className="group flex flex-col gap-1 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-5 transition-colors hover:border-[#1C1A17]"
           >
             <span className="text-[13.5px] text-[#6B6560]">{t.partnerPre}</span>
@@ -754,7 +754,7 @@ export function TarifsContent() {
             </span>
           </Link>
           <Link
-            href="mailto:hello@unitalk.ai"
+            href="/platform"
             className="group flex flex-col gap-1 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-5 transition-colors hover:border-[#1C1A17]"
           >
             <span className="text-[13.5px] text-[#6B6560]">{t.platformPre}</span>
