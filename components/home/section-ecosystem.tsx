@@ -12,27 +12,31 @@ const COPY = {
     kicker: 'Écosystème Unitalk',
     title: 'Chaque entreprise enrichit ses propres capacités. Ensemble, elles font progresser l’écosystème Unitalk.',
     lead: 'Votre Collaborateur IA conserve l’identité, la mémoire et les méthodes propres à votre entreprise. Il bénéficie aussi des nouvelles compétences, intégrations et améliorations rendues disponibles dans l’écosystème Unitalk.',
-    privateTitle: 'Ce qui reste à vous',
+    privateTitle: 'Privé par défaut',
     privateItems: ['Votre mémoire', 'Vos données', 'Vos méthodes', 'Votre historique'],
-    collectiveTitle: 'Ce qui progresse pour tous',
-    collectiveItems: ['Le produit', 'Les compétences publiées', 'Les intégrations', 'Les contributions open source'],
-    closing: 'Votre entreprise peut maintenant compter sur son propre Collaborateur IA.',
+    collectiveTitle: 'Publié par choix',
+    collectiveItems: ['Les compétences par métier', 'Les connaissances publiées', 'Les applications', 'Les contributions open source'],
+    guardrail: 'Aucune donnée, mémoire ou méthode privée n’est partagée automatiquement.',
+    signature: 'Privé par défaut. Partagé par choix.',
+    closing: 'Prêt à confier une première mission ?',
     cta: 'Confier une mission',
-    ctaNote: 'Décrivez votre besoin. Alma prépare la suite.',
-    proof: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
+    ctaNote: 'Alma comprend votre besoin et prépare la mission.',
+    proof: ['7 jours pour votre première mission', 'Sans carte bancaire', 'Hébergé en France'],
   },
   en: {
     kicker: 'The Unitalk ecosystem',
     title: 'Every company grows its own capabilities. Together, they move the Unitalk ecosystem forward.',
     lead: 'Your AI Collaborator keeps the identity, memory and methods that belong to your company. It also benefits from the new skills, integrations and improvements made available across the Unitalk ecosystem.',
-    privateTitle: 'What stays yours',
+    privateTitle: 'Private by default',
     privateItems: ['Your memory', 'Your data', 'Your methods', 'Your history'],
-    collectiveTitle: 'What grows for everyone',
-    collectiveItems: ['The product', 'Published skills', 'Integrations', 'Open-source contributions'],
-    closing: 'Your company can now rely on its own AI Collaborator.',
+    collectiveTitle: 'Published by choice',
+    collectiveItems: ['Skills by job profile', 'Published knowledge', 'Applications', 'Open-source contributions'],
+    guardrail: 'No private data, memory or method is ever shared automatically.',
+    signature: 'Private by default. Shared by choice.',
+    closing: 'Ready to hand over a first mission?',
     cta: 'Hand over a mission',
-    ctaNote: 'Describe your need. Alma prepares the next steps.',
-    proof: ['7 days for your first mission', 'No card', 'Hosted in France'],
+    ctaNote: 'Alma understands your need and prepares the mission.',
+    proof: ['7 days for your first mission', 'No credit card', 'Hosted in France'],
   },
 }
 
@@ -86,6 +90,13 @@ export function SectionEcosystem() {
               </ul>
             </motion.div>
           ))}
+        </div>
+
+        {/* Guardrail + doctrine signature — makes the private/published boundary
+            explicit so the title can't be read as automatic mutualisation. */}
+        <div className="mt-6 text-center">
+          <p className="mx-auto max-w-2xl text-pretty text-[13.5px] leading-relaxed text-[#6E655A]">{t.guardrail}</p>
+          <p className="mt-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#B0284F]">{t.signature}</p>
         </div>
 
         {/* Closing affirmation + the page's final conversion moment */}
