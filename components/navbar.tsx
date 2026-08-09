@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
+import { UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -400,14 +401,7 @@ export function Navbar(
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
 
-            <a
-              href="/connexion"
-              className={`hidden rounded-md px-2 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 lg:inline-flex ${
-                overDark ? 'text-[#D7D0C4] hover:text-[#FBF9F3]' : 'text-[#857C6E] hover:text-[#1C1A17]'
-              }`}
-            >
-              {t.signIn}
-            </a>
+            <UserMenuDesktop overDark={overDark} />
 
             {/* Primary CTA — compact, priority */}
             <a
@@ -576,13 +570,7 @@ export function Navbar(
                   >
                     {t.pricing}
                   </a>
-                  <a
-                    href="/connexion"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.signIn}
-                  </a>
+                  <UserMenuMobile onNavigate={() => setIsMenuOpen(false)} />
                   <button
                     onClick={toggleLang}
                     className="flex min-h-11 w-full items-center gap-2 text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
