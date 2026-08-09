@@ -38,11 +38,11 @@ export function HomeNew() {
         {/* 4. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />
 
-        {/* 5. Comparison — a tool vs a durable Collaborator */}
-        <SectionComparison />
-
-        {/* 6. Missions — entrust one, Alma frames it */}
+        {/* 5. Missions — entrust one, Alma frames it */}
         <SectionMissions />
+
+        {/* 6. Comparison — a tool vs a durable Collaborator */}
+        <SectionComparison />
 
         {/* 7. Vision + conversion */}
         <SectionVision />
