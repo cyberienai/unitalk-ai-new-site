@@ -19,7 +19,7 @@ import { useAlma } from '@/components/home/alma-panel-context'
 
 const T = {
   fr: {
-    eyebrow: 'Collaborateurs IA',
+    eyebrow: 'Il vous manque quelqu’un ?',
     title: 'Un Collaborateur IA est prêt à accomplir vos missions.',
     exampleLabel: 'Une mission parmi d’autres',
     examples: [
@@ -38,7 +38,7 @@ const T = {
     proofs: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
   },
   en: {
-    eyebrow: 'AI Collaborators',
+    eyebrow: 'Are you missing someone?',
     title: 'An AI Collaborator is ready to carry out your missions.',
     exampleLabel: 'One mission among many',
     examples: [
