@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useT } from '@/lib/language-context'
 import { CollabSubNav } from './collab-subnav'
+import { ProofPill } from '@/components/ui/proof-pill'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -195,12 +196,8 @@ export function CollabWhyContent() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
-            className="inline-flex items-center gap-2 rounded-full border border-[#E8548C]/40 bg-[#E8548C]/10 px-4 py-1.5"
           >
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#E8548C]" aria-hidden />
-            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#F4A9C6]">
-              {t.eyebrow}
-            </span>
+            <ProofPill dark>{t.eyebrow}</ProofPill>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 16 }}

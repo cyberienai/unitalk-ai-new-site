@@ -2,6 +2,7 @@
 
 import { useLanguage } from '@/lib/language-context'
 import { CollabSubNav } from '@/components/collab-subnav'
+import { ProofPill } from '@/components/ui/proof-pill'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -11,6 +12,7 @@ const ease = [0.16, 1, 0.3, 1] as const
 
 type Copy = {
   eyebrow: string
+  trial: string
   title: { a: string; b: string; c: string }
   lead: string
   sub: string
@@ -55,6 +57,7 @@ function useCopy(): Copy {
   if (lang === 'en') {
     return {
       eyebrow: 'Comparison',
+    trial: '7-day trial · No credit card',
       title: { a: 'A chatbot answers.', b: 'An agent executes.', c: 'An AI Collaborator grows with your company.' },
       lead: 'It has an identity, a memory and responsibilities that last over time.',
       sub: 'It answers your visitors, works with your teams, acts in your applications and builds skills from the methods you validate.',
@@ -129,6 +132,7 @@ function useCopy(): Copy {
 
   return {
     eyebrow: 'Comparatif',
+    trial: '7 jours d’essai · Sans carte bancaire',
     title: { a: 'Un chatbot répond.', b: 'Un agent exécute.', c: 'Un Collaborateur IA progresse avec votre entreprise.' },
     lead: 'Il possède une identité, une mémoire et des responsabilités qui s’inscrivent dans la durée.',
     sub: 'Il répond à vos visiteurs, travaille avec vos équipes, agit dans vos applications et développe des compétences à partir des méthodes que vous validez.',
@@ -219,7 +223,9 @@ export function CollabCompareContent() {
       {/* Hero */}
       <section className="border-b border-[#E4DDCE] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-6 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-[#B00C54]">{t.eyebrow}</p>
+          <div className="mb-6 flex justify-center">
+            <ProofPill>{t.trial}</ProofPill>
+          </div>
           <h1 className="text-balance font-sf text-[clamp(2.1rem,5vw,3.4rem)] font-bold leading-[1.05] tracking-[-0.03em] text-[#1C1A17]">
             <span>{t.title.a} </span>
             <span>{t.title.b} </span>

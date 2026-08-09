@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Check, ArrowRight, Plus, Minus } from 'lucide-react'
 import { useState } from 'react'
 import { useLanguage } from '@/lib/language-context'
+import { ProofPill } from '@/components/ui/proof-pill'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -338,16 +339,17 @@ export function TarifsContent() {
       {/* Hero */}
       <section className="relative w-full overflow-hidden bg-grid pt-28 pb-12 sm:pt-32 sm:pb-16">
         <div className="mx-auto w-full max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
+          <div className="flex justify-center">
+            <ProofPill>{t.trial}</ProofPill>
+          </div>
           <h1
-            className="mt-3 text-balance font-sf text-4xl font-bold leading-[1.05] text-[#1C1A17] sm:text-5xl md:text-6xl"
+            className="mt-5 text-balance font-sf text-4xl font-bold leading-[1.05] text-[#1C1A17] sm:text-5xl md:text-6xl"
             style={{ letterSpacing: '-0.03em' }}
           >
             {t.title1}
             <span className="text-[#D10E63]">{t.title2}</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4E483F] sm:text-lg">{t.subtitle}</p>
-          <p className="mt-6 font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-[#6B6560]">{t.trial}</p>
         </div>
       </section>
 
