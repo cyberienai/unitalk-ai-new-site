@@ -20,7 +20,7 @@ const playfairDisplay = Playfair_Display({
 
 const SITE_URL = 'https://unitalk.ai'
 const SITE_NAME = 'Unitalk'
-const DEFAULT_TITLE = 'Unitalk — Des Collaborateurs IA qui progressent avec votre entreprise'
+const DEFAULT_TITLE = 'Unitalk : des Collaborateurs IA qui progressent avec votre entreprise'
 const DEFAULT_DESCRIPTION =
   'Unitalk crée des Collaborateurs IA qui rejoignent votre organisation, prennent vos missions et gagnent des compétences au fil du temps. Alma analyse votre activité et prépare le bon Collaborateur IA. Les savoir-faire validés restent dans votre entreprise. Hébergé en France, conforme au RGPD.'
 
@@ -114,6 +114,24 @@ const webSiteJsonLd = {
   inLanguage: 'fr-FR',
 }
 
+// Product-level schema so search engines can surface Unitalk as a software offering.
+const softwareApplicationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: SITE_NAME,
+  url: SITE_URL,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: DEFAULT_DESCRIPTION,
+  inLanguage: 'fr-FR',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'EUR',
+    description: '7 jours pour votre première mission, sans carte bancaire.',
+  },
+}
+
 export const viewport: Viewport = {
   colorScheme: 'light',
   themeColor: [
@@ -136,6 +154,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationJsonLd) }}
         />
         <LanguageProvider>
           <MyTeamProvider>

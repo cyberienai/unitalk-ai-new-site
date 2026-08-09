@@ -243,7 +243,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
                     </div>
                   ) : (
                     <p className="pt-0.5 text-[15px] font-semibold text-[#1C1A17]">
-                      {t.decisionClient} — {status.label}
+                      {t.decisionClient} · {status.label}
                     </p>
                   )}
                 </div>

@@ -65,7 +65,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Ventes', en: 'Sales' },
     action: { fr: 'décrocher plus de rendez-vous', en: 'book more meetings' },
     human: { fr: 'Décroche plus de rendez-vous avec ces prospects.', en: 'Book more meetings with these prospects.' },
-    almaReply: { fr: 'Chloé, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Chloé, already in your organization, can take this mission — I’m adding a skill.' },
+    almaReply: { fr: 'Chloé, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Chloé, already in your organization, can take this mission, I’m adding a skill.' },
     collab: { name: 'Chloé', role: { fr: 'Commerciale', en: 'Sales rep' }, avatar: '/images/chloe-avatar.png', status: 'existing' },
     mission: { fr: 'Décrocher des rendez-vous', en: 'Book meetings' },
     validation: { fr: 'Vous validez les messages avant envoi', en: 'You approve messages before they go out' },
@@ -80,7 +80,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Marketing', en: 'Marketing' },
     action: { fr: 'publier vos contenus', en: 'publish your content' },
     human: { fr: 'Crée et publie nos contenus chaque semaine.', en: 'Create and publish our content every week.' },
-    almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission — j’ajoute un profil métier marketing.', en: 'Léa, already in your organization, can take this mission — I’m adding a marketing job profile.' },
+    almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier marketing.', en: 'Léa, already in your organization, can take this mission, I’m adding a marketing job profile.' },
     collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'existing' },
     mission: { fr: 'Créer et publier les contenus', en: 'Create and publish content' },
     validation: { fr: 'Vous validez chaque contenu avant publication', en: 'You approve each piece before it’s published' },
@@ -94,7 +94,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Marketing', en: 'Marketing' },
     action: { fr: 'analyser vos campagnes', en: 'analyze your campaigns' },
     human: { fr: 'Analyse les résultats de nos campagnes.', en: 'Analyze the results of our campaigns.' },
-    almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Léa, already in your organization, can take this mission — I’m adding a skill.' },
+    almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Léa, already in your organization, can take this mission, I’m adding a skill.' },
     collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'existing' },
     mission: { fr: 'Analyser les campagnes', en: 'Analyze campaigns' },
     validation: { fr: 'Vous validez les recommandations avant action', en: 'You approve recommendations before action' },
@@ -109,7 +109,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'RH', en: 'HR' },
     action: { fr: 'présélectionner vos candidats', en: 'shortlist your candidates' },
     human: { fr: 'Présélectionne les candidats pour ce poste.', en: 'Shortlist the candidates for this role.' },
-    almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission — j’ajoute un profil métier RH.', en: 'Hugo, already in your organization, can take this mission — I’m adding an HR job profile.' },
+    almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier RH.', en: 'Hugo, already in your organization, can take this mission, I’m adding an HR job profile.' },
     collab: { name: 'Hugo', role: { fr: 'Chargé de recrutement', en: 'Recruiter' }, avatar: '/images/hugo-avatar.png', status: 'existing' },
     mission: { fr: 'Présélectionner les candidats', en: 'Shortlist candidates' },
     validation: { fr: 'Vous validez la présélection avant tout contact', en: 'You approve the shortlist before any contact' },
@@ -123,7 +123,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'RH', en: 'HR' },
     action: { fr: 'mener vos pré-entretiens', en: 'run your pre-interviews' },
     human: { fr: 'Mène les pré-entretiens téléphoniques des candidats retenus.', en: 'Run the phone pre-interviews with shortlisted candidates.' },
-    almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Hugo, already in your organization, can take this mission — I’m adding a skill.' },
+    almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Hugo, already in your organization, can take this mission, I’m adding a skill.' },
     collab: { name: 'Hugo', role: { fr: 'Chargé de recrutement', en: 'Recruiter' }, avatar: '/images/hugo-avatar.png', status: 'existing' },
     mission: { fr: 'Mener les pré-entretiens', en: 'Run pre-interviews' },
     validation: { fr: 'Vous validez la trame avant les appels', en: 'You approve the script before the calls' },
@@ -138,7 +138,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Support', en: 'Support' },
     action: { fr: 'prendre en charge vos demandes clients', en: 'handle your customer requests' },
     human: { fr: 'Prends en charge nos demandes clients.', en: 'Handle our customer requests.' },
-    almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission — j’ajoute un profil métier support.', en: 'Nadia, already in your organization, can take this mission — I’m adding a support job profile.' },
+    almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier support.', en: 'Nadia, already in your organization, can take this mission, I’m adding a support job profile.' },
     collab: { name: 'Nadia', role: { fr: 'Support client', en: 'Customer support' }, avatar: '/images/nadia-avatar.png', status: 'existing' },
     mission: { fr: 'Prendre en charge les demandes clients', en: 'Handle customer requests' },
     validation: { fr: 'Vous validez les réponses sensibles', en: 'You approve sensitive replies' },
@@ -152,7 +152,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Support', en: 'Support' },
     action: { fr: 'résoudre les demandes courantes', en: 'resolve common requests' },
     human: { fr: 'Résous seule les demandes les plus courantes.', en: 'Resolve the most common requests on your own.' },
-    almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Nadia, already in your organization, can take this mission — I’m adding a skill.' },
+    almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Nadia, already in your organization, can take this mission, I’m adding a skill.' },
     collab: { name: 'Nadia', role: { fr: 'Support client', en: 'Customer support' }, avatar: '/images/nadia-avatar.png', status: 'existing' },
     mission: { fr: 'Résoudre les demandes courantes', en: 'Resolve common requests' },
     validation: { fr: 'Vous validez les procédures automatisées', en: 'You approve the automated procedures' },
@@ -167,7 +167,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
     action: { fr: 'qualifier vos appels', en: 'qualify your calls' },
     human: { fr: 'Appelle et qualifie nos prospects par téléphone.', en: 'Call and qualify our prospects by phone.' },
-    almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission — j’ajoute un profil métier vocal.', en: 'Iris, already in your organization, can take this mission — I’m adding a voice job profile.' },
+    almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier vocal.', en: 'Iris, already in your organization, can take this mission, I’m adding a voice job profile.' },
     collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'existing' },
     mission: { fr: 'Qualifier les prospects par téléphone', en: 'Qualify prospects by phone' },
     validation: { fr: 'Vous validez le script avant les appels', en: 'You approve the script before the calls' },
@@ -181,7 +181,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
     action: { fr: 'répondre à vos appels', en: 'answer your calls' },
     human: { fr: 'Réponds à nos appels entrants sans temps d’attente.', en: 'Answer our inbound calls with no wait time.' },
-    almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Iris, already in your organization, can take this mission — I’m adding a skill.' },
+    almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Iris, already in your organization, can take this mission, I’m adding a skill.' },
     collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'existing' },
     mission: { fr: 'Répondre aux appels entrants', en: 'Answer inbound calls' },
     validation: { fr: 'Vous validez les transferts vers un humain', en: 'You approve transfers to a human' },
@@ -196,7 +196,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Finance', en: 'Finance' },
     action: { fr: 'relancer vos impayés', en: 'chase your unpaid invoices' },
     human: { fr: 'Relance chaque semaine nos factures impayées.', en: 'Chase our unpaid invoices every week.' },
-    almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission — j’ajoute un profil métier finance.', en: 'Emma, already in your organization, can take this mission — I’m adding a finance job profile.' },
+    almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier finance.', en: 'Emma, already in your organization, can take this mission, I’m adding a finance job profile.' },
     collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'existing' },
     mission: { fr: 'Relancer les factures impayées', en: 'Chase unpaid invoices' },
     validation: { fr: 'Vous validez avant tout passage en contentieux', en: 'You approve before any collections' },
@@ -210,7 +210,7 @@ export const SCENARIOS: Scenario[] = [
     dept: { fr: 'Finance', en: 'Finance' },
     action: { fr: 'anticiper votre trésorerie', en: 'anticipate your cash flow' },
     human: { fr: 'Anticipe nos besoins de trésorerie pour les mois à venir.', en: 'Anticipate our cash-flow needs for the coming months.' },
-    almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission — j’ajoute une compétence.', en: 'Emma, already in your organization, can take this mission — I’m adding a skill.' },
+    almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Emma, already in your organization, can take this mission, I’m adding a skill.' },
     collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'existing' },
     mission: { fr: 'Anticiper la trésorerie', en: 'Anticipate cash flow' },
     validation: { fr: 'Vous validez les hypothèses de prévision', en: 'You approve the forecast assumptions' },
@@ -337,7 +337,7 @@ export function HeroTheatre({
                 key={sc.mission.en}
                 type="button"
                 onClick={() => onSelect(i)}
-                aria-label={`${t.scenarioWord} ${i + 1} ${t.of} ${SCENARIOS.length} — ${p(sc.mission, lang)}`}
+                aria-label={`${t.scenarioWord} ${i + 1} ${t.of} ${SCENARIOS.length} : ${p(sc.mission, lang)}`}
                 aria-current={i === index}
                 className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'w-7 bg-[#B00C54]' : 'w-1.5 bg-[#DED6C8] hover:bg-[#BDB3A1]'}`}
               />
@@ -413,7 +413,7 @@ export function HeroTheatre({
                   <Image src={s.collab.avatar} alt="" width={17} height={17} className="h-[17px] w-[17px] rounded-full object-cover" />
                 </span>
                 <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">
-                  {s.collab.status === 'new' ? `${s.collab.name} — ${t.newCollab}` : `${s.collab.name} ${t.canTake}`}
+                  {s.collab.status === 'new' ? `${s.collab.name} · ${t.newCollab}` : `${s.collab.name} ${t.canTake}`}
                 </p>
                 <p className="mt-0.5 text-[13px] text-[#6B6459]">
                   {s.collab.status === 'existing' ? `${p(s.collab.role, lang)} · ${t.existing}` : p(s.collab.role, lang)}
