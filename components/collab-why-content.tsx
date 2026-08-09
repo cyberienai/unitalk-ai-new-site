@@ -23,7 +23,7 @@ function UWord({ word }: { word: string }) {
 export function CollabWhyContent() {
   const t = useT({
     fr: {
-      eyebrow: 'Pourquoi Unitalk',
+      eyebrow: '7 jours d’essai · Sans carte bancaire',
       title: 'Unitalk vend des capacités de travail autonomes.',
       subtitle:
         'Unitalk réunit vos équipes, vos Collaborateurs IA, vos applications et vos modèles dans une même interface de travail. Une infrastructure ouverte, gouvernée par votre organisation et conçue pour progresser avec elle.',
@@ -98,7 +98,7 @@ export function CollabWhyContent() {
       finalProof: ['Disponible 24h/24', 'À partir de 49 € par mois', 'Données sous votre contrôle'],
     },
     en: {
-      eyebrow: 'Why Unitalk',
+      eyebrow: '7-day trial · No credit card',
       title: 'Unitalk sells autonomous work capabilities.',
       subtitle:
         'Unitalk brings together your teams, your AI Collaborators, your applications and your models in a single work interface. An open infrastructure, governed by your organization and designed to grow with it.',
@@ -191,14 +191,17 @@ export function CollabWhyContent() {
           }}
         />
         <div className="relative mx-auto max-w-4xl">
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
-            className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#E8548C]"
+            className="inline-flex items-center gap-2 rounded-full border border-[#E8548C]/40 bg-[#E8548C]/10 px-4 py-1.5"
           >
-            {t.eyebrow}
-          </motion.p>
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#E8548C]" aria-hidden />
+            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#F4A9C6]">
+              {t.eyebrow}
+            </span>
+          </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
