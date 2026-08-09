@@ -21,7 +21,6 @@ const nextConfig = {
       // narration; former tabs redirect to the surviving surface (permanent 301).
       { source: '/collaborateurs-ia/comment-ca-fonctionne', destination: '/collaborateurs-ia#demonstration', permanent: true },
       { source: '/collaborateurs-ia/roles', destination: '/collaborateurs-ia/profils-metier', permanent: true },
-      { source: '/collaborateurs-ia/comparatif', destination: '/collaborateurs-ia', permanent: true },
 
       // The Store was merged into the Collaborateurs IA hub. Preserve every old
       // link with permanent 301s: catalog roots, then detail pages by type + slug.

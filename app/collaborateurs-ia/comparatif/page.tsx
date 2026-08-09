@@ -4,9 +4,9 @@ import { CollabCompareContent } from '@/components/collab-compare-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Comparatif · Collaborateurs IA · Unitalk',
+  title: 'Chatbot, agent IA ou Collaborateur IA : le comparatif · Unitalk',
   description:
-    "Collaborateur IA vs ChatGPT, Claude, Gemini, Microsoft Copilot, OpenAI Codex, Claude Code, Dust et Glean. Les assistants répondent, les Collaborateurs IA travaillent.",
+    'Comparez chatbots, agents IA et Collaborateurs IA Unitalk : identité, mémoire, missions, compétences, applications et contrôle humain.',
 }
 
 export default function ComparatifPage() {
