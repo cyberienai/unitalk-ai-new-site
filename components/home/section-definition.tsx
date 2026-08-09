@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { MissionSeal } from '@/components/home/signs'
 import { Kicker } from '@/components/home/section-kicker'
+import { useAlma } from '@/components/home/alma-panel-context'
 
 /**
  * THE MISSION THREAD, HORIZONTAL — the three steps as ONE editorial triptych,
@@ -24,21 +26,25 @@ const T = {
     eyebrow: 'Comment ça marche',
     title: 'Des Collaborateurs IA qui progressent avec votre entreprise',
     cols: [
-      { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise le résultat attendu, les règles et les décisions qui devront rester humaines.', chip: 'Mission définie' },
-      { n: '02', head: 'L’affectation', big: 'Alma prépare le bon Collaborateur IA.', proof: 'Elle vérifie qui peut prendre la mission et prépare son environnement de travail : profil métier, compétences, applications, modèle IA et instructions nécessaires à son exécution.', chip: 'Collaborateur prêt' },
+      { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise la mission, le résultat attendu, les règles et les décisions qui doivent rester humaines.', chip: 'Mission définie' },
+      { n: '02', head: 'L’affectation', big: 'Alma prépare votre Collaborateur IA.', proof: 'Elle ajoute, si nécessaire, le profil métier correspondant à une nouvelle responsabilité et prépare la mémoire, les compétences, les applications, les modèles autorisés et les instructions utiles à la mission.', chip: 'Collaborateur prêt' },
       { n: '03', head: 'Le travail', big: 'Il accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
-      { n: '04', head: 'Ce qui reste', big: 'Votre entreprise conserve le savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable et partageable.', chip: 'Compétence acquise' },
+      { n: '04', head: 'La capitalisation', big: 'Votre entreprise capitalise sur son savoir-faire.', proof: 'Une méthode testée et validée peut devenir une compétence réutilisable, privée ou publiée selon vos choix.', chip: 'Compétence acquise' },
     ],
+    closeLead: 'Tout commence par une conversation.',
+    closeCta: 'Parler à Alma',
   },
   en: {
     eyebrow: 'How it works',
     title: 'AI Collaborators that progress with your company',
     cols: [
-      { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She clarifies the expected outcome, the rules and the decisions that must stay human.', chip: 'Mission defined' },
-      { n: '02', head: 'The assignment', big: 'Alma prepares the right AI Collaborator.', proof: 'She checks who can take the mission and prepares its working environment: job profile, skills, applications, AI model and the instructions it needs to carry it out.', chip: 'Collaborator ready' },
+      { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She clarifies the mission, the expected outcome, the rules and the decisions that must stay human.', chip: 'Mission defined' },
+      { n: '02', head: 'The assignment', big: 'Alma prepares your AI Collaborator.', proof: 'She adds, when needed, the job profile matching a new responsibility and prepares the memory, skills, applications, authorized models and instructions useful for the mission.', chip: 'Collaborator ready' },
       { n: '03', head: 'The work', big: 'It carries out the mission.', proof: 'It acts within the defined scope and asks you whenever a human decision is needed.', chip: 'Mission in progress' },
-      { n: '04', head: 'What stays', big: 'Your company keeps the know-how.', proof: 'A tested and validated method can become a reusable, shareable skill.', chip: 'Skill preserved' },
+      { n: '04', head: 'Capitalization', big: 'Your company capitalizes on its know-how.', proof: 'A tested and validated method can become a reusable skill — private or published, as you choose.', chip: 'Skill preserved' },
     ],
+    closeLead: 'It all starts with a conversation.',
+    closeCta: 'Talk to Alma',
   },
 } as const
 
@@ -48,6 +54,7 @@ const SEG_MS = 720
 export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   const reduce = useReducedMotion()
+  const { openAlma } = useAlma()
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-120px' })
 
@@ -225,6 +232,23 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
               </motion.div>
             )
           })}
+        </div>
+
+        {/* Editorial close — a single, lower-funnel invitation that opens Alma.
+            Deliberately quieter than the hero's "Confier une première mission":
+            this speaks to a visitor who has understood and wants to begin. */}
+        <div className="mt-12 flex flex-col items-start gap-4 border-t border-[#E1D9C9] pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-balance font-sf text-[clamp(1.15rem,1.8vw,1.4rem)] font-semibold leading-tight tracking-[-0.02em] text-[#1C1A17]">
+            {t.closeLead}
+          </p>
+          <button
+            type="button"
+            onClick={() => openAlma()}
+            className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#1C1A17] px-6 text-[15px] font-bold text-[#F3EFE6] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1C1A17] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+          >
+            {t.closeCta}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </button>
         </div>
       </div>
     </section>
