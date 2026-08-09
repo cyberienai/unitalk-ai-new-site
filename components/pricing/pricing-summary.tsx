@@ -89,8 +89,13 @@ export function PricingSummary(props: SummaryProps) {
   const money = (n: number) => formatEuro(n, lang)
 
   return (
-    <div className="rounded-2xl border border-[#E5DED0] bg-white p-5 shadow-[0_1px_0_rgba(28,26,23,0.04)] sm:p-6">
-      <div className="divide-y divide-[#EFEAE0]">
+    <div className="overflow-hidden rounded-3xl border border-[#EAE3D5] bg-white shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_30px_60px_-32px_rgba(28,26,23,0.4)]">
+      <div className="border-b border-[#EEE7D9] bg-gradient-to-br from-[#FCF2F6] to-[#FBF9F3] px-5 py-3 sm:px-6">
+        <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">
+          {lang === 'fr' ? 'Votre configuration' : 'Your configuration'}
+        </p>
+      </div>
+      <div className="divide-y divide-[#EEE7D9] px-5 pt-3 sm:px-6">
         {/* Plan */}
         <div className="pb-1">
           <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">
@@ -130,7 +135,10 @@ export function PricingSummary(props: SummaryProps) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">
             {annual ? t.monthlyEstimated : t.totalEstimated}
           </p>
-          <p className="mt-1 font-serif text-[26px] leading-none tabular-nums text-[#1C1A17]" aria-live="polite">
+          <p
+            className="mt-1 font-sf text-[30px] font-bold leading-none tracking-[-0.02em] tabular-nums text-[#1C1A17]"
+            aria-live="polite"
+          >
             {t.perMonth(money(props.estimatedMonthlyTotal))}
           </p>
           {isByok && <p className="mt-1 text-[12px] text-[#857C6E]">{t.byokNote}</p>}
@@ -147,18 +155,26 @@ export function PricingSummary(props: SummaryProps) {
       </div>
 
       {/* Single primary CTA */}
-      <button
-        type="button"
-        onClick={props.onCta}
-        disabled={props.ctaDisabled}
-        aria-describedby="cta-hint"
-        className="mt-5 flex min-h-12 w-full items-center justify-center rounded-full bg-[#7A1E3A] px-6 text-[15px] font-semibold text-white outline-none transition-colors hover:bg-[#6A1832] focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40 disabled:cursor-not-allowed disabled:bg-[#D8CFC2] disabled:text-[#8B8377]"
-      >
-        {props.quantity === 1 ? t.ctaSingular : t.ctaPlural(props.quantity)}
-      </button>
-      <p id="cta-hint" className="mt-2.5 text-center text-[12px] text-[#857C6E]">
-        {props.ctaDisabled ? t.ctaDisabledHint : t.ctaHint}
-      </p>
+      <div className="px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
+        <button
+          type="button"
+          onClick={props.onCta}
+          disabled={props.ctaDisabled}
+          aria-describedby="cta-hint"
+          className="group flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-bold text-[#FBF9F3] outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-[#E4DDCE] disabled:text-[#9A9184]"
+        >
+          {props.quantity === 1 ? t.ctaSingular : t.ctaPlural(props.quantity)}
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-200 group-enabled:group-hover:translate-x-0.5"
+          >
+            →
+          </span>
+        </button>
+        <p id="cta-hint" className="mt-2.5 text-center text-[12px] text-[#857C6E]">
+          {props.ctaDisabled ? t.ctaDisabledHint : t.ctaHint}
+        </p>
+      </div>
     </div>
   )
 }

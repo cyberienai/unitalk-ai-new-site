@@ -29,9 +29,14 @@ const COPY = {
 export function MultimodalAccess({ lang }: { lang: Lang }) {
   const t = COPY[lang]
   return (
-    <section aria-labelledby="multimodal-title" className="rounded-2xl border border-[#E5DED0] bg-[#FBF9F3] p-5 sm:p-6">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#A8452F]">{t.eyebrow}</p>
-      <h3 id="multimodal-title" className="mt-2 text-pretty font-serif text-[19px] leading-snug text-[#1C1A17]">
+    <section aria-labelledby="multimodal-title" className="rounded-3xl border border-[#EAE3D5] bg-[#FBF9F3] p-5 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_22px_44px_-34px_rgba(28,26,23,0.3)] sm:p-6">
+      <span className="inline-flex items-center rounded-full border border-[#D10E63]/25 bg-[#D10E63]/[0.08] px-3 py-1 font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">
+        {t.eyebrow}
+      </span>
+      <h3
+        id="multimodal-title"
+        className="mt-3 text-pretty font-sf text-[20px] font-bold tracking-[-0.01em] leading-snug text-[#1C1A17]"
+      >
         {t.title}
       </h3>
       <p className="mt-2 max-w-prose text-[14px] leading-relaxed text-[#6B6560]">{t.body1}</p>

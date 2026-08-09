@@ -103,12 +103,12 @@ function AccordionItem({ q, a, defaultOpen = false }: { q: string; a: string; de
           aria-expanded={open}
           aria-controls={panelId}
           onClick={() => setOpen((v) => !v)}
-          className="flex min-h-12 w-full items-center justify-between gap-4 py-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40"
+          className="flex min-h-12 w-full items-center justify-between gap-4 py-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
         >
           <span className="text-[15px] font-medium text-[#1C1A17]">{q}</span>
           <span
             aria-hidden="true"
-            className={`shrink-0 text-[#A8452F] transition-transform duration-200 ${open ? 'rotate-45' : ''}`}
+            className={`shrink-0 text-[20px] leading-none text-[#D10E63] transition-transform duration-200 ${open ? 'rotate-45' : ''}`}
           >
             +
           </span>
@@ -128,7 +128,10 @@ export function PricingFaq() {
   const t = FAQ[lang]
   return (
     <section aria-labelledby="faq-heading" className="mx-auto w-full max-w-3xl px-5 py-14 sm:px-8 sm:py-20">
-      <h2 id="faq-heading" className="text-center font-serif text-[26px] text-[#1C1A17] sm:text-[30px]">
+      <h2
+        id="faq-heading"
+        className="text-center font-sf text-[28px] font-bold tracking-[-0.01em] text-[#1C1A17] sm:text-[34px]"
+      >
         {t.heading}
       </h2>
       <div className="mt-8 border-t border-[#EFEAE0]">
@@ -179,15 +182,15 @@ export function ModesComparison() {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((v) => !v)}
-        className="flex min-h-12 w-full items-center justify-between gap-4 rounded-xl border border-[#E5DED0] bg-white px-5 text-left text-[14px] font-medium text-[#1C1A17] outline-none transition-colors hover:border-[#7A1E3A]/40 focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40"
+        className="flex min-h-12 w-full items-center justify-between gap-4 rounded-2xl border border-[#EAE3D5] bg-white px-5 text-left text-[14px] font-medium text-[#1C1A17] outline-none transition-colors hover:border-[#D10E63]/40 focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
       >
         {t.toggle}
-        <span aria-hidden="true" className={`text-[#A8452F] transition-transform duration-200 ${open ? 'rotate-45' : ''}`}>
+        <span aria-hidden="true" className={`text-[20px] leading-none text-[#D10E63] transition-transform duration-200 ${open ? 'rotate-45' : ''}`}>
           +
         </span>
       </button>
       {open && (
-        <div id={panelId} className="mt-3 overflow-x-auto rounded-xl border border-[#E5DED0] bg-white">
+        <div id={panelId} className="mt-3 overflow-x-auto rounded-2xl border border-[#EAE3D5] bg-white">
           <table className="w-full border-collapse text-left text-[13px]">
             <thead>
               <tr className="border-b border-[#EFEAE0]">
