@@ -22,6 +22,7 @@ import { useAlma } from '@/components/home/alma-panel-context'
 const T = {
   fr: {
     eyebrow: 'Vision Unitalk',
+    eyebrowHover: 'Découvrir les 8 U de Unitalk',
     headline: 'Votre entreprise peut désormais avoir son propre Collaborateur IA.',
     srSentence: 'Un Collaborateur IA est prêt à accomplir vos missions.',
     lead: 'Un Collaborateur IA est prêt à',
@@ -33,6 +34,7 @@ const T = {
   },
   en: {
     eyebrow: 'Unitalk Vision',
+    eyebrowHover: 'Discover the 8 U’s of Unitalk',
     headline: 'Your company can now have its own AI Collaborator.',
     srSentence: 'An AI Collaborator is ready to carry out your missions.',
     lead: 'An AI Collaborator is ready to',
@@ -144,11 +146,24 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           <div className="mb-5 flex justify-center sm:justify-start">
             <Link
               href="/collaborateurs-ia/pourquoi-unitalk"
-              className="group inline-flex items-center gap-1.5 rounded-full transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
-              aria-label={lang === 'fr' ? 'Pourquoi Unitalk' : 'Why Unitalk'}
+              className="group inline-flex cursor-pointer items-center gap-1.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+              aria-label={lang === 'fr' ? 'Découvrir pourquoi Unitalk' : 'Discover why Unitalk'}
             >
-              <Kicker>{t.eyebrow}</Kicker>
-              <ArrowRight className="h-3.5 w-3.5 text-[#B00C54] transition-transform group-hover:translate-x-0.5" aria-hidden />
+              <Kicker>
+                {/* Both labels share one grid cell → constant pill width, no layout shift. */}
+                <span className="grid transition-colors group-hover:text-[#D10E63]">
+                  <span className="col-start-1 row-start-1 text-center transition-opacity duration-200 group-hover:opacity-0">
+                    {t.eyebrow}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="col-start-1 row-start-1 whitespace-nowrap text-center opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                  >
+                    {t.eyebrowHover}
+                  </span>
+                </span>
+              </Kicker>
+              <ArrowRight className="h-3.5 w-3.5 text-[#B00C54] transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
             </Link>
           </div>
 
