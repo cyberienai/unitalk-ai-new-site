@@ -91,7 +91,16 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
             const drawn = active > seg + 1
             const segColor = seg === 2 ? GREEN : MAGENTA
             return (
-              <span key={seg} className="absolute top-1/2 -translate-y-1/2" style={{ left: `${NODE_LEFT[seg]}%`, width: `${NODE_LEFT[seg + 1] - NODE_LEFT[seg]}%` }}>
+              <span
+                key={seg}
+                className="absolute top-1/2 -translate-y-1/2"
+                style={{
+                  // Inset 14px on each side so the line stops short of the node
+                  // icons instead of running under (and through) them.
+                  left: `calc(${NODE_LEFT[seg]}% + 14px)`,
+                  width: `calc(${NODE_LEFT[seg + 1] - NODE_LEFT[seg]}% - 28px)`,
+                }}
+              >
                 {/* the inscribed line */}
                 <motion.span
                   className="absolute inset-x-0 top-1/2 h-[3px] origin-left -translate-y-1/2 rounded-full"
@@ -121,7 +130,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
             const on = active > i
             const isLast = i === 3
             return (
-              <span key={left} className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ left: `${left}%` }}>
+              <span key={left} className="absolute top-1/2 z-10 -translate-x-1/2 -translate-y-1/2" style={{ left: `${left}%` }}>
                 {/* soft halo pulse as a node switches on */}
                 {on && !reduce && (
                   <motion.span
