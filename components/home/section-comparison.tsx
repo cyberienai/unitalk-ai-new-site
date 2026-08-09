@@ -22,10 +22,10 @@ const COPY = {
     rows: [
       ['Méthode standard', 'Méthode propre à votre entreprise'],
       ['Identité liée à une fonction', 'Identité persistante, plusieurs profils métier'],
-      ['Compétence identique pour tous', 'Compétence testée et versionnée'],
+      ['Compétence générique', 'Compétence testée et versionnée'],
       ['Contexte détenu par le service', 'Mémoire gouvernée par votre entreprise'],
       ['Résultat produit', 'Expérience conservée et réutilisable'],
-      ['Modèle imposé ou central', 'Modèles autorisés adaptés à chaque tâche'],
+      ['Un modèle pour tout', 'Le meilleur modèle autorisé pour chaque tâche'],
     ],
   },
   en: {
@@ -38,10 +38,10 @@ const COPY = {
     rows: [
       ['Standard method', 'A method specific to your company'],
       ['Identity tied to one function', 'Persistent identity, multiple job profiles'],
-      ['The same skill for everyone', 'A tested and versioned skill'],
+      ['A generic skill', 'A tested and versioned skill'],
       ['Context owned by the department', 'Memory governed by your company'],
       ['A result produced', 'Experience kept and reusable'],
-      ['An imposed or central model', 'Authorized models suited to each task'],
+      ['One model for everything', 'The best authorized model for each task'],
     ],
   },
 } as const
