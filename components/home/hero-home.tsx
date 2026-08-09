@@ -21,8 +21,8 @@ import { useAlma } from '@/components/home/alma-panel-context'
 
 const T = {
   fr: {
-    eyebrow: 'Vision Unitalk',
-    eyebrowHover: 'Découvrir les 8 U de Unitalk',
+    eyebrow: 'Les 8 U d’Unitalk',
+    eyebrowHover: 'Découvrir les 8 U d’Unitalk',
     headline: 'Votre entreprise peut désormais avoir son propre Collaborateur IA.',
     srSentence: 'Un Collaborateur IA est prêt à accomplir vos missions.',
     lead: 'Un Collaborateur IA est prêt à',
@@ -33,7 +33,7 @@ const T = {
     proofs: ['7 jours pour votre première mission', 'Sans carte bancaire', 'Hébergé en France'],
   },
   en: {
-    eyebrow: 'Unitalk Vision',
+    eyebrow: 'The 8 U’s of Unitalk',
     eyebrowHover: 'Discover the 8 U’s of Unitalk',
     headline: 'Your company can now have its own AI Collaborator.',
     srSentence: 'An AI Collaborator is ready to carry out your missions.',
