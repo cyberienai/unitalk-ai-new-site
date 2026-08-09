@@ -21,7 +21,7 @@ export function CollabWhyContent() {
   const t = useT({
     fr: {
       eyebrow: 'Pourquoi Unitalk',
-      title: 'L’IA devient une véritable capacité de votre entreprise.',
+      title: 'Unitalk vend des capacités de travail autonomes.',
       subtitle:
         'Unitalk réunit vos équipes, vos Collaborateurs IA, vos applications et vos modèles dans une même interface de travail. Une infrastructure ouverte, gouvernée par votre organisation et conçue pour progresser avec elle.',
       tagline: 'The Universal Work Interface.',
@@ -95,7 +95,7 @@ export function CollabWhyContent() {
     },
     en: {
       eyebrow: 'Why Unitalk',
-      title: 'AI becomes a real capability of your company.',
+      title: 'Unitalk sells autonomous work capabilities.',
       subtitle:
         'Unitalk brings together your teams, your AI Collaborators, your applications and your models in a single work interface. An open infrastructure, governed by your organization and designed to grow with it.',
       tagline: 'The Universal Work Interface.',
