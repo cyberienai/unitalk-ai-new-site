@@ -40,6 +40,7 @@ const T = {
       {
         title: 'Ressources',
         links: [
+          { label: 'Pourquoi Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
           { label: 'Blog', href: '/blog' },
           { label: 'Changelog', href: '/changelog' },
           { label: 'Hermes', href: '/agent-hermes' },
@@ -96,6 +97,7 @@ const T = {
       {
         title: 'Resources',
         links: [
+          { label: 'Why Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
           { label: 'Blog', href: '/blog' },
           { label: 'Changelog', href: '/changelog' },
           { label: 'Hermes', href: '/agent-hermes' },
