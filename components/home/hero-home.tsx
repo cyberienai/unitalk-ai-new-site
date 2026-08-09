@@ -21,7 +21,7 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un ?',
     headline: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
-    promise: 'Il répond à vos clients, travaille avec vos équipes et développe ses capacités à chaque mission.',
+    promise: 'Il répond à vos clients, travaille avec vos équipes et progresse à chaque mission.',
     tickerLead: 'Il sait déjà',
     missions: [
       'répondre à vos appels',
@@ -43,7 +43,7 @@ const T = {
   en: {
     eyebrow: 'Missing someone?',
     headline: 'Your company can count on its own AI Collaborator.',
-    promise: 'It answers your customers, works with your teams and develops its capabilities with every mission.',
+    promise: 'It answers your customers, works with your teams and improves with every mission.',
     tickerLead: 'It already knows how to',
     missions: [
       'answer your calls',
