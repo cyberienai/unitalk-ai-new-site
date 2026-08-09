@@ -5,7 +5,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    tagline: 'Des Collaborateurs IA qui progressent avec votre entreprise.',
+    tagline: 'Votre intelligence vous appartient.',
     dataFrance: 'Données hébergées en France',
     rights: 'Tous droits réservés.',
     columns: [

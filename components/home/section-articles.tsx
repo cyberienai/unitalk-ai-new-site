@@ -20,9 +20,9 @@ const COPY = {
     readArticle: 'Lire l’article',
     seeAll: 'Voir tous les articles',
     articles: [
-      { category: 'Doctrine', date: 'Juillet 2026', title: 'Pourquoi les agents IA doivent avoir une identité persistante.' },
+      { category: 'Doctrine', date: 'Juillet 2026', title: 'Une IA sans identité ne devient jamais un collaborateur.' },
       { category: 'Méthode', date: 'Juin 2026', title: 'Un agent produit un résultat. Un Collaborateur IA construit une capacité.' },
-      { category: 'Propriété', date: 'Mai 2026', title: 'Pourquoi la mémoire de votre IA doit appartenir à votre entreprise.' },
+      { category: 'Confiance', date: 'Mai 2026', title: 'L’autonomie commence par des limites claires.' },
     ],
     newsletterTitle: 'Les idées, les méthodes et les nouveautés Unitalk.',
     newsletterSub: 'Une fois par mois. Pas de bruit.',
@@ -36,9 +36,9 @@ const COPY = {
     readArticle: 'Read the article',
     seeAll: 'See all articles',
     articles: [
-      { category: 'Doctrine', date: 'July 2026', title: 'Why AI agents must have a persistent identity.' },
+      { category: 'Doctrine', date: 'July 2026', title: 'An AI with no identity never becomes a collaborator.' },
       { category: 'Method', date: 'June 2026', title: 'An agent produces a result. An AI Collaborator builds a capability.' },
-      { category: 'Ownership', date: 'May 2026', title: 'Why your AI’s memory should belong to your company.' },
+      { category: 'Trust', date: 'May 2026', title: 'Autonomy starts with clear boundaries.' },
     ],
     newsletterTitle: 'Unitalk ideas, methods and updates.',
     newsletterSub: 'Once a month. No noise.',

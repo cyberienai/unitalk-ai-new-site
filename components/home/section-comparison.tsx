@@ -16,9 +16,12 @@ const COPY = {
     kicker: 'La différence',
     title: 'Une mission accomplie.',
     titleAccent: 'Une compétence qui reste.',
-    lead: 'Un agent générique produit un résultat. Avec Unitalk, les méthodes et l’expérience que votre entreprise valide deviennent des compétences réutilisables.',
+    lead: 'Un agent IA générique produit un résultat. Votre Collaborateur Unitalk exerce une capacité de travail autonome, qui devient progressivement propre à votre entreprise.',
     beforeTitle: 'Agent prêt à l’emploi',
     afterTitle: 'Collaborateur IA Unitalk',
+    punchLead: 'Unitalk ne vend pas des agents IA.',
+    punchAccent: 'Unitalk vend des capacités de travail autonomes.',
+    punchSub: 'Prêtes à l’emploi. Et progressivement adaptées à votre entreprise.',
     rows: [
       ['Méthode standard', 'Méthode propre à votre entreprise'],
       ['Identité liée à une fonction', 'Identité persistante, plusieurs profils métier'],
@@ -35,6 +38,9 @@ const COPY = {
     lead: 'A generic agent produces a result. With Unitalk, the methods and experience your company validates become reusable skills.',
     beforeTitle: 'Off-the-shelf agent',
     afterTitle: 'Unitalk AI Collaborator',
+    punchLead: 'Unitalk doesn’t sell AI agents.',
+    punchAccent: 'Unitalk sells autonomous work capabilities.',
+    punchSub: 'Ready to use. And progressively tailored to your company.',
     rows: [
       ['Standard method', 'A method specific to your company'],
       ['Identity tied to one function', 'Persistent identity, multiple job profiles'],
@@ -102,6 +108,18 @@ export function SectionComparison() {
             </motion.div>
           ))}
         </div>
+
+        {/* Section chute — the one-line positioning statement */}
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease }}
+          className="mt-10 max-w-3xl text-balance text-xl font-semibold leading-[1.2] tracking-[-0.01em] text-[#1C1A17] sm:text-2xl"
+        >
+          {t.punchLead} <span className="text-[#D10E63]">{t.punchAccent}</span>
+        </motion.p>
+        <p className="mt-2 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.punchSub}</p>
       </div>
     </section>
   )

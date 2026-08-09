@@ -287,23 +287,23 @@ export function MissionsContent() {
     recallText: lang === 'fr' ? 'Vous préférez décrire votre besoin ?' : 'Prefer to describe your need?',
     recallCta: lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma',
     paneAlma: 'Alma',
-    paneCatalog: lang === 'fr' ? 'Formations' : 'Trainings',
+    paneCatalog: lang === 'fr' ? 'Missions' : 'Missions',
     almaLabel: 'ALMA',
-    catalogLabel: lang === 'fr' ? 'FORMATIONS' : 'TRAININGS',
+    catalogLabel: lang === 'fr' ? 'MISSIONS' : 'MISSIONS',
     railAlma: 'Alma',
-    railCatalog: lang === 'fr' ? 'Formations' : 'Trainings',
+    railCatalog: lang === 'fr' ? 'Missions' : 'Missions',
     showAlma: lang === 'fr' ? 'Afficher Alma' : 'Show Alma',
-    hideCatalog: lang === 'fr' ? 'Réduire les formations' : 'Collapse trainings',
-    showCatalog: lang === 'fr' ? 'Afficher les formations' : 'Show trainings',
-    catalogTitle: lang === 'fr' ? 'Choisissez une formation' : 'Choose a training',
+    hideCatalog: lang === 'fr' ? 'Réduire les missions' : 'Collapse missions',
+    showCatalog: lang === 'fr' ? 'Afficher les missions' : 'Show missions',
+    catalogTitle: lang === 'fr' ? 'Ou choisissez une mission prête à adapter' : 'Or choose a mission ready to adapt',
     catalogSubtitle:
       lang === 'fr'
-        ? 'Parcourez les formations prêtes à confier, ou affinez avec les filtres.'
-        : 'Browse ready-to-hand-off trainings, or refine with the filters.',
-    all: lang === 'fr' ? 'Toutes les formations' : 'All trainings',
+        ? 'Alma l’adaptera à votre entreprise. Affinez avec les filtres si besoin.'
+        : 'Alma will adapt it to your company. Refine with the filters if needed.',
+    all: lang === 'fr' ? 'Toutes les missions' : 'All missions',
     results: lang === 'fr' ? 'Résultats' : 'Results',
-    count: (n: number) => (lang === 'fr' ? `${n} formation${n > 1 ? 's' : ''}` : `${n} training${n > 1 ? 's' : ''}`),
-    allBrowsed: lang === 'fr' ? 'Vous avez parcouru toutes les formations.' : 'You’ve browsed all trainings.',
+    count: (n: number) => (lang === 'fr' ? `${n} mission${n > 1 ? 's' : ''}` : `${n} mission${n > 1 ? 's' : ''}`),
+    allBrowsed: lang === 'fr' ? 'Vous avez parcouru toutes les missions.' : 'You’ve browsed all missions.',
     proposeQuestion:
       lang === 'fr'
         ? 'Vous avez conçu une mission utile à d’autres entreprises ?'
@@ -365,7 +365,7 @@ export function MissionsContent() {
       <div className="px-4 pt-24 sm:px-6 sm:pt-28 lg:hidden">
         <div
           role="tablist"
-          aria-label={lang === 'fr' ? 'Basculer entre Alma et les formations' : 'Switch between Alma and trainings'}
+          aria-label={lang === 'fr' ? 'Basculer entre Alma et les missions' : 'Switch between Alma and missions'}
           className="flex gap-1 rounded-full border border-[var(--store-line)] bg-[var(--store-surface)] p-1"
         >
           <button
@@ -428,7 +428,7 @@ export function MissionsContent() {
           )}
         </section>
 
-        {/* --------------------- RIGHT — Formations catalog --------------------- */}
+        {/* --------------------- RIGHT — Missions catalog --------------------- */}
         <section
           aria-label={t.paneCatalog}
           className={`${mobilePane === 'catalog' ? 'block' : 'hidden'} lg:block lg:h-full lg:overflow-y-auto ${
