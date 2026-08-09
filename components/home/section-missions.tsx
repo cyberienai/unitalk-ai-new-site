@@ -33,14 +33,14 @@ const COPY = {
     title: 'Commencez par ce qu’il faut accomplir.',
     lead: 'Chaque mission part d’un besoin concret. Choisissez-en une : Alma la cadre avec vous, puis l’adapte à votre entreprise.',
     all: 'Explorer toutes les missions',
-    precise: 'Préciser avec Alma',
+    precise: 'Confier cette mission',
   },
   en: {
     kicker: 'Missions',
     title: 'Start from what needs to get done.',
     lead: 'Every mission starts from a concrete need. Pick one: Alma frames it with you, then adapts it to your company.',
     all: 'Explore every mission',
-    precise: 'Refine with Alma',
+    precise: 'Take on this mission',
   },
 }
 
