@@ -22,8 +22,8 @@ import { useAlma } from '@/components/home/alma-panel-context'
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
-    srSentence: 'Votre Collaborateur IA est prêt à accomplir vos missions.',
-    lead: 'Votre Collaborateur IA est prêt à',
+    srSentence: 'Un Collaborateur IA est prêt à accomplir vos missions.',
+    lead: 'Un Collaborateur IA est prêt à',
     sub: 'Alma prépare la suite.',
     detail: 'Alma, Customer success IA, analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
     detailLabel: 'En savoir plus sur ce qu’Alma prépare',
@@ -33,8 +33,8 @@ const T = {
   },
   en: {
     eyebrow: 'Someone is missing',
-    srSentence: 'Your AI Collaborator is ready to carry out your missions.',
-    lead: 'Your AI Collaborator is ready to',
+    srSentence: 'An AI Collaborator is ready to carry out your missions.',
+    lead: 'An AI Collaborator is ready to',
     sub: 'Alma prepares the next steps.',
     detail: 'Alma, AI Customer success, analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
     detailLabel: 'Learn more about what Alma prepares',
