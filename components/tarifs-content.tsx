@@ -13,6 +13,7 @@ type Offer = {
   name: string
   price: string
   period?: string
+  subline?: string
   pitch: string
   features: string[]
   cta: string
@@ -37,9 +38,11 @@ const T = {
         name: 'Creator',
         price: '49 €',
         period: '/ mois',
+        subline: '1 Collaborateur IA · Profils métier illimités',
         pitch: 'Pour créer le Collaborateur IA de votre entreprise.',
         features: [
           'identité et mémoire persistantes',
+          'profils métier à ajouter sans limite',
           'présence publique texte et voix',
           'workspace privé',
           'missions et compétences',
@@ -85,6 +88,10 @@ const T = {
         href: 'mailto:hello@unitalk.ai',
       },
     ] as Offer[],
+    identityEyebrow: 'Une identité, tous ses métiers',
+    identityTitle: 'Une identité. Tous les profils nécessaires à son travail.',
+    identityBody:
+      'Votre Collaborateur IA reste une seule identité. Vous lui ajoutez autant de profils métier que ses missions l’exigent, sans surcoût par profil. Seuls les usages variables — modèles, voix, téléphonie — consomment des crédits.',
     almaEyebrow: 'Alma est incluse',
     almaTitle: 'Vous n’avez pas à maîtriser toute l’IA pour la mettre au travail.',
     almaBody1:
@@ -143,9 +150,11 @@ const T = {
         name: 'Creator',
         price: '€49',
         period: '/ month',
+        subline: '1 AI Collaborator · Unlimited job profiles',
         pitch: 'To create your company’s AI Collaborator.',
         features: [
           'persistent identity and memory',
+          'add job profiles with no limit',
           'public text and voice presence',
           'private workspace',
           'missions and skills',
@@ -191,6 +200,10 @@ const T = {
         href: 'mailto:hello@unitalk.ai',
       },
     ] as Offer[],
+    identityEyebrow: 'One identity, all its roles',
+    identityTitle: 'One identity. Every profile its work requires.',
+    identityBody:
+      'Your AI Collaborator stays a single identity. You add as many job profiles as its missions require, with no per-profile fee. Only variable usage — models, voice, telephony — consumes credits.',
     almaEyebrow: 'Alma is included',
     almaTitle: 'You don’t need to master all of AI to put it to work.',
     almaBody1:
@@ -262,6 +275,9 @@ function OfferCard({ offer, perMonth, popular, index }: { offer: Offer; perMonth
         <span className="font-sf text-4xl font-bold tracking-[-0.04em] text-[#1C1A17] sm:text-[2.75rem]">{offer.price}</span>
         {offer.period && <span className="mb-1.5 text-sm font-medium text-[#6B6560]">{perMonth}</span>}
       </div>
+      {offer.subline && (
+        <p className="mt-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#B00C54]">{offer.subline}</p>
+      )}
       <p className="mt-3 min-h-[2.75rem] text-[14px] leading-relaxed text-[#4E483F]">{offer.pitch}</p>
 
       <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-[#E4DCCF] pt-6">
@@ -345,6 +361,23 @@ export function TarifsContent() {
             <OfferCard key={offer.id} offer={offer} perMonth={t.perMonth} popular={t.popular} index={i} />
           ))}
         </div>
+      </section>
+
+      {/* Une identité, tous ses métiers */}
+      <section className="mx-auto w-full max-w-3xl px-4 pt-12 sm:px-6 sm:pt-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease }}
+          className="rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-7 text-center sm:p-9"
+        >
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">{t.identityEyebrow}</p>
+          <h2 className="mx-auto mt-3 max-w-xl text-balance font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-2xl">
+            {t.identityTitle}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.identityBody}</p>
+        </motion.div>
       </section>
 
       {/* Alma incluse */}
