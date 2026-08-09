@@ -35,14 +35,14 @@ export function HomeNew() {
         {/* 3. Missions — entrust one, Alma frames it */}
         <SectionMissions />
 
-        {/* 4. Hermes reveal — where know-how becomes a real capability */}
-        <SectionHermes lang={lang} />
-
-        {/* 5. Comparison — a tool vs a durable Collaborator */}
+        {/* 4. Comparison — a tool vs a durable Collaborator */}
         <SectionComparison />
 
-        {/* 6. Workspace proof — the mission thread stops at the human gate */}
+        {/* 5. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />
+
+        {/* 6. Hermes reveal — where know-how becomes a real capability */}
+        <SectionHermes lang={lang} />
 
         {/* 7. Vision + conversion */}
         <SectionVision />
