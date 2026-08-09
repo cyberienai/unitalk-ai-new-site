@@ -6,7 +6,7 @@ import { SiteFooter } from '@/components/site-footer'
 export const metadata: Metadata = {
   title: 'Tarifs · Unitalk',
   description:
-    'Votre Collaborateur IA dès 49 € par mois. Creator pour créer votre Collaborateur IA, Partner pour le déployer chez vos clients, Platform pour construire sur notre infrastructure. Alma incluse. 7 jours d’essai, sans carte bancaire.',
+    'Des Collaborateurs IA à la mesure de votre entreprise, à partir de 49 € par mois avec tarif dégressif. Profils métier illimités. Réglez les usages IA en crédits prépayés ou avec vos propres clés API. 7 jours d’essai, sans carte bancaire.',
 }
 
 export default function TarifsPage() {

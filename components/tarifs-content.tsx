@@ -2,301 +2,464 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Check, ArrowRight, Plus, Minus } from 'lucide-react'
+import { Check, ArrowRight, Plus, Minus, KeyRound, Coins } from 'lucide-react'
 import { useState } from 'react'
 import { useLanguage } from '@/lib/language-context'
 import { ProofPill } from '@/components/ui/proof-pill'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-type Offer = {
-  id: string
-  name: string
-  price: string
-  period?: string
-  subline?: string
-  pitch: string
-  features: string[]
-  cta: string
-  href: string
-  featured?: boolean
+// Indicative degressive tiers — placeholder values to confirm before launch.
+type Tier = { min: number; max: number; price: number }
+const TIERS: Tier[] = [
+  { min: 1, max: 1, price: 49 },
+  { min: 2, max: 4, price: 45 },
+  { min: 5, max: 9, price: 39 },
+  { min: 10, max: Infinity, price: 35 },
+]
+
+function tierFor(qty: number): Tier {
+  return TIERS.find((tr) => qty >= tr.min && qty <= tr.max) ?? TIERS[TIERS.length - 1]
+}
+function nextTier(qty: number): Tier | null {
+  const current = tierFor(qty)
+  const idx = TIERS.indexOf(current)
+  return idx < TIERS.length - 1 ? TIERS[idx + 1] : null
+}
+function money(n: number, lang: 'fr' | 'en') {
+  return lang === 'fr' ? `${n} €` : `€${n}`
 }
 
 const T = {
   fr: {
-    eyebrow: 'Tarifs',
-    title1: 'Votre Collaborateur IA dès ',
-    title2: '49 € par mois.',
+    trial: '7 jours d’essai · Sans carte bancaire · Sans engagement',
+    title1: 'Des Collaborateurs IA ',
+    title2: 'à la mesure de votre entreprise.',
     subtitle:
-      'Il répond à vos visiteurs, travaille avec vos équipes et accomplit des missions dans vos applications. Alma vous accompagne pour le créer et développer ses capacités.',
-    trial: '7 jours d’essai · Sans carte bancaire',
-    offersTitle: 'Choisissez votre offre',
-    perMonth: '/ mois',
-    popular: 'Le plus choisi',
-    offers: [
-      {
-        id: 'creator',
-        name: 'Creator',
-        price: '49 €',
-        period: '/ mois',
-        subline: '1 Collaborateur IA · Profils métier illimités',
-        pitch: 'Pour créer le Collaborateur IA de votre entreprise.',
-        features: [
-          'identité et mémoire persistantes',
-          'profils métier à ajouter sans limite',
-          'présence publique texte et voix',
-          'workspace privé',
-          'missions et compétences',
-          'accès contrôlés aux applications',
-          'accompagnement continu par Alma',
-        ],
-        cta: 'Créer mon Collaborateur IA',
-        href: '/decouvrir',
-        featured: true,
-      },
-      {
-        id: 'partner',
-        name: 'Partner',
-        price: '499 €',
-        period: '/ mois',
-        pitch: 'Pour déployer des Collaborateurs IA auprès de vos clients.',
-        features: [
-          'tout Creator',
-          'gestion multi-clients',
-          'environnements de test',
-          'outils de création',
-          'store et partage des revenus',
-          'API, Academy et certification',
-          'co-branding et support prioritaire',
-        ],
-        cta: 'Devenir partenaire',
-        href: '/partenaires',
-      },
-      {
-        id: 'platform',
-        name: 'Platform',
-        price: 'Sur mesure',
-        pitch: 'Pour construire votre propre produit avec l’infrastructure Unitalk.',
-        features: [
-          'API complète',
-          'expérience et marque propres',
-          'infrastructure dédiée',
-          'modèles, mémoire et exécution',
-          'intégrations sur mesure',
-          'gouvernance et engagements de service',
-        ],
-        cta: 'Parler à notre équipe',
-        href: 'mailto:hello@unitalk.ai',
-      },
-    ] as Offer[],
-    identityEyebrow: 'Une identité, tous ses métiers',
-    identityTitle: 'Une identité. Tous les profils nécessaires à son travail.',
-    identityBody:
-      'Votre Collaborateur IA reste une seule identité. Vous lui ajoutez autant de profils métier que ses missions l’exigent, sans surcoût par profil. Seuls les usages variables — modèles, voix, téléphonie — consomment des crédits.',
-    almaEyebrow: 'Alma est incluse',
-    almaTitle: 'Vous n’avez pas à maîtriser toute l’IA pour la mettre au travail.',
-    almaBody1:
-      'Alma prépare avec vous le contexte, le rôle et la première mission de votre Collaborateur IA.',
-    almaBody2:
-      'Elle recommande ensuite les compétences et les applications dont il a besoin. Lorsqu’une intervention humaine devient nécessaire, elle transmet le contexte à un expert Unitalk.',
-    almaQuote: 'Alma vous guide. Votre Collaborateur IA travaille pour votre entreprise.',
-    creditsEyebrow: 'Forfait & crédits',
-    creditsTitle: 'Un forfait pour son environnement. Des crédits pour ses usages.',
-    creditsBody1:
-      'L’abonnement couvre son identité, sa mémoire, sa présence publique, son workspace et l’accompagnement d’Alma.',
-    creditsBody2:
-      'Les modèles IA, la voix, la téléphonie et les ressources variables utilisent les crédits partagés de votre organisation. Vous pouvez également connecter vos propres clés API.',
-    creditsQuote: 'Aucun abonnement à un modèle par utilisateur.',
+      'Commencez avec une identité. Ajoutez-en lorsque de nouvelles responsabilités exigent une mémoire, des accès et un historique distincts.',
+    from: 'À partir de 49 € par mois.',
+
+    configEyebrow: 'Configurateur',
+    configTitle: 'Composez votre équipe.',
+    qtyLabel: 'Nombre de Collaborateurs IA',
+    tierChipsLabel: 'Paliers',
+    includedIntro: 'Chaque Collaborateur IA inclut :',
+    included: [
+      'une identité propre',
+      'une mémoire persistante',
+      'des profils métier illimités',
+      'un workspace privé',
+      'des missions, compétences et applications',
+      'une présence texte et voix',
+      'des accès contrôlés',
+      'l’accompagnement d’Alma',
+    ],
+    totalLabel: 'Total mensuel',
+    perCollabLabel: 'Par Collaborateur IA',
+    perCollabSuffix: 'chacun / mois',
+    savingsLabel: 'Vous économisez',
+    savingsSuffix: '/ mois',
+    nextTierLabel: 'Prochain palier',
+    nextTierMid: 'Collaborateurs',
+    nextTierSuffix: 'chacun',
+    tiersNote: 'Paliers dégressifs indicatifs — à confirmer.',
+    configCta: 'Créer mon Collaborateur IA',
+
+    identityEyebrow: 'Ce qui est réellement facturé',
+    identityTitle: 'Une identité peut exercer plusieurs métiers.',
+    identityBody1:
+      'Votre Collaborateur IA peut intervenir comme commercial, recruteur, analyste ou responsable support sans devenir quatre agents différents.',
+    identityBody2:
+      'Vous ajoutez autant de profils métier que ses missions l’exigent. Ils sont illimités et n’augmentent pas le prix du forfait.',
+    identityListIntro: 'Vous ajoutez un nouveau Collaborateur IA uniquement lorsqu’une responsabilité nécessite :',
+    identityList: [
+      'une identité distincte',
+      'une mémoire propre',
+      'des accès différents',
+      'un historique séparé',
+      'une présence publique dédiée',
+    ],
+
+    consumEyebrow: 'Consommation IA',
+    consumTitle: 'Le forfait crée son environnement. Vous choisissez comment financer ses usages.',
+    consumBody:
+      'Les modèles IA, la voix, la téléphonie et certaines ressources d’exécution sont variables. Deux modes sont proposés.',
+
+    creditsCardTitle: 'Crédits Unitalk prépayés',
+    creditsCardBody: 'Achetez des crédits partagés par toute votre entreprise.',
+    creditsList: [
+      'aucun abonnement à un modèle par utilisateur',
+      'accès à plusieurs modèles depuis une même interface',
+      'choix du modèle adapté à chaque tâche',
+      'budget plafonné à l’avance',
+      'suivi de la consommation dans le workspace',
+      'recharge manuelle ou automatique',
+    ],
+    creditsCta: 'Acheter des crédits',
+
+    byokCardTitle: 'Vos propres clés API',
+    byokCardBody: 'Connectez les comptes modèles déjà utilisés par votre entreprise.',
+    byokList: [
+      'OpenAI, Anthropic, Google, Mistral et autres fournisseurs compatibles',
+      'facturation directe par le fournisseur',
+      'aucun crédit Unitalk consommé pour les appels concernés',
+      'mêmes missions, mémoire, compétences et validations',
+      'changement de modèle sans recréer le Collaborateur IA',
+    ],
+    byokCta: 'Connecter mes clés API',
+
+    coexistTitle: 'Les deux peuvent coexister.',
+    coexistBody:
+      'Votre entreprise peut utiliser ses propres clés pour certains modèles et conserver des crédits Unitalk pour la voix, la téléphonie, un modèle ponctuel ou une solution de secours.',
+    coexistTag: 'Prépayé, BYOK ou hybride.',
+
+    packsTitle: 'Packs de crédits',
+    packsNote: 'Prix, volumes et ordres de grandeur à confirmer.',
+    toConfirm: 'À confirmer',
+    creditsUnit: 'crédits',
+    packs: [
+      { name: 'Découverte', note: 'Pour tester un premier Collaborateur IA.' },
+      { name: 'Équipe', note: 'Pour une équipe qui travaille au quotidien.' },
+      { name: 'Activité', note: 'Pour une activité régulière multi-missions.' },
+      { name: 'Volume personnalisé', note: 'Pour un volume élevé ou plusieurs entités.' },
+    ],
+
+    formula1: 'Vous payez l’environnement persistant de chaque Collaborateur IA.',
+    formula2: 'Vous choisissez ensuite comment régler les ressources qu’il utilise.',
+
+    tableTitle: 'Deux modes de consommation.',
+    tableCols: ['', 'Crédits Unitalk', 'Vos clés API'],
+    tableRows: [
+      ['Mise en route', 'Immédiate', 'Connexion nécessaire'],
+      ['Modèles disponibles', 'Catalogue Unitalk', 'Vos fournisseurs'],
+      ['Facturation', 'Prépayée chez Unitalk', 'Directe chez le fournisseur'],
+      ['Budget plafonné', 'Oui', 'Selon le fournisseur'],
+      ['Partage dans l’entreprise', 'Oui', 'Selon vos comptes'],
+      ['Voix et téléphonie', 'Via crédits', 'Selon intégration'],
+      ['Utilisation hybride', 'Oui', 'Oui'],
+    ],
+
     faqTitle: 'Questions fréquentes',
     faq: [
       {
-        q: 'Que comprend Creator à 49 € ?',
-        a: 'Un Collaborateur IA, sa page publique, son interface texte et voix, son workspace, sa mémoire, ses premières capacités et l’accompagnement d’Alma.',
+        q: 'Que comprend le forfait à 49 € ?',
+        a: 'L’environnement complet d’un Collaborateur IA : identité, mémoire, profils métier illimités, workspace, missions, compétences, applications, présence autorisée et accompagnement d’Alma. Les consommations variables ne sont pas incluses.',
       },
       {
-        q: 'Alma est-elle mon Collaborateur IA ?',
-        a: 'Non. Alma est la conseillère Unitalk. Elle vous aide à créer et faire progresser votre propre Collaborateur IA.',
+        q: 'Pourquoi ajouter un second Collaborateur IA si les profils sont illimités ?',
+        a: 'Lorsqu’il faut séparer les identités, les responsabilités, les mémoires, les accès ou les présences publiques. Un Collaborateur peut exercer plusieurs métiers, mais il ne doit pas mélanger des périmètres qui doivent rester distincts.',
       },
       {
-        q: 'Mon Collaborateur peut-il répondre sur mon site ?',
-        a: 'Oui. Il peut présenter votre activité, répondre aux visiteurs, qualifier les demandes et prendre des rendez-vous.',
+        q: 'Les crédits expirent-ils ?',
+        a: 'Cette information est précisée sur votre contrat. Elle est décisive avant l’achat : nous l’affichons clairement au moment de commander.',
       },
       {
-        q: 'Mes données restent-elles privées ?',
-        a: 'Oui. Votre mémoire, vos documents et vos méthodes restent privés par défaut. Rien n’est partagé sans votre choix.',
+        q: 'Puis-je limiter les dépenses ?',
+        a: 'Oui : plafond de budget, alertes et recharge automatique configurables. Les modalités exactes sont précisées dans le workspace.',
       },
       {
-        q: 'Puis-je utiliser mes propres clés API ?',
-        a: 'Oui. Vous pouvez utiliser vos clés, les crédits Unitalk ou combiner les deux.',
+        q: 'Puis-je utiliser mes clés et des crédits simultanément ?',
+        a: 'Oui, lorsque le routage hybride est disponible : vos clés pour certains modèles, des crédits Unitalk pour la voix, la téléphonie ou une solution de secours.',
+      },
+      {
+        q: 'Unitalk ajoute-t-il une marge sur mes propres clés ?',
+        a: 'La politique exacte est précisée sur votre contrat. L’objectif est de ne pas facturer les appels réglés directement chez votre fournisseur, hors ressources Unitalk clairement identifiées.',
       },
     ],
+
+    partnerPre: 'Vous déployez Unitalk chez vos clients ?',
+    partnerLink: 'Découvrir l’offre Partner',
+    platformPre: 'Vous construisez votre propre produit ?',
+    platformLink: 'Découvrir Platform',
+
     finalTitle: 'Créez votre Collaborateur IA avec Alma.',
-    finalPrice: '49 € / mois',
+    finalPrice: 'À partir de 49 € / mois',
     finalCta: 'Créer mon Collaborateur IA',
     finalProof: '7 jours d’essai · Sans carte bancaire · Données sous votre contrôle',
   },
   en: {
-    eyebrow: 'Pricing',
-    title1: 'Your AI Collaborator from ',
-    title2: '€49 per month.',
+    trial: '7-day trial · No credit card · No commitment',
+    title1: 'AI Collaborators ',
+    title2: 'sized for your company.',
     subtitle:
-      'It answers your visitors, works with your teams and carries out missions inside your applications. Alma helps you create it and grow its capabilities.',
-    trial: '7-day trial · No credit card',
-    offersTitle: 'Choose your plan',
-    perMonth: '/ month',
-    popular: 'Most chosen',
-    offers: [
-      {
-        id: 'creator',
-        name: 'Creator',
-        price: '€49',
-        period: '/ month',
-        subline: '1 AI Collaborator · Unlimited job profiles',
-        pitch: 'To create your company’s AI Collaborator.',
-        features: [
-          'persistent identity and memory',
-          'add job profiles with no limit',
-          'public text and voice presence',
-          'private workspace',
-          'missions and skills',
-          'controlled access to applications',
-          'continuous guidance from Alma',
-        ],
-        cta: 'Create my AI Collaborator',
-        href: '/decouvrir',
-        featured: true,
-      },
-      {
-        id: 'partner',
-        name: 'Partner',
-        price: '€499',
-        period: '/ month',
-        pitch: 'To deploy AI Collaborators for your clients.',
-        features: [
-          'everything in Creator',
-          'multi-client management',
-          'test environments',
-          'creation tools',
-          'store and revenue sharing',
-          'API, Academy and certification',
-          'co-branding and priority support',
-        ],
-        cta: 'Become a partner',
-        href: '/partenaires',
-      },
-      {
-        id: 'platform',
-        name: 'Platform',
-        price: 'Custom',
-        pitch: 'To build your own product on Unitalk infrastructure.',
-        features: [
-          'full API',
-          'your own experience and brand',
-          'dedicated infrastructure',
-          'models, memory and execution',
-          'custom integrations',
-          'governance and service commitments',
-        ],
-        cta: 'Talk to our team',
-        href: 'mailto:hello@unitalk.ai',
-      },
-    ] as Offer[],
-    identityEyebrow: 'One identity, all its roles',
-    identityTitle: 'One identity. Every profile its work requires.',
-    identityBody:
-      'Your AI Collaborator stays a single identity. You add as many job profiles as its missions require, with no per-profile fee. Only variable usage — models, voice, telephony — consumes credits.',
-    almaEyebrow: 'Alma is included',
-    almaTitle: 'You don’t need to master all of AI to put it to work.',
-    almaBody1:
-      'Alma prepares the context, the role and the first mission of your AI Collaborator with you.',
-    almaBody2:
-      'She then recommends the skills and applications it needs. When human intervention becomes necessary, she hands the context to a Unitalk expert.',
-    almaQuote: 'Alma guides you. Your AI Collaborator works for your company.',
-    creditsEyebrow: 'Plan & credits',
-    creditsTitle: 'A plan for its environment. Credits for its usage.',
-    creditsBody1:
-      'The subscription covers its identity, memory, public presence, workspace and Alma’s guidance.',
-    creditsBody2:
-      'AI models, voice, telephony and variable resources use your organization’s shared credits. You can also connect your own API keys.',
-    creditsQuote: 'No per-user model subscription.',
+      'Start with one identity. Add more when new responsibilities require distinct memory, access and history.',
+    from: 'From €49 per month.',
+
+    configEyebrow: 'Configurator',
+    configTitle: 'Build your team.',
+    qtyLabel: 'Number of AI Collaborators',
+    tierChipsLabel: 'Tiers',
+    includedIntro: 'Each AI Collaborator includes:',
+    included: [
+      'its own identity',
+      'persistent memory',
+      'unlimited job profiles',
+      'a private workspace',
+      'missions, skills and applications',
+      'text and voice presence',
+      'controlled access',
+      'guidance from Alma',
+    ],
+    totalLabel: 'Monthly total',
+    perCollabLabel: 'Per AI Collaborator',
+    perCollabSuffix: 'each / month',
+    savingsLabel: 'You save',
+    savingsSuffix: '/ month',
+    nextTierLabel: 'Next tier',
+    nextTierMid: 'Collaborators',
+    nextTierSuffix: 'each',
+    tiersNote: 'Indicative degressive tiers — to be confirmed.',
+    configCta: 'Create my AI Collaborator',
+
+    identityEyebrow: 'What is actually billed',
+    identityTitle: 'One identity can hold several roles.',
+    identityBody1:
+      'Your AI Collaborator can act as a salesperson, recruiter, analyst or support lead without becoming four different agents.',
+    identityBody2:
+      'You add as many job profiles as its missions require. They are unlimited and do not increase the plan price.',
+    identityListIntro: 'You add a new AI Collaborator only when a responsibility requires:',
+    identityList: [
+      'a distinct identity',
+      'its own memory',
+      'different access',
+      'separate history',
+      'a dedicated public presence',
+    ],
+
+    consumEyebrow: 'AI consumption',
+    consumTitle: 'The plan creates its environment. You choose how to fund its usage.',
+    consumBody:
+      'AI models, voice, telephony and some execution resources are variable. Two modes are available.',
+
+    creditsCardTitle: 'Prepaid Unitalk credits',
+    creditsCardBody: 'Buy credits shared across your whole company.',
+    creditsList: [
+      'no per-user model subscription',
+      'access to several models from one interface',
+      'pick the right model for each task',
+      'budget capped in advance',
+      'usage tracked in the workspace',
+      'manual or automatic top-up',
+    ],
+    creditsCta: 'Buy credits',
+
+    byokCardTitle: 'Your own API keys',
+    byokCardBody: 'Connect the model accounts your company already uses.',
+    byokList: [
+      'OpenAI, Anthropic, Google, Mistral and other compatible providers',
+      'billed directly by the provider',
+      'no Unitalk credits consumed for those calls',
+      'same missions, memory, skills and validations',
+      'switch models without recreating the AI Collaborator',
+    ],
+    byokCta: 'Connect my API keys',
+
+    coexistTitle: 'Both can coexist.',
+    coexistBody:
+      'Your company can use its own keys for some models and keep Unitalk credits for voice, telephony, an occasional model or a fallback.',
+    coexistTag: 'Prepaid, BYOK or hybrid.',
+
+    packsTitle: 'Credit packs',
+    packsNote: 'Prices, volumes and orders of magnitude to be confirmed.',
+    toConfirm: 'To confirm',
+    creditsUnit: 'credits',
+    packs: [
+      { name: 'Starter', note: 'To test a first AI Collaborator.' },
+      { name: 'Team', note: 'For a team working day to day.' },
+      { name: 'Business', note: 'For regular multi-mission activity.' },
+      { name: 'Custom volume', note: 'For high volume or several entities.' },
+    ],
+
+    formula1: 'You pay for the persistent environment of each AI Collaborator.',
+    formula2: 'You then choose how to pay for the resources it uses.',
+
+    tableTitle: 'Two consumption modes.',
+    tableCols: ['', 'Unitalk credits', 'Your API keys'],
+    tableRows: [
+      ['Setup', 'Immediate', 'Connection required'],
+      ['Available models', 'Unitalk catalog', 'Your providers'],
+      ['Billing', 'Prepaid with Unitalk', 'Direct with the provider'],
+      ['Capped budget', 'Yes', 'Depends on provider'],
+      ['Company-wide sharing', 'Yes', 'Depends on your accounts'],
+      ['Voice and telephony', 'Via credits', 'Depends on integration'],
+      ['Hybrid usage', 'Yes', 'Yes'],
+    ],
+
     faqTitle: 'Frequently asked questions',
     faq: [
       {
-        q: 'What does Creator include at €49?',
-        a: 'One AI Collaborator, its public page, its text and voice interface, its workspace, its memory, its first capabilities and Alma’s guidance.',
+        q: 'What does the €49 plan include?',
+        a: 'The full environment of an AI Collaborator: identity, memory, unlimited job profiles, workspace, missions, skills, applications, authorized presence and Alma’s guidance. Variable consumption is not included.',
       },
       {
-        q: 'Is Alma my AI Collaborator?',
-        a: 'No. Alma is the Unitalk advisor. She helps you create and grow your own AI Collaborator.',
+        q: 'Why add a second AI Collaborator if profiles are unlimited?',
+        a: 'When you need to separate identities, responsibilities, memories, access or public presences. One Collaborator can hold several roles, but it should not mix scopes that must stay distinct.',
       },
       {
-        q: 'Can my Collaborator answer on my website?',
-        a: 'Yes. It can present your business, answer visitors, qualify requests and book appointments.',
+        q: 'Do credits expire?',
+        a: 'This is specified in your contract. It is a decisive detail before purchase: we show it clearly at checkout.',
       },
       {
-        q: 'Does my data stay private?',
-        a: 'Yes. Your memory, documents and methods stay private by default. Nothing is shared without your choice.',
+        q: 'Can I limit spending?',
+        a: 'Yes: budget cap, alerts and automatic top-up are configurable. Exact terms are shown in the workspace.',
       },
       {
-        q: 'Can I use my own API keys?',
-        a: 'Yes. You can use your keys, Unitalk credits, or combine both.',
+        q: 'Can I use my keys and credits at the same time?',
+        a: 'Yes, when hybrid routing is available: your keys for some models, Unitalk credits for voice, telephony or a fallback.',
+      },
+      {
+        q: 'Does Unitalk add a margin on my own keys?',
+        a: 'The exact policy is specified in your contract. The intent is not to bill calls paid directly to your provider, apart from clearly identified Unitalk resources.',
       },
     ],
+
+    partnerPre: 'Deploying Unitalk for your clients?',
+    partnerLink: 'Discover the Partner offer',
+    platformPre: 'Building your own product?',
+    platformLink: 'Discover Platform',
+
     finalTitle: 'Create your AI Collaborator with Alma.',
-    finalPrice: '€49 / month',
+    finalPrice: 'From €49 / month',
     finalCta: 'Create my AI Collaborator',
     finalProof: '7-day trial · No credit card · Data under your control',
   },
 }
 
-function OfferCard({ offer, perMonth, popular, index }: { offer: Offer; perMonth: string; popular: string; index: number }) {
-  const ctaClass = offer.featured
-    ? 'bg-[#D10E63] text-[#FBF9F3] hover:-translate-y-0.5'
-    : 'border border-[#1C1A17] text-[#1C1A17] hover:bg-[#1C1A17] hover:text-[#FBF9F3]'
+function Configurator({ lang }: { lang: 'fr' | 'en' }) {
+  const t = T[lang]
+  const [qty, setQty] = useState(1)
+  const tier = tierFor(qty)
+  const total = qty * tier.price
+  const savings = qty * TIERS[0].price - total
+  const next = nextTier(qty)
+
+  const presets = TIERS.map((tr) => ({
+    label: tr.max === Infinity ? `${tr.min}+` : tr.min === tr.max ? `${tr.min}` : `${tr.min}\u2013${tr.max}`,
+    target: tr.min,
+    active: qty >= tr.min && qty <= tr.max,
+  }))
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.55, ease, delay: index * 0.08 }}
-      className={`relative flex flex-col rounded-[1.75rem] p-7 sm:p-8 ${
-        offer.featured
-          ? 'premium-shadow border-2 border-[#D10E63] bg-[#FBF9F3]'
-          : 'border border-[#D8D0C2] bg-[#FBF9F3]'
-      }`}
+      transition={{ duration: 0.55, ease }}
+      className="premium-shadow overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#FBF9F3]"
     >
-      {offer.featured && (
-        <span className="absolute -top-3 left-8 rounded-full bg-[#D10E63] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#FBF9F3]">
-          {popular}
-        </span>
-      )}
-      <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#8A8175]">{offer.name}</p>
-      <div className="mt-3 flex items-end gap-1">
-        <span className="font-sf text-4xl font-bold tracking-[-0.04em] text-[#1C1A17] sm:text-[2.75rem]">{offer.price}</span>
-        {offer.period && <span className="mb-1.5 text-sm font-medium text-[#6B6560]">{perMonth}</span>}
+      <div className="grid lg:grid-cols-[1fr_1.05fr]">
+        {/* Left — controls */}
+        <div className="border-b border-[#E4DCCF] p-7 sm:p-9 lg:border-b-0 lg:border-r">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">{t.configEyebrow}</p>
+          <h2 className="mt-3 font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">{t.configTitle}</h2>
+
+          <label className="mt-8 block font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6B6560]">
+            {t.qtyLabel}
+          </label>
+          <div className="mt-3 flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => setQty((q) => Math.max(1, q - 1))}
+              aria-label={lang === 'fr' ? 'Retirer un Collaborateur IA' : 'Remove one AI Collaborator'}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#1C1A17] text-[#1C1A17] transition-colors hover:bg-[#1C1A17] hover:text-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:opacity-30"
+              disabled={qty <= 1}
+            >
+              <Minus className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <span
+              aria-live="polite"
+              className="min-w-[3.5rem] text-center font-sf text-4xl font-bold tabular-nums text-[#1C1A17]"
+            >
+              {qty}
+            </span>
+            <button
+              type="button"
+              onClick={() => setQty((q) => Math.min(99, q + 1))}
+              aria-label={lang === 'fr' ? 'Ajouter un Collaborateur IA' : 'Add one AI Collaborator'}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#1C1A17] text-[#1C1A17] transition-colors hover:bg-[#1C1A17] hover:text-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            >
+              <Plus className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+
+          <div className="mt-6">
+            <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8A8175]">{t.tierChipsLabel}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {presets.map((p) => (
+                <button
+                  key={p.label}
+                  type="button"
+                  onClick={() => setQty(p.target)}
+                  className={`rounded-full px-3.5 py-1.5 font-mono text-[12px] font-semibold tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${
+                    p.active
+                      ? 'bg-[#1C1A17] text-[#FBF9F3]'
+                      : 'border border-[#D8D0C2] text-[#4E483F] hover:border-[#1C1A17]'
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+            <p className="mt-3 text-[12px] italic leading-relaxed text-[#8A8175]">{t.tiersNote}</p>
+          </div>
+        </div>
+
+        {/* Right — live summary */}
+        <div className="flex flex-col p-7 sm:p-9">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6B6560]">{t.totalLabel}</p>
+              <p className="mt-1 font-sf text-5xl font-bold tracking-[-0.04em] text-[#1C1A17]">{money(total, lang)}</p>
+              <p className="mt-1 text-sm text-[#6B6560]">{lang === 'fr' ? '/ mois' : '/ month'}</p>
+            </div>
+          </div>
+
+          <dl className="mt-6 grid gap-3 border-t border-[#E4DCCF] pt-6 text-[14px]">
+            <div className="flex items-center justify-between gap-4">
+              <dt className="text-[#6B6560]">{t.perCollabLabel}</dt>
+              <dd className="font-semibold text-[#1C1A17]">
+                {money(tier.price, lang)} <span className="font-normal text-[#8A8175]">{t.perCollabSuffix}</span>
+              </dd>
+            </div>
+            {savings > 0 && (
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-[#6B6560]">{t.savingsLabel}</dt>
+                <dd className="font-semibold text-[#B00C54]">
+                  {money(savings, lang)} <span className="font-normal">{t.savingsSuffix}</span>
+                </dd>
+              </div>
+            )}
+            {next && (
+              <div className="flex items-center justify-between gap-4">
+                <dt className="text-[#6B6560]">{t.nextTierLabel}</dt>
+                <dd className="text-right font-semibold text-[#1C1A17]">
+                  {next.min} {t.nextTierMid} · {money(next.price, lang)} {t.nextTierSuffix}
+                </dd>
+              </div>
+            )}
+          </dl>
+
+          <p className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6B6560]">
+            {t.includedIntro}
+          </p>
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+            {t.included.map((f) => (
+              <li key={f} className="flex items-start gap-2 text-[13.5px] leading-snug text-[#3F3A33]">
+                <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} aria-hidden="true" />
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <Link
+            href="/decouvrir"
+            className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+          >
+            {t.configCta}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
-      {offer.subline && (
-        <p className="mt-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#B00C54]">{offer.subline}</p>
-      )}
-      <p className="mt-3 min-h-[2.75rem] text-[14px] leading-relaxed text-[#4E483F]">{offer.pitch}</p>
-
-      <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-[#E4DCCF] pt-6">
-        {offer.features.map((f) => (
-          <li key={f} className="flex items-start gap-2.5 text-[13.5px] leading-snug text-[#3F3A33]">
-            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} aria-hidden="true" />
-            {f}
-          </li>
-        ))}
-      </ul>
-
-      <Link
-        href={offer.href}
-        className={`mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${ctaClass}`}
-      >
-        {offer.cta}
-        <ArrowRight className="h-4 w-4" />
-      </Link>
     </motion.div>
   )
 }
@@ -330,6 +493,55 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   )
 }
 
+function ConsumptionCard({
+  icon,
+  title,
+  body,
+  list,
+  cta,
+  href,
+  featured,
+}: {
+  icon: React.ReactNode
+  title: string
+  body: string
+  list: string[]
+  cta: string
+  href: string
+  featured?: boolean
+}) {
+  return (
+    <div
+      className={`flex flex-col rounded-[1.75rem] p-7 sm:p-8 ${
+        featured ? 'premium-shadow border-2 border-[#D10E63] bg-[#FBF9F3]' : 'border border-[#D8D0C2] bg-[#FBF9F3]'
+      }`}
+    >
+      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#EFE9DC] text-[#D10E63]">{icon}</div>
+      <h3 className="mt-5 font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17]">{title}</h3>
+      <p className="mt-2 text-[14px] leading-relaxed text-[#4E483F]">{body}</p>
+      <ul className="mt-5 flex flex-1 flex-col gap-2.5 border-t border-[#E4DCCF] pt-5">
+        {list.map((f) => (
+          <li key={f} className="flex items-start gap-2.5 text-[13.5px] leading-snug text-[#3F3A33]">
+            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} aria-hidden="true" />
+            {f}
+          </li>
+        ))}
+      </ul>
+      <Link
+        href={href}
+        className={`mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${
+          featured
+            ? 'bg-[#D10E63] text-[#FBF9F3] hover:-translate-y-0.5'
+            : 'border border-[#1C1A17] text-[#1C1A17] hover:bg-[#1C1A17] hover:text-[#FBF9F3]'
+        }`}
+      >
+        {cta}
+        <ArrowRight className="h-4 w-4" />
+      </Link>
+    </div>
+  )
+}
+
 export function TarifsContent() {
   const { lang } = useLanguage()
   const t = T[lang]
@@ -350,84 +562,174 @@ export function TarifsContent() {
             <span className="text-[#D10E63]">{t.title2}</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#4E483F] sm:text-lg">{t.subtitle}</p>
+          <p className="mt-6 font-sf text-lg font-bold text-[#1C1A17]">{t.from}</p>
         </div>
       </section>
 
-      {/* Offres */}
-      <section className="mx-auto w-full max-w-6xl px-4 pb-4 sm:px-6 lg:px-8">
-        <h2 className="text-balance text-center font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">
-          {t.offersTitle}
-        </h2>
-        <div className="mt-10 grid items-start gap-6 lg:grid-cols-3">
-          {t.offers.map((offer, i) => (
-            <OfferCard key={offer.id} offer={offer} perMonth={t.perMonth} popular={t.popular} index={i} />
-          ))}
-        </div>
+      {/* Configurateur */}
+      <section className="mx-auto w-full max-w-5xl px-4 pb-16 sm:px-6 lg:px-8 sm:pb-20">
+        <Configurator lang={lang} />
       </section>
 
-      {/* Une identité, tous ses métiers */}
-      <section className="mx-auto w-full max-w-3xl px-4 pt-12 sm:px-6 sm:pt-16">
+      {/* Une identité, plusieurs métiers */}
+      <section className="mx-auto w-full max-w-4xl px-4 pb-16 sm:px-6 sm:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease }}
-          className="rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-7 text-center sm:p-9"
+          className="rounded-[2rem] border border-[#D8D0C2] bg-[#FBF9F3] p-8 sm:p-12"
         >
           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">{t.identityEyebrow}</p>
-          <h2 className="mx-auto mt-3 max-w-xl text-balance font-sf text-xl font-bold tracking-[-0.02em] text-[#1C1A17] sm:text-2xl">
+          <h2 className="mt-3 max-w-2xl text-balance font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">
             {t.identityTitle}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.identityBody}</p>
+          <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.identityBody1}</p>
+          <p className="mt-3 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.identityBody2}</p>
+
+          <div className="mt-7 rounded-2xl bg-[#F3EFE6] p-6">
+            <p className="text-[14px] font-semibold text-[#1C1A17]">{t.identityListIntro}</p>
+            <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
+              {t.identityList.map((f) => (
+                <li key={f} className="flex items-start gap-2.5 text-[14px] leading-snug text-[#3F3A33]">
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} aria-hidden="true" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
         </motion.div>
       </section>
 
-      {/* Alma incluse */}
-      <section className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8 sm:py-24">
+      {/* Consommation IA */}
+      <section className="mx-auto w-full max-w-5xl px-4 pb-8 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease }}
+          className="mx-auto max-w-2xl text-center"
+        >
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">{t.consumEyebrow}</p>
+          <h2 className="mx-auto mt-3 text-balance font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">
+            {t.consumTitle}
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.consumBody}</p>
+        </motion.div>
+
+        <div className="mt-10 grid items-start gap-6 lg:grid-cols-2">
+          <ConsumptionCard
+            featured
+            icon={<Coins className="h-5 w-5" aria-hidden="true" />}
+            title={t.creditsCardTitle}
+            body={t.creditsCardBody}
+            list={t.creditsList}
+            cta={t.creditsCta}
+            href="/decouvrir"
+          />
+          <ConsumptionCard
+            icon={<KeyRound className="h-5 w-5" aria-hidden="true" />}
+            title={t.byokCardTitle}
+            body={t.byokCardBody}
+            list={t.byokList}
+            cta={t.byokCta}
+            href="/decouvrir"
+          />
+        </div>
+
+        {/* Coexist */}
+        <div className="mt-6 rounded-[1.75rem] border border-[#D8D0C2] bg-[#F7F3EA] p-7 text-center sm:p-8">
+          <h3 className="font-sf text-lg font-bold tracking-[-0.02em] text-[#1C1A17]">{t.coexistTitle}</h3>
+          <p className="mx-auto mt-3 max-w-2xl text-pretty text-[14.5px] leading-relaxed text-[#4E483F]">{t.coexistBody}</p>
+          <p className="mx-auto mt-5 inline-block rounded-full bg-[#1C1A17] px-5 py-2 font-sf text-sm font-semibold text-[#FBF9F3]">
+            {t.coexistTag}
+          </p>
+        </div>
+      </section>
+
+      {/* Packs de crédits */}
+      <section className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 lg:px-8 sm:py-20">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">{t.packsTitle}</h2>
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8A8175]">{t.packsNote}</p>
+        </div>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {t.packs.map((p, i) => (
+            <motion.div
+              key={p.name}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, ease, delay: i * 0.06 }}
+              className="flex flex-col rounded-[1.5rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6"
+            >
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#8A8175]">{p.name}</p>
+              <p className="mt-3 font-sf text-2xl font-bold tracking-[-0.03em] text-[#1C1A17]">{t.toConfirm}</p>
+              <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-[#B00C54]">
+                {t.toConfirm} · {t.creditsUnit}
+              </p>
+              <p className="mt-4 flex-1 text-[13.5px] leading-relaxed text-[#4E483F]">{p.note}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Formule tarifaire */}
+      <section className="mx-auto w-full max-w-4xl px-4 pb-16 sm:px-6 sm:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease }}
-          className="rounded-[2rem] border border-[#2C2822] bg-[#161412] p-8 sm:p-12"
+          className="rounded-[2rem] border border-[#2C2822] bg-[#161412] p-8 text-center sm:p-14"
         >
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#E8548C]">{t.almaEyebrow}</p>
-          <h2 className="mt-3 max-w-2xl text-balance font-heading text-2xl font-medium leading-[1.15] text-[#F4F1EA] sm:text-4xl">
-            {t.almaTitle}
-          </h2>
-          <div className="mt-6 grid gap-4 sm:max-w-2xl">
-            <p className="text-[15px] leading-relaxed text-[#B8B0A4]">{t.almaBody1}</p>
-            <p className="text-[15px] leading-relaxed text-[#B8B0A4]">{t.almaBody2}</p>
-          </div>
-          <blockquote className="mt-8 border-l-2 border-[#D10E63] pl-5 font-heading text-xl font-medium leading-snug text-[#F4F1EA] sm:text-2xl">
-            {t.almaQuote}
-          </blockquote>
-        </motion.div>
-      </section>
-
-      {/* Forfait & crédits */}
-      <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6 sm:pb-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease }}
-          className="text-center"
-        >
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">{t.creditsEyebrow}</p>
-          <h2 className="mx-auto mt-3 max-w-2xl text-balance font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">
-            {t.creditsTitle}
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.creditsBody1}</p>
-          <p className="mx-auto mt-3 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.creditsBody2}</p>
-          <p className="mx-auto mt-6 inline-block rounded-full bg-[#EFE9DC] px-5 py-2 font-sf text-sm font-semibold text-[#1C1A17]">
-            {t.creditsQuote}
+          <p className="mx-auto max-w-2xl text-balance font-heading text-xl font-medium leading-[1.3] text-[#F4F1EA] sm:text-2xl">
+            {t.formula1}
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl text-balance font-heading text-xl font-medium leading-[1.3] text-[#E8548C] sm:text-2xl">
+            {t.formula2}
           </p>
         </motion.div>
       </section>
 
+      {/* Comparatif des 2 modes */}
+      <section className="mx-auto w-full max-w-4xl px-4 pb-16 sm:px-6 sm:pb-24">
+        <h2 className="text-center font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">
+          {t.tableTitle}
+        </h2>
+        <div className="mt-8 overflow-hidden rounded-[1.5rem] border border-[#D8D0C2] bg-[#FBF9F3]">
+          <table className="w-full border-collapse text-left">
+            <thead>
+              <tr className="border-b border-[#E4DCCF]">
+                {t.tableCols.map((c, i) => (
+                  <th
+                    key={i}
+                    className={`px-4 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] sm:px-6 ${
+                      i === 1 ? 'text-[#D10E63]' : i === 2 ? 'text-[#1C1A17]' : 'text-[#8A8175]'
+                    }`}
+                  >
+                    {c}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {t.tableRows.map((row, r) => (
+                <tr key={r} className={r % 2 === 1 ? 'bg-[#F7F3EA]' : ''}>
+                  <th scope="row" className="px-4 py-3.5 text-[13.5px] font-medium text-[#4E483F] sm:px-6">
+                    {row[0]}
+                  </th>
+                  <td className="px-4 py-3.5 text-[13.5px] font-semibold text-[#1C1A17] sm:px-6">{row[1]}</td>
+                  <td className="px-4 py-3.5 text-[13.5px] text-[#4E483F] sm:px-6">{row[2]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       {/* FAQ */}
-      <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6 sm:pb-24">
+      <section className="mx-auto w-full max-w-3xl px-4 pb-14 sm:px-6 sm:pb-20">
         <h2 className="text-balance text-center font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17] sm:text-3xl">
           {t.faqTitle}
         </h2>
@@ -435,6 +737,32 @@ export function TarifsContent() {
           {t.faq.map((item) => (
             <FaqItem key={item.q} q={item.q} a={item.a} />
           ))}
+        </div>
+      </section>
+
+      {/* Liens Partner / Platform */}
+      <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6 sm:pb-24">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Link
+            href="/partenaires"
+            className="group flex flex-col gap-1 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-5 transition-colors hover:border-[#1C1A17]"
+          >
+            <span className="text-[13.5px] text-[#6B6560]">{t.partnerPre}</span>
+            <span className="inline-flex items-center gap-1.5 font-sf text-[15px] font-bold text-[#B00C54]">
+              {t.partnerLink}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </span>
+          </Link>
+          <Link
+            href="mailto:hello@unitalk.ai"
+            className="group flex flex-col gap-1 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-5 transition-colors hover:border-[#1C1A17]"
+          >
+            <span className="text-[13.5px] text-[#6B6560]">{t.platformPre}</span>
+            <span className="inline-flex items-center gap-1.5 font-sf text-[15px] font-bold text-[#B00C54]">
+              {t.platformLink}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </span>
+          </Link>
         </div>
       </section>
 
@@ -458,7 +786,7 @@ export function TarifsContent() {
             {t.finalCta}
             <ArrowRight className="h-4 w-4" />
           </Link>
-          <p className="mt-6 font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-[#8C8477]">{t.finalProof}</p>
+          <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8A8175]">{t.finalProof}</p>
         </motion.div>
       </section>
     </main>
