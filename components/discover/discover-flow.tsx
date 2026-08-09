@@ -7,9 +7,8 @@ import { useLanguage } from '@/lib/language-context'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { FlowStepper } from './flow-stepper'
 import { ContextColumn } from './context-column'
-import { ScreenActivate } from './screen-activate'
+import { ScreenMission } from './screen-mission'
 import { ScreenContext } from './screen-context'
-import { ScreenSavoirFaire } from './screen-savoirfaire'
 import { ScreenAffectation } from './screen-affectation'
 import { ScreenConnect } from './screen-connect'
 import { ScreenWorkspace } from './screen-workspace'
@@ -71,65 +70,73 @@ export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState 
         <FlowStepper current={state.step} entry={state.entry ?? 'company'} lang={lang} onStepClick={goTo} />
       </div>
 
-      {/* Stage: persistent 65 / 35 layout */}
+      {/* Stage */}
       <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-10 sm:px-8 sm:py-14">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_22rem]">
-          {/* Left 65% — evolving step */}
-          <div className="min-w-0">
-            <AnimatePresence mode="wait">
-              <motion.div key={state.step} {...anim}>
-                {state.step === 'mission' && (
-                  <ScreenActivate
-                    lang={lang}
-                    entry={state.entry ?? 'company'}
-                    missionSlug={state.missionSlug}
-                    onActivate={() => goTo('entreprise')}
-                  />
-                )}
-                {state.step === 'entreprise' && (
-                  <ScreenContext
-                    lang={lang}
-                    domain={state.domain}
-                    missionSlug={state.missionSlug}
-                    onProgress={(n) => setState((s) => ({ ...s, contextProgress: Math.max(s.contextProgress, n) }))}
-                    onContinue={() => goTo('savoirfaire')}
-                  />
-                )}
-                {state.step === 'savoirfaire' && (
-                  <ScreenSavoirFaire lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('affectation')} />
-                )}
-                {state.step === 'affectation' && (
-                  <ScreenAffectation
-                    lang={lang}
-                    missionSlug={state.missionSlug}
-                    assignedSlug={state.assignedSlug}
-                    assignment={state.assignment}
-                    onChoose={(a: Assignment) => setState((s) => ({ ...s, assignment: a }))}
-                    onContinue={() => goTo('acces')}
-                  />
-                )}
-                {state.step === 'acces' && (
-                  <ScreenConnect lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('workspace')} />
-                )}
-                {state.step === 'workspace' && (
-                  <ScreenWorkspace
-                    lang={lang}
-                    missionSlug={state.missionSlug}
-                    draftId={state.draftId}
-                    domain={state.domain}
-                    assignment={state.assignment}
-                    assignedSlug={state.assignedSlug}
-                  />
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
+        <AnimatePresence mode="wait">
+          {state.step === 'mission' ? (
+            // State 1 owns its own centered → two-zone layout (no context column).
+            <motion.div key="mission" {...anim}>
+              <ScreenMission
+                lang={lang}
+                entry={state.entry ?? 'company'}
+                missionSlug={state.missionSlug}
+                hasDraft={state.draftId !== ''}
+                onActivate={() => goTo('entreprise')}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="rest"
+              {...anim}
+              className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_22rem]"
+            >
+              {/* Left — evolving step */}
+              <div className="min-w-0">
+                <AnimatePresence mode="wait">
+                  <motion.div key={state.step} {...anim}>
+                    {state.step === 'entreprise' && (
+                      <ScreenContext
+                        lang={lang}
+                        domain={state.domain}
+                        missionSlug={state.missionSlug}
+                        onProgress={(n) => setState((s) => ({ ...s, contextProgress: Math.max(s.contextProgress, n) }))}
+                        onContinue={() => goTo('affectation')}
+                      />
+                    )}
+                    {state.step === 'affectation' && (
+                      <ScreenAffectation
+                        lang={lang}
+                        missionSlug={state.missionSlug}
+                        assignedSlug={state.assignedSlug}
+                        assignment={state.assignment}
+                        onChoose={(a: Assignment) => setState((s) => ({ ...s, assignment: a }))}
+                        onContinue={() => goTo('acces')}
+                      />
+                    )}
+                    {state.step === 'acces' && (
+                      <ScreenConnect lang={lang} missionSlug={state.missionSlug} onContinue={() => goTo('workspace')} />
+                    )}
+                    {state.step === 'workspace' && (
+                      <ScreenWorkspace
+                        lang={lang}
+                        missionSlug={state.missionSlug}
+                        draftId={state.draftId}
+                        domain={state.domain}
+                        assignment={state.assignment}
+                        assignedSlug={state.assignedSlug}
+                      />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
 
-          {/* Right 35% — persistent Alma / context */}
-          <aside className="lg:pt-1">
-            <ContextColumn state={state} lang={lang} />
-          </aside>
-        </div>
+              {/* Right — persistent mission context */}
+              <aside className="lg:pt-1">
+                <ContextColumn state={state} lang={lang} />
+              </aside>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </main>
   )

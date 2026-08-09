@@ -2,19 +2,19 @@ import type { Lang } from '@/lib/language-context'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { normalizeDomain } from '@/lib/discover-profiles'
 
-// Six-step model: the work is defined (Mission ✓), then Alma understands the
-// company, composes the required know-how, chooses who will carry it, authorizes
-// its tools, and finally creates the mission in the Workspace.
-export type Step = 'mission' | 'entreprise' | 'savoirfaire' | 'affectation' | 'acces' | 'workspace'
+// Five visible steps. Savoir-faire is NOT a separate screen: Alma determines the
+// job profile and skills while adapting the mission, so it is folded into the
+// mission → affectation flow. The user starts from the mission, Alma understands
+// the company, chooses who carries it, authorizes tools, then opens the Workspace.
+export type Step = 'mission' | 'entreprise' | 'affectation' | 'acces' | 'workspace'
 export type Entry = 'company' | 'mission' | 'profile'
 
-export const STEP_ORDER: Step[] = ['mission', 'entreprise', 'savoirfaire', 'affectation', 'acces', 'workspace']
+export const STEP_ORDER: Step[] = ['mission', 'entreprise', 'affectation', 'acces', 'workspace']
 
-// Canonical step labels. The first node ("mission") is relabelled per entry.
+// Canonical step labels used by the thin stepper.
 export const STEP_LABELS: Record<Step, { fr: string; en: string }> = {
   mission: { fr: 'Mission', en: 'Mission' },
   entreprise: { fr: 'Entreprise', en: 'Company' },
-  savoirfaire: { fr: 'Savoir-faire', en: 'Know-how' },
   affectation: { fr: 'Affectation', en: 'Assignment' },
   acces: { fr: 'Accès', en: 'Access' },
   workspace: { fr: 'Workspace', en: 'Workspace' },
@@ -50,7 +50,7 @@ export type FlowState = {
 }
 
 export const INITIAL_STATE: FlowState = {
-  step: 'entreprise',
+  step: 'mission',
   entry: 'company',
   domain: '',
   missionSlug: 'trouver-de-nouveaux-clients',
@@ -80,10 +80,11 @@ export function resolveInitialState(
   if (entryParam === 'mission' || missionParam) {
     const m = missionParam ? MISSIONS.find((x) => x.slug === missionParam) : undefined
     const slug = m?.slug ?? INITIAL_STATE.missionSlug
-    // The work is already defined → Mission ✓, start on the Company step.
+    // The work is already defined → show it as State 1 (preloaded, editable),
+    // then the mission CTA advances to the Company step.
     return {
       ...INITIAL_STATE,
-      step: 'entreprise',
+      step: 'mission',
       entry: 'mission',
       missionSlug: slug,
       assignedSlug: getMission(slug).collaboratorSlug,

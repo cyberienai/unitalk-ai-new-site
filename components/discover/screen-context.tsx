@@ -726,7 +726,7 @@ const ANALYZE_STEPS: Record<Lang, string[]> = {
 
 const COPY = {
   fr: {
-    kicker: 'Étape 2 · Votre entreprise',
+    kicker: 'Entreprise · 2 sur 5',
     title: 'Un lien suffit pour que je comprenne votre entreprise.',
     lead: 'Collez l’adresse de votre site. Je le lis en quelques secondes et je reconstitue votre activité, votre offre, vos clients et votre vocabulaire — puis vous validez, point par point. Je n’invente rien.',
     reviewTitle: 'Voici ce que je comprends de votre entreprise.',
@@ -775,7 +775,7 @@ const COPY = {
     back: 'Retour',
   },
   en: {
-    kicker: 'Step 2 · Your company',
+    kicker: 'Company · 2 of 5',
     title: 'One link is all I need to understand your company.',
     lead: 'Paste your website address. I read it in seconds and rebuild your business, your offer, your customers and your vocabulary — then you validate, point by point. I invent nothing.',
     reviewTitle: 'Here is what I understand about your company.',
