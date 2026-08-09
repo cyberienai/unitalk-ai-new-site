@@ -142,57 +142,61 @@ export function ScreenContext({
             exit={{ opacity: 0 }}
             className="mt-4"
           >
-            {/* Source entry — a single, quiet focal point. No card, no chrome:
-                one refined underline field carries the whole moment. */}
-            <div className="mt-10 max-w-xl">
-              {/* Alma, understated — one line, not a boxed bubble. */}
-              <div className="flex items-center gap-2.5">
-                <AlmaHead className="h-6 w-6 shrink-0" />
-                <p className="text-[13px] leading-relaxed text-[#6B6459]">
-                  <span className="font-semibold text-[#1C1A17]">{t.almaName}</span>
-                  <span className="mx-1.5 text-[#C7BFB0]">·</span>
-                  {t.almaAsk}
+            {/* Source entry, held in one elegant card — consistent with step 1's
+                capture surface. The no-site path stays a quiet link below it. */}
+            <div className="mt-8 max-w-xl">
+              <div className="rounded-3xl border border-[#EAE3D5] bg-[#FBF9F3] p-6 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_28px_50px_-34px_rgba(28,26,23,0.4)] sm:p-8">
+                {/* Alma, understated — one line, not a boxed bubble. */}
+                <div className="flex items-center gap-2.5">
+                  <AlmaHead className="h-6 w-6 shrink-0" />
+                  <p className="text-[13px] leading-relaxed text-[#6B6459]">
+                    <span className="font-semibold text-[#1C1A17]">{t.almaName}</span>
+                    <span className="mx-1.5 text-[#C7BFB0]">·</span>
+                    {t.almaAsk}
+                  </p>
+                </div>
+
+                {/* The field — a real input, divided from Alma's line. */}
+                <label htmlFor="company-domain" className="sr-only">
+                  {t.domainLabel}
+                </label>
+                <div className="mt-6 border-t border-[#EEE7D9] pt-6">
+                  <div className="flex items-center gap-2 rounded-2xl border border-[#E4DDCE] bg-white px-4 py-3 transition-colors focus-within:border-[#D10E63]/60 focus-within:ring-4 focus-within:ring-[#D10E63]/10">
+                    <span className="shrink-0 select-none font-mono text-sm text-[#C7BFB0]">https://</span>
+                    <input
+                      id="company-domain"
+                      type="text"
+                      inputMode="url"
+                      autoComplete="url"
+                      autoFocus
+                      value={domainInput}
+                      onChange={(e) => setDomainInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.nativeEvent.isComposing) analyzeSite()
+                      }}
+                      placeholder={t.domainPlaceholder}
+                      className="min-w-0 flex-1 border-0 bg-transparent text-lg font-medium tracking-[-0.01em] text-[#1C1A17] outline-none placeholder:font-normal placeholder:text-[#C7BFB0]"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={analyzeSite}
+                    disabled={!normalized}
+                    className="group mt-3 inline-flex items-center gap-2 rounded-xl bg-[#D10E63] px-5 py-2.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:bg-[#E4DDCE] disabled:text-[#9A9184]"
+                  >
+                    {t.analyze}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-200 group-enabled:group-hover:translate-x-0.5" />
+                  </button>
+                </div>
+
+                {/* One quiet promise line — replaces the noisy chips. */}
+                <p className="mt-5 text-pretty text-[13px] leading-relaxed text-[#6B6459]">
+                  <span className="text-[#9A9184]">{t.willReadLabel} — </span>
+                  {t.willReadInline}
                 </p>
+
+                <p className="mt-2 text-[12px] leading-relaxed text-[#9A9184]">{t.domainHint}</p>
               </div>
-
-              {/* The field — large type on a hairline that draws the eye. */}
-              <label htmlFor="company-domain" className="sr-only">
-                {t.domainLabel}
-              </label>
-              <div className="mt-7 flex items-baseline gap-3 border-b border-[#D8D0C2] pb-4 transition-colors duration-300 focus-within:border-[#1C1A17]">
-                <span className="shrink-0 select-none font-mono text-base text-[#C7BFB0] sm:text-lg">https://</span>
-                <input
-                  id="company-domain"
-                  type="text"
-                  inputMode="url"
-                  autoComplete="url"
-                  autoFocus
-                  value={domainInput}
-                  onChange={(e) => setDomainInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.nativeEvent.isComposing) analyzeSite()
-                  }}
-                  placeholder={t.domainPlaceholder}
-                  className="min-w-0 flex-1 border-0 bg-transparent text-2xl font-medium tracking-[-0.01em] text-[#1C1A17] outline-none placeholder:font-normal placeholder:text-[#C7BFB0] sm:text-3xl"
-                />
-                <button
-                  type="button"
-                  onClick={analyzeSite}
-                  disabled={!normalized}
-                  className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#A80B50] transition-colors disabled:cursor-not-allowed disabled:text-[#C7BFB0]"
-                >
-                  {t.analyze}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-enabled:group-hover:translate-x-0.5" />
-                </button>
-              </div>
-
-              {/* One quiet promise line — replaces the noisy chips. */}
-              <p className="mt-5 text-pretty text-[13px] leading-relaxed text-[#6B6459]">
-                <span className="text-[#9A9184]">{t.willReadLabel} — </span>
-                {t.willReadInline}
-              </p>
-
-              <p className="mt-2 text-[12px] leading-relaxed text-[#9A9184]">{t.domainHint}</p>
 
               {/* No-site path — an understated editorial link. */}
               <button

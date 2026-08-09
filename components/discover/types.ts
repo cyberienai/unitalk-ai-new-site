@@ -30,6 +30,17 @@ export const ENTRY_STEP_LABELS: Record<Entry, { fr: string; en: string }> = {
 // The assignment decision made on the "affectation" step.
 export type Assignment = 'existing' | 'new'
 
+// A mission described (or edited) by the user in step 1. When present, the
+// context rail shows THESE words instead of a default catalog mission, so a
+// freely-described mission is never misrepresented. Already localized: it holds
+// the user's own wording captured at activation time.
+export type MissionOverride = {
+  title: string
+  result: string
+  cadence: string
+  validation: string
+}
+
 // Number of "context" items that fill the right column in step 2.
 export const CONTEXT_ITEMS_TOTAL = 6
 
@@ -47,6 +58,9 @@ export type FlowState = {
   assignment: Assignment
   // Slug of the Collaborateur IA that will carry the mission (existing persona).
   assignedSlug: string
+  // The user's own mission wording, captured at step 1 activation. null until
+  // the mission is activated; drives the context rail so it always matches.
+  missionOverride: MissionOverride | null
 }
 
 export const INITIAL_STATE: FlowState = {
@@ -58,6 +72,7 @@ export const INITIAL_STATE: FlowState = {
   contextProgress: 0,
   assignment: 'existing',
   assignedSlug: '',
+  missionOverride: null,
 }
 
 // The entry point is already chosen on the previous page and arrives via the

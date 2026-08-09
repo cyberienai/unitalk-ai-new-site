@@ -2,7 +2,7 @@
 
 import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { getMission, type FlowState } from './types'
+import { getMission, type FlowState, type MissionOverride } from './types'
 
 function AlmaHead({ className = 'h-10 w-10' }: { className?: string }) {
   return (
@@ -21,23 +21,27 @@ function MissionRecap({
   missionSlug,
   heading,
   note,
+  override,
 }: {
   lang: Lang
   missionSlug: string
   heading: string
   note?: string
+  override?: MissionOverride | null
 }) {
   const m = getMission(missionSlug)
+  // Prefer the user's own words when they described the mission themselves.
+  const title = override?.title || m.title[lang]
   const rows = [
-    { label: lang === 'fr' ? 'Résultat attendu' : 'Expected result', value: m.result[lang] },
-    { label: lang === 'fr' ? 'Rythme' : 'Cadence', value: m.cadence[lang] || m.deliveryTime[lang] },
-    { label: lang === 'fr' ? 'Validation' : 'Approval', value: m.validation[lang] },
+    { label: lang === 'fr' ? 'Résultat attendu' : 'Expected result', value: override?.result || m.result[lang] },
+    { label: lang === 'fr' ? 'Rythme' : 'Cadence', value: override?.cadence || m.cadence[lang] || m.deliveryTime[lang] },
+    { label: lang === 'fr' ? 'Validation' : 'Approval', value: override?.validation || m.validation[lang] },
   ]
   return (
     <div className="lg:sticky lg:top-8">
       <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">{heading}</p>
       <h3 className="mt-3 font-sf text-base font-bold leading-snug tracking-[-0.01em] text-[#1C1A17]">
-        {m.title[lang]}
+        {title}
       </h3>
       <dl className="mt-4 flex flex-col gap-3 border-t border-[#EBE4D6] pt-4">
         {rows.map((r) => (
@@ -105,6 +109,7 @@ export function ContextColumn({ state, lang }: { state: FlowState; lang: Lang })
         <MissionRecap
           lang={lang}
           missionSlug={state.missionSlug}
+          override={state.missionOverride}
           heading={lang === 'fr' ? 'Mission à adapter' : 'Mission to adapt'}
           note={state.contextProgress > 0 ? undefined : contextNote}
         />
@@ -114,6 +119,7 @@ export function ContextColumn({ state, lang }: { state: FlowState; lang: Lang })
         <MissionRecap
           lang={lang}
           missionSlug={state.missionSlug}
+          override={state.missionOverride}
           heading={lang === 'fr' ? 'Mission définie' : 'Mission defined'}
         />
       )}

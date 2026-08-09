@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Mic, Pencil, Square } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { getMission, type Entry } from './types'
+import { getMission, type Entry, type MissionOverride } from './types'
 
 // State 1 — Mission. The heart of the onboarding: the user describes the work
 // (by voice when the browser allows it, otherwise in writing) and Alma turns it
@@ -27,7 +27,7 @@ export function ScreenMission({
   entry: Entry
   missionSlug: string
   hasDraft: boolean
-  onActivate: () => void
+  onActivate: (override: MissionOverride | null) => void
 }) {
   const reduce = useReducedMotion()
   const t = COPY[lang]
@@ -361,7 +361,18 @@ export function ScreenMission({
 
                 <button
                   type="button"
-                  onClick={onActivate}
+                  onClick={() =>
+                    onActivate(
+                      draft
+                        ? {
+                            title: draft.title,
+                            result: draft.result,
+                            cadence: draft.cadence,
+                            validation: draft.validations,
+                          }
+                        : null,
+                    )
+                  }
                   className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
                 >
                   {t.cta}

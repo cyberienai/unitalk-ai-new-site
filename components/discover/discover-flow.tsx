@@ -70,7 +70,10 @@ export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState 
                 entry={state.entry ?? 'company'}
                 missionSlug={state.missionSlug}
                 hasDraft={state.draftId !== ''}
-                onActivate={() => goTo('entreprise')}
+                onActivate={(override) => {
+                  setState((s) => ({ ...s, missionOverride: override }))
+                  goTo('entreprise')
+                }}
               />
             </motion.div>
           ) : (
