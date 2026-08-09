@@ -1,506 +1,343 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Pause, Play } from 'lucide-react'
+import { Check, Pause, Play } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 
 /**
- * PRODUCT THEATRE — a LIGHT operational register (not a dark futuristic panel).
- * The parent (HeroHome) owns the active index so the rotating H1 action and this
- * panel are always the SAME mission — one state machine, never two timers. Each
- * scenario reads top to bottom like a working document:
- *   header → human ask → Alma frames → assignment → skills → first action
- * All secondary text is AA on warm white (>= #655F56); no 9px microtext, no
- * all-caps whisper labels, no glow. Rejouer / Pause are functional; static under
+ * PRODUCT THEATRE — one single story, not a carousel of scenarios.
+ *
+ * The hero no longer shows many different Collaborators. It shows ONE — Iris —
+ * being given a new responsibility, to make the proprietary Unitalk mechanic
+ * legible in five frames:
+ *
+ *   01 Besoin → 02 Mission → 03 Affectation (+ préparation) → 04 Action → 05 Au travail
+ *
+ * The persistent signature under the card ("La même identité. Une nouvelle
+ * responsabilité.") is the thesis: you don't buy an agent, you give a new
+ * responsibility to someone who is already part of your company.
+ *
+ * Light operational register (warm white, AA text, no glow). Self-contained:
+ * owns its own frame timer + play/pause. Freezes on the first frame under
  * prefers-reduced-motion.
  */
 
-export type Bi = { fr: string; en: string }
+type Bi = { fr: string; en: string }
 const p = (b: Bi, l: Lang) => b[l]
 
-export type Collaborator = {
-  name: string
-  role: Bi
-  avatar: string
-  /** 'new' = Alma proposes a new Collaborator; 'existing' = already in the org. */
-  status: 'new' | 'existing'
-}
+const FRAME_MS = 3200
+const RESUME_AFTER_MS = 14000
+const ease = [0.22, 1, 0.36, 1] as const
 
-export type Scenario = {
-  /** Business area, shown as the H1 kicker. */
-  dept: Bi
-  /** H1 tail, e.g. "relancer vos factures impayées". */
-  action: Bi
-  human: Bi
-  almaReply: Bi
-  collab: Collaborator
-  mission: Bi
-  validation: Bi
-  skills: [Bi, Bi]
-  firstAction: Bi
-}
-
-/** Twelve missions, two per business area. On-doctrine (durable Collaborators):
- *  only the very first mission (Ventes · Chloé) proposes a NEW Collaborator.
- *  Every other mission equips a Collaborator already in the organization —
- *  Alma adds the missing profile or skill, never a fresh agent per task. */
-export const SCENARIOS: Scenario[] = [
-  // ── Sales · Chloé ──────────────────────────────────────────────
-  {
-    dept: { fr: 'Ventes', en: 'Sales' },
-    action: { fr: 'qualifier vos prospects', en: 'qualify your prospects' },
-    human: { fr: 'Trouve et qualifie nos prospects les plus prometteurs.', en: 'Find and qualify our most promising prospects.' },
-    almaReply: { fr: 'Je structure la mission et je vous propose Chloé, une nouvelle Collaboratrice IA commerciale.', en: 'I’m structuring the mission and I propose Chloé, a new sales AI Collaborator.' },
-    collab: { name: 'Chloé', role: { fr: 'Commerciale', en: 'Sales rep' }, avatar: '/images/chloe-avatar.png', status: 'new' },
-    mission: { fr: 'Cibler et qualifier les prospects', en: 'Target and qualify prospects' },
-    validation: { fr: 'Vous validez la liste avant tout contact', en: 'You approve the list before any outreach' },
-    skills: [
-      { fr: 'Ciblage des comptes', en: 'Account targeting' },
-      { fr: 'Qualification des prospects', en: 'Prospect qualification' },
-    ],
-    firstAction: { fr: 'Analyser votre marché et vos clients actuels.', en: 'Analyze your market and current customers.' },
-  },
-  {
-    dept: { fr: 'Ventes', en: 'Sales' },
-    action: { fr: 'décrocher plus de rendez-vous', en: 'book more meetings' },
-    human: { fr: 'Décroche plus de rendez-vous avec ces prospects.', en: 'Book more meetings with these prospects.' },
-    almaReply: { fr: 'Chloé, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Chloé, already in your organization, can take this mission, I’m adding a skill.' },
-    collab: { name: 'Chloé', role: { fr: 'Commerciale', en: 'Sales rep' }, avatar: '/images/chloe-avatar.png', status: 'existing' },
-    mission: { fr: 'Décrocher des rendez-vous', en: 'Book meetings' },
-    validation: { fr: 'Vous validez les messages avant envoi', en: 'You approve messages before they go out' },
-    skills: [
-      { fr: 'Prise de contact personnalisée', en: 'Personalized outreach' },
-      { fr: 'Prise de rendez-vous', en: 'Meeting booking' },
-    ],
-    firstAction: { fr: 'Rédiger une première séquence de contact.', en: 'Draft a first outreach sequence.' },
-  },
-  // ── Marketing · Léa ────────────────────────────────────────────
-  {
-    dept: { fr: 'Marketing', en: 'Marketing' },
-    action: { fr: 'publier vos contenus', en: 'publish your content' },
-    human: { fr: 'Crée et publie nos contenus chaque semaine.', en: 'Create and publish our content every week.' },
-    almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier marketing.', en: 'Léa, already in your organization, can take this mission, I’m adding a marketing job profile.' },
-    collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'existing' },
-    mission: { fr: 'Créer et publier les contenus', en: 'Create and publish content' },
-    validation: { fr: 'Vous validez chaque contenu avant publication', en: 'You approve each piece before it’s published' },
-    skills: [
-      { fr: 'Rédaction éditoriale', en: 'Editorial writing' },
-      { fr: 'Planification des publications', en: 'Publishing schedule' },
-    ],
-    firstAction: { fr: 'Proposer un calendrier éditorial.', en: 'Propose an editorial calendar.' },
-  },
-  {
-    dept: { fr: 'Marketing', en: 'Marketing' },
-    action: { fr: 'analyser vos campagnes', en: 'analyze your campaigns' },
-    human: { fr: 'Analyse les résultats de nos campagnes.', en: 'Analyze the results of our campaigns.' },
-    almaReply: { fr: 'Léa, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Léa, already in your organization, can take this mission, I’m adding a skill.' },
-    collab: { name: 'Léa', role: { fr: 'Responsable marketing', en: 'Marketing lead' }, avatar: '/images/lea-avatar.png', status: 'existing' },
-    mission: { fr: 'Analyser les campagnes', en: 'Analyze campaigns' },
-    validation: { fr: 'Vous validez les recommandations avant action', en: 'You approve recommendations before action' },
-    skills: [
-      { fr: 'Analyse des performances', en: 'Performance analysis' },
-      { fr: 'Recommandations d’optimisation', en: 'Optimization recommendations' },
-    ],
-    firstAction: { fr: 'Rassembler les indicateurs des campagnes.', en: 'Gather the campaign metrics.' },
-  },
-  // ── RH · Hugo ──────────────────────────────────────────────────
-  {
-    dept: { fr: 'RH', en: 'HR' },
-    action: { fr: 'présélectionner vos candidats', en: 'shortlist your candidates' },
-    human: { fr: 'Présélectionne les candidats pour ce poste.', en: 'Shortlist the candidates for this role.' },
-    almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier RH.', en: 'Hugo, already in your organization, can take this mission, I’m adding an HR job profile.' },
-    collab: { name: 'Hugo', role: { fr: 'Chargé de recrutement', en: 'Recruiter' }, avatar: '/images/hugo-avatar.png', status: 'existing' },
-    mission: { fr: 'Présélectionner les candidats', en: 'Shortlist candidates' },
-    validation: { fr: 'Vous validez la présélection avant tout contact', en: 'You approve the shortlist before any contact' },
-    skills: [
-      { fr: 'Tri des candidatures', en: 'Application screening' },
-      { fr: 'Évaluation des profils', en: 'Profile assessment' },
-    ],
-    firstAction: { fr: 'Analyser la fiche de poste et les candidatures.', en: 'Analyze the job spec and applications.' },
-  },
-  {
-    dept: { fr: 'RH', en: 'HR' },
-    action: { fr: 'mener vos pré-entretiens', en: 'run your pre-interviews' },
-    human: { fr: 'Mène les pré-entretiens téléphoniques des candidats retenus.', en: 'Run the phone pre-interviews with shortlisted candidates.' },
-    almaReply: { fr: 'Hugo, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Hugo, already in your organization, can take this mission, I’m adding a skill.' },
-    collab: { name: 'Hugo', role: { fr: 'Chargé de recrutement', en: 'Recruiter' }, avatar: '/images/hugo-avatar.png', status: 'existing' },
-    mission: { fr: 'Mener les pré-entretiens', en: 'Run pre-interviews' },
-    validation: { fr: 'Vous validez la trame avant les appels', en: 'You approve the script before the calls' },
-    skills: [
-      { fr: 'Entretien téléphonique', en: 'Phone interview' },
-      { fr: 'Synthèse des candidats', en: 'Candidate summary' },
-    ],
-    firstAction: { fr: 'Préparer la trame de pré-entretien.', en: 'Prepare the pre-interview script.' },
-  },
-  // ── Support · Nadia ────────────────────────────────────────────
-  {
-    dept: { fr: 'Support', en: 'Support' },
-    action: { fr: 'prendre en charge vos demandes clients', en: 'handle your customer requests' },
-    human: { fr: 'Prends en charge nos demandes clients.', en: 'Handle our customer requests.' },
-    almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier support.', en: 'Nadia, already in your organization, can take this mission, I’m adding a support job profile.' },
-    collab: { name: 'Nadia', role: { fr: 'Support client', en: 'Customer support' }, avatar: '/images/nadia-avatar.png', status: 'existing' },
-    mission: { fr: 'Prendre en charge les demandes clients', en: 'Handle customer requests' },
-    validation: { fr: 'Vous validez les réponses sensibles', en: 'You approve sensitive replies' },
-    skills: [
-      { fr: 'Réponse aux demandes', en: 'Request handling' },
-      { fr: 'Escalade des cas complexes', en: 'Complex-case escalation' },
-    ],
-    firstAction: { fr: 'Analyser vos demandes clients récentes.', en: 'Analyze your recent customer requests.' },
-  },
-  {
-    dept: { fr: 'Support', en: 'Support' },
-    action: { fr: 'résoudre les demandes courantes', en: 'resolve common requests' },
-    human: { fr: 'Résous seule les demandes les plus courantes.', en: 'Resolve the most common requests on your own.' },
-    almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Nadia, already in your organization, can take this mission, I’m adding a skill.' },
-    collab: { name: 'Nadia', role: { fr: 'Support client', en: 'Customer support' }, avatar: '/images/nadia-avatar.png', status: 'existing' },
-    mission: { fr: 'Résoudre les demandes courantes', en: 'Resolve common requests' },
-    validation: { fr: 'Vous validez les procédures automatisées', en: 'You approve the automated procedures' },
-    skills: [
-      { fr: 'Résolution autonome', en: 'Autonomous resolution' },
-      { fr: 'Base de connaissances', en: 'Knowledge base' },
-    ],
-    firstAction: { fr: 'Identifier les demandes les plus fréquentes.', en: 'Identify the most frequent requests.' },
-  },
-  // ── Téléphone · voix · Iris ────────────────────────────────────
-  {
-    dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
-    action: { fr: 'qualifier vos appels', en: 'qualify your calls' },
-    human: { fr: 'Appelle et qualifie nos prospects par téléphone.', en: 'Call and qualify our prospects by phone.' },
-    almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier vocal.', en: 'Iris, already in your organization, can take this mission, I’m adding a voice job profile.' },
-    collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'existing' },
-    mission: { fr: 'Qualifier les prospects par téléphone', en: 'Qualify prospects by phone' },
-    validation: { fr: 'Vous validez le script avant les appels', en: 'You approve the script before the calls' },
-    skills: [
-      { fr: 'Appel sortant', en: 'Outbound calling' },
-      { fr: 'Qualification à l’oral', en: 'Spoken qualification' },
-    ],
-    firstAction: { fr: 'Préparer le script d’appel.', en: 'Prepare the call script.' },
-  },
-  {
-    dept: { fr: 'Téléphone · voix', en: 'Phone · voice' },
-    action: { fr: 'répondre à vos appels', en: 'answer your calls' },
-    human: { fr: 'Réponds à nos appels entrants sans temps d’attente.', en: 'Answer our inbound calls with no wait time.' },
-    almaReply: { fr: 'Iris, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Iris, already in your organization, can take this mission, I’m adding a skill.' },
-    collab: { name: 'Iris', role: { fr: 'Agent vocal', en: 'Voice agent' }, avatar: '/images/iris-avatar.png', status: 'existing' },
-    mission: { fr: 'Répondre aux appels entrants', en: 'Answer inbound calls' },
-    validation: { fr: 'Vous validez les transferts vers un humain', en: 'You approve transfers to a human' },
-    skills: [
-      { fr: 'Accueil téléphonique', en: 'Phone reception' },
-      { fr: 'Routage des appels', en: 'Call routing' },
-    ],
-    firstAction: { fr: 'Cartographier les motifs d’appel.', en: 'Map the reasons customers call.' },
-  },
-  // ── Finance · Emma ─────────────────────────────────────────────
-  {
-    dept: { fr: 'Finance', en: 'Finance' },
-    action: { fr: 'relancer vos impayés', en: 'chase your unpaid invoices' },
-    human: { fr: 'Relance chaque semaine nos factures impayées.', en: 'Chase our unpaid invoices every week.' },
-    almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission, j’ajoute un profil métier finance.', en: 'Emma, already in your organization, can take this mission, I’m adding a finance job profile.' },
-    collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'existing' },
-    mission: { fr: 'Relancer les factures impayées', en: 'Chase unpaid invoices' },
-    validation: { fr: 'Vous validez avant tout passage en contentieux', en: 'You approve before any collections' },
-    skills: [
-      { fr: 'Relance des factures', en: 'Invoice chasing' },
-      { fr: 'Suivi des paiements', en: 'Payment tracking' },
-    ],
-    firstAction: { fr: 'Identifier les échéances dépassées.', en: 'Identify overdue due dates.' },
-  },
-  {
-    dept: { fr: 'Finance', en: 'Finance' },
-    action: { fr: 'anticiper votre trésorerie', en: 'anticipate your cash flow' },
-    human: { fr: 'Anticipe nos besoins de trésorerie pour les mois à venir.', en: 'Anticipate our cash-flow needs for the coming months.' },
-    almaReply: { fr: 'Emma, déjà dans votre organisation, peut prendre cette mission, j’ajoute une compétence.', en: 'Emma, already in your organization, can take this mission, I’m adding a skill.' },
-    collab: { name: 'Emma', role: { fr: 'Assistante de direction', en: 'Executive assistant' }, avatar: '/images/emma-avatar.png', status: 'existing' },
-    mission: { fr: 'Anticiper la trésorerie', en: 'Anticipate cash flow' },
-    validation: { fr: 'Vous validez les hypothèses de prévision', en: 'You approve the forecast assumptions' },
-    skills: [
-      { fr: 'Prévision de trésorerie', en: 'Cash-flow forecasting' },
-      { fr: 'Suivi des encaissements', en: 'Receivables tracking' },
-    ],
-    firstAction: { fr: 'Réunir vos flux d’encaissement et de dépenses.', en: 'Collect your inflows and outflows.' },
-  },
-]
+const IRIS_AVATAR = '/images/iris-avatar.png'
 
 const T = {
   fr: {
-    scenarioWord: 'Scénario',
-    almaLine: 'Alma prépare le Collaborateur IA qui accomplira votre mission.',
-    sophieTip: 'Sophie · Dirigeante de Solvea',
-    almaTip: 'Alma · Customer success IA · Unitalk',
+    almaLine: 'Alma prépare votre Collaborateur IA.',
+    frames: ['Besoin', 'Mission', 'Affectation', 'Action', 'Au travail'],
+    // 01
+    human: 'J’ai besoin que quelqu’un réponde aux appels entrants et qualifie les demandes.',
+    almaReply: 'Je prépare la mission.',
+    // 02
     missionLabel: 'Mission',
-    validationLabel: 'Validation',
-    canTake: 'peut prendre cette mission',
-    newCollab: 'nouveau Collaborateur IA proposé',
-    existing: 'déjà dans votre organisation',
-    recommended: 'Affectation recommandée',
-    proposed: 'Nouveau Collaborateur',
-    skillsTitle: 'Deux compétences à développer',
-    firstLabel: 'Première action',
+    mission: 'Répondre et qualifier les appels entrants',
+    ruleLabel: 'Règle',
+    rule: 'Transférer les demandes sensibles à un membre de l’équipe.',
+    // 03
+    affectationLine: 'Iris peut prendre cette nouvelle responsabilité.',
+    irisRole: 'Collaboratrice IA · Solvea',
+    prepLabel: 'Préparation',
+    prep: ['Profil Support client', 'Compétences nécessaires', 'Applications connectées', 'Modèle IA adapté', 'Instructions de travail'],
+    ready: 'Iris est prête pour la mission.',
+    // 04
+    actionLabel: 'Au travail',
+    flow: ['Appel entrant', 'Iris répond', 'Demande qualifiée', 'CRM mis à jour', 'Rendez-vous proposé'],
+    validation: 'Validation humaine requise',
+    // 05
+    domain: 'Commercial · Support client',
+    atWork: 'Au travail',
+    status1: 'Mission en cours',
+    status2: 'Première action accomplie',
+    // signature + controls
+    signature: 'La même identité. Une nouvelle responsabilité.',
     pause: 'Pause',
     play: 'Rejouer',
+    frameWord: 'Étape',
     of: 'sur',
   },
   en: {
-    scenarioWord: 'Scenario',
-    almaLine: 'Alma prepares the AI Collaborator that will carry out your mission.',
-    sophieTip: 'Sophie · Founder of Solvea',
-    almaTip: 'Alma · AI Customer success · Unitalk',
+    almaLine: 'Alma prepares your AI Collaborator.',
+    frames: ['Need', 'Mission', 'Assignment', 'Action', 'At work'],
+    human: 'I need someone to answer inbound calls and qualify the requests.',
+    almaReply: 'I’m preparing the mission.',
     missionLabel: 'Mission',
-    validationLabel: 'Validation',
-    canTake: 'can take this mission',
-    newCollab: 'new AI Collaborator proposed',
-    existing: 'already in your organization',
-    recommended: 'Recommended assignment',
-    proposed: 'New Collaborator',
-    skillsTitle: 'Two skills to develop',
-    firstLabel: 'First action',
+    mission: 'Answer and qualify inbound calls',
+    ruleLabel: 'Rule',
+    rule: 'Transfer sensitive requests to a team member.',
+    affectationLine: 'Iris can take on this new responsibility.',
+    irisRole: 'AI Collaborator · Solvea',
+    prepLabel: 'Preparation',
+    prep: ['Customer support profile', 'Required skills', 'Connected applications', 'Adapted AI model', 'Working instructions'],
+    ready: 'Iris is ready for the mission.',
+    actionLabel: 'At work',
+    flow: ['Inbound call', 'Iris answers', 'Request qualified', 'CRM updated', 'Meeting proposed'],
+    validation: 'Human validation required',
+    domain: 'Sales · Customer support',
+    atWork: 'At work',
+    status1: 'Mission in progress',
+    status2: 'First action completed',
+    signature: 'The same identity. A new responsibility.',
     pause: 'Pause',
     play: 'Replay',
+    frameWord: 'Step',
     of: 'of',
   },
 } as const
 
-const ease = [0.22, 1, 0.36, 1] as const
+const FRAME_COUNT = 5
 
-/** An avatar that reveals a small identity tooltip on hover and keyboard focus.
- *  Alignment/placement are tunable so the label never escapes the card's
- *  overflow-hidden bounds (e.g. the right-edge Sophie avatar opens left). */
-function AvatarTip({
-  label,
-  align = 'center',
-  place = 'top',
-  wrapperClassName = '',
-  children,
-}: {
-  label: string
-  align?: 'start' | 'center' | 'end'
-  place?: 'top' | 'bottom'
-  wrapperClassName?: string
-  children: ReactNode
-}) {
-  const [open, setOpen] = useState(false)
-  const reduce = useReducedMotion()
-  const alignClass = align === 'center' ? 'left-1/2 -translate-x-1/2' : align === 'start' ? 'left-0' : 'right-0'
-  const placeClass = place === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
-  return (
-    <span
-      className={`group/av relative inline-flex shrink-0 cursor-default rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-1 focus-visible:ring-offset-[#FFFDF9] ${wrapperClassName}`}
-      tabIndex={0}
-      role="img"
-      aria-label={label}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
-      onBlur={() => setOpen(false)}
-    >
-      {children}
-      <AnimatePresence>
-        {open && (
-          <motion.span
-            role="tooltip"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: place === 'top' ? 3 : -3 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: place === 'top' ? 3 : -3 }}
-            transition={{ duration: reduce ? 0 : 0.14, ease }}
-            className={`pointer-events-none absolute z-30 w-max max-w-[210px] whitespace-normal rounded-lg border border-[#E4DDCE] bg-white px-2.5 py-1.5 text-center text-[12px] font-medium leading-snug text-[#3E3830] shadow-[0_12px_30px_-10px_rgba(28,26,23,0.3)] ${placeClass} ${alignClass}`}
-          >
-            {label}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </span>
-  )
-}
-
-export function HeroTheatre({
-  lang = 'fr',
-  index,
-  playing,
-  onTogglePlay,
-  onSelect,
-}: {
-  lang?: Lang
-  index: number
-  playing: boolean
-  onTogglePlay: () => void
-  onSelect: (i: number) => void
-}) {
+export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   const reduce = useReducedMotion()
-  const s = SCENARIOS[index]
-  const two = (n: number) => String(n).padStart(2, '0')
 
-  const nodeAnim = (delay: number) =>
+  const [frame, setFrame] = useState(0)
+  const [playing, setPlaying] = useState(true)
+  const resumeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    if (reduce) setPlaying(false)
+  }, [reduce])
+
+  useEffect(() => {
+    if (!playing || reduce) return
+    const id = setTimeout(() => setFrame((v) => (v + 1) % FRAME_COUNT), FRAME_MS)
+    return () => clearTimeout(id)
+  }, [playing, frame, reduce])
+
+  useEffect(() => () => { if (resumeRef.current) clearTimeout(resumeRef.current) }, [])
+
+  const select = useCallback(
+    (i: number) => {
+      setFrame(i)
+      setPlaying(false)
+      if (resumeRef.current) clearTimeout(resumeRef.current)
+      if (!reduce) resumeRef.current = setTimeout(() => setPlaying(true), RESUME_AFTER_MS)
+    },
+    [reduce],
+  )
+
+  const togglePlay = useCallback(() => {
+    if (resumeRef.current) clearTimeout(resumeRef.current)
+    setPlaying((v) => !v)
+  }, [])
+
+  const node = (delay: number) =>
     reduce
       ? { initial: false as const, animate: { opacity: 1, y: 0 } }
       : { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, ease, delay } }
 
   return (
-    <motion.div
-      className="group relative w-full overflow-hidden rounded-[22px] border border-[#E4DCCE] bg-[#FFFDF9] text-[#1C1A17] transition-colors duration-300 hover:border-[#D9B9C8]"
-      style={{ boxShadow: '0 1px 1px rgba(48,37,28,0.04), 0 8px 20px -8px rgba(48,37,28,0.10), 0 34px 64px -24px rgba(48,37,28,0.16)' }}
-      initial={false}
-      whileHover={
-        reduce
-          ? undefined
-          : {
-              y: -6,
-              boxShadow:
-                '0 2px 2px rgba(48,37,28,0.05), 0 14px 30px -10px rgba(176,12,84,0.14), 0 46px 80px -28px rgba(48,37,28,0.24)',
-              transition: { duration: 0.4, ease },
-            }
-      }
-    >
-      {/* Hairline top edge with a magenta signature that sweeps across on hover. */}
-      <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#1C1A17]/25 to-transparent" />
-      <span
-        aria-hidden
-        className="absolute left-0 top-0 h-px w-16 bg-[#B00C54] transition-[width] duration-500 ease-out group-hover:w-full"
-      />
+    <div className="w-full">
+      <motion.div
+        className="group relative w-full overflow-hidden rounded-[22px] border border-[#E4DCCE] bg-[#FFFDF9] text-[#1C1A17] transition-colors duration-300 hover:border-[#D9B9C8]"
+        style={{ boxShadow: '0 1px 1px rgba(48,37,28,0.04), 0 8px 20px -8px rgba(48,37,28,0.10), 0 34px 64px -24px rgba(48,37,28,0.16)' }}
+        initial={false}
+        whileHover={
+          reduce
+            ? undefined
+            : { y: -6, boxShadow: '0 2px 2px rgba(48,37,28,0.05), 0 14px 30px -10px rgba(176,12,84,0.14), 0 46px 80px -28px rgba(48,37,28,0.24)', transition: { duration: 0.4, ease } }
+        }
+      >
+        {/* Hairline top edge with a magenta signature that sweeps across on hover. */}
+        <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#1C1A17]/25 to-transparent" />
+        <span aria-hidden className="absolute left-0 top-0 h-px w-16 bg-[#B00C54] transition-[width] duration-500 ease-out group-hover:w-full" />
 
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-b border-[#EFE8DB] px-4 pb-3.5 pt-4 sm:px-6">
+        {/* Header — Alma + frame progress + play/pause */}
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-b border-[#EFE8DB] px-4 pb-3.5 pt-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-            <AvatarTip label={t.almaTip} align="start" place="bottom">
-              <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-            </AvatarTip>
-            <p className="max-w-[34ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]">{t.almaLine}</p>
+            <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+            <p className="max-w-[30ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]">{t.almaLine}</p>
           </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5">
-            {SCENARIOS.map((sc, i) => (
-              <button
-                key={sc.mission.en}
-                type="button"
-                onClick={() => onSelect(i)}
-                aria-label={`${t.scenarioWord} ${i + 1} ${t.of} ${SCENARIOS.length} : ${p(sc.mission, lang)}`}
-                aria-current={i === index}
-                className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'w-7 bg-[#B00C54]' : 'w-1.5 bg-[#DED6C8] hover:bg-[#BDB3A1]'}`}
-              />
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={onTogglePlay}
-            aria-label={playing ? t.pause : t.play}
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#E4DCCE] bg-[#FCFAF4] text-[#6B6459] transition-colors hover:border-[#D3C9B7] hover:text-[#1C1A17] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF9]"
-          >
-            {playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" fill="currentColor" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Stage */}
-      <div className="px-4 py-5 sm:px-6 sm:py-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={index}
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.28, ease }}
-          >
-            {/* Sophie speaks to Alma — outgoing chat message */}
-            <motion.div {...nodeAnim(0.02)} className="flex items-end justify-end gap-2.5">
-              <p className="max-w-[85%] rounded-[16px] rounded-br-[5px] border border-[#F3D9E5] bg-[#FBEAF1] px-4 py-2.5 text-right text-[14px] leading-relaxed text-[#3A2530]">{p(s.human, lang)}</p>
-              <AvatarTip label={t.sophieTip} align="end">
-                <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-              </AvatarTip>
-            </motion.div>
-
-            {/* Alma replies — incoming chat message */}
-            <motion.div {...nodeAnim(0.1)} className="mt-2.5 flex items-end gap-2.5">
-              <AvatarTip label={t.almaTip} align="start">
-                <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-              </AvatarTip>
-              <p className="max-w-[85%] rounded-[16px] rounded-bl-[5px] border border-[#EBE3D5] bg-[#F6F1E8] px-4 py-2.5 text-[14px] leading-relaxed text-[#2C2822]">{p(s.almaReply, lang)}</p>
-            </motion.div>
-
-            {/* The mission sheet Alma attaches to her reply — crossed by the thread */}
-            <div className="relative mt-5 pl-8">
-              {/* Base rail — faint dotted guide */}
-              <span
-                aria-hidden
-                className="absolute left-[7.5px] top-1.5 bottom-3 w-px"
-                style={{ backgroundImage: 'linear-gradient(to bottom, #DCD3C4 0 3px, transparent 3px 7px)', backgroundSize: '1px 7px' }}
-              />
-              {/* Living thread — draws down as the nodes reveal */}
-              <motion.span
-                key={index}
-                aria-hidden
-                className="absolute left-2 top-1.5 bottom-3 w-[1.5px] origin-top -translate-x-1/2 rounded-full"
-                style={{ background: 'linear-gradient(to bottom, #B00C54 0%, #C24A7E 55%, rgba(176,12,84,0.15) 100%)' }}
-                initial={reduce ? false : { scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ duration: 1.05, ease, delay: 0.14 }}
-              />
-
-              {/* Mission + validation */}
-              <motion.div {...nodeAnim(0.14)} className="relative pb-5">
-                <span className="absolute -left-[27px] top-[5px] h-[11px] w-[11px] rounded-full bg-[#B00C54] ring-[3px] ring-[#FFFDF9]" />
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AFA695]">{t.missionLabel}</p>
-                <p className="mt-1 text-[15px] font-medium tracking-[-0.005em] text-[#1C1A17]">{p(s.mission, lang)}</p>
-                <p className="mt-2 flex items-center gap-1.5 text-[12.5px] text-[#2C5F8A]">
-                  <span aria-hidden className="h-1 w-1 shrink-0 rounded-full bg-[#2C5F8A]" />
-                  <span className="font-semibold">{t.validationLabel}</span>
-                  <span className="text-[#6C8DA8]">· {p(s.validation, lang)}</span>
-                </p>
-              </motion.div>
-
-              {/* Assignment — the Collaborator Alma proposes or equips */}
-              <motion.div key={`assign-${index}`} {...nodeAnim(0.22)} className="relative pb-5">
-                <AvatarTip
-                  label={`${s.collab.name} · ${p(s.collab.role, lang)}`}
-                  align="start"
-                  wrapperClassName="absolute -left-[31px] top-px h-[19px] w-[19px] items-center justify-center bg-[#FFFDF9] ring-[1.5px] ring-[#B00C54]"
-                >
-                  <Image src={s.collab.avatar} alt="" width={17} height={17} className="h-[17px] w-[17px] rounded-full object-cover" />
-                </AvatarTip>
-                <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">
-                  {s.collab.status === 'new' ? `${s.collab.name} · ${t.newCollab}` : `${s.collab.name} ${t.canTake}`}
-                </p>
-                <p className="mt-0.5 text-[13px] text-[#6B6459]">
-                  {s.collab.status === 'existing' ? `${p(s.collab.role, lang)} · ${t.existing}` : p(s.collab.role, lang)}
-                </p>
-                {s.collab.status === 'new' ? (
-                  <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#FBEAF1] px-2.5 py-1 text-[11.5px] font-semibold tracking-[0.01em] text-[#B00C54]">
-                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#B00C54]" />
-                    {t.proposed}
-                  </p>
-                ) : (
-                  <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#EAF0F5] px-2.5 py-1 text-[11.5px] font-semibold tracking-[0.01em] text-[#2C5F8A]">
-                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#2C5F8A]" />
-                    {t.recommended}
-                  </p>
-                )}
-              </motion.div>
-
-              {/* Skills to develop */}
-              <motion.div {...nodeAnim(0.3)} className="relative pb-5">
-                <span className="absolute -left-[27px] top-[5px] h-[11px] w-[11px] rounded-full border-[1.5px] border-[#B00C54] bg-[#FFFDF9]" />
-                <p className="text-[14px] font-semibold tracking-[-0.005em] text-[#1C1A17]">{t.skillsTitle}</p>
-                <ul className="mt-2.5 flex flex-col gap-2">
-                  {s.skills.map((sk) => (
-                    <li key={sk.en} className="flex items-center gap-2.5 text-[14px] text-[#3E3830]">
-                      <span aria-hidden className="h-px w-3 shrink-0 bg-[#D89BB6]" />
-                      {p(sk, lang)}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-
-              {/* First action */}
-              <motion.div {...nodeAnim(0.38)} className="relative">
-                <span className="absolute -left-[27px] top-[5px] h-[11px] w-[11px] rounded-full bg-[#2C5F8A] ring-[3px] ring-[#FFFDF9]" />
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AFA695]">{t.firstLabel}</p>
-                <p className="mt-1 text-[15px] font-medium tracking-[-0.005em] text-[#1C1A17]">{p(s.firstAction, lang)}</p>
-              </motion.div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5">
+              {t.frames.map((label, i) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => select(i)}
+                  aria-label={`${t.frameWord} ${i + 1} ${t.of} ${FRAME_COUNT} : ${label}`}
+                  aria-current={i === frame}
+                  className={`h-1 rounded-full transition-all duration-300 ${i === frame ? 'w-7 bg-[#B00C54]' : 'w-1.5 bg-[#DED6C8] hover:bg-[#BDB3A1]'}`}
+                />
+              ))}
             </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </motion.div>
+            <button
+              type="button"
+              onClick={togglePlay}
+              aria-label={playing ? t.pause : t.play}
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#E4DCCE] bg-[#FCFAF4] text-[#6B6459] transition-colors hover:border-[#D3C9B7] hover:text-[#1C1A17] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B00C54] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFDF9]"
+            >
+              {playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" fill="currentColor" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Stage — fixed min-height so the card never jumps between frames */}
+        <div className="relative min-h-[356px] px-4 py-5 sm:px-6 sm:py-6">
+          {/* Frame kicker */}
+          <p className="mb-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#AFA695]">
+            {String(frame + 1).padStart(2, '0')} · {t.frames[frame]}
+          </p>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={frame}
+              initial={reduce ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.28, ease }}
+            >
+              {/* ── 01 · Besoin ── */}
+              {frame === 0 && (
+                <div>
+                  <motion.div {...node(0.02)} className="flex items-end justify-end gap-2.5">
+                    <p className="max-w-[85%] rounded-[16px] rounded-br-[5px] border border-[#F3D9E5] bg-[#FBEAF1] px-4 py-2.5 text-right text-[14px] leading-relaxed text-[#3A2530]">{t.human}</p>
+                    <Image src="/images/sophie-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+                  </motion.div>
+                  <motion.div {...node(0.14)} className="mt-3 flex items-end gap-2.5">
+                    <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+                    <p className="rounded-[16px] rounded-bl-[5px] border border-[#EBE3D5] bg-[#F6F1E8] px-4 py-2.5 text-[15px] font-semibold leading-relaxed text-[#1C1A17]">{t.almaReply}</p>
+                  </motion.div>
+                </div>
+              )}
+
+              {/* ── 02 · Mission ── */}
+              {frame === 1 && (
+                <div>
+                  <motion.div {...node(0.04)}>
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AFA695]">{t.missionLabel}</p>
+                    <p className="mt-1.5 text-balance font-sf text-[20px] font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17]">{t.mission}</p>
+                  </motion.div>
+                  <motion.div {...node(0.18)} className="mt-5 rounded-2xl border border-[#EAF0F5] bg-[#F4F8FB] p-4">
+                    <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#6C8DA8]">
+                      <span aria-hidden className="h-1 w-1 rounded-full bg-[#2C5F8A]" />
+                      {t.ruleLabel}
+                    </p>
+                    <p className="mt-1.5 text-[14px] leading-relaxed text-[#2C4257]">{t.rule}</p>
+                  </motion.div>
+                </div>
+              )}
+
+              {/* ── 03 · Affectation + préparation ── */}
+              {frame === 2 && (
+                <div>
+                  <motion.div {...node(0.02)} className="flex items-center gap-3">
+                    <Image src={IRIS_AVATAR} alt="" width={40} height={40} className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-[#EAD7DF]" />
+                    <div className="min-w-0">
+                      <p className="text-[14.5px] font-semibold tracking-[-0.005em] text-[#1C1A17]">{t.affectationLine}</p>
+                      <p className="mt-0.5 text-[12.5px] text-[#6B6459]">Iris · {t.irisRole}</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div {...node(0.16)} className="mt-4 rounded-2xl border border-[#EFE8DB] bg-[#FCFAF4] p-4">
+                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AFA695]">{t.prepLabel}</p>
+                    <ul className="mt-2.5 flex flex-col gap-2">
+                      {t.prep.map((item, i) => (
+                        <motion.li
+                          key={item}
+                          initial={reduce ? false : { opacity: 0, x: -6 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.32, ease, delay: reduce ? 0 : 0.28 + i * 0.12 }}
+                          className="flex items-center gap-2.5 text-[13.5px] text-[#3E3830]"
+                        >
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#B00C54]">
+                            <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
+                          </span>
+                          {item}
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  <motion.p
+                    initial={reduce ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, ease, delay: reduce ? 0 : 0.95 }}
+                    className="mt-3.5 text-[14px] font-semibold text-[#B00C54]"
+                  >
+                    {t.ready}
+                  </motion.p>
+                </div>
+              )}
+
+              {/* ── 04 · Action ── */}
+              {frame === 3 && (
+                <div>
+                  <ol className="relative flex flex-col gap-0 pl-7">
+                    <span
+                      aria-hidden
+                      className="absolute left-[9px] top-2 bottom-2 w-px"
+                      style={{ backgroundImage: 'linear-gradient(to bottom, #DCD3C4 0 3px, transparent 3px 7px)', backgroundSize: '1px 7px' }}
+                    />
+                    {t.flow.map((step, i) => {
+                      const last = i === t.flow.length - 1
+                      return (
+                        <motion.li
+                          key={step}
+                          initial={reduce ? false : { opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.32, ease, delay: reduce ? 0 : i * 0.14 }}
+                          className="relative pb-3.5 last:pb-0"
+                        >
+                          <span className={`absolute -left-[27px] top-1 h-[11px] w-[11px] rounded-full ring-[3px] ring-[#FFFDF9] ${last ? 'bg-[#2C5F8A]' : 'bg-[#B00C54]'}`} />
+                          <p className={`text-[14.5px] ${last ? 'font-semibold text-[#1C1A17]' : 'text-[#3E3830]'}`}>{step}</p>
+                        </motion.li>
+                      )
+                    })}
+                  </ol>
+                  <motion.p
+                    initial={reduce ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, ease, delay: reduce ? 0 : 0.8 }}
+                    className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#EAF0F5] px-3 py-1.5 text-[11.5px] font-semibold tracking-[0.01em] text-[#2C5F8A]"
+                  >
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#2C5F8A]" />
+                    {t.validation}
+                  </motion.p>
+                </div>
+              )}
+
+              {/* ── 05 · Au travail ── */}
+              {frame === 4 && (
+                <motion.div {...node(0.02)} className="flex flex-col items-center rounded-2xl border border-[#EFE8DB] bg-[#FCFAF4] px-6 py-7 text-center">
+                  <Image src={IRIS_AVATAR} alt="" width={64} height={64} className="h-16 w-16 rounded-full object-cover ring-2 ring-[#EAD7DF]" />
+                  <p className="mt-3.5 font-sf text-[20px] font-semibold tracking-[-0.01em] text-[#1C1A17]">Iris</p>
+                  <p className="mt-0.5 text-[13px] text-[#6B6459]">{t.irisRole}</p>
+                  <p className="mt-0.5 text-[13px] font-medium text-[#4E483F]">{t.domain}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#CFE8D8] bg-[#EBF6EF] px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#1F7A4D]">
+                    <span className="relative flex h-2 w-2">
+                      <span className={`absolute inline-flex h-full w-full rounded-full bg-[#1F9D57] ${reduce ? '' : 'animate-ping'} opacity-75`} />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1F9D57]" />
+                    </span>
+                    {t.atWork}
+                  </span>
+                  <div className="mt-4 flex flex-col items-center gap-1 text-[13px] text-[#4E483F]">
+                    <span>{t.status1}</span>
+                    <span className="text-[#6B6459]">{t.status2}</span>
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </motion.div>
+
+      {/* Persistent signature — the thesis of the whole animation */}
+      <p className="mt-5 text-balance text-center font-sf text-[17px] font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17] sm:text-[18px]">
+        {t.signature}
+      </p>
+    </div>
   )
 }
