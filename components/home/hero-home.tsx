@@ -30,7 +30,6 @@ const T = {
     cta: 'Parler à Alma',
     secondary: 'Confier une mission',
     proofs: ['Essai 7 jours sans CB', 'Hébergé en France', 'Propulsé par Hermes'],
-    retention: 'Vos savoir-faire restent dans votre entreprise',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -42,7 +41,6 @@ const T = {
     cta: 'Talk to Alma',
     secondary: 'Hand over a mission',
     proofs: ['7-day trial, no card', 'Hosted in France', 'Powered by Hermes'],
-    retention: 'Your know-how stays inside your company',
   },
 } as const
 
@@ -217,7 +215,6 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                 </span>
               ))}
             </div>
-            <p className="text-xs font-medium text-[#6B6560]">{t.retention}</p>
           </div>
         </div>
 
