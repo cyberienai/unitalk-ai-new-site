@@ -52,7 +52,7 @@ export function SectionArticles() {
   const t = COPY[lang]
 
   return (
-    <section className="border-t border-[#E4DDCE] bg-[#F4F1EA] px-6 py-16 sm:py-24">
+    <section className="border-t border-[#E4DDCE] bg-[#EFEADF] px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
