@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
@@ -141,7 +142,14 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
         {/* Copy */}
         <div className="min-w-0 max-w-xl">
           <div className="mb-5 flex justify-center sm:justify-start">
-            <Kicker>{t.eyebrow}</Kicker>
+            <Link
+              href="/collaborateurs-ia/pourquoi-unitalk"
+              className="group inline-flex items-center gap-1.5 rounded-full transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+              aria-label={lang === 'fr' ? 'Pourquoi Unitalk' : 'Why Unitalk'}
+            >
+              <Kicker>{t.eyebrow}</Kicker>
+              <ArrowRight className="h-3.5 w-3.5 text-[#B00C54] transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </Link>
           </div>
 
           {/* Stable, visible headline — the positioning statement (does not rotate). */}
