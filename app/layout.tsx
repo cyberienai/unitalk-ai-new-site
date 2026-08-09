@@ -126,9 +126,9 @@ const softwareApplicationJsonLd = {
   inLanguage: 'fr-FR',
   offers: {
     '@type': 'Offer',
-    price: '0',
+    price: '49',
     priceCurrency: 'EUR',
-    description: '7 jours pour votre première mission, sans carte bancaire.',
+    description: 'À partir de 49 €/mois. 7 jours d’essai pour votre première mission, sans carte bancaire.',
   },
 }
 

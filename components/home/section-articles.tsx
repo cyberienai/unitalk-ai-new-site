@@ -8,9 +8,9 @@ import { ArrowRight } from 'lucide-react'
 /**
  * Editorial closing section — three thought-leadership article cards that
  * develop Unitalk's category ("the IA-native company"), followed by a simple
- * contact invitation. Content is static placeholder copy: there is no /blog CMS
- * yet, so the cards point to the future /blog destination. The banner is a real
- * mailto link (no fake newsletter form) until a subscription backend exists.
+ * contact invitation. Each card links to its real article at /blog/[slug]
+ * (see lib/blog-articles.ts); "See all articles" points to the /blog index.
+ * The banner is a real mailto link (no fake newsletter form).
  */
 const COPY = {
   fr: {
@@ -20,9 +20,9 @@ const COPY = {
     readArticle: 'Lire l’article',
     seeAll: 'Voir tous les articles',
     articles: [
-      { category: 'Doctrine', date: 'Juillet 2026', title: 'Une IA sans identité ne devient jamais un collaborateur.' },
-      { category: 'Méthode', date: 'Juin 2026', title: 'Un agent produit un résultat. Un Collaborateur IA construit une capacité.' },
-      { category: 'Confiance', date: 'Mai 2026', title: 'L’autonomie commence par des limites claires.' },
+      { slug: 'identite-collaborateur', category: 'Doctrine', date: 'Juillet 2026', title: 'Une IA sans identité ne devient jamais un collaborateur.' },
+      { slug: 'resultat-vs-capacite', category: 'Méthode', date: 'Juin 2026', title: 'Un agent produit un résultat. Un Collaborateur IA construit une capacité.' },
+      { slug: 'autonomie-limites', category: 'Confiance', date: 'Mai 2026', title: 'L’autonomie commence par des limites claires.' },
     ],
     contactTitle: 'Une question, un projet, une idée ?',
     contactSub: 'Écrivez-nous, une vraie personne vous répond.',
@@ -35,9 +35,9 @@ const COPY = {
     readArticle: 'Read the article',
     seeAll: 'See all articles',
     articles: [
-      { category: 'Doctrine', date: 'July 2026', title: 'An AI with no identity never becomes a collaborator.' },
-      { category: 'Method', date: 'June 2026', title: 'An agent produces a result. An AI Collaborator builds a capability.' },
-      { category: 'Trust', date: 'May 2026', title: 'Autonomy starts with clear boundaries.' },
+      { slug: 'identite-collaborateur', category: 'Doctrine', date: 'July 2026', title: 'An AI with no identity never becomes a collaborator.' },
+      { slug: 'resultat-vs-capacite', category: 'Method', date: 'June 2026', title: 'An agent produces a result. An AI Collaborator builds a capability.' },
+      { slug: 'autonomie-limites', category: 'Trust', date: 'May 2026', title: 'Autonomy starts with clear boundaries.' },
     ],
     contactTitle: 'A question, a project, an idea?',
     contactSub: 'Write to us — a real person will reply.',
@@ -74,7 +74,7 @@ export function SectionArticles() {
           {t.articles.map((a, i) => (
             <motion.a
               key={a.title}
-              href="/blog"
+              href={`/blog/${a.slug}`}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
