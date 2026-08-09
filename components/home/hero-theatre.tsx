@@ -37,6 +37,7 @@ const T = {
   fr: {
     almaLine: 'Alma prépare la mission.',
     almaLineIris: 'Alma prépare Iris pour cette nouvelle responsabilité.',
+    almaIdentity: 'Alma · Conseillère en transformation IA · Unitalk',
     frames: ['Besoin', 'Mission', 'Affectation', 'Action', 'Au travail'],
     // 01
     human: 'J’ai besoin que quelqu’un réponde aux appels entrants et qualifie les demandes.',
@@ -46,12 +47,14 @@ const T = {
     mission: 'Répondre et qualifier les appels entrants',
     ruleLabel: 'Règle',
     rule: 'Transférer les demandes sensibles à un membre de l’équipe.',
-    // 03
+    // 03 — one idea only: the same identity gains a new job profile.
     affectationLine: 'Iris peut prendre cette nouvelle responsabilité.',
     irisRole: 'Collaboratrice IA · Solvea',
-    prepLabel: 'Préparation',
-    prep: ['Profil Support client', 'Compétences nécessaires', 'Applications connectées', 'Modèle IA adapté', 'Instructions de travail'],
-    ready: 'Iris est prête pour la mission.',
+    existingProfile: 'Commercial',
+    addedProfile: 'Support client',
+    addedProfileLabel: 'Profil métier ajouté',
+    ready: 'Prête pour la mission.',
+    irisProof: 'iris@solvea.fr · Profil public · Agenda',
     // 04
     actionLabel: 'Au travail',
     flow: ['Appel entrant', 'Iris répond', 'Demande qualifiée', 'CRM mis à jour', 'Rendez-vous proposé'],
@@ -71,6 +74,7 @@ const T = {
   en: {
     almaLine: 'Alma prepares the mission.',
     almaLineIris: 'Alma prepares Iris for this new responsibility.',
+    almaIdentity: 'Alma · AI transformation advisor · Unitalk',
     frames: ['Need', 'Mission', 'Assignment', 'Action', 'At work'],
     human: 'I need someone to answer inbound calls and qualify the requests.',
     almaReply: 'I’m preparing the mission.',
@@ -80,9 +84,11 @@ const T = {
     rule: 'Transfer sensitive requests to a team member.',
     affectationLine: 'Iris can take on this new responsibility.',
     irisRole: 'AI Collaborator · Solvea',
-    prepLabel: 'Preparation',
-    prep: ['Customer support profile', 'Required skills', 'Connected applications', 'Adapted AI model', 'Working instructions'],
-    ready: 'Iris is ready for the mission.',
+    existingProfile: 'Sales',
+    addedProfile: 'Customer support',
+    addedProfileLabel: 'Job profile added',
+    ready: 'Ready for the mission.',
+    irisProof: 'iris@solvea.fr · Public profile · Calendar',
     actionLabel: 'At work',
     flow: ['Inbound call', 'Iris answers', 'Request qualified', 'CRM updated', 'Meeting proposed'],
     validation: 'Human validation required',
@@ -159,19 +165,24 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
         {/* Header — Alma + frame progress + play/pause */}
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-b border-[#EFE8DB] px-4 pb-3.5 pt-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-            <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-[#EAE1D2]" />
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.p
-                key={frame >= 2 ? 'iris' : 'mission'}
-                initial={reduce ? false : { opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                transition={{ duration: 0.3, ease }}
-                className="max-w-[34ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]"
-              >
-                {frame >= 2 ? t.almaLineIris : t.almaLine}
-              </motion.p>
-            </AnimatePresence>
+            <Image src="/alma-avatar.png" alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-[#EAE1D2]" />
+            <div className="min-w-0">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p
+                  key={frame >= 2 ? 'iris' : 'mission'}
+                  initial={reduce ? false : { opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                  transition={{ duration: 0.3, ease }}
+                  className="max-w-[34ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]"
+                >
+                  {frame >= 2 ? t.almaLineIris : t.almaLine}
+                </motion.p>
+              </AnimatePresence>
+              {/* Persistent identity: says who Alma is, so the header is never
+                  an anonymous voice. */}
+              <p className="mt-0.5 truncate font-mono text-[9.5px] uppercase tracking-[0.1em] text-[#AFA695]">{t.almaIdentity}</p>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
@@ -255,15 +266,21 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
                   </motion.div>
 
                   <motion.div {...node(0.16)} className="mt-4 rounded-2xl border border-[#EFE8DB] bg-[#FCFAF4] p-4">
-                    <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AFA695]">{t.prepLabel}</p>
-                    <ul className="mt-2.5 flex flex-col gap-2">
-                      {t.prep.map((item, i) => (
+                    {/* The whole point of the frame: the SAME identity keeps its
+                        existing profile and gains one new job profile. */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full border border-[#E4DCCE] bg-[#F3EEE4] px-3 py-1 text-[12.5px] font-medium text-[#6B6459]">{t.existingProfile}</span>
+                      <span aria-hidden className="text-[15px] font-semibold text-[#B00C54]">+</span>
+                      <span className="rounded-full bg-[#FBE7F0] px-3 py-1 text-[12.5px] font-semibold text-[#AD0C53]">{t.addedProfile}</span>
+                    </div>
+                    <ul className="mt-3 flex flex-col gap-2">
+                      {[t.addedProfileLabel, t.ready].map((item, i) => (
                         <motion.li
                           key={item}
                           initial={reduce ? false : { opacity: 0, x: -6 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.32, ease, delay: reduce ? 0 : 0.28 + i * 0.12 }}
-                          className="flex items-center gap-2.5 text-[13.5px] text-[#3E3830]"
+                          transition={{ duration: 0.32, ease, delay: reduce ? 0 : 0.3 + i * 0.14 }}
+                          className="flex items-center gap-2.5 text-[13.5px] font-medium text-[#3E3830]"
                         >
                           <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#B00C54]">
                             <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />
@@ -274,13 +291,14 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
                     </ul>
                   </motion.div>
 
+                  {/* Professional proof — Iris exists like a real teammate. */}
                   <motion.p
                     initial={reduce ? false : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.4, ease, delay: reduce ? 0 : 0.95 }}
-                    className="mt-3.5 text-[14px] font-semibold text-[#B00C54]"
+                    transition={{ duration: 0.4, ease, delay: reduce ? 0 : 0.85 }}
+                    className="mt-3.5 font-mono text-[11.5px] tracking-[0.01em] text-[#6B6459]"
                   >
-                    {t.ready}
+                    {t.irisProof}
                   </motion.p>
                 </div>
               )}

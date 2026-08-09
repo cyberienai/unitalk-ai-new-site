@@ -53,7 +53,7 @@ const T = {
         links: [
           { label: 'À propos', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
-          { label: 'Sécurité', href: '/#confiance' },
+          { label: 'Sécurité', href: '/hebergeurs' },
           { label: 'Mentions légales', href: '/mentions-legales' },
           { label: 'Confidentialité', href: '/confidentialite' },
           { label: 'Conditions', href: '/conditions' },
@@ -110,7 +110,7 @@ const T = {
         links: [
           { label: 'About', href: '/team' },
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
-          { label: 'Security', href: '/#confiance' },
+          { label: 'Security', href: '/hebergeurs' },
           { label: 'Legal notice', href: '/mentions-legales' },
           { label: 'Privacy', href: '/confidentialite' },
           { label: 'Terms', href: '/conditions' },

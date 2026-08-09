@@ -27,7 +27,6 @@ const T = {
   fr: {
     kicker: 'Workspace',
     title: 'Les humains décident. Les Collaborateurs IA agissent.',
-    sub: 'Collaborateurs humains et IA collaborent dans le même espace de travail.',
     surfaces: 'Le Workspace privé réunit les missions, l’activité, les validations et les résultats. Vos équipes voient ce qui se passe, interviennent quand c’est nécessaire et gardent le contrôle des décisions.',
     surfacesList: 'Web · Desktop · Messageries · Terminal',
     cta: 'Découvrir le Workspace',
@@ -63,7 +62,6 @@ const T = {
   en: {
     kicker: 'Workspace',
     title: 'Humans decide. AI Collaborators act.',
-    sub: 'Human and AI collaborators work together in the same workspace.',
     surfaces: 'The private Workspace brings together missions, activity, validations and results. Your teams see what is happening, step in when needed and keep control of the decisions.',
     surfacesList: 'Web · Desktop · Messaging · Terminal',
     cta: 'Discover the Workspace',
@@ -137,8 +135,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
           <h2 className="mt-4 text-balance font-sf text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#1C1A17]">
             {t.title}
           </h2>
-          <p className="mt-4 max-w-lg text-pretty text-[17px] leading-relaxed text-[#4E483F] md:text-[19px]">{t.sub}</p>
-          <p className="mt-8 border-t border-[#DcD4C4] pt-6 text-[15px] leading-relaxed text-[#4E483F]">{t.surfaces}</p>
+          <p className="mt-5 max-w-lg text-pretty text-[17px] leading-relaxed text-[#4E483F]">{t.surfaces}</p>
           <Link
             href="/workspace"
             className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#1C1A17] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:decoration-[#D10E63]"
@@ -196,7 +193,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
                     style={{ backgroundColor: reached ? MAGENTA : 'transparent', border: reached ? 'none' : '1.5px solid #DcD4C4' }}
                   />
                   <p className="text-[13.5px] leading-snug text-[#2A2622]">
-                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{a.time}</span>
+                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{a.time}</span>{' '}
                     {a.text}
                   </p>
                 </li>
@@ -283,7 +280,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
                     style={{ backgroundColor: validated ? GREEN : '#B4AB99' }}
                   />
                   <p className="text-[13.5px] leading-snug text-[#2A2622]">
-                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{outcome.time}</span>
+                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{outcome.time}</span>{' '}
                     {outcome.text}
                   </p>
                 </motion.li>
