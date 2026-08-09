@@ -128,6 +128,18 @@ export type RoleDetail = {
   skills: Bilingual[]
   tools: string[]
   missions: Bilingual[]
+  // Liste publique optionnelle « Ce que vous pouvez lui demander » : quand elle
+  // est présente, elle remplace la section « Missions types » sur le profil.
+  askList?: Bilingual[]
+  // Capacité de participation aux visioconférences (optionnelle, ex. Emma).
+  videoCall?: {
+    title: Bilingual
+    body: Bilingual
+    identity: string // ex. "Emma · Collaboratrice IA · Unitalk"
+    actions: Bilingual[]
+    transparency: Bilingual[]
+    cta: Bilingual
+  }
   manager: { name: string; role: Bilingual } // responsable au sein de l'entreprise (binôme humain)
   managerEmail?: string // email de contact du responsable
   managerHandle?: string // handle public du responsable (ex. patrickchassany)
@@ -289,6 +301,38 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Réserver et confirmer un déplacement complet', en: 'Book and confirm a full business trip' },
       { fr: 'Préparer un dossier de décision avant réunion', en: 'Prepare a decision brief before a meeting' },
     ],
+    askList: [
+      { fr: 'préparer une réunion', en: 'prepare a meeting' },
+      { fr: 'participer à une visioconférence', en: 'join a video call' },
+      { fr: 'produire un compte rendu', en: 'produce meeting minutes' },
+      { fr: 'synthétiser un dossier', en: 'summarize a file' },
+      { fr: 'identifier les décisions et prochaines actions', en: 'identify decisions and next actions' },
+      { fr: 'organiser un agenda', en: 'organize a calendar' },
+      { fr: 'suivre les actions décidées', en: 'track the decided actions' },
+      { fr: 'orienter une demande vers la bonne personne', en: 'route a request to the right person' },
+    ],
+    videoCall: {
+      title: { fr: 'Participer à vos visioconférences', en: 'Join your video calls' },
+      body: {
+        fr: 'Emma peut rejoindre les réunions auxquelles elle est invitée, préparer l’ordre du jour, synthétiser les échanges, identifier les décisions et organiser le suivi des actions.',
+        en: 'Emma can join the meetings she is invited to, prepare the agenda, summarize the discussion, identify decisions and organize the follow-up of actions.',
+      },
+      identity: 'Emma · Collaboratrice IA · Unitalk',
+      actions: [
+        { fr: 'Inviter Emma à une visioconférence', en: 'Invite Emma to a video call' },
+        { fr: 'Planifier une réunion', en: 'Schedule a meeting' },
+        { fr: 'Voir un exemple de compte rendu', en: 'See a sample of minutes' },
+      ],
+      transparency: [
+        { fr: 'Emma est toujours identifiée comme une Collaboratrice IA.', en: 'Emma is always identified as an AI Collaborator.' },
+        { fr: 'L’organisateur autorise sa participation.', en: 'The organizer authorizes her participation.' },
+        { fr: 'Toute transcription ou tout enregistrement est signalé aux participants.', en: 'Any transcription or recording is disclosed to participants.' },
+        { fr: 'Elle utilise uniquement les documents et informations autorisés.', en: 'She only uses authorized documents and information.' },
+        { fr: 'Elle ne prend aucune décision engageante sans validation humaine.', en: 'She makes no binding decision without human validation.' },
+        { fr: 'Les échanges et comptes rendus restent dans le Workspace privé.', en: 'Exchanges and minutes stay in the private Workspace.' },
+      ],
+      cta: { fr: 'Inviter Emma à votre prochaine visioconférence', en: 'Invite Emma to your next video call' },
+    },
   },
   lea: {
     slug: 'lea',

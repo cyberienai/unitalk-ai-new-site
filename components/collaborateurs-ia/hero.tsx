@@ -1,28 +1,35 @@
 'use client'
 
 import Image from 'next/image'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
-import { HeroTheatre, SCENARIOS } from '@/components/home/hero-theatre'
+import { HeroTheatre } from '@/components/home/hero-theatre'
 import { useAlma } from '@/components/home/alma-panel-context'
 
 /**
- * COLLAB HERO — a copy of the home hero's animated theatre adapted for the
- * Collaborateurs IA page. The H1 is STABLE and visible (better a11y/SEO than a
- * rotating headline); a small caption below stays synced to the theatre index
- * so the demonstration and the text always show the same mission. A single
- * autoplay timer drives the shared scenario index. Freezes on the first
- * scenario under prefers-reduced-motion. One primary CTA opens Alma.
+ * COLLAB HERO — the Collaborateurs IA page hero. The H1 is STABLE and visible
+ * (better a11y/SEO than a rotating headline); a small caption below rotates
+ * through example missions (decorative, aria-hidden). The theatre on the right
+ * tells the single Iris story on its own timer. Freezes under
+ * prefers-reduced-motion. One primary CTA opens Alma.
  */
 
 const T = {
   fr: {
-    eyebrow: 'Collaborateurs IA',
+    eyebrow: 'Il vous manque quelqu’un ?',
     title: 'Un Collaborateur IA est prêt à accomplir vos missions.',
     exampleLabel: 'Une mission parmi d’autres',
+    examples: [
+      'répondre à vos appels',
+      'traiter vos emails',
+      'qualifier vos prospects',
+      'relancer vos impayés',
+      'analyser vos données',
+      'préparer vos rendez-vous',
+    ],
     sub: 'Alma prépare la suite.',
     detail:
       'Alma, Customer success IA, analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
@@ -31,9 +38,17 @@ const T = {
     proofs: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
   },
   en: {
-    eyebrow: 'AI Collaborators',
+    eyebrow: 'Are you missing someone?',
     title: 'An AI Collaborator is ready to carry out your missions.',
     exampleLabel: 'One mission among many',
+    examples: [
+      'answer your calls',
+      'handle your emails',
+      'qualify your prospects',
+      'chase your unpaid invoices',
+      'analyze your data',
+      'prepare your meetings',
+    ],
     sub: 'Alma prepares the next steps.',
     detail:
       'Alma, AI Customer success, analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
@@ -44,8 +59,7 @@ const T = {
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
-const SCENARIO_MS = 5000
-const RESUME_AFTER_MS = 12000
+const TICK_MS = 2400
 
 /** Small, accessible info tooltip (hover + keyboard focus). */
 function InfoTooltip({ label, children }: { label: string; children: React.ReactNode }) {
@@ -94,42 +108,12 @@ export function CollabHero() {
   const { openAlma } = useAlma()
 
   const [index, setIndex] = useState(0)
-  const [playing, setPlaying] = useState(true)
-  const resumeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    if (reduce) setPlaying(false)
-  }, [reduce])
-
-  // The single autoplay timer: advances the shared scenario index.
-  useEffect(() => {
-    if (!playing || reduce) return
-    const id = setTimeout(() => setIndex((v) => (v + 1) % SCENARIOS.length), SCENARIO_MS)
+    if (reduce) return
+    const id = setTimeout(() => setIndex((v) => (v + 1) % t.examples.length), TICK_MS)
     return () => clearTimeout(id)
-  }, [playing, index, reduce])
-
-  useEffect(() => {
-    return () => {
-      if (resumeRef.current) clearTimeout(resumeRef.current)
-    }
-  }, [])
-
-  const select = useCallback(
-    (i: number) => {
-      setIndex(i)
-      setPlaying(false)
-      if (resumeRef.current) clearTimeout(resumeRef.current)
-      if (!reduce) resumeRef.current = setTimeout(() => setPlaying(true), RESUME_AFTER_MS)
-    },
-    [reduce],
-  )
-
-  const togglePlay = useCallback(() => {
-    if (resumeRef.current) clearTimeout(resumeRef.current)
-    setPlaying((v) => !v)
-  }, [])
-
-  const current = SCENARIOS[index]
+  }, [index, reduce, t.examples.length])
 
   return (
     <section className="relative overflow-hidden border-b border-[#E7E0D2] bg-[#F3EFE6] pb-10 pt-24 sm:pt-28 lg:pb-12">
@@ -146,7 +130,7 @@ export function CollabHero() {
             {t.title}
           </h1>
 
-          {/* Animated caption — stays synced to the theatre index (decorative). */}
+          {/* Rotating example caption — decorative, reserved stable height. */}
           <div aria-hidden="true" className="mt-6">
             <span className="mb-2 flex items-center justify-center gap-2 sm:justify-start">
               <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
@@ -154,7 +138,7 @@ export function CollabHero() {
                 {t.exampleLabel}
               </span>
             </span>
-            <span className="relative block min-h-[2.2em]">
+            <span className="relative block min-h-[1.6em] overflow-hidden">
               <AnimatePresence initial={false} mode="wait">
                 <motion.span
                   key={index}
@@ -164,7 +148,7 @@ export function CollabHero() {
                   transition={reduce ? { duration: 0 } : { duration: 0.4, ease }}
                   className="absolute inset-x-0 top-0 block text-center text-balance font-sf text-[19px] font-semibold leading-snug tracking-[-0.02em] text-[#D10E63] sm:text-left sm:text-[22px]"
                 >
-                  {current.action[lang]}
+                  {t.examples[index]}
                 </motion.span>
               </AnimatePresence>
             </span>
@@ -204,14 +188,14 @@ export function CollabHero() {
           </div>
         </div>
 
-        {/* Theatre — driven by the same index */}
+        {/* Theatre — the single Iris story, self-contained */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease, delay: reduce ? 0 : 0.2 }}
           className="mx-auto w-full max-w-md lg:max-w-none"
         >
-          <HeroTheatre lang={lang} index={index} playing={playing} onTogglePlay={togglePlay} onSelect={select} />
+          <HeroTheatre lang={lang} />
         </motion.div>
       </div>
     </section>

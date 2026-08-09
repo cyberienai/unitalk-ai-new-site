@@ -28,7 +28,8 @@ const T = {
     kicker: 'Workspace',
     title: 'Les humains décident. Les Collaborateurs IA agissent.',
     sub: 'Collaborateurs humains et IA collaborent dans le même espace de travail.',
-    surfaces: 'Un seul espace pour suivre le travail, intervenir quand c’est nécessaire et laisser vos Collaborateurs IA agir.',
+    surfaces: 'Le Workspace privé réunit les missions, l’activité, les validations et les résultats. Vos équipes voient ce qui se passe, interviennent quand c’est nécessaire et gardent le contrôle des décisions.',
+    surfacesList: 'Web · Desktop · Messageries · Terminal',
     cta: 'Découvrir le Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'En attente de validation',
@@ -36,7 +37,11 @@ const T = {
     statusRefused: 'Décision refusée',
     statusModify: 'À revoir',
     missionTitle: 'Relancer les factures impayées',
-    responsable: 'Responsable : Emma · Équipe Finance',
+    meta: [
+      { label: 'Collaboratrice', value: 'Emma · Collaboratrice IA' },
+      { label: 'Profil', value: 'Finance' },
+      { label: 'Validation', value: 'Responsable financier' },
+    ],
     activityLabel: 'Activité',
     activity: [
       { time: '10:14', text: 'Emma a identifié 12 factures échues.' },
@@ -59,7 +64,8 @@ const T = {
     kicker: 'Workspace',
     title: 'Humans decide. AI Collaborators act.',
     sub: 'Human and AI collaborators work together in the same workspace.',
-    surfaces: 'A single space to follow the work, step in when needed and let your AI Collaborators act.',
+    surfaces: 'The private Workspace brings together missions, activity, validations and results. Your teams see what is happening, step in when needed and keep control of the decisions.',
+    surfacesList: 'Web · Desktop · Messaging · Terminal',
     cta: 'Discover the Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'Awaiting validation',
@@ -67,7 +73,11 @@ const T = {
     statusRefused: 'Decision declined',
     statusModify: 'To review',
     missionTitle: 'Chase unpaid invoices',
-    responsable: 'Owner: Emma · Finance team',
+    meta: [
+      { label: 'Collaborator', value: 'Emma · AI Collaborator' },
+      { label: 'Profile', value: 'Finance' },
+      { label: 'Validation', value: 'Finance manager' },
+    ],
     activityLabel: 'Activity',
     activity: [
       { time: '10:14', text: 'Emma identified 12 overdue invoices.' },
@@ -136,6 +146,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             {t.cta}
             <ArrowRight className="h-4 w-4" />
           </Link>
+          <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.surfacesList}</p>
         </div>
 
         {/* The mission sheet */}
@@ -147,18 +158,28 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
           className="overflow-hidden rounded-lg border border-[#E4DDCE] bg-[#FBF9F3] shadow-[0_24px_70px_-40px_rgba(28,26,23,0.4)]"
         >
           {/* Header */}
-          <div className="flex items-start justify-between gap-3 border-b border-[#EEE7DA] px-5 py-4 sm:px-6">
-            <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E655A]">{t.missionId}</p>
-              <h3 className="mt-1.5 font-sf text-[1.15rem] font-semibold tracking-[-0.015em] text-[#1C1A17]">{t.missionTitle}</h3>
-              <p className="mt-1 text-[13px] text-[#6B6459]">{t.responsable}</p>
+          <div className="border-b border-[#EEE7DA] px-5 py-4 sm:px-6">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E655A]">{t.missionId}</p>
+                <h3 className="mt-1.5 font-sf text-[1.15rem] font-semibold tracking-[-0.015em] text-[#1C1A17]">{t.missionTitle}</h3>
+              </div>
+              <span
+                className="shrink-0 rounded-full px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.12em] transition-colors"
+                style={{ color: status.color, backgroundColor: status.bg }}
+              >
+                {status.label}
+              </span>
             </div>
-            <span
-              className="shrink-0 rounded-full px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.12em] transition-colors"
-              style={{ color: status.color, backgroundColor: status.bg }}
-            >
-              {status.label}
-            </span>
+            {/* Governance meta — Unitalk provides the infrastructure, the company keeps authority. */}
+            <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-[#EEE7DA] pt-3.5">
+              {t.meta.map((m) => (
+                <div key={m.label}>
+                  <dt className="font-mono text-[9.5px] font-bold uppercase tracking-[0.12em] text-[#A79E8E]">{m.label}</dt>
+                  <dd className="mt-1 text-[13px] font-medium leading-snug text-[#2A2622]">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           {/* Activity + decision, on the mission thread */}

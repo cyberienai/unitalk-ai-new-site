@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, Phone, Plus, ShieldCheck, Star, UserRound, Wrench } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Building2, CalendarDays, Check, MessageSquare, Phone, Plus, ShieldCheck, Star, UserRound, Video, Wrench } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
 import { ROLE_DETAILS, COLLABORATOR_INCLUDES } from '@/lib/collaborators-catalog'
 import { getAcmeAiBySlug } from '@/lib/acme-demo'
@@ -50,6 +50,9 @@ export function TeamProfile({ slug }: { slug: string }) {
       about: 'À propos',
       skills: 'Compétences',
       missions: 'Missions types',
+      askTitle: 'Ce que vous pouvez lui demander',
+      duringMeeting: 'Pendant la réunion, elle apparaît explicitement comme :',
+      transparencyTitle: 'Règles de transparence',
       reviews: 'avis',
       demoTitle: 'Voir en situation',
       demoBody: (name: string) => `Découvrez ${name} déployé chez Acme : son profil public et son espace équipe interne.`,
@@ -76,6 +79,9 @@ export function TeamProfile({ slug }: { slug: string }) {
       about: 'About',
       skills: 'Skills',
       missions: 'Typical missions',
+      askTitle: 'What you can ask her',
+      duringMeeting: 'During the meeting, she explicitly appears as:',
+      transparencyTitle: 'Transparency rules',
       reviews: 'reviews',
       demoTitle: 'See it in action',
       demoBody: (name: string) => `See ${name} deployed at Acme: their public profile and internal team space.`,
@@ -241,20 +247,104 @@ export function TeamProfile({ slug }: { slug: string }) {
               </div>
             </section>
 
-            <section>
-              <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.missions}</h2>
-              <ul className="mt-4 flex flex-col gap-3">
-                {detail.missions.map((mission, i) => (
-                  <li
-                    key={mission.en}
-                    className="flex items-center gap-4 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] px-5 py-4"
+            {detail.askList ? (
+              <section>
+                <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.askTitle}</h2>
+                <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                  {detail.askList.map((item) => {
+                    const highlight = item.en === 'join a video call'
+                    return (
+                      <li
+                        key={item.en}
+                        className={`flex items-start gap-2.5 rounded-2xl border px-4 py-3 ${
+                          highlight ? 'border-[#D10E63]/30 bg-[#FCEBF2]' : 'border-[#DDD5CA] bg-[#FBF9F3]'
+                        }`}
+                      >
+                        {highlight ? (
+                          <Video className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
+                        ) : (
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
+                        )}
+                        <span className={`text-sm ${highlight ? 'font-semibold text-[#AD0C53]' : 'text-[#1C1A17]'}`}>{item[lang]}</span>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </section>
+            ) : (
+              <section>
+                <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.missions}</h2>
+                <ul className="mt-4 flex flex-col gap-3">
+                  {detail.missions.map((mission, i) => (
+                    <li
+                      key={mission.en}
+                      className="flex items-center gap-4 rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] px-5 py-4"
+                    >
+                      <span className="font-mono text-sm font-semibold text-[#D10E63]">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="text-[#1C1A17]">{mission[lang]}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {detail.videoCall && (
+              <section className="overflow-hidden rounded-3xl border border-[#D10E63]/25 bg-[#FBF9F3]">
+                <div className="border-b border-[#EAD9E0] bg-[#FCEBF2] px-6 py-5">
+                  <p className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#AD0C53]">
+                    <Video className="h-3.5 w-3.5" />
+                    {detail.videoCall.title[lang]}
+                  </p>
+                  <p className="mt-3 text-pretty leading-relaxed text-[#1C1A17]">{detail.videoCall.body[lang]}</p>
+                  <p className="mt-4 text-sm text-[#6B6560]">{t.duringMeeting}</p>
+                  <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-[#D10E63]/30 bg-[#FBF9F3] px-3.5 py-1.5">
+                    <Image src={detail.avatar || '/placeholder.svg'} alt="" width={22} height={22} className="h-[22px] w-[22px] rounded-full object-cover" />
+                    <span className="text-sm font-semibold text-[#1C1A17]">{detail.videoCall.identity}</span>
+                  </p>
+                </div>
+
+                <div className="px-6 py-5">
+                  <div className="flex flex-wrap gap-2.5">
+                    {detail.videoCall.actions.map((action, i) => (
+                      <span
+                        key={action.en}
+                        className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold ${
+                          i === 0
+                            ? 'bg-[#1C1A17] text-[#FBF9F3]'
+                            : 'border border-[#DDD5CA] bg-[#FBF9F3] text-[#1C1A17]'
+                        }`}
+                      >
+                        {i === 0 && <Video className="h-4 w-4" />}
+                        {i === 1 && <CalendarDays className="h-4 w-4 text-[#857C6E]" />}
+                        {i === 2 && <MessageSquare className="h-4 w-4 text-[#857C6E]" />}
+                        {action[lang]}
+                      </span>
+                    ))}
+                  </div>
+
+                  <h3 className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    {t.transparencyTitle}
+                  </h3>
+                  <ul className="mt-3 grid gap-2">
+                    {detail.videoCall.transparency.map((rule) => (
+                      <li key={rule.en} className="flex items-start gap-2.5 text-sm leading-relaxed text-[#4E483F]">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
+                        <span>{rule[lang]}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    className="group mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBF9F3]"
                   >
-                    <span className="font-mono text-sm font-semibold text-[#D10E63]">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="text-[#1C1A17]">{mission[lang]}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
+                    {detail.videoCall.cta[lang]}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </button>
+                </div>
+              </section>
+            )}
 
             <section>
               <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.included}</h2>

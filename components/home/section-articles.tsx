@@ -7,10 +7,10 @@ import { ArrowRight } from 'lucide-react'
 
 /**
  * Editorial closing section — three thought-leadership article cards that
- * develop Unitalk's category ("the IA-native company"), followed by a light,
- * non-intrusive newsletter banner. Content is static placeholder copy: there is
- * no /blog CMS yet, so the cards point to the future /blog destination.
- * Newsletter is visual only (no backend) — the form never submits.
+ * develop Unitalk's category ("the IA-native company"), followed by a simple
+ * contact invitation. Content is static placeholder copy: there is no /blog CMS
+ * yet, so the cards point to the future /blog destination. The banner is a real
+ * mailto link (no fake newsletter form) until a subscription backend exists.
  */
 const COPY = {
   fr: {
@@ -24,10 +24,9 @@ const COPY = {
       { category: 'Méthode', date: 'Juin 2026', title: 'Un agent produit un résultat. Un Collaborateur IA construit une capacité.' },
       { category: 'Confiance', date: 'Mai 2026', title: 'L’autonomie commence par des limites claires.' },
     ],
-    newsletterTitle: 'Les idées, les méthodes et les nouveautés Unitalk.',
-    newsletterSub: 'Une fois par mois. Pas de bruit.',
-    emailPlaceholder: 'Votre email',
-    subscribe: 'S’inscrire',
+    contactTitle: 'Une question, un projet, une idée ?',
+    contactSub: 'Écrivez-nous, une vraie personne vous répond.',
+    contactCta: 'Nous écrire',
   },
   en: {
     kicker: 'Ideas',
@@ -40,10 +39,9 @@ const COPY = {
       { category: 'Method', date: 'June 2026', title: 'An agent produces a result. An AI Collaborator builds a capability.' },
       { category: 'Trust', date: 'May 2026', title: 'Autonomy starts with clear boundaries.' },
     ],
-    newsletterTitle: 'Unitalk ideas, methods and updates.',
-    newsletterSub: 'Once a month. No noise.',
-    emailPlaceholder: 'Your email',
-    subscribe: 'Subscribe',
+    contactTitle: 'A question, a project, an idea?',
+    contactSub: 'Write to us — a real person will reply.',
+    contactCta: 'Get in touch',
   },
 }
 
@@ -101,34 +99,20 @@ export function SectionArticles() {
           ))}
         </div>
 
-        {/* Light newsletter banner — visual only, no submission */}
-        <form
-          onSubmit={(e) => e.preventDefault()}
-          className="mt-8 flex flex-col gap-5 rounded-2xl border border-[#E4DDCE] bg-[#1C1A17] px-6 py-7 sm:flex-row sm:items-center sm:justify-between sm:px-8"
-        >
+        {/* Contact invitation — a real mailto, no fake form */}
+        <div className="mt-8 flex flex-col gap-5 rounded-2xl border border-[#E4DDCE] bg-[#1C1A17] px-6 py-7 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div className="max-w-md">
-            <p className="text-balance font-sf text-[17px] font-semibold leading-snug text-[#F3EFE6]">{t.newsletterTitle}</p>
-            <p className="mt-1 text-sm text-[#A79E8E]">{t.newsletterSub}</p>
+            <p className="text-balance font-sf text-[17px] font-semibold leading-snug text-[#F3EFE6]">{t.contactTitle}</p>
+            <p className="mt-1 text-sm text-[#A79E8E]">{t.contactSub}</p>
           </div>
-          <div className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
-            <label htmlFor="newsletter-email" className="sr-only">
-              {t.emailPlaceholder}
-            </label>
-            <input
-              id="newsletter-email"
-              type="email"
-              placeholder={t.emailPlaceholder}
-              className="h-11 w-full min-w-0 flex-1 rounded-full border border-[rgba(243,239,230,0.18)] bg-[rgba(243,239,230,0.06)] px-4 text-sm text-[#F3EFE6] placeholder:text-[#8F877A] focus:border-[#D10E63] focus:outline-none focus:ring-1 focus:ring-[#D10E63] sm:w-56"
-            />
-            <button
-              type="submit"
-              className="group inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-[#D10E63] px-5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1C1A17]"
-            >
-              {t.subscribe}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </button>
-          </div>
-        </form>
+          <a
+            href="mailto:hello@unitalk.ai"
+            className="group inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1C1A17]"
+          >
+            {t.contactCta}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
+        </div>
       </div>
     </section>
   )
