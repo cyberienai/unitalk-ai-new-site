@@ -1,18 +1,37 @@
 'use client'
 
-import { ArrowRight, Check, Plus, UserCog, UserPlus } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, Check, ChevronDown, Plus } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { getMission, type Assignment } from './types'
-import { getStoreItemBySlug } from '@/lib/store-catalog'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 
+const ease = [0.22, 1, 0.36, 1] as const
+
+// Derive a readable company label from the analyzed domain (solvea.fr → Solvea).
+function companyFromDomain(domain: string): string {
+  const label = (domain || '').split('.')[0]
+  if (!label) return ''
+  return label.charAt(0).toUpperCase() + label.slice(1)
+}
+
+/**
+ * Step 3 — "Alma prépare votre Collaborateur IA".
+ *
+ * This screen does NOT ask the user to configure or choose an agent. Alma takes
+ * the existing collaborator and *prepares* it for the new mission: the signature
+ * moment is the AVANT → APRÈS reveal ("Même identité. Nouvelle responsabilité.").
+ * The user only validates. Assignment is locked to "existing" (or "new" when no
+ * persona resolves) so the downstream Workspace stays consistent.
+ */
 export function ScreenAffectation({
   lang,
   missionSlug,
   assignedSlug,
-  assignment,
   onChoose,
   onContinue,
+  domain = '',
 }: {
   lang: Lang
   missionSlug: string
@@ -20,31 +39,45 @@ export function ScreenAffectation({
   assignment: Assignment
   onChoose: (a: Assignment) => void
   onContinue: () => void
+  domain?: string
 }) {
   const t = COPY[lang]
+  const reduce = useReducedMotion()
   const m = getMission(missionSlug)
   const persona = ROLE_DETAILS[assignedSlug]
+  const company = companyFromDomain(domain) || t.yourCompany
+  const [showModels, setShowModels] = useState(false)
 
-  // What the existing Collaborateur already brings vs what the mission adds.
-  const alreadyHas = persona ? persona.skills.slice(0, 3).map((s) => s[lang]) : []
-  const missingSkills = m.skills.slice(0, 3).map((s) => s[lang])
-  const missingApp = m.tools.map((slug) => getStoreItemBySlug(slug)).find(Boolean)
+  // In the "Alma prepares" model she evolves the existing collaborator.
+  useEffect(() => {
+    onChoose(persona ? 'existing' : 'new')
+  }, [persona, onChoose])
 
-  // Reasons a distinct new Collaborateur IA can be justified.
-  const newReasons =
-    lang === 'fr'
-      ? [
-          'Une responsabilité durable différente',
-          'Une identité et des moyens de communication propres',
-          'Des droits ou des secrets à isoler',
-          'Une charge de travail incompatible',
-        ]
-      : [
-          'A different durable responsibility',
-          'Its own identity and communication channels',
-          'Rights or secrets to isolate',
-          'An incompatible workload',
-        ]
+  const existingProfile = persona ? persona.role[lang] : m.profile[lang]
+  const addedProfile = m.profile[lang]
+  const profileChanged = addedProfile.toLowerCase() !== existingProfile.toLowerCase()
+  const addedSkills = m.skills.slice(0, 2).map((s) => s[lang])
+  const apps = m.tools.slice(0, 3)
+
+  // The staggered "+" reveal — what the mission adds to the existing identity.
+  const added: { label: string; value: string }[] = [
+    ...(profileChanged ? [{ label: t.addProfile, value: addedProfile }] : []),
+    ...addedSkills.map((s) => ({ label: t.addSkill, value: s })),
+    ...apps.map((a) => ({ label: t.addApp, value: a })),
+    { label: t.addModel, value: t.autoModel },
+    { label: t.addInstructions, value: '' },
+  ]
+
+  const apresProfile = profileChanged ? `${existingProfile} · ${addedProfile}` : existingProfile
+
+  const anim = (delay: number) =>
+    reduce
+      ? { initial: false as const }
+      : {
+          initial: { opacity: 0, y: 8 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.4, ease, delay },
+        }
 
   return (
     <div>
@@ -52,97 +85,181 @@ export function ScreenAffectation({
       <h1 className="mt-3 text-balance font-sf text-[clamp(1.5rem,3vw,2.1rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
         {t.title}
       </h1>
-      <p className="mt-2.5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">
-        {persona ? t.examined.replace('{name}', persona.name) : t.examinedEmpty}
-      </p>
+      <p className="mt-2.5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.sub}</p>
 
-      <div className="mt-6 flex flex-col gap-4">
-        {/* Case A — evolve an existing Collaborateur IA */}
-        {persona && (
-          <OptionCard
-            selected={assignment === 'existing'}
-            onSelect={() => onChoose('existing')}
-            icon={UserCog}
-            badge={t.recommended}
-            title={t.evolveTitle.replace('{name}', persona.name)}
-          >
-            <div className="mt-3 flex items-center gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={persona.avatar || '/placeholder.svg'}
-                alt={persona.name}
-                className="h-11 w-11 rounded-full object-cover ring-2 ring-[#D10E63]/40"
-              />
-              <div>
-                <p className="font-sf text-base font-bold text-[#1C1A17]">{persona.name}</p>
-                <p className="text-sm text-[#5A544A]">{persona.role[lang]}</p>
-              </div>
+      {/* Collaborator card */}
+      <motion.div
+        {...anim(0.05)}
+        className="mt-6 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5"
+      >
+        <div className="flex items-center gap-3.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={persona?.avatar || '/placeholder.svg'}
+            alt={persona?.name ?? ''}
+            className="h-12 w-12 rounded-full object-cover ring-2 ring-[#D10E63]/30"
+          />
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <p className="font-sf text-lg font-bold text-[#1C1A17]">{persona?.name ?? t.newCollaborator}</p>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF6EE] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-[#1F7A45]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#2E9E5B]" />
+                {t.ready}
+              </span>
             </div>
+            <p className="mt-0.5 text-[13.5px] text-[#5A544A]">
+              {t.collaboratorOf} {company}
+            </p>
+          </div>
+          <span className="ml-auto hidden shrink-0 rounded-full border border-[#E4DDCE] bg-white px-3 py-1 text-[12px] font-medium text-[#6B6459] sm:inline">
+            {existingProfile}
+          </span>
+        </div>
 
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#1F7A45]">
-                  {t.alreadyHas}
-                </p>
-                <ul className="mt-2 flex flex-col gap-1.5">
-                  {alreadyHas.map((s) => (
-                    <li key={s} className="flex items-center gap-2 text-sm text-[#3B362F]">
-                      <Check className="h-4 w-4 shrink-0 text-[#2E9E5B]" strokeWidth={2.5} />
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#A80B50]">
-                  {t.toAdd}
-                </p>
-                <ul className="mt-2 flex flex-col gap-1.5">
-                  {missingSkills.map((s) => (
-                    <li key={s} className="flex items-center gap-2 text-sm text-[#3B362F]">
-                      <Plus className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
-                      {s}
-                    </li>
-                  ))}
-                  {missingApp && (
-                    <li className="flex items-center gap-2 text-sm text-[#3B362F]">
-                      <Plus className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
-                      {t.accessTo} {missingApp.name[lang]}
-                    </li>
-                  )}
-                </ul>
-              </div>
-            </div>
-          </OptionCard>
-        )}
+        {/* For this mission */}
+        <div className="mt-5 border-t border-[#EFE8DA] pt-4">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">{t.forThisMission}</p>
+          <p className="mt-1 font-sf text-[15px] font-semibold text-[#1C1A17]">{m.title[lang]}</p>
 
-        {/* Case B — put a new Collaborateur IA into service */}
-        <OptionCard
-          selected={assignment === 'new' || !persona}
-          onSelect={() => onChoose('new')}
-          icon={UserPlus}
-          title={t.newTitle}
-        >
-          <p className="mt-2 text-sm leading-relaxed text-[#5A544A]">{t.newLead}</p>
-          <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
-            {newReasons.map((r) => (
-              <li key={r} className="flex items-center gap-2 text-sm text-[#3B362F]">
-                <Check className="h-4 w-4 shrink-0 text-[#8A8175]" strokeWidth={2.5} />
-                {r}
-              </li>
+          {/* What already exists */}
+          <ul className="mt-3 flex flex-col gap-1.5">
+            {[t.identityExisting, `${t.profile} ${existingProfile}`].map((item, i) => (
+              <motion.li
+                key={item}
+                {...anim(0.15 + i * 0.08)}
+                className="flex items-center gap-2 text-[13.5px] text-[#3B362F]"
+              >
+                <Check className="h-4 w-4 shrink-0 text-[#2E9E5B]" strokeWidth={2.5} />
+                {item}
+              </motion.li>
             ))}
           </ul>
-        </OptionCard>
-      </div>
+
+          {/* What the mission adds */}
+          <ul className="mt-2.5 flex flex-col gap-1.5">
+            {added.map((a, i) => (
+              <motion.li
+                key={`${a.label}-${a.value}-${i}`}
+                {...anim(0.32 + i * 0.09)}
+                className="flex items-center gap-2 text-[13.5px] text-[#3B362F]"
+              >
+                <Plus className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
+                <span>
+                  <span className="text-[#8A8172]">{a.label}</span>
+                  {a.value ? <span className="font-medium text-[#3B362F]"> {a.value}</span> : null}
+                </span>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </motion.div>
+
+      {/* AVANT → APRÈS — the signature moment */}
+      <motion.div
+        {...anim(0.9)}
+        className="mt-4 grid gap-3 rounded-2xl border border-[#EADCE3] bg-gradient-to-br from-[#FCF2F6] to-[#FBF9F3] p-5 sm:grid-cols-[1fr_auto_1fr] sm:items-center"
+      >
+        <div className="rounded-xl border border-[#E4DDCE] bg-white/70 p-3.5">
+          <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-[#A79E8E]">{t.before}</p>
+          <p className="mt-1.5 font-sf text-[15px] font-bold text-[#1C1A17]">{persona?.name ?? t.newCollaborator}</p>
+          <p className="text-[13px] text-[#6B6459]">{existingProfile}</p>
+        </div>
+        <div className="flex items-center justify-center">
+          <ArrowRight className="h-5 w-5 rotate-90 text-[#D10E63] sm:rotate-0" />
+        </div>
+        <div className="rounded-xl border border-[#D10E63]/30 bg-white p-3.5 ring-1 ring-[#D10E63]/15">
+          <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-[#A80B50]">{t.after}</p>
+          <p className="mt-1.5 font-sf text-[15px] font-bold text-[#1C1A17]">{persona?.name ?? t.newCollaborator}</p>
+          <p className="text-[13px] font-medium text-[#1C1A17]">{apresProfile}</p>
+          <p className="mt-1 text-[12px] leading-snug text-[#8A6270]">{t.plusNew}</p>
+        </div>
+        <p className="text-pretty text-center font-sf text-[14px] font-semibold text-[#1C1A17] sm:col-span-3">
+          {t.sameIdentity}
+        </p>
+      </motion.div>
+
+      {/* Authorized models — never a model picker, just reassurance + a link */}
+      <motion.div {...anim(1.0)} className="mt-4 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-4">
+        <button
+          type="button"
+          onClick={() => setShowModels((v) => !v)}
+          aria-expanded={showModels}
+          className="flex w-full items-center gap-2 text-left"
+        >
+          <span className="font-sf text-[14px] font-semibold text-[#1C1A17]">{t.models}</span>
+          <span className="rounded-full bg-[#EAF6EE] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] text-[#1F7A45]">
+            {t.autoModel}
+          </span>
+          <ChevronDown
+            className={['ml-auto h-4 w-4 text-[#8A8172] transition-transform', showModels ? 'rotate-180' : ''].join(' ')}
+          />
+        </button>
+        <AnimatePresence initial={false}>
+          {showModels && (
+            <motion.div
+              initial={reduce ? false : { height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease }}
+              className="overflow-hidden"
+            >
+              <p className="pt-3 text-[13px] leading-relaxed text-[#5A544A]">{t.modelsNote}</p>
+              <span className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-[#D10E63]">
+                {t.editModels}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Working frame (instructions, never a raw prompt) */}
+      <motion.div {...anim(1.05)} className="mt-4 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-sf text-[14px] font-semibold text-[#1C1A17]">{t.frame}</p>
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#D10E63]">
+            {t.edit}
+            <ArrowRight className="h-3.5 w-3.5" />
+          </span>
+        </div>
+        <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+          {[
+            { k: t.objective, v: m.result[lang] },
+            { k: t.rules, v: t.rulesValue },
+            { k: t.humanValidation, v: t.humanValidationValue },
+            { k: t.style, v: t.styleValue },
+          ].map((row) => (
+            <div key={row.k}>
+              <dt className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#8A8172]">{row.k}</dt>
+              <dd className="mt-1 text-[13.5px] leading-snug text-[#3B362F]">{row.v}</dd>
+            </div>
+          ))}
+        </dl>
+      </motion.div>
+
+      {/* Applications — do not block the flow; connect later from the Workspace */}
+      <motion.div {...anim(1.1)} className="mt-4 rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
+        <p className="font-sf text-[14px] font-semibold text-[#1C1A17]">{t.apps}</p>
+        <ul className="mt-3 flex flex-col divide-y divide-[#EFE8DA]">
+          {apps.map((a) => (
+            <li key={a} className="flex items-center justify-between gap-3 py-2.5 first:pt-0 last:pb-0">
+              <span className="text-[14px] text-[#3B362F]">{a}</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E4DDCE] bg-white px-3 py-1 text-[12px] font-medium text-[#6B6459]">
+                <span className="h-1.5 w-1.5 rounded-full border border-[#C9BFAE]" />
+                {t.connect}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3 text-[13px] leading-relaxed text-[#8A8175]">{t.appsNote}</p>
+      </motion.div>
 
       <button
         type="button"
         onClick={onContinue}
         className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
       >
-        {assignment === 'existing' && persona
-          ? t.ctaEvolve.replace('{name}', persona.name)
-          : t.ctaNew}
+        {t.cta}
         <ArrowRight className="h-4 w-4" />
       </button>
 
@@ -151,89 +268,85 @@ export function ScreenAffectation({
   )
 }
 
-function OptionCard({
-  selected,
-  onSelect,
-  icon: Icon,
-  badge,
-  title,
-  children,
-}: {
-  selected: boolean
-  onSelect: () => void
-  icon: React.ComponentType<{ className?: string }>
-  badge?: string
-  title: string
-  children: React.ReactNode
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      aria-pressed={selected}
-      className={[
-        'w-full rounded-2xl border p-5 text-left transition-colors',
-        selected
-          ? 'border-[#D10E63] bg-[#FBF9F3] ring-1 ring-[#D10E63]'
-          : 'border-[#E4DDCE] bg-[#FBF9F3]/70 hover:border-[#D10E63]/40',
-      ].join(' ')}
-    >
-      <div className="flex items-center gap-2.5">
-        <span
-          className={[
-            'flex h-8 w-8 items-center justify-center rounded-full',
-            selected ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#EBE4D6] text-[#8A8175]',
-          ].join(' ')}
-        >
-          <Icon className="h-4 w-4" />
-        </span>
-        <p className="font-sf text-[15px] font-bold text-[#1C1A17]">{title}</p>
-        {badge && (
-          <span className="ml-auto rounded-full bg-[#D10E63]/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-[#A80B50]">
-            {badge}
-          </span>
-        )}
-      </div>
-      {children}
-    </button>
-  )
-}
-
 const COPY = {
   fr: {
-    kicker: 'Affectation · 3 sur 5',
-    title: 'Qui prend cette mission ?',
-    examined:
-      'J’ai examiné les Collaborateurs IA déjà présents dans votre entreprise. {name} correspond le mieux à ce savoir-faire.',
-    examinedEmpty:
-      'J’ai examiné votre entreprise : aucun Collaborateur IA existant ne porte ce rôle. Je recommande d’en mettre un nouveau en service.',
-    recommended: 'Recommandé',
-    evolveTitle: 'Faire évoluer {name}',
-    alreadyHas: 'Possède déjà',
-    toAdd: 'À ajouter',
-    accessTo: 'Accès à',
-    newTitle: 'Mettre en service un nouveau Collaborateur IA',
-    newLead: 'Un rôle distinct se justifie quand aucun Collaborateur existant ne convient vraiment :',
-    ctaEvolve: 'Faire évoluer {name} pour cette mission',
-    ctaNew: 'Mettre en service un nouveau Collaborateur IA',
-    micro: 'Alma propose, vous décidez. Aucun Collaborateur IA n’est créé automatiquement.',
+    kicker: 'Collaborateur IA · 3 sur 5',
+    title: 'Alma prépare votre Collaborateur IA.',
+    sub: 'Elle s’appuie d’abord sur votre Collaborateur existant, puis lui ajoute ce dont il a besoin pour accomplir cette mission.',
+    yourCompany: 'votre entreprise',
+    newCollaborator: 'Nouveau Collaborateur',
+    ready: 'Prête',
+    collaboratorOf: 'Collaborateur IA ·',
+    forThisMission: 'Pour cette mission',
+    identityExisting: 'Identité existante',
+    profile: 'Profil',
+    addProfile: 'Profil',
+    addSkill: 'Compétence',
+    addApp: 'Application',
+    addModel: 'Modèle autorisé',
+    addInstructions: 'Instructions de mission',
+    autoModel: 'Auto · recommandé',
+    before: 'Avant',
+    after: 'Après',
+    plusNew: '+ nouvelles compétences, applications et instructions',
+    sameIdentity: 'Même identité. Nouvelle responsabilité.',
+    models: 'Modèles autorisés',
+    modelsNote:
+      'Alma choisira le modèle adapté à chaque tâche parmi ceux autorisés par votre entreprise.',
+    editModels: 'Modifier les modèles autorisés',
+    frame: 'Cadre de travail',
+    edit: 'Modifier',
+    objective: 'Objectif',
+    rules: 'Règles',
+    rulesValue: 'Transférer les demandes sensibles à un membre de l’équipe.',
+    humanValidation: 'Validation humaine',
+    humanValidationValue: 'Aucune décision engageante sans votre accord.',
+    style: 'Style',
+    styleValue: 'Professionnel · chaleureux · concis',
+    apps: 'Applications nécessaires',
+    connect: 'Connecter',
+    appsNote: 'Vous pourrez connecter ces applications depuis le Workspace.',
+    cta: 'Valider ce Collaborateur',
+    micro: 'Vous restez maître de son identité, de sa mémoire, de ses compétences et de ses accès.',
   },
   en: {
-    kicker: 'Assignment · 3 of 5',
-    title: 'Who takes this mission?',
-    examined:
-      'I reviewed the AI Collaborators already in your company. {name} is the best fit for this know-how.',
-    examinedEmpty:
-      'I reviewed your company: no existing AI Collaborator holds this role. I recommend putting a new one into service.',
-    recommended: 'Recommended',
-    evolveTitle: 'Evolve {name}',
-    alreadyHas: 'Already has',
-    toAdd: 'To add',
-    accessTo: 'Access to',
-    newTitle: 'Put a new AI Collaborator into service',
-    newLead: 'A distinct role is justified when no existing Collaborator truly fits:',
-    ctaEvolve: 'Evolve {name} for this mission',
-    ctaNew: 'Put a new AI Collaborator into service',
-    micro: 'Alma proposes, you decide. No AI Collaborator is ever created automatically.',
+    kicker: 'AI Collaborator · 3 of 5',
+    title: 'Alma prepares your AI Collaborator.',
+    sub: 'She starts from your existing Collaborator, then adds what it needs to carry out this mission.',
+    yourCompany: 'your company',
+    newCollaborator: 'New Collaborator',
+    ready: 'Ready',
+    collaboratorOf: 'AI Collaborator ·',
+    forThisMission: 'For this mission',
+    identityExisting: 'Existing identity',
+    profile: 'Profile',
+    addProfile: 'Profile',
+    addSkill: 'Skill',
+    addApp: 'Application',
+    addModel: 'Authorized model',
+    addInstructions: 'Mission instructions',
+    autoModel: 'Auto · recommended',
+    before: 'Before',
+    after: 'After',
+    plusNew: '+ new skills, applications and instructions',
+    sameIdentity: 'Same identity. New responsibility.',
+    models: 'Authorized models',
+    modelsNote:
+      'Alma will pick the model suited to each task among those authorized by your company.',
+    editModels: 'Edit authorized models',
+    frame: 'Working frame',
+    edit: 'Edit',
+    objective: 'Objective',
+    rules: 'Rules',
+    rulesValue: 'Hand sensitive requests to a member of your team.',
+    humanValidation: 'Human validation',
+    humanValidationValue: 'No binding decision without your approval.',
+    style: 'Style',
+    styleValue: 'Professional · warm · concise',
+    apps: 'Required applications',
+    connect: 'Connect',
+    appsNote: 'You will be able to connect these applications from the Workspace.',
+    cta: 'Validate this Collaborator',
+    micro: 'You stay in control of its identity, memory, skills and access.',
   },
 } as const

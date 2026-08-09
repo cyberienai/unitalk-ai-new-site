@@ -15,7 +15,7 @@ export const STEP_ORDER: Step[] = ['mission', 'entreprise', 'affectation', 'acce
 export const STEP_LABELS: Record<Step, { fr: string; en: string }> = {
   mission: { fr: 'Mission', en: 'Mission' },
   entreprise: { fr: 'Entreprise', en: 'Company' },
-  affectation: { fr: 'Affectation', en: 'Assignment' },
+  affectation: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
   acces: { fr: 'Accès', en: 'Access' },
   workspace: { fr: 'Workspace', en: 'Workspace' },
 }

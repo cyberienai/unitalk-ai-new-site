@@ -109,6 +109,7 @@ export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState 
                         missionSlug={state.missionSlug}
                         assignedSlug={state.assignedSlug}
                         assignment={state.assignment}
+                        domain={state.domain}
                         onChoose={(a: Assignment) => setState((s) => ({ ...s, assignment: a }))}
                         onContinue={() => goTo('acces')}
                       />
