@@ -64,8 +64,8 @@ export function CollabWhyContent() {
         },
         {
           u: 'User-controlled',
-          title: 'Votre entreprise garde le contrôle.',
-          body: 'Vous définissez les accès, les modèles autorisés, les validations humaines, la mémoire conservée et les éléments éventuellement partagés. Tout reste privé par défaut. Rien ne rejoint l’écosystème sans votre choix.',
+          title: 'Votre intelligence vous appartient.',
+          body: 'Vous contrôlez la mémoire, les accès, les modèles, les validations et ce que votre entreprise choisit de partager.',
         },
       ],
       levelsTitle: 'Une architecture, plusieurs niveaux de valeur',
@@ -138,8 +138,8 @@ export function CollabWhyContent() {
         },
         {
           u: 'User-controlled',
-          title: 'Your company stays in control.',
-          body: 'You define access, allowed models, human validations, retained memory and what may be shared. Everything stays private by default. Nothing joins the ecosystem without your choice.',
+          title: 'Your intelligence belongs to you.',
+          body: 'You control the memory, access, models, validations and what your company chooses to share.',
         },
       ],
       levelsTitle: 'One architecture, several levels of value',
