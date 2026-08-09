@@ -13,6 +13,8 @@ export type BlogArticle = {
   date: { fr: string; en: string }
   title: { fr: string; en: string }
   excerpt: { fr: string; en: string }
+  /** Standalone two-line editorial lead written for the index cards (no truncation). */
+  cardLead: { fr: string; en: string }
   body: { fr: BlogBlock[]; en: BlogBlock[] }
 }
 
@@ -30,6 +32,10 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     excerpt: {
       fr: 'Une IA peut répondre avec intelligence et accomplir une tâche. Sans identité persistante, la relation reste celle d’un utilisateur avec un logiciel.',
       en: 'An AI can answer intelligently and complete a task. Without a persistent identity, the relationship stays that of a user with software.',
+    },
+    cardLead: {
+      fr: 'Identité, rôle, mémoire : les fondations qui inscrivent un Collaborateur IA dans la durée.',
+      en: 'Identity, role, memory: the foundations that make an AI Collaborator last.',
     },
     body: {
       fr: [
@@ -213,6 +219,10 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     excerpt: {
       fr: 'Le résultat d’une mission répond à un besoin. La compétence issue de cette mission augmente durablement ce que l’entreprise sait accomplir.',
       en: 'A mission’s result meets a need. The skill drawn from that mission durably increases what the company can accomplish.',
+    },
+    cardLead: {
+      fr: 'Comment une méthode validée devient une compétence durable, versionnée et réutilisable.',
+      en: 'How a validated method becomes a durable, versioned and reusable skill.',
     },
     body: {
       fr: [
@@ -400,6 +410,10 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     excerpt: {
       fr: 'Une IA utile doit pouvoir agir. Une IA digne de confiance doit aussi savoir quand s’arrêter.',
       en: 'A useful AI must be able to act. A trustworthy AI must also know when to stop.',
+    },
+    cardLead: {
+      fr: 'Les règles et validations qui permettent à un Collaborateur IA d’agir en confiance.',
+      en: 'The rules and validations that let an AI Collaborator act with confidence.',
     },
     body: {
       fr: [

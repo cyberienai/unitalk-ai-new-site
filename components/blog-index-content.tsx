@@ -119,7 +119,7 @@ export function BlogIndexContent() {
                     <h2 className="mt-2.5 text-balance font-sf text-[17px] font-semibold leading-snug tracking-[-0.01em] text-[#1C1A17]">
                       {a.title[lang]}
                     </h2>
-                    <p className="mt-2.5 line-clamp-2 text-[13.5px] leading-relaxed text-[#5C554A]">{a.excerpt[lang]}</p>
+                    <p className="mt-2.5 text-[13.5px] leading-relaxed text-[#5C554A]">{a.cardLead[lang]}</p>
                     <span className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#A80B50]">
                       {t.read}
                       <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
