@@ -29,20 +29,20 @@ export function HomeNew() {
         {/* 1. Hero + product theatre (anthracite) */}
         <HeroHome lang={lang} />
 
-        {/* 2. Missions — entrust one, Alma frames it */}
-        <SectionMissions />
-
-        {/* 3. Product definition — three plain-language truths */}
+        {/* 2. Product definition — three plain-language truths */}
         <SectionDefinition lang={lang} />
 
-        {/* 4. Hermes reveal — where know-how becomes a real capability */}
+        {/* 3. Hermes reveal — where know-how becomes a real capability */}
         <SectionHermes lang={lang} />
 
-        {/* 5. Workspace proof — the mission thread stops at the human gate */}
+        {/* 4. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />
 
-        {/* 6. Comparison — a tool vs a durable Collaborator */}
+        {/* 5. Comparison — a tool vs a durable Collaborator */}
         <SectionComparison />
+
+        {/* 6. Missions — entrust one, Alma frames it */}
+        <SectionMissions />
 
         {/* 7. Vision + conversion */}
         <SectionVision />
