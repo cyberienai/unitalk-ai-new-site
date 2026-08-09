@@ -15,39 +15,35 @@ const COPY = {
   fr: {
     kicker: 'La différence',
     title: 'Une mission accomplie.',
-    titleAccent: 'Une compétence qui reste.',
-    lead: 'Un agent IA générique produit un résultat. Votre Collaborateur Unitalk exerce une capacité de travail autonome, qui devient progressivement propre à votre entreprise.',
-    beforeTitle: 'Agent prêt à l’emploi',
+    titleAccent: 'Une expérience qui reste.',
+    lead: 'Un agent IA générique produit un résultat. Votre Collaborateur IA conserve l’expérience que vous validez et peut la réutiliser dans ses prochaines missions.',
+    beforeTitle: 'Agent IA générique',
     afterTitle: 'Collaborateur IA Unitalk',
-    punchLead: 'Unitalk ne vend pas des agents IA.',
-    punchAccent: 'Unitalk vend des capacités de travail autonomes.',
-    punchSub: 'Prêtes à l’emploi. Et progressivement adaptées à votre entreprise.',
+    conclusionTitle: 'Les méthodes que vous validez restent dans votre entreprise.',
+    conclusionSub: 'Elles peuvent être versionnées, réutilisées et transformées en compétences pour vos prochaines missions.',
     rows: [
-      ['Méthode standard', 'Méthode propre à votre entreprise'],
-      ['Identité liée à une fonction', 'Identité persistante, plusieurs profils métier'],
-      ['Compétence générique', 'Compétence testée et versionnée'],
-      ['Contexte captif de l’outil', 'Mémoire gouvernée par votre entreprise'],
-      ['Résultat produit', 'Expérience conservée et réutilisable'],
-      ['Un modèle pour tout', 'Le meilleur modèle autorisé pour chaque tâche'],
+      ['Identité définie par un usage', 'Identité persistante, plusieurs profils métier'],
+      ['Compétence générique', 'Compétences testées et versionnées'],
+      ['Mémoire dépendante de l’outil', 'Mémoire gouvernée par votre entreprise'],
+      ['Résultat isolé', 'Expérience validée et réutilisable'],
+      ['Modèle lié à la plateforme', 'Modèles autorisés, Collaborateur inchangé'],
     ],
   },
   en: {
     kicker: 'The difference',
     title: 'A mission accomplished.',
-    titleAccent: 'A skill that stays.',
-    lead: 'A generic agent produces a result. With Unitalk, the methods and experience your company validates become reusable skills.',
-    beforeTitle: 'Off-the-shelf agent',
+    titleAccent: 'An experience that stays.',
+    lead: 'A generic AI agent produces a result. Your AI Collaborator keeps the experience you validate and can reuse it in its next missions.',
+    beforeTitle: 'Generic AI agent',
     afterTitle: 'Unitalk AI Collaborator',
-    punchLead: 'Unitalk doesn’t sell AI agents.',
-    punchAccent: 'Unitalk sells autonomous work capabilities.',
-    punchSub: 'Ready to use. And progressively tailored to your company.',
+    conclusionTitle: 'The methods you validate stay in your company.',
+    conclusionSub: 'They can be versioned, reused and turned into skills for your next missions.',
     rows: [
-      ['Standard method', 'A method specific to your company'],
-      ['Identity tied to one function', 'Persistent identity, multiple job profiles'],
-      ['A generic skill', 'A tested and versioned skill'],
-      ['Context locked in the tool', 'Memory governed by your company'],
-      ['A result produced', 'Experience kept and reusable'],
-      ['One model for everything', 'The best authorized model for each task'],
+      ['Identity defined by a use case', 'Persistent identity, multiple job profiles'],
+      ['A generic skill', 'Tested and versioned skills'],
+      ['Memory dependent on the tool', 'Memory governed by your company'],
+      ['An isolated result', 'Validated and reusable experience'],
+      ['Model tied to the platform', 'Authorized models, Collaborator unchanged'],
     ],
   },
 } as const
@@ -109,7 +105,9 @@ export function SectionComparison() {
           ))}
         </div>
 
-        {/* Section chute — the one-line positioning statement */}
+        {/* Section chute — sober conclusion, no CTA (the previous section's
+            "Parler à Alma" already carries conversion). This section only
+            demonstrates why Unitalk accrues value over time. */}
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -117,9 +115,9 @@ export function SectionComparison() {
           transition={{ duration: 0.5, ease }}
           className="mt-10 max-w-3xl text-balance text-xl font-semibold leading-[1.2] tracking-[-0.01em] text-[#1C1A17] sm:text-2xl"
         >
-          {t.punchLead} <span className="text-[#D10E63]">{t.punchAccent}</span>
+          {t.conclusionTitle}
         </motion.p>
-        <p className="mt-2 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.punchSub}</p>
+        <p className="mt-2 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.conclusionSub}</p>
       </div>
     </section>
   )
