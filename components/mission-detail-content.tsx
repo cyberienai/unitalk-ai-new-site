@@ -18,6 +18,13 @@ type Copy = {
   recommendedWord: string
   profileWord: string
   collaboratorWord: string
+  aiBadge: string
+  conditionsWord: string
+  volumeWord: string
+  deliveryWord: string
+  deliveryValue: string
+  cadenceWord: string
+  keepLine: string
   seeProfile: string
   startCta: string
   trialNote: string
@@ -37,6 +44,13 @@ const T: Record<Lang, Copy> = {
     recommendedWord: 'Recommandé pour cette mission',
     profileWord: 'Profil',
     collaboratorWord: 'Collaborateur IA',
+    aiBadge: 'IA',
+    conditionsWord: 'Conditions',
+    volumeWord: 'Volume',
+    deliveryWord: 'Délai',
+    deliveryValue: 'Confirmé après cadrage',
+    cadenceWord: 'Rythme',
+    keepLine: 'Confiez-lui cette mission aujourd’hui. Reconfiez-la-lui chaque fois que vous en avez besoin.',
     seeProfile: 'Voir le Collaborateur',
     startCta: 'Confier cette mission',
     trialNote: 'Essai gratuit de 7 jours. Sans engagement.',
@@ -54,6 +68,13 @@ const T: Record<Lang, Copy> = {
     recommendedWord: 'Recommended for this mission',
     profileWord: 'Profile',
     collaboratorWord: 'AI Collaborator',
+    aiBadge: 'AI',
+    conditionsWord: 'Conditions',
+    volumeWord: 'Volume',
+    deliveryWord: 'Timeline',
+    deliveryValue: 'Confirmed after scoping',
+    cadenceWord: 'Cadence',
+    keepLine: 'Hand it this mission today. Hand it back whenever you need it.',
     seeProfile: 'See the Collaborator',
     startCta: 'Hand over this mission',
     trialNote: '7-day free trial. No commitment.',
@@ -177,8 +198,14 @@ export function MissionDetailContent({ slug }: { slug: string }) {
 
               {collab && (
                 <Link href={collaboratorHref(mission.collaboratorSlug)} className="mt-4 flex items-center gap-3 rounded-2xl border border-[#E4DDCE] bg-[#F3EFE6] p-3 transition-colors hover:border-[#D10E63]/40">
-                  <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
-                    <Image src={collab.avatar || '/placeholder.svg'} alt={collab.name} fill className="object-cover" sizes="48px" />
+                  <span className="relative h-12 w-12 shrink-0">
+                    <span className="relative block h-full w-full overflow-hidden rounded-full">
+                      <Image src={collab.avatar || '/placeholder.svg'} alt={`${collab.name} — ${t.collaboratorWord}`} fill className="object-cover" sizes="48px" />
+                    </span>
+                    {/* Make the AI nature unmistakable — never imply a human. */}
+                    <span className="absolute -bottom-1 -right-1 rounded-full border-2 border-[#F3EFE6] bg-[#1C1A17] px-1.5 py-px text-[9px] font-bold uppercase leading-tight tracking-[0.08em] text-[#FBF9F3]">
+                      {t.aiBadge}
+                    </span>
                   </span>
                   <div className="min-w-0">
                     <p className="text-[10px] font-bold uppercase tracking-wide text-[#8A8175]">{t.collaboratorWord}</p>
@@ -194,6 +221,21 @@ export function MissionDetailContent({ slug }: { slug: string }) {
                 <p className="mt-1 text-sm font-semibold text-[#D10E63]">{mission.profile[lang]}</p>
               </div>
 
+              {/* Scope — freelance-style facets, without over-promising 24/7 */}
+              <dl className="mt-5 flex flex-col gap-2 border-t border-[#E4DDCE] pt-5">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-[#8A8175]">{t.conditionsWord}</p>
+                {[
+                  { k: t.volumeWord, v: mission.volume[lang] },
+                  { k: t.deliveryWord, v: t.deliveryValue },
+                  { k: t.cadenceWord, v: mission.cadence[lang] },
+                ].map((row) => (
+                  <div key={row.k} className="flex items-baseline justify-between gap-3">
+                    <dt className="text-xs font-medium text-[#8A8175]">{row.k}</dt>
+                    <dd className="text-right text-sm font-medium text-[#1C1A17]">{row.v}</dd>
+                  </div>
+                ))}
+              </dl>
+
               <Link
                 href={`/confier?mission=${mission.slug}`}
                 className="mt-6 flex items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
@@ -202,6 +244,11 @@ export function MissionDetailContent({ slug }: { slug: string }) {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <p className="mt-3 text-center text-xs text-[#8A8175]">{t.trialNote}</p>
+
+              {/* The Unitalk edge over a one-off freelance brief. */}
+              <p className="mt-4 rounded-2xl bg-[#D10E63]/[0.06] px-4 py-3 text-center text-[13px] font-medium leading-relaxed text-[#1C1A17]">
+                {t.keepLine}
+              </p>
 
               {collab && (
                 <Link

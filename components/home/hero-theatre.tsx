@@ -136,11 +136,11 @@ export const SCENARIOS: Scenario[] = [
   // ── Support · Nadia ────────────────────────────────────────────
   {
     dept: { fr: 'Support', en: 'Support' },
-    action: { fr: 'répondre à vos clients 24 h/24', en: 'answer your customers 24/7' },
-    human: { fr: 'Réponds à nos clients 24 h/24.', en: 'Answer our customers 24/7.' },
+    action: { fr: 'prendre en charge vos demandes clients', en: 'handle your customer requests' },
+    human: { fr: 'Prends en charge nos demandes clients.', en: 'Handle our customer requests.' },
     almaReply: { fr: 'Nadia, déjà dans votre organisation, peut prendre cette mission — j’ajoute un profil métier support.', en: 'Nadia, already in your organization, can take this mission — I’m adding a support job profile.' },
     collab: { name: 'Nadia', role: { fr: 'Support client', en: 'Customer support' }, avatar: '/images/nadia-avatar.png', status: 'existing' },
-    mission: { fr: 'Répondre aux clients 24 h/24', en: 'Answer customers 24/7' },
+    mission: { fr: 'Prendre en charge les demandes clients', en: 'Handle customer requests' },
     validation: { fr: 'Vous validez les réponses sensibles', en: 'You approve sensitive replies' },
     skills: [
       { fr: 'Réponse aux demandes', en: 'Request handling' },
