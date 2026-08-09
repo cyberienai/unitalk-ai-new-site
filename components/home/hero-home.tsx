@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
@@ -21,25 +21,27 @@ import { useAlma } from '@/components/home/alma-panel-context'
 
 const T = {
   fr: {
-    eyebrow: 'Il vous manque quelqu’un',
+    eyebrow: 'Vision Unitalk',
+    eyebrowHover: 'Découvrir les 8 U de Unitalk',
+    headline: 'Votre entreprise peut désormais avoir son propre Collaborateur IA.',
     srSentence: 'Un Collaborateur IA est prêt à accomplir vos missions.',
     lead: 'Un Collaborateur IA est prêt à',
     sub: 'Alma prépare la suite.',
     detail: 'Alma, Customer success IA, analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
     detailLabel: 'En savoir plus sur ce qu’Alma prépare',
-    cta: 'Parler à Alma',
-    secondary: 'Confier une mission',
+    cta: 'Confier une première mission',
     proofs: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
   },
   en: {
-    eyebrow: 'Someone is missing',
+    eyebrow: 'Unitalk Vision',
+    eyebrowHover: 'Discover the 8 U’s of Unitalk',
+    headline: 'Your company can now have its own AI Collaborator.',
     srSentence: 'An AI Collaborator is ready to carry out your missions.',
     lead: 'An AI Collaborator is ready to',
     sub: 'Alma prepares the next steps.',
     detail: 'Alma, AI Customer success, analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
     detailLabel: 'Learn more about what Alma prepares',
-    cta: 'Talk to Alma',
-    secondary: 'Hand over a mission',
+    cta: 'Hand over a first mission',
     proofs: ['7 days for your first mission', 'No card', 'Hosted in France'],
   },
 } as const
@@ -142,16 +144,40 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
         {/* Copy */}
         <div className="min-w-0 max-w-xl">
           <div className="mb-5 flex justify-center sm:justify-start">
-            <Kicker>{t.eyebrow}</Kicker>
+            <Link
+              href="/collaborateurs-ia/pourquoi-unitalk"
+              className="group inline-flex cursor-pointer items-center gap-1.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+              aria-label={lang === 'fr' ? 'Découvrir pourquoi Unitalk' : 'Discover why Unitalk'}
+            >
+              <Kicker>
+                {/* Both labels share one grid cell → constant pill width, no layout shift. */}
+                <span className="grid transition-colors group-hover:text-[#D10E63]">
+                  <span className="col-start-1 row-start-1 text-center transition-opacity duration-200 group-hover:opacity-0">
+                    {t.eyebrow}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="col-start-1 row-start-1 whitespace-nowrap text-center opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                  >
+                    {t.eyebrowHover}
+                  </span>
+                </span>
+              </Kicker>
+              <ArrowRight className="h-3.5 w-3.5 text-[#B00C54] transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+            </Link>
           </div>
 
-          <h1 className="font-sf text-[clamp(2rem,4vw,3.15rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1C1A17]">
-            {/* One stable accessible sentence, announced once (does not rotate). */}
+          {/* Stable, visible headline — the positioning statement (does not rotate). */}
+          <h1 className="text-balance text-center font-sf text-[clamp(2rem,4vw,3.15rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1C1A17] sm:text-left">
+            {t.headline}
+          </h1>
+
+          {/* Animated demonstration line — separate from the H1, decorative. */}
+          <div className="mt-6">
             <span className="sr-only">{t.srSentence}</span>
-            {/* Visual, decorative only. */}
-            <span aria-hidden="true" className="block text-center sm:text-left">
-              <span className="block text-balance">{t.lead}</span>
-              <span className="relative mt-3 block min-h-[3.1em] lg:min-h-[2.4em]">
+            <span aria-hidden="true" className="block text-center text-[19px] leading-snug sm:text-left md:text-[21px]">
+              <span className="block font-medium text-[#4E483F]">{t.lead}</span>
+              <span className="relative mt-3 block min-h-[3.1em] lg:min-h-[2.6em]">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
                     key={index}
@@ -167,22 +193,14 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
                         {current.dept[lang]}
                       </span>
                     </span>
-                    <span className="block text-balance text-[#D10E63]">{current.action[lang]}</span>
+                    <span className="block text-balance font-sf text-[26px] font-semibold tracking-[-0.02em] text-[#D10E63] md:text-[30px]">
+                      {current.action[lang]}
+                    </span>
                   </motion.span>
                 </AnimatePresence>
               </span>
             </span>
-          </h1>
-
-          <p className="mx-auto mt-5 flex max-w-full items-center justify-center gap-1.5 text-center text-[17px] sm:mx-0 sm:justify-start sm:text-left md:text-[18px]">
-            <Link
-              href="/missions"
-              className="inline-flex items-center gap-1.5 font-semibold text-[#4E483F] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:text-[#1C1A17] hover:decoration-[#D10E63]"
-            >
-              {t.secondary}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </p>
+          </div>
 
           <div className="mt-8 flex flex-col items-center gap-4 sm:items-start">
             <div className="flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row">

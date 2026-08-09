@@ -9,7 +9,7 @@ import { SpecCard, Conclusion, type SpecRow } from '@/components/collaborateurs-
 
 const COPY = {
   fr: {
-    kicker: 'Affectation · Savoir-faire · Accès',
+    kicker: 'Affectation · Compétences · Accès',
     title: 'Le bon Collaborateur IA. Pas forcément un nouveau.',
     lead: 'Alma examine d’abord les Collaborateurs IA déjà présents. Elle recommande celui qui peut prendre la mission et ajoute uniquement ce qui lui manque.',
     analysisEyebrow: 'Analyse de Lucas',
@@ -29,15 +29,10 @@ const COPY = {
       'la validation de Marc au bon moment',
     ],
     conclusion: 'Même Lucas. Prêt pour une mission de plus.',
-    links: [
-      { label: 'Découvrir les Collaborateurs IA', href: '/collaborateurs-ia' },
-      { label: 'Explorer les profils métier', href: '/collaborateurs-ia/profils-metier' },
-      { label: 'Découvrir les compétences', href: '/collaborateurs-ia/competences' },
-      { label: 'Voir les applications', href: '/collaborateurs-ia/applications' },
-    ],
+    link: { label: 'Découvrir comment évolue un Collaborateur IA', href: '/collaborateurs-ia' },
   },
   en: {
-    kicker: 'Assignment · Know-how · Access',
+    kicker: 'Assignment · Skills · Access',
     title: 'The right AI Collaborator. Not necessarily a new one.',
     lead: 'Alma first looks at the AI Collaborators already in place. It recommends the one that can take the mission and adds only what it lacks.',
     analysisEyebrow: 'Analysis of Lucas',
@@ -57,12 +52,7 @@ const COPY = {
       'Marc’s validation at the right moment',
     ],
     conclusion: 'Same Lucas. Ready for one more mission.',
-    links: [
-      { label: 'Discover AI Collaborators', href: '/collaborateurs-ia' },
-      { label: 'Explore job profiles', href: '/collaborateurs-ia/profils-metier' },
-      { label: 'Discover skills', href: '/collaborateurs-ia/competences' },
-      { label: 'See applications', href: '/collaborateurs-ia/applications' },
-    ],
+    link: { label: 'See how an AI Collaborator evolves', href: '/collaborateurs-ia' },
   },
 } as const
 
@@ -112,17 +102,14 @@ export function SectionPreparer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
-          {t.links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="group inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#B00C54] transition-colors hover:text-[#8A0A41]"
-            >
-              {l.label}
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          ))}
+        <div className="mt-10">
+          <Link
+            href={t.link.href}
+            className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#B00C54] transition-colors hover:text-[#8A0A41]"
+          >
+            {t.link.label}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
         </div>
       </div>
     </section>

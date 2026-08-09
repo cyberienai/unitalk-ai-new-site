@@ -11,7 +11,7 @@ const COPY = {
   fr: {
     eyebrow: 'Alma · Unitalk',
     title: 'Parlez à Alma. Le travail prend forme.',
-    lead: 'Alma comprend votre besoin, apprend comment votre entreprise travaille et prépare le Collaborateur IA, les savoir-faire et les accès nécessaires.',
+    lead: 'Alma comprend votre besoin, recueille vos méthodes et prépare le Collaborateur IA, les compétences et les accès nécessaires.',
     cta: 'Parler à Alma',
     secondary: 'Voir Alma préparer une mission',
     micro: 'Voix ou écrit · Aucun micro activé sans votre accord',
@@ -31,7 +31,7 @@ const COPY = {
   en: {
     eyebrow: 'Alma · Unitalk',
     title: 'Talk to Alma. The work takes shape.',
-    lead: 'Alma understands your need, learns how your company works and prepares the AI Collaborator, the know-how and the access it requires.',
+    lead: 'Alma understands your need, gathers your methods and prepares the AI Collaborator, the skills and the access it requires.',
     cta: 'Talk to Alma',
     secondary: 'See Alma prepare a mission',
     micro: 'Voice or text · No microphone activated without your consent',

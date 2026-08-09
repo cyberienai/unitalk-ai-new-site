@@ -7,12 +7,16 @@ const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre entreprise devient plus capable. Mission après mission.',
-    owned: ['Ne louez pas votre intelligence.', 'Possédez-la.'],
+    ownTitle: 'Votre intelligence vous appartient.',
+    ownBody:
+      'Votre Collaborateur IA développe des compétences à partir des méthodes que vous validez. Votre mémoire, vos données et vos savoir-faire restent sous votre contrôle.',
   },
   en: {
     kicker: 'Mission after mission',
     title: 'Your company becomes more capable. Mission after mission.',
-    owned: ['Don’t rent your intelligence.', 'Own it.'],
+    ownTitle: 'Your intelligence belongs to you.',
+    ownBody:
+      'Your AI Collaborator builds skills from the methods you validate. Your memory, your data and your know-how stay under your control.',
   },
 }
 
@@ -37,9 +41,11 @@ export function SectionVision() {
           {t.title}
         </motion.h2>
 
-        <p className="mt-8 text-balance font-sf text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-[#F4F1EA] sm:text-3xl">
-          {t.owned[0]}{' '}
-          <span className="text-[#E8A0BE]">{t.owned[1]}</span>
+        <p className="mt-10 text-balance font-sf text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-[#F4F1EA] sm:text-3xl">
+          <span className="text-[#E8A0BE]">{t.ownTitle}</span>
+        </p>
+        <p className="mx-auto mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#B8B0A4] sm:text-base">
+          {t.ownBody}
         </p>
       </div>
     </section>

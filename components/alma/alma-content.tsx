@@ -10,7 +10,6 @@ import { SectionPreparer } from './section-preparer'
 import { SectionImpliquer } from './section-impliquer'
 import { SectionTransmettre } from './section-transmettre'
 import { SectionRoles } from './section-roles'
-import { SectionLiens } from './section-liens'
 import { CtaFinal } from './cta-final'
 
 /**
@@ -45,9 +44,6 @@ export function AlmaContent() {
 
         {/* Synthesis — who does what */}
         <SectionRoles />
-
-        {/* Product links */}
-        <SectionLiens />
 
         {/* CTA */}
         <CtaFinal />

@@ -32,7 +32,7 @@ const COPY = {
       },
     ],
     actions: ['Valider le cadre', 'Proposer une correction'],
-    conclusion: 'L’IA prend en charge le travail. Les humains gardent les décisions importantes.',
+    conclusion: 'Le Collaborateur IA prend en charge le travail. Les humains gardent les décisions importantes.',
   },
   en: {
     kicker: 'Information · Validation · Adoption',
@@ -59,7 +59,7 @@ const COPY = {
       },
     ],
     actions: ['Validate the scope', 'Suggest a correction'],
-    conclusion: 'AI takes on the work. Humans keep the important decisions.',
+    conclusion: 'The AI Collaborator takes on the work. Humans keep the important decisions.',
   },
 } as const
 
