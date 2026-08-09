@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { UnitalkLogo } from '@/components/unitalk-logo'
+import { LanguageToggle } from '@/components/language-toggle'
 import { FlowStepper } from './flow-stepper'
 import { ContextColumn } from './context-column'
 import { ScreenMission } from './screen-mission'
@@ -15,7 +16,7 @@ import { ScreenWorkspace } from './screen-workspace'
 import { INITIAL_STATE, STEP_ORDER, type Assignment, type FlowState, type Step } from './types'
 
 export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState }) {
-  const { lang, setLang } = useLanguage()
+  const { lang } = useLanguage()
   const reduce = useReducedMotion()
   const [state, setState] = useState<FlowState>(initial)
 
@@ -40,21 +41,9 @@ export function DiscoverFlow({ initial = INITIAL_STATE }: { initial?: FlowState 
           <FlowStepper current={state.step} entry={state.entry ?? 'company'} lang={lang} onStepClick={goTo} />
         </div>
 
-        <div className="flex shrink-0 items-center gap-3">
-          <div className="flex items-center rounded-full border border-[#D8D0C2] p-0.5 text-xs font-semibold">
-            {(['fr', 'en'] as const).map((l) => (
-              <button
-                key={l}
-                type="button"
-                onClick={() => setLang(l)}
-                className={`rounded-full px-2.5 py-1 uppercase transition-colors ${
-                  lang === l ? 'bg-[#1C1A17] text-[#FBF9F3]' : 'text-[#6E665A] hover:text-[#1C1A17]'
-                }`}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+          <LanguageToggle />
+          <span aria-hidden className="hidden h-4 w-px bg-[#E4DDCE] sm:block" />
           <a
             href="/"
             className="inline-flex items-center gap-1.5 text-xs font-medium text-[#6E665A] transition-colors hover:text-[#1C1A17]"
