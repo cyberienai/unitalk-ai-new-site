@@ -1,21 +1,24 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import {
-  ArrowRight,
-  Globe,
-  Fingerprint,
-  Layers,
-  Hammer,
-  Radio,
-  BrainCircuit,
-  TrendingUp,
-  ShieldCheck,
-} from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useT } from '@/lib/language-context'
 import { CollabSubNav } from './collab-subnav'
 
-const U_ICONS = [Globe, Fingerprint, Layers, Hammer, Radio, BrainCircuit, TrendingUp, ShieldCheck]
+const ease = [0.22, 1, 0.36, 1] as const
+
+/* Renders a U-word with its recurring leading "U" set as a serif magenta accent
+   — the literal signature of "the 8 U's". */
+function UWord({ word }: { word: string }) {
+  return (
+    <span className="inline-flex items-baseline">
+      <span className="font-heading text-[1.5em] italic leading-none text-[#E8548C]">U</span>
+      <span className="font-mono text-[0.86em] font-semibold uppercase tracking-[0.22em] text-[#C9C2B4]">
+        {word.slice(1)}
+      </span>
+    </span>
+  )
+}
 
 export function CollabWhyContent() {
   const t = useT({
@@ -26,6 +29,7 @@ export function CollabWhyContent() {
         'Unitalk réunit vos équipes, vos Collaborateurs IA, vos applications et vos modèles dans une même interface de travail. Une infrastructure ouverte, gouvernée par votre organisation et conçue pour progresser avec elle.',
       tagline: 'The Universal Work Interface.',
       uEyebrow: 'Les 8 U de Unitalk',
+      uHeading: 'Huit principes. Une seule interface.',
       us: [
         {
           u: 'Universal',
@@ -100,6 +104,7 @@ export function CollabWhyContent() {
         'Unitalk brings together your teams, your AI Collaborators, your applications and your models in a single work interface. An open infrastructure, governed by your organization and designed to grow with it.',
       tagline: 'The Universal Work Interface.',
       uEyebrow: 'The 8 U’s of Unitalk',
+      uHeading: 'Eight principles. One interface.',
       us: [
         {
           u: 'Universal',
@@ -170,131 +175,204 @@ export function CollabWhyContent() {
   })
 
   return (
-    <main className="w-full bg-[#F3EFE6]">
-      <CollabSubNav active="/collaborateurs-ia/pourquoi-unitalk" />
+    <main className="w-full bg-[#151310] text-[#F4F1EA]">
+      <CollabSubNav active="/collaborateurs-ia/pourquoi-unitalk" dark />
 
-      {/* Hero */}
-      <section className="px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.eyebrow}</p>
-          <h1 className="text-balance font-sf text-4xl font-bold leading-[1.05] text-[#1C1A17] [letter-spacing:-0.04em] sm:text-5xl lg:text-6xl">
+      {/* ============================ HERO ============================ */}
+      <section className="relative overflow-hidden border-b border-[#2C2822] px-5 py-24 sm:px-6 sm:py-32 lg:px-8">
+        {/* faint ink grid, warm */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, #F4F1EA 1px, transparent 1px), linear-gradient(to bottom, #F4F1EA 1px, transparent 1px)',
+            backgroundSize: '80px 80px',
+          }}
+        />
+        <div className="relative mx-auto max-w-4xl">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease }}
+            className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#E8548C]"
+          >
+            {t.eyebrow}
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.05 }}
+            className="mt-6 text-balance font-heading text-[clamp(2.4rem,6vw,4.6rem)] font-medium leading-[1.02] tracking-[-0.02em] text-[#FBF9F3]"
+          >
             {t.title}
-          </h1>
-          <p className="mt-6 text-pretty text-lg leading-relaxed text-[#4E483F]">{t.subtitle}</p>
-          <p className="mt-6 font-sf text-lg font-semibold tracking-[-0.01em] text-[#D10E63]">{t.tagline}</p>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.12 }}
+            className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-[#C9C2B4]"
+          >
+            {t.subtitle}
+          </motion.p>
+
+          {/* signature line */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, ease, delay: 0.2 }}
+            className="mt-12 flex items-center gap-5"
+          >
+            <span className="h-px w-10 shrink-0 bg-[#E8548C]" />
+            <p className="font-heading text-2xl italic tracking-[-0.01em] text-[#FBF9F3] sm:text-3xl">
+              {t.tagline}
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* The 8 U's */}
-      <section className="border-t border-[#DDD5CA] px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-6xl">
-          <p className="mb-10 text-center font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.uEyebrow}</p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {t.us.map((item, i) => {
-              const Icon = U_ICONS[i]
-              return (
-                <motion.div
-                  key={item.u}
-                  className="rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-6 sm:p-7"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.4, delay: (i % 2) * 0.08 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#1C1A17]">
-                      <Icon className="h-5 w-5 text-[#FBF9F3]" />
-                    </span>
-                    <span className="font-mono text-[12px] font-bold uppercase tracking-[0.14em] text-[#D10E63]">{item.u}</span>
-                  </div>
-                  <h3 className="mt-5 text-balance text-xl font-bold leading-snug text-[#1C1A17]">{item.title}</h3>
-                  <p className="mt-3 text-pretty text-[14.5px] leading-relaxed text-[#6B6560]">{item.body}</p>
-                </motion.div>
-              )
-            })}
+      {/* ========================= THE 8 U'S ========================= */}
+      <section className="border-b border-[#2C2822] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          {/* section header — the "8" is load-bearing: the eight U's */}
+          <div className="flex items-end justify-between gap-6 border-b border-[#2C2822] pb-8">
+            <div>
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#E8548C]">{t.uEyebrow}</p>
+              <h2 className="mt-4 text-balance font-heading text-3xl font-medium leading-[1.08] tracking-[-0.02em] text-[#FBF9F3] sm:text-4xl">
+                {t.uHeading}
+              </h2>
+            </div>
+            <span
+              aria-hidden
+              className="hidden font-heading text-[7rem] font-medium leading-[0.7] text-[#2C2822] sm:block"
+            >
+              8
+            </span>
           </div>
+
+          {/* editorial numbered index */}
+          <ul>
+            {t.us.map((item, i) => (
+              <motion.li
+                key={item.u}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5, ease, delay: (i % 2) * 0.05 }}
+                className="group grid grid-cols-[2.5rem_1fr] gap-x-5 gap-y-3 border-b border-[#2C2822] py-9 sm:grid-cols-[5rem_10rem_1fr] sm:gap-x-8 sm:py-11"
+              >
+                {/* ordinal */}
+                <span className="font-heading text-3xl font-medium leading-none text-[#4A443B] transition-colors duration-300 group-hover:text-[#E8548C] sm:text-5xl">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+
+                {/* U-word overline (mobile: spans under number via col-span) */}
+                <div className="col-start-2 sm:col-start-2 sm:pt-1.5">
+                  <UWord word={item.u} />
+                </div>
+
+                {/* title + body */}
+                <div className="col-span-2 col-start-1 sm:col-span-1 sm:col-start-3">
+                  <h3 className="text-balance font-sf text-xl font-semibold leading-snug text-[#FBF9F3] transition-colors duration-300 group-hover:text-white sm:text-2xl">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#9A9384]">{item.body}</p>
+                </div>
+              </motion.li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Levels of value */}
-      <section className="border-t border-[#DDD5CA] px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-balance text-center font-sf text-3xl font-bold leading-[1.1] text-[#1C1A17] [letter-spacing:-0.03em] sm:text-4xl">
+      {/* ====================== LEVELS OF VALUE ====================== */}
+      <section className="border-b border-[#2C2822] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="max-w-2xl text-balance font-heading text-3xl font-medium leading-[1.08] tracking-[-0.02em] text-[#FBF9F3] sm:text-4xl">
             {t.levelsTitle}
           </h2>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-[#2C2822] bg-[#2C2822] sm:grid-cols-2">
             {t.levels.map((lvl, i) => (
               <motion.div
                 key={lvl.for}
-                className="rounded-2xl border border-[#DDD5CA] bg-[#FBF9F3] p-6"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
+                transition={{ duration: 0.5, ease, delay: i * 0.05 }}
+                className="bg-[#151310] p-8 transition-colors duration-300 hover:bg-[#1B1814] sm:p-10"
               >
-                <h3 className="text-[15px] font-bold text-[#1C1A17]">{lvl.for}</h3>
-                <p className="mt-3 text-pretty text-[14px] leading-relaxed text-[#6B6560]">{lvl.body}</p>
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-[11px] font-bold text-[#E8548C]">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="font-mono text-[12px] font-bold uppercase tracking-[0.16em] text-[#F4F1EA]">{lvl.for}</h3>
+                </div>
+                <p className="mt-4 text-pretty text-[15px] leading-relaxed text-[#9A9384]">{lvl.body}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Open foundation, governed environment */}
-      <section className="border-t border-[#DDD5CA] bg-[#161412] px-5 py-20 text-[#F4F1EA] sm:px-6 sm:py-28 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-balance font-sf text-3xl font-bold leading-[1.1] [letter-spacing:-0.03em] sm:text-4xl">{t.openTitle}</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#B8B0A4]">{t.openBody1}</p>
-          <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-[#B8B0A4]">{t.openBody2}</p>
+      {/* ================= OPEN FOUNDATION / HERMES ================= */}
+      <section className="border-b border-[#2C2822] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease }}
+          className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-[#332E27] bg-[#1B1814] px-6 py-14 text-center sm:px-14 sm:py-20"
+        >
+          <h2 className="text-balance font-heading text-3xl font-medium leading-[1.1] tracking-[-0.02em] text-[#FBF9F3] sm:text-4xl">
+            {t.openTitle}
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#C9C2B4]">{t.openBody1}</p>
+          <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-[#C9C2B4]">{t.openBody2}</p>
           <a
             href="/collaborateurs-ia"
-            className="mt-9 inline-flex items-center gap-2 rounded-full border border-[#E8A0BF]/40 bg-[#E8A0BF]/10 px-7 py-3.5 font-bold text-[#F2BCD3] transition-colors hover:bg-[#E8A0BF]/20"
+            className="group mt-10 inline-flex items-center gap-2 rounded-full border border-[#E8548C]/40 px-7 py-3.5 text-sm font-bold text-[#F2BCD3] transition-colors hover:border-[#E8548C] hover:bg-[#E8548C]/10"
           >
             {t.openCta}
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </a>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Private by default, shared by choice */}
-      <section className="border-t border-[#DDD5CA] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+      {/* ============ PRIVATE BY DEFAULT / SHARED BY CHOICE ============ */}
+      <section className="border-b border-[#2C2822] px-5 py-24 sm:px-6 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-balance font-sf text-3xl font-bold leading-[1.1] text-[#1C1A17] [letter-spacing:-0.03em] sm:text-4xl">
-            {t.ecoTitle}
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#4E483F]">{t.ecoBody1}</p>
-          <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-[#4E483F]">{t.ecoBody2}</p>
-          <p className="mt-8 font-sf text-2xl font-semibold tracking-[-0.02em] text-[#1C1A17]">
-            {t.ecoPunchA} <span className="text-[#D10E63]">{t.ecoPunchB}</span>
+          <p className="mx-auto max-w-2xl text-pretty text-base leading-relaxed text-[#C9C2B4]">{t.ecoBody1}</p>
+          <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-[#C9C2B4]">{t.ecoBody2}</p>
+          <p className="mt-12 font-heading text-[clamp(1.9rem,4.5vw,3rem)] font-medium leading-[1.1] tracking-[-0.02em] text-[#FBF9F3]">
+            {t.ecoPunchA} <span className="italic text-[#E8548C]">{t.ecoPunchB}</span>
           </p>
         </div>
       </section>
 
-      {/* Final conversion */}
-      <section className="bg-[#D10E63] px-5 py-24 text-center text-[#FBF9F3] sm:py-32 lg:px-8">
+      {/* ======================= FINAL CONVERSION ======================= */}
+      <section className="px-5 py-24 text-center sm:py-32 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <p className="mb-5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#FBD7E6]">{t.finalEyebrow}</p>
-          <h2 className="text-balance font-sf text-4xl font-semibold leading-[1.08] [letter-spacing:-0.04em] md:text-5xl">{t.finalTitle}</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-[#FBD7E6]">{t.finalBody}</p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <p className="mb-6 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#E8548C]">{t.finalEyebrow}</p>
+          <h2 className="text-balance font-heading text-[clamp(2rem,5vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.02em] text-[#FBF9F3]">
+            {t.finalTitle}
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-[#C9C2B4]">{t.finalBody}</p>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5"
+              className="group inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-8 py-4 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
             >
               {t.finalCta}
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
             <a
               href="/tarifs"
-              className="inline-flex items-center gap-2 rounded-full border border-[#FBF9F3]/50 px-7 py-3.5 font-bold text-[#FBF9F3] transition-colors hover:bg-[#FBF9F3]/10"
+              className="inline-flex items-center gap-2 rounded-full border border-[#4A443B] px-8 py-4 text-sm font-bold text-[#F4F1EA] transition-colors hover:border-[#F4F1EA]"
             >
               {t.finalCta2}
             </a>
           </div>
-          <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <ul className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {t.finalProof.map((p) => (
-              <li key={p} className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#FBD7E6]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#FBF9F3]" aria-hidden />
+              <li key={p} className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8C8477]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#E8548C]" aria-hidden />
                 {p}
               </li>
             ))}
