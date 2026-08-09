@@ -18,7 +18,7 @@ const ALMA_CTA = {
 // Collaborateurs IA dropdown — the product hub.
 // "Découvrir" points to the central presentation; "Développer leurs capacités"
 // groups the three catalogs (profils métier, compétences, applications);
-// "Être accompagné" pairs Alma (the AI advisor who turns a need into a mission)
+// "Être guidé" pairs Alma (the AI advisor who turns a need into a mission)
 // with the human experts network — side by side.
 type MenuEntry = { title: Bi; desc: Bi; href: string }
 
@@ -62,16 +62,16 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
   {
     title: { fr: 'Alma', en: 'Alma' },
     desc: {
-      fr: 'La conseillère IA qui transforme votre besoin en mission.',
-      en: 'The AI advisor who turns your need into a mission.',
+      fr: 'Votre conseillère IA pour transformer votre besoin en mission.',
+      en: 'Your AI advisor to turn your need into a mission.',
     },
     href: '/alma',
   },
   {
     title: { fr: 'Experts humains', en: 'Human experts' },
     desc: {
-      fr: 'L’accompagnement humain, votre réseau de spécialistes.',
-      en: 'Human support, your network of specialists.',
+      fr: 'Des spécialistes pour aller plus loin.',
+      en: 'Specialists to take you further.',
     },
     href: '/experts',
   },
@@ -91,7 +91,7 @@ const T = {
     // Collaborateurs IA panel
     menuDiscover: 'Découvrir',
     menuCapabilities: 'Développer leurs capacités',
-    menuAccompaniment: 'Être accompagné',
+    menuAccompaniment: 'Être guidé',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -105,7 +105,7 @@ const T = {
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'Discover',
     menuCapabilities: 'Grow their capabilities',
-    menuAccompaniment: 'Get support',
+    menuAccompaniment: 'Get guided',
   },
 }
 
