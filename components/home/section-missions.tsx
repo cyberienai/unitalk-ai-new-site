@@ -40,7 +40,7 @@ const COPY = {
     title: 'Start from what needs to get done.',
     lead: 'Every mission starts from a concrete need. Pick one: Alma frames it with you, then adapts it to your company.',
     all: 'Explore every mission',
-    precise: 'Take on this mission',
+    precise: 'Hand over this mission',
   },
 }
 

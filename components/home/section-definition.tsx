@@ -177,7 +177,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
               <motion.div
                 key={c.n}
                 initial={reduce ? false : { opacity: 0, y: 14 }}
-                animate={on ? { opacity: 1, y: 0 } : reduce ? { opacity: 1 } : { opacity: 0.32, y: 0 }}
+                animate={on ? { opacity: 1, y: 0 } : reduce ? { opacity: 1 } : { opacity: 0.5, y: 0 }}
                 transition={{ duration: 0.55, ease }}
                 className="group relative pl-6 lg:px-8"
               >
@@ -195,7 +195,12 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
 
                 <div className="flex items-baseline gap-2.5">
                   <span className="font-mono text-[13px] font-bold" style={{ color: accent }}>{c.n}</span>
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8073]">{c.head}</span>
+                  <span
+                    className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]"
+                    style={{ color: c.n === '04' ? accent : '#6E655A' }}
+                  >
+                    {c.head}
+                  </span>
                 </div>
                 <p className="mt-3 text-balance font-sf text-[clamp(1.15rem,1.8vw,1.5rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-[#1C1A17]">
                   {c.big}
@@ -203,17 +208,17 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                 <p className="mt-2.5 text-pretty text-[14.5px] leading-relaxed text-[#5A5348]">{c.proof}</p>
                 <motion.p
                   initial={false}
-                  animate={{ opacity: on ? 1 : 0.3 }}
+                  animate={{ opacity: on ? 1 : 0.5 }}
                   transition={{ duration: 0.4 }}
                   className="mt-5 inline-flex items-center gap-2 rounded-full py-1 pr-3 font-mono text-[10.5px] font-bold uppercase tracking-[0.12em]"
-                  style={{ color: on ? accent : '#8A8073' }}
+                  style={{ color: on ? accent : '#6E655A' }}
                 >
                   {c.n === '04' ? (
                     <span aria-hidden className="text-[11px] leading-none">
                       ✓
                     </span>
                   ) : (
-                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#8A8073' }} />
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#6E655A' }} />
                   )}
                   {c.chip}
                 </motion.p>

@@ -84,7 +84,7 @@ export function SectionArticles() {
               className="group flex flex-col justify-between rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D8CFBD] hover:shadow-[0_12px_32px_-16px_rgba(28,26,23,0.25)]"
             >
               <div>
-                <div className="flex items-center gap-2 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">
+                <div className="flex items-center gap-2 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#6E655A]">
                   <span className="text-[#B00C54]">{a.category}</span>
                   <span aria-hidden className="h-1 w-1 rounded-full bg-[#CDC4B2]" />
                   <span>{a.date}</span>

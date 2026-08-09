@@ -9,19 +9,17 @@ const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre entreprise devient plus capable. Mission après mission.',
-    lead: 'Vos Collaborateurs IA accomplissent le travail. Les méthodes, les compétences et l’expérience que vous validez restent dans votre entreprise.',
     owned: ['Ne louez pas votre intelligence.', 'Possédez-la.'],
     proof: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
-    cta: 'Confier une première mission',
+    cta: 'Confier une mission',
     ctaNote: 'Décrivez votre besoin. Alma prépare la suite.',
   },
   en: {
     kicker: 'Mission after mission',
     title: 'Your company becomes more capable. Mission after mission.',
-    lead: 'Your AI Collaborators do the work. The methods, skills and experience you validate stay inside your company.',
     owned: ['Don’t rent your intelligence.', 'Own it.'],
     proof: ['7 days for your first mission', 'No card', 'Hosted in France'],
-    cta: 'Hand over a first mission',
+    cta: 'Hand over a mission',
     ctaNote: 'Describe your need. Alma prepares the next steps.',
   },
 }
@@ -47,9 +45,8 @@ export function SectionVision() {
         >
           {t.title}
         </motion.h2>
-        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#B8B0A4] sm:text-lg">{t.lead}</p>
 
-        <p className="mt-10 text-balance font-sf text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-[#F4F1EA] sm:text-3xl">
+        <p className="mt-8 text-balance font-sf text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-[#F4F1EA] sm:text-3xl">
           {t.owned[0]}{' '}
           <span className="text-[#E8A0BE]">{t.owned[1]}</span>
         </p>
