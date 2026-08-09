@@ -11,7 +11,7 @@ const COPY = {
   fr: {
     kicker: 'Écosystème Unitalk',
     title: 'Chaque entreprise enrichit ses propres capacités. Ensemble, elles font progresser l’écosystème Unitalk.',
-    lead: 'Votre Collaborateur IA conserve l’identité, la mémoire et les méthodes propres à votre entreprise. Il bénéficie aussi des nouvelles compétences, intégrations et améliorations rendues disponibles dans l’écosystème Unitalk.',
+    lead: 'Votre Collaborateur IA conserve l’identité, la mémoire et les méthodes propres à votre entreprise. Selon ses profils métier, il peut aussi bénéficier des compétences, des connaissances et des applications que leurs auteurs choisissent de publier dans l’écosystème Unitalk.',
     privateTitle: 'Privé par défaut',
     privateItems: ['Votre mémoire', 'Vos données', 'Vos méthodes', 'Votre historique'],
     collectiveTitle: 'Publié par choix',
@@ -26,7 +26,7 @@ const COPY = {
   en: {
     kicker: 'The Unitalk ecosystem',
     title: 'Every company grows its own capabilities. Together, they move the Unitalk ecosystem forward.',
-    lead: 'Your AI Collaborator keeps the identity, memory and methods that belong to your company. It also benefits from the new skills, integrations and improvements made available across the Unitalk ecosystem.',
+    lead: 'Your AI Collaborator keeps the identity, memory and methods that belong to your company. Depending on its job profiles, it can also benefit from the skills, knowledge and applications that their authors choose to publish in the Unitalk ecosystem.',
     privateTitle: 'Private by default',
     privateItems: ['Your memory', 'Your data', 'Your methods', 'Your history'],
     collectiveTitle: 'Published by choice',
