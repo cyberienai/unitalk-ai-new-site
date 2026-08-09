@@ -1,20 +1,29 @@
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/navbar'
-import { TarifsContent } from '@/components/tarifs-content'
 import { SiteFooter } from '@/components/site-footer'
+import { PricingHero, BilledExplainer, PartnerPlatformLinks } from '@/components/pricing/pricing-sections'
+import { PricingConfigurator } from '@/components/pricing/pricing-configurator'
+import { PricingFaq, ModesComparison } from '@/components/pricing/pricing-faq'
 
 export const metadata: Metadata = {
-  title: 'Tarifs · Unitalk',
+  title: 'Tarifs · Collaborateurs IA Unitalk',
   description:
-    'Votre Collaborateur IA dès 49 € par mois. Creator pour créer votre Collaborateur IA, Partner pour le déployer chez vos clients, Platform pour construire sur notre infrastructure. Alma incluse. 7 jours d’essai, sans carte bancaire.',
+    'Configurez vos Collaborateurs IA, choisissez votre mode de consommation et estimez votre budget mensuel. Profils métier illimités, multimodèle, crédits ou propres clés API.',
 }
 
 export default function TarifsPage() {
   return (
-    <>
+    <div className="min-h-screen bg-[#F4F1EA] text-[#1C1A17]">
       <Navbar />
-      <TarifsContent />
+      <main>
+        <PricingHero />
+        <PricingConfigurator />
+        <BilledExplainer />
+        <ModesComparison />
+        <PricingFaq />
+        <PartnerPlatformLinks />
+      </main>
       <SiteFooter />
-    </>
+    </div>
   )
 }

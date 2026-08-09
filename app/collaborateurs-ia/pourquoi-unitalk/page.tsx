@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function PourquoiUnitalkPage() {
   return (
     <>
-      <Navbar />
+      <Navbar darkHero />
       <CollabWhyContent />
       <SiteFooter />
     </>

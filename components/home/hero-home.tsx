@@ -30,7 +30,7 @@ const T = {
     detail: 'Alma, Customer success IA, analyse votre entreprise, comprend votre besoin et prépare le Collaborateur IA capable d’accomplir vos missions.',
     detailLabel: 'En savoir plus sur ce qu’Alma prépare',
     cta: 'Confier une première mission',
-    proofs: ['7 jours pour votre première mission', 'Sans CB', 'Hébergé en France'],
+    proofs: ['7 jours pour votre première mission', 'Sans carte bancaire', 'Hébergé en France'],
   },
   en: {
     eyebrow: 'Unitalk Vision',
@@ -42,7 +42,7 @@ const T = {
     detail: 'Alma, AI Customer success, analyzes your company, understands your need and prepares the AI Collaborator able to carry out your missions.',
     detailLabel: 'Learn more about what Alma prepares',
     cta: 'Hand over a first mission',
-    proofs: ['7 days for your first mission', 'No card', 'Hosted in France'],
+    proofs: ['7 days for your first mission', 'No credit card', 'Hosted in France'],
   },
 } as const
 

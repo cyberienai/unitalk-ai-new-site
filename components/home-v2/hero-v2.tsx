@@ -163,8 +163,8 @@ const T = {
     almaLeadPre: 'Confiez-lui une mission. ',
     almaName: 'Alma',
     almaLeadPost: ' comprend votre entreprise et lui apporte les savoir-faire nécessaires pour l’accomplir.',
-    cta: 'Parler à Alma',
-    proofs: ['Essai gratuit 7 jours sans CB', 'Hébergé en France', 'Propulsé par Hermes'],
+    cta: 'Confier une première mission',
+    proofs: ['Essai gratuit 7 jours · Sans carte bancaire', 'Hébergé en France', 'Propulsé par Hermes'],
     capContext: 'Alma analyse votre entreprise',
     capReceived: 'Nouvelle mission pour Solvea',
     capExamine: 'Alma vérifie qui peut prendre cette mission',
@@ -204,8 +204,8 @@ const T = {
     almaLeadPre: 'Hand it a mission. ',
     almaName: 'Alma',
     almaLeadPost: ' understands your company and gives it the know-how it needs to carry it out.',
-    cta: 'Talk to Alma',
-    proofs: ['7-day free trial, no card', 'Hosted in France', 'Powered by Hermes'],
+    cta: 'Assign a first mission',
+    proofs: ['7-day free trial · No credit card', 'Hosted in France', 'Powered by Hermes'],
     capContext: 'Alma analyzes your company',
     capReceived: 'New mission for Solvea',
     capExamine: 'Alma checks who can take this on',
@@ -950,7 +950,7 @@ export function HeroV2({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
                         <div className="flex-1" />
 
-                        {/* Conclusion, sans CTA concurrent : la seule action forte reste « Parler à Alma ». */}
+                        {/* Conclusion, sans CTA concurrent : la seule action forte reste « Confier une première mission ». */}
                         <motion.div
                           initial={reduceMotion ? false : { opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}

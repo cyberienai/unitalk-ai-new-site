@@ -124,7 +124,7 @@ function AccessBlock({
 
 const COPY = {
   fr: {
-    kicker: 'Étape 5 · Accès',
+    kicker: 'Accès · 4 sur 5',
     title: 'Autorisez précisément ce que votre Collaborateur IA peut faire.',
     lead: 'Chaque application est reliée par une connexion sécurisée. Vous voyez exactement les données consultées et les actions permises, et vous gardez la main sur chaque validation sensible.',
     dataRead: 'Données consultées',
@@ -137,7 +137,7 @@ const COPY = {
     reassurance: ['Essai gratuit', 'Hébergé en France', 'Conforme au RGPD', 'Accès révocables'],
   },
   en: {
-    kicker: 'Step 5 · Access',
+    kicker: 'Access · 4 of 5',
     title: 'Authorize exactly what your AI Collaborator can do.',
     lead: 'Each application is linked through a secure connection. You see exactly which data is read and which actions are allowed, and you keep control over every sensitive approval.',
     dataRead: 'Data accessed',

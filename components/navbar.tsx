@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
+import { UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -160,28 +161,46 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
   )
 }
 
-/** Desktop primary nav link with hover/focus/active states. */
-function NavItem({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
+/** Desktop primary nav link with hover/focus/active states.
+ *  `overDark` = transparent navbar sitting over a dark hero → light-on-dark colors. */
+function NavItem({
+  href,
+  active,
+  overDark,
+  children,
+}: {
+  href: string
+  active: boolean
+  overDark: boolean
+  children: React.ReactNode
+}) {
+  const color = active
+    ? overDark
+      ? 'text-[#F5679D]'
+      : 'text-[#D10E63]'
+    : overDark
+      ? 'text-[#D7D0C4] hover:text-[#FBF9F3]'
+      : 'text-[#857C6E] hover:text-[#1C1A17]'
   return (
     <a
       href={href}
       aria-current={active ? 'page' : undefined}
-      className={`relative rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-        active ? 'text-[#D10E63]' : 'text-[#857C6E] hover:text-[#1C1A17]'
-      }`}
+      className={`relative rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${color}`}
     >
       {children}
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full bg-[#D10E63] transition-opacity duration-200 ${
-          active ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full transition-opacity duration-200 ${
+          overDark ? 'bg-[#F5679D]' : 'bg-[#D10E63]'
+        } ${active ? 'opacity-100' : 'opacity-0'}`}
       />
     </a>
   )
 }
 
-export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
+export function Navbar(
+  { darkHero = false }: { ctaLabel?: Bi; ctaShortLabel?: Bi; darkHero?: boolean } = {},
+) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [collabOpen, setCollabOpen] = useState(false)
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false)
@@ -191,6 +210,11 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
   const { lang, setLang } = useLanguage()
   const t = T[lang]
   const pathname = usePathname() || '/'
+
+  // The header is transparent only until the page scrolls or a panel opens.
+  // While transparent over a dark hero, switch to light-on-dark link colors
+  // so labels and hover states stay legible.
+  const overDark = darkHero && !scrolled && !isMenuOpen && !collabOpen
 
   // Active-state resolution
   // Collaborateurs IA owns the product hub: the presentation page and the three
@@ -257,12 +281,18 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
           <div className="flex items-center gap-8 xl:gap-10">
             <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
               <UnitalkLogo size={24} />
-              <span className="font-inter text-sm font-semibold text-[#1C1A17] sm:text-base">Unitalk</span>
+              <span
+                className={`font-inter text-sm font-semibold transition-colors sm:text-base ${
+                  overDark ? 'text-[#FBF9F3]' : 'text-[#1C1A17]'
+                }`}
+              >
+                Unitalk
+              </span>
             </a>
 
             <div className="hidden items-center gap-1 lg:flex">
               {/* Missions — the entry point: start from the need to accomplish */}
-              <NavItem href="/missions" active={isMissionsActive}>
+              <NavItem href="/missions" active={isMissionsActive} overDark={overDark}>
                 {t.missions}
               </NavItem>
 
@@ -278,7 +308,13 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                   aria-controls="collab-menu"
                   aria-current={isCollabActive ? 'page' : undefined}
                   className={`relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-                    isCollabActive || collabOpen ? 'text-[#D10E63]' : 'text-[#857C6E] hover:text-[#1C1A17]'
+                    isCollabActive || collabOpen
+                      ? overDark
+                        ? 'text-[#F5679D]'
+                        : 'text-[#D10E63]'
+                      : overDark
+                        ? 'text-[#D7D0C4] hover:text-[#FBF9F3]'
+                        : 'text-[#857C6E] hover:text-[#1C1A17]'
                   }`}
                 >
                   {t.collaborators}
@@ -288,9 +324,9 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                   />
                   <span
                     aria-hidden="true"
-                    className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full bg-[#D10E63] transition-opacity duration-200 ${
-                      isCollabActive ? 'opacity-100' : 'opacity-0'
-                    }`}
+                    className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full transition-opacity duration-200 ${
+                      overDark ? 'bg-[#F5679D]' : 'bg-[#D10E63]'
+                    } ${isCollabActive ? 'opacity-100' : 'opacity-0'}`}
                   />
                 </button>
 
@@ -343,10 +379,10 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                 </AnimatePresence>
               </div>
 
-              <NavItem href="/workspace" active={isWorkspaceActive}>
+              <NavItem href="/workspace" active={isWorkspaceActive} overDark={overDark}>
                 {t.workspace}
               </NavItem>
-              <NavItem href="/tarifs" active={isPricingActive}>
+              <NavItem href="/tarifs" active={isPricingActive} overDark={overDark}>
                 {t.pricing}
               </NavItem>
             </div>
@@ -356,19 +392,16 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={toggleLang}
-              className="hidden items-center gap-1.5 rounded-md px-1.5 py-2 text-xs font-medium text-[#1C1A17] outline-none transition-colors hover:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 lg:inline-flex"
+              className={`hidden items-center gap-1.5 rounded-md px-1.5 py-2 text-xs font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 lg:inline-flex ${
+                overDark ? 'text-[#EDE8DE] hover:text-[#FBF9F3]' : 'text-[#1C1A17] hover:text-[#D10E63]'
+              }`}
               aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
             >
               {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
 
-            <a
-              href="/connexion"
-              className="hidden rounded-md px-2 py-2 text-sm font-medium text-[#857C6E] outline-none transition-colors hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 lg:inline-flex"
-            >
-              {t.signIn}
-            </a>
+            <UserMenuDesktop overDark={overDark} />
 
             {/* Primary CTA — compact, priority */}
             <a
@@ -537,13 +570,7 @@ export function Navbar(_props: { ctaLabel?: Bi; ctaShortLabel?: Bi } = {}) {
                   >
                     {t.pricing}
                   </a>
-                  <a
-                    href="/connexion"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.signIn}
-                  </a>
+                  <UserMenuMobile onNavigate={() => setIsMenuOpen(false)} />
                   <button
                     onClick={toggleLang}
                     className="flex min-h-11 w-full items-center gap-2 text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"

@@ -1,72 +1,81 @@
 'use client'
 
-import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { STEP_ORDER, STEP_LABELS, ENTRY_STEP_LABELS, type Entry, type Step } from './types'
+import { STEP_ORDER, STEP_LABELS, type Entry, type Step } from './types'
 
+// A deliberately light progress indicator: a compact status line plus a fine
+// connected row of dots. No heavy pills, no equal-weight six-step ladder — the
+// current step is named, the rest recede.
 export function FlowStepper({
   current,
-  entry,
   lang,
   onStepClick,
 }: {
   current: Step
-  entry: Entry
+  entry?: Entry
   lang: Lang
   onStepClick: (step: Step) => void
 }) {
   const currentIndex = STEP_ORDER.indexOf(current)
-  // The first node names the user's starting point (Need / Mission / Job profile).
-  const labelFor = (step: Step) => (step === 'mission' ? ENTRY_STEP_LABELS[entry][lang] : STEP_LABELS[step][lang])
+  const label = (step: Step) => STEP_LABELS[step][lang]
 
   return (
     <nav aria-label={lang === 'fr' ? 'Progression' : 'Progress'} className="w-full">
-      {/* Mobile: textual status */}
-      <p className="text-center font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#8A8175] sm:hidden">
-        {lang === 'fr'
-          ? `Étape ${currentIndex + 1} sur ${STEP_ORDER.length} · ${labelFor(current)}`
-          : `Step ${currentIndex + 1} of ${STEP_ORDER.length} · ${labelFor(current)}`}
+      {/* Named status — always visible, tie the number to the step. */}
+      <p className="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8A8175] sm:hidden">
+        {label(current)} · {currentIndex + 1}/{STEP_ORDER.length}
       </p>
 
-      {/* Desktop: compact numbered stepper */}
-      <ol className="hidden items-center justify-center gap-1.5 sm:flex">
+      {/* Desktop: fine dotted line with a single named active node. */}
+      <ol className="hidden items-center justify-center gap-0 sm:flex">
         {STEP_ORDER.map((step, i) => {
           const done = i < currentIndex
           const active = i === currentIndex
           const clickable = done
           return (
-            <li key={step} className="flex items-center gap-1.5">
+            <li key={step} className="flex items-center">
               <button
                 type="button"
                 disabled={!clickable}
                 onClick={() => clickable && onStepClick(step)}
                 aria-current={active ? 'step' : undefined}
                 className={[
-                  'flex items-center gap-2 rounded-full py-1 pl-1 pr-3 text-xs font-semibold transition-colors',
-                  active
-                    ? 'bg-[#1C1A17] text-[#FBF9F3]'
-                    : done
-                      ? 'text-[#3B362F] hover:bg-[#EBE4D6]'
-                      : 'text-[#B4AC9E]',
+                  'group flex items-center gap-2 rounded-full py-1 pl-1 pr-1 transition-colors',
                   clickable ? 'cursor-pointer' : 'cursor-default',
                 ].join(' ')}
               >
                 <span
+                  aria-hidden="true"
                   className={[
-                    'flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold',
+                    'h-2 w-2 rounded-full transition-colors',
                     active
-                      ? 'bg-[#D10E63] text-[#FBF9F3]'
+                      ? 'bg-[#D10E63] ring-4 ring-[#D10E63]/15'
                       : done
-                        ? 'bg-[#D10E63]/15 text-[#A80B50]'
-                        : 'bg-[#E4DDCE] text-[#8A8175]',
+                        ? 'bg-[#D10E63]/50 group-hover:bg-[#D10E63]'
+                        : 'bg-[#D8D0C2]',
+                  ].join(' ')}
+                />
+                <span
+                  className={[
+                    'text-xs transition-colors',
+                    active
+                      ? 'font-semibold text-[#1C1A17]'
+                      : done
+                        ? 'font-medium text-[#8A8175] group-hover:text-[#3B362F]'
+                        : 'font-medium text-[#B4AC9E]',
                   ].join(' ')}
                 >
-                  {done ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : i + 1}
+                  {label(step)}
                 </span>
-                {labelFor(step)}
               </button>
               {i < STEP_ORDER.length - 1 && (
-                <span aria-hidden="true" className="h-px w-4 bg-[#D8D0C2]" />
+                <span
+                  aria-hidden="true"
+                  className={[
+                    'mx-1.5 h-px w-6 transition-colors',
+                    i < currentIndex ? 'bg-[#D10E63]/40' : 'bg-[#E4DDCE]',
+                  ].join(' ')}
+                />
               )}
             </li>
           )

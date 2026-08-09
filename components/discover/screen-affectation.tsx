@@ -201,7 +201,7 @@ function OptionCard({
 
 const COPY = {
   fr: {
-    kicker: 'Étape 4 · Affectation',
+    kicker: 'Affectation · 3 sur 5',
     title: 'Qui prend cette mission ?',
     examined:
       'J’ai examiné les Collaborateurs IA déjà présents dans votre entreprise. {name} correspond le mieux à ce savoir-faire.',
@@ -219,7 +219,7 @@ const COPY = {
     micro: 'Alma propose, vous décidez. Aucun Collaborateur IA n’est créé automatiquement.',
   },
   en: {
-    kicker: 'Step 4 · Assignment',
+    kicker: 'Assignment · 3 of 5',
     title: 'Who takes this mission?',
     examined:
       'I reviewed the AI Collaborators already in your company. {name} is the best fit for this know-how.',
