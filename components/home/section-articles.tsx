@@ -22,7 +22,7 @@ const COPY = {
     articles: [
       { category: 'Doctrine', date: 'Mars 2026', title: 'Pourquoi les agents IA doivent avoir une identité persistante.' },
       { category: 'Méthode', date: 'Février 2026', title: 'Un agent produit un résultat. Un Collaborateur IA construit une capacité.' },
-      { category: 'Gouvernance', date: 'Janvier 2026', title: 'Pourquoi la mémoire de votre IA doit appartenir à votre entreprise.' },
+      { category: 'Propriété', date: 'Janvier 2026', title: 'Pourquoi la mémoire de votre IA doit appartenir à votre entreprise.' },
     ],
     newsletterTitle: 'Les idées, les méthodes et les nouveautés Unitalk.',
     newsletterSub: 'Une fois par mois. Pas de bruit.',
@@ -38,7 +38,7 @@ const COPY = {
     articles: [
       { category: 'Doctrine', date: 'March 2026', title: 'Why AI agents must have a persistent identity.' },
       { category: 'Method', date: 'February 2026', title: 'An agent produces a result. An AI Collaborator builds a capability.' },
-      { category: 'Governance', date: 'January 2026', title: 'Why your AI’s memory should belong to your company.' },
+      { category: 'Ownership', date: 'January 2026', title: 'Why your AI’s memory should belong to your company.' },
     ],
     newsletterTitle: 'Unitalk ideas, methods and updates.',
     newsletterSub: 'Once a month. No noise.',
