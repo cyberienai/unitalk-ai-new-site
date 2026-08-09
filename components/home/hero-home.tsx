@@ -172,28 +172,31 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
             {t.headline}
           </h1>
 
-          {/* Animated demonstration line — separate from the H1, decorative. */}
+          {/* Animated demonstration line — separate from the H1, decorative.
+              The reserved box is sized in px to fit the tallest scenario (dept
+              pill + a two-line action), so the rotating layer never overflows
+              onto the CTA below. */}
           <div className="mt-6">
             <span className="sr-only">{t.srSentence}</span>
             <span aria-hidden="true" className="block text-center text-[19px] leading-snug sm:text-left md:text-[21px]">
               <span className="block font-medium text-[#4E483F]">{t.lead}</span>
-              <span className="relative mt-3 block min-h-[3.1em] lg:min-h-[2.6em]">
+              <span className="relative mt-3 block min-h-[100px] overflow-hidden md:min-h-[112px]">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span
                     key={index}
-                    initial={reduce ? false : { opacity: 0, y: '0.35em' }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: '-0.35em' }}
-                    transition={reduce ? { duration: 0 } : { duration: 0.4, ease }}
-                    className="absolute inset-x-0 top-0 block"
+                    initial={reduce ? false : { opacity: 0, y: 14, filter: 'blur(5px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: -14, filter: 'blur(5px)' }}
+                    transition={reduce ? { duration: 0 } : { duration: 0.45, ease }}
+                    className="absolute inset-x-0 top-0 flex flex-col items-center gap-2.5 sm:items-start"
                   >
-                    <span className="mb-2 flex items-center justify-center gap-2 sm:justify-start">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-[#EFD9E4] bg-[#FBF3F7] py-1 pl-2 pr-3">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-                      <span className="font-mono text-[12px] font-semibold uppercase tracking-[0.16em] text-[#6E655A]">
+                      <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B00C54]">
                         {current.dept[lang]}
                       </span>
                     </span>
-                    <span className="block text-balance font-sf text-[26px] font-semibold tracking-[-0.02em] text-[#D10E63] md:text-[30px]">
+                    <span className="block text-balance font-sf text-[26px] font-semibold leading-[1.12] tracking-[-0.02em] text-[#D10E63] md:text-[30px]">
                       {current.action[lang]}
                     </span>
                   </motion.span>
@@ -202,17 +205,17 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
             </span>
           </div>
 
-          <div className="mt-8 flex flex-col items-center gap-4 sm:items-start">
-            <div className="flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row">
+          <div className="mt-9 flex flex-col items-center gap-5 sm:items-start">
+            <div className="flex w-full flex-col items-center gap-3.5 sm:w-auto sm:flex-row sm:gap-4">
               <button
                 type="button"
                 onClick={() => openAlma()}
-                className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto"
+                className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-[#FBF9F3] shadow-[0_12px_30px_-10px_rgba(209,14,99,0.55)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-10px_rgba(209,14,99,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto"
               >
                 {t.cta}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </button>
-              <span className="inline-flex items-center text-[15px] leading-relaxed text-[#4E483F] md:text-[16px]">
+              <span className="inline-flex items-center text-[14.5px] leading-relaxed text-[#4E483F] md:text-[15px]">
                 <Image
                   src="/alma-avatar.png"
                   alt="Alma"
@@ -225,11 +228,14 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
               </span>
             </div>
 
-            <div className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
-              {t.proofs.map((proof) => (
-                <span key={proof} className="flex items-center gap-1.5 whitespace-nowrap">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
-                  {proof}
+            <div className="flex flex-row flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs font-medium text-[#6B6560] sm:justify-start">
+              {t.proofs.map((proof, i) => (
+                <span key={proof} className="flex items-center gap-3 whitespace-nowrap">
+                  {i > 0 && <span aria-hidden className="h-3 w-px bg-[#D8CFBF]" />}
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#D10E63]" />
+                    {proof}
+                  </span>
                 </span>
               ))}
             </div>
