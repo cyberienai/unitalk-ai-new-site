@@ -4,6 +4,8 @@ import { Navbar } from '@/components/navbar'
 import { CollabSubNav } from '@/components/collab-subnav'
 import { SiteFooter } from '@/components/site-footer'
 import { AlmaProvider } from '@/components/home/alma-panel-context'
+import { useLanguage } from '@/lib/language-context'
+import { SectionHermes } from '@/components/home/section-hermes'
 import { CollabHero } from './hero'
 import { SectionAlmaMissions } from './section-alma-missions'
 import { SectionContinuite } from './section-continuite'
@@ -20,6 +22,8 @@ import { CtaFinal } from './cta-final'
  * the mission-thread motif recurs, breaking only at the human decision gate.
  */
 export function CollaborateursContent() {
+  const { lang } = useLanguage()
+
   return (
     <AlmaProvider>
       <div className="min-h-screen bg-[#F4F1EA] text-[#1C1A17]">
@@ -40,6 +44,9 @@ export function CollaborateursContent() {
 
         {/* 5. Capital — validated know-how becomes a company asset */}
         <SectionCapital />
+
+        {/* 5b. Hermes — the open-source engine behind the know-how */}
+        <SectionHermes lang={lang} />
 
         {/* 6. Evolution — profiles, skills, applications */}
         <SectionEvolution />
