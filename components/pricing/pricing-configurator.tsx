@@ -167,7 +167,10 @@ export function PricingConfigurator() {
 
   return (
     <section aria-labelledby="configurator-heading" className="mx-auto w-full max-w-6xl px-5 py-6 sm:px-8">
-      <h2 id="configurator-heading" className="font-serif text-[28px] text-[#1C1A17] sm:text-[34px]">
+      <h2
+        id="configurator-heading"
+        className="font-sf text-[30px] font-bold tracking-[-0.01em] text-[#1C1A17] sm:text-[38px]"
+      >
         {t.heading}
       </h2>
 
@@ -180,7 +183,7 @@ export function PricingConfigurator() {
             <div
               role="radiogroup"
               aria-label={t.billingLegend}
-              className="inline-flex w-full max-w-md rounded-full border border-[#E5DED0] bg-white p-1 sm:w-auto"
+              className="inline-flex w-full max-w-md rounded-full border border-[#EAE3D5] bg-white p-1 sm:w-auto"
             >
               {(['monthly', 'annual'] as BillingCycle[]).map((cycle) => {
                 const active = billingCycle === cycle
@@ -191,8 +194,8 @@ export function PricingConfigurator() {
                     role="radio"
                     aria-checked={active}
                     onClick={() => setBillingCycle(cycle)}
-                    className={`min-h-11 flex-1 whitespace-nowrap rounded-full px-4 text-[13.5px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40 ${
-                      active ? 'bg-[#7A1E3A] text-white' : 'text-[#4A453F] hover:text-[#1C1A17]'
+                    className={`min-h-11 flex-1 whitespace-nowrap rounded-full px-4 text-[13.5px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
+                      active ? 'bg-[#D10E63] text-[#FBF9F3]' : 'text-[#4E483F] hover:text-[#1C1A17]'
                     }`}
                   >
                     {cycle === 'monthly' ? t.monthly : t.annual}
@@ -211,13 +214,13 @@ export function PricingConfigurator() {
               {t.quantityLabel}
             </p>
             <div className="mt-3 flex items-center gap-4">
-              <div className="inline-flex items-center rounded-full border border-[#E5DED0] bg-white">
+              <div className="inline-flex items-center rounded-full border border-[#EAE3D5] bg-white">
                 <button
                   type="button"
                   aria-label={t.decrease}
                   disabled={decDisabled}
                   onClick={() => setQuantity((q) => Math.max(1, normalizeQuantity(q) - 1))}
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-[#1C1A17] outline-none transition-colors hover:bg-[#FBF9F3] focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40 disabled:cursor-not-allowed disabled:text-[#CFC6B8]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-[#1C1A17] outline-none transition-colors hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 disabled:cursor-not-allowed disabled:text-[#CFC6B8]"
                 >
                   −
                 </button>
@@ -232,7 +235,7 @@ export function PricingConfigurator() {
                   type="button"
                   aria-label={t.increase}
                   onClick={() => setQuantity((q) => normalizeQuantity(q) + 1)}
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-[#1C1A17] outline-none transition-colors hover:bg-[#FBF9F3] focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-[#1C1A17] outline-none transition-colors hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
                 >
                   +
                 </button>
@@ -247,8 +250,8 @@ export function PricingConfigurator() {
                       type="button"
                       aria-pressed={active}
                       onClick={() => setQuantity(s.value)}
-                      className={`min-h-11 rounded-full border px-3.5 text-[13px] font-medium tabular-nums outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40 ${
-                        active ? 'border-[#7A1E3A] bg-[#FBEFF2] text-[#7A1E3A]' : 'border-[#E5DED0] bg-white text-[#4A453F] hover:border-[#7A1E3A]/40'
+                      className={`min-h-11 rounded-full border px-3.5 text-[13px] font-medium tabular-nums outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
+                        active ? 'border-[#D10E63] bg-[#FBF3F7] text-[#B00C54]' : 'border-[#EAE3D5] bg-white text-[#4E483F] hover:border-[#D10E63]/40'
                       }`}
                     >
                       {s.label}
@@ -258,7 +261,7 @@ export function PricingConfigurator() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-xl border border-[#E5DED0] bg-[#FBF9F3] p-4" aria-live="polite">
+            <div className="mt-4 rounded-2xl border border-[#EAE3D5] bg-[#FBF9F3] p-4" aria-live="polite">
               <p className="text-[15px] font-semibold text-[#1C1A17]">{t.collab(normalizeQuantity(quantity))}</p>
               <p className="text-[13.5px] text-[#6B6560]">
                 {t.unit(money(calc.unitPrice))} · <span className="font-medium text-[#1C1A17]">{t.planTotal(money(calc.monthlySubscription))}</span>
@@ -280,12 +283,12 @@ export function PricingConfigurator() {
             <ul className="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
               {t.included.map((item) => (
                 <li key={item.text} className="flex items-start gap-2">
-                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#A8452F]" />
+                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D10E63]" />
                   <span
                     className={
                       item.strong
-                        ? 'text-[14px] font-semibold text-[#7A1E3A]'
-                        : 'text-[14px] text-[#4A453F]'
+                        ? 'text-[14px] font-semibold text-[#B00C54]'
+                        : 'text-[14px] text-[#4E483F]'
                     }
                   >
                     {item.text}

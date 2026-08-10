@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Mic, Pencil, Square } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { getMission, type Entry } from './types'
+import { getMission, type Entry, type MissionOverride } from './types'
 
 // State 1 — Mission. The heart of the onboarding: the user describes the work
 // (by voice when the browser allows it, otherwise in writing) and Alma turns it
@@ -27,7 +27,7 @@ export function ScreenMission({
   entry: Entry
   missionSlug: string
   hasDraft: boolean
-  onActivate: () => void
+  onActivate: (override: MissionOverride | null) => void
 }) {
   const reduce = useReducedMotion()
   const t = COPY[lang]
@@ -161,7 +161,7 @@ export function ScreenMission({
   const twoZone = !!draft
 
   return (
-    <div className={twoZone ? '' : 'mx-auto w-full max-w-[720px]'}>
+    <div className={twoZone ? '' : 'mx-auto w-full max-w-[640px]'}>
       <div
         className={
           twoZone
@@ -183,14 +183,24 @@ export function ScreenMission({
             {preloaded ? t.leadPreloaded : t.lead}
           </p>
 
-          {/* Alma's single opening line — not a chat log. */}
-          <p className="mt-6 border-l-2 border-[#D10E63]/30 pl-4 text-[15px] italic leading-relaxed text-[#5A544A]">
-            {preloaded ? t.almaPreloaded : t.alma}
-          </p>
+          {/* Preloaded → Alma's opening line as a quiet quote. */}
+          {preloaded && (
+            <p className="mt-6 border-l-2 border-[#D10E63]/30 pl-4 text-[15px] italic leading-relaxed text-[#5A544A]">
+              {t.almaPreloaded}
+            </p>
+          )}
 
-          {/* Capture: voice (when available) or writing */}
+          {/* Not preloaded → one elegant capture surface holding Alma's prompt,
+              the voice/write control and a concrete example. */}
           {!preloaded && (
-            <div className="mt-7">
+            <div className="mt-7 rounded-3xl border border-[#EAE3D5] bg-[#FBF9F3] p-6 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_28px_50px_-34px_rgba(28,26,23,0.4)] sm:p-8">
+              {/* Alma's single opening line — not a chat log. */}
+              <div className="flex items-start gap-3">
+                <span aria-hidden className="mt-[7px] h-2 w-2 shrink-0 rounded-full bg-[#D10E63]" />
+                <p className="text-[15px] italic leading-relaxed text-[#5A544A]">{t.alma}</p>
+              </div>
+
+              <div className="mt-6 border-t border-[#EEE7D9] pt-6">
               {mode === 'voice' && voiceSupported ? (
                 <div className="flex flex-col items-start gap-4">
                   <div className="flex items-center gap-4">
@@ -263,7 +273,7 @@ export function ScreenMission({
                     }}
                     rows={3}
                     placeholder={t.placeholder}
-                    className="w-full resize-none rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] px-4 py-3.5 text-[15px] leading-relaxed text-[#1C1A17] outline-none transition-colors placeholder:text-[#9A9184] focus:border-[#D10E63]/60"
+                    className="w-full resize-none rounded-2xl border border-[#E4DDCE] bg-white px-4 py-3.5 text-[15px] leading-relaxed text-[#1C1A17] outline-none transition-colors placeholder:text-[#9A9184] focus:border-[#D10E63]/60 focus:ring-4 focus:ring-[#D10E63]/10"
                   />
                   <div className="flex flex-wrap items-center gap-3">
                     <button
@@ -287,12 +297,13 @@ export function ScreenMission({
                   </div>
                 </form>
               )}
+              </div>
 
               {/* One clickable example — concrete, not decorative. */}
               <button
                 type="button"
                 onClick={useExample}
-                className="mt-6 block max-w-xl rounded-xl border border-dashed border-[#D8D0C2] bg-transparent px-4 py-3 text-left text-[13px] leading-relaxed text-[#6E665A] transition-colors hover:border-[#D10E63]/40 hover:text-[#3B362F]"
+                className="mt-6 block w-full rounded-2xl border border-dashed border-[#D8D0C2] bg-[#F6F1E7] px-4 py-3.5 text-left text-[13px] leading-relaxed text-[#6E665A] transition-colors hover:border-[#D10E63]/40 hover:bg-[#F3EDE1] hover:text-[#3B362F]"
               >
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#9A9184]">
                   {t.exampleLabel}
@@ -350,7 +361,18 @@ export function ScreenMission({
 
                 <button
                   type="button"
-                  onClick={onActivate}
+                  onClick={() =>
+                    onActivate(
+                      draft
+                        ? {
+                            title: draft.title,
+                            result: draft.result,
+                            cadence: draft.cadence,
+                            validation: draft.validations,
+                          }
+                        : null,
+                    )
+                  }
                   className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
                 >
                   {t.cta}

@@ -91,10 +91,10 @@ function BudgetChips({
             role="radio"
             aria-checked={active}
             onClick={() => onSelect(amount)}
-            className={`min-h-11 rounded-xl border px-4 text-[14px] font-semibold tabular-nums outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40 ${
+            className={`min-h-11 rounded-xl border px-4 text-[14px] font-semibold tabular-nums outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
               active
-                ? 'border-[#7A1E3A] bg-[#7A1E3A] text-white'
-                : 'border-[#E5DED0] bg-white text-[#1C1A17] hover:border-[#7A1E3A]/50'
+                ? 'border-[#D10E63] bg-[#D10E63] text-[#FBF9F3]'
+                : 'border-[#EAE3D5] bg-white text-[#1C1A17] hover:border-[#D10E63]/50'
             }`}
           >
             {formatEuro(amount, lang)}
@@ -122,7 +122,10 @@ export function UsageModeSelector({
   const t = COPY[lang]
   return (
     <section aria-labelledby="usage-mode-title">
-      <h3 id="usage-mode-title" className="font-serif text-[20px] leading-snug text-[#1C1A17]">
+      <h3
+        id="usage-mode-title"
+        className="font-sf text-[22px] font-bold tracking-[-0.01em] leading-snug text-[#1C1A17]"
+      >
         {t.title}
       </h3>
 
@@ -137,18 +140,18 @@ export function UsageModeSelector({
               role="radio"
               aria-checked={active}
               onClick={() => onModeChange(mode)}
-              className={`flex min-h-11 items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#7A1E3A]/40 ${
-                active ? 'border-[#7A1E3A] bg-[#FBEFF2]' : 'border-[#E5DED0] bg-white hover:border-[#7A1E3A]/40'
+              className={`flex min-h-11 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
+                active ? 'border-[#D10E63] bg-[#FBF3F7]' : 'border-[#EAE3D5] bg-white hover:border-[#D10E63]/40'
               }`}
             >
               <span className="flex items-center gap-3">
                 <span
                   aria-hidden="true"
                   className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
-                    active ? 'border-[#7A1E3A]' : 'border-[#B7AE9E]'
+                    active ? 'border-[#D10E63]' : 'border-[#B7AE9E]'
                   }`}
                 >
-                  {active && <span className="h-2 w-2 rounded-full bg-[#7A1E3A]" />}
+                  {active && <span className="h-2 w-2 rounded-full bg-[#D10E63]" />}
                 </span>
                 <span className="text-[14.5px] font-semibold text-[#1C1A17]">{m.label}</span>
               </span>
@@ -162,8 +165,8 @@ export function UsageModeSelector({
 
       {/* Progressive disclosure: only the selected mode's detail is shown. */}
       {usageMode === 'unitalk_credits' && (
-        <div className="mt-4 rounded-2xl border border-[#E5DED0] bg-[#FBF9F3] p-5">
-          <h4 className="font-serif text-[17px] text-[#1C1A17]">{t.creditsTitle}</h4>
+        <div className="mt-4 rounded-2xl border border-[#EAE3D5] bg-[#FBF9F3] p-5">
+          <h4 className="font-sf text-[17px] font-bold tracking-[-0.01em] text-[#1C1A17]">{t.creditsTitle}</h4>
           <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#6B6560]">{t.creditsBody}</p>
           <div className="mt-4">
             <BudgetChips lang={lang} selected={selectedCreditBudget} onSelect={onBudgetChange} />
@@ -174,8 +177,8 @@ export function UsageModeSelector({
       )}
 
       {usageMode === 'byok' && (
-        <div className="mt-4 rounded-2xl border border-[#E5DED0] bg-[#FBF9F3] p-5">
-          <h4 className="font-serif text-[17px] text-[#1C1A17]">{t.byokTitle}</h4>
+        <div className="mt-4 rounded-2xl border border-[#EAE3D5] bg-[#FBF9F3] p-5">
+          <h4 className="font-sf text-[17px] font-bold tracking-[-0.01em] text-[#1C1A17]">{t.byokTitle}</h4>
           <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#6B6560]">{t.byokBody}</p>
           <ul className="mt-3 grid gap-1.5 text-[13px] text-[#4A453F]">
             {t.byokList.map((item) => (
@@ -190,8 +193,8 @@ export function UsageModeSelector({
       )}
 
       {usageMode === 'hybrid' && (
-        <div className="mt-4 rounded-2xl border border-[#E5DED0] bg-[#FBF9F3] p-5">
-          <h4 className="font-serif text-[17px] text-[#1C1A17]">{t.hybridTitle}</h4>
+        <div className="mt-4 rounded-2xl border border-[#EAE3D5] bg-[#FBF9F3] p-5">
+          <h4 className="font-sf text-[17px] font-bold tracking-[-0.01em] text-[#1C1A17]">{t.hybridTitle}</h4>
           <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#6B6560]">{t.hybridBody}</p>
           <div className="mt-4">
             <BudgetChips lang={lang} selected={selectedCreditBudget} onSelect={onBudgetChange} />
