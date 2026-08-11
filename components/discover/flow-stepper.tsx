@@ -1,82 +1,68 @@
 'use client'
 
+import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { STEP_ORDER, STEP_LABELS, type Entry, type Step } from './types'
+import { STEP_LABELS, STEP_ORDER, type OnboardingStep } from './types'
 
-// A deliberately light progress indicator: a compact status line plus a fine
-// connected row of dots. No heavy pills, no equal-weight six-step ladder — the
-// current step is named, the rest recede.
+// A quiet horizontal stepper: Entreprise → Mission → Collaborateur IA → Workspace.
+// Completed steps are clickable and marked with a check; the active step uses
+// magenta; future steps stay discreet and non-interactive.
 export function FlowStepper({
   current,
   lang,
   onStepClick,
 }: {
-  current: Step
-  entry?: Entry
+  current: OnboardingStep
   lang: Lang
-  onStepClick: (step: Step) => void
+  onStepClick: (step: OnboardingStep) => void
 }) {
   const currentIndex = STEP_ORDER.indexOf(current)
-  const label = (step: Step) => STEP_LABELS[step][lang]
 
   return (
-    <nav aria-label={lang === 'fr' ? 'Progression' : 'Progress'} className="w-full">
-      {/* Named status — always visible, tie the number to the step. */}
-      <p className="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8A8175] sm:hidden">
-        {label(current)} · {currentIndex + 1}/{STEP_ORDER.length}
-      </p>
-
-      {/* Desktop: fine dotted line with a single named active node. */}
-      <ol className="hidden items-center justify-center gap-0 sm:flex">
+    <nav aria-label={lang === 'fr' ? 'Étapes' : 'Steps'}>
+      <ol className="flex items-center justify-center gap-1 sm:gap-2">
         {STEP_ORDER.map((step, i) => {
-          const done = i < currentIndex
-          const active = i === currentIndex
-          const clickable = done
+          const state = i < currentIndex ? 'done' : i === currentIndex ? 'active' : 'todo'
+          const isDone = state === 'done'
+          const label = STEP_LABELS[step][lang]
+
           return (
-            <li key={step} className="flex items-center">
+            <li key={step} className="flex items-center gap-1 sm:gap-2">
+              {i > 0 && (
+                <span
+                  aria-hidden="true"
+                  className={`h-px w-3 sm:w-7 ${i <= currentIndex ? 'bg-[#D10E63]/40' : 'bg-[#E4DDCE]'}`}
+                />
+              )}
               <button
                 type="button"
-                disabled={!clickable}
-                onClick={() => clickable && onStepClick(step)}
-                aria-current={active ? 'step' : undefined}
+                onClick={() => isDone && onStepClick(step)}
+                disabled={!isDone}
+                aria-current={state === 'active' ? 'step' : undefined}
                 className={[
-                  'group flex items-center gap-2 rounded-full py-1 pl-1 pr-1 transition-colors',
-                  clickable ? 'cursor-pointer' : 'cursor-default',
-                ].join(' ')}
+                  'inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[12px] font-semibold transition-colors sm:px-3 sm:py-1.5 sm:text-[13px]',
+                  state === 'active' ? 'bg-[#D10E63]/10 text-[#B00C54]' : '',
+                  state === 'done' ? 'cursor-pointer text-[#6E665A] hover:bg-[#EFE8DA]/70 hover:text-[#1C1A17]' : '',
+                  state === 'todo' ? 'text-[#B4AC9E]' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 <span
                   aria-hidden="true"
                   className={[
-                    'h-2 w-2 rounded-full transition-colors',
-                    active
-                      ? 'bg-[#D10E63] ring-4 ring-[#D10E63]/15'
-                      : done
-                        ? 'bg-[#D10E63]/50 group-hover:bg-[#D10E63]'
-                        : 'bg-[#D8D0C2]',
-                  ].join(' ')}
-                />
-                <span
-                  className={[
-                    'text-xs transition-colors',
-                    active
-                      ? 'font-semibold text-[#1C1A17]'
-                      : done
-                        ? 'font-medium text-[#8A8175] group-hover:text-[#3B362F]'
-                        : 'font-medium text-[#B4AC9E]',
-                  ].join(' ')}
+                    'inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full text-[10px] font-bold',
+                    state === 'active' ? 'bg-[#D10E63] text-[#FBF9F3]' : '',
+                    state === 'done' ? 'bg-[#D10E63]/15 text-[#B00C54]' : '',
+                    state === 'todo' ? 'border border-[#D8D0C2] text-[#B4AC9E]' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
                 >
-                  {label(step)}
+                  {isDone ? <Check className="h-3 w-3" strokeWidth={3} /> : i + 1}
                 </span>
+                <span className="hidden sm:inline">{label}</span>
               </button>
-              {i < STEP_ORDER.length - 1 && (
-                <span
-                  aria-hidden="true"
-                  className={[
-                    'mx-1.5 h-px w-6 transition-colors',
-                    i < currentIndex ? 'bg-[#D10E63]/40' : 'bg-[#E4DDCE]',
-                  ].join(' ')}
-                />
-              )}
             </li>
           )
         })}

@@ -1,270 +1,156 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { ArrowRight, Check, Lock, Circle, Loader2, AlertCircle } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, Check, Loader2, ShieldCheck } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
-import { getMission, type Assignment } from './types'
-import { ExpertDoor } from '@/components/experts/expert-door'
-import { loadDraft, type MissionDraft } from '@/lib/mission-draft'
-import { createWorkspaceMission } from '@/lib/workspace-missions'
-import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import type { CompanyFact, MissionInfo } from './types'
 
+// Step 4 — Workspace. A very clean closing screen. The chosen first name leads
+// the dynamic title and the primary CTA. A short recap only — Collaborator, job
+// profile, first mission, human approval. App connections are NOT part of the
+// onboarding: they are requested inside the Workspace, only when a mission needs
+// them.
 export function ScreenWorkspace({
   lang,
-  missionSlug,
-  draftId,
-  domain,
-  assignment,
-  assignedSlug,
+  name,
+  profile,
+  mission,
+  company,
 }: {
   lang: Lang
-  missionSlug: string
-  draftId: string
-  domain: string
-  assignment: Assignment
-  assignedSlug: string
+  name: string
+  profile: { fr: string; en: string }
+  mission: MissionInfo
+  company: CompanyFact[]
 }) {
   const t = COPY[lang]
-  const m = getMission(missionSlug)
+  const reduce = useReducedMotion()
   const router = useRouter()
 
-  // The collaborator carrying the mission, resolved from the assignment step.
-  const responsible = ROLE_DETAILS[assignedSlug]?.name ?? m.profile[lang]
+  const companyName = company.find((f) => f.key === 'name')?.value || ''
+  const displayName = name.trim() || t.fallbackName
 
-  // The draft Alma built on /missions, handed off by id. Loaded client-side.
-  const [draft, setDraft] = useState<MissionDraft | null>(null)
-  useEffect(() => {
-    if (draftId) setDraft(loadDraft(draftId))
-  }, [draftId])
+  const [phase, setPhase] = useState<'idle' | 'opening'>('idle')
+  const opened = useRef(false)
 
-  // Real create → persist → navigate. Created once; both CTAs reuse the id.
-  const [phase, setPhase] = useState<'idle' | 'creating' | 'error'>('idle')
-  const createdId = useRef<string | null>(null)
-
-  async function openInWorkspace() {
-    if (phase === 'creating') return
-    // If already created in this session, just navigate to it again.
-    if (createdId.current) {
-      router.push(`/workspace?mission=${createdId.current}`)
-      return
-    }
-    setPhase('creating')
-    try {
-      // A brief, honest preparation beat (persisting + wiring the mission).
-      await new Promise((r) => setTimeout(r, 650))
-      const record = createWorkspaceMission({ draft, mission: m, domain })
-      createdId.current = record.id
-      router.push(`/workspace?mission=${record.id}`)
-    } catch {
-      setPhase('error')
-    }
+  async function open() {
+    if (phase === 'opening' || opened.current) return
+    setPhase('opening')
+    // A brief, honest beat before opening the Workspace with the kept context.
+    await new Promise((r) => setTimeout(r, 600))
+    opened.current = true
+    const params = new URLSearchParams({
+      collaborateur: name.trim(),
+      profil: profile[lang],
+      mission: mission.title,
+    })
+    router.push(`/workspace?${params.toString()}`)
   }
 
-  // Mission facts, draft-first with catalog fallback.
-  const title = (draft?.title ?? m.title)[lang]
-  const objective = (draft?.objective ?? m.objective)[lang]
-  const firstStep = (m.steps[0] ?? { fr: t.firstStepValue, en: t.firstStepValue })[lang]
-
-  // Governance: prefer the validations the user actually confirmed with Alma.
-  const needsItems =
-    draft && draft.validations.length > 0 ? draft.validations.map((v) => v[lang]) : t.needsItems
-  const cadreItems = draft && draft.cadre.length > 0 ? draft.cadre.map((c) => c[lang]) : null
-
-  const tools =
-    lang === 'fr'
-      ? [
-          { label: 'Sources publiques', state: 'ok', note: 'disponibles' },
-          { label: 'CRM', state: 'todo', note: 'à connecter' },
-          { label: 'Email professionnel', state: 'opt', note: 'facultatif à cette étape' },
-        ]
-      : [
-          { label: 'Public sources', state: 'ok', note: 'available' },
-          { label: 'CRM', state: 'todo', note: 'to connect' },
-          { label: 'Work email', state: 'opt', note: 'optional at this step' },
-        ]
+  const recap = [
+    { label: t.rCollab, value: displayName, accent: true },
+    { label: t.rProfile, value: profile[lang] },
+    { label: t.rMission, value: mission.title },
+    { label: t.rValidation, value: mission.validation },
+  ]
 
   return (
-    <div>
-      <h1 className="text-balance font-sf text-[clamp(1.8rem,3.8vw,2.7rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
-        {t.title}
+    <div className="mx-auto w-full max-w-[560px] py-6 text-center">
+      <motion.div
+        initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#2E9E5B]/12"
+      >
+        <Check className="h-7 w-7 text-[#2E9E5B]" strokeWidth={2.5} />
+      </motion.div>
+
+      <h1 className="mt-6 text-balance font-sf text-[clamp(1.8rem,4vw,2.6rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
+        {displayName} {t.isReady}
       </h1>
+      <p className="mt-3 text-pretty text-[15px] leading-relaxed text-[#4E483F]">
+        {t.subtitleBefore}
+        {companyName ? ` ${companyName}` : ''}
+        {t.subtitleAfter}
+      </p>
 
-      <div className="mt-7 grid gap-4 sm:grid-cols-2">
-        <Card label={t.collaborator}>
-          <p className="font-sf text-base font-bold text-[#1C1A17]">
-            {t.responsible} : <span className="text-[#A80B50]">{responsible}</span>
-          </p>
-          <p className="mt-1 text-[12px] leading-relaxed text-[#8A8175]">
-            {assignment === 'existing'
-              ? lang === 'fr'
-                ? `Profil ${m.profile[lang].toLowerCase()} · fait évoluer un Collaborateur existant`
-                : `${m.profile[lang]} profile · evolves an existing Collaborateur`
-              : lang === 'fr'
-                ? `Profil ${m.profile[lang].toLowerCase()} · nouveau Collaborateur mis en service`
-                : `${m.profile[lang]} profile · new Collaborateur commissioned`}
-          </p>
-        </Card>
-        <Card label={t.activeMission}>
-          <p className="font-sf text-base font-bold text-[#1C1A17]">{title}</p>
-        </Card>
-        <Card label={t.objective}>
-          <p className="text-sm font-semibold leading-relaxed text-[#1C1A17]">{objective}</p>
-        </Card>
-        <Card label={t.firstStep}>
-          <p className="text-sm font-semibold leading-relaxed text-[#1C1A17]">{firstStep}</p>
-        </Card>
-      </div>
+      {/* Short recap */}
+      <dl className="mt-8 overflow-hidden rounded-3xl border border-[#EAE3D5] bg-white text-left shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_28px_50px_-34px_rgba(28,26,23,0.4)]">
+        {recap.map((r, i) => (
+          <div
+            key={r.label}
+            className={`flex items-start gap-4 px-5 py-4 ${i > 0 ? 'border-t border-[#EFE8DA]' : ''}`}
+          >
+            <dt className="w-32 shrink-0 pt-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">
+              {r.label}
+            </dt>
+            <dd
+              className={`min-w-0 flex-1 text-[14px] leading-relaxed ${
+                r.accent ? 'font-sf text-[15px] font-bold text-[#A80B50]' : 'font-medium text-[#1C1A17]'
+              }`}
+            >
+              {r.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
 
-      {/* Tools */}
-      <div className="mt-4">
-        <Card label={t.tools}>
-          <ul className="flex flex-col gap-2">
-            {tools.map((tool) => (
-              <li key={tool.label} className="flex items-center gap-2 text-sm text-[#3B362F]">
-                {tool.state === 'ok' ? (
-                  <Check className="h-4 w-4 shrink-0 text-[#2E9E5B]" strokeWidth={2.5} />
-                ) : tool.state === 'todo' ? (
-                  <Circle className="h-4 w-4 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
-                ) : (
-                  <Circle className="h-4 w-4 shrink-0 text-[#B4AC9E]" strokeWidth={2} />
-                )}
-                <span className="font-medium">{tool.label}</span>
-                <span className="text-[#8A8175]">· {tool.note}</span>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      </div>
+      <p className="mt-4 inline-flex items-center gap-1.5 text-[12px] leading-relaxed text-[#8A8175]">
+        <ShieldCheck className="h-3.5 w-3.5 text-[#2E9E5B]" />
+        {t.connNote}
+      </p>
 
-      {/* Governance */}
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#2E9E5B]">
-            {cadreItems ? t.frameKnown : t.canAlone}
-          </p>
-          <ul className="mt-3 flex flex-col gap-2">
-            {(cadreItems ?? t.aloneItems).map((i) => (
-              <li key={i} className="flex items-center gap-2 text-sm text-[#3B362F]">
-                <Check className="h-4 w-4 shrink-0 text-[#2E9E5B]" strokeWidth={2.5} />
-                {i}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#A80B50]">{t.needsYou}</p>
-          <ul className="mt-3 flex flex-col gap-2">
-            {needsItems.map((i) => (
-              <li key={i} className="flex items-center gap-2 text-sm text-[#3B362F]">
-                <Lock className="h-3.5 w-3.5 shrink-0 text-[#D10E63]" strokeWidth={2.5} />
-                {i}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="mt-7">
         <button
           type="button"
-          onClick={openInWorkspace}
-          disabled={phase === 'creating'}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] disabled:cursor-wait disabled:opacity-80"
+          onClick={open}
+          disabled={phase === 'opening'}
+          className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-7 py-4 text-[15px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] disabled:cursor-wait disabled:opacity-80"
         >
-          {phase === 'creating' ? (
+          {phase === 'opening' ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              {t.creating}
+              {t.opening}
             </>
           ) : (
             <>
-              {t.openMission}
-              <ArrowRight className="h-4 w-4" />
+              {t.start} {displayName}
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </>
           )}
         </button>
-        <Link
-          href="/workspace"
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#D8D0C2] bg-[#FBF9F3] px-6 py-3.5 text-sm font-semibold text-[#3B362F] transition-colors hover:border-[#D10E63]/40"
-        >
-          {t.connectTools}
-        </Link>
       </div>
-
-      {phase === 'error' && (
-        <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[#C0392B]" role="alert">
-          <AlertCircle className="h-4 w-4" />
-          {t.errorRetry}
-        </p>
-      )}
-
-      {/* Once the first mission is ready, offer human help for the wider rollout.
-          Kept discreet and after the primary actions: the setup works without it. */}
-      <div className="mt-4">
-        <ExpertDoor
-          lang={lang}
-          title={
-            lang === 'fr'
-              ? 'Un déploiement plus large en tête ? Un expert peut vous accompagner.'
-              : 'A wider rollout in mind? An expert can support you.'
-          }
-          cta={lang === 'fr' ? 'Découvrir les experts' : 'Discover the experts'}
-        />
-      </div>
-    </div>
-  )
-}
-
-function Card({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">{label}</p>
-      <div className="mt-3">{children}</div>
     </div>
   )
 }
 
 const COPY = {
   fr: {
-    title: 'Votre première mission est prête.',
-    collaborator: 'Collaborateur IA responsable',
-    responsible: 'Responsable',
-    activeProfile: 'Profil actif',
-    activeMission: 'Mission active',
-    objective: 'Objectif',
-    firstStep: 'Première étape',
-    firstStepValue: 'Valider les critères de qualification',
-    tools: 'Outils nécessaires',
-    canAlone: 'Il peut agir seul pour',
-    frameKnown: 'Cadre compris',
-    aloneItems: ['rechercher des entreprises', 'consulter les sources publiques', 'qualifier les prospects', 'préparer une sélection'],
-    needsYou: 'Votre validation est requise pour',
-    needsItems: ['contacter une personne', 'modifier le CRM', 'utiliser un budget', 'partager une information à l’extérieur'],
-    openMission: 'Ouvrir la mission dans le Workspace',
-    creating: 'Création de la mission…',
-    connectTools: 'Connecter les outils nécessaires',
-    errorRetry: 'La création a échoué. Réessayez.',
+    fallbackName: 'Votre Collaborateur',
+    isReady: 'est prêt.',
+    subtitleBefore: 'Il connaît le contexte de votre entreprise',
+    subtitleAfter: ' et sa première mission l’attend dans Unitalk.',
+    rCollab: 'Collaborateur IA',
+    rProfile: 'Profil métier',
+    rMission: 'Première mission',
+    rValidation: 'Validation humaine',
+    connNote: 'Les connexions aux applications seront demandées dans le Workspace, quand la mission en aura besoin.',
+    start: 'Commencer avec',
+    opening: 'Ouverture du Workspace…',
   },
   en: {
-    title: 'Your first mission is ready.',
-    collaborator: 'Responsible AI Collaborator',
-    responsible: 'Responsible',
-    activeProfile: 'Active profile',
-    activeMission: 'Active mission',
-    objective: 'Objective',
-    firstStep: 'First step',
-    firstStepValue: 'Validate the qualification criteria',
-    tools: 'Required tools',
-    canAlone: 'It can act on its own to',
-    frameKnown: 'Known scope',
-    aloneItems: ['research companies', 'consult public sources', 'qualify prospects', 'prepare a shortlist'],
-    needsYou: 'Your approval is required to',
-    needsItems: ['contact a person', 'edit the CRM', 'use a budget', 'share information externally'],
-    openMission: 'Open the mission in the Workspace',
-    creating: 'Creating the mission…',
-    connectTools: 'Connect the required tools',
-    errorRetry: 'Creation failed. Please try again.',
+    fallbackName: 'Your Collaborator',
+    isReady: 'is ready.',
+    subtitleBefore: 'It knows your company context',
+    subtitleAfter: ' and its first mission is waiting in Unitalk.',
+    rCollab: 'AI Collaborator',
+    rProfile: 'Job profile',
+    rMission: 'First mission',
+    rValidation: 'Human approval',
+    connNote: 'App connections will be requested in the Workspace, when the mission needs them.',
+    start: 'Start with',
+    opening: 'Opening the Workspace…',
   },
 } as const
