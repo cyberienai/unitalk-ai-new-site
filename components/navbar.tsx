@@ -332,7 +332,7 @@ export function Navbar(
             : 'border-transparent bg-transparent backdrop-blur-0'
         }`}
       >
-        <nav className="editorial-shell flex h-[76px] items-center justify-between">
+        <nav className={`editorial-shell flex items-center justify-between ${isMissionsActive ? 'h-[64px]' : 'h-[76px]'}`}>
           {/* Group 1 — Identity + Group 2 — Navigation */}
           <div className="flex items-center gap-8 xl:gap-10">
             <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">

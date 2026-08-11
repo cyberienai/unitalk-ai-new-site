@@ -135,11 +135,10 @@ export function MissionsContent() {
   const hasFilters = activeFilterCount(filters) > 0 || query.trim().length > 0
 
   return (
-    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-24 text-[#1C1A17] sm:pt-28">
+    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-20 text-[#1C1A17] sm:pt-24">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#B00C54]">Unitalk</p>
-          <h1 className="mt-3 font-sf text-[clamp(2.3rem,6vw,4.5rem)] font-semibold tracking-[-0.055em]">{t.title}</h1>
+          <h1 className="font-sf text-[clamp(2.3rem,6vw,4.5rem)] font-semibold tracking-[-0.055em]">{t.title}</h1>
           <p className="mx-auto mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.subtitle}</p>
 
           <div className="relative mx-auto mt-7 max-w-2xl">
@@ -167,7 +166,7 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section className="mt-12">
+        <section className="mt-4">
           <div className="flex items-center gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <span className="shrink-0 text-[12px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">{t.categories}</span>
             <CategoryButton active={filters.categorie === 'all'} onClick={() => selectCategory('all')}>
@@ -248,7 +247,7 @@ export function MissionsContent() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder={t.search}
-                  className="h-10 w-full rounded-xl border border-[#D8D0C2] bg-white pl-9 pr-3 text-[13px] outline-none placeholder:text-[#6E665A] focus:border-[#D10E63]/50 focus:ring-3 focus:ring-[#D10E63]/10"
+                  className="h-10 w-full rounded-xl border border-[#E4DDCE] bg-white pl-9 pr-3 text-[13px] shadow-sm outline-none placeholder:text-[#6E665A] focus:border-[#D10E63]/50 focus:ring-3 focus:ring-[#D10E63]/10"
                 />
               </label>
             </div>
