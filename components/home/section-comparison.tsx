@@ -21,7 +21,7 @@ const COPY = {
     afterTitle: 'Collaborateur IA Unitalk',
     conclusionTitle: 'Un résultat aujourd’hui.',
     conclusionAccent: 'La capacité de le reproduire demain.',
-    conclusionSub: 'Les méthodes que vous validez restent dans votre entreprise. Elles peuvent être conservées, versionnées et transformées en compétences réutilisables pour vos prochaines missions.',
+    conclusionSub: 'Chaque méthode validée peut devenir une compétence que votre entreprise conserve et réutilise.',
     rows: [
       ['Identité définie par un usage', 'Identité persistante, plusieurs profils métier'],
       ['Compétence générique', 'Compétences testées et versionnées'],
@@ -39,7 +39,7 @@ const COPY = {
     afterTitle: 'Unitalk AI Collaborator',
     conclusionTitle: 'A result today.',
     conclusionAccent: 'The ability to reproduce it tomorrow.',
-    conclusionSub: 'The methods you validate stay in your company. They can be kept, versioned and turned into reusable skills for your next missions.',
+    conclusionSub: 'Every validated method can become a skill your company keeps and reuses.',
     rows: [
       ['Identity defined by a use case', 'Persistent identity, multiple job profiles'],
       ['A generic skill', 'Tested and versioned skills'],
