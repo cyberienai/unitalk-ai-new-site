@@ -1,8 +1,10 @@
 'use client'
 
+import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 
 /**
  * THE DIFFERENCE — no crosses vs checks, the most generic SaaS comparison there
@@ -19,9 +21,10 @@ const COPY = {
     lead: 'Un agent IA générique produit un résultat. Votre Collaborateur IA conserve l’expérience que vous validez et peut la réutiliser dans ses prochaines missions.',
     beforeTitle: 'Agent IA générique',
     afterTitle: 'Collaborateur IA Unitalk',
+    cta: 'Confier une mission',
     rows: [
       ['Identité définie par un usage', 'Identité persistante, plusieurs profils métier'],
-      ['Compétence générique', 'Compétences testées et versionnées'],
+      ['Compétence générique', 'Compétences testées et améliorées'],
       ['Mémoire dépendante de l’outil', 'Mémoire gouvernée par votre entreprise'],
       ['Résultat isolé', 'Expérience validée et réutilisable'],
       ['Modèle lié à la plateforme', 'Modèles autorisés, Collaborateur inchangé'],
@@ -34,9 +37,10 @@ const COPY = {
     lead: 'A generic AI agent produces a result. Your AI Collaborator keeps the experience you validate and can reuse it in its next missions.',
     beforeTitle: 'Generic AI agent',
     afterTitle: 'Unitalk AI Collaborator',
+    cta: 'Assign a mission',
     rows: [
       ['Identity defined by a use case', 'Persistent identity, multiple job profiles'],
-      ['A generic skill', 'Tested and versioned skills'],
+      ['A generic skill', 'Tested and improved skills'],
       ['Memory dependent on the tool', 'Memory governed by your company'],
       ['An isolated result', 'Validated and reusable experience'],
       ['Model tied to the platform', 'Authorized models, Collaborator unchanged'],
@@ -101,6 +105,26 @@ export function SectionComparison() {
           ))}
         </div>
 
+        {/* Discreet secondary CTA — channels the interest built by the table
+            without competing with the hero's primary conversion. */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease }}
+          className="mt-10"
+        >
+          <Link
+            href="/decouvrir"
+            className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#B00C54] underline-offset-4 outline-none transition-colors hover:text-[#8F0A44] hover:underline focus-visible:rounded focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+          >
+            {t.cta}
+            <ArrowRight
+              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
+          </Link>
+        </motion.div>
       </div>
     </section>
   )
