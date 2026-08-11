@@ -89,7 +89,7 @@ export function DiscoverFlow() {
         </a>
 
         <div className="hidden flex-1 justify-center md:flex">
-          {step !== 'entreprise' && <FlowStepper current={step} lang={lang} onStepClick={goTo} />}
+          {step !== 'entreprise' && step !== 'mission' && <FlowStepper current={step} lang={lang} onStepClick={goTo} />}
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -140,11 +140,13 @@ export function DiscoverFlow() {
             {step === 'mission' && (
               <ScreenMission
                 lang={lang}
+                company={state.company}
                 mission={state.mission}
                 defined={state.missionDefined}
                 onChange={(mission) => setState((s) => ({ ...s, mission }))}
                 onDefine={(mission) => setState((s) => ({ ...s, mission, missionDefined: true }))}
                 onContinue={() => goTo('collaborateur')}
+                stepper={<FlowStepper current={step} lang={lang} onStepClick={goTo} variant="panel" />}
               />
             )}
 
