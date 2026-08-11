@@ -48,7 +48,10 @@ const T = {
   },
 } as const
 
-const NODE_LEFT = [0, 33.333, 66.666, 100] as const
+// Nodes sit at the CENTER of each of the 4 columns (12.5 / 37.5 / 62.5 / 87.5%),
+// not edge-to-edge — so every node, including the green seal on step 04, is
+// centered above its column instead of being pushed to the far right.
+const NODE_LEFT = [12.5, 37.5, 62.5, 87.5] as const
 const SEG_MS = 720
 
 export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
