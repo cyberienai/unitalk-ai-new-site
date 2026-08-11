@@ -29,6 +29,12 @@ export type WorkspaceMission = {
   profile: Bi
   /** Slug of the AI Collaborator carrying the mission (ROLE_DETAILS key). */
   collaboratorSlug: string
+  /**
+   * The first name the user chose for their Collaborator during onboarding
+   * (e.g. "Lucas"). When present, the Workspace shows it instead of the
+   * catalog role name — this is *their* Collaborator, not a generic persona.
+   */
+  collaboratorName?: string
   rythme: Bi
   /** Known rules / boundaries — what the Collaborator may do on its own. */
   cadre: Bi[]
@@ -128,6 +134,79 @@ export function createWorkspaceMission(args: {
     validations: draft?.validations?.length ? draft.validations : [],
     firstStep,
     tools: mission.tools ?? [],
+    domain,
+    status: 'ready',
+  }
+
+  const all = readAll()
+  all.push(record)
+  writeAll(all)
+  return record
+}
+
+// Recommended job profile → a real Collaborator slug from the roster, so the
+// persisted mission resolves an avatar and a role in the Workspace.
+const PROFILE_TO_SLUG: Record<string, string> = {
+  Finance: 'nadia',
+  Commercial: 'hugo',
+  Marketing: 'lea',
+  Support: 'ines',
+  'Support client': 'ines',
+  Développement: 'arthur',
+  Direction: 'emma',
+}
+
+/**
+ * Persist the mission built during the /decouvrir onboarding. Unlike
+ * `createWorkspaceMission` (driven by a catalog mission), this maps the simple,
+ * self-authored onboarding shape — a short MissionInfo, a recommended profile
+ * and the chosen first name — into a real, stored WorkspaceMission. The chosen
+ * name is kept so the Workspace opens as *this* Collaborator's workspace.
+ *
+ * Single-language input is duplicated into both `fr`/`en` slots on purpose: the
+ * user authored one string, and the Workspace renders whichever language is
+ * active without inventing a translation.
+ */
+export function createOnboardingWorkspaceMission(args: {
+  title: string
+  result: string
+  rule: string
+  validation: string
+  profile: Bi
+  collaboratorName: string
+  domain: string
+  lang: 'fr' | 'en'
+}): WorkspaceMission {
+  const { title, result, rule, validation, profile, collaboratorName, domain, lang } = args
+
+  const bi = (s: string): Bi => ({ fr: s, en: s })
+  const slug = PROFILE_TO_SLUG[profile.fr] ?? PROFILE_TO_SLUG[profile.en] ?? 'nadia'
+
+  const record: WorkspaceMission = {
+    id: newId(),
+    createdAt: Date.now(),
+    missionSlug: 'onboarding',
+    title: bi(title),
+    objective: bi(result),
+    result: bi(result),
+    profile,
+    collaboratorSlug: slug,
+    collaboratorName: collaboratorName.trim() || undefined,
+    rythme: lang === 'fr' ? { fr: 'À la demande.', en: 'On demand.' } : { fr: 'À la demande.', en: 'On demand.' },
+    cadre: rule.trim() ? [bi(rule.trim())] : [],
+    validations: validation.trim() ? [bi(validation.trim())] : [],
+    firstStep:
+      lang === 'fr'
+        ? {
+            fr: 'Préparer la première itération et vous la soumettre pour validation.',
+            en: 'Prepare the first iteration and submit it to you for approval.',
+          }
+        : {
+            fr: 'Préparer la première itération et vous la soumettre pour validation.',
+            en: 'Prepare the first iteration and submit it to you for approval.',
+          },
+    // App connections are deliberately deferred to the Workspace, so no tools yet.
+    tools: [],
     domain,
     status: 'ready',
   }

@@ -1,17 +1,40 @@
 'use client'
 
+import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Mail } from 'lucide-react'
+import { Loader2, Mail } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
+import { startSession } from '@/app/actions/auth'
+import type { AuthProvider } from '@/lib/mock-auth'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 
 // Screen 0 — account creation. Intentionally the simplest surface of the whole
 // flow: a logo, one promise, three ways in. No password, no credit card, no
-// company details. Any of the three actions authenticates (demo) and hands off
-// to the first step.
+// company details. Each action creates a REAL (simulated) session cookie, then
+// hands off to the first step — so the user is never asked to sign in again,
+// and the Workspace opens directly at the end of the flow.
 export function ScreenAccount({ lang, onAuthenticated }: { lang: Lang; onAuthenticated: () => void }) {
   const reduce = useReducedMotion()
   const t = COPY[lang]
+  const [pending, setPending] = useState<AuthProvider | null>(null)
+  const [email, setEmail] = useState('')
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+
+  async function go(provider: AuthProvider) {
+    if (pending) return
+    // For the email path, require a valid address before creating the session.
+    if (provider === 'email' && !emailValid) return
+    setPending(provider)
+    try {
+      // Create the session up front — the account exists from the very first
+      // screen, so the journey ends by opening the Workspace, not by re-login.
+      await startSession(provider, provider === 'email' ? email.trim() : undefined)
+      onAuthenticated()
+    } catch {
+      setPending(null)
+    }
+  }
 
   return (
     <div className="mx-auto flex min-h-[70vh] w-full max-w-[440px] flex-col items-center justify-center py-10 text-center">
@@ -31,44 +54,77 @@ export function ScreenAccount({ lang, onAuthenticated }: { lang: Lang; onAuthent
         <p className="mt-3 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.subtitle}</p>
 
         <div className="mt-9 flex flex-col gap-3">
-          <button
-            type="button"
-            onClick={onAuthenticated}
-            className="group inline-flex h-12 items-center justify-center gap-3 rounded-xl border border-[#E4DDCE] bg-white px-5 text-[15px] font-semibold text-[#1C1A17] shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_10px_24px_-18px_rgba(28,26,23,0.5)] transition-colors hover:border-[#D8D0C2] hover:bg-[#FBF9F3]"
-          >
+          {/* The three ways in share one visual weight: no option is pushed
+              ahead of the others — the user simply picks what they already use. */}
+          <AuthButton onClick={() => go('google')} pending={pending === 'google'} disabled={!!pending}>
             <GoogleMark />
             {t.google}
-          </button>
+          </AuthButton>
 
-          <button
-            type="button"
-            onClick={onAuthenticated}
-            className="group inline-flex h-12 items-center justify-center gap-3 rounded-xl border border-[#E4DDCE] bg-white px-5 text-[15px] font-semibold text-[#1C1A17] shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_10px_24px_-18px_rgba(28,26,23,0.5)] transition-colors hover:border-[#D8D0C2] hover:bg-[#FBF9F3]"
-          >
+          <AuthButton onClick={() => go('microsoft')} pending={pending === 'microsoft'} disabled={!!pending}>
             <MicrosoftMark />
             {t.microsoft}
-          </button>
+          </AuthButton>
 
           <div className="relative my-1 flex items-center gap-3">
             <span className="h-px flex-1 bg-[#E4DDCE]" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#B4AC9E]">{t.or}</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#8A8175]">{t.or}</span>
             <span className="h-px flex-1 bg-[#E4DDCE]" />
           </div>
 
-          <button
-            type="button"
-            onClick={onAuthenticated}
-            className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-xl bg-[#D10E63] px-5 text-[15px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
+          <input
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) go('email')
+            }}
+            placeholder={t.emailPlaceholder}
+            aria-label={t.emailPlaceholder}
+            disabled={!!pending}
+            className="h-12 w-full rounded-xl border border-[#E4DDCE] bg-white px-4 text-center text-[15px] text-[#1C1A17] shadow-[0_1px_0_rgba(255,255,255,0.7)_inset] outline-none transition-colors placeholder:text-[#A79F91] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/25 disabled:opacity-70"
+          />
+
+          <AuthButton
+            onClick={() => go('email')}
+            pending={pending === 'email'}
+            disabled={!!pending || !emailValid}
           >
-            <Mail className="h-[18px] w-[18px]" />
+            <Mail className="h-[18px] w-[18px] text-[#6E665A]" />
             {t.email}
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </button>
+          </AuthButton>
         </div>
 
-        <p className="mt-7 text-[12px] leading-relaxed text-[#9A9184]">{t.reassure}</p>
+        <p className="mt-7 text-[12px] leading-relaxed text-[#6E665A]">{t.reassure}</p>
       </motion.div>
     </div>
+  )
+}
+
+// One shared button style for all three sign-in options — equal visual weight.
+function AuthButton({
+  children,
+  onClick,
+  pending,
+  disabled,
+}: {
+  children: React.ReactNode
+  onClick: () => void
+  pending: boolean
+  disabled: boolean
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-busy={pending}
+      className="group inline-flex h-12 items-center justify-center gap-3 rounded-xl border border-[#E4DDCE] bg-white px-5 text-[15px] font-semibold text-[#1C1A17] shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_10px_24px_-18px_rgba(28,26,23,0.5)] transition-colors hover:border-[#D8D0C2] hover:bg-[#FBF9F3] disabled:cursor-wait disabled:opacity-70"
+    >
+      {pending ? <Loader2 className="h-[18px] w-[18px] animate-spin text-[#6E665A]" /> : children}
+    </button>
   )
 }
 
@@ -112,6 +168,7 @@ const COPY = {
     subtitle: 'Utilisez votre adresse professionnelle pour commencer.',
     google: 'Continuer avec Google',
     microsoft: 'Continuer avec Microsoft',
+    emailPlaceholder: 'vous@entreprise.com',
     email: 'Recevoir un lien par email',
     or: 'ou',
     reassure: 'Aucun mot de passe, aucune carte bancaire. Vous pourrez tout ajuster ensuite.',
@@ -121,6 +178,7 @@ const COPY = {
     subtitle: 'Use your work email to get started.',
     google: 'Continue with Google',
     microsoft: 'Continue with Microsoft',
+    emailPlaceholder: 'you@company.com',
     email: 'Get a link by email',
     or: 'or',
     reassure: 'No password, no credit card. You can adjust everything later.',

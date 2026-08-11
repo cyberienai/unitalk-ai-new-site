@@ -52,6 +52,36 @@ export async function establishSession(formData: FormData): Promise<void> {
   redirect(target)
 }
 
+/**
+ * Establish the simulated session WITHOUT redirecting.
+ *
+ * Used by the /decouvrir onboarding: the account is created on the first
+ * screen (a real session cookie is set) and the flow then continues in-memory
+ * through the remaining steps. At the end, the Workspace opens directly —
+ * the user is never asked to sign in a second time.
+ */
+export async function startSession(provider: AuthProvider, email?: string): Promise<void> {
+  const rawEmail = email?.trim().toLowerCase() ?? ''
+  const resolvedEmail =
+    provider === 'email'
+      ? rawEmail || 'membre@entreprise.com'
+      : PROVIDER_DEMO_EMAIL[provider as 'google' | 'microsoft']
+
+  const session = {
+    email: resolvedEmail,
+    name: nameFromEmail(resolvedEmail),
+    provider,
+  }
+
+  const store = await cookies()
+  store.set(SESSION_COOKIE, encodeSession(session), {
+    path: '/',
+    maxAge: SESSION_MAX_AGE,
+    sameSite: 'lax',
+    // Not httpOnly: the navbar reads this client-side in the simulation.
+  })
+}
+
 /** Clear the simulated session and return home. */
 export async function signOut(): Promise<void> {
   const store = await cookies()

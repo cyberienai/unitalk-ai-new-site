@@ -88,7 +88,7 @@ export function WorkspaceApp({ missions }: { missions: WorkspaceMission[] }) {
                           {m.title[lang]}
                         </span>
                         <span className="block truncate text-xs text-[#8A8175]">
-                          {collab ? collab.name : m.profile[lang]}
+                          {m.collaboratorName ?? (collab ? collab.name : m.profile[lang])}
                         </span>
                       </span>
                       <StatusDot status={m.status} />
@@ -161,7 +161,8 @@ function MissionDetail({
               {t.responsible}
             </p>
             <p className="mt-1 font-sf text-base font-bold text-[#1C1A17]">
-              {collab.name} <span className="font-normal text-[#A80B50]">· {collab.role[lang]}</span>
+              {mission.collaboratorName ?? collab.name}{' '}
+              <span className="font-normal text-[#A80B50]">· {collab.role[lang]}</span>
             </p>
             <p className="text-sm text-[#6B6560]">
               {t.pairedWith} {collab.manager.name} · {collab.manager.role[lang]}
