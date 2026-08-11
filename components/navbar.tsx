@@ -20,7 +20,7 @@ const ALMA_CTA = {
 // "Découvrir" groups the hub, its catalogs (profils métier, compétences) and
 // the missions entry point; "Être guidé" pairs Alma (the AI advisor) with the
 // human experts network; "Votre Collaborateur" offers the two direct actions.
-type MenuEntry = { title: Bi; desc: Bi; href: string }
+type MenuEntry = { title: Bi; desc: Bi; href: string; avatar?: string }
 type MenuAction = { title: Bi; href: string }
 
 const COLLAB_DISCOVER: MenuEntry[] = [
@@ -66,6 +66,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
       en: 'Your AI coordinator: she structures your missions, sets the human validations and prepares the work.',
     },
     href: '/alma',
+    avatar: '/alma-avatar.png',
   },
   {
     title: { fr: 'Experts', en: 'Experts' },
@@ -154,10 +155,29 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
         aria-hidden="true"
         className="absolute left-0 top-1/2 h-0 w-[3px] -translate-y-1/2 rounded-r-full bg-[#D10E63] transition-all duration-300 ease-out group-hover:h-[62%] group-focus-visible:h-[62%]"
       />
-      <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
-        {entry.title[lang]}
-      </span>
-      <span className="mt-1 block text-[12.5px] leading-relaxed text-[#9A9184]">{entry.desc[lang]}</span>
+      {entry.avatar ? (
+        <span className="flex items-start gap-3">
+          <img
+            src={entry.avatar || "/placeholder.svg"}
+            alt=""
+            aria-hidden="true"
+            className="mt-0.5 h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-[#EAD9E0]"
+          />
+          <span className="min-w-0">
+            <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
+              {entry.title[lang]}
+            </span>
+            <span className="mt-1 block text-[12.5px] leading-relaxed text-[#9A9184]">{entry.desc[lang]}</span>
+          </span>
+        </span>
+      ) : (
+        <>
+          <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
+            {entry.title[lang]}
+          </span>
+          <span className="mt-1 block text-[12.5px] leading-relaxed text-[#9A9184]">{entry.desc[lang]}</span>
+        </>
+      )}
     </a>
   )
 }
@@ -228,6 +248,16 @@ export function Navbar(
   const [scrolled, setScrolled] = useState(false)
   const collabRef = useRef<HTMLDivElement | null>(null)
   const collabButtonRef = useRef<HTMLButtonElement | null>(null)
+  // Hover intent: small close delay so moving from trigger to panel doesn't flicker.
+  const collabHoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openCollabHover = () => {
+    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
+    setCollabOpen(true)
+  }
+  const closeCollabHover = () => {
+    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
+    collabHoverTimeout.current = setTimeout(() => setCollabOpen(false), 120)
+  }
   const { lang, setLang } = useLanguage()
   const t = T[lang]
   const pathname = usePathname() || '/'
@@ -286,6 +316,11 @@ export function Navbar(
     return () => window.removeEventListener('keydown', onKey)
   }, [collabOpen])
 
+  // Clear any pending hover-close timer on unmount
+  useEffect(() => () => {
+    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
+  }, [])
+
   const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
 
   return (
@@ -318,7 +353,12 @@ export function Navbar(
               </NavItem>
 
               {/* Collaborateurs IA — product hub dropdown (who takes the work on) */}
-              <div ref={collabRef} className="relative">
+              <div
+                ref={collabRef}
+                className="relative"
+                onMouseEnter={openCollabHover}
+                onMouseLeave={closeCollabHover}
+              >
                 <button
                   ref={collabButtonRef}
                   type="button"
@@ -364,7 +404,7 @@ export function Navbar(
                       style={{ transformOrigin: 'top left' }}
                       className="absolute left-0 top-full w-[680px] max-w-[calc(100vw-2rem)] pt-2"
                     >
-                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white/85 shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)] backdrop-blur-lg">
+                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
                         {/* Two-column body: product (left) vs ecosystem (right) */}
                         <div className="grid grid-cols-[1fr_300px]">
                           {/* Left — Le Collaborateur: the four product bricks */}
@@ -385,7 +425,7 @@ export function Navbar(
                           </div>
 
                           {/* Right — Accompagnement & écosystème, on warmer cream */}
-                          <div className="border-l border-[#EFE8DA] bg-[#FBF8F1]/70 p-3">
+                          <div className="border-l border-[#EFE8DA] bg-[#FBF8F1] p-3">
                             <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
@@ -403,7 +443,7 @@ export function Navbar(
                         </div>
 
                         {/* Footer bar — the single "Pourquoi Unitalk ?" direct link */}
-                        <div className="border-t border-[#EFE8DA] bg-[#FBF8F1]/70 px-3 py-4">
+                        <div className="border-t border-[#EFE8DA] bg-[#FBF8F1] px-3 py-4">
                           {COLLAB_ACTIONS.map((item) => (
                             <CollabActionLink
                               key={item.href}
