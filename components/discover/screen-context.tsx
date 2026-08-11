@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Check, Pencil, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, Pencil } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import type { CompanyFact } from './types'
@@ -70,31 +70,12 @@ export function ScreenContext({
               {t.title}
             </h1>
             <p className="mt-5 max-w-sm text-pretty text-[14px] leading-7 text-[#C7BFB5]">{t.subtitle}</p>
-
-            <div className="mt-7 flex items-start gap-3 border-t border-white/10 pt-5">
-              <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[#E38AB4]" />
-              <p className="max-w-sm text-[13px] leading-relaxed text-[#AAA197]">{t.almaLine}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-[11px] text-[#8F877E]">
-            <ShieldCheck className="h-4 w-4 text-[#E38AB4]" />
-            {t.private}
           </div>
         </div>
       </section>
 
       <section className="flex min-w-0 flex-col px-6 py-7 sm:px-9 sm:py-8 lg:px-10 lg:py-9">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#B4327E]">{t.cardKicker}</p>
-            <h2 className="mt-2 font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{t.cardTitle}</h2>
-          </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E3DACB] bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-[#6E665A]">
-            <Check className="h-3 w-3 text-[#D10E63]" strokeWidth={3} />
-            {t.prepared}
-          </span>
-        </div>
+        <h2 className="font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{t.cardTitle}</h2>
 
         <dl className="mt-5 flex-1 divide-y divide-[#EBE4D6] border-y border-[#EBE4D6]">
           {company.map((fact) => {
@@ -162,8 +143,7 @@ export function ScreenContext({
           })}
         </dl>
 
-        <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-xs text-[11px] leading-relaxed text-[#8A8175]">{t.note}</p>
+        <div className="mt-5 flex justify-end">
           <button
             type="button"
             onClick={confirmCompany}
@@ -185,16 +165,11 @@ const COPY = {
     subtitle: 'Alma a préparé ce premier contexte à partir de votre domaine professionnel.',
     almaName: 'Alma',
     almaRole: 'Conseillère en transformation IA',
-    almaLine: 'Vérifiez, corrigez si besoin, puis confirmez.',
-    private: 'Vos informations restent sous votre contrôle.',
-    cardKicker: 'Contexte détecté',
     cardTitle: 'Votre fiche entreprise',
-    prepared: 'Préparée',
     toConfirm: 'À confirmer',
     save: 'Enregistrer',
     cancel: 'Annuler',
     confirm: 'Confirmer mon entreprise',
-    note: 'Cliquez sur une information pour la modifier. Rien n’est envoyé sans votre accord.',
   },
   en: {
     kicker: 'Company',
@@ -202,15 +177,10 @@ const COPY = {
     subtitle: 'Alma prepared this first context from your work domain.',
     almaName: 'Alma',
     almaRole: 'AI transformation advisor',
-    almaLine: 'Check, correct if needed, then confirm.',
-    private: 'Your information stays under your control.',
-    cardKicker: 'Detected context',
     cardTitle: 'Your company profile',
-    prepared: 'Prepared',
     toConfirm: 'To confirm',
     save: 'Save',
     cancel: 'Cancel',
     confirm: 'Confirm my company',
-    note: 'Click any information to edit it. Nothing is sent without your consent.',
   },
 } as const
