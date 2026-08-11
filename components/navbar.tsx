@@ -49,12 +49,12 @@ const COLLAB_DISCOVER: MenuEntry[] = [
     href: '/collaborateurs-ia/competences',
   },
   {
-    title: { fr: 'Missions', en: 'Missions' },
+    title: { fr: 'Applications', en: 'Applications' },
     desc: {
-      fr: 'Le travail que vous pouvez lui confier.',
-      en: 'The work you can hand over to it.',
+      fr: 'Les outils qu’il connecte pour travailler.',
+      en: 'The tools it connects to get work done.',
     },
-    href: '/missions',
+    href: '/collaborateurs-ia/applications',
   },
 ]
 
@@ -78,8 +78,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
 ]
 
 const COLLAB_ACTIONS: MenuAction[] = [
-  { title: { fr: 'Recruter un Collaborateur IA', en: 'Recruit an AI Collaborator' }, href: '/decouvrir' },
-  { title: { fr: 'Voir mon Workspace', en: 'See my Workspace' }, href: '/workspace' },
+  { title: { fr: 'Pourquoi Unitalk ?', en: 'Why Unitalk?' }, href: '/collaborateurs-ia/pourquoi-unitalk' },
 ]
 
 const T = {
@@ -96,7 +95,6 @@ const T = {
     // Collaborateurs IA panel
     menuDiscover: 'Découvrir',
     menuAccompaniment: 'Être guidé',
-    menuActions: 'Votre Collaborateur',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -110,7 +108,6 @@ const T = {
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'Discover',
     menuAccompaniment: 'Get guided',
-    menuActions: 'Your Collaborator',
   },
 }
 
@@ -391,10 +388,7 @@ export function Navbar(
 
                         <div className="my-2 border-t border-[#EFE8DA]" />
 
-                        {/* Votre Collaborateur — the two direct actions */}
-                        <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                          {t.menuActions}
-                        </p>
+                        {/* Pourquoi Unitalk — single direct link */}
                         <div className="flex flex-col">
                           {COLLAB_ACTIONS.map((item) => (
                             <CollabActionLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
