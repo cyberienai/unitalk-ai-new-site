@@ -15,13 +15,11 @@ export function ScreenContext({
   company,
   onChange,
   onContinue,
-  stepper,
 }: {
   lang: Lang
   company: CompanyFact[]
   onChange: (next: CompanyFact[]) => void
   onContinue: () => void
-  stepper: React.ReactNode
 }) {
   const t = COPY[lang]
   const [editingKey, setEditingKey] = useState<string | null>(null)
@@ -33,6 +31,7 @@ export function ScreenContext({
 
   const domain = company.find((fact) => fact.key === 'domain')?.value.trim() ?? ''
   const companyName = company.find((fact) => fact.key === 'name')?.value.trim() ?? ''
+  const activity = company.find((fact) => fact.key === 'activity')?.value.trim() ?? ''
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -97,14 +96,12 @@ export function ScreenContext({
   }
 
   return (
-    <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:min-h-[34rem] lg:grid-cols-[minmax(19rem,0.8fr)_minmax(0,1.2fr)]">
-      <section className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-8 text-[#FBF9F3] sm:px-9 lg:px-10 lg:py-10">
+    <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:min-h-[31rem] lg:grid-cols-[minmax(16rem,1fr)_minmax(0,2fr)]">
+      <section className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-7 text-[#FBF9F3] sm:px-8 lg:px-9">
         <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#D10E63]/15 blur-3xl" />
         <div aria-hidden className="pointer-events-none absolute -bottom-32 -right-20 h-64 w-64 rounded-full border border-white/[0.06]" />
 
         <div className="relative flex h-full flex-col">
-          <div className="mb-7 hidden md:block">{stepper}</div>
-
           <div className="flex items-center gap-3">
             <AlmaHead className="h-11 w-11 shrink-0 ring-1 ring-white/15" />
             <div className="leading-tight">
@@ -113,7 +110,7 @@ export function ScreenContext({
             </div>
           </div>
 
-          <div className="my-auto py-9 lg:py-8">
+          <div className="mt-8">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-[#E38AB4]">{t.kicker}</p>
             <h1 className="mt-3 max-w-md text-balance font-sf text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.03] tracking-[-0.045em] text-white">
               {t.title}
@@ -123,6 +120,11 @@ export function ScreenContext({
               {status === 'confirmed' && <Check className="mt-1.5 h-4 w-4 shrink-0 text-[#E38AB4]" strokeWidth={3} />}
               <p>{status === 'loading' ? t.loading : status === 'confirmed' ? t.confirmed : t.prefilled}</p>
             </div>
+          </div>
+
+          <div className="mt-auto border-t border-white/10 pt-5">
+            <p className="font-sf text-[15px] font-bold text-white">{companyName || t.cardTitle}</p>
+            {activity && <p className="mt-1.5 text-[12px] leading-relaxed text-[#BDB5AC]">{activity}</p>}
           </div>
         </div>
       </section>

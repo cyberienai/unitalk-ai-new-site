@@ -29,6 +29,15 @@ export function DiscoverFlow() {
     setStep(next)
   }
 
+  function goToWorkspace() {
+    setState((current) => {
+      const clean = current.collaboratorName.trim().replace(/\s+/g, ' ')
+      const collaboratorName = clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : ''
+      return { ...current, collaboratorName }
+    })
+    goTo('workspace')
+  }
+
   const stepIndex = STEP_ORDER.indexOf(step)
   const back = stepIndex > 0 ? STEP_ORDER[stepIndex - 1] : null
 
@@ -89,7 +98,7 @@ export function DiscoverFlow() {
         </a>
 
         <div className="hidden flex-1 justify-center md:flex">
-          {step !== 'entreprise' && <FlowStepper current={step} lang={lang} onStepClick={goTo} />}
+          <FlowStepper current={step} lang={lang} onStepClick={goTo} />
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -111,7 +120,7 @@ export function DiscoverFlow() {
       </div>
 
       {/* Stage */}
-      <div className={`mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8 ${step === 'mission' ? 'py-5 sm:py-7' : 'py-10 sm:py-14'}`}>
+      <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-5 sm:px-8 sm:py-7">
         {/* Back link — mobile only. On desktop the clickable stepper already
             provides backward navigation, so a separate "Précédent" is redundant. */}
         {back && (
@@ -133,7 +142,6 @@ export function DiscoverFlow() {
                 company={state.company}
                 onChange={(company) => setState((s) => ({ ...s, company }))}
                 onContinue={() => goTo('mission')}
-                stepper={<FlowStepper current={step} lang={lang} onStepClick={goTo} variant="panel" />}
               />
             )}
 
@@ -150,11 +158,12 @@ export function DiscoverFlow() {
             {step === 'collaborateur' && (
               <ScreenCollaborateur
                 lang={lang}
+                company={state.company}
                 mission={state.mission}
                 profile={state.profile}
                 name={state.collaboratorName}
                 onName={(collaboratorName) => setState((s) => ({ ...s, collaboratorName }))}
-                onContinue={() => goTo('workspace')}
+                onContinue={goToWorkspace}
               />
             )}
 
