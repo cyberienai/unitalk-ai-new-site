@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Mic, Square } from 'lucide-react'
+import { ArrowUp, Mic, Square } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
@@ -87,33 +87,43 @@ export function MissionsContent() {
             {t.title}
           </h1>
 
-          <div className="relative mx-auto mt-6 max-w-2xl">
-            <input
-              type="text"
+          <div className="relative mx-auto mt-5 max-w-2xl">
+            <textarea
               value={need}
               onChange={(event) => setNeed(event.target.value)}
               onKeyDown={(event) => {
-                if (event.key === 'Enter' && !event.nativeEvent.isComposing) handToAlma(need)
+                if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
+                  event.preventDefault()
+                  handToAlma(need)
+                }
               }}
+              rows={1}
               placeholder={t.placeholder}
               aria-label={t.placeholder}
-              className="h-14 w-full rounded-2xl border border-[#D8D0C2] bg-white pl-5 pr-14 text-left text-[15px] shadow-sm outline-none placeholder:text-[#6E665A] focus:border-[#D10E63]/60 focus:ring-4 focus:ring-[#D10E63]/10"
+              className="min-h-14 w-full resize-none rounded-2xl border border-[#D8D0C2] bg-white py-[17px] pl-5 pr-14 text-left text-[15px] leading-5 shadow-sm outline-none placeholder:text-[#6E665A] focus:border-[#D10E63]/70 focus:ring-4 focus:ring-[#D10E63]/10"
             />
             <button
               type="button"
-              onClick={toggleListening}
-              disabled={!voiceSupported}
-              aria-label={listening ? t.stop : t.talk}
-              className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#D10E63] text-white transition-colors hover:bg-[#E51872] disabled:opacity-40"
+              onClick={() => (need.trim() ? handToAlma(need) : toggleListening())}
+              disabled={!need.trim() && !voiceSupported}
+              aria-label={need.trim() ? t.send : listening ? t.stop : t.talk}
+              className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#D10E63] text-white transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:opacity-40"
             >
               <span aria-hidden className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:animate-pulse group-hover:opacity-100" />
-              {listening ? <Square className="relative h-4 w-4" fill="currentColor" /> : <Mic className="relative h-4 w-4" />}
+              {need.trim() ? (
+                <ArrowUp className="relative h-4 w-4" strokeWidth={2.5} />
+              ) : listening ? (
+                <Square className="relative h-4 w-4" fill="currentColor" />
+              ) : (
+                <Mic className="relative h-4 w-4" />
+              )}
             </button>
           </div>
         </header>
 
-        <section className="mt-8">
+        <section className="mt-6">
           <h2 className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
+          <p className="mt-1 text-[13px] text-[#6E665A]">{t.readyNote}</p>
 
           <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <CategoryButton active={category === 'all'} onClick={() => setCategory('all')}>{t.all}</CategoryButton>
@@ -135,7 +145,7 @@ export function MissionsContent() {
             </div>
           )}
 
-          <div className="mt-5 grid auto-rows-fr gap-4 md:grid-cols-2">
+          <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
               <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={(selected) => handToAlma(selected.title[lang])} />
             ))}
@@ -177,20 +187,24 @@ const CATEGORY_LABELS: Record<string, { fr: string; en: string }> = {
 
 const COPY = {
   fr: {
-    title: 'Dites à Alma ce que votre Collaborateur IA doit accomplir.',
+    title: 'Dites ce que votre Collaborateur IA doit accomplir.',
     placeholder: 'Décrivez le travail à faire…',
     talk: 'Dicter le travail à faire',
     stop: 'Arrêter la dictée',
-    readyTitle: 'Ou partez d’une mission prête à adapter',
+    send: 'Envoyer le travail à accomplir',
+    readyTitle: 'Ou partez d’une mission déjà préparée',
+    readyNote: 'Alma l’adaptera à votre entreprise.',
     all: 'Toutes',
     others: 'Autres',
   },
   en: {
-    title: 'Tell Alma what your AI Collaborator needs to accomplish.',
+    title: 'Say what your AI Collaborator needs to accomplish.',
     placeholder: 'Describe the work to be done…',
     talk: 'Dictate the work to be done',
     stop: 'Stop dictation',
-    readyTitle: 'Or start with a ready-to-adapt mission',
+    send: 'Send the work to be done',
+    readyTitle: 'Or start with an already prepared mission',
+    readyNote: 'Alma will adapt it to your company.',
     all: 'All',
     others: 'More',
   },

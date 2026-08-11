@@ -16,6 +16,11 @@ const PROVIDER_DEMO_EMAIL: Record<Exclude<AuthProvider, 'email'>, string> = {
   microsoft: 'membre@outlook.com',
 }
 
+const PROVIDER_DEMO_IDENTITY: Record<Exclude<AuthProvider, 'email'>, { firstName: string; lastName: string }> = {
+  google: { firstName: 'Patrick', lastName: 'Martin' },
+  microsoft: { firstName: 'Patrick', lastName: 'Martin' },
+}
+
 function safeRedirect(target: string | undefined | null): string {
   // Only allow internal absolute paths to avoid open redirects.
   if (target && target.startsWith('/') && !target.startsWith('//')) return target
@@ -68,9 +73,12 @@ export async function startSession(provider: AuthProvider, email?: string): Prom
       ? rawEmail || 'membre@entreprise.com'
       : PROVIDER_DEMO_EMAIL[provider as 'google' | 'microsoft']
 
-  const session = {
+  const identity = provider === 'email' ? undefined : PROVIDER_DEMO_IDENTITY[provider as 'google' | 'microsoft']
+  const session: MockSession = {
     email: resolvedEmail,
-    name: nameFromEmail(resolvedEmail),
+    name: identity ? `${identity.firstName} ${identity.lastName}` : '',
+    firstName: identity?.firstName,
+    lastName: identity?.lastName,
     provider,
   }
 

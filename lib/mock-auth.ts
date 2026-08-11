@@ -15,6 +15,8 @@ export type AuthProvider = 'google' | 'microsoft' | 'email'
 export type MockSession = {
   email: string
   name: string
+  firstName?: string
+  lastName?: string
   provider: AuthProvider
 }
 
@@ -47,6 +49,8 @@ export function decodeSession(raw: string | undefined | null): MockSession | nul
         return {
           email: parsed.email,
           name: parsed.name,
+          firstName: typeof parsed.firstName === 'string' ? parsed.firstName : undefined,
+          lastName: typeof parsed.lastName === 'string' ? parsed.lastName : undefined,
           provider: (parsed.provider as AuthProvider) ?? 'email',
         }
       }

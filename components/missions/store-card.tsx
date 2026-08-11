@@ -49,43 +49,25 @@ export function StoreCard({
   lang: Lang
   onSelect: (mission: Mission) => void
 }) {
-  const category = shortCategoryLabel(mission.category, lang)
+  const category = categoryLabel(MISSION_CATEGORIES, mission.category, lang)
   return (
     <button
       type="button"
       onClick={() => onSelect(mission)}
       aria-label={lang === 'fr' ? `Confier « ${mission.title.fr} » à Alma` : `Assign “${mission.title.en}” to Alma`}
       data-mission-card={mission.slug}
-      className="group relative flex min-h-48 w-full flex-col rounded-2xl bg-[var(--store-surface)] p-5 text-left shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-px hover:bg-[var(--store-surface-hover)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex min-h-44 w-full cursor-pointer flex-col rounded-xl border border-[#D8D0C2] bg-[#ECE7DD] p-4 text-left shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/35 hover:bg-[#EFE9DF] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
     >
       <h3 className="font-sf text-[18px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-2 text-sm leading-[1.5] text-[#6E665A]">{mission.result[lang]}</p>
-      <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-        <span className="text-[11px] font-semibold text-[#6E665A]">{category}</span>
+      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[#4E483F]">{mission.result[lang]}</p>
+      <div className="mt-auto flex items-end justify-between gap-3 pt-4">
+        <span className="text-[11px] font-semibold leading-snug text-[#6E665A]">{category}</span>
         <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </button>
   )
-}
-
-function shortCategoryLabel(key: string, lang: Lang): string {
-  const labels: Record<string, { fr: string; en: string }> = {
-    ventes: { fr: 'Ventes & Dev', en: 'Sales & Growth' },
-    'relation-client': { fr: 'Service client', en: 'Customer service' },
-    marketing: { fr: 'Marketing', en: 'Marketing' },
-    reunions: { fr: 'Réunions', en: 'Meetings' },
-    administration: { fr: 'Assistanat', en: 'Assistance' },
-    finance: { fr: 'Finance', en: 'Finance' },
-    rh: { fr: 'RH', en: 'HR' },
-    direction: { fr: 'Direction', en: 'Leadership' },
-    documents: { fr: 'Documents', en: 'Documents' },
-    analyse: { fr: 'Analyse', en: 'Analysis' },
-    operations: { fr: 'Opérations', en: 'Operations' },
-    produit: { fr: 'Produit', en: 'Product' },
-  }
-  return labels[key]?.[lang] ?? categoryLabel(MISSION_CATEGORIES, key, lang)
 }
 
 /* ------------------------------------------------------------------ */

@@ -14,7 +14,6 @@ const STATIC_ROUTES = [
   '/collaborateurs-ia/competences',
   '/collaborateurs-ia/applications',
   '/experts',
-  '/workspace',
   '/tarifs',
   '/solutions',
   '/use-cases',

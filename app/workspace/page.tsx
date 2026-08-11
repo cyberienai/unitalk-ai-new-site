@@ -1,23 +1,32 @@
-import type { Metadata } from 'next'
-import { Suspense } from 'react'
-import { Navbar } from '@/components/navbar'
-import { WorkspaceSwitch } from '@/components/workspace/workspace-switch'
-import { SiteFooter } from '@/components/site-footer'
+import { notFound, redirect } from 'next/navigation'
 
-export const metadata: Metadata = {
-  title: 'Workspace · Unitalk',
-  description:
-    'Le workspace privé de votre organisation : missions, conversations, fichiers, validations et résultats réunis au même endroit. Vous donnez le cap, votre Collaborateur IA fait avancer le travail.',
+function getUnitalkAppUrl(): string | null {
+  const configured = process.env.NEXT_PUBLIC_UNITALK_APP_URL?.trim()
+  if (!configured) return null
+
+  let url: URL
+  try {
+    url = new URL(configured)
+  } catch {
+    throw new Error('NEXT_PUBLIC_UNITALK_APP_URL must be a valid absolute URL.')
+  }
+
+  if (url.protocol !== 'https:' || url.username || url.password) {
+    throw new Error('NEXT_PUBLIC_UNITALK_APP_URL must use HTTPS and must not contain credentials.')
+  }
+
+  return url.toString()
 }
 
-export default function WorkspacePage() {
-  return (
-    <>
-      <Navbar />
-      <Suspense fallback={<div className="min-h-screen bg-[#F3EFE6]" />}>
-        <WorkspaceSwitch />
-      </Suspense>
-      <SiteFooter />
-    </>
-  )
+export default function WorkspaceRedirect() {
+  const appUrl = getUnitalkAppUrl()
+  if (appUrl) redirect(appUrl)
+
+  if (process.env.NODE_ENV !== 'production') {
+    throw new Error(
+      'NEXT_PUBLIC_UNITALK_APP_URL is required. The public site does not provide a local Workspace.',
+    )
+  }
+
+  notFound()
 }

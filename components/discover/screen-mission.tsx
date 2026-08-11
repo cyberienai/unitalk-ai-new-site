@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Mic, Square } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight, ArrowUp, Check, Mic, Square } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import { seededMission, type CompanyFact, type MissionInfo } from './types'
@@ -25,12 +25,14 @@ export function ScreenMission({
   const [text, setText] = useState(mission.title)
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const recognitionRef = useRef<any>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const companyName = company.find((fact) => fact.key === 'name')?.value || t.companyFallback
   const activity = company.find((fact) => fact.key === 'activity')?.value || t.activityFallback
   const suggestions = getSuggestions(activity, lang)
-  const proposal = text.trim() ? summarizeMission(text.trim(), lang) : ''
+  const hasMission = text.trim().length > 0
 
   useEffect(() => {
     const SpeechRecognition =
@@ -62,7 +64,7 @@ export function ScreenMission({
 
   function toggleListening() {
     const recognition = recognitionRef.current
-    if (!recognition) return
+    if (!recognition || submitting) return
     if (listening) {
       recognition.stop()
       return
@@ -75,16 +77,26 @@ export function ScreenMission({
     }
   }
 
-  function launchMission() {
-    if (!proposal) return
+  function submitMission() {
+    const clean = text.trim()
+    if (!clean || submitting) return
+    setSubmitting(true)
     const seed = seededMission(lang)
-    onDefine({ ...seed, title: proposal })
+    onDefine({ ...seed, title: clean.charAt(0).toUpperCase() + clean.slice(1) })
     onContinue()
   }
 
+  function selectSuggestion(suggestion: string) {
+    setText(suggestion)
+    requestAnimationFrame(() => {
+      inputRef.current?.focus()
+      inputRef.current?.setSelectionRange(suggestion.length, suggestion.length)
+    })
+  }
+
   return (
-    <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:min-h-[31rem] lg:grid-cols-[minmax(16rem,1fr)_minmax(0,2fr)]">
-      <aside className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-7 text-white sm:px-8 lg:px-9">
+    <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:grid-cols-[minmax(16rem,1fr)_minmax(0,2fr)]">
+      <aside className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-7 text-white sm:px-8 lg:min-h-[27rem] lg:px-9">
         <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#D10E63]/15 blur-3xl" />
         <div className="relative flex h-full flex-col">
           <div className="flex items-center gap-3">
@@ -111,30 +123,50 @@ export function ScreenMission({
         </div>
       </aside>
 
-      <section className="min-w-0 px-6 py-7 sm:px-9 lg:px-10">
+      <section className="flex min-w-0 flex-col justify-center px-6 py-7 sm:px-9 lg:px-10">
         <div className="relative">
           <label htmlFor="mission-input" className="sr-only">{t.placeholder}</label>
-          <input
+          <textarea
+            ref={inputRef}
             id="mission-input"
-            type="text"
+            rows={2}
             value={text}
             onChange={(event) => setText(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' && proposal && !event.nativeEvent.isComposing) launchMission()
+              if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
+                event.preventDefault()
+                submitMission()
+              }
             }}
             placeholder={t.placeholder}
-            className="h-14 w-full rounded-2xl border border-[#D8D0C2] bg-white pl-4 pr-14 text-[15px] text-[#1C1A17] shadow-sm outline-none transition-colors placeholder:text-[#6E665A] focus:border-[#D10E63]/60 focus:ring-4 focus:ring-[#D10E63]/10"
+            className="min-h-16 w-full resize-none rounded-2xl border border-[#D8D0C2] bg-white py-3.5 pl-4 pr-14 text-[15px] leading-relaxed text-[#1C1A17] shadow-sm outline-none transition-colors placeholder:text-[#6E665A] focus:border-[#D10E63]/60 focus:ring-4 focus:ring-[#D10E63]/10"
           />
           <button
             type="button"
-            onClick={toggleListening}
-            disabled={!voiceSupported}
-            aria-label={listening ? t.stop : t.talk}
-            aria-pressed={listening}
-            className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#D10E63] text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={hasMission ? submitMission : toggleListening}
+            disabled={submitting || (!hasMission && !voiceSupported)}
+            aria-label={hasMission ? t.send : t.talk}
+            aria-pressed={!hasMission && listening}
+            className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-white transition-colors duration-200 hover:bg-[#B90C58] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {!reduce && !listening && <span aria-hidden className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:animate-pulse group-hover:opacity-100" />}
-            {listening ? <Square className="relative h-4 w-4" fill="currentColor" /> : <Mic className="relative h-4 w-4" />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={hasMission ? 'send' : listening ? 'stop' : 'mic'}
+                initial={reduce ? false : { opacity: 0, scale: 0.82 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={reduce ? undefined : { opacity: 0, scale: 0.82 }}
+                transition={{ duration: reduce ? 0 : 0.17 }}
+                className="flex items-center justify-center"
+              >
+                {hasMission ? (
+                  <ArrowUp className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" strokeWidth={2.5} />
+                ) : listening ? (
+                  <Square className="h-3.5 w-3.5" fill="currentColor" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
+              </motion.span>
+            </AnimatePresence>
           </button>
         </div>
 
@@ -145,7 +177,7 @@ export function ScreenMission({
               <button
                 key={suggestion}
                 type="button"
-                onClick={() => setText(suggestion)}
+                onClick={() => selectSuggestion(suggestion)}
                 className={`rounded-full border px-3 py-1.5 text-[12px] font-medium transition-colors ${
                   text === suggestion
                     ? 'border-[#D10E63] bg-[#D10E63] text-white'
@@ -158,25 +190,14 @@ export function ScreenMission({
           </div>
         </div>
 
-        <motion.div
-          animate={proposal ? { opacity: 1 } : { opacity: 0.7 }}
-          className="mt-6 rounded-2xl border border-[#E3DACB] bg-white px-5 py-5 shadow-[0_18px_45px_-38px_rgba(28,26,23,0.55)]"
-        >
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.proposes}</p>
-          <p className="mt-3 text-pretty font-sf text-[17px] font-semibold leading-relaxed text-[#1C1A17]">
-            “{proposal || t.proposalPlaceholder}”
-          </p>
-          <p className="mt-4 text-[12px] leading-relaxed text-[#6E665A]">{t.workspaceNote}</p>
-        </motion.div>
-
-        <div className="mt-5 flex flex-col items-end">
+        <div className="mt-6 flex flex-col items-end">
           <button
             type="button"
-            onClick={launchMission}
-            disabled={!proposal}
+            onClick={submitMission}
+            disabled={!hasMission || submitting}
             className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:bg-[#D8D0C2] disabled:text-[#6E665A]"
           >
-            {t.launch}
+            {t.continue}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </button>
           <p className="mt-2 text-[11px] text-[#6E665A]">{t.ctaNote}</p>
@@ -184,12 +205,6 @@ export function ScreenMission({
       </section>
     </div>
   )
-}
-
-function summarizeMission(input: string, lang: Lang): string {
-  const clean = input.replace(/\s+/g, ' ').trim().replace(/[.!?]+$/, '')
-  if (!clean) return ''
-  return clean.charAt(0).toUpperCase() + clean.slice(1) + (lang === 'fr' ? '.' : '.')
 }
 
 function getSuggestions(activity: string, lang: Lang): readonly string[] {
@@ -227,12 +242,9 @@ const COPY = {
     activityFallback: 'Activité à préciser',
     placeholder: 'Décrivez votre mission…',
     talk: 'Dicter la mission',
-    stop: 'Arrêter la dictée',
+    send: 'Envoyer la mission',
     suggestions: 'Suggestions',
-    proposes: 'Alma propose',
-    proposalPlaceholder: 'Votre proposition apparaîtra ici.',
-    workspaceNote: 'Vous pourrez préciser les règles et validations dans le Workspace.',
-    launch: 'Lancer ma première mission',
+    continue: 'Continuer',
     ctaNote: 'Alma prépare votre Collaborateur IA.',
   },
   en: {
@@ -242,12 +254,9 @@ const COPY = {
     activityFallback: 'Activity to be specified',
     placeholder: 'Describe your mission…',
     talk: 'Dictate the mission',
-    stop: 'Stop dictation',
+    send: 'Send the mission',
     suggestions: 'Suggestions',
-    proposes: 'Alma suggests',
-    proposalPlaceholder: 'Your proposal will appear here.',
-    workspaceNote: 'You can refine rules and approvals later in the Workspace.',
-    launch: 'Launch my first mission',
+    continue: 'Continue',
     ctaNote: 'Alma is preparing your AI Collaborator.',
   },
 } as const

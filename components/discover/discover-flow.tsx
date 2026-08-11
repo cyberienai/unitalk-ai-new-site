@@ -53,12 +53,15 @@ export function DiscoverFlow() {
         <div className="mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
           <ScreenAccount
             lang={lang}
-            onAuthenticated={({ provider, email, name }) => {
+            onAuthenticated={({ provider, email, firstName, lastName }) => {
               const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
               setState((s) => ({
                 ...s,
                 authenticated: true,
-                userName: name === 'Membre' ? '' : name.split(/\s+/)[0],
+                firstName: firstName?.trim() ?? '',
+                lastName: lastName?.trim() ?? '',
+                firstNameKnown: !!firstName?.trim(),
+                lastNameKnown: !!lastName?.trim(),
                 company: domain
                   ? s.company.map((fact) => {
                       if (fact.key === 'domain') return { ...fact, value: domain, uncertain: false }
@@ -121,9 +124,13 @@ export function DiscoverFlow() {
             {step === 'entreprise' && (
               <ScreenContext
                 lang={lang}
-                userName={state.userName}
+                firstName={state.firstName}
+                lastName={state.lastName}
+                requireFirstName={!state.firstNameKnown}
+                requireLastName={!state.lastNameKnown}
                 company={state.company}
                 onChange={(company) => setState((s) => ({ ...s, company }))}
+                onIdentityChange={(identity) => setState((s) => ({ ...s, ...identity }))}
                 onContinue={() => goTo('mission')}
               />
             )}
@@ -141,9 +148,7 @@ export function DiscoverFlow() {
             {step === 'collaborateur' && (
               <ScreenCollaborateur
                 lang={lang}
-                company={state.company}
                 mission={state.mission}
-                profile={state.profile}
                 name={state.collaboratorName}
                 onName={(collaboratorName) => setState((s) => ({ ...s, collaboratorName }))}
                 onCreated={(collaboratorName) => setState((s) => ({ ...s, collaboratorName }))}

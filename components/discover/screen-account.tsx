@@ -18,7 +18,12 @@ export function ScreenAccount({
   onAuthenticated,
 }: {
   lang: Lang
-  onAuthenticated: (identity: { provider: AuthProvider; email?: string; name: string }) => void
+  onAuthenticated: (identity: {
+    provider: AuthProvider
+    email?: string
+    firstName?: string
+    lastName?: string
+  }) => void
 }) {
   const reduce = useReducedMotion()
   const t = COPY[lang]
@@ -39,7 +44,8 @@ export function ScreenAccount({
       onAuthenticated({
         provider,
         email: provider === 'email' ? email.trim().toLowerCase() : undefined,
-        name: session.name,
+        firstName: session.firstName,
+        lastName: session.lastName,
       })
     } catch {
       setPending(null)

@@ -41,7 +41,10 @@ export type MissionInfo = {
 
 export type OnboardingState = {
   authenticated: boolean
-  userName: string
+  firstName: string
+  lastName: string
+  firstNameKnown: boolean
+  lastNameKnown: boolean
   company: CompanyFact[]
   mission: MissionInfo
   // Whether the user has defined the mission yet (drives step 2 → 3 gating).
@@ -82,7 +85,10 @@ export function seededMission(lang: Lang): MissionInfo {
 export function initialOnboardingState(): OnboardingState {
   return {
     authenticated: false,
-    userName: '',
+    firstName: '',
+    lastName: '',
+    firstNameKnown: false,
+    lastNameKnown: false,
     company: [
       { key: 'name', label: { fr: 'Entreprise', en: 'Company' }, value: 'Solvea' },
       { key: 'domain', label: { fr: 'Domaine', en: 'Domain' }, value: 'solvea.fr' },

@@ -12,15 +12,23 @@ import type { CompanyFact } from './types'
 // confirm the company (or correct it first).
 export function ScreenContext({
   lang,
-  userName,
+  firstName,
+  lastName,
+  requireFirstName,
+  requireLastName,
   company,
   onChange,
+  onIdentityChange,
   onContinue,
 }: {
   lang: Lang
-  userName: string
+  firstName: string
+  lastName: string
+  requireFirstName: boolean
+  requireLastName: boolean
   company: CompanyFact[]
   onChange: (next: CompanyFact[]) => void
+  onIdentityChange: (identity: { firstName: string; lastName: string }) => void
   onContinue: () => void
 }) {
   const t = COPY[lang]
@@ -28,11 +36,15 @@ export function ScreenContext({
   const [draft, setDraft] = useState('')
   const [status, setStatus] = useState<'loading' | 'ready' | 'confirmed'>('loading')
   const [logoFailed, setLogoFailed] = useState(false)
-  const [clientsTouched, setClientsTouched] = useState(false)
-  const [showSoftValidation, setShowSoftValidation] = useState(false)
+  const [firstNameTouched, setFirstNameTouched] = useState(false)
+  const [lastNameTouched, setLastNameTouched] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   const domain = company.find((fact) => fact.key === 'domain')?.value.trim() ?? ''
   const companyName = company.find((fact) => fact.key === 'name')?.value.trim() ?? ''
+  const firstNameMissing = requireFirstName && !firstName.trim()
+  const lastNameMissing = requireLastName && !lastName.trim()
+  const identityRequired = requireFirstName || requireLastName
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -60,40 +72,15 @@ export function ScreenContext({
   // If a field is still open when the user confirms, commit it first — a click
   // on "Confirmer" never silently drops an in-progress edit.
   function confirmCompany() {
+    setSubmitted(true)
+    if (firstNameMissing || lastNameMissing) return
     if (editingKey) {
       const fact = company.find((f) => f.key === editingKey)
       if (fact) saveEdit(fact)
     }
-    if (!clientsTouched && !company.find((fact) => fact.key === 'clients')?.value) {
-      setShowSoftValidation(true)
-    }
+    onIdentityChange({ firstName: firstName.trim(), lastName: lastName.trim() })
     setStatus('confirmed')
     window.setTimeout(onContinue, 650)
-  }
-
-  function updateClients(value: string) {
-    setClientsTouched(true)
-    setShowSoftValidation(false)
-    onChange(
-      company.map((fact) =>
-        fact.key === 'clients' ? { ...fact, value, uncertain: value.trim() ? false : fact.uncertain } : fact,
-      ),
-    )
-  }
-
-  function toggleClient(option: string, current: string) {
-    const options = new Set(CLIENT_OPTIONS[lang])
-    const values = current.split(',').map((value) => value.trim()).filter(Boolean)
-    const selected = values.filter((value) => options.has(value as never))
-    const custom = values.filter((value) => !options.has(value as never))
-    const nextSelected = selected.includes(option) ? selected.filter((value) => value !== option) : [...selected, option]
-    updateClients([...nextSelected, ...custom].join(', '))
-  }
-
-  function updateCustomClients(value: string, current: string) {
-    const options = new Set(CLIENT_OPTIONS[lang])
-    const selected = current.split(',').map((item) => item.trim()).filter((item) => options.has(item as never))
-    updateClients([...selected, value.trim()].filter(Boolean).join(', '))
   }
 
   return (
@@ -112,9 +99,13 @@ export function ScreenContext({
           </div>
 
           <div className="mt-12">
-            {userName && (
+            {firstName.trim() ? (
               <p className="font-sf text-[clamp(1.7rem,3vw,2.25rem)] font-semibold tracking-[-0.035em] text-white">
-                {t.hello} {userName}.
+                {t.hello} {firstName.trim()}.
+              </p>
+            ) : (
+              <p className="font-sf text-[clamp(1.7rem,3vw,2.25rem)] font-semibold tracking-[-0.035em] text-white">
+                {t.welcome}
               </p>
             )}
             <div className="mt-5 flex max-w-sm items-start gap-2.5 text-pretty text-[14px] leading-7 text-[#C7BFB5]" aria-live="polite">
@@ -154,8 +145,46 @@ export function ScreenContext({
           </div>
         </div>
 
+        {identityRequired && (
+          <div className="mt-5">
+            <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">{t.aboutYou}</p>
+            <div className="mt-2 grid gap-3 sm:grid-cols-2">
+              {requireFirstName && (
+                <label className="block text-[11px] font-semibold text-[#4E483F]">
+                  {t.firstName}
+                  <input
+                    type="text"
+                    autoComplete="given-name"
+                    value={firstName}
+                    onChange={(event) => onIdentityChange({ firstName: event.target.value, lastName })}
+                    onBlur={() => setFirstNameTouched(true)}
+                    aria-invalid={(submitted || firstNameTouched) && firstNameMissing}
+                    className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
+                  />
+                  {(submitted || firstNameTouched) && firstNameMissing && <span className="mt-1 block text-[10px] text-[#A80B50]">{t.required}</span>}
+                </label>
+              )}
+              {requireLastName && (
+                <label className="block text-[11px] font-semibold text-[#4E483F]">
+                  {t.lastName}
+                  <input
+                    type="text"
+                    autoComplete="family-name"
+                    value={lastName}
+                    onChange={(event) => onIdentityChange({ firstName, lastName: event.target.value })}
+                    onBlur={() => setLastNameTouched(true)}
+                    aria-invalid={(submitted || lastNameTouched) && lastNameMissing}
+                    className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
+                  />
+                  {(submitted || lastNameTouched) && lastNameMissing && <span className="mt-1 block text-[10px] text-[#A80B50]">{t.required}</span>}
+                </label>
+              )}
+            </div>
+          </div>
+        )}
+
         <dl className="mt-5 flex-1 divide-y divide-[#EBE4D6] border-y border-[#EBE4D6]">
-          {company.map((fact) => {
+          {company.filter((fact) => fact.key !== 'clients').map((fact) => {
             const isEditing = editingKey === fact.key
             const showToConfirm = fact.uncertain && !fact.value
             return (
@@ -164,44 +193,7 @@ export function ScreenContext({
                   {fact.label[lang]}
                 </dt>
                 <dd className="min-w-0">
-                  {fact.key === 'clients' ? (
-                    <div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {CLIENT_OPTIONS[lang].map((option) => {
-                          const selected = fact.value.split(',').map((value) => value.trim()).includes(option)
-                          return (
-                            <button
-                              key={option}
-                              type="button"
-                              aria-pressed={selected}
-                              onClick={() => toggleClient(option, fact.value)}
-                              className={[
-                                'rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors',
-                                selected
-                                  ? 'border-[#D10E63] bg-[#D10E63] text-white'
-                                  : 'border-[#DED5C5] bg-white text-[#6E665A] hover:border-[#D10E63]/40',
-                              ].join(' ')}
-                            >
-                              {option}
-                            </button>
-                          )
-                        })}
-                      </div>
-                      <input
-                        type="text"
-                        value={fact.value
-                          .split(',')
-                          .map((value) => value.trim())
-                          .filter((value) => !CLIENT_OPTIONS[lang].includes(value as never))
-                          .join(', ')}
-                        onChange={(event) => updateCustomClients(event.target.value, fact.value)}
-                        placeholder={t.clientsOther}
-                        aria-label={t.clientsOther}
-                        className="mt-2 w-full rounded-lg border border-[#DED5C5] bg-white px-3 py-2 text-[12px] text-[#1C1A17] outline-none placeholder:text-[#A79F91] focus:border-[#D10E63]/50 focus:ring-3 focus:ring-[#D10E63]/10"
-                      />
-                      {!fact.value.trim() && <p className="mt-1.5 text-[10px] text-[#6E665A]">{t.clientsNote}</p>}
-                    </div>
-                  ) : isEditing ? (
+                  {isEditing ? (
                     <div>
                       <textarea
                         autoFocus
@@ -261,7 +253,7 @@ export function ScreenContext({
           <button
             type="button"
             onClick={confirmCompany}
-            disabled={status === 'confirmed'}
+            disabled={status === 'confirmed' || firstNameMissing || lastNameMissing}
             className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-wait disabled:opacity-80"
           >
             {status === 'confirmed' ? t.confirmedCta : t.confirm}
@@ -272,7 +264,6 @@ export function ScreenContext({
             )}
           </button>
           <p className="mt-2 max-w-sm text-right text-[11px] leading-relaxed text-[#8A8175]">{t.ctaNote}</p>
-          {showSoftValidation && <p className="mt-1 text-right text-[11px] text-[#9A7B34]">{t.softValidation}</p>}
         </div>
       </section>
     </div>
@@ -282,6 +273,7 @@ export function ScreenContext({
 const COPY = {
   fr: {
     hello: 'Bonjour',
+    welcome: 'Bienvenue.',
     loading: 'Je consulte les informations publiques sur votre entreprise…',
     prefilledBefore: 'J’ai préparé ces informations sur',
     prefilledAfter: 'à partir de votre domaine pro. Corrigez ce qui ne va pas.',
@@ -292,15 +284,17 @@ const COPY = {
     toConfirm: 'À confirmer',
     save: 'Enregistrer',
     cancel: 'Annuler',
-    clientsOther: 'Autre type de clients…',
-    clientsNote: 'Vous pourrez modifier depuis le Workspace.',
+    aboutYou: 'À propos de vous',
+    firstName: 'Prénom',
+    lastName: 'Nom',
+    required: 'Ce champ est requis.',
     confirm: "C’est correct · Définir ma mission",
     confirmedCta: 'Entreprise confirmée',
     ctaNote: 'Alma va vous guider pour décrire votre première mission.',
-    softValidation: 'Vous pourrez modifier la fiche depuis le Workspace.',
   },
   en: {
     hello: 'Hello',
+    welcome: 'Welcome.',
     loading: 'I’m checking public information about your company…',
     prefilledBefore: 'I prepared this information about',
     prefilledAfter: 'from your work domain. Correct anything that is wrong.',
@@ -311,16 +305,12 @@ const COPY = {
     toConfirm: 'To confirm',
     save: 'Save',
     cancel: 'Cancel',
-    clientsOther: 'Another customer type…',
-    clientsNote: 'You can edit this later from the Workspace.',
+    aboutYou: 'About you',
+    firstName: 'First name',
+    lastName: 'Last name',
+    required: 'This field is required.',
     confirm: 'Looks right · Define my mission',
     confirmedCta: 'Company confirmed',
     ctaNote: 'Alma will guide you through describing your first mission.',
-    softValidation: 'You can edit this profile later from the Workspace.',
   },
-} as const
-
-const CLIENT_OPTIONS = {
-  fr: ['TPE', 'PME', 'ETI', 'Grand compte', 'Collectivité', 'Association', 'Particuliers'],
-  en: ['Small business', 'SME', 'Mid-market', 'Enterprise', 'Public sector', 'Nonprofit', 'Consumers'],
 } as const
