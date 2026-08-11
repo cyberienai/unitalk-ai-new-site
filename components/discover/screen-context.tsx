@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Check, Pencil } from 'lucide-react'
+import { ArrowRight, Check, Pencil, ShieldCheck, Sparkles } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import type { CompanyFact } from './types'
@@ -50,34 +50,62 @@ export function ScreenContext({
   }
 
   return (
-    <div className="mx-auto w-full max-w-[560px]">
-      <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.kicker}</p>
-      <h1 className="mt-3 text-balance font-sf text-[clamp(1.6rem,3.4vw,2.3rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
-        {t.title}
-      </h1>
-      <p className="mt-3 max-w-lg text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.subtitle}</p>
+    <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:min-h-[34rem] lg:grid-cols-[minmax(19rem,0.8fr)_minmax(0,1.2fr)]">
+      <section className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-8 text-[#FBF9F3] sm:px-9 lg:px-10 lg:py-10">
+        <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#D10E63]/15 blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-32 -right-20 h-64 w-64 rounded-full border border-white/[0.06]" />
 
-      {/* One compact company card */}
-      <div className="mt-7 overflow-hidden rounded-3xl border border-[#EAE3D5] bg-white shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_28px_50px_-34px_rgba(28,26,23,0.4)]">
-        <div className="flex items-center gap-2.5 border-b border-[#EFE8DA] bg-[#FBF9F3] px-5 py-3.5">
-          <AlmaHead className="h-6 w-6 shrink-0" />
-          <p className="text-[13px] leading-relaxed text-[#6B6459]">
-            <span className="font-semibold text-[#1C1A17]">{t.almaName}</span>
-            <span className="mx-1.5 text-[#C7BFB0]">·</span>
-            {t.almaLine}
-          </p>
+        <div className="relative flex h-full flex-col">
+          <div className="flex items-center gap-3">
+            <AlmaHead className="h-11 w-11 shrink-0 ring-1 ring-white/15" />
+            <div className="leading-tight">
+              <p className="font-sf text-[15px] font-bold text-white">{t.almaName}</p>
+              <p className="mt-0.5 text-[12px] text-[#AAA197]">{t.almaRole}</p>
+            </div>
+          </div>
+
+          <div className="my-auto py-9 lg:py-8">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-[#E38AB4]">{t.kicker}</p>
+            <h1 className="mt-3 max-w-md text-balance font-sf text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.03] tracking-[-0.045em] text-white">
+              {t.title}
+            </h1>
+            <p className="mt-5 max-w-sm text-pretty text-[14px] leading-7 text-[#C7BFB5]">{t.subtitle}</p>
+
+            <div className="mt-7 flex items-start gap-3 border-t border-white/10 pt-5">
+              <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[#E38AB4]" />
+              <p className="max-w-sm text-[13px] leading-relaxed text-[#AAA197]">{t.almaLine}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-[11px] text-[#8F877E]">
+            <ShieldCheck className="h-4 w-4 text-[#E38AB4]" />
+            {t.private}
+          </div>
+        </div>
+      </section>
+
+      <section className="flex min-w-0 flex-col px-6 py-7 sm:px-9 sm:py-8 lg:px-10 lg:py-9">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#B4327E]">{t.cardKicker}</p>
+            <h2 className="mt-2 font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{t.cardTitle}</h2>
+          </div>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E3DACB] bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-[#6E665A]">
+            <Check className="h-3 w-3 text-[#D10E63]" strokeWidth={3} />
+            {t.prepared}
+          </span>
         </div>
 
-        <dl className="divide-y divide-[#EFE8DA]">
+        <dl className="mt-5 flex-1 divide-y divide-[#EBE4D6] border-y border-[#EBE4D6]">
           {company.map((fact) => {
             const isEditing = editingKey === fact.key
             const showToConfirm = fact.uncertain && !fact.value
             return (
-              <div key={fact.key} className="flex items-start gap-4 px-5 py-4">
-                <dt className="w-24 shrink-0 pt-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">
+              <div key={fact.key} className="grid gap-1.5 py-3.5 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-4">
+                <dt className="pt-1 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">
                   {fact.label[lang]}
                 </dt>
-                <dd className="min-w-0 flex-1">
+                <dd className="min-w-0">
                   {isEditing ? (
                     <div>
                       <textarea
@@ -92,21 +120,21 @@ export function ScreenContext({
                             saveEdit(fact)
                           }
                         }}
-                        className="w-full resize-none rounded-lg border border-[#D10E63]/50 bg-white px-2.5 py-1.5 text-[14px] leading-relaxed text-[#1C1A17] outline-none focus:ring-4 focus:ring-[#D10E63]/10"
+                        className="w-full resize-none rounded-xl border border-[#D10E63]/50 bg-white px-3 py-2 text-[13px] leading-relaxed text-[#1C1A17] outline-none focus:ring-4 focus:ring-[#D10E63]/10"
                       />
                       <div className="mt-2 flex gap-2">
                         <button
                           type="button"
                           onClick={() => saveEdit(fact)}
-                          className="inline-flex items-center gap-1.5 rounded-lg bg-[#D10E63] px-3 py-1.5 text-[13px] font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-[#D10E63] px-3 py-1.5 text-[12px] font-bold text-white transition-colors hover:bg-[#E51872]"
                         >
-                          <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                          <Check className="h-3 w-3" strokeWidth={3} />
                           {t.save}
                         </button>
                         <button
                           type="button"
                           onClick={() => setEditingKey(null)}
-                          className="rounded-lg border border-[#D8D0C2] bg-white px-3 py-1.5 text-[13px] font-semibold text-[#3B362F]"
+                          className="rounded-lg border border-[#D8D0C2] bg-white px-3 py-1.5 text-[12px] font-semibold text-[#3B362F]"
                         >
                           {t.cancel}
                         </button>
@@ -116,16 +144,16 @@ export function ScreenContext({
                     <button
                       type="button"
                       onClick={() => startEdit(fact)}
-                      className="group flex w-full items-start justify-between gap-3 rounded-lg px-1 py-0.5 text-left transition-colors hover:bg-[#F6F1E7]"
+                      className="group flex w-full items-start justify-between gap-3 rounded-lg px-1 py-1 text-left transition-colors hover:bg-[#F3EEE5]"
                     >
                       {showToConfirm ? (
-                        <span className="inline-flex items-center rounded-full bg-[#F3E8D6] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#9A7B34]">
+                        <span className="inline-flex items-center rounded-full bg-[#F3E8D6] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#9A7B34]">
                           {t.toConfirm}
                         </span>
                       ) : (
-                        <span className="text-[14px] leading-relaxed text-[#1C1A17]">{fact.value}</span>
+                        <span className="text-[13px] leading-relaxed text-[#2D2924]">{fact.value}</span>
                       )}
-                      <Pencil className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#C7BFB0] opacity-0 transition-opacity group-hover:opacity-100" />
+                      <Pencil className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#B4327E] opacity-40 transition-opacity group-hover:opacity-100" />
                     </button>
                   )}
                 </dd>
@@ -133,20 +161,19 @@ export function ScreenContext({
             )
           })}
         </dl>
-      </div>
 
-      <div className="mt-7">
-        <button
-          type="button"
-          onClick={confirmCompany}
-          className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
-        >
-          {t.confirm}
-          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-        </button>
-      </div>
-
-      <p className="mt-4 text-[12px] leading-relaxed text-[#6E665A]">{t.note}</p>
+        <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-xs text-[11px] leading-relaxed text-[#8A8175]">{t.note}</p>
+          <button
+            type="button"
+            onClick={confirmCompany}
+            className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#E51872]"
+          >
+            {t.confirm}
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </button>
+        </div>
+      </section>
     </div>
   )
 }
@@ -157,7 +184,12 @@ const COPY = {
     title: 'Voici votre entreprise.',
     subtitle: 'Alma a préparé ce premier contexte à partir de votre domaine professionnel.',
     almaName: 'Alma',
+    almaRole: 'Conseillère en transformation IA',
     almaLine: 'Vérifiez, corrigez si besoin, puis confirmez.',
+    private: 'Vos informations restent sous votre contrôle.',
+    cardKicker: 'Contexte détecté',
+    cardTitle: 'Votre fiche entreprise',
+    prepared: 'Préparée',
     toConfirm: 'À confirmer',
     save: 'Enregistrer',
     cancel: 'Annuler',
@@ -169,7 +201,12 @@ const COPY = {
     title: 'Here is your company.',
     subtitle: 'Alma prepared this first context from your work domain.',
     almaName: 'Alma',
+    almaRole: 'AI transformation advisor',
     almaLine: 'Check, correct if needed, then confirm.',
+    private: 'Your information stays under your control.',
+    cardKicker: 'Detected context',
+    cardTitle: 'Your company profile',
+    prepared: 'Prepared',
     toConfirm: 'To confirm',
     save: 'Save',
     cancel: 'Cancel',
