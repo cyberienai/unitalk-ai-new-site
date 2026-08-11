@@ -27,32 +27,32 @@ const COLLAB_DISCOVER: MenuEntry[] = [
   {
     title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
     desc: {
-      fr: 'Une identité, une mémoire et une place dans votre entreprise.',
-      en: 'An identity, a memory and a place in your company.',
+      fr: 'Une identité stable et une mémoire privée pour travailler durablement avec vos équipes.',
+      en: 'A stable identity and a private memory to work durably with your teams.',
     },
     href: '/collaborateurs-ia',
   },
   {
     title: { fr: 'Profils métier', en: 'Job profiles' },
     desc: {
-      fr: 'Les rôles durables qu’il peut exercer.',
-      en: 'The durable roles it can hold.',
+      fr: 'Il multiplie les responsabilités au sein d’une même identité : ventes, support, marketing ou finance.',
+      en: 'It takes on multiple responsibilities within a single identity: sales, support, marketing or finance.',
     },
     href: '/collaborateurs-ia/profils-metier',
   },
   {
     title: { fr: 'Compétences', en: 'Skills' },
     desc: {
-      fr: 'Les capacités qu’il développe au fil de ses missions.',
-      en: 'The capabilities it builds across its missions.',
+      fr: 'Il apprend, applique et conserve les méthodes de travail propres à votre entreprise.',
+      en: 'It learns, applies and keeps the working methods specific to your company.',
     },
     href: '/collaborateurs-ia/competences',
   },
   {
     title: { fr: 'Applications', en: 'Applications' },
     desc: {
-      fr: 'Les outils qu’il connecte pour travailler.',
-      en: 'The tools it connects to get work done.',
+      fr: 'Il se connecte à vos outils de travail et agit sous votre contrôle exclusif.',
+      en: 'It connects to your work tools and acts under your exclusive control.',
     },
     href: '/collaborateurs-ia/applications',
   },
@@ -62,16 +62,16 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
   {
     title: { fr: 'Alma', en: 'Alma' },
     desc: {
-      fr: 'Conseillère en transformation IA.',
-      en: 'AI transformation advisor.',
+      fr: 'Elle structure vos missions, définit les validations humaines et prépare le travail.',
+      en: 'She structures your missions, sets the human validations and prepares the work.',
     },
     href: '/alma',
   },
   {
-    title: { fr: 'Experts humains', en: 'Human experts' },
+    title: { fr: 'Experts', en: 'Experts' },
     desc: {
-      fr: 'Des spécialistes pour aller plus loin.',
-      en: 'Specialists to take you further.',
+      fr: 'Des intégrateurs certifiés pour concevoir vos compétences et connecter vos outils.',
+      en: 'Certified integrators to design your skills and connect your tools.',
     },
     href: '/experts',
   },
@@ -92,9 +92,9 @@ const T = {
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     collabMenu: 'Menu Collaborateurs IA',
-    // Collaborateurs IA panel
-    menuDiscover: 'Découvrir',
-    menuAccompaniment: 'Être guidé',
+    // Collaborateurs IA panel — two-column mega menu
+    menuDiscover: 'Le Collaborateur',
+    menuAccompaniment: 'Accompagnement & écosystème',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -106,8 +106,8 @@ const T = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
-    menuDiscover: 'Discover',
-    menuAccompaniment: 'Get guided',
+    menuDiscover: 'The Collaborator',
+    menuAccompaniment: 'Guidance & ecosystem',
   },
 }
 
@@ -361,37 +361,55 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                      className="absolute left-0 top-full w-[380px] max-w-[calc(100vw-2rem)] pt-2"
+                      className="absolute left-0 top-full w-[680px] max-w-[calc(100vw-2rem)] pt-2"
                     >
-                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-2.5 shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
-                        {/* Découvrir — the hub, its catalogs and the missions entry */}
-                        <p className="px-4 pb-1 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                          {t.menuDiscover}
-                        </p>
-                        <div className="flex flex-col">
-                          {COLLAB_DISCOVER.map((item) => (
-                            <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
-                          ))}
+                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
+                        {/* Two-column body: product (left) vs ecosystem (right) */}
+                        <div className="grid grid-cols-[1fr_300px]">
+                          {/* Left — Le Collaborateur: the four product bricks */}
+                          <div className="p-3">
+                            <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuDiscover}
+                            </p>
+                            <div className="flex flex-col">
+                              {COLLAB_DISCOVER.map((item) => (
+                                <CollabMenuLink
+                                  key={item.href}
+                                  entry={item}
+                                  lang={lang}
+                                  onSelect={() => setCollabOpen(false)}
+                                />
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Right — Accompagnement & écosystème, on warmer cream */}
+                          <div className="border-l border-[#EFE8DA] bg-[#FBF8F1] p-3">
+                            <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuAccompaniment}
+                            </p>
+                            <div className="flex flex-col">
+                              {COLLAB_ACCOMPANIMENT.map((item) => (
+                                <CollabMenuLink
+                                  key={item.href}
+                                  entry={item}
+                                  lang={lang}
+                                  onSelect={() => setCollabOpen(false)}
+                                />
+                              ))}
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="my-2 border-t border-[#EFE8DA]" />
-
-                        {/* Être guidé — Alma + the human experts, side by side */}
-                        <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                          {t.menuAccompaniment}
-                        </p>
-                        <div className="grid grid-cols-2 gap-1">
-                          {COLLAB_ACCOMPANIMENT.map((item) => (
-                            <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
-                          ))}
-                        </div>
-
-                        <div className="my-2 border-t border-[#EFE8DA]" />
-
-                        {/* Pourquoi Unitalk — single direct link */}
-                        <div className="flex flex-col">
+                        {/* Footer bar — the single "Pourquoi Unitalk ?" direct link */}
+                        <div className="border-t border-[#EFE8DA] bg-[#FBF8F1] px-3 py-2">
                           {COLLAB_ACTIONS.map((item) => (
-                            <CollabActionLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
+                            <CollabActionLink
+                              key={item.href}
+                              entry={item}
+                              lang={lang}
+                              onSelect={() => setCollabOpen(false)}
+                            />
                           ))}
                         </div>
                       </div>
@@ -544,7 +562,10 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                           <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                            {[...COLLAB_DISCOVER, ...COLLAB_ACCOMPANIMENT].map((item) => (
+                            <p className="pb-0.5 pt-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuDiscover}
+                            </p>
+                            {COLLAB_DISCOVER.map((item) => (
                               <a
                                 key={item.href}
                                 href={item.href}
@@ -554,6 +575,20 @@ export function Navbar(
                                 {item.title[lang]}
                               </a>
                             ))}
+                            <p className="pb-0.5 pt-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuAccompaniment}
+                            </p>
+                            {COLLAB_ACCOMPANIMENT.map((item) => (
+                              <a
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                              >
+                                {item.title[lang]}
+                              </a>
+                            ))}
+                            <div className="my-1.5 border-t border-[#E4DDCE]" />
                             {COLLAB_ACTIONS.map((item) => (
                               <a
                                 key={item.href}
