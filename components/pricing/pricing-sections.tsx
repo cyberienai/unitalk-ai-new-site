@@ -7,7 +7,7 @@ import { formatEuro } from './format'
 const COPY = {
   fr: {
     heroTitle: 'Un Collaborateur IA. Des profils métier illimités.',
-    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'fr')} par mois, hors usages IA après l’essai.`,
+    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'fr')} par mois. Vous choisissez séparément comment régler les usages IA après l’essai.`,
     billedTitleLine1: 'Votre Collaborateur développe ses compétences',
     billedTitleLine2: 'au fil de vos missions.',
     billed: [
@@ -18,7 +18,7 @@ const COPY = {
   },
   en: {
     heroTitle: 'One AI Collaborator. Unlimited job profiles.',
-    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'en')} per month, excluding AI usage after the trial.`,
+    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'en')} per month. You choose separately how to pay for AI usage after the trial.`,
     billedTitleLine1: 'Your AI Collaborator develops its skills',
     billedTitleLine2: 'through your missions.',
     billed: [

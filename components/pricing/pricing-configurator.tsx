@@ -28,19 +28,19 @@ const COPY = {
       'Profils métier illimités',
       'Compétences illimitées',
       'Mémoire et Workspace privé',
-      'Accès limités aux données et applications autorisées',
+      'Accès aux données et applications que vous autorisez',
       'Validation humaine des actions sensibles',
     ],
     trial: 'Votre essai',
     today: 'Aujourd’hui',
     trialDays: `${pricingConfig.trialDays} jours`,
-    tokens: '1 million de tokens inclus',
-    tokensEach: '1 million de tokens inclus par Collaborateur IA',
+    tokens: '1 million de tokens préchargés',
+    tokensEach: '1 million de tokens préchargés par Collaborateur IA',
     noCard: 'Sans carte bancaire',
     cta: 'Créer mon Collaborateur IA',
     ctaTeam: (quantity: number) => `Préparer mon équipe de ${quantity} Collaborateurs IA`,
-    after: (price: string) => `Puis ${price}/mois, hors usages IA. Sans engagement.`,
-    afterAnnual: (monthly: string, annual: string) => `Puis ${monthly}/mois équivalent, ${annual} facturés annuellement, hors usages IA.`,
+    after: (price: string) => `Puis ${price}/mois. Usages IA selon le mode choisi. Sans engagement.`,
+    afterAnnual: (monthly: string, annual: string) => `Puis ${monthly}/mois équivalent, ${annual} facturés annuellement. Usages IA selon le mode choisi.`,
     multiple: 'Besoin de plusieurs Collaborateurs IA ?',
     showVolume: 'Ajouter plusieurs Collaborateurs IA',
     hideVolume: 'Masquer les tarifs dégressifs',
@@ -159,11 +159,11 @@ export function PricingConfigurator() {
             {annual ? t.annualEquivalent(money(calc.annualEquivalentMonthly)) : t.perMonth(money(calc.monthlySubscription))}
           </p>
           {annual && <p className="mt-1 text-sm text-[#6E665A]">{t.annualBilled(money(calc.annualSubscription))}</p>}
-          <ul className="mt-5 grid gap-x-5 gap-y-2 sm:grid-cols-2">
+          <ul className="mt-5 grid gap-x-5 gap-y-2 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-3">
             {t.included.map((item) => (
               <li key={item} className="flex items-start gap-2 text-[13px] leading-snug text-[#4E483F]">
-                <span aria-hidden="true" className="font-bold text-[#D10E63]">✓</span>
-                {item}
+                <span aria-hidden="true" className="mt-px shrink-0 font-bold text-[#D10E63]">✓</span>
+                <span>{item}</span>
               </li>
             ))}
           </ul>
