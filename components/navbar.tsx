@@ -25,34 +25,34 @@ type MenuAction = { title: Bi; href: string }
 
 const COLLAB_DISCOVER: MenuEntry[] = [
   {
-    title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
+    title: { fr: 'Concept & identité', en: 'Concept & identity' },
     desc: {
-      fr: 'Une identité stable et une mémoire privée pour travailler durablement avec vos équipes.',
-      en: 'A stable identity and a private memory to work durably with your teams.',
+      fr: 'Une identité stable et une mémoire privée pour collaborer durablement avec vos équipes.',
+      en: 'A stable identity and a private memory to collaborate durably with your teams.',
     },
     href: '/collaborateurs-ia',
   },
   {
     title: { fr: 'Profils métier', en: 'Job profiles' },
     desc: {
-      fr: 'Il multiplie les responsabilités au sein d’une même identité : ventes, support, marketing ou finance.',
-      en: 'It takes on multiple responsibilities within a single identity: sales, support, marketing or finance.',
+      fr: 'Ajoutez autant de rôles que nécessaire autour d’une seule identité : ventes, support, marketing ou finance.',
+      en: 'Add as many roles as needed around a single identity: sales, support, marketing or finance.',
     },
     href: '/collaborateurs-ia/profils-metier',
   },
   {
     title: { fr: 'Compétences', en: 'Skills' },
     desc: {
-      fr: 'Il apprend, applique et conserve les méthodes de travail propres à votre entreprise.',
-      en: 'It learns, applies and keeps the working methods specific to your company.',
+      fr: 'Les méthodes de travail de votre entreprise qu’il sait apprendre, appliquer et conserver.',
+      en: 'Your company’s working methods, which it learns, applies and keeps.',
     },
     href: '/collaborateurs-ia/competences',
   },
   {
     title: { fr: 'Applications', en: 'Applications' },
     desc: {
-      fr: 'Il se connecte à vos outils de travail et agit sous votre contrôle exclusif.',
-      en: 'It connects to your work tools and acts under your exclusive control.',
+      fr: 'Les outils de votre entreprise auxquels il accède de façon sécurisée et sous votre contrôle.',
+      en: 'Your company’s tools, which it accesses securely and under your control.',
     },
     href: '/collaborateurs-ia/applications',
   },
@@ -62,8 +62,8 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
   {
     title: { fr: 'Alma', en: 'Alma' },
     desc: {
-      fr: 'Elle structure vos missions, définit les validations humaines et prépare le travail.',
-      en: 'She structures your missions, sets the human validations and prepares the work.',
+      fr: 'Votre coordinatrice IA : elle structure vos missions, définit les validations humaines et prépare le travail.',
+      en: 'Your AI coordinator: she structures your missions, sets the human validations and prepares the work.',
     },
     href: '/alma',
   },
@@ -443,11 +443,16 @@ export function Navbar(
 
             <UserMenuDesktop overDark={overDark} />
 
-            {/* Secondary CTA — outline so the page's central fuchsia CTA keeps
-                absolute visual priority (no two competing filled buttons) */}
+            {/* Secondary CTA — neutral dark (Apple/Stripe style) so no fuchsia
+                lives in the nav except the active state; the page's central
+                fuchsia CTA keeps absolute visual priority */}
             <a
               href={ALMA_CTA.href}
-              className="hidden h-10 items-center justify-center rounded-full border border-[#D10E63] bg-transparent px-5 text-sm font-semibold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:inline-flex"
+              className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
+                overDark
+                  ? 'bg-[#FBF9F3] text-[#1C1A17] hover:bg-[#EAE3D4] focus-visible:ring-[#FBF9F3]/60 focus-visible:ring-offset-transparent'
+                  : 'bg-[#1C1A17] text-[#FBF9F3] hover:bg-[#332F29] focus-visible:ring-[#1C1A17]/40 focus-visible:ring-offset-[#F3EFE6]'
+              }`}
             >
               {ALMA_CTA.label[lang]}
             </a>
