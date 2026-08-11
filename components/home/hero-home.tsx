@@ -37,7 +37,7 @@ const T = {
     ],
     srSentence: 'Exemples de missions : répondre à vos appels, traiter vos emails, qualifier vos prospects et analyser vos données.',
     cta: 'Confier une première mission',
-    proofs: ['7 jours pour votre première mission', 'Sans carte bancaire', 'Hébergé en France'],
+    proofs: ['7 jours d’essai gratuit', 'Sans carte bancaire', 'Hébergé en France'],
   },
   en: {
     eyebrow: 'Missing someone?',
@@ -58,7 +58,7 @@ const T = {
     ],
     srSentence: 'Example missions: answer your calls, handle your emails, qualify your prospects and analyze your data.',
     cta: 'Hand over a first mission',
-    proofs: ['7 days for your first mission', 'No credit card', 'Hosted in France'],
+    proofs: ['7-day free trial', 'No credit card', 'Hosted in France'],
   },
 } as const
 
