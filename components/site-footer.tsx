@@ -33,7 +33,7 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
           { label: 'Partenaires', href: '/partenaires' },
-          { label: 'Platform', href: '/platform' },
+          { label: 'Plateforme', href: '/platform' },
           { label: 'Open source', href: '/manifeste' },
         ],
       },
@@ -139,13 +139,13 @@ export function SiteFooter() {
             </p>
             <div className="mt-6 flex flex-col gap-4">
               <a href="tel:+33189713394" className="group inline-flex flex-col gap-1">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8F877A]">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#B8AF9F]">
                   {lang === 'fr' ? 'Téléphone' : 'Phone'}
                 </span>
                 <span className="text-sm text-[#C9C0B0] transition-colors group-hover:text-[#F3EFE6]">01 89 71 33 94</span>
               </a>
               <a href="mailto:hello@unitalk.ai" className="group inline-flex flex-col gap-1">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8F877A]">Email</span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#B8AF9F]">Email</span>
                 <span className="text-sm text-[#C9C0B0] transition-colors group-hover:text-[#F3EFE6]">hello@unitalk.ai</span>
               </a>
             </div>
@@ -213,7 +213,7 @@ export function SiteFooter() {
           style={{
             fontSize: 'clamp(6rem, 24vw, 26rem)',
             letterSpacing: '-0.04em',
-            color: 'rgba(243,239,230,0.06)',
+            color: 'rgba(243,239,230,0.035)',
           }}
         >
           Unitalk
