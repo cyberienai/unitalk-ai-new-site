@@ -57,7 +57,7 @@ export function StoreCard({
       onClick={() => onSelect(mission)}
       aria-label={lang === 'fr' ? `Confier « ${mission.title.fr} » à Alma` : `Assign “${mission.title.en}” to Alma`}
       data-mission-card={mission.slug}
-      className="group relative grid w-full cursor-pointer grid-rows-[44px_44px_auto] rounded-xl border border-[#DDD4C5] bg-[#ECE6DA] p-[18px] text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:shadow-[0_8px_20px_rgba(28,26,23,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:min-h-[176px] sm:p-5"
+      className="group relative grid w-full cursor-pointer grid-rows-[44px_44px_auto] rounded-xl border border-[#DED6C8] bg-[#FAF8F3] p-[18px] text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:bg-[#FFFDF9] hover:shadow-[0_8px_20px_rgba(28,26,23,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:min-h-[176px] sm:p-5"
     >
       <h3 className="line-clamp-2 min-h-[44px] font-sf text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#1C1A17]">
         {mission.title[lang]}
