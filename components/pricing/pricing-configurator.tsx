@@ -12,8 +12,6 @@ import {
   calculateAnnualEquivalentMonthly,
 } from '@/lib/pricing-calculator'
 import { formatEuro } from './format'
-import { ProfessionalPresence } from './professional-presence'
-import { MultimodalAccess } from './multimodal-access'
 import { PricingSummary } from './pricing-summary'
 
 const COPY = {
@@ -31,13 +29,6 @@ const COPY = {
     annualEquivalent: (price: string) => `${price} / mois équivalent`,
     annualBilled: (price: string) => `${price} facturés annuellement`,
     tierNote: (price: string) => `À partir de 2 Collaborateurs IA : ${price} chacun`,
-    includedTitle: 'Tout ce qui est inclus',
-    included: [
-      { title: 'Identité professionnelle', body: 'Profil public, adresse email, agenda et téléphone.' },
-      { title: 'Continuité', body: 'Mémoire persistante, missions et contexte conservés.' },
-      { title: 'Profils métier illimités', body: 'Compétences, applications et droits adaptés à ses missions.' },
-      { title: 'Contrôle de l’entreprise', body: 'Workspace privé, accès maîtrisés et validations humaines.' },
-    ],
   },
   en: {
     heading: 'Start with one AI Collaborator.',
@@ -53,13 +44,6 @@ const COPY = {
     annualEquivalent: (price: string) => `${price} / month equivalent`,
     annualBilled: (price: string) => `${price} billed annually`,
     tierNote: (price: string) => `From 2 AI Collaborators: ${price} each`,
-    includedTitle: 'Everything included',
-    included: [
-      { title: 'Professional identity', body: 'Public profile, email address, calendar and phone.' },
-      { title: 'Continuity', body: 'Persistent memory, missions and context are retained.' },
-      { title: 'Unlimited job profiles', body: 'Skills, applications and rights adapted to its missions.' },
-      { title: 'Company control', body: 'Private Workspace, controlled access and human approvals.' },
-    ],
   },
 } as const
 
@@ -185,22 +169,6 @@ export function PricingConfigurator() {
         />
       </div>
 
-      <div className="mt-10">
-        <h3 className="font-sf text-2xl font-bold tracking-[-0.02em]">{t.includedTitle}</h3>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {t.included.map((item) => (
-            <article key={item.title} className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
-              <h4 className="font-sf text-[16px] font-bold">{item.title}</h4>
-              <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-10 grid gap-4 lg:grid-cols-2">
-        <ProfessionalPresence lang={lang} />
-        <MultimodalAccess lang={lang} />
-      </div>
     </section>
   )
 }
