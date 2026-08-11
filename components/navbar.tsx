@@ -442,10 +442,11 @@ export function Navbar(
 
             <UserMenuDesktop overDark={overDark} />
 
-            {/* Primary CTA — compact, priority */}
+            {/* Secondary CTA — outline so the page's central fuchsia CTA keeps
+                absolute visual priority (no two competing filled buttons) */}
             <a
               href={ALMA_CTA.href}
-              className="hidden h-10 items-center justify-center rounded-full bg-[#D10E63] px-5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:inline-flex"
+              className="hidden h-10 items-center justify-center rounded-full border border-[#D10E63] bg-transparent px-5 text-sm font-semibold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-[#FBF9F3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:inline-flex"
             >
               {ALMA_CTA.label[lang]}
             </a>
