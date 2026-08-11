@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
-import { PricingHero, BilledExplainer, PartnerPlatformLinks } from '@/components/pricing/pricing-sections'
+import { PricingHero, BilledExplainer, UsageModesInfo } from '@/components/pricing/pricing-sections'
 import { PricingConfigurator } from '@/components/pricing/pricing-configurator'
-import { PricingFaq, ModesComparison } from '@/components/pricing/pricing-faq'
+import { PricingFaq } from '@/components/pricing/pricing-faq'
 
 export const metadata: Metadata = {
   title: 'Tarifs · Collaborateurs IA Unitalk',
@@ -19,9 +19,8 @@ export default function TarifsPage() {
         <PricingHero />
         <PricingConfigurator />
         <BilledExplainer />
-        <ModesComparison />
+        <UsageModesInfo />
         <PricingFaq />
-        <PartnerPlatformLinks />
       </main>
       <SiteFooter />
     </div>

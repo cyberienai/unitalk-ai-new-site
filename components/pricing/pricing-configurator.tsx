@@ -3,188 +3,116 @@
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/lib/language-context'
-import { minimumCreditBudget, type BillingCycle, type UsageMode } from '@/lib/pricing-config'
+import { pricingConfig, type BillingCycle } from '@/lib/pricing-config'
 import {
   normalizeQuantity,
   getTierForQuantity,
-  getNextTier,
   calculateMonthlySubscription,
-  calculateQuantitySavings,
   calculateAnnualSubscription,
   calculateAnnualEquivalentMonthly,
-  calculateAnnualSavings,
-  calculateMonthlyCreditBudget,
-  calculateEstimatedMonthlyTotal,
-  calculateAmountDueAfterTrial,
 } from '@/lib/pricing-calculator'
 import { formatEuro } from './format'
 import { ProfessionalPresence } from './professional-presence'
 import { MultimodalAccess } from './multimodal-access'
-import { UsageModeSelector } from './usage-mode-selector'
 import { PricingSummary } from './pricing-summary'
 
 const COPY = {
   fr: {
-    heading: 'Composez votre équipe.',
+    heading: 'Commencez avec un Collaborateur IA.',
     billingLegend: 'Cycle de facturation',
     monthly: 'Mensuelle',
-    annual: 'Annuelle · 2 mois offerts',
-    monthlyNote: 'Facturation mensuelle · Résiliable à tout moment',
-    annualNote: 'Deux mois offerts · Facturation annuelle après l’essai',
-    quantityLabel: 'NOMBRE DE COLLABORATEURS IA',
+    annual: `Annuelle · ${pricingConfig.annualFreeMonths} mois offerts`,
+    quantityLabel: 'Nombre de Collaborateurs IA',
     decrease: 'Retirer un Collaborateur IA',
     increase: 'Ajouter un Collaborateur IA',
     collab: (n: number) => `${n} Collaborateur${n > 1 ? 's' : ''} IA`,
-    unit: (p: string) => `${p} chacun / mois`,
-    planTotal: (p: string) => `${p} / mois`,
-    savings: (p: string) => `Économie liée au nombre : ${p} / mois`,
-    nextTier: (n: number, p: string) => `Prochain palier : ${n} Collaborateurs IA · ${p} chacun`,
-    includedTitle: 'CHAQUE COLLABORATEUR IA INCLUT :',
+    each: (price: string) => `${price} chacun`,
+    perMonth: (price: string) => `${price} / mois`,
+    annualEquivalent: (price: string) => `${price} / mois équivalent`,
+    annualBilled: (price: string) => `${price} facturés annuellement`,
+    tierNote: (price: string) => `À partir de 2 Collaborateurs IA : ${price} chacun`,
+    includedTitle: 'Tout ce qui est inclus',
     included: [
-      { text: 'une identité propre', strong: false },
-      { text: 'une mémoire persistante', strong: false },
-      { text: 'des profils métier illimités', strong: true },
-      { text: 'un profil public personnalisable', strong: false },
-      { text: 'une adresse email professionnelle', strong: false },
-      { text: 'un agenda et la prise de rendez-vous', strong: false },
-      { text: 'un numéro de téléphone professionnel', strong: false },
-      { text: 'un Workspace privé', strong: false },
-      { text: 'des missions, compétences et applications', strong: false },
-      { text: 'un accès aux modèles multimodaux autorisés', strong: false },
-      { text: 'des accès et validations contrôlés', strong: false },
-      { text: 'l’accompagnement d’Alma', strong: false },
+      { title: 'Identité professionnelle', body: 'Profil public, adresse email, agenda et téléphone.' },
+      { title: 'Continuité', body: 'Mémoire persistante, missions et contexte conservés.' },
+      { title: 'Profils métier illimités', body: 'Compétences, applications et droits adaptés à ses missions.' },
+      { title: 'Contrôle de l’entreprise', body: 'Workspace privé, accès maîtrisés et validations humaines.' },
     ],
   },
   en: {
-    heading: 'Compose your team.',
+    heading: 'Start with one AI Collaborator.',
     billingLegend: 'Billing cycle',
     monthly: 'Monthly',
-    annual: 'Annual · 2 months free',
-    monthlyNote: 'Monthly billing · Cancel anytime',
-    annualNote: 'Two months free · Annual billing after the trial',
-    quantityLabel: 'NUMBER OF COLLABORATEURS IA',
-    decrease: 'Remove a Collaborateur IA',
-    increase: 'Add a Collaborateur IA',
-    collab: (n: number) => `${n} Collaborateur${n > 1 ? 's' : ''} IA`,
-    unit: (p: string) => `${p} each / month`,
-    planTotal: (p: string) => `${p} / month`,
-    savings: (p: string) => `Volume savings: ${p} / month`,
-    nextTier: (n: number, p: string) => `Next tier: ${n} Collaborateurs IA · ${p} each`,
-    includedTitle: 'EACH COLLABORATEUR IA INCLUDES:',
+    annual: `Annual · ${pricingConfig.annualFreeMonths} months free`,
+    quantityLabel: 'Number of AI Collaborators',
+    decrease: 'Remove an AI Collaborator',
+    increase: 'Add an AI Collaborator',
+    collab: (n: number) => `${n} AI Collaborator${n > 1 ? 's' : ''}`,
+    each: (price: string) => `${price} each`,
+    perMonth: (price: string) => `${price} / month`,
+    annualEquivalent: (price: string) => `${price} / month equivalent`,
+    annualBilled: (price: string) => `${price} billed annually`,
+    tierNote: (price: string) => `From 2 AI Collaborators: ${price} each`,
+    includedTitle: 'Everything included',
     included: [
-      { text: 'its own identity', strong: false },
-      { text: 'persistent memory', strong: false },
-      { text: 'unlimited job profiles', strong: true },
-      { text: 'a customizable public profile', strong: false },
-      { text: 'a professional email address', strong: false },
-      { text: 'a calendar and appointment booking', strong: false },
-      { text: 'a professional phone number', strong: false },
-      { text: 'a private Workspace', strong: false },
-      { text: 'missions, skills and applications', strong: false },
-      { text: 'access to allowed multimodal models', strong: false },
-      { text: 'controlled access and validations', strong: false },
-      { text: 'Alma’s guidance', strong: false },
+      { title: 'Professional identity', body: 'Public profile, email address, calendar and phone.' },
+      { title: 'Continuity', body: 'Persistent memory, missions and context are retained.' },
+      { title: 'Unlimited job profiles', body: 'Skills, applications and rights adapted to its missions.' },
+      { title: 'Company control', body: 'Private Workspace, controlled access and human approvals.' },
     ],
   },
 } as const
-
-const QUANTITY_SHORTCUTS: { label: string; value: number }[] = [
-  { label: '1', value: 1 },
-  { label: '2\u20134', value: 2 },
-  { label: '5\u20139', value: 5 },
-  { label: '10+', value: 10 },
-]
 
 export function PricingConfigurator() {
   const { lang } = useLanguage()
   const router = useRouter()
   const t = COPY[lang]
-
   const [quantity, setQuantity] = useState(1)
   const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly')
-  const [usageMode, setUsageMode] = useState<UsageMode | null>(null)
-  const [selectedCreditBudget, setSelectedCreditBudget] = useState<number | null>(null)
-  // Remember the last budget so switching to BYOK and back restores it.
-  const [lastBudget, setLastBudget] = useState<number>(minimumCreditBudget())
 
   const calc = useMemo(() => {
-    const q = normalizeQuantity(quantity)
-    const tier = getTierForQuantity(q)
+    const normalized = normalizeQuantity(quantity)
+    const tier = getTierForQuantity(normalized)
     return {
-      tier,
-      next: getNextTier(q),
+      quantity: normalized,
       unitPrice: tier.monthlyUnitPrice,
-      monthlySubscription: calculateMonthlySubscription(q),
-      quantitySavings: calculateQuantitySavings(q),
-      annualSubscription: calculateAnnualSubscription(q),
-      annualEquivalentMonthly: calculateAnnualEquivalentMonthly(q),
-      annualSavings: calculateAnnualSavings(q),
-      creditBudget: calculateMonthlyCreditBudget(usageMode, selectedCreditBudget),
-      estimatedMonthlyTotal: calculateEstimatedMonthlyTotal(q, billingCycle, usageMode, selectedCreditBudget),
-      amountDueAfterTrial: calculateAmountDueAfterTrial(q, billingCycle, usageMode, selectedCreditBudget),
+      tierLabel: tier.label,
+      monthlySubscription: calculateMonthlySubscription(normalized),
+      annualSubscription: calculateAnnualSubscription(normalized),
+      annualEquivalentMonthly: calculateAnnualEquivalentMonthly(normalized),
     }
-  }, [quantity, billingCycle, usageMode, selectedCreditBudget])
+  }, [quantity])
 
-  const money = (n: number) => formatEuro(n, lang)
+  const money = (value: number) => formatEuro(value, lang)
+  const secondTierPrice = getTierForQuantity(2).monthlyUnitPrice
 
-  function handleModeChange(mode: UsageMode) {
-    setUsageMode(mode)
-    if (mode === 'byok') {
-      // Keep the previous budget in memory, drop it from the total.
-      if (selectedCreditBudget != null) setLastBudget(selectedCreditBudget)
-      setSelectedCreditBudget(null)
-    } else {
-      // Credits / hybrid: auto-select the minimum (or restore the last budget).
-      setSelectedCreditBudget((cur) => cur ?? lastBudget ?? minimumCreditBudget())
-    }
-  }
-
-  function handleBudgetChange(amount: number) {
-    setSelectedCreditBudget(amount)
-    setLastBudget(amount)
-  }
-
-  function handleCta() {
-    const payload = {
-      quantity: normalizeQuantity(quantity),
-      billingCycle,
-      quantityTier: calc.tier.label,
-      usageMode,
-      selectedCreditBudget,
-      monthlySubscription: calc.monthlySubscription,
-      annualSubscription: calc.annualSubscription,
-      estimatedMonthlyTotal: calc.estimatedMonthlyTotal,
-    }
+  function startTrial() {
     try {
-      sessionStorage.setItem('unitalk_pricing_selection', JSON.stringify(payload))
-    } catch {
-      // sessionStorage may be unavailable; navigation must still proceed.
-    }
+      sessionStorage.setItem(
+        'unitalk_pricing_selection',
+        JSON.stringify({
+          quantity: calc.quantity,
+          billingCycle,
+          quantityTier: calc.tierLabel,
+          monthlySubscription: calc.monthlySubscription,
+          annualSubscription: calc.annualSubscription,
+        }),
+      )
+    } catch {}
     router.push('/decouvrir')
   }
 
-  const decDisabled = normalizeQuantity(quantity) <= 1
-
   return (
     <section aria-labelledby="configurator-heading" className="mx-auto w-full max-w-6xl px-5 py-6 sm:px-8">
-      <h2
-        id="configurator-heading"
-        className="font-sf text-[30px] font-bold tracking-[-0.01em] text-[#1C1A17] sm:text-[38px]"
-      >
+      <h2 id="configurator-heading" className="font-sf text-[28px] font-bold tracking-[-0.02em] sm:text-[36px]">
         {t.heading}
       </h2>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-12 xl:grid-cols-[minmax(0,1fr)_24rem]">
-        {/* LEFT — all choices */}
-        <div className="min-w-0 space-y-8">
-          {/* Billing */}
+      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-start lg:gap-10">
+        <div className="min-w-0 rounded-3xl border border-[#E4DDCE] bg-[#FBF9F3] p-5 sm:p-7">
           <fieldset>
             <legend className="sr-only">{t.billingLegend}</legend>
-            <div
-              role="radiogroup"
-              aria-label={t.billingLegend}
-              className="inline-flex w-full max-w-md rounded-full border border-[#EAE3D5] bg-white p-1 sm:w-auto"
-            >
+            <div role="radiogroup" aria-label={t.billingLegend} className="inline-flex w-full rounded-full border border-[#E4DDCE] bg-white p-1 sm:w-auto">
               {(['monthly', 'annual'] as BillingCycle[]).map((cycle) => {
                 const active = billingCycle === cycle
                 return (
@@ -194,8 +122,8 @@ export function PricingConfigurator() {
                     role="radio"
                     aria-checked={active}
                     onClick={() => setBillingCycle(cycle)}
-                    className={`min-h-11 flex-1 whitespace-nowrap rounded-full px-4 text-[13.5px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-                      active ? 'bg-[#D10E63] text-[#FBF9F3]' : 'text-[#4E483F] hover:text-[#1C1A17]'
+                    className={`min-h-11 flex-1 whitespace-nowrap rounded-full px-4 text-[13px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 ${
+                      active ? 'bg-[#D10E63] text-white' : 'text-[#4E483F] hover:text-[#1C1A17]'
                     }`}
                   >
                     {cycle === 'monthly' ? t.monthly : t.annual}
@@ -203,133 +131,75 @@ export function PricingConfigurator() {
                 )
               })}
             </div>
-            <p className="mt-2 text-[12.5px] text-[#857C6E]">
-              {billingCycle === 'monthly' ? t.monthlyNote : t.annualNote}
-            </p>
           </fieldset>
 
-          {/* Quantity */}
-          <div>
-            <p id="quantity-label" className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">
-              {t.quantityLabel}
-            </p>
-            <div className="mt-3 flex items-center gap-4">
-              <div className="inline-flex items-center rounded-full border border-[#EAE3D5] bg-white">
-                <button
-                  type="button"
-                  aria-label={t.decrease}
-                  disabled={decDisabled}
-                  onClick={() => setQuantity((q) => Math.max(1, normalizeQuantity(q) - 1))}
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-[#1C1A17] outline-none transition-colors hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 disabled:cursor-not-allowed disabled:text-[#CFC6B8]"
-                >
-                  −
-                </button>
-                <span
-                  aria-live="polite"
-                  aria-labelledby="quantity-label"
-                  className="min-w-12 text-center text-[18px] font-semibold tabular-nums text-[#1C1A17]"
-                >
-                  {normalizeQuantity(quantity)}
-                </span>
-                <button
-                  type="button"
-                  aria-label={t.increase}
-                  onClick={() => setQuantity((q) => normalizeQuantity(q) + 1)}
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-[20px] text-[#1C1A17] outline-none transition-colors hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
-                >
-                  +
-                </button>
-              </div>
-
-              <div className="flex flex-wrap gap-2" role="group" aria-label={t.quantityLabel}>
-                {QUANTITY_SHORTCUTS.map((s) => {
-                  const active = getTierForQuantity(quantity).label === getTierForQuantity(s.value).label
-                  return (
-                    <button
-                      key={s.label}
-                      type="button"
-                      aria-pressed={active}
-                      onClick={() => setQuantity(s.value)}
-                      className={`min-h-11 rounded-full border px-3.5 text-[13px] font-medium tabular-nums outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-                        active ? 'border-[#D10E63] bg-[#FBF3F7] text-[#B00C54]' : 'border-[#EAE3D5] bg-white text-[#4E483F] hover:border-[#D10E63]/40'
-                      }`}
-                    >
-                      {s.label}
-                    </button>
-                  )
-                })}
-              </div>
+          <div className="mt-7">
+            <p id="quantity-label" className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6E665A]">{t.quantityLabel}</p>
+            <div className="mt-3 inline-flex items-center rounded-full border border-[#E4DDCE] bg-white">
+              <button
+                type="button"
+                aria-label={t.decrease}
+                disabled={calc.quantity <= 1}
+                onClick={() => setQuantity((current) => Math.max(1, normalizeQuantity(current) - 1))}
+                className="flex h-11 w-11 items-center justify-center rounded-full text-xl outline-none hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/50 disabled:text-[#CFC6B8]"
+              >
+                −
+              </button>
+              <span aria-live="polite" aria-labelledby="quantity-label" className="min-w-12 text-center text-lg font-semibold tabular-nums">
+                {calc.quantity}
+              </span>
+              <button
+                type="button"
+                aria-label={t.increase}
+                onClick={() => setQuantity((current) => normalizeQuantity(current) + 1)}
+                className="flex h-11 w-11 items-center justify-center rounded-full text-xl outline-none hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+              >
+                +
+              </button>
             </div>
-
-            <div className="mt-4 rounded-2xl border border-[#EAE3D5] bg-[#FBF9F3] p-4" aria-live="polite">
-              <p className="text-[15px] font-semibold text-[#1C1A17]">{t.collab(normalizeQuantity(quantity))}</p>
-              <p className="text-[13.5px] text-[#6B6560]">
-                {t.unit(money(calc.unitPrice))} · <span className="font-medium text-[#1C1A17]">{t.planTotal(money(calc.monthlySubscription))}</span>
-              </p>
-              {calc.quantitySavings > 0 && (
-                <p className="mt-1 text-[13px] text-[#2E7D32]">{t.savings(money(calc.quantitySavings))}</p>
-              )}
-              {calc.next && (
-                <p className="mt-1 text-[12.5px] text-[#857C6E]">
-                  {t.nextTier(calc.next.min, money(calc.next.monthlyUnitPrice))}
-                </p>
-              )}
-            </div>
+            <p className="mt-2 text-[12px] text-[#6E665A]">{t.tierNote(money(secondTierPrice))}</p>
           </div>
 
-          {/* What each Collaborateur IA includes */}
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">{t.includedTitle}</p>
-            <ul className="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
-              {t.included.map((item) => (
-                <li key={item.text} className="flex items-start gap-2">
-                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D10E63]" />
-                  <span
-                    className={
-                      item.strong
-                        ? 'text-[14px] font-semibold text-[#B00C54]'
-                        : 'text-[14px] text-[#4E483F]'
-                    }
-                  >
-                    {item.text}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <div className="mt-6 border-t border-[#E4DDCE] pt-5" aria-live="polite">
+            <p className="font-sf text-lg font-bold">{t.collab(calc.quantity)}</p>
+            {calc.quantity > 1 && <p className="mt-1 text-sm text-[#4E483F]">{t.each(money(calc.unitPrice))}</p>}
+            {billingCycle === 'monthly' ? (
+              <p className="mt-1 font-sf text-[30px] font-bold tracking-[-0.03em]">{t.perMonth(money(calc.monthlySubscription))}</p>
+            ) : (
+              <div className="mt-2">
+                <p className="font-sf text-[30px] font-bold tracking-[-0.03em]">{t.annualEquivalent(money(calc.annualEquivalentMonthly))}</p>
+                <p className="mt-1 text-sm text-[#4E483F]">{t.annualBilled(money(calc.annualSubscription))} · {t.annual}</p>
+              </div>
+            )}
           </div>
-
-          <ProfessionalPresence lang={lang} />
-          <MultimodalAccess lang={lang} />
-
-          <UsageModeSelector
-            lang={lang}
-            usageMode={usageMode}
-            selectedCreditBudget={selectedCreditBudget}
-            onModeChange={handleModeChange}
-            onBudgetChange={handleBudgetChange}
-          />
         </div>
 
-        {/* RIGHT — sticky summary + single CTA */}
-        <aside className="lg:sticky lg:top-24">
-          <PricingSummary
-            lang={lang}
-            quantity={normalizeQuantity(quantity)}
-            billingCycle={billingCycle}
-            usageMode={usageMode}
-            unitPrice={calc.unitPrice}
-            monthlySubscription={calc.monthlySubscription}
-            annualSubscription={calc.annualSubscription}
-            annualEquivalentMonthly={calc.annualEquivalentMonthly}
-            annualSavings={calc.annualSavings}
-            quantitySavings={calc.quantitySavings}
-            creditBudget={calc.creditBudget}
-            estimatedMonthlyTotal={calc.estimatedMonthlyTotal}
-            amountDueAfterTrial={calc.amountDueAfterTrial}
-            ctaDisabled={usageMode === null}
-            onCta={handleCta}
-          />
-        </aside>
+        <PricingSummary
+          lang={lang}
+          quantity={calc.quantity}
+          billingCycle={billingCycle}
+          monthlySubscription={calc.monthlySubscription}
+          annualSubscription={calc.annualSubscription}
+          annualEquivalentMonthly={calc.annualEquivalentMonthly}
+          onCta={startTrial}
+        />
+      </div>
+
+      <div className="mt-10">
+        <h3 className="font-sf text-2xl font-bold tracking-[-0.02em]">{t.includedTitle}</h3>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {t.included.map((item) => (
+            <article key={item.title} className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5">
+              <h4 className="font-sf text-[16px] font-bold">{item.title}</h4>
+              <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-10 grid gap-4 lg:grid-cols-2">
+        <ProfessionalPresence lang={lang} />
+        <MultimodalAccess lang={lang} />
       </div>
     </section>
   )

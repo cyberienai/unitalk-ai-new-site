@@ -22,6 +22,8 @@ export type BillingCycle = 'monthly' | 'annual'
 export type UsageMode = 'unitalk_credits' | 'byok' | 'hybrid'
 
 export const pricingConfig = {
+  trialDays: 7,
+  trialTokens: 1_000_000,
   /** Months offered on the annual plan (annual = (12 − annualFreeMonths) × monthly). */
   annualFreeMonths: 2,
   /** Reference single-unit monthly price, used as the "savings vs 1" baseline. */

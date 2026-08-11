@@ -1,180 +1,101 @@
 'use client'
 
 import type { Lang } from '@/lib/language-context'
-import type { BillingCycle, UsageMode } from '@/lib/pricing-config'
+import { pricingConfig, type BillingCycle } from '@/lib/pricing-config'
 import { formatEuro } from './format'
 
 const COPY = {
   fr: {
-    plan: 'FORFAIT',
-    planAnnual: 'FORFAIT ANNUEL',
-    collabsSuffix: (n: number) => `${n} Collaborateur${n > 1 ? 's' : ''} IA`,
-    each: (p: string) => `${p} chacun / mois`,
-    perMonth: (p: string) => `${p} / mois`,
-    perYear: (p: string) => `${p} / an`,
-    quantitySavings: 'ÉCONOMIE LIÉE AU NOMBRE',
-    annualEquivalent: 'ÉQUIVALENT MENSUEL DU FORFAIT',
-    annualSavings: 'ÉCONOMIE ANNUELLE',
-    creditBudget: 'BUDGET DE CRÉDITS',
-    apiKeys: 'CLÉS API',
-    externalBilling: 'Facturation externe',
-    totalEstimated: 'TOTAL UNITALK ESTIMÉ',
-    monthlyEstimated: 'BUDGET MENSUEL ESTIMÉ',
-    today: 'AUJOURD’HUI',
-    afterTrial: 'APRÈS LES 7 JOURS D’ESSAI',
-    ctaSingular: 'Créer mon Collaborateur IA',
-    ctaPlural: (n: number) => `Créer mes ${n} Collaborateurs IA`,
-    ctaHint: '7 jours d’essai · Sans carte bancaire · Sans engagement',
-    ctaDisabledHint: 'Choisissez un mode de consommation pour continuer.',
-    byokNote: 'Forfait uniquement — vos fournisseurs sont facturés séparément.',
+    title: 'Votre essai',
+    today: 'Aujourd’hui',
+    during: `Pendant ${pricingConfig.trialDays} jours`,
+    after: 'Après l’essai',
+    collab: (quantity: number) => `${quantity} Collaborateur${quantity > 1 ? 's' : ''} IA`,
+    tokens: '1 million de tokens inclus',
+    noCard: 'Aucune carte bancaire',
+    perMonth: (price: string) => `${price} / mois`,
+    annualEquivalent: (price: string) => `${price} / mois équivalent`,
+    annualBilled: (price: string) => `${price} facturés annuellement`,
+    usage: '+ usages IA selon le mode choisi',
+    cta: 'Créer mon Collaborateur IA',
+    hint: `${pricingConfig.trialDays} jours d’essai, 1 million de tokens inclus, sans carte bancaire.`,
   },
   en: {
-    plan: 'PLAN',
-    planAnnual: 'ANNUAL PLAN',
-    collabsSuffix: (n: number) => `${n} Collaborateur${n > 1 ? 's' : ''} IA`,
-    each: (p: string) => `${p} each / month`,
-    perMonth: (p: string) => `${p} / month`,
-    perYear: (p: string) => `${p} / year`,
-    quantitySavings: 'VOLUME SAVINGS',
-    annualEquivalent: 'MONTHLY EQUIVALENT OF THE PLAN',
-    annualSavings: 'ANNUAL SAVINGS',
-    creditBudget: 'CREDIT BUDGET',
-    apiKeys: 'API KEYS',
-    externalBilling: 'External billing',
-    totalEstimated: 'ESTIMATED UNITALK TOTAL',
-    monthlyEstimated: 'ESTIMATED MONTHLY BUDGET',
-    today: 'TODAY',
-    afterTrial: 'AFTER THE 7-DAY TRIAL',
-    ctaSingular: 'Create my Collaborateur IA',
-    ctaPlural: (n: number) => `Create my ${n} Collaborateurs IA`,
-    ctaHint: '7-day trial · No credit card · No commitment',
-    ctaDisabledHint: 'Choose a consumption mode to continue.',
-    byokNote: 'Plan only — your providers are billed separately.',
+    title: 'Your trial',
+    today: 'Today',
+    during: `For ${pricingConfig.trialDays} days`,
+    after: 'After the trial',
+    collab: (quantity: number) => `${quantity} AI Collaborator${quantity > 1 ? 's' : ''}`,
+    tokens: '1 million tokens included',
+    noCard: 'No credit card',
+    perMonth: (price: string) => `${price} / month`,
+    annualEquivalent: (price: string) => `${price} / month equivalent`,
+    annualBilled: (price: string) => `${price} billed annually`,
+    usage: '+ AI usage according to your chosen mode',
+    cta: 'Create my AI Collaborator',
+    hint: `${pricingConfig.trialDays}-day trial, 1 million tokens included, no credit card.`,
   },
 } as const
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex items-baseline justify-between gap-4 py-2">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">{label}</span>
-      <span className="text-right text-[14px] font-medium tabular-nums text-[#1C1A17]">{children}</span>
-    </div>
-  )
-}
-
-export type SummaryProps = {
+export function PricingSummary({
+  lang,
+  quantity,
+  billingCycle,
+  monthlySubscription,
+  annualSubscription,
+  annualEquivalentMonthly,
+  onCta,
+}: {
   lang: Lang
   quantity: number
   billingCycle: BillingCycle
-  usageMode: UsageMode | null
-  unitPrice: number
   monthlySubscription: number
   annualSubscription: number
   annualEquivalentMonthly: number
-  annualSavings: number
-  quantitySavings: number
-  creditBudget: number
-  estimatedMonthlyTotal: number
-  amountDueAfterTrial: number
-  ctaDisabled: boolean
   onCta: () => void
-}
-
-/** Sticky recap containing the one and only primary CTA of the page. */
-export function PricingSummary(props: SummaryProps) {
-  const t = COPY[props.lang]
-  const { lang } = props
-  const annual = props.billingCycle === 'annual'
-  const isByok = props.usageMode === 'byok'
-  const money = (n: number) => formatEuro(n, lang)
+}) {
+  const t = COPY[lang]
+  const money = (value: number) => formatEuro(value, lang)
+  const annual = billingCycle === 'annual'
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-[#EAE3D5] bg-white shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_30px_60px_-32px_rgba(28,26,23,0.4)]">
-      <div className="border-b border-[#EEE7D9] bg-gradient-to-br from-[#FCF2F6] to-[#FBF9F3] px-5 py-3 sm:px-6">
-        <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">
-          {lang === 'fr' ? 'Votre configuration' : 'Your configuration'}
-        </p>
+    <aside className="overflow-hidden rounded-3xl border border-[#E4DDCE] bg-white shadow-[0_24px_55px_-38px_rgba(28,26,23,0.5)] lg:sticky lg:top-20">
+      <div className="bg-[#FBF3F7] px-5 py-3 sm:px-6">
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.title}</p>
       </div>
-      <div className="divide-y divide-[#EEE7D9] px-5 pt-3 sm:px-6">
-        {/* Plan */}
-        <div className="pb-1">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">
-            {annual ? t.planAnnual : t.plan}
-          </p>
-          <p className="mt-1.5 text-[15px] font-semibold text-[#1C1A17]">{t.collabsSuffix(props.quantity)}</p>
-          {annual ? (
-            <p className="text-[13px] text-[#6B6560]">{t.perYear(money(props.annualSubscription))}</p>
-          ) : (
-            <>
-              <p className="text-[13px] text-[#6B6560]">{t.each(money(props.unitPrice))}</p>
-              <p className="text-[13px] font-medium text-[#1C1A17]">{t.perMonth(money(props.monthlySubscription))}</p>
-            </>
-          )}
+      <div className="divide-y divide-[#EEE7D9] px-5 sm:px-6">
+        <div className="flex items-center justify-between py-4">
+          <span className="text-sm font-semibold text-[#4E483F]">{t.today}</span>
+          <strong className="font-sf text-2xl">{money(0)}</strong>
         </div>
-
-        {props.quantitySavings > 0 && !annual && (
-          <Row label={t.quantitySavings}>{t.perMonth(money(props.quantitySavings))}</Row>
-        )}
-
-        {annual && (
-          <>
-            <Row label={t.annualEquivalent}>{t.perMonth(money(props.annualEquivalentMonthly))}</Row>
-            <Row label={t.annualSavings}>{t.perYear(money(props.annualSavings))}</Row>
-          </>
-        )}
-
-        {/* Credit budget or BYOK */}
-        {isByok ? (
-          <Row label={t.apiKeys}>{t.externalBilling}</Row>
-        ) : (
-          <Row label={t.creditBudget}>{t.perMonth(money(props.creditBudget))}</Row>
-        )}
-
-        {/* Estimated total */}
-        <div className="py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">
-            {annual ? t.monthlyEstimated : t.totalEstimated}
-          </p>
-          <p
-            className="mt-1 font-sf text-[30px] font-bold leading-none tracking-[-0.02em] tabular-nums text-[#1C1A17]"
-            aria-live="polite"
-          >
-            {t.perMonth(money(props.estimatedMonthlyTotal))}
-          </p>
-          {isByok && <p className="mt-1 text-[12px] text-[#857C6E]">{t.byokNote}</p>}
+        <div className="py-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#6E665A]">{t.during}</p>
+          <ul className="mt-2 space-y-1 text-sm text-[#1C1A17]">
+            <li>{t.collab(quantity)}</li>
+            <li>{t.tokens}</li>
+            <li>{t.noCard}</li>
+          </ul>
         </div>
-
-        {/* Charged now / after trial */}
-        <Row label={t.today}>{money(0)}</Row>
-        <div className="pt-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#857C6E]">{t.afterTrial}</p>
-          <p className="mt-1 text-[15px] font-semibold tabular-nums text-[#1C1A17]" aria-live="polite">
-            {annual ? money(props.amountDueAfterTrial) : t.perMonth(money(props.amountDueAfterTrial))}
+        <div className="py-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#6E665A]">{t.after}</p>
+          <p className="mt-2 font-sf text-xl font-bold">
+            {annual ? t.annualEquivalent(money(annualEquivalentMonthly)) : t.perMonth(money(monthlySubscription))}
           </p>
+          {annual && <p className="mt-1 text-xs text-[#6E665A]">{t.annualBilled(money(annualSubscription))}</p>}
+          <p className="mt-2 text-sm text-[#4E483F]">{t.usage}</p>
         </div>
       </div>
-
-      {/* Single primary CTA */}
-      <div className="px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
+      <div className="px-5 pb-5 pt-4 sm:px-6">
         <button
           type="button"
-          onClick={props.onCta}
-          disabled={props.ctaDisabled}
-          aria-describedby="cta-hint"
-          className="group flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-bold text-[#FBF9F3] outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-[#E4DDCE] disabled:text-[#9A9184]"
+          onClick={onCta}
+          className="group flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
         >
-          {props.quantity === 1 ? t.ctaSingular : t.ctaPlural(props.quantity)}
-          <span
-            aria-hidden="true"
-            className="transition-transform duration-200 group-enabled:group-hover:translate-x-0.5"
-          >
-            →
-          </span>
+          {t.cta}
+          <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
         </button>
-        <p id="cta-hint" className="mt-2.5 text-center text-[12px] text-[#857C6E]">
-          {props.ctaDisabled ? t.ctaDisabledHint : t.ctaHint}
-        </p>
+        <p className="mt-2.5 text-center text-[12px] leading-relaxed text-[#6E665A]">{t.hint}</p>
       </div>
-    </div>
+    </aside>
   )
 }
