@@ -49,7 +49,8 @@ export function StoreCard({
   lang: Lang
   onSelect: (mission: Mission) => void
 }) {
-  const category = categoryLabel(MISSION_CATEGORIES, mission.category, lang)
+  const category = shortCategoryLabel(mission.category, lang)
+  const description = actionDescription(mission, lang)
   return (
     <button
       type="button"
@@ -61,13 +62,85 @@ export function StoreCard({
       <h3 className="font-sf text-[18px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[#4E483F]">{mission.result[lang]}</p>
+      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[#4E483F]">{description}</p>
       <div className="mt-auto flex items-end justify-between gap-3 pt-4">
         <span className="text-[11px] font-semibold leading-snug text-[#6E665A]">{category}</span>
         <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </button>
   )
+}
+
+const DESCRIPTION_OVERRIDES: Record<string, { fr: string; en: string }> = {
+  'trouver-de-nouveaux-clients': {
+    fr: 'Identifiez les prospects correspondant à vos critères et validez la sélection avant toute prise de contact.',
+    en: 'Identify prospects matching your criteria and review the selection before any outreach.',
+  },
+  'qualifier-les-demandes-entrantes': {
+    fr: 'Enrichissez les demandes entrantes, classez-les et dirigez-les vers la bonne personne.',
+    en: 'Enrich inbound requests, classify them and route them to the right person.',
+  },
+  'repondre-a-mes-clients': {
+    fr: 'Préparez des réponses contextualisées et validez les cas qui nécessitent votre intervention.',
+    en: 'Prepare contextual replies and review the cases that require your intervention.',
+  },
+}
+
+const IMPERATIVE_VERBS: Record<string, { fr: string; en: string }> = {
+  analyser: { fr: 'Analysez', en: 'Analyze' },
+  automatiser: { fr: 'Automatisez', en: 'Automate' },
+  classer: { fr: 'Classez', en: 'Classify' },
+  contrôler: { fr: 'Contrôlez', en: 'Review' },
+  créer: { fr: 'Créez', en: 'Create' },
+  définir: { fr: 'Définissez', en: 'Define' },
+  détecter: { fr: 'Détectez', en: 'Detect' },
+  extraire: { fr: 'Extrayez', en: 'Extract' },
+  générer: { fr: 'Générez', en: 'Generate' },
+  gérer: { fr: 'Gérez', en: 'Manage' },
+  identifier: { fr: 'Identifiez', en: 'Identify' },
+  mettre: { fr: 'Mettez', en: 'Update' },
+  organiser: { fr: 'Organisez', en: 'Organize' },
+  personnaliser: { fr: 'Personnalisez', en: 'Personalize' },
+  préparer: { fr: 'Préparez', en: 'Prepare' },
+  qualifier: { fr: 'Qualifiez', en: 'Qualify' },
+  rédiger: { fr: 'Rédigez', en: 'Write' },
+  relancer: { fr: 'Relancez', en: 'Follow up on' },
+  répondre: { fr: 'Répondez', en: 'Answer' },
+  résumer: { fr: 'Résumez', en: 'Summarize' },
+  suivre: { fr: 'Suivez', en: 'Track' },
+  trouver: { fr: 'Identifiez', en: 'Find' },
+  vérifier: { fr: 'Vérifiez', en: 'Check' },
+}
+
+function actionDescription(mission: Mission, lang: Lang): string {
+  const override = DESCRIPTION_OVERRIDES[mission.slug]
+  if (override) return override[lang]
+
+  const title = mission.title[lang].replace(/[.!?]+$/, '')
+  const [firstWord, ...rest] = title.split(/\s+/)
+  const imperative = IMPERATIVE_VERBS[firstWord.toLowerCase()]?.[lang]
+  if (!imperative) return mission.result[lang]
+
+  const action = `${imperative} ${rest.join(' ')}`.trim()
+  return `${action.charAt(0).toUpperCase()}${action.slice(1)}. ${mission.result[lang]}`
+}
+
+function shortCategoryLabel(key: string, lang: Lang): string {
+  const labels: Record<string, { fr: string; en: string }> = {
+    ventes: { fr: 'Ventes', en: 'Sales' },
+    'relation-client': { fr: 'Service client', en: 'Customer service' },
+    marketing: { fr: 'Marketing', en: 'Marketing' },
+    reunions: { fr: 'Réunions', en: 'Meetings' },
+    administration: { fr: 'Assistanat', en: 'Assistance' },
+    finance: { fr: 'Finance', en: 'Finance' },
+    rh: { fr: 'RH', en: 'HR' },
+    direction: { fr: 'Direction', en: 'Leadership' },
+    documents: { fr: 'Documents', en: 'Documents' },
+    analyse: { fr: 'Analyse', en: 'Analysis' },
+    operations: { fr: 'Opérations', en: 'Operations' },
+    produit: { fr: 'Produit', en: 'Product' },
+  }
+  return labels[key]?.[lang] ?? categoryLabel(MISSION_CATEGORIES, key, lang)
 }
 
 /* ------------------------------------------------------------------ */

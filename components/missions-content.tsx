@@ -9,6 +9,36 @@ import { StoreCard } from '@/components/missions/store-card'
 
 const PRIMARY_CATEGORIES = ['ventes', 'relation-client', 'marketing', 'finance', 'rh'] as const
 const SECONDARY_CATEGORIES = ['reunions', 'administration', 'direction', 'documents', 'analyse', 'operations', 'produit'] as const
+const ALL_CATEGORY_ORDER = [
+  'ventes',
+  'relation-client',
+  'finance',
+  'marketing',
+  'rh',
+  'documents',
+  'analyse',
+  'reunions',
+  'administration',
+  'direction',
+  'operations',
+  'produit',
+] as const
+
+function interleaveMissionsByCategory(): Mission[] {
+  const groups = new Map(
+    ALL_CATEGORY_ORDER.map((key) => [key, MISSIONS.filter((mission) => mission.category === key)]),
+  )
+  const ordered: Mission[] = []
+  const maxLength = Math.max(...Array.from(groups.values(), (missions) => missions.length))
+
+  for (let index = 0; index < maxLength; index++) {
+    for (const key of ALL_CATEGORY_ORDER) {
+      const mission = groups.get(key)?.[index]
+      if (mission) ordered.push(mission)
+    }
+  }
+  return ordered
+}
 
 export function MissionsContent() {
   const { lang } = useLanguage()
@@ -50,7 +80,7 @@ export function MissionsContent() {
   }, [lang])
 
   const missions = useMemo(
-    () => (category === 'all' ? MISSIONS : MISSIONS.filter((mission) => mission.category === category)),
+    () => (category === 'all' ? interleaveMissionsByCategory() : MISSIONS.filter((mission) => mission.category === category)),
     [category],
   )
 
@@ -80,14 +110,14 @@ export function MissionsContent() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-20 text-[#1C1A17] sm:pt-24">
+    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-[4.5rem] text-[#1C1A17] sm:pt-20">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
           <h1 className="text-balance font-sf text-[clamp(2rem,5vw,3.7rem)] font-semibold leading-[1.06] tracking-[-0.05em]">
             {t.title}
           </h1>
 
-          <div className="relative mx-auto mt-5 max-w-2xl">
+          <div className="relative mx-auto mt-4 max-w-2xl">
             <textarea
               value={need}
               onChange={(event) => setNeed(event.target.value)}
@@ -121,7 +151,7 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section className="mt-6">
+        <section className="mt-5">
           <h2 className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
           <p className="mt-1 text-[13px] text-[#6E665A]">{t.readyNote}</p>
 
