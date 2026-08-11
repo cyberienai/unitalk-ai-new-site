@@ -23,6 +23,8 @@ const COPY = {
     perMonth: (price: string) => `${price}/mois`,
     annualEquivalent: (price: string) => `${price}/mois`,
     annualBilled: (price: string) => `Équivalent mensuel · ${price} facturés par an`,
+    offer: 'L’offre',
+    includedTitle: 'Inclus',
     included: [
       'Identité professionnelle',
       'Profils métier illimités',
@@ -48,6 +50,7 @@ const COPY = {
     decrease: 'Retirer un Collaborateur IA',
     increase: 'Ajouter un Collaborateur IA',
     volumeApplied: 'Prix dégressif appliqué automatiquement.',
+    appliedTier: (label: string, price: string) => `Palier ${label} · ${price} chacun`,
   },
   en: {
     billingLegend: 'Billing cycle',
@@ -58,6 +61,8 @@ const COPY = {
     perMonth: (price: string) => `${price}/month`,
     annualEquivalent: (price: string) => `${price}/month`,
     annualBilled: (price: string) => `Monthly equivalent · ${price} billed annually`,
+    offer: 'The offer',
+    includedTitle: 'Included',
     included: [
       'Professional identity',
       'Unlimited job profiles',
@@ -83,6 +88,7 @@ const COPY = {
     decrease: 'Remove an AI Collaborator',
     increase: 'Add an AI Collaborator',
     volumeApplied: 'Volume pricing is applied automatically.',
+    appliedTier: (label: string, price: string) => `Tier ${label} · ${price} each`,
   },
 } as const
 
@@ -127,7 +133,7 @@ export function PricingConfigurator() {
   }
 
   return (
-    <section aria-label={t.billingLegend} className="mx-auto w-full max-w-2xl px-5 pb-8 pt-3 sm:px-8">
+    <section aria-label={t.billingLegend} className="mx-auto w-full max-w-[1120px] px-5 pb-8 pt-3 sm:px-8">
       <fieldset className="flex justify-center">
         <legend className="sr-only">{t.billingLegend}</legend>
         <div role="radiogroup" aria-label={t.billingLegend} className="inline-flex w-full rounded-full border border-[#E4DDCE] bg-white p-1 sm:w-auto">
@@ -151,15 +157,20 @@ export function PricingConfigurator() {
         </div>
       </fieldset>
 
-      <div className="mt-5 overflow-hidden rounded-3xl border border-[#E4DDCE] bg-white shadow-[0_28px_65px_-48px_rgba(28,26,23,0.55)] lg:grid lg:grid-cols-[1.25fr_0.75fr]">
+      <div id="pricing-card" className="mt-5 overflow-hidden rounded-3xl border border-[#E4DDCE] bg-white shadow-[0_28px_65px_-48px_rgba(28,26,23,0.55)] md:grid md:grid-cols-[minmax(0,1fr)_280px] min-[1120px]:grid-cols-[240px_minmax(0,1fr)_310px]">
         <div className="p-5 sm:px-8 sm:py-7" aria-live="polite">
-          <p className="font-sf text-lg font-bold">{t.collab(calc.quantity)}</p>
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.offer}</p>
+          <p className="mt-3 font-sf text-lg font-bold">{t.collab(calc.quantity)}</p>
           {calc.quantity > 1 && <p className="mt-1 text-sm text-[#4E483F]">{t.each(money(calc.unitPrice))}</p>}
           <p className="mt-1 font-sf text-[32px] font-bold tracking-[-0.04em] text-[#1C1A17]">
             {annual ? t.annualEquivalent(money(calc.annualEquivalentMonthly)) : t.perMonth(money(calc.monthlySubscription))}
           </p>
           {annual && <p className="mt-1 text-sm text-[#6E665A]">{t.annualBilled(money(calc.annualSubscription))}</p>}
-          <ul className="mt-5 grid gap-x-5 gap-y-2 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-3">
+        </div>
+
+        <div className="border-t border-[#E4DDCE] p-5 sm:px-8 sm:py-7 md:border-t-0 min-[1120px]:border-l">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.includedTitle}</p>
+          <ul className="mt-4 grid gap-x-6 gap-y-3 min-[1120px]:grid-flow-col min-[1120px]:grid-cols-2 min-[1120px]:grid-rows-3">
             {t.included.map((item) => (
               <li key={item} className="flex items-start gap-2 text-[13px] leading-snug text-[#4E483F]">
                 <span aria-hidden="true" className="mt-px shrink-0 font-bold text-[#D10E63]">✓</span>
@@ -169,7 +180,7 @@ export function PricingConfigurator() {
           </ul>
         </div>
 
-        <div className="border-t border-[#E4DDCE] bg-[#FBF9F3] p-5 sm:px-7 sm:py-7 lg:border-l lg:border-t-0">
+        <div className="border-t border-[#E4DDCE] bg-[#FBF9F3] p-5 sm:px-7 sm:py-7 md:col-start-2 md:row-span-2 md:row-start-1 md:border-l md:border-t-0 min-[1120px]:col-start-3 min-[1120px]:row-span-1">
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.trial}</p>
           <p className="mt-4 text-sm font-semibold text-[#4E483F]">{t.today}</p>
           <p className="mt-0.5 font-sf text-[32px] font-bold tracking-[-0.04em]">{money(0)}</p>
@@ -181,8 +192,9 @@ export function PricingConfigurator() {
 
           <button
             type="button"
+            id="pricing-cta"
             onClick={startTrial}
-            className="group mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 py-3 text-[14px] font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            className="group mt-4 flex h-12 w-full min-w-max items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#D10E63] px-5 text-sm font-semibold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
           >
             {calc.quantity === 1 ? t.cta : t.ctaTeam(calc.quantity)}
             <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
@@ -209,6 +221,7 @@ export function PricingConfigurator() {
               <button type="button" aria-label={t.increase} onClick={() => setQuantity((current) => normalizeQuantity(current) + 1)} className="flex h-11 w-11 items-center justify-center rounded-full text-xl outline-none hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/50">+</button>
             </div>
             <p className="mt-2 text-[12px] text-[#6E665A]">{t.volumeApplied}</p>
+            <p className="mt-1 text-[12px] font-semibold text-[#4E483F]">{t.appliedTier(calc.tierLabel, money(calc.unitPrice))}</p>
           </div>
         )}
       </div>

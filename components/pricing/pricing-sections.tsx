@@ -35,8 +35,8 @@ export function PricingHero() {
   const { lang } = useLanguage()
   const t = COPY[lang]
   return (
-    <header className="mx-auto w-full max-w-4xl px-5 pb-2 pt-[4.5rem] text-center sm:px-8 sm:pt-[4.75rem]">
-      <h1 className="font-sf text-[36px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1C1A17] sm:text-[clamp(40px,4vw,52px)] sm:leading-[1.05]">
+    <header className="mx-auto w-full max-w-[900px] px-5 pb-2 pt-[4.5rem] text-center sm:px-8 sm:pt-[4.75rem]">
+      <h1 className="hero-heading text-[#1C1A17]">
         <span className="block">{t.heroTitleLine1}</span>
         <span className="block">{t.heroTitleLine2}</span>
       </h1>
@@ -47,34 +47,26 @@ export function PricingHero() {
   )
 }
 
-export function BilledExplainer() {
+export function PricingExplanations() {
   const { lang } = useLanguage()
   const t = COPY[lang]
   return (
-    <section aria-labelledby="billed-title" className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
-      <h2 id="billed-title" className="font-sf text-[28px] font-bold tracking-[-0.025em] sm:text-[36px]">
-        <span>{t.billedTitleLine1}</span>
-        <br className="hidden sm:block" />
-        <span> {t.billedTitleLine2}</span>
-      </h2>
-      <div className="mt-4 max-w-3xl">
-        {t.billed.map((paragraph) => (
-          <p key={paragraph} className="text-[15px] leading-relaxed text-[#4E483F]">
-            {paragraph}
-          </p>
-        ))}
+    <section className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-2 lg:gap-12">
+      <div aria-labelledby="billed-title">
+        <h2 id="billed-title" className="font-sf text-[28px] font-bold tracking-[-0.025em] sm:text-[34px]">
+          <span className="block">{t.billedTitleLine1}</span>
+          <span className="block">{t.billedTitleLine2}</span>
+        </h2>
+        <div className="mt-4 max-w-3xl">
+          {t.billed.map((paragraph) => (
+            <p key={paragraph} className="text-[15px] leading-relaxed text-[#4E483F]">{paragraph}</p>
+          ))}
+        </div>
       </div>
-    </section>
-  )
-}
-
-export function UsageModesInfo() {
-  const { lang } = useLanguage()
-  const t = COPY[lang]
-  return (
-    <section aria-labelledby="usage-title" className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
-      <h2 id="usage-title" className="font-sf text-[28px] font-bold tracking-[-0.025em] sm:text-[36px]">{t.usageTitle}</h2>
-      <p className="mt-3 max-w-4xl text-[15px] leading-relaxed text-[#4E483F]">{t.usageIntro}</p>
+      <div aria-labelledby="usage-title">
+        <h2 id="usage-title" className="font-sf text-[28px] font-bold tracking-[-0.025em] sm:text-[34px]">{t.usageTitle}</h2>
+        <p className="mt-4 max-w-4xl text-[15px] leading-relaxed text-[#4E483F]">{t.usageIntro}</p>
+      </div>
     </section>
   )
 }
