@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowRight, Check, Pencil } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { ArrowRight, Building2, Check, Loader2, Pencil } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import type { CompanyFact } from './types'
@@ -15,15 +15,33 @@ export function ScreenContext({
   company,
   onChange,
   onContinue,
+  stepper,
 }: {
   lang: Lang
   company: CompanyFact[]
   onChange: (next: CompanyFact[]) => void
   onContinue: () => void
+  stepper: React.ReactNode
 }) {
   const t = COPY[lang]
   const [editingKey, setEditingKey] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
+  const [status, setStatus] = useState<'loading' | 'ready' | 'confirmed'>('loading')
+  const [logoFailed, setLogoFailed] = useState(false)
+  const [clientsTouched, setClientsTouched] = useState(false)
+  const [showSoftValidation, setShowSoftValidation] = useState(false)
+
+  const domain = company.find((fact) => fact.key === 'domain')?.value.trim() ?? ''
+  const companyName = company.find((fact) => fact.key === 'name')?.value.trim() ?? ''
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setStatus((current) => (current === 'loading' ? 'ready' : current))
+    }, 700)
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  useEffect(() => setLogoFailed(false), [domain])
 
   function startEdit(fact: CompanyFact) {
     setEditingKey(fact.key)
@@ -46,7 +64,21 @@ export function ScreenContext({
       const fact = company.find((f) => f.key === editingKey)
       if (fact) saveEdit(fact)
     }
-    onContinue()
+    if (!clientsTouched && !company.find((fact) => fact.key === 'clients')?.value) {
+      setShowSoftValidation(true)
+    }
+    setStatus('confirmed')
+    window.setTimeout(onContinue, 650)
+  }
+
+  function updateClients(value: string) {
+    setClientsTouched(true)
+    setShowSoftValidation(false)
+    onChange(
+      company.map((fact) =>
+        fact.key === 'clients' ? { ...fact, value, uncertain: value.trim() ? false : fact.uncertain } : fact,
+      ),
+    )
   }
 
   return (
@@ -56,6 +88,8 @@ export function ScreenContext({
         <div aria-hidden className="pointer-events-none absolute -bottom-32 -right-20 h-64 w-64 rounded-full border border-white/[0.06]" />
 
         <div className="relative flex h-full flex-col">
+          <div className="mb-7 hidden md:block">{stepper}</div>
+
           <div className="flex items-center gap-3">
             <AlmaHead className="h-11 w-11 shrink-0 ring-1 ring-white/15" />
             <div className="leading-tight">
@@ -69,13 +103,36 @@ export function ScreenContext({
             <h1 className="mt-3 max-w-md text-balance font-sf text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.03] tracking-[-0.045em] text-white">
               {t.title}
             </h1>
-            <p className="mt-5 max-w-sm text-pretty text-[14px] leading-7 text-[#C7BFB5]">{t.subtitle}</p>
+            <div className="mt-5 flex max-w-sm items-start gap-2.5 text-pretty text-[14px] leading-7 text-[#C7BFB5]" aria-live="polite">
+              {status === 'loading' && <Loader2 className="mt-1.5 h-4 w-4 shrink-0 animate-spin text-[#E38AB4]" />}
+              {status === 'confirmed' && <Check className="mt-1.5 h-4 w-4 shrink-0 text-[#E38AB4]" strokeWidth={3} />}
+              <p>{status === 'loading' ? t.loading : status === 'confirmed' ? t.confirmed : t.prefilled}</p>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="flex min-w-0 flex-col px-6 py-7 sm:px-9 sm:py-8 lg:px-10 lg:py-9">
-        <h2 className="font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{t.cardTitle}</h2>
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#E3DACB] bg-white text-[#8A8175] shadow-sm">
+            {domain && !logoFailed ? (
+              // Clearbit serves a domain logo directly; onError keeps the form usable when none exists.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={`https://logo.clearbit.com/${encodeURIComponent(domain)}`}
+                alt=""
+                className="h-full w-full object-contain p-1"
+                onError={() => setLogoFailed(true)}
+              />
+            ) : (
+              <Building2 className="h-5 w-5" />
+            )}
+          </span>
+          <div>
+            <h2 className="font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{companyName || t.cardTitle}</h2>
+            <p className="mt-0.5 text-[11px] text-[#8A8175]">{t.cardTitle}</p>
+          </div>
+        </div>
 
         <dl className="mt-5 flex-1 divide-y divide-[#EBE4D6] border-y border-[#EBE4D6]">
           {company.map((fact) => {
@@ -87,7 +144,39 @@ export function ScreenContext({
                   {fact.label[lang]}
                 </dt>
                 <dd className="min-w-0">
-                  {isEditing ? (
+                  {fact.key === 'clients' ? (
+                    <div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {CLIENT_OPTIONS[lang].map((option) => {
+                          const selected = fact.value === option
+                          return (
+                            <button
+                              key={option}
+                              type="button"
+                              aria-pressed={selected}
+                              onClick={() => updateClients(option)}
+                              className={[
+                                'rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors',
+                                selected
+                                  ? 'border-[#D10E63] bg-[#D10E63]/10 text-[#B00C54]'
+                                  : 'border-[#DED5C5] bg-white text-[#6E665A] hover:border-[#D10E63]/40',
+                              ].join(' ')}
+                            >
+                              {option}
+                            </button>
+                          )
+                        })}
+                      </div>
+                      <input
+                        type="text"
+                        value={fact.value}
+                        onChange={(event) => updateClients(event.target.value)}
+                        placeholder={t.clientsOther}
+                        aria-label={t.clientsOther}
+                        className="mt-2 w-full rounded-lg border border-[#DED5C5] bg-white px-3 py-2 text-[12px] text-[#1C1A17] outline-none placeholder:text-[#A79F91] focus:border-[#D10E63]/50 focus:ring-3 focus:ring-[#D10E63]/10"
+                      />
+                    </div>
+                  ) : isEditing ? (
                     <div>
                       <textarea
                         autoFocus
@@ -143,15 +232,22 @@ export function ScreenContext({
           })}
         </dl>
 
-        <div className="mt-5 flex justify-end">
+        <div className="mt-5 flex flex-col items-end">
           <button
             type="button"
             onClick={confirmCompany}
-            className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#E51872]"
+            disabled={status === 'confirmed'}
+            className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-wait disabled:opacity-80"
           >
-            {t.confirm}
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            {status === 'confirmed' ? t.confirmedCta : t.confirm}
+            {status === 'confirmed' ? (
+              <Check className="h-4 w-4" strokeWidth={3} />
+            ) : (
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            )}
           </button>
+          <p className="mt-2 max-w-sm text-right text-[11px] leading-relaxed text-[#8A8175]">{t.ctaNote}</p>
+          {showSoftValidation && <p className="mt-1 text-right text-[11px] text-[#9A7B34]">{t.softValidation}</p>}
         </div>
       </section>
     </div>
@@ -162,25 +258,42 @@ const COPY = {
   fr: {
     kicker: 'Entreprise',
     title: 'Voici votre entreprise.',
-    subtitle: 'Alma a préparé ce premier contexte à partir de votre domaine professionnel.',
+    loading: 'Je consulte les informations publiques sur votre entreprise…',
+    prefilled: "J’ai trouvé ces informations à partir de votre domaine professionnel. Corrigez ce qui ne correspond pas.",
+    confirmed: 'Parfait. Votre entreprise est prête. Passons à la mission.',
     almaName: 'Alma',
     almaRole: 'Conseillère en transformation IA',
     cardTitle: 'Votre fiche entreprise',
     toConfirm: 'À confirmer',
     save: 'Enregistrer',
     cancel: 'Annuler',
-    confirm: 'Confirmer mon entreprise',
+    clientsOther: 'Autre type de clients…',
+    confirm: "C’est correct · Définir ma mission",
+    confirmedCta: 'Entreprise confirmée',
+    ctaNote: 'Alma va vous guider pour décrire votre première mission.',
+    softValidation: 'Vous pourrez modifier la fiche depuis le Workspace.',
   },
   en: {
     kicker: 'Company',
     title: 'Here is your company.',
-    subtitle: 'Alma prepared this first context from your work domain.',
+    loading: 'I’m checking public information about your company…',
+    prefilled: 'I found this information from your work domain. Correct anything that does not match.',
+    confirmed: 'Perfect. Your company is ready. Let’s move on to the mission.',
     almaName: 'Alma',
     almaRole: 'AI transformation advisor',
     cardTitle: 'Your company profile',
     toConfirm: 'To confirm',
     save: 'Save',
     cancel: 'Cancel',
-    confirm: 'Confirm my company',
+    clientsOther: 'Another customer type…',
+    confirm: 'Looks right · Define my mission',
+    confirmedCta: 'Company confirmed',
+    ctaNote: 'Alma will guide you through describing your first mission.',
+    softValidation: 'You can edit this profile later from the Workspace.',
   },
+} as const
+
+const CLIENT_OPTIONS = {
+  fr: ['TPE', 'PME', 'ETI', 'Grand compte', 'Collectivité', 'Association', 'Particuliers'],
+  en: ['Small business', 'SME', 'Mid-market', 'Enterprise', 'Public sector', 'Nonprofit', 'Consumers'],
 } as const

@@ -13,7 +13,13 @@ import { UnitalkLogo } from '@/components/unitalk-logo'
 // company details. Each action creates a REAL (simulated) session cookie, then
 // hands off to the first step — so the user is never asked to sign in again,
 // and the Workspace opens directly at the end of the flow.
-export function ScreenAccount({ lang, onAuthenticated }: { lang: Lang; onAuthenticated: () => void }) {
+export function ScreenAccount({
+  lang,
+  onAuthenticated,
+}: {
+  lang: Lang
+  onAuthenticated: (identity: { provider: AuthProvider; email?: string }) => void
+}) {
   const reduce = useReducedMotion()
   const t = COPY[lang]
   const [pending, setPending] = useState<AuthProvider | null>(null)
@@ -30,7 +36,10 @@ export function ScreenAccount({ lang, onAuthenticated }: { lang: Lang; onAuthent
       // Create the session up front — the account exists from the very first
       // screen, so the journey ends by opening the Workspace, not by re-login.
       await startSession(provider, provider === 'email' ? email.trim() : undefined)
-      onAuthenticated()
+      onAuthenticated({
+        provider,
+        email: provider === 'email' ? email.trim().toLowerCase() : undefined,
+      })
     } catch {
       setPending(null)
     }

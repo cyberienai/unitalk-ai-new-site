@@ -55,8 +55,22 @@ export function DiscoverFlow() {
         <div className="mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
           <ScreenAccount
             lang={lang}
-            onAuthenticated={() => {
-              setState((s) => ({ ...s, authenticated: true }))
+            onAuthenticated={({ provider, email }) => {
+              const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
+              setState((s) => ({
+                ...s,
+                authenticated: true,
+                company: domain
+                  ? s.company.map((fact) => {
+                      if (fact.key === 'domain') return { ...fact, value: domain, uncertain: false }
+                      if (fact.key === 'name') {
+                        const name = domain.split('.')[0]
+                        return { ...fact, value: name.charAt(0).toUpperCase() + name.slice(1), uncertain: false }
+                      }
+                      return fact
+                    })
+                  : s.company,
+              }))
               setStep('entreprise')
             }}
           />
@@ -75,7 +89,7 @@ export function DiscoverFlow() {
         </a>
 
         <div className="hidden flex-1 justify-center md:flex">
-          <FlowStepper current={step} lang={lang} onStepClick={goTo} />
+          {step !== 'entreprise' && <FlowStepper current={step} lang={lang} onStepClick={goTo} />}
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -119,6 +133,7 @@ export function DiscoverFlow() {
                 company={state.company}
                 onChange={(company) => setState((s) => ({ ...s, company }))}
                 onContinue={() => goTo('mission')}
+                stepper={<FlowStepper current={step} lang={lang} onStepClick={goTo} variant="panel" />}
               />
             )}
 

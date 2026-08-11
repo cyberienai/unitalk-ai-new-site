@@ -11,12 +11,57 @@ export function FlowStepper({
   current,
   lang,
   onStepClick,
+  variant = 'horizontal',
 }: {
   current: OnboardingStep
   lang: Lang
   onStepClick: (step: OnboardingStep) => void
+  variant?: 'horizontal' | 'panel'
 }) {
   const currentIndex = STEP_ORDER.indexOf(current)
+
+  if (variant === 'panel') {
+    return (
+      <nav aria-label={lang === 'fr' ? 'Étapes' : 'Steps'}>
+        <ol className="grid grid-cols-2 gap-x-4 gap-y-3 lg:grid-cols-1">
+          {STEP_ORDER.map((step, i) => {
+            const state = i < currentIndex ? 'done' : i === currentIndex ? 'active' : 'todo'
+            const isDone = state === 'done'
+
+            return (
+              <li key={step}>
+                <button
+                  type="button"
+                  onClick={() => isDone && onStepClick(step)}
+                  disabled={!isDone}
+                  aria-current={state === 'active' ? 'step' : undefined}
+                  className={[
+                    'flex items-center gap-2.5 text-left text-[12px] transition-colors',
+                    state === 'active' ? 'font-bold text-white' : '',
+                    state === 'done' ? 'cursor-pointer font-semibold text-[#C8BFC4] hover:text-white' : '',
+                    state === 'todo' ? 'text-[#77716B]' : '',
+                  ].join(' ')}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={[
+                      'inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold',
+                      state === 'active' ? 'border-[#D10E63] bg-[#D10E63] text-white' : '',
+                      state === 'done' ? 'border-[#D10E63]/50 bg-[#D10E63]/15 text-[#F09CC3]' : '',
+                      state === 'todo' ? 'border-white/15 text-[#77716B]' : '',
+                    ].join(' ')}
+                  >
+                    {isDone ? <Check className="h-3 w-3" strokeWidth={3} /> : i + 1}
+                  </span>
+                  <span>{STEP_LABELS[step][lang]}</span>
+                </button>
+              </li>
+            )
+          })}
+        </ol>
+      </nav>
+    )
+  }
 
   return (
     <nav aria-label={lang === 'fr' ? 'Étapes' : 'Steps'}>
