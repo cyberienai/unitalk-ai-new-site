@@ -1,6 +1,7 @@
 export type BlogBlock =
   | { type: 'p'; text: string }
   | { type: 'h2'; text: string }
+  | { type: 'h3'; text: string }
   | { type: 'ul'; items: string[] }
   | { type: 'ol'; items: string[] }
   | { type: 'quote'; text: string }
@@ -16,9 +17,40 @@ export type BlogArticle = {
   /** Standalone two-line editorial lead written for the index cards (no truncation). */
   cardLead: { fr: string; en: string }
   body: { fr: BlogBlock[]; en: BlogBlock[] }
+  seoTitle?: { fr: string; en: string }
+  canonical?: string
+  missionSlug?: string
+  specializedLayout?: 'prospects-guide'
 }
 
 export const BLOG_ARTICLES: BlogArticle[] = [
+  {
+    slug: 'trouver-prospects-qualifies-ia',
+    image: '',
+    category: { fr: 'Prospection B2B', en: 'B2B prospecting' },
+    readingTime: { fr: '', en: '' },
+    date: { fr: '', en: '' },
+    seoTitle: {
+      fr: 'Trouver des prospects qualifiés avec l’IA | Unitalk',
+      en: 'Find qualified prospects with AI | Unitalk',
+    },
+    canonical: '/blog/trouver-prospects-qualifies-ia',
+    missionSlug: 'trouver-de-nouveaux-clients',
+    specializedLayout: 'prospects-guide',
+    title: {
+      fr: 'Trouver des prospects qualifiés : une longue liste ne vaut pas une bonne sélection',
+      en: 'Finding qualified prospects: a long list is no substitute for a good selection',
+    },
+    excerpt: {
+      fr: 'Découvrez comment un Collaborateur IA recherche, enrichit et présélectionne des prospects pendant que votre équipe conserve les critères et la validation finale.',
+      en: 'See how an AI Collaborator researches, enriches and preselects prospects while your team retains the criteria and final approval.',
+    },
+    cardLead: {
+      fr: 'Comment confier la recherche de prospects sans automatiser un mauvais ciblage.',
+      en: 'How to delegate prospect research without automating poor targeting.',
+    },
+    body: { fr: [], en: [] },
+  },
   {
     slug: 'identite-collaborateur',
     image: '/blog/identite-collaborateur.png',

@@ -21,6 +21,8 @@ function Block({ block }: { block: BlogBlock }) {
           {block.text}
         </h2>
       )
+    case 'h3':
+      return <h3 className="mt-8 font-sf text-xl font-semibold text-[#1C1A17]">{block.text}</h3>
     case 'p':
       return <p className="mt-5 text-pretty text-[17px] leading-[1.75] text-[#3B3730]">{block.text}</p>
     case 'ul':

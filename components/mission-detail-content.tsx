@@ -221,6 +221,22 @@ export function MissionDetailContent({ slug }: { slug: string }) {
                 <p className="mt-1 text-sm font-semibold text-[#D10E63]">{mission.profile[lang]}</p>
               </div>
 
+              {mission.article && (
+                <div className="mt-5 border-t border-[#E4DDCE] pt-5">
+                  <p className="text-[10px] font-bold uppercase tracking-wide text-[#8A8175]">
+                    {lang === 'fr' ? 'Comprendre la méthode' : 'Understand the method'}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">
+                    {lang === 'fr'
+                      ? 'Comment rechercher et qualifier des prospects sans automatiser un mauvais ciblage.'
+                      : 'How to research and qualify prospects without automating poor targeting.'}
+                  </p>
+                  <Link href={mission.article.href} className="mt-2 inline-flex text-sm font-semibold text-[#D10E63] hover:underline">
+                    {lang === 'fr' ? 'Lire le guide →' : 'Read the guide →'}
+                  </Link>
+                </div>
+              )}
+
               {/* Scope — freelance-style facets, without over-promising 24/7 */}
               <dl className="mt-5 flex flex-col gap-2 border-t border-[#E4DDCE] pt-5">
                 <p className="text-[10px] font-bold uppercase tracking-wide text-[#8A8175]">{t.conditionsWord}</p>

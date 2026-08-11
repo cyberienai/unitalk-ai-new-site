@@ -52,22 +52,41 @@ export function StoreCard({
   const category = shortCategoryLabel(mission.category, lang)
   const description = actionDescription(mission, lang)
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(mission)}
-      aria-label={lang === 'fr' ? `Confier « ${mission.title.fr} » à Alma` : `Assign “${mission.title.en}” to Alma`}
+    <article
       data-mission-card={mission.slug}
       className="group relative grid w-full cursor-pointer grid-rows-[44px_44px_auto] rounded-xl border border-[#DED6C8] bg-[#FAF8F3] p-[18px] text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:bg-[#FFFDF9] hover:shadow-[0_8px_20px_rgba(28,26,23,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:min-h-[176px] sm:p-5"
     >
-      <h3 className="line-clamp-2 min-h-[44px] font-sf text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#1C1A17]">
+      <button
+        type="button"
+        onClick={() => onSelect(mission)}
+        aria-label={lang === 'fr' ? `Voir la mission ${mission.title.fr}` : `View mission ${mission.title.en}`}
+        className="absolute inset-0 z-0 cursor-pointer rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+      >
+        <span className="sr-only">{lang === 'fr' ? `Voir la mission ${mission.title.fr}` : `View mission ${mission.title.en}`}</span>
+      </button>
+      <h3 className="pointer-events-none relative z-10 line-clamp-2 min-h-[44px] font-sf text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#1C1A17]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
-      <div className="mt-4 flex items-center justify-between gap-3">
-        <span className="text-[12px] font-semibold leading-snug text-[#6E665A]">{category}</span>
+      <p className="pointer-events-none relative z-10 mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
+      <footer className="relative z-10 mt-4 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-[12px] font-semibold leading-snug text-[#6E665A]">
+          <span>{category}</span>
+          {mission.article && (
+            <>
+              <span aria-hidden="true">·</span>
+              <Link
+                href={mission.article.href}
+                aria-label={lang === 'fr' ? 'Lire le guide sur la qualification des prospects' : 'Read the guide to prospect qualification'}
+                className="relative z-20 outline-none transition-colors hover:text-[#D10E63] hover:underline focus-visible:text-[#D10E63] focus-visible:underline"
+              >
+                {mission.article.label[lang]}
+              </Link>
+            </>
+          )}
+        </div>
         <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
-      </div>
-    </button>
+      </footer>
+    </article>
   )
 }
 

@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { MISSIONS } from '@/lib/missions-catalog'
 import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
 import { COLLABORATOR_PAGE_SLUGS } from '@/lib/collaborator-pages'
+import { BLOG_ARTICLES } from '@/lib/blog-articles'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -62,5 +63,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries]
+  const blogEntries: MetadataRoute.Sitemap = BLOG_ARTICLES.map((article) => ({
+    url: `${SITE_URL}/blog/${article.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries, ...blogEntries]
 }

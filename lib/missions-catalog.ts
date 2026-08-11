@@ -61,6 +61,10 @@ export type Mission = {
   dateAdded: string
   order: number
   keywords: string[]
+  article?: {
+    href: string
+    label: Bilingual
+  }
 }
 
 export const DELAY_TBD: Bilingual = {
@@ -367,6 +371,10 @@ type SeedOpts = {
   modality?: string
   regulated?: boolean
   dateAdded?: string
+  article?: {
+    href: string
+    label: Bilingual
+  }
 }
 type Seed = {
   category: string
@@ -505,13 +513,21 @@ function buildMission(seed: Seed, index: number): Mission {
     dateAdded: o.dateAdded ?? fallbackDate(index),
     order: index,
     keywords: Array.from(new Set([...tokenize(seed.titleFr), ...tokenize(seed.titleEn)])),
+    article: o.article,
   }
 }
 
 // --- SEEDS: 12 categories x 12 missions = 144 -------------------------------
 const SEEDS: Seed[] = [
   // ---------------- VENTES & DÉVELOPPEMENT COMMERCIAL ----------------
-  m('ventes', 'trouver-de-nouveaux-clients', 'Trouver des prospects qualifiés', 'Find qualified prospects', 'Une liste de prospects correspondant à vos critères, prête à être examinée.', 'A list of prospects matching your criteria, ready to review.', { status: 'available', dateAdded: '2026-05-12' }),
+  m('ventes', 'trouver-de-nouveaux-clients', 'Trouver des prospects qualifiés', 'Find qualified prospects', 'Une liste de prospects correspondant à vos critères, prête à être examinée.', 'A list of prospects matching your criteria, ready to review.', {
+    status: 'available',
+    dateAdded: '2026-05-12',
+    article: {
+      href: '/blog/trouver-prospects-qualifies-ia',
+      label: { fr: 'Guide pratique', en: 'Practical guide' },
+    },
+  }),
   m('ventes', 'qualifier-les-demandes-entrantes', 'Qualifier les demandes entrantes', 'Qualify inbound requests', 'Des opportunités enrichies, classées et orientées vers la bonne personne.', 'Enriched opportunities, sorted and routed to the right person.', { status: 'on-setup' }),
   m('ventes', 'preparer-une-campagne-de-prospection', 'Préparer une campagne de prospection', 'Prepare an outreach campaign', 'Une cible, une séquence de contact et des messages prêts à valider.', 'A target, a contact sequence and messages ready to approve.'),
   m('ventes', 'personnaliser-les-messages-de-prospection', 'Personnaliser les messages de prospection', 'Personalize outreach messages', 'Des messages adaptés au contexte de chaque prospect.', 'Messages tailored to each prospect’s context.', { status: 'on-setup' }),
