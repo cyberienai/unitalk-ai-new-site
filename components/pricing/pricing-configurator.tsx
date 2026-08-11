@@ -51,6 +51,9 @@ const COPY = {
     increase: 'Ajouter un Collaborateur IA',
     volumeApplied: 'Prix dégressif appliqué automatiquement.',
     appliedTier: (label: string, price: string) => `Palier ${label} · ${price} chacun`,
+    readyFor: 'Déjà prêt pour :',
+    readyCapabilities: 'Réunions · Documents · Images · Vidéo',
+    readyNote: 'Capacités préinstallées et incluses. Profils métier et compétences illimités.',
   },
   en: {
     billingLegend: 'Billing cycle',
@@ -89,6 +92,9 @@ const COPY = {
     increase: 'Add an AI Collaborator',
     volumeApplied: 'Volume pricing is applied automatically.',
     appliedTier: (label: string, price: string) => `Tier ${label} · ${price} each`,
+    readyFor: 'Already ready for:',
+    readyCapabilities: 'Meetings · Documents · Images · Video',
+    readyNote: 'Preinstalled and included capabilities. Unlimited job profiles and skills.',
   },
 } as const
 
@@ -158,17 +164,19 @@ export function PricingConfigurator() {
       </fieldset>
 
       <div id="pricing-card" className="mt-5 overflow-hidden rounded-3xl border border-[#E4DDCE] bg-white shadow-[0_28px_65px_-48px_rgba(28,26,23,0.55)] md:grid md:grid-cols-[minmax(0,1fr)_280px] xl:grid-cols-[240px_minmax(0,1fr)_310px]">
-        <div className="p-5 sm:px-8 sm:py-7" aria-live="polite">
+        <div className="flex min-h-0 flex-col p-5 sm:px-8 sm:py-7" aria-live="polite">
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.offer}</p>
-          <p className="mt-3 font-sf text-lg font-bold">{t.collab(calc.quantity)}</p>
-          {calc.quantity > 1 && <p className="mt-1 text-sm text-[#4E483F]">{t.each(money(calc.unitPrice))}</p>}
-          <p className="mt-1 font-sf text-[32px] font-bold tracking-[-0.04em] text-[#1C1A17]">
-            {annual ? t.annualEquivalent(money(calc.annualEquivalentMonthly)) : t.perMonth(money(calc.monthlySubscription))}
-          </p>
-          {annual && <p className="mt-1 text-sm text-[#6E665A]">{t.annualBilled(money(calc.annualSubscription))}</p>}
+          <div className="mt-3 min-[1120px]:flex min-[1120px]:flex-1 min-[1120px]:flex-col min-[1120px]:justify-center">
+            <p className="font-sf text-lg font-bold">{t.collab(calc.quantity)}</p>
+            {calc.quantity > 1 && <p className="mt-1 text-sm text-[#4E483F]">{t.each(money(calc.unitPrice))}</p>}
+            <p className="mt-1 font-sf text-[32px] font-bold tracking-[-0.04em] text-[#1C1A17]">
+              {annual ? t.annualEquivalent(money(calc.annualEquivalentMonthly)) : t.perMonth(money(calc.monthlySubscription))}
+            </p>
+            {annual && <p className="mt-1 text-sm text-[#6E665A]">{t.annualBilled(money(calc.annualSubscription))}</p>}
+          </div>
         </div>
 
-        <div className="border-t border-[#E4DDCE] p-5 sm:px-8 sm:py-7 md:border-t-0 xl:border-l">
+        <div className="border-t border-[#E4DDCE] p-5 sm:px-8 sm:py-7 md:border-t-0 xl:border-l xl:pr-3">
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.includedTitle}</p>
           <ul className="mt-4 grid gap-x-6 gap-y-3 xl:grid-flow-col xl:grid-cols-2 xl:grid-rows-3">
             {t.included.map((item) => (
@@ -205,6 +213,13 @@ export function PricingConfigurator() {
               : t.after(money(calc.monthlySubscription))}
           </p>
         </div>
+      </div>
+
+      <div className="mt-3 border-t border-[#E4DDCE] bg-[#F8F5EE] px-4 py-3 text-left sm:flex sm:items-baseline sm:justify-between sm:gap-5 sm:px-5">
+        <p className="text-sm font-semibold text-[#1C1A17]">
+          {t.readyFor} <span className="font-medium">{t.readyCapabilities}</span>
+        </p>
+        <p className="mt-1 text-[12px] leading-relaxed text-[#6E665A] sm:mt-0 sm:text-right">{t.readyNote}</p>
       </div>
 
       <div className="mt-4 text-center">
