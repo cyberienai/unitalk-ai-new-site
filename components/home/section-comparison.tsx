@@ -27,7 +27,7 @@ const COPY = {
       ['Compétence générique', 'Compétences testées et améliorées'],
       ['Mémoire dépendante de l’outil', 'Mémoire gouvernée par votre entreprise'],
       ['Résultat isolé', 'Expérience validée et réutilisable'],
-      ['Modèle lié à la plateforme', 'Modèles autorisés, Collaborateur inchangé'],
+      ['Modèle lié à la plateforme', 'Le meilleur modèle pour chaque mission'],
     ],
   },
   en: {
