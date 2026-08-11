@@ -6,12 +6,11 @@ import { formatEuro } from './format'
 
 const COPY = {
   fr: {
-    heroTitle: 'Un Collaborateur IA. Tous les profils métier dont il a besoin.',
-    heroSubtitle: `À partir de ${formatEuro(pricingConfig.baseMonthlyPrice, 'fr')} par mois. Essayez-le pendant ${pricingConfig.trialDays} jours avec 1 million de tokens inclus, sans carte bancaire.`,
-    billedTitle: 'Vous payez les identités, pas les métiers.',
+    heroTitle: 'Un Collaborateur IA. Des profils métier illimités.',
+    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'fr')} par mois, hors usages IA après l’essai. Sept jours avec 1 million de tokens inclus, sans carte bancaire.`,
+    billedTitle: 'Un même Collaborateur IA peut exercer plusieurs métiers.',
     billed: [
-      'Ses profils métier sont illimités. Le même Collaborateur IA peut intervenir en vente, recrutement, analyse ou support sans devenir quatre agents différents.',
-      'Ajoutez une autre identité uniquement lorsqu’un autre nom, d’autres coordonnées ou des ressources isolées sont nécessaires.',
+      'Ses profils métier sont illimités. Ajoutez un autre Collaborateur IA uniquement si vous avez besoin d’un autre nom, d’autres coordonnées ou de ressources séparées.',
     ],
     usageTitle: 'Les usages IA restent sous votre contrôle.',
     usageIntro: 'Après l’essai, utilisez des crédits Unitalk, vos propres clés API ou les deux. Vous choisirez dans l’application.',
@@ -22,12 +21,11 @@ const COPY = {
     ],
   },
   en: {
-    heroTitle: 'One AI Collaborator. Every job profile it needs.',
-    heroSubtitle: `From ${formatEuro(pricingConfig.baseMonthlyPrice, 'en')} per month. Try it for ${pricingConfig.trialDays} days with 1 million tokens included, no credit card required.`,
-    billedTitle: 'You pay for identities, not roles.',
+    heroTitle: 'One AI Collaborator. Unlimited job profiles.',
+    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'en')} per month, excluding AI usage after the trial. Seven days with 1 million tokens included, no credit card required.`,
+    billedTitle: 'One AI Collaborator can perform several roles.',
     billed: [
-      'Job profiles are unlimited. The same AI Collaborator can work in sales, recruiting, analysis or support without becoming four different agents.',
-      'Add another identity only when another name, separate contact details or isolated resources are required.',
+      'Job profiles are unlimited. Add another AI Collaborator only when you need another name, separate contact details or isolated resources.',
     ],
     usageTitle: 'AI usage stays under your control.',
     usageIntro: 'After the trial, use Unitalk credits, your own API keys, or both. You will choose in the application.',
@@ -60,9 +58,9 @@ export function BilledExplainer() {
   return (
     <section aria-labelledby="billed-title" className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
       <h2 id="billed-title" className="font-sf text-[28px] font-bold tracking-[-0.025em] sm:text-[36px]">{t.billedTitle}</h2>
-      <div className="mt-5 grid gap-4 md:grid-cols-2">
+      <div className="mt-4 max-w-3xl">
         {t.billed.map((paragraph) => (
-          <p key={paragraph} className="rounded-2xl border border-[#E4DDCE] bg-[#FBF9F3] p-5 text-[14px] leading-relaxed text-[#4E483F]">
+          <p key={paragraph} className="text-[15px] leading-relaxed text-[#4E483F]">
             {paragraph}
           </p>
         ))}
@@ -78,14 +76,9 @@ export function UsageModesInfo() {
     <section aria-labelledby="usage-title" className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
       <h2 id="usage-title" className="font-sf text-[28px] font-bold tracking-[-0.025em] sm:text-[36px]">{t.usageTitle}</h2>
       <p className="mt-2 text-[15px] text-[#4E483F]">{t.usageIntro}</p>
-      <div className="mt-5 grid gap-4 md:grid-cols-3">
-        {t.usage.map((mode) => (
-          <article key={mode.title} className="rounded-2xl border border-[#E4DDCE] bg-white p-5">
-            <h3 className="font-sf text-[17px] font-bold">{mode.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{mode.body}</p>
-          </article>
-        ))}
-      </div>
+      <p className="mt-4 max-w-4xl text-[15px] leading-relaxed text-[#4E483F]">
+        {t.usage.map((mode) => `${mode.title} — ${mode.body}`).join(' · ')}
+      </p>
     </section>
   )
 }

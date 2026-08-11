@@ -19,10 +19,6 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
             a: `Le forfait comprend l’identité professionnelle persistante d’un Collaborateur IA, sa mémoire, ses profils métier illimités, ses coordonnées, son Workspace privé et ses accès contrôlés. L’essai de ${pricingConfig.trialDays} jours inclut 1 million de tokens. Les usages IA après l’essai sont réglés séparément.`,
           },
           {
-            q: 'Quand faut-il ajouter un autre Collaborateur IA ?',
-            a: 'Ajoutez une identité lorsqu’un autre nom, d’autres coordonnées ou des ressources isolées sont nécessaires. Sinon, le Collaborateur existant peut recevoir des profils métier illimités.',
-          },
-          {
             q: 'Comment sont facturés les usages IA après l’essai ?',
             a: `Vous choisissez dans l’application entre des crédits Unitalk à partir de ${credits} par mois, vos propres clés API ou un mode hybride. Le forfait d’identité reste séparé de ces usages.`,
           },
@@ -38,10 +34,6 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
           {
             q: `What does the ${price} plan include?`,
             a: `The plan includes one AI Collaborator’s persistent professional identity, memory, unlimited job profiles, contact details, private Workspace and controlled access. The ${pricingConfig.trialDays}-day trial includes 1 million tokens. AI usage after the trial is billed separately.`,
-          },
-          {
-            q: 'When should I add another AI Collaborator?',
-            a: 'Add an identity when another name, separate contact details or isolated resources are required. Otherwise, the existing Collaborator can receive unlimited job profiles.',
           },
           {
             q: 'How is AI usage billed after the trial?',
