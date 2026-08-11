@@ -11,13 +11,11 @@ import { ScreenAccount } from './screen-account'
 import { ScreenContext } from './screen-context'
 import { ScreenMission } from './screen-mission'
 import { ScreenCollaborateur } from './screen-collaborateur'
-import { ScreenWorkspace } from './screen-workspace'
 import { initialOnboardingState, STEP_ORDER, type OnboardingState, type OnboardingStep } from './types'
 
 // The /decouvrir onboarding. A single shared state carries the account, the
-// company context, the mission and the chosen first name across every screen —
-// so the mission never changes between steps and the name appears immediately
-// in the CTA and the final screen. Everything is in-memory (a reload restarts).
+  // company context, the mission and the chosen first name across every screen.
+  // The final action persists this state and opens the Workspace directly.
 export function DiscoverFlow() {
   const { lang } = useLanguage()
   const reduce = useReducedMotion()
@@ -27,15 +25,6 @@ export function DiscoverFlow() {
 
   function goTo(next: OnboardingStep) {
     setStep(next)
-  }
-
-  function goToWorkspace() {
-    setState((current) => {
-      const clean = current.collaboratorName.trim().replace(/\s+/g, ' ')
-      const collaboratorName = clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : ''
-      return { ...current, collaboratorName }
-    })
-    goTo('workspace')
   }
 
   const stepIndex = STEP_ORDER.indexOf(step)
@@ -64,11 +53,12 @@ export function DiscoverFlow() {
         <div className="mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
           <ScreenAccount
             lang={lang}
-            onAuthenticated={({ provider, email }) => {
+            onAuthenticated={({ provider, email, name }) => {
               const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
               setState((s) => ({
                 ...s,
                 authenticated: true,
+                userName: name === 'Membre' ? '' : name.split(/\s+/)[0],
                 company: domain
                   ? s.company.map((fact) => {
                       if (fact.key === 'domain') return { ...fact, value: domain, uncertain: false }
@@ -103,14 +93,6 @@ export function DiscoverFlow() {
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
           <LanguageToggle />
-          <span aria-hidden className="hidden h-4 w-px bg-[#E4DDCE] sm:block" />
-          <a
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-[#6E665A] transition-colors hover:text-[#1C1A17]"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            {lang === 'fr' ? 'Retour au site' : 'Back to site'}
-          </a>
         </div>
       </header>
 
@@ -120,7 +102,7 @@ export function DiscoverFlow() {
       </div>
 
       {/* Stage */}
-      <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-5 sm:px-8 sm:py-7">
+      <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-4 sm:px-8">
         {/* Back link — mobile only. On desktop the clickable stepper already
             provides backward navigation, so a separate "Précédent" is redundant. */}
         {back && (
@@ -139,6 +121,7 @@ export function DiscoverFlow() {
             {step === 'entreprise' && (
               <ScreenContext
                 lang={lang}
+                userName={state.userName}
                 company={state.company}
                 onChange={(company) => setState((s) => ({ ...s, company }))}
                 onContinue={() => goTo('mission')}
@@ -163,17 +146,7 @@ export function DiscoverFlow() {
                 profile={state.profile}
                 name={state.collaboratorName}
                 onName={(collaboratorName) => setState((s) => ({ ...s, collaboratorName }))}
-                onContinue={goToWorkspace}
-              />
-            )}
-
-            {step === 'workspace' && (
-              <ScreenWorkspace
-                lang={lang}
-                name={state.collaboratorName}
-                profile={state.profile}
-                mission={state.mission}
-                company={state.company}
+                onCreated={(collaboratorName) => setState((s) => ({ ...s, collaboratorName }))}
               />
             )}
           </motion.div>

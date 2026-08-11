@@ -4,23 +4,22 @@ import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 // -------------------------------------------------------------------------- //
 // Onboarding model — a simple, premium account-creation flow.                //
 //                                                                            //
-// Account (no stepper) → then four visible steps:                            //
-//   Entreprise → Mission → Collaborateur IA → Workspace                      //
+// Account (no stepper) → then three visible steps:                           //
+//   Entreprise → Mission → Collaborateur IA                                  //
 //                                                                            //
 // Everything lives in ONE shared state so the mission never changes between  //
-// steps and the chosen first name appears immediately in the CTA and the     //
-// final screen. Demo data is coherent and persistent across screens.         //
+// steps and the chosen first name appears immediately in the CTA. Demo data  //
+// is coherent and persistent across screens.                                 //
 // -------------------------------------------------------------------------- //
 
-export type OnboardingStep = 'entreprise' | 'mission' | 'collaborateur' | 'workspace'
+export type OnboardingStep = 'entreprise' | 'mission' | 'collaborateur'
 
-export const STEP_ORDER: OnboardingStep[] = ['entreprise', 'mission', 'collaborateur', 'workspace']
+export const STEP_ORDER: OnboardingStep[] = ['entreprise', 'mission', 'collaborateur']
 
 export const STEP_LABELS: Record<OnboardingStep, { fr: string; en: string }> = {
   entreprise: { fr: 'Entreprise', en: 'Company' },
   mission: { fr: 'Mission', en: 'Mission' },
   collaborateur: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
-  workspace: { fr: 'Workspace', en: 'Workspace' },
 }
 
 // A single company fact. `uncertain` renders as "À confirmer" — Alma never
@@ -42,6 +41,7 @@ export type MissionInfo = {
 
 export type OnboardingState = {
   authenticated: boolean
+  userName: string
   company: CompanyFact[]
   mission: MissionInfo
   // Whether the user has defined the mission yet (drives step 2 → 3 gating).
@@ -82,6 +82,7 @@ export function seededMission(lang: Lang): MissionInfo {
 export function initialOnboardingState(): OnboardingState {
   return {
     authenticated: false,
+    userName: '',
     company: [
       { key: 'name', label: { fr: 'Entreprise', en: 'Company' }, value: 'Solvea' },
       { key: 'domain', label: { fr: 'Domaine', en: 'Domain' }, value: 'solvea.fr' },

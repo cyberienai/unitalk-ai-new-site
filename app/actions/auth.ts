@@ -8,6 +8,7 @@ import {
   encodeSession,
   nameFromEmail,
   type AuthProvider,
+  type MockSession,
 } from '@/lib/mock-auth'
 
 const PROVIDER_DEMO_EMAIL: Record<Exclude<AuthProvider, 'email'>, string> = {
@@ -60,7 +61,7 @@ export async function establishSession(formData: FormData): Promise<void> {
  * through the remaining steps. At the end, the Workspace opens directly —
  * the user is never asked to sign in a second time.
  */
-export async function startSession(provider: AuthProvider, email?: string): Promise<void> {
+export async function startSession(provider: AuthProvider, email?: string): Promise<MockSession> {
   const rawEmail = email?.trim().toLowerCase() ?? ''
   const resolvedEmail =
     provider === 'email'
@@ -80,6 +81,7 @@ export async function startSession(provider: AuthProvider, email?: string): Prom
     sameSite: 'lax',
     // Not httpOnly: the navbar reads this client-side in the simulation.
   })
+  return session
 }
 
 /** Clear the simulated session and return home. */

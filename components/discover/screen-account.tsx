@@ -18,7 +18,7 @@ export function ScreenAccount({
   onAuthenticated,
 }: {
   lang: Lang
-  onAuthenticated: (identity: { provider: AuthProvider; email?: string }) => void
+  onAuthenticated: (identity: { provider: AuthProvider; email?: string; name: string }) => void
 }) {
   const reduce = useReducedMotion()
   const t = COPY[lang]
@@ -35,10 +35,11 @@ export function ScreenAccount({
     try {
       // Create the session up front — the account exists from the very first
       // screen, so the journey ends by opening the Workspace, not by re-login.
-      await startSession(provider, provider === 'email' ? email.trim() : undefined)
+      const session = await startSession(provider, provider === 'email' ? email.trim() : undefined)
       onAuthenticated({
         provider,
         email: provider === 'email' ? email.trim().toLowerCase() : undefined,
+        name: session.name,
       })
     } catch {
       setPending(null)

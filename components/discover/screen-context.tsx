@@ -12,11 +12,13 @@ import type { CompanyFact } from './types'
 // confirm the company (or correct it first).
 export function ScreenContext({
   lang,
+  userName,
   company,
   onChange,
   onContinue,
 }: {
   lang: Lang
+  userName: string
   company: CompanyFact[]
   onChange: (next: CompanyFact[]) => void
   onContinue: () => void
@@ -31,7 +33,6 @@ export function ScreenContext({
 
   const domain = company.find((fact) => fact.key === 'domain')?.value.trim() ?? ''
   const companyName = company.find((fact) => fact.key === 'name')?.value.trim() ?? ''
-  const activity = company.find((fact) => fact.key === 'activity')?.value.trim() ?? ''
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -110,21 +111,23 @@ export function ScreenContext({
             </div>
           </div>
 
-          <div className="mt-8">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-[#E38AB4]">{t.kicker}</p>
-            <h1 className="mt-3 max-w-md text-balance font-sf text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.03] tracking-[-0.045em] text-white">
-              {t.title}
-            </h1>
+          <div className="mt-12">
+            {userName && (
+              <p className="font-sf text-[clamp(1.7rem,3vw,2.25rem)] font-semibold tracking-[-0.035em] text-white">
+                {t.hello} {userName}.
+              </p>
+            )}
             <div className="mt-5 flex max-w-sm items-start gap-2.5 text-pretty text-[14px] leading-7 text-[#C7BFB5]" aria-live="polite">
               {status === 'loading' && <Loader2 className="mt-1.5 h-4 w-4 shrink-0 animate-spin text-[#E38AB4]" />}
               {status === 'confirmed' && <Check className="mt-1.5 h-4 w-4 shrink-0 text-[#E38AB4]" strokeWidth={3} />}
-              <p>{status === 'loading' ? t.loading : status === 'confirmed' ? t.confirmed : t.prefilled}</p>
+              <p>
+                {status === 'loading'
+                  ? t.loading
+                  : status === 'confirmed'
+                    ? t.confirmed
+                    : `${t.prefilledBefore} ${companyName || t.cardTitle} ${t.prefilledAfter}`}
+              </p>
             </div>
-          </div>
-
-          <div className="mt-auto border-t border-white/10 pt-5">
-            <p className="font-sf text-[15px] font-bold text-white">{companyName || t.cardTitle}</p>
-            {activity && <p className="mt-1.5 text-[12px] leading-relaxed text-[#BDB5AC]">{activity}</p>}
           </div>
         </div>
       </section>
@@ -278,10 +281,10 @@ export function ScreenContext({
 
 const COPY = {
   fr: {
-    kicker: 'Entreprise',
-    title: 'Voici votre entreprise.',
+    hello: 'Bonjour',
     loading: 'Je consulte les informations publiques sur votre entreprise…',
-    prefilled: "J’ai trouvé ces informations à partir de votre domaine professionnel. Corrigez ce qui ne correspond pas.",
+    prefilledBefore: 'J’ai préparé ces informations sur',
+    prefilledAfter: 'à partir de votre domaine pro. Corrigez ce qui ne va pas.',
     confirmed: 'Parfait. Votre entreprise est prête. Passons à la mission.',
     almaName: 'Alma',
     almaRole: 'Unitalk',
@@ -297,10 +300,10 @@ const COPY = {
     softValidation: 'Vous pourrez modifier la fiche depuis le Workspace.',
   },
   en: {
-    kicker: 'Company',
-    title: 'Here is your company.',
+    hello: 'Hello',
     loading: 'I’m checking public information about your company…',
-    prefilled: 'I found this information from your work domain. Correct anything that does not match.',
+    prefilledBefore: 'I prepared this information about',
+    prefilledAfter: 'from your work domain. Correct anything that is wrong.',
     confirmed: 'Perfect. Your company is ready. Let’s move on to the mission.',
     almaName: 'Alma',
     almaRole: 'Unitalk',
