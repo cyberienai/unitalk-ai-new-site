@@ -39,6 +39,16 @@ export function ScreenContext({
     setEditingKey(null)
   }
 
+  // If a field is still open when the user confirms, commit it first — a click
+  // on "Confirmer" never silently drops an in-progress edit.
+  function confirmCompany() {
+    if (editingKey) {
+      const fact = company.find((f) => f.key === editingKey)
+      if (fact) saveEdit(fact)
+    }
+    onContinue()
+  }
+
   return (
     <div className="mx-auto w-full max-w-[560px]">
       <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#D10E63]">{t.kicker}</p>
@@ -125,26 +135,18 @@ export function ScreenContext({
         </dl>
       </div>
 
-      <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="mt-7">
         <button
           type="button"
-          onClick={onContinue}
+          onClick={confirmCompany}
           className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3.5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872]"
         >
           {t.confirm}
           <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
         </button>
-        <button
-          type="button"
-          onClick={() => startEdit(company[0])}
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#D8D0C2] bg-[#FBF9F3] px-6 py-3.5 text-sm font-semibold text-[#3B362F] transition-colors hover:border-[#D10E63]/40"
-        >
-          <Pencil className="h-4 w-4" />
-          {t.correct}
-        </button>
       </div>
 
-      <p className="mt-4 text-[12px] leading-relaxed text-[#9A9184]">{t.note}</p>
+      <p className="mt-4 text-[12px] leading-relaxed text-[#6E665A]">{t.note}</p>
     </div>
   )
 }
@@ -160,7 +162,6 @@ const COPY = {
     save: 'Enregistrer',
     cancel: 'Annuler',
     confirm: 'Confirmer mon entreprise',
-    correct: 'Corriger',
     note: 'Cliquez sur une information pour la modifier. Rien n’est envoyé sans votre accord.',
   },
   en: {
@@ -173,7 +174,6 @@ const COPY = {
     save: 'Save',
     cancel: 'Cancel',
     confirm: 'Confirm my company',
-    correct: 'Correct',
     note: 'Click any information to edit it. Nothing is sent without your consent.',
   },
 } as const

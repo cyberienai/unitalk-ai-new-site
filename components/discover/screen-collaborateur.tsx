@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { ArrowRight, Check, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, ShieldCheck, Sparkles, User } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import type { MissionInfo } from './types'
 
@@ -29,7 +29,7 @@ export function ScreenCollaborateur({
   const trimmed = name.trim()
 
   const initials = useMemo(() => {
-    if (!trimmed) return '—'
+    if (!trimmed) return ''
     return trimmed
       .split(/\s+/)
       .slice(0, 2)
@@ -83,9 +83,11 @@ export function ScreenCollaborateur({
           <div className="flex items-center gap-3.5">
             <span
               aria-hidden="true"
-              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#E4DDCE] bg-white font-sf text-lg font-bold text-[#B00C54]"
+              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full border font-sf text-lg font-bold transition-colors ${
+                trimmed ? 'border-[#E4DDCE] bg-white text-[#B00C54]' : 'border-[#E4DDCE] bg-[#F3EDE1] text-[#B4AC9E]'
+              }`}
             >
-              {initials}
+              {trimmed ? initials : <User className="h-6 w-6" strokeWidth={1.75} />}
             </span>
             <div className="min-w-0 leading-tight">
               <p className="truncate font-sf text-[16px] font-bold text-[#1C1A17]">
@@ -113,7 +115,7 @@ export function ScreenCollaborateur({
               placeholder={t.namePlaceholder}
               className="mt-2 w-full rounded-xl border border-[#E4DDCE] bg-white px-4 py-3 text-[15px] font-medium text-[#1C1A17] outline-none transition-colors placeholder:font-normal placeholder:text-[#B4AC9E] focus:border-[#D10E63]/60 focus:ring-4 focus:ring-[#D10E63]/10"
             />
-            <p className="mt-2 text-[12px] leading-relaxed text-[#9A9184]">{t.nameHint}</p>
+            <p className="mt-2 text-[12px] leading-relaxed text-[#6E665A]">{t.nameHint}</p>
           </div>
 
           <button

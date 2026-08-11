@@ -257,6 +257,10 @@ export function ScreenMission({
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">
                 {t.panelTitle}
               </p>
+              <p className="mt-1.5 inline-flex items-center gap-1.5 text-[12px] leading-relaxed text-[#6E665A]">
+                <Pencil className="h-3 w-3 text-[#B4327E]" />
+                {t.editHint}
+              </p>
 
               <div className="mt-4 flex flex-col divide-y divide-[#EBE4D6] border-t border-[#EBE4D6]">
                 <DraftRow label={t.fTitle} value={mission.title} onChange={(v) => updateField('title', v)} strong delay={0} reduce={!!reduce} />
@@ -354,12 +358,16 @@ function DraftRow({
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className={[
-            'mt-1 block w-full rounded-lg px-1 py-0.5 text-left transition-colors hover:bg-[#EFE8DA]/60',
-            strong ? 'font-sf text-[15px] font-bold text-[#1C1A17]' : 'text-[14px] leading-relaxed text-[#3B362F]',
-          ].join(' ')}
+          className="group mt-1 flex w-full items-start justify-between gap-3 rounded-lg px-1 py-0.5 text-left transition-colors hover:bg-[#EFE8DA]/60"
         >
-          {value}
+          <span
+            className={
+              strong ? 'font-sf text-[15px] font-bold text-[#1C1A17]' : 'text-[14px] leading-relaxed text-[#3B362F]'
+            }
+          >
+            {value}
+          </span>
+          <Pencil className="mt-1 h-3.5 w-3.5 shrink-0 text-[#C7BFB0] opacity-0 transition-opacity group-hover:opacity-100" />
         </button>
       )}
     </motion.div>
@@ -405,12 +413,13 @@ const COPY = {
     structure: 'Structurer la mission',
     exampleLabel: 'Exemple',
     panelTitle: 'La mission prend forme',
+    editHint: 'Cliquez sur une information pour la modifier.',
     fTitle: 'Mission',
     fResult: 'Résultat attendu',
     fRule: 'Règle principale',
     fValidation: 'Validation humaine',
     cta: 'Confier cette mission',
-    ctaNote: 'Vous pourrez tout ajuster ensuite.',
+    ctaNote: 'Vérifiez les éléments de la mission. Vous pourrez aussi les ajuster dans le Workspace.',
   },
   en: {
     almaRole: 'AI transformation advisor',
@@ -427,11 +436,12 @@ const COPY = {
     structure: 'Structure the mission',
     exampleLabel: 'Example',
     panelTitle: 'The mission takes shape',
+    editHint: 'Click any information to edit it.',
     fTitle: 'Mission',
     fResult: 'Expected result',
     fRule: 'Main rule',
     fValidation: 'Human approval',
     cta: 'Assign this mission',
-    ctaNote: 'You can adjust everything afterwards.',
+    ctaNote: 'Check the mission details. You can also adjust them in the Workspace.',
   },
 } as const

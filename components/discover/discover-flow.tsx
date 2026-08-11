@@ -98,12 +98,13 @@ export function DiscoverFlow() {
 
       {/* Stage */}
       <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-10 sm:px-8 sm:py-14">
-        {/* Back link — present but light. */}
+        {/* Back link — mobile only. On desktop the clickable stepper already
+            provides backward navigation, so a separate "Précédent" is redundant. */}
         {back && (
           <button
             type="button"
             onClick={() => goTo(back)}
-            className="mb-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#8A8175] transition-colors hover:text-[#1C1A17]"
+            className="mb-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#6E665A] transition-colors hover:text-[#1C1A17] md:hidden"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             {lang === 'fr' ? 'Précédent' : 'Back'}

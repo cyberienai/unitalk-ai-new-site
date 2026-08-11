@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Loader2, ShieldCheck } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
+import { createOnboardingWorkspaceMission } from '@/lib/workspace-missions'
 import type { CompanyFact, MissionInfo } from './types'
 
 // Step 4 — Workspace. A very clean closing screen. The chosen first name leads
@@ -30,6 +31,7 @@ export function ScreenWorkspace({
   const router = useRouter()
 
   const companyName = company.find((f) => f.key === 'name')?.value || ''
+  const companyDomain = company.find((f) => f.key === 'domain')?.value || ''
   const displayName = name.trim() || t.fallbackName
 
   const [phase, setPhase] = useState<'idle' | 'opening'>('idle')
@@ -38,15 +40,26 @@ export function ScreenWorkspace({
   async function open() {
     if (phase === 'opening' || opened.current) return
     setPhase('opening')
-    // A brief, honest beat before opening the Workspace with the kept context.
-    await new Promise((r) => setTimeout(r, 600))
     opened.current = true
-    const params = new URLSearchParams({
-      collaborateur: name.trim(),
-      profil: profile[lang],
-      mission: mission.title,
+
+    // Persist the whole onboarding result the same way the app stores every
+    // real mission — so the account created on the first screen owns it. No
+    // mission data travels in the URL (a mission can be confidential); the
+    // Workspace loads the objects associated with the session.
+    createOnboardingWorkspaceMission({
+      title: mission.title,
+      result: mission.result,
+      rule: mission.rule,
+      validation: mission.validation,
+      profile,
+      collaboratorName: name.trim(),
+      domain: companyDomain || companyName,
+      lang,
     })
-    router.push(`/workspace?${params.toString()}`)
+
+    // A brief, honest beat, then open the Workspace directly — no second login.
+    await new Promise((r) => setTimeout(r, 600))
+    router.push('/workspace')
   }
 
   const recap = [
@@ -97,7 +110,7 @@ export function ScreenWorkspace({
         ))}
       </dl>
 
-      <p className="mt-4 inline-flex items-center gap-1.5 text-[12px] leading-relaxed text-[#8A8175]">
+      <p className="mt-4 inline-flex items-center gap-1.5 text-[12px] leading-relaxed text-[#6E665A]">
         <ShieldCheck className="h-3.5 w-3.5 text-[#2E9E5B]" />
         {t.connNote}
       </p>
