@@ -148,16 +148,16 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
       href={entry.href}
       role="menuitem"
       onClick={onSelect}
-      className="group relative block rounded-xl py-2.5 pl-4 pr-3 outline-none transition-colors duration-200 hover:bg-[#FBF3F7] focus-visible:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      className="group relative block rounded-xl py-2.5 pl-5 pr-3 outline-none transition-colors duration-200 hover:bg-[#FBF3F7] focus-visible:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
     >
       <span
         aria-hidden="true"
-        className="absolute left-0 top-1/2 h-0 w-[2px] -translate-y-1/2 rounded-full bg-[#D10E63] transition-all duration-300 ease-out group-hover:h-[60%]"
+        className="absolute left-0 top-1/2 h-0 w-[3px] -translate-y-1/2 rounded-r-full bg-[#D10E63] transition-all duration-300 ease-out group-hover:h-[62%] group-focus-visible:h-[62%]"
       />
       <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
         {entry.title[lang]}
       </span>
-      <span className="mt-1 block text-[12.5px] leading-snug text-[#857C6E]">{entry.desc[lang]}</span>
+      <span className="mt-1 block text-[12.5px] leading-relaxed text-[#9A9184]">{entry.desc[lang]}</span>
     </a>
   )
 }
@@ -175,7 +175,8 @@ function CollabActionLink({ entry, lang, onSelect }: { entry: MenuAction; lang: 
       {entry.title[lang]}
       <ArrowRight
         aria-hidden="true"
-        className="h-4 w-4 shrink-0 -translate-x-0.5 text-[#D10E63] transition-transform duration-200 group-hover:translate-x-0"
+        strokeWidth={1.75}
+        className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform duration-200 group-hover:translate-x-1"
       />
     </a>
   )
@@ -363,7 +364,7 @@ export function Navbar(
                       style={{ transformOrigin: 'top left' }}
                       className="absolute left-0 top-full w-[680px] max-w-[calc(100vw-2rem)] pt-2"
                     >
-                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
+                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white/85 shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)] backdrop-blur-lg">
                         {/* Two-column body: product (left) vs ecosystem (right) */}
                         <div className="grid grid-cols-[1fr_300px]">
                           {/* Left — Le Collaborateur: the four product bricks */}
@@ -384,7 +385,7 @@ export function Navbar(
                           </div>
 
                           {/* Right — Accompagnement & écosystème, on warmer cream */}
-                          <div className="border-l border-[#EFE8DA] bg-[#FBF8F1] p-3">
+                          <div className="border-l border-[#EFE8DA] bg-[#FBF8F1]/70 p-3">
                             <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
@@ -402,7 +403,7 @@ export function Navbar(
                         </div>
 
                         {/* Footer bar — the single "Pourquoi Unitalk ?" direct link */}
-                        <div className="border-t border-[#EFE8DA] bg-[#FBF8F1] px-3 py-2">
+                        <div className="border-t border-[#EFE8DA] bg-[#FBF8F1]/70 px-3 py-4">
                           {COLLAB_ACTIONS.map((item) => (
                             <CollabActionLink
                               key={item.href}
