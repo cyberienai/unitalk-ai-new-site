@@ -1,53 +1,147 @@
 'use client'
 
 import { useLanguage } from '@/lib/language-context'
+import { useAlma } from '@/components/home/alma-panel-context'
 import { motion } from 'framer-motion'
+import { ArrowRight, Lock, Network } from 'lucide-react'
+
+const ease = [0.16, 1, 0.3, 1] as const
 
 const COPY = {
   fr: {
     kicker: 'Mission après mission',
-    title: 'Votre entreprise devient plus capable. Mission après mission.',
-    ownTitle: 'Votre intelligence vous appartient.',
-    ownBody:
-      'Votre Collaborateur IA développe des compétences à partir des méthodes que vous validez. Votre mémoire, vos données et vos savoir-faire restent sous votre contrôle.',
+    title: 'Votre intelligence vous appartient.',
+    lead: 'Les méthodes que vous validez deviennent un actif que votre entreprise conserve, versionne et partage selon ses droits.',
+    privateTitle: 'Privé par défaut',
+    privateItems: ['Mémoire', 'Données', 'Méthodes', 'Historique'],
+    sharedTitle: 'Partagé par choix',
+    sharedItems: ['Compétences', 'Connaissances', 'Applications', 'Contributions open source'],
+    guardrail: 'Rien n’est partagé automatiquement.',
+    closing: 'Prêt à confier une première mission ?',
+    cta: 'Confier une mission',
+    ctaNote: 'Alma comprend votre besoin et prépare la mission.',
+    proof: ['7 jours pour votre première mission', 'Sans carte bancaire', 'Hébergé en France'],
   },
   en: {
     kicker: 'Mission after mission',
-    title: 'Your company becomes more capable. Mission after mission.',
-    ownTitle: 'Your intelligence belongs to you.',
-    ownBody:
-      'Your AI Collaborator builds skills from the methods you validate. Your memory, your data and your know-how stay under your control.',
+    title: 'Your intelligence belongs to you.',
+    lead: 'The methods you validate become an asset your company keeps, versions and shares according to its rights.',
+    privateTitle: 'Private by default',
+    privateItems: ['Memory', 'Data', 'Methods', 'History'],
+    sharedTitle: 'Shared by choice',
+    sharedItems: ['Skills', 'Knowledge', 'Applications', 'Open-source contributions'],
+    guardrail: 'Nothing is shared automatically.',
+    closing: 'Ready to hand over a first mission?',
+    cta: 'Hand over a mission',
+    ctaNote: 'Alma understands your need and prepares the mission.',
+    proof: ['7 days for your first mission', 'No credit card', 'Hosted in France'],
   },
 }
 
 export function SectionVision() {
   const { lang } = useLanguage()
+  const { openAlma } = useAlma()
   const t = COPY[lang]
+
+  const columns = [
+    { key: 'private', Icon: Lock, title: t.privateTitle, items: t.privateItems, accent: '#B9B2AA' },
+    { key: 'shared', Icon: Network, title: t.sharedTitle, items: t.sharedItems, accent: '#E2A6BB' },
+  ]
 
   return (
     <section className="relative overflow-hidden border-t border-[#2A2723] bg-[#181615] px-6 py-16 sm:py-24">
       {/* single quiet magenta thread anchoring the dark scene — the Unitalk
           signature, kept as a graphic accent only (not a reading color) */}
-      <span aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-24 w-px -translate-x-1/2 bg-gradient-to-b from-[#C22E60] to-transparent" />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 h-24 w-px -translate-x-1/2 bg-gradient-to-b from-[#C22E60] to-transparent"
+      />
 
-      <div className="mx-auto max-w-3xl text-center">
-        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#D9A6B7]">{t.kicker}</p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-[-0.02em] text-[#F4F0EA] sm:text-5xl md:text-6xl"
-        >
-          {t.title}
-        </motion.h2>
+      <div className="mx-auto max-w-4xl">
+        <div className="text-center">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#D9A6B7]">{t.kicker}</p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, ease }}
+            className="mt-6 text-balance font-sf text-4xl font-semibold leading-[1.08] tracking-[-0.02em] text-[#F4F0EA] sm:text-5xl md:text-6xl"
+          >
+            {t.title}
+          </motion.h2>
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#B9B2AA] sm:text-base">
+            {t.lead}
+          </p>
+        </div>
 
-        <p className="mt-10 text-balance font-sf text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-[#F4F0EA] sm:text-3xl">
-          <span className="text-[#E2A6BB]">{t.ownTitle}</span>
+        {/* The governance answer: what stays private vs what can be shared */}
+        <div className="mt-12 grid gap-4 sm:grid-cols-2">
+          {columns.map((col) => (
+            <motion.div
+              key={col.key}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, ease }}
+              className="rounded-2xl border border-[#33302B] bg-[#211D19] p-6 sm:p-7"
+            >
+              <div className="flex items-center gap-2.5">
+                <col.Icon className="h-[18px] w-[18px]" style={{ color: col.accent }} aria-hidden />
+                <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#A09789]">
+                  {col.title}
+                </h3>
+              </div>
+              <ul className="mt-5 flex flex-col gap-3">
+                {col.items.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-[15px] font-medium text-[#F3EFE6]">
+                    <span
+                      className="h-1.5 w-1.5 shrink-0 rounded-full"
+                      style={{ backgroundColor: col.accent }}
+                      aria-hidden
+                    />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Single safety line — makes the boundary explicit */}
+        <p className="mt-6 text-center font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#D9A6B7]">
+          {t.guardrail}
         </p>
-        <p className="mx-auto mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#B9B2AA] sm:text-base">
-          {t.ownBody}
-        </p>
+
+        {/* Closing affirmation + the page's final conversion moment */}
+        <div className="mt-16 text-center">
+          <h3 className="mx-auto max-w-2xl text-balance text-2xl font-semibold leading-[1.15] tracking-[-0.02em] text-[#F4F0EA] sm:text-3xl">
+            {t.closing}
+          </h3>
+
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <button
+              type="button"
+              onClick={() => openAlma()}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-[#D10E63] px-8 py-4 text-base font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#181615]"
+            >
+              {t.cta}
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+            </button>
+            <p className="text-[13px] text-[#B9B2AA]">{t.ctaNote}</p>
+          </div>
+
+          <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {t.proof.map((p) => (
+              <li
+                key={p}
+                className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8E877D]"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[#22A06B]" aria-hidden />
+                {p}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   )
