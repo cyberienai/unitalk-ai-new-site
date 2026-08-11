@@ -3,7 +3,7 @@
 import { useLanguage } from '@/lib/language-context'
 import { useAlma } from '@/components/home/alma-panel-context'
 import { motion } from 'framer-motion'
-import { ArrowRight, Lock, Network } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 const ease = [0.16, 1, 0.3, 1] as const
 
@@ -12,11 +12,6 @@ const COPY = {
     kicker: 'Mission après mission',
     title: 'Votre intelligence vous appartient.',
     lead: 'Les méthodes que vous validez deviennent un actif que votre entreprise conserve, versionne et partage selon ses droits.',
-    privateTitle: 'Privé par défaut',
-    privateItems: ['Mémoire', 'Données', 'Méthodes', 'Historique'],
-    sharedTitle: 'Partagé par choix',
-    sharedItems: ['Compétences', 'Connaissances', 'Applications', 'Contributions open source'],
-    guardrail: 'Rien n’est partagé automatiquement.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Confier une mission',
     ctaNote: 'Alma comprend votre besoin et prépare la mission.',
@@ -26,11 +21,6 @@ const COPY = {
     kicker: 'Mission after mission',
     title: 'Your intelligence belongs to you.',
     lead: 'The methods you validate become an asset your company keeps, versions and shares according to its rights.',
-    privateTitle: 'Private by default',
-    privateItems: ['Memory', 'Data', 'Methods', 'History'],
-    sharedTitle: 'Shared by choice',
-    sharedItems: ['Skills', 'Knowledge', 'Applications', 'Open-source contributions'],
-    guardrail: 'Nothing is shared automatically.',
     closing: 'Ready to hand over a first mission?',
     cta: 'Hand over a mission',
     ctaNote: 'Alma understands your need and prepares the mission.',
@@ -42,11 +32,6 @@ export function SectionVision() {
   const { lang } = useLanguage()
   const { openAlma } = useAlma()
   const t = COPY[lang]
-
-  const columns = [
-    { key: 'private', Icon: Lock, title: t.privateTitle, items: t.privateItems, accent: '#B9B2AA' },
-    { key: 'shared', Icon: Network, title: t.sharedTitle, items: t.sharedItems, accent: '#E2A6BB' },
-  ]
 
   return (
     <section className="relative overflow-hidden border-t border-[#2A2723] bg-[#181615] px-6 py-16 sm:py-24">
@@ -73,44 +58,6 @@ export function SectionVision() {
             {t.lead}
           </p>
         </div>
-
-        {/* The governance answer: what stays private vs what can be shared */}
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
-          {columns.map((col) => (
-            <motion.div
-              key={col.key}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.5, ease }}
-              className="rounded-2xl border border-[#33302B] bg-[#211D19] p-6 sm:p-7"
-            >
-              <div className="flex items-center gap-2.5">
-                <col.Icon className="h-[18px] w-[18px]" style={{ color: col.accent }} aria-hidden />
-                <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#A09789]">
-                  {col.title}
-                </h3>
-              </div>
-              <ul className="mt-5 flex flex-col gap-3">
-                {col.items.map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-[15px] font-medium text-[#F3EFE6]">
-                    <span
-                      className="h-1.5 w-1.5 shrink-0 rounded-full"
-                      style={{ backgroundColor: col.accent }}
-                      aria-hidden
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Single safety line — makes the boundary explicit */}
-        <p className="mt-6 text-center font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#D9A6B7]">
-          {t.guardrail}
-        </p>
 
         {/* Closing affirmation + the page's final conversion moment */}
         <div className="mt-16 text-center">
