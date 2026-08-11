@@ -103,7 +103,7 @@ export function ScreenMission({
             <AlmaHead className="h-11 w-11 shrink-0 ring-1 ring-white/15" />
             <div>
               <p className="font-sf text-[15px] font-bold">Alma</p>
-              <p className="mt-0.5 text-[12px] text-[#BDB5AC]">Unitalk</p>
+              <p className="mt-0.5 text-[12px] text-[#BDB5AC]">{t.almaRole}</p>
             </div>
           </div>
 
@@ -225,6 +225,7 @@ const SUGGESTIONS = {
 const COPY = {
   fr: {
     alma: 'Définissons votre première mission.',
+    almaRole: 'Conseillère IA · Unitalk',
     stepOneDone: 'Étape 1 validée',
     companyFallback: 'Votre entreprise',
     activityFallback: 'Activité à préciser',
@@ -235,6 +236,7 @@ const COPY = {
   },
   en: {
     alma: 'Let’s define your first mission.',
+    almaRole: 'AI advisor · Unitalk',
     stepOneDone: 'Step 1 complete',
     companyFallback: 'Your company',
     activityFallback: 'Activity to be specified',

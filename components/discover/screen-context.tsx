@@ -14,8 +14,6 @@ export function ScreenContext({
   lang,
   firstName,
   lastName,
-  requireFirstName,
-  requireLastName,
   company,
   onChange,
   onIdentityChange,
@@ -24,8 +22,6 @@ export function ScreenContext({
   lang: Lang
   firstName: string
   lastName: string
-  requireFirstName: boolean
-  requireLastName: boolean
   company: CompanyFact[]
   onChange: (next: CompanyFact[]) => void
   onIdentityChange: (identity: { firstName: string; lastName: string }) => void
@@ -42,9 +38,8 @@ export function ScreenContext({
 
   const domain = company.find((fact) => fact.key === 'domain')?.value.trim() ?? ''
   const companyName = company.find((fact) => fact.key === 'name')?.value.trim() ?? ''
-  const firstNameMissing = requireFirstName && !firstName.trim()
-  const lastNameMissing = requireLastName && !lastName.trim()
-  const identityRequired = requireFirstName || requireLastName
+  const firstNameMissing = !firstName.trim()
+  const lastNameMissing = !lastName.trim()
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -124,64 +119,52 @@ export function ScreenContext({
       </section>
 
       <section className="flex min-w-0 flex-col px-6 py-7 sm:px-9 sm:py-8 lg:px-10 lg:py-9">
-        <div className="flex items-center gap-3">
+        <div>
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">{t.yourInformation}</p>
+          <div className="mt-2 grid gap-3 sm:grid-cols-2">
+            <label className="block text-[11px] font-semibold text-[#4E483F]">
+              {t.firstName}
+              <input
+                type="text"
+                autoComplete="given-name"
+                value={firstName}
+                onChange={(event) => onIdentityChange({ firstName: event.target.value, lastName })}
+                onBlur={() => setFirstNameTouched(true)}
+                aria-invalid={(submitted || firstNameTouched) && firstNameMissing}
+                className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
+              />
+              {(submitted || firstNameTouched) && firstNameMissing && <span className="mt-1 block text-[10px] text-[#A80B50]">{t.required}</span>}
+            </label>
+            <label className="block text-[11px] font-semibold text-[#4E483F]">
+              {t.lastName}
+              <input
+                type="text"
+                autoComplete="family-name"
+                value={lastName}
+                onChange={(event) => onIdentityChange({ firstName, lastName: event.target.value })}
+                onBlur={() => setLastNameTouched(true)}
+                aria-invalid={(submitted || lastNameTouched) && lastNameMissing}
+                className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
+              />
+              {(submitted || lastNameTouched) && lastNameMissing && <span className="mt-1 block text-[10px] text-[#A80B50]">{t.required}</span>}
+            </label>
+          </div>
+        </div>
+
+        <div className="mt-5 flex items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#E3DACB] bg-white text-[#8A8175] shadow-sm">
             {domain && !logoFailed ? (
-              // Clearbit serves a domain logo directly; onError keeps the form usable when none exists.
               // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={`https://logo.clearbit.com/${encodeURIComponent(domain)}`}
-                alt=""
-                className="h-full w-full object-contain p-1"
-                onError={() => setLogoFailed(true)}
-              />
+              <img src={`https://logo.clearbit.com/${encodeURIComponent(domain)}`} alt="" className="h-full w-full object-contain p-1" onError={() => setLogoFailed(true)} />
             ) : (
               <Building2 className="h-5 w-5" />
             )}
           </span>
           <div>
-            <h2 className="font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{companyName || t.cardTitle}</h2>
-            <p className="mt-0.5 text-[11px] text-[#8A8175]">{t.cardTitle}</p>
+            <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">{t.yourCompany}</p>
+            <h2 className="mt-0.5 font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{companyName || t.cardTitle}</h2>
           </div>
         </div>
-
-        {identityRequired && (
-          <div className="mt-5">
-            <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">{t.aboutYou}</p>
-            <div className="mt-2 grid gap-3 sm:grid-cols-2">
-              {requireFirstName && (
-                <label className="block text-[11px] font-semibold text-[#4E483F]">
-                  {t.firstName}
-                  <input
-                    type="text"
-                    autoComplete="given-name"
-                    value={firstName}
-                    onChange={(event) => onIdentityChange({ firstName: event.target.value, lastName })}
-                    onBlur={() => setFirstNameTouched(true)}
-                    aria-invalid={(submitted || firstNameTouched) && firstNameMissing}
-                    className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
-                  />
-                  {(submitted || firstNameTouched) && firstNameMissing && <span className="mt-1 block text-[10px] text-[#A80B50]">{t.required}</span>}
-                </label>
-              )}
-              {requireLastName && (
-                <label className="block text-[11px] font-semibold text-[#4E483F]">
-                  {t.lastName}
-                  <input
-                    type="text"
-                    autoComplete="family-name"
-                    value={lastName}
-                    onChange={(event) => onIdentityChange({ firstName, lastName: event.target.value })}
-                    onBlur={() => setLastNameTouched(true)}
-                    aria-invalid={(submitted || lastNameTouched) && lastNameMissing}
-                    className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
-                  />
-                  {(submitted || lastNameTouched) && lastNameMissing && <span className="mt-1 block text-[10px] text-[#A80B50]">{t.required}</span>}
-                </label>
-              )}
-            </div>
-          </div>
-        )}
 
         <dl className="mt-5 flex-1 divide-y divide-[#EBE4D6] border-y border-[#EBE4D6]">
           {company.filter((fact) => fact.key !== 'clients').map((fact) => {
@@ -253,7 +236,7 @@ export function ScreenContext({
           <button
             type="button"
             onClick={confirmCompany}
-            disabled={status === 'confirmed' || firstNameMissing || lastNameMissing}
+            disabled={status === 'confirmed'}
             className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-wait disabled:opacity-80"
           >
             {status === 'confirmed' ? t.confirmedCta : t.confirm}
@@ -279,12 +262,13 @@ const COPY = {
     prefilledAfter: 'à partir de votre domaine professionnel. Corrigez ce qui ne va pas.',
     confirmed: 'Parfait. Votre entreprise est prête. Passons à la mission.',
     almaName: 'Alma',
-    almaRole: 'Unitalk',
+    almaRole: 'Conseillère IA · Unitalk',
     cardTitle: 'Votre fiche entreprise',
     toConfirm: 'À confirmer',
     save: 'Enregistrer',
     cancel: 'Annuler',
-    aboutYou: 'À propos de vous',
+    yourInformation: 'Vos informations',
+    yourCompany: 'Votre entreprise',
     firstName: 'Prénom',
     lastName: 'Nom',
     required: 'Ce champ est requis.',
@@ -300,12 +284,13 @@ const COPY = {
     prefilledAfter: 'from your professional domain. Correct anything that is wrong.',
     confirmed: 'Perfect. Your company is ready. Let’s move on to the mission.',
     almaName: 'Alma',
-    almaRole: 'Unitalk',
+    almaRole: 'AI advisor · Unitalk',
     cardTitle: 'Your company profile',
     toConfirm: 'To confirm',
     save: 'Save',
     cancel: 'Cancel',
-    aboutYou: 'About you',
+    yourInformation: 'Your information',
+    yourCompany: 'Your company',
     firstName: 'First name',
     lastName: 'Last name',
     required: 'This field is required.',

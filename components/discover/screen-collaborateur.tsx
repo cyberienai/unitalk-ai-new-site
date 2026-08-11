@@ -11,12 +11,14 @@ import type { MissionInfo } from './types'
 export function ScreenCollaborateur({
   lang,
   mission,
+  profile,
   name,
   onName,
   onCreated,
 }: {
   lang: Lang
   mission: MissionInfo
+  profile: { fr: string; en: string }
   name: string
   onName: (name: string) => void
   onCreated: (name: string) => void
@@ -30,20 +32,21 @@ export function ScreenCollaborateur({
   function createCollaborator() {
     if (!displayName || opening) return
     setOpening(true)
+    void profile
     onCreated(displayName)
     router.push('/workspace')
   }
 
   return (
     <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:grid-cols-[minmax(16rem,1fr)_minmax(0,2fr)]">
-      <aside className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-6 text-white sm:px-8 lg:min-h-[23rem] lg:px-9">
+      <aside className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-6 text-white sm:px-8 lg:px-9">
         <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#D10E63]/15 blur-3xl" />
         <div className="relative flex h-full flex-col">
           <div className="flex items-center gap-3">
             <AlmaHead className="h-11 w-11 shrink-0 ring-1 ring-white/15" />
             <div>
               <p className="font-sf text-[15px] font-bold">Alma</p>
-              <p className="mt-0.5 text-[12px] text-[#BDB5AC]">Unitalk</p>
+              <p className="mt-0.5 text-[12px] text-[#BDB5AC]">{t.almaRole}</p>
             </div>
           </div>
 
@@ -119,6 +122,7 @@ function capitalizeName(value: string): string {
 const COPY = {
   fr: {
     alma: 'Donnez-lui un prénom.',
+    almaRole: 'Conseillère IA · Unitalk',
     mission: 'Mission',
     previousStepsDone: 'Étapes 1 et 2 validées',
     firstName: 'Prénom',
@@ -130,6 +134,7 @@ const COPY = {
   },
   en: {
     alma: 'Give them a first name.',
+    almaRole: 'AI advisor · Unitalk',
     mission: 'Mission',
     previousStepsDone: 'Steps 1 and 2 complete',
     firstName: 'First name',
