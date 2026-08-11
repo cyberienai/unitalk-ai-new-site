@@ -44,7 +44,7 @@ export function PricingHero() {
   const t = COPY[lang]
   return (
     <header className="mx-auto w-full max-w-4xl px-5 pb-4 pt-20 text-center sm:px-8 sm:pt-24">
-      <h1 className="text-balance font-sf text-[36px] font-bold leading-[1.06] tracking-[-0.035em] sm:text-[52px]">
+      <h1 className="hero-heading text-[#1C1A17]">
         {t.heroTitle}
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-pretty text-[16px] leading-relaxed text-[#4E483F] sm:text-[17px]">

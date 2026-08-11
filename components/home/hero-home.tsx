@@ -89,7 +89,7 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           </div>
 
           {/* Stable positioning headline (does not rotate). */}
-          <h1 className="text-balance text-center font-sf text-[clamp(2rem,4vw,3.15rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-[#1C1A17] sm:text-left">
+          <h1 className="hero-heading text-center text-[#1C1A17] sm:text-left">
             {t.headline}
           </h1>
 

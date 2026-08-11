@@ -163,6 +163,17 @@
     "Helvetica Neue", "Inter", "Segoe UI", system-ui, sans-serif;
 }
 
+/* Shared hero typography for the main public pages. */
+@utility hero-heading {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: clamp(2rem, 4vw, 3.15rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
 /* Hide scrollbar while keeping scroll functionality (Tailwind v4 custom utility) */
 @utility scrollbar-hide {
   -ms-overflow-style: none;

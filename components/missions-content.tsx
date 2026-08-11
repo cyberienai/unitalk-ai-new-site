@@ -113,7 +113,7 @@ export function MissionsContent() {
     <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-[4.5rem] text-[#1C1A17] sm:pt-20">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
-          <h1 className="text-balance font-sf text-[clamp(2rem,5vw,3.7rem)] font-semibold leading-[1.06] tracking-[-0.05em]">
+          <h1 className="hero-heading">
             {t.title}
           </h1>
 
