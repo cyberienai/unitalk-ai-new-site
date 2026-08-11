@@ -1,14 +1,13 @@
 'use client'
 
 import { useLanguage } from '@/lib/language-context'
-import { minimumCreditBudget, pricingConfig } from '@/lib/pricing-config'
+import { minimumCreditBudget } from '@/lib/pricing-config'
 import { formatEuro } from './format'
 
 const COPY = {
   fr: {
     heroTitleLine1: 'Un Collaborateur IA.',
     heroTitleLine2: 'Des profils métier illimités.',
-    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'fr')} par mois, hors usages IA après l’essai.`,
     billedTitleLine1: 'Votre Collaborateur développe ses compétences',
     billedTitleLine2: 'au fil de vos missions.',
     billed: [
@@ -20,7 +19,6 @@ const COPY = {
   en: {
     heroTitleLine1: 'One AI Collaborator.',
     heroTitleLine2: 'Unlimited job profiles.',
-    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'en')} per month, excluding AI usage after the trial.`,
     billedTitleLine1: 'Your AI Collaborator develops its skills',
     billedTitleLine2: 'through your missions.',
     billed: [
@@ -40,9 +38,6 @@ export function PricingHero() {
         <span className="block">{t.heroTitleLine1}</span>
         <span className="block">{t.heroTitleLine2}</span>
       </h1>
-      <p className="mx-auto mt-3 max-w-2xl text-pretty text-[16px] leading-relaxed text-[#4E483F] sm:text-[17px]">
-        {t.heroSubtitle}
-      </p>
     </header>
   )
 }

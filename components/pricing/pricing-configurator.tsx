@@ -23,6 +23,7 @@ const COPY = {
     perMonth: (price: string) => `${price}/mois`,
     annualEquivalent: (price: string) => `${price}/mois`,
     annualBilled: (price: string) => `Équivalent mensuel · ${price} facturés par an`,
+    usageSeparate: 'Usages IA réglés séparément après l’essai.',
     offer: 'L’offre',
     includedTitle: 'Inclus',
     included: [
@@ -53,7 +54,6 @@ const COPY = {
     appliedTier: (label: string, price: string) => `Palier ${label} · ${price} chacun`,
     readyFor: 'Déjà prêt pour :',
     readyCapabilities: 'Réunions · Documents · Images · Vidéo',
-    readyNote: 'Capacités préinstallées et incluses. Profils métier et compétences illimités.',
   },
   en: {
     billingLegend: 'Billing cycle',
@@ -64,6 +64,7 @@ const COPY = {
     perMonth: (price: string) => `${price}/month`,
     annualEquivalent: (price: string) => `${price}/month`,
     annualBilled: (price: string) => `Monthly equivalent · ${price} billed annually`,
+    usageSeparate: 'AI usage is paid separately after the trial.',
     offer: 'The offer',
     includedTitle: 'Included',
     included: [
@@ -94,7 +95,6 @@ const COPY = {
     appliedTier: (label: string, price: string) => `Tier ${label} · ${price} each`,
     readyFor: 'Already ready for:',
     readyCapabilities: 'Meetings · Documents · Images · Video',
-    readyNote: 'Preinstalled and included capabilities. Unlimited job profiles and skills.',
   },
 } as const
 
@@ -173,6 +173,7 @@ export function PricingConfigurator() {
               {annual ? t.annualEquivalent(money(calc.annualEquivalentMonthly)) : t.perMonth(money(calc.monthlySubscription))}
             </p>
             {annual && <p className="mt-1 text-sm text-[#6E665A]">{t.annualBilled(money(calc.annualSubscription))}</p>}
+            <p className="mt-4 text-[13px] leading-relaxed text-[#6E665A]">{t.usageSeparate}</p>
           </div>
         </div>
 
@@ -215,11 +216,10 @@ export function PricingConfigurator() {
         </div>
       </div>
 
-      <div className="mt-3 border-t border-[#E4DDCE] bg-[#F8F5EE] px-4 py-3 text-left sm:flex sm:items-baseline sm:justify-between sm:gap-5 sm:px-5">
+      <div className="mt-3 border-t border-[#E4DDCE] bg-[#F8F5EE] px-4 py-3 text-left sm:px-5">
         <p className="text-sm font-semibold text-[#1C1A17]">
           {t.readyFor} <span className="font-medium">{t.readyCapabilities}</span>
         </p>
-        <p className="mt-1 text-[12px] leading-relaxed text-[#6E665A] sm:mt-0 sm:text-right">{t.readyNote}</p>
       </div>
 
       <div className="mt-4 text-center">
