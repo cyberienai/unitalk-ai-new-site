@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, ArrowUp, Check, Mic, Square } from 'lucide-react'
+import { ArrowUp, Check, Mic, Square } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import { seededMission, type CompanyFact, type MissionInfo } from './types'
@@ -96,7 +96,7 @@ export function ScreenMission({
 
   return (
     <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:grid-cols-[minmax(16rem,1fr)_minmax(0,2fr)]">
-      <aside className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-7 text-white sm:px-8 lg:min-h-[27rem] lg:px-9">
+      <aside className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-7 text-white sm:px-8 lg:min-h-[24rem] lg:px-9">
         <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#D10E63]/15 blur-3xl" />
         <div className="relative flex h-full flex-col">
           <div className="flex items-center gap-3">
@@ -190,18 +190,6 @@ export function ScreenMission({
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col items-end">
-          <button
-            type="button"
-            onClick={submitMission}
-            disabled={!hasMission || submitting}
-            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:bg-[#D8D0C2] disabled:text-[#6E665A]"
-          >
-            {t.continue}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </button>
-          <p className="mt-2 text-[11px] text-[#6E665A]">{t.ctaNote}</p>
-        </div>
       </section>
     </div>
   )
@@ -244,8 +232,6 @@ const COPY = {
     talk: 'Dicter la mission',
     send: 'Envoyer la mission',
     suggestions: 'Suggestions',
-    continue: 'Continuer',
-    ctaNote: 'Alma prépare votre Collaborateur IA.',
   },
   en: {
     alma: 'Let’s define your first mission.',
@@ -256,7 +242,5 @@ const COPY = {
     talk: 'Dictate the mission',
     send: 'Send the mission',
     suggestions: 'Suggestions',
-    continue: 'Continue',
-    ctaNote: 'Alma is preparing your AI Collaborator.',
   },
 } as const
