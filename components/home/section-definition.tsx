@@ -28,7 +28,7 @@ const T = {
     cols: [
       { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise la mission, le résultat attendu, les règles et les décisions qui doivent rester humaines.', chip: 'Mission définie' },
       { n: '02', head: 'L’affectation', big: 'Alma prépare votre Collaborateur IA.', proof: 'Avec le contexte, les accès et les compétences nécessaires à la mission.', chip: 'Collaborateur prêt' },
-      { n: '03', head: 'Le travail', big: 'Il accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
+      { n: '03', head: 'Le travail', big: 'Votre Collaborateur IA accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
       { n: '04', head: 'La capitalisation', big: 'L’expérience est conservée.', proof: 'Une méthode testée et validée peut ensuite devenir une compétence réutilisable, privée ou publiée selon vos choix.', chip: 'Expérience conservée' },
     ],
     closeLead: 'Tout commence par une conversation.',
@@ -40,7 +40,7 @@ const T = {
     cols: [
       { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She clarifies the mission, the expected outcome, the rules and the decisions that must stay human.', chip: 'Mission defined' },
       { n: '02', head: 'The assignment', big: 'Alma prepares your AI Collaborator.', proof: 'With the context, access and skills needed for the mission.', chip: 'Collaborator ready' },
-      { n: '03', head: 'The work', big: 'It carries out the mission.', proof: 'It acts within the defined scope and asks you whenever a human decision is needed.', chip: 'Mission in progress' },
+      { n: '03', head: 'The work', big: 'Your AI Collaborator carries out the mission.', proof: 'It acts within the defined scope and asks you whenever a human decision is needed.', chip: 'Mission in progress' },
       { n: '04', head: 'Capitalization', big: 'The experience is preserved.', proof: 'A tested and validated method can then become a reusable skill — private or published, as you choose.', chip: 'Experience preserved' },
     ],
     closeLead: 'It all starts with a conversation.',
