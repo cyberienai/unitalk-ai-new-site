@@ -81,6 +81,21 @@ export function ScreenContext({
     )
   }
 
+  function toggleClient(option: string, current: string) {
+    const options = new Set(CLIENT_OPTIONS[lang])
+    const values = current.split(',').map((value) => value.trim()).filter(Boolean)
+    const selected = values.filter((value) => options.has(value as never))
+    const custom = values.filter((value) => !options.has(value as never))
+    const nextSelected = selected.includes(option) ? selected.filter((value) => value !== option) : [...selected, option]
+    updateClients([...nextSelected, ...custom].join(', '))
+  }
+
+  function updateCustomClients(value: string, current: string) {
+    const options = new Set(CLIENT_OPTIONS[lang])
+    const selected = current.split(',').map((item) => item.trim()).filter((item) => options.has(item as never))
+    updateClients([...selected, value.trim()].filter(Boolean).join(', '))
+  }
+
   return (
     <div className="grid overflow-hidden rounded-[2rem] border border-[#DED5C5] bg-[#FBF9F3] shadow-[0_30px_80px_-42px_rgba(28,26,23,0.5)] lg:min-h-[34rem] lg:grid-cols-[minmax(19rem,0.8fr)_minmax(0,1.2fr)]">
       <section className="relative flex min-w-0 flex-col overflow-hidden bg-[#211E1A] px-6 py-8 text-[#FBF9F3] sm:px-9 lg:px-10 lg:py-10">
@@ -148,17 +163,17 @@ export function ScreenContext({
                     <div>
                       <div className="flex flex-wrap gap-1.5">
                         {CLIENT_OPTIONS[lang].map((option) => {
-                          const selected = fact.value === option
+                          const selected = fact.value.split(',').map((value) => value.trim()).includes(option)
                           return (
                             <button
                               key={option}
                               type="button"
                               aria-pressed={selected}
-                              onClick={() => updateClients(option)}
+                              onClick={() => toggleClient(option, fact.value)}
                               className={[
                                 'rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors',
                                 selected
-                                  ? 'border-[#D10E63] bg-[#D10E63]/10 text-[#B00C54]'
+                                  ? 'border-[#D10E63] bg-[#D10E63] text-white'
                                   : 'border-[#DED5C5] bg-white text-[#6E665A] hover:border-[#D10E63]/40',
                               ].join(' ')}
                             >
@@ -169,12 +184,17 @@ export function ScreenContext({
                       </div>
                       <input
                         type="text"
-                        value={fact.value}
-                        onChange={(event) => updateClients(event.target.value)}
+                        value={fact.value
+                          .split(',')
+                          .map((value) => value.trim())
+                          .filter((value) => !CLIENT_OPTIONS[lang].includes(value as never))
+                          .join(', ')}
+                        onChange={(event) => updateCustomClients(event.target.value, fact.value)}
                         placeholder={t.clientsOther}
                         aria-label={t.clientsOther}
                         className="mt-2 w-full rounded-lg border border-[#DED5C5] bg-white px-3 py-2 text-[12px] text-[#1C1A17] outline-none placeholder:text-[#A79F91] focus:border-[#D10E63]/50 focus:ring-3 focus:ring-[#D10E63]/10"
                       />
+                      {!fact.value.trim() && <p className="mt-1.5 text-[10px] text-[#6E665A]">{t.clientsNote}</p>}
                     </div>
                   ) : isEditing ? (
                     <div>
@@ -262,12 +282,13 @@ const COPY = {
     prefilled: "J’ai trouvé ces informations à partir de votre domaine professionnel. Corrigez ce qui ne correspond pas.",
     confirmed: 'Parfait. Votre entreprise est prête. Passons à la mission.',
     almaName: 'Alma',
-    almaRole: 'Conseillère en transformation IA',
+    almaRole: 'Unitalk',
     cardTitle: 'Votre fiche entreprise',
     toConfirm: 'À confirmer',
     save: 'Enregistrer',
     cancel: 'Annuler',
     clientsOther: 'Autre type de clients…',
+    clientsNote: 'Vous pourrez modifier depuis le Workspace.',
     confirm: "C’est correct · Définir ma mission",
     confirmedCta: 'Entreprise confirmée',
     ctaNote: 'Alma va vous guider pour décrire votre première mission.',
@@ -280,12 +301,13 @@ const COPY = {
     prefilled: 'I found this information from your work domain. Correct anything that does not match.',
     confirmed: 'Perfect. Your company is ready. Let’s move on to the mission.',
     almaName: 'Alma',
-    almaRole: 'AI transformation advisor',
+    almaRole: 'Unitalk',
     cardTitle: 'Your company profile',
     toConfirm: 'To confirm',
     save: 'Save',
     cancel: 'Cancel',
     clientsOther: 'Another customer type…',
+    clientsNote: 'You can edit this later from the Workspace.',
     confirm: 'Looks right · Define my mission',
     confirmedCta: 'Company confirmed',
     ctaNote: 'Alma will guide you through describing your first mission.',

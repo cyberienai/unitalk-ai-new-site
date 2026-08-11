@@ -82,14 +82,14 @@ export function DiscoverFlow() {
   return (
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
       {/* Header with stepper */}
-      <header className="flex items-center justify-between gap-4 border-b border-[#E4DDCE] px-5 py-4 sm:px-8">
+      <header className="flex items-center justify-between gap-4 px-5 py-4 sm:px-8">
         <a href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Unitalk">
           <UnitalkLogo size={22} />
           <span className="font-inter text-sm font-semibold">Unitalk</span>
         </a>
 
         <div className="hidden flex-1 justify-center md:flex">
-          {step !== 'entreprise' && step !== 'mission' && <FlowStepper current={step} lang={lang} onStepClick={goTo} />}
+          {step !== 'entreprise' && <FlowStepper current={step} lang={lang} onStepClick={goTo} />}
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -106,12 +106,12 @@ export function DiscoverFlow() {
       </header>
 
       {/* Mobile stepper */}
-      <div className="border-b border-[#E4DDCE] px-5 py-3 md:hidden">
+      <div className="px-5 py-3 md:hidden">
         <FlowStepper current={step} lang={lang} onStepClick={goTo} />
       </div>
 
       {/* Stage */}
-      <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-10 sm:px-8 sm:py-14">
+      <div className={`mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8 ${step === 'mission' ? 'py-5 sm:py-7' : 'py-10 sm:py-14'}`}>
         {/* Back link — mobile only. On desktop the clickable stepper already
             provides backward navigation, so a separate "Précédent" is redundant. */}
         {back && (
@@ -142,11 +142,8 @@ export function DiscoverFlow() {
                 lang={lang}
                 company={state.company}
                 mission={state.mission}
-                defined={state.missionDefined}
-                onChange={(mission) => setState((s) => ({ ...s, mission }))}
                 onDefine={(mission) => setState((s) => ({ ...s, mission, missionDefined: true }))}
                 onContinue={() => goTo('collaborateur')}
-                stepper={<FlowStepper current={step} lang={lang} onStepClick={goTo} variant="panel" />}
               />
             )}
 
