@@ -17,14 +17,19 @@ export function ScreenAccount({ lang, onAuthenticated }: { lang: Lang; onAuthent
   const reduce = useReducedMotion()
   const t = COPY[lang]
   const [pending, setPending] = useState<AuthProvider | null>(null)
+  const [email, setEmail] = useState('')
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
 
   async function go(provider: AuthProvider) {
     if (pending) return
+    // For the email path, require a valid address before creating the session.
+    if (provider === 'email' && !emailValid) return
     setPending(provider)
     try {
       // Create the session up front — the account exists from the very first
       // screen, so the journey ends by opening the Workspace, not by re-login.
-      await startSession(provider)
+      await startSession(provider, provider === 'email' ? email.trim() : undefined)
       onAuthenticated()
     } catch {
       setPending(null)
@@ -67,7 +72,26 @@ export function ScreenAccount({ lang, onAuthenticated }: { lang: Lang; onAuthent
             <span className="h-px flex-1 bg-[#E4DDCE]" />
           </div>
 
-          <AuthButton onClick={() => go('email')} pending={pending === 'email'} disabled={!!pending}>
+          <input
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) go('email')
+            }}
+            placeholder={t.emailPlaceholder}
+            aria-label={t.emailPlaceholder}
+            disabled={!!pending}
+            className="h-12 w-full rounded-xl border border-[#E4DDCE] bg-white px-4 text-center text-[15px] text-[#1C1A17] shadow-[0_1px_0_rgba(255,255,255,0.7)_inset] outline-none transition-colors placeholder:text-[#A79F91] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/25 disabled:opacity-70"
+          />
+
+          <AuthButton
+            onClick={() => go('email')}
+            pending={pending === 'email'}
+            disabled={!!pending || !emailValid}
+          >
             <Mail className="h-[18px] w-[18px] text-[#6E665A]" />
             {t.email}
           </AuthButton>
@@ -144,6 +168,7 @@ const COPY = {
     subtitle: 'Utilisez votre adresse professionnelle pour commencer.',
     google: 'Continuer avec Google',
     microsoft: 'Continuer avec Microsoft',
+    emailPlaceholder: 'vous@entreprise.com',
     email: 'Recevoir un lien par email',
     or: 'ou',
     reassure: 'Aucun mot de passe, aucune carte bancaire. Vous pourrez tout ajuster ensuite.',
@@ -153,6 +178,7 @@ const COPY = {
     subtitle: 'Use your work email to get started.',
     google: 'Continue with Google',
     microsoft: 'Continue with Microsoft',
+    emailPlaceholder: 'you@company.com',
     email: 'Get a link by email',
     or: 'or',
     reassure: 'No password, no credit card. You can adjust everything later.',
