@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
-import { ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import { estimatedDurationMinutes } from '@/lib/missions-store'
 import type { Lang } from '@/lib/language-context'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
@@ -43,43 +44,35 @@ function MetaRow({ parts }: { parts: string[] }) {
 export function StoreCard({
   mission,
   lang,
-  onSelect,
 }: {
   mission: Mission
   lang: Lang
-  onSelect: (m: Mission, trigger: HTMLElement | null) => void
 }) {
-  const selectLabel =
-    lang === 'fr' ? `Confier « ${mission.title[lang]} » à Alma` : `Hand "${mission.title[lang]}" to Alma`
-
-  // The entire card is a button: clicking it loads the mission into Alma and
-  // triggers the flying-card handoff. Deliberately minimal — only title,
-  // description and the action; creator/category stay in the data model but are
-  // not surfaced until community missions ship.
+  const category = categoryLabel(MISSION_CATEGORIES, mission.category, lang)
+  const duration = estimatedDurationMinutes(mission)
   return (
-    <button
-      type="button"
-      onClick={(e) => onSelect(mission, e.currentTarget)}
-      aria-label={selectLabel}
+    <Link
+      href={`/missions/${mission.slug}`}
       data-mission-card={mission.slug}
       style={{ boxShadow: SHADOW_REST }}
-      className="group relative flex w-full flex-col rounded-[10px] bg-[var(--store-surface)] p-6 text-left transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
+      className="group relative flex min-h-48 w-full flex-col rounded-2xl bg-[var(--store-surface)] p-5 text-left transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <h3 className="line-clamp-2 font-sf text-[19px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="line-clamp-2 font-sf text-[18px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[var(--store-muted)]">{mission.result[lang]}</p>
-      {/* Action row: a bare arrow at rest that unfolds into "Confier cette mission"
-          on hover/focus, so the whole card's purpose stays obvious. */}
-      <div className="mt-4 flex items-center justify-end gap-1.5">
-        <span className="max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold text-[#AD0C53] opacity-0 transition-all duration-200 group-hover:max-w-[220px] group-hover:opacity-100 group-focus-visible:max-w-[220px] group-focus-visible:opacity-100">
-          {lang === 'fr' ? 'Confier cette mission' : 'Assign this mission'}
-        </span>
-        <ArrowRight className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
+      <p className="mt-2 line-clamp-1 text-sm leading-[1.5] text-[#6E665A]">{mission.result[lang]}</p>
+      <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+        <div className="flex flex-wrap gap-1.5">
+          <span className="rounded-full bg-[#F3EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#5A544A]">
+            ~{duration} min
+          </span>
+          <span className="max-w-48 truncate rounded-full bg-[#F3EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#5A544A]">{category}</span>
+        </div>
+        <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
-    </button>
+    </Link>
   )
 }
 

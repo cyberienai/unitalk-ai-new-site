@@ -110,14 +110,34 @@ export function matchesFilters(m: Mission, f: StoreFilters): boolean {
 }
 
 // --- Sort ------------------------------------------------------------------
-export type SortKey = 'recommended' | 'recent' | 'az'
+export type SortKey = 'recommended' | 'recent' | 'az' | 'duration'
 export const DEFAULT_SORT: SortKey = 'recommended'
 
 export const SORT_OPTIONS: { key: SortKey; label: Bilingual }[] = [
   { key: 'recommended', label: { fr: 'Recommandées', en: 'Recommended' } },
   { key: 'recent', label: { fr: 'Plus récentes', en: 'Most recent' } },
   { key: 'az', label: { fr: 'Ordre alphabétique', en: 'Alphabetical' } },
+  { key: 'duration', label: { fr: 'Durée croissante', en: 'Shortest duration' } },
 ]
+
+const CATEGORY_DURATION: Record<string, number> = {
+  ventes: 30,
+  'relation-client': 20,
+  marketing: 45,
+  reunions: 20,
+  administration: 30,
+  finance: 45,
+  rh: 40,
+  direction: 60,
+  documents: 35,
+  analyse: 60,
+  operations: 45,
+  produit: 60,
+}
+
+export function estimatedDurationMinutes(mission: Mission): number {
+  return CATEGORY_DURATION[mission.category] ?? 30
+}
 
 export function sortMissions(list: Mission[], sort: SortKey, lang: Lang): Mission[] {
   if (sort === 'recommended') return [...list].sort((a, b) => a.order - b.order)
@@ -126,6 +146,8 @@ export function sortMissions(list: Mission[], sort: SortKey, lang: Lang): Missio
     copy.sort((a, b) => (a.dateAdded < b.dateAdded ? 1 : a.dateAdded > b.dateAdded ? -1 : a.order - b.order))
   } else if (sort === 'az') {
     copy.sort((a, b) => a.title[lang].localeCompare(b.title[lang], lang))
+  } else if (sort === 'duration') {
+    copy.sort((a, b) => estimatedDurationMinutes(a) - estimatedDurationMinutes(b) || a.order - b.order)
   }
   return copy
 }
@@ -152,7 +174,7 @@ export function filtersFromParams(params: URLSearchParams): StoreFilters {
 
 export function sortFromParams(params: URLSearchParams): SortKey {
   const v = params.get('tri')
-  return v === 'recent' || v === 'az' ? v : DEFAULT_SORT
+  return v === 'recent' || v === 'az' || v === 'duration' ? v : DEFAULT_SORT
 }
 
 // Builds a clean query string, omitting defaults so URLs stay tidy.
