@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
-import { estimatedDurationMinutes } from '@/lib/missions-store'
 import type { Lang } from '@/lib/language-context'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
@@ -51,7 +50,6 @@ export function StoreCard({
   onSelect: (mission: Mission) => void
 }) {
   const category = shortCategoryLabel(mission.category, lang)
-  const duration = estimatedDurationMinutes(mission)
   return (
     <button
       type="button"
@@ -65,12 +63,7 @@ export function StoreCard({
       </h3>
       <p className="mt-2 line-clamp-2 text-sm leading-[1.5] text-[#6E665A]">{mission.result[lang]}</p>
       <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-        <div className="flex flex-wrap gap-1.5">
-          <span className="rounded-full bg-[#F3EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#5A544A]">
-            ~{duration} min
-          </span>
-          <span className="whitespace-nowrap rounded-full bg-[#F3EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#5A544A]">{category}</span>
-        </div>
+        <span className="text-[11px] font-semibold text-[#6E665A]">{category}</span>
         <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </button>

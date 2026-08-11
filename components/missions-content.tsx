@@ -1,58 +1,24 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ChevronDown, Mic, Search, SlidersHorizontal, Square, X } from 'lucide-react'
-import {
-  MISSIONS,
-  MISSION_CATEGORIES,
-  type Mission,
-} from '@/lib/missions-catalog'
-import {
-  CATEGORY_FACETS,
-  SECTORS,
-  ZONES,
-  LANGUAGES,
-  MODALITIES,
-  searchMissions,
-  matchesFilters,
-  activeFilterCount,
-  sortMissions,
-  filtersFromParams,
-  sortFromParams,
-  buildParams,
-  SORT_OPTIONS,
-  EMPTY_FILTERS,
-  type Facet,
-  type SortKey,
-  type StoreFilters,
-} from '@/lib/missions-store'
+import { useRouter } from 'next/navigation'
+import { Mic, Square } from 'lucide-react'
+import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
 
-type FilterKey = 'secteur' | 'zone' | 'langue' | 'modalite'
-
-const FILTERS: { key: FilterKey; label: { fr: string; en: string }; options: Facet[] }[] = [
-  { key: 'secteur', label: { fr: 'Secteur', en: 'Industry' }, options: SECTORS },
-  { key: 'zone', label: { fr: 'Zone', en: 'Region' }, options: ZONES },
-  { key: 'langue', label: { fr: 'Langue', en: 'Language' }, options: LANGUAGES },
-  { key: 'modalite', label: { fr: 'Modalité', en: 'Format' }, options: MODALITIES },
-]
+const PRIMARY_CATEGORIES = ['ventes', 'relation-client', 'marketing', 'finance', 'rh'] as const
+const SECONDARY_CATEGORIES = ['reunions', 'administration', 'direction', 'documents', 'analyse', 'operations', 'produit'] as const
 
 export function MissionsContent() {
   const { lang } = useLanguage()
   const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get('q') ?? '')
+  const t = COPY[lang]
   const [need, setNeed] = useState('')
-  const [sort, setSort] = useState<SortKey>(() => sortFromParams(new URLSearchParams(searchParams.toString())))
-  const [filters, setFilters] = useState<StoreFilters>(() =>
-    filtersFromParams(new URLSearchParams(searchParams.toString())),
-  )
+  const [category, setCategory] = useState('all')
+  const [showOthers, setShowOthers] = useState(false)
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const recognitionRef = useRef<any>(null)
 
   useEffect(() => {
@@ -61,6 +27,7 @@ export function MissionsContent() {
         ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
         : undefined
     if (!SpeechRecognition) return
+
     setVoiceSupported(true)
     const recognition = new SpeechRecognition()
     recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
@@ -74,6 +41,7 @@ export function MissionsContent() {
     recognition.onend = () => setListening(false)
     recognition.onerror = () => setListening(false)
     recognitionRef.current = recognition
+
     return () => {
       try {
         recognition.abort()
@@ -81,22 +49,9 @@ export function MissionsContent() {
     }
   }, [lang])
 
-  useEffect(() => {
-    const qs = buildParams(query, filters, sort)
-    const next = qs ? `${pathname}?${qs}` : pathname
-    if (`${pathname}${window.location.search}` !== next) router.replace(next, { scroll: false })
-  }, [filters, pathname, query, router, sort])
-
-  const missions = useMemo(() => {
-    const matching = searchMissions(query.trim(), lang)
-      .map((result) => result.mission)
-      .filter((mission) => matchesFilters(mission, filters))
-    return sortMissions(matching, sort, lang)
-  }, [filters, lang, query, sort])
-
-  const counts = useMemo(
-    () => new Map(MISSION_CATEGORIES.map((category) => [category.key, MISSIONS.filter((mission) => mission.category === category.key).length])),
-    [],
+  const missions = useMemo(
+    () => (category === 'all' ? MISSIONS : MISSIONS.filter((mission) => mission.category === category)),
+    [category],
   )
 
   function toggleListening() {
@@ -114,43 +69,34 @@ export function MissionsContent() {
     }
   }
 
-  function submitNeed() {
-    if (!need.trim()) return
-    router.push(`/decouvrir?q=${encodeURIComponent(need.trim())}`)
+  function handToAlma(value: string) {
+    const clean = value.trim()
+    if (clean) router.push(`/decouvrir?q=${encodeURIComponent(clean)}`)
   }
 
-  function assignMission(mission: Mission) {
-    router.push(`/decouvrir?q=${encodeURIComponent(mission.title[lang])}`)
+  function selectOther() {
+    setShowOthers((open) => !open)
+    if (SECONDARY_CATEGORIES.includes(category as (typeof SECONDARY_CATEGORIES)[number])) setCategory('all')
   }
-
-  function selectCategory(category: string) {
-    setFilters((current) => ({ ...current, categorie: category }))
-  }
-
-  function selectFilter(key: FilterKey, value: string) {
-    setFilters((current) => ({ ...current, [key]: value ? [value] : [] }))
-  }
-
-  const t = COPY[lang]
-  const hasFilters = activeFilterCount(filters) > 0 || query.trim().length > 0
 
   return (
     <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-20 text-[#1C1A17] sm:pt-24">
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
-          <h1 className="font-sf text-[clamp(2.3rem,6vw,4.5rem)] font-semibold tracking-[-0.055em]">{t.title}</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.subtitle}</p>
+          <h1 className="text-balance font-sf text-[clamp(2rem,5vw,3.7rem)] font-semibold leading-[1.06] tracking-[-0.05em]">
+            {t.title}
+          </h1>
 
-          <div className="relative mx-auto mt-7 max-w-2xl">
+          <div className="relative mx-auto mt-6 max-w-2xl">
             <input
               type="text"
               value={need}
               onChange={(event) => setNeed(event.target.value)}
               onKeyDown={(event) => {
-                if (event.key === 'Enter' && !event.nativeEvent.isComposing) submitNeed()
+                if (event.key === 'Enter' && !event.nativeEvent.isComposing) handToAlma(need)
               }}
-              placeholder={t.needPlaceholder}
-              aria-label={t.needPlaceholder}
+              placeholder={t.placeholder}
+              aria-label={t.placeholder}
               className="h-14 w-full rounded-2xl border border-[#D8D0C2] bg-white pl-5 pr-14 text-left text-[15px] shadow-sm outline-none placeholder:text-[#6E665A] focus:border-[#D10E63]/60 focus:ring-4 focus:ring-[#D10E63]/10"
             />
             <button
@@ -166,102 +112,34 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section className="mt-4">
-          <div className="flex items-center gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <span className="shrink-0 text-[12px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">{t.categories}</span>
-            <CategoryButton active={filters.categorie === 'all'} onClick={() => selectCategory('all')}>
-              {t.all} <span className="opacity-70">{MISSIONS.length}</span>
-            </CategoryButton>
-            {CATEGORY_FACETS.map((category) => (
-              <CategoryButton
-                key={category.key}
-                active={filters.categorie === category.key}
-                onClick={() => selectCategory(category.key)}
-              >
-                {shortCategory(category.key, lang)} <span className="opacity-70">{counts.get(category.key)}</span>
+        <section className="mt-8">
+          <h2 className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
+
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <CategoryButton active={category === 'all'} onClick={() => setCategory('all')}>{t.all}</CategoryButton>
+            {PRIMARY_CATEGORIES.map((key) => (
+              <CategoryButton key={key} active={category === key} onClick={() => setCategory(key)}>
+                {CATEGORY_LABELS[key][lang]}
               </CategoryButton>
             ))}
+            <CategoryButton active={showOthers} onClick={selectOther}>{t.others}</CategoryButton>
           </div>
 
-          <div className="mt-5">
-            <button
-              type="button"
-              onClick={() => setMobileFiltersOpen((open) => !open)}
-              aria-expanded={mobileFiltersOpen}
-              className="flex h-10 w-full items-center justify-between rounded-xl border border-[#D8D0C2] bg-white px-3 text-[12px] font-bold uppercase tracking-[0.12em] text-[#4E483F] md:hidden"
-            >
-              <span className="inline-flex items-center gap-2">
-                <SlidersHorizontal className="h-4 w-4" />
-                {t.filters}
-              </span>
-              <ChevronDown className={`h-4 w-4 transition-transform ${mobileFiltersOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            <div className={`${mobileFiltersOpen ? 'flex' : 'hidden'} mt-2 flex-wrap items-center gap-2 md:mt-0 md:flex`}>
-              <span className="mr-1 hidden text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A] md:inline">{t.filters}</span>
-              {FILTERS.map((filter) => (
-                <FilterSelect
-                  key={filter.key}
-                  label={filter.label[lang]}
-                  allLabel={t.all}
-                  value={filters[filter.key][0] ?? ''}
-                  options={filter.options}
-                  lang={lang}
-                  onChange={(value) => selectFilter(filter.key, value)}
-                />
-              ))}
-              {hasFilters && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFilters(EMPTY_FILTERS)
-                    setQuery('')
-                  }}
-                  className="inline-flex h-10 items-center gap-1.5 rounded-xl px-3 text-[12px] font-semibold text-[#6E665A] hover:text-[#D10E63]"
-                >
-                  <X className="h-3.5 w-3.5" />
-                  {t.reset}
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div className="mt-8 flex flex-col gap-3 border-t border-[#DED5C5] pt-5 md:flex-row md:items-center">
-            <p className="font-sf text-lg font-bold">{t.count(missions.length)}</p>
-            <div className="flex flex-1 flex-col gap-2 sm:flex-row md:justify-end">
-              <label className="relative">
-                <span className="sr-only">{t.sort}</span>
-                <select
-                  value={sort}
-                  onChange={(event) => setSort(event.target.value as SortKey)}
-                  className="h-10 appearance-none rounded-xl border border-[#D8D0C2] bg-white pl-3 pr-9 text-[12px] font-semibold text-[#4E483F] outline-none focus:border-[#D10E63]/50"
-                >
-                  {SORT_OPTIONS.map((option) => <option key={option.key} value={option.key}>{t.sort}: {option.label[lang]}</option>)}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-3 h-4 w-4 text-[#6E665A]" />
-              </label>
-              <label className="relative min-w-0 sm:w-72">
-                <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-[#6E665A]" />
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder={t.search}
-                  className="h-10 w-full rounded-xl border border-[#E4DDCE] bg-white pl-9 pr-3 text-[13px] shadow-sm outline-none placeholder:text-[#6E665A] focus:border-[#D10E63]/50 focus:ring-3 focus:ring-[#D10E63]/10"
-                />
-              </label>
-            </div>
-          </div>
-
-          {missions.length ? (
-            <div className="mt-5 grid auto-rows-fr gap-4 md:grid-cols-2">
-              {missions.map((mission) => (
-                <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={assignMission} />
+          {showOthers && (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {SECONDARY_CATEGORIES.map((key) => (
+                <CategoryButton key={key} active={category === key} onClick={() => setCategory(key)}>
+                  {CATEGORY_LABELS[key][lang]}
+                </CategoryButton>
               ))}
             </div>
-          ) : (
-            <div className="mt-8 rounded-2xl border border-[#DED5C5] bg-white px-6 py-12 text-center text-[#4E483F]">{t.empty}</div>
           )}
+
+          <div className="mt-5 grid auto-rows-fr gap-4 md:grid-cols-2">
+            {missions.map((mission) => (
+              <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={(selected) => handToAlma(selected.title[lang])} />
+            ))}
+          </div>
         </section>
       </div>
     </main>
@@ -282,70 +160,38 @@ function CategoryButton({ active, onClick, children }: { active: boolean; onClic
   )
 }
 
-function FilterSelect({ label, allLabel, value, options, lang, onChange }: { label: string; allLabel: string; value: string; options: Facet[]; lang: 'fr' | 'en'; onChange: (value: string) => void }) {
-  return (
-    <label className="relative">
-      <span className="sr-only">{label}</span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-10 appearance-none rounded-xl border border-[#D8D0C2] bg-white pl-3 pr-8 text-[12px] font-semibold text-[#4E483F] outline-none focus:border-[#D10E63]/50"
-      >
-        <option value="">{label}: {allLabel}</option>
-        {options.map((option) => <option key={option.key} value={option.key}>{label}: {option.label[lang]}</option>)}
-      </select>
-      <ChevronDown className="pointer-events-none absolute right-2.5 top-3 h-4 w-4 text-[#6E665A]" />
-    </label>
-  )
-}
-
-function shortCategory(key: string, lang: 'fr' | 'en'): string {
-  const labels: Record<string, { fr: string; en: string }> = {
-    ventes: { fr: 'Ventes', en: 'Sales' },
-    'relation-client': { fr: 'Service client', en: 'Customer service' },
-    marketing: { fr: 'Marketing', en: 'Marketing' },
-    reunions: { fr: 'Réunions', en: 'Meetings' },
-    administration: { fr: 'Assistanat', en: 'Assistance' },
-    finance: { fr: 'Finance', en: 'Finance' },
-    rh: { fr: 'RH', en: 'HR' },
-    direction: { fr: 'Direction', en: 'Leadership' },
-    documents: { fr: 'Documents', en: 'Documents' },
-    analyse: { fr: 'Analyse', en: 'Analysis' },
-    operations: { fr: 'Opérations', en: 'Operations' },
-    produit: { fr: 'Produit', en: 'Product' },
-  }
-  return labels[key]?.[lang] ?? key
+const CATEGORY_LABELS: Record<string, { fr: string; en: string }> = {
+  ventes: { fr: 'Ventes', en: 'Sales' },
+  'relation-client': { fr: 'Service client', en: 'Customer service' },
+  marketing: { fr: 'Marketing', en: 'Marketing' },
+  finance: { fr: 'Finance', en: 'Finance' },
+  rh: { fr: 'RH', en: 'HR' },
+  reunions: { fr: 'Réunions', en: 'Meetings' },
+  administration: { fr: 'Assistanat', en: 'Assistance' },
+  direction: { fr: 'Direction', en: 'Leadership' },
+  documents: { fr: 'Documents', en: 'Documents' },
+  analyse: { fr: 'Analyse', en: 'Analysis' },
+  operations: { fr: 'Opérations', en: 'Operations' },
+  produit: { fr: 'Produit', en: 'Product' },
 }
 
 const COPY = {
   fr: {
-    title: 'Missions',
-    subtitle: "Confiez une mission à votre Collaborateur IA. Décrivez votre besoin ou choisissez parmi nos missions prêtes à l’emploi.",
-    needPlaceholder: 'Décrivez votre mission…',
-    talk: 'Dicter la mission',
+    title: 'Dites à Alma ce que votre Collaborateur IA doit accomplir.',
+    placeholder: 'Décrivez le travail à faire…',
+    talk: 'Dicter le travail à faire',
     stop: 'Arrêter la dictée',
-    categories: 'Catégories',
-    filters: 'Filtres',
-    all: 'Tous',
-    reset: 'Réinitialiser',
-    sort: 'Trier',
-    search: 'Chercher une mission…',
-    count: (count: number) => `${count} mission${count > 1 ? 's' : ''}`,
-    empty: 'Aucune mission ne correspond à ces critères.',
+    readyTitle: 'Ou partez d’une mission prête à adapter',
+    all: 'Toutes',
+    others: 'Autres',
   },
   en: {
-    title: 'Missions',
-    subtitle: 'Assign a mission to your AI Collaborator. Describe your need or choose from our ready-to-use missions.',
-    needPlaceholder: 'Describe your mission…',
-    talk: 'Dictate the mission',
+    title: 'Tell Alma what your AI Collaborator needs to accomplish.',
+    placeholder: 'Describe the work to be done…',
+    talk: 'Dictate the work to be done',
     stop: 'Stop dictation',
-    categories: 'Categories',
-    filters: 'Filters',
+    readyTitle: 'Or start with a ready-to-adapt mission',
     all: 'All',
-    reset: 'Reset',
-    sort: 'Sort',
-    search: 'Search missions…',
-    count: (count: number) => `${count} mission${count > 1 ? 's' : ''}`,
-    empty: 'No mission matches these criteria.',
+    others: 'More',
   },
 } as const
