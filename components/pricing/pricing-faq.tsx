@@ -10,13 +10,6 @@ type QA = { q: string; a: string }
 function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
   const price = formatEuro(pricingConfig.baseMonthlyPrice, lang)
   const credits = formatEuro(minimumCreditBudget(), lang)
-  const tiers = pricingConfig.quantityTiers
-    .map((tier) => {
-      const range = tier.max == null ? `${tier.min}+` : tier.min === tier.max ? `${tier.min}` : `${tier.min}–${tier.max}`
-      return { range, price: formatEuro(tier.monthlyUnitPrice, lang) }
-    })
-  const tiersFr = `${tiers[0].price} pour ${tiers[0].range}, ${tiers[1].price} de ${tiers[1].range}, ${tiers[2].price} de ${tiers[2].range} et ${tiers[3].price} à partir de ${pricingConfig.quantityTiers[3].min}`
-  const tiersEn = `${tiers[0].price} for ${tiers[0].range}, ${tiers[1].price} for ${tiers[1].range}, ${tiers[2].price} for ${tiers[2].range}, and ${tiers[3].price} from ${pricingConfig.quantityTiers[3].min} onward`
   return lang === 'fr'
     ? {
         heading: 'Questions fréquentes',
@@ -36,10 +29,6 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
           {
             q: 'Puis-je utiliser mes propres clés API ?',
             a: 'Oui. Les appels concernés sont alors facturés directement par vos fournisseurs. Vous pouvez aussi combiner vos clés avec un budget Unitalk.',
-          },
-          {
-            q: 'Comment fonctionne la remise par quantité ?',
-            a: `Le prix unitaire diminue automatiquement selon le nombre de Collaborateurs IA : ${tiersFr}.`,
           },
         ],
       }
@@ -61,10 +50,6 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
           {
             q: 'Can I use my own API keys?',
             a: 'Yes. The relevant calls are billed directly by your providers. You can also combine your keys with a Unitalk budget.',
-          },
-          {
-            q: 'How does the quantity discount work?',
-            a: `The unit price decreases automatically: ${tiersEn}.`,
           },
         ],
       }

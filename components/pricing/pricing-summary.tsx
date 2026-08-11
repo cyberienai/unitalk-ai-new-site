@@ -17,6 +17,7 @@ const COPY = {
     annualEquivalent: (price: string) => `${price} / mois équivalent`,
     annualBilled: (price: string) => `${price} facturés annuellement`,
     usage: '+ usages IA selon le mode choisi',
+    noCommitment: 'Sans engagement.',
     cta: 'Créer mon Collaborateur IA',
     hint: `${pricingConfig.trialDays} jours d’essai, 1 million de tokens inclus, sans carte bancaire.`,
   },
@@ -32,6 +33,7 @@ const COPY = {
     annualEquivalent: (price: string) => `${price} / month equivalent`,
     annualBilled: (price: string) => `${price} billed annually`,
     usage: '+ AI usage according to your chosen mode',
+    noCommitment: 'No commitment.',
     cta: 'Create my AI Collaborator',
     hint: `${pricingConfig.trialDays}-day trial, 1 million tokens included, no credit card.`,
   },
@@ -83,6 +85,7 @@ export function PricingSummary({
           </p>
           {annual && <p className="mt-1 text-xs text-[#6E665A]">{t.annualBilled(money(annualSubscription))}</p>}
           <p className="mt-2 text-sm text-[#4E483F]">{t.usage}</p>
+          <p className="mt-1 text-sm text-[#4E483F]">{t.noCommitment}</p>
         </div>
       </div>
       <div className="px-5 pb-5 pt-4 sm:px-6">
