@@ -248,6 +248,16 @@ export function Navbar(
   const [scrolled, setScrolled] = useState(false)
   const collabRef = useRef<HTMLDivElement | null>(null)
   const collabButtonRef = useRef<HTMLButtonElement | null>(null)
+  // Hover intent: small close delay so moving from trigger to panel doesn't flicker.
+  const collabHoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openCollabHover = () => {
+    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
+    setCollabOpen(true)
+  }
+  const closeCollabHover = () => {
+    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
+    collabHoverTimeout.current = setTimeout(() => setCollabOpen(false), 120)
+  }
   const { lang, setLang } = useLanguage()
   const t = T[lang]
   const pathname = usePathname() || '/'
@@ -306,6 +316,11 @@ export function Navbar(
     return () => window.removeEventListener('keydown', onKey)
   }, [collabOpen])
 
+  // Clear any pending hover-close timer on unmount
+  useEffect(() => () => {
+    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
+  }, [])
+
   const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
 
   return (
@@ -338,7 +353,12 @@ export function Navbar(
               </NavItem>
 
               {/* Collaborateurs IA — product hub dropdown (who takes the work on) */}
-              <div ref={collabRef} className="relative">
+              <div
+                ref={collabRef}
+                className="relative"
+                onMouseEnter={openCollabHover}
+                onMouseLeave={closeCollabHover}
+              >
                 <button
                   ref={collabButtonRef}
                   type="button"
