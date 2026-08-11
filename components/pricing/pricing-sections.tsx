@@ -6,8 +6,9 @@ import { formatEuro } from './format'
 
 const COPY = {
   fr: {
-    heroTitle: 'Un Collaborateur IA. Des profils métier illimités.',
-    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'fr')} par mois. Vous choisissez séparément comment régler les usages IA après l’essai.`,
+    heroTitleLine1: 'Un Collaborateur IA.',
+    heroTitleLine2: 'Des profils métier illimités.',
+    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'fr')} par mois, hors usages IA après l’essai.`,
     billedTitleLine1: 'Votre Collaborateur développe ses compétences',
     billedTitleLine2: 'au fil de vos missions.',
     billed: [
@@ -17,8 +18,9 @@ const COPY = {
     usageIntro: `Après l’essai, utilisez des crédits Unitalk à partir de ${formatEuro(minimumCreditBudget(), 'fr')} par mois, vos propres clés API ou les deux. Vous choisirez dans l’application.`,
   },
   en: {
-    heroTitle: 'One AI Collaborator. Unlimited job profiles.',
-    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'en')} per month. You choose separately how to pay for AI usage after the trial.`,
+    heroTitleLine1: 'One AI Collaborator.',
+    heroTitleLine2: 'Unlimited job profiles.',
+    heroSubtitle: `${formatEuro(pricingConfig.baseMonthlyPrice, 'en')} per month, excluding AI usage after the trial.`,
     billedTitleLine1: 'Your AI Collaborator develops its skills',
     billedTitleLine2: 'through your missions.',
     billed: [
@@ -33,11 +35,12 @@ export function PricingHero() {
   const { lang } = useLanguage()
   const t = COPY[lang]
   return (
-    <header className="mx-auto w-full max-w-4xl px-5 pb-4 pt-20 text-center sm:px-8 sm:pt-24">
-      <h1 className="hero-heading text-[#1C1A17]">
-        {t.heroTitle}
+    <header className="mx-auto w-full max-w-4xl px-5 pb-2 pt-[4.5rem] text-center sm:px-8 sm:pt-[4.75rem]">
+      <h1 className="font-sf text-[36px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1C1A17] sm:text-[clamp(40px,4vw,52px)] sm:leading-[1.05]">
+        <span className="block">{t.heroTitleLine1}</span>
+        <span className="block">{t.heroTitleLine2}</span>
       </h1>
-      <p className="mx-auto mt-4 max-w-2xl text-pretty text-[16px] leading-relaxed text-[#4E483F] sm:text-[17px]">
+      <p className="mx-auto mt-3 max-w-2xl text-pretty text-[16px] leading-relaxed text-[#4E483F] sm:text-[17px]">
         {t.heroSubtitle}
       </p>
     </header>

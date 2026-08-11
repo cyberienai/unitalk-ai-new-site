@@ -21,15 +21,15 @@ const COPY = {
     collab: (quantity: number) => `${quantity} Collaborateur${quantity > 1 ? 's' : ''} IA`,
     each: (price: string) => `${price} chacun`,
     perMonth: (price: string) => `${price}/mois`,
-    annualEquivalent: (price: string) => `${price}/mois équivalent`,
-    annualBilled: (price: string) => `${price} facturés annuellement`,
+    annualEquivalent: (price: string) => `${price}/mois`,
+    annualBilled: (price: string) => `Équivalent mensuel · ${price} facturés par an`,
     included: [
       'Identité professionnelle',
       'Profils métier illimités',
       'Compétences illimitées',
       'Mémoire et Workspace privé',
-      'Accès aux données et applications que vous autorisez',
-      'Validation humaine des actions sensibles',
+      'Accès selon vos autorisations',
+      'Actions sensibles soumises à validation',
     ],
     trial: 'Votre essai',
     today: 'Aujourd’hui',
@@ -40,7 +40,7 @@ const COPY = {
     cta: 'Créer mon Collaborateur IA',
     ctaTeam: (quantity: number) => `Préparer mon équipe de ${quantity} Collaborateurs IA`,
     after: (price: string) => `Puis ${price}/mois. Usages IA selon le mode choisi. Sans engagement.`,
-    afterAnnual: (monthly: string, annual: string) => `Puis ${monthly}/mois équivalent, ${annual} facturés annuellement. Usages IA selon le mode choisi.`,
+    afterAnnual: (annual: string) => `Puis ${annual}/an, hors usages IA.`,
     multiple: 'Besoin de plusieurs Collaborateurs IA ?',
     showVolume: 'Ajouter plusieurs Collaborateurs IA',
     hideVolume: 'Masquer les tarifs dégressifs',
@@ -56,15 +56,15 @@ const COPY = {
     collab: (quantity: number) => `${quantity} AI Collaborator${quantity > 1 ? 's' : ''}`,
     each: (price: string) => `${price} each`,
     perMonth: (price: string) => `${price}/month`,
-    annualEquivalent: (price: string) => `${price}/month equivalent`,
-    annualBilled: (price: string) => `${price} billed annually`,
+    annualEquivalent: (price: string) => `${price}/month`,
+    annualBilled: (price: string) => `Monthly equivalent · ${price} billed annually`,
     included: [
       'Professional identity',
       'Unlimited job profiles',
       'Unlimited skills',
       'Memory and private Workspace',
-      'Access limited to authorized data and applications',
-      'Human approval for sensitive actions',
+      'Access according to your permissions',
+      'Sensitive actions submitted for approval',
     ],
     trial: 'Your trial',
     today: 'Today',
@@ -75,7 +75,7 @@ const COPY = {
     cta: 'Create my AI Collaborator',
     ctaTeam: (quantity: number) => `Prepare my team of ${quantity} AI Collaborators`,
     after: (price: string) => `Then ${price}/month, excluding AI usage. No commitment.`,
-    afterAnnual: (monthly: string, annual: string) => `Then ${monthly}/month equivalent, ${annual} billed annually, excluding AI usage.`,
+    afterAnnual: (annual: string) => `Then ${annual}/year, excluding AI usage.`,
     multiple: 'Need several AI Collaborators?',
     showVolume: 'Add several AI Collaborators',
     hideVolume: 'Hide volume pricing',
@@ -127,7 +127,7 @@ export function PricingConfigurator() {
   }
 
   return (
-    <section aria-label={t.billingLegend} className="mx-auto w-full max-w-2xl px-5 pb-10 pt-3 sm:px-8">
+    <section aria-label={t.billingLegend} className="mx-auto w-full max-w-2xl px-5 pb-8 pt-3 sm:px-8">
       <fieldset className="flex justify-center">
         <legend className="sr-only">{t.billingLegend}</legend>
         <div role="radiogroup" aria-label={t.billingLegend} className="inline-flex w-full rounded-full border border-[#E4DDCE] bg-white p-1 sm:w-auto">
@@ -151,8 +151,8 @@ export function PricingConfigurator() {
         </div>
       </fieldset>
 
-      <div className="mt-4 overflow-hidden rounded-3xl border border-[#E4DDCE] bg-white shadow-[0_28px_65px_-48px_rgba(28,26,23,0.55)] lg:grid lg:grid-cols-[1.25fr_0.75fr]">
-        <div className="p-5 sm:p-6" aria-live="polite">
+      <div className="mt-5 overflow-hidden rounded-3xl border border-[#E4DDCE] bg-white shadow-[0_28px_65px_-48px_rgba(28,26,23,0.55)] lg:grid lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="p-5 sm:px-8 sm:py-7" aria-live="polite">
           <p className="font-sf text-lg font-bold">{t.collab(calc.quantity)}</p>
           {calc.quantity > 1 && <p className="mt-1 text-sm text-[#4E483F]">{t.each(money(calc.unitPrice))}</p>}
           <p className="mt-1 font-sf text-[32px] font-bold tracking-[-0.04em] text-[#1C1A17]">
@@ -169,11 +169,11 @@ export function PricingConfigurator() {
           </ul>
         </div>
 
-        <div className="border-t border-[#E4DDCE] bg-[#FBF9F3] p-5 sm:p-6 lg:border-l lg:border-t-0">
+        <div className="border-t border-[#E4DDCE] bg-[#FBF9F3] p-5 sm:px-7 sm:py-7 lg:border-l lg:border-t-0">
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.trial}</p>
           <p className="mt-4 text-sm font-semibold text-[#4E483F]">{t.today}</p>
           <p className="mt-0.5 font-sf text-[32px] font-bold tracking-[-0.04em]">{money(0)}</p>
-          <ul className="mt-4 space-y-1.5 text-sm text-[#4E483F]">
+          <ul className="mt-3 space-y-1.5 text-sm text-[#4E483F]">
             <li>{t.trialDays}</li>
             <li>{calc.quantity > 1 ? t.tokensEach : t.tokens}</li>
             <li>{t.noCard}</li>
@@ -182,14 +182,14 @@ export function PricingConfigurator() {
           <button
             type="button"
             onClick={startTrial}
-            className="group mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 text-[14px] font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            className="group mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 py-3 text-[14px] font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
           >
             {calc.quantity === 1 ? t.cta : t.ctaTeam(calc.quantity)}
             <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
           </button>
           <p className="mt-2.5 text-[12px] leading-relaxed text-[#6E665A]">
             {annual
-              ? t.afterAnnual(money(calc.annualEquivalentMonthly), money(calc.annualSubscription))
+              ? t.afterAnnual(money(calc.annualSubscription))
               : t.after(money(calc.monthlySubscription))}
           </p>
         </div>
