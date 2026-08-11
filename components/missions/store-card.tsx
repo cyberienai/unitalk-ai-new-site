@@ -57,14 +57,14 @@ export function StoreCard({
       onClick={() => onSelect(mission)}
       aria-label={lang === 'fr' ? `Confier « ${mission.title.fr} » à Alma` : `Assign “${mission.title.en}” to Alma`}
       data-mission-card={mission.slug}
-      className="group relative flex min-h-44 w-full cursor-pointer flex-col rounded-xl border border-[#D8D0C2] bg-[#ECE7DD] p-4 text-left shadow-sm transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/35 hover:bg-[#EFE9DF] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
+      className="group relative flex w-full cursor-pointer flex-col rounded-xl border border-[#DDD4C5] bg-[#ECE6DA] p-[18px] text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:shadow-[0_8px_20px_rgba(28,26,23,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:min-h-[180px] sm:p-5"
     >
-      <h3 className="font-sf text-[18px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="font-sf text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#1C1A17]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-3 text-sm leading-[1.5] text-[#4E483F]">{description}</p>
-      <div className="mt-auto flex items-end justify-between gap-3 pt-4">
-        <span className="text-[11px] font-semibold leading-snug text-[#6E665A]">{category}</span>
+      <p className="mt-2 line-clamp-3 text-sm leading-[1.45] text-[#4E483F]">{description}</p>
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <span className="text-[12px] font-semibold leading-snug text-[#6E665A]">{category}</span>
         <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
     </button>

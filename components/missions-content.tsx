@@ -217,7 +217,7 @@ const CATEGORY_LABELS: Record<string, { fr: string; en: string }> = {
 
 const COPY = {
   fr: {
-    title: 'Dites ce que votre Collaborateur IA doit accomplir.',
+    title: 'Que voulez-vous confier à votre Collaborateur IA ?',
     placeholder: 'Décrivez le travail à faire…',
     talk: 'Dicter le travail à faire',
     stop: 'Arrêter la dictée',
@@ -228,7 +228,7 @@ const COPY = {
     others: 'Autres',
   },
   en: {
-    title: 'Say what your AI Collaborator needs to accomplish.',
+    title: 'What would you like to assign to your AI Collaborator?',
     placeholder: 'Describe the work to be done…',
     talk: 'Dictate the work to be done',
     stop: 'Stop dictation',
