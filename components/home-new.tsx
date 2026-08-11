@@ -8,7 +8,6 @@ import { SectionDefinition } from './home/section-definition'
 import { SectionWorkspace } from './home/section-workspace'
 import { SectionComparison } from './home/section-comparison'
 import { SectionVision } from './home/section-vision'
-import { SectionArticles } from './home/section-articles'
 import { SiteFooter } from './site-footer'
 
 /**
@@ -40,9 +39,6 @@ export function HomeNew() {
         {/* 5. Ownership & governance — the company owns what was learned; what
              stays private vs shared by choice; then the final conversion moment */}
         <SectionVision />
-
-        {/* 6. Editorial close — thought-leadership articles + light newsletter */}
-        <SectionArticles />
 
         <SiteFooter />
       </div>
