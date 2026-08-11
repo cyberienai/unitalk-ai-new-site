@@ -44,25 +44,29 @@ function MetaRow({ parts }: { parts: string[] }) {
 export function StoreCard({
   mission,
   lang,
+  onSelect,
 }: {
   mission: Mission
   lang: Lang
+  onSelect: (mission: Mission) => void
 }) {
   const category = categoryLabel(MISSION_CATEGORIES, mission.category, lang)
   const duration = estimatedDurationMinutes(mission)
   return (
-    <Link
-      href={`/missions/${mission.slug}`}
+    <button
+      type="button"
+      onClick={() => onSelect(mission)}
+      aria-label={lang === 'fr' ? `Confier « ${mission.title.fr} » à Alma` : `Assign “${mission.title.en}” to Alma`}
       data-mission-card={mission.slug}
       style={{ boxShadow: SHADOW_REST }}
       className="group relative flex min-h-48 w-full flex-col rounded-2xl bg-[var(--store-surface)] p-5 text-left transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-px hover:bg-[var(--store-surface-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = SHADOW_HOVER)}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
-      <h3 className="line-clamp-2 font-sf text-[18px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
+      <h3 className="font-sf text-[18px] font-bold leading-snug tracking-[-0.01em] text-[var(--store-text)]">
         {mission.title[lang]}
       </h3>
-      <p className="mt-2 line-clamp-1 text-sm leading-[1.5] text-[#6E665A]">{mission.result[lang]}</p>
+      <p className="mt-2 line-clamp-2 text-sm leading-[1.5] text-[#6E665A]">{mission.result[lang]}</p>
       <div className="mt-auto flex items-end justify-between gap-3 pt-5">
         <div className="flex flex-wrap gap-1.5">
           <span className="rounded-full bg-[#F3EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#5A544A]">
@@ -72,7 +76,7 @@ export function StoreCard({
         </div>
         <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
       </div>
-    </Link>
+    </button>
   )
 }
 

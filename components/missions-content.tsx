@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ChevronDown, Mic, Search, Square, X } from 'lucide-react'
+import { ChevronDown, Mic, Search, SlidersHorizontal, Square, X } from 'lucide-react'
 import {
   MISSIONS,
   MISSION_CATEGORIES,
@@ -52,6 +52,7 @@ export function MissionsContent() {
   )
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const recognitionRef = useRef<any>(null)
 
   useEffect(() => {
@@ -118,6 +119,10 @@ export function MissionsContent() {
     router.push(`/decouvrir?q=${encodeURIComponent(need.trim())}`)
   }
 
+  function assignMission(mission: Mission) {
+    router.push(`/decouvrir?q=${encodeURIComponent(mission.title[lang])}`)
+  }
+
   function selectCategory(category: string) {
     setFilters((current) => ({ ...current, categorie: category }))
   }
@@ -179,32 +184,47 @@ export function MissionsContent() {
             ))}
           </div>
 
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="mr-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.filters}</span>
-            {FILTERS.map((filter) => (
-              <FilterSelect
-                key={filter.key}
-                label={filter.label[lang]}
-                allLabel={t.all}
-                value={filters[filter.key][0] ?? ''}
-                options={filter.options}
-                lang={lang}
-                onChange={(value) => selectFilter(filter.key, value)}
-              />
-            ))}
-            {hasFilters && (
-              <button
-                type="button"
-                onClick={() => {
-                  setFilters(EMPTY_FILTERS)
-                  setQuery('')
-                }}
-                className="inline-flex h-10 items-center gap-1.5 rounded-xl px-3 text-[12px] font-semibold text-[#6E665A] hover:text-[#D10E63]"
-              >
-                <X className="h-3.5 w-3.5" />
-                {t.reset}
-              </button>
-            )}
+          <div className="mt-5">
+            <button
+              type="button"
+              onClick={() => setMobileFiltersOpen((open) => !open)}
+              aria-expanded={mobileFiltersOpen}
+              className="flex h-10 w-full items-center justify-between rounded-xl border border-[#D8D0C2] bg-white px-3 text-[12px] font-bold uppercase tracking-[0.12em] text-[#4E483F] md:hidden"
+            >
+              <span className="inline-flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4" />
+                {t.filters}
+              </span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${mobileFiltersOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <div className={`${mobileFiltersOpen ? 'flex' : 'hidden'} mt-2 flex-wrap items-center gap-2 md:mt-0 md:flex`}>
+              <span className="mr-1 hidden text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A] md:inline">{t.filters}</span>
+              {FILTERS.map((filter) => (
+                <FilterSelect
+                  key={filter.key}
+                  label={filter.label[lang]}
+                  allLabel={t.all}
+                  value={filters[filter.key][0] ?? ''}
+                  options={filter.options}
+                  lang={lang}
+                  onChange={(value) => selectFilter(filter.key, value)}
+                />
+              ))}
+              {hasFilters && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFilters(EMPTY_FILTERS)
+                    setQuery('')
+                  }}
+                  className="inline-flex h-10 items-center gap-1.5 rounded-xl px-3 text-[12px] font-semibold text-[#6E665A] hover:text-[#D10E63]"
+                >
+                  <X className="h-3.5 w-3.5" />
+                  {t.reset}
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="mt-8 flex flex-col gap-3 border-t border-[#DED5C5] pt-5 md:flex-row md:items-center">
@@ -235,8 +255,10 @@ export function MissionsContent() {
           </div>
 
           {missions.length ? (
-            <div className="mt-5 grid auto-rows-fr gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {missions.map((mission) => <StoreCard key={mission.slug} mission={mission} lang={lang} />)}
+            <div className="mt-5 grid auto-rows-fr gap-4 md:grid-cols-2">
+              {missions.map((mission) => (
+                <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={assignMission} />
+              ))}
             </div>
           ) : (
             <div className="mt-8 rounded-2xl border border-[#DED5C5] bg-white px-6 py-12 text-center text-[#4E483F]">{t.empty}</div>
@@ -299,7 +321,7 @@ function shortCategory(key: string, lang: 'fr' | 'en'): string {
 const COPY = {
   fr: {
     title: 'Missions',
-    subtitle: 'Découvrez les missions prêtes à confier à votre Collaborateur IA. Ou décrivez directement votre besoin ci-dessous.',
+    subtitle: "Confiez une mission à votre Collaborateur IA. Décrivez votre besoin ou choisissez parmi nos missions prêtes à l’emploi.",
     needPlaceholder: 'Décrivez votre mission…',
     talk: 'Dicter la mission',
     stop: 'Arrêter la dictée',
@@ -314,7 +336,7 @@ const COPY = {
   },
   en: {
     title: 'Missions',
-    subtitle: 'Discover ready-to-assign missions for your AI Collaborator, or describe your need directly below.',
+    subtitle: 'Assign a mission to your AI Collaborator. Describe your need or choose from our ready-to-use missions.',
     needPlaceholder: 'Describe your mission…',
     talk: 'Dictate the mission',
     stop: 'Stop dictation',
