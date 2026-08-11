@@ -84,6 +84,22 @@ const DESCRIPTION_OVERRIDES: Record<string, { fr: string; en: string }> = {
     fr: 'Préparez des réponses contextualisées et validez les cas qui nécessitent votre intervention.',
     en: 'Prepare contextual replies and review the cases that require your intervention.',
   },
+  'preparer-les-elements-de-facturation': {
+    fr: 'Rassemblez et contrôlez les prestations et les montants à facturer.',
+    en: 'Gather and review the services and amounts to be invoiced.',
+  },
+  'rediger-une-fiche-de-poste': {
+    fr: 'Formalisez la mission, les responsabilités et les compétences attendues.',
+    en: 'Define the mission, responsibilities and expected skills.',
+  },
+  'resumer-un-dossier': {
+    fr: 'Faites ressortir les faits essentiels, les risques et les points de décision.',
+    en: 'Highlight the key facts, risks and decision points.',
+  },
+  'construire-un-calendrier-editorial': {
+    fr: 'Planifiez les publications selon vos objectifs, vos canaux et vos temps forts.',
+    en: 'Plan publications around your goals, channels and key moments.',
+  },
 }
 
 const IMPERATIVE_VERBS: Record<string, { fr: string; en: string }> = {
