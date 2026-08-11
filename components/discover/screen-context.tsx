@@ -120,8 +120,7 @@ export function ScreenContext({
 
       <section className="flex min-w-0 flex-col px-6 py-7 sm:px-9 sm:py-8 lg:px-10 lg:py-9">
         <div>
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">{t.yourInformation}</p>
-          <div className="mt-2 grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2">
             <label className="block text-[11px] font-semibold text-[#4E483F]">
               {t.firstName}
               <input
@@ -161,8 +160,7 @@ export function ScreenContext({
             )}
           </span>
           <div>
-            <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#8A8175]">{t.yourCompany}</p>
-            <h2 className="mt-0.5 font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{companyName || t.cardTitle}</h2>
+            <h2 className="font-sf text-xl font-semibold tracking-[-0.025em] text-[#1C1A17]">{companyName || t.cardTitle}</h2>
           </div>
         </div>
 
@@ -267,10 +265,8 @@ const COPY = {
     toConfirm: 'À confirmer',
     save: 'Enregistrer',
     cancel: 'Annuler',
-    yourInformation: 'Vos informations',
-    yourCompany: 'Votre entreprise',
-    firstName: 'Prénom',
-    lastName: 'Nom',
+    firstName: 'Votre prénom',
+    lastName: 'Votre nom',
     required: 'Ce champ est requis.',
     confirm: "C’est correct · Définir ma mission",
     confirmedCta: 'Entreprise confirmée',
@@ -289,10 +285,8 @@ const COPY = {
     toConfirm: 'To confirm',
     save: 'Save',
     cancel: 'Cancel',
-    yourInformation: 'Your information',
-    yourCompany: 'Your company',
-    firstName: 'First name',
-    lastName: 'Last name',
+    firstName: 'Your first name',
+    lastName: 'Your last name',
     required: 'This field is required.',
     confirm: 'Looks right · Define my mission',
     confirmedCta: 'Company confirmed',
