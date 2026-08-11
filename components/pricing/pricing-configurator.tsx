@@ -176,9 +176,9 @@ export function PricingConfigurator() {
           </div>
         </div>
 
-        <div className="border-t border-[#E4DDCE] p-5 sm:px-8 sm:py-7 md:border-t-0 xl:border-l xl:pr-3">
+        <div className="border-t border-[#E4DDCE] p-5 sm:px-8 sm:py-7 md:border-t-0 xl:border-l xl:pr-5">
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.includedTitle}</p>
-          <ul className="mt-4 grid gap-x-6 gap-y-3 xl:grid-flow-col xl:grid-cols-2 xl:grid-rows-3">
+          <ul className="mt-4 grid gap-x-6 gap-y-3 xl:grid-flow-col xl:grid-cols-2 xl:grid-rows-3 xl:pr-3">
             {t.included.map((item) => (
               <li key={item} className="flex items-start gap-2 text-[13px] leading-snug text-[#4E483F]">
                 <span aria-hidden="true" className="mt-px shrink-0 font-bold text-[#D10E63]">✓</span>
