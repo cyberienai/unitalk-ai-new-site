@@ -11,20 +11,20 @@ const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre intelligence vous appartient.',
-    lead: 'Les méthodes que vous validez deviennent un actif que votre entreprise conserve, versionne et partage selon ses droits.',
+    lead: 'Les méthodes que vous validez deviennent un actif que votre entreprise conserve, fait évoluer et partage selon ses droits.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Confier une mission',
     ctaNote: 'Alma comprend votre besoin et prépare la mission.',
-    proof: ['7 jours pour votre première mission', 'Sans carte bancaire', 'Hébergé en France'],
+    proof: ['7 jours d’essai gratuit', 'Sans carte bancaire', 'Hébergé en France'],
   },
   en: {
     kicker: 'Mission after mission',
     title: 'Your intelligence belongs to you.',
-    lead: 'The methods you validate become an asset your company keeps, versions and shares according to its rights.',
+    lead: 'The methods you validate become an asset your company keeps, evolves and shares according to its rights.',
     closing: 'Ready to hand over a first mission?',
     cta: 'Hand over a mission',
     ctaNote: 'Alma understands your need and prepares the mission.',
-    proof: ['7 days for your first mission', 'No credit card', 'Hosted in France'],
+    proof: ['7-day free trial', 'No credit card', 'Hosted in France'],
   },
 }
 

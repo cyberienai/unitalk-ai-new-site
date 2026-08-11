@@ -18,7 +18,14 @@ import { useAlma } from '@/components/home/alma-panel-context'
  */
 
 const MAGENTA = '#D10E63'
+// Darker magenta reserved for MICRO text (step numbers, status chips) on the
+// cream #F3EFE6 surface: #D10E63 only reaches ~3.8:1 there, below the WCAG AA
+// 4.5:1 floor for small text. #A80C50 clears it (~4.9:1). The bright #D10E63
+// stays for large graphics (nodes, thread, halos) where contrast isn't at risk.
+const MAGENTA_TEXT = '#A80C50'
 const GREEN = '#2E7D4F'
+// Matching darker green for the step-04 micro text on cream.
+const GREEN_TEXT = '#1F6B41'
 const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
@@ -28,7 +35,7 @@ const T = {
     cols: [
       { n: '01', head: 'Le besoin', big: 'Vous parlez à Alma.', proof: 'Elle précise la mission, le résultat attendu, les règles et les décisions qui doivent rester humaines.', chip: 'Mission définie' },
       { n: '02', head: 'L’affectation', big: 'Alma prépare votre Collaborateur IA.', proof: 'Avec le contexte, les accès et les compétences nécessaires à la mission.', chip: 'Collaborateur prêt' },
-      { n: '03', head: 'Le travail', big: 'Il accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
+      { n: '03', head: 'Le travail', big: 'Votre Collaborateur IA accomplit la mission.', proof: 'Il agit dans le cadre défini et vous sollicite lorsqu’une décision humaine est nécessaire.', chip: 'Mission en cours' },
       { n: '04', head: 'La capitalisation', big: 'L’expérience est conservée.', proof: 'Une méthode testée et validée peut ensuite devenir une compétence réutilisable, privée ou publiée selon vos choix.', chip: 'Expérience conservée' },
     ],
     closeLead: 'Tout commence par une conversation.',
@@ -40,7 +47,7 @@ const T = {
     cols: [
       { n: '01', head: 'The need', big: 'You talk to Alma.', proof: 'She clarifies the mission, the expected outcome, the rules and the decisions that must stay human.', chip: 'Mission defined' },
       { n: '02', head: 'The assignment', big: 'Alma prepares your AI Collaborator.', proof: 'With the context, access and skills needed for the mission.', chip: 'Collaborator ready' },
-      { n: '03', head: 'The work', big: 'It carries out the mission.', proof: 'It acts within the defined scope and asks you whenever a human decision is needed.', chip: 'Mission in progress' },
+      { n: '03', head: 'The work', big: 'Your AI Collaborator carries out the mission.', proof: 'It acts within the defined scope and asks you whenever a human decision is needed.', chip: 'Mission in progress' },
       { n: '04', head: 'Capitalization', big: 'The experience is preserved.', proof: 'A tested and validated method can then become a reusable skill — private or published, as you choose.', chip: 'Experience preserved' },
     ],
     closeLead: 'It all starts with a conversation.',
@@ -48,7 +55,10 @@ const T = {
   },
 } as const
 
-const NODE_LEFT = [0, 33.333, 66.666, 100] as const
+// Nodes sit at the CENTER of each of the 4 columns (12.5 / 37.5 / 62.5 / 87.5%),
+// not edge-to-edge — so every node, including the green seal on step 04, is
+// centered above its column instead of being pushed to the far right.
+const NODE_LEFT = [12.5, 37.5, 62.5, 87.5] as const
 const SEG_MS = 720
 
 export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
@@ -75,6 +85,8 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
   }, [inView, reduce])
 
   const colorFor = (i: number) => (i === 3 ? GREEN : MAGENTA)
+  // Accessible variant for small text (numbers, chips) on the cream surface.
+  const textColorFor = (i: number) => (i === 3 ? GREEN_TEXT : MAGENTA_TEXT)
 
   return (
     <section className="bg-[#F3EFE6] py-14 sm:py-20">
@@ -180,6 +192,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           {t.cols.map((c, i) => {
             const on = active > i
             const accent = colorFor(i)
+            const textAccent = textColorFor(i)
             return (
               <motion.div
                 key={c.n}
@@ -201,10 +214,10 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                 />
 
                 <div className="flex items-baseline gap-2.5">
-                  <span className="font-mono text-[13px] font-bold" style={{ color: accent }}>{c.n}</span>
+                  <span className="font-mono text-[13px] font-bold" style={{ color: textAccent }}>{c.n}</span>
                   <span
                     className="font-mono text-[10px] font-bold uppercase tracking-[0.16em]"
-                    style={{ color: c.n === '04' ? accent : '#6E655A' }}
+                    style={{ color: c.n === '04' ? textAccent : '#5F564B' }}
                   >
                     {c.head}
                   </span>
@@ -218,14 +231,14 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
                   animate={{ opacity: on ? 1 : 0.5 }}
                   transition={{ duration: 0.4 }}
                   className="mt-5 inline-flex items-center gap-2 rounded-full py-1 pr-3 font-mono text-[10.5px] font-bold uppercase tracking-[0.12em]"
-                  style={{ color: on ? accent : '#6E655A' }}
+                  style={{ color: on ? textAccent : '#5F564B' }}
                 >
                   {c.n === '04' ? (
                     <span aria-hidden className="text-[11px] leading-none">
                       ✓
                     </span>
                   ) : (
-                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? accent : '#6E655A' }} />
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: on ? textAccent : '#5F564B' }} />
                   )}
                   {c.chip}
                 </motion.p>

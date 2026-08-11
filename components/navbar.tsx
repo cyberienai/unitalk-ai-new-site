@@ -25,34 +25,34 @@ type MenuAction = { title: Bi; href: string }
 
 const COLLAB_DISCOVER: MenuEntry[] = [
   {
-    title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
+    title: { fr: 'Concept & identité', en: 'Concept & identity' },
     desc: {
-      fr: 'Une identité, une mémoire et une place dans votre entreprise.',
-      en: 'An identity, a memory and a place in your company.',
+      fr: 'Une identité stable et une mémoire privée pour collaborer durablement avec vos équipes.',
+      en: 'A stable identity and a private memory to collaborate durably with your teams.',
     },
     href: '/collaborateurs-ia',
   },
   {
     title: { fr: 'Profils métier', en: 'Job profiles' },
     desc: {
-      fr: 'Les rôles durables qu’il peut exercer.',
-      en: 'The durable roles it can hold.',
+      fr: 'Ajoutez autant de rôles que nécessaire autour d’une seule identité : ventes, support, marketing ou finance.',
+      en: 'Add as many roles as needed around a single identity: sales, support, marketing or finance.',
     },
     href: '/collaborateurs-ia/profils-metier',
   },
   {
     title: { fr: 'Compétences', en: 'Skills' },
     desc: {
-      fr: 'Les capacités qu’il développe au fil de ses missions.',
-      en: 'The capabilities it builds across its missions.',
+      fr: 'Les méthodes de travail de votre entreprise qu’il sait apprendre, appliquer et conserver.',
+      en: 'Your company’s working methods, which it learns, applies and keeps.',
     },
     href: '/collaborateurs-ia/competences',
   },
   {
     title: { fr: 'Applications', en: 'Applications' },
     desc: {
-      fr: 'Les outils qu’il connecte pour travailler.',
-      en: 'The tools it connects to get work done.',
+      fr: 'Les outils de votre entreprise auxquels il accède de façon sécurisée et sous votre contrôle.',
+      en: 'Your company’s tools, which it accesses securely and under your control.',
     },
     href: '/collaborateurs-ia/applications',
   },
@@ -62,16 +62,16 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
   {
     title: { fr: 'Alma', en: 'Alma' },
     desc: {
-      fr: 'Conseillère en transformation IA.',
-      en: 'AI transformation advisor.',
+      fr: 'Votre coordinatrice IA : elle structure vos missions, définit les validations humaines et prépare le travail.',
+      en: 'Your AI coordinator: she structures your missions, sets the human validations and prepares the work.',
     },
     href: '/alma',
   },
   {
-    title: { fr: 'Experts humains', en: 'Human experts' },
+    title: { fr: 'Experts', en: 'Experts' },
     desc: {
-      fr: 'Des spécialistes pour aller plus loin.',
-      en: 'Specialists to take you further.',
+      fr: 'Des intégrateurs certifiés pour concevoir vos compétences et connecter vos outils.',
+      en: 'Certified integrators to design your skills and connect your tools.',
     },
     href: '/experts',
   },
@@ -92,9 +92,9 @@ const T = {
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     collabMenu: 'Menu Collaborateurs IA',
-    // Collaborateurs IA panel
-    menuDiscover: 'Découvrir',
-    menuAccompaniment: 'Être guidé',
+    // Collaborateurs IA panel — two-column mega menu
+    menuDiscover: 'Le Collaborateur',
+    menuAccompaniment: 'Accompagnement & écosystème',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -106,8 +106,8 @@ const T = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
-    menuDiscover: 'Discover',
-    menuAccompaniment: 'Get guided',
+    menuDiscover: 'The Collaborator',
+    menuAccompaniment: 'Guidance & ecosystem',
   },
 }
 
@@ -148,16 +148,16 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
       href={entry.href}
       role="menuitem"
       onClick={onSelect}
-      className="group relative block rounded-xl py-2.5 pl-4 pr-3 outline-none transition-colors duration-200 hover:bg-[#FBF3F7] focus-visible:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      className="group relative block rounded-xl py-2.5 pl-5 pr-3 outline-none transition-colors duration-200 hover:bg-[#FBF3F7] focus-visible:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
     >
       <span
         aria-hidden="true"
-        className="absolute left-0 top-1/2 h-0 w-[2px] -translate-y-1/2 rounded-full bg-[#D10E63] transition-all duration-300 ease-out group-hover:h-[60%]"
+        className="absolute left-0 top-1/2 h-0 w-[3px] -translate-y-1/2 rounded-r-full bg-[#D10E63] transition-all duration-300 ease-out group-hover:h-[62%] group-focus-visible:h-[62%]"
       />
       <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
         {entry.title[lang]}
       </span>
-      <span className="mt-1 block text-[12.5px] leading-snug text-[#857C6E]">{entry.desc[lang]}</span>
+      <span className="mt-1 block text-[12.5px] leading-relaxed text-[#9A9184]">{entry.desc[lang]}</span>
     </a>
   )
 }
@@ -175,7 +175,8 @@ function CollabActionLink({ entry, lang, onSelect }: { entry: MenuAction; lang: 
       {entry.title[lang]}
       <ArrowRight
         aria-hidden="true"
-        className="h-4 w-4 shrink-0 -translate-x-0.5 text-[#D10E63] transition-transform duration-200 group-hover:translate-x-0"
+        strokeWidth={1.75}
+        className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform duration-200 group-hover:translate-x-1"
       />
     </a>
   )
@@ -361,37 +362,55 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                      className="absolute left-0 top-full w-[380px] max-w-[calc(100vw-2rem)] pt-2"
+                      className="absolute left-0 top-full w-[680px] max-w-[calc(100vw-2rem)] pt-2"
                     >
-                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white p-2.5 shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
-                        {/* Découvrir — the hub, its catalogs and the missions entry */}
-                        <p className="px-4 pb-1 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                          {t.menuDiscover}
-                        </p>
-                        <div className="flex flex-col">
-                          {COLLAB_DISCOVER.map((item) => (
-                            <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
-                          ))}
+                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white/85 shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)] backdrop-blur-lg">
+                        {/* Two-column body: product (left) vs ecosystem (right) */}
+                        <div className="grid grid-cols-[1fr_300px]">
+                          {/* Left — Le Collaborateur: the four product bricks */}
+                          <div className="p-3">
+                            <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuDiscover}
+                            </p>
+                            <div className="flex flex-col">
+                              {COLLAB_DISCOVER.map((item) => (
+                                <CollabMenuLink
+                                  key={item.href}
+                                  entry={item}
+                                  lang={lang}
+                                  onSelect={() => setCollabOpen(false)}
+                                />
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Right — Accompagnement & écosystème, on warmer cream */}
+                          <div className="border-l border-[#EFE8DA] bg-[#FBF8F1]/70 p-3">
+                            <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuAccompaniment}
+                            </p>
+                            <div className="flex flex-col">
+                              {COLLAB_ACCOMPANIMENT.map((item) => (
+                                <CollabMenuLink
+                                  key={item.href}
+                                  entry={item}
+                                  lang={lang}
+                                  onSelect={() => setCollabOpen(false)}
+                                />
+                              ))}
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="my-2 border-t border-[#EFE8DA]" />
-
-                        {/* Être guidé — Alma + the human experts, side by side */}
-                        <p className="px-4 pb-1 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                          {t.menuAccompaniment}
-                        </p>
-                        <div className="grid grid-cols-2 gap-1">
-                          {COLLAB_ACCOMPANIMENT.map((item) => (
-                            <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
-                          ))}
-                        </div>
-
-                        <div className="my-2 border-t border-[#EFE8DA]" />
-
-                        {/* Pourquoi Unitalk — single direct link */}
-                        <div className="flex flex-col">
+                        {/* Footer bar — the single "Pourquoi Unitalk ?" direct link */}
+                        <div className="border-t border-[#EFE8DA] bg-[#FBF8F1]/70 px-3 py-4">
                           {COLLAB_ACTIONS.map((item) => (
-                            <CollabActionLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />
+                            <CollabActionLink
+                              key={item.href}
+                              entry={item}
+                              lang={lang}
+                              onSelect={() => setCollabOpen(false)}
+                            />
                           ))}
                         </div>
                       </div>
@@ -424,10 +443,16 @@ export function Navbar(
 
             <UserMenuDesktop overDark={overDark} />
 
-            {/* Primary CTA — compact, priority */}
+            {/* Secondary CTA — neutral dark (Apple/Stripe style) so no fuchsia
+                lives in the nav except the active state; the page's central
+                fuchsia CTA keeps absolute visual priority */}
             <a
               href={ALMA_CTA.href}
-              className="hidden h-10 items-center justify-center rounded-full bg-[#D10E63] px-5 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] lg:inline-flex"
+              className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
+                overDark
+                  ? 'bg-[#FBF9F3] text-[#1C1A17] hover:bg-[#EAE3D4] focus-visible:ring-[#FBF9F3]/60 focus-visible:ring-offset-transparent'
+                  : 'bg-[#1C1A17] text-[#FBF9F3] hover:bg-[#332F29] focus-visible:ring-[#1C1A17]/40 focus-visible:ring-offset-[#F3EFE6]'
+              }`}
             >
               {ALMA_CTA.label[lang]}
             </a>
@@ -544,7 +569,10 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                           <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                            {[...COLLAB_DISCOVER, ...COLLAB_ACCOMPANIMENT].map((item) => (
+                            <p className="pb-0.5 pt-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuDiscover}
+                            </p>
+                            {COLLAB_DISCOVER.map((item) => (
                               <a
                                 key={item.href}
                                 href={item.href}
@@ -554,6 +582,20 @@ export function Navbar(
                                 {item.title[lang]}
                               </a>
                             ))}
+                            <p className="pb-0.5 pt-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuAccompaniment}
+                            </p>
+                            {COLLAB_ACCOMPANIMENT.map((item) => (
+                              <a
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
+                              >
+                                {item.title[lang]}
+                              </a>
+                            ))}
+                            <div className="my-1.5 border-t border-[#E4DDCE]" />
                             {COLLAB_ACTIONS.map((item) => (
                               <a
                                 key={item.href}
