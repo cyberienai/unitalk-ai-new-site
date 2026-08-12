@@ -2,13 +2,19 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowUp, Mic, Square } from 'lucide-react'
+import { ArrowUp, ChevronDown, Mic, Square } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
 
 const PRIMARY_CATEGORIES = ['ventes', 'relation-client', 'marketing', 'finance', 'rh'] as const
 const SECONDARY_CATEGORIES = ['reunions', 'administration', 'direction', 'documents', 'analyse', 'operations', 'produit'] as const
+const FEATURED_SLUGS = [
+  'trouver-de-nouveaux-clients', 'repondre-a-mes-clients', 'preparer-les-elements-de-facturation',
+  'construire-un-calendrier-editorial', 'rediger-une-fiche-de-poste', 'resumer-un-dossier',
+  'preparer-l-ordre-du-jour', 'organiser-les-rendez-vous', 'preparer-le-dossier-de-comite',
+  'realiser-une-veille-concurrentielle', 'controler-l-execution-d-un-processus', 'preparer-une-feuille-de-route-produit',
+] as const
 const ALL_CATEGORY_ORDER = [
   'ventes',
   'relation-client',
@@ -79,10 +85,14 @@ export function MissionsContent() {
     }
   }, [lang])
 
-  const missions = useMemo(
-    () => (category === 'all' ? interleaveMissionsByCategory() : MISSIONS.filter((mission) => mission.category === category)),
-    [category],
-  )
+  const missions = useMemo(() => {
+    if (category === 'all') {
+      const bySlug = new Map(MISSIONS.map((mission) => [mission.slug, mission]))
+      const selected = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => !!mission)
+      return selected.length === 12 ? selected : interleaveMissionsByCategory().slice(0, 12)
+    }
+    return MISSIONS.filter((mission) => mission.category === category).slice(0, 12)
+  }, [category])
 
   function toggleListening() {
     const recognition = recognitionRef.current
@@ -136,8 +146,9 @@ export function MissionsContent() {
               type="button"
               onClick={() => (need.trim() ? handToAlma(need) : toggleListening())}
               disabled={!need.trim() && !voiceSupported}
+              title={!need.trim() && !voiceSupported ? t.voiceUnavailable : undefined}
               aria-label={need.trim() ? t.send : listening ? t.stop : t.talk}
-              className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#D10E63] text-white transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:opacity-40"
+              className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#D10E63] text-white transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#B9B1A5] disabled:text-[#F3EFE6]"
             >
               <span aria-hidden className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:animate-pulse group-hover:opacity-100" />
               {need.trim() ? (
@@ -156,17 +167,19 @@ export function MissionsContent() {
           <p className="mt-1 text-[13px] text-[#6E665A]">{t.readyNote}</p>
 
           <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <CategoryButton active={category === 'all'} onClick={() => setCategory('all')}>{t.all}</CategoryButton>
+            <CategoryButton active={category === 'all'} onClick={() => setCategory('all')}>{t.selection}</CategoryButton>
             {PRIMARY_CATEGORIES.map((key) => (
               <CategoryButton key={key} active={category === key} onClick={() => setCategory(key)}>
                 {CATEGORY_LABELS[key][lang]}
               </CategoryButton>
             ))}
-            <CategoryButton active={showOthers} onClick={selectOther}>{t.others}</CategoryButton>
+            <button type="button" aria-expanded={showOthers} aria-controls="secondary-mission-categories" onClick={selectOther} className="inline-flex h-9 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/35 bg-white px-3.5 text-[12px] font-semibold text-[#B00C54] transition-colors hover:bg-[#FBF3F7]">
+              {t.allCategories}<ChevronDown aria-hidden className={`h-3.5 w-3.5 transition-transform ${showOthers ? 'rotate-180' : ''}`} />
+            </button>
           </div>
 
           {showOthers && (
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div id="secondary-mission-categories" className="mt-2 flex flex-wrap gap-2">
               {SECONDARY_CATEGORIES.map((key) => (
                 <CategoryButton key={key} active={category === key} onClick={() => setCategory(key)}>
                   {CATEGORY_LABELS[key][lang]}
@@ -175,6 +188,7 @@ export function MissionsContent() {
             </div>
           )}
 
+          <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${CATEGORY_LABELS[category]?.[lang] ?? category} · ${missions.length} missions`}</p>
           <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
               <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={(selected) => handToAlma(selected.title[lang])} />
@@ -222,10 +236,12 @@ const COPY = {
     talk: 'Dicter le travail à faire',
     stop: 'Arrêter la dictée',
     send: 'Envoyer le travail à accomplir',
-    readyTitle: 'Ou partez d’une mission déjà préparée',
+    voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur.',
+    readyTitle: 'Ou choisissez une mission prête à adapter.',
     readyNote: 'Alma l’adaptera à votre entreprise.',
-    all: 'Toutes',
-    others: 'Autres',
+    selection: 'Sélection',
+    allCategories: 'Toutes les catégories',
+    selectedCount: '12 missions sélectionnées',
   },
   en: {
     title: 'What would you like to assign to your AI Collaborator?',
@@ -233,9 +249,11 @@ const COPY = {
     talk: 'Dictate the work to be done',
     stop: 'Stop dictation',
     send: 'Send the work to be done',
-    readyTitle: 'Or start with an already prepared mission',
+    voiceUnavailable: 'Voice dictation is not available in this browser.',
+    readyTitle: 'Or choose a ready-to-adapt mission.',
     readyNote: 'Alma will adapt it to your company.',
-    all: 'All',
-    others: 'More',
+    selection: 'Selection',
+    allCategories: 'All categories',
+    selectedCount: '12 selected missions',
   },
 } as const

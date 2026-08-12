@@ -7,8 +7,8 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { ModelLogoStrip } from './model-logo-strip'
+import { ApplicationLogoStrip } from './application-logo-strip'
 
-const APP_NAMES = ['Gmail', 'Outlook', 'Google Calendar', 'Microsoft Teams', 'Slack', 'HubSpot', 'Salesforce', 'Notion', 'Google Drive', 'Dropbox', 'Stripe', 'Zendesk']
 
 export function CollaborateurExperience() {
   const { lang } = useLanguage()
@@ -45,8 +45,9 @@ export function CollaborateurExperience() {
       <section className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-[1200px]">
           <SectionIntro kicker={t.appsKicker} title={t.appsTitle} body={t.appsBody} />
-          <WordmarkWall items={APP_NAMES} />
-          <p className="mt-8 text-center font-sf text-lg font-bold text-[#1C1A17]">Lire · Préparer · Mettre à jour · Déclencher · Demander une validation</p>
+          <ApplicationLogoStrip />
+          <p className="mt-7 text-center text-[13px] font-semibold text-[#6E665A]">Connectées par OAuth via les serveurs MCP de Pipedream.</p>
+          <p className="mt-7 text-center font-sf text-[clamp(20px,2vw,30px)] font-semibold tracking-[-0.02em] text-[#1C1A17]">Lire · Préparer · Mettre à jour · Déclencher · Demander une validation</p>
           <p className="mt-3 text-center text-[14px] text-[#4E483F]">{t.permissions}</p>
           <Link href="/collaborateurs-ia/applications" className="mt-5 flex justify-center text-sm font-bold text-[#D10E63]">{t.appsLink} →</Link>
         </div>
@@ -135,10 +136,6 @@ function SectionIntro({ kicker, title, body, dark = false }: { kicker?: string; 
 }
 
 function Channel({ icon: Icon, label }: { icon: typeof Mail; label: string }) { return <span className="inline-flex items-center gap-1.5"><Icon aria-hidden="true" className="h-3.5 w-3.5" />{label}</span> }
-
-function WordmarkWall({ items, dark = false }: { items: string[]; dark?: boolean }) {
-  return <div className="mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-current/10 sm:grid-cols-3 lg:grid-cols-6">{items.map((item) => <div key={item} className={`flex min-h-24 items-center justify-center px-4 text-center font-sf text-sm font-bold ${dark ? 'bg-white/[0.035] text-[#E7DED3]' : 'bg-[#FAF8F3] text-[#1C1A17]'}`}>{item}</div>)}</div>
-}
 
 
 const COPY = {

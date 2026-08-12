@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
@@ -68,23 +67,9 @@ export function StoreCard({
         {mission.title[lang]}
       </h3>
       <p className="pointer-events-none relative z-10 mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
-      <footer className="relative z-10 mt-4 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-[12px] font-semibold leading-snug text-[#6E665A]">
-          <span>{category}</span>
-          {mission.article && (
-            <>
-              <span aria-hidden="true">·</span>
-              <Link
-                href={mission.article.href}
-                aria-label={lang === 'fr' ? 'Lire le guide sur la qualification des prospects' : 'Read the guide to prospect qualification'}
-                className="relative z-20 outline-none transition-colors hover:text-[#D10E63] hover:underline focus-visible:text-[#D10E63] focus-visible:underline"
-              >
-                {mission.article.label[lang]}
-              </Link>
-            </>
-          )}
-        </div>
-        <ArrowRight className="mb-1 h-4 w-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1" />
+      <footer className="pointer-events-none relative z-10 mt-4 flex items-center justify-between gap-3">
+        <span className="text-[12px] font-semibold leading-snug text-[#6E665A]">{category}</span>
+        <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#D10E63]">{lang === 'fr' ? 'Adapter' : 'Adapt'}<ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" /></span>
       </footer>
     </article>
   )
