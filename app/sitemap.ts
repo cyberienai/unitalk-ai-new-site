@@ -15,6 +15,8 @@ const STATIC_ROUTES = [
   '/collaborateurs-ia/competences',
   '/collaborateurs-ia/applications',
   '/experts',
+  '/ai-gateway',
+  '/agent-hermes',
   '/tarifs',
   '/solutions',
   '/use-cases',

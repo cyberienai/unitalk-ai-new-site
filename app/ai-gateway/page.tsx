@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'AI Gateway',
   description:
     'Le meilleur modèle autorisé pour chaque tâche, sans dépendre d’un seul fournisseur. La page AI Gateway arrive prochainement.',
+  alternates: { canonical: '/ai-gateway' },
 }
 
 export default function AiGatewayPage() {
