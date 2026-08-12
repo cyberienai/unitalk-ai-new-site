@@ -120,7 +120,7 @@ export function MissionsContent() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-[5.5rem] text-[#1C1A17] sm:pt-24">
+    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-[6.5rem] text-[#1C1A17] sm:pt-28">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
           <h1 className="hero-heading">
@@ -162,7 +162,7 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section className="mt-3">
+        <section className="mt-10">
           <h2 className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
           <p className="mt-1 text-[13px] text-[#6E665A]">{t.readyNote}</p>
 
@@ -237,8 +237,8 @@ const COPY = {
     stop: 'Arrêter la dictée',
     send: 'Envoyer le travail à accomplir',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur.',
-    readyTitle: 'Ou choisissez une mission prête à adapter.',
-    readyNote: 'Alma l’adaptera à votre entreprise.',
+    readyTitle: 'Besoin d’inspiration ?',
+    readyNote: 'Choisissez une mission. Alma l’adaptera à votre entreprise.',
     selection: 'Sélection',
     allCategories: 'Toutes les catégories',
     selectedCount: '12 missions sélectionnées',
@@ -250,8 +250,8 @@ const COPY = {
     stop: 'Stop dictation',
     send: 'Send the work to be done',
     voiceUnavailable: 'Voice dictation is not available in this browser.',
-    readyTitle: 'Or choose a ready-to-adapt mission.',
-    readyNote: 'Alma will adapt it to your company.',
+    readyTitle: 'Need inspiration?',
+    readyNote: 'Choose a mission. Alma will adapt it to your company.',
     selection: 'Selection',
     allCategories: 'All categories',
     selectedCount: '12 selected missions',
