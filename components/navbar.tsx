@@ -17,42 +17,41 @@ const ALMA_CTA = {
 }
 
 // Collaborateurs IA dropdown — the product hub, in three sections:
-// "Découvrir" groups the hub, its catalogs (profils métier, compétences) and
-// the missions entry point; "Être guidé" pairs Alma (the AI advisor) with the
-// human experts network; "Votre Collaborateur" offers the two direct actions.
+// Product-focused Collaborateurs IA menu: concept, profiles, skills,
+// applications and Alma. Experts remain available in the footer.
 type MenuEntry = { title: Bi; desc: Bi; href: string; avatar?: string }
 type MenuAction = { title: Bi; href: string }
 
 const COLLAB_DISCOVER: MenuEntry[] = [
   {
-    title: { fr: 'Concept & identité', en: 'Concept & identity' },
+    title: { fr: 'Qu’est-ce qu’un Collaborateur IA ?', en: 'What is an AI Collaborator?' },
     desc: {
-      fr: 'Une identité stable et une mémoire privée pour collaborer durablement avec vos équipes.',
-      en: 'A stable identity and a private memory to collaborate durably with your teams.',
+      fr: 'Une identité professionnelle, un environnement privé et une expérience qui progresse avec votre entreprise.',
+      en: 'A professional identity, a private environment and experience that grows with your company.',
     },
     href: '/collaborateurs-ia',
   },
   {
     title: { fr: 'Profils métier', en: 'Job profiles' },
     desc: {
-      fr: 'Ajoutez autant de rôles que nécessaire autour d’une seule identité : ventes, support, marketing ou finance.',
-      en: 'Add as many roles as needed around a single identity: sales, support, marketing or finance.',
+      fr: 'Les responsabilités durables qu’il peut exercer.',
+      en: 'The lasting responsibilities it can perform.',
     },
     href: '/collaborateurs-ia/profils-metier',
   },
   {
     title: { fr: 'Compétences', en: 'Skills' },
     desc: {
-      fr: 'Les méthodes de travail de votre entreprise qu’il sait apprendre, appliquer et conserver.',
-      en: 'Your company’s working methods, which it learns, applies and keeps.',
+      fr: 'Les savoir-faire qu’il peut appliquer et améliorer.',
+      en: 'The know-how it can apply and improve.',
     },
     href: '/collaborateurs-ia/competences',
   },
   {
     title: { fr: 'Applications', en: 'Applications' },
     desc: {
-      fr: 'Les outils de votre entreprise auxquels il accède de façon sécurisée et sous votre contrôle.',
-      en: 'Your company’s tools, which it accesses securely and under your control.',
+      fr: 'Plus de 3 000 outils accessibles selon vos règles.',
+      en: 'More than 3,000 tools accessible under your rules.',
     },
     href: '/collaborateurs-ia/applications',
   },
@@ -60,21 +59,13 @@ const COLLAB_DISCOVER: MenuEntry[] = [
 
 const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
   {
-    title: { fr: 'Alma', en: 'Alma' },
+    title: { fr: 'Alma · Conseillère IA', en: 'Alma · AI advisor' },
     desc: {
-      fr: 'Votre coordinatrice IA : elle structure vos missions, définit les validations humaines et prépare le travail.',
-      en: 'Your AI coordinator: she structures your missions, sets the human validations and prepares the work.',
+      fr: 'Elle vous aide à cadrer une mission et à préparer votre premier Collaborateur IA.',
+      en: 'She helps frame a mission and prepare your first AI Collaborator.',
     },
     href: '/alma',
     avatar: '/alma-avatar.png',
-  },
-  {
-    title: { fr: 'Experts', en: 'Experts' },
-    desc: {
-      fr: 'Des intégrateurs certifiés pour concevoir vos compétences et connecter vos outils.',
-      en: 'Certified integrators to design your skills and connect your tools.',
-    },
-    href: '/experts',
   },
 ]
 
@@ -95,7 +86,7 @@ const T = {
     collabMenu: 'Menu Collaborateurs IA',
     // Collaborateurs IA panel — two-column mega menu
     menuDiscover: 'Le Collaborateur',
-    menuAccompaniment: 'Accompagnement & écosystème',
+    menuAccompaniment: 'Alma · Unitalk',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -108,7 +99,7 @@ const T = {
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'The Collaborator',
-    menuAccompaniment: 'Guidance & ecosystem',
+    menuAccompaniment: 'Alma · Unitalk',
   },
 }
 
@@ -149,7 +140,7 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
       href={entry.href}
       role="menuitem"
       onClick={onSelect}
-      className="group relative block rounded-xl py-2.5 pl-5 pr-3 outline-none transition-colors duration-200 hover:bg-[#FBF3F7] focus-visible:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      className="group relative block rounded-xl py-2.5 pl-5 pr-3 outline-none transition-colors duration-200 hover:bg-[#F3EEE5] focus-visible:bg-[#F3EEE5] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
     >
       <span
         aria-hidden="true"
@@ -167,7 +158,7 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
             <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
               {entry.title[lang]}
             </span>
-            <span className="mt-1 block text-[12.5px] leading-relaxed text-[#9A9184]">{entry.desc[lang]}</span>
+            <span className="mt-1 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span>
           </span>
         </span>
       ) : (
@@ -175,7 +166,7 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
           <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
             {entry.title[lang]}
           </span>
-          <span className="mt-1 block text-[12.5px] leading-relaxed text-[#9A9184]">{entry.desc[lang]}</span>
+          <span className="mt-1 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span>
         </>
       )}
     </a>
@@ -404,7 +395,7 @@ export function Navbar(
                       style={{ transformOrigin: 'top left' }}
                       className="absolute left-0 top-full w-[680px] max-w-[calc(100vw-2rem)] pt-2"
                     >
-                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-white shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
+                      <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-[#FAF8F3] shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
                         {/* Two-column body: product (left) vs ecosystem (right) */}
                         <div className="grid grid-cols-[1fr_300px]">
                           {/* Left — Le Collaborateur: the four product bricks */}
@@ -425,7 +416,7 @@ export function Navbar(
                           </div>
 
                           {/* Right — Accompagnement & écosystème, on warmer cream */}
-                          <div className="border-l border-[#EFE8DA] bg-[#FBF8F1] p-3">
+                          <div className="border-l border-[#EFE8DA] p-3">
                             <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
@@ -443,7 +434,7 @@ export function Navbar(
                         </div>
 
                         {/* Footer bar — the single "Pourquoi Unitalk ?" direct link */}
-                        <div className="border-t border-[#EFE8DA] bg-[#FBF8F1] px-3 py-4">
+                        <div className="border-t border-[#EFE8DA] bg-[#F3EEE5] px-3 py-4">
                           {COLLAB_ACTIONS.map((item) => (
                             <CollabActionLink
                               key={item.href}
