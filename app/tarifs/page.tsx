@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { PricingHero, PricingExplanations } from '@/components/pricing/pricing-sections'
-import { PricingConfigurator } from '@/components/pricing/pricing-configurator'
+import { MultiCollaboratorConfigurator, PricingConfigurator } from '@/components/pricing/pricing-configurator'
 import { PricingFaq } from '@/components/pricing/pricing-faq'
 
 export const metadata: Metadata = {
   title: 'Tarifs · Collaborateurs IA Unitalk',
   description:
-    'À partir de 49 € par mois par identité de Collaborateur IA, avec profils métier illimités et sept jours d’essai sans carte bancaire.',
+    '49 € par mois pour l’identité de votre Collaborateur IA. Choisissez séparément les modèles avec des crédits Unitalk, vos clés API ou les deux.',
 }
 
 export default function TarifsPage() {
@@ -19,6 +19,7 @@ export default function TarifsPage() {
         <PricingHero />
         <PricingConfigurator />
         <PricingExplanations />
+        <MultiCollaboratorConfigurator />
         <PricingFaq />
       </main>
       <SiteFooter />

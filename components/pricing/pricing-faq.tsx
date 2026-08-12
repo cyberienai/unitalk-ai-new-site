@@ -16,15 +16,27 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
         items: [
           {
             q: `Que comprend le forfait à ${price} ?`,
-            a: `Le forfait comprend l’identité professionnelle persistante d’un Collaborateur IA, sa mémoire, ses profils métier illimités, ses coordonnées, son Workspace privé et ses accès contrôlés. L’essai de ${pricingConfig.trialDays} jours inclut 1 million de tokens. Les usages IA après l’essai sont réglés séparément.`,
+            a: 'Une identité professionnelle de Collaborateur IA, son environnement privé, son Workspace, sa mémoire, ses profils métier et ses compétences illimités. Alma et Unitalk Desktop sont également incluses gratuitement.',
           },
           {
-            q: 'Comment sont facturés les usages IA après l’essai ?',
-            a: `Vous choisissez dans l’application entre des crédits Unitalk à partir de ${credits} par mois, vos propres clés API ou un mode hybride. Le forfait d’identité reste séparé de ces usages.`,
+            q: 'Comment sont réglés les modèles IA ?',
+            a: `Après l’essai, vous pouvez utiliser des crédits Unitalk à partir de ${credits} par mois, vos propres clés API ou combiner les deux. Les coûts des fournisseurs externes restent facturés par ces fournisseurs.`,
           },
           {
-            q: 'Puis-je utiliser mes propres clés API ?',
-            a: 'Oui. Les appels concernés sont alors facturés directement par vos fournisseurs. Vous pouvez aussi combiner vos clés avec un budget Unitalk.',
+            q: 'Pourquoi les usages IA sont-ils séparés ?',
+            a: 'Le Collaborateur IA est une identité durable. Les modèles peuvent changer selon le travail, le niveau de qualité attendu et vos propres accords fournisseurs.',
+          },
+          {
+            q: 'Puis-je utiliser des modèles privés ?',
+            a: 'Oui, selon leur compatibilité avec l’AI Gateway et la configuration de votre organisation.',
+          },
+          {
+            q: 'Alma est-elle facturée comme un Collaborateur IA ?',
+            a: 'Non. Alma est la Conseillère IA de Unitalk et reste incluse gratuitement.',
+          },
+          {
+            q: 'Unitalk Desktop est-elle payante ?',
+            a: 'Non. Unitalk Desktop est incluse gratuitement. Les garanties précises de traitement local dépendent du mode et des modèles utilisés.',
           },
         ],
       }
@@ -33,15 +45,27 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
         items: [
           {
             q: `What does the ${price} plan include?`,
-            a: `The plan includes one AI Collaborator’s persistent professional identity, memory, unlimited job profiles, contact details, private Workspace and controlled access. The ${pricingConfig.trialDays}-day trial includes 1 million tokens. AI usage after the trial is billed separately.`,
+            a: 'One AI Collaborator’s professional identity, private environment, Workspace, memory, unlimited job profiles and unlimited skills. Alma and Unitalk Desktop are also included free of charge.',
           },
           {
-            q: 'How is AI usage billed after the trial?',
-            a: `In the application, choose Unitalk credits from ${credits} per month, your own API keys, or hybrid mode. The identity plan remains separate from usage.`,
+            q: 'How are AI models paid for?',
+            a: `After the trial, use Unitalk credits from ${credits} per month, your own API keys, or combine both. External provider costs remain billed by those providers.`,
           },
           {
-            q: 'Can I use my own API keys?',
-            a: 'Yes. The relevant calls are billed directly by your providers. You can also combine your keys with a Unitalk budget.',
+            q: 'Why is AI usage separate?',
+            a: 'The AI Collaborator is a lasting identity. Models can change depending on the work, the required quality and your own provider agreements.',
+          },
+          {
+            q: 'Can I use private models?',
+            a: 'Yes, depending on their compatibility with the AI Gateway and your organization’s configuration.',
+          },
+          {
+            q: 'Is Alma billed as an AI Collaborator?',
+            a: 'No. Alma is Unitalk’s AI Advisor and remains included free of charge.',
+          },
+          {
+            q: 'Is Unitalk Desktop paid?',
+            a: 'No. Unitalk Desktop is included free of charge. Exact local processing guarantees depend on the mode and models used.',
           },
         ],
       }
