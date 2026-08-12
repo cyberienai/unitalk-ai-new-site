@@ -1,17 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { LanguageToggle } from '@/components/language-toggle'
 import { FlowStepper } from './flow-stepper'
-import { ScreenAccount } from './screen-account'
+import { ScreenAccount, type SelectedMission } from './screen-account'
 import { ScreenContext } from './screen-context'
 import { ScreenMission } from './screen-mission'
 import { ScreenCollaborateur } from './screen-collaborateur'
 import { initialOnboardingState, STEP_ORDER, type OnboardingState, type OnboardingStep } from './types'
+import { MISSIONS } from '@/lib/missions-catalog'
+import { actionDescription, shortCategoryLabel } from '@/components/missions/store-card'
 
 // The /decouvrir onboarding. A single shared state carries the account, the
   // company context, the mission and the chosen first name across every screen.
@@ -19,9 +22,35 @@ import { initialOnboardingState, STEP_ORDER, type OnboardingState, type Onboardi
 export function DiscoverFlow() {
   const { lang } = useLanguage()
   const reduce = useReducedMotion()
+  const searchParams = useSearchParams()
+  const missionSlug = searchParams.get('mission')
+  const draftId = searchParams.get('draft')
+  const catalogMission = useMemo(() => MISSIONS.find((mission) => mission.slug === missionSlug), [missionSlug])
+  const [draftText, setDraftText] = useState('')
 
   const [state, setState] = useState<OnboardingState>(initialOnboardingState)
   const [step, setStep] = useState<OnboardingStep>('entreprise')
+
+  useEffect(() => {
+    if (!draftId) return
+    try {
+      const raw = localStorage.getItem(`unitalk_mission_${draftId}`)
+      if (raw) setDraftText((JSON.parse(raw) as { text?: string }).text?.trim() ?? '')
+    } catch {}
+  }, [draftId])
+
+  const selectedMission: SelectedMission = catalogMission
+    ? {
+        slug: catalogMission.slug,
+        title: catalogMission.title[lang],
+        description: actionDescription(catalogMission, lang),
+        category: shortCategoryLabel(catalogMission.category, lang),
+      }
+    : {
+        title: draftText || (lang === 'fr' ? 'Votre première mission' : 'Your first mission'),
+        description: lang === 'fr' ? 'Alma va structurer votre demande et l’adapter au contexte de votre entreprise.' : 'Alma will structure your request and adapt it to your company context.',
+        category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission',
+      }
 
   function goTo(next: OnboardingStep) {
     setStep(next)
@@ -39,25 +68,30 @@ export function DiscoverFlow() {
         transition: { duration: 0.3 },
       }
 
-  // Account screen — no stepper, its own quiet full-height surface.
   if (!state.authenticated) {
     return (
       <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
-        <header className="flex items-center justify-between gap-4 px-5 py-4 sm:px-8">
+        <header className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] bg-[#F3EFE6] px-5 py-4 sm:px-8">
           <a href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Unitalk">
             <UnitalkLogo size={22} />
             <span className="font-inter text-sm font-semibold">Unitalk</span>
           </a>
-          <LanguageToggle />
+          <div className="flex items-center gap-4">
+            <p className="hidden text-[12px] font-semibold text-[#6E665A] sm:block">{lang === 'fr' ? 'Mission choisie ✓' : 'Mission selected ✓'}</p>
+            <LanguageToggle />
+          </div>
         </header>
-        <div className="mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
+        <div className="w-full flex-1">
           <ScreenAccount
             lang={lang}
+            mission={selectedMission}
             onAuthenticated={({ provider, email, firstName, lastName }) => {
               const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
               setState((s) => ({
                 ...s,
                 authenticated: true,
+                mission: selectedMission.title ? { ...s.mission, title: selectedMission.title } : s.mission,
+                missionDefined: Boolean(selectedMission.title),
                 firstName: firstName?.trim() ?? '',
                 lastName: lastName?.trim() ?? '',
                 company: domain

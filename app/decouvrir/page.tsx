@@ -1,12 +1,17 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { DiscoverFlow } from '@/components/discover/discover-flow'
 
 export const metadata: Metadata = {
-  title: 'Commencer avec Unitalk · Découvrir',
+  title: 'Poursuivre votre mission avec Alma · Unitalk',
   description:
-    'Créez votre compte, confirmez le contexte de votre entreprise, définissez votre première mission et créez votre premier Collaborateur IA pour commencer à travailler dans le Workspace.',
+    'Alma conserve votre mission, l’adapte à votre entreprise et prépare votre premier Collaborateur IA.',
 }
 
 export default function DecouvrirPage() {
-  return <DiscoverFlow />
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#F3EFE6]" />}>
+      <DiscoverFlow />
+    </Suspense>
+  )
 }

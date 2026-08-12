@@ -58,6 +58,18 @@ export function MissionsContent() {
   const recognitionRef = useRef<any>(null)
 
   useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('unitalk_missions_state')
+      if (!raw) return
+      const saved = JSON.parse(raw) as { category?: string; showOthers?: boolean; need?: string; scrollY?: number }
+      if (saved.category) setCategory(saved.category)
+      if (typeof saved.showOthers === 'boolean') setShowOthers(saved.showOthers)
+      if (typeof saved.need === 'string') setNeed(saved.need)
+      if (typeof saved.scrollY === 'number') requestAnimationFrame(() => window.scrollTo({ top: saved.scrollY }))
+    } catch {}
+  }, [])
+
+  useEffect(() => {
     const SpeechRecognition =
       typeof window !== 'undefined'
         ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
@@ -109,9 +121,36 @@ export function MissionsContent() {
     }
   }
 
-  function handToAlma(value: string) {
+  function rememberCatalogState() {
+    try {
+      sessionStorage.setItem('unitalk_missions_state', JSON.stringify({ category, showOthers, need, scrollY: window.scrollY }))
+    } catch {}
+  }
+
+  function navigateToDiscover(href: string) {
+    rememberCatalogState()
+    const documentWithTransition = document as Document & {
+      startViewTransition?: (update: () => void) => void
+    }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && documentWithTransition.startViewTransition) {
+      documentWithTransition.startViewTransition(() => router.push(href))
+      return
+    }
+    router.push(href)
+  }
+
+  function handDraftToAlma(value: string) {
     const clean = value.trim()
-    if (clean) router.push(`/decouvrir?q=${encodeURIComponent(clean)}`)
+    if (!clean) return
+    const draftId = `draft_${crypto.randomUUID()}`
+    try {
+      localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() }))
+    } catch {}
+    navigateToDiscover(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
+  }
+
+  function handMissionToAlma(mission: Mission) {
+    navigateToDiscover(`/decouvrir?mission=${encodeURIComponent(mission.slug)}`)
   }
 
   function selectOther() {
@@ -134,7 +173,7 @@ export function MissionsContent() {
               onKeyDown={(event) => {
                 if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
                   event.preventDefault()
-                  handToAlma(need)
+                  handDraftToAlma(need)
                 }
               }}
               rows={1}
@@ -144,7 +183,7 @@ export function MissionsContent() {
             />
             <button
               type="button"
-              onClick={() => (need.trim() ? handToAlma(need) : toggleListening())}
+              onClick={() => (need.trim() ? handDraftToAlma(need) : toggleListening())}
               disabled={!need.trim() && !voiceSupported}
               title={!need.trim() && !voiceSupported ? t.voiceUnavailable : undefined}
               aria-label={need.trim() ? t.send : listening ? t.stop : t.talk}
@@ -191,7 +230,7 @@ export function MissionsContent() {
           <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${CATEGORY_LABELS[category]?.[lang] ?? category} · ${missions.length} missions`}</p>
           <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
-              <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={(selected) => handToAlma(selected.title[lang])} />
+              <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={handMissionToAlma} />
             ))}
           </div>
         </section>

@@ -1,23 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
-import { Loader2, Mail } from 'lucide-react'
+import { ChevronUp, Loader2, Mail } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { startSession } from '@/app/actions/auth'
 import type { AuthProvider } from '@/lib/mock-auth'
-import { UnitalkLogo } from '@/components/unitalk-logo'
+import { GoogleIcon, MicrosoftIcon } from '@/components/auth/provider-icons'
 
-// Screen 0 — account creation. Intentionally the simplest surface of the whole
-// flow: a logo, one promise, three ways in. No password, no credit card, no
-// company details. Each action creates a REAL (simulated) session cookie, then
-// hands off to the first step — so the user is never asked to sign in again,
-// and the Workspace opens directly at the end of the flow.
+export type SelectedMission = {
+  slug?: string
+  title: string
+  description: string
+  category: string
+}
+
 export function ScreenAccount({
   lang,
+  mission,
   onAuthenticated,
 }: {
   lang: Lang
+  mission: SelectedMission
   onAuthenticated: (identity: {
     provider: AuthProvider
     email?: string
@@ -25,21 +28,16 @@ export function ScreenAccount({
     lastName?: string
   }) => void
 }) {
-  const reduce = useReducedMotion()
   const t = COPY[lang]
   const [pending, setPending] = useState<AuthProvider | null>(null)
   const [email, setEmail] = useState('')
-
+  const [missionOpen, setMissionOpen] = useState(true)
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
 
   async function go(provider: AuthProvider) {
-    if (pending) return
-    // For the email path, require a valid address before creating the session.
-    if (provider === 'email' && !emailValid) return
+    if (pending || (provider === 'email' && !emailValid)) return
     setPending(provider)
     try {
-      // Create the session up front — the account exists from the very first
-      // screen, so the journey ends by opening the Workspace, not by re-login.
       const session = await startSession(provider, provider === 'email' ? email.trim() : undefined)
       onAuthenticated({
         provider,
@@ -53,150 +51,87 @@ export function ScreenAccount({
   }
 
   return (
-    <div className="mx-auto flex min-h-[70vh] w-full max-w-[440px] flex-col items-center justify-center py-10 text-center">
-      <motion.div
-        initial={reduce ? false : { opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full"
+    <div className="grid min-h-[calc(100vh-61px)] lg:grid-cols-[42fr_58fr]">
+      <aside
+        style={mission.slug ? { viewTransitionName: `mission-${mission.slug}` } : undefined}
+        className="relative overflow-hidden bg-[#151310] px-5 py-7 text-[#FAF8F3] sm:px-10 lg:flex lg:min-h-0 lg:flex-col lg:justify-between lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-14"
       >
-        <div className="flex justify-center">
-          <UnitalkLogo size={30} />
-        </div>
-
-        <h1 className="mt-7 text-balance font-sf text-[clamp(1.6rem,4vw,2.15rem)] font-semibold leading-tight tracking-[-0.03em] text-[#1C1A17]">
-          {t.title}
-        </h1>
-        <p className="mt-3 text-pretty text-[15px] leading-relaxed text-[#4E483F]">{t.subtitle}</p>
-
-        <div className="mt-9 flex flex-col gap-3">
-          {/* The three ways in share one visual weight: no option is pushed
-              ahead of the others — the user simply picks what they already use. */}
-          <AuthButton onClick={() => go('google')} pending={pending === 'google'} disabled={!!pending}>
-            <GoogleMark />
-            {t.google}
-          </AuthButton>
-
-          <AuthButton onClick={() => go('microsoft')} pending={pending === 'microsoft'} disabled={!!pending}>
-            <MicrosoftMark />
-            {t.microsoft}
-          </AuthButton>
-
-          <div className="relative my-1 flex items-center gap-3">
-            <span className="h-px flex-1 bg-[#E4DDCE]" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#8A8175]">{t.or}</span>
-            <span className="h-px flex-1 bg-[#E4DDCE]" />
+        <div aria-hidden className="pointer-events-none absolute -left-32 -top-40 h-96 w-96 rounded-full bg-[#D10E63]/10 blur-3xl" />
+        <div className="relative">
+          <div className="flex items-center justify-between gap-4">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#F39AC2]">{t.selected}</p>
+            <button type="button" aria-expanded={missionOpen} onClick={() => setMissionOpen((open) => !open)} className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#C9C1B8] lg:hidden">
+              {missionOpen ? t.collapse : t.expand}
+              <ChevronUp className={`h-3.5 w-3.5 transition-transform ${missionOpen ? '' : 'rotate-180'}`} />
+            </button>
           </div>
-
-          <input
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) go('email')
-            }}
-            placeholder={t.emailPlaceholder}
-            aria-label={t.emailPlaceholder}
-            disabled={!!pending}
-            className="h-12 w-full rounded-xl border border-[#E4DDCE] bg-white px-4 text-center text-[15px] text-[#1C1A17] shadow-[0_1px_0_rgba(255,255,255,0.7)_inset] outline-none transition-colors placeholder:text-[#A79F91] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/25 disabled:opacity-70"
-          />
-
-          <AuthButton
-            onClick={() => go('email')}
-            pending={pending === 'email'}
-            disabled={!!pending || !emailValid}
-          >
-            <Mail className="h-[18px] w-[18px] text-[#6E665A]" />
-            {t.email}
-          </AuthButton>
+          <div className={missionOpen ? 'block' : 'hidden lg:block'}>
+            <h1 className="mt-6 max-w-xl font-sf text-[clamp(2.15rem,4.2vw,4.75rem)] font-bold leading-[0.98] tracking-[-0.055em] text-white">{mission.title}</h1>
+            <p className="mt-6 max-w-md text-[15px] leading-7 text-[#C9C1B8] sm:text-[16px]">{mission.description}</p>
+            <p className="mt-6 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#F05C9D]">{mission.category}</p>
+          </div>
         </div>
+        <div className={`relative mt-8 border-t border-white/15 pt-6 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
+          <p className="max-w-md text-sm leading-6 text-[#C9C1B8]">{t.adapted}</p>
+          <a href="/missions" className="mt-6 inline-flex text-sm font-semibold text-white underline decoration-white/25 underline-offset-4 hover:decoration-white">← {t.change}</a>
+        </div>
+      </aside>
 
-        <p className="mt-7 text-[12px] leading-relaxed text-[#6E665A]">{t.reassure}</p>
-      </motion.div>
+      <section className="flex min-w-0 items-center bg-[#F3EFE6] px-5 py-10 sm:px-10 lg:px-[clamp(3rem,7vw,7rem)] lg:py-14">
+        <div className="mx-auto w-full max-w-[480px]">
+          <Progress lang={lang} />
+          <div className="mt-10 flex items-center gap-3">
+            <img src="/alma-avatar.png" alt="" className="h-10 w-10 rounded-full object-cover ring-1 ring-[#D10E63]/25" />
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.alma}</p>
+          </div>
+          <div className="mt-7 space-y-4 text-[15px] leading-7 text-[#4E483F]">
+            <p><strong className="font-semibold text-[#1C1A17]">{t.noted}</strong> {t.message}</p>
+            <p>{t.attached}</p>
+          </div>
+          <h2 className="mt-8 text-balance font-sf text-[28px] font-bold leading-tight tracking-[-0.035em] text-[#1C1A17] sm:text-[34px]">{t.question}</h2>
+
+          <div className="mt-7 flex flex-col gap-3">
+            <AuthButton onClick={() => go('google')} pending={pending === 'google'} disabled={!!pending}>
+              <GoogleIcon className="h-[18px] w-[18px]" />{t.google}
+            </AuthButton>
+            <AuthButton onClick={() => go('microsoft')} pending={pending === 'microsoft'} disabled={!!pending}>
+              <MicrosoftIcon className="h-[18px] w-[18px]" />{t.microsoft}
+            </AuthButton>
+            <div className="my-1 flex items-center gap-3">
+              <span className="h-px flex-1 bg-[#D8D0C2]" />
+              <span className="text-[11px] text-[#8A8175]">{t.or}</span>
+              <span className="h-px flex-1 bg-[#D8D0C2]" />
+            </div>
+            <input type="email" inputMode="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing) go('email') }} placeholder={t.emailPlaceholder} aria-label={t.emailPlaceholder} disabled={!!pending} className="h-12 w-full rounded-xl border border-[#D8D0C2] bg-white px-4 text-[15px] text-[#1C1A17] outline-none transition-colors placeholder:text-[#A79F91] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/20 disabled:opacity-70" />
+            <button type="button" onClick={() => go('email')} disabled={!!pending || !emailValid} aria-busy={pending === 'email'} className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 text-[15px] font-semibold text-white transition-colors hover:bg-[#B90C58] disabled:cursor-not-allowed disabled:bg-[#C9C1B8] disabled:text-[#F7F3EC]">
+              {pending === 'email' ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <><Mail className="h-[18px] w-[18px]" />{t.email} →</>}
+            </button>
+          </div>
+          <p className="mt-6 text-[12px] leading-relaxed text-[#6E665A]">{t.reassure}</p>
+        </div>
+      </section>
     </div>
   )
 }
 
-// One shared button style for all three sign-in options — equal visual weight.
-function AuthButton({
-  children,
-  onClick,
-  pending,
-  disabled,
-}: {
-  children: React.ReactNode
-  onClick: () => void
-  pending: boolean
-  disabled: boolean
-}) {
+function Progress({ lang }: { lang: Lang }) {
+  const t = COPY[lang]
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      aria-busy={pending}
-      className="group inline-flex h-12 items-center justify-center gap-3 rounded-xl border border-[#E4DDCE] bg-white px-5 text-[15px] font-semibold text-[#1C1A17] shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_10px_24px_-18px_rgba(28,26,23,0.5)] transition-colors hover:border-[#D8D0C2] hover:bg-[#FBF9F3] disabled:cursor-wait disabled:opacity-70"
-    >
-      {pending ? <Loader2 className="h-[18px] w-[18px] animate-spin text-[#6E665A]" /> : children}
-    </button>
+    <ol aria-label={t.progress} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#9A9185] sm:gap-3">
+      <li className="text-[#B00C54]">{t.missionStep} ✓</li><li aria-hidden className="h-px w-4 bg-[#D8D0C2]" /><li aria-current="step" className="text-[#1C1A17]">{t.companyStep}</li><li aria-hidden className="h-px w-4 bg-[#D8D0C2]" /><li>{t.collaboratorStep}</li>
+    </ol>
   )
 }
 
-function GoogleMark() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-[18px] w-[18px]">
-      <path
-        fill="#4285F4"
-        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.76h3.56c2.08-1.92 3.28-4.74 3.28-8.09Z"
-      />
-      <path
-        fill="#34A853"
-        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.76c-.98.66-2.24 1.06-3.72 1.06-2.86 0-5.28-1.93-6.15-4.53H2.18v2.84A11 11 0 0 0 12 23Z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M5.85 14.11a6.6 6.6 0 0 1 0-4.22V7.05H2.18a11 11 0 0 0 0 9.9l3.67-2.84Z"
-      />
-      <path
-        fill="#EA4335"
-        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.05l3.67 2.84C6.72 7.31 9.14 5.38 12 5.38Z"
-      />
-    </svg>
-  )
-}
-
-function MicrosoftMark() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-[18px] w-[18px]">
-      <path fill="#F25022" d="M3 3h8.5v8.5H3z" />
-      <path fill="#7FBA00" d="M12.5 3H21v8.5h-8.5z" />
-      <path fill="#00A4EF" d="M3 12.5h8.5V21H3z" />
-      <path fill="#FFB900" d="M12.5 12.5H21V21h-8.5z" />
-    </svg>
-  )
+function AuthButton({ children, onClick, pending, disabled }: { children: React.ReactNode; onClick: () => void; pending: boolean; disabled: boolean }) {
+  return <button type="button" onClick={onClick} disabled={disabled} aria-busy={pending} className="inline-flex h-12 items-center justify-center gap-3 rounded-xl border border-[#D8D0C2] bg-white px-5 text-[15px] font-semibold text-[#1C1A17] shadow-[0_10px_24px_-20px_rgba(28,26,23,0.5)] transition-colors hover:bg-[#FBF9F3] disabled:cursor-wait disabled:opacity-70">{pending ? <Loader2 className="h-[18px] w-[18px] animate-spin text-[#6E665A]" /> : children}</button>
 }
 
 const COPY = {
   fr: {
-    title: 'Créez votre compte Unitalk.',
-    subtitle: 'Utilisez votre adresse professionnelle pour commencer.',
-    google: 'Continuer avec Google',
-    microsoft: 'Continuer avec Microsoft',
-    emailPlaceholder: 'vous@entreprise.com',
-    email: 'Recevoir un lien par email',
-    or: 'ou',
-    reassure: 'Aucun mot de passe, aucune carte bancaire. Vous pourrez tout ajuster ensuite.',
+    selected: 'Mission choisie', collapse: 'Réduire', expand: 'Afficher', adapted: 'Cette mission sera adaptée à votre entreprise avant toute exécution.', change: 'Changer de mission', alma: 'Alma · Conseillère IA · Unitalk', noted: 'C’est noté.', message: 'Pour adapter cette mission, j’ai d’abord besoin d’identifier votre entreprise.', attached: 'Votre mission restera attachée à votre compte.', question: 'Avec quelle entreprise allons-nous travailler ?', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou utiliser votre adresse professionnelle', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer par email', reassure: 'Aucun mot de passe · Aucune carte bancaire · Mission conservée', progress: 'Progression', missionStep: 'Mission', companyStep: 'Entreprise · en cours', collaboratorStep: 'Collaborateur IA',
   },
   en: {
-    title: 'Create your Unitalk account.',
-    subtitle: 'Use your work email to get started.',
-    google: 'Continue with Google',
-    microsoft: 'Continue with Microsoft',
-    emailPlaceholder: 'you@company.com',
-    email: 'Get a link by email',
-    or: 'or',
-    reassure: 'No password, no credit card. You can adjust everything later.',
+    selected: 'Selected mission', collapse: 'Collapse', expand: 'Show', adapted: 'This mission will be adapted to your company before any execution.', change: 'Change mission', alma: 'Alma · AI Advisor · Unitalk', noted: 'Got it.', message: 'To adapt this mission, I first need to identify your company.', attached: 'Your mission will remain attached to your account.', question: 'Which company will we be working with?', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or use your work email', emailPlaceholder: 'you@company.com', email: 'Continue by email', reassure: 'No password · No credit card · Mission saved', progress: 'Progress', missionStep: 'Mission', companyStep: 'Company · in progress', collaboratorStep: 'AI Collaborator',
   },
 } as const

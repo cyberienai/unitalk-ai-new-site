@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
@@ -53,6 +54,7 @@ export function StoreCard({
   return (
     <article
       data-mission-card={mission.slug}
+      style={{ viewTransitionName: `mission-${mission.slug}` }}
       className="group relative grid w-full cursor-pointer grid-rows-[44px_44px_auto] rounded-xl border border-[#DED6C8] bg-[#FAF8F3] p-[18px] text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:bg-[#FFFDF9] hover:shadow-[0_8px_20px_rgba(28,26,23,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:min-h-[176px] sm:p-5"
     >
       <button
@@ -132,7 +134,7 @@ const IMPERATIVE_VERBS: Record<string, { fr: string; en: string }> = {
   vérifier: { fr: 'Vérifiez', en: 'Check' },
 }
 
-function actionDescription(mission: Mission, lang: Lang): string {
+export function actionDescription(mission: Mission, lang: Lang): string {
   const override = DESCRIPTION_OVERRIDES[mission.slug]
   if (override) return override[lang]
 
@@ -145,7 +147,7 @@ function actionDescription(mission: Mission, lang: Lang): string {
   return `${action.charAt(0).toUpperCase()}${action.slice(1)}. ${mission.result[lang]}`
 }
 
-function shortCategoryLabel(key: string, lang: Lang): string {
+export function shortCategoryLabel(key: string, lang: Lang): string {
   const labels: Record<string, { fr: string; en: string }> = {
     ventes: { fr: 'Ventes', en: 'Sales' },
     'relation-client': { fr: 'Service client', en: 'Customer service' },
