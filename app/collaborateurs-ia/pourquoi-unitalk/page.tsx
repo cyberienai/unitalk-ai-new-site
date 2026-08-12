@@ -4,9 +4,10 @@ import { CollabWhyContent } from '@/components/collab-why-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Pourquoi Unitalk ? · Collaborateurs IA · Unitalk',
+  title: 'Pourquoi Unitalk ? · Votre intelligence vous appartient',
   description:
-    'Les 8 U de Unitalk : universal, unique, unified, useful, ubiquitous, understanding, upgradeable et user-controlled. L’interface de travail ouverte et gouvernée qui fait de l’IA une véritable capacité de votre entreprise.',
+    'Découvrez la vision Unitalk : une entreprise AI Native où humains et Collaborateurs IA travaillent ensemble, sur une base ouverte et gouvernée.',
+  alternates: { canonical: 'https://unitalk.ai/collaborateurs-ia/pourquoi-unitalk' },
 }
 
 export default function PourquoiUnitalkPage() {
