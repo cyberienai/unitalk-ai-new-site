@@ -163,6 +163,12 @@
     "Helvetica Neue", "Inter", "Segoe UI", system-ui, sans-serif;
 }
 
+:root {
+  --main-header-height: 76px;
+  --subnav-height: 60px;
+  --combined-sticky-height: calc(var(--main-header-height) + var(--subnav-height));
+}
+
 /* Shared hero typography for the main public pages. */
 @utility hero-heading {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
@@ -177,7 +183,7 @@
 section[id],
 h2[id],
 h3[id] {
-  scroll-margin-top: 9rem;
+  scroll-margin-top: calc(var(--combined-sticky-height) + 24px);
 }
 
 /* Hide scrollbar while keeping scroll functionality (Tailwind v4 custom utility) */

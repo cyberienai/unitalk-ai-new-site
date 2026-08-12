@@ -10,8 +10,8 @@ export function CollabSubNav({ active, dark = false }: { active: string; dark?: 
     <nav
       className={
         dark
-          ? 'sticky top-[76px] z-30 border-b border-[#2C2822] bg-[#151310]/90 backdrop-blur-md'
-          : 'sticky top-[76px] z-30 border-b border-[#DDD5CA] bg-[#F3EFE6]/90 backdrop-blur-md'
+          ? 'z-30 border-b border-[#2C2822] bg-[#151310]/90 backdrop-blur-md md:sticky md:top-[var(--main-header-height)]'
+          : 'z-30 border-b border-[#DDD5CA] bg-[#F3EFE6]/90 backdrop-blur-md md:sticky md:top-[var(--main-header-height)]'
       }
     >
       <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-5 py-3 sm:px-6 lg:px-8 scrollbar-hide">
