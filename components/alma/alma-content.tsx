@@ -1,7 +1,6 @@
 'use client'
 
 import { Navbar } from '@/components/navbar'
-import { CollabSubNav } from '@/components/collab-subnav'
 import { SiteFooter } from '@/components/site-footer'
 import { AlmaProvider } from '@/components/home/alma-panel-context'
 import { AlmaHero } from './hero'
@@ -25,7 +24,6 @@ export function AlmaContent() {
     <AlmaProvider>
       <div className="min-h-screen bg-[#F4F1EA] text-[#1C1A17]">
         <Navbar />
-        <CollabSubNav active="/alma" />
 
         {/* HERO — speech becomes a structured mission */}
         <AlmaHero />

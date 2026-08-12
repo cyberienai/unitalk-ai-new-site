@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, GraduationCap, Plug, PlusCircle, TrendingUp, UserPlus } from 'lucide-react'
 import { useT } from '@/lib/language-context'
-import { CollabSubNav } from './collab-subnav'
 
 const STEP_ICONS = [PlusCircle, UserPlus, GraduationCap, Plug, TrendingUp]
 
@@ -55,7 +54,6 @@ export function CollabHowContent() {
 
   return (
     <main className="w-full bg-[#F3EFE6]">
-      <CollabSubNav active="/collaborateurs-ia/comment-ca-fonctionne" />
 
       {/* Hero */}
       <section className="px-5 py-20 sm:px-6 sm:py-28 lg:px-8">

@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
-import { CollabSubNav } from './collab-subnav'
 
 const PRINCIPLES = [
   ['Universal', 'Une interface de travail', 'Humains, Collaborateurs IA, applications et modèles se retrouvent dans le même environnement.'],
@@ -22,9 +21,8 @@ export function CollabWhyContent() {
   const fr = lang === 'fr'
   return (
     <main className="bg-[#F3EFE6] text-[#1C1A17]">
-      <CollabSubNav active="/collaborateurs-ia/pourquoi-unitalk" dark />
 
-      <section className="scroll-mt-32 bg-[#151310] px-5 pb-14 pt-14 text-[#F3EFE6] sm:px-8 sm:pb-16 sm:pt-16">
+      <section className="scroll-mt-32 bg-[#151310] px-5 pb-14 pt-[8.75rem] text-[#F3EFE6] sm:px-8 sm:pb-16 sm:pt-[9.25rem]">
         <div className="mx-auto grid max-w-[1280px] items-center gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(25rem,0.8fr)] lg:gap-12">
           <div>
             <Eyebrow dark>{fr ? 'Pourquoi Unitalk' : 'Why Unitalk'}</Eyebrow>

@@ -16,7 +16,7 @@ export function CollaborateurExperience() {
 
   return (
     <main>
-      <section className="px-5 pb-14 pt-20 sm:px-8 sm:pb-16 sm:pt-24">
+      <section className="px-5 pb-14 pt-[8.75rem] sm:px-8 sm:pb-16 sm:pt-[9.25rem]">
         <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
           <div>
             <Kicker>{t.heroKicker}</Kicker>

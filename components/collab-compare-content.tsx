@@ -1,7 +1,6 @@
 'use client'
 
 import { useLanguage } from '@/lib/language-context'
-import { CollabSubNav } from '@/components/collab-subnav'
 import { ProofPill } from '@/components/ui/proof-pill'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -218,7 +217,6 @@ export function CollabCompareContent() {
 
   return (
     <main className="w-full bg-[#F3EFE6]">
-      <CollabSubNav active="/collaborateurs-ia/comparatif" />
 
       {/* Hero */}
       <section className="border-b border-[#E4DDCE] px-5 py-20 sm:px-6 sm:py-28 lg:px-8">

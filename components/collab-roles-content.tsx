@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useLanguage, useT } from '@/lib/language-context'
 import { DEPARTMENTS } from '@/lib/collaborators-catalog'
-import { CollabSubNav } from './collab-subnav'
 
 export function CollabRolesContent() {
   const { lang } = useLanguage()
@@ -35,7 +34,6 @@ export function CollabRolesContent() {
 
   return (
     <main className="w-full bg-[#F3EFE6]">
-      <CollabSubNav active="/collaborateurs-ia/roles" />
 
       {/* Hero */}
       <section className="px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
