@@ -20,6 +20,7 @@ export async function generateMetadata({
   const { slug } = await params
   const article = getBlogArticle(slug)
   if (!article) return { title: 'Article' }
+  const ogImage = article.image || `/blog/${slug}/opengraph-image`
   return {
     title: article.seoTitle?.fr ?? article.title.fr,
     description: article.excerpt.fr,
@@ -28,8 +29,14 @@ export async function generateMetadata({
       title: article.seoTitle?.fr ?? article.title.fr,
       description: article.excerpt.fr,
       url: `${SITE_URL}${article.canonical ?? `/blog/${slug}`}`,
-      images: article.image ? [{ url: article.image }] : undefined,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
       type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.seoTitle?.fr ?? article.title.fr,
+      description: article.excerpt.fr,
+      images: [ogImage],
     },
   }
 }
@@ -44,13 +51,27 @@ export default async function BlogArticlePage({
   if (!article) notFound()
 
   const canonical = `${SITE_URL}${article.canonical ?? `/blog/${slug}`}`
+  const published = article.specializedLayout === 'prospects-guide' ? '2026-08-12' : undefined
+  const image = `${SITE_URL}/blog/${slug}/opengraph-image`
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: article.title.fr,
+    headline: article.specializedLayout === 'prospects-guide'
+      ? 'Trouver des prospects qualifiés avec l’IA : une liste ne vaut pas une bonne sélection'
+      : article.title.fr,
     description: article.excerpt.fr,
     mainEntityOfPage: canonical,
-    publisher: { '@type': 'Organization', name: 'Unitalk', url: SITE_URL },
+    image,
+    datePublished: published,
+    dateModified: published,
+    inLanguage: 'fr-FR',
+    author: { '@type': 'Organization', name: 'Unitalk', url: SITE_URL },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Unitalk',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.svg` },
+    },
   }
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',

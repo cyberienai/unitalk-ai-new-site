@@ -15,11 +15,12 @@ export function ProspectsGuideContent() {
         <Link href="/blog" className="text-sm font-semibold text-[#6E665A] transition-colors hover:text-[#D10E63]">← Tous les articles</Link>
         <p className="mt-7 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Prospection B2B</p>
         <h1 className="mt-3 text-balance font-sf text-[clamp(2rem,4vw,2.8rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1C1A17]">
-          Trouver des prospects qualifiés : une longue liste ne vaut pas une bonne sélection
+          Trouver des prospects qualifiés avec l’IA : une liste ne vaut pas une bonne sélection
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-[#4E483F]">
           La prospection ne manque pas de données. Elle manque souvent de discernement. Obtenir des centaines de noms est simple ; savoir lesquels correspondent réellement à votre offre, au bon moment et pour les bonnes raisons l’est beaucoup moins.
         </p>
+        <p className="mt-4 text-sm font-medium text-[#6E665A]">Par Unitalk · Mis à jour le 12 août 2026 · 7 min de lecture</p>
 
         <section id="definition" className="mt-10 rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-5">
           <h2 className="font-sf text-xl font-bold">Qu’est-ce qu’un prospect qualifié ?</h2>
@@ -30,9 +31,9 @@ export function ProspectsGuideContent() {
 
         <nav aria-label="Dans cet article" className="mt-8 border-y border-[#DED6C8] py-5">
           <p className="font-sf font-bold">Dans cet article</p>
-          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-            {toc.map(([id, label]) => <li key={id}><a href={`#${id}`} className="text-sm text-[#4E483F] hover:text-[#D10E63]">• {label}</a></li>)}
-          </ul>
+          <ol className="mt-3 space-y-2">
+            {toc.map(([id, label], index) => <li key={id}><a href={`#${id}`} className="grid grid-cols-[2rem_1fr] text-sm text-[#4E483F] hover:text-[#D10E63]"><span className="font-mono text-[#B00C54]">{String(index + 1).padStart(2, '0')}</span><span>{label}</span></a></li>)}
+          </ol>
         </nav>
 
         <ArticleSection title="Commencer par définir ce qu’est un bon prospect">
@@ -43,16 +44,19 @@ export function ProspectsGuideContent() {
 
         <ArticleSection id="recherche" title="Confier la recherche, pas le jugement final">
           <p>Une fois le cadre validé, le <Link href="/collaborateurs-ia" className="text-[#B00C54] underline underline-offset-4">Collaborateur IA</Link> peut rechercher les entreprises, réunir les informations publiques autorisées, vérifier les données, écarter les doublons et expliquer pourquoi chaque prospect a été retenu.</p>
-          <ol><li>rechercher les entreprises correspondant aux critères ;</li><li>réaliser l’enrichissement des données autorisées ;</li><li>identifier les signaux d’intérêt ;</li><li>présenter une sélection commerciale documentée.</li></ol>
+          <ol><li>rechercher les entreprises correspondant aux critères ;</li><li>compléter chaque fiche avec les informations autorisées ;</li><li>relever les signaux récents qui justifient la qualification ;</li><li>présenter une sélection commerciale documentée.</li></ol>
         </ArticleSection>
 
         <section className="mt-10 rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-5">
-          <h2 className="font-sf text-xl font-bold">Exemple de prospect présenté à l’équipe</h2>
+          <h2 className="font-sf text-xl font-bold">Exemple illustratif d’un prospect présenté à l’équipe</h2>
           <dl className="mt-4 grid gap-3 text-sm text-[#4E483F]">
-            <div><dt className="font-bold text-[#1C1A17]">Entreprise</dt><dd>Acme Industries</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Pourquoi elle correspond</dt><dd>86 salariés, déploiement récent en France, recrutement de trois commerciaux et outil compatible.</dd></div>
+            <div><dt className="font-bold text-[#1C1A17]">Entreprise</dt><dd>Acme Industries — exemple fictif</dd></div>
+            <div><dt className="font-bold text-[#1C1A17]">Pourquoi elle correspond</dt><dd>86 salariés et recrutement récent de trois commerciaux.</dd></div>
+            <div><dt className="font-bold text-[#1C1A17]">Sources</dt><dd>Site de l’entreprise · Offre d’emploi · Registre autorisé</dd></div>
+            <div><dt className="font-bold text-[#1C1A17]">Date du signal</dt><dd>12 août 2026</dd></div>
             <div><dt className="font-bold text-[#1C1A17]">Point à vérifier</dt><dd>Aucun responsable identifié pour le périmètre concerné.</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Recommandation</dt><dd>Conserver dans la sélection.</dd></div>
+            <div><dt className="font-bold text-[#1C1A17]">Niveau de confiance</dt><dd>Moyen</dd></div>
+            <div><dt className="font-bold text-[#1C1A17]">Recommandation</dt><dd>Conserver dans la sélection pour validation.</dd></div>
           </dl>
         </section>
 
@@ -89,7 +93,7 @@ export function ProspectsGuideContent() {
         <section className="mt-12 border-t border-[#DED6C8] pt-8">
           <h2 className="font-sf text-2xl font-bold">Prêt à identifier vos prochains prospects ?</h2>
           <p className="mt-3 text-[#4E483F]">Confiez vos critères à votre Collaborateur IA. Il prépare la sélection, votre équipe garde la décision.</p>
-          <Link href="/confier?mission=trouver-de-nouveaux-clients" className="mt-5 inline-flex rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-white">Adapter cette mission à mon entreprise →</Link>
+          <Link href="/confier?mission=trouver-de-nouveaux-clients" className="mt-5 inline-flex rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-white">Recevoir une proposition adaptée →</Link>
         </section>
       </div>
     </article>

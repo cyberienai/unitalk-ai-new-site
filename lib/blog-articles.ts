@@ -31,8 +31,8 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     readingTime: { fr: '', en: '' },
     date: { fr: '', en: '' },
     seoTitle: {
-      fr: 'Trouver des prospects qualifiés avec l’IA | Unitalk',
-      en: 'Find qualified prospects with AI | Unitalk',
+      fr: 'Trouver des prospects qualifiés avec l’IA',
+      en: 'Find qualified prospects with AI',
     },
     canonical: '/blog/trouver-prospects-qualifies-ia',
     missionSlug: 'trouver-de-nouveaux-clients',
