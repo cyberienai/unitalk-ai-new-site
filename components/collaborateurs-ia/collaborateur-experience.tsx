@@ -5,8 +5,14 @@ import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
 
-const MODEL_NAMES = ['OpenAI / GPT', 'Anthropic / Claude', 'Google Gemini', 'DeepSeek', 'Mistral AI', 'Modèles privés']
 const APP_NAMES = ['Gmail', 'Outlook', 'Google Calendar', 'Microsoft Teams', 'Slack', 'HubSpot', 'Salesforce', 'Notion', 'Google Drive', 'Dropbox', 'Stripe', 'Zendesk']
+const MODELS = [
+  { name: 'OpenAI', label: 'GPT', mark: '◉' },
+  { name: 'Anthropic', label: 'Claude', logo: '/logos/anthropic-white.svg' },
+  { name: 'Google Gemini', logo: '/logos/gemini-white.svg' },
+  { name: 'DeepSeek', logo: '/logos/deepseek-white.svg' },
+  { name: 'Mistral AI', logo: '/logos/mistral-white.svg' },
+] as const
 
 export function CollaborateurExperience() {
   const { lang } = useLanguage()
@@ -33,8 +39,8 @@ export function CollaborateurExperience() {
       <section className="bg-[#1C1A17] px-5 py-16 text-[#F3EFE6] sm:px-8 sm:py-20">
         <div className="mx-auto max-w-[1200px]">
           <SectionIntro dark kicker="Unitalk AI Gateway" title={t.modelsTitle} body={t.modelsBody} />
-          <WordmarkWall items={MODEL_NAMES} dark />
-          <p className="mt-8 text-center font-sf text-[clamp(1.5rem,3vw,2.3rem)] font-bold tracking-[0.08em] text-white">TEXTE · IMAGE · AUDIO · VIDÉO</p>
+          <ModelWall />
+          <p className="mt-8 text-center font-sf text-[clamp(1.5rem,3vw,2.3rem)] font-semibold tracking-[-0.02em] text-white">Texte · Image · Audio · Vidéo</p>
           <p className="mx-auto mt-5 max-w-3xl text-center text-[14px] leading-relaxed text-[#C9C0B5]">{t.moa}</p>
           <Link href="/ai-gateway" className="mt-5 flex justify-center text-sm font-bold text-[#F2A4C5]">{t.gatewayLink} →</Link>
         </div>
@@ -133,6 +139,10 @@ function WordmarkWall({ items, dark = false }: { items: string[]; dark?: boolean
   return <div className="mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-current/10 sm:grid-cols-3 lg:grid-cols-6">{items.map((item) => <div key={item} className={`flex min-h-24 items-center justify-center px-4 text-center font-sf text-sm font-bold ${dark ? 'bg-white/[0.035] text-[#E7DED3]' : 'bg-[#FAF8F3] text-[#1C1A17]'}`}>{item}</div>)}</div>
 }
 
+function ModelWall() {
+  return <div className="mt-10"><div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-7 sm:gap-x-14">{MODELS.map((model) => <div key={model.name} className="flex min-w-28 items-center justify-center gap-3 text-white">{'logo' in model ? <Image src={model.logo} alt="" width={34} height={34} className="h-8 w-auto max-w-10 object-contain" /> : <span aria-hidden className="text-3xl leading-none">{model.mark}</span>}<div><p className="font-sf text-sm font-semibold">{model.name}</p>{'label' in model && model.label && <p className="text-[10px] text-[#BDB7AC]">{model.label}</p>}</div></div>)}</div><p className="mt-7 text-center text-sm font-medium text-[#BDB7AC]">+ vos modèles privés · connectés selon votre configuration</p></div>
+}
+
 const COPY = {
   fr: {
     heroKicker: 'Prêt à accomplir vos missions',
@@ -143,7 +153,7 @@ const COPY = {
     trial: 'Sept jours d’essai gratuit · 1 million de tokens préchargés · Sans carte bancaire',
     modelsTitle: 'Il ne dépend pas d’un seul modèle.',
     modelsBody: 'Lucas utilise les modèles autorisés par votre entreprise. Le bon modèle peut changer selon le travail. Son identité, son contexte et ses responsabilités restent les mêmes.',
-    moa: 'Pour les missions complexes, plusieurs modèles peuvent formuler une proposition. Un modèle de revue les compare avant que Lucas restitue le résultat.',
+    moa: 'Pour les missions complexes, plusieurs modèles travaillent en parallèle. Un modèle de revue compare leurs propositions. Lucas restitue la synthèse.',
     gatewayLink: 'Découvrir l’AI Gateway',
     appsKicker: 'Plus de 3 000 applications',
     appsTitle: 'Il ne reste pas dans une fenêtre de chat.',
@@ -174,7 +184,7 @@ const COPY = {
     trial: 'Seven-day free trial · 1 million tokens preloaded · No credit card',
     modelsTitle: 'It does not depend on a single model.',
     modelsBody: 'Lucas uses the models authorized by your company. The right model can change with the work; its identity, context and responsibilities remain.',
-    moa: 'For complex missions, several models can formulate a proposal. A review model compares them before Lucas delivers the result.',
+    moa: 'For complex missions, several models work in parallel. A review model compares their proposals. Lucas delivers the synthesis.',
     gatewayLink: 'Discover the AI Gateway',
     appsKicker: 'More than 3,000 applications',
     appsTitle: 'It does not stay inside a chat window.',
