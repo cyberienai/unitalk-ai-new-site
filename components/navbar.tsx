@@ -140,11 +140,11 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
       href={entry.href}
       role="menuitem"
       onClick={onSelect}
-      className="group relative block rounded-xl py-2.5 pl-5 pr-3 outline-none transition-colors duration-200 hover:bg-[#F3EEE5] focus-visible:bg-[#F3EEE5] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      className="group relative block w-full rounded-xl py-2.5 pl-5 pr-3 outline-none transition-colors duration-200 hover:bg-[#FFFDF9] focus-visible:bg-[#FFFDF9] focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-1"
     >
       <span
         aria-hidden="true"
-        className="absolute left-0 top-1/2 h-0 w-[3px] -translate-y-1/2 rounded-r-full bg-[#D10E63] transition-all duration-300 ease-out group-hover:h-[62%] group-focus-visible:h-[62%]"
+        className="absolute left-0 top-1/2 h-0 w-[3px] -translate-y-1/2 rounded-r-full bg-[#D10E63] transition-all duration-200 ease-out group-hover:h-[62%] group-focus-visible:h-[62%]"
       />
       {entry.avatar ? (
         <span className="flex items-start gap-3">
@@ -155,7 +155,7 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
             className="mt-0.5 h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-[#EAD9E0]"
           />
           <span className="min-w-0">
-            <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
+            <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#D10E63] group-focus-visible:text-[#D10E63]">
               {entry.title[lang]}
             </span>
             <span className="mt-1 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span>
@@ -163,7 +163,7 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
         </span>
       ) : (
         <>
-          <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#B00C54]">
+          <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#D10E63] group-focus-visible:text-[#D10E63]">
             {entry.title[lang]}
           </span>
           <span className="mt-1 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span>
@@ -181,7 +181,7 @@ function CollabActionLink({ entry, lang, onSelect }: { entry: MenuAction; lang: 
       href={entry.href}
       role="menuitem"
       onClick={onSelect}
-      className="group flex items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-[14.5px] font-semibold text-[#1C1A17] outline-none transition-colors duration-200 hover:bg-[#FBF3F7] hover:text-[#B00C54] focus-visible:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+      className="group flex w-full items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-[14.5px] font-semibold text-[#1C1A17] outline-none transition-colors duration-200 hover:bg-[#FFFDF9] hover:text-[#D10E63] focus-visible:bg-[#FFFDF9] focus-visible:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]/60"
     >
       {entry.title[lang]}
       <ArrowRight
@@ -416,7 +416,7 @@ export function Navbar(
                           </div>
 
                           {/* Right — Accompagnement & écosystème, on warmer cream */}
-                          <div className="border-l border-[#EFE8DA] p-3">
+                          <div className="border-l border-[#DED6C8] p-3">
                             <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
