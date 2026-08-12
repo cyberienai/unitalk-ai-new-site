@@ -115,10 +115,10 @@ function LucasPortrait({ lang }: { lang: 'fr' | 'en' }) {
     <motion.figure initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border border-[#DED6C8] bg-[#FAF8F3] shadow-[0_28px_65px_-48px_rgba(28,26,23,0.5)]">
       <div className="relative aspect-[4/3] bg-[#ECE6DA]">
         <Image src="/images/lucas-avatar.png" alt={lang === 'fr' ? 'Portrait de Lucas, Collaborateur IA' : 'Portrait of Lucas, AI Collaborator'} fill priority sizes="(max-width: 1024px) 100vw, 420px" className="object-cover object-top" />
-        <span className="absolute right-4 top-4 rounded-full bg-[#1C1A17] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Nature IA</span>
+        <span className="absolute right-5 top-5 rounded-full bg-[#1C1A17] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Nature IA</span>
       </div>
       <figcaption className="p-5 sm:p-6">
-        <div className="flex items-center justify-between"><div><p className="font-sf text-2xl font-bold">Lucas</p><p className="mt-1 text-sm text-[#4E483F]">Collaborateur IA · Relation client · Solvea</p></div><span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#257A43]"><span className="h-2 w-2 rounded-full bg-[#2E9E5B]" />Prêt</span></div>
+        <div className="flex items-center justify-between gap-4"><div><p className="font-sf text-2xl font-bold leading-none">Lucas</p><p className="mt-2 text-sm text-[#4E483F]">Collaborateur IA · Relation client · Solvea</p></div><span className="inline-flex shrink-0 items-center gap-1.5 self-center text-xs font-bold text-[#257A43]"><span className="h-2 w-2 rounded-full bg-[#2E9E5B]" />Prêt</span></div>
         <p className="mt-4 text-sm text-[#6E665A]">Email · Téléphone · Agenda</p>
       </figcaption>
     </motion.figure>
@@ -140,7 +140,7 @@ const COPY = {
     heroBody: 'Votre Collaborateur IA rejoint votre entreprise avec une identité, ses propres moyens de communication et un environnement de travail privé.',
     heroProgress: 'Vous choisissez ce qu’il peut utiliser. Il développe ensuite ses compétences au fil de vos missions.',
     create: 'Créer mon Collaborateur IA',
-    trial: 'Sept jours pour une première mission · 1 million de tokens préchargés · Sans carte bancaire',
+    trial: 'Sept jours d’essai gratuit · 1 million de tokens préchargés · Sans carte bancaire',
     modelsTitle: 'Il ne dépend pas d’un seul modèle.',
     modelsBody: 'Lucas utilise les modèles autorisés par votre entreprise. Le bon modèle peut changer selon le travail. Son identité, son contexte et ses responsabilités restent les mêmes.',
     moa: 'Pour les missions complexes, plusieurs modèles peuvent formuler une proposition. Un modèle de revue les compare avant que Lucas restitue le résultat.',
@@ -171,7 +171,7 @@ const COPY = {
     heroBody: 'Your AI Collaborator joins your company with an identity, its own communication channels and a private work environment.',
     heroProgress: 'You choose what it can use. It then develops its skills through your missions.',
     create: 'Create my AI Collaborator',
-    trial: 'Seven days for a first mission · 1 million tokens preloaded · No credit card',
+    trial: 'Seven-day free trial · 1 million tokens preloaded · No credit card',
     modelsTitle: 'It does not depend on a single model.',
     modelsBody: 'Lucas uses the models authorized by your company. The right model can change with the work; its identity, context and responsibilities remain.',
     moa: 'For complex missions, several models can formulate a proposal. A review model compares them before Lucas delivers the result.',
