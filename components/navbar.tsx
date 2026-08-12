@@ -140,11 +140,11 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
       href={entry.href}
       role="menuitem"
       onClick={onSelect}
-      className="group relative block w-full rounded-xl py-2.5 pl-5 pr-3 outline-none transition-colors duration-200 hover:bg-[#FFFDF9] focus-visible:bg-[#FFFDF9] focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-1"
+      className="group relative block w-full rounded-lg border-l-2 border-transparent px-4 py-3 outline-none transition-colors duration-150 hover:border-[#D10E63] hover:bg-[#F3EFE6] focus-visible:border-[#D10E63] focus-visible:bg-[#F3EFE6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/30"
     >
       <span
         aria-hidden="true"
-        className="absolute left-0 top-1/2 h-0 w-[3px] -translate-y-1/2 rounded-r-full bg-[#D10E63] transition-all duration-200 ease-out group-hover:h-[62%] group-focus-visible:h-[62%]"
+        className="hidden"
       />
       {entry.avatar ? (
         <span className="flex items-start gap-3">

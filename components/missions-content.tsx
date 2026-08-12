@@ -110,14 +110,14 @@ export function MissionsContent() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-[4.5rem] text-[#1C1A17] sm:pt-20">
+    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-[5.5rem] text-[#1C1A17] sm:pt-24">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
           <h1 className="hero-heading">
             {t.title}
           </h1>
 
-          <div className="relative mx-auto mt-4 max-w-2xl">
+          <div className="relative mx-auto mt-7 max-w-2xl">
             <textarea
               value={need}
               onChange={(event) => setNeed(event.target.value)}
@@ -151,7 +151,7 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section className="mt-5">
+        <section className="mt-3">
           <h2 className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
           <p className="mt-1 text-[13px] text-[#6E665A]">{t.readyNote}</p>
 

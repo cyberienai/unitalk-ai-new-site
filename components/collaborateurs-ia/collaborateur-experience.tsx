@@ -2,17 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { CalendarDays, Clock3, Globe2, Mail, Phone, SquareTerminal } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
+import { Kicker } from '@/components/home/section-kicker'
+import { ModelLogoStrip } from './model-logo-strip'
 
 const APP_NAMES = ['Gmail', 'Outlook', 'Google Calendar', 'Microsoft Teams', 'Slack', 'HubSpot', 'Salesforce', 'Notion', 'Google Drive', 'Dropbox', 'Stripe', 'Zendesk']
-const MODELS = [
-  { name: 'OpenAI', label: 'GPT', mark: '◉' },
-  { name: 'Anthropic', label: 'Claude', logo: '/logos/anthropic-white.svg' },
-  { name: 'Google Gemini', logo: '/logos/gemini-white.svg' },
-  { name: 'DeepSeek', logo: '/logos/deepseek-white.svg' },
-  { name: 'Mistral AI', logo: '/logos/mistral-white.svg' },
-] as const
 
 export function CollaborateurExperience() {
   const { lang } = useLanguage()
@@ -23,14 +19,14 @@ export function CollaborateurExperience() {
       <section className="px-5 pb-14 pt-20 sm:px-8 sm:pb-16 sm:pt-24">
         <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
           <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.heroKicker}</p>
-            <h1 className="hero-heading mt-3">{t.heroTitle}</h1>
+            <Kicker>{t.heroKicker}</Kicker>
+            <h1 className="hero-heading mt-5">{t.heroTitle}</h1>
             <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-[#4E483F]">{t.heroBody}</p>
             <p className="mt-3 max-w-xl text-[16px] font-semibold text-[#1C1A17]">{t.heroProgress}</p>
             <Link href="/decouvrir" className="mt-7 inline-flex rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.create} →
             </Link>
-            <p className="mt-3 text-[13px] font-medium text-[#6E665A]">{t.trial}</p>
+            <div className="mt-4 space-y-1.5"><p className="text-[13px] font-medium text-[#4E483F]">{t.trial}</p><p className="text-xs text-[#6E665A]">{t.price}</p></div>
           </div>
           <LucasPortrait lang={lang} />
         </div>
@@ -39,7 +35,7 @@ export function CollaborateurExperience() {
       <section className="bg-[#1C1A17] px-5 py-16 text-[#F3EFE6] sm:px-8 sm:py-20">
         <div className="mx-auto max-w-[1200px]">
           <SectionIntro dark kicker="Unitalk AI Gateway" title={t.modelsTitle} body={t.modelsBody} />
-          <ModelWall />
+          <ModelLogoStrip />
           <p className="mt-8 text-center font-sf text-[clamp(1.5rem,3vw,2.3rem)] font-semibold tracking-[-0.02em] text-white">Texte · Image · Audio · Vidéo</p>
           <p className="mx-auto mt-5 max-w-3xl text-center text-[14px] leading-relaxed text-[#C9C0B5]">{t.moa}</p>
           <Link href="/ai-gateway" className="mt-5 flex justify-center text-sm font-bold text-[#F2A4C5]">{t.gatewayLink} →</Link>
@@ -121,11 +117,14 @@ function LucasPortrait({ lang }: { lang: 'fr' | 'en' }) {
     <motion.figure initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border border-[#DED6C8] bg-[#FAF8F3] shadow-[0_28px_65px_-48px_rgba(28,26,23,0.5)]">
       <div className="relative aspect-[4/3] bg-[#ECE6DA]">
         <Image src="/images/lucas-avatar.png" alt={lang === 'fr' ? 'Portrait de Lucas, Collaborateur IA' : 'Portrait of Lucas, AI Collaborator'} fill priority sizes="(max-width: 1024px) 100vw, 420px" className="object-cover object-top" />
-        <span className="absolute right-5 top-5 rounded-full bg-[#1C1A17] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Nature IA</span>
+        <span className="absolute right-5 top-5 rounded-full bg-[#1C1A17] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Identité IA</span>
       </div>
       <figcaption className="p-5 sm:p-6">
         <div className="flex items-center justify-between gap-4"><div><p className="font-sf text-2xl font-bold leading-none">Lucas</p><p className="mt-2 text-sm text-[#4E483F]">Collaborateur IA · Relation client · Solvea</p></div><span className="inline-flex shrink-0 items-center gap-1.5 self-center text-xs font-bold text-[#257A43]"><span className="h-2 w-2 rounded-full bg-[#2E9E5B]" />Prêt</span></div>
-        <p className="mt-4 text-sm text-[#6E665A]">Email · Téléphone · Agenda</p>
+        <div className="mt-4 space-y-2.5 border-t border-[#DED6C8] pt-4 text-[13px] text-[#6E665A]">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2"><Channel icon={Mail} label="Email" /><Channel icon={CalendarDays} label="Agenda" /><Channel icon={Phone} label="Téléphone" /></div>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2"><Channel icon={Globe2} label="Navigation" /><Channel icon={SquareTerminal} label="Code" /><Channel icon={Clock3} label="Planification" /></div>
+        </div>
       </figcaption>
     </motion.figure>
   )
@@ -135,13 +134,12 @@ function SectionIntro({ kicker, title, body, dark = false }: { kicker?: string; 
   return <div>{kicker && <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${dark ? 'text-[#F2A4C5]' : 'text-[#B00C54]'}`}>{kicker}</p>}<h2 className={`mt-3 max-w-4xl text-balance font-sf text-[32px] font-bold leading-[1.08] tracking-[-0.03em] sm:text-[42px] ${dark ? 'text-white' : 'text-[#1C1A17]'}`}>{title}</h2><p className={`mt-4 max-w-3xl text-[15px] leading-relaxed ${dark ? 'text-[#C9C0B5]' : 'text-[#4E483F]'}`}>{body}</p></div>
 }
 
+function Channel({ icon: Icon, label }: { icon: typeof Mail; label: string }) { return <span className="inline-flex items-center gap-1.5"><Icon aria-hidden="true" className="h-3.5 w-3.5" />{label}</span> }
+
 function WordmarkWall({ items, dark = false }: { items: string[]; dark?: boolean }) {
   return <div className="mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-current/10 sm:grid-cols-3 lg:grid-cols-6">{items.map((item) => <div key={item} className={`flex min-h-24 items-center justify-center px-4 text-center font-sf text-sm font-bold ${dark ? 'bg-white/[0.035] text-[#E7DED3]' : 'bg-[#FAF8F3] text-[#1C1A17]'}`}>{item}</div>)}</div>
 }
 
-function ModelWall() {
-  return <div className="mt-10"><div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-7 sm:gap-x-14">{MODELS.map((model) => <div key={model.name} className="flex min-w-28 items-center justify-center gap-3 text-white">{'logo' in model ? <Image src={model.logo} alt="" width={34} height={34} className="h-8 w-auto max-w-10 object-contain" /> : <span aria-hidden className="text-3xl leading-none">{model.mark}</span>}<div><p className="font-sf text-sm font-semibold">{model.name}</p>{'label' in model && model.label && <p className="text-[10px] text-[#BDB7AC]">{model.label}</p>}</div></div>)}</div><p className="mt-7 text-center text-sm font-medium text-[#BDB7AC]">+ vos modèles privés · connectés selon votre configuration</p></div>
-}
 
 const COPY = {
   fr: {
@@ -150,7 +148,8 @@ const COPY = {
     heroBody: 'Votre Collaborateur IA rejoint votre entreprise avec une identité, ses propres moyens de communication et un environnement de travail privé.',
     heroProgress: 'Vous choisissez ce qu’il peut utiliser. Il développe ensuite ses compétences au fil de vos missions.',
     create: 'Créer mon Collaborateur IA',
-    trial: 'Sept jours d’essai gratuit · 1 million de tokens préchargés · Sans carte bancaire',
+    trial: '7 jours d’essai gratuit · 1 million de tokens · Sans carte bancaire',
+    price: 'Puis 49 €/mois, hors usages IA.',
     modelsTitle: 'Il ne dépend pas d’un seul modèle.',
     modelsBody: 'Lucas utilise les modèles autorisés par votre entreprise. Le bon modèle peut changer selon le travail. Son identité, son contexte et ses responsabilités restent les mêmes.',
     moa: 'Pour les missions complexes, plusieurs modèles travaillent en parallèle. Un modèle de revue compare leurs propositions. Lucas restitue la synthèse.',
@@ -181,7 +180,8 @@ const COPY = {
     heroBody: 'Your AI Collaborator joins your company with an identity, its own communication channels and a private work environment.',
     heroProgress: 'You choose what it can use. It then develops its skills through your missions.',
     create: 'Create my AI Collaborator',
-    trial: 'Seven-day free trial · 1 million tokens preloaded · No credit card',
+    trial: '7-day free trial · 1 million tokens · No credit card',
+    price: 'Then €49/month, excluding AI usage.',
     modelsTitle: 'It does not depend on a single model.',
     modelsBody: 'Lucas uses the models authorized by your company. The right model can change with the work; its identity, context and responsibilities remain.',
     moa: 'For complex missions, several models work in parallel. A review model compares their proposals. Lucas delivers the synthesis.',
