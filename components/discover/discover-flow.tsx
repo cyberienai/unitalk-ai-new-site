@@ -8,7 +8,7 @@ import { useLanguage } from '@/lib/language-context'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { LanguageToggle } from '@/components/language-toggle'
 import { FlowStepper } from './flow-stepper'
-import { ScreenAccount, type SelectedMission } from './screen-account'
+import { ScreenAccount, type DiscoverContext, type SelectedMission } from './screen-account'
 import { ScreenContext } from './screen-context'
 import { ScreenMission } from './screen-mission'
 import { ScreenCollaborateur } from './screen-collaborateur'
@@ -61,21 +61,24 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
     } catch {}
   }, [draftId])
 
-  const selectedMission: SelectedMission = catalogMission
+  const context: DiscoverContext = catalogMission
     ? {
-        slug: catalogMission.slug,
-        title: catalogMission.title[lang],
-        description: actionDescription(catalogMission, lang),
-        category: shortCategoryLabel(catalogMission.category, lang),
+        kind: 'mission',
+        mission: {
+          slug: catalogMission.slug,
+          title: catalogMission.title[lang],
+          description: actionDescription(catalogMission, lang),
+          category: shortCategoryLabel(catalogMission.category, lang),
+        },
       }
-    : {
-        title: draftText || (lang === 'fr' ? 'Votre première mission' : 'Your first mission'),
-        description: lang === 'fr' ? 'Alma va structurer votre demande et l’adapter au contexte de votre entreprise.' : 'Alma will structure your request and adapt it to your company context.',
-        category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission',
-      }
+    : draftText
+      ? { kind: 'draft', draft: { title: draftText, description: lang === 'fr' ? 'Alma va structurer votre demande et l’adapter au contexte de votre entreprise.' : 'Alma will structure your request and adapt it to your company context.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' } }
+      : { kind: 'empty' }
+
+  const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
 
   useEffect(() => {
-    if (!selectedMission.title) return
+    if (!selectedMission?.title) return
     setState((current) => {
       if (current.mission.title === selectedMission.title && current.missionDefined) return current
       return {
@@ -84,7 +87,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
         missionDefined: true,
       }
     })
-  }, [selectedMission.title])
+  }, [selectedMission?.title])
 
   function goTo(next: OnboardingStep) {
     setStep(next)
@@ -111,21 +114,21 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
             <span className="font-inter text-sm font-semibold">Unitalk</span>
           </a>
           <div className="flex items-center gap-4">
-            <p className="hidden text-[12px] font-semibold text-[#6E665A] sm:block">{lang === 'fr' ? 'Mission choisie ✓' : 'Mission selected ✓'}</p>
+            {selectedMission && <p className="hidden text-[12px] font-semibold text-[#6E665A] sm:block">{lang === 'fr' ? 'Mission choisie ✓' : 'Mission selected ✓'}</p>}
             <LanguageToggle />
           </div>
         </header>
         <div className="w-full flex-1">
           <ScreenAccount
             lang={lang}
-            mission={selectedMission}
+            context={context}
             onAuthenticated={({ provider, email, firstName, lastName }) => {
               const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
               setState((s) => ({
                 ...s,
                 authenticated: true,
-                mission: selectedMission.title ? { ...s.mission, title: selectedMission.title } : s.mission,
-                missionDefined: Boolean(selectedMission.title),
+                mission: selectedMission?.title ? { ...s.mission, title: selectedMission.title } : s.mission,
+                missionDefined: Boolean(selectedMission?.title),
                 firstName: firstName?.trim() ?? '',
                 lastName: lastName?.trim() ?? '',
                 company: domain

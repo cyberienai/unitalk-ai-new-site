@@ -62,12 +62,17 @@ export function CollaborateurExperience() {
 
       <section className="px-5 py-16 sm:px-8 sm:py-20">
         <div className="mx-auto max-w-[1200px]">
-          <SectionIntro kicker={t.appsKicker} title={t.appsTitle} body={t.appsBody} />
-          <ApplicationLogoStrip />
-          <p className="mt-7 text-center text-[13px] font-semibold text-[#6E665A]">Connectées par OAuth via les serveurs MCP de Pipedream.</p>
-          <p className="mt-7 text-center font-sf text-[clamp(20px,2vw,30px)] font-semibold tracking-[-0.02em] text-[#1C1A17]">Lire · Préparer · Mettre à jour · Déclencher · Demander une validation</p>
-          <p className="mt-3 text-center text-[14px] text-[#4E483F]">{t.permissions}</p>
-          <Link href="/collaborateurs-ia/applications" className="mt-5 flex justify-center text-sm font-bold text-[#D10E63]">{t.appsLink} →</Link>
+          <div className="grid gap-7 lg:grid-cols-[5fr_1fr_6fr]">
+            <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.appsKicker}</p><h2 className="mt-4 font-sf text-[36px] font-bold leading-[0.98] tracking-[-0.045em] text-[#1C1A17] sm:text-[52px]">{t.appsTitle}</h2></div>
+            <div aria-hidden />
+            <p className="self-end whitespace-pre-line text-[18px] font-semibold leading-8 text-[#4E483F]">{t.appsBody}</p>
+          </div>
+          <ApplicationLogoStrip lang={lang} />
+          <div className="mt-12 grid gap-10 lg:grid-cols-2">
+            <div><h3 className="font-sf text-[30px] font-bold leading-tight tracking-[-0.03em] text-[#1C1A17] sm:text-[38px]">{t.actionsTitle}</h3><p className="mt-4 text-[16px] font-semibold text-[#4E483F]">{t.actionsControl}</p></div>
+            <div><h3 className="font-sf text-[24px] font-bold tracking-[-0.025em]">{t.rulesTitle}</h3><p className="mt-4 text-[14px] leading-7 text-[#4E483F]">{t.oauthBody}</p><p className="mt-4 text-[15px] font-semibold leading-6 text-[#1C1A17]">{t.permissions}</p></div>
+          </div>
+          <Link href="/collaborateurs-ia/applications" className="mt-9 inline-flex text-sm font-bold text-[#D10E63]">{t.appsLink} →</Link>
         </div>
       </section>
 
@@ -194,10 +199,14 @@ const COPY = {
     moaFinal: 'Une seule identité porte la mission du début à la fin.',
     gatewayLink: 'Explorer l’AI Gateway',
     appsKicker: 'Plus de 3 000 applications',
-    appsTitle: 'Il ne reste pas dans une fenêtre de chat.',
-    appsBody: 'Lucas travaille dans les applications que votre entreprise autorise. Les connexions OAuth lui donnent accès aux seules actions nécessaires à son travail.',
+    appsTitle: 'Il travaille là où votre entreprise travaille.',
+    appsBody: 'Vous choisissez les applications.\nVous autorisez les actions.\nLucas accomplit le travail.',
+    actionsTitle: 'Il lit. Il prépare. Il agit.',
+    actionsControl: 'Les décisions sensibles restent sous votre contrôle.',
+    rulesTitle: 'Chaque application. Chaque action. Vos règles.',
+    oauthBody: 'OAuth autorise les accès. Les serveurs MCP de Pipedream rendent les actions disponibles. Votre organisation décide jusqu’où Lucas peut aller.',
     permissions: 'Il n’accède pas à tout. Il accède à ce dont son travail a besoin.',
-    appsLink: 'Explorer les applications',
+    appsLink: 'Explorer plus de 3 000 applications',
     environmentTitle: 'Son propre environnement pour travailler vraiment.',
     environmentBody: 'Chaque Collaborateur IA dispose de son propre serveur privé, propulsé par Hermes.',
     environmentItems: [['Code', 'Exécuter et vérifier'], ['Navigateur', 'Rechercher sur Internet'], ['Fichiers', 'Conserver son travail'], ['Planification', 'Continuer après la conversation']],
@@ -242,10 +251,14 @@ const COPY = {
     moaFinal: 'One identity carries the mission from start to finish.',
     gatewayLink: 'Explore the AI Gateway',
     appsKicker: 'More than 3,000 applications',
-    appsTitle: 'It does not stay inside a chat window.',
-    appsBody: 'Lucas works inside the applications your company authorizes. OAuth connections expose only the actions needed for its work.',
+    appsTitle: 'It works where your company works.',
+    appsBody: 'You choose the applications.\nYou authorize the actions.\nLucas gets the work done.',
+    actionsTitle: 'It reads. It prepares. It acts.',
+    actionsControl: 'Sensitive decisions remain under your control.',
+    rulesTitle: 'Every application. Every action. Your rules.',
+    oauthBody: 'OAuth authorizes access. Pipedream MCP servers make actions available. Your organization decides how far Lucas can go.',
     permissions: 'It does not access everything. It accesses what its work requires.',
-    appsLink: 'Explore applications',
+    appsLink: 'Explore more than 3,000 applications',
     environmentTitle: 'Its own environment to do real work.',
     environmentBody: 'Each AI Collaborator has its own private server, powered by Hermes.',
     environmentItems: [['Code', 'Execute and verify'], ['Browser', 'Research online'], ['Files', 'Retain its work'], ['Scheduling', 'Continue after the conversation']],
