@@ -5,6 +5,7 @@ import { PricingCollaboration, PricingFinalCta, PricingHero, PricingExplanations
 import { MultiCollaboratorConfigurator, PricingConfigurator } from '@/components/pricing/pricing-configurator'
 import { PricingFaq } from '@/components/pricing/pricing-faq'
 import { pricingConfig } from '@/lib/pricing-config'
+import { calculateAnnualSubscription } from '@/lib/pricing-calculator'
 
 export const metadata: Metadata = {
   title: 'Tarifs des Collaborateurs IA',
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
     description: '49 € par mois pour une identité professionnelle qui progresse. Les modèles et leurs usages restent votre choix.',
   },
 }
+
+const annualPrice = calculateAnnualSubscription(1)
 
 const pricingJsonLd = {
   '@context': 'https://schema.org',
@@ -42,15 +45,15 @@ const pricingJsonLd = {
     {
       '@type': 'Offer',
       name: 'Forfait annuel',
-      price: '490',
+      price: String(annualPrice),
       priceCurrency: 'EUR',
       priceSpecification: {
         '@type': 'UnitPriceSpecification',
-        price: '490',
+        price: String(annualPrice),
         priceCurrency: 'EUR',
         billingDuration: 'P1Y',
       },
-      description: '490 EUR facturés par an, soit deux mois offerts. Les usages IA sont réglés séparément.',
+      description: `${annualPrice} EUR facturés par an, soit deux mois offerts. Les usages IA sont réglés séparément.`,
       url: 'https://unitalk.ai/tarifs',
     },
   ],
@@ -58,7 +61,7 @@ const pricingJsonLd = {
 
 export default function TarifsPage() {
   return (
-    <div className="min-h-screen bg-[#F4F1EA] text-[#1C1A17]">
+    <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }} />
       <Navbar />
       <main>

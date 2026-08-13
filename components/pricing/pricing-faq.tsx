@@ -20,7 +20,7 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
           },
           {
             q: 'Les modèles IA sont-ils inclus ?',
-            a: `L’essai comprend 1 million de tokens. Ensuite, utilisez des crédits Unitalk dès ${credits} par mois, vos propres clés API ou combinez les deux.`,
+            a: `L’essai comprend 1 million de tokens offerts. Ensuite, utilisez des crédits Unitalk dès ${credits} par mois, vos propres clés API ou combinez les deux.`,
           },
           {
             q: 'Que comprend la partie gratuite ?',
@@ -45,7 +45,7 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
           },
           {
             q: 'Are AI models included?',
-            a: `The trial includes 1 million tokens. Then use Unitalk credits from ${credits} per month, your own API keys, or combine both.`,
+            a: `The trial includes 1 million free tokens. Then use Unitalk credits from ${credits} per month, your own API keys, or combine both.`,
           },
           {
             q: 'What is included free?',
