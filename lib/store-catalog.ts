@@ -97,6 +97,7 @@ export const DOMAIN_LABELS: Record<string, Bilingual> = {
   rh: { fr: 'Ressources humaines', en: 'Human resources' },
   direction: { fr: 'Direction et pilotage', en: 'Leadership & steering' },
   operations: { fr: 'Opérations', en: 'Operations' },
+  transformation: { fr: 'Formation et transformation', en: 'Training & transformation' },
 }
 
 // Categories for compétences (section 7).
@@ -147,7 +148,7 @@ const PROFILS: StoreItem[] = [
       en: 'Turns a need into a mission, prepares the required know-how and supports teams in working with AI.',
     },
     creator: 'unitalk',
-    facet: 'direction',
+    facet: 'transformation',
     roleInOrg: {
       fr: 'Profil métier créé par Unitalk, développé avec Alma et Patrick Chassany.',
       en: 'Job profile created by Unitalk and developed with Alma and Patrick Chassany.',
@@ -203,7 +204,7 @@ const PROFILS: StoreItem[] = [
   {
     type: 'profil',
     slug: 'support-client',
-    name: { fr: 'Support client', en: 'Customer support' },
+    name: { fr: 'Chargé de support client', en: 'Customer support specialist' },
     description: {
       fr: 'Traite les demandes, qualifie les situations et transmet les cas nécessitant une intervention.',
       en: 'Handles requests, qualifies situations and escalates cases that need attention.',
@@ -233,7 +234,7 @@ const PROFILS: StoreItem[] = [
   {
     type: 'profil',
     slug: 'commercial',
-    name: { fr: 'Commercial', en: 'Sales representative' },
+    name: { fr: 'Responsable du développement commercial', en: 'Business development manager' },
     description: {
       fr: 'Identifie les opportunités, prépare les prises de contact et suit les échanges commerciaux.',
       en: 'Spots opportunities, prepares outreach and tracks sales conversations.',
@@ -289,6 +290,46 @@ const PROFILS: StoreItem[] = [
     order: 4,
     dateAdded: '2025-01-03',
     keywords: ['marketing', 'contenu', 'editorial', 'redaction', 'lea', 'seo'],
+  },
+  {
+    type: 'profil',
+    slug: 'responsable-projet',
+    name: { fr: 'Responsable de projet', en: 'Project manager' },
+    description: { fr: 'Structure le travail, coordonne les contributeurs et signale les blocages.', en: 'Structures work, coordinates contributors and flags blockers.' },
+    creator: 'unitalk', facet: 'direction',
+    roleInOrg: { fr: 'Responsabilité durable de coordination, de planification et de suivi des risques.', en: 'A lasting responsibility for coordination, planning and risk tracking.' },
+    knowHow: [{fr:'Planification',en:'Planning'},{fr:'Coordination',en:'Coordination'},{fr:'Suivi des risques',en:'Risk tracking'},{fr:'Reporting',en:'Reporting'}],
+    exampleMissions: [{fr:'Préparer un projet',en:'Prepare a project'},{fr:'Suivre l’avancement',en:'Track progress'},{fr:'Organiser les validations',en:'Organize approvals'}],
+    relatedSkills:['organiser-les-priorites','preparer-un-reporting'], possibleApps:['notion','slack'], order:10, dateAdded:'2026-08-13', keywords:['projet','coordination','planning','risque'],
+  },
+  {
+    type: 'profil', slug: 'charge-prospection', name:{fr:'Chargé de prospection',en:'Prospecting specialist'},
+    description:{fr:'Recherche les entreprises pertinentes et prépare des prises de contact personnalisées.',en:'Finds relevant companies and prepares personalized outreach.'}, creator:'unitalk', facet:'ventes',
+    roleInOrg:{fr:'Responsabilité de ciblage, enrichissement et préparation des relances.',en:'Responsibility for targeting, enrichment and follow-up preparation.'},
+    knowHow:[{fr:'Ciblage',en:'Targeting'},{fr:'Enrichissement',en:'Enrichment'},{fr:'Personnalisation',en:'Personalization'},{fr:'Relance',en:'Follow-up'}],
+    exampleMissions:[{fr:'Créer une liste qualifiée',en:'Build a qualified list'},{fr:'Préparer les messages',en:'Prepare messages'},{fr:'Planifier les relances',en:'Plan follow-ups'}],
+    relatedSkills:['qualifier-un-prospect','relancer-une-opportunite'],possibleApps:['hubspot','salesforce','linkedin'],order:11,dateAdded:'2026-08-13',keywords:['prospection','ciblage','lead','relance'],
+  },
+  {
+    type:'profil',slug:'responsable-marketing',name:{fr:'Responsable marketing',en:'Marketing manager'},
+    description:{fr:'Prépare les campagnes, coordonne les contenus et suit les résultats.',en:'Prepares campaigns, coordinates content and tracks results.'},creator:'unitalk',facet:'marketing',
+    roleInOrg:{fr:'Responsabilité durable de pilotage des campagnes et de coordination éditoriale.',en:'A lasting responsibility for campaign leadership and editorial coordination.'},
+    knowHow:[{fr:'Plan marketing',en:'Marketing plan'},{fr:'Campagnes',en:'Campaigns'},{fr:'Analyse',en:'Analysis'},{fr:'Coordination éditoriale',en:'Editorial coordination'}],
+    exampleMissions:[{fr:'Préparer une campagne',en:'Prepare a campaign'},{fr:'Analyser les performances',en:'Analyze performance'},{fr:'Planifier le trimestre',en:'Plan the quarter'}],relatedSkills:['planifier-un-calendrier-editorial'],possibleApps:['notion','canva','google-drive'],order:12,dateAdded:'2026-08-13',keywords:['marketing','campagne','analyse','planning'],
+  },
+  {
+    type:'profil',slug:'responsable-relation-client',name:{fr:'Responsable relation client',en:'Customer relations manager'},
+    description:{fr:'Suit les demandes jusqu’à leur résolution et coordonne les prochaines actions.',en:'Tracks requests through resolution and coordinates next actions.'},creator:'unitalk',facet:'relation-client',
+    roleInOrg:{fr:'Responsabilité durable de suivi, de relance et de synthèse de la relation client.',en:'A lasting responsibility for customer follow-up, reminders and synthesis.'},
+    knowHow:[{fr:'Qualification',en:'Qualification'},{fr:'Suivi',en:'Follow-up'},{fr:'Relance',en:'Reminder'},{fr:'Synthèse',en:'Synthesis'}],
+    exampleMissions:[{fr:'Suivre une réclamation',en:'Track a complaint'},{fr:'Préparer une réponse',en:'Prepare a response'},{fr:'Analyser les motifs de contact',en:'Analyze contact reasons'}],relatedSkills:['qualifier-une-demande','resoudre-un-ticket'],possibleApps:['zendesk','gmail','slack'],order:13,dateAdded:'2026-08-13',keywords:['relation client','réclamation','suivi','fidélisation'],
+  },
+  {
+    type:'profil',slug:'charge-formation',name:{fr:'Chargé de formation',en:'Training specialist'},
+    description:{fr:'Prépare les parcours, accompagne les apprenants et suit leur progression.',en:'Prepares learning paths, supports learners and tracks progress.'},creator:'unitalk',facet:'transformation',
+    roleInOrg:{fr:'Responsabilité durable de conception pédagogique et de suivi des apprentissages.',en:'A lasting responsibility for learning design and progress tracking.'},
+    knowHow:[{fr:'Parcours pédagogiques',en:'Learning paths'},{fr:'Supports',en:'Learning materials'},{fr:'Évaluation',en:'Assessment'},{fr:'Suivi',en:'Tracking'}],
+    exampleMissions:[{fr:'Créer un parcours',en:'Create a learning path'},{fr:'Préparer un module',en:'Prepare a module'},{fr:'Accompagner l’intégration',en:'Support onboarding'}],relatedSkills:['analyser-des-documents','preparer-un-reporting'],possibleApps:['notion','google-drive'],order:14,dateAdded:'2026-08-13',keywords:['formation','academy','apprentissage','intégration'],
   },
   {
     type: 'profil',

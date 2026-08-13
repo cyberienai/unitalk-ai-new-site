@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
-import { ProfilsContent } from '@/components/collaborateurs-ia/profils/profils-content'
+import { Navbar } from '@/components/navbar'
+import { SiteFooter } from '@/components/site-footer'
+import { ProfilsFinalContent } from '@/components/collaborateurs-ia/profils/profils-final-content'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -26,5 +28,5 @@ export const metadata: Metadata = {
 }
 
 export default function ProfilsMetierPage() {
-  return <ProfilsContent />
+  return <><Navbar /><ProfilsFinalContent /><SiteFooter /></>
 }

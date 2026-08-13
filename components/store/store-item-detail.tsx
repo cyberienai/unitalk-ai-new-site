@@ -74,7 +74,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
       lang === 'fr'
         ? `Retour aux ${TYPE_LABELS_PLURAL[item.type].fr.toLowerCase()}`
         : `Back to ${TYPE_LABELS_PLURAL[item.type].en.toLowerCase()}`,
-    add: lang === 'fr' ? 'Ajouter à un Collaborateur' : 'Add to a Collaborator',
+    add: item.type === 'profil' ? (lang === 'fr' ? 'Ajouter ce profil métier' : 'Add this job profile') : (lang === 'fr' ? 'Ajouter à un Collaborateur' : 'Add to a Collaborator'),
     compose: lang === 'fr' ? 'Préparer avec Alma' : 'Prepare with Alma',
     createdBy: lang === 'fr' ? 'Créé par' : 'Created by',
     editor: lang === 'fr' ? 'Éditeur' : 'Editor',
@@ -100,7 +100,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
 
   return (
     <main className="min-h-screen bg-[var(--store-page)]">
-      <div className="mx-auto max-w-[820px] px-6 pb-24 pt-28 sm:pt-[124px] lg:pt-[136px]">
+      <div className="mx-auto max-w-[820px] px-6 pb-36 pt-28 sm:pt-[124px] lg:pt-[136px]">
         <Link
           href={`/collaborateurs-ia/${TYPE_SLUGS[item.type]}`}
           className="inline-flex items-center gap-2 text-sm font-medium text-[var(--store-muted)] transition-colors hover:text-[#AD0C53]"
@@ -181,8 +181,22 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
           <RelatedChips title={t.neededApps} slugs={item.neededApps} />
           <RelatedChips title={t.compatibleProfiles} slugs={item.compatibleProfiles} />
           <RelatedChips title={t.compatibleSkills} slugs={item.compatibleSkills} />
+          {item.type === 'profil' && (
+            <section className="border-t border-[var(--store-line)] pt-6">
+              <h2 className="font-sf text-sm font-bold uppercase tracking-[0.08em] text-[var(--store-muted)]">{lang === 'fr' ? 'Adaptations' : 'Adaptations'}</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-[var(--store-text)]">{lang === 'fr' ? 'Alma vérifie les compétences, les applications, le secteur, le pays et les validations nécessaires avant l’ajout.' : 'Alma checks the skills, applications, industry, country and required approvals before adding it.'}</p>
+            </section>
+          )}
         </div>
       </div>
+      {item.type === 'profil' && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--store-line)] bg-[#FAF8F3]/95 px-5 py-3 backdrop-blur-sm">
+          <div className="mx-auto flex max-w-[820px] items-center justify-between gap-4">
+            <p className="hidden text-xs text-[var(--store-muted)] sm:block">{lang === 'fr' ? 'Alma vérifie son adaptation à votre entreprise avant son ajout.' : 'Alma checks its fit for your company before adding it.'}</p>
+            <Link href={`/decouvrir?store=${item.slug}`} className="ml-auto inline-flex h-11 items-center gap-2 rounded-xl bg-[#D10E63] px-5 text-sm font-bold text-white">{t.add}<ArrowRight className="h-4 w-4" /></Link>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
