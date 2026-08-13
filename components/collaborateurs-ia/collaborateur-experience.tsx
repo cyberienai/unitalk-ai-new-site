@@ -87,6 +87,7 @@ export function CollaborateurExperience() {
               </div>
             ))}
           </div>
+          <p className="mt-7 max-w-4xl text-[14px] leading-7 text-[#C9C0B5]">{t.browserDetail}</p>
           <p className="mt-8 text-sm font-semibold text-[#E7DED3]">{t.resources}</p>
           <p className="mt-3 text-sm text-[#C9C0B5]">{t.hermes}</p>
           <Link href="/agent-hermes" className="mt-4 inline-flex text-sm font-bold text-[#F2A4C5]">{t.hermesLink} →</Link>
@@ -150,20 +151,14 @@ function LucasPortrait({ lang }: { lang: 'fr' | 'en' }) {
           <p className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[#6E665A]">{t.profilesLabel}</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {t.profiles.map((profile, index) => (
-              <motion.span key={profile} initial={reduce ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: reduce ? 0 : index * 0.35 }} className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${index === 0 ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F]'}`}>{profile}</motion.span>
+              <motion.span key={profile} initial={reduce ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: reduce ? 0 : index * 0.35 }} className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${index === 0 ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F]'}`}>{profile}{index === 0 && ` · ${t.mobilized}`}</motion.span>
             ))}
           </div>
-          <p className="mt-2 text-[11px] text-[#6E665A]">{t.activeProfile}</p>
         </div>
-        <div className="mt-4 grid grid-cols-4 gap-x-2 gap-y-3 border-t border-[#DED6C8] pt-4 text-[11px] text-[#6E665A]">
-          <Channel icon={Mail} label={t.channels.email} />
-          <Channel icon={CalendarDays} label={t.channels.calendar} />
-          <Channel icon={Phone} label={t.channels.phone} />
-          <Channel icon={UserRound} label={t.channels.publicProfile} />
-          <Channel icon={Globe2} label={t.channels.browser} />
-          <Channel icon={SquareTerminal} label={t.channels.code} />
-          <Channel icon={Clock3} label={t.channels.scheduling} />
-          <Channel icon={Database} label={t.channels.companyMemory} ariaLabel={t.companyMemoryAria} />
+        <div className="mt-4 border-t border-[#DED6C8] pt-4 text-[11px] text-[#6E665A]">
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.08em]">{t.communicationLabel}</p>
+          <div className="mt-3 grid grid-cols-2 gap-x-2 gap-y-3 sm:grid-cols-4"><Channel icon={Mail} label={t.channels.email} /><Channel icon={CalendarDays} label={t.channels.calendar} /><Channel icon={Phone} label={t.channels.phone} /><Channel icon={UserRound} label={t.channels.publicProfile} /></div>
+          <div className="mt-4 border-t border-[#DED6C8] pt-4"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.08em]">{t.workLabel}</p><div className="mt-3 grid grid-cols-2 gap-x-2 gap-y-3 sm:grid-cols-4"><Channel icon={Globe2} label={t.channels.browser} tooltip={t.browserTooltip} /><Channel icon={SquareTerminal} label={t.channels.code} /><Channel icon={Clock3} label={t.channels.scheduling} /><Channel icon={Database} label={t.channels.companyMemory} ariaLabel={t.companyMemoryAria} /></div></div>
         </div>
       </figcaption>
     </motion.figure>
@@ -174,7 +169,7 @@ function SectionIntro({ kicker, title, body, dark = false }: { kicker?: string; 
   return <div>{kicker && <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${dark ? 'text-[#F2A4C5]' : 'text-[#B00C54]'}`}>{kicker}</p>}<h2 className={`mt-3 max-w-4xl text-balance font-sf text-[32px] font-bold leading-[1.08] tracking-[-0.03em] sm:text-[42px] ${dark ? 'text-white' : 'text-[#1C1A17]'}`}>{title}</h2><p className={`mt-4 max-w-3xl text-[15px] leading-relaxed ${dark ? 'text-[#C9C0B5]' : 'text-[#4E483F]'}`}>{body}</p></div>
 }
 
-function Channel({ icon: Icon, label, ariaLabel }: { icon: typeof Mail; label: string; ariaLabel?: string }) { return <span aria-label={ariaLabel} className="flex min-w-0 flex-col items-center gap-1 text-center"><Icon aria-hidden="true" className="h-3.5 w-3.5 shrink-0" /><span className="leading-tight">{label}</span></span> }
+function Channel({ icon: Icon, label, ariaLabel, tooltip }: { icon: typeof Mail; label: string; ariaLabel?: string; tooltip?: string }) { return <span tabIndex={tooltip ? 0 : undefined} aria-label={ariaLabel} className="group/channel relative flex min-w-0 flex-col items-center gap-1 text-center outline-none"><Icon aria-hidden="true" className="h-4 w-4 shrink-0" /><span className="leading-tight">{label}</span>{tooltip && <span role="tooltip" className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 w-56 -translate-x-1/2 rounded-md bg-[#151310] px-3 py-2 text-left text-[11px] leading-4 text-[#FAF8F3] opacity-0 shadow-lg transition-opacity group-hover/channel:opacity-100 group-focus/channel:opacity-100">{tooltip}</span>}</span> }
 
 
 const COPY = {
@@ -209,7 +204,8 @@ const COPY = {
     appsLink: 'Explorer plus de 3 000 applications',
     environmentTitle: 'Son propre environnement pour travailler vraiment.',
     environmentBody: 'Chaque Collaborateur IA dispose de son propre serveur privé, propulsé par Hermes.',
-    environmentItems: [['Code', 'Exécuter et vérifier'], ['Navigateur', 'Rechercher sur Internet'], ['Fichiers', 'Conserver son travail'], ['Planification', 'Continuer après la conversation']],
+    environmentItems: [['Code', 'Exécuter et vérifier'], ['Naviguer', 'Parcourir et agir sur le Web.'], ['Fichiers', 'Conserver son travail'], ['Planification', 'Continuer après la conversation']],
+    browserDetail: 'Son navigateur ne se limite pas à la recherche. Il peut parcourir des sites, suivre des liens, lire et structurer leurs pages, se connecter avec les accès autorisés, remplir des formulaires et utiliser les contrôles nécessaires à la mission.',
     resources: 'Stockage, RAM et CPU propres à son environnement.',
     hermes: 'Propulsé par Hermes, l’agent autonome open source de Unitalk.',
     hermesLink: 'Découvrir Hermes',
@@ -226,9 +222,12 @@ const COPY = {
     ready: 'Prêt',
     profilesLabel: 'Profils métier · 3',
     profiles: ['Relation client', 'Commercial', 'Fidélisation'],
-    activeProfile: 'Mobilisé pour cette mission : Relation client',
-    channels: { email: 'Email', calendar: 'Agenda', phone: 'Téléphone', publicProfile: 'Profil public', browser: 'Navigation', code: 'Code', scheduling: 'Planification', companyMemory: 'Mémoire entreprise' },
-    companyMemoryAria: 'Accès à la mémoire d’entreprise selon vos autorisations',
+    mobilized: 'Mobilisé',
+    communicationLabel: 'Moyens de communication',
+    workLabel: 'Environnement de travail',
+    channels: { email: 'Email', calendar: 'Calendrier', phone: 'Téléphone', publicProfile: 'Profil public', browser: 'Navigateur', code: 'Code', scheduling: 'Planification', companyMemory: 'Mémoire d’entreprise' },
+    companyMemoryAria: 'Accès à la mémoire d’entreprise selon les droits définis par l’organisation',
+    browserTooltip: 'Parcourir les sites autorisés, s’authentifier, extraire des informations, suivre des liens et utiliser leurs interfaces.',
   },
   en: {
     heroKicker: 'Ready to accomplish your missions',
@@ -261,7 +260,8 @@ const COPY = {
     appsLink: 'Explore more than 3,000 applications',
     environmentTitle: 'Its own environment to do real work.',
     environmentBody: 'Each AI Collaborator has its own private server, powered by Hermes.',
-    environmentItems: [['Code', 'Execute and verify'], ['Browser', 'Research online'], ['Files', 'Retain its work'], ['Scheduling', 'Continue after the conversation']],
+    environmentItems: [['Code', 'Execute and verify'], ['Browse', 'Browse and act on the Web.'], ['Files', 'Retain its work'], ['Scheduling', 'Continue after the conversation']],
+    browserDetail: 'Its browser is not limited to search. It can browse sites, follow links, read and structure pages, sign in with authorized access, fill in forms and use the controls required by the mission.',
     resources: 'Storage, RAM and CPU dedicated to its environment.',
     hermes: 'Powered by Hermes, Unitalk’s open-source autonomous agent.',
     hermesLink: 'Discover Hermes',
@@ -278,8 +278,11 @@ const COPY = {
     ready: 'Ready',
     profilesLabel: 'Job profiles · 3',
     profiles: ['Customer relations', 'Sales', 'Customer success'],
-    activeProfile: 'Used for this mission: Customer relations',
-    channels: { email: 'Email', calendar: 'Calendar', phone: 'Phone', publicProfile: 'Public profile', browser: 'Browsing', code: 'Code', scheduling: 'Scheduling', companyMemory: 'Company memory' },
-    companyMemoryAria: 'Access to company memory according to your permissions',
+    mobilized: 'Active',
+    communicationLabel: 'Communication channels',
+    workLabel: 'Work environment',
+    channels: { email: 'Email', calendar: 'Calendar', phone: 'Phone', publicProfile: 'Public profile', browser: 'Browser', code: 'Code', scheduling: 'Scheduling', companyMemory: 'Company memory' },
+    companyMemoryAria: 'Access to company memory according to the rights defined by the organization',
+    browserTooltip: 'Browse authorized sites, sign in, extract information, follow links and use their interfaces.',
   },
 } as const
