@@ -140,6 +140,38 @@ export function facetLabels(type: StoreType): Record<string, Bilingual> {
 const PROFILS: StoreItem[] = [
   {
     type: 'profil',
+    slug: 'conseiller-transformation-ia',
+    name: { fr: 'Conseiller en transformation IA', en: 'AI transformation advisor' },
+    description: {
+      fr: 'Transforme un besoin en mission, prépare les savoir-faire nécessaires et accompagne les équipes dans leur collaboration avec l’IA.',
+      en: 'Turns a need into a mission, prepares the required know-how and supports teams in working with AI.',
+    },
+    creator: 'unitalk',
+    facet: 'direction',
+    roleInOrg: {
+      fr: 'Profil métier créé par Unitalk, développé avec Alma et Patrick Chassany.',
+      en: 'Job profile created by Unitalk and developed with Alma and Patrick Chassany.',
+    },
+    knowHow: [
+      { fr: 'Entretien de découverte', en: 'Discovery interview' },
+      { fr: 'Cadrage de mission', en: 'Mission framing' },
+      { fr: 'Conception de profils métier et de compétences', en: 'Job profile and skill design' },
+      { fr: 'Préparation des droits et validations', en: 'Permission and approval preparation' },
+      { fr: 'Accompagnement humain–IA', en: 'Human–AI support' },
+      { fr: 'Qualification d’une escalade humaine', en: 'Human escalation qualification' },
+    ],
+    exampleMissions: [
+      { fr: 'Transformer un besoin en mission prête à confier', en: 'Turn a need into a mission ready to assign' },
+      { fr: 'Préparer l’adoption d’un Collaborateur IA par une équipe', en: 'Prepare a team to adopt an AI Collaborator' },
+    ],
+    relatedSkills: [],
+    possibleApps: [],
+    order: 0,
+    dateAdded: '2026-08-13',
+    keywords: ['transformation', 'conseil', 'alma', 'mission', 'formation', 'adoption', 'ia'],
+  },
+  {
+    type: 'profil',
     slug: 'assistante-de-direction',
     name: { fr: 'Assistante de direction', en: 'Executive assistant' },
     description: {

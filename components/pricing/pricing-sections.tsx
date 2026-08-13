@@ -26,7 +26,7 @@ const COPY = {
     includedTitle: 'Tout ce qui l’aide à progresser.',
     includedIntro: 'Alma, Unitalk Desktop et les Stores Unitalk sont inclus avec votre compte.',
     included: [
-      { name: 'Alma', title: 'Alma · Conseillère IA · Unitalk', body: 'Elle cadre vos missions, prépare votre Collaborateur IA et définit avec vous les décisions qui doivent rester humaines.', detail: 'Alma n’est pas facturée comme une identité supplémentaire.', status: 'Incluse', href: '/alma' },
+      { name: 'Alma', title: 'Alma · Conseillère IA · Unitalk', body: 'Elle cadre vos missions, prépare votre Collaborateur IA et définit avec vous les décisions qui doivent rester humaines.', detail: 'Alma n’est pas facturée comme une identité supplémentaire.', status: 'Incluse', href: '/collaborateurs-ia/alma' },
       { name: 'Unitalk Desktop', title: 'Unitalk Desktop', body: 'Travaillez localement avec les fichiers et les données que vous choisissez de conserver sur votre ordinateur.', detail: '', status: 'Gratuite', href: '' },
       { name: 'Store de profils métier', title: 'De nouvelles responsabilités, sans nouvelle identité.', body: 'Explorez et ajoutez des profils métier créés par Unitalk et par la communauté des créateurs.', detail: 'Un profil métier définit une responsabilité durable que votre Collaborateur IA peut exercer.', status: 'Accès inclus', href: '/collaborateurs-ia/profils-metier' },
       { name: 'Store de compétences', title: 'De nouveaux savoir-faire, sans repartir de zéro.', body: 'Ajoutez les méthodes de travail nécessaires à chaque mission et conservez celles que votre entreprise valide.', detail: 'Une compétence est un savoir-faire applicable, améliorable et réutilisable.', status: 'Accès inclus', href: '/collaborateurs-ia/competences' },
@@ -63,7 +63,7 @@ const COPY = {
     includedTitle: 'Everything that helps it progress.',
     includedIntro: 'Alma, Unitalk Desktop and the Unitalk Stores are included with your account.',
     included: [
-      { name: 'Alma', title: 'Alma · AI Advisor · Unitalk', body: 'She frames your missions, prepares your AI Collaborator and defines with you which decisions must remain human.', detail: 'Alma is not billed as an additional identity.', status: 'Included', href: '/alma' },
+      { name: 'Alma', title: 'Alma · AI Advisor · Unitalk', body: 'She frames your missions, prepares your AI Collaborator and defines with you which decisions must remain human.', detail: 'Alma is not billed as an additional identity.', status: 'Included', href: '/collaborateurs-ia/alma' },
       { name: 'Unitalk Desktop', title: 'Unitalk Desktop', body: 'Work locally with the files and data you choose to keep on your computer.', detail: '', status: 'Free', href: '' },
       { name: 'Job profile Store', title: 'New responsibilities, without a new identity.', body: 'Explore and add job profiles created by Unitalk and the creator community.', detail: 'A job profile defines a lasting responsibility your AI Collaborator can perform.', status: 'Access included', href: '/collaborateurs-ia/profils-metier' },
       { name: 'Skills Store', title: 'New know-how, without starting over.', body: 'Add the working methods each mission requires and retain those your company approves.', detail: 'A skill is applicable, improvable and reusable know-how.', status: 'Access included', href: '/collaborateurs-ia/competences' },
