@@ -26,7 +26,7 @@ export function CollaborateurExperience() {
             <Link href="/decouvrir" className="mt-7 inline-flex rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.create} →
             </Link>
-            <div className="mt-4 space-y-1.5"><p className="text-[13px] font-medium text-[#4E483F]">{t.trial}</p><p className="text-xs text-[#6E665A]">{t.price}</p></div>
+            <div className="mt-4 space-y-1.5"><p className="whitespace-pre-line text-[13px] font-medium leading-5 text-[#4E483F]">{t.trial}</p><p className="text-xs text-[#6E665A]">{t.price}</p></div>
           </div>
           <LucasPortrait lang={lang} />
         </div>

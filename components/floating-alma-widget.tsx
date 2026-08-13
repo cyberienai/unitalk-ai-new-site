@@ -15,7 +15,7 @@ const T = {
     tipPricing: 'Une question sur les offres ? Parlons-en.',
     tipMissions: 'Notre conseillère IA peut préparer votre mission.',
     ctaMissions: 'Décrire mon besoin',
-    tipDefault: 'Besoin d’un nouvel agent ?',
+    tipDefault: 'Parler à Alma · Conseillère IA',
     msg1: 'Bonjour, je suis Alma.',
     msg2: 'J\'active des collaborateurs IA sur mesure pour votre entreprise.',
     msg3a: "Je découvre votre activité, puis je vous appelle pour comprendre vos outils et votre façon de travailler. ",
@@ -35,7 +35,7 @@ const T = {
     tipPricing: 'A question about our plans? Let’s talk.',
     tipMissions: 'Our AI advisor can prepare your mission.',
     ctaMissions: 'Describe my need',
-    tipDefault: 'Need a new agent?',
+    tipDefault: 'Talk to Alma · AI Advisor',
     msg1: "Hello, I'm Alma.",
     msg2: 'I create a tailored AI collaborator for your company.',
     msg3a: 'I learn about your business, then call you to understand your tools and the way you work. ',
@@ -83,7 +83,8 @@ export function FloatingAlmaWidget() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.3 }}
             className={`relative flex items-center justify-center rounded-full bg-[#F3EFE6] shadow-[0_12px_32px_-8px_rgba(28,26,23,0.35)] ring-2 ring-[#D10E63]/40 transition-transform hover:scale-105 ${isMissions ? 'h-12 w-12' : 'h-16 w-16'}`}
-            aria-label={isOpen ? t.tooltipClose : t.tipHome}
+            aria-label={isOpen ? t.tooltipClose : t.tipDefault}
+            title={isOpen ? t.tooltipClose : t.tipDefault}
           >
             {isOpen ? (
               <span className="flex h-full w-full items-center justify-center rounded-full bg-[#D10E63] text-[#FBF9F3]">
@@ -99,7 +100,6 @@ export function FloatingAlmaWidget() {
                   alt="Alma"
                   className="h-full w-full rounded-full object-cover"
                 />
-                <span className="absolute bottom-0.5 right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]" />
               </>
             )}
           </motion.button>

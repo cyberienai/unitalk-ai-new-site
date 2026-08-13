@@ -7,6 +7,7 @@ import { ArrowRight, ChevronDown } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
+import { useAlma } from '@/lib/alma-context'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -42,8 +43,8 @@ const COLLAB_DISCOVER: MenuEntry[] = [
   {
     title: { fr: 'Compétences', en: 'Skills' },
     desc: {
-      fr: 'Les savoir-faire qu’il peut appliquer et améliorer.',
-      en: 'The know-how it can apply and improve.',
+      fr: 'Les savoir-faire qu’il peut appliquer, améliorer et partager.',
+      en: 'The know-how it can apply, improve and share.',
     },
     href: '/collaborateurs-ia/competences',
   },
@@ -61,11 +62,27 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
   {
     title: { fr: 'Alma · Conseillère IA', en: 'Alma · AI advisor' },
     desc: {
-      fr: 'Elle vous aide à cadrer une mission et à préparer votre premier Collaborateur IA.',
-      en: 'She helps frame a mission and prepare your first AI Collaborator.',
+      fr: 'Cadrez une première mission et préparez votre Collaborateur IA.',
+      en: 'Frame a first mission and prepare your AI Collaborator.',
     },
     href: '/alma',
     avatar: '/alma-avatar.png',
+  },
+  {
+    title: { fr: 'AI Native Pack', en: 'AI Native Pack' },
+    desc: {
+      fr: 'Passez de la première mission à une adoption structurée avec vos équipes.',
+      en: 'Move from the first mission to structured adoption with your teams.',
+    },
+    href: '/tarifs',
+  },
+  {
+    title: { fr: 'Experts humains', en: 'Human experts' },
+    desc: {
+      fr: 'Concevez, intégrez ou faites évoluer vos Collaborateurs IA avec un spécialiste.',
+      en: 'Design, integrate or advance your AI Collaborators with a specialist.',
+    },
+    href: '/experts',
   },
 ]
 
@@ -86,7 +103,7 @@ const T = {
     collabMenu: 'Menu Collaborateurs IA',
     // Collaborateurs IA panel — two-column mega menu
     menuDiscover: 'Le Collaborateur',
-    menuAccompaniment: 'Alma · Unitalk',
+    menuAccompaniment: 'Accompagnement',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -99,7 +116,7 @@ const T = {
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'The Collaborator',
-    menuAccompaniment: 'Alma · Unitalk',
+    menuAccompaniment: 'Accompaniment',
   },
 }
 
@@ -169,6 +186,16 @@ function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lan
           <span className="mt-1 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span>
         </>
       )}
+    </a>
+  )
+}
+
+function AccompanimentMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lang; onSelect: () => void }) {
+  return (
+    <a href={entry.href} role="menuitem" onClick={onSelect} className="group flex min-h-[104px] w-full items-start gap-3 px-4 py-[18px] outline-none transition-colors duration-150 hover:bg-[#F3EEE5] focus-visible:bg-[#F3EEE5] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D10E63]/40">
+      {entry.avatar && <img src={entry.avatar} alt="" aria-hidden="true" className="h-[42px] w-[42px] shrink-0 rounded-full object-cover" />}
+      <span className="min-w-0 flex-1"><span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors group-hover:text-[#D10E63] group-focus-visible:text-[#D10E63]">{entry.title[lang]}</span><span className="mt-1.5 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span></span>
+      <ArrowRight aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63] opacity-45 transition-[transform,opacity] duration-150 group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100" />
     </a>
   )
 }
@@ -253,6 +280,7 @@ export function Navbar(
     collabHoverTimeout.current = setTimeout(() => setCollabOpen(false), 120)
   }
   const { lang, setLang } = useLanguage()
+  const { setLauncherSuppressed } = useAlma()
   const t = T[lang]
   const pathname = usePathname() || '/'
 
@@ -286,6 +314,11 @@ export function Navbar(
       document.body.style.overflow = ''
     }
   }, [isMenuOpen])
+
+  useEffect(() => {
+    setLauncherSuppressed(collabOpen)
+    return () => setLauncherSuppressed(false)
+  }, [collabOpen, setLauncherSuppressed])
 
   // Subtle bottom border once the page is scrolled
   useEffect(() => {
@@ -403,11 +436,11 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                      className="absolute left-0 top-full w-[680px] max-w-[calc(100vw-2rem)] pt-2"
+                      className="absolute left-0 top-full w-[880px] max-w-[calc(100vw-2rem)] pt-2"
                     >
                       <div className="overflow-hidden rounded-2xl border border-[#E4DDCE] bg-[#FAF8F3] shadow-[0_24px_60px_-12px_rgba(28,26,23,0.22)]">
                         {/* Two-column body: product (left) vs ecosystem (right) */}
-                        <div className="grid grid-cols-[1fr_300px]">
+                        <div className="grid grid-cols-[58fr_42fr]">
                           {/* Left — Le Collaborateur: the four product bricks */}
                           <div className="p-3">
                             <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
@@ -415,7 +448,7 @@ export function Navbar(
                             </p>
                             <div className="flex flex-col">
                               {COLLAB_DISCOVER.map((item) => (
-                                <CollabMenuLink
+                                <AccompanimentMenuLink
                                   key={item.href}
                                   entry={item}
                                   lang={lang}
@@ -430,9 +463,9 @@ export function Navbar(
                             <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col divide-y divide-[#1C1A17]/10">
                               {COLLAB_ACCOMPANIMENT.map((item) => (
-                                <CollabMenuLink
+                              <AccompanimentMenuLink
                                   key={item.href}
                                   entry={item}
                                   lang={lang}
