@@ -16,7 +16,7 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
         items: [
           {
             q: `Que paient les ${price} ?`,
-            a: 'Une identité professionnelle de Collaborateur IA, son environnement privé, sa mémoire, ses profils métier et ses compétences sans limite.',
+            a: 'Une identité professionnelle de Collaborateur IA, son environnement privé, sa mémoire, ses moyens de communication ainsi que des profils métier et compétences sans limite.',
           },
           {
             q: 'Les modèles IA sont-ils inclus ?',
@@ -37,7 +37,7 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
         items: [
           {
             q: `What does the ${price} pay for?`,
-            a: 'One AI Collaborator’s professional identity, private environment, memory, unlimited job profiles and unlimited skills.',
+            a: 'One AI Collaborator’s professional identity, private environment, memory, communication tools, unlimited job profiles and unlimited skills.',
           },
           {
             q: 'Are AI models included?',
