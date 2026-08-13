@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 const configurator = readFileSync(new URL('../components/pricing/pricing-configurator.tsx', import.meta.url), 'utf8')
 const action = readFileSync(new URL('../app/actions/pricing.ts', import.meta.url), 'utf8')
 const page = readFileSync(new URL('../app/tarifs/page.tsx', import.meta.url), 'utf8')
+const pricing = readFileSync(new URL('../lib/unitalk-pricing.ts', import.meta.url), 'utf8')
 
 describe('pricing page publication requirements', () => {
   it('uses accessible pricing controls and a live total', () => {
@@ -16,7 +17,7 @@ describe('pricing page publication requirements', () => {
 
   it('persists a server-side draft and redirects to registration', () => {
     expect(action).toContain('httpOnly: true')
-    expect(action).toContain("source: 'tarifs'")
+    expect(pricing).toContain("source: 'tarifs'")
     expect(action).toContain('/inscription?source=tarifs&pricingDraft=')
   })
 
