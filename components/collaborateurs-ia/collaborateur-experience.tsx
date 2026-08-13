@@ -2,287 +2,193 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { CalendarDays, Clock3, Database, Globe2, Mail, Phone, SquareTerminal, UserRound } from 'lucide-react'
-import { motion, useReducedMotion } from 'framer-motion'
-import { useLanguage } from '@/lib/language-context'
+import { useRef, useState } from 'react'
+import { ArrowRight, Check, ChevronDown, FileText, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
+import { useLanguage, type Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
-import { ModelLogoStrip } from './model-logo-strip'
-import { ApplicationLogoStrip } from './application-logo-strip'
 
+type FormatKey = 'text' | 'image' | 'audio' | 'video' | 'code'
+
+const FORMAT_KEYS: FormatKey[] = ['text', 'image', 'audio', 'video', 'code']
 
 export function CollaborateurExperience() {
   const { lang } = useLanguage()
   const t = COPY[lang]
 
   return (
-    <main>
-      <section className="px-5 pb-14 pt-[8.75rem] sm:px-8 sm:pb-16 sm:pt-[9.25rem]">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
-          <div>
+    <main className="font-sf">
+      <section className="relative overflow-hidden px-5 pb-20 pt-[8.25rem] sm:px-8 sm:pb-24 sm:pt-[9rem]">
+        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+        <div className="editorial-shell relative grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+          <div className="max-w-xl">
             <Kicker>{t.heroKicker}</Kicker>
-            <h1 className="hero-heading mt-5">{t.heroTitle}</h1>
-            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-[#4E483F]">{t.heroBody}</p>
-            <p className="mt-3 max-w-xl text-[16px] font-semibold text-[#1C1A17]">{t.heroProgress}</p>
-            <Link href="/decouvrir" className="mt-7 inline-flex rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
-              {t.create} →
+            <h1 className="hero-heading mt-5 whitespace-pre-line">{t.heroTitle}</h1>
+            <p className="mt-6 text-[17px] leading-8 text-[#4E483F]">{t.heroBody}</p>
+            <p className="mt-4 text-[16px] leading-7 text-[#4E483F]">{t.heroRules}</p>
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <Link href="/missions" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,0.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+                {t.heroCta} <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+              <a href="#formats" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">
+                {t.seeWork} <ChevronDown className="size-4" />
+              </a>
+            </div>
+            <p className="mt-5 text-xs font-medium text-[#6E665A]">{t.trial}</p>
+          </div>
+          <LucasMissionCard lang={lang} />
+        </div>
+      </section>
+
+      <section id="formats" className="border-y border-[#DCD4C4] bg-[#FBF9F3] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="editorial-shell">
+          <SectionHeading eyebrow={t.formatsKicker} title={t.formatsTitle} body={t.formatsBody} />
+          <FormatTabs lang={lang} />
+        </div>
+      </section>
+
+      <section className="bg-[#181615] px-5 py-20 text-[#FBF9F3] sm:px-8 sm:py-24">
+        <div className="editorial-shell">
+          <SectionHeading dark eyebrow={t.workKicker} title={t.workTitle} body={t.workBody} />
+          <div className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-4">
+            {t.workItems.map((item, index) => {
+              const Icon = [Globe2, FolderOpen, SquareTerminal, TimerReset][index]
+              return <div key={item.title} className="bg-[#211E1B] p-6"><Icon className="size-5 text-[#F2A4C5]" /><h3 className="mt-8 text-xl font-semibold">{item.title}</h3><p className="mt-3 text-sm leading-6 text-[#CFC6B8]">{item.body}</p></div>
+            })}
+          </div>
+          <p className="mt-6 text-sm font-semibold text-[#E7E0D5]">{t.hermes}</p>
+
+          <div className="mt-16 border-t border-white/15 pt-12">
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#F2A4C5]">{t.appsKicker}</p>
+            <h2 className="mt-4 max-w-3xl text-balance text-[32px] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-[42px]">{t.appsTitle}</h2>
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {t.appTypes.map((item) => <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"><h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#F2A4C5]">{item.title}</h3><p className="mt-4 text-sm leading-7 text-[#CFC6B8]">{item.body}</p></div>)}
+            </div>
+            <div className="mt-8 flex gap-4 rounded-2xl border border-[#D10E63]/40 bg-[#D10E63]/10 p-5"><ShieldCheck className="mt-0.5 size-5 shrink-0 text-[#F2A4C5]" /><p className="text-sm font-semibold leading-7">{t.permissionRule}</p></div>
+            <div className="mt-10 grid gap-3 text-sm md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center">
+              <ArchitectureItem label={t.architecture.collaboratorLabel} value={t.architecture.collaboratorValue} />
+              <ArrowRight aria-hidden className="hidden size-4 text-[#F2A4C5] md:block" />
+              <ArchitectureItem label={t.architecture.serverLabel} value={t.architecture.serverValue} />
+              <ArrowRight aria-hidden className="hidden size-4 text-[#F2A4C5] md:block" />
+              <ArchitectureItem label={t.architecture.accessLabel} value={t.architecture.accessValue} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-8 sm:py-24">
+        <div className="editorial-shell grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
+          <div>
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.identityKicker}</p>
+            <h2 className="mt-5 max-w-xl text-balance text-[34px] font-semibold leading-[1.05] tracking-[-0.04em] sm:text-[44px]">{t.identityTitle}</h2>
+            <p className="mt-5 max-w-xl text-[16px] leading-8 text-[#4E483F]">{t.identityBody}</p>
+          </div>
+          <div className="rounded-3xl border border-[#DCD4C4] bg-[#FBF9F3] p-6 sm:p-8">
+            <div className="flex items-center gap-4 border-b border-[#DCD4C4] pb-6">
+              <Image src="/images/lucas-avatar.png" alt="" width={56} height={56} className="size-14 rounded-full object-cover" />
+              <div><p className="text-xl font-semibold">Lucas</p><p className="mt-1 text-sm text-[#6E665A]">{t.lucasMeta}</p></div>
+            </div>
+            <div className="mt-6 grid gap-8 sm:grid-cols-2">
+              <IdentityList label={t.profilesLabel} items={t.profiles} />
+              <IdentityList label={t.experienceLabel} items={t.experience} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-[#DCD4C4] bg-[#EAE3D4] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="editorial-shell flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
+          <div className="max-w-3xl">
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.finalKicker}</p>
+            <h2 className="mt-5 text-balance text-[36px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[48px]">{t.finalTitle}</h2>
+            <p className="mt-6 max-w-2xl whitespace-pre-line text-[17px] leading-8 text-[#4E483F]">{t.finalBody}</p>
+            <p className="mt-6 text-sm font-semibold">{t.alma}</p>
+          </div>
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center lg:flex-col lg:items-end">
+            <Link href="/missions" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+              {t.finalCta} <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <div className="mt-4 space-y-1.5"><p className="whitespace-pre-line text-[13px] font-medium leading-5 text-[#4E483F]">{t.trial}</p><p className="text-xs text-[#6E665A]">{t.price}</p></div>
+            <Link href="/tarifs" className="text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">{t.pricing}</Link>
           </div>
-          <LucasPortrait lang={lang} />
-        </div>
-      </section>
-
-      <section className="bg-[#1C1A17] px-5 py-16 text-[#F3EFE6] sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="grid gap-7 lg:grid-cols-[5fr_1fr_6fr]">
-            <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#F2A4C5]">Unitalk AI Gateway</p>
-              <h2 className="mt-4 font-sf text-[36px] font-bold leading-[0.98] tracking-[-0.045em] text-white sm:text-[52px]"><span className="block">{t.modelsTitleOne}</span><span className="block text-[#BDB7AC]">{t.modelsTitleTwo}</span></h2>
-            </div>
-            <div aria-hidden />
-            <div className="space-y-4 text-[16px] leading-7 text-[#BDB7AC]"><p>{t.modelsBody}</p><p>{t.modelsContinuity}</p></div>
-          </div>
-          <ModelLogoStrip lang={lang} />
-          <div className="mt-12 grid gap-10 lg:grid-cols-[5fr_1fr_6fr]">
-            <div>
-              <div className="space-y-1 font-sf text-[28px] font-bold uppercase leading-tight tracking-[-0.025em] text-white sm:text-[34px]">{t.modalities.map((item, index) => <p key={item}><span className="mr-4 font-mono text-[10px] font-normal text-[#777168]">0{index + 1}</span>{item}</p>)}</div>
-              <p className="mt-5 max-w-sm text-[13px] leading-6 text-[#BDB7AC]">{t.modalitiesNote}</p>
-            </div>
-            <div aria-hidden />
-            <div>
-              <h3 className="font-sf text-[32px] font-bold uppercase leading-[1.02] tracking-[-0.035em] text-white sm:text-[42px]"><span className="block">{t.moaTitleOne}</span><span className="block text-[#F2A4C5]">{t.moaTitleTwo}</span></h3>
-              <div className="mt-6 border-y border-white/[0.14] py-5 font-sf text-[20px] font-semibold leading-8 text-white"><p>{t.moaSteps[0]}</p><p>{t.moaSteps[1]}</p><p>{t.moaSteps[2]}</p></div>
-              <p className="mt-5 text-[14px] leading-7 text-[#BDB7AC]">{t.moa}</p>
-              <p className="mt-4 font-semibold text-white">{t.moaFinal}</p>
-            </div>
-          </div>
-          <Link href="/ai-gateway" className="mt-10 inline-flex text-sm font-bold text-[#F2A4C5]">{t.gatewayLink} →</Link>
-        </div>
-      </section>
-
-      <section className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-[1200px]">
-          <div className="grid gap-7 lg:grid-cols-[5fr_1fr_6fr]">
-            <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.appsKicker}</p><h2 className="mt-4 font-sf text-[36px] font-bold leading-[0.98] tracking-[-0.045em] text-[#1C1A17] sm:text-[52px]">{t.appsTitle}</h2></div>
-            <div aria-hidden />
-            <p className="self-end whitespace-pre-line text-[18px] font-semibold leading-8 text-[#4E483F]">{t.appsBody}</p>
-          </div>
-          <ApplicationLogoStrip lang={lang} />
-          <div className="mt-12 grid gap-10 lg:grid-cols-2">
-            <div><h3 className="font-sf text-[30px] font-bold leading-tight tracking-[-0.03em] text-[#1C1A17] sm:text-[38px]">{t.actionsTitle}</h3><p className="mt-4 text-[16px] font-semibold text-[#4E483F]">{t.actionsControl}</p></div>
-            <div><h3 className="font-sf text-[24px] font-bold tracking-[-0.025em]">{t.rulesTitle}</h3><p className="mt-4 text-[14px] leading-7 text-[#4E483F]">{t.oauthBody}</p><p className="mt-4 text-[15px] font-semibold leading-6 text-[#1C1A17]">{t.permissions}</p></div>
-          </div>
-          <Link href="/collaborateurs-ia/applications" className="mt-9 inline-flex text-sm font-bold text-[#D10E63]">{t.appsLink} →</Link>
-        </div>
-      </section>
-
-      <section className="bg-[#1C1A17] px-5 py-14 text-[#F3EFE6] sm:px-8 sm:py-16">
-        <div className="mx-auto max-w-[1200px]">
-          <SectionIntro dark title={t.environmentTitle} body={t.environmentBody} />
-          <div className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {t.environmentItems.map(([title, body]) => (
-              <div key={title} className="border-t border-white/20 pt-4">
-                <h3 className="font-sf text-2xl font-bold text-white">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#C9C0B5]">{body}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-7 max-w-4xl text-[14px] leading-7 text-[#C9C0B5]">{t.browserDetail}</p>
-          <p className="mt-8 text-sm font-semibold text-[#E7DED3]">{t.resources}</p>
-          <p className="mt-3 text-sm text-[#C9C0B5]">{t.hermes}</p>
-          <Link href="/agent-hermes" className="mt-4 inline-flex text-sm font-bold text-[#F2A4C5]">{t.hermesLink} →</Link>
-        </div>
-      </section>
-
-      <section className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-[1200px]">
-          <SectionIntro kicker={t.identityKicker} title={t.identityTitle} body={t.identityBody} />
-          <div className="mt-9 grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="font-mono text-[12px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">1 identité</p>
-              <div className="mt-5 space-y-3 font-sf text-2xl font-bold sm:text-3xl">
-                <p>+ Profils métier</p>
-                <p>+ Compétences</p>
-                <p>+ Applications</p>
-                <p>+ Expérience</p>
-              </div>
-            </div>
-            <div className="rounded-3xl border border-[#DED6C8] bg-[#FAF8F3] p-6 sm:p-8">
-              <p className="text-sm font-semibold text-[#6E665A]">Relation client</p>
-              <div className="my-4 h-8 w-px bg-[#D10E63]/40" />
-              <p className="font-sf text-2xl font-bold">Relation client · Fidélisation</p>
-              <div className="mt-6 grid gap-2 text-sm text-[#4E483F] sm:grid-cols-3">
-                <span>Identité inchangée</span><span>Mémoire conservée</span><span>Rattachement conservé</span>
-              </div>
-            </div>
-          </div>
-          <p className="mt-7 text-[15px] font-semibold text-[#1C1A17]">{t.readyFor}</p>
-          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
-            <Link href="/collaborateurs-ia/profils-metier" className="text-sm font-bold text-[#D10E63]">{t.profilesLink} →</Link>
-            <Link href="/collaborateurs-ia/competences" className="text-sm font-bold text-[#D10E63]">{t.skillsLink} →</Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-[#DED6C8] px-5 py-16 text-center sm:px-8 sm:py-20">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="font-sf text-[32px] font-bold tracking-[-0.03em] sm:text-[42px]">{t.finalTitle}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-[#4E483F]">{t.finalBody}</p>
-          <Link href="/decouvrir" className="mt-7 inline-flex rounded-full bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-white outline-none transition-all hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.create} →</Link>
-          <p className="mt-3 text-[13px] font-medium text-[#6E665A]">{t.trial}</p>
         </div>
       </section>
     </main>
   )
 }
 
-function LucasPortrait({ lang }: { lang: 'fr' | 'en' }) {
-  const reduce = useReducedMotion()
+function LucasMissionCard({ lang }: { lang: Lang }) {
   const t = COPY[lang]
-  return (
-    <motion.figure initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border border-[#DED6C8] bg-[#FAF8F3] shadow-[0_28px_65px_-48px_rgba(28,26,23,0.5)]">
-      <div className="relative aspect-[16/10] bg-[#ECE6DA]">
-        <Image src="/images/lucas-avatar.png" alt={lang === 'fr' ? 'Portrait de Lucas, Collaborateur IA' : 'Portrait of Lucas, AI Collaborator'} fill priority sizes="(max-width: 1024px) 100vw, 420px" className="object-cover object-top" />
-        <span className="absolute right-5 top-5 rounded-full bg-[#1C1A17] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">{t.aiIdentity}</span>
-      </div>
-      <figcaption className="p-5">
-        <div className="flex items-center justify-between gap-4"><div><p className="font-sf text-2xl font-bold leading-none">Lucas</p><p className="mt-1.5 text-[13px] text-[#4E483F]">{t.lucasMeta}</p></div><span className="inline-flex shrink-0 items-center gap-1.5 self-center text-xs font-bold text-[#257A43]"><span className="h-2 w-2 rounded-full bg-[#2E9E5B]" />{t.ready}</span></div>
-        <div className="mt-4">
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[#6E665A]">{t.profilesLabel}</p>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {t.profiles.map((profile, index) => (
-              <motion.span key={profile} initial={reduce ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: reduce ? 0 : index * 0.35 }} className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${index === 0 ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F]'}`}>{profile}{index === 0 && ` · ${t.mobilized}`}</motion.span>
-            ))}
-          </div>
-        </div>
-        <div className="mt-4 border-t border-[#DED6C8] pt-4 text-[11px] text-[#6E665A]">
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.08em]">{t.communicationLabel}</p>
-          <div className="mt-3 grid grid-cols-2 gap-x-2 gap-y-3 sm:grid-cols-4"><Channel icon={Mail} label={t.channels.email} /><Channel icon={CalendarDays} label={t.channels.calendar} /><Channel icon={Phone} label={t.channels.phone} /><Channel icon={UserRound} label={t.channels.publicProfile} /></div>
-          <div className="mt-4 border-t border-[#DED6C8] pt-4"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.08em]">{t.workLabel}</p><div className="mt-3 grid grid-cols-2 gap-x-2 gap-y-3 sm:grid-cols-4"><Channel icon={Globe2} label={t.channels.browser} tooltip={t.browserTooltip} /><Channel icon={SquareTerminal} label={t.channels.code} /><Channel icon={Clock3} label={t.channels.scheduling} /><Channel icon={Database} label={t.channels.companyMemory} ariaLabel={t.companyMemoryAria} /></div></div>
-        </div>
-      </figcaption>
-    </motion.figure>
-  )
+  return <div className="mx-auto w-full max-w-[480px] overflow-hidden rounded-3xl border border-[#DCD4C4] bg-[#FBF9F3] shadow-[0_28px_65px_-48px_rgba(28,26,23,0.5)]"><div className="grid grid-cols-[112px_1fr] items-stretch sm:grid-cols-[150px_1fr]"><div className="relative min-h-44 bg-[#ECE6DA]"><Image src="/images/lucas-avatar.png" alt={lang === 'fr' ? 'Portrait de Lucas, Collaborateur IA' : 'Portrait of Lucas, AI Collaborator'} fill priority sizes="150px" className="object-cover object-top" /></div><div className="p-5"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.aiIdentity}</p><h2 className="mt-3 text-2xl font-semibold">Lucas</h2><p className="mt-1 text-sm text-[#6E665A]">{t.lucasMeta}</p></div></div><div className="grid gap-px border-t border-[#DCD4C4] bg-[#DCD4C4] sm:grid-cols-2"><MissionFact label={t.currentMission} value={t.mission} /><MissionFact label={t.profilesLabel} value={t.profiles.join(' · ')} /><MissionFact label={t.permissionsLabel} value={t.permissions.join('\n')} /><MissionFact label={t.stateLabel} value={t.state} accent /></div></div>
 }
 
-function SectionIntro({ kicker, title, body, dark = false }: { kicker?: string; title: string; body: string; dark?: boolean }) {
-  return <div>{kicker && <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${dark ? 'text-[#F2A4C5]' : 'text-[#B00C54]'}`}>{kicker}</p>}<h2 className={`mt-3 max-w-4xl text-balance font-sf text-[32px] font-bold leading-[1.08] tracking-[-0.03em] sm:text-[42px] ${dark ? 'text-white' : 'text-[#1C1A17]'}`}>{title}</h2><p className={`mt-4 max-w-3xl text-[15px] leading-relaxed ${dark ? 'text-[#C9C0B5]' : 'text-[#4E483F]'}`}>{body}</p></div>
+function MissionFact({ label, value, accent = false }: { label: string; value: string; accent?: boolean }) {
+  return <div className="bg-[#FBF9F3] p-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[#857C6E]">{label}</p><p className={`mt-3 whitespace-pre-line text-sm font-semibold leading-6 ${accent ? 'text-[#257A43]' : ''}`}>{value}</p></div>
 }
 
-function Channel({ icon: Icon, label, ariaLabel, tooltip }: { icon: typeof Mail; label: string; ariaLabel?: string; tooltip?: string }) { return <span tabIndex={tooltip ? 0 : undefined} aria-label={ariaLabel} className="group/channel relative flex min-w-0 flex-col items-center gap-1 text-center outline-none"><Icon aria-hidden="true" className="h-4 w-4 shrink-0" /><span className="leading-tight">{label}</span>{tooltip && <span role="tooltip" className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 w-56 -translate-x-1/2 rounded-md bg-[#151310] px-3 py-2 text-left text-[11px] leading-4 text-[#FAF8F3] opacity-0 shadow-lg transition-opacity group-hover/channel:opacity-100 group-focus/channel:opacity-100">{tooltip}</span>}</span> }
+function FormatTabs({ lang }: { lang: Lang }) {
+  const t = COPY[lang]
+  const [active, setActive] = useState<FormatKey>('text')
+  const refs = useRef<Record<FormatKey, HTMLButtonElement | null>>({ text: null, image: null, audio: null, video: null, code: null })
+  const item = t.formats[active]
 
+  function selectByKeyboard(event: React.KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next = index
+    if (event.key === 'ArrowRight') next = (index + 1) % FORMAT_KEYS.length
+    else if (event.key === 'ArrowLeft') next = (index - 1 + FORMAT_KEYS.length) % FORMAT_KEYS.length
+    else if (event.key === 'Home') next = 0
+    else if (event.key === 'End') next = FORMAT_KEYS.length - 1
+    else return
+    event.preventDefault()
+    const key = FORMAT_KEYS[next]
+    setActive(key)
+    refs.current[key]?.focus()
+  }
+
+  return <div className="mt-12"><div role="tablist" aria-label={t.formatsTabLabel} className="scrollbar-hide flex gap-2 overflow-x-auto pb-2">{FORMAT_KEYS.map((key, index) => <button key={key} ref={(node) => { refs.current[key] = node }} id={`format-tab-${key}`} type="button" role="tab" aria-selected={active === key} aria-controls={`format-panel-${key}`} tabIndex={active === key ? 0 : -1} onClick={() => setActive(key)} onKeyDown={(event) => selectByKeyboard(event, index)} className={`min-h-11 shrink-0 rounded-full border px-5 text-sm font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${active === key ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F] hover:border-[#D10E63]/50'}`}>{t.formatLabels[key]}</button>)}</div><div id={`format-panel-${active}`} role="tabpanel" aria-labelledby={`format-tab-${active}`} tabIndex={0} className="mt-6 rounded-3xl border border-[#DCD4C4] bg-[#F3EFE6] p-6 outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:p-8"><div className="grid gap-8 lg:grid-cols-3">{(['request', 'work', 'result'] as const).map((field, index) => <div key={field} className={index ? 'border-t border-[#DCD4C4] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0' : ''}><p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.flowLabels[field]}</p><p className="mt-4 whitespace-pre-line text-[16px] font-semibold leading-7">{item[field]}</p></div>)}</div>{item.note && <p className="mt-8 border-l-2 border-[#D10E63] pl-5 text-sm leading-7 text-[#4E483F]">{item.note}</p>}</div></div>
+}
+
+function SectionHeading({ eyebrow, title, body, dark = false }: { eyebrow: string; title: string; body: string; dark?: boolean }) {
+  return <div className="max-w-4xl"><p className={`font-mono text-[11px] font-bold uppercase tracking-[0.18em] ${dark ? 'text-[#F2A4C5]' : 'text-[#B00C54]'}`}>{eyebrow}</p><h2 className={`mt-5 text-balance text-[34px] font-semibold leading-[1.05] tracking-[-0.04em] sm:text-[44px] ${dark ? 'text-white' : ''}`}>{title}</h2><p className={`mt-5 max-w-3xl text-[16px] leading-8 ${dark ? 'text-[#CFC6B8]' : 'text-[#4E483F]'}`}>{body}</p></div>
+}
+
+function ArchitectureItem({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2A4C5]">{label}</p><p className="mt-3 leading-6 text-[#E7E0D5]">{value}</p></div>
+}
+
+function IdentityList({ label, items }: { label: string; items: string[] }) {
+  return <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#857C6E]">{label}</p><ul className="mt-4 space-y-3">{items.map((item) => <li key={item} className="flex gap-3 text-sm font-semibold leading-6"><Check className="mt-1 size-4 shrink-0 text-[#D10E63]" />{item}</li>)}</ul></div>
+}
 
 const COPY = {
   fr: {
-    heroKicker: 'Prêt à accomplir vos missions',
-    heroTitle: 'Son identité reste. Ses responsabilités évoluent.',
-    heroBody: 'Votre Collaborateur IA rejoint votre entreprise avec une identité durable, ses propres moyens de communication et un environnement de travail privé.',
-    heroProgress: 'Ajoutez les profils métier, les compétences et les applications dont il a besoin. Son identité et son expérience restent les mêmes.',
-    create: 'Créer mon Collaborateur IA',
-    trial: '7 jours d’essai gratuit · 1 million de tokens offerts · Sans carte bancaire',
-    price: 'Puis 98 €/mois, avec 5 millions de tokens inclus chaque mois.',
-    modelsTitleOne: 'Le modèle change.',
-    modelsTitleTwo: 'Lucas reste.',
-    modelsBody: 'Vous définissez les modèles autorisés. Selon la mission, Lucas peut en mobiliser un seul ou faire travailler plusieurs modèles en parallèle.',
-    modelsContinuity: 'Son identité, son contexte, son expérience et ses droits restent attachés au même Collaborateur IA.',
-    modalities: ['Texte.', 'Image.', 'Audio.', 'Vidéo.'],
-    modalitiesNote: 'Selon les modèles et les droits autorisés par votre entreprise.',
-    moaTitleOne: 'Plusieurs intelligences.',
-    moaTitleTwo: 'Une seule responsabilité.',
-    moaSteps: ['Plusieurs modèles proposent.', 'Un modèle de revue compare.', 'Lucas répond.'],
-    moa: 'Pour les missions complexes, plusieurs modèles peuvent produire une proposition. Un modèle de revue les compare avant que Lucas restitue une synthèse unique.',
-    moaFinal: 'Une seule identité porte la mission du début à la fin.',
-    gatewayLink: 'Explorer l’AI Gateway',
-    appsKicker: 'Plus de 3 000 applications',
-    appsTitle: 'Il travaille là où votre entreprise travaille.',
-    appsBody: 'Vous choisissez les applications.\nVous autorisez les actions.\nLucas accomplit le travail.',
-    actionsTitle: 'Il lit. Il prépare. Il agit.',
-    actionsControl: 'Les décisions sensibles restent sous votre contrôle.',
-    rulesTitle: 'Chaque application. Chaque action. Vos règles.',
-    oauthBody: 'OAuth autorise les accès. Les serveurs MCP de Pipedream rendent les actions disponibles. Votre organisation décide jusqu’où Lucas peut aller.',
-    permissions: 'Il n’accède pas à tout. Il accède à ce dont son travail a besoin.',
-    appsLink: 'Explorer plus de 3 000 applications',
-    environmentTitle: 'Son propre environnement pour travailler vraiment.',
-    environmentBody: 'Chaque Collaborateur IA dispose de son propre serveur privé, propulsé par Hermes.',
-    environmentItems: [['Code', 'Exécuter et vérifier'], ['Naviguer', 'Parcourir et agir sur le Web.'], ['Fichiers', 'Conserver son travail'], ['Planification', 'Continuer après la conversation']],
-    browserDetail: 'Son navigateur ne se limite pas à la recherche. Il peut parcourir des sites, suivre des liens, lire et structurer leurs pages, se connecter avec les accès autorisés, remplir des formulaires et utiliser les contrôles nécessaires à la mission.',
-    resources: 'Stockage, RAM et CPU propres à son environnement.',
-    hermes: 'Propulsé par Hermes, l’agent autonome open source de Unitalk.',
-    hermesLink: 'Découvrir Hermes',
-    identityKicker: 'Une identité qui dure',
-    identityTitle: 'Vous ne créez pas un agent de plus. Vous faites progresser le même.',
-    identityBody: 'Lucas partage le contexte autorisé de votre entreprise. Son expérience reste attachée à son identité. Ajoutez des profils métier, des compétences et des applications sans repartir de zéro.',
-    readyFor: 'Déjà prêt pour les réunions, les documents, les images et la vidéo.',
-    profilesLink: 'Explorer les profils métier',
-    skillsLink: 'Découvrir les compétences',
-    finalTitle: 'Confiez-lui une première mission.',
-    finalBody: 'Donnez-lui un prénom. Décrivez le travail à accomplir. Alma prépare la suite.',
-    aiIdentity: 'Identité IA',
-    lucasMeta: 'Collaborateur IA · Solvea',
-    ready: 'Prêt',
-    profilesLabel: 'Profils métier · 3',
-    profiles: ['Relation client', 'Commercial', 'Fidélisation'],
-    mobilized: 'Mobilisé',
-    communicationLabel: 'Moyens de communication',
-    workLabel: 'Environnement de travail',
-    channels: { email: 'Email', calendar: 'Calendrier', phone: 'Téléphone', publicProfile: 'Profil public', browser: 'Navigateur', code: 'Code', scheduling: 'Planification', companyMemory: 'Mémoire d’entreprise' },
-    companyMemoryAria: 'Accès à la mémoire d’entreprise selon les droits définis par l’organisation',
-    browserTooltip: 'Parcourir les sites autorisés, s’authentifier, extraire des informations, suivre des liens et utiliser leurs interfaces.',
+    heroKicker: 'Collaborateur IA', heroTitle: 'Son identité reste.\nSes responsabilités évoluent.', heroBody: 'Votre Collaborateur IA accomplit des missions avec les modèles, les applications et les informations que votre entreprise l’autorise à utiliser.', heroRules: 'Ajoutez des profils métier et des compétences sans recréer son identité. Les actions qui engagent l’entreprise restent soumises à vos règles de validation.', heroCta: 'Confier une première mission', seeWork: 'Voir comment il travaille', trial: '7 jours d’essai · Aucune carte bancaire',
+    aiIdentity: 'Identité IA', lucasMeta: 'Collaborateur IA · Solvea', currentMission: 'Mission en cours', mission: 'Répondre aux demandes reçues par email', profilesLabel: 'Profils métier', profiles: ['Relation client', 'Commercial', 'Fidélisation'], permissionsLabel: 'Autorisations de cette mission', permissions: ['Lire les demandes reçues', 'Préparer une réponse', 'Soumettre avant envoi'], stateLabel: 'État', state: '3 réponses prêtes à valider',
+    formatsKicker: 'Comprendre et produire', formatsTitle: 'Il comprend, produit et code dans le format utile à la mission.', formatsBody: 'Selon les modèles et les outils autorisés par votre entreprise, un même Collaborateur IA peut travailler avec du texte, des images, de l’audio, de la vidéo et du code, sans perdre le contexte de la mission.', formatsTabLabel: 'Formats de travail', formatLabels: { text: 'Texte', image: 'Image', audio: 'Audio', video: 'Vidéo', code: 'Code' }, flowLabels: { request: 'Demande', work: 'Travail', result: 'Résultat' },
+    formats: {
+      text: { request: 'Répondre à une demande client en tenant compte de son dossier.', work: 'Lire la demande, retrouver les informations autorisées et préparer une réponse conforme aux règles de l’entreprise.', result: 'Une réponse contextualisée, prête à relire et à valider.' },
+      image: { request: 'Comparer deux versions d’un visuel produit.', work: 'Lire les éléments visibles, relever les écarts et, si un modèle autorisé le permet, préparer une variante.', result: 'Une comparaison documentée et un visuel exploitable si la génération est disponible.' },
+      audio: { request: 'Transformer un enregistrement de réunion en décisions et actions.', work: 'Transcrire l’audio, distinguer les intervenants et rattacher chaque décision à son contexte.', result: 'Une transcription structurée, les décisions prises et les actions attribuées.' },
+      video: { request: 'Préparer la publication d’une démonstration produit.', work: 'Analyser la vidéo, identifier les séquences utiles et préparer chapitres, résumé et sous-titres.', result: 'Une vidéo documentée, chapitrée et prête pour la validation éditoriale.' },
+      code: { request: 'Réconcilier deux exports de ventes\net signaler les anomalies.', work: 'Écrire un script, le tester sur des données contrôlées et vérifier les écarts dans l’environnement isolé du Collaborateur IA.', result: 'Un fichier nettoyé, un rapport d’anomalies et une version du script conservée avec la mission.', note: 'Lorsque la mission le nécessite et que les droits le permettent, Code peut aussi servir à construire ou adapter une application métier vibecodée, testée et versionnée.' },
+    },
+    workKicker: 'Exécuter', workTitle: 'Il ne se contente pas de produire. Il agit avec les moyens autorisés.', workBody: 'Code désigne un format de production et un savoir-faire. Le Terminal est un moyen d’exécution disponible uniquement dans l’environnement isolé et selon les droits de la mission.', workItems: [{ title: 'Navigateur', body: 'Parcourir et utiliser les sites autorisés.' }, { title: 'Fichiers', body: 'Lire, produire et organiser les fichiers de la mission.' }, { title: 'Terminal', body: 'Exécuter et vérifier du code dans son environnement isolé.' }, { title: 'Planification', body: 'Reprendre un travail et continuer au-delà d’une conversation.' }], hermes: 'Propulsé par Hermes, l’agent autonome open source de Nous Research.',
+    appsKicker: 'Applications et services', appsTitle: 'Les outils restent séparés des droits accordés au Collaborateur IA.', appTypes: [{ title: 'Connecteurs', body: 'Services externes autorisés par l’entreprise.' }, { title: 'Applications natives', body: 'Applications open source vérifiées et déployées sur le Serveur IA privé de l’entreprise.' }, { title: 'Applications métier', body: 'Applications privées ou modèles vibecodés pour soutenir une mission précise.' }], permissionRule: 'Installer une application ne donne aucun accès à un Collaborateur IA. Les droits sont accordés séparément.', architecture: { collaboratorLabel: 'Collaborateur IA', collaboratorValue: 'Environnement Hermes/VPS isolé', serverLabel: 'Serveur IA privé', serverValue: 'Applications et services de l’entreprise', accessLabel: 'Accès', accessValue: 'n8n, API, MCP ou navigateur selon les droits' },
+    identityKicker: 'Une identité qui dure', identityTitle: 'Une seule identité IA. Plusieurs responsabilités.', identityBody: 'Les profils métier peuvent évoluer et l’expérience validée peut rester attachée à Lucas. Son identité, son rattachement et les règles de l’entreprise ne sont pas recréés à chaque mission.', experienceLabel: 'Expérience validée', experience: ['Politique de réponse client · version 3', 'Règles de qualification commerciale · version 2'],
+    finalKicker: 'Commencer par le travail', finalTitle: 'Tout commence par une mission.', finalBody: 'Choisissez un travail à accomplir.\nAlma vous aide ensuite à le cadrer,\npuis à préparer le Collaborateur IA\nqui pourra l’accomplir.', alma: 'Alma · Coordinatrice de missions', finalCta: 'Explorer les missions', pricing: 'Voir les tarifs',
   },
   en: {
-    heroKicker: 'Ready to accomplish your missions',
-    heroTitle: 'Its identity remains. Its responsibilities evolve.',
-    heroBody: 'Your AI Collaborator joins your company with a lasting identity, its own communication channels and a private work environment.',
-    heroProgress: 'Add the job profiles, skills and applications it needs. Its identity and experience remain the same.',
-    create: 'Create my AI Collaborator',
-    trial: '7-day free trial · 1 million free tokens · No credit card',
-    price: 'Then €49/month, excluding AI usage.',
-    modelsTitleOne: 'The model changes.',
-    modelsTitleTwo: 'Lucas remains.',
-    modelsBody: 'You define the authorized models. Depending on the mission, Lucas can use one or have several models work in parallel.',
-    modelsContinuity: 'Its identity, context, experience and permissions remain attached to the same AI Collaborator.',
-    modalities: ['Text.', 'Image.', 'Audio.', 'Video.'],
-    modalitiesNote: 'Depending on the models and permissions authorized by your company.',
-    moaTitleOne: 'Several intelligences.',
-    moaTitleTwo: 'One responsibility.',
-    moaSteps: ['Several models propose.', 'A review model compares.', 'Lucas responds.'],
-    moa: 'For complex missions, several models can produce a proposal. A review model compares them before Lucas delivers one synthesis.',
-    moaFinal: 'One identity carries the mission from start to finish.',
-    gatewayLink: 'Explore the AI Gateway',
-    appsKicker: 'More than 3,000 applications',
-    appsTitle: 'It works where your company works.',
-    appsBody: 'You choose the applications.\nYou authorize the actions.\nLucas gets the work done.',
-    actionsTitle: 'It reads. It prepares. It acts.',
-    actionsControl: 'Sensitive decisions remain under your control.',
-    rulesTitle: 'Every application. Every action. Your rules.',
-    oauthBody: 'OAuth authorizes access. Pipedream MCP servers make actions available. Your organization decides how far Lucas can go.',
-    permissions: 'It does not access everything. It accesses what its work requires.',
-    appsLink: 'Explore more than 3,000 applications',
-    environmentTitle: 'Its own environment to do real work.',
-    environmentBody: 'Each AI Collaborator has its own private server, powered by Hermes.',
-    environmentItems: [['Code', 'Execute and verify'], ['Browse', 'Browse and act on the Web.'], ['Files', 'Retain its work'], ['Scheduling', 'Continue after the conversation']],
-    browserDetail: 'Its browser is not limited to search. It can browse sites, follow links, read and structure pages, sign in with authorized access, fill in forms and use the controls required by the mission.',
-    resources: 'Storage, RAM and CPU dedicated to its environment.',
-    hermes: 'Powered by Hermes, Unitalk’s open-source autonomous agent.',
-    hermesLink: 'Discover Hermes',
-    identityKicker: 'An identity that lasts',
-    identityTitle: 'You do not create another agent. You develop the same one.',
-    identityBody: 'Lucas shares your company’s authorized context. Its experience remains attached to its identity. Add job profiles, skills and applications without starting over.',
-    readyFor: 'Already ready for meetings, documents, images and video.',
-    profilesLink: 'Explore job profiles',
-    skillsLink: 'Discover skills',
-    finalTitle: 'Assign a first mission.',
-    finalBody: 'Give it a first name. Describe the work. Alma prepares the rest.',
-    aiIdentity: 'AI identity',
-    lucasMeta: 'AI Collaborator · Solvea',
-    ready: 'Ready',
-    profilesLabel: 'Job profiles · 3',
-    profiles: ['Customer relations', 'Sales', 'Customer success'],
-    mobilized: 'Active',
-    communicationLabel: 'Communication channels',
-    workLabel: 'Work environment',
-    channels: { email: 'Email', calendar: 'Calendar', phone: 'Phone', publicProfile: 'Public profile', browser: 'Browser', code: 'Code', scheduling: 'Scheduling', companyMemory: 'Company memory' },
-    companyMemoryAria: 'Access to company memory according to the rights defined by the organization',
-    browserTooltip: 'Browse authorized sites, sign in, extract information, follow links and use their interfaces.',
+    heroKicker: 'AI Collaborator', heroTitle: 'Its identity remains.\nIts responsibilities evolve.', heroBody: 'Your AI Collaborator carries out missions with the models, applications and information your company authorizes it to use.', heroRules: 'Add job profiles and skills without recreating its identity. Actions that commit the company remain subject to your approval rules.', heroCta: 'Assign a first mission', seeWork: 'See how it works', trial: '7-day trial · No credit card',
+    aiIdentity: 'AI identity', lucasMeta: 'AI Collaborator · Solvea', currentMission: 'Current mission', mission: 'Answer requests received by email', profilesLabel: 'Job profiles', profiles: ['Customer relations', 'Sales', 'Customer success'], permissionsLabel: 'Permissions for this mission', permissions: ['Read received requests', 'Prepare a reply', 'Submit before sending'], stateLabel: 'Status', state: '3 replies ready for review',
+    formatsKicker: 'Understand and produce', formatsTitle: 'It understands, produces and codes in the format the mission needs.', formatsBody: 'Depending on the models and tools your company authorizes, one AI Collaborator can work with text, images, audio, video and code without losing the mission context.', formatsTabLabel: 'Work formats', formatLabels: { text: 'Text', image: 'Image', audio: 'Audio', video: 'Video', code: 'Code' }, flowLabels: { request: 'Request', work: 'Work', result: 'Result' },
+    formats: {
+      text: { request: 'Answer a customer request using its case context.', work: 'Read the request, retrieve authorized information and prepare a reply that follows company rules.', result: 'A contextual reply ready for review and approval.' },
+      image: { request: 'Compare two versions of a product visual.', work: 'Read visible elements, identify differences and prepare a variant if an authorized model supports it.', result: 'A documented comparison and a usable visual when generation is available.' },
+      audio: { request: 'Turn a meeting recording into decisions and actions.', work: 'Transcribe audio, distinguish speakers and connect every decision to its context.', result: 'A structured transcript, decisions and assigned actions.' },
+      video: { request: 'Prepare a product demo for publication.', work: 'Analyze the video and prepare chapters, a summary and subtitles.', result: 'A documented, chaptered video ready for editorial review.' },
+      code: { request: 'Reconcile two sales exports\nand flag anomalies.', work: 'Write a script, test it on controlled data and verify discrepancies in the AI Collaborator’s isolated environment.', result: 'A cleaned file, an anomaly report and a versioned script retained with the mission.', note: 'When the mission requires it and permissions allow it, Code can also build or adapt a vibe-coded business application that is tested and versioned.' },
+    },
+    workKicker: 'Execute', workTitle: 'It does not only produce. It acts with authorized means.', workBody: 'Code is a production format and skill. The Terminal is an execution method available only in the isolated environment and under mission permissions.', workItems: [{ title: 'Browser', body: 'Browse and use authorized websites.' }, { title: 'Files', body: 'Read, produce and organize mission files.' }, { title: 'Terminal', body: 'Run and verify code in its isolated environment.' }, { title: 'Scheduling', body: 'Resume work and continue beyond a conversation.' }], hermes: 'Powered by Hermes, the open-source autonomous agent from Nous Research.',
+    appsKicker: 'Applications and services', appsTitle: 'Tools remain separate from the permissions granted to the AI Collaborator.', appTypes: [{ title: 'Connectors', body: 'External services authorized by the company.' }, { title: 'Native applications', body: 'Verified open-source applications deployed on the company’s private AI Server.' }, { title: 'Business applications', body: 'Private applications or vibe-coded templates supporting a specific mission.' }], permissionRule: 'Installing an application grants no access to an AI Collaborator. Permissions are granted separately.', architecture: { collaboratorLabel: 'AI Collaborator', collaboratorValue: 'Isolated Hermes/VPS environment', serverLabel: 'Private AI Server', serverValue: 'Company applications and services', accessLabel: 'Access', accessValue: 'n8n, API, MCP or browser according to permissions' },
+    identityKicker: 'An identity that lasts', identityTitle: 'One AI identity. Several responsibilities.', identityBody: 'Job profiles can evolve and validated experience can remain attached to Lucas. Its identity, organization and company rules are not recreated for every mission.', experienceLabel: 'Validated experience', experience: ['Customer reply policy · version 3', 'Sales qualification rules · version 2'],
+    finalKicker: 'Start with the work', finalTitle: 'Everything starts with a mission.', finalBody: 'Choose work to be done.\nAlma helps you scope it,\nthen prepare the AI Collaborator\nthat can carry it out.', alma: 'Alma · Mission coordinator', finalCta: 'Explore missions', pricing: 'See pricing',
   },
 } as const
