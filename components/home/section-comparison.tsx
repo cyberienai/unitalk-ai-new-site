@@ -23,11 +23,11 @@ const COPY = {
     afterTitle: 'Collaborateur IA Unitalk',
     cta: 'Confier une mission',
     rows: [
-      ['Identité définie par un usage', 'Identité persistante, plusieurs profils métier'],
-      ['Compétence générique', 'Compétences testées et améliorées'],
-      ['Mémoire dépendante de l’outil', 'Mémoire gouvernée par votre entreprise'],
-      ['Résultat isolé', 'Expérience validée et réutilisable'],
-      ['Modèle lié à la plateforme', 'Le meilleur modèle pour chaque mission'],
+      ['Exécute une tâche', 'Apprend votre façon de travailler'],
+      ['Fonctionne dans son outil', 'Travaille avec vos applications'],
+      ['Résultat ponctuel', 'Expérience conservée'],
+      ['Un usage par agent', 'Une identité, plusieurs profils métier'],
+      ['Décide seul ou s’arrête', 'Soumet les étapes sensibles à vos équipes'],
     ],
   },
   en: {
@@ -39,11 +39,11 @@ const COPY = {
     afterTitle: 'Unitalk AI Collaborator',
     cta: 'Assign a mission',
     rows: [
-      ['Identity defined by a use case', 'Persistent identity, multiple job profiles'],
-      ['A generic skill', 'Tested and improved skills'],
-      ['Memory dependent on the tool', 'Memory governed by your company'],
-      ['An isolated result', 'Validated and reusable experience'],
-      ['Model tied to the platform', 'Authorized models, Collaborator unchanged'],
+      ['Executes a task', 'Learns how your company works'],
+      ['Works inside its own tool', 'Works with your applications'],
+      ['One-off result', 'Experience retained'],
+      ['One use case per agent', 'One identity, multiple job profiles'],
+      ['Decides alone or stops', 'Submits sensitive steps to your teams'],
     ],
   },
 } as const

@@ -5,6 +5,7 @@ import { Navbar } from './navbar'
 import { AlmaProvider } from './home/alma-panel-context'
 import { HeroHome } from './home/hero-home'
 import { SectionDefinition } from './home/section-definition'
+import { SectionProfilesEarly } from './home/section-profiles-early'
 import { SectionWorkspace } from './home/section-workspace'
 import { SectionComparison } from './home/section-comparison'
 import { SectionVision } from './home/section-vision'
@@ -27,16 +28,19 @@ export function HomeNew() {
         {/* 1. Hero + product theatre (anthracite) */}
         <HeroHome lang={lang} />
 
-        {/* 2. Product definition — three plain-language truths */}
+        {/* 2. Profiles early — Alma prepares, the Collaborator executes */}
+        <SectionProfilesEarly lang={lang} />
+
+        {/* 3. Product definition — mission, preparation, work, experience */}
         <SectionDefinition lang={lang} />
 
-        {/* 3. Comparison — a tool vs a durable Collaborator */}
+        {/* 4. Comparison — a tool vs a durable Collaborator */}
         <SectionComparison />
 
-        {/* 4. Workspace proof — the mission thread stops at the human gate */}
+        {/* 5. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />
 
-        {/* 5. Ownership & governance — the company owns what was learned; what
+        {/* 6. Ownership & governance — the company owns what was learned; what
              stays private vs shared by choice; then the final conversion moment */}
         <SectionVision />
 

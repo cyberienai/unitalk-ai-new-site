@@ -21,7 +21,8 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un ?',
     headline: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
-    promise: 'Il répond à vos clients, travaille avec vos équipes et progresse à chaque mission.',
+    promise: 'Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives. Il travaille avec vos outils et progresse à chaque mission.',
+    reasons: ['24/7', 'Opérationnel rapidement', 'Plusieurs compétences', 'Coût prévisible', 'Mémoire de l’entreprise', 'Humain dans la boucle'],
     missions: [
       'répondre à vos appels',
       'participer à vos réunions',
@@ -42,7 +43,8 @@ const T = {
   en: {
     eyebrow: 'Missing someone?',
     headline: 'Your company can count on its own AI Collaborator.',
-    promise: 'It answers your customers, works with your teams and improves with every mission.',
+    promise: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
+    reasons: ['24/7', 'Operational quickly', 'Multiple skills', 'Predictable cost', 'Company memory', 'Human in the loop'],
     missions: [
       'answer your calls',
       'join your meetings',
@@ -97,6 +99,9 @@ export function HeroHome({ lang = 'fr' }: { lang?: Lang }) {
           <p className="mt-5 text-balance text-center text-[17px] leading-relaxed text-[#4E483F] sm:text-left md:text-[18px]">
             {t.promise}
           </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-semibold text-[#6E665A] sm:justify-start">
+            {t.reasons.map(reason => <span key={reason} className="inline-flex items-center gap-1.5"><span aria-hidden className="size-1.5 rounded-full bg-[#D10E63]" />{reason}</span>)}
+          </div>
 
           {/* Rotating mission ticker — decorative, reserved stable height. */}
           <div className="mt-6">
