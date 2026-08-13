@@ -68,6 +68,8 @@ export function FloatingAlmaWidget() {
     pathname !== '/missions' &&
     pathname !== '/tarifs' &&
     pathname !== '/alma' &&
+    !pathname.startsWith('/team/') &&
+    !/^\/@[^/]+$/.test(pathname) &&
     !launcherSuppressed
   // Mission detail pages keep a small, unobtrusive round avatar.
   const isMissions = pathname.startsWith('/missions/')

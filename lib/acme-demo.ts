@@ -22,6 +22,13 @@ export type AcmeMember = {
   linkedTo?: string
   // ai only: slug of the detailed catalog profile + public/internal demo
   slug?: string
+  avatar?: string
+  publicSummary?: Bilingual
+  publicMessageEnabled?: boolean
+  publicEmail?: string
+  publicCalendarHref?: string
+  publicPhone?: string
+  reusableProfileSlug?: string
 }
 
 export const ACME_MEMBERS: AcmeMember[] = [
@@ -43,6 +50,10 @@ export const ACME_MEMBERS: AcmeMember[] = [
     department: { fr: 'Direction', en: 'Leadership' },
     linkedTo: 'patrick-martin',
     slug: 'emma',
+    avatar: '/images/emma-avatar.png',
+    publicSummary: { fr: 'Emma coordonne les demandes, prépare les rendez-vous et facilite le travail quotidien de l’équipe Acme.', en: 'Emma coordinates requests, prepares meetings and facilitates Acme’s daily work.' },
+    publicMessageEnabled: false,
+    reusableProfileSlug: 'assistante-de-direction',
   },
   {
     id: 'julie-chen',

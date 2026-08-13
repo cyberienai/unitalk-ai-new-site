@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Navbar } from '@/components/navbar'
-import { SiteFooter } from '@/components/site-footer'
 import { AcmePublicProfile } from '@/components/acme/acme-public-profile'
 import { getAcmeAiBySlug, ACME_MEMBERS } from '@/lib/acme-demo'
 
@@ -14,8 +12,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const member = getAcmeAiBySlug(slug)
   if (!member) return { title: 'Profil · Démo Unitalk' }
   return {
-    title: `${member.name} · ${member.role.fr} chez Acme · Unitalk`,
-    description: `Profil public d'${member.name}, Collaborateur IA chez Acme.`,
+    title: `${member.name}, ${member.role.fr} chez Acme`,
+    description: `Découvrez le profil public d'${member.name}, Collaboratrice IA et ${member.role.fr} chez Acme.`,
+    alternates: { canonical: `/team/${slug}/profil` },
+    openGraph: { type: 'profile', title: `${member.name}, ${member.role.fr} chez Acme | Unitalk`, description: `Profil public de ${member.name}, Collaboratrice IA chez Acme.`, images: member.avatar ? [{ url: member.avatar }] : undefined },
   }
 }
 
@@ -25,9 +25,7 @@ export default async function AcmePublicProfilePage({ params }: { params: Promis
 
   return (
     <>
-      <Navbar />
       <AcmePublicProfile slug={slug} />
-      <SiteFooter />
     </>
   )
 }
