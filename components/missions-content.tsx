@@ -7,6 +7,8 @@ import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
 import { UNITAlK_SUBCATEGORIES } from '@/lib/unitalk-commerce'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const PRIMARY_CATEGORIES = ['ventes', 'relation-client', 'marketing', 'finance', 'rh', 'unitalk'] as const
 const SECONDARY_CATEGORIES = ['reunions', 'administration', 'direction', 'documents', 'analyse', 'operations', 'produit'] as const
@@ -225,6 +227,7 @@ export function MissionsContent() {
               )}
             </button>
           </div>
+          <div className="mx-auto mt-6 flex max-w-[430px] items-center gap-3 text-left"><Image src="/alma-avatar.png" alt="" width={44} height={44} className="h-11 w-11 rounded-full object-cover"/><div><p className="text-sm font-semibold">Alma</p><p className="text-[13px] text-[#6E665A]">Coordinatrice de missions</p><p className="text-[13px] text-[#4E483F]">Je transforme votre besoin en mission personnalisée.</p><Link href="/collaborateurs-ia/alma" className="text-[12px] font-semibold text-[#B00C54]">Découvrir Alma →</Link></div></div>
         </header>
 
         <section id="mission-selection" className="mt-10 scroll-mt-[calc(var(--header-height,64px)+24px)]">
@@ -307,10 +310,10 @@ const COPY = {
     send: 'Envoyer le travail à accomplir',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur.',
     readyTitle: 'Besoin d’inspiration ?',
-    readyNote: 'Choisissez une mission. Alma vous aide à la personnaliser pour votre entreprise.',
-    selection: 'Sélection',
+    readyNote: 'Choisissez une mission et personnalisez-la pour votre entreprise.',
+    selection: 'Sélection d’Alma',
     allCategories: 'Toutes les catégories',
-    selectedCount: '12 missions sélectionnées',
+    selectedCount: '12 missions recommandées',
   },
   en: {
     title: 'What would you like to assign to your AI Collaborator?',
