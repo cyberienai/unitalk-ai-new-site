@@ -18,6 +18,7 @@ export type DiscoverContext =
   | { kind: 'mission'; mission: SelectedMission }
   | { kind: 'draft'; draft: SelectedMission }
   | { kind: 'empty' }
+  | { kind: 'invalid'; requestedSlug: string }
 
 export function ScreenAccount({
   lang,

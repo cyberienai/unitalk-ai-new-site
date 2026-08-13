@@ -27,6 +27,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
   const searchParams = useSearchParams()
   const missionSlug = searchParams.get('mission')
   const draftId = searchParams.get('draft')
+  const legacyQuery = searchParams.get('q')?.trim() ?? ''
   const catalogMission = useMemo(() => MISSIONS.find((mission) => mission.slug === missionSlug), [missionSlug])
   const [draftText, setDraftText] = useState('')
 
@@ -61,7 +62,9 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
     } catch {}
   }, [draftId])
 
-  const context: DiscoverContext = catalogMission
+  const context: DiscoverContext = missionSlug && !catalogMission
+    ? { kind: 'invalid', requestedSlug: missionSlug }
+    : catalogMission
     ? {
         kind: 'mission',
         mission: {
@@ -71,8 +74,8 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
           category: shortCategoryLabel(catalogMission.category, lang),
         },
       }
-    : draftText
-      ? { kind: 'draft', draft: { title: draftText, description: lang === 'fr' ? 'Alma va structurer votre demande et l’adapter au contexte de votre entreprise.' : 'Alma will structure your request and adapt it to your company context.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' } }
+    : draftText || legacyQuery
+      ? { kind: 'draft', draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande et l’adapter au contexte de votre entreprise.' : 'Alma will structure your request and adapt it to your company context.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' } }
       : { kind: 'empty' }
 
   const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
@@ -104,6 +107,21 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
         exit: { opacity: 0, y: -8 },
         transition: { duration: 0.3 },
       }
+
+  if (context.kind === 'invalid') {
+    return (
+      <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
+        <header className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] px-5 py-4 sm:px-8">
+          <a href="/" className="flex items-center gap-2.5" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
+          <LanguageToggle />
+        </header>
+        <section className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
+          <h1 className="font-sf text-[36px] font-bold tracking-[-0.04em] sm:text-[48px]">{lang === 'fr' ? 'Cette mission n’est plus disponible.' : 'This mission is no longer available.'}</h1>
+          <a href="/missions" className="mt-7 text-sm font-bold text-[#B00C54] underline underline-offset-4">{lang === 'fr' ? 'Voir les missions' : 'View missions'} →</a>
+        </section>
+      </main>
+    )
+  }
 
   if (!state.authenticated) {
     return (

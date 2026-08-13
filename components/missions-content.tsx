@@ -149,10 +149,6 @@ export function MissionsContent() {
     navigateToDiscover(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
   }
 
-  function handMissionToAlma(mission: Mission) {
-    navigateToDiscover(`/decouvrir?mission=${encodeURIComponent(mission.slug)}`)
-  }
-
   function selectOther() {
     setShowOthers((open) => !open)
     if (SECONDARY_CATEGORIES.includes(category as (typeof SECONDARY_CATEGORIES)[number])) setCategory('all')
@@ -230,7 +226,7 @@ export function MissionsContent() {
           <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${CATEGORY_LABELS[category]?.[lang] ?? category} · ${missions.length} missions`}</p>
           <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
-              <StoreCard key={mission.slug} mission={mission} lang={lang} onSelect={handMissionToAlma} />
+              <StoreCard key={mission.slug} mission={mission} lang={lang} onPersonalize={rememberCatalogState} />
             ))}
           </div>
         </section>
@@ -277,7 +273,7 @@ const COPY = {
     send: 'Envoyer le travail à accomplir',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur.',
     readyTitle: 'Besoin d’inspiration ?',
-    readyNote: 'Choisissez une mission. Alma l’adaptera à votre entreprise.',
+    readyNote: 'Choisissez une mission. Alma vous aide à la personnaliser pour votre entreprise.',
     selection: 'Sélection',
     allCategories: 'Toutes les catégories',
     selectedCount: '12 missions sélectionnées',

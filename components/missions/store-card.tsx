@@ -43,35 +43,38 @@ function MetaRow({ parts }: { parts: string[] }) {
 export function StoreCard({
   mission,
   lang,
-  onSelect,
+  onPersonalize,
 }: {
   mission: Mission
   lang: Lang
-  onSelect: (mission: Mission) => void
+  onPersonalize?: () => void
 }) {
   const category = shortCategoryLabel(mission.category, lang)
   const description = actionDescription(mission, lang)
+  const tooltipId = `personalize-tooltip-${mission.slug}`
+  const personalize = lang === 'fr' ? 'Personnaliser' : 'Personalize'
+  const tooltip = lang === 'fr' ? 'Personnaliser cette mission avec Alma' : 'Personalize this mission with Alma'
   return (
     <article
       data-mission-card={mission.slug}
       style={{ viewTransitionName: `mission-${mission.slug}` }}
-      className="group relative grid w-full cursor-pointer grid-rows-[44px_44px_auto] rounded-xl border border-[#DED6C8] bg-[#FAF8F3] p-[18px] text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:bg-[#FFFDF9] hover:shadow-[0_8px_20px_rgba(28,26,23,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:min-h-[176px] sm:p-5"
+      className="group grid w-full grid-rows-[44px_44px_auto] rounded-xl border border-[#DED6C8] bg-[#FAF8F3] p-[18px] text-left transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-[#D10E63]/30 hover:bg-[#FFFDF9] hover:shadow-[0_8px_20px_rgba(28,26,23,0.06)] sm:min-h-[176px] sm:p-5"
     >
-      <button
-        type="button"
-        onClick={() => onSelect(mission)}
-        aria-label={lang === 'fr' ? `Voir la mission ${mission.title.fr}` : `View mission ${mission.title.en}`}
-        className="absolute inset-0 z-0 cursor-pointer rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6]"
-      >
-        <span className="sr-only">{lang === 'fr' ? `Voir la mission ${mission.title.fr}` : `View mission ${mission.title.en}`}</span>
-      </button>
-      <h3 className="pointer-events-none relative z-10 line-clamp-2 min-h-[44px] font-sf text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#1C1A17]">
+      <h3 className="line-clamp-2 min-h-[44px] font-sf text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#1C1A17]">
         {mission.title[lang]}
       </h3>
-      <p className="pointer-events-none relative z-10 mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
-      <footer className="pointer-events-none relative z-10 mt-4 flex items-center justify-between gap-3">
-        <span className="text-[12px] font-semibold leading-snug text-[#6E665A]">{category}</span>
-        <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#D10E63]">{lang === 'fr' ? 'Adapter' : 'Adapt'}<ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" /></span>
+      <p className="mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
+      <footer className="mt-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[12px] font-semibold leading-snug text-[#6E665A]">
+          <span>{category}</span>
+          {mission.article && <><span aria-hidden>·</span><Link href={mission.article.href} className="text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 outline-none hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63]/50">{lang === 'fr' ? 'Lire le guide' : 'Read the guide'}</Link></>}
+        </div>
+        <div className="group/action relative shrink-0">
+          <Link onClick={onPersonalize} aria-describedby={tooltipId} aria-label={`${tooltip} : ${mission.title[lang]}`} href={`/decouvrir?mission=${mission.slug}`} className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#D10E63] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50">
+            {personalize}<ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 transition-transform group-hover/action:translate-x-1" />
+          </Link>
+          <span id={tooltipId} role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-max max-w-[230px] translate-y-1 rounded-md bg-[#151310] px-3 py-2 text-[11px] font-medium leading-4 text-[#FAF8F3] opacity-0 shadow-[0_8px_20px_rgba(21,19,16,0.18)] transition-[opacity,transform] delay-0 duration-150 group-hover/action:translate-y-0 group-hover/action:opacity-100 group-hover/action:delay-200 group-focus-within/action:translate-y-0 group-focus-within/action:opacity-100 group-focus-within/action:delay-200">{tooltip}</span>
+        </div>
       </footer>
     </article>
   )
