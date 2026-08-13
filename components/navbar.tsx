@@ -13,8 +13,8 @@ type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
 
 const ALMA_CTA = {
-  href: '/decouvrir',
-  label: { fr: 'Confier une mission', en: 'Hand over a mission' } as Bi,
+  href: '/decouvrir?source=nav',
+  label: { fr: 'Commencez gratuitement', en: 'Start free' } as Bi,
 }
 
 // Collaborateurs IA dropdown — the product hub, in three sections:
