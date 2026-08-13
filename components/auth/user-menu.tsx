@@ -12,7 +12,7 @@ const COPY = {
 } as const
 
 /** Desktop: Connexion link when logged out, avatar dropdown when logged in. */
-export function UserMenuDesktop({ overDark }: { overDark: boolean }) {
+export function UserMenuDesktop({ overDark, anonymousAction }: { overDark: boolean; anonymousAction?: React.ReactNode }) {
   const { lang } = useLanguage()
   const t = COPY[lang]
   const [session, setSession] = useState<MockSession | null>(null)
@@ -41,9 +41,12 @@ export function UserMenuDesktop({ overDark }: { overDark: boolean }) {
   // Before mount (and when logged out) render the sign-in link — matches SSR output.
   if (!mounted || !session) {
     return (
-      <a href="/connexion" className={signInClass}>
-        {t.signIn}
-      </a>
+      <>
+        <a href="/connexion" className={signInClass}>
+          {t.signIn}
+        </a>
+        {anonymousAction}
+      </>
     )
   }
 

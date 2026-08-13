@@ -523,21 +523,23 @@ export function Navbar(
               {lang === 'fr' ? 'FR' : 'EN'}
             </button>
 
-            <UserMenuDesktop overDark={overDark} />
-
-            {/* Secondary CTA — neutral dark (Apple/Stripe style) so no fuchsia
-                lives in the nav except the active state; the page's central
-                fuchsia CTA keeps absolute visual priority */}
-            {!isMissionsActive && !isPricingActive && <a
-              href={ALMA_CTA.href}
-              className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
-                overDark
-                  ? 'bg-[#FBF9F3] text-[#1C1A17] hover:bg-[#EAE3D4] focus-visible:ring-[#FBF9F3]/60 focus-visible:ring-offset-transparent'
-                  : 'bg-[#1C1A17] text-[#FBF9F3] hover:bg-[#332F29] focus-visible:ring-[#1C1A17]/40 focus-visible:ring-offset-[#F3EFE6]'
-              }`}
-            >
-              {ALMA_CTA.label[lang]}
-            </a>}
+            <UserMenuDesktop
+              overDark={overDark}
+              anonymousAction={
+                !isPricingActive ? (
+                  <a
+                    href={ALMA_CTA.href}
+                    className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
+                      overDark
+                        ? 'bg-[#FBF9F3] text-[#1C1A17] hover:bg-[#EAE3D4] focus-visible:ring-[#FBF9F3]/60 focus-visible:ring-offset-transparent'
+                        : 'bg-[#1C1A17] text-[#FBF9F3] hover:bg-[#332F29] focus-visible:ring-[#1C1A17]/40 focus-visible:ring-offset-[#F3EFE6]'
+                    }`}
+                  >
+                    {ALMA_CTA.label[lang]}
+                  </a>
+                ) : undefined
+              }
+            />
 
             {/* Mobile burger */}
             <button
