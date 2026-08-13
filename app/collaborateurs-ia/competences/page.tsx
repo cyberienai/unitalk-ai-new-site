@@ -1,33 +1,35 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
+import { redirect } from 'next/navigation'
 import { Navbar } from '@/components/navbar'
-import { StoreContent } from '@/components/store-content'
+import { CompetencesContent } from '@/components/collaborateurs-ia/competences-content'
 import { SiteFooter } from '@/components/site-footer'
 
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Compétences pour votre Collaborateur IA',
-  description:
-    'Les capacités qu’un Collaborateur IA développe au fil de ses missions : préparées, testées, validées selon les règles de votre entreprise, puis conservées.',
+  title: 'Compétences réutilisables pour Collaborateurs IA',
+  description: 'Explorez des méthodes structurées que vos Collaborateurs IA peuvent appliquer d’une mission à l’autre, selon leurs droits et vos règles de validation.',
   alternates: { canonical: '/collaborateurs-ia/competences' },
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/collaborateurs-ia/competences`,
-    title: 'Compétences pour votre Collaborateur IA | Unitalk',
-    description:
-      'Les capacités qu’un Collaborateur IA développe au fil de ses missions, avec Alma.',
+    title: 'Compétences réutilisables pour Collaborateurs IA | Unitalk',
+    description: 'Des savoir-faire structurés, testés et prêts à adapter aux méthodes de votre entreprise.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
 }
 
-export default function CompetencesPage() {
-  return (
-    <>
-      <Navbar />
-      <Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]" />}>
-        <StoreContent initialType="competence" />
-      </Suspense>
-      <SiteFooter />
-    </>
-  )
+export default async function CompetencesPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams
+  if (params.type !== undefined) {
+    const normalized = new URLSearchParams()
+    for (const [key, raw] of Object.entries(params)) {
+      if (key === 'type' || raw === undefined) continue
+      const value = Array.isArray(raw) ? raw[0] : raw
+      if (value) normalized.set(key, value)
+    }
+    redirect(`/collaborateurs-ia/competences${normalized.size ? `?${normalized}` : ''}`)
+  }
+
+  return <><Navbar /><CompetencesContent /><SiteFooter /></>
 }

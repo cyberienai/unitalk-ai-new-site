@@ -54,6 +54,7 @@ export function FloatingAlmaWidget() {
   const { lang } = useLanguage()
   const t = T[lang]
   const pathname = usePathname()
+  const competenceStore = pathname === '/collaborateurs-ia/competences'
   // Hide the floating launcher on the homepages — the hero form would compete with it,
   // and on /accueil-2 it would overlap the interactive demo CTA.
   // Also hide it on /decouvrir, where the onboarding already features Alma as a
@@ -69,6 +70,7 @@ export function FloatingAlmaWidget() {
     pathname !== '/tarifs' &&
     pathname !== '/alma' &&
     pathname !== '/collaborateurs-ia/profils-metier' &&
+    !competenceStore &&
     !pathname.startsWith('/team/') &&
     !/^\/@[^/]+$/.test(pathname) &&
     !launcherSuppressed
@@ -111,7 +113,7 @@ export function FloatingAlmaWidget() {
 
       {/* Chat window */}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && !competenceStore && (
           <motion.div
             initial={{ opacity: 0, scale: 0.85, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
