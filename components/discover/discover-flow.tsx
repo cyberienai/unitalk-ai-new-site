@@ -126,18 +126,8 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
   if (!state.authenticated) {
     return (
       <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
-        <header className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] bg-[#F3EFE6] px-5 py-4 sm:px-8">
-          <a href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Unitalk">
-            <UnitalkLogo size={22} />
-            <span className="font-inter text-sm font-semibold">Unitalk</span>
-          </a>
-          <LanguageToggle />
-        </header>
         <div className="w-full flex-1">
-          <ScreenAccount
-            lang={lang}
-            context={context}
-            onAuthenticated={({ provider, email, firstName, lastName }) => {
+          <ScreenAccount lang={lang} context={context} languageToggle={<LanguageToggle />} onAuthenticated={({ provider, email, firstName, lastName }) => {
               const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
               setState((s) => ({
                 ...s,
@@ -160,8 +150,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
               setStep('entreprise')
               if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}`)
               else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
-            }}
-          />
+            }} />
         </div>
       </main>
     )

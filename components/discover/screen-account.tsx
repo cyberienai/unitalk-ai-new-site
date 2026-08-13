@@ -7,6 +7,7 @@ import type { Lang } from '@/lib/language-context'
 import { startSession } from '@/app/actions/auth'
 import type { AuthProvider } from '@/lib/mock-auth'
 import { GoogleIcon, MicrosoftIcon } from '@/components/auth/provider-icons'
+import { UnitalkLogo } from '@/components/unitalk-logo'
 
 export type SelectedMission = {
   slug?: string
@@ -24,10 +25,12 @@ export type DiscoverContext =
 export function ScreenAccount({
   lang,
   context,
+  languageToggle,
   onAuthenticated,
 }: {
   lang: Lang
   context: DiscoverContext
+  languageToggle: React.ReactNode
   onAuthenticated: (identity: {
     provider: AuthProvider
     email?: string
@@ -61,8 +64,9 @@ export function ScreenAccount({
 
   if (!mission) {
     return (
-      <div className="grid min-h-[calc(100vh-61px)] lg:grid-cols-[41fr_59fr]">
-        <aside className="flex bg-[#151310] px-5 py-7 text-[#FAF8F3] sm:px-10 lg:items-center lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-14">
+      <div className="grid min-h-screen lg:grid-cols-[41fr_59fr]">
+        <aside className="flex bg-[#151310] px-5 py-6 text-[#FAF8F3] sm:px-10 lg:min-h-screen lg:flex-col lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-6">
+          <a href="/" className="hidden items-center gap-2.5 lg:flex" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
           <div className="mx-auto w-full max-w-md">
             <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="flex items-center gap-4 lg:block">
               <img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover lg:h-[72px] lg:w-[72px]" />
@@ -75,11 +79,10 @@ export function ScreenAccount({
           </div>
         </aside>
 
-        <section className="flex min-w-0 items-center bg-[#F3EFE6] px-5 py-10 sm:px-10 lg:px-[clamp(3rem,7vw,7rem)] lg:py-14">
+        <section className="relative flex min-w-0 items-center bg-[#F3EFE6] px-5 pb-10 pt-20 sm:px-10 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)] lg:py-16">
+          <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
           <div className="mx-auto w-full max-w-[460px]">
-            <h2 className="font-sf text-[34px] font-bold leading-[1.03] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px] lg:text-[56px]"><span className="block">{t.offerTitleOne}</span><span className="block">{t.offerTitleTwo}</span></h2>
-            <p className="mt-5 text-[16px] font-semibold leading-7 text-[#B00C54]">{t.offerProofOne}<span className="block text-[#4E483F]">{t.offerProofTwo}</span></p>
-            <p className="mt-3 text-[13px] leading-6 text-[#6E665A]">{t.offerPrice}</p>
+            <OfferPromise t={t} />
             <AuthControls t={t} email={email} setEmail={setEmail} emailValid={emailValid} pending={pending} go={go} />
           </div>
         </section>
@@ -88,11 +91,12 @@ export function ScreenAccount({
   }
 
   return (
-    <div className="grid min-h-[calc(100vh-61px)] lg:grid-cols-[42fr_58fr]">
+    <div className="grid min-h-screen lg:grid-cols-[42fr_58fr]">
       <aside
         style={mission.slug ? { viewTransitionName: `mission-${mission.slug}` } : undefined}
-        className="relative overflow-hidden bg-[#151310] px-5 py-7 text-[#FAF8F3] sm:px-10 lg:flex lg:min-h-0 lg:items-center lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-12"
+        className="relative overflow-hidden bg-[#151310] px-5 py-6 text-[#FAF8F3] sm:px-10 lg:flex lg:min-h-screen lg:flex-col lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-6"
       >
+        <a href="/" className="hidden items-center gap-2.5 lg:flex" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
         <div className="relative mx-auto w-full max-w-md">
           <div className="flex items-center justify-between gap-4">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#F39AC2]">{t.selected}</p>
@@ -113,16 +117,19 @@ export function ScreenAccount({
         </div>
       </aside>
 
-      <section className="flex min-w-0 items-center bg-[#F3EFE6] px-5 py-10 sm:px-10 lg:px-[clamp(3rem,7vw,7rem)] lg:py-14">
+      <section className="relative flex min-w-0 items-center bg-[#F3EFE6] px-5 pb-10 pt-20 sm:px-10 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)] lg:py-16">
+        <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[480px]">
-          <h2 className="font-sf text-[34px] font-bold leading-[1.03] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px] lg:text-[56px]"><span className="block">{t.offerTitleOne}</span><span className="block">{t.offerTitleTwo}</span></h2>
-          <p className="mt-5 text-[16px] font-semibold leading-7 text-[#B00C54]">{t.offerProofOne}<span className="block text-[#4E483F]">{t.offerProofTwo}</span></p>
-          <p className="mt-3 text-[13px] leading-6 text-[#6E665A]">{t.offerPrice}</p>
+          <OfferPromise t={t} />
           <AuthControls t={t} email={email} setEmail={setEmail} emailValid={emailValid} pending={pending} go={go} />
         </div>
       </section>
     </div>
   )
+}
+
+function OfferPromise({ t }: { t: (typeof COPY)[keyof typeof COPY] }) {
+  return <div><h2 className="font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] lg:whitespace-nowrap lg:text-[58px]">{t.offerTitleOne}</h2><p className="mt-2 font-sf text-[30px] font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] lg:whitespace-nowrap lg:text-[44px]">{t.offerTitleTwo}</p><p className="mt-2 font-sf text-[22px] font-bold leading-[1.15] text-[#D10E63] lg:whitespace-nowrap lg:text-[28px]">{t.offerProofOne}</p><p className="mt-2 font-sf text-[17px] font-semibold leading-[1.2] text-[#1C1A17] lg:whitespace-nowrap lg:text-[20px]">{t.offerProofTwo}</p></div>
 }
 
 function AuthControls({ t, email, setEmail, emailValid, pending, go }: { t: (typeof COPY)[keyof typeof COPY]; email: string; setEmail: (value: string) => void; emailValid: boolean; pending: AuthProvider | null; go: (provider: AuthProvider) => void }) {
@@ -143,9 +150,9 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 
 const COPY = {
   fr: {
-    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère IA · Unitalk', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise et à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons par votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Recevoir mon lien d’accès', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: '1 million de tokens offerts.', offerProofTwo: 'Aucune carte bancaire.', offerPrice: 'Puis 98 €/mois, avec 5 millions de tokens inclus chaque mois.',
+    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère en transformation IA · Unitalk', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise et à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons la transformation IA de votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: '1 million de tokens offerts.', offerProofTwo: 'Aucune carte bancaire.', offerPrice: '',
   },
   en: {
-    selected: 'Your choice', collapse: 'Collapse', expand: 'Show', change: 'Choose another mission', almaRole: 'AI Advisor · Unitalk', missionAlmaTitle: 'We will pick up here.', missionAlmaBody: 'After you sign in, I help personalize this mission for your company and create the AI Collaborator that will accomplish it.', almaGenericTitle: 'Let’s start with your company.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Send my access link', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: 'Then €49/month for its identity, excluding AI model usage.',
+    selected: 'Your choice', collapse: 'Collapse', expand: 'Show', change: 'Choose another mission', almaRole: 'AI transformation advisor · Unitalk', missionAlmaTitle: 'We will pick up here.', missionAlmaBody: 'After you sign in, I help personalize this mission for your company and create the AI Collaborator that will accomplish it.', almaGenericTitle: 'Let’s begin your company’s AI transformation.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Continue', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: '',
   },
 } as const
