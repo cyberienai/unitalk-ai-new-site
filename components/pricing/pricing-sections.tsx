@@ -32,7 +32,8 @@ export function PricingHero() {
       <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
         <div>
           <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{fr ? 'Tarifs' : 'Pricing'}</p>
-          <h1 className="mt-4 font-sf text-[48px] font-bold leading-[0.96] tracking-[-0.055em] sm:text-[72px]">{fr ? 'Votre Collaborateur IA.' : 'Your AI Collaborator.'}</h1>
+          <h1 className="mt-4 font-sf text-[48px] font-bold leading-[0.96] tracking-[-0.055em] sm:text-[72px]">{fr ? 'Composez votre Unitalk.' : 'Compose your Unitalk.'}</h1>
+          <p className="mt-5 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{fr?'Choisissez votre Collaborateur IA, sa capacité d’intelligence et les licences dont vous avez besoin.':'Choose your AI Collaborator, intelligence capacity and the licenses you need.'}</p>
           <div aria-live="polite" className="mt-5 h-9 overflow-hidden font-sf text-[24px] font-bold text-[#D10E63] sm:text-[28px]">{reduce ? ROLES[lang][0] : ROLES[lang][roleIndex]}</div>
           <p className="mt-1 text-sm italic text-[#6E665A]">{ROLES[lang].slice(1).join(' · ')}</p>
         </div>
@@ -40,12 +41,12 @@ export function PricingHero() {
           <p className="font-sf text-[34px] font-bold leading-tight tracking-[-0.035em] sm:text-[44px]">{fr ? 'Gratuit pendant 7 jours.' : 'Free for 7 days.'}</p>
           <p className="mt-3 font-sf text-[28px] font-bold text-[#B00C54]">{fr ? '1 million de tokens offerts.' : '1 million free tokens.'}</p>
           <p className="mt-1 text-lg font-semibold">{fr ? 'Aucune carte bancaire.' : 'No credit card.'}</p>
-          <button onClick={() => router.push('/decouvrir')} className="mt-7 bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-white">{fr ? 'Commencer gratuitement' : 'Start free'} →</button>
+          <a href="#configurateur" className="mt-7 inline-flex bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-white">{fr ? 'Composer mon offre' : 'Compose my offer'} ↓</a>
         </div>
       </div>
       <div className="mt-12 grid border-y border-[#1C1A17]/15 py-7 sm:grid-cols-2">
         <p className="font-sf text-[38px] font-bold tracking-[-0.04em] sm:text-[52px]">0 € <span className="text-[20px] text-[#6E665A]">{fr ? 'par humain' : 'per human'}</span></p>
-        <p className="mt-4 font-sf text-[38px] font-bold tracking-[-0.04em] sm:mt-0 sm:text-right sm:text-[52px]">{formatEuro(pricingConfig.baseMonthlyPrice, lang)} <span className="text-[20px] text-[#6E665A]">{fr ? 'par Collaborateur IA' : 'per AI Collaborator'}</span></p>
+        <p className="mt-4 font-sf text-[38px] font-bold tracking-[-0.04em] sm:mt-0 sm:text-right sm:text-[52px]">{formatEuro(49, lang)} <span className="text-[20px] text-[#6E665A]">{fr ? 'par Collaborateur IA' : 'per AI Collaborator'}</span></p>
         <p className="mt-4 max-w-3xl text-[16px] leading-7 text-[#4E483F] sm:col-span-2">{fr ? 'Invitez toute votre équipe. Les discussions, le chat et la collaboration entre humains sont gratuits. Vous payez la capacité IA. Jamais la collaboration humaine.' : 'Invite your entire team. Human discussions, chat and collaboration are free. You pay for AI capacity, never human collaboration.'}</p>
       </div>
     </header>

@@ -1,20 +1,21 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { PricingCollaboration, PricingFinalCta, PricingHero, PricingExplanations } from '@/components/pricing/pricing-sections'
-import { MultiCollaboratorConfigurator, PricingConfigurator } from '@/components/pricing/pricing-configurator'
+import { PricingConfigurator } from '@/components/pricing/pricing-configurator'
 import { pricingConfig } from '@/lib/pricing-config'
 
 export const metadata: Metadata = {
   title: 'Tarifs des Collaborateurs IA',
   description:
-    '0 € par utilisateur humain. 98 € par mois par Collaborateur IA, avec 5 millions de tokens inclus chaque mois.',
+    'Composez votre offre Unitalk : Collaborateur IA, capacité IA, Alma et licence Co-créateur optionnelle.',
   alternates: { canonical: '/tarifs' },
   openGraph: {
     type: 'website',
     url: 'https://unitalk.ai/tarifs',
     title: 'Tarifs des Collaborateurs IA | Unitalk',
-    description: '0 € par humain. 98 € par Collaborateur IA. 5 millions de tokens inclus chaque mois.',
+    description: 'Collaborateur IA dès 49 € par mois, capacité IA et licences optionnelles.',
   },
 }
 
@@ -22,7 +23,7 @@ const pricingJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: 'Collaborateur IA Unitalk',
-  description: 'Une identité professionnelle durable avec environnement privé, mémoire, moyens de communication, profils métier et compétences sans limite. Les usages des modèles IA sont réglés séparément.',
+  description: 'Une offre composable : Collaborateur IA, capacité IA, Alma et licence Co-créateur IA optionnelle.',
   offers: [
     {
       '@type': 'Offer',
@@ -35,7 +36,7 @@ const pricingJsonLd = {
         priceCurrency: 'EUR',
         billingDuration: 'P1M',
       },
-      description: '7 jours gratuits sans carte bancaire, puis 98 EUR par mois. 5 millions de tokens inclus chaque mois ; consommation supplémentaire facturée à l’usage.',
+      description: '7 jours gratuits sans carte bancaire, puis 49 EUR par mois par Collaborateur IA, hors options sélectionnées.',
       url: 'https://unitalk.ai/tarifs',
     },
   ],
@@ -48,10 +49,11 @@ export default function TarifsPage() {
       <Navbar />
       <main>
         <PricingHero />
-        <PricingConfigurator />
+        <Suspense fallback={<div className="mx-auto h-[720px] max-w-[1120px] px-5 sm:px-8" />}>
+          <PricingConfigurator />
+        </Suspense>
         <PricingCollaboration />
         <PricingExplanations />
-        <MultiCollaboratorConfigurator />
         <PricingFinalCta />
       </main>
       <SiteFooter />

@@ -25,15 +25,13 @@ export const pricingConfig = {
   trialDays: 7,
   trialTokens: 1_000_000,
   monthlyIncludedTokens: 5_000_000,
-  hostingMonthlyPrice: 49,
-  licenseMonthlyPrice: 49,
   slaAvailability: 99.9,
   /** Months offered on the annual plan (annual = (12 − annualFreeMonths) × monthly). */
   annualFreeMonths: 2,
   /** Reference single-unit monthly price, used as the "savings vs 1" baseline. */
-  baseMonthlyPrice: 98,
+  baseMonthlyPrice: 49,
   quantityTiers: [
-    { min: 1, monthlyUnitPrice: 98, label: '1+' },
+    { min: 1, monthlyUnitPrice: 49, label: '1+' },
   ] as QuantityTier[],
   /**
    * Prepaid monthly credit budgets, shared across all of a company's

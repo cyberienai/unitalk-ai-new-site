@@ -35,9 +35,9 @@ describe('normalizeQuantity — minimum of 1', () => {
 
 describe('getTierForQuantity — correct tier and unit price', () => {
   it('maps quantities to the expected unit price', () => {
-    expect(getTierForQuantity(1).monthlyUnitPrice).toBe(98)
-    expect(getTierForQuantity(2).monthlyUnitPrice).toBe(98)
-    expect(getTierForQuantity(100).monthlyUnitPrice).toBe(98)
+    expect(getTierForQuantity(1).monthlyUnitPrice).toBe(49)
+    expect(getTierForQuantity(2).monthlyUnitPrice).toBe(49)
+    expect(getTierForQuantity(100).monthlyUnitPrice).toBe(49)
   })
 })
 
@@ -50,10 +50,10 @@ describe('getNextTier', () => {
 
 describe('monthly subscription', () => {
   it('multiplies quantity by the tier unit price', () => {
-    expect(calculateMonthlySubscription(1)).toBe(98)
-    expect(calculateMonthlySubscription(3)).toBe(294)
-    expect(calculateMonthlySubscription(7)).toBe(686)
-    expect(calculateMonthlySubscription(10)).toBe(980)
+    expect(calculateMonthlySubscription(1)).toBe(49)
+    expect(calculateMonthlySubscription(3)).toBe(147)
+    expect(calculateMonthlySubscription(7)).toBe(343)
+    expect(calculateMonthlySubscription(10)).toBe(490)
   })
 })
 
@@ -74,21 +74,21 @@ describe('annual calculation — 2 months free', () => {
   })
   it('matches the spec reference values', () => {
     // 1 collaborator
-    expect(calculateAnnualSubscription(1)).toBe(980)
-    expect(calculateAnnualEquivalentMonthly(1)).toBeCloseTo(81.67, 2)
-    expect(calculateAnnualSavings(1)).toBe(196)
+    expect(calculateAnnualSubscription(1)).toBe(490)
+    expect(calculateAnnualEquivalentMonthly(1)).toBeCloseTo(40.83, 2)
+    expect(calculateAnnualSavings(1)).toBe(98)
     // 3 collaborators
-    expect(calculateAnnualSubscription(3)).toBe(2940)
-    expect(calculateAnnualEquivalentMonthly(3)).toBeCloseTo(245, 2)
-    expect(calculateAnnualSavings(3)).toBe(588)
+    expect(calculateAnnualSubscription(3)).toBe(1470)
+    expect(calculateAnnualEquivalentMonthly(3)).toBeCloseTo(122.5, 2)
+    expect(calculateAnnualSavings(3)).toBe(294)
     // 7 collaborators
-    expect(calculateAnnualSubscription(7)).toBe(6860)
-    expect(calculateAnnualEquivalentMonthly(7)).toBeCloseTo(571.67, 2)
-    expect(calculateAnnualSavings(7)).toBe(1372)
+    expect(calculateAnnualSubscription(7)).toBe(3430)
+    expect(calculateAnnualEquivalentMonthly(7)).toBeCloseTo(285.83, 2)
+    expect(calculateAnnualSavings(7)).toBe(686)
     // 10 collaborators
-    expect(calculateAnnualSubscription(10)).toBe(9800)
-    expect(calculateAnnualEquivalentMonthly(10)).toBeCloseTo(816.67, 2)
-    expect(calculateAnnualSavings(10)).toBe(1960)
+    expect(calculateAnnualSubscription(10)).toBe(4900)
+    expect(calculateAnnualEquivalentMonthly(10)).toBeCloseTo(408.33, 2)
+    expect(calculateAnnualSavings(10)).toBe(980)
   })
 })
 
@@ -117,11 +117,11 @@ describe('monthly credit budget by usage mode', () => {
 
 describe('estimated monthly total — 7 collaborators with credit budgets', () => {
   const cases: [number, number][] = [
-    [10, 696],
-    [50, 736],
-    [100, 786],
-    [250, 936],
-    [500, 1186],
+    [10, 353],
+    [50, 393],
+    [100, 443],
+    [250, 593],
+    [500, 843],
   ]
   it.each(cases)('%d € credits → %d € / month', (budget, expected) => {
     expect(calculateEstimatedMonthlyTotal(7, 'monthly', 'unitalk_credits', budget)).toBe(expected)
@@ -130,7 +130,7 @@ describe('estimated monthly total — 7 collaborators with credit budgets', () =
 
 describe('estimated total — annual shows monthly equivalent + full credits', () => {
   it('7 collaborators annual with 50 € credits', () => {
-    expect(calculateEstimatedMonthlyTotal(7, 'annual', 'unitalk_credits', 50)).toBeCloseTo(621.67, 2)
+    expect(calculateEstimatedMonthlyTotal(7, 'annual', 'unitalk_credits', 50)).toBeCloseTo(335.83, 2)
   })
   it('credits are never discounted by the annual cycle', () => {
     const monthlyBudget = calculateMonthlyCreditBudget('unitalk_credits', 100)
@@ -142,13 +142,13 @@ describe('estimated total — annual shows monthly equivalent + full credits', (
 
 describe('amount due after trial', () => {
   it('monthly = one month subscription + credits', () => {
-    expect(calculateAmountDueAfterTrial(7, 'monthly', 'unitalk_credits', 50)).toBe(736)
+    expect(calculateAmountDueAfterTrial(7, 'monthly', 'unitalk_credits', 50)).toBe(393)
   })
   it('annual = full-year subscription + one month of credits', () => {
-    expect(calculateAmountDueAfterTrial(7, 'annual', 'unitalk_credits', 50)).toBe(6910)
+    expect(calculateAmountDueAfterTrial(7, 'annual', 'unitalk_credits', 50)).toBe(3480)
   })
   it('BYOK bills only the plan', () => {
-    expect(calculateAmountDueAfterTrial(7, 'monthly', 'byok', null)).toBe(686)
-    expect(calculateAmountDueAfterTrial(7, 'annual', 'byok', null)).toBe(6860)
+    expect(calculateAmountDueAfterTrial(7, 'monthly', 'byok', null)).toBe(343)
+    expect(calculateAmountDueAfterTrial(7, 'annual', 'byok', null)).toBe(3430)
   })
 })

@@ -8,6 +8,7 @@ import { startSession } from '@/app/actions/auth'
 import type { AuthProvider } from '@/lib/mock-auth'
 import { GoogleIcon, MicrosoftIcon } from '@/components/auth/provider-icons'
 import { UnitalkLogo } from '@/components/unitalk-logo'
+import { unitalkPricing } from '@/lib/unitalk-pricing'
 
 export type SelectedMission = {
   slug?: string
@@ -150,7 +151,7 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 
 const COPY = {
   fr: {
-    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère en transformation IA · Unitalk', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise et à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons la transformation IA de votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: '1 million de tokens offerts.', offerProofTwo: 'Aucune carte bancaire.', offerPrice: '',
+    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère en transformation IA · Unitalk', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise et à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons la transformation IA de votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: `${unitalkPricing.trial.tokens / 1_000_000} million de tokens offerts.`, offerProofTwo: 'Aucune carte bancaire.', offerPrice: '',
   },
   en: {
     selected: 'Your choice', collapse: 'Collapse', expand: 'Show', change: 'Choose another mission', almaRole: 'AI transformation advisor · Unitalk', missionAlmaTitle: 'We will pick up here.', missionAlmaBody: 'After you sign in, I help personalize this mission for your company and create the AI Collaborator that will accomplish it.', almaGenericTitle: 'Let’s begin your company’s AI transformation.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Continue', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: '',
