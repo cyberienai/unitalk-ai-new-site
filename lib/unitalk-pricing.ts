@@ -2,6 +2,7 @@ export type AiCapacityId = 'byok' | 'quarterTime' | 'halfTime' | 'fullTime'
 
 export const unitalkPricing = {
   trial: { days: 7, tokens: 1_000_000 },
+  organization: { monthlyPrice: 50, freeUntil: '2026-12-21' },
   aiCollaborator: { monthlyPrice: 49 },
   aiCocreator: { monthlyPrice: 50, optional: true },
   alma: { monthlyPricePerCollaborator: 50, freeUntil: '2026-12-21' },
@@ -23,9 +24,10 @@ export function capacityMonthlyPrice(id: AiCapacityId, promotional = true): numb
 }
 
 export function configurationTotal(quantity: number, capacity: AiCapacityId, alma: boolean, cocreator: boolean, promotional = true): number {
+  const organization = promotional && isPromotionalFree(unitalkPricing.organization.freeUntil) ? 0 : unitalkPricing.organization.monthlyPrice
   const collaborator = quantity * unitalkPricing.aiCollaborator.monthlyPrice
   const capacityTotal = quantity * capacityMonthlyPrice(capacity, promotional)
   const almaTotal = alma ? quantity * (promotional && isPromotionalFree(unitalkPricing.alma.freeUntil) ? 0 : unitalkPricing.alma.monthlyPricePerCollaborator) : 0
   const cocreatorTotal = cocreator ? unitalkPricing.aiCocreator.monthlyPrice : 0
-  return collaborator + capacityTotal + almaTotal + cocreatorTotal
+  return organization + collaborator + capacityTotal + almaTotal + cocreatorTotal
 }

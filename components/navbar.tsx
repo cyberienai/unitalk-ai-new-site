@@ -65,7 +65,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
       fr: 'Cadrez une première mission et préparez votre Collaborateur IA.',
       en: 'Frame a first mission and prepare your AI Collaborator.',
     },
-    href: '/collaborateurs-ia/alma',
+    href: '/unitalk/@alma',
     avatar: '/alma-avatar.png',
   },
   {

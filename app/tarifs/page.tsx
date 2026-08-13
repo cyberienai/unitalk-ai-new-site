@@ -7,9 +7,9 @@ import { PricingConfigurator } from '@/components/pricing/pricing-configurator'
 import { pricingConfig } from '@/lib/pricing-config'
 
 export const metadata: Metadata = {
-  title: 'Tarifs des Collaborateurs IA',
+  title: 'Tarifs Unitalk : organisation, Collaborateurs IA et crédits',
   description:
-    'Composez votre offre Unitalk : Collaborateur IA, capacité IA, Alma et licence Co-créateur optionnelle.',
+    'Composez votre organisation avec Alma : Collaborateurs IA, Co-créateurs, capacité IA et crédits selon vos besoins.',
   alternates: { canonical: '/tarifs' },
   openGraph: {
     type: 'website',

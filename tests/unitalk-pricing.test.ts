@@ -9,8 +9,8 @@ describe('Unitalk configurable pricing', () => {
     expect(configurationTotal(1, 'quarterTime', true, true, true)).toBe(99)
   })
   it('calculates future prices from selected options', () => {
-    expect(configurationTotal(1, 'quarterTime', true, false, false)).toBe(124)
-    expect(configurationTotal(1, 'quarterTime', true, true, false)).toBe(174)
+    expect(configurationTotal(1, 'quarterTime', false, false, false)).toBe(124)
+    expect(configurationTotal(1, 'quarterTime', false, true, false)).toBe(174)
   })
   it('keeps the catalog values canonical', () => {
     expect(unitalkPricing.aiCollaborator.monthlyPrice).toBe(49)
