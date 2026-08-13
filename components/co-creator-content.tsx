@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Kicker } from '@/components/home/section-kicker'
 import { unitalkPricing } from '@/lib/unitalk-pricing'
+import { CollectionCockpitDemo } from '@/components/co-creator/collection-cockpit-demo'
 
 const PRICING_HREF = '/tarifs?co-createur=1#configurateur'
 
@@ -15,7 +16,7 @@ export function CoCreatorContent() {
               Transformez le savoir-faire humain en Collaborateurs IA.
             </h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#4E483F]">
-              Apprenez à interviewer les équipes, formaliser leurs méthodes et créer les profils métier, compétences et missions dont leurs Collaborateurs IA ont besoin.
+              Apprenez à interviewer les équipes, formaliser leurs méthodes et créer les profils métier, compétences, missions et applications métier dont leurs Collaborateurs IA ont besoin.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-4">
               <PrimaryLink href={PRICING_HREF}>Devenir Co-créateur IA →</PrimaryLink>
@@ -44,8 +45,12 @@ export function CoCreatorContent() {
         </div>
       </LightSection>
 
-      <LightSection id="creation-en-situation" eyebrow="Des actifs réutilisables" title="Une conversation devient un actif.">
-        <AssetProof />
+      <LightSection id="creation-en-situation" eyebrow="Création en situation" title="Du savoir-faire à l’application métier.">
+        <p className="max-w-4xl text-[17px] leading-8 text-[#4E483F]">Le Co-créateur ne s’arrête pas à formaliser une méthode. Il construit avec Hermes l’application qui permet au Collaborateur IA et aux équipes de l’utiliser dans le travail réel.</p>
+        <div className="mt-9 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+          <AssetProof />
+          <CollectionCockpitDemo />
+        </div>
         <p className="mt-7 font-sf text-2xl font-bold">
           Le Co-créateur ne remplace pas l’expert métier. Il rend son savoir-faire transmissible.
         </p>
@@ -61,11 +66,11 @@ export function CoCreatorContent() {
             Pas une formation aux prompts.
           </h2>
           <p className="mt-5 max-w-3xl text-[17px] leading-8 text-[#CFC6B8]">
-            Vous interviewez, construisez, testez et améliorez de véritables profils métier, compétences et missions dans un environnement agentique propulsé par Hermes, l’agent autonome open source de Nous Research.
+            Vous interviewez, construisez, vibecodez, testez et améliorez de véritables profils métier, compétences, missions et applications métier dans un environnement agentique propulsé par Hermes, l’agent autonome open source de Nous Research.
           </p>
-          <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {DELIVERABLES.map((item) => (
-              <p key={item} className="rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm font-semibold">{item}</p>
+          <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {DELIVERABLES.map((item, index) => (
+              <p key={item} className="rounded-xl border border-white/15 bg-white/[0.04] p-4 text-sm font-semibold"><span className="mr-2 font-mono text-[10px] text-[#F2A4C5]">0{index + 1}</span>{item}</p>
             ))}
           </div>
           <div className="mt-8 border-t border-white/15 pt-6">
@@ -88,7 +93,7 @@ export function CoCreatorContent() {
               <PrimaryLink href={PRICING_HREF} className="mt-7">Ajouter la Licence Co-créateur IA →</PrimaryLink>
             </div>
             <div className="grid gap-7 sm:grid-cols-2">
-              <FeatureList title="Créer" items={['Profils métier', 'Compétences', 'Missions', 'Versions', 'Publications']} />
+              <FeatureList title="Créer" items={['Profils métier', 'Compétences', 'Missions', 'Applications métier vibecodées', 'Versions', 'Publications']} />
               <FeatureList title="Percevoir" items={['Revenus directs', 'Revenus indirects', 'Activations', 'Utilisations attribuées', 'Historique des règlements']} />
             </div>
           </div>
@@ -134,8 +139,8 @@ function TransformationCard() {
 }
 
 function AssetProof() {
-  const rows = [['Profil métier', 'Gestionnaire de recouvrement'], ['Compétence', 'Qualifier une facture avant relance'], ['Règle', 'Ne pas relancer si un litige est ouvert'], ['Validation', 'Responsable financier']]
-  return <div className="mt-9 rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-6 sm:p-8"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Parole humaine</p><blockquote className="mt-4 max-w-3xl font-sf text-2xl leading-9">« Je ne relance jamais un client lorsqu’un litige est encore ouvert. »</blockquote><dl className="mt-7 divide-y divide-[#DED6C8] border-y border-[#DED6C8]">{rows.map(([label, value]) => <div key={label} className="grid gap-1 py-4 sm:grid-cols-[150px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">{label}</dt><dd className="font-semibold">{value}</dd></div>)}</dl></div>
+  const rows = [['Profil métier', 'Gestionnaire de recouvrement'], ['Compétence', 'Qualifier une facture avant relance'], ['Mission', 'Préparer les relances à valider'], ['Application métier', 'Cockpit de recouvrement'], ['Validation', 'Responsable financier']]
+  return <div className="rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-6 sm:p-8"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Parole humaine</p><blockquote className="mt-4 max-w-3xl font-sf text-2xl leading-9">« Je ne relance jamais un client lorsqu’un litige est encore ouvert. »</blockquote><dl className="mt-7 divide-y divide-[#DED6C8] border-y border-[#DED6C8]">{rows.map(([label, value]) => <div key={label} className="grid gap-1 py-4 sm:grid-cols-[150px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">{label}</dt><dd className="font-semibold">{value}</dd></div>)}</dl></div>
 }
 
 function LightSection({ id, eyebrow, title, children }: { id?: string; eyebrow: string; title: string; children: React.ReactNode }) {
@@ -157,8 +162,9 @@ function Revenue({ title, children }: { title: string; children: React.ReactNode
 const STEPS = [
   ['Interviewer', 'Comprendre ce que la personne fait vraiment, y compris les exceptions et les décisions sensibles.'],
   ['Formaliser', 'Transformer sa méthode en responsabilités, compétences, règles et résultats attendus.'],
-  ['Tester', 'Vérifier sur des cas réels et intégrer les corrections validées.'],
-  ['Transmettre', 'Partager le savoir-faire avec les collaborateurs humains et IA autorisés.'],
+  ['Construire', 'Vibecoder avec Hermes l’application métier qui rend ce savoir-faire utilisable dans le travail réel.'],
+  ['Tester', 'Vérifier profil, compétence, mission et application sur des cas contrôlés, puis intégrer les corrections.'],
+  ['Publier', 'Versionner et partager les créations avec les collaborateurs autorisés, selon leurs droits.'],
 ]
 
-const DELIVERABLES = ['1 entretien métier', '1 profil métier', '1 compétence testée', '1 mission personnalisable', '1 Collaborateur IA configuré']
+const DELIVERABLES = ['1 entretien métier', '1 profil métier', '1 compétence testée', '1 mission personnalisable', '1 application métier vibecodée', '1 Collaborateur IA configuré']

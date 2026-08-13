@@ -16,6 +16,7 @@ import type { Lang } from '@/lib/language-context'
 import { DIGITAL_AGENCY_PROFILES } from '@/lib/digital-agency-profiles'
 
 export type StoreType = 'profil' | 'competence' | 'application'
+export type ApplicationKind = 'connector' | 'native-open-source' | 'private-app' | 'app-template'
 
 // Who created/published the Store item. Applications also carry an `editor`
 // (the software vendor), which is distinct from the integration creator.
@@ -65,6 +66,11 @@ export type StoreItem = {
   commercialStatus?: 'included' | 'paid' | 'draft'
   usageRights?: Bilingual
   specializations?: Bilingual[]
+  applicationKind?: ApplicationKind
+  dependencies?: string[]
+  expectedData?: Bilingual[]
+  humanValidations?: Bilingual[]
+  changelog?: Bilingual[]
 }
 
 // --- Type metadata ---------------------------------------------------------
@@ -1147,7 +1153,12 @@ const APPLICATIONS: StoreItem[] = [
   },
 ]
 
-export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...APPLICATIONS]
+const APPLICATIONS_WITH_KIND = APPLICATIONS.map((application) => ({
+  ...application,
+  applicationKind: application.applicationKind ?? ('connector' as ApplicationKind),
+}))
+
+export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...APPLICATIONS_WITH_KIND]
 
 // Fast lookup by type-slug + item-slug (used by fiche pages).
 export function getStoreItem(typeSlug: string, slug: string): StoreItem | undefined {
