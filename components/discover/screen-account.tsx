@@ -91,10 +91,9 @@ export function ScreenAccount({
     <div className="grid min-h-[calc(100vh-61px)] lg:grid-cols-[42fr_58fr]">
       <aside
         style={mission.slug ? { viewTransitionName: `mission-${mission.slug}` } : undefined}
-        className="relative overflow-hidden bg-[#151310] px-5 py-7 text-[#FAF8F3] sm:px-10 lg:flex lg:min-h-0 lg:flex-col lg:justify-between lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-14"
+        className="relative overflow-hidden bg-[#151310] px-5 py-7 text-[#FAF8F3] sm:px-10 lg:flex lg:min-h-0 lg:items-center lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-12"
       >
-        <div aria-hidden className="pointer-events-none absolute -left-32 -top-40 h-96 w-96 rounded-full bg-[#D10E63]/10 blur-3xl" />
-        <div className="relative">
+        <div className="relative mx-auto w-full max-w-md">
           <div className="flex items-center justify-between gap-4">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#F39AC2]">{t.selected}</p>
             <button type="button" aria-expanded={missionOpen} onClick={() => setMissionOpen((open) => !open)} className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#C9C1B8] lg:hidden">
@@ -103,16 +102,14 @@ export function ScreenAccount({
             </button>
           </div>
           <div className={missionOpen ? 'block' : 'hidden lg:block'}>
-            <h1 className="mt-6 max-w-xl font-sf text-[clamp(2.15rem,4.2vw,4.75rem)] font-bold leading-[0.98] tracking-[-0.055em] text-white">{mission.title}</h1>
-            <p className="mt-6 max-w-md text-[15px] leading-7 text-[#C9C1B8] sm:text-[16px]">{mission.description}</p>
-            <p className="mt-6 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#F05C9D]">{mission.category}</p>
+            <h1 className="mt-3 max-w-xl font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{mission.title}</h1>
+            <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8] sm:text-[16px] max-[430px]:hidden">{mission.description}</p>
           </div>
-        </div>
-        <div className={`relative mt-8 border-l border-[#D10E63]/75 pl-5 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
-          <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#E38AB4]">{t.almaRole}</p></div></div>
-          <p className="mt-5 max-w-md font-sf text-[26px] font-semibold leading-tight text-white">{t.missionAlmaTitle}</p>
-          <p className="mt-3 max-w-md text-sm leading-6 text-[#C9C1B8]">{t.missionAlmaBody}</p>
-          <a href={mission.slug ? `/missions?return=${encodeURIComponent(mission.slug)}` : '/missions'} className="mt-6 inline-flex text-sm font-semibold text-white underline decoration-white/25 underline-offset-4 hover:decoration-white">← {t.change}</a>
+          <div className={`mt-8 sm:mt-12 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
+            <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-11 w-11 rounded-full object-cover sm:h-14 sm:w-14" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#E38AB4]">{t.almaRole}</p></div></div>
+            <div className="mt-5 border-l border-[#D10E63]/75 pl-5"><p className="max-w-md font-sf text-[27px] font-semibold leading-tight text-white sm:text-[30px]">{t.missionAlmaTitle}</p><p className="mt-3 max-w-md text-[15px] leading-7 text-[#C9C1B8] sm:text-[16px]">{t.missionAlmaBody}</p></div>
+            <a href={mission.slug ? `/missions?return=${encodeURIComponent(mission.slug)}` : '/missions'} className="mt-7 inline-flex text-sm font-semibold text-white underline decoration-white/25 underline-offset-4 hover:decoration-white">← {t.change}</a>
+          </div>
         </div>
       </aside>
 
@@ -121,8 +118,6 @@ export function ScreenAccount({
           <h2 className="font-sf text-[34px] font-bold leading-[1.03] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px] lg:text-[56px]"><span className="block">{t.offerTitleOne}</span><span className="block">{t.offerTitleTwo}</span></h2>
           <p className="mt-5 text-[16px] font-semibold leading-7 text-[#B00C54]">{t.offerProofOne}<span className="block text-[#4E483F]">{t.offerProofTwo}</span></p>
           <p className="mt-3 text-[13px] leading-6 text-[#6E665A]">{t.offerPrice}</p>
-          <p className="mt-4 text-[14px] leading-6 text-[#4E483F]">{t.attached(mission.title)}</p>
-
           <AuthControls t={t} email={email} setEmail={setEmail} emailValid={emailValid} pending={pending} go={go} />
         </div>
       </section>
@@ -148,9 +143,9 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 
 const COPY = {
   fr: {
-    selected: 'Mission à personnaliser', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission', almaRole: 'Conseillère IA · Unitalk', missionAlmaTitle: 'Nous reprendrons exactement ici.', missionAlmaBody: 'Après votre connexion, je vous aiderai à personnaliser cette mission pour votre entreprise et à préparer votre Collaborateur IA.', almaGenericTitle: 'Commençons par votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', attached: (title: string) => `Votre mission « ${title} » est conservée.`, google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Recevoir mon lien d’accès', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: '1 million de tokens offerts.', offerProofTwo: 'Aucune carte bancaire.', offerPrice: 'Puis 49 €/mois pour son identité, hors usages des modèles IA.',
+    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère IA · Unitalk', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise et à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons par votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Recevoir mon lien d’accès', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: '1 million de tokens offerts.', offerProofTwo: 'Aucune carte bancaire.', offerPrice: 'Puis 49 €/mois pour son identité, hors usages des modèles IA.',
   },
   en: {
-    selected: 'Mission to personalize', collapse: 'Collapse', expand: 'Show', change: 'Change mission', almaRole: 'AI Advisor · Unitalk', missionAlmaTitle: 'We will pick up exactly here.', missionAlmaBody: 'After you sign in, I will help personalize this mission for your company and prepare your AI Collaborator.', almaGenericTitle: 'Let’s start with your company.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', attached: (title: string) => `Your mission “${title}” is saved.`, google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Send my access link', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: 'Then €49/month for its identity, excluding AI model usage.',
+    selected: 'Your choice', collapse: 'Collapse', expand: 'Show', change: 'Choose another mission', almaRole: 'AI Advisor · Unitalk', missionAlmaTitle: 'We will pick up here.', missionAlmaBody: 'After you sign in, I help personalize this mission for your company and create the AI Collaborator that will accomplish it.', almaGenericTitle: 'Let’s start with your company.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Send my access link', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: 'Then €49/month for its identity, excluding AI model usage.',
   },
 } as const

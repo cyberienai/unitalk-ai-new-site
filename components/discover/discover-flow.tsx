@@ -75,7 +75,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
         },
       }
     : draftText || legacyQuery
-      ? { kind: 'draft', draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande et l’adapter au contexte de votre entreprise.' : 'Alma will structure your request and adapt it to your company context.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' } }
+      ? { kind: 'draft', draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande et la personnaliser pour votre entreprise.' : 'Alma will structure your request and personalize it for your company.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' } }
       : { kind: 'empty' }
 
   const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
@@ -131,10 +131,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
             <UnitalkLogo size={22} />
             <span className="font-inter text-sm font-semibold">Unitalk</span>
           </a>
-          <div className="flex items-center gap-4">
-            {selectedMission && <p className="hidden text-[12px] font-semibold text-[#6E665A] sm:block">{lang === 'fr' ? 'Mission choisie ✓' : 'Mission selected ✓'}</p>}
-            <LanguageToggle />
-          </div>
+          <LanguageToggle />
         </header>
         <div className="w-full flex-1">
           <ScreenAccount
