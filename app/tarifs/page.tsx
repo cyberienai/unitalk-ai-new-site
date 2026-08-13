@@ -3,57 +3,38 @@ import { Suspense } from 'react'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { PricingCollaboration, PricingFinalCta, PricingHero, PricingExplanations } from '@/components/pricing/pricing-sections'
-import { PricingConfigurator } from '@/components/pricing/pricing-configurator'
-import { pricingConfig } from '@/lib/pricing-config'
+import { PricingFaqFinal } from '@/components/pricing/pricing-faq-final'
 
 export const metadata: Metadata = {
-  title: 'Tarifs Unitalk : organisation, Collaborateurs IA et crédits',
+  title: 'Tarifs Unitalk : Organisation, Collaborateurs IA et capacité',
   description:
-    'Composez votre organisation avec Alma : Collaborateurs IA, Co-créateurs, capacité IA et crédits selon vos besoins.',
+    'Composez votre Organisation Unitalk, choisissez vos Collaborateurs IA, leur capacité et vos licences. Essai de 7 jours sans carte bancaire.',
   alternates: { canonical: '/tarifs' },
   openGraph: {
     type: 'website',
     url: 'https://unitalk.ai/tarifs',
-    title: 'Tarifs des Collaborateurs IA | Unitalk',
-    description: 'Collaborateur IA dès 49 € par mois, capacité IA et licences optionnelles.',
+    title: 'Tarifs Unitalk : Organisation, Collaborateurs IA et capacité | Unitalk',
+    description: 'Composez votre Organisation Unitalk, choisissez vos Collaborateurs IA, leur capacité et vos licences.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
+  twitter: { card: 'summary_large_image', title: 'Tarifs Unitalk : Organisation, Collaborateurs IA et capacité', description: 'Composez votre Organisation Unitalk et obtenez votre total immédiatement.', images: ['/opengraph-image'] },
 }
 
-const pricingJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: 'Collaborateur IA Unitalk',
-  description: 'Une offre composable : Collaborateur IA, capacité IA, Alma et licence Co-créateur IA optionnelle.',
-  offers: [
-    {
-      '@type': 'Offer',
-      name: 'Collaborateur IA mensuel',
-      price: String(pricingConfig.baseMonthlyPrice),
-      priceCurrency: 'EUR',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: String(pricingConfig.baseMonthlyPrice),
-        priceCurrency: 'EUR',
-        billingDuration: 'P1M',
-      },
-      description: '7 jours gratuits sans carte bancaire, puis 49 EUR par mois par Collaborateur IA, hors options sélectionnées.',
-      url: 'https://unitalk.ai/tarifs',
-    },
-  ],
-}
+const pricingFaqItems=[['Pourquoi l’Organisation Unitalk est-elle facturée séparément ?','Elle réunit Alma, le Workspace, Desktop, les membres humains, la gouvernance, les crédits et l’accès aux Stores au niveau de l’entreprise.'],['Un Collaborateur IA peut-il exercer plusieurs métiers ?','Oui. Ses profils métier sont illimités. Une nouvelle Licence Collaborateur IA n’est nécessaire que pour une identité distincte ou des ressources dédiées.'],['La capacité IA est-elle facturée par Collaborateur IA ?','Oui. Chaque identité possède sa capacité. Le configurateur applique par défaut la même capacité à toutes les identités sélectionnées.'],['Que signifie BYOK ?','Vous utilisez vos propres clés de modèles. Unitalk ne facture pas cette capacité, mais votre fournisseur facture directement vos usages.'],['Que se passe-t-il à la fin des promotions ?','Le configurateur affiche les montants datés avant votre inscription. Toute bascule payante respecte les conditions et consentements réels du produit.']]
+const faqJsonLd={ '@context':'https://schema.org','@type':'FAQPage',mainEntity:pricingFaqItems.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}})) }
 
 export default function TarifsPage() {
   return (
     <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }} />
       <Navbar />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(faqJsonLd)}} />
       <main>
-        <PricingHero />
         <Suspense fallback={<div className="mx-auto h-[720px] max-w-[1120px] px-5 sm:px-8" />}>
-          <PricingConfigurator />
+          <PricingHero />
         </Suspense>
         <PricingCollaboration />
         <PricingExplanations />
+        <PricingFaqFinal />
         <PricingFinalCta />
       </main>
       <SiteFooter />
