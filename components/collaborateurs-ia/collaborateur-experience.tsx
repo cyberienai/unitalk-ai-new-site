@@ -17,12 +17,12 @@ export function CollaborateurExperience() {
 
   return (
     <main className="font-sf">
-      <section className="relative overflow-hidden px-5 pb-20 pt-[8.25rem] sm:px-8 sm:pb-24 sm:pt-[9rem]">
+      <section className="relative overflow-hidden px-5 pb-16 pt-[8.25rem] sm:px-8 sm:pt-[9rem]">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div className="editorial-shell relative grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <div className="max-w-xl">
             <Kicker>{t.heroKicker}</Kicker>
-            <h1 className="hero-heading mt-5 whitespace-pre-line">{t.heroTitle}</h1>
+            <h1 className="hero-heading mt-5 whitespace-pre-line [font-size:42px] sm:[font-size:50.4px]">{t.heroTitle}</h1>
             <p className="mt-6 text-[17px] leading-8 text-[#4E483F]">{t.heroBody}</p>
             <p className="mt-4 text-[16px] leading-7 text-[#4E483F]">{t.heroRules}</p>
             <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
@@ -39,14 +39,14 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section id="formats" className="border-y border-[#DCD4C4] bg-[#FBF9F3] px-5 py-20 sm:px-8 sm:py-24">
+      <section id="formats" className="border-y border-[#DCD4C4] bg-[#FBF9F3] px-5 py-16 sm:px-8">
         <div className="editorial-shell">
           <SectionHeading eyebrow={t.formatsKicker} title={t.formatsTitle} body={t.formatsBody} />
           <FormatTabs lang={lang} />
         </div>
       </section>
 
-      <section className="bg-[#181615] px-5 py-20 text-[#FBF9F3] sm:px-8 sm:py-24">
+      <section className="bg-[#181615] px-5 py-16 text-[#FBF9F3] sm:px-8">
         <div className="editorial-shell">
           <SectionHeading dark eyebrow={t.workKicker} title={t.workTitle} body={t.workBody} />
           <div className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-4">
@@ -75,7 +75,7 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section className="px-5 py-20 sm:px-8 sm:py-24">
+      <section className="px-5 py-16 sm:px-8">
         <div className="editorial-shell grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
           <div>
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.identityKicker}</p>
@@ -95,7 +95,7 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section className="border-t border-[#DCD4C4] bg-[#EAE3D4] px-5 py-20 sm:px-8 sm:py-24">
+      <section className="border-t border-[#DCD4C4] bg-[#EAE3D4] px-5 py-16 sm:px-8">
         <div className="editorial-shell flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
           <div className="max-w-3xl">
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.finalKicker}</p>
