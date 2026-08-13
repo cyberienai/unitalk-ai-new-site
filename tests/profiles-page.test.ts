@@ -15,10 +15,10 @@ describe('profiles catalog', () => {
   })
 
   it('distinguishes identity, profile, skill and mission', () => {
-    expect(content).toContain("['Collaborateur IA','L’identité qui reste dans l’entreprise']")
-    expect(content).toContain("['Profil métier','La responsabilité durable qu’il exerce']")
-    expect(content).toContain("['Compétence','La méthode précise qu’il peut appliquer']")
-    expect(content).toContain("['Mission','Le travail à accomplir avec un résultat attendu']")
+    expect(content).toContain("['Identité IA', 'Lucas reste rattaché à votre entreprise']")
+    expect(content).toContain("['Profil métier', 'Relation client devient une responsabilité durable']")
+    expect(content).toContain("['Compétences', 'Qualifier, répondre et escalader selon vos méthodes']")
+    expect(content).toContain("['Mission', 'Traiter les demandes reçues cette semaine']")
   })
 
   it('uses URL-backed search, domain, creator, sort and page state', () => {
@@ -26,7 +26,7 @@ describe('profiles catalog', () => {
   })
 
   it('labels free-text capabilities as know-how and resolves details by type', () => {
-    expect(content).toContain("knowHow:'Savoir-faire'")
+    expect(content).toContain("knowHowLabel: 'Savoir-faire'")
     expect(content).not.toContain('>Compétences<')
     expect(detail).toContain('getStoreItem(typeSlug, slug)')
   })
