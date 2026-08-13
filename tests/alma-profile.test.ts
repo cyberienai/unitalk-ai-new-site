@@ -10,8 +10,10 @@ describe('Alma public profile', () => {
     expect(alma).toContain('href="/decouvrir?source=nav"')
     expect(alma).not.toContain('/decouvrir?mission=')
     expect(discover).toContain("{ kind: 'empty', source }")
-    expect(account).toContain("almaGenericTitle: 'Commençons par le travail à accomplir.'")
+    expect(account).toContain("almaGenericTitle: 'Vous n’avez pas encore choisi de mission.'")
     expect(account).toContain('function GenericPromise')
+    expect(account).toContain("genericTitle: 'Créez votre compte Unitalk.'")
+    expect(account).toContain("genericSteps: ['Présenter votre entreprise', 'Définir une première mission', 'Préparer votre Collaborateur IA']")
   })
 
   it('uses the canonical mission coordinator positioning', () => {
