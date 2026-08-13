@@ -22,6 +22,7 @@ export type DiscoverContext =
   | { kind: 'draft'; draft: SelectedMission }
   | { kind: 'empty' }
   | { kind: 'invalid'; requestedSlug: string }
+  | { kind: 'new-mission' }
 
 export function ScreenAccount({
   lang,
@@ -45,7 +46,8 @@ export function ScreenAccount({
   const [email, setEmail] = useState('')
   const [missionOpen, setMissionOpen] = useState(true)
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
-  const mission = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
+  const mission = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : context.kind === 'new-mission' ? { title: COPY[lang].newMissionTitle, description: COPY[lang].newMissionDescription, category: 'Assistance' } : null
+  const isNewMission = context.kind === 'new-mission'
 
   async function go(provider: AuthProvider) {
     if (pending || (provider === 'email' && !emailValid)) return
@@ -112,7 +114,7 @@ export function ScreenAccount({
           </div>
           <div className={`mt-8 sm:mt-12 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
             <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-11 w-11 rounded-full object-cover sm:h-14 sm:w-14" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#E38AB4]">{t.almaRole}</p></div></div>
-            <div className="mt-5 border-l border-[#D10E63]/75 pl-5"><p className="max-w-md font-sf text-[27px] font-semibold leading-tight text-white sm:text-[30px]">{t.missionAlmaTitle}</p><p className="mt-3 max-w-md text-[15px] leading-7 text-[#C9C1B8] sm:text-[16px]">{t.missionAlmaBody}</p></div>
+            <div className="mt-5 border-l border-[#D10E63]/75 pl-5"><p className="max-w-md font-sf text-[27px] font-semibold leading-tight text-white sm:text-[30px]">{isNewMission ? t.newMissionAlmaTitle : t.missionAlmaTitle}</p><p className="mt-3 max-w-md text-[15px] leading-7 text-[#C9C1B8] sm:text-[16px]">{isNewMission ? t.newMissionAlmaBody : t.missionAlmaBody}</p></div>
             <a href={mission.slug ? `/missions?return=${encodeURIComponent(mission.slug)}` : '/missions'} className="mt-7 inline-flex text-sm font-semibold text-white underline decoration-white/25 underline-offset-4 hover:decoration-white">← {t.change}</a>
           </div>
         </div>
@@ -151,9 +153,9 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 
 const COPY = {
   fr: {
-    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère en transformation IA', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise, puis à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons la transformation IA de votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: `${unitalkPricing.trial.tokens / 1_000_000} million de tokens offerts.`, offerProofTwo: 'Aucune carte bancaire.', offerPrice: '',
+    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère en transformation IA', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise, puis à créer le Collaborateur IA qui l’accomplira.', newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.', newMissionAlmaTitle: 'Nous partirons de votre besoin.', newMissionAlmaBody: 'Après votre connexion, je vous aide à structurer la mission et à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons la transformation IA de votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: `${unitalkPricing.trial.tokens / 1_000_000} million de tokens offerts.`, offerProofTwo: 'Aucune carte bancaire.', offerPrice: '',
   },
   en: {
-    selected: 'Your choice', collapse: 'Collapse', expand: 'Show', change: 'Choose another mission', almaRole: 'AI transformation advisor · Unitalk', missionAlmaTitle: 'We will pick up here.', missionAlmaBody: 'After you sign in, I help personalize this mission for your company and create the AI Collaborator that will accomplish it.', almaGenericTitle: 'Let’s begin your company’s AI transformation.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Continue', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: '',
+    selected: 'Your choice', collapse: 'Collapse', expand: 'Show', change: 'Choose another mission', almaRole: 'AI transformation advisor · Unitalk', missionAlmaTitle: 'We will pick up here.', missionAlmaBody: 'After you sign in, I help personalize this mission for your company and create the AI Collaborator that will accomplish it.', newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.', newMissionAlmaTitle: 'We will start from your need.', newMissionAlmaBody: 'After you sign in, I help structure the mission and create the AI Collaborator that will accomplish it.', almaGenericTitle: 'Let’s begin your company’s AI transformation.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Continue', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: '',
   },
 } as const

@@ -241,7 +241,7 @@ export function MissionsContent() {
                 {CATEGORY_LABELS[key][lang]}
               </CategoryButton>
             ))}
-            <button type="button" aria-expanded={showOthers} aria-controls="secondary-mission-categories" onClick={selectOther} className="inline-flex h-9 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/35 bg-white px-3.5 text-[12px] font-semibold text-[#B00C54] transition-colors hover:bg-[#FBF3F7]">
+            <button type="button" aria-expanded={showOthers} aria-controls="secondary-mission-categories" onClick={selectOther} className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/50 bg-white px-3.5 text-[12px] font-semibold leading-none text-[#B00C54] outline-none transition-colors hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.allCategories}<ChevronDown aria-hidden className={`h-3.5 w-3.5 transition-transform ${showOthers ? 'rotate-180' : ''}`} />
             </button>
           </div>
@@ -276,8 +276,8 @@ function CategoryButton({ active, href, onClick, children }: { active: boolean; 
       href={href}
       onClick={onClick}
       aria-current={active ? 'page' : undefined}
-      className={`h-9 shrink-0 whitespace-nowrap rounded-full border px-3.5 text-[12px] font-semibold transition-colors ${
-        active ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F] hover:border-[#D10E63]/45'
+      className={`inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full border px-3.5 text-[12px] font-semibold leading-none outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${
+        active ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F] hover:border-[#D10E63]/45 hover:text-[#D10E63]'
       }`}
     >
       {children}

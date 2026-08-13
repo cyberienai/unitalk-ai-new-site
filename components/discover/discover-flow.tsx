@@ -28,6 +28,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
   const missionSlug = searchParams.get('mission')
   const draftId = searchParams.get('draft')
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
+  const intention = searchParams.get('intention')
   const catalogMission = useMemo(() => MISSIONS.find((mission) => mission.slug === missionSlug), [missionSlug])
   const [draftText, setDraftText] = useState('')
 
@@ -62,7 +63,9 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
     } catch {}
   }, [draftId])
 
-  const context: DiscoverContext = missionSlug && !catalogMission
+  const context: DiscoverContext = intention === 'nouvelle-mission'
+    ? { kind: 'new-mission' }
+    : missionSlug && !catalogMission
     ? { kind: 'invalid', requestedSlug: missionSlug }
     : catalogMission
     ? {
