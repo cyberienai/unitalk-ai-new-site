@@ -87,6 +87,8 @@ export default async function BlogArticlePage({
     '@type': 'FAQPage',
     mainEntity: [
       ['Comment le Collaborateur IA qualifie-t-il un prospect ?', 'Il applique les critères définis par l’entreprise, consulte les sources autorisées et explique pourquoi chaque prospect est retenu.'],
+      ['Comment le score est-il calculé ?', 'Selon les critères et les pondérations définis par l’entreprise, avec une explication et un niveau de confiance.'],
+      ['Peut-on exporter la sélection ?', 'Après validation, vers le CRM autorisé, Microsoft Excel, Google Sheets ou CSV selon les droits configurés.'],
       ['Peut-il contacter automatiquement les prospects ?', 'Seulement si l’entreprise l’autorise. Les étapes peuvent être soumises à des niveaux de validation différents.'],
       ['Que devient l’expérience après la mission ?', 'Les corrections validées peuvent enrichir les compétences et le profil métier mobilisés.'],
     ].map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),

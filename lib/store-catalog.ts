@@ -570,6 +570,19 @@ const COMPETENCES: StoreItem[] = [
     dateAdded: '2025-01-03',
     keywords: ['prospect', 'crm', 'qualification', 'lead', 'vente'],
   },
+  ...[
+    ['rechercher-des-entreprises','Rechercher des entreprises','Identifie les entreprises correspondant à une cible dans les sources autorisées.'],
+    ['enrichir-une-fiche-prospect','Enrichir une fiche prospect','Complète une fiche avec les informations autorisées, leurs sources et leur date de vérification.'],
+    ['verifier-une-information','Vérifier une information','Recoupe une information et documente sa source ainsi que son niveau de confiance.'],
+    ['detecter-un-signal-commercial','Détecter un signal commercial','Repère les signaux récents pertinents pour la qualification commerciale.'],
+    ['appliquer-un-scoring','Appliquer une méthode de scoring','Applique les critères et pondérations validés et explique les points attribués.'],
+    ['dedupliquer-une-selection','Dédupliquer une sélection','Détecte les doublons avec les clients, comptes et listes déjà connus.'],
+    ['documenter-une-recommandation','Documenter une recommandation','Présente les raisons, sources, réserves et recommandations associées à une sélection.'],
+    ['exporter-des-donnees-structurees','Exporter des données structurées','Prépare les champs validés pour un CRM, Microsoft Excel, Google Sheets ou CSV.'],
+  ].map(([slug, name, description], index) => ({
+    type: 'competence' as const, slug, name: { fr: name, en: name }, description: { fr: description, en: description }, creator: 'unitalk' as const, facet: 'ventes',
+    enables: [{ fr: description, en: description }], produces: [{ fr: 'Un résultat documenté et réutilisable', en: 'A documented, reusable result' }], contexts: [{ fr: 'Prospection B2B', en: 'B2B prospecting' }], relatedProfiles: ['commercial','charge-prospection'], neededApps: [], order: 20 + index, dateAdded: '2026-08-13', keywords: [slug, 'prospect', 'scoring', 'export'],
+  })),
   {
     type: 'competence',
     slug: 'rediger-un-compte-rendu',
@@ -745,6 +758,10 @@ const COMPETENCES: StoreItem[] = [
 
 // --- Applications ----------------------------------------------------------
 const APPLICATIONS: StoreItem[] = [
+  {
+    type: 'application', slug: 'google-sheets', name: { fr: 'Google Sheets', en: 'Google Sheets' }, description: { fr: 'Permet de lire et produire des tableaux structurés dans les feuilles autorisées.', en: 'Reads and produces structured tables in authorized sheets.' }, creator: 'unitalk', editor: 'Google', facet: 'productivite', uses: [{ fr: 'Préparer et partager des sélections structurées', en: 'Prepare and share structured selections' }], actions: [{ fr: 'Lire, créer et mettre à jour des lignes', en: 'Read, create and update rows' }], dataAccessed: [{ fr: 'Feuilles autorisées', en: 'Authorized sheets' }], permissions: [{ fr: 'Accès aux feuilles accordé', en: 'Access to granted sheets' }], connection: { fr: 'Connexion via le compte Google autorisé.', en: 'Connection through the authorized Google account.' }, compatibleProfiles: ['commercial','charge-prospection'], compatibleSkills: ['exporter-des-donnees-structurees'], order: 0, dateAdded: '2026-08-13', keywords: ['google sheets','tableur','export','csv'] },
+  {
+    type: 'application', slug: 'csv', name: { fr: 'CSV', en: 'CSV' }, description: { fr: 'Produit un fichier de données structurées à partir des champs validés.', en: 'Produces a structured data file from approved fields.' }, creator: 'unitalk', editor: 'Format ouvert', facet: 'productivite', uses: [{ fr: 'Exporter une sélection validée', en: 'Export an approved selection' }], actions: [{ fr: 'Générer un fichier CSV', en: 'Generate a CSV file' }], dataAccessed: [{ fr: 'Champs validés pour l’export', en: 'Fields approved for export' }], permissions: [{ fr: 'Export autorisé par la mission', en: 'Export authorized by the mission' }], compatibleProfiles: ['commercial','charge-prospection'], compatibleSkills: ['exporter-des-donnees-structurees'], order: 0, dateAdded: '2026-08-13', keywords: ['csv','export','fichier','données structurées'] },
   {
     type: 'application',
     slug: 'microsoft-teams',
