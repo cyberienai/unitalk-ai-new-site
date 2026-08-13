@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ArrowLeft, Check, FileText } from 'lucide-react'
+import { ArrowRight, Check, FileText } from 'lucide-react'
 import { collaboratorHref, ROLE_DETAILS } from '@/lib/collaborators-catalog'
-import { getMission, relatedMissions, MISSION_CATEGORIES } from '@/lib/missions-catalog'
+import { getMission, relatedMissions, MISSION_CATEGORIES, getMissionCategoryHref } from '@/lib/missions-catalog'
+import { MissionBreadcrumb } from '@/components/missions/mission-breadcrumb'
 import { useLanguage, type Lang } from '@/lib/language-context'
 
 type Copy = {
@@ -99,16 +100,7 @@ export function MissionDetailContent({ slug }: { slug: string }) {
       {/* Hero */}
       <section className="border-b border-[#E4DDCE] px-5 pb-12 pt-28 sm:px-8 sm:pb-14 sm:pt-32">
         <div className="editorial-shell">
-          <Link
-            href="/missions"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#8A8175] transition-colors hover:text-[#D10E63]"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            {t.back}
-          </Link>
-          {category && (
-            <p className="mt-6 font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#D10E63]">{category.label[lang]}</p>
-          )}
+          <MissionBreadcrumb items={[{label:lang==='fr'?'Missions':'Missions',href:'/missions'},...(category?[{label:category.label[lang],href:getMissionCategoryHref(category)}]:[]),{label:mission.title[lang]}]} />
           <h1 className="mt-3 max-w-3xl text-balance font-sf text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-[#1C1A17] sm:text-5xl">
             {mission.title[lang]}
           </h1>

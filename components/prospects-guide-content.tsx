@@ -1,9 +1,12 @@
 import Link from 'next/link'
 import { getMission } from '@/lib/missions-catalog'
 import { getStoreItemBySlug, storeItemHref } from '@/lib/store-catalog'
+import { MissionBreadcrumb } from '@/components/missions/mission-breadcrumb'
+import { getMissionCategory, getMissionCategoryHref } from '@/lib/missions-catalog'
 
 const MISSION_SLUG = 'trouver-de-nouveaux-clients'
 const mission = getMission(MISSION_SLUG)!
+const category = getMissionCategory(mission.category)!
 const profile = getStoreItemBySlug('commercial')!
 const skills = ['qualifier-un-prospect', 'relancer-une-opportunite', 'preparer-un-rendez-vous'].map(getStoreItemBySlug).filter(Boolean)
 const applications = ['hubspot', 'salesforce', 'linkedin'].map(getStoreItemBySlug).filter(Boolean)
@@ -13,7 +16,7 @@ export function ProspectsGuideContent() {
     <article className="bg-[#F3EFE6] text-[#1C1A17]">
       <section className="px-5 pb-16 pt-24 sm:px-8 sm:pt-28">
         <div className="mx-auto max-w-[1180px]">
-          <nav aria-label="Fil d’Ariane" className="text-sm text-[#6E665A]"><Link href="/missions" className="hover:text-[#B00C54]">Missions</Link> <span aria-hidden>/</span> Ventes</nav>
+          <MissionBreadcrumb items={[{label:'Missions',href:'/missions'},{label:category.label.fr,href:getMissionCategoryHref(category)},{label:mission.title.fr}]} />
           <div className="mt-8 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div>
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Mission · Prospection B2B</p>

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { Navbar } from '@/components/navbar'
 import { MissionDetailContent } from '@/components/mission-detail-content'
 import { SiteFooter } from '@/components/site-footer'
-import { MISSIONS, getMission } from '@/lib/missions-catalog'
+import { MISSIONS, getMission, getMissionCategory, getMissionCategoryHref } from '@/lib/missions-catalog'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -40,6 +40,7 @@ export default async function MissionDetailPage({
   const { slug } = await params
   const mission = getMission(slug)
   if (!mission) notFound()
+  const category = getMissionCategory(mission.category)
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -47,7 +48,8 @@ export default async function MissionDetailPage({
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
       { '@type': 'ListItem', position: 2, name: 'Missions', item: `${SITE_URL}/missions` },
-      { '@type': 'ListItem', position: 3, name: mission.title.fr, item: `${SITE_URL}/missions/${slug}` },
+      ...(category ? [{ '@type': 'ListItem', position: 3, name: category.label.fr, item: `${SITE_URL}${getMissionCategoryHref(category)}` }] : []),
+      { '@type': 'ListItem', position: category ? 4 : 3, name: mission.title.fr, item: `${SITE_URL}/missions/${slug}` },
     ],
   }
 

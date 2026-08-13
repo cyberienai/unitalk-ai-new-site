@@ -67,6 +67,14 @@ export type Mission = {
   }
 }
 
+export function getMissionCategory(categoryKey: string): MissionCategory | undefined {
+  return MISSION_CATEGORIES.find((category) => category.key === categoryKey)
+}
+
+export function getMissionCategoryHref(category: MissionCategory): string {
+  return `/missions?categorie=${encodeURIComponent(category.key)}`
+}
+
 export const DELAY_TBD: Bilingual = {
   fr: 'Délai confirmé après cadrage',
   en: 'Timeline confirmed after scoping',

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
-import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, getMissionCategory, getMissionCategoryHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
@@ -50,6 +50,7 @@ export function StoreCard({
   onPersonalize?: () => void
 }) {
   const category = shortCategoryLabel(mission.category, lang)
+  const categoryData = getMissionCategory(mission.category)
   const description = actionDescription(mission, lang)
   const tooltipId = `personalize-tooltip-${mission.slug}`
   const personalize = lang === 'fr' ? 'Personnaliser' : 'Personalize'
@@ -66,7 +67,7 @@ export function StoreCard({
       <p className="pointer-events-none relative z-10 mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
       <footer className="pointer-events-none relative z-20 mt-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[12px] font-semibold leading-snug text-[#6E665A]">
-          <span className="pointer-events-none">{category}</span>
+          {categoryData ? <Link href={getMissionCategoryHref(categoryData)} aria-label={lang === 'fr' ? `Afficher les missions de la catégorie ${category}` : `Show missions in ${category}`} className="pointer-events-auto relative z-30 inline-flex min-h-8 items-center underline decoration-transparent underline-offset-4 outline-none hover:text-[#D10E63] hover:decoration-[#D10E63]/40 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{category}</Link> : <span className="pointer-events-none">{category}</span>}
           {mission.article && <><span aria-hidden className="pointer-events-none">·</span><Link href={mission.article.href} className="pointer-events-auto relative z-30 text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 outline-none hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{lang === 'fr' ? 'Lire le guide' : 'Read the guide'}</Link></>}
         </div>
         <div className="group/action pointer-events-auto relative z-30 shrink-0">

@@ -51,9 +51,11 @@ export function MissionsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const returnSlug = searchParams.get('return')
+  const requestedCategory = searchParams.get('categorie')
+  const validCategory = useMemo(() => requestedCategory && ALL_CATEGORY_ORDER.includes(requestedCategory as (typeof ALL_CATEGORY_ORDER)[number]) ? requestedCategory : 'all', [requestedCategory])
   const t = COPY[lang]
   const [need, setNeed] = useState('')
-  const [category, setCategory] = useState('all')
+  const [category, setCategory] = useState(validCategory)
   const [showOthers, setShowOthers] = useState(false)
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
@@ -77,6 +79,11 @@ export function MissionsContent() {
       })
     } catch {}
   }, [returnSlug])
+
+  useEffect(() => {
+    setCategory(validCategory)
+    if (requestedCategory && validCategory === 'all') window.history.replaceState(window.history.state, '', '/missions')
+  }, [requestedCategory, validCategory])
 
   useEffect(() => {
     const SpeechRecognition =
@@ -163,6 +170,14 @@ export function MissionsContent() {
     if (SECONDARY_CATEGORIES.includes(category as (typeof SECONDARY_CATEGORIES)[number])) setCategory('all')
   }
 
+  function selectCategory(next: string) {
+    setCategory(next)
+    const href = next === 'all' ? '/missions' : `/missions?categorie=${encodeURIComponent(next)}`
+    router.push(href, { scroll: false })
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    requestAnimationFrame(() => document.getElementById('mission-selection')?.scrollIntoView({ block: 'start', behavior: reducedMotion ? 'auto' : 'smooth' }))
+  }
+
   return (
     <main id="missions-top" className="min-h-screen bg-[#F3EFE6] pb-20 pt-[6.5rem] text-[#1C1A17] sm:pt-28">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
@@ -206,14 +221,14 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section className="mt-10">
+        <section id="mission-selection" className="mt-10 scroll-mt-[calc(var(--header-height,64px)+24px)]">
           <h2 className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
           <p className="mt-1 text-[13px] text-[#6E665A]">{t.readyNote}</p>
 
           <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <CategoryButton active={category === 'all'} onClick={() => setCategory('all')}>{t.selection}</CategoryButton>
+            <CategoryButton href="/missions" active={category === 'all'} onClick={(event) => { event.preventDefault(); selectCategory('all') }}>{t.selection}</CategoryButton>
             {PRIMARY_CATEGORIES.map((key) => (
-              <CategoryButton key={key} active={category === key} onClick={() => setCategory(key)}>
+              <CategoryButton key={key} href={`/missions?categorie=${key}`} active={category === key} onClick={(event) => { event.preventDefault(); selectCategory(key) }}>
                 {CATEGORY_LABELS[key][lang]}
               </CategoryButton>
             ))}
@@ -225,14 +240,14 @@ export function MissionsContent() {
           {showOthers && (
             <div id="secondary-mission-categories" className="mt-2 flex flex-wrap gap-2">
               {SECONDARY_CATEGORIES.map((key) => (
-                <CategoryButton key={key} active={category === key} onClick={() => setCategory(key)}>
+                <CategoryButton key={key} href={`/missions?categorie=${key}`} active={category === key} onClick={(event) => { event.preventDefault(); selectCategory(key) }}>
                   {CATEGORY_LABELS[key][lang]}
                 </CategoryButton>
               ))}
             </div>
           )}
 
-          <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${CATEGORY_LABELS[category]?.[lang] ?? category} · ${missions.length} missions`}</p>
+          <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${MISSIONS.filter((mission) => mission.category === category).length} missions · ${CATEGORY_LABELS[category]?.[lang] ?? category}`}</p>
           <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
               <StoreCard key={mission.slug} mission={mission} lang={lang} onPersonalize={rememberCatalogState} />
@@ -244,17 +259,18 @@ export function MissionsContent() {
   )
 }
 
-function CategoryButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+function CategoryButton({ active, href, onClick, children }: { active: boolean; href: string; onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void; children: React.ReactNode }) {
   return (
-    <button
-      type="button"
+    <a
+      href={href}
       onClick={onClick}
+      aria-current={active ? 'page' : undefined}
       className={`h-9 shrink-0 whitespace-nowrap rounded-full border px-3.5 text-[12px] font-semibold transition-colors ${
         active ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F] hover:border-[#D10E63]/45'
       }`}
     >
       {children}
-    </button>
+    </a>
   )
 }
 
