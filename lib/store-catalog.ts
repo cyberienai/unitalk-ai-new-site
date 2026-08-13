@@ -13,6 +13,7 @@
 
 import type { Bilingual } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
+import { DIGITAL_AGENCY_PROFILES } from '@/lib/digital-agency-profiles'
 
 export type StoreType = 'profil' | 'competence' | 'application'
 
@@ -60,6 +61,10 @@ export type StoreItem = {
     masculine?: Bilingual
     neutral?: Bilingual
   }
+  version?: string
+  commercialStatus?: 'included' | 'paid' | 'draft'
+  usageRights?: Bilingual
+  specializations?: Bilingual[]
 }
 
 // --- Type metadata ---------------------------------------------------------
@@ -97,6 +102,15 @@ export const CREATOR_LABELS: Record<Creator | 'all', Bilingual> = {
 // --- Contextual facet labels -----------------------------------------------
 // Domains for profils métier (section 7).
 export const DOMAIN_LABELS: Record<string, Bilingual> = {
+  'conseil-projet': { fr: 'Conseil et projet', en: 'Consulting & project' },
+  acquisition: { fr: 'Référencement et acquisition', en: 'SEO & acquisition' },
+  'contenu-social': { fr: 'Contenu et réseaux sociaux', en: 'Content & social media' },
+  'crm-cycle-vie': { fr: 'CRM et cycle de vie', en: 'CRM & lifecycle' },
+  'web-ecommerce': { fr: 'Web et e-commerce', en: 'Web & e-commerce' },
+  'data-mesure': { fr: 'Données et mesure', en: 'Data & measurement' },
+  'design-creation': { fr: 'Design et création', en: 'Design & creative' },
+  'developpement-integration': { fr: 'Développement et intégration', en: 'Development & integration' },
+  'qualite-exploitation': { fr: 'Qualité et exploitation', en: 'Quality & operations' },
   ventes: { fr: 'Ventes', en: 'Sales' },
   'relation-client': { fr: 'Relation client', en: 'Customer relations' },
   marketing: { fr: 'Marketing et communication', en: 'Marketing & communication' },
@@ -1133,7 +1147,7 @@ const APPLICATIONS: StoreItem[] = [
   },
 ]
 
-export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...COMPETENCES, ...APPLICATIONS]
+export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...APPLICATIONS]
 
 // Fast lookup by type-slug + item-slug (used by fiche pages).
 export function getStoreItem(typeSlug: string, slug: string): StoreItem | undefined {
