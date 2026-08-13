@@ -68,6 +68,7 @@ export function FloatingAlmaWidget() {
     pathname !== '/missions' &&
     pathname !== '/tarifs' &&
     pathname !== '/alma' &&
+    pathname !== '/collaborateurs-ia/profils-metier' &&
     !pathname.startsWith('/team/') &&
     !/^\/@[^/]+$/.test(pathname) &&
     !launcherSuppressed
