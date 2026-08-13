@@ -9,6 +9,7 @@ import type { AuthProvider } from '@/lib/mock-auth'
 import { GoogleIcon, MicrosoftIcon } from '@/components/auth/provider-icons'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { unitalkPricing } from '@/lib/unitalk-pricing'
+import type { DiscoverSource } from '@/lib/discover-entry'
 
 export type SelectedMission = {
   slug?: string
@@ -18,11 +19,11 @@ export type SelectedMission = {
 }
 
 export type DiscoverContext =
-  | { kind: 'mission'; mission: SelectedMission }
-  | { kind: 'draft'; draft: SelectedMission }
-  | { kind: 'empty' }
-  | { kind: 'invalid'; requestedSlug: string }
-  | { kind: 'new-mission' }
+  | { kind: 'mission'; mission: SelectedMission; source: DiscoverSource }
+  | { kind: 'draft'; draft: SelectedMission; draftId?: string; source: DiscoverSource }
+  | { kind: 'empty'; source: DiscoverSource }
+  | { kind: 'invalid'; requestedSlug: string; source: DiscoverSource }
+  | { kind: 'new-mission'; source: DiscoverSource }
 
 export function ScreenAccount({
   lang,

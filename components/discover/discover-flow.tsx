@@ -16,6 +16,7 @@ import { initialOnboardingState, STEP_ORDER, type OnboardingState, type Onboardi
 import { MISSIONS } from '@/lib/missions-catalog'
 import { actionDescription, shortCategoryLabel } from '@/components/missions/store-card'
 import type { MockSession } from '@/lib/mock-auth'
+import { parseDiscoverSource } from '@/lib/discover-entry'
 
 // The /decouvrir onboarding. A single shared state carries the account, the
   // company context, the mission and the chosen first name across every screen.
@@ -29,6 +30,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
   const draftId = searchParams.get('draft')
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
   const intention = searchParams.get('intention')
+  const source = parseDiscoverSource(searchParams.get('source'))
   const catalogMission = useMemo(() => MISSIONS.find((mission) => mission.slug === missionSlug), [missionSlug])
   const [draftText, setDraftText] = useState('')
 
@@ -64,9 +66,9 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
   }, [draftId])
 
   const context: DiscoverContext = intention === 'nouvelle-mission'
-    ? { kind: 'new-mission' }
+    ? { kind: 'new-mission', source }
     : missionSlug && !catalogMission
-    ? { kind: 'invalid', requestedSlug: missionSlug }
+    ? { kind: 'invalid', requestedSlug: missionSlug, source }
     : catalogMission
     ? {
         kind: 'mission',
@@ -76,10 +78,11 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
           description: actionDescription(catalogMission, lang),
           category: shortCategoryLabel(catalogMission.category, lang),
         },
+        source,
       }
     : draftText || legacyQuery
-      ? { kind: 'draft', draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande et la personnaliser pour votre entreprise.' : 'Alma will structure your request and personalize it for your company.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' } }
-      : { kind: 'empty' }
+      ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande et la personnaliser pour votre entreprise.' : 'Alma will structure your request and personalize it for your company.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
+      : { kind: 'empty', source }
 
   const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
 
@@ -120,7 +123,8 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
         </header>
         <section className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
           <h1 className="font-sf text-[36px] font-bold tracking-[-0.04em] sm:text-[48px]">{lang === 'fr' ? 'Cette mission n’est plus disponible.' : 'This mission is no longer available.'}</h1>
-          <a href="/missions" className="mt-7 text-sm font-bold text-[#B00C54] underline underline-offset-4">{lang === 'fr' ? 'Voir les missions' : 'View missions'} →</a>
+          <p className="mt-4 text-[#4E483F]">{lang === 'fr' ? 'Vous pouvez en choisir une autre ou poursuivre avec Alma.' : 'Choose another mission or continue with Alma.'}</p>
+          <div className="mt-7 flex flex-wrap justify-center gap-4"><a href="/missions" className="text-sm font-bold text-[#B00C54] underline underline-offset-4">{lang === 'fr' ? 'Explorer les missions' : 'Explore missions'} →</a><a href="/decouvrir" className="text-sm font-bold text-[#1C1A17] underline underline-offset-4">{lang === 'fr' ? 'Continuer avec Alma' : 'Continue with Alma'} →</a></div>
         </section>
       </main>
     )

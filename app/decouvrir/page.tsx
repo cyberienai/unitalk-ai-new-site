@@ -7,7 +7,15 @@ import { decodeSession, SESSION_COOKIE } from '@/lib/mock-auth'
 export const metadata: Metadata = {
   title: 'Commencer avec Alma',
   description:
-    'Alma conserve votre mission, l’adapte à votre entreprise et prépare votre premier Collaborateur IA.',
+    'Commencez avec Alma, définissez une première mission et préparez le Collaborateur IA qui l’accomplira.',
+  alternates: { canonical: '/decouvrir' },
+  robots: { index: false, follow: true },
+  openGraph: {
+    title: 'Commencer avec Alma | Unitalk',
+    description: 'Définissez une première mission et préparez le Collaborateur IA qui l’accomplira.',
+    url: '/decouvrir',
+    type: 'website',
+  },
 }
 
 export default async function DecouvrirPage() {
