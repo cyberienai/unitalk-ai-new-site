@@ -69,6 +69,14 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
     avatar: '/alma-avatar.png',
   },
   {
+    title: { fr: 'Devenir Co-créateur IA', en: 'Become an AI Co-creator' },
+    desc: {
+      fr: 'Apprenez à créer, publier et monétiser des profils, compétences et missions.',
+      en: 'Learn to create, publish and monetize profiles, skills and missions.',
+    },
+    href: '/co-createur-ia',
+  },
+  {
     title: { fr: 'AI Native Pack', en: 'AI Native Pack' },
     desc: {
       fr: 'Passez de la première mission à une adoption structurée avec vos équipes.',
@@ -103,7 +111,7 @@ const T = {
     collabMenu: 'Menu Collaborateurs IA',
     // Collaborateurs IA panel — two-column mega menu
     menuDiscover: 'Le Collaborateur',
-    menuAccompaniment: 'Accompagnement',
+    menuAccompaniment: 'Créer & accompagner',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -116,7 +124,7 @@ const T = {
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'The Collaborator',
-    menuAccompaniment: 'Accompaniment',
+    menuAccompaniment: 'Create & support',
   },
 }
 

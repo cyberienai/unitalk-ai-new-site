@@ -447,6 +447,8 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
         </div>
       )}
 
+      <section className="border-t border-[var(--store-line)] bg-[#151310] px-6 py-10 text-[#FAF8F3]"><div className="mx-auto flex max-w-[1180px] flex-col justify-between gap-5 sm:flex-row sm:items-center"><div><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#F2A4C5]">{lang === 'fr' ? 'Transmettre un savoir-faire' : 'Share know-how'}</p><h2 className="mt-2 font-sf text-2xl font-bold">{lang === 'fr' ? 'Transformez une méthode validée en actif IA réutilisable.' : 'Turn an approved method into a reusable AI asset.'}</h2></div><Link href="/co-createur-ia" className="shrink-0 bg-[#D10E63] px-5 py-3 text-sm font-bold">{lang === 'fr' ? 'Devenir Co-créateur IA' : 'Become an AI Co-creator'} →</Link></div></section>
+
       <StoreFilterSheet
         open={sheetOpen}
         filters={filters}

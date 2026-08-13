@@ -52,6 +52,8 @@ export type StoreItem = {
   order: number
   dateAdded: string
   keywords: string[]
+  compatibleWith?: string[]
+  includedWithLicense?: string
 }
 
 // --- Type metadata ---------------------------------------------------------
@@ -140,6 +142,12 @@ export function facetLabels(type: StoreType): Record<string, Bilingual> {
 // --- Profils métier --------------------------------------------------------
 const PROFILS: StoreItem[] = [
   {
+    type: 'profil', slug: 'coordinatrice-missions', name: { fr: 'Coordinatrice de missions', en: 'Mission coordinator' }, description: { fr: 'Structure, affecte et suit les missions de l’organisation.', en: 'Structures, assigns and tracks organization missions.' }, creator: 'unitalk', facet: 'transformation', roleInOrg: { fr: 'Socle opérationnel inclus avec la Licence Organisation Unitalk.', en: 'Operational foundation included with the Unitalk Organization License.' }, knowHow: [{fr:'Clarifier le résultat attendu',en:'Clarify expected outcome'},{fr:'Sélectionner une mission',en:'Select a mission'},{fr:'Préparer les validations',en:'Prepare approvals'},{fr:'Organiser l’escalade',en:'Organize escalation'}], exampleMissions: [{fr:'Transformer un besoin en mission structurée',en:'Turn a need into a structured mission'}], relatedSkills: [], possibleApps: [], order: -1, dateAdded: '2026-08-13', keywords: ['alma','coordination','mission'], compatibleWith: ['alma'], includedWithLicense: 'organization',
+  },
+  {
+    type: 'profil', slug: 'conseillere-adoption-ia', name: { fr: 'Conseillère en adoption IA', en: 'AI adoption advisor' }, description: { fr: 'Accompagne les équipes dans l’intégration et l’usage quotidien de leurs Collaborateurs IA.', en: 'Supports teams in adopting and using AI Collaborators day to day.' }, creator: 'unitalk', facet: 'transformation', roleInOrg: { fr: 'Expertise spécialisée disponible pour Alma.', en: 'Specialized expertise available for Alma.' }, knowHow: [{fr:'Préparer les équipes',en:'Prepare teams'},{fr:'Recueillir les retours',en:'Gather feedback'},{fr:'Traiter les blocages',en:'Address blockers'}], exampleMissions: [{fr:'Accompagner l’adoption d’un Collaborateur IA',en:'Support AI Collaborator adoption'}], relatedSkills: [], possibleApps: [], order: 1, dateAdded: '2026-08-13', keywords: ['alma','adoption','formation'], compatibleWith: ['alma'],
+  },
+  {
     type: 'profil',
     slug: 'conseiller-transformation-ia',
     name: { fr: 'Conseiller en transformation IA', en: 'AI transformation advisor' },
@@ -170,6 +178,7 @@ const PROFILS: StoreItem[] = [
     order: 0,
     dateAdded: '2026-08-13',
     keywords: ['transformation', 'conseil', 'alma', 'mission', 'formation', 'adoption', 'ia'],
+    compatibleWith: ['alma'],
   },
   {
     type: 'profil',
@@ -583,6 +592,18 @@ const COMPETENCES: StoreItem[] = [
     type: 'competence' as const, slug, name: { fr: name, en: name }, description: { fr: description, en: description }, creator: 'unitalk' as const, facet: 'ventes',
     enables: [{ fr: description, en: description }], produces: [{ fr: 'Un résultat documenté et réutilisable', en: 'A documented, reusable result' }], contexts: [{ fr: 'Prospection B2B', en: 'B2B prospecting' }], relatedProfiles: ['commercial','charge-prospection'], neededApps: [], order: 20 + index, dateAdded: '2026-08-13', keywords: [slug, 'prospect', 'scoring', 'export'],
   })),
+  ...[
+    ['cadrer-une-mission','Cadrer une mission','Transformer un besoin en résultat, règles, contexte et validations.'],
+    ['interviewer-collaborateur-humain','Interviewer un collaborateur humain','Recueillir une méthode de travail avec le consentement de la personne concernée.'],
+    ['cartographier-processus','Cartographier un processus','Identifier étapes, décisions, outils, exceptions et responsabilités.'],
+    ['diagnostiquer-maturite-ia','Diagnostiquer la maturité IA','Évaluer usages, compétences, risques et opportunités de l’organisation.'],
+    ['construire-feuille-route-ia','Construire une feuille de route IA','Prioriser missions, Collaborateurs IA et étapes de déploiement.'],
+    ['definir-gouvernance-humain-ia','Définir une gouvernance humaine–IA','Formaliser rôles, droits, validations et règles d’escalade.'],
+    ['accompagner-adoption','Accompagner l’adoption','Préparer les équipes, recueillir leurs retours et traiter les blocages.'],
+    ['optimiser-couts-ia','Optimiser les coûts IA','Analyser modèles, capacités et usages pour réduire les dépenses inutiles.'],
+    ['recommander-capacite-ia','Recommander une capacité IA','Choisir BYOK, Quart-temps, Mi-temps ou Temps plein selon les missions.'],
+    ['preparer-migration-agent','Préparer une migration d’agent','Auditer un agent compatible avant sa migration vers Unitalk.'],
+  ].map(([slug,name,description], index) => ({ type:'competence' as const, slug, name:{fr:name,en:name}, description:{fr:description,en:description}, creator:'unitalk' as const, facet:'operations', enables:[{fr:description,en:description}], produces:[{fr:'Un résultat documenté à valider',en:'A documented result to approve'}], contexts:[{fr:'Alma · Organisation Unitalk',en:'Alma · Unitalk Organization'}], relatedProfiles:['coordinatrice-missions','conseiller-transformation-ia','conseillere-adoption-ia'], neededApps:[], order:50+index,dateAdded:'2026-08-13',keywords:[slug,'alma'],compatibleWith:['alma'] })),
   {
     type: 'competence',
     slug: 'rediger-un-compte-rendu',
