@@ -477,7 +477,7 @@ export function Navbar(
             {/* Secondary CTA — neutral dark (Apple/Stripe style) so no fuchsia
                 lives in the nav except the active state; the page's central
                 fuchsia CTA keeps absolute visual priority */}
-            {!isMissionsActive && <a
+            {!isMissionsActive && !isPricingActive && <a
               href={ALMA_CTA.href}
               className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
                 overDark

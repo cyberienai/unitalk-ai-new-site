@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
-import { PricingHero, PricingExplanations } from '@/components/pricing/pricing-sections'
+import { PricingFinalCta, PricingHero, PricingExplanations } from '@/components/pricing/pricing-sections'
 import { MultiCollaboratorConfigurator, PricingConfigurator } from '@/components/pricing/pricing-configurator'
 import { PricingFaq } from '@/components/pricing/pricing-faq'
 
@@ -21,6 +21,7 @@ export default function TarifsPage() {
         <PricingExplanations />
         <MultiCollaboratorConfigurator />
         <PricingFaq />
+        <PricingFinalCta />
       </main>
       <SiteFooter />
     </div>

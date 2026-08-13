@@ -15,28 +15,20 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
         heading: 'Questions fréquentes',
         items: [
           {
-            q: `Que comprend le forfait à ${price} ?`,
-            a: 'Une identité professionnelle de Collaborateur IA, son environnement privé, son Workspace, sa mémoire, ses profils métier et ses compétences illimités. Alma et Unitalk Desktop sont également incluses gratuitement.',
+            q: `Que paient les ${price} ?`,
+            a: 'Une identité professionnelle de Collaborateur IA, son environnement privé, sa mémoire, ses profils métier et ses compétences sans limite.',
           },
           {
-            q: 'Comment sont réglés les modèles IA ?',
-            a: `Après l’essai, vous pouvez utiliser des crédits Unitalk à partir de ${credits} par mois, vos propres clés API ou combiner les deux. Les coûts des fournisseurs externes restent facturés par ces fournisseurs.`,
+            q: 'Les modèles IA sont-ils inclus ?',
+            a: `L’essai comprend 1 million de tokens. Ensuite, utilisez des crédits Unitalk dès ${credits} par mois, vos propres clés API ou combinez les deux.`,
           },
           {
-            q: 'Pourquoi les usages IA sont-ils séparés ?',
-            a: 'Le Collaborateur IA est une identité durable. Les modèles peuvent changer selon le travail, le niveau de qualité attendu et vos propres accords fournisseurs.',
+            q: 'Que comprend la partie gratuite ?',
+            a: 'Alma, Unitalk Desktop et l’accès aux Stores de profils métier et de compétences.',
           },
           {
-            q: 'Puis-je utiliser des modèles privés ?',
-            a: 'Oui, selon leur compatibilité avec l’AI Gateway et la configuration de votre organisation.',
-          },
-          {
-            q: 'Alma est-elle facturée comme un Collaborateur IA ?',
-            a: 'Non. Alma est la Conseillère IA de Unitalk et reste incluse gratuitement.',
-          },
-          {
-            q: 'Unitalk Desktop est-elle payante ?',
-            a: 'Non. Unitalk Desktop est incluse gratuitement. Les garanties précises de traitement local dépendent du mode et des modèles utilisés.',
+            q: 'Dois-je payer chaque profil métier ou compétence ?',
+            a: 'Non. Unitalk ne limite pas le nombre de profils métier ou de compétences associés à votre Collaborateur IA. Les éventuelles conditions propres aux contenus communautaires sont affichées avant leur installation.',
           },
         ],
       }
@@ -44,28 +36,20 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
         heading: 'Frequently asked questions',
         items: [
           {
-            q: `What does the ${price} plan include?`,
-            a: 'One AI Collaborator’s professional identity, private environment, Workspace, memory, unlimited job profiles and unlimited skills. Alma and Unitalk Desktop are also included free of charge.',
+            q: `What does the ${price} pay for?`,
+            a: 'One AI Collaborator’s professional identity, private environment, memory, unlimited job profiles and unlimited skills.',
           },
           {
-            q: 'How are AI models paid for?',
-            a: `After the trial, use Unitalk credits from ${credits} per month, your own API keys, or combine both. External provider costs remain billed by those providers.`,
+            q: 'Are AI models included?',
+            a: `The trial includes 1 million tokens. Then use Unitalk credits from ${credits} per month, your own API keys, or combine both.`,
           },
           {
-            q: 'Why is AI usage separate?',
-            a: 'The AI Collaborator is a lasting identity. Models can change depending on the work, the required quality and your own provider agreements.',
+            q: 'What is included free?',
+            a: 'Alma, Unitalk Desktop and access to the job profile and skills Stores.',
           },
           {
-            q: 'Can I use private models?',
-            a: 'Yes, depending on their compatibility with the AI Gateway and your organization’s configuration.',
-          },
-          {
-            q: 'Is Alma billed as an AI Collaborator?',
-            a: 'No. Alma is Unitalk’s AI Advisor and remains included free of charge.',
-          },
-          {
-            q: 'Is Unitalk Desktop paid?',
-            a: 'No. Unitalk Desktop is included free of charge. Exact local processing guarantees depend on the mode and models used.',
+            q: 'Do I pay for each job profile or skill?',
+            a: 'No. Unitalk does not limit the number of job profiles or skills associated with your AI Collaborator. Any terms specific to community content are shown before installation.',
           },
         ],
       }
@@ -97,9 +81,9 @@ export function PricingFaq() {
   const { lang } = useLanguage()
   const faq = getFaq(lang)
   return (
-    <section aria-labelledby="faq-heading" className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-8 sm:py-16">
-      <h2 id="faq-heading" className="text-center font-sf text-[28px] font-bold tracking-[-0.02em] sm:text-[34px]">{faq.heading}</h2>
-      <div className="mt-7 border-t border-[#E4DDCE]">
+    <section aria-labelledby="faq-heading" className="mx-auto w-full max-w-[1120px] px-5 py-14 sm:px-8 sm:py-20">
+      <h2 id="faq-heading" className="font-sf text-[34px] font-bold tracking-[-0.04em] sm:text-[48px]">{faq.heading}</h2>
+      <div className="mt-7 max-w-3xl border-t border-[#1C1A17]/15">
         {faq.items.map((item) => <AccordionItem key={item.q} {...item} />)}
       </div>
     </section>

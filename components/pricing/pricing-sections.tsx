@@ -1,80 +1,64 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/lib/language-context'
-import { pricingConfig } from '@/lib/pricing-config'
-import { formatEuro } from './format'
 
 const COPY = {
   fr: {
     eyebrow: 'Tarifs',
-    heroTitle: (price: string) => `${price} par mois pour votre Collaborateur IA.`,
-    heroTitleSecond: 'Les modèles restent votre choix.',
-    heroLead: 'Vous payez l’identité professionnelle de votre Collaborateur IA : son nom, son environnement privé, sa mémoire et sa place dans votre entreprise.',
-    heroDetail: 'Après l’essai, vous choisissez comment régler les modèles qu’il mobilise : crédits Unitalk, vos propres clés API ou une combinaison des deux.',
+    titleOne: 'Une identité qui reste.',
+    titleTwo: 'L’intelligence de votre choix.',
+    lead: 'Votre Collaborateur IA possède son nom, sa mémoire et son environnement privé. Ses profils métier et ses compétences sont illimités. Vous choisissez les modèles qu’il mobilise.',
     includedEyebrow: 'Inclus gratuitement',
-    includedTitle: 'Inclus avec Unitalk',
-    almaBadge: 'Incluse',
-    almaTitle: 'Alma · Conseillère IA · Unitalk',
-    almaText: 'Alma vous aide à cadrer votre mission, préparer votre Collaborateur IA et définir les décisions qui doivent rester humaines.',
-    almaProof: 'Vous ne payez pas une identité supplémentaire pour Alma.',
-    desktopBadge: 'Gratuite',
-    desktopTitle: 'Vos données privées peuvent rester sur votre ordinateur.',
-    desktopText: 'Unitalk Desktop vous permet de travailler localement avec les fichiers et les données que vous ne souhaitez pas envoyer dans le cloud.',
-    desktopProof: 'L’application Desktop est incluse gratuitement.',
-    identityEyebrow: 'Ce que le prix conserve',
-    identityTitle: 'Une identité professionnelle qui accumule de l’expérience.',
-    identityProofs: [
-      ['Un nom', 'Une identité que vos équipes reconnaissent.'],
-      ['Des responsabilités', 'Des profils métier illimités.'],
-      ['Des savoir-faire', 'Des compétences illimitées.'],
-      ['Une expérience', 'Une mémoire attachée au même Collaborateur.'],
+    includedTitle: 'Tout ce qui l’aide à progresser.',
+    included: [
+      { name: 'Alma', title: 'Votre Conseillère IA Unitalk.', body: 'Elle cadre vos missions, prépare votre Collaborateur IA et définit avec vous les décisions qui doivent rester humaines.', status: 'Incluse' },
+      { name: 'Unitalk Desktop', title: 'Vos données privées, sur votre ordinateur.', body: 'Travaillez localement avec les fichiers que vous choisissez de ne pas envoyer dans le cloud.', status: 'Gratuite' },
+      { name: 'Store de profils métier', title: 'De nouvelles responsabilités, sans nouvelle identité.', body: 'Ajoutez à votre Collaborateur IA les responsabilités durables dont votre entreprise a besoin. Le Store est enrichi continuellement par Unitalk et par la communauté des créateurs.', status: 'Accès inclus' },
+      { name: 'Store de compétences', title: 'De nouveaux savoir-faire, sans repartir de zéro.', body: 'Ajoutez les méthodes de travail nécessaires à chaque mission et conservez celles que votre entreprise valide. Le Store est enrichi continuellement par Unitalk et par la communauté des créateurs.', status: 'Accès inclus' },
     ],
-    identityDetail: 'Vous ajoutez un autre Collaborateur IA uniquement lorsque vous avez besoin d’un autre nom, d’autres coordonnées, d’une autre mémoire ou de ressources séparées.',
+    manifestoOne: 'Vous ne payez pas chaque nouveau rôle.',
+    manifestoTwo: 'Vous faites progresser la même identité.',
+    manifestoBody: 'L’accès aux Stores est inclus. Les profils métier et les compétences associés à votre Collaborateur IA ne sont pas limités.',
+    finalTitle: 'Donnez une première mission à votre Collaborateur IA.',
+    finalBody: 'Sept jours pour travailler avec sa propre identité, ses modèles et les savoir-faire disponibles dans les Stores.',
+    finalCta: 'Commencer mes 7 jours d’essai',
+    finalNote: '1 million de tokens · Sans carte bancaire · 0 € aujourd’hui',
   },
   en: {
     eyebrow: 'Pricing',
-    heroTitle: (price: string) => `${price} per month for your AI Collaborator.`,
-    heroTitleSecond: 'The models remain your choice.',
-    heroLead: 'You pay for your AI Collaborator’s professional identity: its name, private environment, memory and place in your company.',
-    heroDetail: 'After the trial, choose how to pay for the models it uses: Unitalk credits, your own API keys, or a combination of both.',
+    titleOne: 'An identity that remains.',
+    titleTwo: 'The intelligence of your choice.',
+    lead: 'Your AI Collaborator has its own name, memory and private environment. Its job profiles and skills are unlimited. You choose the models it uses.',
     includedEyebrow: 'Included free',
-    includedTitle: 'Included with Unitalk',
-    almaBadge: 'Included',
-    almaTitle: 'Alma · AI Advisor · Unitalk',
-    almaText: 'Alma helps you frame your mission, prepare your AI Collaborator and define which decisions must remain human.',
-    almaProof: 'You do not pay for an additional identity for Alma.',
-    desktopBadge: 'Free',
-    desktopTitle: 'Your private data can stay on your computer.',
-    desktopText: 'Unitalk Desktop lets you work locally with files and data you do not want to send to the cloud.',
-    desktopProof: 'The Desktop application is included free of charge.',
-    identityEyebrow: 'What the identity price preserves',
-    identityTitle: 'A professional identity that builds experience.',
-    identityProofs: [
-      ['A name', 'An identity your teams recognize.'],
-      ['Responsibilities', 'Unlimited job profiles.'],
-      ['Know-how', 'Unlimited skills.'],
-      ['Experience', 'Memory attached to the same Collaborator.'],
+    includedTitle: 'Everything that helps it progress.',
+    included: [
+      { name: 'Alma', title: 'Your Unitalk AI Advisor.', body: 'She frames your missions, prepares your AI Collaborator and defines with you which decisions must remain human.', status: 'Included' },
+      { name: 'Unitalk Desktop', title: 'Your private data, on your computer.', body: 'Work locally with the files you choose not to send to the cloud.', status: 'Free' },
+      { name: 'Job profile Store', title: 'New responsibilities, without a new identity.', body: 'Add the lasting responsibilities your company needs to your AI Collaborator. The Store is continuously enriched by Unitalk and the creator community.', status: 'Access included' },
+      { name: 'Skills Store', title: 'New know-how, without starting over.', body: 'Add the working methods each mission requires and retain those your company approves. The Store is continuously enriched by Unitalk and the creator community.', status: 'Access included' },
     ],
-    identityDetail: 'Add another AI Collaborator only when you need another name, separate contact details, a separate memory or isolated resources.',
+    manifestoOne: 'You do not pay for every new role.',
+    manifestoTwo: 'You advance the same identity.',
+    manifestoBody: 'Store access is included. Job profiles and skills associated with your AI Collaborator are unlimited.',
+    finalTitle: 'Give your AI Collaborator a first mission.',
+    finalBody: 'Seven days to work with its own identity, models and the know-how available in the Stores.',
+    finalCta: 'Start my 7-day trial',
+    finalNote: '1 million tokens · No credit card · €0 today',
   },
 } as const
 
 export function PricingHero() {
   const { lang } = useLanguage()
   const t = COPY[lang]
-  const price = formatEuro(pricingConfig.baseMonthlyPrice, lang)
-
   return (
-    <header className="mx-auto w-full max-w-[1040px] px-5 pb-8 pt-[4.5rem] sm:px-8 sm:pb-10 sm:pt-[5.5rem]">
+    <header className="mx-auto w-full max-w-[1120px] px-5 pb-3 pt-8 sm:px-8">
       <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#B00C54]">{t.eyebrow}</p>
-      <h1 className="mt-5 max-w-[980px] font-sf text-[42px] font-bold leading-[0.98] tracking-[-0.055em] text-[#1C1A17] sm:text-[64px] lg:text-[76px]">
-        <span className="block">{t.heroTitle(price)}</span>
-        <span className="mt-2 block text-[#6E665A]">{t.heroTitleSecond}</span>
+      <h1 className="mt-2 max-w-[960px] font-sf text-[40px] font-bold leading-[0.96] tracking-[-0.055em] text-[#151310] sm:text-[56px] lg:text-[62px]">
+        <span className="block">{t.titleOne}</span>
+        <span className="block text-[#6E665A]">{t.titleTwo}</span>
       </h1>
-      <div className="mt-8 grid max-w-[900px] gap-3 text-[16px] leading-relaxed text-[#4E483F] md:grid-cols-2 md:gap-10">
-        <p>{t.heroLead}</p>
-        <p>{t.heroDetail}</p>
-      </div>
+      <p className="mt-3 max-w-[900px] text-[15px] leading-6 text-[#4E483F] sm:text-[16px]">{t.lead}</p>
     </header>
   )
 }
@@ -82,52 +66,52 @@ export function PricingHero() {
 export function PricingExplanations() {
   const { lang } = useLanguage()
   const t = COPY[lang]
-
   return (
-    <>
-      <section aria-labelledby="included-title" className="mx-auto w-full max-w-[1120px] px-5 py-16 sm:px-8 sm:py-24">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.includedEyebrow}</p>
-        <h2 id="included-title" className="mt-3 font-sf text-[34px] font-bold tracking-[-0.04em] sm:text-[48px]">{t.includedTitle}</h2>
-        <div className="mt-10 border-y border-[#D8D0C2]">
-          <article className="grid gap-5 py-8 md:grid-cols-[220px_1fr] md:py-10">
-            <div>
-              <span className="inline-flex rounded-full border border-[#D10E63]/30 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B00C54]">{t.almaBadge}</span>
-              <h3 className="mt-4 font-sf text-xl font-bold">{t.almaTitle}</h3>
-            </div>
-            <div className="max-w-2xl md:pt-1">
-              <p className="text-[16px] leading-relaxed text-[#4E483F]">{t.almaText}</p>
-              <p className="mt-4 font-semibold">{t.almaProof}</p>
-            </div>
-          </article>
-          <article className="grid gap-5 border-t border-[#D8D0C2] py-8 md:grid-cols-[220px_1fr] md:py-10">
-            <div>
-              <span className="inline-flex rounded-full border border-[#D10E63]/30 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B00C54]">{t.desktopBadge}</span>
-              <h3 className="mt-4 font-sf text-xl font-bold">Unitalk Desktop</h3>
-            </div>
-            <div className="max-w-2xl md:pt-1">
-              <p className="font-sf text-[24px] font-bold leading-tight tracking-[-0.025em]">{t.desktopTitle}</p>
-              <p className="mt-3 text-[16px] leading-relaxed text-[#4E483F]">{t.desktopText}</p>
-              <p className="mt-4 font-semibold">{t.desktopProof}</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section aria-labelledby="identity-title" className="bg-[#EAE4D9]">
-        <div className="mx-auto w-full max-w-[1120px] px-5 py-16 sm:px-8 sm:py-24">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.identityEyebrow}</p>
-          <h2 id="identity-title" className="mt-3 max-w-3xl font-sf text-[34px] font-bold leading-tight tracking-[-0.04em] sm:text-[48px]">{t.identityTitle}</h2>
-          <div className="mt-10 grid border-t border-[#CFC5B5] sm:grid-cols-2 lg:grid-cols-4">
-            {t.identityProofs.map(([label, description]) => (
-              <div key={label} className="border-b border-[#CFC5B5] py-6 sm:px-5 lg:border-r lg:first:pl-0 lg:last:border-r-0">
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{label}</p>
-                <p className="mt-3 max-w-[220px] text-[15px] leading-relaxed">{description}</p>
+    <section aria-labelledby="included-title" className="bg-[#151310] text-[#FAF8F3]">
+      <div className="mx-auto w-full max-w-[1120px] px-5 py-16 sm:px-8 sm:py-24">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#F05C9D]">{t.includedEyebrow}</p>
+        <h2 id="included-title" className="mt-3 max-w-3xl font-sf text-[38px] font-bold leading-[0.98] tracking-[-0.05em] sm:text-[58px]">{t.includedTitle}</h2>
+        <div className="mt-12 border-t border-white/20">
+          {t.included.map((item, index) => (
+            <article key={item.name} className="grid gap-4 border-b border-white/20 py-7 sm:grid-cols-[52px_190px_minmax(0,1fr)_120px] sm:gap-6 sm:py-9">
+              <p className="font-mono text-[11px] text-[#8F8980]">{String(index + 1).padStart(2, '0')}</p>
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#F05C9D]">{item.name}</p>
+              <div className="max-w-xl">
+                <h3 className="font-sf text-[24px] font-bold leading-tight tracking-[-0.025em] sm:text-[30px]">{item.title}</h3>
+                <p className="mt-3 text-[15px] leading-7 text-[#BDB7AC] sm:text-[16px]">{item.body}</p>
               </div>
-            ))}
-          </div>
-          <p className="mt-8 max-w-3xl text-[16px] leading-relaxed text-[#4E483F]">{t.identityDetail}</p>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#FAF8F3] sm:text-right">{item.status}</p>
+            </article>
+          ))}
         </div>
-      </section>
-    </>
+        <div className="py-20 sm:py-28">
+          <h2 className="max-w-5xl font-sf text-[38px] font-bold leading-[0.98] tracking-[-0.055em] sm:text-[62px]">
+            <span className="block">{t.manifestoOne}</span>
+            <span className="block text-[#F05C9D]">{t.manifestoTwo}</span>
+          </h2>
+          <p className="mt-7 max-w-2xl text-[17px] leading-8 text-[#BDB7AC]">{t.manifestoBody}</p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function PricingFinalCta() {
+  const { lang } = useLanguage()
+  const router = useRouter()
+  const t = COPY[lang]
+  return (
+    <section className="bg-[#D10E63] text-white">
+      <div className="mx-auto grid w-full max-w-[1120px] gap-8 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div>
+          <h2 className="max-w-3xl font-sf text-[38px] font-bold leading-[0.98] tracking-[-0.05em] sm:text-[58px]">{t.finalTitle}</h2>
+          <p className="mt-5 max-w-2xl text-[17px] leading-7 text-white/80">{t.finalBody}</p>
+        </div>
+        <div className="lg:min-w-[310px]">
+          <button type="button" onClick={() => router.push('/decouvrir')} className="flex h-13 w-full items-center justify-center bg-[#151310] px-6 text-sm font-bold text-white transition-colors hover:bg-[#2A2621] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">{t.finalCta} →</button>
+          <p className="mt-3 text-[12px] text-white/75">{t.finalNote}</p>
+        </div>
+      </div>
+    </section>
   )
 }
