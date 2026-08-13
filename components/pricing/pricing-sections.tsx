@@ -1,99 +1,52 @@
 'use client'
 
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
+import { pricingConfig } from '@/lib/pricing-config'
+import { formatEuro } from './format'
 
-const COPY = {
-  fr: {
-    eyebrow: 'Tarifs',
-    titleOne: 'Votre Collaborateur IA : 49 €/mois.',
-    titleTwo: 'Ses modèles : à votre choix.',
-    lead: 'Vous payez son identité professionnelle, son environnement privé et une expérience qui s’enrichit. Après l’essai, vous choisissez les modèles qu’il mobilise et leur mode de règlement.',
-    collaborationProof: 'Une identité professionnelle équipée pour collaborer : email, calendrier, téléphone et profil public.',
-    freeProof: 'Alma, Unitalk Desktop et l’accès aux Stores de profils métier et de compétences sont inclus gratuitement.',
-    collaborationEyebrow: 'Collaboratif par nature',
-    collaborationTitleOne: 'Il rejoint votre organisation.',
-    collaborationTitleTwo: 'Pas une fenêtre de chat.',
-    collaborationIntro: 'Un Collaborateur IA travaille avec les humains et les autres Collaborateurs IA selon la place, le contexte et les autorisations que votre entreprise lui donne.',
-    collaborationColumns: [
-      ['Avec vos équipes', 'Il partage le contexte autorisé, prépare le travail, demande une décision et poursuit la mission après validation.'],
-      ['Avec vos contacts', 'Son email, son calendrier, son téléphone et son profil public permettent à vos clients, partenaires et candidats de le reconnaître et de le contacter.'],
-      ['Avec les autres Collaborateurs IA', 'Il peut transmettre un travail, solliciter une compétence ou participer à une mission commune selon vos règles.'],
-    ],
-    publicProfile: 'Son profil public présente son identité, sa nature IA, son rôle, ses responsabilités, ses compétences et les moyens de contact que votre entreprise autorise.',
-    collaborationFinal: 'Collaboratif par nature. Gouverné par vos règles.',
-    includedEyebrow: 'Inclus gratuitement',
-    includedTitle: 'Tout ce qui l’aide à progresser.',
-    includedIntro: 'Alma, Unitalk Desktop et les Stores Unitalk sont inclus avec votre compte.',
-    included: [
-      { name: 'Alma', title: 'Alma · Conseillère IA · Unitalk', body: 'Elle cadre vos missions, prépare votre Collaborateur IA et définit avec vous les décisions qui doivent rester humaines.', detail: 'Alma n’est pas facturée comme une identité supplémentaire.', status: 'Incluse', href: '/collaborateurs-ia/alma' },
-      { name: 'Unitalk Desktop', title: 'Unitalk Desktop', body: 'Travaillez localement avec les fichiers et les données que vous choisissez de conserver sur votre ordinateur.', detail: '', status: 'Gratuite', href: '' },
-      { name: 'Store de profils métier', title: 'De nouvelles responsabilités, sans nouvelle identité.', body: 'Explorez et ajoutez des profils métier créés par Unitalk et par la communauté des créateurs.', detail: 'Un profil métier définit une responsabilité durable que votre Collaborateur IA peut exercer.', status: 'Accès inclus', href: '/collaborateurs-ia/profils-metier' },
-      { name: 'Store de compétences', title: 'De nouveaux savoir-faire, sans repartir de zéro.', body: 'Ajoutez les méthodes de travail nécessaires à chaque mission et conservez celles que votre entreprise valide.', detail: 'Une compétence est un savoir-faire applicable, améliorable et réutilisable.', status: 'Accès inclus', href: '/collaborateurs-ia/competences' },
-    ],
-    storesGrow: 'Les Stores s’enrichissent continuellement grâce à Unitalk et à la communauté des créateurs.',
-    manifestoOne: 'Vous ne payez pas chaque nouveau rôle.',
-    manifestoTwo: 'Vous faites progresser la même identité.',
-    manifestoBody: 'L’accès aux Stores est inclus. Les profils métier et les compétences associés à votre Collaborateur IA ne sont pas limités.',
-    creatorTerms: 'Les conditions éventuelles des contenus publiés par des créateurs sont indiquées avant leur installation.',
-    finalTitle: 'Donnez une première mission à votre Collaborateur IA.',
-    finalBody: 'Votre Collaborateur IA est gratuit pendant sept jours, avec ses modèles et les savoir-faire disponibles dans les Stores.',
-    finalCta: 'Commencer mes 7 jours d’essai',
-    finalNote: '1 million de tokens offerts · Sans carte bancaire · 0 € aujourd’hui',
-  },
-  en: {
-    eyebrow: 'Pricing',
-    titleOne: 'Your AI Collaborator: €49/month.',
-    titleTwo: 'Its models: your choice.',
-    lead: 'You pay for its professional identity, private environment and experience that grows. After the trial, you choose the models it uses and how to pay for them.',
-    collaborationProof: 'A professional identity equipped to collaborate: email, calendar, phone and public profile.',
-    freeProof: 'Alma, Unitalk Desktop and access to the job profile and skills Stores are included free.',
-    collaborationEyebrow: 'Collaborative by nature',
-    collaborationTitleOne: 'It joins your organization.',
-    collaborationTitleTwo: 'Not a chat window.',
-    collaborationIntro: 'An AI Collaborator works with people and other AI Collaborators according to the place, context and permissions your company gives it.',
-    collaborationColumns: [
-      ['With your teams', 'It shares authorized context, prepares the work, asks for a decision and continues the mission after approval.'],
-      ['With your contacts', 'Its email, calendar, phone and public profile let clients, partners and candidates recognize and contact it.'],
-      ['With other AI Collaborators', 'It can hand off work, request a skill or take part in a shared mission according to your rules.'],
-    ],
-    publicProfile: 'Its public profile presents its identity, AI nature, role, responsibilities, skills and the contact methods your company authorizes.',
-    collaborationFinal: 'Collaborative by nature. Governed by your rules.',
-    includedEyebrow: 'Included free',
-    includedTitle: 'Everything that helps it progress.',
-    includedIntro: 'Alma, Unitalk Desktop and the Unitalk Stores are included with your account.',
-    included: [
-      { name: 'Alma', title: 'Alma · AI Advisor · Unitalk', body: 'She frames your missions, prepares your AI Collaborator and defines with you which decisions must remain human.', detail: 'Alma is not billed as an additional identity.', status: 'Included', href: '/collaborateurs-ia/alma' },
-      { name: 'Unitalk Desktop', title: 'Unitalk Desktop', body: 'Work locally with the files and data you choose to keep on your computer.', detail: '', status: 'Free', href: '' },
-      { name: 'Job profile Store', title: 'New responsibilities, without a new identity.', body: 'Explore and add job profiles created by Unitalk and the creator community.', detail: 'A job profile defines a lasting responsibility your AI Collaborator can perform.', status: 'Access included', href: '/collaborateurs-ia/profils-metier' },
-      { name: 'Skills Store', title: 'New know-how, without starting over.', body: 'Add the working methods each mission requires and retain those your company approves.', detail: 'A skill is applicable, improvable and reusable know-how.', status: 'Access included', href: '/collaborateurs-ia/competences' },
-    ],
-    storesGrow: 'The Stores continuously grow through Unitalk and the creator community.',
-    manifestoOne: 'You do not pay for every new role.',
-    manifestoTwo: 'You advance the same identity.',
-    manifestoBody: 'Store access is included. Job profiles and skills associated with your AI Collaborator are unlimited.',
-    creatorTerms: 'Any terms for content published by creators are shown before installation.',
-    finalTitle: 'Give your AI Collaborator a first mission.',
-    finalBody: 'Your AI Collaborator is free for seven days, with its models and the know-how available in the Stores.',
-    finalCta: 'Start my 7-day trial',
-    finalNote: '1 million free tokens · No credit card · €0 today',
-  },
-} as const
+const ROLES = {
+  fr: ['Commercial', 'Marketing', 'RH', 'Finance', 'Support client', 'Opérations'],
+  en: ['Sales', 'Marketing', 'HR', 'Finance', 'Customer support', 'Operations'],
+}
 
 export function PricingHero() {
   const { lang } = useLanguage()
-  const t = COPY[lang]
+  const router = useRouter()
+  const reduce = useReducedMotion()
+  const [roleIndex, setRoleIndex] = useState(0)
+  const fr = lang === 'fr'
+
+  useEffect(() => {
+    if (reduce) return
+    const id = window.setInterval(() => setRoleIndex((index) => (index + 1) % ROLES[lang].length), 1800)
+    return () => window.clearInterval(id)
+  }, [lang, reduce])
+
   return (
-    <header className="mx-auto w-full max-w-[1120px] px-5 pb-2 pt-4 sm:px-8">
-      <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#B00C54]">{t.eyebrow}</p>
-      <h1 className="mt-2 max-w-[960px] font-sf text-[40px] font-bold leading-[0.96] tracking-[-0.055em] text-[#151310] sm:text-[56px] lg:text-[62px]">
-        <span className="block">{t.titleOne}</span>
-        <span className="block text-[#6E665A]">{t.titleTwo}</span>
-      </h1>
-      <p className="mt-2 max-w-[1000px] text-[14px] leading-5 text-[#4E483F]">{t.lead}</p>
-      <div className="mt-2 grid gap-1 border-t border-[#1C1A17]/15 pt-2 text-[13px] leading-4 text-[#4E483F] lg:grid-cols-2 lg:gap-8">
-        <p className="font-semibold text-[#1C1A17]">{t.collaborationProof}</p>
-        <p>{t.freeProof}</p>
+    <header className="mx-auto max-w-[1120px] px-5 pb-14 pt-12 sm:px-8 sm:pt-16">
+      <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+        <div>
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{fr ? 'Tarifs' : 'Pricing'}</p>
+          <h1 className="mt-4 font-sf text-[48px] font-bold leading-[0.96] tracking-[-0.055em] sm:text-[72px]">{fr ? 'Votre Collaborateur IA.' : 'Your AI Collaborator.'}</h1>
+          <div aria-live="polite" className="mt-5 h-9 overflow-hidden font-sf text-[24px] font-bold text-[#D10E63] sm:text-[28px]">{reduce ? ROLES[lang][0] : ROLES[lang][roleIndex]}</div>
+          <p className="mt-1 text-sm italic text-[#6E665A]">{ROLES[lang].slice(1).join(' · ')}</p>
+        </div>
+        <div>
+          <p className="font-sf text-[34px] font-bold leading-tight tracking-[-0.035em] sm:text-[44px]">{fr ? 'Gratuit pendant 7 jours.' : 'Free for 7 days.'}</p>
+          <p className="mt-3 font-sf text-[28px] font-bold text-[#B00C54]">{fr ? '1 million de tokens offerts.' : '1 million free tokens.'}</p>
+          <p className="mt-1 text-lg font-semibold">{fr ? 'Aucune carte bancaire.' : 'No credit card.'}</p>
+          <button onClick={() => router.push('/decouvrir')} className="mt-7 bg-[#D10E63] px-7 py-3.5 text-sm font-bold text-white">{fr ? 'Commencer gratuitement' : 'Start free'} →</button>
+        </div>
+      </div>
+      <div className="mt-12 grid border-y border-[#1C1A17]/15 py-7 sm:grid-cols-2">
+        <p className="font-sf text-[38px] font-bold tracking-[-0.04em] sm:text-[52px]">0 € <span className="text-[20px] text-[#6E665A]">{fr ? 'par humain' : 'per human'}</span></p>
+        <p className="mt-4 font-sf text-[38px] font-bold tracking-[-0.04em] sm:mt-0 sm:text-right sm:text-[52px]">{formatEuro(pricingConfig.baseMonthlyPrice, lang)} <span className="text-[20px] text-[#6E665A]">{fr ? 'par Collaborateur IA' : 'per AI Collaborator'}</span></p>
+        <p className="mt-4 max-w-3xl text-[16px] leading-7 text-[#4E483F] sm:col-span-2">{fr ? 'Invitez toute votre équipe. Les discussions, le chat et la collaboration entre humains sont gratuits. Vous payez la capacité IA. Jamais la collaboration humaine.' : 'Invite your entire team. Human discussions, chat and collaboration are free. You pay for AI capacity, never human collaboration.'}</p>
       </div>
     </header>
   )
@@ -101,86 +54,40 @@ export function PricingHero() {
 
 export function PricingCollaboration() {
   const { lang } = useLanguage()
-  const t = COPY[lang]
+  const fr = lang === 'fr'
   return (
-    <section aria-labelledby="collaboration-title" className="bg-[#151310] text-[#FAF8F3]">
-      <div className="mx-auto w-full max-w-[1120px] px-5 py-16 sm:px-8 sm:py-24">
-        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#F05C9D]">{t.collaborationEyebrow}</p>
-        <h2 id="collaboration-title" className="mt-4 max-w-4xl font-sf text-[38px] font-bold leading-[0.98] tracking-[-0.05em] sm:text-[58px]">
-          <span className="block">{t.collaborationTitleOne}</span>
-          <span className="block text-[#BDB7AC]">{t.collaborationTitleTwo}</span>
-        </h2>
-        <p className="mt-7 max-w-3xl text-[17px] leading-8 text-[#BDB7AC]">{t.collaborationIntro}</p>
-        <div className="mt-12 grid border-y border-white/20 md:grid-cols-3">
-          {t.collaborationColumns.map(([title, body]) => (
-            <article key={title} className="border-b border-white/20 py-7 md:border-b-0 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
-              <h3 className="font-sf text-[24px] font-bold tracking-[-0.025em]">{title}</h3>
-              <p className="mt-4 text-[15px] leading-7 text-[#BDB7AC]">{body}</p>
-            </article>
-          ))}
-        </div>
-        <p className="mt-8 max-w-3xl text-[15px] leading-7 text-[#BDB7AC]">{t.publicProfile}</p>
-        <p className="mt-10 font-sf text-[26px] font-bold tracking-[-0.025em] text-white sm:text-[32px]">{t.collaborationFinal}</p>
-      </div>
-    </section>
+    <>
+      <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="mx-auto max-w-[1120px]"><h2 className="max-w-4xl font-sf text-[40px] font-bold leading-[1.02] tracking-[-0.045em] sm:text-[58px]">{fr ? 'Une identité. Tous les métiers dont elle a besoin.' : 'One identity. Every role it needs.'}</h2><p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{fr ? 'Un même Collaborateur IA peut travailler comme commercial, recruteur, analyste ou responsable support. Vous ne payez pas une nouvelle licence à chaque responsabilité : ses profils métier sont illimités.' : 'The same AI Collaborator can work in sales, recruiting, analysis or support. You do not pay a new license for each responsibility: job profiles are unlimited.'}</p><p className="mt-7 font-sf text-2xl font-bold text-[#B00C54]">{fr ? 'La même identité. Une nouvelle responsabilité.' : 'The same identity. A new responsibility.'}</p></div></section>
+      <section className="bg-[#151310] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-24"><div className="mx-auto max-w-[1120px]"><h2 className="font-sf text-[42px] font-bold leading-tight sm:text-[60px]">{fr ? 'Toute votre équipe humaine est gratuite.' : 'Your entire human team is free.'}</h2><p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#BDB7AC]">{fr ? 'Vos collaborateurs humains rejoignent le Workspace, discutent dans le chat et travaillent avec les Collaborateurs IA sans licence supplémentaire.' : 'Your human teammates join the Workspace, chat and work with AI Collaborators without an additional license.'}</p><div className="mt-10 grid border-y border-white/15 sm:grid-cols-3">{(fr ? ['Utilisateurs humains illimités','Discussions et collaboration gratuites','Desktop et validations humaines'] : ['Unlimited human users','Free discussions and collaboration','Desktop and human approvals']).map((item) => <p key={item} className="border-b border-white/15 py-5 font-semibold sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0">{item}</p>)}</div><p className="mt-8 font-sf text-2xl font-bold text-[#F2A4C5]">{fr ? 'Vous payez la capacité IA. Jamais la collaboration humaine.' : 'You pay for AI capacity. Never human collaboration.'}</p></div></section>
+    </>
   )
 }
 
 export function PricingExplanations() {
   const { lang } = useLanguage()
-  const t = COPY[lang]
+  const fr = lang === 'fr'
   return (
-    <section aria-labelledby="included-title" className="bg-[#F3EFE6] text-[#1C1A17]">
-      <div className="mx-auto w-full max-w-[1120px] px-5 py-16 sm:px-8 sm:py-24">
-        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#B00C54]">{t.includedEyebrow}</p>
-        <h2 id="included-title" className="mt-3 max-w-3xl font-sf text-[38px] font-bold leading-[0.98] tracking-[-0.05em] sm:text-[58px]">{t.includedTitle}</h2>
-        <p className="mt-5 text-[17px] leading-7 text-[#4E483F]">{t.includedIntro}</p>
-        <div className="mt-10 border-t border-[#1C1A17]/15">
-          {t.included.map((item, index) => (
-            <article key={item.name} className="grid gap-4 border-b border-[#1C1A17]/15 py-7 sm:grid-cols-[52px_190px_minmax(0,1fr)_120px] sm:gap-6 sm:py-9">
-              <p className="font-mono text-[11px] text-[#6E665A]">{String(index + 1).padStart(2, '0')}</p>
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#B00C54]">{item.name}</p>
-              <div className="max-w-xl">
-                <h3 className="font-sf text-[24px] font-bold leading-tight tracking-[-0.025em] sm:text-[30px]">
-                  {item.href ? <a href={item.href} className="underline decoration-[#D10E63]/25 underline-offset-4 hover:decoration-[#D10E63]">{item.title}</a> : item.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-7 text-[#4E483F] sm:text-[16px]">{item.body}</p>
-                {item.detail && <p className="mt-2 text-[14px] font-semibold leading-6 text-[#1C1A17]">{item.detail}</p>}
-              </div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#1C1A17] sm:text-right">{item.status}</p>
-            </article>
-          ))}
-        </div>
-        <p className="mt-8 max-w-2xl text-[15px] leading-7 text-[#4E483F]">{t.storesGrow}</p>
-        <div className="py-16 sm:py-24">
-          <h2 className="max-w-5xl font-sf text-[38px] font-bold leading-[0.98] tracking-[-0.055em] sm:text-[62px]">
-            <span className="block">{t.manifestoOne}</span>
-            <span className="block text-[#B00C54]">{t.manifestoTwo}</span>
-          </h2>
-          <p className="mt-7 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{t.manifestoBody}</p>
-          <p className="mt-3 max-w-2xl text-[14px] leading-6 text-[#6E665A]">{t.creatorTerms}</p>
-        </div>
-      </div>
-    </section>
+    <>
+      <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="mx-auto max-w-[1120px]"><p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{fr ? 'Modèles et consommation' : 'Models and usage'}</p><h2 className="mt-4 max-w-4xl font-sf text-[42px] font-bold leading-[1.02] sm:text-[60px]">{fr ? '5 millions de tokens inclus. Le reste, à l’usage.' : '5 million tokens included. The rest, pay as you go.'}</h2><p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{fr ? 'Votre Collaborateur IA utilise le modèle adapté à chaque tâche selon la qualité attendue, le coût, la confidentialité et les droits définis par votre entreprise.' : 'Your AI Collaborator uses the model suited to each task according to expected quality, cost, privacy and company permissions.'}</p><div className="mt-10 grid border-y border-[#1C1A17]/15 sm:grid-cols-3"><Usage title="Crédits Unitalk">{fr ? 'Un budget prépayé et maîtrisé, partagé entre vos Collaborateurs IA.' : 'A controlled prepaid budget shared by your AI Collaborators.'}</Usage><Usage title={fr ? 'Vos propres clés' : 'Your own keys'}>{fr ? 'La consommation est facturée directement par vos fournisseurs.' : 'Usage is billed directly by your providers.'}</Usage><Usage title="Hybride">{fr ? 'Combinez clés et crédits selon les modèles et les missions.' : 'Combine keys and credits by model and mission.'}</Usage></div><p className="mt-6 text-sm text-[#6E665A]">{fr ? 'La téléphonie et les autres ressources variables sont facturées selon leur utilisation.' : 'Telephony and other variable resources are billed according to usage.'}</p><p className="mt-7 font-sf text-2xl font-bold">{fr ? 'Changez de modèle. Pas de Collaborateur.' : 'Change the model. Not the Collaborator.'}</p></div></section>
+
+      <section className="bg-[#EAE4D9] px-5 py-16 sm:px-8 sm:py-20"><div className="mx-auto grid max-w-[1120px] gap-10 lg:grid-cols-2"><Trust title={fr ? 'Toujours à jour.' : 'Always up to date.'} body={fr ? 'Mises à jour fonctionnelles, correctifs de sécurité, nouveaux modèles compatibles et maintenance continue de l’environnement, sans intervention technique nécessaire.' : 'Feature updates, security fixes, newly compatible models and continuous environment maintenance, with no technical intervention required.'} /><Trust title={`SLA ${pricingConfig.slaAvailability} %.`} body={fr ? 'L’environnement Unitalk est surveillé et maintenu en continu. Le périmètre, le calcul, les maintenances planifiées, les crédits de service et les dépendances sont précisés dans le contrat.' : 'The Unitalk environment is continuously monitored and maintained. Scope, calculation, planned maintenance, service credits and dependencies are specified in the contract.'} /></div></section>
+
+      <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="mx-auto grid max-w-[1120px] gap-10 lg:grid-cols-[280px_1fr]"><Image src="/alma-avatar.png" alt="Alma" width={280} height={280} className="w-full max-w-[280px]" /><div><h2 className="font-sf text-[42px] font-bold sm:text-[56px]">{fr ? 'Alma vous accompagne.' : 'Alma supports you.'}</h2><p className="mt-5 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{fr ? 'Alma comprend votre entreprise, structure la mission et prépare les profils métier, compétences, applications, droits, validations et le contexte utile. Puis elle aide votre Collaborateur IA à progresser, mission après mission.' : 'Alma understands your company, structures the mission and prepares job profiles, skills, applications, rights, approvals and useful context. Then she helps your AI Collaborator progress mission by mission.'}</p><p className="mt-6 font-semibold">{fr ? 'Alma est incluse dans la licence.' : 'Alma is included in the license.'}</p><Link href="/collaborateurs-ia/alma" className="mt-5 inline-flex text-sm font-bold text-[#B00C54]">{fr ? 'Découvrir Alma' : 'Discover Alma'} →</Link></div></div></section>
+
+      <section className="bg-[#151310] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-24"><div className="mx-auto max-w-[1120px]"><h2 className="max-w-4xl font-sf text-[42px] font-bold sm:text-[58px]">{fr ? 'Un Ingénieur IA, quand vous en avez besoin.' : 'An AI Engineer, when you need one.'}</h2><p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#BDB7AC]">{fr ? 'Mobilisez une expertise humaine pour une intégration, une mission complexe, une automatisation, un diagnostic ou l’optimisation des modèles et des coûts.' : 'Bring in human expertise for integration, complex missions, automation, diagnosis or model and cost optimization.'}</p><Link href="/experts" className="mt-7 inline-flex bg-[#FAF8F3] px-6 py-3 text-sm font-bold text-[#151310]">{fr ? 'Parler à un Ingénieur IA' : 'Talk to an AI Engineer'} →</Link></div></section>
+
+      <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="mx-auto max-w-[1120px]"><h2 className="font-sf text-[42px] font-bold">{fr ? 'Vous souhaitez aller plus loin ?' : 'Want to go further?'}</h2><div className="mt-10 grid border-y border-[#1C1A17]/15 lg:grid-cols-3"><Offer title="Pack AI Native" href="/accompagnement">{fr ? 'Organisez le travail humain–IA, déployez les premiers Collaborateurs IA et accompagnez vos équipes.' : 'Organize human–AI work, deploy the first AI Collaborators and support your teams.'}</Offer><Offer title="Partner" href="/partenaires">{fr ? 'Pour les agences, cabinets et intégrateurs qui accompagnent plusieurs entreprises.' : 'For agencies, consultancies and integrators supporting several companies.'}</Offer><Offer title="Platform" href="/platform">{fr ? 'Créez une expérience sous votre marque avec l’infrastructure Unitalk.' : 'Build a branded experience with Unitalk infrastructure.'}</Offer></div><p className="mt-5 text-sm text-[#6E665A]">{fr ? 'Partner et Platform disposent de leurs propres offres ; ce ne sont pas des plans supplémentaires.' : 'Partner and Platform have their own offers; they are not additional plans.'}</p></div></section>
+    </>
   )
 }
 
 export function PricingFinalCta() {
   const { lang } = useLanguage()
   const router = useRouter()
-  const t = COPY[lang]
-  return (
-    <section className="bg-[#D10E63] text-white">
-      <div className="mx-auto grid w-full max-w-[1120px] gap-8 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1fr_auto] lg:items-end">
-        <div>
-          <h2 className="max-w-3xl font-sf text-[38px] font-bold leading-[0.98] tracking-[-0.05em] sm:text-[58px]">{t.finalTitle}</h2>
-          <p className="mt-5 max-w-2xl text-[17px] leading-7 text-white/80">{t.finalBody}</p>
-        </div>
-        <div className="lg:min-w-[310px]">
-          <button type="button" onClick={() => router.push('/decouvrir')} className="flex h-13 w-full items-center justify-center bg-[#151310] px-6 text-sm font-bold text-white transition-colors hover:bg-[#2A2621] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">{t.finalCta} →</button>
-          <p className="mt-3 text-[12px] text-white/75">{t.finalNote}</p>
-        </div>
-      </div>
-    </section>
-  )
+  const fr = lang === 'fr'
+  return <section className="bg-[#D10E63] px-5 py-16 text-white sm:px-8 sm:py-20"><div className="mx-auto max-w-[1120px] text-center"><h2 className="font-sf text-[42px] font-bold leading-tight sm:text-[60px]">{fr ? 'Votre équipe est gratuite. Votre Collaborateur IA commence maintenant.' : 'Your team is free. Your AI Collaborator starts now.'}</h2><div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 font-sf text-2xl font-bold"><span>{formatEuro(pricingConfig.baseMonthlyPrice, lang)}/{fr ? 'mois' : 'month'}</span><span>5 {fr ? 'millions de tokens inclus' : 'million tokens included'}</span><span>7 {fr ? 'jours gratuits' : 'free days'}</span></div><p className="mt-4 font-semibold">{fr ? 'Aucune carte bancaire.' : 'No credit card.'}</p><button onClick={() => router.push('/decouvrir')} className="mt-7 bg-[#151310] px-7 py-3.5 text-sm font-bold">{fr ? 'Ajouter mon Collaborateur IA' : 'Add my AI Collaborator'} →</button><p className="mt-4 text-xs text-white/75">{fr ? `Profils métier illimités · Alma incluse · SLA ${pricingConfig.slaAvailability} % · Desktop gratuit` : `Unlimited job profiles · Alma included · ${pricingConfig.slaAvailability}% SLA · Free Desktop app`}</p></div></section>
 }
+
+function Usage({ title, children }: { title: string; children: React.ReactNode }) { return <div className="border-b border-[#1C1A17]/15 py-6 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0"><h3 className="font-sf text-2xl font-bold">{title}</h3><p className="mt-3 text-sm leading-7 text-[#4E483F]">{children}</p></div> }
+function Trust({ title, body }: { title: string; body: string }) { return <div><h3 className="font-sf text-[34px] font-bold">{title}</h3><p className="mt-4 leading-8 text-[#4E483F]">{body}</p></div> }
+function Offer({ title, href, children }: { title: string; href: string; children: React.ReactNode }) { return <Link href={href} className="group border-b border-[#1C1A17]/15 py-7 lg:border-b-0 lg:border-r lg:px-7 lg:first:pl-0 lg:last:border-r-0"><h3 className="font-sf text-2xl font-bold group-hover:text-[#B00C54]">{title}</h3><p className="mt-3 text-sm leading-7 text-[#4E483F]">{children}</p><span className="mt-4 inline-flex text-sm font-bold text-[#B00C54]">Découvrir →</span></Link> }

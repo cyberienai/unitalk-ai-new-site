@@ -180,7 +180,7 @@ const COPY = {
     heroProgress: 'Ajoutez les profils métier, les compétences et les applications dont il a besoin. Son identité et son expérience restent les mêmes.',
     create: 'Créer mon Collaborateur IA',
     trial: '7 jours d’essai gratuit · 1 million de tokens offerts · Sans carte bancaire',
-    price: 'Puis 49 €/mois, hors usages IA.',
+    price: 'Puis 98 €/mois, avec 5 millions de tokens inclus chaque mois.',
     modelsTitleOne: 'Le modèle change.',
     modelsTitleTwo: 'Lucas reste.',
     modelsBody: 'Vous définissez les modèles autorisés. Selon la mission, Lucas peut en mobiliser un seul ou faire travailler plusieurs modèles en parallèle.',

@@ -74,7 +74,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
       fr: 'Passez de la première mission à une adoption structurée avec vos équipes.',
       en: 'Move from the first mission to structured adoption with your teams.',
     },
-    href: '/tarifs',
+    href: '/accompagnement',
   },
   {
     title: { fr: 'Experts humains', en: 'Human experts' },

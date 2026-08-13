@@ -126,9 +126,9 @@ const softwareApplicationJsonLd = {
   inLanguage: 'fr-FR',
   offers: {
     '@type': 'Offer',
-    price: '49',
+    price: '98',
     priceCurrency: 'EUR',
-    description: 'À partir de 49 €/mois. 7 jours d’essai pour votre première mission, sans carte bancaire.',
+    description: '98 €/mois par Collaborateur IA. 7 jours gratuits sans carte bancaire, puis 5 millions de tokens inclus chaque mois.',
   },
 }
 

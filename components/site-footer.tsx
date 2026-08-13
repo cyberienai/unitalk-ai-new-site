@@ -25,7 +25,7 @@ const T = {
           { label: 'Missions', href: '/missions' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Tarifs', href: '/tarifs' },
-          { label: 'AI Native Pack', href: '/tarifs' },
+          { label: 'AI Native Pack', href: '/accompagnement' },
         ],
       },
       {
@@ -82,7 +82,7 @@ const T = {
           { label: 'Missions', href: '/missions' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Pricing', href: '/tarifs' },
-          { label: 'AI Native Pack', href: '/tarifs' },
+          { label: 'AI Native Pack', href: '/accompagnement' },
         ],
       },
       {

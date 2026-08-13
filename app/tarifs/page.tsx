@@ -3,24 +3,20 @@ import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { PricingCollaboration, PricingFinalCta, PricingHero, PricingExplanations } from '@/components/pricing/pricing-sections'
 import { MultiCollaboratorConfigurator, PricingConfigurator } from '@/components/pricing/pricing-configurator'
-import { PricingFaq } from '@/components/pricing/pricing-faq'
 import { pricingConfig } from '@/lib/pricing-config'
-import { calculateAnnualSubscription } from '@/lib/pricing-calculator'
 
 export const metadata: Metadata = {
   title: 'Tarifs des Collaborateurs IA',
   description:
-    '49 € par mois pour l’identité de votre Collaborateur IA. Choisissez séparément les modèles avec des crédits Unitalk, vos clés API ou les deux.',
+    '0 € par utilisateur humain. 98 € par mois par Collaborateur IA, avec 5 millions de tokens inclus chaque mois.',
   alternates: { canonical: '/tarifs' },
   openGraph: {
     type: 'website',
     url: 'https://unitalk.ai/tarifs',
     title: 'Tarifs des Collaborateurs IA | Unitalk',
-    description: '49 € par mois pour une identité professionnelle qui progresse. Les modèles et leurs usages restent votre choix.',
+    description: '0 € par humain. 98 € par Collaborateur IA. 5 millions de tokens inclus chaque mois.',
   },
 }
-
-const annualPrice = calculateAnnualSubscription(1)
 
 const pricingJsonLd = {
   '@context': 'https://schema.org',
@@ -30,7 +26,7 @@ const pricingJsonLd = {
   offers: [
     {
       '@type': 'Offer',
-      name: 'Forfait mensuel',
+      name: 'Collaborateur IA mensuel',
       price: String(pricingConfig.baseMonthlyPrice),
       priceCurrency: 'EUR',
       priceSpecification: {
@@ -39,21 +35,7 @@ const pricingJsonLd = {
         priceCurrency: 'EUR',
         billingDuration: 'P1M',
       },
-      description: '7 jours d’essai gratuit sans carte bancaire. Les usages IA après l’essai sont réglés séparément.',
-      url: 'https://unitalk.ai/tarifs',
-    },
-    {
-      '@type': 'Offer',
-      name: 'Forfait annuel',
-      price: String(annualPrice),
-      priceCurrency: 'EUR',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: String(annualPrice),
-        priceCurrency: 'EUR',
-        billingDuration: 'P1Y',
-      },
-      description: `${annualPrice} EUR facturés par an, soit deux mois offerts. Les usages IA sont réglés séparément.`,
+      description: '7 jours gratuits sans carte bancaire, puis 98 EUR par mois. 5 millions de tokens inclus chaque mois ; consommation supplémentaire facturée à l’usage.',
       url: 'https://unitalk.ai/tarifs',
     },
   ],
@@ -70,7 +52,6 @@ export default function TarifsPage() {
         <PricingCollaboration />
         <PricingExplanations />
         <MultiCollaboratorConfigurator />
-        <PricingFaq />
         <PricingFinalCta />
       </main>
       <SiteFooter />
