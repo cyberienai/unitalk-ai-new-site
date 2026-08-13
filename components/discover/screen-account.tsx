@@ -67,8 +67,8 @@ export function ScreenAccount({
     return (
       <div className="grid min-h-screen lg:grid-cols-[41fr_59fr]">
         <aside className="flex bg-[#151310] px-5 py-6 text-[#FAF8F3] sm:px-10 lg:min-h-screen lg:flex-col lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-6">
-          <a href="/" className="hidden items-center gap-2.5 lg:flex" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
-          <div className="mx-auto w-full max-w-md">
+          <a href="/" className="flex items-center gap-2.5" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
+          <div className="mx-auto mt-10 w-full max-w-md lg:mt-[72px]">
             <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="flex items-center gap-4 lg:block">
               <img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover lg:h-[72px] lg:w-[72px]" />
               <div className="lg:mt-4"><p className="font-sf text-[19px] font-semibold text-white">Alma</p><p className="mt-0.5 text-[13px] text-[#E38AB4]">{t.almaRole}</p></div>
@@ -97,8 +97,8 @@ export function ScreenAccount({
         style={mission.slug ? { viewTransitionName: `mission-${mission.slug}` } : undefined}
         className="relative overflow-hidden bg-[#151310] px-5 py-6 text-[#FAF8F3] sm:px-10 lg:flex lg:min-h-screen lg:flex-col lg:px-[clamp(2.5rem,5vw,5.5rem)] lg:py-6"
       >
-        <a href="/" className="hidden items-center gap-2.5 lg:flex" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
-        <div className="relative mx-auto w-full max-w-md">
+        <a href="/" className="flex items-center gap-2.5" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
+        <div className="relative mx-auto mt-10 w-full max-w-md lg:mt-[72px]">
           <div className="flex items-center justify-between gap-4">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#F39AC2]">{t.selected}</p>
             <button type="button" aria-expanded={missionOpen} onClick={() => setMissionOpen((open) => !open)} className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#C9C1B8] lg:hidden">
@@ -107,7 +107,7 @@ export function ScreenAccount({
             </button>
           </div>
           <div className={missionOpen ? 'block' : 'hidden lg:block'}>
-            <h1 className="mt-3 max-w-xl font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{mission.title}</h1>
+            <h1 className="mt-[18px] max-w-xl font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{mission.title}</h1>
             <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8] sm:text-[16px] max-[430px]:hidden">{mission.description}</p>
           </div>
           <div className={`mt-8 sm:mt-12 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
@@ -151,7 +151,7 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 
 const COPY = {
   fr: {
-    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère en transformation IA · Unitalk', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise et à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons la transformation IA de votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: `${unitalkPricing.trial.tokens / 1_000_000} million de tokens offerts.`, offerProofTwo: 'Aucune carte bancaire.', offerPrice: '',
+    selected: 'Votre choix', collapse: 'Réduire', expand: 'Afficher', change: 'Choisir une autre mission', almaRole: 'Conseillère en transformation IA', missionAlmaTitle: 'Nous reprendrons ici.', missionAlmaBody: 'Après votre connexion, je vous aide à personnaliser cette mission pour votre entreprise, puis à créer le Collaborateur IA qui l’accomplira.', almaGenericTitle: 'Commençons la transformation IA de votre entreprise.', almaGenericBody: 'Après votre connexion, je vous aide à définir une première mission et à créer le Collaborateur IA qui l’accomplira.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', orEmail: 'ou par email', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer', offerTitleOne: 'Votre Collaborateur IA.', offerTitleTwo: 'Gratuit pendant 7 jours.', offerProofOne: `${unitalkPricing.trial.tokens / 1_000_000} million de tokens offerts.`, offerProofTwo: 'Aucune carte bancaire.', offerPrice: '',
   },
   en: {
     selected: 'Your choice', collapse: 'Collapse', expand: 'Show', change: 'Choose another mission', almaRole: 'AI transformation advisor · Unitalk', missionAlmaTitle: 'We will pick up here.', missionAlmaBody: 'After you sign in, I help personalize this mission for your company and create the AI Collaborator that will accomplish it.', almaGenericTitle: 'Let’s begin your company’s AI transformation.', almaGenericBody: 'After you sign in, I help define a first mission and create the AI Collaborator that will accomplish it.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', orEmail: 'or by email', emailPlaceholder: 'you@company.com', email: 'Continue', offerTitleOne: 'Your AI Collaborator.', offerTitleTwo: 'Free for 7 days.', offerProofOne: '1 million free tokens.', offerProofTwo: 'No credit card.', offerPrice: '',
