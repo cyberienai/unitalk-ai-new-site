@@ -9,7 +9,7 @@ const SITE_URL = 'https://unitalk.ai'
 export const metadata: Metadata = {
   title: 'Profils métier pour Collaborateurs IA',
   description:
-    'Choisissez les responsabilités durables de votre Collaborateur IA. Alma adapte chaque profil métier à votre entreprise, à ses missions et à ses règles.',
+    'Ajoutez de nouvelles responsabilités à votre Collaborateur IA sans recréer son identité. Explorez les profils métier Unitalk et adaptez-les avec Alma.',
   keywords: [
     'profil métier IA',
     'Collaborateur IA par métier',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/collaborateurs-ia/profils-metier`,
-    title: 'Profils métier pour Collaborateurs IA — Unitalk',
+    title: 'Profils métier pour Collaborateurs IA | Unitalk',
     description:
       'Choisissez les responsabilités durables de votre Collaborateur IA. Alma adapte chaque profil métier à votre entreprise, à ses missions et à ses règles.',
   },

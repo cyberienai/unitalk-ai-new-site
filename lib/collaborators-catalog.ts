@@ -408,7 +408,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     skills: [
       { fr: 'Prospection et qualification', en: 'Prospecting and qualification' },
       { fr: 'Suivi du pipeline', en: 'Pipeline tracking' },
-      { fr: 'Relances automatiques', en: 'Automated follow-ups' },
+      { fr: 'Préparation et planification des relances', en: 'Follow-up preparation and scheduling' },
       { fr: 'Préparation de rendez-vous', en: 'Meeting preparation' },
     ],
     tools: ['CRM', 'LinkedIn', 'Email', 'Téléphone', 'Calendrier'],

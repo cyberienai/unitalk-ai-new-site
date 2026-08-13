@@ -55,7 +55,7 @@ const T = {
       { name: 'Louis', role: 'Support client', category: 'support', pitch: 'Traite les tickets, répond aux FAQ et escalade ce qui compte.', skills: ['Tickets', 'FAQ', 'SAV'] },
       { name: 'Nina', role: 'Marketing', category: 'marketing', pitch: 'Rédige vos contenus, planifie vos publications et suit vos campagnes.', skills: ['Contenus', 'Réseaux', 'Campagnes'] },
       { name: 'Hugo', role: 'Comptabilité', category: 'finance', pitch: 'Émet les factures, relance les impayés et suit votre trésorerie.', skills: ['Factures', 'Relances', 'Suivi'] },
-      { name: 'Sarah', role: 'Ressources humaines', category: 'rh', pitch: 'Trie les candidatures, répond aux candidats et prépare les onboardings.', skills: ['Recrutement', 'Onboarding', 'RH'] },
+      { name: 'Sarah', role: 'Ressources humaines', category: 'rh', pitch: 'Prépare une première lecture selon les critères validés et transmet la décision aux personnes autorisées.', skills: ['Recrutement', 'Onboarding', 'RH'] },
       { name: 'Théo', role: 'Accueil téléphonique', category: 'support', pitch: 'Répond aux appels, prend les messages et fixe les rendez-vous.', skills: ['Appels', 'Messages', 'RDV'] },
       { name: 'Emma', role: 'Rédactrice', category: 'marketing', pitch: 'Écrit vos articles, vos newsletters et optimise votre référencement.', skills: ['Articles', 'Newsletters', 'SEO'] },
       { name: 'Marc', role: 'Analyste', category: 'finance', pitch: 'Construit vos tableaux de bord et synthétise vos données clés.', skills: ['Reporting', 'Tableaux', 'Synthèses'] },
