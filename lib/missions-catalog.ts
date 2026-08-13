@@ -78,6 +78,10 @@ export function getMissionCategoryHref(category: MissionCategory): string {
   return `/missions?categorie=${encodeURIComponent(category.key)}`
 }
 
+export function getMissionGuideHref(mission: Mission): string {
+  return mission.article?.href ?? `/guides/missions/${mission.slug}`
+}
+
 export const DELAY_TBD: Bilingual = {
   fr: 'Délai confirmé après cadrage',
   en: 'Timeline confirmed after scoping',

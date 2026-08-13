@@ -229,7 +229,7 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section id="mission-selection" aria-labelledby="mission-selection-title" className="mt-12 scroll-mt-[calc(var(--header-height,64px)+24px)]">
+        <section id="mission-selection" aria-labelledby="mission-selection-title" className="mt-11 scroll-mt-[calc(var(--header-height,64px)+24px)]">
           <div className="flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
             <Link href="/unitalk/@alma" aria-label={t.almaLinkLabel} className="shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
               <Image src="/alma-avatar.png" alt="" width={48} height={48} className="size-12 rounded-full object-cover" />
@@ -246,7 +246,7 @@ export function MissionsContent() {
             </Link>
           </div>
 
-          <div className="mt-6 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="mt-5 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <CategoryButton href="/missions" active={category === 'all'} onClick={(event) => { event.preventDefault(); selectCategory('all') }}>{t.selection}</CategoryButton>
             {PRIMARY_CATEGORIES.map((key) => (
               <CategoryButton key={key} href={`/missions?categorie=${key}`} active={category === key} onClick={(event) => { event.preventDefault(); selectCategory(key) }}>
@@ -270,7 +270,7 @@ export function MissionsContent() {
 
           {category === 'unitalk' && <div className="mt-3 flex gap-2 overflow-x-auto pb-2"><button onClick={() => setUnitalkSubcategory('all')} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === 'all' ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>Toutes</button>{UNITAlK_SUBCATEGORIES.map(([key,label])=><button key={key} onClick={() => setUnitalkSubcategory(key)} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === key ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>{label}</button>)}</div>}
 
-          <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${MISSIONS.filter((mission) => mission.category === category).length} missions · ${CATEGORY_LABELS[category]?.[lang] ?? category}`}</p>
+          <p className="mt-2.5 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${MISSIONS.filter((mission) => mission.category === category).length} missions · ${CATEGORY_LABELS[category]?.[lang] ?? category}`}</p>
           <div className="mt-3 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
               <StoreCard key={mission.slug} mission={mission} lang={lang} onPersonalize={rememberCatalogState} />

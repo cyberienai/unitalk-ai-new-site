@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
-import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, getMissionCategory, getMissionCategoryHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, getMissionCategory, getMissionCategoryHref, getMissionGuideHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import type { Lang } from '@/lib/language-context'
 
 // Ghost-border card, Vercel-marketplace inspired: flat at rest, magenta confirm on hover.
@@ -69,7 +69,7 @@ export function StoreCard({
       <footer className="pointer-events-none relative z-20 mt-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[12px] font-semibold leading-snug text-[#6E665A]">
           {categoryData ? <Link href={getMissionCategoryHref(categoryData)} aria-label={lang === 'fr' ? `Afficher les missions de la catégorie ${category}` : `Show missions in ${category}`} className="pointer-events-auto relative z-30 inline-flex min-h-8 items-center underline decoration-transparent underline-offset-4 outline-none hover:text-[#D10E63] hover:decoration-[#D10E63]/40 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{category}</Link> : <span className="pointer-events-none">{category}</span>}
-          {mission.article && <><span aria-hidden className="pointer-events-none">·</span><Link href={mission.article.href} aria-label={lang === 'fr' ? `Lire le guide : ${mission.slug === 'repondre-a-mes-clients' ? 'répondre aux emails clients avec l’IA' : mission.title.fr}` : `Read the guide: ${mission.title.en}`} className="pointer-events-auto relative z-30 text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 outline-none hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{lang === 'fr' ? 'Lire le guide' : 'Read the guide'}</Link></>}
+          <><span aria-hidden className="pointer-events-none">·</span><Link href={getMissionGuideHref(mission)} aria-label={lang === 'fr' ? `Lire le guide : ${mission.title.fr}` : `Read the guide: ${mission.title.en}`} className="pointer-events-auto relative z-30 text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 outline-none hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{lang === 'fr' ? 'Lire le guide' : 'Read the guide'}</Link></>
         </div>
         <div className="group/action pointer-events-auto relative z-30 shrink-0">
           <Link onClick={onPersonalize} aria-describedby={tooltipId} aria-label={`${tooltip} : ${mission.title[lang]}`} href={`/decouvrir?mission=${mission.slug}`} className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#D10E63] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
