@@ -34,6 +34,10 @@ export type CompanyFact = {
 // The structured mission, kept intentionally short (four fields only).
 export type MissionInfo = {
   title: string
+  target: string
+  criteria: string
+  sources: string
+  exclusions: string
   result: string
   rule: string
   validation: string
@@ -63,6 +67,10 @@ export const MISSION_EXAMPLE = {
 // Demo data, coherent with the example and the Finance profile.
 export const MISSION_SEED: MissionInfo = {
   title: 'Relancer les factures impayées',
+  target: '',
+  criteria: '',
+  sources: '',
+  exclusions: '',
   result: 'Chaque facture en retard est relancée au bon moment, sauf litige en cours.',
   rule: 'Ne jamais contacter un client ayant un litige ouvert.',
   validation: 'Validation humaine requise avant tout envoi.',
@@ -70,6 +78,10 @@ export const MISSION_SEED: MissionInfo = {
 
 const MISSION_SEED_EN: MissionInfo = {
   title: 'Chase unpaid invoices',
+  target: '',
+  criteria: '',
+  sources: '',
+  exclusions: '',
   result: 'Every overdue invoice is chased at the right time, except open disputes.',
   rule: 'Never contact a customer with an open dispute.',
   validation: 'Human approval required before any send.',
@@ -86,22 +98,24 @@ export function initialOnboardingState(): OnboardingState {
     firstName: '',
     lastName: '',
     company: [
-      { key: 'name', label: { fr: 'Entreprise', en: 'Company' }, value: 'Solvea' },
-      { key: 'domain', label: { fr: 'Domaine', en: 'Domain' }, value: 'solvea.fr' },
+      { key: 'name', label: { fr: 'Entreprise', en: 'Company' }, value: '', uncertain: true },
+      { key: 'domain', label: { fr: 'Domaine', en: 'Domain' }, value: '', uncertain: true },
       {
         key: 'activity',
         label: { fr: 'Activité', en: 'Activity' },
-        value: 'Logiciel de facturation et de trésorerie pour PME.',
+        value: '',
+        uncertain: true,
       },
       {
         key: 'offer',
         label: { fr: 'Offre', en: 'Offer' },
-        value: 'Abonnement mensuel à une plateforme de gestion financière.',
+        value: '',
+        uncertain: true,
       },
       // Left uncertain on purpose — Alma isn't sure, so she asks to confirm.
       { key: 'clients', label: { fr: 'Clients', en: 'Customers' }, value: '', uncertain: true },
     ],
-    mission: { title: '', result: '', rule: '', validation: '' },
+    mission: { title: '', target: '', criteria: '', sources: '', exclusions: '', result: '', rule: '', validation: '' },
     missionDefined: false,
     profile: { fr: 'Finance', en: 'Finance' },
     collaboratorName: '',

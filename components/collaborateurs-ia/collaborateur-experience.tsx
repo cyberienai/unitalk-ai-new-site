@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { CalendarDays, Clock3, Globe2, Mail, Phone, SquareTerminal } from 'lucide-react'
+import { CalendarDays, Clock3, Database, Globe2, Mail, Phone, SquareTerminal, UserRound } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
@@ -34,11 +34,29 @@ export function CollaborateurExperience() {
 
       <section className="bg-[#1C1A17] px-5 py-16 text-[#F3EFE6] sm:px-8 sm:py-20">
         <div className="mx-auto max-w-[1200px]">
-          <SectionIntro dark kicker="Unitalk AI Gateway" title={t.modelsTitle} body={t.modelsBody} />
-          <ModelLogoStrip />
-          <p className="mt-8 text-center font-sf text-[clamp(1.5rem,3vw,2.3rem)] font-semibold tracking-[-0.02em] text-white">Texte · Image · Audio · Vidéo</p>
-          <p className="mx-auto mt-5 max-w-3xl text-center text-[14px] leading-relaxed text-[#C9C0B5]">{t.moa}</p>
-          <Link href="/ai-gateway" className="mt-5 flex justify-center text-sm font-bold text-[#F2A4C5]">{t.gatewayLink} →</Link>
+          <div className="grid gap-7 lg:grid-cols-[5fr_1fr_6fr]">
+            <div>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#F2A4C5]">Unitalk AI Gateway</p>
+              <h2 className="mt-4 font-sf text-[36px] font-bold leading-[0.98] tracking-[-0.045em] text-white sm:text-[52px]"><span className="block">{t.modelsTitleOne}</span><span className="block text-[#BDB7AC]">{t.modelsTitleTwo}</span></h2>
+            </div>
+            <div aria-hidden />
+            <div className="space-y-4 text-[16px] leading-7 text-[#BDB7AC]"><p>{t.modelsBody}</p><p>{t.modelsContinuity}</p></div>
+          </div>
+          <ModelLogoStrip lang={lang} />
+          <div className="mt-12 grid gap-10 lg:grid-cols-[5fr_1fr_6fr]">
+            <div>
+              <div className="space-y-1 font-sf text-[28px] font-bold uppercase leading-tight tracking-[-0.025em] text-white sm:text-[34px]">{t.modalities.map((item, index) => <p key={item}><span className="mr-4 font-mono text-[10px] font-normal text-[#777168]">0{index + 1}</span>{item}</p>)}</div>
+              <p className="mt-5 max-w-sm text-[13px] leading-6 text-[#BDB7AC]">{t.modalitiesNote}</p>
+            </div>
+            <div aria-hidden />
+            <div>
+              <h3 className="font-sf text-[32px] font-bold uppercase leading-[1.02] tracking-[-0.035em] text-white sm:text-[42px]"><span className="block">{t.moaTitleOne}</span><span className="block text-[#F2A4C5]">{t.moaTitleTwo}</span></h3>
+              <div className="mt-6 border-y border-white/[0.14] py-5 font-sf text-[20px] font-semibold leading-8 text-white"><p>{t.moaSteps[0]}</p><p>{t.moaSteps[1]}</p><p>{t.moaSteps[2]}</p></div>
+              <p className="mt-5 text-[14px] leading-7 text-[#BDB7AC]">{t.moa}</p>
+              <p className="mt-4 font-semibold text-white">{t.moaFinal}</p>
+            </div>
+          </div>
+          <Link href="/ai-gateway" className="mt-10 inline-flex text-sm font-bold text-[#F2A4C5]">{t.gatewayLink} →</Link>
         </div>
       </section>
 
@@ -114,17 +132,33 @@ export function CollaborateurExperience() {
 
 function LucasPortrait({ lang }: { lang: 'fr' | 'en' }) {
   const reduce = useReducedMotion()
+  const t = COPY[lang]
   return (
     <motion.figure initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mx-auto w-full max-w-md overflow-hidden rounded-3xl border border-[#DED6C8] bg-[#FAF8F3] shadow-[0_28px_65px_-48px_rgba(28,26,23,0.5)]">
-      <div className="relative aspect-[4/3] bg-[#ECE6DA]">
+      <div className="relative aspect-[16/10] bg-[#ECE6DA]">
         <Image src="/images/lucas-avatar.png" alt={lang === 'fr' ? 'Portrait de Lucas, Collaborateur IA' : 'Portrait of Lucas, AI Collaborator'} fill priority sizes="(max-width: 1024px) 100vw, 420px" className="object-cover object-top" />
-        <span className="absolute right-5 top-5 rounded-full bg-[#1C1A17] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">Identité IA</span>
+        <span className="absolute right-5 top-5 rounded-full bg-[#1C1A17] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">{t.aiIdentity}</span>
       </div>
-      <figcaption className="p-5 sm:p-6">
-        <div className="flex items-center justify-between gap-4"><div><p className="font-sf text-2xl font-bold leading-none">Lucas</p><p className="mt-2 text-sm text-[#4E483F]">Collaborateur IA · Relation client · Solvea</p></div><span className="inline-flex shrink-0 items-center gap-1.5 self-center text-xs font-bold text-[#257A43]"><span className="h-2 w-2 rounded-full bg-[#2E9E5B]" />Prêt</span></div>
-        <div className="mt-4 space-y-2.5 border-t border-[#DED6C8] pt-4 text-[13px] text-[#6E665A]">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2"><Channel icon={Mail} label="Email" /><Channel icon={CalendarDays} label="Agenda" /><Channel icon={Phone} label="Téléphone" /></div>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2"><Channel icon={Globe2} label="Navigation" /><Channel icon={SquareTerminal} label="Code" /><Channel icon={Clock3} label="Planification" /></div>
+      <figcaption className="p-5">
+        <div className="flex items-center justify-between gap-4"><div><p className="font-sf text-2xl font-bold leading-none">Lucas</p><p className="mt-1.5 text-[13px] text-[#4E483F]">{t.lucasMeta}</p></div><span className="inline-flex shrink-0 items-center gap-1.5 self-center text-xs font-bold text-[#257A43]"><span className="h-2 w-2 rounded-full bg-[#2E9E5B]" />{t.ready}</span></div>
+        <div className="mt-4">
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[#6E665A]">{t.profilesLabel}</p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {t.profiles.map((profile, index) => (
+              <motion.span key={profile} initial={reduce ? false : { opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: reduce ? 0 : index * 0.35 }} className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${index === 0 ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F]'}`}>{profile}</motion.span>
+            ))}
+          </div>
+          <p className="mt-2 text-[11px] text-[#6E665A]">{t.activeProfile}</p>
+        </div>
+        <div className="mt-4 grid grid-cols-4 gap-x-2 gap-y-3 border-t border-[#DED6C8] pt-4 text-[11px] text-[#6E665A]">
+          <Channel icon={Mail} label={t.channels.email} />
+          <Channel icon={CalendarDays} label={t.channels.calendar} />
+          <Channel icon={Phone} label={t.channels.phone} />
+          <Channel icon={UserRound} label={t.channels.publicProfile} />
+          <Channel icon={Globe2} label={t.channels.browser} />
+          <Channel icon={SquareTerminal} label={t.channels.code} />
+          <Channel icon={Clock3} label={t.channels.scheduling} />
+          <Channel icon={Database} label={t.channels.companyMemory} ariaLabel={t.companyMemoryAria} />
         </div>
       </figcaption>
     </motion.figure>
@@ -135,22 +169,30 @@ function SectionIntro({ kicker, title, body, dark = false }: { kicker?: string; 
   return <div>{kicker && <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${dark ? 'text-[#F2A4C5]' : 'text-[#B00C54]'}`}>{kicker}</p>}<h2 className={`mt-3 max-w-4xl text-balance font-sf text-[32px] font-bold leading-[1.08] tracking-[-0.03em] sm:text-[42px] ${dark ? 'text-white' : 'text-[#1C1A17]'}`}>{title}</h2><p className={`mt-4 max-w-3xl text-[15px] leading-relaxed ${dark ? 'text-[#C9C0B5]' : 'text-[#4E483F]'}`}>{body}</p></div>
 }
 
-function Channel({ icon: Icon, label }: { icon: typeof Mail; label: string }) { return <span className="inline-flex items-center gap-1.5"><Icon aria-hidden="true" className="h-3.5 w-3.5" />{label}</span> }
+function Channel({ icon: Icon, label, ariaLabel }: { icon: typeof Mail; label: string; ariaLabel?: string }) { return <span aria-label={ariaLabel} className="flex min-w-0 flex-col items-center gap-1 text-center"><Icon aria-hidden="true" className="h-3.5 w-3.5 shrink-0" /><span className="leading-tight">{label}</span></span> }
 
 
 const COPY = {
   fr: {
     heroKicker: 'Prêt à accomplir vos missions',
-    heroTitle: 'Il a un nom. Un rôle. Du travail à accomplir.',
-    heroBody: 'Votre Collaborateur IA rejoint votre entreprise avec une identité, ses propres moyens de communication et un environnement de travail privé.',
-    heroProgress: 'Vous choisissez ce qu’il peut utiliser. Il développe ensuite ses compétences au fil de vos missions.',
+    heroTitle: 'Son identité reste. Ses responsabilités évoluent.',
+    heroBody: 'Votre Collaborateur IA rejoint votre entreprise avec une identité durable, ses propres moyens de communication et un environnement de travail privé.',
+    heroProgress: 'Ajoutez les profils métier, les compétences et les applications dont il a besoin. Son identité et son expérience restent les mêmes.',
     create: 'Créer mon Collaborateur IA',
-    trial: '7 jours d’essai gratuit · 1 million de tokens · Sans carte bancaire',
+    trial: '7 jours d’essai gratuit · 1 million de tokens offerts · Sans carte bancaire',
     price: 'Puis 49 €/mois, hors usages IA.',
-    modelsTitle: 'Il ne dépend pas d’un seul modèle.',
-    modelsBody: 'Lucas utilise les modèles autorisés par votre entreprise. Le bon modèle peut changer selon le travail. Son identité, son contexte et ses responsabilités restent les mêmes.',
-    moa: 'Pour les missions complexes, plusieurs modèles travaillent en parallèle. Un modèle de revue compare leurs propositions. Lucas restitue la synthèse.',
-    gatewayLink: 'Découvrir l’AI Gateway',
+    modelsTitleOne: 'Le modèle change.',
+    modelsTitleTwo: 'Lucas reste.',
+    modelsBody: 'Vous définissez les modèles autorisés. Selon la mission, Lucas peut en mobiliser un seul ou faire travailler plusieurs modèles en parallèle.',
+    modelsContinuity: 'Son identité, son contexte, son expérience et ses droits restent attachés au même Collaborateur IA.',
+    modalities: ['Texte.', 'Image.', 'Audio.', 'Vidéo.'],
+    modalitiesNote: 'Selon les modèles et les droits autorisés par votre entreprise.',
+    moaTitleOne: 'Plusieurs intelligences.',
+    moaTitleTwo: 'Une seule responsabilité.',
+    moaSteps: ['Plusieurs modèles proposent.', 'Un modèle de revue compare.', 'Lucas répond.'],
+    moa: 'Pour les missions complexes, plusieurs modèles peuvent produire une proposition. Un modèle de revue les compare avant que Lucas restitue une synthèse unique.',
+    moaFinal: 'Une seule identité porte la mission du début à la fin.',
+    gatewayLink: 'Explorer l’AI Gateway',
     appsKicker: 'Plus de 3 000 applications',
     appsTitle: 'Il ne reste pas dans une fenêtre de chat.',
     appsBody: 'Lucas travaille dans les applications que votre entreprise autorise. Les connexions OAuth lui donnent accès aux seules actions nécessaires à son travail.',
@@ -170,19 +212,35 @@ const COPY = {
     skillsLink: 'Découvrir les compétences',
     finalTitle: 'Confiez-lui une première mission.',
     finalBody: 'Donnez-lui un prénom. Décrivez le travail à accomplir. Alma prépare la suite.',
+    aiIdentity: 'Identité IA',
+    lucasMeta: 'Collaborateur IA · Solvea',
+    ready: 'Prêt',
+    profilesLabel: 'Profils métier · 3',
+    profiles: ['Relation client', 'Commercial', 'Fidélisation'],
+    activeProfile: 'Mobilisé pour cette mission : Relation client',
+    channels: { email: 'Email', calendar: 'Agenda', phone: 'Téléphone', publicProfile: 'Profil public', browser: 'Navigation', code: 'Code', scheduling: 'Planification', companyMemory: 'Mémoire entreprise' },
+    companyMemoryAria: 'Accès à la mémoire d’entreprise selon vos autorisations',
   },
   en: {
     heroKicker: 'Ready to accomplish your missions',
-    heroTitle: 'A name. A role. Work to accomplish.',
-    heroBody: 'Your AI Collaborator joins your company with an identity, its own communication channels and a private work environment.',
-    heroProgress: 'You choose what it can use. It then develops its skills through your missions.',
+    heroTitle: 'Its identity remains. Its responsibilities evolve.',
+    heroBody: 'Your AI Collaborator joins your company with a lasting identity, its own communication channels and a private work environment.',
+    heroProgress: 'Add the job profiles, skills and applications it needs. Its identity and experience remain the same.',
     create: 'Create my AI Collaborator',
-    trial: '7-day free trial · 1 million tokens · No credit card',
+    trial: '7-day free trial · 1 million free tokens · No credit card',
     price: 'Then €49/month, excluding AI usage.',
-    modelsTitle: 'It does not depend on a single model.',
-    modelsBody: 'Lucas uses the models authorized by your company. The right model can change with the work; its identity, context and responsibilities remain.',
-    moa: 'For complex missions, several models work in parallel. A review model compares their proposals. Lucas delivers the synthesis.',
-    gatewayLink: 'Discover the AI Gateway',
+    modelsTitleOne: 'The model changes.',
+    modelsTitleTwo: 'Lucas remains.',
+    modelsBody: 'You define the authorized models. Depending on the mission, Lucas can use one or have several models work in parallel.',
+    modelsContinuity: 'Its identity, context, experience and permissions remain attached to the same AI Collaborator.',
+    modalities: ['Text.', 'Image.', 'Audio.', 'Video.'],
+    modalitiesNote: 'Depending on the models and permissions authorized by your company.',
+    moaTitleOne: 'Several intelligences.',
+    moaTitleTwo: 'One responsibility.',
+    moaSteps: ['Several models propose.', 'A review model compares.', 'Lucas responds.'],
+    moa: 'For complex missions, several models can produce a proposal. A review model compares them before Lucas delivers one synthesis.',
+    moaFinal: 'One identity carries the mission from start to finish.',
+    gatewayLink: 'Explore the AI Gateway',
     appsKicker: 'More than 3,000 applications',
     appsTitle: 'It does not stay inside a chat window.',
     appsBody: 'Lucas works inside the applications your company authorizes. OAuth connections expose only the actions needed for its work.',
@@ -202,5 +260,13 @@ const COPY = {
     skillsLink: 'Discover skills',
     finalTitle: 'Assign a first mission.',
     finalBody: 'Give it a first name. Describe the work. Alma prepares the rest.',
+    aiIdentity: 'AI identity',
+    lucasMeta: 'AI Collaborator · Solvea',
+    ready: 'Ready',
+    profilesLabel: 'Job profiles · 3',
+    profiles: ['Customer relations', 'Sales', 'Customer success'],
+    activeProfile: 'Used for this mission: Customer relations',
+    channels: { email: 'Email', calendar: 'Calendar', phone: 'Phone', publicProfile: 'Public profile', browser: 'Browsing', code: 'Code', scheduling: 'Scheduling', companyMemory: 'Company memory' },
+    companyMemoryAria: 'Access to company memory according to your permissions',
   },
 } as const

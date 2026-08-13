@@ -39,7 +39,7 @@ const COPY = {
     finalTitle: 'Donnez une première mission à votre Collaborateur IA.',
     finalBody: 'Sept jours pour travailler avec sa propre identité, ses modèles et les savoir-faire disponibles dans les Stores.',
     finalCta: 'Commencer mes 7 jours d’essai',
-    finalNote: '1 million de tokens · Sans carte bancaire · 0 € aujourd’hui',
+    finalNote: '1 million de tokens offerts · Sans carte bancaire · 0 € aujourd’hui',
   },
   en: {
     eyebrow: 'Pricing',

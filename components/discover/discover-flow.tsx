@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
@@ -23,6 +23,7 @@ import type { MockSession } from '@/lib/mock-auth'
 export function DiscoverFlow({ initialSession }: { initialSession?: MockSession | null }) {
   const { lang } = useLanguage()
   const reduce = useReducedMotion()
+  const router = useRouter()
   const searchParams = useSearchParams()
   const missionSlug = searchParams.get('mission')
   const draftId = searchParams.get('draft')
@@ -139,6 +140,8 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
                   : s.company,
               }))
               setStep('entreprise')
+              if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}`)
+              else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
             }}
           />
         </div>

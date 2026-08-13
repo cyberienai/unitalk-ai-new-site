@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ArrowRight, Building2, Check, Loader2, Pencil } from 'lucide-react'
+import { ArrowRight, Building2, Check, Pencil } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { AlmaHead } from './context-column'
 import type { CompanyFact } from './types'
@@ -30,7 +30,7 @@ export function ScreenContext({
   const t = COPY[lang]
   const [editingKey, setEditingKey] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
-  const [status, setStatus] = useState<'loading' | 'ready' | 'confirmed'>('loading')
+  const [status, setStatus] = useState<'ready' | 'confirmed'>('ready')
   const [logoFailed, setLogoFailed] = useState(false)
   const [firstNameTouched, setFirstNameTouched] = useState(false)
   const [lastNameTouched, setLastNameTouched] = useState(false)
@@ -40,13 +40,8 @@ export function ScreenContext({
   const companyName = company.find((fact) => fact.key === 'name')?.value.trim() ?? ''
   const firstNameMissing = !firstName.trim()
   const lastNameMissing = !lastName.trim()
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setStatus((current) => (current === 'loading' ? 'ready' : current))
-    }, 700)
-    return () => window.clearTimeout(timer)
-  }, [])
+  const companyMissing = !companyName
+  const domainMissing = !domain
 
   useEffect(() => setLogoFailed(false), [domain])
 
@@ -68,7 +63,7 @@ export function ScreenContext({
   // on "Confirmer" never silently drops an in-progress edit.
   function confirmCompany() {
     setSubmitted(true)
-    if (firstNameMissing || lastNameMissing) return
+    if (firstNameMissing || lastNameMissing || companyMissing || domainMissing) return
     if (editingKey) {
       const fact = company.find((f) => f.key === editingKey)
       if (fact) saveEdit(fact)
@@ -104,14 +99,11 @@ export function ScreenContext({
               </p>
             )}
             <div className="mt-5 flex max-w-sm items-start gap-2.5 text-pretty text-[14px] leading-7 text-[#C7BFB5]" aria-live="polite">
-              {status === 'loading' && <Loader2 className="mt-1.5 h-4 w-4 shrink-0 animate-spin text-[#E38AB4]" />}
               {status === 'confirmed' && <Check className="mt-1.5 h-4 w-4 shrink-0 text-[#E38AB4]" strokeWidth={3} />}
               <p>
-                {status === 'loading'
-                  ? t.loading
-                  : status === 'confirmed'
+                {status === 'confirmed'
                     ? t.confirmed
-                    : `${t.prefilledBefore} ${companyName || t.cardTitle} ${t.prefilledAfter}`}
+                    : t.intro}
               </p>
             </div>
           </div>
@@ -216,7 +208,7 @@ export function ScreenContext({
                     >
                       {showToConfirm ? (
                         <span className="inline-flex items-center rounded-full bg-[#F3E8D6] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#9A7B34]">
-                          {t.toConfirm}
+                          {submitted && (fact.key === 'name' || fact.key === 'domain') ? t.required : t.toConfirm}
                         </span>
                       ) : (
                         <span className="text-[13px] leading-relaxed text-[#2D2924]">{fact.value}</span>
@@ -255,9 +247,7 @@ const COPY = {
   fr: {
     hello: 'Bonjour',
     welcome: 'Bienvenue.',
-    loading: 'Je consulte les informations publiques sur votre entreprise…',
-    prefilledBefore: 'J’ai préparé ces informations sur',
-    prefilledAfter: 'à partir de votre domaine professionnel. Corrigez ce qui ne va pas.',
+    intro: 'Commençons par les informations que vous souhaitez associer à votre entreprise.',
     confirmed: 'Parfait. Votre entreprise est prête. Passons à la mission.',
     almaName: 'Alma',
     almaRole: 'Conseillère IA · Unitalk',
@@ -275,9 +265,7 @@ const COPY = {
   en: {
     hello: 'Hello',
     welcome: 'Welcome.',
-    loading: 'I’m checking public information about your company…',
-    prefilledBefore: 'I prepared this information about',
-    prefilledAfter: 'from your professional domain. Correct anything that is wrong.',
+    intro: 'Let’s start with the information you want to associate with your company.',
     confirmed: 'Perfect. Your company is ready. Let’s move on to the mission.',
     almaName: 'Alma',
     almaRole: 'AI advisor · Unitalk',
