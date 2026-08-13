@@ -3,39 +3,136 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useAlma } from '@/lib/alma-context'
+import { ArrowRight, Check, ShieldCheck } from 'lucide-react'
+import { Kicker } from '@/components/home/section-kicker'
+import { useLanguage, type Lang } from '@/lib/language-context'
+
+type HelpKey = 'mission' | 'collaborator' | 'adoption'
+
+const HELP_KEYS: HelpKey[] = ['mission', 'collaborator', 'adoption']
 
 export function AlmaFinalContent() {
-  const { openAlma } = useAlma()
-  const [daily, setDaily] = useState(0)
-  const [demoStep, setDemoStep] = useState(0)
-  const [paused, setPaused] = useState(false)
+  const { lang } = useLanguage()
+  const t = COPY[lang]
+  const [active, setActive] = useState<HelpKey>('mission')
+  const help = t.help[active]
 
   return (
-    <main className="bg-[#F3EFE6] text-[#1C1A17]">
-      <section className="px-5 pb-14 pt-24 sm:px-8 sm:pt-28"><div className="mx-auto grid max-w-[1180px] items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <div><p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">Une seule identité IA. Plusieurs responsabilités.</p><h1 className="mt-4 font-sf text-[42px] font-bold leading-[0.98] tracking-[-0.05em] sm:text-[64px]">Alma coordonne les missions.<span className="block text-[#6E665A]">Ajoutez les expertises dont votre organisation a besoin.</span></h1><p className="mt-5 text-lg font-semibold">Coordinatrice de missions · Profil inclus</p><p className="mt-5 max-w-2xl text-[17px] leading-8 text-[#4E483F]">Alma clarifie votre besoin, sélectionne la mission et prépare les collaborateurs humains et IA nécessaires pour l’accomplir.</p><div className="mt-7 flex flex-wrap gap-4"><Link href="/unitalk/@alma/store" className="bg-[#D10E63] px-6 py-3 text-sm font-bold text-white">Équiper Alma</Link><button onClick={openAlma} className="border border-[#1C1A17] px-6 py-3 text-sm font-bold">Parler à Alma</button></div><p className="mt-5 font-sf text-xl font-bold">Son identité reste. Ses responsabilités évoluent.</p></div>
-        <div className="grid gap-5 sm:grid-cols-[1fr_0.9fr]"><div className="relative aspect-[4/5] overflow-hidden bg-[#DED6C8]"><Image src="/alma-avatar.png" alt="Portrait professionnel d’Alma" fill priority className="object-cover" /></div><dl className="self-end border-y border-[#1C1A17]/15 text-sm"><Fact l="Alma" v="Collaboratrice IA · Unitalk" /><Fact l="Inclus" v="Coordinatrice de missions" /><Fact l="À ajouter" v="Transformation IA · Adoption IA · Compétences spécialisées" /><Fact l="Créée et supervisée par" v="Patrick Chassany" /><Fact l="Nature" v="Intelligence artificielle" /><Fact l="Statut" v="En activité" /></dl></div>
-      </div></section>
+    <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
+      <section className="relative px-5 pb-16 pt-28 sm:px-8 sm:pb-20">
+        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+        <div className="editorial-shell relative grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-20">
+          <div className="max-w-xl">
+            <Kicker>{t.kicker}</Kicker>
+            <h1 className="hero-heading mt-5 whitespace-pre-line">{t.title}</h1>
+            <p className="mt-5 text-lg font-semibold text-[#B00C54]">{t.role}</p>
+            <p className="mt-5 text-[17px] leading-8 text-[#4E483F]">{t.lead}</p>
+            <p className="mt-4 text-[15px] leading-7 text-[#4E483F]">{t.boundary}</p>
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <Link href="/decouvrir?source=nav" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+                {t.primaryCta}<ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+              <a href="#alma-work" className="text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">{t.secondaryCta}</a>
+            </div>
+            <p className="mt-5 text-xs font-medium text-[#6E665A]">{t.reassurance}</p>
+          </div>
 
-      <Section eyebrow="Ce qu’Alma fait" title="Dites-lui ce que vous voulez accomplir."><p>Alma ne vous demande pas de configurer un agent. Elle mène l’entretien, comprend votre méthode et transforme votre objectif en mission prête à être confiée.</p><div className="mt-10 min-h-[440px] border border-[#1C1A17]/15 bg-[#FAF8F3] p-6 sm:p-9"><p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#B00C54]">Démonstration</p><p className="mt-4 font-bold">Sophie · Responsable relation client</p><blockquote className="mt-3 text-xl">« Je veux que chaque réclamation soit suivie jusqu’à sa résolution. »</blockquote><div className="mt-7"><p className="font-sf text-2xl font-bold">{DEMO[Math.min(demoStep, 3)].q}</p><p className="mt-3 text-[#4E483F]">{DEMO[Math.min(demoStep, 3)].a}</p>{demoStep === 3 && <div className="mt-7 border-t border-[#1C1A17]/15 pt-6"><p className="font-mono text-[10px] uppercase text-[#B00C54]">Mission préparée</p><h3 className="mt-2 font-sf text-2xl font-bold">Suivre chaque réclamation jusqu’à sa résolution</h3><p className="mt-3">Résultat, prochaine action, date de relance · Vérification après chaque appel · Validation humaine avant tout geste commercial.</p></div>}</div><div className="mt-8 flex gap-3"><button disabled={demoStep === 0} onClick={() => setDemoStep((s) => s - 1)} className="border border-[#DED6C8] px-4 py-2 text-sm disabled:opacity-30">Retour</button><button onClick={() => setDemoStep((s) => Math.min(3, s + 1))} className="bg-[#151310] px-4 py-2 text-sm text-white">Avancer</button><button onClick={() => setPaused(!paused)} className="ml-auto text-sm underline">{paused ? 'Reprendre' : 'Pause'}</button></div></div><h3 className="mt-8 font-sf text-[34px] font-bold">Un besoin exprimé. Une mission prête.</h3></Section>
+          <AlmaIdentity lang={lang} />
+        </div>
+      </section>
 
-      <section className="bg-[#151310] px-5 py-20 text-[#FAF8F3] sm:px-8"><div className="mx-auto max-w-[1080px]"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#F2A4C5]">Faire progresser avant de créer</p><h2 className="mt-4 max-w-4xl font-sf text-[38px] font-bold leading-tight sm:text-[54px]">Alma cherche d’abord qui peut accomplir la mission.</h2><p className="mt-5 max-w-3xl text-[#BDB7AC]">Elle examine les Collaborateurs IA déjà présents. Une nouvelle identité n’est recommandée que lorsqu’elle est réellement nécessaire.</p><div className="mt-10 grid gap-8 border-y border-white/15 py-8 lg:grid-cols-3"><DarkBlock title="Lucas · Collaborateur IA">Il connaît les clients, dispose des accès nécessaires et peut assumer cette responsabilité.</DarkBlock><DarkBlock title="Responsable relation client">Un profil métier durable pour suivre les réclamations et coordonner leur résolution.</DarkBlock><DarkBlock title="Compétences et droits">Qualifier, analyser, planifier, synthétiser, suivre et demander une validation humaine.</DarkBlock></div><h3 className="mt-10 font-sf text-[34px] font-bold">Le même Lucas. Une nouvelle responsabilité.</h3><p className="mt-5 text-[#BDB7AC]">Une mission définit le travail. Alma crée les profils métier et les compétences nécessaires pour l’accomplir.</p><button onClick={openAlma} className="mt-7 bg-[#D10E63] px-6 py-3 text-sm font-bold">Confier une mission à Alma</button></div></section>
+      <section id="alma-work" className="border-y border-[#DED6C8] bg-[#FAF8F3] px-5 py-16 sm:px-8">
+        <div className="editorial-shell">
+          <Kicker>{t.workKicker}</Kicker>
+          <h2 className="mt-5 max-w-3xl text-balance text-[34px] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-[44px]">{t.workTitle}</h2>
+          <p className="mt-5 max-w-3xl text-[16px] leading-8 text-[#4E483F]">{t.workLead}</p>
 
-      <Section eyebrow="Au quotidien" title="Elle accueille. Elle répond. Elle forme. Elle recommande."><div className="mt-9 flex flex-wrap gap-3">{DAILY.map((item, i) => <button key={item.title} onClick={() => setDaily(i)} className={`border px-4 py-2 text-sm font-bold ${daily === i ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#DED6C8]'}`}>{item.title}</button>)}</div><div className="mt-8 min-h-[250px] border-y border-[#1C1A17]/15 py-8"><h3 className="font-sf text-3xl font-bold">Elle {DAILY[daily].title.toLowerCase()}</h3><p className="mt-4 max-w-3xl leading-8 text-[#4E483F]">{DAILY[daily].body}</p><p className="mt-5 font-semibold">{DAILY[daily].proof}</p></div></Section>
+          <div role="tablist" aria-label={t.tabLabel} className="scrollbar-hide mt-9 flex gap-2 overflow-x-auto pb-1">
+            {HELP_KEYS.map(key => (
+              <button key={key} type="button" role="tab" aria-selected={active === key} aria-controls={`alma-panel-${key}`} onClick={() => setActive(key)} className={`h-10 shrink-0 rounded-full border px-4 text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${active === key ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F]'}`}>
+                {t.helpLabels[key]}
+              </button>
+            ))}
+          </div>
+          <div id={`alma-panel-${active}`} role="tabpanel" className="mt-6 grid gap-px overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#DED6C8] lg:grid-cols-3">
+            <WorkStep number="01" label={t.request} value={help.request} />
+            <WorkStep number="02" label={t.preparation} value={help.preparation} />
+            <WorkStep number="03" label={t.result} value={help.result} />
+          </div>
+        </div>
+      </section>
 
-      <section className="bg-[#EAE4D9] px-5 py-20 sm:px-8"><div className="mx-auto max-w-[1080px]"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#B00C54]">Licences et crédits</p><h2 className="mt-4 font-sf text-[40px] font-bold sm:text-[56px]">Alma peut vous aider à aller plus loin.</h2><p className="mt-5 max-w-3xl text-[17px] leading-8 text-[#4E483F]">La licence donne accès. Les crédits financent l’usage et l’exécution.</p><div className="mt-10 grid border-y border-[#1C1A17]/15 sm:grid-cols-3"><Credit title="Crédits d’assistance">Pour cadrer, configurer et résoudre un besoin avec Alma ou un intervenant autorisé.</Credit><Credit title="Crédits IA">Pour augmenter la capacité des modèles de texte, image, audio et vidéo.</Credit><Credit title="Crédits de mission">Pour activer une mission Unitalk à périmètre et livrable définis.</Credit></div><button onClick={openAlma} className="mt-7 bg-[#151310] px-6 py-3 text-sm font-bold text-white">Acheter des crédits avec Alma →</button><p className="mt-4 text-sm text-[#6E665A]">Aucun produit Stripe n’est encore configuré sur ce site. Alma présente uniquement les produits officiels lorsqu’ils sont disponibles ; aucun achat n’est déclenché automatiquement.</p></div></section>
+      <section className="bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20">
+        <div className="editorial-shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#F2A4C5]">{t.decisionKicker}</p>
+            <h2 className="mt-5 text-balance text-[34px] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-[44px]">{t.decisionTitle}</h2>
+            <p className="mt-5 text-[16px] leading-8 text-[#CFC6B8]">{t.decisionLead}</p>
+          </div>
+          <div className="space-y-4">
+            {t.decisions.map(item => <div key={item} className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5"><span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#D10E63]"><Check className="size-4" /></span><p className="pt-0.5 text-sm leading-7 text-[#E7E0D5]">{item}</p></div>)}
+          </div>
+        </div>
+      </section>
 
-      <section className="bg-[#25211D] px-5 py-20 text-[#FAF8F3] sm:px-8"><div className="mx-auto max-w-[1080px]"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#F2A4C5]">Le réseau d’experts Unitalk</p><h2 className="mt-4 max-w-4xl font-sf text-[38px] font-bold leading-tight sm:text-[54px]">Lorsqu’une expertise humaine devient nécessaire, Alma trouve la bonne personne.</h2><div className="mt-10 grid gap-10 lg:grid-cols-2"><DarkBlock title="Alma prépare l’intervention">Objectif, résultat attendu, vérifications, données autorisées, durée, droits temporaires et budget validé.</DarkBlock><DarkBlock title="L’entreprise garde le contrôle">Identité, qualifications, périmètre, accès, coût et expiration sont visibles avant validation.</DarkBlock></div><p className="mt-10 font-sf text-2xl font-bold">L’expert intervient. Le Collaborateur IA progresse. L’entreprise conserve le savoir-faire.</p><Link href="/experts" className="mt-7 inline-flex bg-[#FAF8F3] px-6 py-3 text-sm font-bold text-[#151310]">Découvrir les experts Unitalk →</Link><p className="mt-3 text-xs text-[#BDB7AC]">Réseau en cours de déploiement · Interventions actuellement sur sélection</p></div></section>
+      <section className="px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
+          <div>
+            <Kicker>{t.identityKicker}</Kicker>
+            <h2 className="mt-5 max-w-xl text-balance text-[34px] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-[44px]">{t.identityTitle}</h2>
+            <p className="mt-5 text-[16px] leading-8 text-[#4E483F]">{t.identityLead}</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <BoundaryCard title={t.publicTitle} items={t.publicItems} />
+            <BoundaryCard title={t.privateTitle} items={t.privateItems} />
+          </div>
+        </div>
+      </section>
 
-      <section className="px-5 py-20 sm:px-8"><div className="mx-auto grid max-w-[1080px] gap-10 lg:grid-cols-[0.7fr_1.3fr]"><Image src="/alma-avatar.png" alt="Alma" width={360} height={360} className="w-full max-w-sm" /><div><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#B00C54]">Parler à Alma</p><h2 className="mt-4 font-sf text-[42px] font-bold">Par quoi voulez-vous commencer ?</h2><textarea rows={3} placeholder="Décrivez une mission, une difficulté ou une question…" className="mt-7 w-full border border-[#DED6C8] bg-white p-4" /><div className="mt-4 flex flex-wrap gap-2">{['Préparer une mission','Faire évoluer un Collaborateur IA','Former mon équipe','Réduire notre consommation','Mobiliser un expert'].map(x=><span key={x} className="border border-[#DED6C8] px-3 py-1.5 text-xs">{x}</span>)}</div><button onClick={openAlma} className="mt-5 bg-[#D10E63] px-6 py-3 text-sm font-bold text-white">Parler à Alma</button><p className="mt-4 text-sm text-[#6E665A]">Alma conseille les entreprises au nom de Unitalk. Elle ne devient pas leur Collaboratrice IA : elle les aide à préparer les leurs.</p><p className="mt-7 font-sf text-2xl font-bold">Aider les humains et l’IA à travailler ensemble.</p></div></div></section>
+      <section className="border-t border-[#DED6C8] bg-[#EAE3D4] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
+          <div className="max-w-3xl">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.finalKicker}</p>
+            <h2 className="mt-5 text-balance text-[36px] font-semibold leading-[1.04] tracking-[-0.04em] sm:text-[48px]">{t.finalTitle}</h2>
+            <p className="mt-5 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{t.finalLead}</p>
+            <p className="mt-5 text-sm font-semibold">Alma · {t.roleShort}</p>
+          </div>
+          <div className="flex flex-col items-start gap-4 lg:items-end">
+            <Link href="/decouvrir?source=nav" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white">
+              {t.finalCta}<ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <Link href="/missions" className="text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4">{t.missionsCta}</Link>
+          </div>
+        </div>
+      </section>
     </main>
   )
 }
 
-const DEMO = [{q:'Quel résultat doit être visible ?',a:'Un état clair, une prochaine action et une date de relance.'},{q:'Quelle méthode doit être respectée ?',a:'Vérifier le dossier après chaque appel et relancer sous trois jours.'},{q:'Quelles décisions doivent rester humaines ?',a:'Tout geste commercial doit être validé.'},{q:'Mission prête',a:'Le besoin est maintenant structuré.'}]
-const DAILY = [{title:'Accueille',body:'Alma accompagne l’arrivée des humains et des Collaborateurs IA, présente le Workspace et guide les premières missions.',proof:'Chacun sait quoi confier, à qui et dans quel cadre.'},{title:'Répond',body:'Elle constitue le premier point de contact Unitalk pour les questions techniques, commerciales, fonctionnelles, tarifaires et liées aux missions.',proof:'Une réponse immédiate, avec le bon contexte.'},{title:'Forme',body:'Elle accompagne les nouveaux utilisateurs, les métiers et les parcours de Unitalk Academy selon les droits définis.',proof:'La connaissance devient disponible au moment où l’équipe en a besoin.'},{title:'Recommande',body:'Elle filtre les évolutions des modèles, des applications, de Unitalk et de Hermes, puis les confronte aux missions de l’entreprise.',proof:'Alma ne vous informe pas davantage. Elle vous aide à mieux décider.'}]
-function Section({eyebrow,title,children}:{eyebrow:string;title:string;children:React.ReactNode}){return <section className="px-5 py-20 sm:px-8"><div className="mx-auto max-w-[1080px]"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#B00C54]">{eyebrow}</p><h2 className="mt-4 max-w-4xl font-sf text-[38px] font-bold leading-tight sm:text-[54px]">{title}</h2><div className="mt-5 text-[17px] leading-8 text-[#4E483F]">{children}</div></div></section>}
-function Fact({l,v}:{l:string;v:string}){return <div className="border-b border-[#1C1A17]/15 py-3"><dt className="font-mono text-[9px] uppercase text-[#6E665A]">{l}</dt><dd className="mt-1 font-semibold">{v}</dd></div>}
-function DarkBlock({title,children}:{title:string;children:React.ReactNode}){return <div><h3 className="font-sf text-2xl font-bold">{title}</h3><p className="mt-3 leading-7 text-[#BDB7AC]">{children}</p></div>}
-function Credit({title,children}:{title:string;children:React.ReactNode}){return <div className="border-b border-[#1C1A17]/15 py-6 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0"><h3 className="font-sf text-2xl font-bold">{title}</h3><p className="mt-3 text-sm leading-7 text-[#4E483F]">{children}</p></div>}
+function AlmaIdentity({ lang }: { lang: Lang }) {
+  const t = COPY[lang]
+  return <article className="overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] shadow-[0_24px_70px_-50px_rgba(28,26,23,.55)]"><div className="grid sm:grid-cols-[0.9fr_1.1fr]"><div className="relative min-h-[320px] bg-[#DED6C8] sm:min-h-[430px]"><Image src="/alma-avatar.png" alt={t.portraitAlt} fill priority sizes="(max-width: 640px) 100vw, 300px" className="object-cover object-top" /></div><div className="p-6 sm:p-7"><div className="flex items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.verified}</p><span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#257A43]"><span className="size-2 rounded-full bg-[#2E9E5B]" />{t.active}</span></div><h2 className="mt-5 text-3xl font-semibold tracking-[-0.04em]">Alma</h2><p className="mt-2 text-sm font-semibold">{t.role}</p><dl className="mt-7 border-t border-[#DED6C8]"><Fact label={t.includedLabel} value={t.includedValue} /><Fact label={t.organizationLabel} value="Unitalk" /><Fact label={t.natureLabel} value={t.natureValue} /><Fact label={t.supervisionLabel} value="Patrick Chassany" /></dl></div></div></article>
+}
+
+function Fact({ label, value }: { label: string; value: string }) { return <div className="border-b border-[#DED6C8] py-3"><dt className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#857C6E]">{label}</dt><dd className="mt-1.5 text-sm font-semibold">{value}</dd></div> }
+function WorkStep({ number, label, value }: { number: string; label: string; value: string }) { return <div className="bg-[#F3EFE6] p-6"><p className="font-mono text-[10px] font-bold text-[#B00C54]">{number} · {label}</p><p className="mt-5 text-[17px] font-semibold leading-7">{value}</p></div> }
+function BoundaryCard({ title, items }: { title: string; items: readonly string[] }) { return <article className="rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-6"><ShieldCheck className="size-5 text-[#D10E63]" /><h3 className="mt-5 text-xl font-semibold">{title}</h3><ul className="mt-5 space-y-3">{items.map(item => <li key={item} className="flex gap-3 text-sm leading-6 text-[#4E483F]"><Check className="mt-1 size-4 shrink-0 text-[#D10E63]" />{item}</li>)}</ul></article> }
+
+const COPY = {
+  fr: {
+    kicker:'Alma · Unitalk', title:'Commencez par le travail.\nAlma prépare la suite.', role:'Coordinatrice de missions · Profil inclus', roleShort:'Coordinatrice de missions', lead:'Alma vous aide à transformer un besoin en mission claire, puis à préparer le Collaborateur IA, les savoir-faire, les applications et les validations nécessaires pour l’accomplir.', boundary:'Elle ne devient pas votre Collaboratrice IA et ne crée pas une nouvelle identité par défaut. Elle cherche d’abord comment faire progresser celles qui existent déjà.', primaryCta:'Commencer avec Alma', secondaryCta:'Voir comment elle travaille', reassurance:'Inscription sans mission choisie · 7 jours d’essai · Aucune carte bancaire',
+    portraitAlt:'Portrait professionnel d’Alma', verified:'Identité IA vérifiée', active:'En activité', includedLabel:'Profil inclus', includedValue:'Coordinatrice de missions', organizationLabel:'Organisation', natureLabel:'Nature', natureValue:'Intelligence artificielle', supervisionLabel:'Créée et supervisée par',
+    workKicker:'Du besoin à la mission', workTitle:'Alma clarifie avant de configurer.', workLead:'Elle part du résultat attendu, des méthodes de l’entreprise et des décisions qui doivent rester humaines. La technologie vient ensuite.', tabLabel:'Types d’accompagnement Alma', helpLabels:{mission:'Préparer une mission',collaborator:'Faire évoluer un Collaborateur IA',adoption:'Préparer l’adoption'}, request:'Votre besoin', preparation:'Ce qu’Alma prépare', result:'Ce que vous obtenez', help:{mission:{request:'Un travail à confier, encore imprécis.',preparation:'Résultat attendu, contexte, règles, sources et validations humaines.',result:'Une mission structurée, prête à personnaliser.'},collaborator:{request:'Une responsabilité nouvelle ou une capacité manquante.',preparation:'Profil métier, compétences, applications et droits utiles.',result:'Le même Collaborateur IA, équipé pour une nouvelle responsabilité lorsque c’est pertinent.'},adoption:{request:'Une équipe qui doit intégrer l’IA dans son travail réel.',preparation:'Parcours, règles d’usage, points de contrôle et besoins de formation.',result:'Un cadre d’adoption explicite, progressif et supervisé.'}},
+    decisionKicker:'Faire progresser avant de créer', decisionTitle:'Une nouvelle mission ne signifie pas une nouvelle identité.', decisionLead:'Alma examine d’abord les Collaborateurs IA déjà présents et les responsabilités qu’ils peuvent assumer.', decisions:['Réutiliser une identité existante lorsque son rattachement et son contexte sont adaptés.','Ajouter un profil métier lorsqu’une responsabilité durable apparaît.','Ajouter une compétence lorsqu’une méthode réutilisable manque.','Demander une validation humaine avant toute action qui engage l’entreprise.'],
+    identityKicker:'Profil professionnel public', identityTitle:'Une présence publique. Un travail privé par défaut.', identityLead:'Cette page présente la fonction d’Alma et ce qu’elle peut faire au nom de Unitalk. Elle n’expose ni sa mémoire, ni ses missions internes, ni les informations privées auxquelles elle pourrait avoir accès.', publicTitle:'Visible publiquement', publicItems:['Son identité IA et son rattachement à Unitalk','Son profil de Coordinatrice de missions','Les méthodes et limites présentées sur cette page'], privateTitle:'Reste privé', privateItems:['Ses conversations et missions internes','Les documents, budgets et infrastructures de Unitalk','Tout contexte d’entreprise non explicitement partagé'],
+    finalKicker:'Première étape', finalTitle:'Vous n’avez pas besoin d’avoir déjà choisi une mission.', finalLead:'Créez votre compte, présentez votre entreprise et décrivez le travail qui compte. Alma vous aide ensuite à choisir ou construire la première mission.', finalCta:'Commencer sans mission choisie', missionsCta:'Explorer d’abord les missions',
+  },
+  en: {
+    kicker:'Alma · Unitalk', title:'Start with the work.\nAlma prepares what comes next.', role:'Mission coordinator · Included profile', roleShort:'Mission coordinator', lead:'Alma helps turn a need into a clear mission, then prepares the AI Collaborator, know-how, applications and approvals required to accomplish it.', boundary:'She does not become your AI Collaborator and does not create a new identity by default. She first looks for ways to develop those that already exist.', primaryCta:'Start with Alma', secondaryCta:'See how she works', reassurance:'Sign up without a selected mission · 7-day trial · No credit card',
+    portraitAlt:'Professional portrait of Alma', verified:'Verified AI identity', active:'Active', includedLabel:'Included profile', includedValue:'Mission coordinator', organizationLabel:'Organization', natureLabel:'Nature', natureValue:'Artificial intelligence', supervisionLabel:'Created and supervised by',
+    workKicker:'From need to mission', workTitle:'Alma clarifies before configuring.', workLead:'She starts from the expected result, company methods and decisions that must remain human. Technology comes next.', tabLabel:'Alma support types', helpLabels:{mission:'Prepare a mission',collaborator:'Develop an AI Collaborator',adoption:'Prepare adoption'}, request:'Your need', preparation:'What Alma prepares', result:'What you get', help:{mission:{request:'Work to delegate that is still unclear.',preparation:'Expected result, context, rules, sources and human approvals.',result:'A structured mission ready to personalize.'},collaborator:{request:'A new responsibility or missing capability.',preparation:'The useful job profile, skills, applications and permissions.',result:'The same AI Collaborator equipped for a new responsibility when relevant.'},adoption:{request:'A team that needs to integrate AI into real work.',preparation:'A journey, usage rules, checkpoints and training needs.',result:'An explicit, progressive and supervised adoption framework.'}},
+    decisionKicker:'Develop before creating', decisionTitle:'A new mission does not mean a new identity.', decisionLead:'Alma first examines the AI Collaborators already present and the responsibilities they can assume.', decisions:['Reuse an existing identity when its organization and context fit.','Add a job profile when a lasting responsibility appears.','Add a skill when a reusable method is missing.','Request human approval before any action that commits the company.'],
+    identityKicker:'Public professional profile', identityTitle:'A public presence. Private work by default.', identityLead:'This page presents Alma’s role and what she can do on behalf of Unitalk. It exposes neither her memory, internal missions nor private information she may access.', publicTitle:'Publicly visible', publicItems:['Her AI identity and Unitalk affiliation','Her Mission coordinator profile','The methods and limits presented here'], privateTitle:'Remains private', privateItems:['Her internal conversations and missions','Unitalk documents, budgets and infrastructure','Any company context not explicitly shared'],
+    finalKicker:'First step', finalTitle:'You do not need to have selected a mission yet.', finalLead:'Create your account, introduce your company and describe the work that matters. Alma then helps select or build the first mission.', finalCta:'Start without a selected mission', missionsCta:'Explore missions first',
+  },
+} as const

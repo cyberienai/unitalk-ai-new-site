@@ -78,7 +78,7 @@ export function ScreenAccount({
               <div className="lg:mt-4"><p className="font-sf text-[19px] font-semibold text-white">Alma</p><p className="mt-0.5 text-[13px] text-[#E38AB4]">{t.almaRole}</p></div>
             </motion.div>
             <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: reduce ? 0 : 0.12 }} className="mt-6 border-l border-[#D10E63]/75 pl-5 lg:mt-9 lg:pl-6">
-              <h1 className="font-sf text-[28px] font-semibold leading-tight tracking-[-0.035em] text-white lg:text-[38px]">{t.almaGenericTitle}</h1>
+              <h2 className="font-sf text-[28px] font-semibold leading-tight tracking-[-0.035em] text-white lg:text-[38px]">{t.almaGenericTitle}</h2>
               <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8] lg:text-[17px]">{t.almaGenericBody}</p>
             </motion.div>
           </div>
@@ -136,6 +136,10 @@ export function ScreenAccount({
 
 function OfferPromise({ t }: { t: (typeof COPY)[keyof typeof COPY] }) {
   return <div><h2 className="font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] lg:whitespace-nowrap lg:text-[58px]">{t.offerTitleOne}</h2><p className="mt-2 font-sf text-[30px] font-bold leading-[1.05] tracking-[-0.035em] text-[#1C1A17] lg:whitespace-nowrap lg:text-[44px]">{t.offerTitleTwo}</p><p className="mt-2 font-sf text-[22px] font-bold leading-[1.15] text-[#D10E63] lg:whitespace-nowrap lg:text-[28px]">{t.offerProofOne}</p><p className="mt-2 font-sf text-[17px] font-semibold leading-[1.2] text-[#1C1A17] lg:whitespace-nowrap lg:text-[20px]">{t.offerProofTwo}</p></div>
+}
+
+function GenericPromise({ t }: { t: (typeof COPY)[keyof typeof COPY] }) {
+  return <div><h1 className="font-sf text-[36px] font-semibold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[46px]">{t.genericTitle}</h1><p className="mt-4 text-[17px] font-semibold leading-7 text-[#4E483F]">{t.genericLead}</p><p className="mt-3 text-sm leading-6 text-[#6E665A]">{t.contextualReassurance}</p></div>
 }
 
 function ContextualPromise({ t }: { t: (typeof COPY)[keyof typeof COPY] }) {
