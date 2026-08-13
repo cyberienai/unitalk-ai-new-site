@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 
@@ -124,6 +125,13 @@ export function SiteFooter() {
   const { lang } = useLanguage()
   const t = T[lang]
   const FOOTER_COLUMNS = t.columns
+  const pathname = usePathname()
+  function handleLinkClick(event: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    if (href !== '/missions' || pathname !== '/missions' || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    event.preventDefault()
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' })
+  }
   return (
     <footer className="relative overflow-hidden bg-[#1C1A17] text-[#F3EFE6]">
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
@@ -162,6 +170,7 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <a
                       href={link.href}
+                      onClick={(event) => handleLinkClick(event, link.href)}
                       className="inline-block text-sm text-[#A79E8E] transition-all duration-200 hover:translate-x-0.5 hover:text-[#F3EFE6]"
                     >
                       {link.label}

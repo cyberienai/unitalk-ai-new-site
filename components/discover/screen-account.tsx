@@ -122,7 +122,7 @@ export function ScreenAccount({
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#F39AC2]">{t.alma}</p>
           <p className="mt-4 max-w-md font-sf text-xl font-bold text-white">{t.saved}</p>
           <p className="mt-3 max-w-md text-sm leading-6 text-[#C9C1B8]">{t.almaMessage}</p>
-          <a href="/missions" className="mt-6 inline-flex text-sm font-semibold text-white underline decoration-white/25 underline-offset-4 hover:decoration-white">← {t.change}</a>
+          <a href={mission.slug ? `/missions?return=${encodeURIComponent(mission.slug)}` : '/missions'} className="mt-6 inline-flex text-sm font-semibold text-white underline decoration-white/25 underline-offset-4 hover:decoration-white">← {t.change}</a>
         </div>
       </aside>
 

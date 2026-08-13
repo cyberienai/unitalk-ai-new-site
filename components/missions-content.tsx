@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowUp, ChevronDown, Mic, Square } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
@@ -49,6 +49,8 @@ function interleaveMissionsByCategory(): Mission[] {
 export function MissionsContent() {
   const { lang } = useLanguage()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const returnSlug = searchParams.get('return')
   const t = COPY[lang]
   const [need, setNeed] = useState('')
   const [category, setCategory] = useState('all')
@@ -65,9 +67,16 @@ export function MissionsContent() {
       if (saved.category) setCategory(saved.category)
       if (typeof saved.showOthers === 'boolean') setShowOthers(saved.showOthers)
       if (typeof saved.need === 'string') setNeed(saved.need)
-      if (typeof saved.scrollY === 'number') requestAnimationFrame(() => window.scrollTo({ top: saved.scrollY }))
+      if (!returnSlug) return
+      requestAnimationFrame(() => {
+        const card = document.querySelector<HTMLElement>(`[data-mission-card="${CSS.escape(returnSlug)}"]`)
+        if (!card) return
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        card.scrollIntoView({ block: 'center', behavior: reducedMotion ? 'auto' : 'smooth' })
+        window.history.replaceState(window.history.state, '', '/missions')
+      })
     } catch {}
-  }, [])
+  }, [returnSlug])
 
   useEffect(() => {
     const SpeechRecognition =
@@ -155,10 +164,10 @@ export function MissionsContent() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F3EFE6] pb-20 pt-[6.5rem] text-[#1C1A17] sm:pt-28">
+    <main id="missions-top" className="min-h-screen bg-[#F3EFE6] pb-20 pt-[6.5rem] text-[#1C1A17] sm:pt-28">
       <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
-          <h1 className="hero-heading">
+          <h1 className="hero-heading scroll-mt-[calc(var(--header-height,64px)+24px)]">
             {t.title}
           </h1>
 

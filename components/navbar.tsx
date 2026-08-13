@@ -199,11 +199,13 @@ function NavItem({
   href,
   active,
   overDark,
+  onClick,
   children,
 }: {
   href: string
   active: boolean
   overDark: boolean
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void
   children: React.ReactNode
 }) {
   const color = active
@@ -216,6 +218,7 @@ function NavItem({
   return (
     <a
       href={href}
+      onClick={onClick}
       aria-current={active ? 'page' : undefined}
       className={`relative rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${color}`}
     >
@@ -266,6 +269,13 @@ export function Navbar(
   // Experts: the human pillar — accompaniment around the Collaborateurs IA.
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'
+
+  function handleMissionsClick(event: React.MouseEvent<HTMLAnchorElement>) {
+    if (pathname !== '/missions' || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    event.preventDefault()
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' })
+  }
 
   // Lock body scroll while the mobile menu is open
   useEffect(() => {
@@ -339,7 +349,7 @@ export function Navbar(
 
             <div className="hidden items-center gap-1 lg:flex">
               {/* Missions — the entry point: start from the need to accomplish */}
-              <NavItem href="/missions" active={isMissionsActive} overDark={overDark}>
+              <NavItem href="/missions" active={isMissionsActive} overDark={overDark} onClick={handleMissionsClick}>
                 {t.missions}
               </NavItem>
 
@@ -568,7 +578,10 @@ export function Navbar(
                 <div className="divide-y divide-[#E4DDCE]">
                   <a
                     href="/missions"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(event) => {
+                      handleMissionsClick(event)
+                      setIsMenuOpen(false)
+                    }}
                     className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.missions}
