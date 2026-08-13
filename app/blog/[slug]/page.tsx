@@ -3,9 +3,9 @@ import { notFound } from 'next/navigation'
 import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { BlogArticleContent } from '@/components/blog-article-content'
-import { ProspectsGuideContent } from '@/components/prospects-guide-content'
-import { EmailGuideContent, EMAIL_GUIDE_FAQ } from '@/components/email-guide-content'
+import { MissionGuideContent } from '@/components/mission-guide-content'
 import { BLOG_ARTICLES, getBlogArticle } from '@/lib/blog-articles'
+import { getMission } from '@/lib/missions-catalog'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -81,26 +81,14 @@ export default async function BlogArticlePage({
       { '@type': 'ListItem', position: 3, name: article.title.fr, item: canonical },
     ],
   }
-  const faqItems = article.specializedLayout === 'email-guide' ? EMAIL_GUIDE_FAQ : article.specializedLayout === 'prospects-guide' ? [
-      ['Comment le Collaborateur IA qualifie-t-il un prospect ?', 'Il applique les critères définis par l’entreprise, consulte les sources autorisées et explique pourquoi chaque prospect est retenu.'],
-      ['Comment le score est-il calculé ?', 'Selon les critères et les pondérations définis par l’entreprise, avec une explication et un niveau de confiance.'],
-      ['Peut-on exporter la sélection ?', 'Après validation, vers le CRM autorisé, Microsoft Excel, Google Sheets ou CSV selon les droits configurés.'],
-      ['Peut-il contacter automatiquement les prospects ?', 'Seulement si l’entreprise l’autorise. Les étapes peuvent être soumises à des niveaux de validation différents.'],
-      ['Que devient l’expérience après la mission ?', 'Les corrections validées peuvent enrichir les compétences et le profil métier mobilisés.'],
-    ] : null
-  const faqJsonLd = faqItems ? {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),
-  } : null
+  const specializedMission = article.missionSlug ? getMission(article.missionSlug) : undefined
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
       <Navbar />
-      {article.specializedLayout === 'prospects-guide' ? <ProspectsGuideContent /> : article.specializedLayout === 'email-guide' ? <EmailGuideContent /> : <BlogArticleContent article={article} />}
+      {article.specializedLayout && specializedMission ? <MissionGuideContent mission={specializedMission} /> : <BlogArticleContent article={article} />}
       <SiteFooter />
     </>
   )
