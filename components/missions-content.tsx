@@ -323,7 +323,7 @@ const COPY = {
     send: 'Envoyer le travail à accomplir',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur.',
     readyTitle: 'Besoin d’inspiration ?',
-    readyNote: 'Choisissez une mission. Je vous aide à l’adapter à vos méthodes, vos outils et vos règles, et je crée votre Collaborateur IA pour votre mission.',
+    readyNote: 'Je vous aide à définir une première mission, puis à préparer le Collaborateur IA qui l’accomplira.',
     almaRole: 'Coordinatrice de missions',
     almaLinkLabel: 'Découvrir Alma, Coordinatrice de missions',
     discoverAlma: 'Découvrir Alma →',
