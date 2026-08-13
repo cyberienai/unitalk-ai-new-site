@@ -54,6 +54,12 @@ export type StoreItem = {
   keywords: string[]
   compatibleWith?: string[]
   includedWithLicense?: string
+  labels?: {
+    default: Bilingual
+    feminine?: Bilingual
+    masculine?: Bilingual
+    neutral?: Bilingual
+  }
 }
 
 // --- Type metadata ---------------------------------------------------------
@@ -179,6 +185,7 @@ const PROFILS: StoreItem[] = [
     dateAdded: '2026-08-13',
     keywords: ['transformation', 'conseil', 'alma', 'mission', 'formation', 'adoption', 'ia'],
     compatibleWith: ['alma'],
+    labels: { default: { fr: 'Conseiller en transformation IA', en: 'AI transformation advisor' }, feminine: { fr: 'Conseillère en transformation IA', en: 'AI transformation advisor' }, neutral: { fr: 'Transformation IA', en: 'AI transformation' } },
   },
   {
     type: 'profil',
@@ -209,6 +216,7 @@ const PROFILS: StoreItem[] = [
     order: 1,
     dateAdded: '2025-01-06',
     keywords: ['assistant', 'direction', 'agenda', 'reunion', 'executive', 'emma'],
+    labels: { default: { fr: 'Assistante de direction', en: 'Executive assistant' }, neutral: { fr: 'Assistance de direction', en: 'Executive assistance' } },
   },
   {
     type: 'profil',
