@@ -6,13 +6,14 @@ import { ArrowUp, ChevronDown, Mic, Square } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
+import { UNITAlK_SUBCATEGORIES } from '@/lib/unitalk-commerce'
 
-const PRIMARY_CATEGORIES = ['ventes', 'relation-client', 'marketing', 'finance', 'rh'] as const
+const PRIMARY_CATEGORIES = ['ventes', 'relation-client', 'marketing', 'finance', 'rh', 'unitalk'] as const
 const SECONDARY_CATEGORIES = ['reunions', 'administration', 'direction', 'documents', 'analyse', 'operations', 'produit'] as const
 const FEATURED_SLUGS = [
   'trouver-de-nouveaux-clients', 'repondre-a-mes-clients', 'preparer-les-elements-de-facturation',
   'construire-un-calendrier-editorial', 'rediger-une-fiche-de-poste', 'resumer-un-dossier',
-  'preparer-l-ordre-du-jour', 'organiser-les-rendez-vous', 'preparer-le-dossier-de-comite',
+  'preparer-l-ordre-du-jour', 'participer-a-vos-reunions', 'preparer-le-dossier-de-comite',
   'realiser-une-veille-concurrentielle', 'controler-l-execution-d-un-processus', 'preparer-une-feuille-de-route-produit',
 ] as const
 const ALL_CATEGORY_ORDER = [
@@ -28,6 +29,7 @@ const ALL_CATEGORY_ORDER = [
   'direction',
   'operations',
   'produit',
+  'unitalk',
 ] as const
 
 function interleaveMissionsByCategory(): Mission[] {
@@ -58,6 +60,7 @@ export function MissionsContent() {
   const [category, setCategory] = useState(validCategory)
   const [showOthers, setShowOthers] = useState(false)
   const [listening, setListening] = useState(false)
+  const [unitalkSubcategory, setUnitalkSubcategory] = useState('all')
   const [voiceSupported, setVoiceSupported] = useState(false)
   const recognitionRef = useRef<any>(null)
 
@@ -119,8 +122,10 @@ export function MissionsContent() {
       const selected = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => !!mission)
       return selected.length === 12 ? selected : interleaveMissionsByCategory().slice(0, 12)
     }
-    return MISSIONS.filter((mission) => mission.category === category).slice(0, 12)
-  }, [category])
+    const categoryMissions = MISSIONS.filter((mission) => mission.category === category)
+    const narrowed = category === 'unitalk' && unitalkSubcategory !== 'all' ? categoryMissions.filter((mission) => mission.unitalk?.subcategory === unitalkSubcategory) : categoryMissions
+    return narrowed.slice(0, 12)
+  }, [category, unitalkSubcategory])
 
   function toggleListening() {
     const recognition = recognitionRef.current
@@ -172,6 +177,7 @@ export function MissionsContent() {
 
   function selectCategory(next: string) {
     setCategory(next)
+    if (next !== 'unitalk') setUnitalkSubcategory('all')
     const href = next === 'all' ? '/missions' : `/missions?categorie=${encodeURIComponent(next)}`
     router.push(href, { scroll: false })
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -247,6 +253,8 @@ export function MissionsContent() {
             </div>
           )}
 
+          {category === 'unitalk' && <div className="mt-3 flex gap-2 overflow-x-auto pb-2"><button onClick={() => setUnitalkSubcategory('all')} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === 'all' ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>Toutes</button>{UNITAlK_SUBCATEGORIES.map(([key,label])=><button key={key} onClick={() => setUnitalkSubcategory(key)} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === key ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>{label}</button>)}</div>}
+
           <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${MISSIONS.filter((mission) => mission.category === category).length} missions · ${CATEGORY_LABELS[category]?.[lang] ?? category}`}</p>
           <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
@@ -287,6 +295,7 @@ const CATEGORY_LABELS: Record<string, { fr: string; en: string }> = {
   analyse: { fr: 'Analyse', en: 'Analysis' },
   operations: { fr: 'Opérations', en: 'Operations' },
   produit: { fr: 'Produit', en: 'Product' },
+  unitalk: { fr: 'Unitalk', en: 'Unitalk' },
 }
 
 const COPY = {

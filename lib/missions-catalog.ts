@@ -8,6 +8,8 @@
 // structured data so the catalog stays consistent and maintainable.
 
 import type { Bilingual } from '@/lib/collaborators-catalog'
+import type { UnitalkMissionCommerce } from '@/lib/unitalk-commerce'
+import { UNITALK_MISSIONS } from '@/lib/unitalk-missions'
 
 export type MissionCategory = { key: string; label: Bilingual }
 export type MissionCollection = { key: string; label: Bilingual }
@@ -65,6 +67,7 @@ export type Mission = {
     href: string
     label: Bilingual
   }
+  unitalk?: UnitalkMissionCommerce
 }
 
 export function getMissionCategory(categoryKey: string): MissionCategory | undefined {
@@ -112,6 +115,7 @@ export const MISSION_CATEGORIES: MissionCategory[] = [
   { key: 'analyse', label: { fr: 'Analyse, recherche & veille', en: 'Analysis, research & monitoring' } },
   { key: 'operations', label: { fr: 'Opérations & automatisation', en: 'Operations & automation' } },
   { key: 'produit', label: { fr: 'Produit, design & technologie', en: 'Product, design & technology' } },
+  { key: 'unitalk', label: { fr: 'Unitalk', en: 'Unitalk' } },
 ]
 
 // --- Editorial collections (cross-cutting goals) ---------------------------
@@ -577,6 +581,7 @@ const SEEDS: Seed[] = [
   m('marketing', 'preparer-une-campagne-de-communication', 'Préparer une campagne de communication', 'Prepare a communication campaign', 'Un plan de campagne avec messages, formats, calendrier et validations.', 'A campaign plan with messages, formats, schedule and approvals.'),
 
   // ---------------- RÉUNIONS & COORDINATION ----------------
+  m('reunions', 'participer-a-vos-reunions', 'Participer à vos réunions', 'Join your meetings', 'Rejoignez Google Meet, Zoom, Slack ou Microsoft Teams pour suivre les échanges, préparer le compte rendu et organiser les actions à venir.', 'Join Google Meet, Zoom, Slack or Microsoft Teams to follow discussions, prepare minutes and organize next actions.', { status: 'available', dateAdded: '2026-08-13', modality: 'audio' }),
   m('reunions', 'preparer-l-ordre-du-jour', 'Préparer l’ordre du jour d’une réunion', 'Prepare a meeting agenda', 'Un ordre du jour structuré à partir des sujets et documents disponibles.', 'A structured agenda built from the available topics and documents.'),
   m('reunions', 'preparer-les-participants', 'Préparer les participants', 'Brief the participants', 'Chaque participant reçoit le contexte et les documents utiles avant la réunion.', 'Each participant gets the context and useful documents before the meeting.'),
   m('reunions', 'transcrire-une-reunion', 'Transcrire une réunion', 'Transcribe a meeting', 'Une transcription fidèle, horodatée et consultable.', 'A faithful, timestamped and searchable transcription.', { status: 'on-setup', modality: 'audio' }),
@@ -703,7 +708,7 @@ const SEEDS: Seed[] = [
   m('produit', 'rediger-la-documentation-technique', 'Rédiger la documentation technique', 'Write technical documentation', 'Une documentation claire décrit l’installation, l’utilisation et les limites.', 'Clear documentation describes installation, usage and limits.', { status: 'on-setup', dateAdded: '2026-08-04', modality: 'code' }),
 ]
 
-export const MISSIONS: Mission[] = SEEDS.map((seed, i) => buildMission(seed, i))
+export const MISSIONS: Mission[] = [...SEEDS.map((seed, i) => buildMission(seed, i)), ...UNITALK_MISSIONS]
 
 // --- Helpers ----------------------------------------------------------------
 export function getMission(slug: string): Mission | undefined {

@@ -65,6 +65,7 @@ export function StoreCard({
         {mission.title[lang]}
       </h3>
       <p className="pointer-events-none relative z-10 mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
+      {mission.unitalk && <div className="pointer-events-none relative z-10 mt-3 grid grid-cols-2 gap-2 border-t border-[#DED6C8] pt-3 text-[10px] text-[#6E665A]"><p><strong className="block text-[#1C1A17]">Intervenant</strong>{mission.profile[lang]}</p><p><strong className="block text-[#1C1A17]">Crédits Mission</strong>À confirmer</p><p><strong className="block text-[#1C1A17]">Assistance</strong>Après cadrage</p><p><strong className="block text-[#1C1A17]">Crédits IA</strong>Estimés avant exécution</p></div>}
       <footer className="pointer-events-none relative z-20 mt-4 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[12px] font-semibold leading-snug text-[#6E665A]">
           {categoryData ? <Link href={getMissionCategoryHref(categoryData)} aria-label={lang === 'fr' ? `Afficher les missions de la catégorie ${category}` : `Show missions in ${category}`} className="pointer-events-auto relative z-30 inline-flex min-h-8 items-center underline decoration-transparent underline-offset-4 outline-none hover:text-[#D10E63] hover:decoration-[#D10E63]/40 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{category}</Link> : <span className="pointer-events-none">{category}</span>}
@@ -118,6 +119,18 @@ const DESCRIPTION_OVERRIDES: Record<string, { fr: string; en: string }> = {
   'construire-un-calendrier-editorial': {
     fr: 'Planifiez les publications selon vos objectifs, vos canaux et vos temps forts.',
     en: 'Plan publications around your goals, channels and key moments.',
+  },
+  'preparer-l-ordre-du-jour': {
+    fr: 'Structurez les sujets, les documents utiles et les décisions attendues avant la réunion.',
+    en: 'Structure the topics, useful documents and expected decisions before the meeting.',
+  },
+  'organiser-les-rendez-vous': {
+    fr: 'Planifiez les rendez-vous selon les disponibilités, les priorités et les contraintes de chacun.',
+    en: 'Schedule appointments around everyone’s availability, priorities and constraints.',
+  },
+  'controler-l-execution-d-un-processus': {
+    fr: 'Suivez les étapes d’un processus et signalez les retards ou anomalies qui exigent une intervention.',
+    en: 'Track each process step and flag delays or anomalies that require attention.',
   },
 }
 
