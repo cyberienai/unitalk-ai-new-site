@@ -5,7 +5,7 @@ import { DiscoverFlow } from '@/components/discover/discover-flow'
 import { decodeSession, SESSION_COOKIE } from '@/lib/mock-auth'
 
 export const metadata: Metadata = {
-  title: 'Poursuivre votre mission avec Alma · Unitalk',
+  title: 'Commencer avec Alma',
   description:
     'Alma conserve votre mission, l’adapte à votre entreprise et prépare votre premier Collaborateur IA.',
 }
