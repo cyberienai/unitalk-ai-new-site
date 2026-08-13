@@ -77,7 +77,8 @@ export function AuthCard({ mode, redirectTo }: { mode: Mode; redirectTo: string 
   const [loadingProvider, setLoadingProvider] = useState<AuthProvider | null>(null)
   const codeRefs = useRef<(HTMLInputElement | null)[]>([])
 
-  const otherHref = mode === 'sign-in' ? '/inscription' : '/connexion'
+  const otherPath = mode === 'sign-in' ? '/inscription' : '/connexion'
+  const otherHref = `${otherPath}?redirect=${encodeURIComponent(redirectTo)}`
 
   function submit(provider: AuthProvider, emailValue?: string) {
     setLoadingProvider(provider)

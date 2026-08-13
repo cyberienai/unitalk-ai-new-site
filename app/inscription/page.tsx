@@ -16,7 +16,12 @@ export default async function InscriptionPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
   const params = await searchParams
-  const redirectTo = firstParam(params.redirect) ?? '/decouvrir'
+  const source = firstParam(params.source)
+  const pricingDraft = firstParam(params.pricingDraft)
+  const pricingRedirect = source === 'tarifs' && pricingDraft
+    ? `/decouvrir?source=tarifs&pricingDraft=${encodeURIComponent(pricingDraft)}`
+    : undefined
+  const redirectTo = firstParam(params.redirect) ?? pricingRedirect ?? '/decouvrir'
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#F3EFE6] px-4 py-16">

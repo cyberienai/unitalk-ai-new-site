@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { configurationTotal, configurationTotalAt, unitalkPricing } from '@/lib/unitalk-pricing'
+import { configurationBreakdownAt, configurationTotal, configurationTotalAt, normalizePricingDraft, unitalkPricing } from '@/lib/unitalk-pricing'
 
 describe('Unitalk configurable pricing', () => {
   it('matches the default promotional configuration', () => {
@@ -27,5 +27,37 @@ describe('Unitalk configurable pricing', () => {
     expect(configurationTotalAt(2, 'halfTime', 1, new Date('2026-12-21T12:00:00Z'))).toBe(248)
     expect(configurationTotalAt(2, 'halfTime', 1, new Date('2026-12-22T12:00:00Z'))).toBe(298)
     expect(configurationTotalAt(2, 'halfTime', 1, new Date('2027-01-01T12:00:00Z'))).toBe(298)
+  })
+  it.each([
+    ['byok', 49],
+    ['quarterTime', 49],
+    ['halfTime', 99],
+    ['fullTime', 149],
+  ] as const)('calculates one collaborator with %s before promotions end', (capacity, expected) => {
+    expect(configurationTotalAt(1, capacity, 0, new Date('2026-12-21T12:00:00Z'))).toBe(expected)
+  })
+  it.each([1, 2, 3, unitalkPricing.aiCollaborator.max])('calculates quantity %d', collaborators => {
+    expect(configurationTotalAt(collaborators, 'byok', 0, new Date('2026-12-21T12:00:00Z'))).toBe(collaborators * 49)
+  })
+  it.each([0, 1, 2])('adds %d co-creators', coCreators => {
+    expect(configurationTotalAt(1, 'byok', coCreators, new Date('2026-12-21T12:00:00Z'))).toBe(49 + coCreators * 50)
+  })
+  it('makes both promotional discounts explicit in the breakdown', () => {
+    expect(configurationBreakdownAt(1, 'quarterTime', 0, new Date('2026-12-21T12:00:00Z'))).toMatchObject({
+      subtotal: 124,
+      organizationDiscount: 50,
+      capacityDiscount: 25,
+      promotions: 75,
+      total: 49,
+    })
+  })
+  it('normalizes draft quantities, capacity and source', () => {
+    expect(normalizePricingDraft({ collaborators: 999, coCreators: -2, capacity: 'invalid' as never })).toEqual({
+      source: 'tarifs',
+      collaborators: 20,
+      capacity: 'quarterTime',
+      coCreators: 0,
+      priceVersion: unitalkPricing.version,
+    })
   })
 })
