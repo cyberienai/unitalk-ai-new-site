@@ -1,32 +1,15 @@
-import { notFound, redirect } from 'next/navigation'
+import type { Metadata } from 'next'
+import { Navbar } from '@/components/navbar'
+import { SiteFooter } from '@/components/site-footer'
+import { WorkspaceFinalContent } from '@/components/workspace/workspace-final-content'
 
-function getUnitalkAppUrl(): string | null {
-  const configured = process.env.NEXT_PUBLIC_UNITALK_APP_URL?.trim()
-  if (!configured) return null
-
-  let url: URL
-  try {
-    url = new URL(configured)
-  } catch {
-    throw new Error('NEXT_PUBLIC_UNITALK_APP_URL must be a valid absolute URL.')
-  }
-
-  if (url.protocol !== 'https:' || url.username || url.password) {
-    throw new Error('NEXT_PUBLIC_UNITALK_APP_URL must use HTTPS and must not contain credentials.')
-  }
-
-  return url.toString()
+export const metadata: Metadata = {
+  title: 'Workspace · Le travail humain–IA avance sous votre contrôle',
+  description: 'Le Workspace Unitalk réunit équipes humaines, Collaborateurs IA, missions, décisions et résultats dans une seule interface gouvernée.',
+  alternates: { canonical: '/workspace' },
+  openGraph: { title: 'Workspace Unitalk · Le travail avance, vous gardez la main', description: 'Confiez une mission, suivez son travail, validez les décisions et conservez le résultat.', url: '/workspace', type: 'website' },
 }
 
-export default function WorkspaceRedirect() {
-  const appUrl = getUnitalkAppUrl()
-  if (appUrl) redirect(appUrl)
-
-  if (process.env.NODE_ENV !== 'production') {
-    throw new Error(
-      'NEXT_PUBLIC_UNITALK_APP_URL is required. The public site does not provide a local Workspace.',
-    )
-  }
-
-  notFound()
+export default function WorkspacePage() {
+  return <><Navbar /><WorkspaceFinalContent /><SiteFooter /></>
 }
