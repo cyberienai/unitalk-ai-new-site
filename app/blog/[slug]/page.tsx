@@ -57,7 +57,7 @@ export default async function BlogArticlePage({
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: article.specializedLayout === 'prospects-guide'
-      ? 'Trouver des prospects qualifiés avec l’IA : une liste ne vaut pas une bonne sélection'
+      ? 'Trouver des prospects qualifiés. Et savoir exactement pourquoi.'
       : article.title.fr,
     description: article.excerpt.fr,
     mainEntityOfPage: canonical,
@@ -78,7 +78,7 @@ export default async function BlogArticlePage({
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+      { '@type': 'ListItem', position: 2, name: article.specializedLayout === 'prospects-guide' ? 'Missions' : 'Blog', item: `${SITE_URL}${article.specializedLayout === 'prospects-guide' ? '/missions' : '/blog'}` },
       { '@type': 'ListItem', position: 3, name: article.title.fr, item: canonical },
     ],
   }
@@ -86,9 +86,9 @@ export default async function BlogArticlePage({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      ['Comment l’IA peut-elle qualifier un prospect ?', 'Elle applique les critères définis par l’entreprise, rassemble les informations autorisées et explique pourquoi chaque prospect a été retenu. L’équipe valide la sélection finale.'],
-      ['Le Collaborateur IA peut-il contacter automatiquement les prospects ?', 'Seulement si l’entreprise l’autorise. Les étapes peuvent être soumises à des niveaux de validation différents.'],
-      ['Comment améliorer la qualité des prochaines sélections ?', 'Les motifs validés par l’équipe permettent d’affiner progressivement la méthode.'],
+      ['Comment le Collaborateur IA qualifie-t-il un prospect ?', 'Il applique les critères définis par l’entreprise, consulte les sources autorisées et explique pourquoi chaque prospect est retenu.'],
+      ['Peut-il contacter automatiquement les prospects ?', 'Seulement si l’entreprise l’autorise. Les étapes peuvent être soumises à des niveaux de validation différents.'],
+      ['Que devient l’expérience après la mission ?', 'Les corrections validées peuvent enrichir les compétences et le profil métier mobilisés.'],
     ].map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),
   } : null
 

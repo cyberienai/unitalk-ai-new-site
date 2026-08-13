@@ -1,113 +1,89 @@
 import Link from 'next/link'
+import { getMission } from '@/lib/missions-catalog'
+import { getStoreItemBySlug, storeItemHref } from '@/lib/store-catalog'
 
-const toc = [
-  ['definition', 'Définir un prospect qualifié'],
-  ['recherche', 'Confier la recherche'],
-  ['validation', 'Conserver la validation humaine'],
-  ['contact', 'Cadrer la prise de contact'],
-  ['resultat', 'Définir le résultat attendu'],
-] as const
+const MISSION_SLUG = 'trouver-de-nouveaux-clients'
+const mission = getMission(MISSION_SLUG)!
+const profile = getStoreItemBySlug('commercial')!
+const skills = ['qualifier-un-prospect', 'relancer-une-opportunite', 'preparer-un-rendez-vous'].map(getStoreItemBySlug).filter(Boolean)
+const applications = ['hubspot', 'salesforce', 'linkedin'].map(getStoreItemBySlug).filter(Boolean)
 
 export function ProspectsGuideContent() {
   return (
-    <article className="px-5 pb-20 pt-24 sm:px-8 sm:pt-28">
-      <div className="mx-auto max-w-3xl">
-        <Link href="/blog" className="text-sm font-semibold text-[#6E665A] transition-colors hover:text-[#D10E63]">← Tous les articles</Link>
-        <p className="mt-7 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Prospection B2B</p>
-        <h1 className="mt-3 text-balance font-sf text-[clamp(2rem,4vw,2.8rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1C1A17]">
-          Trouver des prospects qualifiés avec l’IA : une liste ne vaut pas une bonne sélection
-        </h1>
-        <p className="mt-5 text-lg leading-relaxed text-[#4E483F]">
-          La prospection ne manque pas de données. Elle manque souvent de discernement. Obtenir des centaines de noms est simple ; savoir lesquels correspondent réellement à votre offre, au bon moment et pour les bonnes raisons l’est beaucoup moins.
-        </p>
-        <p className="mt-4 text-sm font-medium text-[#6E665A]">Par Unitalk · Mis à jour le 12 août 2026 · 7 min de lecture</p>
+    <article className="bg-[#F3EFE6] text-[#1C1A17]">
+      <section className="px-5 pb-16 pt-24 sm:px-8 sm:pt-28">
+        <div className="mx-auto max-w-[1180px]">
+          <nav aria-label="Fil d’Ariane" className="text-sm text-[#6E665A]"><Link href="/missions" className="hover:text-[#B00C54]">Missions</Link> <span aria-hidden>/</span> Ventes</nav>
+          <div className="mt-8 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+            <div>
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Mission · Prospection B2B</p>
+              <h1 className="mt-4 font-sf text-[42px] font-bold leading-[0.98] tracking-[-0.05em] sm:text-[64px]"><span className="block">Trouver des prospects qualifiés.</span><span className="block text-[#6E665A]">Et savoir exactement pourquoi.</span></h1>
+              <p className="mt-7 max-w-3xl text-[18px] leading-8 text-[#4E483F]">Votre Collaborateur IA applique vos critères, consulte les sources autorisées et documente chaque sélection. Votre équipe commerciale garde la décision avant tout ajout au CRM ou toute prise de contact.</p>
+              <Link href={`/decouvrir?mission=${MISSION_SLUG}`} className="mt-7 inline-flex bg-[#D10E63] px-6 py-3 text-sm font-bold text-white">Personnaliser cette mission →</Link>
+              <p className="mt-3 text-[13px] text-[#6E665A]">7 jours d’essai · 1 million de tokens offerts · Sans carte bancaire</p>
+            </div>
+            <dl className="border-y border-[#1C1A17]/15">
+              <HeroFact label="Résultat" value="Une sélection documentée de prospects à examiner." />
+              <HeroFact label="Profil métier" value={profile.name.fr} href={storeItemHref(profile)} />
+              <HeroFact label="Validation" value="Avant CRM ou prise de contact" />
+              <div className="py-5"><dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">Applications</dt><dd className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">{applications.map((app) => <Link key={app!.slug} href={storeItemHref(app!)} className="underline decoration-[#D10E63]/30 underline-offset-4">{app!.name.fr}</Link>)}</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
 
-        <section id="definition" className="mt-10 rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-5">
-          <h2 className="font-sf text-xl font-bold">Qu’est-ce qu’un prospect qualifié ?</h2>
-          <p className="mt-3 leading-relaxed text-[#4E483F]">
-            Un prospect qualifié est une entreprise ou une personne qui correspond à des critères commerciaux définis, montre un besoin pertinent et peut être approchée dans le cadre autorisé par l’entreprise. L’IA peut préparer cette qualification ; l’équipe commerciale conserve la décision finale.
-          </p>
+      <Act eyebrow="01 · Le résultat" title="Une sélection que votre équipe peut décider d’utiliser.">
+        <p>Chaque prospect est accompagné des raisons de sa sélection, des sources consultées, de la date des signaux observés et des points qui restent à vérifier.</p>
+        <section className="mt-10 border-y border-[#1C1A17]/15 py-7">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B00C54]">Exemple fictif</p>
+          <h3 className="mt-3 font-sf text-[30px] font-bold">Acme Industries</h3>
+          <p className="mt-2 text-sm text-[#6E665A]">Exemple fictif destiné à illustrer la structure du résultat.</p>
+          <dl className="mt-7 grid gap-x-10 gap-y-6 sm:grid-cols-2"><ExampleFact label="Pourquoi elle correspond" value="86 salariés et recrutement récent de trois commerciaux." /><ExampleFact label="Sources" value="Site de l’entreprise · Offre d’emploi · Registre autorisé" /><ExampleFact label="Point à vérifier" value="Aucun responsable identifié pour le périmètre concerné." /><ExampleFact label="Niveau de confiance" value="Moyen" /><ExampleFact label="Recommandation" value="Conserver dans la sélection pour validation." /></dl>
         </section>
+      </Act>
 
-        <nav aria-label="Dans cet article" className="mt-8 border-y border-[#DED6C8] py-5">
-          <p className="font-sf font-bold">Dans cet article</p>
-          <ol className="mt-3 space-y-2">
-            {toc.map(([id, label], index) => <li key={id}><a href={`#${id}`} className="grid grid-cols-[2rem_1fr] text-sm text-[#4E483F] hover:text-[#D10E63]"><span className="font-mono text-[#B00C54]">{String(index + 1).padStart(2, '0')}</span><span>{label}</span></a></li>)}
-          </ol>
-        </nav>
+      <Act eyebrow="02 · Le Collaborateur IA" title="Une identité porte la mission du début à la fin." muted>
+        <p>Cette mission n’est pas confiée à un agent temporaire. Elle est accomplie par votre Collaborateur IA, avec son identité, son environnement de travail et le contexte que votre entreprise l’autorise à utiliser.</p>
+        <div className="mt-10 grid border-y border-[#1C1A17]/15 sm:grid-cols-2"><Concept title="Collaborateur IA" body="Une identité durable qui porte la responsabilité." /><Concept title="Profil métier" body="La responsabilité commerciale mobilisée dans la durée." href={storeItemHref(profile)} /><Concept title="Compétences" body="Les savoir-faire nécessaires à la recherche, à la vérification et à la qualification." /><Concept title="Applications" body="Les moyens d’action autorisés pour accomplir la mission." /></div>
+        <p className="mt-8 text-[16px] font-semibold">La mission est le travail. Le profil métier est la responsabilité. Les compétences sont les savoir-faire. Les applications sont les moyens d’action.</p>
+      </Act>
 
-        <ArticleSection title="Commencer par définir ce qu’est un bon prospect">
-          <p>Avant de rechercher des entreprises, il faut définir les critères qui rendront la recherche utile. Ces critères peuvent décrire le secteur, la taille, la technologie utilisée, la zone géographique, un problème reconnu ou un signal récent de croissance.</p>
-          <ul><li>appartenir à un secteur précis ;</li><li>employer entre 20 et 200 personnes ;</li><li>montrer un signal de recrutement ou de transformation ;</li><li>ne pas être déjà client ou engagé dans une autre démarche commerciale.</li></ul>
-          <p>Ces critères de qualification ne doivent pas être inventés par l’IA. Ils viennent de l’entreprise, de son profil client idéal et de l’expérience de son équipe.</p>
-        </ArticleSection>
+      <Act eyebrow="03 · Ce qu’il mobilise" title="Il n’invente pas votre définition d’un bon prospect.">
+        <div className="grid border-y border-[#1C1A17]/15 sm:grid-cols-2"><Concept title="Votre contexte" body="Cible commerciale, secteurs, tailles, zones géographiques et signaux recherchés." /><Concept title="Votre mémoire d’entreprise" body="Clients existants, comptes déjà approchés, exclusions et corrections que l’entreprise choisit de conserver." /><Concept title="Ses compétences" body="Rechercher, vérifier, recouper, qualifier et documenter selon la méthode validée." links={skills.map((skill) => ({ label: skill!.name.fr, href: storeItemHref(skill!) }))} /><Concept title="Ses applications" body="Navigateur, documents, CRM ou outils de communication explicitement autorisés." links={applications.map((app) => ({ label: app!.name.fr, href: storeItemHref(app!) }))} /></div>
+        <p className="mt-8 font-sf text-[26px] font-bold">Le contexte est partagé. Les accès restent gouvernés.</p>
+      </Act>
 
-        <ArticleSection id="recherche" title="Confier la recherche, pas le jugement final">
-          <p>Une fois le cadre validé, le <Link href="/collaborateurs-ia" className="text-[#B00C54] underline underline-offset-4">Collaborateur IA</Link> peut rechercher les entreprises, réunir les informations publiques autorisées, vérifier les données, écarter les doublons et expliquer pourquoi chaque prospect a été retenu.</p>
-          <ol><li>rechercher les entreprises correspondant aux critères ;</li><li>compléter chaque fiche avec les informations autorisées ;</li><li>relever les signaux récents qui justifient la qualification ;</li><li>présenter une sélection commerciale documentée.</li></ol>
-        </ArticleSection>
+      <Act eyebrow="04 · Travail collaboratif" title="Le Collaborateur IA prépare. L’équipe décide." muted>
+        <ol className="mt-10 border-t border-[#1C1A17]/15">{WORKFLOW.map(([title, body], index) => <li key={title} className="grid gap-3 border-b border-[#1C1A17]/15 py-6 sm:grid-cols-[60px_180px_1fr]"><span className="font-mono text-[10px] text-[#B00C54]">0{index + 1}</span><strong className="text-sm uppercase tracking-[0.08em]">{title}</strong><span className="leading-7 text-[#4E483F]">{body}</span></li>)}</ol>
+      </Act>
 
-        <section className="mt-10 rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-5">
-          <h2 className="font-sf text-xl font-bold">Exemple illustratif d’un prospect présenté à l’équipe</h2>
-          <dl className="mt-4 grid gap-3 text-sm text-[#4E483F]">
-            <div><dt className="font-bold text-[#1C1A17]">Entreprise</dt><dd>Acme Industries — exemple fictif</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Pourquoi elle correspond</dt><dd>86 salariés et recrutement récent de trois commerciaux.</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Sources</dt><dd>Site de l’entreprise · Offre d’emploi · Registre autorisé</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Date du signal</dt><dd>12 août 2026</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Point à vérifier</dt><dd>Aucun responsable identifié pour le périmètre concerné.</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Niveau de confiance</dt><dd>Moyen</dd></div>
-            <div><dt className="font-bold text-[#1C1A17]">Recommandation</dt><dd>Conserver dans la sélection pour validation.</dd></div>
-          </dl>
-        </section>
+      <Act eyebrow="05 · Ce qui reste" title="Le résultat est livré. Le savoir-faire reste dans l’entreprise.">
+        <p>Les corrections validées peuvent améliorer les compétences mobilisées et la définition du profil métier associé à cette mission.</p>
+        <div className="mt-10 grid gap-8 sm:grid-cols-3"><Concept title="Profil métier" body="Il peut être réutilisé et attribué à d’autres Collaborateurs IA selon les droits de l’organisation." /><Concept title="Compétences" body="Les savoir-faire validés peuvent être partagés avec les équipes humaines et les autres Collaborateurs IA autorisés." /><Concept title="Mémoire" body="Le contexte et l’expérience restent gouvernés par les droits définis dans l’entreprise." /></div>
+        <p className="mt-10 font-sf text-[30px] font-bold text-[#B00C54]">Validé une fois. Réutilisé par tous ceux qui y sont autorisés.</p>
+      </Act>
 
-        <ArticleSection id="validation" title="La validation humaine améliore la prochaine recherche">
-          <p>Lorsqu’un commercial refuse un prospect, il peut préciser pourquoi : entreprise trop petite, besoin insuffisamment démontré, relation existante, mauvais interlocuteur ou signal trop ancien.</p>
-          <p>Le Collaborateur IA ne remplace pas le jugement commercial. Il applique les critères définis et apprend uniquement des corrections que l’équipe accepte de conserver.</p>
-        </ArticleSection>
+      <Act eyebrow="06 · La mission" title="Le contrat de travail, en un regard." muted>
+        <dl className="mt-8 border-y border-[#1C1A17]/15"><FicheRow label="Mission" value="Trouver des prospects correspondant à notre cible commerciale." /><FicheRow label="Résultat" value="Une sélection documentée, sans doublons, accompagnée des raisons de qualification et des sources utilisées." /><FicheRow label="Contexte partagé" value="Critères de cible, exclusions, clients existants et sources autorisées." /><FicheRow label="Applications" value="Celles que l’entreprise autorise pour rechercher, documenter ou transmettre le résultat." /><FicheRow label="Validation humaine" value="Avant tout ajout au CRM ou toute prise de contact." /><FicheRow label="Expérience conservée" value="Les motifs d’acceptation, de correction ou de refus que l’entreprise décide de conserver." /><FicheRow label="Partage" value="Les profils métier et compétences validés peuvent être réutilisés selon les droits définis par l’entreprise." /></dl>
+        <section className="mt-14"><h2 className="font-sf text-[32px] font-bold">Questions fréquentes</h2><div className="mt-5 border-t border-[#1C1A17]/15"><Faq q="Comment le Collaborateur IA qualifie-t-il un prospect ?">Il applique les critères définis par l’entreprise, consulte les sources autorisées et explique pourquoi chaque prospect est retenu.</Faq><Faq q="Peut-il contacter automatiquement les prospects ?">Seulement si l’entreprise l’autorise. La recherche, l’ajout au CRM, la préparation d’un message et son envoi peuvent avoir des règles de validation différentes.</Faq><Faq q="Que devient l’expérience après la mission ?">Les corrections validées peuvent enrichir les compétences et le profil métier mobilisés. Ces savoir-faire peuvent ensuite être réutilisés ou partagés avec les collaborateurs humains et IA autorisés.</Faq></div></section>
+      </Act>
 
-        <ArticleSection id="contact" title="Une mission peut s’arrêter avant la prise de contact">
-          <p>Rechercher et contacter sont deux responsabilités différentes. L’entreprise peut autoriser la recherche, la qualification de prospects et la préparation de messages tout en exigeant une validation humaine avant l’ajout au CRM, l’utilisation d’une donnée de contact ou l’envoi.</p>
-        </ArticleSection>
-
-        <section id="resultat" className="mt-10 overflow-hidden rounded-2xl border border-[#DED6C8] bg-[#FAF8F3]">
-          <h2 className="px-5 pt-5 font-sf text-xl font-bold">Le résultat attendu</h2>
-          <dl className="mt-4 divide-y divide-[#DED6C8]">
-            <FicheRow label="Mission" value="Trouver des prospects correspondant à notre cible commerciale." />
-            <FicheRow label="Résultat" value="Une sélection documentée d’entreprises à examiner, sans doublons et accompagnée des raisons de leur qualification." />
-            <FicheRow label="Règles" value="Utiliser uniquement les sources autorisées. Exclure les clients existants et les entreprises déjà contactées au cours des six derniers mois." />
-            <FicheRow label="Validation humaine" value="La sélection doit être validée avant tout ajout au CRM ou toute prise de contact." />
-          </dl>
-        </section>
-
-        <ArticleSection title="Du volume à la capacité commerciale">
-          <p>L’objectif n’est pas de produire plus de lignes dans un fichier, mais de réduire le temps de recherche et d’améliorer la qualité des sélections. Découvrez les autres <Link href="/missions" className="text-[#B00C54] underline underline-offset-4">missions prêtes à adapter</Link>.</p>
-        </ArticleSection>
-
-        <section className="mt-12">
-          <h2 className="font-sf text-2xl font-bold">Questions fréquentes</h2>
-          <Faq q="Comment l’IA peut-elle qualifier un prospect ?">Elle applique les critères définis par l’entreprise, rassemble les informations autorisées et explique pourquoi chaque prospect a été retenu. L’équipe valide la sélection finale.</Faq>
-          <Faq q="Le Collaborateur IA peut-il contacter automatiquement les prospects ?">Seulement si l’entreprise l’autorise. Recherche, qualification, préparation des messages et envoi peuvent avoir des niveaux de validation différents.</Faq>
-          <Faq q="Comment améliorer la qualité des prochaines sélections ?">Les motifs d’acceptation, de correction ou de refus validés par l’équipe permettent d’affiner progressivement la méthode.</Faq>
-        </section>
-
-        <section className="mt-12 border-t border-[#DED6C8] pt-8">
-          <h2 className="font-sf text-2xl font-bold">Prêt à identifier vos prochains prospects ?</h2>
-          <p className="mt-3 text-[#4E483F]">Confiez vos critères à votre Collaborateur IA. Il prépare la sélection, votre équipe garde la décision.</p>
-          <Link href="/confier?mission=trouver-de-nouveaux-clients" className="mt-5 inline-flex rounded-full bg-[#D10E63] px-6 py-3 text-sm font-bold text-white">Recevoir une proposition adaptée →</Link>
-        </section>
-      </div>
+      <section className="bg-[#D10E63] px-5 py-16 text-white sm:px-8 sm:py-20"><div className="mx-auto max-w-[1000px]"><h2 className="font-sf text-[38px] font-bold leading-tight tracking-[-0.04em] sm:text-[54px]">Personnalisez cette mission pour votre entreprise.</h2><p className="mt-5 max-w-3xl text-[17px] leading-8 text-white/80">Donnez à Alma votre contexte, vos critères et vos règles. Elle vous aide à préparer le Collaborateur IA qui accomplira la mission.</p><div className="mt-8 flex flex-wrap items-center gap-5"><Link href={`/decouvrir?mission=${MISSION_SLUG}`} className="bg-[#151310] px-6 py-3 text-sm font-bold text-white">Personnaliser cette mission →</Link><Link href="/missions" className="text-sm font-bold text-white underline underline-offset-4">Voir toutes les missions →</Link></div><p className="mt-4 text-[13px] text-white/75">7 jours d’essai · 1 million de tokens offerts · Sans carte bancaire</p></div></section>
     </article>
   )
 }
 
-function ArticleSection({ id, title, children }: { id?: string; title: string; children: React.ReactNode }) {
-  return <section id={id} className="mt-10 [&_li]:mt-2 [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mt-4 [&_p]:leading-[1.75] [&_p]:text-[#3B3730] [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-6"><h2 className="font-sf text-2xl font-bold tracking-[-0.02em]">{title}</h2>{children}</section>
-}
+const WORKFLOW = [
+  ['Cadrer', 'L’équipe définit les critères, les exclusions et les sources autorisées.'],
+  ['Rechercher', 'Le Collaborateur IA rassemble et vérifie les informations disponibles.'],
+  ['Expliquer', 'Chaque prospect est accompagné des raisons de sa sélection.'],
+  ['Valider', 'L’équipe accepte, corrige ou refuse avant toute action sensible.'],
+  ['Continuer', 'Les corrections validées améliorent la prochaine mission.'],
+] as const
 
-function FicheRow({ label, value }: { label: string; value: string }) {
-  return <div className="grid gap-1 px-5 py-4 sm:grid-cols-[10rem_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{label}</dt><dd className="text-sm leading-relaxed text-[#1C1A17]">{value}</dd></div>
-}
-
-function Faq({ q, children }: { q: string; children: React.ReactNode }) {
-  return <div className="mt-5"><h3 className="font-sf text-lg font-bold">{q}</h3><p className="mt-2 leading-relaxed text-[#4E483F]">{children}</p></div>
-}
+function Act({ eyebrow, title, muted = false, children }: { eyebrow: string; title: string; muted?: boolean; children: React.ReactNode }) { return <section className={muted ? 'bg-[#EAE4D9] px-5 py-16 sm:px-8 sm:py-24' : 'px-5 py-16 sm:px-8 sm:py-24'}><div className="mx-auto max-w-[1000px]"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{eyebrow}</p><h2 className="mt-4 max-w-4xl font-sf text-[34px] font-bold leading-[1.04] tracking-[-0.04em] sm:text-[50px]">{title}</h2><div className="mt-6 text-[17px] leading-8 text-[#4E483F]">{children}</div></div></section> }
+function HeroFact({ label, value, href }: { label: string; value: string; href?: string }) { return <div className="border-b border-[#1C1A17]/15 py-5 last:border-b-0"><dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{label}</dt><dd className="mt-2 font-sf text-[22px] font-bold leading-tight">{href ? <Link href={href} className="underline decoration-[#D10E63]/30 underline-offset-4">{value}</Link> : value}</dd></div> }
+function ExampleFact({ label, value }: { label: string; value: string }) { return <div><dt className="text-sm font-bold">{label}</dt><dd className="mt-1 text-[15px] leading-7 text-[#4E483F]">{value}</dd></div> }
+function Concept({ title, body, href, links }: { title: string; body: string; href?: string; links?: { label: string; href: string }[] }) { return <div className="border-b border-[#1C1A17]/15 py-7 sm:px-6 sm:odd:border-r sm:first:pl-0"><h3 className="font-sf text-[24px] font-bold">{href ? <Link href={href} className="underline decoration-[#D10E63]/30 underline-offset-4">{title}</Link> : title}</h3><p className="mt-3 text-[15px] leading-7 text-[#4E483F]">{body}</p>{links && <p className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm">{links.map((link) => <Link key={link.href} href={link.href} className="text-[#B00C54] underline underline-offset-3">{link.label}</Link>)}</p>}</div> }
+function FicheRow({ label, value }: { label: string; value: string }) { return <div className="grid gap-2 border-b border-[#1C1A17]/15 py-5 last:border-b-0 sm:grid-cols-[180px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{label}</dt><dd className="text-[15px] leading-7">{value}</dd></div> }
+function Faq({ q, children }: { q: string; children: React.ReactNode }) { return <div className="border-b border-[#1C1A17]/15 py-5"><h3 className="font-sf text-[20px] font-bold">{q}</h3><p className="mt-2 text-[15px] leading-7 text-[#4E483F]">{children}</p></div> }
