@@ -11,6 +11,18 @@ const COPY = {
   en: { signIn: 'Sign in', workspace: 'Workspace', account: 'Account', signOut: 'Sign out' },
 } as const
 
+export function AnonymousOnly({ children }: { children: React.ReactNode }) {
+  const [session, setSession] = useState<MockSession | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    setSession(readClientSession())
+  }, [])
+
+  return !mounted || !session ? children : null
+}
+
 /** Desktop: Connexion link when logged out, avatar dropdown when logged in. */
 export function UserMenuDesktop({ overDark, anonymousAction }: { overDark: boolean; anonymousAction?: React.ReactNode }) {
   const { lang } = useLanguage()

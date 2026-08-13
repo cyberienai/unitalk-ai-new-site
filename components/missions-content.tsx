@@ -187,14 +187,15 @@ export function MissionsContent() {
   }
 
   return (
-    <main id="missions-top" className="min-h-screen bg-[#F3EFE6] pb-20 pt-[6.5rem] text-[#1C1A17] sm:pt-28">
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+    <main id="missions-top" className="relative min-h-screen overflow-hidden bg-[#F3EFE6] pb-20 pt-[5.25rem] text-[#1C1A17] sm:pt-20">
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[360px] opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+      <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-3xl text-center">
           <h1 className="hero-heading scroll-mt-[calc(var(--header-height,64px)+24px)]">
             {t.title}
           </h1>
 
-          <div className="relative mx-auto mt-7 max-w-2xl">
+          <div className="relative mx-auto mt-5 max-w-2xl">
             <textarea
               value={need}
               onChange={(event) => setNeed(event.target.value)}
@@ -207,7 +208,7 @@ export function MissionsContent() {
               rows={1}
               placeholder={t.placeholder}
               aria-label={t.placeholder}
-              className="min-h-14 w-full resize-none rounded-2xl border border-[#D8D0C2] bg-white py-[17px] pl-5 pr-14 text-left text-[15px] leading-5 shadow-sm outline-none placeholder:text-[#6E665A] focus:border-[#D10E63]/70 focus:ring-4 focus:ring-[#D10E63]/10"
+              className="min-h-14 w-full resize-none rounded-[18px] border border-[#D8D0C2] bg-[#FFFDF9] py-[17px] pl-5 pr-14 text-left text-[15px] leading-5 shadow-[0_14px_38px_-30px_rgba(28,26,23,.55)] outline-none transition-[border-color,box-shadow] placeholder:text-[#857C6E] hover:border-[#C8BFB0] focus:border-[#D10E63]/70 focus:shadow-[0_16px_42px_-28px_rgba(209,14,99,.35)] focus:ring-4 focus:ring-[#D10E63]/10"
             />
             <button
               type="button"
@@ -215,9 +216,9 @@ export function MissionsContent() {
               disabled={!need.trim() && !voiceSupported}
               title={!need.trim() && !voiceSupported ? t.voiceUnavailable : undefined}
               aria-label={need.trim() ? t.send : listening ? t.stop : t.talk}
-              className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-xl bg-[#D10E63] text-white transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#B9B1A5] disabled:text-[#F3EFE6]"
+              className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-white shadow-[0_8px_20px_-8px_rgba(209,14,99,.65)] transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-[#B9B1A5] disabled:text-[#F3EFE6] disabled:shadow-none"
             >
-              <span aria-hidden className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:animate-pulse group-hover:opacity-100" />
+              <span aria-hidden className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100" />
               {need.trim() ? (
                 <ArrowUp className="relative h-4 w-4" strokeWidth={2.5} />
               ) : listening ? (
@@ -229,31 +230,31 @@ export function MissionsContent() {
           </div>
         </header>
 
-        <section id="mission-selection" aria-labelledby="mission-selection-title" className="mt-11 scroll-mt-[calc(var(--header-height,64px)+24px)]">
-          <div className="flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
-            <Link href="/unitalk/@alma" aria-label={t.almaLinkLabel} className="shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
-              <Image src="/alma-avatar.png" alt="" width={48} height={48} className="size-12 rounded-full object-cover" />
+        <section id="mission-selection" aria-labelledby="mission-selection-title" className="mt-7 scroll-mt-[calc(var(--header-height,64px)+24px)]">
+          <div className="flex flex-col items-start gap-3 border-y border-[#D8D0C2] py-3 sm:flex-row sm:items-center sm:gap-4">
+            <Link href="/unitalk/@alma" aria-label={t.almaLinkLabel} className="shrink-0 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+              <Image src="/alma-avatar.png" alt="" width={52} height={52} className="size-[52px] rounded-full object-cover ring-2 ring-[#D10E63]/15" />
             </Link>
             <div className="min-w-0 flex-1">
-              <h2 id="mission-selection-title" className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
+              <h2 id="mission-selection-title" className="font-sf text-xl font-semibold tracking-[-0.025em] sm:text-2xl">{t.readyTitle}</h2>
               <p className="mt-1 text-[13px] font-semibold text-[#1C1A17]">
                 Alma <span className="font-normal text-[#6E665A]">· {t.almaRole}</span>
               </p>
               <p className="mt-1 max-w-xl text-[13px] leading-5 text-[#4E483F]">{t.readyNote}</p>
             </div>
-            <Link href="/unitalk/@alma" className="shrink-0 text-[12px] font-semibold text-[#B00C54] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:self-center">
+            <Link href="/unitalk/@alma" className="shrink-0 rounded-full border border-[#D10E63]/25 bg-[#FFFDF9] px-4 py-2 text-[12px] font-semibold text-[#B00C54] outline-none transition-colors hover:border-[#D10E63]/50 hover:bg-[#FCEBF2] focus-visible:ring-2 focus-visible:ring-[#D10E63]">
               {t.discoverAlma}
             </Link>
           </div>
 
-          <div className="mt-5 flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="mt-5 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <CategoryButton href="/missions" active={category === 'all'} onClick={(event) => { event.preventDefault(); selectCategory('all') }}>{t.selection}</CategoryButton>
             {PRIMARY_CATEGORIES.map((key) => (
               <CategoryButton key={key} href={`/missions?categorie=${key}`} active={category === key} onClick={(event) => { event.preventDefault(); selectCategory(key) }}>
                 {CATEGORY_LABELS[key][lang]}
               </CategoryButton>
             ))}
-            <button type="button" aria-expanded={showOthers} aria-controls="secondary-mission-categories" onClick={selectOther} className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/50 bg-white px-3.5 text-[12px] font-semibold leading-none text-[#B00C54] outline-none transition-colors hover:bg-[#FBF3F7] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+            <button type="button" aria-expanded={showOthers} aria-controls="secondary-mission-categories" onClick={selectOther} className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63]/35 bg-[#FFFDF9] px-3.5 text-[12px] font-semibold leading-none text-[#B00C54] outline-none transition-colors hover:border-[#D10E63]/60 hover:bg-[#FCEBF2] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
               {t.allCategories}<ChevronDown aria-hidden className={`h-3.5 w-3.5 transition-transform ${showOthers ? 'rotate-180' : ''}`} />
             </button>
           </div>
@@ -270,7 +271,7 @@ export function MissionsContent() {
 
           {category === 'unitalk' && <div className="mt-3 flex gap-2 overflow-x-auto pb-2"><button onClick={() => setUnitalkSubcategory('all')} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === 'all' ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>Toutes</button>{UNITAlK_SUBCATEGORIES.map(([key,label])=><button key={key} onClick={() => setUnitalkSubcategory(key)} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === key ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>{label}</button>)}</div>}
 
-          <p className="mt-[18px] text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${MISSIONS.filter((mission) => mission.category === category).length} missions · ${CATEGORY_LABELS[category]?.[lang] ?? category}`}</p>
+          <div className="mt-[18px] flex items-center gap-3"><p className="text-sm font-semibold text-[#4E483F]">{category === 'all' ? t.selectedCount : `${MISSIONS.filter((mission) => mission.category === category).length} missions · ${CATEGORY_LABELS[category]?.[lang] ?? category}`}</p><span aria-hidden className="h-px flex-1 bg-[#DED6C8]" /></div>
           <div className="mt-3 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
               <StoreCard key={mission.slug} mission={mission} lang={lang} onPersonalize={rememberCatalogState} />
@@ -288,8 +289,8 @@ function CategoryButton({ active, href, onClick, children }: { active: boolean; 
       href={href}
       onClick={onClick}
       aria-current={active ? 'page' : undefined}
-      className={`inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full border px-3.5 text-[12px] font-semibold leading-none outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${
-        active ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F] hover:border-[#D10E63]/45 hover:text-[#D10E63]'
+      className={`inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full border px-3.5 text-[12px] font-semibold leading-none outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${
+        active ? 'border-[#D10E63] bg-[#D10E63] text-white shadow-[0_7px_18px_-10px_rgba(209,14,99,.8)]' : 'border-[#D8D0C2] bg-[#FFFDF9] text-[#4E483F] hover:-translate-y-0.5 hover:border-[#D10E63]/45 hover:text-[#D10E63]'
       }`}
     >
       {children}
