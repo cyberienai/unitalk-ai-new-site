@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/language-context'
 import {
   CREATOR_LABELS,
   facetLabels,
+  getStoreItem,
   getStoreItemBySlug,
   storeItemHref,
   TYPE_LABELS,
@@ -65,7 +66,7 @@ function RelatedChips({ title, slugs }: { title: string; slugs?: string[] }) {
 
 export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: string }) {
   const { lang } = useLanguage()
-  const item = getStoreItemBySlug(slug)
+  const item = getStoreItem(typeSlug, slug)
 
   if (!item) return null
 
