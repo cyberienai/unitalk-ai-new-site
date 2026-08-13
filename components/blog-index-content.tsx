@@ -103,7 +103,7 @@ export function BlogIndexContent() {
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-[#EFEADF]">
                     <Image
-                      src={a.image || '/placeholder.svg'}
+                      src={a.image || `/blog/${a.slug}/opengraph-image`}
                       alt=""
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

@@ -4,6 +4,7 @@ import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { BlogArticleContent } from '@/components/blog-article-content'
 import { ProspectsGuideContent } from '@/components/prospects-guide-content'
+import { EmailGuideContent, EMAIL_GUIDE_FAQ } from '@/components/email-guide-content'
 import { BLOG_ARTICLES, getBlogArticle } from '@/lib/blog-articles'
 
 const SITE_URL = 'https://unitalk.ai'
@@ -51,14 +52,12 @@ export default async function BlogArticlePage({
   if (!article) notFound()
 
   const canonical = `${SITE_URL}${article.canonical ?? `/blog/${slug}`}`
-  const published = article.specializedLayout === 'prospects-guide' ? '2026-08-12' : undefined
+  const published = undefined
   const image = `${SITE_URL}/blog/${slug}/opengraph-image`
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: article.specializedLayout === 'prospects-guide'
-      ? 'Trouver des prospects qualifiés. Et savoir exactement pourquoi.'
-      : article.title.fr,
+    headline: article.specializedLayout === 'prospects-guide' ? 'Trouver des prospects qualifiés. Et savoir exactement pourquoi.' : article.specializedLayout === 'email-guide' ? 'Répondre aux emails clients. Sans perdre le contexte.' : article.title.fr,
     description: article.excerpt.fr,
     mainEntityOfPage: canonical,
     image,
@@ -78,20 +77,21 @@ export default async function BlogArticlePage({
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: article.specializedLayout === 'prospects-guide' ? 'Missions' : 'Blog', item: `${SITE_URL}${article.specializedLayout === 'prospects-guide' ? '/missions' : '/blog'}` },
+      { '@type': 'ListItem', position: 2, name: article.specializedLayout ? 'Missions' : 'Blog', item: `${SITE_URL}${article.specializedLayout ? '/missions' : '/blog'}` },
       { '@type': 'ListItem', position: 3, name: article.title.fr, item: canonical },
     ],
   }
-  const faqJsonLd = article.specializedLayout === 'prospects-guide' ? {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
+  const faqItems = article.specializedLayout === 'email-guide' ? EMAIL_GUIDE_FAQ : article.specializedLayout === 'prospects-guide' ? [
       ['Comment le Collaborateur IA qualifie-t-il un prospect ?', 'Il applique les critères définis par l’entreprise, consulte les sources autorisées et explique pourquoi chaque prospect est retenu.'],
       ['Comment le score est-il calculé ?', 'Selon les critères et les pondérations définis par l’entreprise, avec une explication et un niveau de confiance.'],
       ['Peut-on exporter la sélection ?', 'Après validation, vers le CRM autorisé, Microsoft Excel, Google Sheets ou CSV selon les droits configurés.'],
       ['Peut-il contacter automatiquement les prospects ?', 'Seulement si l’entreprise l’autorise. Les étapes peuvent être soumises à des niveaux de validation différents.'],
       ['Que devient l’expérience après la mission ?', 'Les corrections validées peuvent enrichir les compétences et le profil métier mobilisés.'],
-    ].map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),
+    ] : null
+  const faqJsonLd = faqItems ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })),
   } : null
 
   return (
@@ -100,7 +100,7 @@ export default async function BlogArticlePage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
       <Navbar />
-      {article.specializedLayout === 'prospects-guide' ? <ProspectsGuideContent /> : <BlogArticleContent article={article} />}
+      {article.specializedLayout === 'prospects-guide' ? <ProspectsGuideContent /> : article.specializedLayout === 'email-guide' ? <EmailGuideContent /> : <BlogArticleContent article={article} />}
       <SiteFooter />
     </>
   )

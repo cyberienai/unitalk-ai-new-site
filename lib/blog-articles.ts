@@ -20,10 +20,25 @@ export type BlogArticle = {
   seoTitle?: { fr: string; en: string }
   canonical?: string
   missionSlug?: string
-  specializedLayout?: 'prospects-guide'
+  specializedLayout?: 'prospects-guide' | 'email-guide'
 }
 
 export const BLOG_ARTICLES: BlogArticle[] = [
+  {
+    slug: 'repondre-demandes-email-ia',
+    image: '',
+    category: { fr: 'Service client', en: 'Customer service' },
+    readingTime: { fr: '', en: '' },
+    date: { fr: '', en: '' },
+    seoTitle: { fr: 'Répondre aux emails clients avec l’IA', en: 'Answer customer emails with AI' },
+    canonical: '/blog/repondre-demandes-email-ia',
+    missionSlug: 'repondre-a-mes-clients',
+    specializedLayout: 'email-guide',
+    title: { fr: 'Répondre aux emails clients avec l’IA, sans perdre le contexte', en: 'Answer customer emails with AI without losing context' },
+    excerpt: { fr: 'Découvrez comment un Collaborateur IA qualifie les emails clients, prépare des réponses contextualisées et demande une validation humaine lorsque nécessaire.', en: 'See how an AI Collaborator qualifies customer emails, prepares contextual replies and requests human approval when needed.' },
+    cardLead: { fr: 'Comment préparer des réponses contextualisées sans automatiser les engagements et les décisions sensibles.', en: 'How to prepare contextual replies without automating commitments and sensitive decisions.' },
+    body: { fr: [], en: [] },
+  },
   {
     slug: 'trouver-prospects-qualifies-ia',
     image: '',
