@@ -227,14 +227,26 @@ export function MissionsContent() {
               )}
             </button>
           </div>
-          <div className="mx-auto mt-6 flex max-w-[430px] items-center gap-3 text-left"><Image src="/alma-avatar.png" alt="" width={44} height={44} className="h-11 w-11 rounded-full object-cover"/><div><p className="text-sm font-semibold">Alma</p><p className="text-[13px] text-[#6E665A]">Coordinatrice de missions</p><p className="text-[13px] text-[#4E483F]">Je transforme votre besoin en mission personnalisée.</p><Link href="/collaborateurs-ia/alma" className="text-[12px] font-semibold text-[#B00C54]">Découvrir Alma →</Link></div></div>
         </header>
 
-        <section id="mission-selection" className="mt-10 scroll-mt-[calc(var(--header-height,64px)+24px)]">
-          <h2 className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
-          <p className="mt-1 text-[13px] text-[#6E665A]">{t.readyNote}</p>
+        <section id="mission-selection" aria-labelledby="mission-selection-title" className="mt-12 scroll-mt-[calc(var(--header-height,64px)+24px)]">
+          <div className="flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
+            <Link href="/unitalk/@alma" aria-label={t.almaLinkLabel} className="shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
+              <Image src="/alma-avatar.png" alt="" width={48} height={48} className="size-12 rounded-full object-cover" />
+            </Link>
+            <div className="min-w-0 flex-1">
+              <h2 id="mission-selection-title" className="font-sf text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.readyTitle}</h2>
+              <p className="mt-1 text-[13px] font-semibold text-[#1C1A17]">
+                Alma <span className="font-normal text-[#6E665A]">· {t.almaRole}</span>
+              </p>
+              <p className="mt-1 max-w-xl text-[13px] leading-5 text-[#4E483F]">{t.readyNote}</p>
+            </div>
+            <Link href="/unitalk/@alma" className="shrink-0 text-[12px] font-semibold text-[#B00C54] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
+              {t.discoverAlma}
+            </Link>
+          </div>
 
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="mt-6 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <CategoryButton href="/missions" active={category === 'all'} onClick={(event) => { event.preventDefault(); selectCategory('all') }}>{t.selection}</CategoryButton>
             {PRIMARY_CATEGORIES.map((key) => (
               <CategoryButton key={key} href={`/missions?categorie=${key}`} active={category === key} onClick={(event) => { event.preventDefault(); selectCategory(key) }}>
@@ -259,7 +271,7 @@ export function MissionsContent() {
           {category === 'unitalk' && <div className="mt-3 flex gap-2 overflow-x-auto pb-2"><button onClick={() => setUnitalkSubcategory('all')} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === 'all' ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>Toutes</button>{UNITAlK_SUBCATEGORIES.map(([key,label])=><button key={key} onClick={() => setUnitalkSubcategory(key)} className={`shrink-0 border px-3 py-1.5 text-xs ${unitalkSubcategory === key ? 'bg-[#151310] text-white' : 'border-[#DED6C8]'}`}>{label}</button>)}</div>}
 
           <p className="mt-3 text-sm font-semibold text-[#6E665A]">{category === 'all' ? t.selectedCount : `${MISSIONS.filter((mission) => mission.category === category).length} missions · ${CATEGORY_LABELS[category]?.[lang] ?? category}`}</p>
-          <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-3 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
             {missions.map((mission) => (
               <StoreCard key={mission.slug} mission={mission} lang={lang} onPersonalize={rememberCatalogState} />
             ))}
@@ -310,8 +322,11 @@ const COPY = {
     send: 'Envoyer le travail à accomplir',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur.',
     readyTitle: 'Besoin d’inspiration ?',
-    readyNote: 'Choisissez une mission et personnalisez-la pour votre entreprise.',
-    selection: 'Sélection d’Alma',
+    readyNote: 'Choisissez une mission. Je vous aide à l’adapter à vos méthodes, vos outils et vos règles.',
+    almaRole: 'Coordinatrice de missions',
+    almaLinkLabel: 'Découvrir Alma, Coordinatrice de missions',
+    discoverAlma: 'Découvrir Alma →',
+    selection: 'Sélection',
     allCategories: 'Toutes les catégories',
     selectedCount: '12 missions recommandées',
   },
@@ -324,6 +339,9 @@ const COPY = {
     voiceUnavailable: 'Voice dictation is not available in this browser.',
     readyTitle: 'Need inspiration?',
     readyNote: 'Choose a mission. Alma will adapt it to your company.',
+    almaRole: 'Mission coordinator',
+    almaLinkLabel: 'Discover Alma, Mission coordinator',
+    discoverAlma: 'Discover Alma →',
     selection: 'Selection',
     allCategories: 'All categories',
     selectedCount: '12 selected missions',
