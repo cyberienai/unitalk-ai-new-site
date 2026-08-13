@@ -15,11 +15,12 @@ import { ScreenCollaborateur } from './screen-collaborateur'
 import { initialOnboardingState, STEP_ORDER, type OnboardingState, type OnboardingStep } from './types'
 import { MISSIONS } from '@/lib/missions-catalog'
 import { actionDescription, shortCategoryLabel } from '@/components/missions/store-card'
+import type { MockSession } from '@/lib/mock-auth'
 
 // The /decouvrir onboarding. A single shared state carries the account, the
   // company context, the mission and the chosen first name across every screen.
   // The final action persists this state and opens the Workspace directly.
-export function DiscoverFlow() {
+export function DiscoverFlow({ initialSession }: { initialSession?: MockSession | null }) {
   const { lang } = useLanguage()
   const reduce = useReducedMotion()
   const searchParams = useSearchParams()
@@ -28,7 +29,27 @@ export function DiscoverFlow() {
   const catalogMission = useMemo(() => MISSIONS.find((mission) => mission.slug === missionSlug), [missionSlug])
   const [draftText, setDraftText] = useState('')
 
-  const [state, setState] = useState<OnboardingState>(initialOnboardingState)
+  const [state, setState] = useState<OnboardingState>(() => {
+    const initial = initialOnboardingState()
+    if (!initialSession) return initial
+    const domain = initialSession.email.split('@').at(-1)?.trim().toLowerCase()
+    return {
+      ...initial,
+      authenticated: true,
+      firstName: initialSession.firstName?.trim() ?? '',
+      lastName: initialSession.lastName?.trim() ?? '',
+      company: domain && initialSession.provider === 'email'
+        ? initial.company.map((fact) => {
+            if (fact.key === 'domain') return { ...fact, value: domain, uncertain: false }
+            if (fact.key === 'name') {
+              const name = domain.split('.')[0]
+              return { ...fact, value: name.charAt(0).toUpperCase() + name.slice(1), uncertain: false }
+            }
+            return fact
+          })
+        : initial.company,
+    }
+  })
   const [step, setStep] = useState<OnboardingStep>('entreprise')
 
   useEffect(() => {
@@ -51,6 +72,18 @@ export function DiscoverFlow() {
         description: lang === 'fr' ? 'Alma va structurer votre demande et l’adapter au contexte de votre entreprise.' : 'Alma will structure your request and adapt it to your company context.',
         category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission',
       }
+
+  useEffect(() => {
+    if (!selectedMission.title) return
+    setState((current) => {
+      if (current.mission.title === selectedMission.title && current.missionDefined) return current
+      return {
+        ...current,
+        mission: { ...current.mission, title: selectedMission.title },
+        missionDefined: true,
+      }
+    })
+  }, [selectedMission.title])
 
   function goTo(next: OnboardingStep) {
     setStep(next)

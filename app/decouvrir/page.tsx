@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
+import { cookies } from 'next/headers'
 import { DiscoverFlow } from '@/components/discover/discover-flow'
+import { decodeSession, SESSION_COOKIE } from '@/lib/mock-auth'
 
 export const metadata: Metadata = {
   title: 'Poursuivre votre mission avec Alma · Unitalk',
@@ -8,10 +10,12 @@ export const metadata: Metadata = {
     'Alma conserve votre mission, l’adapte à votre entreprise et prépare votre premier Collaborateur IA.',
 }
 
-export default function DecouvrirPage() {
+export default async function DecouvrirPage() {
+  const cookieStore = await cookies()
+  const session = decodeSession(cookieStore.get(SESSION_COOKIE)?.value)
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#F3EFE6]" />}>
-      <DiscoverFlow />
+      <DiscoverFlow initialSession={session} />
     </Suspense>
   )
 }

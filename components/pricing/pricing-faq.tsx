@@ -30,6 +30,10 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
             q: 'Dois-je payer chaque profil métier ou compétence ?',
             a: 'Non. Unitalk ne limite pas le nombre de profils métier ou de compétences associés à votre Collaborateur IA. Les éventuelles conditions propres aux contenus communautaires sont affichées avant leur installation.',
           },
+          {
+            q: 'Le forfait inclut-il les moyens de communication ?',
+            a: 'L’identité comprend un email, un calendrier et un numéro de téléphone professionnels. Les usages variables de voix, de téléphonie ou de services supplémentaires peuvent être proposés séparément selon les services activés.',
+          },
         ],
       }
     : {
@@ -50,6 +54,10 @@ function getFaq(lang: 'fr' | 'en'): { heading: string; items: QA[] } {
           {
             q: 'Do I pay for each job profile or skill?',
             a: 'No. Unitalk does not limit the number of job profiles or skills associated with your AI Collaborator. Any terms specific to community content are shown before installation.',
+          },
+          {
+            q: 'Does the plan include communication tools?',
+            a: 'The identity includes a professional email, calendar and phone number. Variable voice, phone or additional service usage may be offered separately depending on the services activated.',
           },
         ],
       }

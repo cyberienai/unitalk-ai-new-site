@@ -72,23 +72,17 @@ export function ScreenAccount({
           </div>
         </div>
         <div className={`relative mt-8 border-t border-white/15 pt-6 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
-          <p className="max-w-md text-sm leading-6 text-[#C9C1B8]">{t.adapted}</p>
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#F39AC2]">{t.alma}</p>
+          <p className="mt-4 max-w-md font-sf text-xl font-bold text-white">{t.saved}</p>
+          <p className="mt-3 max-w-md text-sm leading-6 text-[#C9C1B8]">{t.almaMessage}</p>
           <a href="/missions" className="mt-6 inline-flex text-sm font-semibold text-white underline decoration-white/25 underline-offset-4 hover:decoration-white">← {t.change}</a>
         </div>
       </aside>
 
       <section className="flex min-w-0 items-center bg-[#F3EFE6] px-5 py-10 sm:px-10 lg:px-[clamp(3rem,7vw,7rem)] lg:py-14">
         <div className="mx-auto w-full max-w-[480px]">
-          <Progress lang={lang} />
-          <div className="mt-10 flex items-center gap-3">
-            <img src="/alma-avatar.png" alt="" className="h-10 w-10 rounded-full object-cover ring-1 ring-[#D10E63]/25" />
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#6E665A]">{t.alma}</p>
-          </div>
-          <div className="mt-7 space-y-4 text-[15px] leading-7 text-[#4E483F]">
-            <p><strong className="font-semibold text-[#1C1A17]">{t.noted}</strong> {t.message}</p>
-            <p>{t.attached}</p>
-          </div>
-          <h2 className="mt-8 text-balance font-sf text-[28px] font-bold leading-tight tracking-[-0.035em] text-[#1C1A17] sm:text-[34px]">{t.question}</h2>
+          <h2 className="text-balance font-sf text-[30px] font-bold leading-tight tracking-[-0.035em] text-[#1C1A17] sm:text-[38px]">{t.question}</h2>
+          <p className="mt-4 text-[15px] leading-7 text-[#4E483F]">{t.attached(mission.title)}</p>
 
           <div className="mt-7 flex flex-col gap-3">
             <AuthButton onClick={() => go('google')} pending={pending === 'google'} disabled={!!pending}>
@@ -114,24 +108,15 @@ export function ScreenAccount({
   )
 }
 
-function Progress({ lang }: { lang: Lang }) {
-  const t = COPY[lang]
-  return (
-    <ol aria-label={t.progress} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#9A9185] sm:gap-3">
-      <li className="text-[#B00C54]">{t.missionStep} ✓</li><li aria-hidden className="h-px w-4 bg-[#D8D0C2]" /><li aria-current="step" className="text-[#1C1A17]">{t.companyStep}</li><li aria-hidden className="h-px w-4 bg-[#D8D0C2]" /><li>{t.collaboratorStep}</li>
-    </ol>
-  )
-}
-
 function AuthButton({ children, onClick, pending, disabled }: { children: React.ReactNode; onClick: () => void; pending: boolean; disabled: boolean }) {
   return <button type="button" onClick={onClick} disabled={disabled} aria-busy={pending} className="inline-flex h-12 items-center justify-center gap-3 rounded-xl border border-[#D8D0C2] bg-white px-5 text-[15px] font-semibold text-[#1C1A17] shadow-[0_10px_24px_-20px_rgba(28,26,23,0.5)] transition-colors hover:bg-[#FBF9F3] disabled:cursor-wait disabled:opacity-70">{pending ? <Loader2 className="h-[18px] w-[18px] animate-spin text-[#6E665A]" /> : children}</button>
 }
 
 const COPY = {
   fr: {
-    selected: 'Mission choisie', collapse: 'Réduire', expand: 'Afficher', adapted: 'Cette mission sera adaptée à votre entreprise avant toute exécution.', change: 'Changer de mission', alma: 'Alma · Conseillère IA · Unitalk', noted: 'C’est noté.', message: 'Pour adapter cette mission, j’ai d’abord besoin d’identifier votre entreprise.', attached: 'Votre mission restera attachée à votre compte.', question: 'Avec quelle entreprise allons-nous travailler ?', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou utiliser votre adresse professionnelle', emailPlaceholder: 'vous@entreprise.com', email: 'Continuer par email', reassure: 'Aucun mot de passe · Aucune carte bancaire · Mission conservée', progress: 'Progression', missionStep: 'Mission', companyStep: 'Entreprise · en cours', collaboratorStep: 'Collaborateur IA',
+    selected: 'Mission à personnaliser', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission', alma: 'Alma · Conseillère IA · Unitalk', saved: 'J’ai conservé cette mission.', almaMessage: 'Authentifiez-vous pour poursuivre. Je vous aiderai ensuite à l’adapter à votre entreprise et à préparer votre premier Collaborateur IA.', attached: (title: string) => `Votre mission « ${title} » est conservée.`, question: 'Authentifiez-vous pour continuer.', google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', or: 'ou', emailPlaceholder: 'vous@entreprise.com', email: 'Recevoir un lien par email', reassure: 'Aucun mot de passe · Aucune carte bancaire · Mission conservée',
   },
   en: {
-    selected: 'Selected mission', collapse: 'Collapse', expand: 'Show', adapted: 'This mission will be adapted to your company before any execution.', change: 'Change mission', alma: 'Alma · AI Advisor · Unitalk', noted: 'Got it.', message: 'To adapt this mission, I first need to identify your company.', attached: 'Your mission will remain attached to your account.', question: 'Which company will we be working with?', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or use your work email', emailPlaceholder: 'you@company.com', email: 'Continue by email', reassure: 'No password · No credit card · Mission saved', progress: 'Progress', missionStep: 'Mission', companyStep: 'Company · in progress', collaboratorStep: 'AI Collaborator',
+    selected: 'Mission to personalize', collapse: 'Collapse', expand: 'Show', change: 'Change mission', alma: 'Alma · AI Advisor · Unitalk', saved: 'I saved this mission.', almaMessage: 'Sign in to continue. I will then help you adapt it to your company and prepare your first AI Collaborator.', attached: (title: string) => `Your mission “${title}” is saved.`, question: 'Sign in to continue.', google: 'Continue with Google', microsoft: 'Continue with Microsoft', or: 'or', emailPlaceholder: 'you@company.com', email: 'Receive an email link', reassure: 'No password · No credit card · Mission saved',
   },
 } as const

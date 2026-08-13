@@ -52,10 +52,10 @@ export function PricingConfigurator() {
         </div>
         <span aria-hidden className="absolute left-1/2 top-1/2 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-[#F3EFE6] font-sf text-[32px] font-bold text-[#D10E63] md:flex">+</span>
       </div>
-      <p className="py-1.5 text-center font-sf text-[16px] font-bold sm:text-[18px]">{t.statement}</p>
+      <p className="py-1 text-center font-sf text-[16px] font-bold sm:text-[18px]">{t.statement}</p>
       <div id="pricing-trial" className="grid items-center gap-2 bg-[#151310] px-5 py-2 text-[#FAF8F3] sm:px-6 lg:grid-cols-[1fr_auto]">
         <div><p className="font-sf text-[17px] font-bold">{t.trialTitle}</p><div className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-[10px] font-bold uppercase tracking-[0.08em]">{t.trialItems.map((item) => <span key={item}>{item}</span>)}</div></div>
-        <div className="lg:min-w-[350px]"><button type="button" id="pricing-cta" onClick={startTrial} className="h-11 w-full bg-[#D10E63] px-5 text-sm font-bold text-white outline-none hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-white">{t.cta} →</button><p className="mt-1.5 text-[11px] text-[#BDB7AC]">{annual ? t.todayAnnual(money(annualPrice)) : t.todayMonthly(money(monthlyPrice))}</p></div>
+        <div className="lg:min-w-[350px]"><button type="button" id="pricing-cta" onClick={startTrial} className="h-10 w-full bg-[#D10E63] px-5 text-sm font-bold text-white outline-none hover:bg-[#E51872] focus-visible:ring-2 focus-visible:ring-white">{t.cta} →</button><p className="mt-1 text-[11px] text-[#BDB7AC]">{annual ? t.todayAnnual(money(annualPrice)) : t.todayMonthly(money(monthlyPrice))}</p></div>
       </div>
     </section>
   )
