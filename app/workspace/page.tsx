@@ -4,10 +4,10 @@ import { SiteFooter } from '@/components/site-footer'
 import { WorkspaceFinalContent } from '@/components/workspace/workspace-final-content'
 
 export const metadata: Metadata = {
-  title: 'Workspace · Le travail humain–IA avance sous votre contrôle',
-  description: 'Le Workspace Unitalk réunit équipes humaines, Collaborateurs IA, missions, décisions et résultats dans une seule interface gouvernée.',
+  title: 'Workspace : missions, validations et expérience humain–IA',
+  description: 'Découvrez comment le Workspace Unitalk réunit missions, activité, validations humaines, décisions, résultats et expérience gouvernée.',
   alternates: { canonical: '/workspace' },
-  openGraph: { title: 'Workspace Unitalk · Le travail avance, vous gardez la main', description: 'Confiez une mission, suivez son travail, validez les décisions et conservez le résultat.', url: '/workspace', type: 'website' },
+  openGraph: { title: 'Workspace Unitalk : les humains décident, les Collaborateurs IA agissent', description: 'Suivez une mission, validez les actions sensibles et gouvernez l’expérience conservée.', url: '/workspace', type: 'website', images: [{ url: '/opengraph-image', width: 1200, height: 630 }] },
 }
 
 export default function WorkspacePage() {
