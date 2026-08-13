@@ -7,7 +7,7 @@ const account = readFileSync(new URL('../components/discover/screen-account.tsx'
 
 describe('Alma public profile', () => {
   it('starts the generic signup without selecting a mission', () => {
-    expect(alma).toContain('href="/decouvrir?source=nav"')
+    expect(alma).toContain('/inscription?source=alma-profile&intent=nouvelle-mission')
     expect(alma).not.toContain('/decouvrir?mission=')
     expect(discover).toContain("{ kind: 'empty', source }")
     expect(account).toContain("almaGenericTitle: 'Vous n’avez pas encore choisi de mission.'")
@@ -17,15 +17,15 @@ describe('Alma public profile', () => {
   })
 
   it('uses the canonical mission coordinator positioning', () => {
-    expect(alma).toContain("role:'Coordinatrice de missions · Profil inclus'")
-    expect(alma).toContain('Elle ne devient pas votre Collaboratrice IA')
-    expect(alma).toContain('Une nouvelle mission ne signifie pas une nouvelle identité.')
+    expect(alma).toContain('Coordinatrice de missions')
+    expect(alma).toContain('Son profil de Coordinatrice de missions est inclus avec la Licence Organisation.')
+    expect(alma).toContain('Alma fait d’abord progresser un Collaborateur IA existant.')
+    expect(alma).not.toContain('En activité')
   })
 
-  it('uses accessible tabs for Alma use cases', () => {
-    expect(alma).toContain('role="tablist"')
-    expect(alma).toContain('role="tab"')
-    expect(alma).toContain('aria-selected={active === key}')
-    expect(alma).toContain('role="tabpanel"')
+  it('shows a concrete mission deliverable and links the Alma Store', () => {
+    expect(alma).toContain('Réduire les retards de paiement')
+    expect(alma).toContain('Relancer les factures impayées')
+    expect(alma).toContain('href="/unitalk/@alma/store"')
   })
 })

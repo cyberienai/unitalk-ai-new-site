@@ -21,7 +21,11 @@ export default async function InscriptionPage({
   const pricingRedirect = source === 'tarifs' && pricingDraft
     ? `/decouvrir?source=tarifs&pricingDraft=${encodeURIComponent(pricingDraft)}`
     : undefined
-  const redirectTo = firstParam(params.redirect) ?? pricingRedirect ?? '/decouvrir'
+  const intent = firstParam(params.intent)
+  const almaRedirect = source === 'alma-profile' && intent === 'nouvelle-mission'
+    ? '/decouvrir?source=alma-profile&intention=nouvelle-mission'
+    : undefined
+  const redirectTo = firstParam(params.redirect) ?? pricingRedirect ?? almaRedirect ?? '/decouvrir'
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#F3EFE6] px-4 py-16">
