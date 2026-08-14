@@ -83,35 +83,35 @@ const PLAN_INFO = {
 
 const T = {
   fr: {
-    eyebrow: 'Allouez vos ressources',
-    heading: 'Vos capacités de travail',
-    collabTitle: 'Nombre de Collaborateurs IA',
-    collabDesc: 'Combien de capacités de travail autonome d’agents IA souhaitez-vous déployer dans votre équipe ?',
-    planTitle: 'Niveau d’autonomie requis',
-    planDesc: 'Déterminez le forfait de charge d’action adapté pour vos collaborateurs à la demande.',
-    cocreatorTitle: 'Licence Co-créateur & Formateur IA',
-    cocreatorDesc: 'Membres autorisés à configurer, publier et superviser les missions de vos agents IA.',
+    eyebrow: 'Votre configuration',
+    heading: 'Composez votre équipe',
+    collabTitle: 'Agents Hermes',
+    collabDesc: 'Une identité professionnelle distincte, avec ses outils, ses droits et ses profils métier.',
+    planTitle: 'Capacité IA par Agent Hermes',
+    planDesc: 'Choisissez le volume mensuel de modèles attribué à chaque agent.',
+    cocreatorTitle: 'Co-créateurs IA',
+    cocreatorDesc: 'Personnes autorisées à créer, tester, versionner et publier des actifs Unitalk.',
     
     // Right card
-    cardKicker: 'Allocation de budget',
-    cardTitle: 'Votre enveloppe budgétaire',
+    cardKicker: 'Prix en direct',
+    cardTitle: 'Votre configuration',
     cardEstimationBadge: 'Estimation',
-    lineOrg: 'Licence Alma Organisation + Workspace',
-    lineOrgDetail: '1 VPS inclus',
+    lineOrg: 'Alma Organisation',
+    lineOrgDetail: 'Workspace & Desktop inclus',
     lineLaunchPromo: 'Offre de lancement (Alma)',
-    lineCollab: 'Licence Collaborateur IA + profil Hermes',
-    lineForfait: 'Forfait',
+    lineCollab: 'Agents Hermes',
+    lineForfait: 'Capacité',
     linePromoTrial: 'Offre capacité d’essai',
     lineCocreator: 'Licence Co-créateur IA',
     
     cardPeriod: '/mois',
-    cardAfterTrial: 'Mensuel après essai',
-    cardSovereignBadge: 'Souveraineté des données garantie',
+    cardAfterTrial: 'Total mensuel',
+    cardSovereignBadge: 'Après l’essai gratuit',
     cardToday: 'Aujourd’hui (7 jours d’essai)',
     cardTrialIncluded: '1 million de tokens d’action inclus',
     cardTrialFree: '0 €',
-    cardCta: 'Activer mes capacités de travail autonome',
-    cardNoCardNeeded: 'Aucune carte bancaire requise. Déploiement à la demande.',
+    cardCta: 'Commencer gratuitement',
+    cardNoCardNeeded: '7 jours gratuits · Sans carte bancaire',
     cardAccordion: 'Voir l’évolution du prix hors promotions',
     cardCurrency: '€',
     remove: 'Retirer',
@@ -119,35 +119,35 @@ const T = {
     selectedProfile: 'Profil présélectionné',
   },
   en: {
-    eyebrow: 'Allocate your resources',
-    heading: 'Your working capacities',
-    collabTitle: 'Number of AI Collaborators',
-    collabDesc: 'How many autonomous working capacities of AI agents do you want to deploy in your team?',
-    planTitle: 'Required level of autonomy',
-    planDesc: 'Determine the action load plan tailored to your on-demand collaborators.',
-    cocreatorTitle: 'AI Co-creator & Trainer License',
-    cocreatorDesc: 'Members authorized to configure, publish, and supervise your AI agents’ missions.',
+    eyebrow: 'Your configuration',
+    heading: 'Build your team',
+    collabTitle: 'Hermes Agents',
+    collabDesc: 'A distinct professional identity with its tools, permissions and job profiles.',
+    planTitle: 'AI capacity per Hermes Agent',
+    planDesc: 'Choose the monthly model allowance assigned to each agent.',
+    cocreatorTitle: 'AI Co-creators',
+    cocreatorDesc: 'People allowed to create, test, version and publish Unitalk assets.',
     
     // Right card
-    cardKicker: 'Budget Allocation',
-    cardTitle: 'Your budget envelope',
+    cardKicker: 'Live pricing',
+    cardTitle: 'Your configuration',
     cardEstimationBadge: 'Estimate',
-    lineOrg: 'Alma Organization + Workspace License',
-    lineOrgDetail: '1 VPS included',
+    lineOrg: 'Alma Organization',
+    lineOrgDetail: 'Workspace & Desktop included',
     lineLaunchPromo: 'Launch Offer (Alma)',
-    lineCollab: 'AI Collaborator License + Hermes profile',
-    lineForfait: 'Plan',
+    lineCollab: 'Hermes Agents',
+    lineForfait: 'Capacity',
     linePromoTrial: 'Trial capacity offer',
     lineCocreator: 'AI Co-creator License',
     
     cardPeriod: '/month',
-    cardAfterTrial: 'Monthly after trial',
-    cardSovereignBadge: 'Data sovereignty guaranteed',
+    cardAfterTrial: 'Monthly total',
+    cardSovereignBadge: 'After the free trial',
     cardToday: 'Today (7-day trial)',
     cardTrialIncluded: '1 million action tokens included',
     cardTrialFree: '0 €',
-    cardCta: 'Activate my autonomous working capacities',
-    cardNoCardNeeded: 'No credit card required. On-demand deployment.',
+    cardCta: 'Start free',
+    cardNoCardNeeded: '7 days free · No credit card',
     cardAccordion: 'See pricing evolution without promotions',
     cardCurrency: '€',
     remove: 'Remove',
@@ -180,7 +180,7 @@ export function PricingConfigurator() {
           <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">{t.eyebrow}</span>
           <h2 className="mt-2 font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17]">{t.heading}</h2>
           {selectedProfile && <p className="mt-3 inline-flex rounded-full bg-[#D10E63]/10 px-3 py-1.5 text-xs font-bold text-[#B00C54]">{t.selectedProfile} : {selectedProfile}</p>}
-          <Link href="/documentation" className="mt-4 block text-xs font-bold text-[#B00C54] underline-offset-4 hover:underline">Comprendre les licences et les ressources →</Link>
+          <Link href="/documentation" className="mt-4 block text-xs font-bold text-[#B00C54] underline-offset-4 hover:underline">Voir le détail des licences →</Link>
         </div>
 
         {/* Counter Collaborators */}
@@ -212,7 +212,7 @@ export function PricingConfigurator() {
             {t.planDesc}
           </p>
           
-          <div role="radiogroup" aria-label="Temps de travail" className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div role="radiogroup" aria-label={t.planTitle} className="mt-4 grid gap-3 sm:grid-cols-2">
             {(Object.keys(planInfo) as AiCapacityId[]).map((id) => {
               const selected = capacity === id
               const info = planInfo[id]
@@ -239,7 +239,6 @@ export function PricingConfigurator() {
                     <span className="flex-1">
                       <strong className="block text-[15px] font-bold text-[#1C1A17]">{info.name}</strong>
                       <span className="mt-0.5 block text-xs font-semibold text-[#D10E63]">{info.slogan}</span>
-                      <span className="mt-2 block text-xs text-[#6E665A] leading-relaxed">{info.desc}</span>
                       <span className="mt-3 block text-xs font-bold text-[#8A8175]">{info.tokens}</span>
                     </span>
                   </span>
@@ -276,7 +275,7 @@ export function PricingConfigurator() {
       </div>
 
       {/* Right Column — RADICAL Estimate Card (Sombre & Ultra Premium) */}
-      <aside aria-label="Plan de recrutement" className="flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#17130F] text-[#F8F1E7] p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.65)] sm:p-8">
+      <aside aria-label={t.cardTitle} className="flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#17130F] p-6 text-[#F8F1E7] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.65)] sm:p-8 lg:sticky lg:top-24 lg:self-start">
         <div>
           <div className="flex items-start justify-between border-b border-white/10 pb-4">
             <div>
@@ -307,19 +306,6 @@ export function PricingConfigurator() {
             </dd>
           </div>
 
-          {/* AI Credits Top-up indicator — Prepay credits any time */}
-          <div className="my-3 rounded-xl border border-white/5 bg-white/[0.03] p-3 text-[11px] leading-relaxed text-[#AFA397]">
-            <p className="flex items-center gap-1.5 font-semibold text-white">
-              <Coins className="h-3.5 w-3.5 text-[#F15B9B]" />
-              {lang === 'fr' ? 'Crédits IA à la demande' : 'AI Credits on-demand'}
-            </p>
-            <p className="mt-1 text-[10px] text-[#A79E8E]">
-              {lang === 'fr' 
-                ? 'Besoin d’un boost d’action temporaire ? Achetez des recharges de crédits prépayés (10€, 50€, 100€) à tout moment pour utiliser des modèles IA avancés sans engagement.'
-                : 'Need a temporary action boost? Purchase pre-paid credit top-ups (10€, 50€, 100€) at any time to use advanced AI models without commitment.'}
-            </p>
-          </div>
-
           <div className="mt-4 flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/5 px-4 py-3 text-xs">
             <dt>
               <strong>{t.cardToday}</strong>
@@ -327,6 +313,8 @@ export function PricingConfigurator() {
             </dt>
             <dd className="text-lg font-black text-[#22C55E]">{t.cardTrialFree}</dd>
           </div>
+
+          <p className="mt-3 flex items-center gap-2 text-[10px] leading-5 text-[#8F877A]"><Coins className="size-3.5 text-[#F15B9B]" />{lang === 'fr' ? 'Crédits complémentaires disponibles à la demande.' : 'Additional credits available on demand.'}</p>
 
           <button 
             type="button" 

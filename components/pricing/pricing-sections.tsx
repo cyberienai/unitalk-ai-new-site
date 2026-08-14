@@ -99,15 +99,15 @@ const NATIVE_PROFILES = {
 
 const T_HERO = {
   fr: {
-    eyebrow: 'Tarifs & Configuration',
-    title: 'Composez votre équipe de Collaborateurs IA.',
-    subtitle: 'Sélectionnez vos Collaborateurs, allouez votre budget à la demande et activez vos capacités de travail autonome instantanément. Le prix s’ajuste en direct.',
+    eyebrow: 'Tarifs simples',
+    title: 'Une Organisation. Des Agents Hermes. Une capacité par agent.',
+    subtitle: 'Choisissez le nombre d’agents et leur capacité. Alma, Workspace et Desktop sont inclus avec votre Organisation. Le total s’ajuste immédiatement.',
     note: '7 jours d’essai gratuit · Sans carte bancaire'
   },
   en: {
-    eyebrow: 'Pricing & Configuration',
-    title: 'Build your team of AI Collaborators.',
-    subtitle: 'Select your Collaborators, allocate your budget on-demand and activate your autonomous working capacities instantly. The price adjusts in real-time.',
+    eyebrow: 'Simple pricing',
+    title: 'One Organization. Hermes Agents. One capacity per agent.',
+    subtitle: 'Choose the number of agents and their capacity. Alma, Workspace and Desktop are included with your Organization. The total updates immediately.',
     note: '7-day free trial · No credit card required'
   }
 } as const
@@ -136,23 +136,23 @@ export function PricingHero() {
 
 const T_COLLAB = {
   fr: {
-    kicker: 'Les Forfaits de Temps de Travail',
-    title: 'Trois forfaits adaptés à vos besoins de charge RH.',
-    lead: 'Ne payez plus un énième SaaS, recrutez du temps de travail. C’est incomparablement moins cher qu’un humain, mais structuré exactement de la même façon dans votre plan de charge RH.',
+    kicker: 'Repères de capacité',
+    title: 'Que peut représenter chaque niveau ?',
+    lead: 'Ces repères vous aident à choisir. Le configurateur reste la seule source du prix final.',
     plans: [
       {
         name: 'Quart-temps',
         price: '74€',
         period: ' / mois',
         desc: 'Tâches de fond et automatisation standard. Idéal pour assurer votre veille, mettre à jour vos outils en arrière-plan et exécuter des rapports simples.',
-        features: ['1 identité Collaborateur IA', 'Profil Collaborateur IA pour Hermes', 'Profils métier illimités', '5 millions de tokens inclus', 'VPS Hermes dédié']
+        features: ['Agent Hermes inclus', '5 millions de tokens', 'Profils métier illimités']
       },
       {
         name: 'Mi-temps',
         price: '99€',
         period: ' / mois',
         desc: 'Prise en charge active des processus métier quotidiens. Parfait pour le tri de vos emails, la qualification réactive de prospects et la planification d’agenda.',
-        features: ['1 identité Collaborateur IA', 'Profil Collaborateur IA pour Hermes', 'Profils métier illimités', '10 millions de tokens inclus', 'Onboarding personnalisé'],
+        features: ['Agent Hermes inclus', '10 millions de tokens', 'Profils métier illimités'],
         featured: true
       },
       {
@@ -160,28 +160,28 @@ const T_COLLAB = {
         price: '149€',
         period: ' / mois',
         desc: 'Autonomie complète 24/7 sur de hauts volumes. Un collaborateur IA dédié à 100% à l’action, prêt à piloter des flux de travail complexes et multi-apps pour votre équipe.',
-        features: ['1 identité Collaborateur IA', 'Profil Collaborateur IA pour Hermes', 'Profils métier illimités', '20 millions de tokens inclus', 'Supervision AgentOps (30m)']
+        features: ['Agent Hermes inclus', '20 millions de tokens', 'Profils métier illimités']
       }
     ]
   },
   en: {
-    kicker: 'Working Hour Plans',
-    title: 'Three plans tailored to your HR capacity needs.',
-    lead: 'Do not pay for another SaaS, hire working hours. It is incomparably cheaper than a human, but structured in exactly the same way in your HR planning.',
+    kicker: 'Capacity guide',
+    title: 'What can each level represent?',
+    lead: 'Use these examples to choose. The configurator remains the single source of the final price.',
     plans: [
       {
         name: 'Part-time (1/4)',
         price: '€74',
         period: ' / month',
         desc: 'Background tasks and standard automation. Ideal for monitoring, updating your tools in the background, and running simple reports.',
-        features: ['1 AI Collaborator identity', 'AI Collaborator profile for Hermes', 'Unlimited job profiles', '5 million tokens included', 'Dedicated Hermes VPS']
+        features: ['Hermes Agent included', '5 million tokens', 'Unlimited job profiles']
       },
       {
         name: 'Half-time (1/2)',
         price: '€99',
         period: ' / month',
         desc: 'Active daily support for your business processes. Perfect for sorting emails, responsive lead qualification, and calendar planning.',
-        features: ['1 AI Collaborator identity', 'AI Collaborator profile for Hermes', 'Unlimited job profiles', '10 million tokens included', 'Personalized onboarding'],
+        features: ['Hermes Agent included', '10 million tokens', 'Unlimited job profiles'],
         featured: true
       },
       {
@@ -189,7 +189,7 @@ const T_COLLAB = {
         price: '€149',
         period: ' / month',
         desc: 'Full 24/7 autonomy on high volumes. A 100% dedicated AI collaborator ready to run complex multi-app workflows for your team.',
-        features: ['1 AI Collaborator identity', 'AI Collaborator profile for Hermes', 'Unlimited job profiles', '20 million tokens included', 'AgentOps supervision (30m)']
+        features: ['Hermes Agent included', '20 million tokens', 'Unlimited job profiles']
       }
     ]
   }
@@ -205,7 +205,7 @@ export function PricingCollaboration() {
         <Kicker>{t.kicker}</Kicker>
         <h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.title}</h2>
         <p className="mt-3 max-w-2xl text-[16px] text-[#4E483F]">{t.lead}</p>
-        <div className="mt-6 flex flex-wrap gap-3 text-sm font-bold"><Link href="/documentation/alma-organisation" className="text-[#B00C54] underline-offset-4 hover:underline">Licence Alma Organisation</Link><Link href="/documentation/workspace-desktop" className="text-[#B00C54] underline-offset-4 hover:underline">Workspace & Desktop inclus</Link><Link href="/documentation/licence-collaborateur-ia" className="text-[#B00C54] underline-offset-4 hover:underline">Licence Collaborateur IA</Link><Link href="/documentation/capacite-ia" className="text-[#B00C54] underline-offset-4 hover:underline">Capacité IA</Link></div>
+        <Link href="/documentation/capacite-ia" className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Comprendre Agent Hermes et Capacité IA →</Link>
         
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {t.plans.map((plan) => {
