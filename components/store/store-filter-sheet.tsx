@@ -19,6 +19,7 @@ export function StoreFilterSheet({
   onEditor,
   onClear,
   onClose,
+  showType = true,
 }: {
   open: boolean
   filters: Filters
@@ -29,6 +30,7 @@ export function StoreFilterSheet({
   onEditor: (key: string) => void
   onClear: () => void
   onClose: () => void
+  showType?: boolean
 }) {
   const reduce = useReducedMotion()
 
@@ -86,6 +88,7 @@ export function StoreFilterSheet({
               onCreator={onCreator}
               onFacet={onFacet}
               onEditor={onEditor}
+              showType={showType}
             />
 
             <div className="sticky bottom-0 -mx-5 mt-6 flex gap-3 border-t border-[var(--store-line)] bg-[var(--store-page)] px-5 pb-1 pt-3">

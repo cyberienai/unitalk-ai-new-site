@@ -22,6 +22,7 @@ export function StoreFilters({
   onCreator,
   onFacet,
   onEditor,
+  showType = true,
 }: {
   filters: Filters
   lang: Lang
@@ -29,6 +30,7 @@ export function StoreFilters({
   onCreator: (key: string) => void
   onFacet: (key: string) => void
   onEditor: (key: string) => void
+  showType?: boolean
 }) {
   const singleType = filters.type !== 'all' ? (filters.type as StoreType) : null
   const facets = singleType ? contextualFacets(singleType) : []
@@ -49,7 +51,7 @@ export function StoreFilters({
       className="flex flex-col gap-7"
     >
       {/* TYPE — always first (section 5) */}
-      <Group title={lang === 'fr' ? 'Type' : 'Type'}>
+      {showType && <Group title={lang === 'fr' ? 'Type' : 'Type'}>
         <ul className="flex flex-col gap-0.5">
           {TYPE_FACETS.map((o) => (
             <li key={o.key}>
@@ -57,7 +59,7 @@ export function StoreFilters({
             </li>
           ))}
         </ul>
-      </Group>
+      </Group>}
 
       {/* CRÉÉ PAR (section 6) */}
       <Group

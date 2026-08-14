@@ -114,6 +114,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
 
   // --- mutators --------------------------------------------------------------
   function selectType(key: string) {
+    if (initialType) return
     // Switching type resets the contextual facets that no longer apply.
     setFilters((p) => ({ ...p, type: key as Filters['type'], facet: 'all', editor: 'all' }))
   }
@@ -127,7 +128,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
     setFilters((p) => ({ ...p, editor: key }))
   }
   function clearAll() {
-    setFilters(EMPTY_STORE_FILTERS)
+    setFilters(initialType ? { ...EMPTY_STORE_FILTERS, type: initialType } : EMPTY_STORE_FILTERS)
     setQuery('')
   }
   const composeWithAlma = useCallback((q: string) => {
@@ -201,7 +202,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
   type Chip = { id: string; label: string; onRemove: () => void }
   const chips: Chip[] = []
   if (hasQuery) chips.push({ id: 'q', label: `${t.searchChip}: “${trimmed}”`, onRemove: () => setQuery('') })
-  if (filters.type !== 'all')
+  if (!initialType && filters.type !== 'all')
     chips.push({
       id: 'type',
       label: TYPE_FACETS.find((o) => o.key === filters.type)?.label[lang] ?? filters.type,
@@ -307,6 +308,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
                   onCreator={selectCreator}
                   onFacet={selectFacet}
                   onEditor={selectEditor}
+                  showType={!initialType}
                 />
               </div>
             </aside>
@@ -315,6 +317,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
             <div className="min-w-0 flex-1">
               {/* Mobile: type switcher + count + Filters button */}
               <div className="lg:hidden">
+                {!initialType && (
                 <div
                   className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   role="group"
@@ -336,6 +339,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
                     </button>
                   ))}
                 </div>
+                )}
                 <div className="mt-3 flex items-center justify-between">
                   <span className="text-sm font-semibold text-[var(--store-muted)]">{countLabel}</span>
                   <button
@@ -459,6 +463,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
         onEditor={selectEditor}
         onClear={clearAll}
         onClose={() => setSheetOpen(false)}
+        showType={!initialType}
       />
     </main>
   )

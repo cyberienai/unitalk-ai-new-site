@@ -53,10 +53,18 @@ const COLLAB_DISCOVER: MenuEntry[] = [
   {
     title: { fr: 'Applications', en: 'Applications' },
     desc: {
-      fr: 'Plus de 3 000 outils accessibles selon vos règles.',
-      en: 'More than 3,000 tools accessible under your rules.',
+      fr: 'Les outils vérifiés dans lesquels il peut travailler selon vos règles.',
+      en: 'Verified tools it can work in under your rules.',
     },
     href: '/collaborateurs-ia/applications',
+  },
+  {
+    title: { fr: 'Unitalk Desktop', en: 'Unitalk Desktop' },
+    desc: {
+      fr: 'Le poste de travail local de votre équipe humain-IA.',
+      en: 'The local workstation for your human-AI team.',
+    },
+    href: '/desktop',
   },
 ]
 
