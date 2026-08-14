@@ -4,6 +4,9 @@ import { unitalkPricing } from '@/lib/unitalk-pricing'
 import { CollectionCockpitDemo } from '@/components/co-creator/collection-cockpit-demo'
 
 const PRICING_HREF = '/tarifs?co-createur=1#configurateur'
+const ACADEMY_COURSE = 'https://unitalk.fr/formations/co-createur-ia?source=unitalk-ai'
+const ACADEMY_FREE = 'https://unitalk.fr/parcours-gratuits/premiere-mission-ia?source=unitalk-ai'
+const ACADEMY_FUNDING = 'https://unitalk.fr/financement?formation=co-createur-ia&source=unitalk-ai'
 
 export function CoCreatorContent() {
   return (
@@ -11,7 +14,7 @@ export function CoCreatorContent() {
       <section className="pb-16 pt-24 sm:pb-20 sm:pt-28">
         <div className="editorial-shell grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <div>
-            <Kicker>Formation Co-créateur IA Unitalk</Kicker>
+            <Kicker>Unitalk Academy · Formation Co-créateur IA</Kicker>
             <h1 className="hero-heading mt-5 max-w-2xl">
               Transformez le savoir-faire humain en Collaborateurs IA.
             </h1>
@@ -19,12 +22,13 @@ export function CoCreatorContent() {
               Apprenez à interviewer les équipes, formaliser leurs méthodes et créer les profils métier, compétences, missions et applications métier dont leurs Collaborateurs IA ont besoin.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-4">
-              <PrimaryLink href={PRICING_HREF}>Devenir Co-créateur IA →</PrimaryLink>
+              <PrimaryLink href={ACADEMY_FREE}>Commencer gratuitement sur Unitalk Academy →</PrimaryLink>
+              <a href={ACADEMY_COURSE} className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">Découvrir le programme complet</a>
               <a href="#creation-en-situation" className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
                 Voir une création en situation
               </a>
             </div>
-            <p className="mt-4 text-sm text-[#6E665A]">Formation pratique · Propulsée par Hermes, agent autonome open source</p>
+            <p className="mt-4 text-sm text-[#6E665A]">Unitalk Academy forme. Unitalk AI met en pratique.</p>
             <p className="mt-4 text-sm text-[#6E665A]">Vous avez déjà un profil prêt ? <Link href="/collaborateurs-ia/profils-metier/publier" className="font-bold text-[#B00C54] underline-offset-4 hover:underline">Publier un profil existant</Link></p>
           </div>
           <TransformationCard />
@@ -91,7 +95,8 @@ export function CoCreatorContent() {
               <p className="mt-4 font-sf text-[46px] font-bold tracking-[-0.05em]">{unitalkPricing.aiCocreator.monthlyPrice} €</p>
               <p className="text-sm font-semibold text-[#4E483F]">par mois et par Co-créateur</p>
               <p className="mt-5 font-semibold text-[#B00C54]">Formation Hermes incluse</p>
-              <PrimaryLink href={PRICING_HREF} className="mt-7">Ajouter la Licence Co-créateur IA →</PrimaryLink>
+              <PrimaryLink href={ACADEMY_COURSE} className="mt-7">Voir la formation sur Unitalk Academy →</PrimaryLink>
+              <a href={ACADEMY_FUNDING} className="mt-4 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Étudier une prise en charge →</a>
             </div>
             <div className="grid gap-7 sm:grid-cols-2">
               <FeatureList title="Créer" items={['Profils métier', 'Compétences', 'Missions', 'Applications métier vibecodées', 'Versions', 'Publications']} />
@@ -116,7 +121,8 @@ export function CoCreatorContent() {
               Le prochain Collaborateur IA peut commencer par un savoir-faire humain.
             </h2>
             <p className="mt-5 text-[17px] text-[#4E483F]">Apprenez à écouter, formaliser, tester et transmettre.</p>
-            <PrimaryLink href={PRICING_HREF} className="mt-7">Devenir Co-créateur IA →</PrimaryLink>
+            <PrimaryLink href={ACADEMY_FREE} className="mt-7">Commencer gratuitement sur Unitalk Academy →</PrimaryLink>
+            <Link href={PRICING_HREF} className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Ajouter la licence produit Co-créateur →</Link>
             <Link href="/collaborateurs-ia/profils-metier/publier" className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">J’ai déjà un profil à publier →</Link>
             <p className="mt-5 text-xs text-[#6E665A]">Formation pratique · Environnement Hermes · Créations réelles · Licence Unitalk</p>
           </div>
