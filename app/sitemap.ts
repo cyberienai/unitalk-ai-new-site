@@ -17,7 +17,6 @@ const STATIC_ROUTES = [
   '/collaborateurs-ia/pourquoi-unitalk',
   '/experts',
   '/ai-gateway',
-  '/agent-hermes',
   '/tarifs',
   '/solutions',
   '/use-cases',

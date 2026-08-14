@@ -167,7 +167,7 @@ export function SolutionsContent() {
                 </ul>
 
                 <a
-                  href="/agents"
+                  href="/collaborateurs-ia/profils-metier"
                   className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-[#D10E63] transition-colors hover:text-[#B00B52]"
                 >
                   {t.seePrefix}{s.department}

@@ -28,7 +28,7 @@ const COPY = {
     heroCta: 'Trouver ma place',
     heroCtaHref: 'mailto:partenaires@unitalk.ai',
     heroSecondary: 'Découvrir Hermes',
-    heroSecondaryHref: '/agent-hermes',
+    heroSecondaryHref: '/manifeste',
 
     pathsEyebrow: 'Plusieurs façons de construire avec Unitalk',
     pathsTitle: 'Choisissez votre voie.',
@@ -60,7 +60,7 @@ const COPY = {
         audience: 'Développeur, chercheur ou membre d’une communauté technique.',
         body: 'Contribuez à Hermes, créez des outils et améliorez le moteur autonome sur lequel s’appuient les Collaborateurs IA Unitalk.',
         cta: 'Découvrir Hermes',
-        href: '/agent-hermes',
+        href: '/manifeste',
       },
       {
         title: 'Transmettre votre expertise',
@@ -94,7 +94,7 @@ const COPY = {
     openBody2:
       'Unitalk lui ajoute une identité professionnelle, un rattachement, une mémoire gouvernée, des communications, un workspace et une infrastructure adaptée au travail en entreprise.',
     openCta: 'Découvrir Hermes et l’open source',
-    openHref: '/agent-hermes',
+    openHref: '/manifeste',
 
     modelEyebrow: 'Votre modèle',
     modelTitle: 'Créez la valeur qui vous ressemble.',
@@ -127,7 +127,7 @@ const COPY = {
     heroCta: 'Find my place',
     heroCtaHref: 'mailto:partenaires@unitalk.ai',
     heroSecondary: 'Discover Hermes',
-    heroSecondaryHref: '/agent-hermes',
+    heroSecondaryHref: '/manifeste',
 
     pathsEyebrow: 'Several ways to build with Unitalk',
     pathsTitle: 'Choose your path.',
@@ -159,7 +159,7 @@ const COPY = {
         audience: 'Developer, researcher or member of a technical community.',
         body: 'Contribute to Hermes, build tools and improve the autonomous engine behind Unitalk’s AI Collaborators.',
         cta: 'Discover Hermes',
-        href: '/agent-hermes',
+        href: '/manifeste',
       },
       {
         title: 'Share your expertise',
@@ -193,7 +193,7 @@ const COPY = {
     openBody2:
       'Unitalk adds a professional identity, an attachment, governed memory, communications, a workspace and infrastructure fit for enterprise work.',
     openCta: 'Discover Hermes and open source',
-    openHref: '/agent-hermes',
+    openHref: '/manifeste',
 
     modelEyebrow: 'Your model',
     modelTitle: 'Create the value that fits you.',

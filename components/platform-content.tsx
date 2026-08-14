@@ -73,7 +73,7 @@ const COPY = {
     openBody2:
       'Unitalk ajoute l’identité, la mémoire gouvernée, les communications, le workspace et l’infrastructure nécessaires à une exploitation professionnelle.',
     openCta: 'Découvrir Hermes',
-    openHref: '/agent-hermes',
+    openHref: '/manifeste',
 
     vsEyebrow: 'Partner ou Platform ?',
     vsPartnerTitle: 'Partner',
@@ -156,7 +156,7 @@ const COPY = {
     openBody2:
       'Unitalk adds the identity, governed memory, communications, workspace and infrastructure needed for professional operation.',
     openCta: 'Discover Hermes',
-    openHref: '/agent-hermes',
+    openHref: '/manifeste',
 
     vsEyebrow: 'Partner or Platform?',
     vsPartnerTitle: 'Partner',
