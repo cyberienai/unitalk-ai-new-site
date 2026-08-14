@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Circle, Loader2, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, Circle, Loader2 } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -12,7 +12,8 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
     headline: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
-    subtitle: 'Confiez une mission : Alma équipe le bon Collaborateur IA, qui passe au travail avec vos outils et vos règles.',
+    subtitle: 'Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives. Il travaille avec vos outils et progresse à chaque mission.',
+    missionPrefix: 'Mission :',
     missions: ['répondre à vos appels', 'traiter vos emails', 'mettre à jour votre CRM', 'préparer vos comptes rendus', 'organiser votre agenda', 'analyser vos données'],
     srMissions: 'Exemples de missions : répondre à vos appels, traiter vos emails, mettre à jour votre CRM et analyser vos données.',
     proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Hébergé en France'],
@@ -31,7 +32,8 @@ const T = {
   en: {
     eyebrow: 'Someone is missing',
     headline: 'Your company can count on its own AI Collaborator.',
-    subtitle: 'Hand over a mission: Alma equips the right AI Collaborator, who gets to work with your tools and rules.',
+    subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
+    missionPrefix: 'Mission:',
     missions: ['answer your calls', 'handle your emails', 'update your CRM', 'prepare meeting notes', 'organize your calendar', 'analyze your data'],
     srMissions: 'Example missions: answer your calls, handle your emails, update your CRM and analyze your data.',
     proofs: ['7-day free trial', 'No credit card', 'Hosted in France'],
@@ -117,7 +119,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.p {...enter(0.16)} className="mt-5 text-balance text-[17px] leading-relaxed text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
 
           <motion.div {...enter(0.22)} className="mt-6 flex min-h-10 items-center justify-center gap-2.5 sm:justify-start">
-            <Sparkles aria-hidden className="h-5 w-5 shrink-0 text-[#D10E63]" />
+            <span aria-hidden className="shrink-0 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{t.missionPrefix}</span>
             <span className="sr-only">{t.srMissions}</span>
             <span aria-hidden className="relative block h-8 min-w-0 flex-1 overflow-hidden text-left">
               <AnimatePresence mode="wait" initial={false}>
