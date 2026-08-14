@@ -16,7 +16,7 @@ export function PaulGrahamNavbar() {
           <UnitalkLogo className="h-7 w-auto" />
           <span>Unitalk</span>
         </Link>
-        <p>{lang === 'fr' ? 'Manifeste pour le travail augmenté' : 'A manifesto for augmented work'}</p>
+        <p>{lang === 'fr' ? 'Des missions réelles, sous votre contrôle' : 'Real missions, under your control'}</p>
         <div>
           <Link href="/missions" className="graham-nav-link">{lang === 'fr' ? 'Missions' : 'Missions'}</Link>
           <LanguageToggle />

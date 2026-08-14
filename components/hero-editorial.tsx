@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
+import { AlmaInline } from '@/components/alma-inline'
 
 const T = {
   fr: {
@@ -119,7 +120,7 @@ export function HeroEditorial() {
             <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]" aria-hidden="true" />
           </div>
           <p className="text-xs text-[#857C6E]">
-            <span className="font-medium text-[#1C1A17]">Alma</span> {t.almaCaption}
+            <span className="font-medium text-[#1C1A17]"><AlmaInline /> Alma</span> {t.almaCaption}
           </p>
         </div>
 

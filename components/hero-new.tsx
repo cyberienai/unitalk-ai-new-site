@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { AlmaInline } from '@/components/alma-inline'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Globe, Network } from 'lucide-react'
@@ -136,7 +137,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
                 height={24}
                 className="inline-block h-[1.15em] w-[1.15em] rounded-full object-cover ring-1 ring-[#D10E63]/30"
               />
-              <span className="font-bold text-[#1C1A17]">{t.leadName}</span>
+              <span className="font-bold text-[#1C1A17]"><AlmaInline /> {t.leadName}</span>
             </span>
             {t.leadAfter}
           </motion.p>

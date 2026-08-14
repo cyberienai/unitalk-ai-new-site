@@ -8,6 +8,8 @@ import {
   ArrowRight,
   Check,
   CircleUserRound,
+  FileCheck2,
+  Globe2,
   Mic,
   ShieldCheck,
   Square,
@@ -47,10 +49,30 @@ const COPY = {
     voiceLabel: 'Dicter la mission',
     stopLabel: 'Arrêter la dictée',
     cta: 'Confier cette mission',
-    free: '7 jours gratuits · Sans carte bancaire',
-    discover: 'Voir le principe',
+    free: '7 jours pour cadrer et tester · Sans carte bancaire',
+    discover: 'Parler à Alma',
     thesis: 'Un logiciel vous donne un outil. Unitalk vous donne une capacité de travail.',
     thesisNote: 'La différence ne se joue pas dans une fenêtre de chat. Elle se joue dans le travail livré, les décisions documentées et les limites respectées.',
+    exampleKicker: 'Exemple de mission',
+    exampleTitle: 'De la demande au livrable, sans boîte noire.',
+    exampleIntro: 'Une démonstration illustrative d’une veille concurrentielle hebdomadaire. Les sources, règles et validations changent selon votre entreprise.',
+    exampleRequestLabel: 'Demande initiale',
+    exampleRequest: 'Chaque lundi à 8 h, analysez les actualités de 12 concurrents et préparez une note sourcée pour la direction.',
+    exampleSourcesLabel: 'Périmètre autorisé',
+    exampleSources: 'Sites publics des concurrents, presse sectorielle et documents internes validés. Aucun envoi externe.',
+    exampleWorkLabel: 'Travail exécuté',
+    exampleWork: 'Collecte, dédoublonnage, comparaison avec la semaine précédente et signalement des informations incertaines.',
+    exampleApprovalLabel: 'Validation humaine',
+    exampleApproval: 'La responsable communication relit la synthèse et autorise sa diffusion. Sans validation, elle reste en brouillon.',
+    exampleDeliverableLabel: 'Livrable',
+    exampleDeliverable: 'Une note structurée avec faits, conséquences possibles, liens sources et journal des étapes.',
+    exampleStatus: 'En attente de validation',
+    exampleSchedule: 'Chaque lundi · 08:00',
+    exampleProgress: '3 sources analysées sur 12',
+    exampleUncertainty: '1 information à confirmer avant diffusion',
+    exampleActivity: 'Journal d’activité',
+    exampleActivityItems: ['07:58 · Mission planifiée ouverte', '08:04 · 3 nouvelles publications détectées', '08:11 · Synthèse préparée et soumise'],
+    exampleDisclaimer: 'Scénario illustratif, pas un résultat client revendiqué.',
     modelKicker: 'Le modèle Unitalk',
     modelTitle: 'Vous gardez le jugement. Le système gagne en capacité.',
     humanTitle: 'Vous définissez',
@@ -81,10 +103,30 @@ const COPY = {
     voiceLabel: 'Dictate the mission',
     stopLabel: 'Stop dictation',
     cta: 'Assign this mission',
-    free: '7 days free · No credit card',
-    discover: 'See how it works',
+    free: '7 days to frame and test · No credit card',
+    discover: 'Talk to Alma',
     thesis: 'Software gives you a tool. Unitalk gives you work capacity.',
     thesisNote: 'The difference is not in a chat window. It is in delivered work, documented decisions and respected boundaries.',
+    exampleKicker: 'Mission example',
+    exampleTitle: 'From request to deliverable, without a black box.',
+    exampleIntro: 'An illustrative weekly competitive monitoring demo. Sources, rules and approvals vary for each company.',
+    exampleRequestLabel: 'Initial request',
+    exampleRequest: 'Every Monday at 8am, review news from 12 competitors and prepare a sourced brief for leadership.',
+    exampleSourcesLabel: 'Authorized scope',
+    exampleSources: 'Public competitor sites, trade press and approved internal documents. No external sending.',
+    exampleWorkLabel: 'Work performed',
+    exampleWork: 'Collection, deduplication, comparison with the prior week and flagging of uncertain information.',
+    exampleApprovalLabel: 'Human approval',
+    exampleApproval: 'The communications lead reviews the brief and authorizes distribution. Without approval, it remains a draft.',
+    exampleDeliverableLabel: 'Deliverable',
+    exampleDeliverable: 'A structured brief with facts, possible implications, source links and an execution log.',
+    exampleStatus: 'Awaiting approval',
+    exampleSchedule: 'Every Monday · 8:00am',
+    exampleProgress: '3 of 12 sources analyzed',
+    exampleUncertainty: '1 item to confirm before distribution',
+    exampleActivity: 'Activity log',
+    exampleActivityItems: ['07:58 · Scheduled mission opened', '08:04 · 3 new publications detected', '08:11 · Brief prepared and submitted'],
+    exampleDisclaimer: 'Illustrative scenario, not a claimed customer result.',
     modelKicker: 'The Unitalk model',
     modelTitle: 'You keep the judgment. The system gains capacity.',
     humanTitle: 'You define',
@@ -209,6 +251,45 @@ export function PaulGrahamHero() {
           <p className="graham-thesis-index">01 / LA THÈSE</p>
           <blockquote>{t.thesis}</blockquote>
           <p>{t.thesisNote}</p>
+        </div>
+      </section>
+
+      <section className="graham-example" aria-labelledby="graham-example-title">
+        <div className="graham-shell">
+          <header className="graham-example-heading">
+            <p>{t.exampleKicker}</p>
+            <div>
+              <h2 id="graham-example-title">{t.exampleTitle}</h2>
+              <span>{t.exampleIntro}</span>
+            </div>
+          </header>
+          <div className="graham-example-board">
+            <div className="graham-dossier-bar">
+              <div><i aria-hidden="true" /><span>MISSION / VEILLE-001</span></div>
+              <strong>{t.exampleStatus}</strong>
+              <time>{t.exampleSchedule}</time>
+            </div>
+            <div className="graham-dossier-body">
+              <div className="graham-example-brief">
+                <small>{t.exampleRequestLabel}</small>
+                <blockquote>{t.exampleRequest}</blockquote>
+                <div><Globe2 aria-hidden="true" /><p><strong>{t.exampleSourcesLabel}</strong>{t.exampleSources}</p></div>
+                <aside><span>{t.exampleProgress}</span><span>{t.exampleUncertainty}</span></aside>
+              </div>
+              <div className="graham-dossier-work">
+                <ol className="graham-example-steps">
+                  <li><span>01</span><p><strong>{t.exampleWorkLabel}</strong>{t.exampleWork}</p></li>
+                  <li className="graham-example-gate"><span>02</span><p><strong>{t.exampleApprovalLabel}</strong>{t.exampleApproval}</p><ShieldCheck aria-hidden="true" /></li>
+                  <li><span>03</span><p><strong>{t.exampleDeliverableLabel}</strong>{t.exampleDeliverable}</p><FileCheck2 aria-hidden="true" /></li>
+                </ol>
+                <div className="graham-activity">
+                  <strong>{t.exampleActivity}</strong>
+                  {t.exampleActivityItems.map(item => <span key={item}>{item}</span>)}
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="graham-example-note">{t.exampleDisclaimer}</p>
         </div>
       </section>
 

@@ -32,4 +32,11 @@ describe('Paul Graham landing page', () => {
     expect(hero).toContain('escalade vers un ingénieur IA')
     expect(hero).toContain('href="/tarifs"')
   })
+
+  it('shows a transparent end-to-end mission example without fabricating customer proof', () => {
+    expect(hero).toContain('De la demande au livrable, sans boîte noire.')
+    expect(hero).toContain('Périmètre autorisé')
+    expect(hero).toContain('Validation humaine')
+    expect(hero).toContain('Scénario illustratif, pas un résultat client revendiqué.')
+  })
 })

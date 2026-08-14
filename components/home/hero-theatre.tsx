@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { AlmaInline } from '@/components/alma-inline'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Check, Pause, Play } from 'lucide-react'
@@ -176,12 +177,12 @@ export function HeroTheatre({ lang = 'fr' }: { lang?: Lang }) {
                   transition={{ duration: 0.3, ease }}
                   className="max-w-[34ch] text-[12.5px] font-medium leading-snug text-[#4E483F] sm:text-[13px]"
                 >
-                  {frame >= 2 ? t.almaLineIris : t.almaLine}
+                  <AlmaInline />{frame >= 2 ? t.almaLineIris : t.almaLine}
                 </motion.p>
               </AnimatePresence>
               {/* Persistent identity: says who Alma is, so the header is never
                   an anonymous voice. */}
-              <p className="mt-0.5 truncate font-mono text-[9.5px] uppercase tracking-[0.1em] text-[#AFA695]">{t.almaIdentity}</p>
+              <p className="mt-0.5 truncate font-mono text-[9.5px] uppercase tracking-[0.1em] text-[#AFA695]"><AlmaInline /> {t.almaIdentity}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">

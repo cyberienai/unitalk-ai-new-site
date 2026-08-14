@@ -20,7 +20,6 @@ export const metadata: Metadata = {
   },
   description: DEFAULT_DESCRIPTION,
   applicationName: SITE_NAME,
-  generator: 'v0.app',
   keywords: [
     'Collaborateur IA',
     'agent IA',

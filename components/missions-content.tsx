@@ -7,6 +7,7 @@ import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
 import Image from 'next/image'
+import { AlmaInline } from '@/components/alma-inline'
 import Link from 'next/link'
 
 // 7 business categories — no sub-categories, no mixed levels
@@ -149,7 +150,7 @@ export function MissionsContent() {
             </Link>
             <div className="min-w-0 flex-1">
               <h2 id="mission-selection-title" className="font-sf text-xl font-semibold tracking-[-0.025em] sm:text-2xl">{t.readyTitle}</h2>
-              <p className="mt-1 text-[13px] font-semibold text-[#1C1A17]">Alma <span className="font-normal text-[#6E665A]">· {t.almaRole}</span></p>
+              <p className="mt-1 text-[13px] font-semibold text-[#1C1A17]"><AlmaInline /> Alma <span className="font-normal text-[#6E665A]">· {t.almaRole}</span></p>
               <p className="mt-1 max-w-xl text-[13px] leading-5 text-[#4E483F]">{t.readyNote}</p>
             </div>
             <Link href="/unitalk/@alma" className="shrink-0 rounded-full border border-[#D10E63]/25 bg-[#FFFDF9] px-4 py-2 text-[12px] font-semibold text-[#B00C54] outline-none hover:border-[#D10E63]/50 hover:bg-[#FCEBF2] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{t.talkToAlma}</Link>

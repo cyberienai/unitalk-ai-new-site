@@ -18,7 +18,8 @@ describe('Academy integration',()=>{
   })
   it('links the Academy brand to each respective home page',()=>{
     const nav=readFileSync(join(root,'components','academy','academy-nav.tsx'),'utf8')
-    expect(nav).toContain('<Link href="/" className="flex items-center gap-2.5" aria-label="Unitalk">')
+    expect(nav).toContain('<Link href="/" aria-label="Unitalk"><UnitalkLogo')
+    expect(nav).toContain('</Link><span className="text-sm font-bold tracking-[-.02em]">Unitalk</span>')
     expect(nav).toContain('<Link href="/academy" className="text-sm font-bold tracking-[-.02em]" aria-label="Unitalk Academy">Academy</Link>')
   })
   it('contains no legacy unitalk.fr links in application source',()=>{

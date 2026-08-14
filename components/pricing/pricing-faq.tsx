@@ -2,6 +2,7 @@
 
 import { useId, useState } from 'react'
 import { useLanguage } from '@/lib/language-context'
+import { AlmaInline } from '@/components/alma-inline'
 import { minimumCreditBudget, pricingConfig } from '@/lib/pricing-config'
 import { formatEuro } from './format'
 
@@ -80,7 +81,7 @@ function AccordionItem({ q, a }: QA) {
           <span aria-hidden="true" className={`text-xl text-[#D10E63] transition-transform ${open ? 'rotate-45' : ''}`}>+</span>
         </button>
       </h3>
-      {open && <div id={panelId} className="pb-4 pr-8 text-sm leading-relaxed text-[#4E483F]">{a}</div>}
+      {open && <div id={panelId} className="pb-4 pr-8 text-sm leading-relaxed text-[#4E483F]">{a.startsWith('Alma') && <><AlmaInline /> </>}{a}</div>}
     </div>
   )
 }
