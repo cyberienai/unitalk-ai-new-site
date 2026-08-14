@@ -148,7 +148,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             />
           ) : (
           <motion.div key="demo" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
-          <div className="relative overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)]">
+          <div className="relative overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] min-h-[420px]">
             <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-6">
               <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#D10E63]" /><span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D6CABD]">{t.console}</span></div>
