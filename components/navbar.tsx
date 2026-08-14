@@ -51,10 +51,10 @@ const COLLAB_DISCOVER: MenuEntry[] = [
     href: '/collaborateurs-ia/competences',
   },
   {
-    title: { fr: 'Applications', en: 'Applications' },
+    title: { fr: 'Unitalk Store', en: 'Unitalk Store' },
     desc: {
-      fr: 'Les outils vérifiés dans lesquels il peut travailler selon vos règles.',
-      en: 'Verified tools it can work in under your rules.',
+      fr: 'Profils, compétences, applications, modèles et formations, avec Alma.',
+      en: 'Profiles, skills, applications, models and training, with Alma.',
     },
     href: '/collaborateurs-ia/applications',
   },

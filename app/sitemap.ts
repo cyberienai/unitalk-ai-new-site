@@ -16,6 +16,7 @@ const STATIC_ROUTES = [
   '/collaborateurs-ia/profils-metier/publier',
   '/collaborateurs-ia/competences',
   '/collaborateurs-ia/applications',
+  '/collaborateurs-ia/applications/catalogue',
   '/collaborateurs-ia/pourquoi-unitalk',
   '/experts',
   '/ai-gateway',

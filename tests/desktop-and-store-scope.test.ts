@@ -5,6 +5,7 @@ const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url)
 const footer = readFileSync(new URL('../components/site-footer.tsx', import.meta.url), 'utf8')
 const sitemap = readFileSync(new URL('../app/sitemap.ts', import.meta.url), 'utf8')
 const applications = readFileSync(new URL('../app/collaborateurs-ia/applications/page.tsx', import.meta.url), 'utf8')
+const applicationsCatalog = readFileSync(new URL('../app/collaborateurs-ia/applications/catalogue/page.tsx', import.meta.url), 'utf8')
 const store = readFileSync(new URL('../components/store-content.tsx', import.meta.url), 'utf8')
 
 describe('Desktop discovery and Store scopes', () => {
@@ -15,8 +16,8 @@ describe('Desktop discovery and Store scopes', () => {
   })
 
   it('keeps the Applications page application-only', () => {
-    expect(applications).toContain('if (params.type !== undefined)')
-    expect(applications).toContain('<StoreContent initialType="application" />')
+    expect(applications).toContain('UnitalkStoreHub')
+    expect(applicationsCatalog).toContain('<StoreContent initialType="application"/>')
     expect(store).toContain('if (initialType) return')
     expect(store).toContain('showType={!initialType}')
     expect(store).toContain("if (initialType) builtParams.delete('type')")

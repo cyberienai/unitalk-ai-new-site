@@ -19,7 +19,7 @@ const T = {
             children: [
               { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
               { label: 'Compétences', href: '/collaborateurs-ia/competences' },
-              { label: 'Applications', href: '/collaborateurs-ia/applications' },
+              { label: 'Unitalk Store', href: '/collaborateurs-ia/applications' },
             ],
           },
           { label: 'Missions', href: '/missions' },
@@ -78,7 +78,7 @@ const T = {
             children: [
               { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
               { label: 'Skills', href: '/collaborateurs-ia/competences' },
-              { label: 'Applications', href: '/collaborateurs-ia/applications' },
+              { label: 'Unitalk Store', href: '/collaborateurs-ia/applications' },
             ],
           },
           { label: 'Missions', href: '/missions' },
