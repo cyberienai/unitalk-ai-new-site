@@ -1,0 +1,5 @@
+import type { Metadata } from 'next'
+import { EditorialPage } from '@/components/academy/editorial-page'
+export const metadata:Metadata={title:'Entreprendre à l’ère de l’IA'}
+const data=[['Concevoir une entreprise augmentée','Identifier les capacités IA qui créent réellement de la valeur.'],['Choisir le bon niveau d’autonomie','Distinguer automatisation, agent et Collaborateur IA.'],['Organiser une équipe humain-IA','Répartir responsabilités, droits et validations.'],['Industrialiser son savoir-faire','Transformer une méthode en actif réutilisable.'],['Construire une offre augmentée','Intégrer l’IA sans perdre la relation client.'],['Gouverner la croissance','Maîtriser données, coûts, risques et dépendances.']].map(([title,body])=>({title,body}))
+export default function Page(){return <EditorialPage kicker="Entreprendre avec l’IA" title="Ne rajoutez pas seulement de l’IA. Redessinez la manière de travailler." body="Pour dirigeants, indépendants, consultants et entrepreneurs qui veulent construire une activité plus capable." items={data} cta="Commencez par un parcours gratuit." ctaHref="/parcours-gratuits"/>}

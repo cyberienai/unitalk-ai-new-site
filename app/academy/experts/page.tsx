@@ -1,0 +1,5 @@
+import type { Metadata } from 'next'
+import { EditorialPage } from '@/components/academy/editorial-page'
+export const metadata:Metadata={title:'Experts, formateurs et auteurs'}
+const items=[['Mission pédagogique','Un résultat, un livrable, des étapes et une évaluation.'],['Compétence','Un objectif, des preuves, des critères et une version.'],['Méthode','Une pratique explicite avec ses exceptions et contrôles.'],['Parcours','Un assemblage de missions et compétences pour un rôle.'],['Grille d’évaluation','Des critères observables et un protocole de validation.'],['Actif opérationnel','La version transférable vers Unitalk AI.']].map(([title,body])=>({title,body}))
+export default function Page(){return <EditorialPage kicker="Créateurs de connaissances opérationnelles" title="Ne publiez pas seulement un cours. Transmettez une capacité." body="Experts, formateurs et auteurs construisent les missions, compétences, évaluations et parcours de leur secteur." items={items} cta="Proposez une contribution au Network." ctaHref="mailto:academy@unitalk.fr?subject=Contribuer%20au%20Network"/>}

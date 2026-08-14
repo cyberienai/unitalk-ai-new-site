@@ -1,0 +1,4 @@
+import type { Metadata } from 'next'
+import { EditorialPage } from '@/components/academy/editorial-page'
+export const metadata:Metadata={title:'Modèle Unitalk Network'}
+export default function Page(){return <EditorialPage kicker="Modèle Unitalk Network" title="Ouvert pour commencer. Structuré pour progresser. Rémunérateur pour transmettre." body="Un modèle commun pour les apprenants, les entreprises et les créateurs de connaissances." items={[{title:'Apprenants',body:'Missions gratuites, parcours, évaluations, mentorat et Networks.'},{title:'Entreprises',body:'Academy privée, parcours internes, cartographie et formation des équipes.'},{title:'Créateurs',body:'Parcours, missions premium, évaluations et accompagnement.'}]} cta="Commencez par une mission ouverte et un premier livrable exportable." ctaHref="/missions?gratuit=1"/>}

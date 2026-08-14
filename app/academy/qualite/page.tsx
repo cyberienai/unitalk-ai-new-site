@@ -1,0 +1,4 @@
+import type { Metadata } from 'next'
+import { EditorialPage } from '@/components/academy/editorial-page'
+export const metadata:Metadata={title:'Qualité, Qualiopi et accessibilité'}
+export default function Page(){return <EditorialPage kicker="Qualité et accessibilité" title="Des engagements vérifiables, pas des badges vagues." body="Cette page centralise les preuves, documents et procédures de Unitalk Academy." items={[{title:'Certification Qualiopi',body:'Catégorie, certificat, échéance et organisme certificateur sont publiés dès disponibilité.'},{title:'Informations administratives',body:'Raison sociale, déclaration d’activité, SIRET et coordonnées.'},{title:'Accessibilité et handicap',body:'Analyse du besoin et adaptations pédagogiques étudiées individuellement.'},{title:'Suivi qualité',body:'Évaluation avant, pendant et après la formation, satisfaction et réclamations.'}]}/>} 
