@@ -28,7 +28,7 @@ const T = {
     preparing: 'Alma prépare Chloé',
     chloeReady: 'Chloé rejoint votre équipe',
     cycle: 'Cycle',
-    almaCaption: "Alma, coordinatrice de missions IA, cadre votre besoin et prépare vos collaborateurs.",
+    almaCaption: "Alma, coordinatrice de missions IA, cadre votre besoin\net prépare vos collaborateurs.",
     almaAction: "Parler à Alma",
     voiceTitle: 'Conversation avec Alma',
     voiceIntro: 'Bonjour, je suis Alma. Dites-moi quelle mission vous souhaitez confier à un Collaborateur IA.',
