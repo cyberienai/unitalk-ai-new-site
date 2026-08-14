@@ -25,6 +25,7 @@ export function CoCreatorContent() {
               </a>
             </div>
             <p className="mt-4 text-sm text-[#6E665A]">Formation pratique · Propulsée par Hermes, agent autonome open source</p>
+            <p className="mt-4 text-sm text-[#6E665A]">Vous avez déjà un profil prêt ? <Link href="/collaborateurs-ia/profils-metier/publier" className="font-bold text-[#B00C54] underline-offset-4 hover:underline">Publier un profil existant</Link></p>
           </div>
           <TransformationCard />
         </div>
@@ -116,6 +117,7 @@ export function CoCreatorContent() {
             </h2>
             <p className="mt-5 text-[17px] text-[#4E483F]">Apprenez à écouter, formaliser, tester et transmettre.</p>
             <PrimaryLink href={PRICING_HREF} className="mt-7">Devenir Co-créateur IA →</PrimaryLink>
+            <Link href="/collaborateurs-ia/profils-metier/publier" className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">J’ai déjà un profil à publier →</Link>
             <p className="mt-5 text-xs text-[#6E665A]">Formation pratique · Environnement Hermes · Créations réelles · Licence Unitalk</p>
           </div>
         </div>

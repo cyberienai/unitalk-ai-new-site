@@ -186,6 +186,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
             <section className="border-t border-[var(--store-line)] pt-6">
               <h2 className="font-sf text-sm font-bold uppercase tracking-[0.08em] text-[var(--store-muted)]">{lang === 'fr' ? 'Adaptations' : 'Adaptations'}</h2>
               <p className="mt-3 text-[15px] leading-relaxed text-[var(--store-text)]">{lang === 'fr' ? 'Alma vérifie les compétences, les applications, le secteur, le pays et les validations nécessaires avant l’ajout.' : 'Alma checks the skills, applications, industry, country and required approvals before adding it.'}</p>
+              <div className="mt-5 flex flex-wrap gap-4 text-sm font-bold"><Link href={`/decouvrir?source=profile-detail&intention=nouveau-profil-metier&store=${item.slug}`} className="text-[#AD0C53] underline-offset-4 hover:underline">{lang === 'fr' ? 'Adapter ce profil avec Alma' : 'Adapt this profile with Alma'}</Link><Link href="/collaborateurs-ia/profils-metier/publier" className="text-[var(--store-muted)] underline-offset-4 hover:underline">{lang === 'fr' ? 'Publier mon propre profil' : 'Publish my own profile'}</Link></div>
             </section>
           )}
           {item.version && (
