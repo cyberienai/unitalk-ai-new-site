@@ -101,6 +101,7 @@ export function AlmaFinalContent() {
               </Link>
             </div>
             <p className="mt-4 text-xs font-semibold text-[#6E665A]">{t.trial}</p>
+            <Link href="/documentation/alma-organisation" className="mt-4 inline-flex text-xs font-bold text-[#B00C54] underline-offset-4 hover:underline">{t.documentation}</Link>
           </div>
           <IdentityCard lang={lang} />
         </div>
@@ -388,6 +389,7 @@ const COPY = {
     primary: "Confier une mission à Alma",
     store: "Explorer son Store",
     trial: "7 jours gratuits · Sans carte bancaire · Rien n’est activé sans votre validation",
+    documentation: "Comprendre la Licence Alma Organisation →",
     reassuranceLabel: "Garanties Alma",
     reassurances: [["Pas besoin de connaître le bon profil", "Décrivez simplement le travail ou le résultat attendu."], ["Vous gardez les décisions sensibles", "Alma identifie les validations qui doivent rester humaines."], ["Elle évite les créations inutiles", "Alma fait d’abord progresser un Collaborateur IA existant."]],
     composerKicker: "Commencer maintenant",
@@ -489,6 +491,7 @@ const COPY = {
     primary: "Entrust a mission to Alma",
     store: "Explore her Store",
     trial: "7 days free · No credit card · Nothing is activated without your approval",
+    documentation: "Understand the Alma Organization License →",
     reassuranceLabel: "Alma guarantees",
     reassurances: [["No need to know the right profile", "Simply describe the work or expected outcome."], ["You keep sensitive decisions", "Alma identifies approvals that must remain human."], ["She avoids unnecessary creation", "Alma first develops an existing AI Collaborator."]],
     composerKicker: "Start now",

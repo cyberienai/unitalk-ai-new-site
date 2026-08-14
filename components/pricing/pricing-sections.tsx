@@ -205,6 +205,7 @@ export function PricingCollaboration() {
         <Kicker>{t.kicker}</Kicker>
         <h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.title}</h2>
         <p className="mt-3 max-w-2xl text-[16px] text-[#4E483F]">{t.lead}</p>
+        <div className="mt-6 flex flex-wrap gap-3 text-sm font-bold"><Link href="/documentation/alma-organisation" className="text-[#B00C54] underline-offset-4 hover:underline">Licence Alma Organisation</Link><Link href="/documentation/workspace-desktop" className="text-[#B00C54] underline-offset-4 hover:underline">Workspace & Desktop inclus</Link><Link href="/documentation/licence-collaborateur-ia" className="text-[#B00C54] underline-offset-4 hover:underline">Licence Collaborateur IA</Link><Link href="/documentation/capacite-ia" className="text-[#B00C54] underline-offset-4 hover:underline">Capacité IA</Link></div>
         
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {t.plans.map((plan) => {

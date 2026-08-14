@@ -3,6 +3,7 @@ import { MISSIONS } from '@/lib/missions-catalog'
 import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
 import { COLLABORATOR_PAGE_SLUGS } from '@/lib/collaborator-pages'
 import { BLOG_ARTICLES } from '@/lib/blog-articles'
+import { DOCUMENTATION_SLUGS } from '@/lib/unitalk-documentation'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -19,6 +20,7 @@ const STATIC_ROUTES = [
   '/experts',
   '/ai-gateway',
   '/desktop',
+  '/documentation',
   '/tarifs',
   '/solutions',
   '/use-cases',
@@ -74,5 +76,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries, ...blogEntries]
+  const documentationEntries: MetadataRoute.Sitemap = DOCUMENTATION_SLUGS.map((slug) => ({ url: `${SITE_URL}/documentation/${slug}`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 }))
+  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries, ...blogEntries, ...documentationEntries]
 }

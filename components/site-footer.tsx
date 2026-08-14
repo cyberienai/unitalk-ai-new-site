@@ -27,6 +27,7 @@ const T = {
           { label: 'Unitalk Desktop', href: '/desktop' },
           { label: 'Tarifs', href: '/tarifs' },
           { label: 'AI Native Pack', href: '/accompagnement' },
+          { label: 'Documentation', href: '/documentation' },
         ],
       },
       {
@@ -85,6 +86,7 @@ const T = {
           { label: 'Unitalk Desktop', href: '/desktop' },
           { label: 'Pricing', href: '/tarifs' },
           { label: 'AI Native Pack', href: '/accompagnement' },
+          { label: 'Documentation', href: '/documentation' },
         ],
       },
       {

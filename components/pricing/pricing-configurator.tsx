@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { startTransition, useState } from 'react'
 import { ChevronDown, Minus, Plus, Users, Award, ArrowRight, Coins } from 'lucide-react'
 import { persistPricingDraft } from '@/app/actions/pricing'
@@ -179,6 +180,7 @@ export function PricingConfigurator() {
           <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">{t.eyebrow}</span>
           <h2 className="mt-2 font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17]">{t.heading}</h2>
           {selectedProfile && <p className="mt-3 inline-flex rounded-full bg-[#D10E63]/10 px-3 py-1.5 text-xs font-bold text-[#B00C54]">{t.selectedProfile} : {selectedProfile}</p>}
+          <Link href="/documentation" className="mt-4 block text-xs font-bold text-[#B00C54] underline-offset-4 hover:underline">Comprendre les licences et les ressources →</Link>
         </div>
 
         {/* Counter Collaborators */}
