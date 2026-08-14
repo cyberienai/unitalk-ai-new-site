@@ -3,7 +3,7 @@
 import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { AlmaProvider } from './home/alma-panel-context'
-import { HeroHome } from './home/hero-home'
+import { HeroHybrid } from './home/hero-hybrid'
 import { SectionDefinition } from './home/section-definition'
 import { SectionProfilesEarly } from './home/section-profiles-early'
 import { SectionWorkspace } from './home/section-workspace'
@@ -26,7 +26,7 @@ export function HomeNew() {
         <Navbar />
 
         {/* 1. Hero + product theatre (anthracite) */}
-        <HeroHome lang={lang} />
+        <HeroHybrid lang={lang} />
 
         {/* 2. Profiles early — Alma prepares, the Collaborator executes */}
         <SectionProfilesEarly lang={lang} />
