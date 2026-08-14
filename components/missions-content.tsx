@@ -292,7 +292,7 @@ export function MissionsContent() {
             <div className="bg-[#181615] p-7 text-[#FAF8F3] sm:p-10">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
                 <article><Sparkles className="size-5 text-[#F2A4C5]"/><h3 className="mt-5 text-2xl font-bold">{t.creatorProductTitle}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{t.creatorProductBody}</p><Link href="/co-createur-ia" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.creatorProductCta}<ArrowRight className="size-4"/></Link></article>
-                <article className="border-t border-white/10 pt-6 sm:border-l sm:border-t-0 sm:pl-6 lg:border-l-0 lg:border-t lg:pl-0"><GraduationCap className="size-5 text-[#F2A4C5]"/><h3 className="mt-5 text-2xl font-bold">{t.creatorTrainingTitle}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{t.creatorTrainingBody}</p><a href="https://unitalk.fr/formations/co-createur-ia?source=missions-catalog" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.creatorTrainingCta}<ArrowRight className="size-4"/></a></article>
+                <article className="border-t border-white/10 pt-6 sm:border-l sm:border-t-0 sm:pl-6 lg:border-l-0 lg:border-t lg:pl-0"><GraduationCap className="size-5 text-[#F2A4C5]"/><h3 className="mt-5 text-2xl font-bold">{t.creatorTrainingTitle}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{t.creatorTrainingBody}</p><a href="/academy/formations/co-createur-ia?source=missions-catalog" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.creatorTrainingCta}<ArrowRight className="size-4"/></a></article>
               </div>
             </div>
           </div>

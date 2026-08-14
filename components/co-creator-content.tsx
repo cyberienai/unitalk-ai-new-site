@@ -4,9 +4,9 @@ import { unitalkPricing } from '@/lib/unitalk-pricing'
 import { CollectionCockpitDemo } from '@/components/co-creator/collection-cockpit-demo'
 
 const PRICING_HREF = '/tarifs?co-createur=1#configurateur'
-const ACADEMY_COURSE = 'https://unitalk.fr/formations/co-createur-ia?source=unitalk-ai'
-const ACADEMY_FREE = 'https://unitalk.fr/parcours-gratuits/premiere-mission-ia?source=unitalk-ai'
-const ACADEMY_FUNDING = 'https://unitalk.fr/financement?formation=co-createur-ia&source=unitalk-ai'
+const ACADEMY_COURSE = '/academy/formations/co-createur-ia?source=unitalk-ai'
+const ACADEMY_FREE = '/academy/parcours-gratuits/premiere-mission-ia?source=unitalk-ai'
+const ACADEMY_FUNDING = '/academy/financement?formation=co-createur-ia&source=unitalk-ai'
 
 export function CoCreatorContent() {
   return (

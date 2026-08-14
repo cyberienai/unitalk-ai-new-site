@@ -34,7 +34,7 @@ const T = {
         title: 'Écosystème',
         links: [
           { label: 'Devenir Co-créateur IA', href: '/co-createur-ia' },
-          { label: 'Unitalk Academy', href: 'https://unitalk.fr' },
+          { label: 'Unitalk Academy', href: '/academy' },
           { label: 'Experts', href: '/experts' },
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
           { label: 'Partenaires', href: '/partenaires' },
@@ -93,7 +93,7 @@ const T = {
         title: 'Ecosystem',
         links: [
           { label: 'Become an AI Co-creator', href: '/co-createur-ia' },
-          { label: 'Unitalk Academy', href: 'https://unitalk.fr' },
+          { label: 'Unitalk Academy', href: '/academy' },
           { label: 'Experts', href: '/experts' },
           { label: 'Become an expert', href: '/experts#devenir-expert' },
           { label: 'Partners', href: '/partenaires' },

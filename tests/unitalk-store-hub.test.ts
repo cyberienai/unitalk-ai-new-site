@@ -22,6 +22,6 @@ describe('Unitalk Store hub', () => {
     expect(hub).toContain("href:'/collaborateurs-ia/competences'")
     expect(hub).toContain("href:'/collaborateurs-ia/applications/catalogue'")
     expect(hub).toContain("href:'/modeles-ia'")
-    expect(hub).toContain("href:'https://unitalk.fr'")
+    expect(hub).toContain("href:'/academy'")
   })
 })

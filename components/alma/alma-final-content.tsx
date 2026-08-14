@@ -215,7 +215,7 @@ export function AlmaFinalContent() {
             />
             <Extension title={t.skillTitle} body={t.skillBody} />
           </div>
-          <div className="mt-8 rounded-3xl border border-[#D8D0C2] bg-[#EAE3D4] p-6 sm:p-8 lg:col-span-2"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">Unitalk Academy</p><h3 className="mt-4 text-2xl font-bold">{t.academyTitle}</h3><p className="mt-3 max-w-3xl text-sm leading-7 text-[#4E483F]">{t.academyBody}</p><a href="https://unitalk.fr/alma?source=alma-profile" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.academyCta}<ArrowRight className="size-4"/></a></div>
+          <div className="mt-8 rounded-3xl border border-[#D8D0C2] bg-[#EAE3D4] p-6 sm:p-8 lg:col-span-2"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">Unitalk Academy</p><h3 className="mt-4 text-2xl font-bold">{t.academyTitle}</h3><p className="mt-3 max-w-3xl text-sm leading-7 text-[#4E483F]">{t.academyBody}</p><a href="/academy/alma?source=alma-profile" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.academyCta}<ArrowRight className="size-4"/></a></div>
         </div>
       </section>
 

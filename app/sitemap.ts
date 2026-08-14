@@ -4,6 +4,7 @@ import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
 import { COLLABORATOR_PAGE_SLUGS } from '@/lib/collaborator-pages'
 import { BLOG_ARTICLES } from '@/lib/blog-articles'
 import { DOCUMENTATION_SLUGS } from '@/lib/unitalk-documentation'
+import { MISSIONS as ACADEMY_MISSIONS, NETWORKS as ACADEMY_NETWORKS, PATHS as ACADEMY_PATHS, SKILLS as ACADEMY_SKILLS } from '@/lib/academy-catalog'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -30,6 +31,21 @@ const STATIC_ROUTES = [
   '/expertises',
   '/expertises/publier',
   '/decouvrir',
+  '/academy',
+  '/academy/missions',
+  '/academy/competences',
+  '/academy/parcours',
+  '/academy/networks',
+  '/academy/experts',
+  '/academy/modele',
+  '/academy/alma',
+  '/academy/espace',
+  '/academy/financement',
+  '/academy/qualite',
+  '/academy/parcours-gratuits',
+  '/academy/parcours-gratuits/premiere-mission-ia',
+  '/academy/formations/co-createur-ia',
+  '/academy/entreprendre-avec-ia',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -78,5 +94,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   const documentationEntries: MetadataRoute.Sitemap = DOCUMENTATION_SLUGS.map((slug) => ({ url: `${SITE_URL}/documentation/${slug}`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 }))
-  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries, ...blogEntries, ...documentationEntries]
+  const academyEntries: MetadataRoute.Sitemap = [
+    ...ACADEMY_MISSIONS.map(({slug})=>`/academy/missions/${slug}`),
+    ...ACADEMY_SKILLS.map(({slug})=>`/academy/competences/${slug}`),
+    ...ACADEMY_PATHS.map(({slug})=>`/academy/parcours/${slug}`),
+    ...ACADEMY_NETWORKS.map(({id})=>`/academy/networks/${id}`),
+  ].map((path)=>({url:`${SITE_URL}${path}`,lastModified:now,changeFrequency:'monthly',priority:0.7}))
+  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries, ...blogEntries, ...documentationEntries, ...academyEntries]
 }

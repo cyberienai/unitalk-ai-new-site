@@ -17,7 +17,7 @@ const ALMA_CTA = {
   label: { fr: 'Commencez gratuitement', en: 'Start free' } as Bi,
 }
 
-const ACADEMY_URL = 'https://unitalk.fr'
+const ACADEMY_URL = '/academy'
 
 // Collaborateurs IA dropdown — the product hub, in three sections:
 // Product-focused Collaborateurs IA menu: concept, profiles, skills,
@@ -724,6 +724,9 @@ export function Navbar(
                     className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.pricing}
+                  </a>
+                  <a href={ACADEMY_URL} onClick={() => setIsMenuOpen(false)} className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]">
+                    Academy
                   </a>
                   <UserMenuMobile onNavigate={() => setIsMenuOpen(false)} />
                   <button

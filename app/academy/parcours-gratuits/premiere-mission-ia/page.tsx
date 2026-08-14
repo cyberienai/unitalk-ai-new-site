@@ -1,0 +1,6 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { EditorialPage } from '@/components/academy/editorial-page'
+export const metadata:Metadata={title:'Créer sa première mission IA gratuitement'}
+const items=[['Choisir le bon travail','Identifier un travail récurrent, mesurable et documenté.'],['Définir le résultat','Préciser ce qui doit être livré, quand et sous quelle forme.'],['Lister les sources','Identifier les informations et applications autorisées.'],['Garder l’humain dans la boucle','Définir les actions qui exigent une validation.'],['Préparer la mission','Assembler le cadre que pourra reprendre Alma.']].map(([title,body])=>({title,body}))
+export default function Page(){return <><EditorialPage kicker="Parcours gratuit · 60 minutes" title="Créez votre première mission IA." body="Repartez avec une mission structurée : résultat attendu, sources, règles, applications et validations humaines." items={items}/><section className="bg-[#181512] px-5 py-16 text-[#f8f1e7]"><div className="academy-shell"><h2 className="academy-heading">Votre mission peut continuer dans Unitalk AI.</h2><Link href="/decouvrir?source=academy" className="academy-button academy-button-primary mt-8">Continuer avec Alma</Link></div></section></>}

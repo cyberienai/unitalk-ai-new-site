@@ -206,6 +206,7 @@ export function PricingCollaboration() {
         <h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.title}</h2>
         <p className="mt-3 max-w-2xl text-[16px] text-[#4E483F]">{t.lead}</p>
         <Link href="/documentation/capacite-ia" className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Comprendre Agent Hermes et Capacité IA →</Link>
+        <Link href="/documentation/alma-organisation" className="ml-5 mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Comprendre Alma Organisation →</Link>
         
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {t.plans.map((plan) => {

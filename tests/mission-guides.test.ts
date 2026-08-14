@@ -20,6 +20,6 @@ describe('mission guides', () => {
   it('offers a creator path from the competitive monitoring guide', () => {
     expect(guideContent).toContain("mission.slug === 'realiser-une-veille-concurrentielle'")
     expect(guideContent).toContain('href="/co-createur-ia"')
-    expect(guideContent).toContain('https://unitalk.fr/formations/co-createur-ia?source=mission-guide')
+    expect(guideContent).toContain('/academy/formations/co-createur-ia?source=mission-guide')
   })
 })

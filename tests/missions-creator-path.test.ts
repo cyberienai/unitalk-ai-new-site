@@ -7,7 +7,7 @@ describe('missions creator path', () => {
   it('invites experts to turn know-how into controlled AI work', () => {
     expect(missions).toContain('Transformez votre savoir-faire en Collaborateur IA capable d’accomplir des missions sous votre contrôle.')
     expect(missions).toContain('href="/co-createur-ia"')
-    expect(missions).toContain('https://unitalk.fr/formations/co-createur-ia?source=missions-catalog')
+    expect(missions).toContain('/academy/formations/co-createur-ia?source=missions-catalog')
   })
 
   it('explains governance and publication safeguards', () => {
