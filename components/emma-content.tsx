@@ -104,7 +104,7 @@ export function EmmaContent() {
             </motion.p>
             <motion.div {...enter(0.24)} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
-                href="/signup"
+                href="/decouvrir"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
               >
                 {t.heroCta}

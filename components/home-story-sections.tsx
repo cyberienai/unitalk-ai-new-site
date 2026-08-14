@@ -678,7 +678,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
           </div>
 
           <div className="mt-10">
-            <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#A80B50]">
+            <Link href="/decouvrir" className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#A80B50]">
               {t.manifestoCta}
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -814,7 +814,7 @@ export function HomeStorySections({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             ))}
           </ul>
           <div className="mt-9 flex justify-center">
-            <a href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
+            <a href="/decouvrir" className="inline-flex items-center gap-2 rounded-full bg-[#FBF9F3] px-7 py-3.5 font-bold text-[#1C1A17] transition-transform hover:-translate-y-0.5">
               {t.finalCta}
               <ArrowRight className="h-4 w-4" />
             </a>

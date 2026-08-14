@@ -353,7 +353,7 @@ export function CommandeContent() {
               </div>
 
               <Link
-                href={order.isQuote ? '/expertises' : '/signup'}
+                href={order.isQuote ? '/expertises' : '/decouvrir'}
                 aria-disabled={count === 0}
                 className={`mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-bold transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${
                   count === 0

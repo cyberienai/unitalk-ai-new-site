@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const source = readFileSync(new URL('../components/discover/screen-account.tsx', import.meta.url), 'utf8')
+const flow = readFileSync(new URL('../components/discover/discover-flow.tsx', import.meta.url), 'utf8')
 
 describe('mission signup', () => {
   it('describes the real post-login sequence', () => {
@@ -28,5 +29,10 @@ describe('mission signup', () => {
     expect(source).toContain("cursor-not-allowed bg-[#DED6C8]")
     expect(source).toContain('bg-[#D10E63]')
     expect(source).toContain('emailError: \'Saisissez une adresse email valide.\'')
+  })
+
+  it('keeps domain prefill in the unified discovery flow', () => {
+    expect(flow).toContain("normalizeDomain(searchParams.get('domain'))")
+    expect(flow).toContain('const domain = requestedDomain || sessionDomain')
   })
 })

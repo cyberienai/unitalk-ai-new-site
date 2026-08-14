@@ -308,7 +308,7 @@ export function UseCasesContent() {
             {t.ctaDesc}
           </motion.p>
           <motion.a
-            href="/signup"
+            href="/decouvrir"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 py-4 text-base font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -103,7 +103,7 @@ export function ManifesteContent() {
           </motion.p>
           <motion.div {...enter(0.26)} className="mt-11">
             <a
-              href="/signup"
+              href="/decouvrir"
               className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-9 text-base font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
             >
               {t.heroCta}
@@ -271,7 +271,7 @@ export function ManifesteContent() {
           </motion.p>
           <motion.div {...enter(0.22)} className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="/signup"
+              href="/decouvrir"
               className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-9 text-base font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
             >
               {t.finalCta}

@@ -70,7 +70,7 @@ export function SectionFinalCta({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              href="/signup"
+              href="/decouvrir"
               className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 sm:w-auto"
             >
               {t.primary}

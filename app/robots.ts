@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         // Private / app areas that shouldn't be indexed.
-        disallow: ['/team/', '/signup', '/api/'],
+        disallow: ['/team/', '/decouvrir', '/api/'],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

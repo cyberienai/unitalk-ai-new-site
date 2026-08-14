@@ -312,7 +312,7 @@ export function AlmaContent() {
       <section id="parler" className="px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
           <a
-            href="/signup"
+            href="/decouvrir"
             className="inline-flex min-h-14 items-center gap-2 rounded-full bg-[#D10E63] px-9 text-base font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
           >
             {t.cta}

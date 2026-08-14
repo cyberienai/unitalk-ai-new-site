@@ -223,7 +223,7 @@ export function ModelesIaContent() {
             {t.ctaDesc}
           </p>
           <a
-            href="/signup"
+            href="/decouvrir"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
           >
             {t.ctaBtn}

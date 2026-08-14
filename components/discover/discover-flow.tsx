@@ -18,6 +18,10 @@ import { actionDescription, shortCategoryLabel } from '@/components/missions/sto
 import type { MockSession } from '@/lib/mock-auth'
 import { parseDiscoverSource } from '@/lib/discover-entry'
 
+function normalizeDomain(value: string | null) {
+  return value?.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase() ?? ''
+}
+
 // The /decouvrir onboarding. A single shared state carries the account, the
   // company context, the mission and the chosen first name across every screen.
   // The final action persists this state and opens the Workspace directly.
@@ -31,19 +35,20 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
   const intention = searchParams.get('intention')
   const source = parseDiscoverSource(searchParams.get('source'))
+  const requestedDomain = normalizeDomain(searchParams.get('domain'))
   const catalogMission = useMemo(() => MISSIONS.find((mission) => mission.slug === missionSlug), [missionSlug])
   const [draftText, setDraftText] = useState('')
 
   const [state, setState] = useState<OnboardingState>(() => {
     const initial = initialOnboardingState()
-    if (!initialSession) return initial
-    const domain = initialSession.email.split('@').at(-1)?.trim().toLowerCase()
+    const sessionDomain = initialSession?.email.split('@').at(-1)?.trim().toLowerCase()
+    const domain = requestedDomain || sessionDomain
     return {
       ...initial,
-      authenticated: true,
-      firstName: initialSession.firstName?.trim() ?? '',
-      lastName: initialSession.lastName?.trim() ?? '',
-      company: domain && initialSession.provider === 'email'
+      authenticated: Boolean(initialSession),
+      firstName: initialSession?.firstName?.trim() ?? '',
+      lastName: initialSession?.lastName?.trim() ?? '',
+      company: domain && (requestedDomain || initialSession?.provider === 'email')
         ? initial.company.map((fact) => {
             if (fact.key === 'domain') return { ...fact, value: domain, uncertain: false }
             if (fact.key === 'name') {
