@@ -30,7 +30,7 @@ const COPY = {
     cta: 'Confier cette mission',
     free: '7 jours gratuits. Sans CB.',
     thesis: 'Un logiciel vous donne un outil. Unitalk vous donne une capacité de travail.',
-    almaNote: 'Alma ne réalise pas la mission. Elle prépare le Collaborateur IA qui va l\'accomplir.',
+    almaNote: 'Vous décrivez le résultat attendu. Alma cadre la mission, sélectionne le bon Collaborateur, et vous livre le travail.',
     almaRole: 'Coordinatrice de missions',
     how: 'Comment ça marche',
   },
@@ -42,7 +42,7 @@ const COPY = {
     cta: 'Assign this mission',
     free: '7 days free. No credit card.',
     thesis: 'Software gives you a tool. Unitalk gives you a work capability.',
-    almaNote: 'Alma does not perform the mission. She prepares the AI Collaborator that will carry it out.',
+    almaNote: 'You describe the outcome. Alma frames the mission, selects the right Collaborator, and delivers the work.',
     almaRole: 'Mission coordinator',
     how: 'How it works',
   },
@@ -123,10 +123,9 @@ export function PaulGrahamHero() {
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-[clamp(1.7rem,3.8vw,2.8rem)] font-semibold leading-[1.1] tracking-[-0.04em]">{t.thesis}</p>
 
-          <div className="mx-auto mt-14 flex max-w-2xl flex-col items-center gap-8 rounded-[24px] border border-[#D8D0C2] bg-[#F3EFE6] p-8 sm:flex-row sm:p-10">
-            <Image src="/alma-avatar.png" alt="Alma" width={96} height={96} className="size-[72px] shrink-0 rounded-full object-cover ring-1 ring-[#D8D0C2] sm:size-24" />
+          <div className="mx-auto mt-14 flex max-w-2xl flex-col items-center gap-6 rounded-[24px] border border-[#D8D0C2] bg-[#F3EFE6] p-8 sm:flex-row sm:p-10">
             <div className="text-center sm:text-left">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63] inline-flex items-center gap-1.5">
+              <p className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">
                 <Image src="/alma-avatar.png" alt="" width={18} height={18} className="size-[18px] rounded-full object-cover ring-1 ring-[#D10E63]/20" />
                 Alma · {t.almaRole}
               </p>
