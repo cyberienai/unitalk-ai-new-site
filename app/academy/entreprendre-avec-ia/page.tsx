@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Check, Clock3, HeartHandshake, Lightbulb, ShieldCheck, Sparkles, UserRound } from 'lucide-react'
-import { AcademyCta, AcademyHero, AcademyKicker, AcademyProofs } from '@/components/academy/academy-ui'
+import { ArrowRight } from 'lucide-react'
+import { AcademyCta, AcademyHero, AcademyKicker } from '@/components/academy/academy-ui'
 
 export const metadata: Metadata = {
   title: 'Entreprendre à l’ère de l’IA',
@@ -10,31 +10,38 @@ export const metadata: Metadata = {
 }
 
 const sectors = [
-  ['Création de contenu', 'Transformer une expertise éditoriale en système de recherche, production, adaptation et distribution.'],
-  ['Développement logiciel', 'Concevoir, tester et maintenir un produit avec des capacités IA sous contrôle humain.'],
-  ['E-commerce', 'Coordonner catalogue, contenus, service client, veille et opérations sans perdre la relation client.'],
-  ['Conseil', 'Industrialiser une méthode tout en conservant le diagnostic, le jugement et la responsabilité de l’expert.'],
+  ['Création de contenu', 'Transformer une expertise en système de recherche, production et distribution.'],
+  ['Développement logiciel', 'Concevoir et maintenir un produit avec des capacités IA sous contrôle humain.'],
+  ['E-commerce', 'Coordonner catalogue, service client et opérations sans perdre la relation.'],
+  ['Conseil', 'Industrialiser une méthode tout en conservant le jugement de l’expert.'],
+]
+
+const principles = [
+  ['Temps humain', 'Choisir, cadrer, décider et apprendre.'],
+  ['Capacités IA', 'Exécuter, amplifier et rendre une méthode réutilisable.'],
+  ['Risque de banalisation', 'Quand l’exécution devient accessible, la méthode, la marque et la confiance comptent davantage.'],
 ]
 
 export default function EntrepreneurshipVisionPage() {
-  return <main className="bg-[#f4f0e7] text-[#1b1916]">
-    <AcademyHero kicker="Vision · Entreprendre avec l’IA" title="Une personne peut désormais piloter la capacité d’une équipe." body="L’IA ne supprime pas le travail entrepreneurial. Elle déplace l’effort : moins d’exécution répétitive, davantage de direction, de validation, de relation et de différenciation." />
+  return <main>
+    <AcademyHero
+      kicker="Entreprendre avec l’IA"
+      title="Une personne peut désormais piloter la capacité d’une équipe."
+      body="L’IA déplace l’effort: moins d’exécution répétitive, davantage de direction, de validation et de relation."
+    />
 
-    <section className="px-5 pb-16"><div className="academy-shell"><AcademyProofs items={['Temps humain concentré sur les décisions','Capacités IA déployables en continu','Valeur fondée sur la méthode et la confiance','Responsabilité humaine conservée']}/><div className="mt-10 grid gap-4 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center"><Flow icon={<Clock3/>} title="Temps humain" body="Choisir, cadrer et apprendre"/><ArrowRight className="hidden text-[#d10e63] sm:block"/><Flow icon={<Sparkles/>} title="Capacités IA" body="Exécuter et amplifier"/><ArrowRight className="hidden text-[#d10e63] sm:block"/><Flow icon={<Lightbulb/>} title="Valeur produite" body="Résultats, actifs et revenus"/></div></div></section>
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-16 sm:py-24">
+      <div className="academy-reading">
+        <AcademyKicker>L’idée essentielle</AcademyKicker>
+        <h2 className="mt-5 text-[clamp(1.8rem,4vw,3rem)] font-semibold leading-[1.08] tracking-[-.045em]">Le revenu peut se découpler du temps. La responsabilité, non.</h2>
+        <div className="mt-10 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">{principles.map(([title,body])=><article key={title} className="py-6"><h3 className="text-lg font-semibold">{title}</h3><p className="mt-2 text-sm leading-7 text-[#625b50]">{body}</p></article>)}</div>
+      </div>
+    </section>
 
-    <section className="border-y border-[#d7cebe] bg-[#fffaf4] px-5 py-16 sm:py-20"><div className="academy-shell grid gap-12 lg:grid-cols-[.72fr_1.28fr]"><div><AcademyKicker>Le modèle horaire change</AcademyKicker><h2 className="academy-heading mt-6">Le revenu peut se découpler du temps. La responsabilité, non.</h2></div><div className="grid gap-4 md:grid-cols-3"><Principle title="Effet de levier" body="Une heure consacrée à construire une méthode ou configurer une capacité peut produire des résultats au-delà de cette heure."/><Principle title="Nouveau rôle humain" body="L’entrepreneur dirige, arbitre, personnalise, vend et assume les décisions qui engagent son activité."/><Principle title="Risque de banalisation" body="Lorsque l’exécution devient accessible à tous, l’originalité, la méthode, la marque et la relation deviennent plus précieuses."/></div></div></section>
+    <section className="px-5 py-16 sm:py-24"><div className="academy-reading"><AcademyKicker>Ce qui reste profondément humain</AcademyKicker><h2 className="mt-5 text-3xl font-semibold leading-tight tracking-[-.04em]">Vision, relation, gouvernance et originalité.</h2><p className="mt-5 text-[17px] leading-8 text-[#4e483f]">Une entreprise augmentée n’est pas une entreprise sans humain. L’entrepreneur choisit le problème, comprend ses clients, fixe les règles et assume les décisions qui engagent son activité.</p></div></section>
 
-    <section className="px-5 py-16 sm:py-20"><div className="academy-shell"><AcademyKicker>Deux modèles</AcademyKicker><h2 className="academy-heading mt-6 max-w-5xl">De producteur limité par ses heures à directeur d’une micro-organisation augmentée.</h2><div className="mt-10 overflow-hidden rounded-3xl border border-[#d7cebe]"><div className="grid bg-[#e9e1d2] font-mono text-[10px] font-black uppercase tracking-[.14em] md:grid-cols-[.55fr_1fr_1fr]"><p className="p-4">Aspect</p><p className="border-t border-[#d7cebe] p-4 md:border-l md:border-t-0">Modèle traditionnel</p><p className="border-t border-[#d7cebe] p-4 md:border-l md:border-t-0">Modèle augmenté par l’IA</p></div><Comparison label="Limite de capacité" traditional="Principalement contrainte par le temps humain disponible." augmented="Étendue par des capacités IA, des systèmes et des actifs réutilisables."/><Comparison label="Rôle du propriétaire" traditional="Produit lui-même une grande partie du travail." augmented="Dirige, valide, orchestre, vend et protège la relation."/><Comparison label="Coût de lancement" traditional="Outils, sous-traitance et coordination souvent lourds." augmented="Plus accessible, mais dépend toujours de l’offre, des données et de l’acquisition."/><Comparison label="Différenciation" traditional="Savoir-faire et disponibilité personnelle." augmented="Méthode propriétaire, expérience, marque, confiance et communauté."/><Comparison label="Risque" traditional="Saturation et dépendance aux heures facturées." augmented="Commoditisation, erreurs automatisées et perte de contrôle sans gouvernance."/></div></div></section>
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-16"><div className="academy-reading"><AcademyKicker>Choisir un terrain</AcademyKicker><div className="mt-6 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">{sectors.map(([title,body])=><article key={title} className="py-6"><h2 className="text-xl font-semibold">{title}</h2><p className="mt-2 text-sm leading-7 text-[#625b50]">{body}</p><Link href={`/academy/missions?q=${encodeURIComponent(title)}`} className="academy-text-link mt-3">Explorer les missions<ArrowRight className="size-3.5"/></Link></article>)}</div></div></section>
 
-    <section className="bg-[#181512] px-5 py-16 text-[#f8f1e7] sm:py-20"><div className="academy-shell grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><AcademyKicker>Ce qui reste profondément humain</AcademyKicker><h2 className="academy-heading mt-6">L’autonomie utile exige une direction claire.</h2><p className="mt-6 leading-8 text-[#cfc6b8]">Une micro-entreprise autonome n’est pas une entreprise sans humain. C’est une entreprise où l’humain concentre son temps sur ce qui ne doit pas être banalisé.</p></div><div className="grid gap-4 sm:grid-cols-2"><Human icon={<UserRound/>} title="Vision" body="Choisir le problème, le marché et le niveau d’ambition."/><Human icon={<HeartHandshake/>} title="Relation" body="Comprendre les clients, créer la confiance et assumer les engagements."/><Human icon={<ShieldCheck/>} title="Gouvernance" body="Définir les droits, les validations, les limites et les recours."/><Human icon={<Lightbulb/>} title="Originalité" body="Créer une méthode, une marque et une expérience difficiles à copier."/></div></div></section>
-
-    <section className="border-b border-[#d7cebe] bg-[#e9e1d2] px-5 py-16 sm:py-20"><div className="academy-shell"><AcademyKicker>Choisir un terrain</AcademyKicker><h2 className="academy-heading mt-6 max-w-5xl">Dans quel domaine voulez-vous construire votre micro-entreprise augmentée ?</h2><div className="mt-10 grid gap-4 md:grid-cols-2">{sectors.map(([title,body])=><article key={title} className="rounded-3xl border border-[#d7cebe] bg-[#fffaf4] p-7"><h3 className="text-2xl font-black tracking-[-.035em]">{title}</h3><p className="mt-4 text-sm leading-7 text-[#625b50]">{body}</p><Link href={`/academy/missions?q=${encodeURIComponent(title)}`} className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[#b00b52]">Explorer les missions<ArrowRight className="size-4"/></Link></article>)}</div></div></section>
-
-    <section className="px-5 py-16 sm:py-20"><div className="academy-shell rounded-[2rem] border border-[#d7cebe] bg-[#fffaf4] p-8 sm:p-12"><AcademyKicker>Passer de la vision à une première preuve</AcademyKicker><h2 className="academy-heading mt-6 max-w-5xl">Ne commencez pas par automatiser toute l’entreprise. Commencez par une mission qui crée de la valeur.</h2><p className="mt-6 max-w-3xl text-lg leading-8 text-[#625b50]">Choisissez un travail récurrent, définissez son résultat, gardez les décisions sensibles et testez une première capacité avec Alma.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><AcademyCta href="/missions?gratuit=1">Explorer les missions gratuites</AcademyCta><AcademyCta href="/parcours/entreprendre-avec-ia" secondary>Voir le parcours Entreprendre avec l’IA</AcademyCta></div><p className="mt-6 flex gap-2 text-xs leading-5 text-[#625b50]"><Check className="size-4 shrink-0 text-[#d10e63]"/>Les revenus ne sont jamais garantis. Ils dépendent de la valeur de l’offre, de l’exécution, du marché, de la distribution et de la confiance obtenue.</p></div></section>
+    <section className="px-5 py-16 text-center sm:py-24"><div className="academy-reading"><AcademyKicker>Commencer</AcademyKicker><h2 className="mx-auto mt-5 max-w-2xl text-3xl font-semibold leading-tight tracking-[-.04em]">Ne commencez pas par automatiser toute l’entreprise. Commencez par une mission utile.</h2><div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"><AcademyCta href="/missions?gratuit=1">Explorer les missions gratuites</AcademyCta><AcademyCta href="/parcours/entreprendre-avec-ia" secondary>Voir le parcours</AcademyCta></div><p className="mx-auto mt-6 max-w-xl text-xs leading-5 text-[#857c6e]">Les revenus ne sont jamais garantis. Ils dépendent de la valeur de l’offre, de l’exécution, du marché et de la confiance obtenue.</p></div></section>
   </main>
 }
-
-function Flow({icon,title,body}:{icon:React.ReactNode;title:string;body:string}){return <article className="rounded-3xl border border-[#d7cebe] bg-[#fffaf4] p-6 text-center"><span className="mx-auto flex size-10 items-center justify-center rounded-full bg-[#d10e63]/10 text-[#d10e63]">{icon}</span><h2 className="mt-5 text-xl font-black">{title}</h2><p className="mt-2 text-sm text-[#625b50]">{body}</p></article>}
-function Principle({title,body}:{title:string;body:string}){return <article className="rounded-3xl border border-[#d7cebe] bg-[#f4f0e7] p-6"><h3 className="text-xl font-black">{title}</h3><p className="mt-3 text-sm leading-7 text-[#625b50]">{body}</p></article>}
-function Comparison({label,traditional,augmented}:{label:string;traditional:string;augmented:string}){return <div className="grid border-t border-[#d7cebe] text-sm md:grid-cols-[.55fr_1fr_1fr]"><p className="bg-[#fffaf4] p-4 font-black">{label}</p><p className="border-t border-[#d7cebe] bg-[#fffaf4] p-4 leading-6 text-[#625b50] md:border-l md:border-t-0">{traditional}</p><p className="border-t border-[#d7cebe] bg-[#fffaf4] p-4 font-bold leading-6 md:border-l md:border-t-0">{augmented}</p></div>}
-function Human({icon,title,body}:{icon:React.ReactNode;title:string;body:string}){return <article className="rounded-3xl border border-white/10 bg-white/[.05] p-6"><span className="text-[#f2a4c5]">{icon}</span><h3 className="mt-6 text-xl font-black">{title}</h3><p className="mt-3 text-sm leading-7 text-[#cfc6b8]">{body}</p></article>}

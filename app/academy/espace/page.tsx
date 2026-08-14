@@ -7,7 +7,11 @@ export const metadata:Metadata={title:'Espace apprenant et portfolio'}
 export default async function Page({searchParams}:{searchParams:Promise<{mission?:string;parcours?:string;network?:string}>}) {
   const p=await searchParams
   const context=p.mission??p.parcours??p.network
-  const redirect=context?`/academy/espace?${new URLSearchParams(p).toString()}`:'/academy/espace'
+  const query=new URLSearchParams()
+  if(p.mission) query.set('mission',p.mission)
+  if(p.parcours) query.set('parcours',p.parcours)
+  if(p.network) query.set('network',p.network)
+  const redirect=context?`/academy/espace?${query.toString()}`:'/academy/espace'
   const panels=[['Missions en cours','Reprenez le travail là où vous l’avez laissé.'],['Preuves','Conservez les livrables que vous avez fait valider.'],['Compétences','Voyez ce que vos missions vous ont permis de démontrer.']]
   return <main>
     <AcademyHero kicker="Mon espace" title="Vos missions. Vos preuves. Votre progression." body="Un endroit simple pour retrouver ce que vous apprenez et ce que vous avez réellement accompli."/>

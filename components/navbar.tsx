@@ -3,7 +3,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, ChevronDown } from 'lucide-react'
+import {
+  ArrowRight,
+  Blocks,
+  Bot,
+  BriefcaseBusiness,
+  ChevronDown,
+  GraduationCap,
+  Monitor,
+  Sparkles,
+  UsersRound,
+  type LucideIcon,
+} from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { AnonymousOnly, UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
@@ -22,7 +33,7 @@ const ACADEMY_URL = '/academy'
 // Collaborateurs IA dropdown — the product hub, in three sections:
 // Product-focused Collaborateurs IA menu: concept, profiles, skills,
 // applications and Alma. Experts remain available in the footer.
-type MenuEntry = { title: Bi; desc: Bi; href: string; avatar?: string }
+type MenuEntry = { title: Bi; desc: Bi; href: string; avatar?: string; icon: LucideIcon }
 type MenuAction = { title: Bi; href: string }
 
 const COLLAB_FEATURED: MenuEntry = {
@@ -32,6 +43,7 @@ const COLLAB_FEATURED: MenuEntry = {
     en: 'Identity, Hermes Agent, profiles, skills, tools and human control.',
   },
   href: '/collaborateurs-ia',
+  icon: Bot,
 }
 
 const COLLAB_DISCOVER: MenuEntry[] = [
@@ -42,6 +54,7 @@ const COLLAB_DISCOVER: MenuEntry[] = [
       en: 'A professional identity, a private environment and experience that grows with your company.',
     },
     href: '/collaborateurs-ia',
+    icon: Bot,
   },
   {
     title: { fr: 'Profils métier', en: 'Job profiles' },
@@ -50,6 +63,7 @@ const COLLAB_DISCOVER: MenuEntry[] = [
       en: 'The lasting responsibilities it can perform.',
     },
     href: '/collaborateurs-ia/profils-metier',
+    icon: BriefcaseBusiness,
   },
   {
     title: { fr: 'Compétences', en: 'Skills' },
@@ -58,6 +72,7 @@ const COLLAB_DISCOVER: MenuEntry[] = [
       en: 'The know-how it can apply, improve and share.',
     },
     href: '/collaborateurs-ia/competences',
+    icon: Sparkles,
   },
   {
     title: { fr: 'Unitalk Store', en: 'Unitalk Store' },
@@ -66,6 +81,7 @@ const COLLAB_DISCOVER: MenuEntry[] = [
       en: 'Profiles, skills, applications, models and training, with Alma.',
     },
     href: '/collaborateurs-ia/applications',
+    icon: Blocks,
   },
   {
     title: { fr: 'Unitalk Desktop', en: 'Unitalk Desktop' },
@@ -74,6 +90,7 @@ const COLLAB_DISCOVER: MenuEntry[] = [
       en: 'The local workstation for your human-AI team.',
     },
     href: '/desktop',
+    icon: Monitor,
   },
 ]
 
@@ -86,6 +103,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
     },
     href: '/unitalk/@alma',
     avatar: '/alma-avatar.png',
+    icon: Sparkles,
   },
   {
     title: { fr: 'Devenir Co-créateur IA', en: 'Become an AI Co-creator' },
@@ -94,6 +112,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
       en: 'Learn to create, publish and monetize profiles, skills and missions.',
     },
     href: '/co-createur-ia',
+    icon: GraduationCap,
   },
   {
     title: { fr: 'AI Native Pack', en: 'AI Native Pack' },
@@ -102,6 +121,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
       en: 'Move from the first mission to structured adoption with your teams.',
     },
     href: '/accompagnement',
+    icon: UsersRound,
   },
   {
     title: { fr: 'Experts humains', en: 'Human experts' },
@@ -110,6 +130,7 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
       en: 'Design, integrate or advance your AI Collaborators with a specialist.',
     },
     href: '/experts',
+    icon: BriefcaseBusiness,
   },
 ]
 
@@ -225,26 +246,6 @@ function MobileCollabLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: L
   )
 }
 
-/** Direct-action row for the "Votre Collaborateur" section: a single bold line
- *  with a trailing arrow that nudges forward on hover — no description. */
-function CollabActionLink({ entry, lang, onSelect }: { entry: MenuAction; lang: Lang; onSelect: () => void }) {
-  return (
-    <a
-      href={entry.href}
-      role="menuitem"
-      onClick={onSelect}
-      className="group flex w-full items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-[14.5px] font-semibold text-[#1C1A17] outline-none transition-colors duration-200 hover:bg-[#FFFDF9] hover:text-[#D10E63] focus-visible:bg-[#FFFDF9] focus-visible:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]/60"
-    >
-      {entry.title[lang]}
-      <ArrowRight
-        aria-hidden="true"
-        strokeWidth={1.75}
-        className="h-4 w-4 shrink-0 text-[#D10E63] transition-transform duration-200 group-hover:translate-x-1"
-      />
-    </a>
-  )
-}
-
 /** Desktop primary nav link with hover/focus/active states.
  *  `overDark` = transparent navbar sitting over a dark hero → light-on-dark colors. */
 function NavItem({
@@ -334,7 +335,6 @@ export function Navbar(
   useEffect(() => {
     const isMobile = window.innerWidth < 1024
     if (isMobile) document.body.style.overflow = isMenuOpen ? 'hidden' : ''
-    if (!isMenuOpen) setMobileCollabOpen(false)
     return () => {
       document.body.style.overflow = ''
     }
@@ -566,7 +566,10 @@ export function Navbar(
 
             {/* Mobile burger */}
             <button
-              onClick={() => setIsMenuOpen((v) => !v)}
+              onClick={() => {
+                if (isMenuOpen) setMobileCollabOpen(false)
+                setIsMenuOpen((v) => !v)
+              }}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#DcD4C4] bg-[#FBF9F3] text-[#1C1A17] transition-colors hover:bg-[#EAE3D4] lg:hidden"
               aria-label={isMenuOpen ? t.closeMenu : t.openMenu}
               aria-expanded={isMenuOpen}
