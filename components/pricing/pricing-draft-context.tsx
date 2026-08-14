@@ -5,6 +5,7 @@ import type { AiCapacityId, PricingDraft } from '@/lib/unitalk-pricing'
 
 type PricingDraftState = {
   draft: PricingDraft
+  selectedProfile?: string
   setCollaborators: (value: number) => void
   setCapacity: (value: AiCapacityId) => void
   setCoCreators: (value: number) => void
@@ -12,9 +13,9 @@ type PricingDraftState = {
 
 const PricingDraftContext = createContext<PricingDraftState | null>(null)
 
-export function PricingDraftProvider({ initialDraft, children }: { initialDraft: PricingDraft; children: React.ReactNode }) {
+export function PricingDraftProvider({ initialDraft, selectedProfile, children }: { initialDraft: PricingDraft; selectedProfile?: string; children: React.ReactNode }) {
   const [draft, setDraft] = useState(initialDraft)
-  return <PricingDraftContext.Provider value={{ draft, setCollaborators: (collaborators) => setDraft((current) => ({ ...current, collaborators })), setCapacity: (capacity) => setDraft((current) => ({ ...current, capacity })), setCoCreators: (coCreators) => setDraft((current) => ({ ...current, coCreators })) }}>{children}</PricingDraftContext.Provider>
+  return <PricingDraftContext.Provider value={{ draft, selectedProfile, setCollaborators: (collaborators) => setDraft((current) => ({ ...current, collaborators })), setCapacity: (capacity) => setDraft((current) => ({ ...current, capacity })), setCoCreators: (coCreators) => setDraft((current) => ({ ...current, coCreators })) }}>{children}</PricingDraftContext.Provider>
 }
 
 export function usePricingDraft() {

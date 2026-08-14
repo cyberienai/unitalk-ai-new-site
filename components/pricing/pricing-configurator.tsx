@@ -115,6 +115,7 @@ const T = {
     cardCurrency: '€',
     remove: 'Retirer',
     add: 'Ajouter',
+    selectedProfile: 'Profil présélectionné',
   },
   en: {
     eyebrow: 'Allocate your resources',
@@ -150,6 +151,7 @@ const T = {
     cardCurrency: '€',
     remove: 'Remove',
     add: 'Add',
+    selectedProfile: 'Preselected profile',
   }
 } as const
 
@@ -159,7 +161,7 @@ export function PricingConfigurator() {
   const planInfo = PLAN_INFO[lang]
   const periods = lang === 'fr' ? PERIODS_FR : PERIODS_EN
 
-  const { draft, setCollaborators, setCapacity, setCoCreators } = usePricingDraft()
+  const { draft, selectedProfile, setCollaborators, setCapacity, setCoCreators } = usePricingDraft()
   const { collaborators, capacity, coCreators } = draft
   const [pending, setPending] = useState(false)
   const breakdown = configurationBreakdownAt(collaborators, capacity, coCreators, CURRENT_DATE)
@@ -176,6 +178,7 @@ export function PricingConfigurator() {
         <div>
           <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">{t.eyebrow}</span>
           <h2 className="mt-2 font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17]">{t.heading}</h2>
+          {selectedProfile && <p className="mt-3 inline-flex rounded-full bg-[#D10E63]/10 px-3 py-1.5 text-xs font-bold text-[#B00C54]">{t.selectedProfile} : {selectedProfile}</p>}
         </div>
 
         {/* Counter Collaborators */}
