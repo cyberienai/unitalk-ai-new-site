@@ -6,7 +6,7 @@ import { SiteFooter } from '@/components/site-footer'
 export const metadata: Metadata = {
   title: 'Modèles IA · Unitalk',
   description:
-    'Les meilleurs modèles d’IA via notre moteur open source Hermes. Payez avec vos propres clés (BYOK) ou des crédits prépayés gérés par Unitalk.',
+    'Accédez aux modèles d’IA autorisés via Unitalk AI Gateway. Utilisez vos propres clés (BYOK), des crédits Unitalk ou une configuration hybride.',
 }
 
 export default function ModelesIaPage() {

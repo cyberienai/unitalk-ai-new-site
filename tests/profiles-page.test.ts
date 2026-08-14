@@ -30,4 +30,9 @@ describe('profiles catalog', () => {
     expect(content).not.toContain('>Compétences<')
     expect(detail).toContain('getStoreItem(typeSlug, slug)')
   })
+
+  it('identifies profiles as AI Collaborator profiles for Hermes', () => {
+    expect(content).toContain('AI Collaborator profile for Hermes')
+    expect(detail).toContain('Profil Collaborateur IA pour Hermes')
+  })
 })

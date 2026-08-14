@@ -145,14 +145,14 @@ const T_COLLAB = {
         price: '74€',
         period: ' / mois',
         desc: 'Tâches de fond et automatisation standard. Idéal pour assurer votre veille, mettre à jour vos outils en arrière-plan et exécuter des rapports simples.',
-        features: ['1 Collaborateur IA', 'Profils métier illimités', '5 millions de tokens inclus', 'VPS Hermes dédié']
+        features: ['1 identité Collaborateur IA', 'Profil Collaborateur IA pour Hermes', 'Profils métier illimités', '5 millions de tokens inclus', 'VPS Hermes dédié']
       },
       {
         name: 'Mi-temps',
         price: '99€',
         period: ' / mois',
         desc: 'Prise en charge active des processus métier quotidiens. Parfait pour le tri de vos emails, la qualification réactive de prospects et la planification d’agenda.',
-        features: ['1 Collaborateur IA', 'Profils métier illimités', '10 millions de tokens inclus', 'Onboarding personnalisé'],
+        features: ['1 identité Collaborateur IA', 'Profil Collaborateur IA pour Hermes', 'Profils métier illimités', '10 millions de tokens inclus', 'Onboarding personnalisé'],
         featured: true
       },
       {
@@ -160,7 +160,7 @@ const T_COLLAB = {
         price: '149€',
         period: ' / mois',
         desc: 'Autonomie complète 24/7 sur de hauts volumes. Un collaborateur IA dédié à 100% à l’action, prêt à piloter des flux de travail complexes et multi-apps pour votre équipe.',
-        features: ['1 Collaborateur IA', 'Profils métier illimités', '20 millions de tokens inclus', 'Supervision AgentOps (30m)']
+        features: ['1 identité Collaborateur IA', 'Profil Collaborateur IA pour Hermes', 'Profils métier illimités', '20 millions de tokens inclus', 'Supervision AgentOps (30m)']
       }
     ]
   },
@@ -174,14 +174,14 @@ const T_COLLAB = {
         price: '€74',
         period: ' / month',
         desc: 'Background tasks and standard automation. Ideal for monitoring, updating your tools in the background, and running simple reports.',
-        features: ['1 AI Collaborator', 'Unlimited job profiles', '5 million tokens included', 'Dedicated Hermes VPS']
+        features: ['1 AI Collaborator identity', 'AI Collaborator profile for Hermes', 'Unlimited job profiles', '5 million tokens included', 'Dedicated Hermes VPS']
       },
       {
         name: 'Half-time (1/2)',
         price: '€99',
         period: ' / month',
         desc: 'Active daily support for your business processes. Perfect for sorting emails, responsive lead qualification, and calendar planning.',
-        features: ['1 AI Collaborator', 'Unlimited job profiles', '10 million tokens included', 'Personalized onboarding'],
+        features: ['1 AI Collaborator identity', 'AI Collaborator profile for Hermes', 'Unlimited job profiles', '10 million tokens included', 'Personalized onboarding'],
         featured: true
       },
       {
@@ -189,7 +189,7 @@ const T_COLLAB = {
         price: '€149',
         period: ' / month',
         desc: 'Full 24/7 autonomy on high volumes. A 100% dedicated AI collaborator ready to run complex multi-app workflows for your team.',
-        features: ['1 AI Collaborator', 'Unlimited job profiles', '20 million tokens included', 'AgentOps supervision (30m)']
+        features: ['1 AI Collaborator identity', 'AI Collaborator profile for Hermes', 'Unlimited job profiles', '20 million tokens included', 'AgentOps supervision (30m)']
       }
     ]
   }
@@ -597,6 +597,18 @@ export function PricingExplanations() {
       </section>
 
       {/* Dark section for credits and team resources */}
+      <section className="border-t border-[#DED6C8] bg-[#EAE3D4] py-16">
+        <div className="editorial-shell">
+          <Kicker>Socles technologiques inclus</Kicker>
+          <h2 className="mt-5 max-w-4xl text-[34px] font-semibold leading-[1.06] tracking-[-0.04em] sm:text-[44px]">Hermes agit. Unitalk AI Gateway donne accès aux modèles.</h2>
+          <p className="mt-5 max-w-3xl text-[16px] leading-7 text-[#4E483F]">Chaque Collaborateur IA associe un environnement agentique Hermes et une capacité d’accès aux modèles configurée dans Unitalk AI Gateway.</p>
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            <article className="rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-7"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">Système d’exploitation agentique</p><h3 className="mt-5 text-2xl font-bold">Hermes Agent</h3><p className="mt-4 text-sm leading-7 text-[#5F594F]">Navigation, terminal, fichiers, mémoire, compétences, outils et tâches planifiées dans l’environnement du Collaborateur IA.</p><p className="mt-5 rounded-2xl bg-[#EAE3D4] p-4 text-xs leading-6 text-[#625B50]">Hermes Agent est un projet open source de Nous Research distribué sous licence MIT. Unitalk AI est une distribution et une intégration indépendantes ; Nous Research n’est pas l’éditeur de Unitalk.</p><a href="https://github.com/NousResearch/hermes-agent" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">Voir Hermes et sa licence<ArrowRight className="size-4"/></a></article>
+            <article className="rounded-3xl border border-[#D10E63] bg-[#181615] p-7 text-[#FAF8F3]"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#F2A4C5]">Accès multimodèle</p><h3 className="mt-5 text-2xl font-bold">Unitalk AI Gateway</h3><p className="mt-4 text-sm leading-7 text-[#CFC6B8]">Interface commune, routage, clés, budgets et quotas pour utiliser des crédits Unitalk, vos propres clés ou une configuration hybride.</p><p className="mt-5 rounded-2xl bg-white/[.06] p-4 text-xs leading-6 text-[#AFA397]">Basé sur les composants open source MIT de LiteLLM. Les éventuels composants Enterprise de LiteLLM relèvent de conditions distinctes.</p><Link href="/ai-gateway" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">Découvrir AI Gateway<ArrowRight className="size-4"/></Link></article>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-[#181615] py-16 text-[#FAF8F3]">
         <div className="editorial-shell">
           <Kicker dark>Besoins ponctuels</Kicker>

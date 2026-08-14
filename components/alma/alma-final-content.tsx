@@ -3,18 +3,57 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { ArrowRight, Check, CircleCheck, ShieldCheck } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, Check, CircleCheck, Mic, ShieldCheck, Square } from "lucide-react";
 import { Kicker } from "@/components/home/section-kicker";
 import { useLanguage, type Lang } from "@/lib/language-context";
 
 const SIGNUP = "/inscription?source=alma-profile&intent=nouvelle-mission";
+
+type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> };
+type SpeechRecognitionInstance = { lang: string; continuous: boolean; interimResults: boolean; onresult: ((event: SpeechResultEvent) => void) | null; onend: (() => void) | null; onerror: (() => void) | null; start: () => void; stop: () => void; abort: () => void };
+
+function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
+  if (typeof window === "undefined") return null;
+  const speechWindow = window as typeof window & { SpeechRecognition?: new () => SpeechRecognitionInstance; webkitSpeechRecognition?: new () => SpeechRecognitionInstance };
+  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null;
+}
 
 export function AlmaFinalContent() {
   const { lang } = useLanguage();
   const t = COPY[lang];
   const router = useRouter();
   const [need, setNeed] = useState("");
+  const [listening, setListening] = useState(false);
+  const [voiceSupported, setVoiceSupported] = useState(false);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+
+  useEffect(() => {
+    const SpeechRecognition = getSpeechRecognition();
+    if (!SpeechRecognition) return;
+    setVoiceSupported(true);
+    const recognition = new SpeechRecognition();
+    recognition.lang = lang === "fr" ? "fr-FR" : "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.onresult = event => {
+      let transcript = "";
+      for (let index = 0; index < event.results.length; index++) transcript += event.results[index][0].transcript;
+      setNeed(transcript);
+    };
+    recognition.onend = () => setListening(false);
+    recognition.onerror = () => setListening(false);
+    recognitionRef.current = recognition;
+    return () => { recognition.abort(); recognitionRef.current = null; };
+  }, [lang]);
+
+  function toggleListening() {
+    const recognition = recognitionRef.current;
+    if (!recognition) return;
+    if (listening) { recognition.stop(); return; }
+    setListening(true);
+    try { recognition.start(); } catch { setListening(false); }
+  }
 
   function startWithNeed() {
     const clean = need.trim();
@@ -84,7 +123,7 @@ export function AlmaFinalContent() {
           <div className="rounded-3xl bg-[#181615] p-5 text-[#FAF8F3] sm:p-7">
             <div className="flex items-center gap-3"><Image src="/alma-avatar.png" alt="Alma" width={44} height={44} className="size-11 rounded-full object-cover ring-2 ring-[#D10E63]/30"/><div><p className="font-bold">Alma</p><p className="text-xs text-[#AFA397]">{t.role}</p></div></div>
             <label htmlFor="alma-need" className="mt-6 block text-sm font-bold">{t.composerLabel}</label>
-            <textarea id="alma-need" value={need} onChange={event => setNeed(event.target.value)} rows={5} placeholder={t.composerPlaceholder} className="mt-3 w-full resize-none rounded-2xl border border-white/15 bg-white/[.06] p-4 text-sm leading-6 text-white outline-none placeholder:text-[#887D72] focus:border-[#F2A4C5] focus:ring-2 focus:ring-[#D10E63]/25" />
+            <div className="relative mt-3"><textarea id="alma-need" value={need} onChange={event => setNeed(event.target.value)} rows={5} placeholder={listening ? t.listening : t.composerPlaceholder} className="w-full resize-none rounded-2xl border border-white/15 bg-white/[.06] p-4 pr-14 text-sm leading-6 text-white outline-none placeholder:text-[#887D72] focus:border-[#F2A4C5] focus:ring-2 focus:ring-[#D10E63]/25" />{voiceSupported && <button type="button" onClick={toggleListening} aria-label={listening ? t.voiceStop : t.voiceStart} aria-pressed={listening} className={`absolute right-3 top-3 flex size-10 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5] ${listening ? 'bg-[#D10E63] text-white' : 'bg-white/10 text-[#F2A4C5] hover:bg-white/15'}`}>{listening ? <Square className="size-3.5" fill="currentColor"/> : <Mic className="size-4"/>}</button>}</div>
             <button type="button" onClick={startWithNeed} className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{need.trim() ? t.composerCta : t.composerEmptyCta}<ArrowRight className="ml-2 size-4" /></button>
             <p className="mt-3 text-center text-[11px] text-[#887D72]">{t.composerNote}</p>
           </div>
@@ -175,6 +214,7 @@ export function AlmaFinalContent() {
             />
             <Extension title={t.skillTitle} body={t.skillBody} />
           </div>
+          <div className="mt-8 rounded-3xl border border-[#D8D0C2] bg-[#EAE3D4] p-6 sm:p-8 lg:col-span-2"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">Unitalk Academy</p><h3 className="mt-4 text-2xl font-bold">{t.academyTitle}</h3><p className="mt-3 max-w-3xl text-sm leading-7 text-[#4E483F]">{t.academyBody}</p><a href="https://unitalk.fr/alma?source=alma-profile" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.academyCta}<ArrowRight className="size-4"/></a></div>
         </div>
       </section>
 
@@ -358,6 +398,9 @@ const COPY = {
     composerCta: "Préparer cette mission avec Alma",
     composerEmptyCta: "Créer mon compte et parler à Alma",
     composerNote: "Votre demande est conservée pour poursuivre après l’authentification.",
+    voiceStart: "Décrire le travail avec votre voix",
+    voiceStop: "Arrêter la dictée",
+    listening: "Je vous écoute…",
     examples: ["Répondre aux demandes clients", "Qualifier de nouveaux prospects", "Préparer mes réunions", "Relancer les factures impayées"],
     howKicker: "Le rôle d’Alma",
     howTitle: "Du besoin flou à une mission prête à confier.",
@@ -414,6 +457,9 @@ const COPY = {
     skillTitle: "Transmission de savoir-faire",
     skillBody:
       "Interviewer une personne, formaliser sa méthode et préparer une compétence testable.",
+    academyTitle: "La même Alma vous accompagne aussi dans Unitalk Academy.",
+    academyBody: "Elle y exerce un profil de guide pédagogique. Les données de formation restent séparées des missions et documents opérationnels de Unitalk AI.",
+    academyCta: "Découvrir Alma dans Unitalk Academy",
     privacyKicker: "Profil professionnel public",
     privacyTitle: "Visible publiquement. Privé par défaut.",
     publicTitle: "Public",
@@ -453,6 +499,9 @@ const COPY = {
     composerCta: "Prepare this mission with Alma",
     composerEmptyCta: "Create my account and talk to Alma",
     composerNote: "Your request is retained so you can continue after authentication.",
+    voiceStart: "Describe the work with your voice",
+    voiceStop: "Stop dictation",
+    listening: "Listening…",
     examples: ["Answer customer requests", "Qualify new prospects", "Prepare my meetings", "Follow up unpaid invoices"],
     howKicker: "Alma’s role",
     howTitle: "From a vague need to a mission ready to assign.",
@@ -508,6 +557,9 @@ const COPY = {
     skillTitle: "Know-how transfer",
     skillBody:
       "Interview a person, formalize their method and prepare a testable skill.",
+    academyTitle: "The same Alma also supports you in Unitalk Academy.",
+    academyBody: "There she exercises a learning guide profile. Training data remains separate from Unitalk AI missions and operational documents.",
+    academyCta: "Discover Alma in Unitalk Academy",
     privacyKicker: "Public professional profile",
     privacyTitle: "Publicly visible. Private by default.",
     publicTitle: "Public",

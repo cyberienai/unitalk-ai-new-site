@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/navbar'
-import { ComingSoonContent } from '@/components/coming-soon-content'
+import { AiGatewayContent } from '@/components/ai-gateway-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'AI Gateway',
+  title: 'Unitalk AI Gateway : accès multimodèle gouverné',
   description:
-    'Le meilleur modèle autorisé pour chaque tâche, sans dépendre d’un seul fournisseur. La page AI Gateway arrive prochainement.',
+    'Accédez à plusieurs fournisseurs d’IA via une interface commune, avec routage, clés, budgets, quotas et règles par organisation. Basé sur LiteLLM.',
   alternates: { canonical: '/ai-gateway' },
 }
 
@@ -14,13 +14,7 @@ export default function AiGatewayPage() {
   return (
     <>
       <Navbar />
-      <ComingSoonContent
-        title={{ fr: 'AI Gateway', en: 'AI Gateway' }}
-        description={{
-          fr: 'Le meilleur modèle autorisé pour chaque tâche, sans dépendre d’un seul fournisseur.',
-          en: 'The best authorized model for each task, without depending on a single provider.',
-        }}
-      />
+      <AiGatewayContent />
       <SiteFooter />
     </>
   )

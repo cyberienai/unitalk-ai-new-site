@@ -44,7 +44,7 @@ const T = {
     title1: 'Les meilleurs modèles. ',
     title2: 'Vos règles.',
     subtitle:
-      'Votre agent s’appuie sur les modèles d’IA les plus performants, via notre moteur open source Hermes. Vous choisissez comment les payer — vos propres clés ou des crédits gérés par Unitalk.',
+      'Votre Collaborateur IA accède aux modèles autorisés via Unitalk AI Gateway. Vous choisissez comment les utiliser : vos propres clés, des crédits Unitalk ou les deux.',
     modesLabel: 'Deux façons de payer',
     byokTitle: 'BYOK — vos propres clés',
     byokDesc:
@@ -75,7 +75,7 @@ const T = {
     title1: 'The best models. ',
     title2: 'Your rules.',
     subtitle:
-      'Your agent runs on the most capable AI models, through our open-source engine Hermes. You choose how to pay for them — your own keys or credits managed by Unitalk.',
+      'Your AI Collaborator accesses authorized models through Unitalk AI Gateway. Choose your own keys, Unitalk credits, or both.',
     modesLabel: 'Two ways to pay',
     byokTitle: 'BYOK — your own keys',
     byokDesc:

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Check, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check, GraduationCap, ShieldCheck, Sparkles } from 'lucide-react'
 import { getMissionCategory, getMissionCategoryHref, relatedMissions, type Mission } from '@/lib/missions-catalog'
 import { MissionBreadcrumb } from '@/components/missions/mission-breadcrumb'
 
@@ -77,6 +77,8 @@ export function MissionGuideContent({ mission }: { mission: Mission }) {
         </div>
       </section>
 
+      {mission.slug === 'realiser-une-veille-concurrentielle' && <CreatorPath />}
+
       <section className="bg-[#181615] px-5 py-16 text-[#FBF9F3] sm:px-8 sm:py-24">
         <div className="editorial-shell grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-20">
           <div>
@@ -145,6 +147,10 @@ export function MissionGuideContent({ mission }: { mission: Mission }) {
       </section>
     </article>
   )
+}
+
+function CreatorPath() {
+  return <section className="border-y border-[#DCD4C4] bg-[#EAE3D4] px-5 py-16 sm:px-8 sm:py-20"><div className="editorial-shell"><p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">Vous maîtrisez déjà cette méthode ?</p><div className="mt-5 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-start"><div><h2 className="max-w-2xl text-balance text-[36px] font-semibold leading-[1.03] tracking-[-0.045em] sm:text-[50px]">Transformez votre méthode de veille en mission réutilisable.</h2><p className="mt-6 max-w-2xl text-[16px] leading-8 text-[#4E483F]">Un Co-créateur IA peut interviewer l’expert, formaliser les sources, la fréquence, les critères d’analyse et les validations, puis tester et versionner cette mission pour d’autres Collaborateurs IA.</p></div><div className="grid gap-4 sm:grid-cols-2"><article className="flex min-h-[270px] flex-col rounded-3xl bg-[#181615] p-6 text-[#FAF8F3]"><Sparkles className="size-5 text-[#F2A4C5]"/><h3 className="mt-7 text-2xl font-bold tracking-[-0.03em]">Créer avec Unitalk AI</h3><p className="mt-4 text-sm leading-7 text-[#CFC6B8]">Formalisez cette veille en profil, compétence ou mission directement dans l’écosystème Unitalk.</p><Link href="/co-createur-ia" className="mt-auto inline-flex items-center gap-2 pt-7 text-sm font-bold text-[#F2A4C5]">Découvrir le rôle de Co-créateur<ArrowRight className="size-4"/></Link></article><article className="flex min-h-[270px] flex-col rounded-3xl border border-[#CFC6B8] bg-[#FAF8F3] p-6"><GraduationCap className="size-5 text-[#D10E63]"/><h3 className="mt-7 text-2xl font-bold tracking-[-0.03em]">Apprendre avec Unitalk Academy</h3><p className="mt-4 text-sm leading-7 text-[#4E483F]">Apprenez à recueillir le savoir-faire, construire la mission, la tester et préparer sa publication.</p><a href="https://unitalk.fr/formations/co-createur-ia?source=mission-guide&mission=realiser-une-veille-concurrentielle" className="mt-auto inline-flex items-center gap-2 pt-7 text-sm font-bold text-[#B00C54]">Voir la formation Co-créateur IA<ArrowRight className="size-4"/></a></article></div></div></div></section>
 }
 
 function lowerFirst(value: string) {

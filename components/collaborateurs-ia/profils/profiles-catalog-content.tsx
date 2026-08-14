@@ -88,6 +88,7 @@ const COPY = {
       ['Gardez la continuité', 'L’identité IA et l’expérience validée restent attachées au Collaborateur IA.'],
     ],
     proofKicker: 'Profil métier publié',
+    hermesProfile: 'Profil Collaborateur IA pour Hermes',
     scope: 'Responsabilité',
     knowHow: 'Savoir-faire',
     missions: 'Missions possibles',
@@ -161,6 +162,7 @@ const COPY = {
       ['Keep continuity', 'The AI identity and validated experience remain attached to the AI Collaborator.'],
     ],
     proofKicker: 'Published job profile',
+    hermesProfile: 'AI Collaborator profile for Hermes',
     scope: 'Responsibility',
     knowHow: 'Know-how',
     missions: 'Possible missions',
@@ -322,7 +324,7 @@ export function ProfilesCatalogContent() {
 
 function ProfileProof({ profile, lang }: { profile: StoreItem; lang: Lang }) {
   const t = COPY[lang]
-  return <article className="rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-6 shadow-[0_22px_60px_-48px_rgba(28,26,23,.5)] sm:p-8"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{t.proofKicker}</p><h2 className="mt-4 text-2xl font-semibold">{profileName(profile, lang)}</h2><p className="mt-3 text-sm leading-6 text-[#4E483F]">{profile.description[lang]}</p><dl className="mt-6 grid gap-px overflow-hidden rounded-xl border border-[#DED6C8] bg-[#DED6C8] sm:grid-cols-2"><ProofField label={t.scope} values={[profile.roleInOrg?.[lang] ?? profile.description[lang]]}/><ProofField label={t.knowHow} values={profile.knowHow?.slice(0, 3).map(item => item[lang]) ?? []}/><ProofField label={t.missions} values={profile.exampleMissions?.slice(0, 2).map(item => item[lang]) ?? []}/><ProofField label={t.creator} values={[CREATOR_LABELS[profile.creator][lang]]}/></dl></article>
+  return <article className="rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-6 shadow-[0_22px_60px_-48px_rgba(28,26,23,.5)] sm:p-8"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{t.proofKicker}</p><p className="mt-4 inline-flex rounded-full bg-[#F2E4EC] px-3 py-1.5 text-[10px] font-bold text-[#AD0C53]">{t.hermesProfile}</p><h2 className="mt-4 text-2xl font-semibold">{profileName(profile, lang)}</h2><p className="mt-3 text-sm leading-6 text-[#4E483F]">{profile.description[lang]}</p><dl className="mt-6 grid gap-px overflow-hidden rounded-xl border border-[#DED6C8] bg-[#DED6C8] sm:grid-cols-2"><ProofField label={t.scope} values={[profile.roleInOrg?.[lang] ?? profile.description[lang]]}/><ProofField label={t.knowHow} values={profile.knowHow?.slice(0, 3).map(item => item[lang]) ?? []}/><ProofField label={t.missions} values={profile.exampleMissions?.slice(0, 2).map(item => item[lang]) ?? []}/><ProofField label={t.creator} values={[CREATOR_LABELS[profile.creator][lang]]}/></dl></article>
 }
 
 function ProofField({ label, values }: { label: string; values: string[] }) { return <div className="bg-[#FAF8F3] p-4"><dt className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{label}</dt><dd className="mt-3 text-xs font-semibold leading-5">{values.length ? values.join(' · ') : '—'}</dd></div> }

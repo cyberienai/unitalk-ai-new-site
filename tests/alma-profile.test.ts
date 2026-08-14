@@ -35,5 +35,7 @@ describe('Alma public profile', () => {
     expect(alma).toContain('/decouvrir?source=alma-profile&draft=')
     expect(alma).toContain('Préparer cette mission avec Alma')
     expect(alma).toContain('Rien n’est activé sans votre validation')
+    expect(alma).toContain('webkitSpeechRecognition')
+    expect(alma).toContain('aria-pressed={listening}')
   })
 })

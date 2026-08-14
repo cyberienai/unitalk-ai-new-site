@@ -95,6 +95,8 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
     neededApps: lang === 'fr' ? 'Applications nécessaires' : 'Needed applications',
     compatibleProfiles: lang === 'fr' ? 'Profils compatibles' : 'Compatible profiles',
     compatibleSkills: lang === 'fr' ? 'Compétences compatibles' : 'Compatible skills',
+    hermesProfile: lang === 'fr' ? 'Profil Collaborateur IA pour Hermes' : 'AI Collaborator profile for Hermes',
+    hermesProfileBody: lang === 'fr' ? 'Ce profil métier est préparé pour être installé sur une identité de Collaborateur IA exécutée dans l’environnement agentique Hermes de la distribution Unitalk AI.' : 'This job profile is prepared for installation on an AI Collaborator identity running in the Hermes agentic environment of the Unitalk AI distribution.',
   }
 
   const typeLabel = TYPE_LABELS[item.type][lang]
@@ -127,6 +129,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
             {item.type === 'application' && item.editor ? t.editor : t.createdBy}{' '}
             <span className="font-semibold text-[var(--store-text)]">{creatorLine(item, lang)}</span>
           </p>
+          {item.type === 'profil' && <div className="mt-4 inline-flex rounded-full border border-[#D10E63]/25 bg-[#F2E4EC] px-3 py-1.5 text-[11px] font-bold text-[#AD0C53]">{t.hermesProfile}</div>}
 
           {/* Actions */}
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -182,6 +185,12 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
           <RelatedChips title={t.neededApps} slugs={item.neededApps} />
           <RelatedChips title={t.compatibleProfiles} slugs={item.compatibleProfiles} />
           <RelatedChips title={t.compatibleSkills} slugs={item.compatibleSkills} />
+          {item.type === 'profil' && (
+            <section className="border-t border-[var(--store-line)] pt-6">
+              <h2 className="font-sf text-sm font-bold uppercase tracking-[0.08em] text-[var(--store-muted)]">{t.hermesProfile}</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-[var(--store-text)]">{t.hermesProfileBody}</p>
+            </section>
+          )}
           {item.type === 'profil' && (
             <section className="border-t border-[var(--store-line)] pt-6">
               <h2 className="font-sf text-sm font-bold uppercase tracking-[0.08em] text-[var(--store-muted)]">{lang === 'fr' ? 'Adaptations' : 'Adaptations'}</h2>
