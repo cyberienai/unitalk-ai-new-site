@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ArrowLeft, ArrowRight, Check, Search } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, CircleCheck, Search } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
 import { useLanguage, type Lang } from '@/lib/language-context'
 import {
@@ -51,11 +51,19 @@ const DOMAIN_ORDER = [
 const COPY = {
   fr: {
     kicker: 'Profils métier',
-    title: 'Ajoutez une responsabilité.\nGardez la même identité.',
-    lead: 'Un profil métier définit ce dont votre Collaborateur IA devient durablement responsable : son périmètre, ses méthodes et les décisions qui restent humaines.',
-    support: 'Alma part de la mission. Elle vérifie d’abord si un profil existant convient, puis prépare les compétences, les applications et les droits nécessaires.',
-    explore: 'Explorer les profils métier',
-    create: 'Décrire une responsabilité à Alma',
+    title: 'Trouvez le profil métier prêt à prendre le relais.',
+    lead: 'Commercial, support client, assistante de direction, marketing ou opérations : partez d’une responsabilité concrète et adaptez-la à votre entreprise avec Alma.',
+    support: 'Vous ne recréez pas un agent à chaque besoin. Le même Collaborateur IA peut recevoir plusieurs profils métier, conserver son identité et progresser avec votre organisation.',
+    benefits: ['29 profils prêts à adapter', 'Profils métier illimités', 'Méthodes et droits personnalisables', 'Validation humaine configurable'],
+    explore: 'Trouver le bon profil',
+    create: 'Décrire mon besoin à Alma',
+    trial: '7 jours gratuits · Sans carte bancaire · Profils métier inclus',
+    reassuranceLabel: 'Garanties des profils métier',
+    reassurances: [
+      ['Partez plus vite', 'Choisissez une responsabilité déjà structurée plutôt que de partir de zéro.'],
+      ['Adaptez sans enfermer', 'Alma ajuste le périmètre, les méthodes, les applications et les validations.'],
+      ['Gardez la continuité', 'L’identité IA et l’expérience validée restent attachées au Collaborateur IA.'],
+    ],
     proofKicker: 'Profil métier publié',
     scope: 'Responsabilité',
     knowHow: 'Savoir-faire',
@@ -73,6 +81,7 @@ const COPY = {
     catalogKicker: 'Catalogue',
     catalogTitle: 'Des responsabilités prêtes à adapter.',
     catalogLead: 'Choisissez un profil existant. Alma l’adapte ensuite aux méthodes, applications, droits et validations de votre Organisation.',
+    catalogPrompt: 'Quel travail voulez-vous déléguer ?',
     search: 'Rechercher une responsabilité ou un savoir-faire…',
     allCreators: 'Tous les créateurs',
     sort: 'Trier les profils',
@@ -85,21 +94,34 @@ const COPY = {
     knowHowLabel: 'Savoir-faire',
     missionLabel: 'Exemple de mission',
     relatedSkills: 'compétences liées',
+    viewProfile: 'Voir ce profil',
     empty: 'Aucun profil métier ne correspond à votre recherche.',
-    finalKicker: 'Responsabilité absente',
-    finalTitle: 'Ne créez un nouveau profil que si la responsabilité est réellement nouvelle.',
-    finalBody: 'Alma vérifie d’abord le catalogue. Un Co-créateur IA peut ensuite interviewer les personnes concernées, formaliser le périmètre, relier les compétences et préparer les validations.',
-    alma: 'Alma · Coordinatrice de missions',
-    finalCta: 'Créer un profil métier avec Alma',
+    midTitle: 'Vous hésitez entre plusieurs profils ?',
+    midBody: 'Décrivez simplement le travail attendu. Alma recherche le profil le plus proche et vous indique ce qui doit être adapté.',
+    midCta: 'Demander à Alma',
+    finalKicker: 'Votre responsabilité',
+    finalTitle: 'Trouvez un profil existant ou construisez exactement celui qu’il vous faut.',
+    finalBody: 'Alma commence par votre besoin réel, vérifie le catalogue, puis adapte le périmètre, les compétences, les applications et les règles de validation.',
+    finalProofs: ['7 jours gratuits', 'Sans carte bancaire', 'Profils métier illimités'],
+    finalCta: 'Décrire mon besoin à Alma',
+    browseAgain: 'Revenir au catalogue',
     cocreator: 'Devenir Co-créateur IA',
   },
   en: {
     kicker: 'Job profiles',
-    title: 'Add a responsibility.\nKeep the same identity.',
-    lead: 'A job profile defines what your AI Collaborator becomes durably responsible for: its scope, methods and decisions that remain human.',
-    support: 'Alma starts from the mission. She first checks whether an existing profile fits, then prepares the required skills, applications and permissions.',
-    explore: 'Explore job profiles',
-    create: 'Describe a responsibility to Alma',
+    title: 'Find the job profile ready to take over.',
+    lead: 'Sales, customer support, executive assistance, marketing or operations: start from a concrete responsibility and adapt it to your company with Alma.',
+    support: 'You do not recreate an agent for every need. The same AI Collaborator can receive several job profiles, keep its identity and improve with your organization.',
+    benefits: ['29 profiles ready to adapt', 'Unlimited job profiles', 'Custom methods and permissions', 'Configurable human approval'],
+    explore: 'Find the right profile',
+    create: 'Describe my need to Alma',
+    trial: '7 days free · No credit card · Job profiles included',
+    reassuranceLabel: 'Job profile guarantees',
+    reassurances: [
+      ['Start faster', 'Choose an already structured responsibility instead of starting from scratch.'],
+      ['Adapt without locking in', 'Alma adjusts scope, methods, applications and approvals.'],
+      ['Keep continuity', 'The AI identity and validated experience remain attached to the AI Collaborator.'],
+    ],
     proofKicker: 'Published job profile',
     scope: 'Responsibility',
     knowHow: 'Know-how',
@@ -117,6 +139,7 @@ const COPY = {
     catalogKicker: 'Catalog',
     catalogTitle: 'Responsibilities ready to adapt.',
     catalogLead: 'Choose an existing profile. Alma then adapts it to your Organization’s methods, applications, permissions and approvals.',
+    catalogPrompt: 'What work do you want to delegate?',
     search: 'Search a responsibility or know-how…',
     allCreators: 'All creators',
     sort: 'Sort profiles',
@@ -129,12 +152,17 @@ const COPY = {
     knowHowLabel: 'Know-how',
     missionLabel: 'Mission example',
     relatedSkills: 'related skills',
+    viewProfile: 'View this profile',
     empty: 'No job profile matches your search.',
-    finalKicker: 'Missing responsibility',
-    finalTitle: 'Create a new profile only when the responsibility is genuinely new.',
-    finalBody: 'Alma checks the catalog first. An AI Co-creator can then interview the people involved, formalize the scope, connect skills and prepare approvals.',
-    alma: 'Alma · Mission coordinator',
-    finalCta: 'Create a job profile with Alma',
+    midTitle: 'Unsure between several profiles?',
+    midBody: 'Simply describe the expected work. Alma finds the closest profile and shows you what should be adapted.',
+    midCta: 'Ask Alma',
+    finalKicker: 'Your responsibility',
+    finalTitle: 'Find an existing profile or build exactly the one you need.',
+    finalBody: 'Alma starts with your real need, checks the catalog, then adapts the scope, skills, applications and approval rules.',
+    finalProofs: ['7 days free', 'No credit card', 'Unlimited job profiles'],
+    finalCta: 'Describe my need to Alma',
+    browseAgain: 'Back to catalog',
     cocreator: 'Become an AI Co-creator',
   },
 } as const
@@ -190,7 +218,9 @@ export function ProfilesCatalogContent() {
 
     <section id="profiles-catalog" className="scroll-mt-24 px-5 py-16 sm:px-8"><div className="editorial-shell"><p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{t.catalogKicker}</p><h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[40px]">{t.catalogTitle}</h2><p className="mt-4 max-w-3xl text-[16px] leading-7 text-[#4E483F]">{t.catalogLead}</p><div className="mt-8 flex flex-col gap-3 lg:flex-row"><label className="relative min-w-0 flex-1"><span className="sr-only">{t.search}</span><Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#6E665A]"/><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15"/></label><select aria-label={t.allCreators} value={creator} onChange={event => updateParams({ createur: event.target.value === 'all' ? null : event.target.value, page: null })} className="h-12 rounded-full border border-[#D8D0C2] bg-[#FFFDF9] px-4 text-sm font-semibold"><option value="all">{t.allCreators}</option><option value="unitalk">Unitalk</option><option value="community">{lang === 'fr' ? 'Communauté' : 'Community'}</option></select><select aria-label={t.sort} value={sort} onChange={event => updateParams({ tri: event.target.value === 'selection' ? null : event.target.value, page: null })} className="h-12 rounded-full border border-[#D8D0C2] bg-[#FFFDF9] px-4 text-sm font-semibold"><option value="selection">{t.selection}</option><option value="recent">{t.recent}</option><option value="az">{t.alphabetical}</option></select></div><div className="scrollbar-hide mt-5 flex gap-2 overflow-x-auto pb-1"><Filter active={domain === 'selection'} onClick={() => updateParams({ domaine: null, page: null })}>{t.selection}</Filter><Filter active={domain === 'all'} onClick={() => updateParams({ domaine: 'all', page: null })}>{t.all}</Filter>{domains.map(domainKey => <Filter key={domainKey} active={domain === domainKey} onClick={() => updateParams({ domaine: domainKey, page: null })}>{DOMAIN_LABELS[domainKey]?.[lang] ?? domainKey}</Filter>)}</div><div className="mt-7 flex justify-between"><p aria-live="polite" className="text-sm font-semibold">{results.length} {t.profiles}</p><p className="text-xs text-[#857C6E]">{t.page} {page}/{pageCount}</p></div>{visible.length ? <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visible.map(profile => <ProfileCard key={profile.slug} profile={profile} lang={lang}/>)}</div> : <EmptyState lang={lang} query={query}/>}<Pagination page={page} pageCount={pageCount} onPage={value => updateParams({ page: value === 1 ? null : String(value) })}/></div></section>
 
-    <section className="px-5 pb-16 sm:px-8"><div className="editorial-shell rounded-[18px] border border-[#DED6C8] bg-[#EAE3D4] p-7 sm:p-10"><p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{t.finalKicker}</p><div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"><div><h2 className="max-w-3xl text-[34px] font-semibold leading-[1.08] tracking-[-.04em] sm:text-[40px]">{t.finalTitle}</h2><p className="mt-5 max-w-3xl text-[16px] leading-7 text-[#4E483F]">{t.finalBody}</p><p className="mt-5 text-sm font-semibold">{t.alma}</p></div><div className="flex flex-col items-start gap-4 lg:items-end"><Link href="/inscription?source=profile-store&intention=nouveau-profil-metier" className="inline-flex min-h-12 items-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.finalCta} →</Link><Link href="/co-createur-ia" className="text-sm font-bold underline decoration-[#D10E63]/30 underline-offset-4">{t.cocreator}</Link></div></div></div></section>
+    <section className="px-5 pb-16 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-6 rounded-3xl bg-[#EAE3D4] p-7 sm:flex-row sm:items-center sm:p-9"><div><h2 className="text-xl font-bold tracking-[-.02em]">{t.midTitle}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-[#625B50]">{t.midBody}</p></div><Link href="/decouvrir?source=profile-store-mid&intention=nouveau-profil-metier" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.midCta}<ArrowRight className="ml-2 size-4"/></Link></div></section>
+
+    <section className="border-t border-white/10 bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20"><div className="editorial-shell"><p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.finalKicker}</p><div className="mt-5 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><h2 className="max-w-3xl text-[34px] font-semibold leading-[1.08] tracking-[-.04em] sm:text-[44px]">{t.finalTitle}</h2><p className="mt-5 max-w-3xl text-[16px] leading-7 text-[#CFC6B8]">{t.finalBody}</p><ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold text-[#E7E0D5]">{t.finalProofs.map(proof=><li key={proof} className="flex items-center gap-2"><Check className="size-4 text-[#F2A4C5]"/>{proof}</li>)}</ul></div><div className="flex min-w-[260px] flex-col gap-3"><Link href="/decouvrir?source=profile-store-final&intention=nouveau-profil-metier" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.finalCta}<ArrowRight className="ml-2 size-4"/></Link><a href="#profiles-catalog" className="text-center text-sm font-bold text-[#E7E0D5] underline decoration-[#F2A4C5]/40 underline-offset-4">{t.browseAgain}</a><Link href="/co-createur-ia" className="text-center text-xs font-semibold text-[#AFA397] hover:text-white">{t.cocreator}</Link></div></div></div></section>
   </main>
 }
 
@@ -205,7 +235,7 @@ function ProfileCard({ profile, lang }: { profile: StoreItem; lang: Lang }) {
   const t = COPY[lang]
   const name = profileName(profile, lang)
   const relatedSkills = profile.relatedSkills?.length ?? 0
-  return <article className="group relative flex min-h-[300px] flex-col overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-6 transition-[transform,border-color,box-shadow] before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform hover:-translate-y-1 hover:border-[#D10E63]/35 hover:shadow-[0_18px_42px_-30px_rgba(28,26,23,.3)] hover:before:scale-x-100 focus-within:before:scale-x-100"><p className="font-mono text-[9px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{DOMAIN_LABELS[profile.facet]?.[lang] ?? profile.facet}</p><h3 className="mt-4 text-xl font-semibold leading-7">{name}</h3><p className="mt-3 line-clamp-3 text-sm leading-6 text-[#4E483F]">{profile.description[lang]}</p><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.knowHowLabel}</p><p className="mt-2 line-clamp-2 text-xs leading-5 text-[#6E665A]">{profile.knowHow?.slice(0, 3).map(item => item[lang]).join(' · ') || '—'}</p></div><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.missionLabel}</p><p className="mt-2 line-clamp-2 text-xs font-semibold leading-5">{profile.exampleMissions?.[0]?.[lang] ?? '—'}</p></div><div className="mt-auto flex items-center justify-between gap-3 border-t border-[#DED6C8] pt-4 text-xs text-[#6E665A]"><span>{CREATOR_LABELS[profile.creator][lang]}{relatedSkills ? ` · ${relatedSkills} ${t.relatedSkills}` : ''}</span><ArrowRight className="size-4 shrink-0 text-[#D10E63] transition-transform group-hover:translate-x-1"/></div><Link href={storeItemHref(profile)} aria-label={`${t.kicker}: ${name}`} className="absolute inset-0 rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"/></article>
+  return <article className="group relative flex min-h-[300px] flex-col overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-6 transition-[transform,border-color,box-shadow] before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform hover:-translate-y-1 hover:border-[#D10E63]/35 hover:shadow-[0_18px_42px_-30px_rgba(28,26,23,.3)] hover:before:scale-x-100 focus-within:before:scale-x-100"><p className="font-mono text-[9px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{DOMAIN_LABELS[profile.facet]?.[lang] ?? profile.facet}</p><h3 className="mt-4 text-xl font-semibold leading-7">{name}</h3><p className="mt-3 line-clamp-3 text-sm leading-6 text-[#4E483F]">{profile.description[lang]}</p><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.knowHowLabel}</p><p className="mt-2 line-clamp-2 text-xs leading-5 text-[#6E665A]">{profile.knowHow?.slice(0, 3).map(item => item[lang]).join(' · ') || '—'}</p></div><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.missionLabel}</p><p className="mt-2 line-clamp-2 text-xs font-semibold leading-5">{profile.exampleMissions?.[0]?.[lang] ?? '—'}</p></div><div className="mt-auto flex items-center justify-between gap-3 border-t border-[#DED6C8] pt-4 text-xs text-[#6E665A]"><span>{CREATOR_LABELS[profile.creator][lang]}{relatedSkills ? ` · ${relatedSkills} ${t.relatedSkills}` : ''}</span><strong className="inline-flex items-center gap-1 text-[#B00C54]">{t.viewProfile}<ArrowRight className="size-4 shrink-0 transition-transform group-hover:translate-x-1"/></strong></div><Link href={storeItemHref(profile)} aria-label={`${t.kicker}: ${name}`} className="absolute inset-0 rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"/></article>
 }
 
 function Filter({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) { return <button type="button" aria-pressed={active} onClick={onClick} className={`h-9 shrink-0 rounded-full border px-3.5 text-xs font-semibold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${active ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-[#FFFDF9] text-[#4E483F]'}`}>{children}</button> }

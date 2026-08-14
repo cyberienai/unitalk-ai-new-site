@@ -7,9 +7,9 @@ import { ProfilesCatalogContent } from '@/components/collaborateurs-ia/profils/p
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Profils métier : responsabilités durables des Collaborateurs IA',
+  title: 'Profils métier IA : trouvez le bon Collaborateur IA',
   description:
-    'Explorez les responsabilités durables qu’un Collaborateur IA peut exercer sans changer d’identité. Recherchez, filtrez et adaptez les profils métier avec Alma.',
+    'Explorez 29 profils métier IA prêts à adapter : commercial, support client, direction, marketing, finance, RH et opérations. Alma vous aide à choisir.',
   keywords: [
     'profil métier IA',
     'Collaborateur IA par métier',
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/collaborateurs-ia/profils-metier`,
-    title: 'Profils métier pour Collaborateurs IA | Unitalk',
+    title: '29 profils métier pour Collaborateurs IA | Unitalk',
     description:
-      'Une identité IA peut exercer plusieurs responsabilités durables, selon ses compétences, ses missions et ses droits.',
+      'Trouvez une responsabilité prête à adapter et confiez une première mission au bon Collaborateur IA.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image', title: 'Profils métier pour Collaborateurs IA | Unitalk', description: 'Ajoutez de nouvelles responsabilités à votre Collaborateur IA sans recréer son identité.' },
