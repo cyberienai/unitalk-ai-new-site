@@ -192,7 +192,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/30" 
               />
               <p className="text-xs font-medium leading-relaxed text-[#4E483F] max-w-[280px] sm:max-w-none">
-                <AlmaInline /> {t.almaCaption}
+                {t.almaCaption}
               </p>
             </div>
             <button
