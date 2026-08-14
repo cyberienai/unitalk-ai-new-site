@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
   Blocks,
-  Bot,
   BriefcaseBusiness,
   ChevronDown,
   GraduationCap,
@@ -44,7 +43,7 @@ const COLLAB_FEATURED: MenuEntry = {
     en: 'Identity, Hermes Agent, profiles, skills, tools and human control.',
   },
   href: '/collaborateurs-ia',
-  icon: Bot,
+  icon: Sparkles,
 }
 
 const COLLAB_DISCOVER: MenuEntry[] = [
@@ -55,7 +54,7 @@ const COLLAB_DISCOVER: MenuEntry[] = [
       en: 'A professional identity, a private environment and experience that grows with your company.',
     },
     href: '/collaborateurs-ia',
-    icon: Bot,
+    icon: UsersRound,
   },
   {
     title: { fr: 'Profils métier', en: 'Job profiles' },
@@ -469,8 +468,8 @@ export function Navbar(
                           <div className="relative isolate overflow-hidden bg-[#171514] p-7 text-[#FAF8F3]">
                             <div aria-hidden="true" className="absolute -right-20 -top-20 -z-10 size-64 rounded-full bg-[#D10E63]/20 blur-3xl" />
                             <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]"><span className="size-1.5 rounded-full bg-[#F2A4C5]" />{t.menuFeatured}</div>
-                            <div className="mt-8 flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.07] text-[#F2A4C5]"><Bot aria-hidden="true" className="size-5" strokeWidth={1.7} /></div>
-                            <h2 className="mt-5 text-[29px] font-semibold leading-[1.02] tracking-[-.045em]">{COLLAB_FEATURED.title[lang]}</h2>
+                            <div className="mt-9 h-px w-12 bg-[#F2A4C5]" />
+                            <h2 className="mt-6 text-[30px] font-semibold leading-[1.02] tracking-[-.05em]">{COLLAB_FEATURED.title[lang]}</h2>
                             <p className="mt-4 text-[13px] leading-6 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</p>
                             <a href={COLLAB_FEATURED.href} onClick={() => setCollabOpen(false)} className="group mt-6 inline-flex items-center gap-2 rounded-full bg-[#F2A4C5] px-4 py-2.5 text-xs font-bold text-[#24151B] outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-white">{lang === 'fr' ? 'Découvrir le produit' : 'Discover the product'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
                             <div className="mt-7 border-t border-white/10 pt-5"><p className="text-[11px] font-bold uppercase tracking-[.12em] text-white">{lang === 'fr' ? 'Votre équipe humain-IA' : 'Your human-AI team'}</p><p className="mt-2 text-[12px] leading-5 text-[#AFA397]"><AlmaInline /> {lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</p></div>
@@ -508,15 +507,14 @@ export function Navbar(
                           </div>
                         </div>
 
-                        <div className="grid border-t border-[#DED6C8] bg-[#FFFDF9] sm:grid-cols-[1fr_auto_auto] sm:items-center">
+                        <div className="grid border-t border-[#DED6C8] bg-[#FFFDF9] sm:grid-cols-[1fr_auto] sm:items-center">
                           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-7 py-4 text-[11.5px] font-bold text-[#625B50]">
                             <span className="font-mono text-[9px] uppercase tracking-[.16em] text-[#9A9081]">{t.menuResources}</span>
                             {COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">{item.title[lang]}</a>)}
                             <a href="/documentation" onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">Documentation</a>
                             <a href="/tarifs" onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">{t.pricing}</a>
                           </div>
-                          <a href="/collaborateurs-ia/applications" onClick={() => setCollabOpen(false)} className="group flex items-center gap-2 border-t border-[#DED6C8] px-5 py-4 text-xs font-bold text-[#B00C54] transition-colors hover:bg-[#FBEAF1] sm:border-l sm:border-t-0">{t.menuStore}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
-                          <a href={ACADEMY_URL} onClick={() => setCollabOpen(false)} className="group flex items-center gap-2 border-t border-[#DED6C8] px-5 py-4 text-xs font-bold text-[#1C1A17] transition-colors hover:bg-[#F3EEE5] sm:border-l sm:border-t-0">{t.menuAcademy}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
+                          <a href={ACADEMY_URL} onClick={() => setCollabOpen(false)} className="group flex items-center gap-2 border-t border-[#DED6C8] px-6 py-4 text-xs font-bold text-[#1C1A17] transition-colors hover:bg-[#F3EEE5] sm:border-l sm:border-t-0">{t.menuAcademy}<ArrowRight className="size-3.5 text-[#B00C54] transition-transform group-hover:translate-x-0.5" /></a>
                         </div>
                       </div>
                     </motion.div>
@@ -683,7 +681,7 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                            <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                            <a href={COLLAB_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]"><span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" /><span className="relative flex items-center gap-3"><span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#F2A4C5]"><Bot className="size-[18px]" /></span><span><span className="block text-[14px] font-bold">{COLLAB_FEATURED.title[lang]}</span><span className="mt-1 block text-[11.5px] leading-5 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</span></span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></span></a>
+                            <a href={COLLAB_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]"><span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" /><span className="relative flex items-center gap-3"><span className="h-8 w-0.5 shrink-0 rounded-full bg-[#F2A4C5]" /><span><span className="block text-[14px] font-bold">{COLLAB_FEATURED.title[lang]}</span><span className="mt-1 block text-[11.5px] leading-5 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</span></span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></span></a>
                             <p className="px-2 pb-1 pt-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuDiscover}
                             </p>
@@ -719,7 +717,7 @@ export function Navbar(
                               </a>
                             ))}
                             <a href="/documentation" onClick={() => setIsMenuOpen(false)} className="flex min-h-10 items-center text-[14px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]">Documentation</a>
-                            <a href="/collaborateurs-ia/applications" onClick={() => setIsMenuOpen(false)} className="mt-2 flex min-h-11 items-center justify-between rounded-xl bg-[#D10E63] px-4 text-sm font-bold text-white">{t.menuStore}<ArrowRight className="size-4" /></a>
+                            <a href={ACADEMY_URL} onClick={() => setIsMenuOpen(false)} className="mt-2 flex min-h-11 items-center justify-between rounded-xl bg-[#D10E63] px-4 text-sm font-bold text-white">{t.menuAcademy}<ArrowRight className="size-4" /></a>
                           </div>
                         </motion.div>
                       )}
