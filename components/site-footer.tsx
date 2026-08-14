@@ -44,17 +44,18 @@ const T = {
       },
       {
         title: 'Ressources',
-                links: [
-                  { label: 'Pourquoi Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
-                  { label: 'Blog', href: '/blog' },
-                  { label: 'Changelog', href: '/changelog' },
-                                    { label: 'Architecture', href: '/architecture' },
-                                    { label: 'AI Gateway', href: '/ai-gateway' },
-                                    { label: 'AI server', href: '/ai-server' },
-                                  ],
-                        },
-                        {
-                          title: 'Entreprise',
+        links: [
+          { label: 'Pourquoi Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
+          { label: 'Blog', href: '/blog' },
+          { label: 'Changelog', href: '/changelog' },
+          { label: 'Architecture', href: '/architecture' },
+          { label: 'AI Gateway', href: '/ai-gateway' },
+          { label: 'AI server', href: '/ai-server' },
+          { label: 'Paul Graham', href: '/paul-graham' },
+        ],
+      },
+      {
+        title: 'Entreprise',
         links: [
           { label: 'Contact', href: 'mailto:hello@unitalk.ai' },
           { label: 'Sécurité', href: '/hebergeurs' },
@@ -108,8 +109,10 @@ const T = {
           { label: 'Why Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
           { label: 'Blog', href: '/blog' },
           { label: 'Changelog', href: '/changelog' },
+          { label: 'Architecture', href: '/architecture' },
           { label: 'AI Gateway', href: '/ai-gateway' },
           { label: 'AI server', href: '/ai-server' },
+          { label: 'Paul Graham', href: '/paul-graham' },
         ],
       },
       {
@@ -151,7 +154,7 @@ export function SiteFooter() {
               {t.tagline}
             </p>
             <div className="mt-6 flex flex-col gap-4">
-              <a href="tel:+33189713394" className="group inline-flex flex-col gap-1">
+              <a href="tel:+331****3394" className="group inline-flex flex-col gap-1">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#B8AF9F]">
                   {lang === 'fr' ? 'Téléphone' : 'Phone'}
                 </span>
