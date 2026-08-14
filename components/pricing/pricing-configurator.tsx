@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { startTransition, useState } from 'react'
-import { ChevronDown, Minus, Plus } from 'lucide-react'
+import { ChevronDown, Minus, Plus, Users, Shield, Award, HelpCircle, ArrowRight, Coins } from 'lucide-react'
 import { persistPricingDraft } from '@/app/actions/pricing'
 import {
   configurationBreakdownAt,
@@ -11,20 +11,155 @@ import {
   type AiCapacityId,
 } from '@/lib/unitalk-pricing'
 import { usePricingDraft } from './pricing-draft-context'
+import { useLanguage } from '@/lib/language-context'
 
 const CURRENT_DATE = new Date('2026-08-13T12:00:00Z')
-const PERIODS = [
+const PERIODS_FR = [
   ['Jusqu’au 21 décembre 2026', new Date('2026-12-21T12:00:00Z')],
   ['Du 22 au 31 décembre 2026', new Date('2026-12-22T12:00:00Z')],
   ['À partir du 1 janvier 2027', new Date('2027-01-01T12:00:00Z')],
 ] as const
 
+const PERIODS_EN = [
+  ['Until December 21, 2026', new Date('2026-12-21T12:00:00Z')],
+  ['From Dec 22 to 31, 2026', new Date('2026-12-22T12:00:00Z')],
+  ['From January 1, 2027', new Date('2027-01-01T12:00:00Z')],
+] as const
+
+const PLAN_INFO = {
+  fr: {
+    byok: {
+      name: 'BYOK (Clés propres)',
+      slogan: 'Utilisez vos propres clés d’API',
+      tokens: 'Usage facturé par votre fournisseur',
+      desc: 'Idéal si vous possédez déjà des abonnements d’API chez OpenAI, Anthropic ou Google.',
+    },
+    quarterTime: {
+      name: 'Quart-temps',
+      slogan: 'Tâches de fond & Automatisations',
+      tokens: '5 millions de tokens / mois',
+      desc: 'Parfait pour assurer la veille, mettre à jour le CRM en arrière-plan et exécuter des tâches simples.',
+    },
+    halfTime: {
+      name: 'Mi-temps',
+      slogan: 'Prise en charge active quotidienne',
+      tokens: '10 millions de tokens / mois',
+      desc: 'Idéal pour le tri et la réponse aux emails, la qualification réactive de prospects et la planification d’agenda.',
+    },
+    fullTime: {
+      name: 'Temps plein',
+      slogan: 'Autonomie complète 24/7 dédiée',
+      tokens: '20 millions de tokens / mois',
+      desc: 'Un collaborateur IA dédié à 100% à l’action, prêt à piloter des processus multi-applications complexes.',
+    },
+  },
+  en: {
+    byok: {
+      name: 'BYOK (Own Keys)',
+      slogan: 'Use your own API keys',
+      tokens: 'Usage billed directly by your provider',
+      desc: 'Ideal if you already have API subscriptions with OpenAI, Anthropic, or Google.',
+    },
+    quarterTime: {
+      name: 'Part-time (1/4)',
+      slogan: 'Background Tasks & Automations',
+      tokens: '5 million tokens / month',
+      desc: 'Perfect for monitoring, updating the CRM in the background, and running simple tasks.',
+    },
+    halfTime: {
+      name: 'Half-time (1/2)',
+      slogan: 'Active Daily Support',
+      tokens: '10 million tokens / month',
+      desc: 'Ideal for email sorting and replying, responsive lead qualification, and calendar planning.',
+    },
+    fullTime: {
+      name: 'Full-time (1/1)',
+      slogan: 'Dedicated 24/7 Autonomy',
+      tokens: '20 million tokens / month',
+      desc: 'An AI collaborator 100% dedicated to action, ready to drive complex multi-app workflows.',
+    },
+  }
+} as const
+
+const T = {
+  fr: {
+    eyebrow: 'Allouez vos ressources',
+    heading: 'Vos capacités de travail',
+    collabTitle: 'Nombre de Collaborateurs IA',
+    collabDesc: 'Combien de capacités de travail autonome d’agents IA souhaitez-vous déployer dans votre équipe ?',
+    planTitle: 'Niveau d’autonomie requis',
+    planDesc: 'Déterminez le forfait de charge d’action adapté pour vos collaborateurs à la demande.',
+    cocreatorTitle: 'Licence Co-créateur & Formateur IA',
+    cocreatorDesc: 'Membres autorisés à configurer, publier et superviser les missions de vos agents IA.',
+    
+    // Right card
+    cardKicker: 'Allocation de budget',
+    cardTitle: 'Votre enveloppe budgétaire',
+    cardEstimationBadge: 'Estimation',
+    lineOrg: 'Licence Alma Organisation + Workspace',
+    lineOrgDetail: '1 VPS inclus',
+    lineLaunchPromo: 'Offre de lancement (Alma)',
+    lineCollab: 'Licence Collaborateur IA',
+    lineForfait: 'Forfait',
+    linePromoTrial: 'Offre capacité d’essai',
+    lineCocreator: 'Licence Co-créateur IA',
+    
+    cardPeriod: '/mois',
+    cardAfterTrial: 'Mensuel après essai',
+    cardSovereignBadge: 'Souveraineté des données garantie',
+    cardToday: 'Aujourd’hui (7 jours d’essai)',
+    cardTrialIncluded: '1 million de tokens d’action inclus',
+    cardTrialFree: '0 €',
+    cardCta: 'Activer mes capacités de travail autonome',
+    cardNoCardNeeded: 'Aucune carte bancaire requise. Déploiement à la demande.',
+    cardAccordion: 'Voir l’évolution du prix hors promotions',
+    cardCurrency: '€',
+  },
+  en: {
+    eyebrow: 'Allocate your resources',
+    heading: 'Your working capacities',
+    collabTitle: 'Number of AI Collaborators',
+    collabDesc: 'How many autonomous working capacities of AI agents do you want to deploy in your team?',
+    planTitle: 'Required level of autonomy',
+    planDesc: 'Determine the action load plan tailored to your on-demand collaborators.',
+    cocreatorTitle: 'AI Co-creator & Trainer License',
+    cocreatorDesc: 'Members authorized to configure, publish, and supervise your AI agents’ missions.',
+    
+    // Right card
+    cardKicker: 'Budget Allocation',
+    cardTitle: 'Your budget envelope',
+    cardEstimationBadge: 'Estimate',
+    lineOrg: 'Alma Organization + Workspace License',
+    lineOrgDetail: '1 VPS included',
+    lineLaunchPromo: 'Launch Offer (Alma)',
+    lineCollab: 'AI Collaborator License',
+    lineForfait: 'Plan',
+    linePromoTrial: 'Trial capacity offer',
+    lineCocreator: 'AI Co-creator License',
+    
+    cardPeriod: '/month',
+    cardAfterTrial: 'Monthly after trial',
+    cardSovereignBadge: 'Data sovereignty guaranteed',
+    cardToday: 'Today (7-day trial)',
+    cardTrialIncluded: '1 million action tokens included',
+    cardTrialFree: '0 €',
+    cardCta: 'Activate my autonomous working capacities',
+    cardNoCardNeeded: 'No credit card required. On-demand deployment.',
+    cardAccordion: 'See pricing evolution without promotions',
+    cardCurrency: '€',
+  }
+} as const
+
 export function PricingConfigurator() {
+  const { lang } = useLanguage()
+  const t = T[lang]
+  const planInfo = PLAN_INFO[lang]
+  const periods = lang === 'fr' ? PERIODS_FR : PERIODS_EN
+
   const { draft, setCollaborators, setCapacity, setCoCreators } = usePricingDraft()
   const { collaborators, capacity, coCreators } = draft
   const [pending, setPending] = useState(false)
   const breakdown = configurationBreakdownAt(collaborators, capacity, coCreators, CURRENT_DATE)
-  const capacityConfig = unitalkPricing.aiCapacity[capacity]
 
   function submit() {
     setPending(true)
@@ -32,107 +167,221 @@ export function PricingConfigurator() {
   }
 
   return (
-    <div id="configurateur" className="grid gap-6 lg:grid-cols-[0.96fr_1.04fr] lg:gap-8">
-      <div className="rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-5 sm:p-6">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">Votre configuration</p>
-        <ConfigRow title="Collaborateurs IA" description="Une identité durable, avec des profils métier illimités">
-          <Counter value={collaborators} min={unitalkPricing.aiCollaborator.min} max={unitalkPricing.aiCollaborator.max} onChange={setCollaborators} removeLabel="Retirer un Collaborateur IA" addLabel="Ajouter un Collaborateur IA" noun="Collaborateurs IA" />
-        </ConfigRow>
+    <div id="configurateur" className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+      {/* Left Column — Configurator */}
+      <div className="flex flex-col gap-6 rounded-3xl border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8">
+        <div>
+          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">{t.eyebrow}</span>
+          <h2 className="mt-2 font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17]">{t.heading}</h2>
+        </div>
 
-        <fieldset className="border-t border-[#DED6C8] py-4">
-          <legend className="text-[15px] font-semibold">Capacité par Collaborateur IA</legend>
-          <div role="radiogroup" aria-label="Capacité par Collaborateur IA" className="mt-3 grid gap-2 sm:grid-cols-2">
-            {(Object.entries(unitalkPricing.aiCapacity) as [AiCapacityId, (typeof unitalkPricing.aiCapacity)[AiCapacityId]][]).map(([id, option]) => {
+        {/* Counter Collaborators */}
+        <div className="flex flex-col justify-between gap-4 border-t border-[#DED6C8]/60 pt-6 sm:flex-row sm:items-center">
+          <div>
+            <h3 className="text-base font-bold text-[#1C1A17] flex items-center gap-2">
+              <Users className="h-4.5 w-4.5 text-[#D10E63]" />
+              {t.collabTitle}
+            </h3>
+            <p className="mt-1 text-xs text-[#6E665A] max-w-sm">
+              {t.collabDesc}
+            </p>
+          </div>
+          <Counter 
+            value={collaborators} 
+            min={unitalkPricing.aiCollaborator.min} 
+            max={unitalkPricing.aiCollaborator.max} 
+            onChange={setCollaborators} 
+            noun={t.collabTitle} 
+          />
+        </div>
+
+        {/* Forfait sélection */}
+        <fieldset className="border-t border-[#DED6C8]/60 pt-6">
+          <legend className="text-base font-bold text-[#1C1A17]">{t.planTitle}</legend>
+          <p className="mt-1 text-xs text-[#6E665A]">
+            {t.planDesc}
+          </p>
+          
+          <div role="radiogroup" aria-label="Temps de travail" className="mt-4 grid gap-3 sm:grid-cols-2">
+            {(Object.keys(planInfo) as AiCapacityId[]).map((id) => {
               const selected = capacity === id
-              const tokens = option.tokens ? `${option.tokens / 1_000_000} M / mois` : 'Vos clés'
-              const promotion = 'freeUntil' in option ? `Offerte jusqu’au ${formatShortDate(option.freeUntil)}` : undefined
+              const info = planInfo[id]
+              const basePrice = unitalkPricing.aiCapacity[id].monthlyPrice + 49
+              
               return (
-                <label key={id} className={`cursor-pointer rounded-2xl border p-3 outline-none transition-colors focus-within:ring-2 focus-within:ring-[#D10E63] ${selected ? 'border-[#D10E63] bg-[#FCEBF2]' : 'border-[#DED6C8] bg-white hover:border-[#D10E63]/40'}`}>
-                  <span className="flex items-start gap-2.5">
-                    <input type="radio" name="capacity" value={id} checked={selected} onChange={() => setCapacity(id)} className="mt-1 accent-[#D10E63]" />
-                    <span><strong className="block text-sm">{option.label}</strong><span className="mt-0.5 block text-xs text-[#6E665A]">{tokens}</span><span className="sr-only">{option.monthlyPrice} euros par mois. {promotion ?? ''}</span></span>
+                <label 
+                  key={id} 
+                  className={`relative cursor-pointer rounded-2xl border p-4 outline-none transition-all ${
+                    selected 
+                      ? 'border-[#D10E63] bg-[#FCEBF2]/30 shadow-sm' 
+                      : 'border-[#DED6C8] bg-white hover:border-[#D10E63]/40'
+                  }`}
+                >
+                  <span className="flex items-start gap-3">
+                    <input 
+                      type="radio" 
+                      name="capacity" 
+                      value={id} 
+                      checked={selected} 
+                      onChange={() => setCapacity(id)} 
+                      className="mt-1.5 accent-[#D10E63]" 
+                    />
+                    <span className="flex-1">
+                      <strong className="block text-[15px] font-bold text-[#1C1A17]">{info.name}</strong>
+                      <span className="mt-0.5 block text-xs font-semibold text-[#D10E63]">{info.slogan}</span>
+                      <span className="mt-2 block text-xs text-[#6E665A] leading-relaxed">{info.desc}</span>
+                      <span className="mt-3 block text-xs font-bold text-[#8A8175]">{info.tokens}</span>
+                    </span>
+                  </span>
+                  <span className="absolute right-4 top-4 font-mono text-xs font-black text-[#1C1A17]">
+                    {id === 'byok' ? `49${t.cardCurrency}` : `${basePrice}${t.cardCurrency}`}<span className="text-[10px] font-normal text-[#8A8175]">/m</span>
                   </span>
                 </label>
               )
             })}
           </div>
-          <p className="mt-3 text-xs text-[#6E665A]">Appliquée à {collaborators} Collaborateur{collaborators > 1 ? 's' : ''} IA.</p>
-          {capacity === 'byok' && <p className="mt-1 text-xs font-semibold text-[#4E483F]">Frais du fournisseur facturés séparément.</p>}
         </fieldset>
 
-        <ConfigRow title="Co-créateurs IA" description="Formalisation et publication de profils, compétences, missions et applications métier" muted={coCreators === 0}>
-          <Counter value={coCreators} min={unitalkPricing.aiCocreator.min} max={unitalkPricing.aiCocreator.max} onChange={setCoCreators} removeLabel="Retirer un Co-créateur IA" addLabel="Ajouter un Co-créateur IA" noun="Co-créateurs IA" />
-          <Link href="/co-createur-ia" className="mt-3 inline-flex text-xs font-bold text-[#B00C54] underline-offset-4 hover:underline">Découvrir la formation →</Link>
-        </ConfigRow>
+        {/* Co-Creators counter */}
+        <div className="flex flex-col justify-between gap-4 border-t border-[#DED6C8]/60 pt-6 sm:flex-row sm:items-center">
+          <div>
+            <h3 className="text-base font-bold text-[#1C1A17] flex items-center gap-2">
+              <Award className="h-4.5 w-4.5 text-[#D10E63]" />
+              {t.cocreatorTitle}
+            </h3>
+            <p className="mt-1 text-xs text-[#6E665A] max-w-sm">
+              {t.cocreatorDesc}
+            </p>
+          </div>
+          <Counter 
+            value={coCreators} 
+            min={unitalkPricing.aiCocreator.min} 
+            max={unitalkPricing.aiCocreator.max} 
+            onChange={setCoCreators} 
+            noun={t.cocreatorTitle} 
+          />
+        </div>
       </div>
 
-      <EstimateCard collaborators={collaborators} capacity={capacity} coCreators={coCreators} breakdown={breakdown} capacityLabel={capacityConfig.label} pending={pending} onSubmit={submit} />
+      {/* Right Column — RADICAL Estimate Card (Sombre & Ultra Premium) */}
+      <aside aria-label="Plan de recrutement" className="flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#17130F] text-[#F8F1E7] p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.65)] sm:p-8">
+        <div>
+          <div className="flex items-start justify-between border-b border-white/10 pb-4">
+            <div>
+              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#F15B9B]">{t.cardKicker}</p>
+              <h2 className="mt-1 text-xl font-bold text-white">{t.cardTitle}</h2>
+            </div>
+            <span className="rounded-full bg-[#22C55E]/10 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-[#22C55E]">{t.cardEstimationBadge}</span>
+          </div>
+
+          <dl className="divide-y divide-white/10 py-2 text-[13px]">
+            <PriceLine label={t.lineOrg} detail={t.lineOrgDetail} value={breakdown.organizationBase} currency={t.cardCurrency} />
+            {breakdown.organizationDiscount > 0 && <PriceLine label={t.lineLaunchPromo} value={-breakdown.organizationDiscount} discount currency={t.cardCurrency} />}
+            <PriceLine label={`${t.lineCollab} (${collaborators})`} detail={`${collaborators} × 49 €`} value={breakdown.collaboratorsBase} currency={t.cardCurrency} />
+            <PriceLine label={`${t.lineForfait} ${planInfo[capacity].name}`} detail={`${collaborators} × ${unitalkPricing.aiCapacity[capacity].monthlyPrice} €`} value={breakdown.capacityBase} currency={t.cardCurrency} />
+            {breakdown.capacityDiscount > 0 && <PriceLine label={t.linePromoTrial} value={-breakdown.capacityDiscount} discount currency={t.cardCurrency} />}
+            {coCreators > 0 && <PriceLine label={t.lineCocreator} detail={`${coCreators} × 50 €`} value={breakdown.coCreatorsBase} currency={t.cardCurrency} />}
+          </dl>
+        </div>
+
+        <div className="border-t border-white/10 pt-4">
+          <div className="flex items-end justify-between gap-4 py-2">
+            <dt>
+              <strong className="block text-sm text-white">{t.cardAfterTrial}</strong>
+              <span className="text-[10px] text-[#8F877A]">{t.cardSovereignBadge}</span>
+            </dt>
+            <dd aria-live="polite" className="text-3xl font-black tracking-[-0.04em] text-white">
+              {breakdown.total} {t.cardCurrency}<span className="text-xs font-normal text-[#8F877A]">{t.cardPeriod}</span>
+            </dd>
+          </div>
+
+          {/* AI Credits Top-up indicator — Prepay credits any time */}
+          <div className="my-3 rounded-xl border border-white/5 bg-white/[0.03] p-3 text-[11px] leading-relaxed text-[#AFA397]">
+            <p className="flex items-center gap-1.5 font-semibold text-white">
+              <Coins className="h-3.5 w-3.5 text-[#F15B9B]" />
+              {lang === 'fr' ? 'Crédits IA à la demande' : 'AI Credits on-demand'}
+            </p>
+            <p className="mt-1 text-[10px] text-[#A79E8E]">
+              {lang === 'fr' 
+                ? 'Besoin d’un boost d’action temporaire ? Achetez des recharges de crédits prépayés (10€, 50€, 100€) à tout moment pour utiliser des modèles IA avancés sans engagement.'
+                : 'Need a temporary action boost? Purchase pre-paid credit top-ups (10€, 50€, 100€) at any time to use advanced AI models without commitment.'}
+            </p>
+          </div>
+
+          <div className="mt-4 flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/5 px-4 py-3 text-xs">
+            <dt>
+              <strong>{t.cardToday}</strong>
+              <span className="block mt-0.5 text-[10px] text-[#22C55E] font-medium">{t.cardTrialIncluded}</span>
+            </dt>
+            <dd className="text-lg font-black text-[#22C55E]">{t.cardTrialFree}</dd>
+          </div>
+
+          <button 
+            type="button" 
+            onClick={submit} 
+            disabled={pending} 
+            className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] text-sm font-bold text-white outline-none transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+          >
+            {pending ? (lang === 'fr' ? 'Préparation…' : 'Preparing...') : t.cardCta}
+            <ArrowRight className="h-4 w-4" />
+          </button>
+          
+          <p className="mt-3 text-center text-[10px] text-[#8F877A]">{t.cardNoCardNeeded}</p>
+
+          <details className="group mt-4 border-t border-white/10 pt-3">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-bold text-[#AFA397] outline-none">
+              <span>{t.cardAccordion}</span>
+              <ChevronDown className="size-4 transition-transform group-open:rotate-180" />
+            </summary>
+            <dl className="mt-3 space-y-2 text-[11px] text-[#8F877A]">
+              {periods.map(([label, date]) => (
+                <div key={label} className="flex justify-between gap-3">
+                  <dt>{label}</dt>
+                  <dd className="font-semibold text-white">{configurationTotalAt(collaborators, capacity, coCreators, date)} {t.cardCurrency}/m</dd>
+                </div>
+              ))}
+            </dl>
+          </details>
+        </div>
+      </aside>
     </div>
   )
 }
 
-function EstimateCard({ collaborators, capacity, coCreators, breakdown, capacityLabel, pending, onSubmit }: { collaborators: number; capacity: AiCapacityId; coCreators: number; breakdown: ReturnType<typeof configurationBreakdownAt>; capacityLabel: string; pending: boolean; onSubmit: () => void }) {
+function Counter({ value, min, max, onChange, noun }: { value: number; min: number; max: number; onChange: (value: number) => void; noun: string }) {
   return (
-    <aside aria-label="Estimation mensuelle" className="rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-5 shadow-[0_16px_45px_-38px_rgba(28,26,23,.45)] sm:p-6">
-      <div className="flex items-start justify-between gap-4 border-b border-[#DED6C8] pb-4">
-        <div><p className="font-semibold">Unitalk</p><h2 className="mt-1 text-xl font-semibold">Estimation mensuelle</h2><p className="mt-1 text-xs text-[#6E665A]">Mise à jour selon votre configuration</p></div>
-        <span className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Simulation</span>
-      </div>
-
-      <dl className="py-3 text-[12px]">
-        <PriceLine label="Organisation Unitalk" detail="1 × 50 €" value={breakdown.organizationBase} />
-        {breakdown.organizationDiscount > 0 && <PriceLine label="Offre Organisation · jusqu’au 21/12/2026" value={-breakdown.organizationDiscount} discount />}
-        <PriceLine label="Collaborateur IA" detail={`${collaborators} × 49 €`} value={breakdown.collaboratorsBase} />
-        <PriceLine label={`Capacité ${capacityLabel}`} detail={`${collaborators} × ${unitalkPricing.aiCapacity[capacity].monthlyPrice} €`} value={breakdown.capacityBase} />
-        {breakdown.capacityDiscount > 0 && <PriceLine label="Offre Capacité · jusqu’au 31/12/2026" value={-breakdown.capacityDiscount} discount />}
-        {coCreators > 0 && <PriceLine label="Co-créateur IA" detail={`${coCreators} × 50 €`} value={breakdown.coCreatorsBase} />}
-      </dl>
-
-      <dl className="border-t border-[#DED6C8] pt-3 text-[12px]">
-        <TotalLine label="Sous-total avant promotions" value={breakdown.subtotal} />
-        <TotalLine label="Promotions" value={-breakdown.promotions} />
-        <div className="mt-3 flex items-end justify-between gap-4 border-t border-[#1C1A17] pt-3"><dt><strong className="block text-sm">Après l’essai</strong><span className="text-[11px] text-[#6E665A]">Jusqu’au 21 décembre 2026</span></dt><dd aria-live="polite" aria-atomic="true" className="text-2xl font-semibold tracking-[-0.03em]">{breakdown.total} €<span className="text-xs font-normal text-[#6E665A]">/mois</span></dd></div>
-        <div className="mt-3 flex justify-between rounded-xl bg-[#F3EFE6] px-3 py-2"><dt><strong>Aujourd’hui</strong><span className="ml-2 text-[11px] text-[#6E665A]">7 jours d’essai · Aucune carte bancaire</span></dt><dd className="font-semibold">0 €</dd></div>
-        <p className="mt-2 text-[11px] text-[#6E665A]">Jusqu’à 1 million de tokens IA pendant l’essai</p>
-      </dl>
-
-      <button type="button" onClick={onSubmit} disabled={pending} className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white outline-none transition-colors hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 disabled:opacity-60">{pending ? 'Préparation…' : 'Commencer avec cette configuration →'}</button>
-      <p className="mt-2 text-center text-[11px] text-[#6E665A]">Aucune carte bancaire pendant l’essai.</p>
-
-      <details className="group mt-3 border-t border-[#DED6C8] pt-3">
-        <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]"><span>Voir l’évolution du prix</span><ChevronDown className="size-4 transition-transform group-open:rotate-180" /></summary>
-        <dl className="mt-3 space-y-2 text-[11px]">{PERIODS.map(([label, date]) => <div key={label} className="flex justify-between gap-3"><dt>{label}</dt><dd className="font-semibold">{configurationTotalAt(collaborators, capacity, coCreators, date)} €/mois</dd></div>)}</dl>
-        <p className="mt-3 text-[11px] leading-5 text-[#6E665A]">Ces montants reflètent la fin progressive des offres Organisation et Capacité.</p>
-      </details>
-    </aside>
+    <div className="inline-flex items-center rounded-full border border-[#DED6C8] bg-white p-1">
+      <button 
+        type="button" 
+        disabled={value <= min} 
+        onClick={() => onChange(Math.max(min, value - 1))} 
+        className="flex size-8 items-center justify-center rounded-full hover:bg-[#F3EFE6] disabled:opacity-30"
+      >
+        <Minus className="size-3.5" />
+      </button>
+      <output className="min-w-10 text-center text-xs font-extrabold text-[#1C1A17]">{value}</output>
+      <button 
+        type="button" 
+        disabled={value >= max} 
+        onClick={() => onChange(Math.min(max, value + 1))} 
+        className="flex size-8 items-center justify-center rounded-full hover:bg-[#F3EFE6] disabled:opacity-30"
+      >
+        <Plus className="size-3.5" />
+      </button>
+    </div>
   )
 }
 
-function ConfigRow({ title, description, children, muted = false }: { title: string; description: string; children: React.ReactNode; muted?: boolean }) {
-  return <section className={`border-t border-[#DED6C8] py-4 first:border-t-0 ${muted ? 'opacity-75' : ''}`}><h2 className="text-[15px] font-semibold">{title}</h2><p className="mt-1 max-w-lg text-xs leading-5 text-[#6E665A]">{description}</p><div className="mt-3">{children}</div></section>
-}
-
-function Counter({ value, min, max, onChange, removeLabel, addLabel, noun }: { value: number; min: number; max: number; onChange: (value: number) => void; removeLabel: string; addLabel: string; noun: string }) {
-  return <div className="inline-flex items-center rounded-full border border-[#DED6C8] bg-white p-1"><button type="button" aria-label={removeLabel} disabled={value <= min} onClick={() => onChange(Math.max(min, value - 1))} className="flex size-9 items-center justify-center rounded-full outline-none hover:bg-[#F3EFE6] focus-visible:ring-2 focus-visible:ring-[#D10E63] disabled:opacity-30"><Minus className="size-4" /></button><output aria-label={`${noun} : ${value}`} aria-live="polite" className="min-w-12 text-center text-sm font-bold">{value}</output><button type="button" aria-label={addLabel} disabled={value >= max} onClick={() => onChange(Math.min(max, value + 1))} className="flex size-9 items-center justify-center rounded-full outline-none hover:bg-[#F3EFE6] focus-visible:ring-2 focus-visible:ring-[#D10E63] disabled:opacity-30"><Plus className="size-4" /></button></div>
-}
-
-function PriceLine({ label, detail, value, discount = false }: { label: string; detail?: string; value: number; discount?: boolean }) {
-  return <div className="grid grid-cols-[1fr_auto] gap-x-3 py-1.5"><dt className={discount ? 'text-[#B00C54]' : ''}>{label}{detail && <span className="ml-1 text-[10px] text-[#6E665A]">{detail}</span>}</dt><dd className={`font-semibold ${discount ? 'text-[#B00C54]' : ''}`}>{formatEuro(value)}</dd></div>
-}
-
-function TotalLine({ label, value }: { label: string; value: number }) {
-  return <div className="flex justify-between gap-3 py-1"><dt>{label}</dt><dd className="font-semibold">{formatEuro(value)}</dd></div>
-}
-
-function formatEuro(value: number) {
-  return `${value < 0 ? '−' : ''}${Math.abs(value)} €`
-}
-
-function formatShortDate(iso: string) {
-  const [year, month, day] = iso.split('-')
-  return `${day}/${month}/${year}`
-}
-
-export function MultiCollaboratorConfigurator() {
-  return null
+function PriceLine({ label, detail, value, discount = false, currency = '€' }: { label: string; detail?: string; value: number; discount?: boolean; currency?: string }) {
+  return (
+    <div className="grid grid-cols-[1fr_auto] gap-x-3 py-2 text-xs">
+      <dt className={discount ? 'text-[#F15B9B]' : 'text-[#C9C0B0]'}>
+        {label}
+        {detail && <span className="ml-1 text-[10px] text-[#8F877A]">{detail}</span>}
+      </dt>
+      <dd className={`font-semibold ${discount ? 'text-[#F15B9B]' : 'text-white'}`}>
+        {value < 0 ? '−' : ''}{Math.abs(value)} {currency}
+      </dd>
+    </div>
+  )
 }
