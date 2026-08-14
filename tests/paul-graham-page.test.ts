@@ -6,8 +6,8 @@ const footer = readFileSync(new URL('../components/paul-graham/paul-graham-foote
 
 describe('Paul Graham landing page', () => {
   it('starts from concrete work without passive-income promises', () => {
-    expect(hero).toContain('Votre savoir-faire ne devrait pas s’arrêter quand vous fermez votre ordinateur.')
-    expect(hero).toContain('Quel travail voulez-vous ne plus accomplir seul ?')
+    expect(hero).toContain('Votre savoir-faire devrait travailler même quand vous ne travaillez pas.')
+    expect(hero).toContain('Quel travail voulez-vous ne plus faire seul ?')
     expect(hero).not.toContain('rentier')
   })
 
@@ -24,5 +24,11 @@ describe('Paul Graham landing page', () => {
     expect(hero).not.toContain('Création de votre collaborateur')
     expect(footer).toContain('/mentions-legales')
     expect(footer).not.toContain('href: "/legal"')
+  })
+
+  it('makes Alma the coordinator and the AI Collaborator the executor', () => {
+    expect(hero).toContain('Alma ne réalise pas la mission.')
+    expect(hero).toContain('Le Collaborateur exécute.')
+    expect(hero).toContain('href="/tarifs"')
   })
 })

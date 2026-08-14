@@ -1,22 +1,10 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google'
 import { LanguageProvider } from '@/lib/language-context'
 import { AlmaProvider } from '@/lib/alma-context'
 import { MyTeamProvider } from '@/lib/my-team-context'
 import { FloatingAlmaWidget } from '@/components/floating-alma-widget'
 import './globals.css'
-
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
-const playfairDisplay = Playfair_Display({ 
-  variable: '--font-playfair-display', 
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-})
 
 const SITE_URL = 'https://unitalk.ai'
 const SITE_NAME = 'Unitalk'
@@ -145,7 +133,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`bg-background ${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable}`}>
+    <html lang="fr" className="bg-background">
       <body className="font-sans antialiased bg-background text-foreground" suppressHydrationWarning>
         <script
           type="application/ld+json"
