@@ -178,6 +178,7 @@ export function MissionsContent() {
         {/* Post-mission: 3 steps inline */}
         <section className="mt-20 border-t border-[#D8D0C2] pt-20 text-center">
                   <h2 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.045em] sm:text-[42px]">{t.postTitle}</h2>
+                  <p className="mt-2 text-[26px] font-semibold leading-[1.1] tracking-[-0.035em] text-[#D10E63] sm:text-[34px]">{t.postSubtitle}</p>
                   <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center justify-center gap-6 sm:flex-row sm:gap-12">
                     {t.postSteps.map((step, i) => (
                       <div key={i} className="flex items-center gap-3">
@@ -211,7 +212,8 @@ const COPY = {
     almaLinkLabel: 'Parler à Alma, Coordinatrice de missions',
     talkToAlma: 'Parler à Alma →',
     allCategories: 'Toutes les missions',
-    postTitle: 'Vous confiez une mission. Votre Collaborateur apprend à travailler comme vous.',
+    postTitle: 'Vous confiez une mission.',
+    postSubtitle: 'Votre Collaborateur apprend à travailler comme vous.',
     postSteps: ['Confiez une mission', 'Donnez vos règles', 'Résultat validé'],
   },
   en: {
@@ -225,7 +227,8 @@ const COPY = {
     almaLinkLabel: 'Talk to Alma, Mission coordinator',
     talkToAlma: 'Talk to Alma →',
     allCategories: 'All missions',
-    postTitle: 'You assign a mission. Your Collaborator learns to work like you.',
+    postTitle: 'You assign a mission.',
+    postSubtitle: 'Your Collaborator learns to work like you.',
     postSteps: ['Assign a mission', 'Set your rules', 'Validated result'],
   },
 } as const

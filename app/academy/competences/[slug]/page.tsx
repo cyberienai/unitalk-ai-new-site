@@ -1,9 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, Check } from 'lucide-react'
-import { AcademyKicker } from '@/components/academy/academy-ui'
+import { ArrowRight } from 'lucide-react'
+import { AcademyHero, AcademyKicker } from '@/components/academy/academy-ui'
 import { SKILLS, academyMission, academySkill } from '@/lib/academy-catalog'
+
 export function generateStaticParams(){return SKILLS.map(({slug})=>({slug}))}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{return {title:academySkill((await params).slug)?.title??'Compétence'}}
-export default async function Page({params}:{params:Promise<{slug:string}>}){const item=academySkill((await params).slug);if(!item)notFound();return <main><section className="academy-paper-grid px-5 pb-16 pt-36"><div className="academy-shell"><AcademyKicker>Compétence pédagogique · version {item.version}</AcademyKicker><h1 className="academy-display mt-7">{item.title}</h1><p className="mt-7 max-w-3xl text-lg leading-8 text-[#625b50]">{item.outcome}</p></div></section><section className="px-5 py-20"><div className="academy-shell"><div className="grid gap-5 md:grid-cols-3">{[['Preuve attendue',item.evidence],['Évaluation',item.evaluation],['Auteur',item.author]].map(([title,value])=><article key={title} className="rounded-3xl border border-[#d7cebe] bg-[#fffaf4] p-6"><AcademyKicker>{title}</AcademyKicker><p className="mt-5 font-bold">{value}</p></article>)}</div><div className="mt-16"><AcademyKicker>Missions d’acquisition</AcademyKicker><div className="mt-8 grid gap-4 md:grid-cols-2">{item.missionSlugs.map(academyMission).filter(Boolean).map(m=><Link key={m!.slug} href={`/academy/missions/${m!.slug}`} className="rounded-3xl border border-[#d7cebe] bg-[#fffaf4] p-6"><h2 className="text-xl font-black">{m!.title}</h2><span className="mt-5 inline-flex gap-2 text-sm font-black text-[#b00b52]">Acquérir cette compétence<ArrowRight className="size-4"/></span></Link>)}</div></div><p className="mt-16 flex gap-3 rounded-3xl bg-[#e9e1d2] p-6 text-sm"><Check className="size-5 text-[#d10e63]"/>Cette validation interne ne constitue pas automatiquement une certification professionnelle reconnue par l’État.</p></div></section></main>}
+
+export default async function Page({params}:{params:Promise<{slug:string}>}) {
+  const item=academySkill((await params).slug)
+  if(!item) notFound()
+  return <main>
+    <AcademyHero kicker={`Compétence · version ${item.version}`} title={item.title} body={item.outcome}/>
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5"><div className="academy-reading divide-y divide-[#d8d0c2]">{[['Preuve attendue',item.evidence],['Évaluation',item.evaluation],['Auteur',item.author]].map(([label,value])=><div key={label} className="py-6 sm:grid sm:grid-cols-[150px_1fr] sm:gap-5"><AcademyKicker>{label}</AcademyKicker><p className="mt-2 text-sm font-semibold leading-6 sm:mt-0">{value}</p></div>)}</div></section>
+    <section className="px-5 py-16"><div className="academy-reading"><AcademyKicker>Pour l’acquérir</AcademyKicker><div className="mt-5 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">{item.missionSlugs.map(academyMission).filter(Boolean).map(mission=><Link key={mission!.slug} href={`/academy/missions/${mission!.slug}`} className="group flex items-center justify-between gap-5 py-5"><span className="font-semibold">{mission!.title}</span><ArrowRight className="size-4 shrink-0 text-[#b00c54] transition group-hover:translate-x-1"/></Link>)}</div><p className="mt-10 border-l-2 border-[#d10e63] pl-4 text-xs leading-5 text-[#625b50]">Cette validation interne ne constitue pas automatiquement une certification professionnelle reconnue par l’État.</p></div></section>
+  </main>
+}

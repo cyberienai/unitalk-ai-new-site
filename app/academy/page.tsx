@@ -1,7 +1,61 @@
 import Link from 'next/link'
-import { ArrowRight, BookOpenCheck, BriefcaseBusiness, Sparkles } from 'lucide-react'
-import { AcademyCta, AcademyKicker, AcademyProofs } from '@/components/academy/academy-ui'
-import { MissionCard, PathCard, SkillCard } from '@/components/academy/catalog-cards'
-import { MISSIONS, NETWORKS, PATHS, SKILLS } from '@/lib/academy-catalog'
+import { ArrowRight } from 'lucide-react'
+import { AcademyCta, AcademyHero, AcademyKicker } from '@/components/academy/academy-ui'
+import { MissionCard } from '@/components/academy/catalog-cards'
+import { MISSIONS } from '@/lib/academy-catalog'
 
-export default function AcademyPage(){return <main><section className="academy-paper-grid px-5 pb-20 pt-20 sm:pt-28"><div className="academy-shell"><AcademyKicker>Unitalk Academy · Unitalk Network</AcademyKicker><h1 className="academy-display mt-7 max-w-6xl">Apprenez en accomplissant des missions.</h1><p className="mt-8 max-w-3xl text-lg leading-8 text-[#514b42] sm:text-xl">Rejoignez un réseau professionnel, développez des compétences concrètes et constituez les preuves de ce que vous savez faire.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><AcademyCta href="/missions?gratuit=1">Explorer les missions gratuites</AcademyCta><AcademyCta href="/networks" secondary>Choisir mon secteur</AcademyCta></div><div className="mt-8"><AcademyProofs items={['Missions et livrables concrets','Compétences évaluées','Portfolio de preuves','Transfert volontaire vers Unitalk AI']}/></div></div></section><section className="border-y border-[#d7cebe] bg-[#181512] py-16 text-[#f8f1e7]"><div className="academy-shell"><AcademyKicker>Un même modèle</AcademyKicker><h2 className="academy-heading mt-6 max-w-4xl">Academy transmet. AI met au travail.</h2><p className="mt-6 max-w-3xl leading-8 text-[#cfc6b8]">Les mêmes concepts relient apprentissage et travail, sans mélanger les données pédagogiques et opérationnelles.</p></div></section><section className="py-20"><div className="academy-shell"><div className="flex items-end justify-between gap-6"><div><AcademyKicker>Missions ouvertes</AcademyKicker><h2 className="academy-heading mt-6">Produisez une preuve, pas seulement une réponse.</h2></div><Link href="/academy/missions" className="hidden items-center gap-2 font-black text-[#b00b52] sm:inline-flex">Toutes les missions<ArrowRight className="size-4"/></Link></div><div className="mt-12 grid gap-5 md:grid-cols-3">{MISSIONS.slice(0,3).map(item=><MissionCard key={item.slug} mission={item}/>)}</div></div></section><section className="border-y border-[#d7cebe] bg-[#e9e1d2] py-20"><div className="academy-shell"><AcademyKicker>Unitalk Network</AcademyKicker><h2 className="academy-heading mt-6 max-w-5xl">Chaque secteur organise ses connaissances, ses experts et ses critères de validation.</h2><div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{NETWORKS.map(item=><Link key={item.id} href={`/academy/networks/${item.id}`} className="rounded-3xl border border-[#d7cebe] bg-[#fffaf4] p-7"><span className="block size-3 rounded-full" style={{background:item.color}}/><h3 className="mt-8 text-2xl font-black">{item.name}</h3><p className="mt-4 text-sm leading-7 text-[#625b50]">{item.description}</p></Link>)}</div></div></section><section className="py-20"><div className="academy-shell grid gap-16 lg:grid-cols-2"><div><AcademyKicker>Compétences</AcademyKicker><div className="mt-8 grid gap-4">{SKILLS.slice(0,2).map(item=><SkillCard key={item.slug} skill={item}/>)}</div></div><div><AcademyKicker>Parcours</AcademyKicker><div className="mt-8 grid gap-4">{PATHS.slice(0,2).map(item=><PathCard key={item.slug} path={item}/>)}</div></div></div></section><section className="bg-[#181512] px-5 py-20 text-[#f8f1e7]"><div className="academy-shell grid gap-12 lg:grid-cols-2"><div><AcademyKicker>Alma Academy</AcademyKicker><h2 className="academy-heading mt-6">Une Coordinatrice de parcours et de missions d’apprentissage.</h2><div className="mt-8"><AcademyCta href="/alma">Découvrir Alma</AcademyCta></div></div><div className="grid gap-4">{[[Sparkles,'Comprendre','Votre objectif et votre niveau initial'],[BookOpenCheck,'Guider','Missions, exercices et preuves'],[BriefcaseBusiness,'Transférer','Vers un expert ou Unitalk AI, avec consentement']].map(([Icon,title,body])=>{const I=Icon as typeof Sparkles;return <div key={title as string} className="flex gap-4 rounded-2xl border border-white/10 p-5"><I className="text-[#f2a4c5]"/><div><h3 className="font-black">{title as string}</h3><p className="mt-1 text-sm text-[#bdb3a6]">{body as string}</p></div></div>})}</div></div></section></main>}
+const steps = [
+  ['Choisissez une mission', 'Un travail concret, avec un résultat clair et un temps défini.'],
+  ['Produisez un livrable', 'Vous apprenez en faisant, avec une méthode et des sources.'],
+  ['Faites valider votre travail', 'Vous repartez avec une preuve utile, pas seulement une leçon terminée.'],
+]
+
+export default function AcademyPage() {
+  return <main>
+    <AcademyHero
+      kicker="Unitalk Academy"
+      title="Apprenez l’IA en faisant un vrai travail."
+      body="Choisissez une mission, produisez un résultat et faites valider ce que vous savez faire."
+    />
+
+    <section className="px-5 pb-16 text-center sm:pb-24">
+      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <AcademyCta href="/missions?gratuit=1">Commencer gratuitement</AcademyCta>
+        <Link href="/academy/parcours" className="academy-text-link px-4 py-3">Voir les parcours<ArrowRight className="size-3.5"/></Link>
+      </div>
+      <p className="mt-4 text-xs font-semibold text-[#857c6e]">Une première mission. Un livrable. Une preuve.</p>
+    </section>
+
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-16 sm:py-24">
+      <div className="academy-reading">
+        <AcademyKicker>Comment ça marche</AcademyKicker>
+        <p className="mt-5 text-[clamp(1.7rem,3.8vw,2.8rem)] font-semibold leading-[1.1] tracking-[-.04em]">La formation devient utile quand elle produit quelque chose.</p>
+        <div className="mt-10 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">
+          {steps.map(([title, body], index) => <article key={title} className="grid grid-cols-[36px_1fr] gap-4 py-6">
+            <span className="font-mono text-[10px] font-bold text-[#d10e63]">0{index + 1}</span>
+            <div><h2 className="text-lg font-semibold">{title}</h2><p className="mt-1 text-sm leading-6 text-[#625b50]">{body}</p></div>
+          </article>)}
+        </div>
+      </div>
+    </section>
+
+    <section className="px-5 py-16 sm:py-24">
+      <div className="academy-reading">
+        <div className="flex items-end justify-between gap-5">
+          <div><AcademyKicker>Pour commencer</AcademyKicker><h2 className="mt-4 text-3xl font-semibold tracking-[-.04em]">Trois missions gratuites.</h2></div>
+          <Link href="/academy/missions" className="academy-text-link hidden sm:inline-flex">Toutes les missions<ArrowRight className="size-3.5"/></Link>
+        </div>
+        <div className="academy-list mt-8">{MISSIONS.filter(mission => mission.free).slice(0, 3).map(mission => <MissionCard key={mission.slug} mission={mission}/>)}</div>
+        <Link href="/academy/missions" className="academy-text-link mt-7 sm:hidden">Toutes les missions<ArrowRight className="size-3.5"/></Link>
+      </div>
+    </section>
+
+    <section className="border-t border-[#d8d0c2] bg-[#fffdf9] px-5 py-16 text-center sm:py-24">
+      <div className="academy-reading">
+        <AcademyKicker>Votre prochaine étape</AcademyKicker>
+        <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-semibold leading-tight tracking-[-.04em] sm:text-4xl">Commencez petit. Terminez une mission.</h2>
+        <div className="mt-7"><AcademyCta href="/missions?gratuit=1">Choisir une mission</AcademyCta></div>
+      </div>
+    </section>
+  </main>
+}

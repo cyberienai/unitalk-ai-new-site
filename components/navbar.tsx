@@ -184,53 +184,43 @@ function UkFlag() {
   )
 }
 
-/** Icon-free menu link for the Collaborateurs IA panel: a growing left accent
- *  bar on hover keeps the row elegant and premium without decorative icons. */
 function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lang; onSelect: () => void }) {
+  const Icon = entry.icon
   return (
     <a
       href={entry.href}
       role="menuitem"
       onClick={onSelect}
-      className="group relative block w-full rounded-lg border-l-2 border-transparent px-4 py-3 outline-none transition-colors duration-150 hover:border-[#D10E63] hover:bg-[#F3EFE6] focus-visible:border-[#D10E63] focus-visible:bg-[#F3EFE6] focus-visible:ring-2 focus-visible:ring-[#D10E63]/30"
+      className="group flex min-h-[92px] w-full gap-3 rounded-2xl border border-transparent p-3.5 outline-none transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-[#DED6C8] hover:bg-[#FFFDF9] focus-visible:border-[#D10E63] focus-visible:bg-[#FFFDF9] focus-visible:ring-2 focus-visible:ring-[#D10E63]/30"
     >
-      <span
-        aria-hidden="true"
-        className="hidden"
-      />
-      {entry.avatar ? (
-        <span className="flex items-start gap-3">
-          <img
-            src={entry.avatar || "/placeholder.svg"}
-            alt=""
-            aria-hidden="true"
-            className="mt-0.5 h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-[#EAD9E0]"
-          />
-          <span className="min-w-0">
-            <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#D10E63] group-focus-visible:text-[#D10E63]">
-              {entry.title[lang]}
-            </span>
-            <span className="mt-1 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span>
-          </span>
-        </span>
-      ) : (
-        <>
-          <span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors duration-200 group-hover:text-[#D10E63] group-focus-visible:text-[#D10E63]">
-            {entry.title[lang]}
-          </span>
-          <span className="mt-1 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span>
-        </>
-      )}
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#EEE8DD] text-[#6F6558] transition-colors group-hover:bg-[#F9DFE9] group-hover:text-[#B00C54]">
+        <Icon aria-hidden="true" className="size-[17px]" strokeWidth={1.8} />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[14px] font-semibold leading-tight text-[#1C1A17] transition-colors group-hover:text-[#B00C54]">{entry.title[lang]}</span>
+        <span className="mt-1.5 block text-[12px] leading-[1.55] text-[#6B6256]">{entry.desc[lang]}</span>
+      </span>
     </a>
   )
 }
 
 function AccompanimentMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lang; onSelect: () => void }) {
+  const Icon = entry.icon
   return (
-    <a href={entry.href} role="menuitem" onClick={onSelect} className="group flex min-h-[104px] w-full items-start gap-3 px-4 py-[18px] outline-none transition-colors duration-150 hover:bg-[#F3EEE5] focus-visible:bg-[#F3EEE5] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D10E63]/40">
-      {entry.avatar && <img src={entry.avatar} alt="" aria-hidden="true" className="h-[42px] w-[42px] shrink-0 rounded-full object-cover" />}
-      <span className="min-w-0 flex-1"><span className="block text-[15px] font-semibold leading-tight text-[#1C1A17] transition-colors group-hover:text-[#D10E63] group-focus-visible:text-[#D10E63]">{entry.title[lang]}</span><span className="mt-1.5 block text-[12.5px] leading-relaxed text-[#4E483F]">{entry.desc[lang]}</span></span>
-      <ArrowRight aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#D10E63] opacity-45 transition-[transform,opacity] duration-150 group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100" />
+    <a href={entry.href} role="menuitem" onClick={onSelect} className="group flex min-h-[78px] w-full items-center gap-3 rounded-2xl px-3.5 py-3 outline-none transition-colors hover:bg-[#ECE5D9] focus-visible:bg-[#ECE5D9] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D10E63]/40">
+      {entry.avatar ? <img src={entry.avatar} alt="" aria-hidden="true" className="size-9 shrink-0 rounded-xl object-cover ring-1 ring-[#D8CFC1]" /> : <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#E5DDD0] text-[#6F6558]"><Icon aria-hidden="true" className="size-[17px]" strokeWidth={1.8} /></span>}
+      <span className="min-w-0 flex-1"><span className="block text-[14px] font-semibold leading-tight text-[#1C1A17] transition-colors group-hover:text-[#B00C54]">{entry.title[lang]}</span><span className="mt-1 block line-clamp-2 text-[12px] leading-[1.5] text-[#6B6256]">{entry.desc[lang]}</span></span>
+      <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-[#B00C54] opacity-0 transition-[transform,opacity] group-hover:translate-x-0.5 group-hover:opacity-100 group-focus-visible:opacity-100" />
+    </a>
+  )
+}
+
+function MobileCollabLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lang; onSelect: () => void }) {
+  const Icon = entry.icon
+  return (
+    <a href={entry.href} onClick={onSelect} className="group flex min-h-14 items-center gap-3 rounded-xl px-2.5 py-2 outline-none transition-colors hover:bg-[#EAE3D7] focus-visible:bg-[#EAE3D7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/30">
+      {entry.avatar ? <img src={entry.avatar} alt="" aria-hidden="true" className="size-8 rounded-lg object-cover" /> : <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[#E7DFD2] text-[#6F6558]"><Icon aria-hidden="true" className="size-4" strokeWidth={1.8} /></span>}
+      <span className="min-w-0"><span className="block text-[13.5px] font-semibold leading-tight text-[#292620] transition-colors group-hover:text-[#B00C54]">{entry.title[lang]}</span><span className="mt-1 block line-clamp-1 text-[11.5px] text-[#766D61]">{entry.desc[lang]}</span></span>
     </a>
   )
 }
@@ -471,22 +461,24 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                      className="absolute left-1/2 top-full w-[960px] max-w-[calc(100vw-2rem)] -translate-x-[22%] pt-3"
+                      className="absolute -left-[180px] top-full w-[1040px] max-w-[calc(100vw-2rem)] pt-3"
                     >
-                      <div className="overflow-hidden rounded-[26px] border border-[#D8D0C2] bg-[#FAF8F3] shadow-[0_32px_80px_-24px_rgba(28,26,23,0.34)]">
-                        <div className="grid grid-cols-[.72fr_1fr_.92fr]">
-                          <div className="border-r border-[#DED6C8] bg-[#181615] p-6 text-[#FAF8F3]">
-                            <p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuFeatured}</p>
-                            <h2 className="mt-6 text-[28px] font-semibold leading-[1.02] tracking-[-.045em]">{COLLAB_FEATURED.title[lang]}</h2>
-                            <p className="mt-4 text-sm leading-7 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</p>
-                            <a href={COLLAB_FEATURED.href} onClick={() => setCollabOpen(false)} className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{lang === 'fr' ? 'Découvrir le produit' : 'Discover the product'}<ArrowRight className="size-4" /></a>
-                            <div className="mt-8 border-t border-white/10 pt-6"><p className="text-xs font-bold text-white">{lang === 'fr' ? 'Votre équipe humain-IA' : 'Your human-AI team'}</p><p className="mt-2 text-xs leading-6 text-[#AFA397]">{lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</p></div>
+                      <div className="overflow-hidden rounded-[28px] border border-[#D8D0C2] bg-[#F8F5EE] shadow-[0_36px_90px_-24px_rgba(28,26,23,0.42)] ring-1 ring-white/70">
+                        <div className="grid grid-cols-[280px_1fr_310px]">
+                          <div className="relative isolate overflow-hidden bg-[#171514] p-7 text-[#FAF8F3]">
+                            <div aria-hidden="true" className="absolute -right-20 -top-20 -z-10 size-64 rounded-full bg-[#D10E63]/20 blur-3xl" />
+                            <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]"><span className="size-1.5 rounded-full bg-[#F2A4C5]" />{t.menuFeatured}</div>
+                            <div className="mt-8 flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.07] text-[#F2A4C5]"><Bot aria-hidden="true" className="size-5" strokeWidth={1.7} /></div>
+                            <h2 className="mt-5 text-[29px] font-semibold leading-[1.02] tracking-[-.045em]">{COLLAB_FEATURED.title[lang]}</h2>
+                            <p className="mt-4 text-[13px] leading-6 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</p>
+                            <a href={COLLAB_FEATURED.href} onClick={() => setCollabOpen(false)} className="group mt-6 inline-flex items-center gap-2 rounded-full bg-[#F2A4C5] px-4 py-2.5 text-xs font-bold text-[#24151B] outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-white">{lang === 'fr' ? 'Découvrir le produit' : 'Discover the product'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
+                            <div className="mt-7 border-t border-white/10 pt-5"><p className="text-[11px] font-bold uppercase tracking-[.12em] text-white">{lang === 'fr' ? 'Votre équipe humain-IA' : 'Your human-AI team'}</p><p className="mt-2 text-[12px] leading-5 text-[#AFA397]">{lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</p></div>
                           </div>
-                          <div className="p-4">
-                            <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                          <div className="p-5">
+                            <p className="px-1 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuDiscover}
                             </p>
-                            <div className="grid grid-cols-2 gap-1">
+                            <div className="grid grid-cols-2 gap-1.5">
                               {COLLAB_DISCOVER.map((item) => (
                                 <CollabMenuLink
                                   key={item.href}
@@ -498,8 +490,8 @@ export function Navbar(
                             </div>
                           </div>
 
-                          <div className="border-l border-[#DED6C8] bg-[#F3EEE5] p-4">
-                            <p className="px-4 pb-1.5 pt-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                          <div className="border-l border-[#DED6C8] bg-[#F1ECE3] p-5">
+                            <p className="px-3 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
                             <div className="flex flex-col">
@@ -516,13 +508,14 @@ export function Navbar(
                         </div>
 
                         <div className="grid border-t border-[#DED6C8] bg-[#FFFDF9] sm:grid-cols-[1fr_auto_auto] sm:items-center">
-                          <div className="flex flex-wrap gap-x-5 gap-y-2 px-6 py-4 text-xs font-bold text-[#625B50]">
+                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-7 py-4 text-[11.5px] font-bold text-[#625B50]">
+                            <span className="font-mono text-[9px] uppercase tracking-[.16em] text-[#9A9081]">{t.menuResources}</span>
                             {COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">{item.title[lang]}</a>)}
                             <a href="/documentation" onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">Documentation</a>
                             <a href="/tarifs" onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">{t.pricing}</a>
                           </div>
-                          <a href="/collaborateurs-ia/applications" onClick={() => setCollabOpen(false)} className="border-t border-[#DED6C8] px-5 py-4 text-sm font-bold text-[#B00C54] sm:border-l sm:border-t-0">{t.menuStore} →</a>
-                          <a href={ACADEMY_URL} onClick={() => setCollabOpen(false)} className="border-t border-[#DED6C8] px-5 py-4 text-sm font-bold text-[#1C1A17] sm:border-l sm:border-t-0">{t.menuAcademy} →</a>
+                          <a href="/collaborateurs-ia/applications" onClick={() => setCollabOpen(false)} className="group flex items-center gap-2 border-t border-[#DED6C8] px-5 py-4 text-xs font-bold text-[#B00C54] transition-colors hover:bg-[#FBEAF1] sm:border-l sm:border-t-0">{t.menuStore}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
+                          <a href={ACADEMY_URL} onClick={() => setCollabOpen(false)} className="group flex items-center gap-2 border-t border-[#DED6C8] px-5 py-4 text-xs font-bold text-[#1C1A17] transition-colors hover:bg-[#F3EEE5] sm:border-l sm:border-t-0">{t.menuAcademy}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
                         </div>
                       </div>
                     </motion.div>
@@ -686,32 +679,28 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                            <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                            <a href={COLLAB_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="my-2 rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]"><span className="block text-[15px] font-bold">{COLLAB_FEATURED.title[lang]}</span><span className="mt-1 block text-xs leading-5 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</span></a>
-                            <p className="pb-0.5 pt-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                            <a href={COLLAB_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]"><span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" /><span className="relative flex items-center gap-3"><span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#F2A4C5]"><Bot className="size-[18px]" /></span><span><span className="block text-[14px] font-bold">{COLLAB_FEATURED.title[lang]}</span><span className="mt-1 block text-[11.5px] leading-5 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</span></span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></span></a>
+                            <p className="px-2 pb-1 pt-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuDiscover}
                             </p>
                             {COLLAB_DISCOVER.map((item) => (
-                              <a
+                              <MobileCollabLink
                                 key={item.href}
-                                href={item.href}
-                                onClick={() => setIsMenuOpen(false)}
-                                className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
-                              >
-                                {item.title[lang]}
-                              </a>
+                                entry={item}
+                                lang={lang}
+                                onSelect={() => setIsMenuOpen(false)}
+                              />
                             ))}
-                            <p className="pb-0.5 pt-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                            <p className="px-2 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
                             {COLLAB_ACCOMPANIMENT.map((item) => (
-                              <a
+                              <MobileCollabLink
                                 key={item.href}
-                                href={item.href}
-                                onClick={() => setIsMenuOpen(false)}
-                                className="flex min-h-10 items-center text-[14px] font-medium text-[#4E483F] transition-colors hover:text-[#D10E63]"
-                              >
-                                {item.title[lang]}
-                              </a>
+                                entry={item}
+                                lang={lang}
+                                onSelect={() => setIsMenuOpen(false)}
+                              />
                             ))}
                             <div className="my-1.5 border-t border-[#E4DDCE]" />
                             {COLLAB_ACTIONS.map((item) => (

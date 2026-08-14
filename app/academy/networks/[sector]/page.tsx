@@ -1,10 +1,20 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CalendarDays, Users } from 'lucide-react'
-import { AcademyCta, AcademyKicker } from '@/components/academy/academy-ui'
+import { AcademyCta, AcademyHero, AcademyKicker } from '@/components/academy/academy-ui'
 import { MissionCard, PathCard, SkillCard } from '@/components/academy/catalog-cards'
 import { MISSIONS, NETWORKS, PATHS, SKILLS, academyNetwork } from '@/lib/academy-catalog'
+
 export function generateStaticParams(){return NETWORKS.map(({id:sector})=>({sector}))}
-export async function generateMetadata({params}:{params:Promise<{sector:string}>}):Promise<Metadata>{return {title:academyNetwork((await params).sector)?.name??'Network'}}
-export default async function Page({params}:{params:Promise<{sector:string}>}){const item=academyNetwork((await params).sector);if(!item)notFound();const missions=MISSIONS.filter(x=>x.sector===item.id),skills=SKILLS.filter(x=>x.sector===item.id),paths=PATHS.filter(x=>x.sector===item.id);return <main><section className="academy-paper-grid px-5 pb-16 pt-36"><div className="academy-shell"><span className="block size-4 rounded-full" style={{background:item.color}}/><div className="mt-6"><AcademyKicker>Unitalk Network</AcademyKicker></div><h1 className="academy-display mt-7">{item.name}</h1><p className="mt-5 text-2xl font-black">{item.tagline}</p><p className="mt-6 max-w-3xl text-lg leading-8 text-[#625b50]">{item.description}</p><div className="mt-8 flex gap-5 text-sm font-bold"><span className="flex gap-2"><Users className="size-4 text-[#d10e63]"/>{item.members}</span><span className="flex gap-2"><CalendarDays className="size-4 text-[#d10e63]"/>{item.events}</span></div><div className="mt-8"><AcademyCta href={`/espace?network=${item.id}`}>Rejoindre ce Network</AcademyCta></div></div></section><section className="px-5 py-20"><div className="academy-shell">{missions.length>0&&<><AcademyKicker>Missions du Network</AcademyKicker><div className="mt-8 grid gap-5 md:grid-cols-3">{missions.map(x=><MissionCard key={x.slug} mission={x}/>)}</div></>}{skills.length>0&&<div className="mt-16"><AcademyKicker>Compétences reconnues</AcademyKicker><div className="mt-8 grid gap-5 md:grid-cols-3">{skills.map(x=><SkillCard key={x.slug} skill={x}/>)}</div></div>}{paths.length>0&&<div className="mt-16"><AcademyKicker>Parcours</AcademyKicker><div className="mt-8 grid gap-5 md:grid-cols-2">{paths.map(x=><PathCard key={x.slug} path={x}/>)}</div></div>}<div className="mt-16 rounded-3xl bg-[#181512] p-8 text-[#f8f1e7]"><h2 className="academy-heading">Vous détenez une méthode reconnue dans ce secteur ?</h2><Link href="/academy/experts" className="mt-7 inline-flex font-black text-[#f2a4c5]">Contribuer comme expert</Link></div></div></section></main>}
+export async function generateMetadata({params}:{params:Promise<{sector:string}>}):Promise<Metadata>{return {title:academyNetwork((await params).sector)?.name??'Secteur'}}
+
+export default async function Page({params}:{params:Promise<{sector:string}>}) {
+  const item=academyNetwork((await params).sector)
+  if(!item) notFound()
+  const missions=MISSIONS.filter(x=>x.sector===item.id), skills=SKILLS.filter(x=>x.sector===item.id), paths=PATHS.filter(x=>x.sector===item.id)
+  return <main>
+    <AcademyHero kicker="Secteur" title={item.name} body={`${item.tagline} ${item.description}`}/>
+    <section className="px-5 pb-16 text-center"><p className="mb-6 text-xs font-semibold text-[#857c6e]">{item.members} · {item.events}</p><AcademyCta href={`/espace?network=${item.id}`}>Rejoindre ce secteur</AcademyCta></section>
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-14"><div className="academy-reading">{missions.length>0&&<><AcademyKicker>Missions</AcademyKicker><div className="academy-list mt-5">{missions.map(mission=><MissionCard key={mission.slug} mission={mission}/>)}</div></>}{paths.length>0&&<div className="mt-14"><AcademyKicker>Parcours</AcademyKicker><div className="academy-list mt-5">{paths.map(path=><PathCard key={path.slug} path={path}/>)}</div></div>}{skills.length>0&&<div className="mt-14"><AcademyKicker>Compétences</AcademyKicker><div className="academy-list mt-5">{skills.map(skill=><SkillCard key={skill.slug} skill={skill}/>)}</div></div>}<p className="mt-12 text-sm text-[#625b50]">Vous souhaitez transmettre une méthode dans ce secteur ? <Link href="/academy/experts" className="font-bold text-[#b00c54] hover:underline">Devenir contributeur</Link>.</p></div></section>
+  </main>
+}

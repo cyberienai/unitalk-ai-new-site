@@ -1,8 +1,25 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Check, Clock3, FileCheck2, GraduationCap } from 'lucide-react'
-import { AcademyCta, AcademyKicker } from '@/components/academy/academy-ui'
+import { ArrowRight } from 'lucide-react'
+import { AcademyCta, AcademyHero, AcademyKicker } from '@/components/academy/academy-ui'
 import { MISSIONS, NETWORKS, academyMission, academySkill } from '@/lib/academy-catalog'
+
 export function generateStaticParams(){return MISSIONS.map(({slug})=>({slug}))}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const item=academyMission((await params).slug);return {title:item?.title??'Mission'}}
-export default async function Page({params}:{params:Promise<{slug:string}>}){const item=academyMission((await params).slug);if(!item)notFound();const sector=NETWORKS.find(n=>n.id===item.sector);return <main><section className="academy-paper-grid px-5 pb-16 pt-36"><div className="academy-shell grid gap-12 lg:grid-cols-[1fr_.7fr] lg:items-end"><div><AcademyKicker>Mission d’apprentissage · {sector?.name}</AcademyKicker><h1 className="academy-display mt-7">{item.title}</h1><p className="mt-7 text-lg leading-8 text-[#625b50]">{item.result}</p><div className="mt-8"><AcademyCta href={`/espace?mission=${item.slug}`}>{item.free?'Commencer gratuitement':'Rejoindre cette mission'}</AcademyCta></div></div><aside className="rounded-3xl bg-[#181512] p-7 text-[#f8f1e7]">{[[Clock3,'Temps et niveau',`${item.duration} · ${item.level}`],[FileCheck2,'Livrable',item.deliverable],[GraduationCap,'Évaluation',item.evaluation]].map(([Icon,title,value])=>{const I=Icon as typeof Clock3;return <div key={title as string} className="border-b border-white/10 py-4"><p className="flex gap-2 text-xs font-bold text-[#f2a4c5]"><I className="size-4"/>{title as string}</p><p className="mt-2 text-sm">{value as string}</p></div>})}</aside></div></section><section className="px-5 py-20"><div className="academy-shell grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><AcademyKicker>Méthode</AcademyKicker><h2 className="academy-heading mt-6">Une mission visible du cadrage à la preuve.</h2></div><ol className="border-t border-[#d7cebe]">{item.steps.map((step,i)=><li key={step} className="grid grid-cols-[48px_1fr] border-b border-[#d7cebe] py-5"><span className="font-mono text-[10px] font-black text-[#d10e63]">0{i+1}</span><strong>{step}</strong></li>)}</ol></div></section><section className="bg-[#e9e1d2] px-5 py-20"><div className="academy-shell"><AcademyKicker>Compétences acquises</AcademyKicker><div className="mt-8 grid gap-4 md:grid-cols-2">{item.skillSlugs.map(academySkill).filter(Boolean).map(s=><article key={s!.slug} className="rounded-3xl bg-[#fffaf4] p-6"><h2 className="text-xl font-black">{s!.title}</h2><p className="mt-3 text-sm text-[#625b50]">{s!.outcome}</p><p className="mt-5 flex gap-2 text-xs font-bold"><Check className="size-4 text-[#d10e63]"/>{s!.evidence}</p></article>)}</div></div></section></main>}
+
+export default async function Page({params}:{params:Promise<{slug:string}>}) {
+  const item=academyMission((await params).slug)
+  if(!item) notFound()
+  const sector=NETWORKS.find(network=>network.id===item.sector)
+  const facts=[['Temps',`${item.duration} · ${item.level}`],['Livrable',item.deliverable],['Évaluation',item.evaluation]]
+  return <main>
+    <AcademyHero kicker={`Mission · ${sector?.name}`} title={item.title} body={item.result}/>
+    <section className="px-5 pb-16 text-center"><AcademyCta href={`/espace?mission=${item.slug}`}>{item.free?'Commencer gratuitement':'Rejoindre la mission'}</AcademyCta></section>
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5"><div className="academy-reading divide-y divide-[#d8d0c2]">{facts.map(([label,value])=><div key={label} className="py-6 sm:grid sm:grid-cols-[140px_1fr] sm:gap-5"><AcademyKicker>{label}</AcademyKicker><p className="mt-2 text-sm font-semibold leading-6 sm:mt-0">{value}</p></div>)}</div></section>
+    <section className="px-5 py-16"><div className="academy-reading"><AcademyKicker>Les étapes</AcademyKicker><ol className="mt-6 border-t border-[#d8d0c2]">{item.steps.map((step,index)=><li key={step} className="grid grid-cols-[40px_1fr] border-b border-[#d8d0c2] py-5"><span className="font-mono text-[10px] font-bold text-[#d10e63]">0{index+1}</span><strong className="font-semibold">{step}</strong></li>)}</ol>
+      <div className="mt-14"><AcademyKicker>Ce que vous apprendrez</AcademyKicker><div className="mt-5 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">{item.skillSlugs.map(academySkill).filter(Boolean).map(skill=><Link key={skill!.slug} href={`/academy/competences/${skill!.slug}`} className="group flex items-center justify-between gap-5 py-5"><span className="font-semibold">{skill!.title}</span><ArrowRight className="size-4 shrink-0 text-[#b00c54] transition group-hover:translate-x-1"/></Link>)}</div></div>
+      <p className="mt-10 text-xs text-[#857c6e]">Mission proposée par {item.author}.</p>
+    </div></section>
+  </main>
+}

@@ -6,16 +6,21 @@
 
 /* Academy utilities are deliberately namespaced so its editorial system cannot
    alter existing Unitalk AI pages. */
-.academy-root { --academy-paper:#f4f0e7; --academy-cream:#e9e1d2; --academy-ink:#1b1916; --academy-muted:#625b50; --academy-magenta:#d10e63; --academy-line:#d7cebe; background:var(--academy-paper); color:var(--academy-ink); }
+.academy-root { --academy-paper:#f3efe6; --academy-cream:#fffdf9; --academy-ink:#1c1a17; --academy-muted:#625b50; --academy-magenta:#d10e63; --academy-line:#d8d0c2; min-height:100vh; background:var(--academy-paper); color:var(--academy-ink); }
 .academy-shell { width:min(1180px,calc(100% - 40px)); margin-inline:auto; }
-.academy-display { font-size:clamp(2.6rem,6vw,5.8rem); line-height:.94; letter-spacing:-.065em; font-weight:760; text-wrap:balance; }
-.academy-heading { font-size:clamp(2rem,4vw,3.6rem); line-height:1; letter-spacing:-.05em; font-weight:740; text-wrap:balance; }
-.academy-kicker { font-family:var(--font-geist-mono),monospace; font-size:11px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:var(--academy-magenta); }
+.academy-reading { width:min(760px,100%); margin-inline:auto; }
+.academy-display { font-size:clamp(2.6rem,6.5vw,5.5rem); line-height:.94; letter-spacing:-.06em; font-weight:600; text-wrap:balance; }
+.academy-heading { font-size:clamp(2rem,4vw,3.35rem); line-height:1.05; letter-spacing:-.045em; font-weight:600; text-wrap:balance; }
+.academy-kicker { font-family:var(--font-geist-mono),monospace; font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--academy-magenta); }
 .academy-button { display:inline-flex; min-height:48px; align-items:center; justify-content:center; border-radius:999px; padding:0 24px; font-size:14px; font-weight:800; transition:.2s; }
 .academy-button-primary { background:var(--academy-magenta); color:white; box-shadow:0 16px 35px -20px rgba(209,14,99,.8); }
 .academy-button-primary:hover { transform:translateY(-2px); background:#b80c56; }
-.academy-button-secondary { border:1px solid var(--academy-line); color:var(--academy-ink); background:#fffaf4; }
-.academy-paper-grid { background-image:linear-gradient(rgba(27,25,22,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(27,25,22,.035) 1px,transparent 1px); background-size:68px 68px; }
+.academy-button-secondary { border:1px solid var(--academy-line); color:var(--academy-ink); background:#fffdf9; }
+.academy-paper-grid { background:var(--academy-paper); }
+.academy-list { border-top:1px solid var(--academy-line); }
+.academy-list-item { border-bottom:1px solid var(--academy-line); padding:32px 0; }
+.academy-text-link { display:inline-flex; align-items:center; gap:6px; color:#b00c54; font-size:14px; font-weight:700; }
+.academy-text-link:hover { text-decoration:underline; }
 
 @theme inline {
   --font-heading: Georgia, 'Times New Roman', serif;

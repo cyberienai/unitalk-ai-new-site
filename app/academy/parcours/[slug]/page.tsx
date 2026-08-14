@@ -1,9 +1,18 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Check } from 'lucide-react'
-import { AcademyCta, AcademyKicker } from '@/components/academy/academy-ui'
+import { AcademyCta, AcademyHero, AcademyKicker } from '@/components/academy/academy-ui'
 import { MissionCard, SkillCard } from '@/components/academy/catalog-cards'
 import { PATHS, academyMission, academyPath, academySkill } from '@/lib/academy-catalog'
+
 export function generateStaticParams(){return PATHS.map(({slug})=>({slug}))}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{return {title:academyPath((await params).slug)?.title??'Parcours'}}
-export default async function Page({params}:{params:Promise<{slug:string}>}){const item=academyPath((await params).slug);if(!item)notFound();return <main><section className="academy-paper-grid px-5 pb-16 pt-36"><div className="academy-shell grid gap-12 lg:grid-cols-[1fr_.7fr]"><div><AcademyKicker>Parcours professionnel</AcademyKicker><h1 className="academy-display mt-7">{item.title}</h1><p className="mt-7 text-lg text-[#625b50]">{item.promise}</p><div className="mt-9"><AcademyCta href={`/espace?parcours=${item.slug}`}>Rejoindre ce parcours</AcademyCta></div></div><aside className="rounded-3xl bg-[#181512] p-7 text-[#f8f1e7]"><AcademyKicker>Pour qui ?</AcademyKicker><p className="mt-5 text-xl font-black">{item.audience}</p><p className="mt-5 border-t border-white/10 pt-5 text-sm">{item.format}</p></aside></div></section><section className="px-5 py-20"><div className="academy-shell"><AcademyKicker>Missions</AcademyKicker><div className="mt-8 grid gap-5 md:grid-cols-2">{item.missionSlugs.map(academyMission).filter(Boolean).map(m=><MissionCard key={m!.slug} mission={m!}/>)}</div><div className="mt-16"><AcademyKicker>Compétences visées</AcademyKicker></div><div className="mt-8 grid gap-5 md:grid-cols-3">{item.skillSlugs.map(academySkill).filter(Boolean).map(s=><SkillCard key={s!.slug} skill={s!}/>)}</div><p className="mt-14 flex gap-3 rounded-3xl bg-[#e9e1d2] p-6 text-sm"><Check className="size-5 text-[#d10e63]"/>Les attestations affichent toujours leur nature exacte.</p></div></section></main>}
+
+export default async function Page({params}:{params:Promise<{slug:string}>}) {
+  const item=academyPath((await params).slug)
+  if(!item) notFound()
+  return <main>
+    <AcademyHero kicker="Parcours" title={item.title} body={item.promise}/>
+    <section className="px-5 pb-16 text-center"><p className="mb-6 text-sm font-semibold text-[#625b50]">{item.audience} · {item.format}</p><AcademyCta href={`/espace?parcours=${item.slug}`}>Rejoindre ce parcours</AcademyCta></section>
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-14"><div className="academy-reading"><AcademyKicker>Missions</AcademyKicker><div className="academy-list mt-5">{item.missionSlugs.map(academyMission).filter(Boolean).map(mission=><MissionCard key={mission!.slug} mission={mission!}/>)}</div><div className="mt-14"><AcademyKicker>Compétences visées</AcademyKicker><div className="academy-list mt-5">{item.skillSlugs.map(academySkill).filter(Boolean).map(skill=><SkillCard key={skill!.slug} skill={skill!}/>)}</div></div><p className="mt-10 border-l-2 border-[#d10e63] pl-4 text-xs text-[#625b50]">Les attestations affichent toujours leur nature exacte.</p></div></section>
+  </main>
+}
