@@ -189,6 +189,25 @@ export function AlmaFinalContent() {
         </div>
       </section>
 
+      <section id="accompagnement" className="scroll-mt-24 border-b border-[#D8D0C2] bg-[#FAF8F3] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-16">
+          <div>
+            <Kicker>{t.supportKicker}</Kicker>
+            <h2 className="mt-5 max-w-xl text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[44px]">{t.supportTitle}</h2>
+            <p className="mt-5 max-w-xl text-[16px] leading-7 text-[#4E483F]">{t.supportLead}</p>
+          </div>
+          <div className="border-t border-[#D8D0C2]">
+            {t.supportSteps.map(([title, body], index) => (
+              <article key={title} className="grid gap-3 border-b border-[#D8D0C2] py-6 sm:grid-cols-[48px_180px_1fr] sm:gap-5">
+                <p className="font-mono text-[10px] font-black text-[#B00C54]">0{index + 1}</p>
+                <h3 className="text-lg font-bold tracking-[-.02em]">{title}</h3>
+                <p className="text-sm leading-6 text-[#625B50]">{body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="px-5 py-14 sm:px-8">
         <div className="editorial-shell grid gap-10 lg:grid-cols-[.82fr_1.18fr] lg:gap-16">
           <div>
@@ -445,6 +464,15 @@ const COPY = {
     ],
     progressBody:
       "Alma fait d’abord progresser un Collaborateur IA existant. Elle ne propose une nouvelle identité que lorsque la mission exige réellement une présence ou des ressources distinctes.",
+    supportKicker: "Accompagnement continu",
+    supportTitle: "Alma reste présente. Un expert intervient lorsque nécessaire.",
+    supportLead: "La préparation de la mission n’est pas la fin du parcours. Alma accompagne les usages, aide votre équipe à progresser et prépare un relais humain lorsque le besoin dépasse son périmètre.",
+    supportSteps: [
+      ["Préparer", "Alma clarifie le travail, structure la mission et cadre les accès et validations."],
+      ["Accompagner", "Elle répond aux questions, suit les usages et aide l’équipe à améliorer ses missions."],
+      ["Former", "Elle explique les méthodes et oriente vers Unitalk Academy lorsqu’un parcours pédagogique est utile."],
+      ["Transmettre", "Pour une intégration, une gouvernance ou un cas complexe, elle prépare le brief et transmet le contexte à l’expert adapté."],
+    ],
     storeKicker: "Équiper Alma",
     storeTitle: "Un socle inclus. Des expertises à ajouter selon vos besoins.",
     storeLead:
@@ -546,6 +574,15 @@ const COPY = {
     ],
     progressBody:
       "Alma first develops an existing AI Collaborator. She only proposes a new identity when the mission genuinely requires a distinct presence or resources.",
+    supportKicker: "Ongoing support",
+    supportTitle: "Alma stays involved. An expert steps in when needed.",
+    supportLead: "Preparing the mission is not the end of the journey. Alma supports adoption, helps your team improve and prepares a human handoff when the need goes beyond her scope.",
+    supportSteps: [
+      ["Prepare", "Alma clarifies the work, structures the mission and scopes access and approvals."],
+      ["Support", "She answers questions, follows usage and helps the team improve its missions."],
+      ["Train", "She explains methods and directs people to Unitalk Academy when a learning path is useful."],
+      ["Hand off", "For an integration, governance issue or complex case, she prepares the brief and transfers the context to the right expert."],
+    ],
     storeKicker: "Equip Alma",
     storeTitle: "An included foundation. Specialized expertise when needed.",
     storeLead:

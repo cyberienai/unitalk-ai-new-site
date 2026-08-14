@@ -116,12 +116,12 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
     icon: GraduationCap,
   },
   {
-    title: { fr: 'AI Native Pack', en: 'AI Native Pack' },
+    title: { fr: 'Accompagnement par Alma', en: 'Support from Alma' },
     desc: {
       fr: 'Passez de la première mission à une adoption structurée avec vos équipes.',
       en: 'Move from the first mission to structured adoption with your teams.',
     },
-    href: '/accompagnement',
+    href: '/collaborateurs-ia/alma#accompagnement',
     icon: UsersRound,
   },
   {
