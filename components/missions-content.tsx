@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ArrowUp, ChevronDown, Mic, Square } from 'lucide-react'
+import { ArrowRight, ArrowUp, ChevronDown, GraduationCap, Mic, Sparkles, Square } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
@@ -278,6 +278,25 @@ export function MissionsContent() {
             ))}
           </div>
         </section>
+
+        <section className="mt-16 overflow-hidden rounded-[28px] border border-[#D8D0C2] bg-[#EAE3D4] sm:mt-20">
+          <div className="grid lg:grid-cols-[1fr_.92fr]">
+            <div className="p-7 sm:p-10">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{t.creatorKicker}</p>
+              <h2 className="mt-5 max-w-3xl text-[34px] font-semibold leading-[1.05] tracking-[-.045em] sm:text-[46px]">{t.creatorTitle}</h2>
+              <p className="mt-5 max-w-2xl text-[16px] leading-8 text-[#4E483F]">{t.creatorBody}</p>
+              <ul className="mt-7 grid gap-3 text-sm font-semibold sm:grid-cols-2">
+                {t.creatorProofs.map((proof) => <li key={proof} className="flex items-start gap-2.5"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#D10E63]" />{proof}</li>)}
+              </ul>
+            </div>
+            <div className="bg-[#181615] p-7 text-[#FAF8F3] sm:p-10">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+                <article><Sparkles className="size-5 text-[#F2A4C5]"/><h3 className="mt-5 text-2xl font-bold">{t.creatorProductTitle}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{t.creatorProductBody}</p><Link href="/co-createur-ia" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.creatorProductCta}<ArrowRight className="size-4"/></Link></article>
+                <article className="border-t border-white/10 pt-6 sm:border-l sm:border-t-0 sm:pl-6 lg:border-l-0 lg:border-t lg:pl-0"><GraduationCap className="size-5 text-[#F2A4C5]"/><h3 className="mt-5 text-2xl font-bold">{t.creatorTrainingTitle}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{t.creatorTrainingBody}</p><a href="https://unitalk.fr/formations/co-createur-ia?source=missions-catalog" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.creatorTrainingCta}<ArrowRight className="size-4"/></a></article>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   )
@@ -330,6 +349,16 @@ const COPY = {
     selection: 'Sélection',
     allCategories: 'Toutes les catégories',
     selectedCount: '12 missions recommandées',
+    creatorKicker: 'Votre expertise peut devenir une capacité de travail',
+    creatorTitle: 'Transformez votre savoir-faire en Collaborateur IA capable d’accomplir des missions sous votre contrôle.',
+    creatorBody: 'Formalisez votre méthode, ses exceptions, ses sources et ses validations. Unitalk permet ensuite de la transmettre sous forme de profil métier, compétence et mission exécutable.',
+    creatorProofs: ['Identité IA professionnelle et responsable humain', 'Méthode testée sur des cas contrôlés', 'Actions autorisées, validées ou interdites', 'Versionnage et publication selon vos droits'],
+    creatorProductTitle: 'Créer dans Unitalk AI',
+    creatorProductBody: 'Découvrez le rôle de Co-créateur IA et les droits produit pour créer, tester, versionner et publier.',
+    creatorProductCta: 'Découvrir le rôle de Co-créateur',
+    creatorTrainingTitle: 'Apprendre avec Unitalk Academy',
+    creatorTrainingBody: 'Suivez une formation pratique pour interviewer les experts, formaliser les méthodes et préparer des actifs pédagogiques et opérationnels.',
+    creatorTrainingCta: 'Voir la formation Co-créateur IA',
   },
   en: {
     title: 'What would you like to assign to your AI Collaborator?',
@@ -346,5 +375,15 @@ const COPY = {
     selection: 'Selection',
     allCategories: 'All categories',
     selectedCount: '12 selected missions',
+    creatorKicker: 'Your expertise can become a work capability',
+    creatorTitle: 'Turn your know-how into an AI Collaborator able to carry out missions under your control.',
+    creatorBody: 'Formalize your method, exceptions, sources and approvals. Unitalk then turns it into a job profile, skill and executable mission.',
+    creatorProofs: ['Professional AI identity and human owner', 'Method tested on controlled cases', 'Allowed, approval-required or forbidden actions', 'Versioning and publication under your rights'],
+    creatorProductTitle: 'Create in Unitalk AI',
+    creatorProductBody: 'Discover the AI Co-creator role and product rights to create, test, version and publish.',
+    creatorProductCta: 'Discover the AI Co-creator role',
+    creatorTrainingTitle: 'Learn with Unitalk Academy',
+    creatorTrainingBody: 'Take practical training to interview experts, formalize methods and prepare learning and operational assets.',
+    creatorTrainingCta: 'View AI Co-creator training',
   },
 } as const
