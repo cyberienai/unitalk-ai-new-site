@@ -5,6 +5,7 @@ import { COLLABORATOR_PAGE_SLUGS } from '@/lib/collaborator-pages'
 import { BLOG_ARTICLES } from '@/lib/blog-articles'
 import { DOCUMENTATION_SLUGS } from '@/lib/unitalk-documentation'
 import { MISSIONS as ACADEMY_MISSIONS, NETWORKS as ACADEMY_NETWORKS, PATHS as ACADEMY_PATHS, SKILLS as ACADEMY_SKILLS } from '@/lib/academy-catalog'
+import { AI_ARCHITECTS } from '@/lib/ai-architects'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -20,6 +21,7 @@ const STATIC_ROUTES = [
   '/collaborateurs-ia/applications/catalogue',
   '/collaborateurs-ia/pourquoi-unitalk',
   '/experts',
+  '/leaders',
   '/ai-gateway',
   '/desktop',
   '/documentation',
@@ -100,5 +102,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...ACADEMY_PATHS.map(({slug})=>`/academy/parcours/${slug}`),
     ...ACADEMY_NETWORKS.map(({id})=>`/academy/networks/${id}`),
   ].map((path)=>({url:`${SITE_URL}${path}`,lastModified:now,changeFrequency:'monthly',priority:0.7}))
-  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries, ...blogEntries, ...documentationEntries, ...academyEntries]
+  const architectEntries: MetadataRoute.Sitemap = AI_ARCHITECTS.map(({slug})=>({url:`${SITE_URL}/leaders/${slug}`,lastModified:now,changeFrequency:'monthly',priority:0.6}))
+  return [...staticEntries, ...missionEntries, ...catalogEntries, ...collaboratorEntries, ...blogEntries, ...documentationEntries, ...academyEntries, ...architectEntries]
 }

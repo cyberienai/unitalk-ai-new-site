@@ -4,10 +4,10 @@ import { SiteFooter } from '@/components/site-footer'
 import { AlmaFinalContent } from '@/components/alma/alma-final-content'
 
 export const metadata: Metadata = {
-  title: 'Alma, Collaboratrice IA et Conseillère en transformation IA',
-  description: 'Alma travaille avec Patrick Chassany au développement de Unitalk. Elle transforme les besoins en missions et prépare les Collaborateurs IA des entreprises.',
+  title: 'Alma, Coordinatrice de missions IA',
+  description: 'Alma transforme les besoins en missions structurées et prépare les Collaborateurs IA qui les accomplissent sous contrôle humain.',
   alternates: { canonical: '/collaborateurs-ia/alma' },
-  openGraph: { title: 'Alma · Collaboratrice IA · Unitalk', description: 'Découvrez comment Alma prépare les missions, les savoir-faire et la collaboration humain–IA.', url: '/collaborateurs-ia/alma', type: 'profile' },
+  openGraph: { title: 'Alma · Coordinatrice de missions · Unitalk', description: 'Découvrez comment Alma cadre les missions et prépare les Collaborateurs IA qui les accomplissent.', url: '/collaborateurs-ia/alma', type: 'profile' },
 }
 
 export default function AlmaPage() {

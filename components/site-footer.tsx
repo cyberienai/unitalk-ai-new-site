@@ -26,7 +26,7 @@ const T = {
           { label: 'Workspace', href: '/workspace' },
           { label: 'Unitalk Desktop', href: '/desktop' },
           { label: 'Tarifs', href: '/tarifs' },
-          { label: 'AI Native Pack', href: '/accompagnement' },
+          { label: 'Pack AI Native', href: '/accompagnement' },
           { label: 'Documentation', href: '/documentation' },
         ],
       },
@@ -38,7 +38,7 @@ const T = {
           { label: 'Experts', href: '/experts' },
           { label: 'Devenir expert', href: '/experts#devenir-expert' },
           { label: 'Partenaires', href: '/partenaires' },
-          { label: 'Plateforme', href: '/platform' },
+          { label: 'Platform', href: '/platform' },
           { label: 'Open source', href: '/manifeste' },
         ],
       },
@@ -52,6 +52,8 @@ const T = {
           { label: 'AI Gateway', href: '/ai-gateway' },
           { label: 'AI server', href: '/ai-server' },
           { label: 'Paul Graham', href: '/paul-graham' },
+          { label: 'Elon Musk', href: '/elon-musk' },
+          { label: "Architectes de l'IA", href: '/leaders' },
         ],
       },
       {
@@ -113,6 +115,8 @@ const T = {
           { label: 'AI Gateway', href: '/ai-gateway' },
           { label: 'AI server', href: '/ai-server' },
           { label: 'Paul Graham', href: '/paul-graham' },
+          { label: 'Elon Musk', href: '/elon-musk' },
+          { label: 'AI Architects', href: '/leaders' },
         ],
       },
       {
@@ -220,7 +224,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      {/* Giant solid wordmark — decorative, clipped by the bottom edge */}
+      {/* Giant solid wordmark */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex justify-center leading-[0.72] select-none"
