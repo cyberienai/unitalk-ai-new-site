@@ -85,7 +85,7 @@ export function PaulGrahamHero() {
   }
 
   return (
-    <main>
+    <>
       {/* HERO — 3 lines, 1 input, 1 CTA */}
       <section className="px-5 pb-12 pt-[18vh] sm:px-8 sm:pb-20">
         <div className="mx-auto max-w-[720px] text-center">
@@ -135,6 +135,6 @@ export function PaulGrahamHero() {
           </div>
         </div>
       </section>
-    </main>
+    </>
   )
 }

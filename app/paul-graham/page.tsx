@@ -8,8 +8,10 @@ export default function PaulGrahamPage() {
   return (
     <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
       <PaulGrahamNavbar />
-      <PaulGrahamHero />
-      <PaulGrahamFooter />
+      <main>
+        <PaulGrahamHero />
+        <PaulGrahamFooter />
+      </main>
     </div>
   )
 }
