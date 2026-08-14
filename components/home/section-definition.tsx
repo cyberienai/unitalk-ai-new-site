@@ -49,7 +49,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           {t.steps.map((step, index) => (
             <article key={step.n} className="relative border-l border-[#DED6C8] pl-5 md:px-6 lg:border-l-0 lg:px-5">
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-[#A80C50]">{step.n} · {step.label}</p>
-              <h3 className="mt-3 font-sf text-[22px] font-semibold leading-tight tracking-[-0.02em]">{step.title.startsWith('Alma') || step.title.includes('Alma') || step.title.startsWith('Entrust work to Alma') || step.title.includes('work to Alma') ? <><AlmaInline />{' '}{step.title}</> : step.title}</h3>
+              <h3 className="mt-3 font-sf text-[22px] font-semibold leading-tight tracking-[-0.02em]">{step.title.startsWith('Alma') || step.title.startsWith('Entrust work to Alma') ? <><AlmaInline />{' '}{step.title}</> : step.title}</h3>
               <p className="mt-3 text-[14.5px] leading-relaxed text-[#4E483F]">{step.body}</p>
               <p className={`mt-5 text-sm font-semibold ${index === 3 ? 'text-[#1F6B41]' : 'text-[#A80C50]'}`}>{index === 3 ? '✓ ' : ''}{step.output}</p>
             </article>
