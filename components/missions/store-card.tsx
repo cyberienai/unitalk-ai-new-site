@@ -53,8 +53,8 @@ export function StoreCard({
   const categoryData = getMissionCategory(mission.category)
   const description = actionDescription(mission, lang)
   const tooltipId = `personalize-tooltip-${mission.slug}`
-  const personalize = lang === 'fr' ? 'Personnaliser' : 'Personalize'
-  const tooltip = lang === 'fr' ? 'Personnaliser cette mission avec Alma' : 'Personalize this mission with Alma'
+  const personalize = lang === 'fr' ? 'Confier cette mission' : 'Assign this mission'
+  const tooltip = lang === 'fr' ? 'Confier cette mission à votre Collaborateur IA' : 'Assign this mission to your AI Collaborator'
   return (
     <article
       data-mission-card={mission.slug}
@@ -62,9 +62,12 @@ export function StoreCard({
       className="group relative grid w-full cursor-pointer grid-rows-[44px_44px_auto] overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-[18px] text-left shadow-[0_12px_35px_-32px_rgba(28,26,23,.55)] transition-[transform,border-color,background-color,box-shadow] duration-200 ease-in-out before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-200 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:bg-[#FFFDF9] hover:shadow-[0_18px_42px_-28px_rgba(28,26,23,.28)] hover:before:scale-x-100 focus-within:border-[#D10E63]/35 focus-within:before:scale-x-100 sm:min-h-[188px] sm:p-5"
     >
       <h3 className="pointer-events-none relative z-10 line-clamp-2 min-h-[44px] font-sf text-[19px] font-semibold leading-[1.25] tracking-[-0.02em] text-[#1C1A17]">
-        {mission.title[lang]}
-      </h3>
-      <p className="pointer-events-none relative z-10 mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
+              {mission.title[lang]}
+            </h3>
+            <p className="pointer-events-none relative z-10 mt-2 line-clamp-2 min-h-[44px] text-sm leading-[1.45] text-[#4E483F]">{description}</p>
+            <p className="pointer-events-none relative z-10 mt-1.5 line-clamp-1 text-[11px] leading-[1.3] text-[#948A7C]">
+              <span className="mr-1">✓</span> {mission.result[lang]}
+            </p>
       {mission.unitalk && <div className="pointer-events-none relative z-10 mt-3 grid grid-cols-2 gap-2 border-t border-[#DED6C8] pt-3 text-[10px] text-[#6E665A]"><p><strong className="block text-[#1C1A17]">Intervenant</strong>{mission.profile[lang]}</p><p><strong className="block text-[#1C1A17]">Crédits Mission</strong>À confirmer</p><p><strong className="block text-[#1C1A17]">Assistance</strong>Après cadrage</p><p><strong className="block text-[#1C1A17]">Crédits IA</strong>Estimés avant exécution</p></div>}
       <footer className="pointer-events-none relative z-20 mt-4 flex min-h-8 flex-col items-start justify-between gap-3 border-t border-[#DED6C8] pt-3 sm:flex-row sm:items-center">
         <div className="flex min-h-8 flex-wrap items-center gap-x-1.5 gap-y-1 text-[12px] font-semibold leading-snug text-[#6E665A]">
@@ -93,9 +96,9 @@ export function StoreCard({
 
 const DESCRIPTION_OVERRIDES: Record<string, { fr: string; en: string }> = {
   'trouver-de-nouveaux-clients': {
-    fr: 'Identifiez les prospects correspondant à vos critères avant toute prise de contact.',
-    en: 'Identify prospects matching your criteria and review the selection before any outreach.',
-  },
+      fr: 'Identifiez et qualifiez les prospects correspondant à vos critères avant toute prise de contact.',
+      en: 'Identify and qualify prospects matching your criteria before any outreach.',
+    },
   'qualifier-les-demandes-entrantes': {
     fr: 'Enrichissez les demandes entrantes, classez-les et dirigez-les vers la bonne personne.',
     en: 'Enrich inbound requests, classify them and route them to the right person.',

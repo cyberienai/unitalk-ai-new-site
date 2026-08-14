@@ -18,13 +18,8 @@ import { actionDescription, shortCategoryLabel } from '@/components/missions/sto
 import type { MockSession } from '@/lib/mock-auth'
 import { parseDiscoverSource } from '@/lib/discover-entry'
 
-function normalizeDomain(value: string | null) {
-  return value?.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase() ?? ''
-}
+function normalizeDomain(v: string | null) { return v?.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase() ?? '' }
 
-// The /decouvrir onboarding. A single shared state carries the account, the
-  // company context, the mission and the chosen first name across every screen.
-  // The final action persists this state and opens the Workspace directly.
 export function DiscoverFlow({ initialSession }: { initialSession?: MockSession | null }) {
   const { lang } = useLanguage()
   const reduce = useReducedMotion()
@@ -33,213 +28,109 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
   const missionSlug = searchParams.get('mission')
   const draftId = searchParams.get('draft')
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
-  const intention = searchParams.get('intention')
   const source = parseDiscoverSource(searchParams.get('source'))
   const requestedDomain = normalizeDomain(searchParams.get('domain'))
-  const catalogMission = useMemo(() => MISSIONS.find((mission) => mission.slug === missionSlug), [missionSlug])
+  const catalogMission = useMemo(() => MISSIONS.find(m => m.slug === missionSlug), [missionSlug])
   const [draftText, setDraftText] = useState('')
 
   const [state, setState] = useState<OnboardingState>(() => {
-    const initial = initialOnboardingState()
+    const init = initialOnboardingState()
     const sessionDomain = initialSession?.email.split('@').at(-1)?.trim().toLowerCase()
     const domain = requestedDomain || sessionDomain
     return {
-      ...initial,
+      ...init,
       authenticated: Boolean(initialSession),
       firstName: initialSession?.firstName?.trim() ?? '',
       lastName: initialSession?.lastName?.trim() ?? '',
-      company: domain && (requestedDomain || initialSession?.provider === 'email')
-        ? initial.company.map((fact) => {
-            if (fact.key === 'domain') return { ...fact, value: domain, uncertain: false }
-            if (fact.key === 'name') {
-              const name = domain.split('.')[0]
-              return { ...fact, value: name.charAt(0).toUpperCase() + name.slice(1), uncertain: false }
-            }
-            return fact
-          })
-        : initial.company,
+      company: domain ? init.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : init.company,
     }
   })
   const [step, setStep] = useState<OnboardingStep>('entreprise')
 
-  useEffect(() => {
-    if (!draftId) return
-    try {
-      const raw = localStorage.getItem(`unitalk_mission_${draftId}`)
-      if (raw) setDraftText((JSON.parse(raw) as { text?: string }).text?.trim() ?? '')
-    } catch {}
-  }, [draftId])
+  useEffect(() => { if (!draftId) return; try { const raw = localStorage.getItem(`unitalk_mission_${draftId}`); if (raw) setDraftText((JSON.parse(raw) as { text?: string }).text?.trim() ?? '') } catch {} }, [draftId])
 
-  const context: DiscoverContext = intention === 'nouvelle-mission'
-    ? { kind: 'new-mission', source }
-    : missionSlug && !catalogMission
-    ? { kind: 'invalid', requestedSlug: missionSlug, source }
-    : catalogMission
-    ? {
-        kind: 'mission',
-        mission: {
-          slug: catalogMission.slug,
-          title: catalogMission.title[lang],
-          description: actionDescription(catalogMission, lang),
-          category: shortCategoryLabel(catalogMission.category, lang),
-        },
-        source,
-      }
-    : draftText || legacyQuery
-      ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande et la personnaliser pour votre entreprise.' : 'Alma will structure your request and personalize it for your company.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
-      : { kind: 'empty', source }
+  const context: DiscoverContext = source === 'paul-graham'
+    ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande et la personnaliser pour votre entreprise.' : 'Alma will structure your request and personalize it for your company.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
+    : missionSlug && !catalogMission ? { kind: 'invalid', requestedSlug: missionSlug, source }
+    : catalogMission ? { kind: 'mission', mission: { slug: catalogMission.slug, title: catalogMission.title[lang], description: actionDescription(catalogMission, lang), category: shortCategoryLabel(catalogMission.category, lang) }, source }
+    : draftText || legacyQuery ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: lang === 'fr' ? 'Alma va structurer votre demande.' : 'Alma will structure your request.', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
+    : { kind: 'empty', source }
 
   const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
 
-  useEffect(() => {
-    if (!selectedMission?.title) return
-    setState((current) => {
-      if (current.mission.title === selectedMission.title && current.missionDefined) return current
-      return {
-        ...current,
-        mission: { ...current.mission, title: selectedMission.title },
-        missionDefined: true,
-      }
-    })
-  }, [selectedMission?.title])
+  useEffect(() => { if (!selectedMission?.title) return; setState(s => s.mission.title === selectedMission.title && s.missionDefined ? s : { ...s, mission: { ...s.mission, title: selectedMission.title }, missionDefined: true }) }, [selectedMission?.title])
 
-  function goTo(next: OnboardingStep) {
-    setStep(next)
-  }
-
+  function goTo(next: OnboardingStep) { setStep(next) }
   const stepIndex = STEP_ORDER.indexOf(step)
   const back = stepIndex > 0 ? STEP_ORDER[stepIndex - 1] : null
 
-  const anim = reduce
-    ? {}
-    : {
-        initial: { opacity: 0, y: 10 },
-        animate: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: -8 },
-        transition: { duration: 0.3 },
-      }
+  const anim = reduce ? {} : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -8 }, transition: { duration: 0.25 } }
 
-  if (context.kind === 'invalid') {
-    return (
+  // — Paul Graham entry: skip directly to auth, no stepper, no multi-step —
+  if (source === 'paul-graham') {
+    if (!state.authenticated) return (
       <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
-        <header className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] px-5 py-4 sm:px-8">
-          <a href="/" className="flex items-center gap-2.5" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
-          <LanguageToggle />
-        </header>
-        <section className="mx-auto flex w-full max-w-2xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
-          <h1 className="font-sf text-[36px] font-bold tracking-[-0.04em] sm:text-[48px]">{lang === 'fr' ? 'Cette mission n’est plus disponible.' : 'This mission is no longer available.'}</h1>
-          <p className="mt-4 text-[#4E483F]">{lang === 'fr' ? 'Vous pouvez en choisir une autre ou poursuivre avec Alma.' : 'Choose another mission or continue with Alma.'}</p>
-          <div className="mt-7 flex flex-wrap justify-center gap-4"><a href="/missions" className="text-sm font-bold text-[#B00C54] underline underline-offset-4">{lang === 'fr' ? 'Explorer les missions' : 'Explore missions'} →</a><a href="/decouvrir" className="text-sm font-bold text-[#1C1A17] underline underline-offset-4">{lang === 'fr' ? 'Continuer avec Alma' : 'Continue with Alma'} →</a></div>
-        </section>
+        <ScreenAccount lang={lang} context={context} languageToggle={<LanguageToggle />}
+          onAuthenticated={({ provider, email, firstName, lastName }) => {
+            const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
+            setState(s => ({
+              ...s, authenticated: true, mission: selectedMission?.title ? { ...s.mission, title: selectedMission.title } : s.mission, missionDefined: Boolean(selectedMission?.title),
+              firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '',
+              company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company,
+            }))
+          }}
+        />
       </main>
     )
+    // authenticated via Paul Graham → straight to workspace
+    router.push('/workspace')
+    return <div className="min-h-screen bg-[#F3EFE6]" />
   }
 
-  if (!state.authenticated) {
-    return (
-      <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
-        <div className="w-full flex-1">
-          <ScreenAccount lang={lang} context={context} languageToggle={<LanguageToggle />} onAuthenticated={({ provider, email, firstName, lastName }) => {
-              const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
-              setState((s) => ({
-                ...s,
-                authenticated: true,
-                mission: selectedMission?.title ? { ...s.mission, title: selectedMission.title } : s.mission,
-                missionDefined: Boolean(selectedMission?.title),
-                firstName: firstName?.trim() ?? '',
-                lastName: lastName?.trim() ?? '',
-                company: domain
-                  ? s.company.map((fact) => {
-                      if (fact.key === 'domain') return { ...fact, value: domain, uncertain: false }
-                      if (fact.key === 'name') {
-                        const name = domain.split('.')[0]
-                        return { ...fact, value: name.charAt(0).toUpperCase() + name.slice(1), uncertain: false }
-                      }
-                      return fact
-                    })
-                  : s.company,
-              }))
-              setStep('entreprise')
-              if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}`)
-              else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
-            }} />
-        </div>
-      </main>
-    )
-  }
+  // — Invalid mission —
+  if (context.kind === 'invalid') return (
+    <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
+      <header className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] px-5 py-4 sm:px-8">
+        <a href="/" className="flex items-center gap-2.5"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a><LanguageToggle />
+      </header>
+      <section className="mx-auto flex flex-1 flex-col items-center justify-center px-5 text-center">
+        <h1 className="text-[36px] font-bold tracking-[-0.04em] sm:text-[48px]">{lang === 'fr' ? 'Cette mission n\'est plus disponible.' : 'This mission is no longer available.'}</h1>
+        <p className="mt-4 text-[#4E483F]">{lang === 'fr' ? 'Vous pouvez en choisir une autre ou poursuivre avec Alma.' : 'Choose another mission or continue with Alma.'}</p>
+        <div className="mt-7 flex gap-4"><a href="/missions" className="text-sm font-bold text-[#B00C54] underline">← {lang === 'fr' ? 'Explorer les missions' : 'Explore missions'}</a></div>
+      </section>
+    </main>
+  )
 
+  // — Not authenticated —
+  if (!state.authenticated) return (
+    <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
+      <ScreenAccount lang={lang} context={context} languageToggle={<LanguageToggle />}
+        onAuthenticated={({ provider, email, firstName, lastName }) => {
+          const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
+          setState(s => ({ ...s, authenticated: true, mission: selectedMission?.title ? { ...s.mission, title: selectedMission.title } : s.mission, missionDefined: Boolean(selectedMission?.title), firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '', company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company }))
+          if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}`)
+          else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
+        }}
+      />
+    </main>
+  )
+
+  // — Full flow (enterprise → mission → collaborator) —
   return (
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
-      {/* Header with stepper */}
       <header className="flex items-center justify-between gap-4 px-5 py-4 sm:px-8">
-        <a href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Unitalk">
-          <UnitalkLogo size={22} />
-          <span className="font-inter text-sm font-semibold">Unitalk</span>
-        </a>
-
-        <div className="hidden flex-1 justify-center md:flex">
-          <FlowStepper current={step} lang={lang} onStepClick={goTo} />
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-          <LanguageToggle />
-        </div>
+        <a href="/" className="flex shrink-0 items-center gap-2.5"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
+        <div className="hidden flex-1 justify-center md:flex"><FlowStepper current={step} lang={lang} onStepClick={goTo} /></div>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-4"><LanguageToggle /></div>
       </header>
-
-      {/* Mobile stepper */}
-      <div className="px-5 py-3 md:hidden">
-        <FlowStepper current={step} lang={lang} onStepClick={goTo} />
-      </div>
-
-      {/* Stage */}
+      <div className="px-5 py-3 md:hidden"><FlowStepper current={step} lang={lang} onStepClick={goTo} /></div>
       <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-4 sm:px-8">
-        {/* Back link — mobile only. On desktop the clickable stepper already
-            provides backward navigation, so a separate "Précédent" is redundant. */}
-        {back && (
-          <button
-            type="button"
-            onClick={() => goTo(back)}
-            className="mb-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#6E665A] transition-colors hover:text-[#1C1A17] md:hidden"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            {lang === 'fr' ? 'Précédent' : 'Back'}
-          </button>
-        )}
-
+        {back && <button type="button" onClick={() => goTo(back)} className="mb-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#6E665A] hover:text-[#1C1A17] md:hidden"><ArrowLeft className="h-3.5 w-3.5" />{lang === 'fr' ? 'Précédent' : 'Back'}</button>}
         <AnimatePresence mode="wait">
           <motion.div key={step} {...anim}>
-            {step === 'entreprise' && (
-              <ScreenContext
-                lang={lang}
-                firstName={state.firstName}
-                lastName={state.lastName}
-                company={state.company}
-                onChange={(company) => setState((s) => ({ ...s, company }))}
-                onIdentityChange={(identity) => setState((s) => ({ ...s, ...identity }))}
-                onContinue={() => goTo('mission')}
-              />
-            )}
-
-            {step === 'mission' && (
-              <ScreenMission
-                lang={lang}
-                company={state.company}
-                mission={state.mission}
-                onDefine={(mission) => setState((s) => ({ ...s, mission, missionDefined: true }))}
-                onContinue={() => goTo('collaborateur')}
-              />
-            )}
-
-            {step === 'collaborateur' && (
-              <ScreenCollaborateur
-                lang={lang}
-                mission={state.mission}
-                profile={state.profile}
-                name={state.collaboratorName}
-                onName={(collaboratorName) => setState((s) => ({ ...s, collaboratorName }))}
-                onCreated={(collaboratorName) => setState((s) => ({ ...s, collaboratorName }))}
-              />
-            )}
+            {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo('mission')} />}
+            {step === 'mission' && <ScreenMission lang={lang} company={state.company} mission={state.mission} onDefine={m => setState(s => ({ ...s, mission: m, missionDefined: true }))} onContinue={() => goTo('collaborateur')} />}
+            {step === 'collaborateur' && <ScreenCollaborateur lang={lang} mission={state.mission} profile={state.profile} name={state.collaboratorName} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} />}
           </motion.div>
         </AnimatePresence>
       </div>

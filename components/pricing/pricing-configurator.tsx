@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { startTransition, useState } from 'react'
-import { ChevronDown, Minus, Plus, Users, Award, ArrowRight, Coins } from 'lucide-react'
+import { ChevronDown, Minus, Plus, Users, ArrowRight, Coins } from 'lucide-react'
 import { persistPricingDraft } from '@/app/actions/pricing'
 import {
   configurationBreakdownAt,
@@ -29,27 +29,27 @@ const PERIODS_EN = [
 const PLAN_INFO = {
   fr: {
     byok: {
-      name: 'BYOK (Clés propres)',
-      slogan: 'Utilisez vos propres clés d’API',
-      tokens: 'Usage facturé par votre fournisseur',
+      name: 'Vos clés',
+      slogan: 'Vous payez directement le fournisseur',
+      tokens: '0 € facturé par Unitalk',
       desc: 'Idéal si vous possédez déjà des abonnements d’API chez OpenAI, Anthropic ou Google.',
     },
     quarterTime: {
-      name: 'Quart-temps',
-      slogan: 'Tâches de fond & Automatisations',
-      tokens: '5 millions de tokens / mois',
+      name: '5 M',
+      slogan: 'Pour commencer',
+      tokens: '5 millions de tokens par mois',
       desc: 'Parfait pour assurer la veille, mettre à jour le CRM en arrière-plan et exécuter des tâches simples.',
     },
     halfTime: {
-      name: 'Mi-temps',
-      slogan: 'Prise en charge active quotidienne',
-      tokens: '10 millions de tokens / mois',
+      name: '10 M',
+      slogan: 'Pour un usage quotidien',
+      tokens: '10 millions de tokens par mois',
       desc: 'Idéal pour le tri et la réponse aux emails, la qualification réactive de prospects et la planification d’agenda.',
     },
     fullTime: {
-      name: 'Temps plein',
-      slogan: 'Autonomie complète 24/7 dédiée',
-      tokens: '20 millions de tokens / mois',
+      name: '20 M',
+      slogan: 'Pour les volumes importants',
+      tokens: '20 millions de tokens par mois',
       desc: 'Un collaborateur IA dédié à 100% à l’action, prêt à piloter des processus multi-applications complexes.',
     },
   },
@@ -84,24 +84,24 @@ const PLAN_INFO = {
 const T = {
   fr: {
     eyebrow: 'Votre configuration',
-    heading: 'Composez votre équipe',
-    collabTitle: 'Agents Hermes',
-    collabDesc: 'Une identité professionnelle distincte, avec ses outils, ses droits et ses profils métier.',
-    planTitle: 'Capacité IA par Agent Hermes',
-    planDesc: 'Choisissez le volume mensuel de modèles attribué à chaque agent.',
+    heading: 'Combien de Collaborateurs IA ?',
+    collabTitle: 'Collaborateurs IA',
+    collabDesc: 'Chaque Collaborateur reçoit une identité et son propre Agent Hermes.',
+    planTitle: 'Combien doivent-ils pouvoir travailler ?',
+    planDesc: 'Choisissez une capacité mensuelle par Collaborateur.',
     cocreatorTitle: 'Co-créateurs IA',
     cocreatorDesc: 'Personnes autorisées à créer, tester, versionner et publier des actifs Unitalk.',
     
     // Right card
-    cardKicker: 'Prix en direct',
-    cardTitle: 'Votre configuration',
-    cardEstimationBadge: 'Estimation',
+    cardKicker: 'Votre prix',
+    cardTitle: 'Ce que vous paierez',
+    cardEstimationBadge: 'En direct',
     lineOrg: 'Alma Organisation',
     lineOrgDetail: 'Workspace & Desktop inclus',
-    lineLaunchPromo: 'Offre de lancement (Alma)',
-    lineCollab: 'Agents Hermes',
-    lineForfait: 'Capacité',
-    linePromoTrial: 'Offre capacité d’essai',
+    lineLaunchPromo: 'Offre de lancement',
+    lineCollab: 'Collaborateurs IA',
+    lineForfait: 'Capacité par Collaborateur',
+    linePromoTrial: 'Capacité offerte au lancement',
     lineCocreator: 'Licence Co-créateur IA',
     
     cardPeriod: '/mois',
@@ -112,11 +112,11 @@ const T = {
     cardTrialFree: '0 €',
     cardCta: 'Commencer gratuitement',
     cardNoCardNeeded: '7 jours gratuits · Sans carte bancaire',
-    cardAccordion: 'Voir l’évolution du prix hors promotions',
+    cardAccordion: 'Voir le prix après les offres de lancement',
     cardCurrency: '€',
     remove: 'Retirer',
     add: 'Ajouter',
-    selectedProfile: 'Profil présélectionné',
+    selectedProfile: 'Profil choisi',
   },
   en: {
     eyebrow: 'Your configuration',
@@ -173,9 +173,9 @@ export function PricingConfigurator() {
   }
 
   return (
-    <div id="configurateur" className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+    <div id="configurateur" className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8">
       {/* Left Column — Configurator */}
-      <div className="flex flex-col gap-6 rounded-3xl border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8">
+      <div className="flex flex-col gap-5 rounded-3xl border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-7">
         <div>
           <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">{t.eyebrow}</span>
           <h2 className="mt-2 font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17]">{t.heading}</h2>
@@ -184,7 +184,7 @@ export function PricingConfigurator() {
         </div>
 
         {/* Counter Collaborators */}
-        <div className="flex flex-col justify-between gap-4 border-t border-[#DED6C8]/60 pt-6 sm:flex-row sm:items-center">
+        <div className="flex flex-col justify-between gap-4 border-t border-[#DED6C8]/60 pt-5 sm:flex-row sm:items-center">
           <div>
             <h3 className="text-base font-bold text-[#1C1A17] flex items-center gap-2">
               <Users className="h-4.5 w-4.5 text-[#D10E63]" />
@@ -206,7 +206,7 @@ export function PricingConfigurator() {
         </div>
 
         {/* Forfait sélection */}
-        <fieldset className="border-t border-[#DED6C8]/60 pt-6">
+        <fieldset className="border-t border-[#DED6C8]/60 pt-5">
           <legend className="text-base font-bold text-[#1C1A17]">{t.planTitle}</legend>
           <p className="mt-1 text-xs text-[#6E665A]">
             {t.planDesc}
@@ -221,7 +221,7 @@ export function PricingConfigurator() {
               return (
                 <label 
                   key={id} 
-                  className={`relative cursor-pointer rounded-2xl border p-4 outline-none transition-all ${
+                  className={`relative cursor-pointer rounded-2xl border p-3.5 outline-none transition-all ${
                     selected 
                       ? 'border-[#D10E63] bg-[#FCEBF2]/30 shadow-sm' 
                       : 'border-[#DED6C8] bg-white hover:border-[#D10E63]/40'
@@ -252,26 +252,10 @@ export function PricingConfigurator() {
         </fieldset>
 
         {/* Co-Creators counter */}
-        <div className="flex flex-col justify-between gap-4 border-t border-[#DED6C8]/60 pt-6 sm:flex-row sm:items-center">
-          <div>
-            <h3 className="text-base font-bold text-[#1C1A17] flex items-center gap-2">
-              <Award className="h-4.5 w-4.5 text-[#D10E63]" />
-              {t.cocreatorTitle}
-            </h3>
-            <p className="mt-1 text-xs text-[#6E665A] max-w-sm">
-              {t.cocreatorDesc}
-            </p>
-          </div>
-          <Counter 
-            value={coCreators} 
-            min={unitalkPricing.aiCocreator.min} 
-            max={unitalkPricing.aiCocreator.max} 
-            onChange={setCoCreators} 
-            noun={t.cocreatorTitle}
-            removeLabel={`${t.remove} ${t.cocreatorTitle}`}
-            addLabel={`${t.add} ${t.cocreatorTitle}`}
-          />
-        </div>
+        <details className="group border-t border-[#DED6C8]/60 pt-5">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4"><span><strong className="block text-base text-[#1C1A17]">{t.cocreatorTitle}</strong><span className="mt-1 block max-w-md text-xs leading-5 text-[#6E665A]">{t.cocreatorDesc}</span></span><span className="font-mono text-xs font-black text-[#B00C54]">{coCreators}</span></summary>
+          <div className="mt-4 flex justify-end"><Counter value={coCreators} min={unitalkPricing.aiCocreator.min} max={unitalkPricing.aiCocreator.max} onChange={setCoCreators} noun={t.cocreatorTitle} removeLabel={`${t.remove} ${t.cocreatorTitle}`} addLabel={`${t.add} ${t.cocreatorTitle}`} /></div>
+        </details>
       </div>
 
       {/* Right Column — RADICAL Estimate Card (Sombre & Ultra Premium) */}

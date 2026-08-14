@@ -39,18 +39,36 @@ export default function ElonMuskPage() {
                 </span>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative flex items-center justify-center">
               <div
-                className="absolute -inset-1 rounded-2xl opacity-20 blur-2xl"
+                className="absolute inset-0 rounded-full opacity-20 blur-3xl"
                 style={{ background: accent }}
               />
-              <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-8">
-                <p className="font-serif text-3xl italic leading-relaxed text-white/80">
-                  &ldquo;Delete the part. Automate the rest.&rdquo;
-                </p>
-                <p className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-white/30">
-                  — Elon Musk
-                </p>
+              <div className="relative flex h-56 w-56 items-center justify-center rounded-full border-2 border-white/20 bg-[#111] md:h-72 md:w-72">
+                {/* ELON MUSK AVATAR */}
+                <svg viewBox="0 0 200 200" className="h-full w-full p-8">
+                  <defs>
+                    <clipPath id="em-circle">
+                      <circle cx="100" cy="100" r="95" />
+                    </clipPath>
+                  </defs>
+                  <circle cx="100" cy="100" r="100" fill="#0A0A0A" />
+                  {/* Elon Musk simplified face */}
+                  <g clipPath="url(#em-circle)" fill="white" opacity="0.9">
+                    {/* Head */}
+                    <ellipse cx="100" cy="85" rx="52" ry="58" />
+                    {/* Hair */}
+                    <ellipse cx="100" cy="48" rx="50" ry="35" />
+                    <rect x="45" y="30" width="110" height="25" rx="10" />
+                    {/* Eyes */}
+                    <circle cx="78" cy="82" r="7" fill="#0A0A0A" />
+                    <circle cx="122" cy="82" r="7" fill="#0A0A0A" />
+                    {/* Smirk */}
+                    <path d="M70 115 Q100 130 130 112" stroke="#0A0A0A" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+                  </g>
+                  {/* Border ring glow */}
+                  <circle cx="100" cy="100" r="98" fill="none" stroke="white" strokeWidth="2" opacity="0.15" />
+                </svg>
               </div>
             </div>
           </div>

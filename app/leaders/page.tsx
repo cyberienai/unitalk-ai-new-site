@@ -44,7 +44,18 @@ const ARCHITECTS: Architect[] = [
   { slug: "yann-lechelle", name: "Yann Lechelle", company: "Scaleway", category: "hosting", tagline: { fr: "Cloud français alternatif. GPU bare metal. RGPD natif.", en: "Alternative French cloud. Bare metal GPU. GDPR native." }, accent: "#DC294F" },
 ]
 
-const T: Record<Lang, Record<string, string>> = {
+type ArchitectCategory = Architect['category']
+type LeaderCopy = {
+  founder: string
+  h1: string
+  subtitle: string
+  discover: string
+  deploy: string
+  categories: Record<ArchitectCategory, string>
+  footer: string
+}
+
+const T: Record<Lang, LeaderCopy> = {
   fr: {
     founder: "Par Patrick Chassany — fondateur d'Amen.fr (1998) et co-fondateur de Fotolia (2004, Adobe Stock)",
     h1: "17 architectes. Une infrastructure.",
@@ -187,7 +198,7 @@ function ArchitectCard({ a, index, lang }: { a: Architect; index: number; lang: 
 export default function LeadersPage() {
   const { lang } = useLanguage()
   const t = T[lang]
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState<ArchitectCategory | null>(null)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {

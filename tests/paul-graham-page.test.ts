@@ -29,6 +29,7 @@ describe('Paul Graham landing page', () => {
   it('makes Alma the coordinator and the AI Collaborator the executor', () => {
     expect(hero).toContain('Alma ne réalise pas la mission.')
     expect(hero).toContain('Le Collaborateur exécute.')
+    expect(hero).toContain('escalade vers un ingénieur IA')
     expect(hero).toContain('href="/tarifs"')
   })
 })

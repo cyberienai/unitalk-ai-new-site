@@ -46,16 +46,16 @@ const COPY = {
     stop: 'Arrêter la dictée',
     listening: 'Alma vous écoute…',
     cta: 'Confier cette mission',
-    proofs: ['7 jours gratuits', 'Sans carte bancaire', 'Vous validez avant toute action sensible'],
+    proofs: ['7 jours gratuits', 'Sans carte bancaire', 'Vous validez avant toute action sensible', 'Escalade vers un ingénieur IA si nécessaire'],
     examples: 'Ou partez d’un exemple',
     thesis: 'Le logiciel vous donne un outil. Unitalk vous donne une capacité de travail.',
     steps: [
       ['Vous décrivez le résultat.', 'Pas besoin de connaître le bon profil, modèle ou connecteur.'],
       ['Alma prépare la mission.', 'Elle cadre les sources, les règles, les droits et le Collaborateur adapté.'],
-      ['Le Collaborateur exécute.', 'Vous suivez le travail et validez les décisions qui engagent votre entreprise.'],
+      ['Le Collaborateur exécute.', 'Vous suivez le travail. Si Alma ne parvient pas à préparer ou débloquer la mission, elle l’escalade vers un ingénieur IA.'],
     ],
     almaRole: 'Coordinatrice de missions',
-    roleNote: 'Alma ne réalise pas la mission. Elle prépare le Collaborateur IA qui l’accomplira.',
+    roleNote: 'Alma ne réalise pas la mission. Elle prépare le Collaborateur IA qui va l’accomplir pour votre entreprise et l’escalade vers un ingénieur IA lorsqu’une expertise humaine est nécessaire.',
     why: 'Pourquoi Unitalk',
     pricing: 'Voir les tarifs',
   },
@@ -70,16 +70,16 @@ const COPY = {
     stop: 'Stop dictation',
     listening: 'Alma is listening…',
     cta: 'Assign this mission',
-    proofs: ['7 days free', 'No credit card', 'You approve every sensitive action'],
+    proofs: ['7 days free', 'No credit card', 'You approve every sensitive action', 'Escalation to an AI engineer when needed'],
     examples: 'Or start from an example',
     thesis: 'Software gives you a tool. Unitalk gives you a work capability.',
     steps: [
       ['You describe the outcome.', 'No need to know the right profile, model or connector.'],
       ['Alma prepares the mission.', 'She scopes sources, rules, permissions and the right Collaborator.'],
-      ['The Collaborator executes.', 'You follow the work and approve decisions that commit your company.'],
+      ['The Collaborator executes.', 'You follow the work. If Alma cannot prepare or unblock the mission, she escalates it to an AI engineer.'],
     ],
     almaRole: 'Mission coordinator',
-    roleNote: 'Alma does not perform the mission. She prepares the AI Collaborator that will.',
+    roleNote: 'Alma does not perform the mission. She prepares the AI Collaborator that will carry it out for your company and escalates to an AI engineer when human expertise is needed.',
     why: 'Why Unitalk',
     pricing: 'View pricing',
   },
@@ -184,17 +184,24 @@ export function PaulGrahamHero() {
         </div>
       </section>
 
+      {/* FUSION: steps + Alma role — single section */ }
       <section className="border-y border-[#D8D0C2] bg-[#FFFDF9] px-5 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-5xl">
           <p className="text-center text-[clamp(1.8rem,4vw,3.3rem)] font-semibold leading-[1.08] tracking-[-0.045em]">{t.thesis}</p>
           <ol className="mt-14 grid gap-px overflow-hidden rounded-[26px] border border-[#D8D0C2] bg-[#D8D0C2] md:grid-cols-3">{t.steps.map(([title, body], index) => <li key={title} className="bg-[#F3EFE6] p-7 sm:p-8"><span className="font-mono text-[10px] font-black text-[#D10E63]">0{index + 1}</span><h2 className="mt-7 text-xl font-bold tracking-[-0.025em]">{title}</h2><p className="mt-3 text-sm leading-7 text-[#625B50]">{body}</p></li>)}</ol>
-        </div>
-      </section>
-
-      <section className="px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[auto_1fr] lg:items-center">
-          <Image src="/alma-avatar.png" alt="Alma" width={168} height={168} className="mx-auto size-36 rounded-full object-cover ring-1 ring-[#D8D0C2] lg:size-40" />
-          <div className="text-center lg:text-left"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">Alma · {t.almaRole}</p><h2 className="mt-5 text-[clamp(2rem,4vw,3.8rem)] font-semibold leading-[1] tracking-[-0.055em]">{t.roleNote}</h2><div className="mt-7 flex flex-wrap justify-center gap-4 lg:justify-start"><Link href="/unitalk/@alma" className="inline-flex min-h-11 items-center rounded-full bg-[#1C1A17] px-6 text-sm font-bold text-white">Alma<ArrowRight className="ml-2 size-4" /></Link><Link href="/collaborateurs-ia/pourquoi-unitalk" className="inline-flex min-h-11 items-center text-sm font-bold text-[#B00C54]">{t.why}</Link><Link href="/tarifs" className="inline-flex min-h-11 items-center text-sm font-bold text-[#4E483F]">{t.pricing}</Link></div></div>
+          {/* Alma role note — inline after steps, no separate section */}
+          <div className="mx-auto mt-16 grid max-w-3xl gap-8 lg:grid-cols-[auto_1fr] lg:items-center">
+            <Image src="/alma-avatar.png" alt="Alma" width={140} height={140} className="mx-auto size-28 rounded-full object-cover ring-1 ring-[#D8D0C2] lg:size-32" />
+            <div className="text-center lg:text-left">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">Alma · {t.almaRole}</p>
+              <p className="mt-3 text-xl font-semibold leading-snug tracking-[-0.025em] text-[#1C1A17]">{t.roleNote}</p>
+              <div className="mt-5 flex flex-wrap justify-center gap-4 lg:justify-start">
+                <Link href="/unitalk/@alma" className="inline-flex min-h-10 items-center rounded-full bg-[#1C1A17] px-5 text-sm font-bold text-white">Alma<ArrowRight className="ml-2 size-4" /></Link>
+                <Link href="/collaborateurs-ia/pourquoi-unitalk" className="inline-flex min-h-10 items-center text-sm font-bold text-[#B00C54]">{t.why}</Link>
+                <Link href="/tarifs" className="inline-flex min-h-10 items-center text-sm font-bold text-[#4E483F]">{t.pricing}</Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

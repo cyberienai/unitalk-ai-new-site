@@ -99,16 +99,16 @@ const NATIVE_PROFILES = {
 
 const T_HERO = {
   fr: {
-    eyebrow: 'Tarifs simples',
-    title: 'Une Organisation. Des Agents Hermes. Une capacité par agent.',
-    subtitle: 'Choisissez le nombre d’agents et leur capacité. Alma, Workspace et Desktop sont inclus avec votre Organisation. Le total s’ajuste immédiatement.',
-    note: '7 jours d’essai gratuit · Sans carte bancaire'
+    eyebrow: 'Tarifs',
+    title: 'Le logiciel se paie par siège. Le travail, par capacité.',
+    subtitle: 'Votre Organisation réunit Alma, Workspace et Desktop. Chaque Collaborateur IA ajoute une identité et un Agent Hermes. Vous choisissez ensuite la capacité dont il a réellement besoin.',
+    note: 'Essayez gratuitement pendant 7 jours. Sans carte bancaire.'
   },
   en: {
-    eyebrow: 'Simple pricing',
-    title: 'One Organization. Hermes Agents. One capacity per agent.',
-    subtitle: 'Choose the number of agents and their capacity. Alma, Workspace and Desktop are included with your Organization. The total updates immediately.',
-    note: '7-day free trial · No credit card required'
+    eyebrow: 'Pricing',
+    title: 'Software charges per seat. Work should charge by capacity.',
+    subtitle: 'Your Organization brings together Alma, Workspace and Desktop. Each AI Collaborator adds an identity and a Hermes Agent. Then choose only the capacity it actually needs.',
+    note: 'Try it free for 7 days. No credit card.'
   }
 } as const
 
@@ -117,16 +117,17 @@ export function PricingHero() {
   const t = T_HERO[lang]
 
   return (
-    <section className="relative overflow-hidden pb-14 pt-24 sm:pt-28">
+    <section className="relative overflow-hidden pb-14 pt-28 sm:pt-32">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div className="editorial-shell relative">
-        <div className="mb-8 max-w-2xl">
+        <div className="mx-auto mb-10 max-w-4xl text-center">
           <Kicker>{t.eyebrow}</Kicker>
-          <h1 className="hero-heading mt-5">{t.title}</h1>
-          <p className="mt-5 text-[16px] leading-7 text-[#4E483F]">
+          <h1 className="mt-5 text-balance font-sf text-[clamp(2.7rem,6vw,5.5rem)] font-semibold leading-[.94] tracking-[-.065em]">{t.title}</h1>
+          <p className="mx-auto mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">
             {t.subtitle}
           </p>
-          <p className="mt-3 text-sm font-semibold">{t.note}</p>
+          <p className="mt-4 text-sm font-semibold text-[#B00C54]">{t.note}</p>
+          <div className="mt-8 grid gap-3 text-left sm:grid-cols-3"><PricePrinciple number="01" title={lang === 'fr' ? 'Une Organisation' : 'One Organization'} body={lang === 'fr' ? 'Une fois par entreprise.' : 'Once per company.'}/><PricePrinciple number="02" title={lang === 'fr' ? 'Un Agent Hermes' : 'One Hermes Agent'} body={lang === 'fr' ? 'Une fois par Collaborateur.' : 'Once per Collaborator.'}/><PricePrinciple number="03" title={lang === 'fr' ? 'Une capacité IA' : 'One AI capacity'} body={lang === 'fr' ? 'Selon le volume de travail.' : 'Based on the workload.'}/></div>
         </div>
         <PricingConfigurator />
       </div>
@@ -134,62 +135,64 @@ export function PricingHero() {
   )
 }
 
+function PricePrinciple({number,title,body}:{number:string;title:string;body:string}){return <div className="rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-4"><p className="font-mono text-[9px] font-black text-[#B00C54]">{number}</p><p className="mt-3 font-bold">{title}</p><p className="mt-1 text-xs leading-5 text-[#625B50]">{body}</p></div>}
+
 const T_COLLAB = {
   fr: {
-    kicker: 'Repères de capacité',
-    title: 'Que peut représenter chaque niveau ?',
-    lead: 'Ces repères vous aident à choisir. Le configurateur reste la seule source du prix final.',
+    kicker: 'Le calcul',
+    title: 'Le prix tient en trois lignes.',
+    lead: 'L’Organisation se paie une fois. L’Agent Hermes et sa capacité se paient pour chaque Collaborateur IA.',
     plans: [
       {
-        name: 'Quart-temps',
-        price: '74€',
-        period: ' / mois',
-        desc: 'Tâches de fond et automatisation standard. Idéal pour assurer votre veille, mettre à jour vos outils en arrière-plan et exécuter des rapports simples.',
-        features: ['Agent Hermes inclus', '5 millions de tokens', 'Profils métier illimités']
+        name: 'Organisation',
+        price: '50€',
+        period: ' / entreprise',
+        desc: 'Alma, Workspace, Desktop, gouvernance, Stores et AI Gateway.',
+        features: ['Une seule fois', 'Membres humains illimités', 'Offerte pendant le lancement']
       },
       {
-        name: 'Mi-temps',
-        price: '99€',
-        period: ' / mois',
-        desc: 'Prise en charge active des processus métier quotidiens. Parfait pour le tri de vos emails, la qualification réactive de prospects et la planification d’agenda.',
-        features: ['Agent Hermes inclus', '10 millions de tokens', 'Profils métier illimités'],
+        name: 'Agent Hermes',
+        price: '49€',
+        period: ' / Collaborateur',
+        desc: 'L’identité, l’environnement de travail et les profils métier de votre Collaborateur IA.',
+        features: ['Une identité professionnelle', 'Profils métier illimités', 'Outils et droits propres'],
         featured: true
       },
       {
-        name: 'Temps plein',
-        price: '149€',
-        period: ' / mois',
-        desc: 'Autonomie complète 24/7 sur de hauts volumes. Un collaborateur IA dédié à 100% à l’action, prêt à piloter des flux de travail complexes et multi-apps pour votre équipe.',
-        features: ['Agent Hermes inclus', '20 millions de tokens', 'Profils métier illimités']
+        name: 'Capacité IA',
+        price: '0–100€',
+        period: ' / Agent',
+        desc: 'Vos clés API ou 5, 10 ou 20 millions de tokens par mois.',
+        features: ['BYOK à 0 €', 'Ajustable à tout moment', 'Crédits ponctuels disponibles']
       }
     ]
   },
   en: {
-    kicker: 'Capacity guide',
-    title: 'What can each level represent?',
-    lead: 'Use these examples to choose. The configurator remains the single source of the final price.',
+    kicker: 'The formula',
+    title: 'The price fits in three lines.',
+    lead: 'Pay for the Organization once. Pay for the Hermes Agent and its capacity for each AI Collaborator.',
     plans: [
       {
-        name: 'Part-time (1/4)',
-        price: '€74',
-        period: ' / month',
-        desc: 'Background tasks and standard automation. Ideal for monitoring, updating your tools in the background, and running simple reports.',
-        features: ['Hermes Agent included', '5 million tokens', 'Unlimited job profiles']
+        name: 'Organization',
+        price: '€50',
+        period: ' / company',
+        desc: 'Alma, Workspace, Desktop, governance, Stores and AI Gateway.',
+        features: ['Paid once', 'Unlimited human members', 'Free during launch']
       },
       {
-        name: 'Half-time (1/2)',
-        price: '€99',
-        period: ' / month',
-        desc: 'Active daily support for your business processes. Perfect for sorting emails, responsive lead qualification, and calendar planning.',
-        features: ['Hermes Agent included', '10 million tokens', 'Unlimited job profiles'],
+        name: 'Hermes Agent',
+        price: '€49',
+        period: ' / Collaborator',
+        desc: 'The identity, working environment and job profiles of your AI Collaborator.',
+        features: ['One professional identity', 'Unlimited job profiles', 'Own tools and permissions'],
         featured: true
       },
       {
-        name: 'Full-time (1/1)',
-        price: '€149',
-        period: ' / month',
-        desc: 'Full 24/7 autonomy on high volumes. A 100% dedicated AI collaborator ready to run complex multi-app workflows for your team.',
-        features: ['Hermes Agent included', '20 million tokens', 'Unlimited job profiles']
+        name: 'AI capacity',
+        price: '€0–100',
+        period: ' / Agent',
+        desc: 'Your API keys or 5, 10 or 20 million tokens per month.',
+        features: ['BYOK at €0', 'Adjust anytime', 'On-demand credits available']
       }
     ]
   }
@@ -200,23 +203,23 @@ export function PricingCollaboration() {
   const t = T_COLLAB[lang]
 
   return (
-    <section className="border-y border-[#DED6C8] bg-[#EAE3D4] py-16">
+    <section className="border-y border-[#DED6C8] bg-[#EAE3D4] py-14">
       <div className="editorial-shell">
         <Kicker>{t.kicker}</Kicker>
-        <h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.title}</h2>
+        <h2 className="mt-5 max-w-4xl text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.title}</h2>
         <p className="mt-3 max-w-2xl text-[16px] text-[#4E483F]">{t.lead}</p>
         <Link href="/documentation/capacite-ia" className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Comprendre Agent Hermes et Capacité IA →</Link>
         <Link href="/documentation/alma-organisation" className="ml-5 mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Comprendre Alma Organisation →</Link>
         
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-9 grid gap-4 md:grid-cols-3">
           {t.plans.map((plan) => {
             const isFeatured = 'featured' in plan && plan.featured
             return (
               <article 
                 key={plan.name}
-                className={`relative flex flex-col justify-between rounded-[22px] p-6 sm:p-8 border ${
+                className={`relative flex flex-col justify-between rounded-[22px] border p-6 ${
                   isFeatured 
-                    ? 'border-[#D10E63] bg-[#17130F] text-[#FAF8F3] shadow-[0_20px_48px_rgba(209,14,99,0.15)] md:-translate-y-2' 
+                    ? 'border-[#D10E63] bg-[#17130F] text-[#FAF8F3] shadow-[0_20px_48px_rgba(209,14,99,0.15)]'
                     : 'border-[#DED6C8] bg-[#FAF8F3] text-[#1C1A17]'
                 }`}
               >
