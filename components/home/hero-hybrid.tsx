@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Circle, Loader2 } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
+import { useAlma } from '@/components/home/alma-panel-context'
 
 const T = {
   fr: {
@@ -28,6 +29,8 @@ const T = {
     preparing: 'Alma prépare Chloé',
     chloeReady: 'Chloé rejoint votre équipe',
     cycle: 'Cycle',
+    almaCaption: "Alma, coordinatrice de missions IA, cadre votre besoin et prépare vos collaborateurs.",
+    almaAction: "Parler à Alma",
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -48,6 +51,8 @@ const T = {
     preparing: 'Alma prepares Chloé',
     chloeReady: 'Chloé joins your team',
     cycle: 'Cycle',
+    almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
+    almaAction: "Talk to Alma",
   },
 } as const
 
@@ -75,6 +80,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   const journeys = JOURNEYS[lang]
   const reduce = useReducedMotion()
+  const { openAlma } = useAlma()
   const [ticker, setTicker] = useState(0)
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
@@ -118,10 +124,10 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.h1 {...enter(0.08)} className="hero-heading text-[#1C1A17]">{t.headline}</motion.h1>
           <motion.p {...enter(0.16)} className="mt-5 text-balance text-[17px] leading-relaxed text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
 
-          <motion.div {...enter(0.22)} className="mt-6 flex flex-col items-center gap-1 sm:flex-row sm:items-baseline sm:gap-2.5">
+          <motion.div {...enter(0.22)} className="mt-6 flex flex-col items-center gap-1.5 sm:flex-row sm:items-baseline sm:gap-2.5">
             <span aria-hidden className="shrink-0 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{t.missionPrefix}</span>
             <span className="sr-only">{t.srMissions}</span>
-            <span aria-hidden className="relative block h-[3.25rem] w-full overflow-hidden px-2 text-center sm:h-9 sm:min-w-0 sm:flex-1 sm:px-0 sm:text-left">
+            <span aria-hidden="relative block h-9 min-w-[200px] sm:min-w-0 sm:flex-1 overflow-hidden text-center sm:text-left">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={ticker}
@@ -129,7 +135,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
                   transition={{ duration: reduce ? 0 : 0.3, ease }}
-                  className="absolute inset-0 flex items-center justify-center text-balance font-sf text-xl font-semibold leading-tight tracking-[-0.02em] text-[#D10E63] sm:justify-start sm:text-[22px]"
+                  className="absolute inset-0 flex items-center justify-center sm:justify-start font-sf text-xl font-semibold tracking-[-0.02em] text-[#D10E63] sm:text-[22px] whitespace-nowrap"
                 >
                   {t.missions[ticker]}
                 </motion.span>
@@ -182,6 +188,29 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
               </AnimatePresence>
             </div>
           </div>
+
+          <motion.div {...enter(0.24)} className="mt-5 flex flex-col justify-between gap-4 rounded-2xl border border-[#D10E63]/20 bg-[#D10E63]/5 p-4 text-left sm:flex-row sm:items-center">
+            <div className="flex items-center gap-3">
+              <Image 
+                src="/alma-avatar.png" 
+                alt="Alma" 
+                width={40} 
+                height={40} 
+                className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/30" 
+              />
+              <p className="text-xs font-medium leading-relaxed text-[#4E483F] max-w-[280px] sm:max-w-none">
+                {t.almaCaption}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => openAlma()}
+              className="group flex items-center gap-1.5 self-start whitespace-nowrap text-xs font-bold text-[#D10E63] hover:text-[#B00B52] sm:self-auto"
+            >
+              {t.almaAction}
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </button>
+          </motion.div>
         </motion.div>
       </div>
     </section>
