@@ -118,10 +118,10 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.h1 {...enter(0.08)} className="hero-heading text-[#1C1A17]">{t.headline}</motion.h1>
           <motion.p {...enter(0.16)} className="mt-5 text-balance text-[17px] leading-relaxed text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
 
-          <motion.div {...enter(0.22)} className="mt-6 flex min-h-10 items-center justify-center gap-2.5 sm:justify-start">
+          <motion.div {...enter(0.22)} className="mt-6 flex flex-col items-center gap-1 sm:flex-row sm:items-baseline sm:gap-2.5">
             <span aria-hidden className="shrink-0 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{t.missionPrefix}</span>
             <span className="sr-only">{t.srMissions}</span>
-            <span aria-hidden className="relative block h-8 min-w-0 flex-1 overflow-hidden text-left">
+            <span aria-hidden className="relative block h-[3.25rem] w-full overflow-hidden px-2 text-center sm:h-9 sm:min-w-0 sm:flex-1 sm:px-0 sm:text-left">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={ticker}
@@ -129,7 +129,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
                   transition={{ duration: reduce ? 0 : 0.3, ease }}
-                  className="absolute inset-0 flex items-center font-sf text-xl font-semibold tracking-[-0.02em] text-[#D10E63] sm:text-[22px]"
+                  className="absolute inset-0 flex items-center justify-center text-balance font-sf text-xl font-semibold leading-tight tracking-[-0.02em] text-[#D10E63] sm:justify-start sm:text-[22px]"
                 >
                   {t.missions[ticker]}
                 </motion.span>
