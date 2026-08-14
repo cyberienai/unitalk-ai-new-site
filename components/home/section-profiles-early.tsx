@@ -17,6 +17,8 @@ const COPY = {
     profiles: [
       {
         name: 'Emma',
+        slug: 'emma',
+        capacity: 'fullTime',
         role: 'Assistante de direction',
         avatar: '/images/emma-avatar.png',
         desc: 'Gère vos emails, prépare vos comptes rendus et organise votre agenda.',
@@ -25,6 +27,8 @@ const COPY = {
       },
       {
         name: 'Lucas',
+        slug: 'lucas',
+        capacity: 'halfTime',
         role: 'Relation client',
         avatar: '/images/lucas-avatar.png',
         desc: 'Traite les demandes entrantes, met à jour le CRM et qualifie les leads.',
@@ -33,6 +37,8 @@ const COPY = {
       },
       {
         name: 'Chloé',
+        slug: 'chloe',
+        capacity: 'quarterTime',
         role: 'Commerciale',
         avatar: '/images/chloe-avatar.png',
         desc: 'Recherche de prospects, relances régulières et suivi commercial.',
@@ -50,6 +56,8 @@ const COPY = {
     profiles: [
       {
         name: 'Emma',
+        slug: 'emma',
+        capacity: 'fullTime',
         role: 'Executive Assistant',
         avatar: '/images/emma-avatar.png',
         desc: 'Handles your emails, prepares minutes, and organizes your calendar.',
@@ -58,6 +66,8 @@ const COPY = {
       },
       {
         name: 'Lucas',
+        slug: 'lucas',
+        capacity: 'halfTime',
         role: 'Customer Relations',
         avatar: '/images/lucas-avatar.png',
         desc: 'Manages incoming inquiries, updates the CRM, and qualifies leads.',
@@ -66,6 +76,8 @@ const COPY = {
       },
       {
         name: 'Chloé',
+        slug: 'chloe',
+        capacity: 'quarterTime',
         role: 'Sales Representative',
         avatar: '/images/chloe-avatar.png',
         desc: 'Prospects leads, conducts regular follow-ups, and manages sales.',
@@ -157,7 +169,7 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
                 
                 {/* Recruit CTA Button */}
                 <Link
-                  href={`/decouvrir?profil=${profile.name.toLowerCase()}`}
+                  href={`/tarifs?profil=${profile.slug}&capacite=${profile.capacity}#configurateur`}
                   className="inline-flex items-center gap-1 rounded-full bg-[#D10E63]/10 px-4 py-2 text-xs font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63] hover:text-white"
                 >
                   {t.recruit}

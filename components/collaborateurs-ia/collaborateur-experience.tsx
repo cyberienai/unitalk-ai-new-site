@@ -2,12 +2,14 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, ChevronDown, CircleCheck, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
 import { useLanguage, type Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
 type FormatKey = 'text' | 'image' | 'audio' | 'video' | 'code'
+type IdentityIndex = 0 | 1 | 2
 
 const FORMAT_KEYS: FormatKey[] = ['text', 'image', 'audio', 'video', 'code']
 
@@ -29,7 +31,11 @@ export function CollaborateurExperience() {
             </ul>
             <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <Link href="/decouvrir?source=collaborateur-ia-hero" className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,0.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 sm:w-auto">
-                {t.heroCta} <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                <span className="text-center leading-tight">
+                  <span className="block">{t.heroCta}</span>
+                  <span className="block">{t.heroCtaAlma}</span>
+                </span>
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <a href="#demonstration" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">
                 {t.seeWork} <ChevronDown className="size-4" />
@@ -143,7 +149,18 @@ function ConversionBand({ lang, source }: { lang: Lang; source: string }) {
 
 function LucasMissionCard({ lang }: { lang: Lang }) {
   const t = COPY[lang]
-  return <div className="mx-auto w-full max-w-[480px] overflow-hidden rounded-3xl border border-[#DCD4C4] bg-[#FBF9F3] shadow-[0_28px_65px_-48px_rgba(28,26,23,0.5)]"><div className="grid grid-cols-[112px_1fr] items-stretch sm:grid-cols-[150px_1fr]"><div className="relative min-h-44 bg-[#ECE6DA]"><Image src="/images/lucas-avatar.png" alt={lang === 'fr' ? 'Portrait de Lucas, Collaborateur IA' : 'Portrait of Lucas, AI Collaborator'} fill priority sizes="150px" className="object-cover object-top" /></div><div className="p-5"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.aiIdentity}</p><h2 className="mt-3 text-2xl font-semibold">Lucas</h2><p className="mt-1 text-sm text-[#6E665A]">{t.lucasMeta}</p></div></div><div className="grid gap-px border-t border-[#DCD4C4] bg-[#DCD4C4] sm:grid-cols-2"><MissionFact label={t.currentMission} value={t.mission} /><MissionFact label={t.profilesLabel} value={t.profiles.join(' · ')} /><MissionFact label={t.permissionsLabel} value={t.permissions.join('\n')} /><MissionFact label={t.stateLabel} value={t.state} accent /></div></div>
+  const reduce = useReducedMotion()
+  const [active, setActive] = useState<IdentityIndex>(0)
+  const identities = t.heroIdentities
+
+  useEffect(() => {
+    if (reduce) return
+    const timer = window.setTimeout(() => setActive((current) => ((current + 1) % identities.length) as IdentityIndex), 4800)
+    return () => window.clearTimeout(timer)
+  }, [active, identities.length, reduce])
+
+  const identity = identities[active]
+  return <div className="mx-auto w-full max-w-[480px]"><div className="overflow-hidden rounded-3xl border border-[#DCD4C4] bg-[#FBF9F3] shadow-[0_28px_65px_-48px_rgba(28,26,23,0.5)]"><AnimatePresence mode="wait" initial={false}><motion.div key={identity.name} initial={reduce ? false : { opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -12 }} transition={{ duration: reduce ? 0 : 0.3 }}><div className="grid grid-cols-[112px_1fr] items-stretch sm:grid-cols-[150px_1fr]"><div className="relative min-h-44 bg-[#ECE6DA]"><Image src={identity.avatar} alt={`${lang === 'fr' ? 'Portrait de' : 'Portrait of'} ${identity.name}, ${lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator'}`} fill priority={active === 0} sizes="150px" className="object-cover object-top" /></div><div className="p-5"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{t.aiIdentity}</p><h2 className="mt-3 text-2xl font-semibold">{identity.name}</h2><p className="mt-1 text-sm text-[#6E665A]">{identity.meta}</p></div></div><div className="grid gap-px border-t border-[#DCD4C4] bg-[#DCD4C4] sm:grid-cols-2"><MissionFact label={t.currentMission} value={identity.mission} /><MissionFact label={t.profilesLabel} value={identity.profiles.join(' · ')} /><MissionFact label={t.permissionsLabel} value={identity.permissions.join('\n')} /><MissionFact label={t.stateLabel} value={identity.state} accent /></div></motion.div></AnimatePresence></div><div role="tablist" aria-label={t.identitySelector} className="mt-4 flex justify-center gap-2">{identities.map((item, index) => <button key={item.name} type="button" role="tab" aria-selected={active === index} aria-label={`${t.showIdentity} ${item.name}`} onClick={() => setActive(index as IdentityIndex)} className={`h-2 rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${active === index ? 'w-8 bg-[#D10E63]' : 'w-2 bg-[#BDB3A1] hover:bg-[#857C6E]'}`} />)}</div></div>
 }
 
 function MissionFact({ label, value, accent = false }: { label: string; value: string; accent?: boolean }) {
@@ -186,10 +203,15 @@ function IdentityList({ label, items }: { label: string; items: readonly string[
 
 const COPY = {
   fr: {
-    heroKicker: 'Collaborateur IA pour entreprise', heroTitle: 'Son identité IA reste la même.\nSes responsabilités évoluent.', heroBody: 'Confiez enfin le travail répétitif à un Collaborateur IA qui connaît votre entreprise, agit dans vos outils et demande votre validation lorsque la décision vous appartient.', heroBenefits: ['Travaille avec vos applications', 'Conserve le contexte validé', 'Disponible pour vos missions récurrentes', 'Actions sensibles sous votre contrôle'], heroCta: 'Démarrer gratuitement avec Alma', seeWork: 'Voir une mission en action', trial: '7 jours gratuits · Sans carte bancaire · À partir de 74 €/mois après l’essai',
+    heroKicker: 'Collaborateur IA pour entreprise', heroTitle: 'Son identité IA reste la même.\nSes responsabilités évoluent.', heroBody: 'Confiez enfin le travail répétitif à un Collaborateur IA qui connaît votre entreprise, agit dans vos outils et demande votre validation lorsque la décision vous appartient.', heroBenefits: ['Travaille avec vos applications', 'Conserve le contexte validé', 'Disponible pour vos missions récurrentes', 'Actions sensibles sous votre contrôle'], heroCta: 'Démarrer gratuitement', heroCtaAlma: 'avec Alma', seeWork: 'Voir une mission en action', trial: '7 jours gratuits · Sans carte bancaire · À partir de 74 €/mois après l’essai',
     reassuranceLabel: 'Garanties de l’offre', reassurances: [{ title: 'Vous commencez par un besoin réel', body: 'Alma transforme votre besoin en mission cadrée.' }, { title: 'Vous gardez le contrôle', body: 'Les accès et validations sont définis avant l’activation.' }, { title: 'Son expérience ne repart pas de zéro', body: 'Le contexte validé reste attaché à son identité IA.' }],
     startKicker: 'Simple à démarrer', startTitle: 'Tout commence par une mission.', startBody: 'Pas besoin de lancer un projet informatique. Décrivez le résultat attendu : Alma vous aide à cadrer le travail et à préparer le bon Collaborateur IA.', startSteps: [{ title: 'Décrivez le travail', body: 'Expliquez ce que vous voulez déléguer avec vos propres mots.' }, { title: 'Validez le cadre', body: 'Résultat, sources, applications, droits et validations.' }, { title: 'Mettez-le au travail', body: 'Le Collaborateur IA exécute et vous rend le résultat.' }],
     aiIdentity: 'Identité IA', lucasMeta: 'Collaborateur IA · Solvea', currentMission: 'Mission en cours', mission: 'Répondre aux demandes reçues par email', profilesLabel: 'Profils métier', profiles: ['Relation client', 'Commercial', 'Fidélisation'], permissionsLabel: 'Autorisations de cette mission', permissions: ['Lire les demandes reçues', 'Préparer une réponse', 'Soumettre avant envoi'], stateLabel: 'État', state: '3 réponses prêtes à valider',
+    identitySelector: 'Exemples de Collaborateurs IA', showIdentity: 'Afficher', heroIdentities: [
+      { name: 'Lucas', avatar: '/images/lucas-avatar.png', meta: 'Collaborateur IA · Solvea', mission: 'Répondre aux demandes reçues par email', profiles: ['Relation client', 'Commercial', 'Fidélisation'], permissions: ['Lire les demandes reçues', 'Préparer une réponse', 'Soumettre avant envoi'], state: '3 réponses prêtes à valider' },
+      { name: 'Emma', avatar: '/images/emma-avatar.png', meta: 'Collaboratrice IA · Solvea', mission: 'Préparer les réunions de direction', profiles: ['Assistante de direction', 'Organisation'], permissions: ['Lire l’agenda autorisé', 'Préparer les dossiers', 'Soumettre le compte rendu'], state: 'Réunion de 14 h préparée' },
+      { name: 'Chloé', avatar: '/images/chloe-avatar.png', meta: 'Collaboratrice IA · Solvea', mission: 'Qualifier les nouveaux prospects', profiles: ['Commercial', 'Développement commercial'], permissions: ['Rechercher les entreprises', 'Enrichir les fiches', 'Proposer une qualification'], state: '12 prospects prêts à vérifier' },
+    ],
     formatsKicker: 'Comprendre et produire', formatsTitle: 'Il comprend, produit et code dans le format utile à la mission.', formatsBody: 'Selon les modèles et les outils autorisés par votre entreprise, un même Collaborateur IA peut travailler avec du texte, des images, de l’audio, de la vidéo et du code, sans perdre le contexte de la mission.', formatsTabLabel: 'Formats de travail', formatLabels: { text: 'Texte', image: 'Image', audio: 'Audio', video: 'Vidéo', code: 'Code' }, flowLabels: { request: 'Demande', work: 'Travail', result: 'Résultat' },
     formats: {
       text: { request: 'Répondre à une demande client en tenant compte de son dossier.', work: 'Lire la demande, retrouver les informations autorisées et préparer une réponse conforme aux règles de l’entreprise.', result: 'Une réponse contextualisée, prête à relire et à valider.' },
@@ -205,10 +227,15 @@ const COPY = {
     finalKicker: 'Votre première mission', finalTitle: 'Montrez le travail. Alma prépare le Collaborateur IA.', finalBody: 'Commencez avec une mission concrète. Vous validez son périmètre, ses accès et les décisions qui doivent rester humaines.', finalProofs: ['7 jours gratuits', 'Sans carte bancaire', 'À partir de 74 €/mois'], finalCta: 'Démarrer gratuitement', exploreMissions: 'Ou explorer les missions', pricing: 'Consulter les tarifs détaillés',
   },
   en: {
-    heroKicker: 'AI Collaborator for business', heroTitle: 'Its AI identity stays the same.\nIts responsibilities evolve.', heroBody: 'Finally hand repetitive work to an AI Collaborator that knows your company, acts in your tools and asks for approval whenever the decision belongs to you.', heroBenefits: ['Works with your applications', 'Keeps validated context', 'Available for recurring missions', 'Sensitive actions under your control'], heroCta: 'Start free with Alma', seeWork: 'See a mission in action', trial: '7 days free · No credit card · From €74/month after trial',
+    heroKicker: 'AI Collaborator for business', heroTitle: 'Its AI identity stays the same.\nIts responsibilities evolve.', heroBody: 'Finally hand repetitive work to an AI Collaborator that knows your company, acts in your tools and asks for approval whenever the decision belongs to you.', heroBenefits: ['Works with your applications', 'Keeps validated context', 'Available for recurring missions', 'Sensitive actions under your control'], heroCta: 'Start free', heroCtaAlma: 'with Alma', seeWork: 'See a mission in action', trial: '7 days free · No credit card · From €74/month after trial',
     reassuranceLabel: 'Offer guarantees', reassurances: [{ title: 'Start with real work', body: 'Alma turns your need into a scoped mission.' }, { title: 'You stay in control', body: 'Access and approvals are defined before activation.' }, { title: 'Experience does not reset', body: 'Validated context remains attached to its AI identity.' }],
     startKicker: 'Easy to start', startTitle: 'One first mission, not an IT project.', startBody: 'Describe the expected outcome. Alma helps scope the work and prepare the right AI Collaborator.', startSteps: [{ title: 'Describe the work', body: 'Explain what you want to delegate in your own words.' }, { title: 'Approve the scope', body: 'Outcome, sources, applications, permissions and approvals.' }, { title: 'Put it to work', body: 'The AI Collaborator executes and delivers the result.' }],
     aiIdentity: 'AI identity', lucasMeta: 'AI Collaborator · Solvea', currentMission: 'Current mission', mission: 'Answer requests received by email', profilesLabel: 'Job profiles', profiles: ['Customer relations', 'Sales', 'Customer success'], permissionsLabel: 'Permissions for this mission', permissions: ['Read received requests', 'Prepare a reply', 'Submit before sending'], stateLabel: 'Status', state: '3 replies ready for review',
+    identitySelector: 'AI Collaborator examples', showIdentity: 'Show', heroIdentities: [
+      { name: 'Lucas', avatar: '/images/lucas-avatar.png', meta: 'AI Collaborator · Solvea', mission: 'Answer requests received by email', profiles: ['Customer relations', 'Sales', 'Customer success'], permissions: ['Read received requests', 'Prepare a reply', 'Submit before sending'], state: '3 replies ready for review' },
+      { name: 'Emma', avatar: '/images/emma-avatar.png', meta: 'AI Collaborator · Solvea', mission: 'Prepare executive meetings', profiles: ['Executive assistant', 'Organization'], permissions: ['Read authorized calendar', 'Prepare meeting files', 'Submit meeting notes'], state: '2 p.m. meeting prepared' },
+      { name: 'Chloé', avatar: '/images/chloe-avatar.png', meta: 'AI Collaborator · Solvea', mission: 'Qualify new prospects', profiles: ['Sales', 'Business development'], permissions: ['Research companies', 'Enrich records', 'Suggest qualification'], state: '12 prospects ready for review' },
+    ],
     formatsKicker: 'Understand and produce', formatsTitle: 'It understands, produces and codes in the format the mission needs.', formatsBody: 'Depending on the models and tools your company authorizes, one AI Collaborator can work with text, images, audio, video and code without losing the mission context.', formatsTabLabel: 'Work formats', formatLabels: { text: 'Text', image: 'Image', audio: 'Audio', video: 'Video', code: 'Code' }, flowLabels: { request: 'Request', work: 'Work', result: 'Result' },
     formats: {
       text: { request: 'Answer a customer request using its case context.', work: 'Read the request, retrieve authorized information and prepare a reply that follows company rules.', result: 'A contextual reply ready for review and approval.' },
