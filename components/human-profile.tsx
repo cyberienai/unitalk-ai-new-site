@@ -40,7 +40,7 @@ export function HumanProfile({ handle }: { handle: string }) {
     <main className="w-full bg-[#F3EFE6]">
       <div className="mx-auto max-w-3xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <Link
-          href="/team"
+          href="/collaborateurs-ia/profils-metier"
           className="inline-flex items-center gap-1.5 text-sm font-medium text-[#6B6560] transition-colors hover:text-[#1C1A17]"
         >
           <ArrowLeft className="h-4 w-4" />

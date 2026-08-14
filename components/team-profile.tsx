@@ -99,7 +99,7 @@ export function TeamProfile({ slug }: { slug: string }) {
     <main className="w-full bg-[#F3EFE6]">
       <div className="mx-auto max-w-5xl px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
         <Link
-          href="/team"
+          href="/collaborateurs-ia/profils-metier"
           className="inline-flex items-center gap-2 text-sm font-semibold text-[#6B6560] transition-colors hover:text-[#D10E63]"
         >
           <ArrowLeft className="h-4 w-4" />

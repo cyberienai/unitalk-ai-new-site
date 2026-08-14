@@ -61,10 +61,7 @@ export function AcmeMemberProfile({ id }: { id: string }) {
     <main className="w-full bg-[#FBF9F3]">
       <div className="mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4 py-6">
-          <Breadcrumb items={[{ label: ACME.name, href: '/team/annuaire' }, { label: member.name }]} />
-          <a href="/team/annuaire" className="font-mono text-sm text-[#857C6E] transition-colors hover:text-[#D10E63]">
-            {t.back}
-          </a>
+          <Breadcrumb items={[{ label: ACME.name }, { label: member.name }]} />
         </div>
 
         {/* Identity */}

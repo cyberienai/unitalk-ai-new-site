@@ -50,7 +50,7 @@ export function AcmeWorkspace({ slug }: { slug: string }) {
       <div className="mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4 border-b border-[#E4DDCE] py-6">
           <Breadcrumb
-            items={[{ label: ACME.name, href: '/team/annuaire' }, { label: member.name, href: `/team/${slug}/profil` }, { label: t.space }]}
+            items={[{ label: ACME.name }, { label: member.name, href: `/team/${slug}/profil` }, { label: t.space }]}
           />
           <a
             href={`/team/${slug}/profil`}
