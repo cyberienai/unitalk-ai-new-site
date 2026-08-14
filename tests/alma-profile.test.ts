@@ -28,4 +28,12 @@ describe('Alma public profile', () => {
     expect(alma).toContain('Relancer les factures impayées')
     expect(alma).toContain('href="/unitalk/@alma/store"')
   })
+
+  it('captures a concrete need before signup and carries it to discovery', () => {
+    expect(alma).toContain('Quel travail voulez-vous déléguer ?')
+    expect(alma).toContain('localStorage.setItem(`unitalk_mission_${draftId}`')
+    expect(alma).toContain('/decouvrir?source=alma-profile&draft=')
+    expect(alma).toContain('Préparer cette mission avec Alma')
+    expect(alma).toContain('Rien n’est activé sans votre validation')
+  })
 })

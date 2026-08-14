@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, ShieldCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ArrowRight, Check, CircleCheck, ShieldCheck } from "lucide-react";
 import { Kicker } from "@/components/home/section-kicker";
 import { useLanguage, type Lang } from "@/lib/language-context";
 
@@ -11,9 +13,25 @@ const SIGNUP = "/inscription?source=alma-profile&intent=nouvelle-mission";
 export function AlmaFinalContent() {
   const { lang } = useLanguage();
   const t = COPY[lang];
+  const router = useRouter();
+  const [need, setNeed] = useState("");
+
+  function startWithNeed() {
+    const clean = need.trim();
+    if (!clean) {
+      router.push(SIGNUP);
+      return;
+    }
+    const draftId = `draft_${crypto.randomUUID()}`;
+    try {
+      localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() }));
+    } catch {}
+    router.push(`/decouvrir?source=alma-profile&draft=${encodeURIComponent(draftId)}`);
+  }
+
   return (
     <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
-      <section className="relative px-5 pb-10 pt-20 sm:px-8 sm:pt-20">
+      <section className="relative px-5 pb-12 pt-24 sm:px-8 sm:pb-16 sm:pt-28">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
@@ -25,14 +43,13 @@ export function AlmaFinalContent() {
             <p className="mt-5 text-[17px] leading-8 text-[#4E483F]">
               {t.lead}
             </p>
-            <p className="mt-5 text-sm font-semibold text-[#B00C54]">
-              Alma · {t.role}
-            </p>
-            <p className="mt-1 text-sm text-[#6E665A]">{t.included}</p>
-            <div className="mt-7 flex flex-wrap items-center gap-5">
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              {t.heroBenefits.map((benefit) => <li key={benefit} className="flex items-start gap-2.5 text-sm font-semibold leading-6 text-[#3F3A33]"><CircleCheck className="mt-0.5 size-4 shrink-0 text-[#D10E63]" />{benefit}</li>)}
+            </ul>
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <Link
                 href={SIGNUP}
-                className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white"
+                className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,.55)] sm:w-auto"
               >
                 {t.primary}
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
@@ -44,9 +61,38 @@ export function AlmaFinalContent() {
                 {t.store}
               </Link>
             </div>
+            <p className="mt-4 text-xs font-semibold text-[#6E665A]">{t.trial}</p>
           </div>
           <IdentityCard lang={lang} />
         </div>
+      </section>
+
+      <section aria-label={t.reassuranceLabel} className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 sm:px-8">
+        <div className="editorial-shell grid divide-y divide-[#D2C8B8] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {t.reassurances.map(([title, body]) => <div key={title} className="py-5 sm:px-6 sm:first:pl-0 sm:last:pr-0"><h2 className="text-sm font-bold">{title}</h2><p className="mt-1 text-xs leading-5 text-[#625B50]">{body}</p></div>)}
+        </div>
+      </section>
+
+      <section className="px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell grid gap-10 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 sm:p-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+          <div>
+            <Kicker>{t.composerKicker}</Kicker>
+            <h2 className="mt-5 text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[42px]">{t.composerTitle}</h2>
+            <p className="mt-4 max-w-xl text-[16px] leading-7 text-[#4E483F]">{t.composerLead}</p>
+            <div className="mt-6 flex flex-wrap gap-2">{t.examples.map(example => <button key={example} type="button" onClick={() => setNeed(example)} className="rounded-full border border-[#D8D0C2] bg-white px-3.5 py-2 text-left text-xs font-semibold text-[#625B50] hover:border-[#D10E63]/50 hover:text-[#B00C54]">{example}</button>)}</div>
+          </div>
+          <div className="rounded-3xl bg-[#181615] p-5 text-[#FAF8F3] sm:p-7">
+            <div className="flex items-center gap-3"><Image src="/alma-avatar.png" alt="Alma" width={44} height={44} className="size-11 rounded-full object-cover ring-2 ring-[#D10E63]/30"/><div><p className="font-bold">Alma</p><p className="text-xs text-[#AFA397]">{t.role}</p></div></div>
+            <label htmlFor="alma-need" className="mt-6 block text-sm font-bold">{t.composerLabel}</label>
+            <textarea id="alma-need" value={need} onChange={event => setNeed(event.target.value)} rows={5} placeholder={t.composerPlaceholder} className="mt-3 w-full resize-none rounded-2xl border border-white/15 bg-white/[.06] p-4 text-sm leading-6 text-white outline-none placeholder:text-[#887D72] focus:border-[#F2A4C5] focus:ring-2 focus:ring-[#D10E63]/25" />
+            <button type="button" onClick={startWithNeed} className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{need.trim() ? t.composerCta : t.composerEmptyCta}<ArrowRight className="ml-2 size-4" /></button>
+            <p className="mt-3 text-center text-[11px] text-[#887D72]">{t.composerNote}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-[#D8D0C2] bg-[#FAF8F3] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell"><Kicker>{t.howKicker}</Kicker><h2 className="mt-5 max-w-3xl text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[44px]">{t.howTitle}</h2><div className="mt-10 grid gap-4 md:grid-cols-3">{t.howSteps.map(([title, body], index) => <article key={title} className="rounded-3xl border border-[#D8D0C2] bg-[#F3EFE6] p-6"><p className="font-mono text-[10px] font-black text-[#B00C54]">0{index + 1}</p><h3 className="mt-6 text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{body}</p></article>)}</div></div>
       </section>
 
       <section className="border-y border-[#DED6C8] bg-[#FAF8F3] px-5 py-14 sm:px-8">
@@ -72,6 +118,8 @@ export function AlmaFinalContent() {
           </div>
         </div>
       </section>
+
+      <section className="px-5 py-12 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-6 rounded-3xl bg-[#EAE3D4] p-7 sm:flex-row sm:items-center sm:p-9"><div><h2 className="text-2xl font-bold tracking-[-.03em]">{t.midTitle}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-[#625B50]">{t.midBody}</p></div><a href="#alma-need" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.midCta}<ArrowRight className="ml-2 size-4" /></a></div></section>
 
       <section className="bg-[#151310] px-5 py-14 text-[#FAF8F3] sm:px-8">
         <div className="editorial-shell">
@@ -147,8 +195,8 @@ export function AlmaFinalContent() {
         </div>
       </section>
 
-      <section className="px-5 py-14 sm:px-8">
-        <div className="editorial-shell flex flex-col items-start justify-between gap-8 rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-7 sm:p-10 lg:flex-row lg:items-end">
+      <section className="border-t border-white/10 bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20">
+        <div className="editorial-shell flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
           <div className="max-w-3xl">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">
               {t.finalKicker}
@@ -291,13 +339,29 @@ function Privacy({
 
 const COPY = {
   fr: {
-    title: "Décrivez le travail.\nAlma prépare la mission.",
-    lead: "Alma clarifie le résultat attendu, les règles, les sources et les validations humaines. Elle prépare ensuite le Collaborateur IA qui pourra accomplir la mission.",
+    title: "Dites ce qu’il faut accomplir.\nAlma prépare la bonne équipe IA.",
+    lead: "Décrivez un travail concret avec vos propres mots. Alma le transforme en mission claire, identifie le Collaborateur IA adapté et prépare les compétences, les applications et les validations nécessaires.",
+    heroBenefits: ["Part de votre besoin réel", "Recherche d’abord dans votre équipe", "Cadre les accès et validations", "Prépare un résultat vérifiable"],
     role: "Coordinatrice de missions",
     included:
       "Son profil de Coordinatrice de missions est inclus avec la Licence Organisation.",
     primary: "Confier une mission à Alma",
     store: "Explorer son Store",
+    trial: "7 jours gratuits · Sans carte bancaire · Rien n’est activé sans votre validation",
+    reassuranceLabel: "Garanties Alma",
+    reassurances: [["Pas besoin de connaître le bon profil", "Décrivez simplement le travail ou le résultat attendu."], ["Vous gardez les décisions sensibles", "Alma identifie les validations qui doivent rester humaines."], ["Elle évite les créations inutiles", "Alma fait d’abord progresser un Collaborateur IA existant."]],
+    composerKicker: "Commencer maintenant",
+    composerTitle: "Quel travail voulez-vous déléguer ?",
+    composerLead: "Une phrase suffit pour commencer. Alma précisera ensuite le résultat, le contexte, les règles et les applications nécessaires.",
+    composerLabel: "Décrivez le travail à accomplir",
+    composerPlaceholder: "Ex. Je veux qualifier les demandes entrantes et préparer une réponse avant validation…",
+    composerCta: "Préparer cette mission avec Alma",
+    composerEmptyCta: "Créer mon compte et parler à Alma",
+    composerNote: "Votre demande est conservée pour poursuivre après l’authentification.",
+    examples: ["Répondre aux demandes clients", "Qualifier de nouveaux prospects", "Préparer mes réunions", "Relancer les factures impayées"],
+    howKicker: "Le rôle d’Alma",
+    howTitle: "Du besoin flou à une mission prête à confier.",
+    howSteps: [["Elle clarifie", "Résultat attendu, fréquence, sources et exceptions."], ["Elle équipe", "Collaborateur IA, profil métier, compétences et applications."], ["Elle sécurise", "Droits, validations humaines et critères de résultat."]],
     alt: "Portrait professionnel d’Alma",
     verified: "Identité IA vérifiée par Unitalk",
     organization: "Organisation",
@@ -308,6 +372,9 @@ const COPY = {
     baseValue: "Inclus avec la Licence Organisation",
     proofKicker: "Preuve de travail",
     proofTitle: "Une demande devient un livrable structuré.",
+    midTitle: "Vous avez déjà un besoin en tête ?",
+    midBody: "Décrivez-le maintenant. Alma conserve votre demande et reprend exactement à cet endroit après la création du compte.",
+    midCta: "Décrire mon besoin",
     need: "Besoin",
     needValue:
       "Réduire les retards de paiement sans détériorer la relation client.",
@@ -367,13 +434,29 @@ const COPY = {
     missions: "Explorer les missions",
   },
   en: {
-    title: "Describe the work.\nAlma prepares the mission.",
-    lead: "Alma clarifies the expected result, rules, sources and human approvals. She then prepares the AI Collaborator that can accomplish the mission.",
+    title: "Say what needs to be done.\nAlma prepares the right AI team.",
+    lead: "Describe concrete work in your own words. Alma turns it into a clear mission, identifies the right AI Collaborator and prepares the required skills, applications and approvals.",
+    heroBenefits: ["Starts from your real need", "Checks your team first", "Scopes access and approvals", "Prepares a verifiable outcome"],
     role: "Mission coordinator",
     included:
       "Her Mission coordinator profile is included with the Organization License.",
     primary: "Entrust a mission to Alma",
     store: "Explore her Store",
+    trial: "7 days free · No credit card · Nothing is activated without your approval",
+    reassuranceLabel: "Alma guarantees",
+    reassurances: [["No need to know the right profile", "Simply describe the work or expected outcome."], ["You keep sensitive decisions", "Alma identifies approvals that must remain human."], ["She avoids unnecessary creation", "Alma first develops an existing AI Collaborator."]],
+    composerKicker: "Start now",
+    composerTitle: "What work do you want to delegate?",
+    composerLead: "One sentence is enough to start. Alma then clarifies the outcome, context, rules and required applications.",
+    composerLabel: "Describe the work to be done",
+    composerPlaceholder: "E.g. I want to qualify inbound requests and prepare a response for approval…",
+    composerCta: "Prepare this mission with Alma",
+    composerEmptyCta: "Create my account and talk to Alma",
+    composerNote: "Your request is retained so you can continue after authentication.",
+    examples: ["Answer customer requests", "Qualify new prospects", "Prepare my meetings", "Follow up unpaid invoices"],
+    howKicker: "Alma’s role",
+    howTitle: "From a vague need to a mission ready to assign.",
+    howSteps: [["She clarifies", "Expected outcome, frequency, sources and exceptions."], ["She equips", "AI Collaborator, job profile, skills and applications."], ["She secures", "Permissions, human approvals and result criteria."]],
     alt: "Professional portrait of Alma",
     verified: "AI identity verified by Unitalk",
     organization: "Organization",
@@ -384,6 +467,9 @@ const COPY = {
     baseValue: "Included with the Organization License",
     proofKicker: "Work proof",
     proofTitle: "A request becomes a structured deliverable.",
+    midTitle: "Already have a need in mind?",
+    midBody: "Describe it now. Alma retains your request and resumes from this exact point after account creation.",
+    midCta: "Describe my need",
     need: "Need",
     needValue: "Reduce late payments without damaging customer relationships.",
     prepares: "Alma prepares",
