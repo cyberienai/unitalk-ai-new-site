@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Check, GraduationCap, ShieldCheck, Sparkles } from 'lucide-react'
+import { AlmaInline } from '@/components/alma-inline'
 import { getMissionCategory, getMissionCategoryHref, relatedMissions, type Mission } from '@/lib/missions-catalog'
 import { MissionBreadcrumb } from '@/components/missions/mission-breadcrumb'
 
