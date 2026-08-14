@@ -75,12 +75,11 @@ export function StoreCard({
           <><span aria-hidden className="pointer-events-none">·</span><Link href={getMissionGuideHref(mission)} aria-label={lang === 'fr' ? `Lire le guide : ${mission.title.fr}` : `Read the guide: ${mission.title.en}`} className="pointer-events-auto relative z-30 text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 outline-none hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{lang === 'fr' ? 'Lire le guide' : 'Read the guide'}</Link></>
         </div>
         <div className="group/action pointer-events-auto relative z-30 shrink-0">
-          <Link onClick={onPersonalize} aria-describedby={tooltipId} aria-label={`${tooltip} : ${mission.title[lang]}`} href={`/decouvrir?mission=${mission.slug}`} className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#D10E63] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
-            {personalize}<ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 transition-transform duration-150 group-hover:translate-x-1 group-hover/action:translate-x-1 group-focus-within/action:translate-x-1" />
-          </Link>
-          <span id={tooltipId} role="tooltip" className="pointer-events-none absolute bottom-full right-0 z-40 mb-2 w-max max-w-[230px] translate-y-1 rounded-md bg-[#151310] px-3 py-2 text-[11px] font-medium leading-4 text-[#FAF8F3] opacity-0 shadow-[0_8px_20px_rgba(21,19,16,0.18)] transition-[opacity,transform] delay-0 duration-150 group-hover/action:translate-y-0 group-hover/action:opacity-100 group-hover/action:delay-200 group-focus-within/action:translate-y-0 group-focus-within/action:opacity-100 group-focus-within/action:delay-200">{tooltip}</span>
-        </div>
-      </footer>
+                  <Link onClick={onPersonalize} aria-describedby={tooltipId} aria-label={`${tooltip} : ${mission.title[lang]}`} href={`/decouvrir?mission=${mission.slug}`} className="inline-flex items-center gap-1.5 rounded-full bg-[#D10E63] px-3.5 py-1.5 text-[11px] font-bold text-white shadow-[0_4px_14px_-6px_rgba(209,14,99,.7)] outline-none transition-[background-color,transform] hover:-translate-y-0.5 hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+                    {personalize}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0 transition-transform duration-150 group-hover:translate-x-0.5 group-hover/action:translate-x-0.5 group-focus-within/action:translate-x-0.5" />
+                                      </Link>
+                                    </div>
+                          </footer>
       <Link
         href={`/decouvrir?mission=${mission.slug}`}
         onClick={onPersonalize}

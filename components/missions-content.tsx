@@ -175,21 +175,19 @@ export function MissionsContent() {
           </div>
         </section>
 
-        {/* Post-mission section: what happens after you assign */}
+        {/* Post-mission: 3 steps inline */}
         <section className="mt-20 border-t border-[#D8D0C2] pt-20 text-center">
-          <h2 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.045em] sm:text-[42px]">{t.postTitle}</h2>
-          <p className="mt-3 text-lg text-[#4E483F]">{t.postSub}</p>
-          <div className="mx-auto mt-12 grid max-w-4xl gap-8 sm:grid-cols-5">
-            {t.postSteps.map((step, i) => (
-              <div key={i} className="flex flex-col items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] font-mono text-sm font-bold text-white">0{i + 1}</span>
-                <p className="text-sm font-semibold">{step.title}</p>
-                <p className="text-xs leading-5 text-[#6E665A]">{step.body}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-10 text-[17px] font-semibold text-[#1C1A17]">{t.postFooter}</p>
-        </section>
+                  <h2 className="text-[34px] font-semibold leading-[1.05] tracking-[-0.045em] sm:text-[42px]">{t.postTitle}</h2>
+                  <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center justify-center gap-6 sm:flex-row sm:gap-12">
+                    {t.postSteps.map((step, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D10E63]/10 text-sm font-bold text-[#D10E63]">{i + 1}</span>
+                        <span className="text-sm font-semibold text-[#1C1A17]">{step}</span>
+                        {i < 2 && <span className="hidden text-[#D8D0C2] sm:inline">→</span>}
+                      </div>
+                    ))}
+                  </div>
+                </section>
       </div>
     </main>
   )
@@ -213,16 +211,8 @@ const COPY = {
     almaLinkLabel: 'Parler à Alma, Coordinatrice de missions',
     talkToAlma: 'Parler à Alma →',
     allCategories: 'Toutes les missions',
-    postTitle: 'Vous confiez. Votre Collaborateur apprend à travailler comme vous.',
-    postSub: 'Une mission accomplie. Une expérience qui reste.',
-    postSteps: [
-      { title: 'Confiez une mission', body: 'Choisissez une mission ou décrivez votre besoin à Alma.' },
-      { title: 'Donnez vos règles', body: 'Vos objectifs, outils, méthodes, validations et limites.' },
-      { title: 'Votre Collaborateur travaille', body: 'Il utilise les compétences et outils nécessaires pour accomplir la mission.' },
-      { title: 'Vous gardez le contrôle', body: 'Vous validez les actions sensibles et corrigez si nécessaire.' },
-      { title: 'L\'expérience reste', body: 'Ce que votre Collaborateur apprend enrichit votre entreprise.' },
-    ],
-    postFooter: 'Une mission accomplie. Une expérience qui reste.',
+    postTitle: 'Vous confiez une mission. Votre Collaborateur apprend à travailler comme vous.',
+    postSteps: ['Confiez une mission', 'Donnez vos règles', 'Résultat validé'],
   },
   en: {
     title: 'Assign a mission.',
@@ -235,15 +225,7 @@ const COPY = {
     almaLinkLabel: 'Talk to Alma, Mission coordinator',
     talkToAlma: 'Talk to Alma →',
     allCategories: 'All missions',
-    postTitle: 'You assign. Your Collaborator learns to work like you.',
-    postSub: 'A mission accomplished. An experience that stays.',
-    postSteps: [
-      { title: 'Assign a mission', body: 'Choose a mission or describe your need to Alma.' },
-      { title: 'Set your rules', body: 'Your goals, tools, methods, approvals and boundaries.' },
-      { title: 'Your Collaborator works', body: 'It uses the skills and tools needed to accomplish the mission.' },
-      { title: 'You keep control', body: 'You approve sensitive actions and correct when needed.' },
-      { title: 'The experience stays', body: 'What your Collaborator learns enriches your company intelligence.' },
-    ],
-    postFooter: 'A mission accomplished. An experience that stays.',
+    postTitle: 'You assign a mission. Your Collaborator learns to work like you.',
+    postSteps: ['Assign a mission', 'Set your rules', 'Validated result'],
   },
 } as const
