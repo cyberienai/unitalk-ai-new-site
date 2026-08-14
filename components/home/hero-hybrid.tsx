@@ -28,7 +28,7 @@ const T = {
     preparing: 'Alma prépare Chloé',
     chloeReady: 'Chloé rejoint votre équipe',
     cycle: 'Cycle',
-    almaCaption: "Alma, coordinatrice de missions IA, cadre votre besoin",
+    almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
     almaAction: "Parler à Alma",
     voiceTitle: 'Conversation avec Alma',
     voiceIntro: 'Bonjour, je suis Alma. Dites-moi quelle mission vous souhaitez confier à un Collaborateur IA.',
@@ -191,7 +191,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 height={40} 
                 className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/30" 
               />
-              <p className="text-xs font-medium leading-relaxed text-[#AFA397] max-w-[280px] sm:max-w-none">
+              <p className="text-xs font-medium leading-relaxed text-[#AFA397] max-w-[280px] sm:max-w-none whitespace-pre-line">
                 {t.almaCaption}
               </p>
             </div>
