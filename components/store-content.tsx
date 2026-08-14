@@ -33,6 +33,7 @@ import { StoreFilters } from '@/components/store/store-filters'
 import { StoreFilterSheet } from '@/components/store/store-filter-sheet'
 import { StoreItemCard, StoreCardSkeleton } from '@/components/store/store-item-card'
 import { StoreAlmaConsole } from '@/components/store/store-alma-console'
+import { AlmaInline } from '@/components/alma-inline'
 
 type TabKey = 'alma' | 'catalog'
 

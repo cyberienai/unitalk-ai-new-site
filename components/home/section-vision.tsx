@@ -2,6 +2,7 @@
 
 import { useLanguage } from '@/lib/language-context'
 import { useAlma } from '@/components/home/alma-panel-context'
+import { AlmaInline } from '@/components/alma-inline'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
@@ -74,7 +75,7 @@ export function SectionVision() {
               {t.cta}
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
             </button>
-            <p className="text-[13px] text-[#B9B2AA]">{t.ctaNote}</p>
+            <p className="text-[13px] text-[#B9B2AA]"><AlmaInline />{' '}{t.ctaNote}</p>
           </div>
 
           <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">

@@ -16,6 +16,7 @@ import {
   Workflow,
 } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
+import { AlmaInline } from '@/components/alma-inline'
 
 type SpeechEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type Recognition = {
@@ -310,7 +311,7 @@ export function PaulGrahamHero() {
             <article className="graham-alma-card">
               <span className="graham-model-icon"><Workflow aria-hidden="true" /></span>
               <small>02 / Coordination</small>
-              <h3>{t.almaTitle}</h3>
+              <h3><AlmaInline /> {t.almaTitle}</h3>
               <p>{t.almaBody}</p>
             </article>
             <i className="graham-flow-arrow" aria-hidden="true"><ArrowRight /></i>

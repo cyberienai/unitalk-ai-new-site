@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { MISSIONS, NETWORKS, PATHS, SKILLS } from '@/lib/academy-catalog'
 
 const root=join(import.meta.dirname,'..')
-const routes=['','missions','competences','parcours','networks','experts','modele','alma','espace','financement','qualite','parcours-gratuits','parcours-gratuits/premiere-mission-ia','formations/co-createur-ia','entreprendre-avec-ia']
+const routes=['','missions','competences','parcours','networks','tarifs','experts','modele','alma','espace','financement','qualite','parcours-gratuits','parcours-gratuits/premiere-mission-ia','formations/co-createur-ia','entreprendre-avec-ia']
 function sourceFiles(dir:string):string[]{return readdirSync(dir).flatMap(name=>{const path=join(dir,name);return statSync(path).isDirectory()?sourceFiles(path):/\.(?:ts|tsx)$/.test(name)?[path]:[]})}
 
 describe('Academy integration',()=>{
@@ -18,9 +18,9 @@ describe('Academy integration',()=>{
   })
   it('links the Academy brand to each respective home page',()=>{
     const nav=readFileSync(join(root,'components','academy','academy-nav.tsx'),'utf8')
-    expect(nav).toContain('<Link href="/" aria-label="Unitalk"><UnitalkLogo')
-    expect(nav).toContain('</Link><span className="text-sm font-bold tracking-[-.02em]">Unitalk</span>')
-    expect(nav).toContain('<Link href="/academy" className="text-sm font-bold tracking-[-.02em]" aria-label="Unitalk Academy">Academy</Link>')
+    expect(nav).toContain('<Link href="/" className="flex items-center gap-2.5" aria-label="Accueil Unitalk"><UnitalkLogo')
+    expect(nav).toContain('<span className="text-sm font-bold tracking-[-.02em]">Unitalk</span></Link>')
+    expect(nav).toContain('<Link href="/academy" className="text-sm font-bold tracking-[-.02em]" aria-label="Accueil Unitalk Academy">Academy</Link>')
   })
   it('contains no legacy unitalk.fr links in application source',()=>{
     for(const directory of ['app','components','lib']) for(const file of sourceFiles(join(root,directory))) expect(readFileSync(file,'utf8'),file).not.toContain('https://unitalk.fr')

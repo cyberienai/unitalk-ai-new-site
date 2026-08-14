@@ -145,7 +145,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                     <ol className="space-y-4">
                       <TimelineRow label={t.mission} status={visiblePhase > 0 ? 'done' : 'active'} />
                       <TimelineRow label={isChloe ? t.newRole : t.assigned} detail={isChloe ? t.newRoleDetail : undefined} status={visiblePhase > 1 ? 'done' : visiblePhase === 1 ? 'active' : 'next'} />
-                      <TimelineRow label={isChloe ? t.preparing : t.equipping} status={visiblePhase > 2 ? 'done' : visiblePhase === 2 ? 'active' : 'next'}>
+                      <TimelineRow labelContent={<><AlmaInline />{' '}{isChloe ? t.preparing : t.equipping}</>} status={visiblePhase > 2 ? 'done' : visiblePhase === 2 ? 'active' : 'next'}>
                         {!isChloe && visiblePhase >= 2 && <div className="mt-3 flex flex-wrap gap-2">{current.skills.map((skill, index) => <motion.span key={skill} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: index < (visiblePhase === 2 ? 2 : 3) ? 1 : 0.3, y: 0 }} transition={{ delay: reduce ? 0 : index * 0.18 }} className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/10 px-2.5 py-1 text-[11px] text-[#F3B4CF]">{skill}</motion.span>)}</div>}
                       </TimelineRow>
                       <TimelineRow label={isChloe ? t.chloeReady : t.ready} status={visiblePhase === 3 ? 'done' : 'next'} />
@@ -184,14 +184,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   )
 }
 
-function TimelineRow({ label, detail, status, children }: { label: string; detail?: string; status: 'done' | 'active' | 'next'; children?: React.ReactNode }) {
+function TimelineRow({ label, labelContent, detail, status, children }: { label?: string; labelContent?: React.ReactNode; detail?: string; status: 'done' | 'active' | 'next'; children?: React.ReactNode }) {
   return (
     <li className="grid grid-cols-[20px_1fr] gap-3">
       <span className="mt-0.5 flex h-5 w-5 items-center justify-center">
         {status === 'done' ? <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#D10E63] text-white"><Check className="h-3 w-3" strokeWidth={3} /></span> : status === 'active' ? <Loader2 className="h-5 w-5 animate-spin text-[#F15B9B]" /> : <Circle className="h-4 w-4 text-[#625A52]" />}
       </span>
       <div className={status === 'next' ? 'text-[#746B62]' : 'text-[#F8F1E7]'}>
-        <p className="text-sm font-medium">{label}</p>
+        <p className="text-sm font-medium">{labelContent ?? label}</p>
         {detail && <p className="mt-1 text-xs leading-relaxed text-[#AFA397]">{detail}</p>}
         {children}
       </div>

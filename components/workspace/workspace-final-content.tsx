@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { AlmaInline } from '@/components/alma-inline'
 import { useState } from 'react'
 import { ArrowRight, Check, FileText, ShieldCheck } from 'lucide-react'
 import { useLanguage, type Lang } from '@/lib/language-context'
@@ -28,7 +29,7 @@ export function WorkspaceFinalContent() {
 
     <section className="border-y border-[#DED6C8] bg-[#EAE3D4] px-5 py-14 sm:px-8"><div className="editorial-shell grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:gap-20"><div><p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{t.appsKicker}</p><h2 className="mt-5 text-[32px] font-semibold leading-[1.08] tracking-[-.035em] sm:text-[40px]">{t.appsTitle}</h2><p className="mt-5 text-[15px] leading-7 text-[#4E483F]">{t.appsLead}</p></div><div className="grid gap-4 sm:grid-cols-3"><ToolCard title={t.connectorsTitle} body={t.connectorsBody}/><ToolCard title={t.nativeTitle} body={t.nativeBody}/><ToolCard title={t.businessTitle} body={t.businessBody}/></div></div><div className="editorial-shell mt-8"><div className="flex gap-4 rounded-[18px] border border-[#D8D0C2] bg-[#FAF8F3] p-5"><ShieldCheck className="mt-0.5 size-5 shrink-0 text-[#D10E63]"/><p className="text-sm font-semibold leading-7">{t.appsRule}</p></div></div></section>
 
-    <section className="px-5 py-16 sm:px-8"><div className="editorial-shell flex flex-col items-start justify-between gap-8 rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-7 sm:p-10 lg:flex-row lg:items-end"><div className="max-w-3xl"><p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{t.finalKicker}</p><h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[40px]">{t.finalTitle}</h2><p className="mt-5 max-w-2xl text-[16px] leading-7 text-[#4E483F]">{t.finalBody}</p><p className="mt-5 text-sm font-semibold">Alma · {t.almaRole}</p></div><div className="flex flex-col items-start gap-4 lg:items-end"><CtaButton href="/missions">{t.finalCta}<ArrowRight className="size-4"/></CtaButton><Link href="/tarifs" className="text-sm font-bold underline decoration-[#D10E63]/30 underline-offset-4">{t.pricing}</Link></div></div></section>
+    <section className="px-5 py-16 sm:px-8"><div className="editorial-shell flex flex-col items-start justify-between gap-8 rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-7 sm:p-10 lg:flex-row lg:items-end"><div className="max-w-3xl"><p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{t.finalKicker}</p><h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[40px]">{t.finalTitle}</h2><p className="mt-5 max-w-2xl text-[16px] leading-7 text-[#4E483F]">{t.finalBody}</p><p className="mt-5 text-sm font-semibold"><AlmaInline /> Alma · {t.almaRole}</p></div><div className="flex flex-col items-start gap-4 lg:items-end"><CtaButton href="/missions">{t.finalCta}<ArrowRight className="size-4"/></CtaButton><Link href="/tarifs" className="text-sm font-bold underline decoration-[#D10E63]/30 underline-offset-4">{t.pricing}</Link></div></div></section>
   </main>
 }
 

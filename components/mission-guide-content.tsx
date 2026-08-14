@@ -136,9 +136,9 @@ export function MissionGuideContent({ mission }: { mission: Mission }) {
       <section className="bg-[#D10E63] px-5 py-16 text-white sm:px-8 sm:py-20">
         <div className="editorial-shell flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
           <div className="max-w-3xl">
-            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Avec Alma</p>
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Avec <AlmaInline /> Alma</p>
             <h2 className="mt-4 text-balance text-[36px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[52px]">Adaptez cette mission à vos méthodes.</h2>
-            <p className="mt-5 max-w-2xl text-[17px] leading-8 text-white/80">Décrivez vos outils, vos règles et les décisions qui doivent rester humaines. Alma prépare le cadre de travail avec vous.</p>
+            <p className="mt-5 max-w-2xl text-[17px] leading-8 text-white/80">Décrivez vos outils, vos règles et les décisions qui doivent rester humaines. <AlmaInline /> Alma prépare le cadre de travail avec vous.</p>
           </div>
           <Link href={`/decouvrir?mission=${mission.slug}`} className="group inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#181615] px-7 text-[15px] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
             Personnaliser <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
@@ -166,5 +166,5 @@ function SectionHeading({ number, eyebrow, title }: { number: string; eyebrow: s
 }
 
 function InfoCard({ index, title }: { index: number; title: string }) {
-  return <div className="bg-[#FBF9F3] p-6"><span className="font-mono text-[11px] font-bold text-[#B00C54]">0{index}</span><h3 className="mt-8 text-xl font-semibold leading-7 tracking-[-0.02em]">{title}</h3><p className="mt-3 text-sm leading-6 text-[#6E665A]">Alma vous aide à le formuler avant le démarrage.</p></div>
+  return <div className="bg-[#FBF9F3] p-6"><span className="font-mono text-[11px] font-bold text-[#B00C54]">0{index}</span><h3 className="mt-8 text-xl font-semibold leading-7 tracking-[-0.02em]">{title}</h3><p className="mt-3 text-sm leading-6 text-[#6E665A]"><AlmaInline /> Alma vous aide à le formuler avant le démarrage.</p></div>
 }

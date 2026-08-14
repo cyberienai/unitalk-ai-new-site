@@ -19,6 +19,7 @@ import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { AnonymousOnly, UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
 import { useAlma } from '@/lib/alma-context'
+import { AlmaInline } from '@/components/alma-inline'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -472,7 +473,7 @@ export function Navbar(
                             <h2 className="mt-5 text-[29px] font-semibold leading-[1.02] tracking-[-.045em]">{COLLAB_FEATURED.title[lang]}</h2>
                             <p className="mt-4 text-[13px] leading-6 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</p>
                             <a href={COLLAB_FEATURED.href} onClick={() => setCollabOpen(false)} className="group mt-6 inline-flex items-center gap-2 rounded-full bg-[#F2A4C5] px-4 py-2.5 text-xs font-bold text-[#24151B] outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-white">{lang === 'fr' ? 'Découvrir le produit' : 'Discover the product'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
-                            <div className="mt-7 border-t border-white/10 pt-5"><p className="text-[11px] font-bold uppercase tracking-[.12em] text-white">{lang === 'fr' ? 'Votre équipe humain-IA' : 'Your human-AI team'}</p><p className="mt-2 text-[12px] leading-5 text-[#AFA397]">{lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</p></div>
+                            <div className="mt-7 border-t border-white/10 pt-5"><p className="text-[11px] font-bold uppercase tracking-[.12em] text-white">{lang === 'fr' ? 'Votre équipe humain-IA' : 'Your human-AI team'}</p><p className="mt-2 text-[12px] leading-5 text-[#AFA397]"><AlmaInline /> {lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</p></div>
                           </div>
                           <div className="p-5">
                             <p className="px-1 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">

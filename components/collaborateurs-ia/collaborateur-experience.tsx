@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, ChevronDown, CircleCheck, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
+import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage, type Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -33,7 +34,7 @@ export function CollaborateurExperience() {
               <Link href="/decouvrir?source=collaborateur-ia-hero" className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,0.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 sm:w-auto">
                 <span className="text-center leading-tight">
                   <span className="block">{t.heroCta}</span>
-                  <span className="block">{t.heroCtaAlma}</span>
+                  <span className="block">{lang === 'fr' ? <><AlmaInline />{' '}{t.heroCtaAlma}</> : t.heroCtaAlma}</span>
                 </span>
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>

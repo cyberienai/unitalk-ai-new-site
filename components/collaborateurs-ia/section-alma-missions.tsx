@@ -59,7 +59,7 @@ export function SectionAlmaMissions() {
     <section className="border-b border-[#E7E0D2] bg-[#EFE9DD] px-6 py-16 sm:py-24">
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-start">
         <div className="lg:sticky lg:top-32">
-          <Kicker>{t.kicker}</Kicker>
+          <Kicker><AlmaInline /> {t.kicker}</Kicker>
           <h2 className="mt-5 max-w-xl text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17] sm:text-4xl md:text-5xl">
             {t.title}
           </h2>
