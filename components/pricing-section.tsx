@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
+import { AlmaInline } from '@/components/alma-inline'
 
 const BASE_PRICE = 29
 
@@ -297,7 +298,7 @@ export function PricingSection() {
           <span>
             {t.teamPre}{' '}
             <a href="#" className="font-medium text-[#D10E63] underline-offset-4 hover:underline">
-              {t.teamLink}
+                          <AlmaInline /> {t.teamLink}
             </a>
           </span>
           <span className="hidden text-[#C4BAA8] sm:inline">·</span>

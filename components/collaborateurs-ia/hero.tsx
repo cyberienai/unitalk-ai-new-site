@@ -8,6 +8,7 @@ import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { HeroTheatre } from '@/components/home/hero-theatre'
 import { useAlma } from '@/components/home/alma-panel-context'
+import { AlmaInline } from '@/components/alma-inline'
 
 /**
  * COLLAB HERO — the Collaborateurs IA page hero. The H1 is STABLE and visible

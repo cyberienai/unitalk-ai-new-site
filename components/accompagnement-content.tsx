@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
 import { AlmaFace } from '@/components/alma-face'
+import { AlmaInline } from '@/components/alma-inline'
 
 type StepIconKey = 'call' | 'build' | 'guide' | 'human'
 
@@ -128,7 +129,7 @@ export function AccompagnementContent() {
             className="mt-3 font-sf text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] text-[#1C1A17] text-balance"
             style={{ letterSpacing: '-0.03em' }}
           >
-            {t.title1}<span className="text-[#D10E63]">{t.title2}</span>
+            {t.title1}<span className="text-[#D10E63]"><AlmaInline /> {t.title2}</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#4E483F]">
             {t.subtitle}
