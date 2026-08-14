@@ -142,25 +142,25 @@ const T_COLLAB = {
     plans: [
       {
         name: 'Quart-temps',
-        price: '49€',
+        price: '74€',
         period: ' / mois',
         desc: 'Tâches de fond et automatisation standard. Idéal pour assurer votre veille, mettre à jour vos outils en arrière-plan et exécuter des rapports simples.',
-        features: ['1 Collaborateur IA', 'Profils métier illimités', '1 million de tokens inclus', 'VPS Hermes dédié']
+        features: ['1 Collaborateur IA', 'Profils métier illimités', '5 millions de tokens inclus', 'VPS Hermes dédié']
       },
       {
         name: 'Mi-temps',
         price: '99€',
         period: ' / mois',
         desc: 'Prise en charge active des processus métier quotidiens. Parfait pour le tri de vos emails, la qualification réactive de prospects et la planification d’agenda.',
-        features: ['1 Collaborateur IA', 'Profils métier illimités', '5 millions de tokens inclus', 'Onboarding personnalisé'],
+        features: ['1 Collaborateur IA', 'Profils métier illimités', '10 millions de tokens inclus', 'Onboarding personnalisé'],
         featured: true
       },
       {
         name: 'Temps plein',
-        price: '199€',
+        price: '149€',
         period: ' / mois',
         desc: 'Autonomie complète 24/7 sur de hauts volumes. Un collaborateur IA dédié à 100% à l’action, prêt à piloter des flux de travail complexes et multi-apps pour votre équipe.',
-        features: ['1 Collaborateur IA', 'Profils métier illimités', '12 millions de tokens inclus', 'Supervision AgentOps (30m)']
+        features: ['1 Collaborateur IA', 'Profils métier illimités', '20 millions de tokens inclus', 'Supervision AgentOps (30m)']
       }
     ]
   },
@@ -171,25 +171,25 @@ const T_COLLAB = {
     plans: [
       {
         name: 'Part-time (1/4)',
-        price: '€49',
+        price: '€74',
         period: ' / month',
         desc: 'Background tasks and standard automation. Ideal for monitoring, updating your tools in the background, and running simple reports.',
-        features: ['1 AI Collaborator', 'Unlimited job profiles', '1 million tokens included', 'Dedicated Hermes VPS']
+        features: ['1 AI Collaborator', 'Unlimited job profiles', '5 million tokens included', 'Dedicated Hermes VPS']
       },
       {
         name: 'Half-time (1/2)',
         price: '€99',
         period: ' / month',
         desc: 'Active daily support for your business processes. Perfect for sorting emails, responsive lead qualification, and calendar planning.',
-        features: ['1 AI Collaborator', 'Unlimited job profiles', '5 million tokens included', 'Personalized onboarding'],
+        features: ['1 AI Collaborator', 'Unlimited job profiles', '10 million tokens included', 'Personalized onboarding'],
         featured: true
       },
       {
         name: 'Full-time (1/1)',
-        price: '€199',
+        price: '€149',
         period: ' / month',
         desc: 'Full 24/7 autonomy on high volumes. A 100% dedicated AI collaborator ready to run complex multi-app workflows for your team.',
-        features: ['1 AI Collaborator', 'Unlimited job profiles', '12 million tokens included', 'AgentOps supervision (30m)']
+        features: ['1 AI Collaborator', 'Unlimited job profiles', '20 million tokens included', 'AgentOps supervision (30m)']
       }
     ]
   }

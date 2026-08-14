@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
-import { ArrowRight, Check, ChevronDown, FileText, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
+import { ArrowRight, Check, ChevronDown, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
 import { useLanguage, type Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -143,7 +143,7 @@ function FormatTabs({ lang }: { lang: Lang }) {
     refs.current[key]?.focus()
   }
 
-  return <div className="mt-12"><div role="tablist" aria-label={t.formatsTabLabel} className="scrollbar-hide flex gap-2 overflow-x-auto pb-2">{FORMAT_KEYS.map((key, index) => <button key={key} ref={(node) => { refs.current[key] = node }} id={`format-tab-${key}`} type="button" role="tab" aria-selected={active === key} aria-controls={`format-panel-${key}`} tabIndex={active === key ? 0 : -1} onClick={() => setActive(key)} onKeyDown={(event) => selectByKeyboard(event, index)} className={`min-h-11 shrink-0 rounded-full border px-5 text-sm font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${active === key ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F] hover:border-[#D10E63]/50'}`}>{t.formatLabels[key]}</button>)}</div><div id={`format-panel-${active}`} role="tabpanel" aria-labelledby={`format-tab-${active}`} tabIndex={0} className="mt-6 rounded-3xl border border-[#DCD4C4] bg-[#F3EFE6] p-6 outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:p-8"><div className="grid gap-8 lg:grid-cols-3">{(['request', 'work', 'result'] as const).map((field, index) => <div key={field} className={index ? 'border-t border-[#DCD4C4] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0' : ''}><p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.flowLabels[field]}</p><p className="mt-4 whitespace-pre-line text-[16px] font-semibold leading-7">{item[field]}</p></div>)}</div>{item.note && <p className="mt-8 border-l-2 border-[#D10E63] pl-5 text-sm leading-7 text-[#4E483F]">{item.note}</p>}</div></div>
+  return <div className="mt-12"><div role="tablist" aria-label={t.formatsTabLabel} className="scrollbar-hide flex gap-2 overflow-x-auto pb-2">{FORMAT_KEYS.map((key, index) => <button key={key} ref={(node) => { refs.current[key] = node }} id={`format-tab-${key}`} type="button" role="tab" aria-selected={active === key} aria-controls={`format-panel-${key}`} tabIndex={active === key ? 0 : -1} onClick={() => setActive(key)} onKeyDown={(event) => selectByKeyboard(event, index)} className={`min-h-11 shrink-0 rounded-full border px-5 text-sm font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${active === key ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-white text-[#4E483F] hover:border-[#D10E63]/50'}`}>{t.formatLabels[key]}</button>)}</div><div id={`format-panel-${active}`} role="tabpanel" aria-labelledby={`format-tab-${active}`} tabIndex={0} className="mt-6 rounded-3xl border border-[#DCD4C4] bg-[#F3EFE6] p-6 outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:p-8"><div className="grid gap-8 lg:grid-cols-3">{(['request', 'work', 'result'] as const).map((field, index) => <div key={field} className={index ? 'border-t border-[#DCD4C4] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0' : ''}><p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.flowLabels[field]}</p><p className="mt-4 whitespace-pre-line text-[16px] font-semibold leading-7">{item[field]}</p></div>)}</div>{'note' in item && <p className="mt-8 border-l-2 border-[#D10E63] pl-5 text-sm leading-7 text-[#4E483F]">{item.note}</p>}</div></div>
 }
 
 function SectionHeading({ eyebrow, title, body, dark = false }: { eyebrow: string; title: string; body: string; dark?: boolean }) {
@@ -154,7 +154,7 @@ function ArchitectureItem({ label, value }: { label: string; value: string }) {
   return <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2A4C5]">{label}</p><p className="mt-3 leading-6 text-[#E7E0D5]">{value}</p></div>
 }
 
-function IdentityList({ label, items }: { label: string; items: string[] }) {
+function IdentityList({ label, items }: { label: string; items: readonly string[] }) {
   return <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#857C6E]">{label}</p><ul className="mt-4 space-y-3">{items.map((item) => <li key={item} className="flex gap-3 text-sm font-semibold leading-6"><Check className="mt-1 size-4 shrink-0 text-[#D10E63]" />{item}</li>)}</ul></div>
 }
 

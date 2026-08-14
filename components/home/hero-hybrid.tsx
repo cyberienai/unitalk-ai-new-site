@@ -88,10 +88,6 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const isChloe = cycle === journeys.length - 1
 
   useEffect(() => {
-    if (reduce) setPhase(3)
-  }, [reduce])
-
-  useEffect(() => {
     if (reduce) return
     const id = setTimeout(() => setTicker((value) => (value + 1) % t.missions.length), TICK_MS)
     return () => clearTimeout(id)
@@ -109,6 +105,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     return () => clearTimeout(id)
   }, [cycle, journeys.length, phase, reduce])
 
+  const visiblePhase = reduce ? 3 : phase
   const enter = (delay: number) => ({
     initial: reduce ? false : { opacity: 0, y: 16 },
     animate: { opacity: 1, y: 0 },
@@ -127,7 +124,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.div {...enter(0.22)} className="mt-6 flex flex-col items-center gap-1.5 sm:flex-row sm:items-baseline sm:gap-2.5">
             <span aria-hidden className="shrink-0 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{t.missionPrefix}</span>
             <span className="sr-only">{t.srMissions}</span>
-            <span aria-hidden="relative block h-9 min-w-[200px] sm:min-w-0 sm:flex-1 overflow-hidden text-center sm:text-left">
+            <span aria-hidden className="relative block h-9 min-w-[200px] overflow-hidden text-center sm:min-w-0 sm:flex-1 sm:text-left">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
                   key={ticker}
@@ -176,12 +173,12 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                     </div>
 
                     <ol className="space-y-4">
-                      <TimelineRow label={t.mission} status={phase > 0 ? 'done' : 'active'} />
-                      <TimelineRow label={isChloe ? t.newRole : t.assigned} detail={isChloe ? t.newRoleDetail : undefined} status={phase > 1 ? 'done' : phase === 1 ? 'active' : 'next'} />
-                      <TimelineRow label={isChloe ? t.preparing : t.equipping} status={phase > 2 ? 'done' : phase === 2 ? 'active' : 'next'}>
-                        {!isChloe && phase >= 2 && <div className="mt-3 flex flex-wrap gap-2">{current.skills.map((skill, index) => <motion.span key={skill} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: index < (phase === 2 ? 2 : 3) ? 1 : 0.3, y: 0 }} transition={{ delay: reduce ? 0 : index * 0.18 }} className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/10 px-2.5 py-1 text-[11px] text-[#F3B4CF]">{skill}</motion.span>)}</div>}
+                      <TimelineRow label={t.mission} status={visiblePhase > 0 ? 'done' : 'active'} />
+                      <TimelineRow label={isChloe ? t.newRole : t.assigned} detail={isChloe ? t.newRoleDetail : undefined} status={visiblePhase > 1 ? 'done' : visiblePhase === 1 ? 'active' : 'next'} />
+                      <TimelineRow label={isChloe ? t.preparing : t.equipping} status={visiblePhase > 2 ? 'done' : visiblePhase === 2 ? 'active' : 'next'}>
+                        {!isChloe && visiblePhase >= 2 && <div className="mt-3 flex flex-wrap gap-2">{current.skills.map((skill, index) => <motion.span key={skill} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: index < (visiblePhase === 2 ? 2 : 3) ? 1 : 0.3, y: 0 }} transition={{ delay: reduce ? 0 : index * 0.18 }} className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/10 px-2.5 py-1 text-[11px] text-[#F3B4CF]">{skill}</motion.span>)}</div>}
                       </TimelineRow>
-                      <TimelineRow label={isChloe ? t.chloeReady : t.ready} status={phase === 3 ? 'done' : 'next'} />
+                      <TimelineRow label={isChloe ? t.chloeReady : t.ready} status={visiblePhase === 3 ? 'done' : 'next'} />
                     </ol>
                   </div>
                 </motion.div>

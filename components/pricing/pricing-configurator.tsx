@@ -1,8 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { startTransition, useState } from 'react'
-import { ChevronDown, Minus, Plus, Users, Shield, Award, HelpCircle, ArrowRight, Coins } from 'lucide-react'
+import { ChevronDown, Minus, Plus, Users, Award, ArrowRight, Coins } from 'lucide-react'
 import { persistPricingDraft } from '@/app/actions/pricing'
 import {
   configurationBreakdownAt,
@@ -114,6 +113,8 @@ const T = {
     cardNoCardNeeded: 'Aucune carte bancaire requise. Déploiement à la demande.',
     cardAccordion: 'Voir l’évolution du prix hors promotions',
     cardCurrency: '€',
+    remove: 'Retirer',
+    add: 'Ajouter',
   },
   en: {
     eyebrow: 'Allocate your resources',
@@ -147,6 +148,8 @@ const T = {
     cardNoCardNeeded: 'No credit card required. On-demand deployment.',
     cardAccordion: 'See pricing evolution without promotions',
     cardCurrency: '€',
+    remove: 'Remove',
+    add: 'Add',
   }
 } as const
 
@@ -191,7 +194,9 @@ export function PricingConfigurator() {
             min={unitalkPricing.aiCollaborator.min} 
             max={unitalkPricing.aiCollaborator.max} 
             onChange={setCollaborators} 
-            noun={t.collabTitle} 
+            noun={t.collabTitle}
+            removeLabel={`${t.remove} ${t.collabTitle}`}
+            addLabel={`${t.add} ${t.collabTitle}`}
           />
         </div>
 
@@ -258,7 +263,9 @@ export function PricingConfigurator() {
             min={unitalkPricing.aiCocreator.min} 
             max={unitalkPricing.aiCocreator.max} 
             onChange={setCoCreators} 
-            noun={t.cocreatorTitle} 
+            noun={t.cocreatorTitle}
+            removeLabel={`${t.remove} ${t.cocreatorTitle}`}
+            addLabel={`${t.add} ${t.cocreatorTitle}`}
           />
         </div>
       </div>
@@ -348,20 +355,22 @@ export function PricingConfigurator() {
   )
 }
 
-function Counter({ value, min, max, onChange, noun }: { value: number; min: number; max: number; onChange: (value: number) => void; noun: string }) {
+function Counter({ value, min, max, onChange, noun, removeLabel, addLabel }: { value: number; min: number; max: number; onChange: (value: number) => void; noun: string; removeLabel: string; addLabel: string }) {
   return (
     <div className="inline-flex items-center rounded-full border border-[#DED6C8] bg-white p-1">
       <button 
         type="button" 
+        aria-label={removeLabel}
         disabled={value <= min} 
         onClick={() => onChange(Math.max(min, value - 1))} 
         className="flex size-8 items-center justify-center rounded-full hover:bg-[#F3EFE6] disabled:opacity-30"
       >
         <Minus className="size-3.5" />
       </button>
-      <output className="min-w-10 text-center text-xs font-extrabold text-[#1C1A17]">{value}</output>
+      <output aria-label={`${noun} : ${value}`} aria-live="polite" className="min-w-10 text-center text-xs font-extrabold text-[#1C1A17]">{value}</output>
       <button 
         type="button" 
+        aria-label={addLabel}
         disabled={value >= max} 
         onClick={() => onChange(Math.min(max, value + 1))} 
         className="flex size-8 items-center justify-center rounded-full hover:bg-[#F3EFE6] disabled:opacity-30"

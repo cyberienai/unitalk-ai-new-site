@@ -26,6 +26,7 @@ const easing = [0.22, 1, 0.36, 1] as const
 
 type Phase = 'exploration' | 'understanding' | 'missions' | 'profile'
 type MissionId = 'qualify' | 'prepare' | 'faq'
+type DemoContent = (typeof CONTENT)[keyof typeof CONTENT]
 
 const CONTENT = {
   fr: {
@@ -429,14 +430,14 @@ export function SectionStartWebsite({ lang = 'fr' }: { lang?: Lang }) {
 }
 
 type DemoProps = {
-  t: (typeof CONTENT)['fr']
+  t: DemoContent
   reduceMotion: boolean
   phase: Phase
   pageStep: number
   infoCount: number
   missionCount: number
   selected: MissionId | null
-  selectedMission: (typeof CONTENT)['fr']['missions'][number] | undefined
+  selectedMission: DemoContent['missions'][number] | undefined
   selectedProfile: { profil: string; skills: string[]; tools: string[] } | null
   onSelect: (id: MissionId) => void
   onReplay: () => void

@@ -37,7 +37,7 @@ const T = {
   fr: {
     almaLine: 'Alma prépare la mission.',
     almaLineIris: 'Alma prépare Iris pour cette nouvelle responsabilité.',
-    almaIdentity: 'Collaboratrice IA · Coordinatrice de missions',
+    almaIdentity: 'Alma · Coordinatrice de missions · Unitalk',
     frames: ['Besoin', 'Mission', 'Affectation', 'Action', 'Au travail'],
     // 01
     human: 'J’ai besoin que quelqu’un réponde aux appels entrants et qualifie les demandes.',

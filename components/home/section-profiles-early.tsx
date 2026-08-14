@@ -10,8 +10,8 @@ import type { Lang } from '@/lib/language-context'
 const COPY = {
   fr: {
     kicker: 'La Place de Marché',
-    title: 'Bonne nouvelle ! La première place de marché de Collaborateurs IA autonomes au monde est open source.',
-    lead: 'Parcourez des profils métier prêts à s’intégrer dans votre équipe. Alma les adapte à votre activité et prépare vos collaborateurs avec une identité Unitalk AI unique. Nous mutualisons les ressources de nos Collaborateurs IA pour vous proposer des tarifs incomparables.',
+    title: 'Découvrez des Collaborateurs IA autonomes prêts à rejoindre votre équipe.',
+    lead: 'Alma vous aide à définir la mission et configure le bon Collaborateur IA. Le Collaborateur IA exécute. Parcourez des profils métier prêts à s’intégrer dans votre équipe, propulsés par le moteur open source Hermes.',
     cta: 'Explorer tous les profils métier',
     recruit: 'Recruter',
     profiles: [
@@ -20,7 +20,7 @@ const COPY = {
         role: 'Assistante de direction',
         avatar: '/images/emma-avatar.png',
         desc: 'Gère vos emails, prépare vos comptes rendus et organise votre agenda.',
-        tag: 'Temps plein · 199€/mois',
+        tag: 'Temps plein · 149€/mois',
         tagStyle: 'bg-[#D10E63] text-white ring-1 ring-[#D10E63]/20 shadow-sm',
       },
       {
@@ -36,15 +36,15 @@ const COPY = {
         role: 'Commerciale',
         avatar: '/images/chloe-avatar.png',
         desc: 'Recherche de prospects, relances régulières et suivi commercial.',
-        tag: 'Quart-temps · 49€/mois',
+        tag: 'Quart-temps · 74€/mois',
         tagStyle: 'bg-[#EDE7DA] text-[#6B6560] ring-1 ring-[#DED6C8]/20',
       },
     ],
   },
   en: {
     kicker: 'The Marketplace',
-    title: 'Great news! The first marketplace of autonomous AI Collaborators in the world is open source.',
-    lead: 'Browse business profiles ready to integrate into your team. Alma adapts them to your business and prepares your collaborators with a unique Unitalk AI identity. We pool the resources of our AI Collaborators to offer you incomparable rates.',
+    title: 'Discover autonomous AI Collaborators ready to join your team.',
+    lead: 'Alma helps define the mission and configures the right AI Collaborator. The AI Collaborator executes it. Browse job profiles ready to join your team, powered by the open-source Hermes engine.',
     cta: 'Explore all job profiles',
     recruit: 'Hire',
     profiles: [
@@ -53,7 +53,7 @@ const COPY = {
         role: 'Executive Assistant',
         avatar: '/images/emma-avatar.png',
         desc: 'Handles your emails, prepares minutes, and organizes your calendar.',
-        tag: 'Full-time · €199/mo',
+        tag: 'Full-time · €149/mo',
         tagStyle: 'bg-[#D10E63] text-white ring-1 ring-[#D10E63]/20 shadow-sm',
       },
       {
@@ -69,7 +69,7 @@ const COPY = {
         role: 'Sales Representative',
         avatar: '/images/chloe-avatar.png',
         desc: 'Prospects leads, conducts regular follow-ups, and manages sales.',
-        tag: 'Part-time · €49/mo',
+        tag: 'Part-time · €74/mo',
         tagStyle: 'bg-[#EDE7DA] text-[#6B6560] ring-1 ring-[#DED6C8]/20',
       },
     ],

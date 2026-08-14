@@ -15,26 +15,26 @@ const T = {
     pricingTitle: 'Plans de temps de travail',
     plans: [
       {
-        price: '49€',
+        price: '74€',
         period: '/ mois',
         name: 'Quart-temps',
         desc: 'Idéal pour automatiser vos petites tâches régulières, votre veille et la mise à jour de vos données.',
-        features: ['1 Collaborateur IA', '1 million de tokens inclus / mois', 'Onboarding standard', 'Support email'],
+        features: ['1 Collaborateur IA', '5 millions de tokens inclus / mois', 'Onboarding standard', 'Support email'],
       },
       {
         price: '99€',
         period: '/ mois',
         name: 'Mi-temps',
         desc: 'Prise en charge active et quotidienne de vos processus métier (gestion d’agenda, tri d’emails).',
-        features: ['1 Collaborateur IA', '5 millions de tokens inclus / mois', 'Onboarding personnalisé', 'Support prioritaire'],
+        features: ['1 Collaborateur IA', '10 millions de tokens inclus / mois', 'Onboarding personnalisé', 'Support prioritaire'],
         featured: true,
       },
       {
-        price: '199€',
+        price: '149€',
         period: '/ mois',
         name: 'Temps plein',
         desc: 'Un collaborateur dédié à 100%, autonome 24/7, prêt à piloter des flux complexes pour votre équipe.',
-        features: ['1 Collaborateur IA', '12 millions de tokens inclus / mois', 'Onboarding sur-mesure', 'Supervision AgentOps (30m)'],
+        features: ['1 Collaborateur IA', '20 millions de tokens inclus / mois', 'Onboarding sur-mesure', 'Supervision AgentOps (30m)'],
       },
     ],
     highlightsLabel: 'Inclus dans tous les plans',
@@ -46,6 +46,7 @@ const T = {
     cta: 'Commencer l’essai gratuit',
     secondary: 'Simuler une configuration sur-mesure',
     note: '7 jours d’essai gratuit, sans carte bancaire.',
+    recommended: 'Recommandé',
   },
   en: {
     eyebrow: 'Transparent Pricing',
@@ -55,26 +56,26 @@ const T = {
     pricingTitle: 'Working hour plans',
     plans: [
       {
-        price: '€49',
+        price: '€74',
         period: '/ month',
         name: 'Part-time (1/4)',
         desc: 'Ideal for automating small recurring tasks, monitoring, and updating your data.',
-        features: ['1 AI Collaborator', '1 million tokens included / mo', 'Standard onboarding', 'Email support'],
+        features: ['1 AI Collaborator', '5 million tokens included / mo', 'Standard onboarding', 'Email support'],
       },
       {
         price: '€99',
         period: '/ month',
         name: 'Half-time (1/2)',
         desc: 'Active daily support for your business processes (calendar management, email sorting).',
-        features: ['1 AI Collaborator', '5 million tokens included / mo', 'Personalized onboarding', 'Priority support'],
+        features: ['1 AI Collaborator', '10 million tokens included / mo', 'Personalized onboarding', 'Priority support'],
         featured: true,
       },
       {
-        price: '€199',
+        price: '€149',
         period: '/ month',
         name: 'Full-time (1/1)',
         desc: 'A 100% dedicated collaborator, autonomous 24/7, ready to run complex workflows for your team.',
-        features: ['1 AI Collaborator', '12 million tokens included / mo', 'Bespoke onboarding', 'AgentOps supervision (30m)'],
+        features: ['1 AI Collaborator', '20 million tokens included / mo', 'Bespoke onboarding', 'AgentOps supervision (30m)'],
       },
     ],
     highlightsLabel: 'Included in all plans',
@@ -86,19 +87,13 @@ const T = {
     cta: 'Start free trial',
     secondary: 'Simulate a custom configuration',
     note: '7-day free trial, no credit card required.',
+    recommended: 'Recommended',
   },
 } as const
 
 export function SectionPricing({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
   const t = T[lang]
   const reduce = useReducedMotion()
-
-  const enter = (delay: number) => ({
-    initial: reduce ? false : { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: '-60px' },
-    transition: { duration: 0.6, delay: reduce ? 0 : delay, ease },
-  })
 
   return (
     <section id="tarifs" className="w-full border-t border-[#E9E2D4] bg-[#F3EFE6] py-16 sm:py-24">
@@ -134,7 +129,7 @@ export function SectionPricing({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
               >
                 {isFeatured && (
                   <div className="absolute right-4 top-4 rounded-full bg-[#D10E63] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.1em] text-white">
-                    Recommandé
+                    {t.recommended}
                   </div>
                 )}
                 
