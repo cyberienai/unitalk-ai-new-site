@@ -137,7 +137,7 @@ export function CollaboratorsShowcase({ lang }: { lang: Lang }) {
           transition={{ duration: 0.8, delay: 0.3, ease }}
           className="mt-14 flex justify-center"
         >
-          <CtaButton href="/collaborateurs-ia/roles">
+          <CtaButton href="/collaborateurs-ia/profils-metier">
             {t.allCta}
             <ArrowRight className="h-4 w-4" />
           </CtaButton>
