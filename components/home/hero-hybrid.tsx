@@ -182,7 +182,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             </div>
           </div>
 
-          <motion.div {...enter(0.24)} className="mt-5 flex flex-col justify-between gap-4 rounded-2xl border border-[#D10E63]/20 bg-[#D10E63]/5 p-4 text-left sm:flex-row sm:items-center">
+          <motion.div {...enter(0.24)} className="mt-5 flex flex-col justify-between gap-4 rounded-[26px] border border-white/10 bg-[#17130F] p-4 text-left sm:flex-row sm:items-center">
             <div className="flex items-center gap-3">
               <Image 
                 src="/alma-avatar.png" 
@@ -191,14 +191,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 height={40} 
                 className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/30" 
               />
-              <p className="text-xs font-medium leading-relaxed text-[#4E483F] max-w-[280px] sm:max-w-none">
+              <p className="text-xs font-medium leading-relaxed text-[#AFA397] max-w-[280px] sm:max-w-none">
                 {t.almaCaption}
               </p>
             </div>
             <button
               type="button"
               onClick={() => setShowAlma(true)}
-              className="group flex items-center gap-1.5 self-start whitespace-nowrap text-xs font-bold text-[#D10E63] hover:text-[#B00B52] sm:self-auto"
+              className="group flex items-center gap-1.5 self-start whitespace-nowrap text-xs font-bold text-[#F15B9B] hover:text-[#F8A3CB] sm:self-auto"
             >
               {t.almaAction}
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
