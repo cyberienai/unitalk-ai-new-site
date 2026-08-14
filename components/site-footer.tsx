@@ -44,13 +44,14 @@ const T = {
       },
       {
         title: 'Ressources',
-        links: [
-          { label: 'Pourquoi Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
-          { label: 'Blog', href: '/blog' },
-          { label: 'Changelog', href: '/changelog' },
-          { label: 'AI Gateway', href: '/ai-gateway' },
-          { label: 'AI server', href: '/ai-server' },
-        ],
+                links: [
+                  { label: 'Pourquoi Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
+                  { label: 'Blog', href: '/blog' },
+                  { label: 'Changelog', href: '/changelog' },
+                  { label: 'Documentation', href: '/documentation' },
+                  { label: 'AI Gateway', href: '/ai-gateway' },
+                  { label: 'AI server', href: '/ai-server' },
+                ],
       },
       {
         title: 'Entreprise',
