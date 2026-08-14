@@ -14,9 +14,6 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un',
     headline: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
     subtitle: 'Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives. Il travaille avec vos outils et progresse à chaque mission.',
-    missionPrefix: 'Mission :',
-    missions: ['répondre à vos appels', 'traiter vos emails', 'mettre à jour votre CRM', 'préparer vos comptes rendus', 'organiser votre agenda', 'analyser vos données'],
-    srMissions: 'Exemples de missions : répondre à vos appels, traiter vos emails, mettre à jour votre CRM et analyser vos données.',
     proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Hébergé en France'],
     cta: 'Confier une première mission',
     console: 'Préparation de mission',
@@ -36,9 +33,6 @@ const T = {
     eyebrow: 'Someone is missing',
     headline: 'Your company can count on its own AI Collaborator.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
-    missionPrefix: 'Mission:',
-    missions: ['answer your calls', 'handle your emails', 'update your CRM', 'prepare meeting notes', 'organize your calendar', 'analyze your data'],
-    srMissions: 'Example missions: answer your calls, handle your emails, update your CRM and analyze your data.',
     proofs: ['7-day free trial', 'No credit card', 'Hosted in France'],
     cta: 'Hand over a first mission',
     console: 'Mission preparation',
@@ -72,7 +66,6 @@ const JOURNEYS = {
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
-const TICK_MS = 2200
 const PHASE_MS = 1300
 type Phase = 0 | 1 | 2 | 3
 
@@ -81,17 +74,10 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const journeys = JOURNEYS[lang]
   const reduce = useReducedMotion()
   const { openAlma } = useAlma()
-  const [ticker, setTicker] = useState(0)
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
   const current = journeys[cycle]
   const isChloe = cycle === journeys.length - 1
-
-  useEffect(() => {
-    if (reduce) return
-    const id = setTimeout(() => setTicker((value) => (value + 1) % t.missions.length), TICK_MS)
-    return () => clearTimeout(id)
-  }, [ticker, reduce, t.missions.length])
 
   useEffect(() => {
     if (reduce) return
@@ -120,25 +106,6 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.div {...enter(0)} className="mb-5 flex justify-center sm:justify-start"><Kicker>{t.eyebrow}</Kicker></motion.div>
           <motion.h1 {...enter(0.08)} className="hero-heading text-[#1C1A17]">{t.headline}</motion.h1>
           <motion.p {...enter(0.16)} className="mt-5 text-balance text-[17px] leading-relaxed text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
-
-          <motion.div {...enter(0.22)} className="mt-6 flex flex-col items-center gap-1.5 sm:flex-row sm:items-baseline sm:gap-2.5">
-            <span aria-hidden className="shrink-0 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#6E665A]">{t.missionPrefix}</span>
-            <span className="sr-only">{t.srMissions}</span>
-            <span aria-hidden className="relative block h-9 min-w-[200px] overflow-hidden text-center sm:min-w-0 sm:flex-1 sm:text-left">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={ticker}
-                  initial={reduce ? false : { opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
-                  transition={{ duration: reduce ? 0 : 0.3, ease }}
-                  className="absolute inset-0 flex items-center justify-center sm:justify-start font-sf text-xl font-semibold tracking-[-0.02em] text-[#D10E63] sm:text-[22px] whitespace-nowrap"
-                >
-                  {t.missions[ticker]}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-          </motion.div>
 
           <motion.div {...enter(0.28)} className="mt-7 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-medium text-[#6E665A] sm:justify-start">
             {t.proofs.map((proof) => <span key={proof} className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" />{proof}</span>)}
