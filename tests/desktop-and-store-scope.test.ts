@@ -19,5 +19,6 @@ describe('Desktop discovery and Store scopes', () => {
     expect(applications).toContain('<StoreContent initialType="application" />')
     expect(store).toContain('if (initialType) return')
     expect(store).toContain('showType={!initialType}')
+    expect(store).toContain("if (initialType) builtParams.delete('type')")
   })
 })

@@ -71,12 +71,16 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
 
   // Reflect state into the URL (defaults omitted). Keep filters on back/forward.
   useEffect(() => {
-    const qs = buildStoreParams(query, filters, sort)
+    const builtParams = new URLSearchParams(buildStoreParams(query, filters, sort))
+    // The route already fixes the Store type. Keeping it in the URL would make
+    // the server remove it while this effect adds it back, causing a redirect loop.
+    if (initialType) builtParams.delete('type')
+    const qs = builtParams.toString()
     const tabQs = tab === 'alma' ? (qs ? `${qs}&tab=alma` : 'tab=alma') : qs
     const next = tabQs ? `${pathname}?${tabQs}` : pathname
     const current = `${pathname}${window.location.search}`
     if (next !== current) router.replace(next, { scroll: false })
-  }, [query, filters, sort, tab, pathname, router])
+  }, [query, filters, sort, tab, pathname, router, initialType])
 
   // Brief skeleton whenever the result set changes (section 18).
   useEffect(() => {
