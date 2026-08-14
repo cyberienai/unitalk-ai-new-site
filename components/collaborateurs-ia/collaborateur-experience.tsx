@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
-import { ArrowRight, Check, ChevronDown, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
+import { ArrowRight, Check, ChevronDown, CircleCheck, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
 import { useLanguage, type Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -17,25 +17,44 @@ export function CollaborateurExperience() {
 
   return (
     <main className="font-sf">
-      <section className="relative overflow-hidden px-5 pb-16 pt-[8.25rem] sm:px-8 sm:pt-[9rem]">
+      <section className="relative overflow-hidden px-5 pb-12 pt-[8.25rem] sm:px-8 sm:pb-16 sm:pt-[9rem]">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div className="editorial-shell relative grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <div className="max-w-xl">
             <Kicker>{t.heroKicker}</Kicker>
             <h1 className="hero-heading mt-5 whitespace-pre-line [font-size:42px] sm:[font-size:50.4px]">{t.heroTitle}</h1>
             <p className="mt-6 text-[17px] leading-8 text-[#4E483F]">{t.heroBody}</p>
-            <p className="mt-4 text-[16px] leading-7 text-[#4E483F]">{t.heroRules}</p>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              {t.heroBenefits.map((benefit) => <li key={benefit} className="flex items-start gap-2.5 text-sm font-semibold leading-6 text-[#3F3A33]"><CircleCheck className="mt-0.5 size-4 shrink-0 text-[#D10E63]" />{benefit}</li>)}
+            </ul>
             <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              <Link href="/missions" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,0.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+              <Link href="/decouvrir?source=collaborateur-ia-hero" className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,0.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 sm:w-auto">
                 {t.heroCta} <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-              <a href="#formats" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">
+              <a href="#demonstration" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">
                 {t.seeWork} <ChevronDown className="size-4" />
               </a>
             </div>
-            <p className="mt-5 text-xs font-medium text-[#6E665A]">{t.trial}</p>
+            <p className="mt-4 text-xs font-semibold text-[#6E665A]">{t.trial}</p>
           </div>
           <LucasMissionCard lang={lang} />
+        </div>
+      </section>
+
+      <section aria-label={t.reassuranceLabel} className="border-y border-[#DCD4C4] bg-[#EAE3D4] px-5 sm:px-8">
+        <div className="editorial-shell grid divide-y divide-[#D2C8B8] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {t.reassurances.map((item) => <div key={item.title} className="py-5 sm:px-6 sm:first:pl-0 sm:last:pr-0"><p className="text-sm font-bold text-[#1C1A17]">{item.title}</p><p className="mt-1 text-xs leading-5 text-[#625B50]">{item.body}</p></div>)}
+        </div>
+      </section>
+
+      <section id="demonstration" className="px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
+            <SectionHeading eyebrow={t.startKicker} title={t.startTitle} body={t.startBody} />
+            <ol className="grid gap-3 sm:grid-cols-3">
+              {t.startSteps.map((step, index) => <li key={step.title} className="rounded-2xl border border-[#DCD4C4] bg-[#FBF9F3] p-5"><span className="font-mono text-[10px] font-black tracking-[0.16em] text-[#B00C54]">0{index + 1}</span><h2 className="mt-4 text-base font-bold">{step.title}</h2><p className="mt-2 text-sm leading-6 text-[#625B50]">{step.body}</p></li>)}
+            </ol>
+          </div>
         </div>
       </section>
 
@@ -43,6 +62,7 @@ export function CollaborateurExperience() {
         <div className="editorial-shell">
           <SectionHeading eyebrow={t.formatsKicker} title={t.formatsTitle} body={t.formatsBody} />
           <FormatTabs lang={lang} />
+          <ConversionBand lang={lang} source="formats" />
         </div>
       </section>
 
@@ -95,24 +115,30 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section className="border-t border-[#DCD4C4] bg-[#EAE3D4] px-5 py-16 sm:px-8">
-        <div className="editorial-shell flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
+      <section className="border-t border-white/10 bg-[#181615] px-5 py-16 text-[#FBF9F3] sm:px-8 sm:py-20">
+        <div className="editorial-shell grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="max-w-3xl">
-            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.finalKicker}</p>
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#F2A4C5]">{t.finalKicker}</p>
             <h2 className="mt-5 text-balance text-[36px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[48px]">{t.finalTitle}</h2>
-            <p className="mt-6 max-w-2xl whitespace-pre-line text-[17px] leading-8 text-[#4E483F]">{t.finalBody}</p>
-            <p className="mt-6 text-sm font-semibold">{t.alma}</p>
+            <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#CFC6B8]">{t.finalBody}</p>
+            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold text-[#E7E0D5]">{t.finalProofs.map((proof) => <li key={proof} className="flex items-center gap-2"><Check className="size-4 text-[#F2A4C5]" />{proof}</li>)}</ul>
           </div>
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center lg:flex-col lg:items-end">
-            <Link href="/missions" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+          <div className="flex min-w-[260px] flex-col items-stretch gap-3">
+            <Link href="/decouvrir?source=collaborateur-ia-final" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#181615]">
               {t.finalCta} <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <Link href="/tarifs" className="text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">{t.pricing}</Link>
+            <Link href="/missions" className="text-center text-sm font-bold text-[#E7E0D5] underline decoration-[#F2A4C5]/40 underline-offset-4 hover:text-white">{t.exploreMissions}</Link>
+            <Link href="/tarifs" className="text-center text-xs font-semibold text-[#AFA397] hover:text-white">{t.pricing}</Link>
           </div>
         </div>
       </section>
     </main>
   )
+}
+
+function ConversionBand({ lang, source }: { lang: Lang; source: string }) {
+  const t = COPY[lang]
+  return <div className="mt-12 flex flex-col justify-between gap-6 rounded-3xl bg-[#EAE3D4] p-6 sm:flex-row sm:items-center sm:p-8"><div><p className="text-xl font-bold tracking-[-0.02em]">{t.midCtaTitle}</p><p className="mt-2 max-w-2xl text-sm leading-6 text-[#625B50]">{t.midCtaBody}</p></div><Link href={`/decouvrir?source=collaborateur-ia-${source}`} className="group inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.midCta}<ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" /></Link></div>
 }
 
 function LucasMissionCard({ lang }: { lang: Lang }) {
@@ -160,7 +186,9 @@ function IdentityList({ label, items }: { label: string; items: readonly string[
 
 const COPY = {
   fr: {
-    heroKicker: 'Collaborateur IA', heroTitle: 'Son identité reste.\nSes responsabilités évoluent.', heroBody: 'Votre Collaborateur IA accomplit des missions avec les modèles, les applications et les informations que votre entreprise l’autorise à utiliser.', heroRules: 'Ajoutez des profils métier et des compétences sans recréer son identité. Les actions qui engagent l’entreprise restent soumises à vos règles de validation.', heroCta: 'Confier une première mission', seeWork: 'Voir comment il travaille', trial: '7 jours d’essai · Aucune carte bancaire',
+    heroKicker: 'Collaborateur IA pour entreprise', heroTitle: 'Son identité IA reste la même.\nSes responsabilités évoluent.', heroBody: 'Confiez enfin le travail répétitif à un Collaborateur IA qui connaît votre entreprise, agit dans vos outils et demande votre validation lorsque la décision vous appartient.', heroBenefits: ['Travaille avec vos applications', 'Conserve le contexte validé', 'Disponible pour vos missions récurrentes', 'Actions sensibles sous votre contrôle'], heroCta: 'Démarrer gratuitement avec Alma', seeWork: 'Voir une mission en action', trial: '7 jours gratuits · Sans carte bancaire · À partir de 74 €/mois après l’essai',
+    reassuranceLabel: 'Garanties de l’offre', reassurances: [{ title: 'Vous commencez par un besoin réel', body: 'Alma transforme votre besoin en mission cadrée.' }, { title: 'Vous gardez le contrôle', body: 'Les accès et validations sont définis avant l’activation.' }, { title: 'Son expérience ne repart pas de zéro', body: 'Le contexte validé reste attaché à son identité IA.' }],
+    startKicker: 'Simple à démarrer', startTitle: 'Tout commence par une mission.', startBody: 'Pas besoin de lancer un projet informatique. Décrivez le résultat attendu : Alma vous aide à cadrer le travail et à préparer le bon Collaborateur IA.', startSteps: [{ title: 'Décrivez le travail', body: 'Expliquez ce que vous voulez déléguer avec vos propres mots.' }, { title: 'Validez le cadre', body: 'Résultat, sources, applications, droits et validations.' }, { title: 'Mettez-le au travail', body: 'Le Collaborateur IA exécute et vous rend le résultat.' }],
     aiIdentity: 'Identité IA', lucasMeta: 'Collaborateur IA · Solvea', currentMission: 'Mission en cours', mission: 'Répondre aux demandes reçues par email', profilesLabel: 'Profils métier', profiles: ['Relation client', 'Commercial', 'Fidélisation'], permissionsLabel: 'Autorisations de cette mission', permissions: ['Lire les demandes reçues', 'Préparer une réponse', 'Soumettre avant envoi'], stateLabel: 'État', state: '3 réponses prêtes à valider',
     formatsKicker: 'Comprendre et produire', formatsTitle: 'Il comprend, produit et code dans le format utile à la mission.', formatsBody: 'Selon les modèles et les outils autorisés par votre entreprise, un même Collaborateur IA peut travailler avec du texte, des images, de l’audio, de la vidéo et du code, sans perdre le contexte de la mission.', formatsTabLabel: 'Formats de travail', formatLabels: { text: 'Texte', image: 'Image', audio: 'Audio', video: 'Vidéo', code: 'Code' }, flowLabels: { request: 'Demande', work: 'Travail', result: 'Résultat' },
     formats: {
@@ -173,10 +201,13 @@ const COPY = {
     workKicker: 'Exécuter', workTitle: 'Il ne se contente pas de produire. Il agit avec les moyens autorisés.', workBody: 'Code désigne un format de production et un savoir-faire. Le Terminal est un moyen d’exécution disponible uniquement dans l’environnement isolé et selon les droits de la mission.', workItems: [{ title: 'Navigateur', body: 'Parcourir et utiliser les sites autorisés.' }, { title: 'Fichiers', body: 'Lire, produire et organiser les fichiers de la mission.' }, { title: 'Terminal', body: 'Exécuter et vérifier du code dans son environnement isolé.' }, { title: 'Planification', body: 'Reprendre un travail et continuer au-delà d’une conversation.' }], hermes: 'Propulsé par Hermes, l’agent autonome open source de Nous Research.',
     appsKicker: 'Applications et services', appsTitle: 'Les outils restent séparés des droits accordés au Collaborateur IA.', appTypes: [{ title: 'Connecteurs', body: 'Services externes autorisés par l’entreprise.' }, { title: 'Applications natives', body: 'Applications open source vérifiées et déployées sur le Serveur IA privé de l’entreprise.' }, { title: 'Applications métier', body: 'Applications privées ou modèles vibecodés pour soutenir une mission précise.' }], permissionRule: 'Installer une application ne donne aucun accès à un Collaborateur IA. Les droits sont accordés séparément.', architecture: { collaboratorLabel: 'Collaborateur IA', collaboratorValue: 'Environnement Hermes/VPS isolé', serverLabel: 'Serveur IA privé', serverValue: 'Applications et services de l’entreprise', accessLabel: 'Accès', accessValue: 'n8n, API, MCP ou navigateur selon les droits' },
     identityKicker: 'Une identité qui dure', identityTitle: 'Une seule identité IA. Plusieurs responsabilités.', identityBody: 'Les profils métier peuvent évoluer et l’expérience validée peut rester attachée à Lucas. Son identité, son rattachement et les règles de l’entreprise ne sont pas recréés à chaque mission.', experienceLabel: 'Expérience validée', experience: ['Politique de réponse client · version 3', 'Règles de qualification commerciale · version 2'],
-    finalKicker: 'Commencer par le travail', finalTitle: 'Tout commence par une mission.', finalBody: 'Choisissez un travail à accomplir.\nAlma vous aide ensuite à le cadrer,\npuis à préparer le Collaborateur IA\nqui pourra l’accomplir.', alma: 'Alma · Coordinatrice de missions', finalCta: 'Explorer les missions', pricing: 'Voir les tarifs',
+    midCtaTitle: 'Quel travail voulez-vous ne plus avoir à faire seul ?', midCtaBody: 'Décrivez-le à Alma. Elle vous aide à cadrer la mission avant toute activation.', midCta: 'Décrire ma mission',
+    finalKicker: 'Votre première mission', finalTitle: 'Montrez le travail. Alma prépare le Collaborateur IA.', finalBody: 'Commencez avec une mission concrète. Vous validez son périmètre, ses accès et les décisions qui doivent rester humaines.', finalProofs: ['7 jours gratuits', 'Sans carte bancaire', 'À partir de 74 €/mois'], finalCta: 'Démarrer gratuitement', exploreMissions: 'Ou explorer les missions', pricing: 'Consulter les tarifs détaillés',
   },
   en: {
-    heroKicker: 'AI Collaborator', heroTitle: 'Its identity remains.\nIts responsibilities evolve.', heroBody: 'Your AI Collaborator carries out missions with the models, applications and information your company authorizes it to use.', heroRules: 'Add job profiles and skills without recreating its identity. Actions that commit the company remain subject to your approval rules.', heroCta: 'Assign a first mission', seeWork: 'See how it works', trial: '7-day trial · No credit card',
+    heroKicker: 'AI Collaborator for business', heroTitle: 'Its AI identity stays the same.\nIts responsibilities evolve.', heroBody: 'Finally hand repetitive work to an AI Collaborator that knows your company, acts in your tools and asks for approval whenever the decision belongs to you.', heroBenefits: ['Works with your applications', 'Keeps validated context', 'Available for recurring missions', 'Sensitive actions under your control'], heroCta: 'Start free with Alma', seeWork: 'See a mission in action', trial: '7 days free · No credit card · From €74/month after trial',
+    reassuranceLabel: 'Offer guarantees', reassurances: [{ title: 'Start with real work', body: 'Alma turns your need into a scoped mission.' }, { title: 'You stay in control', body: 'Access and approvals are defined before activation.' }, { title: 'Experience does not reset', body: 'Validated context remains attached to its AI identity.' }],
+    startKicker: 'Easy to start', startTitle: 'One first mission, not an IT project.', startBody: 'Describe the expected outcome. Alma helps scope the work and prepare the right AI Collaborator.', startSteps: [{ title: 'Describe the work', body: 'Explain what you want to delegate in your own words.' }, { title: 'Approve the scope', body: 'Outcome, sources, applications, permissions and approvals.' }, { title: 'Put it to work', body: 'The AI Collaborator executes and delivers the result.' }],
     aiIdentity: 'AI identity', lucasMeta: 'AI Collaborator · Solvea', currentMission: 'Current mission', mission: 'Answer requests received by email', profilesLabel: 'Job profiles', profiles: ['Customer relations', 'Sales', 'Customer success'], permissionsLabel: 'Permissions for this mission', permissions: ['Read received requests', 'Prepare a reply', 'Submit before sending'], stateLabel: 'Status', state: '3 replies ready for review',
     formatsKicker: 'Understand and produce', formatsTitle: 'It understands, produces and codes in the format the mission needs.', formatsBody: 'Depending on the models and tools your company authorizes, one AI Collaborator can work with text, images, audio, video and code without losing the mission context.', formatsTabLabel: 'Work formats', formatLabels: { text: 'Text', image: 'Image', audio: 'Audio', video: 'Video', code: 'Code' }, flowLabels: { request: 'Request', work: 'Work', result: 'Result' },
     formats: {
@@ -189,6 +220,7 @@ const COPY = {
     workKicker: 'Execute', workTitle: 'It does not only produce. It acts with authorized means.', workBody: 'Code is a production format and skill. The Terminal is an execution method available only in the isolated environment and under mission permissions.', workItems: [{ title: 'Browser', body: 'Browse and use authorized websites.' }, { title: 'Files', body: 'Read, produce and organize mission files.' }, { title: 'Terminal', body: 'Run and verify code in its isolated environment.' }, { title: 'Scheduling', body: 'Resume work and continue beyond a conversation.' }], hermes: 'Powered by Hermes, the open-source autonomous agent from Nous Research.',
     appsKicker: 'Applications and services', appsTitle: 'Tools remain separate from the permissions granted to the AI Collaborator.', appTypes: [{ title: 'Connectors', body: 'External services authorized by the company.' }, { title: 'Native applications', body: 'Verified open-source applications deployed on the company’s private AI Server.' }, { title: 'Business applications', body: 'Private applications or vibe-coded templates supporting a specific mission.' }], permissionRule: 'Installing an application grants no access to an AI Collaborator. Permissions are granted separately.', architecture: { collaboratorLabel: 'AI Collaborator', collaboratorValue: 'Isolated Hermes/VPS environment', serverLabel: 'Private AI Server', serverValue: 'Company applications and services', accessLabel: 'Access', accessValue: 'n8n, API, MCP or browser according to permissions' },
     identityKicker: 'An identity that lasts', identityTitle: 'One AI identity. Several responsibilities.', identityBody: 'Job profiles can evolve and validated experience can remain attached to Lucas. Its identity, organization and company rules are not recreated for every mission.', experienceLabel: 'Validated experience', experience: ['Customer reply policy · version 3', 'Sales qualification rules · version 2'],
-    finalKicker: 'Start with the work', finalTitle: 'Everything starts with a mission.', finalBody: 'Choose work to be done.\nAlma helps you scope it,\nthen prepare the AI Collaborator\nthat can carry it out.', alma: 'Alma · Mission coordinator', finalCta: 'Explore missions', pricing: 'See pricing',
+    midCtaTitle: 'What work do you no longer want to handle alone?', midCtaBody: 'Describe it to Alma. She helps scope the mission before anything is activated.', midCta: 'Describe my mission',
+    finalKicker: 'Your first mission', finalTitle: 'Show the work. Alma prepares the AI Collaborator.', finalBody: 'Start with one concrete mission. You approve its scope, access and the decisions that must remain human.', finalProofs: ['7 days free', 'No credit card', 'From €74/month'], finalCta: 'Start free', exploreMissions: 'Or explore missions', pricing: 'View detailed pricing',
   },
 } as const
