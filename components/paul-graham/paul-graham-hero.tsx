@@ -126,7 +126,10 @@ export function PaulGrahamHero() {
           <div className="mx-auto mt-14 flex max-w-2xl flex-col items-center gap-8 rounded-[24px] border border-[#D8D0C2] bg-[#F3EFE6] p-8 sm:flex-row sm:p-10">
             <Image src="/alma-avatar.png" alt="Alma" width={96} height={96} className="size-[72px] shrink-0 rounded-full object-cover ring-1 ring-[#D8D0C2] sm:size-24" />
             <div className="text-center sm:text-left">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">Alma · {t.almaRole}</p>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63] inline-flex items-center gap-1.5">
+                <Image src="/alma-avatar.png" alt="" width={18} height={18} className="size-[18px] rounded-full object-cover ring-1 ring-[#D10E63]/20" />
+                Alma · {t.almaRole}
+              </p>
               <p className="mt-2 text-lg leading-7 text-[#4E483F]">{t.almaNote}</p>
               <Link href="/decouvrir" className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#B00C54] hover:underline">
                 {t.how}<ArrowRight className="size-3.5" />
