@@ -27,8 +27,6 @@ type Copy = {
   cadenceWord: string
   keepLine: string
   seeProfile: string
-  startCta: string
-  trialNote: string
   relatedWord: string
   seeAll: string
 }
@@ -53,8 +51,6 @@ const T: Record<Lang, Copy> = {
     cadenceWord: 'Rythme',
     keepLine: 'Confiez-lui cette mission aujourd’hui. Reconfiez-la-lui chaque fois que vous en avez besoin.',
     seeProfile: 'Voir le Collaborateur',
-    startCta: 'Confier cette mission',
-    trialNote: 'Essai gratuit de 7 jours. Sans engagement.',
     relatedWord: 'Missions liées',
     seeAll: 'Voir toutes les missions',
   },
@@ -77,8 +73,6 @@ const T: Record<Lang, Copy> = {
     cadenceWord: 'Cadence',
     keepLine: 'Hand it this mission today. Hand it back whenever you need it.',
     seeProfile: 'See the Collaborator',
-    startCta: 'Hand over this mission',
-    trialNote: '7-day free trial. No commitment.',
     relatedWord: 'Related missions',
     seeAll: 'See all missions',
   },
@@ -242,17 +236,8 @@ export function MissionDetailContent({ slug }: { slug: string }) {
                 ))}
               </dl>
 
-              <Link
-                href={`/confier?mission=${mission.slug}`}
-                className="mt-6 flex items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-5 py-3 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5"
-              >
-                {t.startCta}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <p className="mt-3 text-center text-xs text-[#8A8175]">{t.trialNote}</p>
-
               {/* The Unitalk edge over a one-off freelance brief. */}
-              <p className="mt-4 rounded-2xl bg-[#D10E63]/[0.06] px-4 py-3 text-center text-[13px] font-medium leading-relaxed text-[#1C1A17]">
+              <p className="mt-6 rounded-2xl bg-[#D10E63]/[0.06] px-4 py-3 text-center text-[13px] font-medium leading-relaxed text-[#1C1A17]">
                 {t.keepLine}
               </p>
 
