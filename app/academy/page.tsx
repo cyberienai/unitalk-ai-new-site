@@ -1,61 +1,141 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-import { AcademyCta, AcademyHero, AcademyKicker } from '@/components/academy/academy-ui'
-import { MissionCard } from '@/components/academy/catalog-cards'
-import { MISSIONS } from '@/lib/academy-catalog'
+import {
+  ArrowDown,
+  ArrowRight,
+  Check,
+  Clock3,
+  FileCheck2,
+  Sparkles,
+} from 'lucide-react'
+import { MISSIONS, NETWORKS } from '@/lib/academy-catalog'
+
+const featuredMission = MISSIONS[0]
+const freeMissions = MISSIONS.filter(mission => mission.free)
 
 const steps = [
-  ['Choisissez une mission', 'Un travail concret, avec un résultat clair et un temps défini.'],
-  ['Produisez un livrable', 'Vous apprenez en faisant, avec une méthode et des sources.'],
-  ['Faites valider votre travail', 'Vous repartez avec une preuve utile, pas seulement une leçon terminée.'],
+  {
+    number: '01',
+    title: 'Choisissez un vrai problème.',
+    body: 'Pas de cours abstrait. Vous partez d’une mission cadrée, proche du travail réel.',
+    note: '5 min pour démarrer',
+  },
+  {
+    number: '02',
+    title: 'Construisez avec l’IA.',
+    body: 'Une méthode, des étapes et des sources vous guident jusqu’au livrable final.',
+    note: '2 à 4 h de pratique',
+  },
+  {
+    number: '03',
+    title: 'Repartez avec une preuve.',
+    body: 'Votre travail est relu selon des critères explicites. Vous savez ce que vous maîtrisez.',
+    note: '1 livrable validé',
+  },
 ]
 
 export default function AcademyPage() {
-  return <main>
-    <AcademyHero
-      kicker="Unitalk Academy"
-      title="Apprenez l’IA en faisant un vrai travail."
-      body="Choisissez une mission, produisez un résultat et faites valider ce que vous savez faire."
-    />
-
-    <section className="px-5 pb-16 text-center sm:pb-24">
-      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <AcademyCta href="/missions?gratuit=1">Commencer gratuitement</AcademyCta>
-        <Link href="/academy/parcours" className="academy-text-link px-4 py-3">Voir les parcours<ArrowRight className="size-3.5"/></Link>
-      </div>
-      <p className="mt-4 text-xs font-semibold text-[#857c6e]">Une première mission. Un livrable. Une preuve.</p>
-    </section>
-
-    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-16 sm:py-24">
-      <div className="academy-reading">
-        <AcademyKicker>Comment ça marche</AcademyKicker>
-        <p className="mt-5 text-[clamp(1.7rem,3.8vw,2.8rem)] font-semibold leading-[1.1] tracking-[-.04em]">La formation devient utile quand elle produit quelque chose.</p>
-        <div className="mt-10 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">
-          {steps.map(([title, body], index) => <article key={title} className="grid grid-cols-[36px_1fr] gap-4 py-6">
-            <span className="font-mono text-[10px] font-bold text-[#d10e63]">0{index + 1}</span>
-            <div><h2 className="text-lg font-semibold">{title}</h2><p className="mt-1 text-sm leading-6 text-[#625b50]">{body}</p></div>
-          </article>)}
+  return (
+    <main className="academy-home">
+      <section className="academy-home-hero">
+        <div className="academy-home-orbit" aria-hidden="true">
+          <span>MISSION</span><span>PRATIQUE</span><span>PREUVE</span>
         </div>
-      </div>
-    </section>
+        <div className="academy-home-shell academy-home-hero-grid">
+          <div className="academy-home-hero-copy">
+            <p className="academy-home-eyebrow"><span>Nouvelle manière d’apprendre</span><span>2026</span></p>
+            <h1>Ne suivez plus<br/>de cours.<br/><em>Faites le travail.</em></h1>
+            <p className="academy-home-lede">L’Academy où l’on apprend l’IA comme on apprend un métier&nbsp;: en accomplissant des missions concrètes, évaluées et utiles.</p>
+            <div className="academy-home-actions">
+              <Link href="/academy/missions?gratuit=1" className="academy-home-primary">Choisir une mission<ArrowRight/></Link>
+              <Link href="#methode" className="academy-home-scroll">Découvrir la méthode<ArrowDown/></Link>
+            </div>
+          </div>
 
-    <section className="px-5 py-16 sm:py-24">
-      <div className="academy-reading">
-        <div className="flex items-end justify-between gap-5">
-          <div><AcademyKicker>Pour commencer</AcademyKicker><h2 className="mt-4 text-3xl font-semibold tracking-[-.04em]">Trois missions gratuites.</h2></div>
-          <Link href="/academy/missions" className="academy-text-link hidden sm:inline-flex">Toutes les missions<ArrowRight className="size-3.5"/></Link>
+          <div className="academy-home-brief-wrap">
+            <div className="academy-home-brief-shadow" aria-hidden="true"/>
+            <article className="academy-home-brief">
+              <div className="academy-home-brief-top">
+                <span>Brief de mission</span><span className="academy-home-live"><i/>Ouverte</span>
+              </div>
+              <div className="academy-home-brief-number">M—001</div>
+              <p className="academy-home-brief-sector">{NETWORKS.find(network => network.id === featuredMission.sector)?.name} / Intermédiaire</p>
+              <h2>{featuredMission.title}</h2>
+              <p className="academy-home-brief-result">{featuredMission.result}</p>
+              <dl>
+                <div><dt><Clock3/>Temps estimé</dt><dd>{featuredMission.duration}</dd></div>
+                <div><dt><FileCheck2/>À produire</dt><dd>{featuredMission.deliverable}</dd></div>
+              </dl>
+              <Link href={`/academy/missions/${featuredMission.slug}`}>Ouvrir le brief<ArrowRight/></Link>
+            </article>
+            <p className="academy-home-handnote">Votre première mission<br/>est gratuite <span>↗</span></p>
+          </div>
         </div>
-        <div className="academy-list mt-8">{MISSIONS.filter(mission => mission.free).slice(0, 3).map(mission => <MissionCard key={mission.slug} mission={mission}/>)}</div>
-        <Link href="/academy/missions" className="academy-text-link mt-7 sm:hidden">Toutes les missions<ArrowRight className="size-3.5"/></Link>
-      </div>
-    </section>
+        <div className="academy-home-proofbar">
+          <div className="academy-home-shell">
+            <p><strong>6</strong><span>missions concrètes</span></p>
+            <p><strong>3</strong><span>gratuites pour commencer</span></p>
+            <p><strong>100%</strong><span>orientées livrable</span></p>
+            <p className="academy-home-proofquote">“Apprendre, c’est produire<br/>quelque chose qui compte.”</p>
+          </div>
+        </div>
+      </section>
 
-    <section className="border-t border-[#d8d0c2] bg-[#fffdf9] px-5 py-16 text-center sm:py-24">
-      <div className="academy-reading">
-        <AcademyKicker>Votre prochaine étape</AcademyKicker>
-        <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-semibold leading-tight tracking-[-.04em] sm:text-4xl">Commencez petit. Terminez une mission.</h2>
-        <div className="mt-7"><AcademyCta href="/missions?gratuit=1">Choisir une mission</AcademyCta></div>
-      </div>
-    </section>
-  </main>
+      <section id="methode" className="academy-home-method">
+        <div className="academy-home-shell">
+          <header className="academy-home-section-head">
+            <p>La méthode Unitalk</p>
+            <h2>Du premier geste<br/><em>à la preuve.</em></h2>
+            <span>Une progression simple, pensée pour celles et ceux qui veulent savoir faire, pas seulement savoir.</span>
+          </header>
+          <div className="academy-home-steps">
+            {steps.map((step, index) => (
+              <article key={step.number}>
+                <div className="academy-home-step-index"><span>{step.number}</span>{index < steps.length - 1 && <i/>}</div>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
+                  <small><Check/>{step.note}</small>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="academy-home-missions">
+        <div className="academy-home-shell">
+          <header className="academy-home-mission-head">
+            <div><p>Point de départ</p><h2>Trois missions.<br/>Zéro excuse.</h2></div>
+            <p>Gratuites, accessibles immédiatement.<br/>Choisissez celle qui ressemble le plus à votre quotidien.</p>
+          </header>
+          <div className="academy-home-card-grid">
+            {freeMissions.map((mission, index) => {
+              const network = NETWORKS.find(item => item.id === mission.sector)
+              return (
+                <Link href={`/academy/missions/${mission.slug}`} className="academy-home-card" key={mission.slug} style={{'--card-accent': network?.color} as React.CSSProperties}>
+                  <div className="academy-home-card-top"><span>0{index + 1}</span><Sparkles/><b>Gratuit</b></div>
+                  <p>{network?.name}</p>
+                  <h3>{mission.title}</h3>
+                  <div className="academy-home-card-output"><small>Votre livrable</small><strong>{mission.deliverable}</strong></div>
+                  <footer><span>{mission.duration} · {mission.level}</span><i><ArrowRight/></i></footer>
+                </Link>
+              )
+            })}
+          </div>
+          <Link href="/academy/missions" className="academy-home-all">Explorer les 6 missions <ArrowRight/></Link>
+        </div>
+      </section>
+
+      <section className="academy-home-final">
+        <div className="academy-home-final-grid" aria-hidden="true"/>
+        <div className="academy-home-shell">
+          <p className="academy-home-final-kicker">Votre prochaine compétence commence ici</p>
+          <h2>Vous n’avez pas besoin<br/>d’un cours de plus.</h2>
+          <p className="academy-home-final-script">Vous avez besoin de commencer.</p>
+          <Link href="/academy/missions?gratuit=1">Trouver ma première mission<ArrowRight/></Link>
+          <small>Gratuit · Sans carte bancaire · Commencez en 5 minutes</small>
+        </div>
+      </section>
+    </main>
+  )
 }
