@@ -4,84 +4,47 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Check, Mic, Square } from 'lucide-react'
+import { ArrowRight, Mic, Square } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 type SpeechEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type Recognition = {
-  lang: string
-  continuous: boolean
-  interimResults: boolean
+  lang: string; continuous: boolean; interimResults: boolean
   onresult: ((event: SpeechEvent) => void) | null
-  onend: (() => void) | null
-  onerror: (() => void) | null
-  start: () => void
-  stop: () => void
-  abort: () => void
+  onend: (() => void) | null; onerror: (() => void) | null
+  start: () => void; stop: () => void; abort: () => void
 }
 
 function speechRecognition(): (new () => Recognition) | null {
   if (typeof window === 'undefined') return null
-  const speechWindow = window as typeof window & {
-    SpeechRecognition?: new () => Recognition
-    webkitSpeechRecognition?: new () => Recognition
-  }
-  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null
-}
-
-const STARTERS = {
-  fr: ['Relancer mes factures impayées', 'Répondre aux demandes clients', 'Préparer mon CODIR chaque lundi'],
-  en: ['Follow up unpaid invoices', 'Answer customer requests', 'Prepare my executive meeting every Monday'],
+  const w = window as typeof window & { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition }
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null
 }
 
 const COPY = {
   fr: {
-    founder: 'Une conviction de Patrick Chassany — fondateur d’Amen.fr et cofondateur de Fotolia',
     title: 'Votre savoir-faire devrait travailler même quand vous ne travaillez pas.',
-    lead: 'Pas un chatbot. Un Collaborateur IA qui accomplit une mission précise avec vos méthodes, vos outils et vos règles.',
-    label: 'Quel travail voulez-vous ne plus faire seul ?',
-    placeholder: 'Ex. qualifier les demandes entrantes et préparer la réponse…',
-    domain: 'Votre site, facultatif',
-    voice: 'Dicter ma demande',
-    stop: 'Arrêter la dictée',
-    listening: 'Alma vous écoute…',
+    lead: 'Pas un chatbot. Un Collaborateur IA qui accomplit une mission avec vos méthodes, vos outils, vos règles.',
+    placeholder: 'Quel travail ne voulez-vous plus faire seul ?',
+    voiceLabel: 'Dicter', stopLabel: 'Arrêter',
     cta: 'Confier cette mission',
-    proofs: ['7 jours gratuits', 'Sans carte bancaire', 'Vous validez avant toute action sensible', 'Escalade vers un ingénieur IA si nécessaire'],
-    examples: 'Ou partez d’un exemple',
-    thesis: 'Le logiciel vous donne un outil. Unitalk vous donne une capacité de travail.',
-    steps: [
-      ['Vous décrivez le résultat.', 'Pas besoin de connaître le bon profil, modèle ou connecteur.'],
-      ['Alma prépare la mission.', 'Elle cadre les sources, les règles, les droits et le Collaborateur adapté.'],
-      ['Le Collaborateur exécute.', 'Vous suivez le travail. Si Alma ne parvient pas à préparer ou débloquer la mission, elle l’escalade vers un ingénieur IA.'],
-    ],
+    free: '7 jours gratuits. Sans CB.',
+    thesis: 'Un logiciel vous donne un outil. Unitalk vous donne une capacité de travail.',
+    almaNote: 'Alma ne réalise pas la mission. Elle prépare le Collaborateur IA qui va l\'accomplir.',
     almaRole: 'Coordinatrice de missions',
-    roleNote: 'Alma ne réalise pas la mission. Elle prépare le Collaborateur IA qui va l’accomplir pour votre entreprise et l’escalade vers un ingénieur IA lorsqu’une expertise humaine est nécessaire.',
-    why: 'Pourquoi Unitalk',
-    pricing: 'Voir les tarifs',
+    how: 'Comment ça marche',
   },
   en: {
-    founder: 'A conviction by Patrick Chassany — founder of Amen.fr and co-founder of Fotolia',
-    title: 'Your know-how should work even when you are not working.',
-    lead: 'Not a chatbot. An AI Collaborator that performs one precise mission using your methods, tools and rules.',
-    label: 'What work do you no longer want to handle alone?',
-    placeholder: 'E.g. qualify inbound requests and prepare the reply…',
-    domain: 'Your website, optional',
-    voice: 'Dictate my request',
-    stop: 'Stop dictation',
-    listening: 'Alma is listening…',
+    title: 'Your know-how should work even when you\'re not working.',
+    lead: 'Not a chatbot. An AI Collaborator that performs a mission with your methods, tools and rules.',
+    placeholder: 'What work do you no longer want to handle alone?',
+    voiceLabel: 'Dictate', stopLabel: 'Stop',
     cta: 'Assign this mission',
-    proofs: ['7 days free', 'No credit card', 'You approve every sensitive action', 'Escalation to an AI engineer when needed'],
-    examples: 'Or start from an example',
+    free: '7 days free. No credit card.',
     thesis: 'Software gives you a tool. Unitalk gives you a work capability.',
-    steps: [
-      ['You describe the outcome.', 'No need to know the right profile, model or connector.'],
-      ['Alma prepares the mission.', 'She scopes sources, rules, permissions and the right Collaborator.'],
-      ['The Collaborator executes.', 'You follow the work. If Alma cannot prepare or unblock the mission, she escalates it to an AI engineer.'],
-    ],
+    almaNote: 'Alma does not perform the mission. She prepares the AI Collaborator that will carry it out.',
     almaRole: 'Mission coordinator',
-    roleNote: 'Alma does not perform the mission. She prepares the AI Collaborator that will carry it out for your company and escalates to an AI engineer when human expertise is needed.',
-    why: 'Why Unitalk',
-    pricing: 'View pricing',
+    how: 'How it works',
   },
 } as const
 
@@ -90,7 +53,6 @@ export function PaulGrahamHero() {
   const t = COPY[lang]
   const router = useRouter()
   const [need, setNeed] = useState('')
-  const [domain, setDomain] = useState('')
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
   const recognitionRef = useRef<Recognition | null>(null)
@@ -99,107 +61,76 @@ export function PaulGrahamHero() {
     const SpeechRecognition = speechRecognition()
     if (!SpeechRecognition) return
     setVoiceSupported(true)
-    const recognition = new SpeechRecognition()
-    recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
-    recognition.continuous = false
-    recognition.interimResults = true
-    recognition.onresult = event => {
-      let transcript = ''
-      for (let index = 0; index < event.results.length; index++) transcript += event.results[index][0].transcript
-      setNeed(transcript)
-    }
-    recognition.onend = () => setListening(false)
-    recognition.onerror = () => setListening(false)
-    recognitionRef.current = recognition
-    return () => recognition.abort()
+    const r = new SpeechRecognition()
+    r.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
+    r.continuous = false; r.interimResults = true
+    r.onresult = e => { let t = ''; for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; setNeed(t) }
+    r.onend = () => setListening(false); r.onerror = () => setListening(false)
+    recognitionRef.current = r
+    return () => r.abort()
   }, [lang])
 
   function toggleListening() {
-    const recognition = recognitionRef.current
-    if (!recognition) return
-    if (listening) {
-      recognition.stop()
-      return
-    }
+    const r = recognitionRef.current; if (!r) return
+    if (listening) { r.stop(); return }
     setListening(true)
-    try {
-      recognition.start()
-    } catch {
-      setListening(false)
-    }
+    try { r.start() } catch { setListening(false) }
   }
 
   function submit() {
-    const clean = need.trim()
-    if (!clean) return
+    const clean = need.trim(); if (!clean) return
     const draftId = `draft_${crypto.randomUUID()}`
-    try {
-      localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, domain: domain.trim(), createdAt: Date.now() }))
-    } catch {}
-    const query = new URLSearchParams({ source: 'paul-graham', draft: draftId })
-    if (domain.trim()) query.set('domain', domain.trim())
-    router.push(`/decouvrir?${query}`)
+    try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() })) } catch {}
+    router.push(`/decouvrir?source=paul-graham&draft=${encodeURIComponent(draftId)}`)
   }
 
   return (
     <main>
-      <section className="px-5 pb-16 pt-32 sm:px-8 sm:pb-24 sm:pt-40">
-        <div className="mx-auto max-w-[880px] text-center">
-          <p className="mx-auto max-w-xl font-mono text-[10px] font-bold uppercase leading-5 tracking-[0.16em] text-[#857C6E]">{t.founder}</p>
-          <h1 className="mt-8 text-balance text-[clamp(3rem,7.4vw,6.6rem)] font-semibold leading-[0.91] tracking-[-0.072em]">{t.title}</h1>
-          <p className="mx-auto mt-7 max-w-2xl text-[19px] leading-8 text-[#4E483F]">{t.lead}</p>
+      {/* HERO — 3 lines, 1 input, 1 CTA */}
+      <section className="px-5 pb-12 pt-[18vh] sm:px-8 sm:pb-20">
+        <div className="mx-auto max-w-[720px] text-center">
+          <h1 className="text-balance text-[clamp(2.6rem,6.5vw,5.5rem)] font-semibold leading-[0.94] tracking-[-0.06em]">{t.title}</h1>
+          <p className="mx-auto mt-5 max-w-lg text-[17px] leading-7 text-[#4E483F]">{t.lead}</p>
 
-          <div className="mx-auto mt-10 max-w-2xl rounded-[26px] border border-[#D8D0C2] bg-[#FFFDF9] p-3 text-left shadow-[0_28px_80px_-48px_rgba(28,26,23,0.55)] sm:p-4">
-            <label htmlFor="pg-need" className="block px-2 pb-2 text-xs font-bold text-[#625B50]">{t.label}</label>
-            <div className="relative">
+          <div className="mx-auto mt-8 max-w-[560px]">
+            <div className="relative rounded-[22px] border border-[#D8D0C2] bg-[#FFFDF9] p-2 shadow-[0_22px_60px_-36px_rgba(28,26,23,0.5)] sm:p-2.5">
               <textarea
-                id="pg-need"
                 value={need}
-                onChange={event => setNeed(event.target.value)}
-                onKeyDown={event => {
-                  if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
-                    event.preventDefault()
-                    submit()
-                  }
-                }}
+                onChange={e => setNeed(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); submit() } }}
                 rows={3}
-                placeholder={listening ? t.listening : t.placeholder}
-                className="w-full resize-none rounded-2xl bg-[#F3EFE6] p-4 pr-14 text-[15px] leading-6 outline-none placeholder:text-[#A79E8E] focus:ring-2 focus:ring-[#D10E63]/20"
+                placeholder={t.placeholder}
+                className="w-full resize-none rounded-[16px] bg-[#F3EFE6] px-4 py-3.5 pr-12 text-[15px] leading-6 outline-none placeholder:text-[#A79E8E] focus:ring-2 focus:ring-[#D10E63]/20"
               />
               {voiceSupported && (
-                <button type="button" onClick={toggleListening} aria-label={listening ? t.stop : t.voice} aria-pressed={listening} className={`absolute right-3 top-3 flex size-10 items-center justify-center rounded-full transition-colors ${listening ? 'bg-[#D10E63] text-white' : 'bg-white text-[#B00C54] hover:bg-[#FCEBF2]'}`}>
-                  {listening ? <Square className="size-3.5" fill="currentColor" /> : <Mic className="size-4" />}
+                <button type="button" onClick={toggleListening} aria-label={listening ? t.stopLabel : t.voiceLabel} className={`absolute right-4 top-4 flex size-9 items-center justify-center rounded-full transition-colors ${listening ? 'bg-[#D10E63] text-white' : 'bg-white text-[#B00C54] hover:bg-[#FCEBF2]'}`}>
+                  {listening ? <Square className="size-3" fill="currentColor" /> : <Mic className="size-3.5" />}
                 </button>
               )}
             </div>
-            <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto]">
-              <input value={domain} onChange={event => setDomain(event.target.value)} placeholder={t.domain} className="h-12 rounded-full border border-[#D8D0C2] bg-white px-4 text-sm outline-none focus:border-[#D10E63]" />
-              <button type="button" onClick={submit} disabled={!need.trim()} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0">{t.cta}<ArrowRight className="ml-2 size-4" /></button>
+            <div className="mt-3 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+              <button type="button" onClick={submit} disabled={!need.trim()} className="inline-flex w-full min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-8 text-sm font-bold text-white shadow-[0_8px_28px_-12px_rgba(209,14,99,.6)] transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-10px_rgba(209,14,99,.7)] disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 sm:w-auto">
+                {t.cta}<ArrowRight className="ml-2 size-4" />
+              </button>
+              <p className="text-xs font-semibold text-[#857C6E]">{t.free}</p>
             </div>
           </div>
-
-          <p className="mt-5 text-xs font-bold text-[#857C6E]">{t.examples}</p>
-          <div className="mt-2 flex flex-wrap justify-center gap-2">{STARTERS[lang].map(item => <button key={item} type="button" onClick={() => setNeed(item)} className="rounded-full border border-[#D8D0C2] bg-white px-3.5 py-2 text-xs font-semibold text-[#4E483F] transition-colors hover:border-[#D10E63]/50 hover:text-[#B00C54]">{item}</button>)}</div>
-          <ul className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-semibold text-[#625B50]">{t.proofs.map(item => <li key={item} className="flex items-center gap-1.5"><Check className="size-3.5 text-[#D10E63]" />{item}</li>)}</ul>
         </div>
       </section>
 
-      {/* FUSION: steps + Alma role — single section */ }
-      <section className="border-y border-[#D8D0C2] bg-[#FFFDF9] px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mx-auto max-w-5xl">
-          <p className="text-center text-[clamp(1.8rem,4vw,3.3rem)] font-semibold leading-[1.08] tracking-[-0.045em]">{t.thesis}</p>
-          <ol className="mt-14 grid gap-px overflow-hidden rounded-[26px] border border-[#D8D0C2] bg-[#D8D0C2] md:grid-cols-3">{t.steps.map(([title, body], index) => <li key={title} className="bg-[#F3EFE6] p-7 sm:p-8"><span className="font-mono text-[10px] font-black text-[#D10E63]">0{index + 1}</span><h2 className="mt-7 text-xl font-bold tracking-[-0.025em]">{title}</h2><p className="mt-3 text-sm leading-7 text-[#625B50]">{body}</p></li>)}</ol>
-          {/* Alma role note — inline after steps, no separate section */}
-          <div className="mx-auto mt-16 grid max-w-3xl gap-8 lg:grid-cols-[auto_1fr] lg:items-center">
-            <Image src="/alma-avatar.png" alt="Alma" width={140} height={140} className="mx-auto size-28 rounded-full object-cover ring-1 ring-[#D8D0C2] lg:size-32" />
-            <div className="text-center lg:text-left">
+      {/* THEOREM + ALMA — 2 blocks, no filler */}
+      <section className="border-y border-[#D8D0C2] bg-[#FFFDF9] px-5 py-20 sm:px-8 sm:py-28">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-[clamp(1.7rem,3.8vw,2.8rem)] font-semibold leading-[1.1] tracking-[-0.04em]">{t.thesis}</p>
+
+          <div className="mx-auto mt-14 flex max-w-2xl flex-col items-center gap-8 rounded-[24px] border border-[#D8D0C2] bg-[#F3EFE6] p-8 sm:flex-row sm:p-10">
+            <Image src="/alma-avatar.png" alt="Alma" width={96} height={96} className="size-[72px] shrink-0 rounded-full object-cover ring-1 ring-[#D8D0C2] sm:size-24" />
+            <div className="text-center sm:text-left">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">Alma · {t.almaRole}</p>
-              <p className="mt-3 text-xl font-semibold leading-snug tracking-[-0.025em] text-[#1C1A17]">{t.roleNote}</p>
-              <div className="mt-5 flex flex-wrap justify-center gap-4 lg:justify-start">
-                <Link href="/unitalk/@alma" className="inline-flex min-h-10 items-center rounded-full bg-[#1C1A17] px-5 text-sm font-bold text-white">Alma<ArrowRight className="ml-2 size-4" /></Link>
-                <Link href="/collaborateurs-ia/pourquoi-unitalk" className="inline-flex min-h-10 items-center text-sm font-bold text-[#B00C54]">{t.why}</Link>
-                <Link href="/tarifs" className="inline-flex min-h-10 items-center text-sm font-bold text-[#4E483F]">{t.pricing}</Link>
-              </div>
+              <p className="mt-2 text-lg leading-7 text-[#4E483F]">{t.almaNote}</p>
+              <Link href="/decouvrir" className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#B00C54] hover:underline">
+                {t.how}<ArrowRight className="size-3.5" />
+              </Link>
             </div>
           </div>
         </div>
