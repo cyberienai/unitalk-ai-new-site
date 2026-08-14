@@ -16,6 +16,11 @@ describe('Academy integration',()=>{
     expect([MISSIONS.length,SKILLS.length,PATHS.length,NETWORKS.length]).toEqual([6,9,4,6])
     for(const mission of MISSIONS) for(const slug of mission.skillSlugs) expect(SKILLS.some(skill=>skill.slug===slug)).toBe(true)
   })
+  it('links the Academy brand to each respective home page',()=>{
+    const nav=readFileSync(join(root,'components','academy','academy-nav.tsx'),'utf8')
+    expect(nav).toContain('<Link href="/" className="flex items-center gap-2.5" aria-label="Unitalk">')
+    expect(nav).toContain('<Link href="/academy" className="text-sm font-bold tracking-[-.02em]" aria-label="Unitalk Academy">Academy</Link>')
+  })
   it('contains no legacy unitalk.fr links in application source',()=>{
     for(const directory of ['app','components','lib']) for(const file of sourceFiles(join(root,directory))) expect(readFileSync(file,'utf8'),file).not.toContain('https://unitalk.fr')
   })

@@ -1,50 +1,110 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Mic, Square } from 'lucide-react'
+import {
+  ArrowDown,
+  ArrowRight,
+  Check,
+  CircleUserRound,
+  Mic,
+  ShieldCheck,
+  Square,
+  Workflow,
+} from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 
 type SpeechEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type Recognition = {
-  lang: string; continuous: boolean; interimResults: boolean
+  lang: string
+  continuous: boolean
+  interimResults: boolean
   onresult: ((event: SpeechEvent) => void) | null
-  onend: (() => void) | null; onerror: (() => void) | null
-  start: () => void; stop: () => void; abort: () => void
+  onend: (() => void) | null
+  onerror: (() => void) | null
+  start: () => void
+  stop: () => void
+  abort: () => void
 }
 
 function speechRecognition(): (new () => Recognition) | null {
   if (typeof window === 'undefined') return null
-  const w = window as typeof window & { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition }
-  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null
+  const browser = window as typeof window & {
+    SpeechRecognition?: new () => Recognition
+    webkitSpeechRecognition?: new () => Recognition
+  }
+  return browser.SpeechRecognition ?? browser.webkitSpeechRecognition ?? null
 }
 
 const COPY = {
   fr: {
+    eyebrow: 'Une idée simple pour les entreprises capables',
     title: 'Votre savoir-faire devrait travailler même quand vous ne travaillez pas.',
-    lead: 'Pas un chatbot. Un Collaborateur IA qui accomplit une mission avec vos méthodes, vos outils, vos règles.',
-    placeholder: 'Quel travail ne voulez-vous plus faire seul ?',
-    voiceLabel: 'Dicter', stopLabel: 'Arrêter',
+    lead: 'Pas un chatbot de plus. Un Collaborateur IA qui accomplit une mission avec vos méthodes, vos outils et vos règles.',
+    fieldLabel: 'Quel travail voulez-vous ne plus faire seul ?',
+    placeholder: 'Ex. Préparer chaque lundi une veille concurrentielle sourcée…',
+    voiceLabel: 'Dicter la mission',
+    stopLabel: 'Arrêter la dictée',
     cta: 'Confier cette mission',
-    free: '7 jours gratuits. Sans CB.',
+    free: '7 jours gratuits · Sans carte bancaire',
+    discover: 'Voir le principe',
     thesis: 'Un logiciel vous donne un outil. Unitalk vous donne une capacité de travail.',
-    almaNote: 'Vous décrivez le résultat attendu. Alma cadre la mission, sélectionne le bon Collaborateur, et vous livre le travail.',
-    almaRole: 'Coordinatrice de missions',
-    how: 'Comment ça marche',
+    thesisNote: 'La différence ne se joue pas dans une fenêtre de chat. Elle se joue dans le travail livré, les décisions documentées et les limites respectées.',
+    modelKicker: 'Le modèle Unitalk',
+    modelTitle: 'Vous gardez le jugement. Le système gagne en capacité.',
+    humanTitle: 'Vous définissez',
+    humanBody: 'Le résultat attendu, les sources autorisées et les décisions qui exigent votre validation.',
+    almaTitle: 'Alma coordonne',
+    almaBody: 'Alma ne réalise pas la mission. Elle la cadre, choisit les capacités et organise les validations.',
+    workerTitle: 'Le Collaborateur exécute.',
+    workerBody: 'Il utilise vos méthodes, produit le livrable et signale ce qu’il ne peut pas décider seul.',
+    proofKicker: 'Contrôle par conception',
+    proofTitle: 'Autonome sur le travail. Jamais sur vos décisions sensibles.',
+    safeguards: [
+      'Actions et sources autorisées définies avant exécution',
+      'Validation humaine aux étapes qui engagent l’entreprise',
+      'Journal clair du travail, des hypothèses et des résultats',
+      'En cas de blocage, escalade vers un ingénieur IA',
+    ],
+    finalTitle: 'Commencez par un travail que vous connaissez par cœur.',
+    finalBody: 'Décrivez-le en une phrase. Nous transformons votre savoir-faire en une mission contrôlée.',
+    finalCta: 'Décrire ma première mission',
+    pricing: 'Voir les tarifs',
   },
   en: {
-    title: 'Your know-how should work even when you\'re not working.',
-    lead: 'Not a chatbot. An AI Collaborator that performs a mission with your methods, tools and rules.',
-    placeholder: 'What work do you no longer want to handle alone?',
-    voiceLabel: 'Dictate', stopLabel: 'Stop',
+    eyebrow: 'A simple idea for capable companies',
+    title: 'Your know-how should work even when you are not working.',
+    lead: 'Not another chatbot. An AI Collaborator that carries out a mission using your methods, tools and rules.',
+    fieldLabel: 'What work do you no longer want to handle alone?',
+    placeholder: 'E.g. Prepare a sourced competitive brief every Monday…',
+    voiceLabel: 'Dictate the mission',
+    stopLabel: 'Stop dictation',
     cta: 'Assign this mission',
-    free: '7 days free. No credit card.',
-    thesis: 'Software gives you a tool. Unitalk gives you a work capability.',
-    almaNote: 'You describe the outcome. Alma frames the mission, selects the right Collaborator, and delivers the work.',
-    almaRole: 'Mission coordinator',
-    how: 'How it works',
+    free: '7 days free · No credit card',
+    discover: 'See how it works',
+    thesis: 'Software gives you a tool. Unitalk gives you work capacity.',
+    thesisNote: 'The difference is not in a chat window. It is in delivered work, documented decisions and respected boundaries.',
+    modelKicker: 'The Unitalk model',
+    modelTitle: 'You keep the judgment. The system gains capacity.',
+    humanTitle: 'You define',
+    humanBody: 'The expected outcome, authorized sources and decisions that require your approval.',
+    almaTitle: 'Alma coordinates',
+    almaBody: 'Alma does not carry out the mission. She frames it, selects capabilities and organizes approvals.',
+    workerTitle: 'The Collaborator executes.',
+    workerBody: 'It uses your methods, produces the deliverable and flags what it cannot decide alone.',
+    proofKicker: 'Control by design',
+    proofTitle: 'Autonomous on the work. Never on your sensitive decisions.',
+    safeguards: [
+      'Authorized actions and sources defined before execution',
+      'Human approval at steps that commit the company',
+      'Clear log of work, assumptions and outcomes',
+      'When blocked, escalation to an AI engineer',
+    ],
+    finalTitle: 'Start with work you know by heart.',
+    finalBody: 'Describe it in one sentence. We turn your know-how into a controlled mission.',
+    finalCta: 'Describe my first mission',
+    pricing: 'See pricing',
   },
 } as const
 
@@ -54,89 +114,159 @@ export function PaulGrahamHero() {
   const router = useRouter()
   const [need, setNeed] = useState('')
   const [listening, setListening] = useState(false)
-  const [voiceSupported, setVoiceSupported] = useState(false)
   const recognitionRef = useRef<Recognition | null>(null)
+  const missionFieldRef = useRef<HTMLTextAreaElement | null>(null)
 
   useEffect(() => {
     const SpeechRecognition = speechRecognition()
     if (!SpeechRecognition) return
-    setVoiceSupported(true)
-    const r = new SpeechRecognition()
-    r.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
-    r.continuous = false; r.interimResults = true
-    r.onresult = e => { let t = ''; for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; setNeed(t) }
-    r.onend = () => setListening(false); r.onerror = () => setListening(false)
-    recognitionRef.current = r
-    return () => r.abort()
+    const recognition = new SpeechRecognition()
+    recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
+    recognition.continuous = false
+    recognition.interimResults = true
+    recognition.onresult = event => {
+      let transcript = ''
+      for (let index = 0; index < event.results.length; index++) transcript += event.results[index][0].transcript
+      setNeed(transcript)
+    }
+    recognition.onend = () => setListening(false)
+    recognition.onerror = () => setListening(false)
+    recognitionRef.current = recognition
+    return () => recognition.abort()
   }, [lang])
 
   function toggleListening() {
-    const r = recognitionRef.current; if (!r) return
-    if (listening) { r.stop(); return }
+    const recognition = recognitionRef.current
+    if (!recognition) return
+    if (listening) {
+      recognition.stop()
+      return
+    }
     setListening(true)
-    try { r.start() } catch { setListening(false) }
+    try { recognition.start() } catch { setListening(false) }
   }
 
   function submit() {
-    const clean = need.trim(); if (!clean) return
+    const clean = need.trim()
+    if (!clean) {
+      missionFieldRef.current?.focus()
+      return
+    }
     const draftId = `draft_${crypto.randomUUID()}`
     try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() })) } catch {}
-    router.push(`/decouvrir?source=paul-graham&draft=${encodeURIComponent(draftId)}`)
+    const query = new URLSearchParams({ source: 'paul-graham', draft: draftId })
+    router.push(`/decouvrir?${query}`)
+  }
+
+  function focusMission() {
+    document.getElementById('mission')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    missionFieldRef.current?.focus({ preventScroll: true })
   }
 
   return (
-    <>
-      {/* HERO — 3 lines, 1 input, 1 CTA */}
-      <section className="px-5 pb-12 pt-[18vh] sm:px-8 sm:pb-20">
-        <div className="mx-auto max-w-[720px] text-center">
-          <h1 className="text-balance text-[clamp(2.6rem,6.5vw,5.5rem)] font-semibold leading-[0.94] tracking-[-0.06em]">{t.title}</h1>
-          <p className="mx-auto mt-5 max-w-lg text-[17px] leading-7 text-[#4E483F]">{t.lead}</p>
+    <main className="graham-page">
+      <section className="graham-hero" aria-labelledby="graham-title">
+        <div className="graham-grid" aria-hidden="true" />
+        <div className="graham-shell graham-hero-layout">
+          <div className="graham-hero-copy">
+            <p className="graham-eyebrow"><span>Unitalk / Thèse n°01</span><span>{t.eyebrow}</span></p>
+            <h1 id="graham-title">{t.title}</h1>
+            <p className="graham-lead">{t.lead}</p>
+            <a href="#modele" className="graham-discover">{t.discover}<ArrowDown aria-hidden="true" /></a>
+          </div>
 
-          <div className="mx-auto mt-8 max-w-[560px]">
-            <div className="relative rounded-[22px] border border-[#D8D0C2] bg-[#FFFDF9] p-2 shadow-[0_22px_60px_-36px_rgba(28,26,23,0.5)] sm:p-2.5">
-              <textarea
-                value={need}
-                onChange={e => setNeed(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); submit() } }}
-                rows={3}
-                placeholder={t.placeholder}
-                className="w-full resize-none rounded-[16px] bg-[#F3EFE6] px-4 py-3.5 pr-12 text-[15px] leading-6 outline-none placeholder:text-[#A79E8E] focus:ring-2 focus:ring-[#D10E63]/20"
-              />
-              {voiceSupported && (
-                <button type="button" onClick={toggleListening} aria-label={listening ? t.stopLabel : t.voiceLabel} className={`absolute right-4 top-4 flex size-9 items-center justify-center rounded-full transition-colors ${listening ? 'bg-[#D10E63] text-white' : 'bg-white text-[#B00C54] hover:bg-[#FCEBF2]'}`}>
-                  {listening ? <Square className="size-3" fill="currentColor" /> : <Mic className="size-3.5" />}
+          <div id="mission" className="graham-mission-wrap">
+            <div className="graham-mission-shadow" aria-hidden="true" />
+            <form className="graham-mission" onSubmit={event => { event.preventDefault(); submit() }}>
+              <header><span>Nouvelle mission</span><span><i />Brouillon local</span></header>
+              <label htmlFor="graham-need">{t.fieldLabel}</label>
+              <div className="graham-input-wrap">
+                <textarea
+                  ref={missionFieldRef}
+                  id="graham-need"
+                  value={need}
+                  onChange={event => setNeed(event.target.value)}
+                  rows={5}
+                  maxLength={600}
+                  placeholder={t.placeholder}
+                />
+                <button type="button" onClick={toggleListening} aria-label={listening ? t.stopLabel : t.voiceLabel} aria-pressed={listening} className="graham-mic">
+                  {listening ? <Square aria-hidden="true" /> : <Mic aria-hidden="true" />}
                 </button>
-              )}
-            </div>
-            <div className="mt-3 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-              <button type="button" onClick={submit} disabled={!need.trim()} className="inline-flex w-full min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-8 text-sm font-bold text-white shadow-[0_8px_28px_-12px_rgba(209,14,99,.6)] transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-10px_rgba(209,14,99,.7)] disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 sm:w-auto">
-                {t.cta}<ArrowRight className="ml-2 size-4" />
-              </button>
-              <p className="text-xs font-semibold text-[#857C6E]">{t.free}</p>
-            </div>
+              </div>
+              <div className="graham-submit-row">
+                <small>{need.length}/600</small>
+                <button type="submit" className="graham-submit">{t.cta}<ArrowRight aria-hidden="true" /></button>
+              </div>
+              <p className="graham-free"><ShieldCheck aria-hidden="true" />{t.free}</p>
+            </form>
           </div>
         </div>
       </section>
 
-      {/* THEOREM + ALMA — 2 blocks, no filler */}
-      <section className="border-y border-[#D8D0C2] bg-[#FFFDF9] px-5 py-20 sm:px-8 sm:py-28">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-[clamp(1.7rem,3.8vw,2.8rem)] font-semibold leading-[1.1] tracking-[-0.04em]">{t.thesis}</p>
+      <section className="graham-thesis" aria-label={t.thesis}>
+        <div className="graham-shell">
+          <p className="graham-thesis-index">01 / LA THÈSE</p>
+          <blockquote>{t.thesis}</blockquote>
+          <p>{t.thesisNote}</p>
+        </div>
+      </section>
 
-          <div className="mx-auto mt-14 flex max-w-2xl flex-col items-center gap-6 rounded-[24px] border border-[#D8D0C2] bg-[#F3EFE6] p-8 sm:flex-row sm:p-10">
-            <div className="text-center sm:text-left">
-              <p className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D10E63]">
-                <Image src="/alma-avatar.png" alt="" width={18} height={18} className="size-[18px] rounded-full object-cover ring-1 ring-[#D10E63]/20" />
-                Alma · {t.almaRole}
-              </p>
-              <p className="mt-2 text-lg leading-7 text-[#4E483F]">{t.almaNote}</p>
-              <Link href="/decouvrir" className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[#B00C54] hover:underline">
-                {t.how}<ArrowRight className="size-3.5" />
-              </Link>
-            </div>
+      <section id="modele" className="graham-model" aria-labelledby="graham-model-title">
+        <div className="graham-shell">
+          <header className="graham-section-heading">
+            <p>{t.modelKicker}</p>
+            <h2 id="graham-model-title">{t.modelTitle}</h2>
+          </header>
+          <div className="graham-model-flow">
+            <article>
+              <span className="graham-model-icon"><CircleUserRound aria-hidden="true" /></span>
+              <small>01 / Humain</small>
+              <h3>{t.humanTitle}</h3>
+              <p>{t.humanBody}</p>
+            </article>
+            <i className="graham-flow-arrow" aria-hidden="true"><ArrowRight /></i>
+            <article className="graham-alma-card">
+              <span className="graham-model-icon"><Workflow aria-hidden="true" /></span>
+              <small>02 / Coordination</small>
+              <h3>{t.almaTitle}</h3>
+              <p>{t.almaBody}</p>
+            </article>
+            <i className="graham-flow-arrow" aria-hidden="true"><ArrowRight /></i>
+            <article>
+              <span className="graham-model-icon"><span aria-hidden="true">IA</span></span>
+              <small>03 / Exécution</small>
+              <h3>{t.workerTitle}</h3>
+              <p>{t.workerBody}</p>
+            </article>
           </div>
         </div>
       </section>
-    </>
+
+      <section className="graham-proof" aria-labelledby="graham-proof-title">
+        <div className="graham-shell graham-proof-layout">
+          <div>
+            <p className="graham-proof-kicker">{t.proofKicker}</p>
+            <h2 id="graham-proof-title">{t.proofTitle}</h2>
+          </div>
+          <ul>
+            {t.safeguards.map((item, index) => <li key={item}><span>0{index + 1}</span><p>{item}</p><Check aria-hidden="true" /></li>)}
+          </ul>
+        </div>
+      </section>
+
+      <section className="graham-final" aria-labelledby="graham-final-title">
+        <div className="graham-final-circle" aria-hidden="true" />
+        <div className="graham-shell">
+          <p>Une mission. Vos règles. Un résultat.</p>
+          <h2 id="graham-final-title">{t.finalTitle}</h2>
+          <span>{t.finalBody}</span>
+          <div>
+            <button type="button" onClick={focusMission}>{t.finalCta}<ArrowRight aria-hidden="true" /></button>
+            <Link href="/tarifs">{t.pricing}</Link>
+          </div>
+        </div>
+      </section>
+    </main>
   )
 }

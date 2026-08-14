@@ -1,26 +1,24 @@
-"use client"
+'use client'
 
-import Link from "next/link"
-import { useLanguage } from "@/lib/language-context"
+import Link from 'next/link'
+import { UnitalkLogo } from '@/components/unitalk-logo'
+import { useLanguage } from '@/lib/language-context'
 
 export function PaulGrahamFooter() {
   const { lang } = useLanguage()
 
   return (
-    <footer className="border-t border-[#D8D0C2] px-5 py-8 text-center">
-      <p className="text-xs text-[#A79E8E]">
-        Unitalk · Paris, France ·{" "}
-        <a href="mailto:hello@unitalk.ai" className="underline hover:text-[#4E483F]">hello@unitalk.ai</a>
-      </p>
-      <p className="mt-2 text-xs text-[#A79E8E]">
-        <Link href="/tarifs" className="hover:text-[#4E483F]">{lang === 'fr' ? 'Tarifs' : 'Pricing'}</Link>
-        {" · "}
-        <Link href="/leaders" className="hover:text-[#4E483F]">{lang === 'fr' ? 'Architectes IA' : 'AI Architects'}</Link>
-        {" · "}
-        <Link href="/missions" className="hover:text-[#4E483F]">{lang === 'fr' ? 'Missions' : 'Missions'}</Link>
-        {" · "}
-        <Link href="/mentions-legales" className="hover:text-[#4E483F]">{lang === 'fr' ? 'Mentions légales' : 'Legal'}</Link>
-      </p>
+    <footer className="graham-footer">
+      <div className="graham-shell">
+        <div className="graham-footer-brand"><UnitalkLogo className="h-8 w-auto" /><strong>Unitalk</strong><span>{lang === 'fr' ? 'Donnez une capacité de travail à votre entreprise.' : 'Give your company work capacity.'}</span></div>
+        <div className="graham-footer-links">
+          <Link href="/missions">Missions</Link>
+          <Link href="/tarifs">{lang === 'fr' ? 'Tarifs' : 'Pricing'}</Link>
+          <Link href="/leaders">{lang === 'fr' ? 'Architectes IA' : 'AI Architects'}</Link>
+          <Link href="/mentions-legales">{lang === 'fr' ? 'Mentions légales' : 'Legal'}</Link>
+        </div>
+        <p>Paris, France · <a href="mailto:hello@unitalk.ai">hello@unitalk.ai</a> · © {new Date().getFullYear()}</p>
+      </div>
     </footer>
   )
 }
