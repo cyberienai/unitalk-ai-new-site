@@ -45,6 +45,7 @@ const T = {
       {
         title: 'Ressources',
         links: [
+          { label: 'Qu’est-ce qu’un Collaborateur IA ?', href: '/collaborateurs-ia' },
           { label: 'Pourquoi Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
           { label: 'Blog', href: '/blog' },
           { label: 'Changelog', href: '/changelog' },
@@ -108,6 +109,7 @@ const T = {
       {
         title: 'Resources',
         links: [
+          { label: 'What is an AI Collaborator?', href: '/collaborateurs-ia' },
           { label: 'Why Unitalk', href: '/collaborateurs-ia/pourquoi-unitalk' },
           { label: 'Blog', href: '/blog' },
           { label: 'Changelog', href: '/changelog' },

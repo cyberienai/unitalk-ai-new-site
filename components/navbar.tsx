@@ -33,6 +33,15 @@ const MARKETPLACE_FEATURED: MenuEntry = {
   href: '/marketplace',
 }
 
+const COLLABORATOR_EXPLAINER = {
+  title: { fr: 'Qu’est-ce qu’un Collaborateur IA ?', en: 'What is an AI Collaborator?' } as Bi,
+  desc: {
+    fr: 'Identité durable, missions, compétences et contrôle humain.',
+    en: 'Durable identity, missions, skills and human control.',
+  } as Bi,
+  href: '/collaborateurs-ia',
+}
+
 const COLLAB_ACTIONS: MenuAction[] = [
   { title: { fr: 'Recommandés', en: 'Recommended' }, href: '/blog/hermes-agent-youtube' },
   { title: { fr: 'Pourquoi Unitalk ?', en: 'Why Unitalk?' }, href: '/collaborateurs-ia/pourquoi-unitalk' },
@@ -314,6 +323,7 @@ export function Navbar(
                       className="absolute -left-[120px] top-full w-[620px] max-w-[calc(100vw-2rem)] pt-3"
                     >
                       <div className="overflow-hidden rounded-[30px] border border-[#292521] bg-[#171514] text-[#FAF8F3] shadow-[0_40px_100px_-24px_rgba(28,26,23,.62)]">
+                        <div className="grid sm:grid-cols-[1.25fr_.75fr]">
                         <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group relative isolate flex min-h-[220px] flex-col overflow-hidden p-8 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5]">
                           <div aria-hidden className="absolute -right-20 -top-24 -z-10 size-80 rounded-full bg-[#D10E63]/35 blur-3xl" />
                           <UnitalkLogo size={36} activeSegment={0} color="#F2A4C5" inactiveColor="#514A43" />
@@ -322,6 +332,8 @@ export function Navbar(
                           <p className="mt-4 max-w-md text-sm leading-6 text-[#CFC6B8]">{MARKETPLACE_FEATURED.desc[lang]}</p>
                           <span className="mt-6 inline-flex items-center gap-2 text-xs font-bold text-[#F2A4C5]">{t.menuMarketplace}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" /></span>
                         </a>
+                        <a href={COLLABORATOR_EXPLAINER.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group flex min-h-[220px] flex-col justify-end border-t border-white/10 bg-white/[.035] p-7 outline-none hover:bg-white/[.06] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5] sm:border-l sm:border-t-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuDiscover}</p><h3 className="mt-4 text-xl font-semibold leading-tight tracking-[-.03em]">{COLLABORATOR_EXPLAINER.title[lang]}</h3><p className="mt-3 text-xs leading-6 text-[#CFC6B8]">{COLLABORATOR_EXPLAINER.desc[lang]}</p><span className="mt-5 inline-flex items-center gap-2 text-xs font-bold text-[#F2A4C5]">{lang === 'fr' ? 'Comprendre le produit' : 'Understand the product'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" /></span></a>
+                        </div>
 
                         <div className="grid border-t border-white/10 bg-[#171514] sm:grid-cols-[1fr_auto] sm:items-center">
                           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-7 py-4 text-[11.5px] font-bold text-[#CFC6B8]">
@@ -486,10 +498,11 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                            <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                            <div className="relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]">
+                             <div className="relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]">
                               <span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" />
                                <a href={MARKETPLACE_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="relative flex items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><UnitalkLogo size={28} activeSegment={0} color="#F2A4C5" inactiveColor="#514A43" /><span className="block text-[14px] font-bold">{MARKETPLACE_FEATURED.title[lang]}</span></a>
-                            </div>
+                             </div>
+                             <a href={COLLABORATOR_EXPLAINER.href} onClick={() => setIsMenuOpen(false)} className="my-2 flex rounded-xl border border-[#D8D0C2] bg-[#FAF8F3] p-4 text-left"><span><span className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.menuDiscover}</span><span className="mt-2 block text-sm font-bold text-[#1C1A17]">{COLLABORATOR_EXPLAINER.title[lang]}</span><span className="mt-1.5 block text-xs leading-5 text-[#625B50]">{COLLABORATOR_EXPLAINER.desc[lang]}</span></span><ArrowRight className="ml-auto mt-1 size-4 shrink-0 text-[#D10E63]" /></a>
                             <div className="my-1.5 border-t border-[#E4DDCE]" />
                             {COLLAB_ACTIONS.map((item) => (
                               <a

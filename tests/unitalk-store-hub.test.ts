@@ -18,8 +18,17 @@ describe('Marketplace IA hub', () => {
 
   it('highlights Alma with her avatar rather than the Unitalk mark', () => {
     expect(hub).toContain('src="/alma-avatar.png"')
-    expect(hub).toContain('Votre guide dans la Marketplace')
-    expect(hub).toContain('Alma trouve la bonne combinaison')
+    expect(hub).toContain('Guide de la Marketplace')
+    expect(hub).toContain('getSpeechRecognition')
+    expect(hub).toContain('aria-pressed={listening}')
+    expect(hub).toContain('Trouver dans la Marketplace')
+  })
+
+  it('uses a Missions-style catalog layout with categories on the left', () => {
+    expect(hub).toContain("lg:grid-cols-[240px_minmax(0,1fr)]")
+    expect(hub).toContain('lg:sticky lg:top-24')
+    expect(hub).toContain("href={`#${category.id}`}")
+    expect(hub).toContain('Catégories de la Marketplace')
   })
 
   it('keeps each asset type on one reference route', () => {

@@ -21,6 +21,13 @@ describe('Marketplace IA mega menu', () => {
     expect(navbar).toContain("href: '/marketplace'")
   })
 
+  it('explains AI Collaborators from a dedicated Understand area', () => {
+    expect(navbar).toContain('Qu’est-ce qu’un Collaborateur IA ?')
+    expect(navbar).toContain('Identité durable, missions, compétences et contrôle humain.')
+    expect(navbar).toContain("href: '/collaborateurs-ia'")
+    expect(navbar).toContain('COLLABORATOR_EXPLAINER.title[lang]')
+  })
+
   it('keeps Missions as the first top-level navigation entry', () => {
     expect(navbar).toContain('<NavItem href="/missions"')
   })

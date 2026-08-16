@@ -1,7 +1,9 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import {
   ArrowRight,
   Blocks,
@@ -11,8 +13,9 @@ import {
   GraduationCap,
   Handshake,
   LibraryBig,
-  Search,
+  Mic,
   Sparkles,
+  Square,
   UserRound,
   type LucideIcon,
 } from 'lucide-react'
@@ -28,6 +31,28 @@ type Category = {
   description: Bi
   href: string
   icon: LucideIcon
+}
+
+type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
+type SpeechRecognitionInstance = {
+  lang: string
+  continuous: boolean
+  interimResults: boolean
+  onresult: ((event: SpeechResultEvent) => void) | null
+  onend: (() => void) | null
+  onerror: (() => void) | null
+  start: () => void
+  stop: () => void
+  abort: () => void
+}
+
+function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
+  if (typeof window === 'undefined') return null
+  const speechWindow = window as typeof window & {
+    SpeechRecognition?: new () => SpeechRecognitionInstance
+    webkitSpeechRecognition?: new () => SpeechRecognitionInstance
+  }
+  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null
 }
 
 const GROUPS: { title: Bi; description: Bi; categories: Category[] }[] = [
@@ -172,6 +197,16 @@ const COPY = {
     almaTitle: 'Décrivez le travail. Alma trouve la bonne combinaison.',
     almaBody: 'Alma part de votre besoin, identifie le métier et les compétences utiles, puis recommande les connaissances, la mémoire, les applications et les modèles adaptés.',
     almaCta: 'Parler à Alma',
+    almaRole: 'Guide de la Marketplace',
+    ready: 'Prête à vous guider',
+    composerTitle: 'Que recherchez-vous ?',
+    talk: 'Dicter',
+    stop: 'Arrêter',
+    continue: 'Trouver dans la Marketplace',
+    voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
+    voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
+    starters: ['Un métier pour la prospection', 'Une compétence de veille', 'Une application pour mon CRM'],
+    handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne.',
     categoriesKicker: 'Accès directs',
     categoriesTitle: 'Dix catégories. Un même Collaborateur IA.',
     categoriesLead: 'Chaque raccourci ouvre son catalogue ou sa page de référence. Le symbole Unitalk identifie l’univers Marketplace ; Alma conserve son propre avatar.',
@@ -191,6 +226,16 @@ const COPY = {
     almaTitle: 'Describe the work. Alma finds the right combination.',
     almaBody: 'Alma starts with your need, identifies the right profession and skills, then recommends suitable knowledge, memory, applications and models.',
     almaCta: 'Talk to Alma',
+    almaRole: 'Marketplace guide',
+    ready: 'Ready to guide you',
+    composerTitle: 'What are you looking for?',
+    talk: 'Dictate',
+    stop: 'Stop',
+    continue: 'Search the Marketplace',
+    voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
+    voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
+    starters: ['A profession for prospecting', 'A monitoring skill', 'An application for my CRM'],
+    handoff: 'Enter to continue · Shift + Enter for a new line.',
     categoriesKicker: 'Direct access',
     categoriesTitle: 'Ten categories. One AI Collaborator.',
     categoriesLead: 'Each shortcut opens its catalog or reference page. The Unitalk symbol identifies the Marketplace universe; Alma keeps her own avatar.',
@@ -203,58 +248,129 @@ const COPY = {
 
 export function UnitalkStoreHub() {
   const { lang } = useLanguage()
+  const router = useRouter()
   const t = COPY[lang]
+  const [need, setNeed] = useState('')
+  const [listening, setListening] = useState(false)
+  const [voiceError, setVoiceError] = useState('')
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
+  const composerRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    const SpeechRecognition = getSpeechRecognition()
+    if (!SpeechRecognition) return
+    const recognition = new SpeechRecognition()
+    recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
+    recognition.continuous = false
+    recognition.interimResults = true
+    recognition.onresult = (event) => {
+      let transcript = ''
+      for (let index = 0; index < event.results.length; index++) transcript += event.results[index][0].transcript
+      setNeed(transcript.trim())
+    }
+    recognition.onend = () => setListening(false)
+    recognition.onerror = () => {
+      setListening(false)
+      setVoiceError(t.voiceDenied)
+    }
+    recognitionRef.current = recognition
+    return () => recognition.abort()
+  }, [lang, t.voiceDenied])
+
+  function toggleListening() {
+    const recognition = recognitionRef.current
+    if (!recognition) {
+      setVoiceError(t.voiceUnavailable)
+      return
+    }
+    setVoiceError('')
+    if (listening) {
+      recognition.stop()
+      return
+    }
+    setListening(true)
+    try { recognition.start() } catch { setListening(false) }
+  }
+
+  function handNeedToAlma() {
+    const clean = need.trim()
+    if (!clean) return
+    const draftId = `draft_${crypto.randomUUID()}`
+    try { localStorage.setItem(`unitalk_marketplace_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() })) } catch {}
+    router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&source=marketplace`)
+  }
 
   return (
-    <main className="bg-[#F3EFE6] font-sf text-[#1C1A17]">
-      <section className="relative overflow-hidden px-5 pb-16 pt-28 sm:px-8 sm:pb-20">
-        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
-        <div className="editorial-shell relative text-center">
-          <Kicker>{t.kicker}</Kicker>
-          <h1 className="hero-heading mx-auto mt-5 max-w-5xl [font-size:clamp(2.6rem,6vw,5.2rem)]">{t.title}</h1>
-          <p className="mx-auto mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{t.lead}</p>
-          <form action="/decouvrir" className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-3 shadow-[0_25px_60px_-40px_rgba(28,26,23,.4)] sm:flex-row">
-            <label className="relative min-w-0 flex-1">
-              <span className="sr-only">{t.placeholder}</span>
-              <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#857C6E]" />
-              <input name="q" placeholder={t.placeholder} className="h-12 w-full bg-transparent pl-11 pr-4 text-sm outline-none" />
-            </label>
-            <input type="hidden" name="source" value="marketplace-ia" />
-            <button className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.ask}<ArrowRight className="ml-2 size-4" /></button>
-          </form>
-          <a href="#categories" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90" /></a>
-        </div>
-      </section>
+    <main className="min-h-screen overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
+      <section className="relative border-b border-[#CFC5B5] px-5 pb-10 pt-28 sm:px-8 sm:pb-12 sm:pt-32">
+        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+        <div aria-hidden className="pointer-events-none absolute -right-36 top-20 size-[32rem] rounded-full bg-[#D10E63]/[.055] blur-3xl" />
+        <div className="editorial-shell relative">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16">
+            <header>
+              <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.kicker} / Collaborateurs IA</p>
+              <h1 className="mt-6 max-w-[720px] font-sf text-[clamp(2.8rem,5.5vw,5.6rem)] font-semibold leading-[.93] tracking-[-.06em]">
+                {lang === 'fr' ? <><span className="block">Tout pour</span><span className="block">faire grandir</span><span className="block text-[#D10E63]">votre équipe IA.</span></> : <><span className="block">Everything to</span><span className="block">grow your</span><span className="block text-[#D10E63]">AI team.</span></>}
+              </h1>
+              <p className="mt-7 max-w-xl text-[17px] leading-8 text-[#4E483F]">{t.lead}</p>
+              <a href="#categories" className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/35 underline-offset-4 hover:text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90" /></a>
+            </header>
 
-      <section className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 py-14 sm:px-8 sm:py-16">
-        <div className="editorial-shell grid gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-          <Image src="/alma-avatar.png" alt="Alma" width={80} height={80} className="size-20 rounded-full object-cover ring-2 ring-[#D10E63]/25" />
-          <div>
-            <p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.almaKicker}</p>
-            <h2 className="mt-3 text-[30px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[38px]">{t.almaTitle}</h2>
-            <p className="mt-4 max-w-3xl text-[15px] leading-7 text-[#4E483F]">{t.almaBody}</p>
+            <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#181615] p-5 text-white shadow-[0_34px_90px_-40px_rgba(24,22,21,.75)] sm:p-6">
+              <span aria-hidden className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#F2A4C5] to-transparent" />
+              <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+                <div className="flex items-center gap-3">
+                  <Image src="/alma-avatar.png" alt="" width={40} height={40} className="size-10 rounded-full object-cover ring-2 ring-[#D10E63]/40" />
+                  <div><p className="text-sm font-semibold">Alma</p><p className="mt-0.5 text-[11px] text-[#D5CCC1]">{t.almaRole}</p></div>
+                </div>
+                <span className="inline-flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F2A4C5]"><span className="size-1.5 rounded-full bg-[#45C578]" />{t.ready}</span>
+              </div>
+              <p className="mt-5 text-xl font-semibold tracking-[-.025em] sm:text-2xl">{t.composerTitle}</p>
+              <div className="mt-4 rounded-[18px] border border-white/10 bg-white/[.055] p-3 focus-within:border-[#D10E63]/70 focus-within:ring-4 focus-within:ring-[#D10E63]/10">
+                <textarea ref={composerRef} value={need} onChange={(event) => setNeed(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); handNeedToAlma() } }} rows={3} placeholder={t.placeholder} aria-label={t.placeholder} aria-describedby="marketplace-composer-help" className="min-h-20 w-full resize-none bg-transparent px-1 py-1 text-[15px] leading-6 text-white outline-none placeholder:text-[#91887D]" />
+                <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-3 sm:flex-row sm:items-center sm:justify-between">
+                  <button type="button" aria-pressed={listening} onClick={toggleListening} className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-white/15 px-4 text-xs font-bold text-[#D8D0C2] hover:border-[#F2A4C5]/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">{listening ? <Square className="size-3.5" fill="currentColor" /> : <Mic className="size-3.5" />}{listening ? t.stop : t.talk}</button>
+                  <button type="button" onClick={handNeedToAlma} disabled={!need.trim()} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 text-sm font-bold text-white hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5] disabled:cursor-not-allowed disabled:opacity-35">{t.continue}<ArrowRight className="size-4" /></button>
+                </div>
+              </div>
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{t.starters.map((starter) => <button key={starter} type="button" onClick={() => { setNeed(starter); composerRef.current?.focus() }} className="shrink-0 rounded-full border border-white/10 px-3 py-1.5 text-[11px] font-medium text-[#CFC6B8] hover:border-[#F2A4C5]/50 hover:text-white">{starter}</button>)}</div>
+              <p id="marketplace-composer-help" role={voiceError ? 'alert' : undefined} className="mt-4 border-t border-white/10 pt-3 text-[11px] leading-5 text-[#AFA397]">{voiceError || t.handoff}</p>
+            </div>
           </div>
-          <Link href="/unitalk/@alma" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.almaCta}<ArrowRight className="ml-2 size-4" /></Link>
         </div>
       </section>
 
       <section id="categories" className="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-20">
         <div className="editorial-shell">
-          <Kicker>{t.categoriesKicker}</Kicker>
-          <h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.categoriesTitle}</h2>
-          <p className="mt-4 max-w-3xl text-[16px] leading-7 text-[#4E483F]">{t.categoriesLead}</p>
-          <div className="mt-12 space-y-14">
-            {GROUPS.map((group, groupIndex) => (
-              <section key={group.title.fr} aria-labelledby={`marketplace-group-${groupIndex}`}>
-                <div className="grid gap-2 border-b border-[#CFC5B5] pb-5 md:grid-cols-[1fr_1.2fr] md:items-end">
-                  <h3 id={`marketplace-group-${groupIndex}`} className="text-[26px] font-semibold tracking-[-.035em]">{group.title[lang]}</h3>
-                  <p className="text-sm leading-6 text-[#625B50]">{group.description[lang]}</p>
-                </div>
-                <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {group.categories.map((category) => <CategoryCard key={category.id} category={category} lang={lang} originLabel={t.unitalkOrigin} />)}
-                </div>
-              </section>
-            ))}
+          <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start">
+            <aside className="lg:sticky lg:top-24">
+              <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.categoriesKicker}</p>
+              <nav aria-label={lang === 'fr' ? 'Catégories de la Marketplace' : 'Marketplace categories'} className="mt-5 overflow-hidden rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3]">
+                {GROUPS.flatMap((group) => group.categories).map((category) => (
+                  <a key={category.id} href={`#${category.id}`} className="group flex min-h-12 items-center gap-3 border-b border-[#E4DDCE] px-4 text-[13px] font-semibold text-[#4E483F] last:border-0 hover:bg-[#EEE8DD] hover:text-[#B00C54]">
+                    <UnitalkLogo size={19} activeSegment={0} inactiveColor="#C9BFB0" />
+                    {category.title[lang]}
+                  </a>
+                ))}
+              </nav>
+            </aside>
+            <div>
+              <div className="border-b border-[#CFC5B5] pb-7">
+                <h2 className="text-[clamp(2.3rem,4.4vw,4.7rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.categoriesTitle}</h2>
+                <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#625B50]">{t.categoriesLead}</p>
+              </div>
+              <div className="mt-10 space-y-14">
+                {GROUPS.map((group, groupIndex) => (
+                  <section key={group.title.fr} aria-labelledby={`marketplace-group-${groupIndex}`}>
+                    <div className="grid gap-2 border-b border-[#CFC5B5] pb-5 md:grid-cols-[1fr_1.2fr] md:items-end">
+                      <h3 id={`marketplace-group-${groupIndex}`} className="text-[26px] font-semibold tracking-[-.035em]">{group.title[lang]}</h3>
+                      <p className="text-sm leading-6 text-[#625B50]">{group.description[lang]}</p>
+                    </div>
+                    <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{group.categories.map((category) => <CategoryCard key={category.id} category={category} lang={lang} originLabel={t.unitalkOrigin} />)}</div>
+                  </section>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
