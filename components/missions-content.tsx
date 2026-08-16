@@ -349,7 +349,7 @@ const COPY = {
     title: 'Quel travail voulez-vous confier ?',
     heroA: 'Quel travail', heroB: 'voulez-vous', heroC: 'confier ?',
     lead: 'Décrivez le résultat attendu à Alma, ou partez d’une mission déjà cadrée. Vous gardez la validation des décisions qui engagent votre entreprise.', explore: 'Explorer les missions',
-    almaRole: 'Coordinatrice de missions', ready: 'Prête à cadrer', composerTitle: 'Quel résultat attendez-vous ?',
+    almaRole: 'Coordinatrice de missions IA', ready: 'Prête à cadrer', composerTitle: 'Quel résultat attendez-vous ?',
     placeholder: 'Ex. Relancer chaque semaine les factures impayées et me demander validation avant la dernière relance…',
     talk: 'Dicter', stop: 'Arrêter', continue: 'Préparer cette mission',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',

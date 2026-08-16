@@ -19,7 +19,7 @@ export const DOCUMENTATION: Record<DocumentationSlug, DocumentationPage> = {
   'alma-organisation': {
     slug:'alma-organisation',number:'01',eyebrow:'Licence de contrôle',title:'Licence Alma Entreprise',price:'50 €/mois',included:'Workspace & Desktop inclus',summary:'Le cadre de gestion de votre entreprise : Alma, connaissance, Stores, applications, modèles, serveurs, membres, budgets et gouvernance.',principle:'Alma Entreprise gouverne les ressources disponibles. Elle ne crée pas automatiquement des ressources individuelles pour chaque Collaborateur IA.',
     sections:[
-      {title:'Alma et Entreprise',items:['Alma, Coordinatrice de missions','Membres humains, équipes et rôles','Responsables et droits administratifs','Structure et contexte de l’Entreprise']},
+      {title:'Alma et Entreprise',items:['Alma, Coordinatrice de missions IA','Membres humains, équipes et rôles','Responsables et droits administratifs','Structure et contexte de l’Entreprise']},
       {title:'Gouvernance',items:['Politiques d’accès','Validations humaines','Règles d’escalade','Budgets, quotas et traçabilité']},
       {title:'Connaissance de l’entreprise',items:['Mémoire partagée','Documents et procédures','Méthodes validées','Contexte d’entreprise']},
       {title:'Stores Unitalk',items:['Profils métier','Compétences','Missions','Applications']},

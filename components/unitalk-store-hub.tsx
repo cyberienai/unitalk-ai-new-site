@@ -16,9 +16,11 @@ import {
   Info,
   LibraryBig,
   Mic,
+  Search,
   Sparkles,
   Square,
   UserRound,
+  X,
   type LucideIcon,
 } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
@@ -302,73 +304,77 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
 const COPY = {
   fr: {
     kicker: 'Marketplace IA',
-    title: 'La place de marché des Collaborateurs IA.',
-    lead: 'Trouvez un Collaborateur IA, enrichissez ses capacités ou publiez vos créations. Une Marketplace ouverte à Unitalk et à la communauté.',
-    placeholder: 'Ex. Je veux qualifier mes prospects et mettre à jour mon CRM…',
+    title: 'Composez l’équipe IA dont votre entreprise a besoin.',
+    lead: 'Recrutez un Collaborateur IA ou équipez-le, capacité par capacité. Métiers, missions, méthodes et outils sont réunis ici, créés par Unitalk et la communauté.',
+    placeholder: 'Décrivez un résultat, un métier ou un outil…',
     ask: 'Demander à Alma',
-    explore: 'Explorer les catégories',
-    almaKicker: 'Alma dans la Marketplace',
-    almaTitle: 'Décrivez le travail. Alma trouve la bonne combinaison.',
-    almaBody: 'Alma part de votre besoin, identifie le métier et les compétences utiles, puis recommande les connaissances, la mémoire, les applications et les modèles adaptés.',
+    explore: 'Entrer dans la Marketplace',
+    almaKicker: 'Recherche assistée',
+    almaTitle: 'Ne cherchez pas par catégorie. Décrivez le résultat.',
+    almaBody: 'Alma traduit votre besoin en une combinaison de métier, mission, compétences, connaissances et outils.',
     almaCta: 'Parler à Alma',
-    almaRole: 'Coordinatrice de missions IA',
-    ready: 'Prête à vous guider',
-    composerTitle: 'Que recherchez-vous ?',
+    almaRole: 'Curatrice de la Marketplace',
+    ready: 'En ligne',
+    composerTitle: 'Que voulez-vous accomplir ?',
     talk: 'Dicter',
     stop: 'Arrêter',
-    continue: 'Trouver dans la Marketplace',
+    continue: 'Composer ma solution',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
-    starters: ['Un métier pour la prospection', 'Une compétence de veille', 'Une application pour mon CRM'],
-    handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne.',
-    categoriesKicker: 'Accès directs',
-    categoriesTitle: 'Toute la Marketplace, sur une seule page.',
-    categoriesLead: 'Choisissez une catégorie à gauche pour afficher directement ses créations. Son lien explicatif reste accessible séparément.',
+    starters: ['Trouver des prospects', 'Structurer notre veille', 'Connecter notre CRM'],
+    handoff: 'Alma prépare une sélection. Vous gardez la décision finale.',
+    categoriesKicker: 'Catalogue vivant',
+    categoriesTitle: 'Explorez par composant.',
+    categoriesLead: 'Un Collaborateur IA est une composition. Commencez par l’identité, le travail ou une capacité, puis ouvrez chaque fiche sans quitter l’écosystème.',
     unitalkOrigin: 'Univers Unitalk',
-    understand: 'Comprendre cette catégorie',
-    showMore: 'Afficher plus',
-    showLess: 'Réduire',
+    understand: 'Guide de la catégorie',
+    search: 'Rechercher dans cette catégorie',
+    noResults: 'Aucune création ne correspond à cette recherche.',
+    showMore: 'Voir tout le catalogue',
+    showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation',
     emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
-    items: 'créations',
-    contribute: 'Ouvrir la Marketplace à votre savoir-faire.',
-    contributeBody: 'Formalisez une méthode, un métier, une connaissance, un outil, une formation ou un service, puis proposez-le à la communauté.',
-    contributeCta: 'Devenir Co-créateur IA',
+    items: 'disponibles',
+    contribute: 'Votre savoir-faire peut devenir une capacité IA.',
+    contributeBody: 'Publiez un métier, une méthode, une connaissance, une application, une formation ou un service. Unitalk vous aide à le structurer, le tester et le distribuer.',
+    contributeCta: 'Publier dans la Marketplace',
   },
   en: {
     kicker: 'AI Marketplace',
-    title: 'The marketplace for AI Collaborators.',
-    lead: 'Find an AI Collaborator, expand its capabilities or publish your creations. A Marketplace open to Unitalk and the community.',
-    placeholder: 'E.g. I want to qualify prospects and update my CRM…',
+    title: 'Build the AI team your company needs.',
+    lead: 'Recruit an AI Collaborator or equip it, capability by capability. Professions, missions, methods and tools are gathered here, created by Unitalk and the community.',
+    placeholder: 'Describe an outcome, profession or tool…',
     ask: 'Ask Alma',
-    explore: 'Browse categories',
-    almaKicker: 'Alma in the Marketplace',
-    almaTitle: 'Describe the work. Alma finds the right combination.',
-    almaBody: 'Alma starts with your need, identifies the right profession and skills, then recommends suitable knowledge, memory, applications and models.',
+    explore: 'Enter the Marketplace',
+    almaKicker: 'Assisted search',
+    almaTitle: 'Do not search by category. Describe the outcome.',
+    almaBody: 'Alma translates your need into a combination of profession, mission, skills, knowledge and tools.',
     almaCta: 'Talk to Alma',
-    almaRole: 'AI mission coordinator',
-    ready: 'Ready to guide you',
-    composerTitle: 'What are you looking for?',
+    almaRole: 'Marketplace curator',
+    ready: 'Online',
+    composerTitle: 'What do you want to accomplish?',
     talk: 'Dictate',
     stop: 'Stop',
-    continue: 'Search the Marketplace',
+    continue: 'Build my solution',
     voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
-    starters: ['A profession for prospecting', 'A monitoring skill', 'An application for my CRM'],
-    handoff: 'Enter to continue · Shift + Enter for a new line.',
-    categoriesKicker: 'Direct access',
-    categoriesTitle: 'The whole Marketplace, on one page.',
-    categoriesLead: 'Choose a category on the left to display its creations directly. Its explanatory page remains available separately.',
+    starters: ['Find prospects', 'Structure our monitoring', 'Connect our CRM'],
+    handoff: 'Alma prepares a selection. You retain the final decision.',
+    categoriesKicker: 'Living catalog',
+    categoriesTitle: 'Explore by component.',
+    categoriesLead: 'An AI Collaborator is a composition. Start with the identity, work or a capability, then open each item without leaving the ecosystem.',
     unitalkOrigin: 'Unitalk universe',
-    understand: 'Understand this category',
-    showMore: 'Show more',
-    showLess: 'Show less',
+    understand: 'Category guide',
+    search: 'Search this category',
+    noResults: 'No item matches this search.',
+    showMore: 'View the full catalog',
+    showLess: 'Back to the selection',
     emptyTitle: 'Catalog in preparation',
     emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
-    items: 'items',
-    contribute: 'Open the Marketplace to your expertise.',
-    contributeBody: 'Formalize a method, profession, knowledge base, tool, course or service, then offer it to the community.',
-    contributeCta: 'Become an AI Co-creator',
+    items: 'available',
+    contribute: 'Your expertise can become an AI capability.',
+    contributeBody: 'Publish a profession, method, knowledge base, application, course or service. Unitalk helps you structure, test and distribute it.',
+    contributeCta: 'Publish in the Marketplace',
   },
 } as const
 
@@ -381,11 +387,17 @@ export function UnitalkStoreHub() {
   const [voiceError, setVoiceError] = useState('')
   const [activeCategoryId, setActiveCategoryId] = useState(CATEGORIES[0].id)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [catalogQuery, setCatalogQuery] = useState('')
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const composerRef = useRef<HTMLTextAreaElement>(null)
   const activeCategory = CATEGORIES.find((category) => category.id === activeCategoryId) ?? CATEGORIES[0]
   const categoryItems = useMemo(() => itemsForCategory(activeCategory.id, lang), [activeCategory.id, lang])
-  const visibleItems = categoryItems.slice(0, visibleCount)
+  const filteredItems = useMemo(() => {
+    const query = catalogQuery.trim().toLocaleLowerCase(lang)
+    if (!query) return categoryItems
+    return categoryItems.filter((item) => `${item.title} ${item.description} ${item.meta} ${item.origin ?? ''}`.toLocaleLowerCase(lang).includes(query))
+  }, [catalogQuery, categoryItems, lang])
+  const visibleItems = filteredItems.slice(0, visibleCount)
 
   useEffect(() => {
     const SpeechRecognition = getSpeechRecognition()
@@ -447,6 +459,7 @@ export function UnitalkStoreHub() {
   function selectCategory(categoryId: string) {
     setActiveCategoryId(categoryId)
     setVisibleCount(PAGE_SIZE)
+    setCatalogQuery('')
     window.history.replaceState(null, '', `${window.location.pathname}#${categoryId}`)
     requestAnimationFrame(() => document.getElementById('marketplace-results')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }))
   }

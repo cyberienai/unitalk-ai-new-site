@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const almaTree = [
-  'Alma, Coordinatrice de missions',
+  'Alma, Coordinatrice de missions IA',
   'Entreprise — Membres humains, Équipes et rôles, Responsables, Droits administratifs',
   'Gouvernance — Politiques d\'accès, Validations humaines, Règles d\'escalade, Budgets et quotas, Traçabilité',
   'Connaissance de l\'entreprise — Mémoire partagée, Documents et procédures, Méthodes validées, Contexte d’entreprise',

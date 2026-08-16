@@ -149,7 +149,7 @@ const COPY = {
     title: "Décrivez le travail à accomplir.\nAlma prépare qui s’en charge.",
     lead: "Partez du travail réel. Alma le transforme en mission prête à confier, cherche le Collaborateur IA adapté et prépare ses compétences, ses applications, ses accès et vos validations.",
     heroBenefits: ["Part de votre besoin réel", "Recherche d’abord dans votre équipe", "Cadre les accès et validations", "Prépare un résultat vérifiable"],
-    role: "Coordinatrice de missions",
+    role: "Coordinatrice de missions IA",
     included:
       "Son profil de Coordinatrice de missions est inclus avec la Licence Entreprise.",
     primary: "Confier une mission à Alma",
@@ -225,7 +225,7 @@ const COPY = {
     storeLead:
       "La coordination des missions est incluse avec votre Entreprise. Les profils et compétences spécialisés restent des extensions distinctes, installées avec leurs droits et validations.",
     storeCta: "Explorer le Store Alma",
-    baseTitle: "Coordinatrice de missions",
+    baseTitle: "Coordinatrice de missions IA",
     baseBody:
       "Cadrer une mission, préparer un Collaborateur IA et coordonner les validations.",
     transformationTitle: "Transformation IA",

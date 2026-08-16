@@ -289,7 +289,7 @@ export function MissionDetailContent({ slug }: { slug: string }) {
           </div>
         </section>
       )}
-      <section className="border-t border-[#DED6C8] px-5 py-10 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-5 sm:flex-row sm:items-center"><div className="flex items-center gap-4"><Image src="/alma-avatar.png" alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover"/><div><p className="font-semibold"><AlmaInline /> Alma · Coordinatrice de missions</p><p className="text-sm text-[#6E665A]">Je vous aide à personnaliser cette mission pour votre entreprise.</p></div></div><Link href={`/decouvrir?mission=${mission.slug}`} className="bg-[#D10E63] px-5 py-3 text-sm font-bold text-white">Personnaliser avec Alma →</Link></div></section>
+      <section className="border-t border-[#DED6C8] px-5 py-10 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-5 sm:flex-row sm:items-center"><div className="flex items-center gap-4"><Image src="/alma-avatar.png" alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover"/><div><p className="font-semibold"><AlmaInline /> Alma · Coordinatrice de missions IA</p><p className="text-sm text-[#6E665A]">Je vous aide à personnaliser cette mission pour votre entreprise.</p></div></div><Link href={`/decouvrir?mission=${mission.slug}`} className="bg-[#D10E63] px-5 py-3 text-sm font-bold text-white">Personnaliser avec Alma →</Link></div></section>
     </main>
   )
 }

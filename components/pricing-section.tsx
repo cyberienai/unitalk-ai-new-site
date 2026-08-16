@@ -55,7 +55,7 @@ const T = {
       unsure: { label: 'Je ne sais pas encore', add: null, desc: 'Aucun souci — vous verrez cela avec Alma lors de votre appel. Elle vous recommandera la meilleure option.', feature: 'Modèles IA — à définir avec Alma' },
     } as Record<ModelKey, Option>,
     services: {
-      alma: { label: 'Alma, votre conseillère IA vocale', add: 0, desc: 'Conseillère IA vocale — crée et fait évoluer votre agent, gère l’essentiel. Inclus.', feature: 'Accompagnement par Alma' },
+      alma: { label: 'Alma, Coordinatrice de missions IA', add: 0, desc: 'Coordinatrice de missions IA — prépare et fait évoluer votre Collaborateur IA. Incluse.', feature: 'Coordination par Alma' },
       onboarding: { label: 'Onboarding humain (1h)', add: 99, desc: 'Nos ingénieurs IA configurent votre agent avec vous lors d’une session d’1h.', feature: 'Onboarding humain (1h) par nos ingénieurs' },
       unsure: { label: 'Je ne sais pas encore', add: null, desc: 'Aucun souci — vous verrez cela avec Alma lors de votre appel. Elle vous guidera selon vos besoins.', feature: 'Mise en service — à définir avec Alma' },
     } as Record<ServiceKey, Option>,

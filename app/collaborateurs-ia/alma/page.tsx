@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Alma, Coordinatrice de missions IA',
   description: 'Alma transforme les besoins en missions structurées et prépare les Collaborateurs IA qui les accomplissent sous contrôle humain.',
   alternates: { canonical: '/collaborateurs-ia/alma' },
-  openGraph: { title: 'Alma · Coordinatrice de missions · Unitalk', description: 'Découvrez comment Alma cadre les missions et prépare les Collaborateurs IA qui les accomplissent.', url: '/collaborateurs-ia/alma', type: 'profile' },
+  openGraph: { title: 'Alma · Coordinatrice de missions IA · Unitalk', description: 'Découvrez comment Alma cadre les missions et prépare les Collaborateurs IA qui les accomplissent.', url: '/collaborateurs-ia/alma', type: 'profile' },
 }
 
 export default function AlmaPage() {

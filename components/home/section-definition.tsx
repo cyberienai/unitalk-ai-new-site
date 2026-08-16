@@ -52,7 +52,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
               <li key={step.title} className="rounded-3xl border border-[#DED6C8] bg-[#FBF9F3] p-6">
                 <div className="flex items-center gap-3">
                   {'avatar' in step ? (
-                    <Image src={step.avatar} alt={lang === 'fr' ? 'Alma, Coordinatrice IA de missions' : 'Alma, AI mission coordinator'} width={42} height={42} className="size-[42px] shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/35 shadow-[0_8px_20px_-12px_rgba(209,14,99,.8)]" />
+                    <Image src={step.avatar} alt={lang === 'fr' ? 'Alma, Coordinatrice de missions IA' : 'Alma, AI mission coordinator'} width={42} height={42} className="size-[42px] shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/35 shadow-[0_8px_20px_-12px_rgba(209,14,99,.8)]" />
                   ) : (
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]">{Icon && <Icon className="size-[18px]" />}</span>
                   )}

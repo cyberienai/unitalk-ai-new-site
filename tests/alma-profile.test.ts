@@ -16,8 +16,8 @@ describe('Alma public profile', () => {
   })
 
   it('uses the canonical mission coordinator positioning', () => {
-    expect(alma).toContain('Coordinatrice de missions')
-    expect(alma).toContain('Son profil de Coordinatrice de missions est inclus avec la Licence Entreprise.')
+    expect(alma).toContain('Coordinatrice de missions IA')
+    expect(alma).toContain('Son profil de Coordinatrice de missions IA est inclus avec la Licence Entreprise.')
     expect(alma).toContain('Alma fait d’abord progresser un Collaborateur IA existant.')
     expect(alma).not.toContain('En activité')
   })

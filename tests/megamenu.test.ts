@@ -22,7 +22,7 @@ describe('Marketplace IA mega menu', () => {
   })
 
   it('uses a doctrine footer and explicit selection label', () => {
-    expect(navbar).toContain('Ouverte à la communauté · Open source · Souveraine')
+    expect(navbar).toContain('Ouverte · Open source · Souveraine')
     expect(navbar).toContain('Sélection Unitalk')
     expect(navbar).toContain('Explorer toute la Marketplace')
     expect(navbar).not.toContain('<a href="/tarifs" onClick={() => setCollabOpen(false)}')
