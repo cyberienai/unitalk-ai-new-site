@@ -8,6 +8,9 @@ describe('Marketplace IA mega menu', () => {
     expect(navbar).toContain('Quel travail voulez-vous confier ?')
     expect(navbar).toContain('Décrivez votre mission…')
     expect(navbar).toContain('Continuer avec Alma')
+    expect(navbar).toContain('Parler à Alma')
+    expect(navbar).toContain('Alma vous écoute…')
+    expect(navbar).toContain('getSpeechRecognition')
     expect(navbar).toContain('Relancer mes factures impayées')
   })
 

@@ -187,9 +187,9 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.p {...enter(0.16)} className="mt-6 max-w-xl text-[17px] leading-8 text-[#4E483F] md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{t.subtitle}</motion.p>
 
           <motion.div {...enter(0.28)} className="mt-7 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:mt-5 lg:grid-cols-4">
-            {t.proofs.map((proof, index) => (
-              <span key={proof} className="flex min-h-16 items-center gap-3 border-b border-[#CFC5B5] py-3 text-xs font-bold last:border-b-0 sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 sm:first:pl-0 lg:min-h-12 lg:border-b-0 lg:px-3 lg:text-[11px] lg:leading-4 lg:[&:nth-child(2n)]:border-r lg:last:border-r-0">
-                <span className="font-mono text-[9px] font-bold text-[#B00C54]">0{index + 1}</span>{proof}
+            {t.proofs.map((proof) => (
+              <span key={proof} className="flex min-h-16 items-center border-b border-[#CFC5B5] py-3 text-xs font-bold last:border-b-0 sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 sm:first:pl-0 lg:min-h-12 lg:border-b-0 lg:px-3 lg:text-[11px] lg:leading-4 lg:[&:nth-child(2n)]:border-r lg:last:border-r-0">
+                {proof}
               </span>
             ))}
           </motion.div>
