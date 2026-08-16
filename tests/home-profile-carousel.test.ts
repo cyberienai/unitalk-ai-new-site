@@ -15,10 +15,17 @@ describe('home profile carousel', () => {
     expect(profiles).toContain('grid-cols-3')
   })
 
-  it('sends the selected profile and capacity to pricing', () => {
-    expect(profiles).toContain('/tarifs?profil=${profile.slug}&capacite=${profile.capacity}#configurateur')
-    expect(pricingPage).toContain("query.capacite as AiCapacityId")
+  it('sends the selected identity to pricing without imposing a capacity', () => {
+    expect(profiles).toContain('/tarifs?profil=${profile.slug}#configurateur')
+    expect(profiles).not.toContain('capacite=${profile.capacity}')
     expect(pricingPage).toContain('selectedProfile={selectedProfile}')
     expect(configurator).toContain('t.selectedProfile')
+  })
+
+  it('uses one collaborator price and sells professions rather than time levels', () => {
+    expect(profiles).toContain('unitalkPricing.aiCollaborator.monthlyPrice')
+    expect(profiles).not.toContain('Quart-temps · 74€/mois')
+    expect(profiles).not.toContain('Mi-temps · 99€/mois')
+    expect(profiles).not.toContain('Temps plein · 149€/mois')
   })
 })

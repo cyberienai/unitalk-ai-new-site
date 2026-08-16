@@ -6,9 +6,9 @@ const source = readFileSync(new URL('../components/home/section-definition.tsx',
 describe('home seven-day trial progression', () => {
   it('shows the real mission trial in chronological order', () => {
     const describe = source.indexOf("title: 'Décrivez la mission'")
-    const preparation = source.indexOf("title: 'Alma prépare le cadre'")
-    const work = source.indexOf("title: 'Le Collaborateur IA agit'")
-    const result = source.indexOf("title: 'Vous jugez le résultat'")
+    const preparation = source.indexOf("title: 'Alma prépare la mission'")
+    const work = source.indexOf("title: 'Le Collaborateur IA travaille'")
+    const result = source.indexOf("title: 'Vous validez le résultat'")
     expect(describe).toBeLessThan(preparation)
     expect(preparation).toBeLessThan(work)
     expect(work).toBeLessThan(result)

@@ -9,14 +9,14 @@ const COPY = {
   fr: {
     kicker: 'Votre première semaine',
     title: 'En 7 jours, testez une mission réelle.',
-    lead: 'Pas une démonstration générique : choisissez un besoin concret de votre entreprise et observez comment Alma et votre Collaborateur IA le prennent en charge.',
+    lead: 'Pas une démonstration générique : choisissez un besoin concret de votre entreprise et voyez Alma et votre Collaborateur IA le prendre en charge.',
     steps: [
       { title: 'Décrivez la mission', body: 'Expliquez votre besoin à Alma, à la voix ou par écrit.', icon: MessageSquareText },
-      { title: 'Alma prépare le cadre', body: 'Elle précise le résultat attendu, le profil métier, les compétences, les applications et les validations.', avatar: true },
-      { title: 'Le Collaborateur IA agit', body: 'Il accomplit la mission dans le périmètre défini et soumet les étapes sensibles à votre validation.', icon: ShieldCheck },
-      { title: 'Vous jugez le résultat', body: 'Vous évaluez le travail réalisé et décidez librement de poursuivre.', icon: Check },
+      { title: 'Alma prépare la mission', body: 'Elle précise le résultat attendu, le profil métier, les compétences, les applications et les validations.', avatar: true },
+      { title: 'Le Collaborateur IA travaille', body: 'Il accomplit la mission dans le périmètre défini et soumet les étapes sensibles à votre validation.', icon: ShieldCheck },
+      { title: 'Vous validez le résultat', body: 'Vous évaluez le travail réalisé et décidez librement de poursuivre.', icon: Check },
     ],
-    cta: 'Préparer ma première mission avec Alma',
+    cta: 'Préparer ma première mission',
     note: 'Essai gratuit de 7 jours pour tester une première mission sans carte bancaire',
   },
   en: {
@@ -25,11 +25,11 @@ const COPY = {
     lead: 'Not a generic demo: choose a concrete need from your company and see how Alma and your AI Collaborator handle it.',
     steps: [
       { title: 'Describe the mission', body: 'Explain your need to Alma, by voice or in writing.', icon: MessageSquareText },
-      { title: 'Alma prepares the framework', body: 'It clarifies the expected result, job profile, skills, applications and approvals.', avatar: true },
-      { title: 'The AI Collaborator acts', body: 'It completes the mission within the agreed scope and submits sensitive steps for your approval.', icon: ShieldCheck },
+      { title: 'Alma prepares the mission', body: 'It clarifies the expected result, job profile, skills, applications and approvals.', avatar: true },
+      { title: 'The AI Collaborator works', body: 'It completes the mission within the agreed scope and submits sensitive steps for your approval.', icon: ShieldCheck },
       { title: 'You assess the result', body: 'Review the work and freely decide whether to continue.', icon: Check },
     ],
-    cta: 'Prepare my first mission with Alma',
+    cta: 'Prepare my first mission',
     note: '7-day free trial to test a first mission, with no credit card required',
   },
 } as const
