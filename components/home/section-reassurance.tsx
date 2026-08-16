@@ -1,3 +1,5 @@
+import { AlmaFace } from '@/components/alma-face'
+
 const T = {
   fr: {
     items: [
@@ -28,7 +30,7 @@ export function SectionReassurance({ lang }: { lang: 'fr' | 'en' }) {
             <li key={item.title} className="relative min-h-[190px] border-b border-r border-[#BFB5A5] p-5 sm:p-6">
               <div className="flex items-center justify-between"><span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]" aria-hidden="true">{item.label}</span><span className="font-mono text-[9px] text-[#857C6E]">0{index + 1}</span></div>
               <h2 className="mt-4 max-w-[15rem] font-sf text-[17px] font-semibold leading-[1.2] tracking-[-0.015em] text-[#1C1A17] lg:min-h-[2.5rem]">
-                {item.title}
+                {index === 0 && <AlmaFace em={1.35} />}{item.title}
               </h2>
               <p className="mt-3 max-w-[17rem] text-[13px] leading-[1.55] text-[#5A5348]">
                 {item.desc}

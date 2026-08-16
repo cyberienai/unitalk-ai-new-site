@@ -71,7 +71,7 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     partners: 'Partenaires',
-    collaborators: 'Marketplace IA',
+    collaborators: 'Collaborateurs IA',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     collabMenu: 'Menu Marketplace IA',
@@ -92,7 +92,7 @@ const T = {
     workspace: 'Workspace',
     missions: 'Missions',
     partners: 'Partners',
-    collaborators: 'AI Marketplace',
+    collaborators: 'AI Collaborators',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     collabMenu: 'AI Marketplace menu',
@@ -391,9 +391,6 @@ export function Navbar(
 
               <NavItem href="/workspace" active={isWorkspaceActive} overDark={overDark}>
                 {t.workspace}
-              </NavItem>
-              <NavItem href="/partenaires" active={pathname === '/partenaires' || pathname.startsWith('/partenaires/')} overDark={overDark}>
-                {t.partners}
               </NavItem>
               <NavItem href="/tarifs" active={isPricingActive} overDark={overDark}>
                 {t.pricing}

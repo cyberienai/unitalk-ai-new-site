@@ -77,7 +77,9 @@ export function AuthCard({ mode, redirectTo, context = 'unitalk' }: { mode: Mode
   const [loadingProvider, setLoadingProvider] = useState<AuthProvider | null>(null)
   const codeRefs = useRef<(HTMLInputElement | null)[]>([])
 
-  const otherPath = mode === 'sign-in' ? '/inscription' : '/connexion'
+  const otherPath = context === 'academy'
+    ? mode === 'sign-in' ? '/academy/inscription' : '/academy/connexion'
+    : mode === 'sign-in' ? '/inscription' : '/connexion'
   const otherHref = `${otherPath}?redirect=${encodeURIComponent(redirectTo)}`
 
   function submit(provider: AuthProvider, emailValue?: string) {

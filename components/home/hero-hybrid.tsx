@@ -38,8 +38,8 @@ const T = {
     headlineA: 'Votre propre',
     headlineB: 'Collaborateur IA.',
     headlineC: 'Prêt pour vos missions.',
-    subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives. Il progresse à chaque mission et appartient à votre entreprise.',
-    proofs: ['Une première mission offerte', 'Alma le prépare en quelques minutes', 'Sans carte bancaire', 'Hébergement en France'],
+    subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives. Il travaille avec vos équipes, progresse à chaque mission et devient propre à votre entreprise.',
+    proofs: ['Votre première mission offerte', 'Alma le prépare en quelques minutes', 'Sans carte bancaire', 'Hébergement en France'],
     cta: 'Décrire ma première mission',
     console: 'Préparation de mission',
     mission: 'Mission reçue',
@@ -56,20 +56,22 @@ const T = {
     almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
     almaAction: "Revenir à Alma",
     voiceKicker: 'Coordinatrice IA de missions',
-    voiceTitle: 'Parlez ou écrivez à Alma.',
-    voiceBody: 'Alma conserve votre demande et prépare la suite après votre connexion.',
+    voiceTitle: 'Décrivez le travail à accomplir.',
+    voiceBody: 'Alma transforme votre besoin en mission et prépare votre Collaborateur IA après votre connexion.',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
-    voicePlaceholder: 'Décrivez le travail à accomplir…',
+    voicePlaceholder: 'Ex. Je veux quelqu’un pour qualifier mes prospects et prendre les rendez-vous…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
     voiceSubmit: 'Continuer avec cette mission',
-    voiceBack: 'Voir la démonstration',
     examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants'],
     structured: 'Mission structurée',
     recommended: 'Collaboratrice recommandée',
     prepared: 'Règle comprise et moyens identifiés',
     customizable: 'Prête à personnaliser',
+    previewMission: 'Mission',
+    previewCollaborator: 'Collaborateur IA',
+    previewReady: 'Prêt à travailler',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -77,7 +79,7 @@ const T = {
     headlineA: 'Your own',
     headlineB: 'AI Collaborator.',
     headlineC: 'Ready for your missions.',
-    subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
+    subtitle: 'Entrust it with calls, emails, prospecting or administrative work. It works with your teams, improves with every mission and becomes specific to your company.',
     proofs: ['First mission included', 'Alma prepares it in minutes', 'No credit card', 'Hosted in France'],
     cta: 'Describe my first mission',
     console: 'Mission preparation',
@@ -95,20 +97,22 @@ const T = {
     almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
     almaAction: "Return to Alma",
     voiceKicker: 'AI mission coordinator',
-    voiceTitle: 'Talk or write to Alma.',
-    voiceBody: 'Alma saves your request and prepares the next steps after you sign in.',
+    voiceTitle: 'Describe the work to be done.',
+    voiceBody: 'Alma turns your need into a mission and prepares your AI Collaborator after you sign in.',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
-    voicePlaceholder: 'Describe the work to be done…',
+    voicePlaceholder: 'E.g. I need someone to qualify prospects and book meetings…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
     voiceSubmit: 'Continue with this mission',
-    voiceBack: 'View the demo',
     examples: ['Chase my unpaid invoices', 'Handle my incoming emails'],
     structured: 'Structured mission',
     recommended: 'Recommended collaborator',
     prepared: 'Rule understood and means identified',
     customizable: 'Ready to personalize',
+    previewMission: 'Mission',
+    previewCollaborator: 'AI Collaborator',
+    previewReady: 'Ready to work',
   },
 } as const
 
@@ -140,13 +144,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const [voiceSupported, setVoiceSupported] = useState(false)
   const [listening, setListening] = useState(false)
   const [transcript, setTranscript] = useState('')
-  const [demoRequest, setDemoRequest] = useState<string | null>(null)
+  const [demoRequest] = useState<string | null>(null)
   const [promptAttention, setPromptAttention] = useState(false)
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const voicePanelRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const inputPreview = transcript.trim() ? getPreparedDemo(transcript, lang) : null
   const preparedDemo = demoRequest ? getPreparedDemo(demoRequest, lang) : null
   const current = preparedDemo ?? journeys[cycle]
   const isChloe = !preparedDemo && cycle === journeys.length - 1
@@ -281,13 +286,27 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center py-6 text-center lg:py-3">
-                  <button type="button" onClick={toggleListening} disabled={!voiceSupported} aria-pressed={listening} aria-label={listening ? t.voiceStop : t.voiceStart} className={`relative flex size-24 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] disabled:cursor-not-allowed disabled:opacity-50 lg:size-[72px] ${listening ? 'bg-[#D10E63] text-white' : 'bg-[#D10E63]/15 text-[#F15B9B] ring-1 ring-[#D10E63]/30 hover:bg-[#D10E63]/25'}`}>
-                    {listening && !reduce && <motion.span aria-hidden className="absolute inset-0 rounded-full border border-[#F15B9B]" animate={{ scale: [1, 1.45], opacity: [0.65, 0] }} transition={{ duration: 1.4, repeat: Infinity }} />}
-                    {listening ? <Square className="size-7 lg:size-5" fill="currentColor" /> : <Mic className="size-9 lg:size-7" />}
-                  </button>
-                  <h2 className="mt-5 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px] lg:mt-3 lg:text-[22px]">{t.voiceTitle}</h2>
-                  <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD] lg:mt-2 lg:text-[13px] lg:leading-5">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
+                <div className="flex min-h-[156px] flex-col items-center justify-center py-5 text-center lg:min-h-[132px] lg:py-3">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {inputPreview ? (
+                      <motion.div key="preview" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full text-left">
+                        <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]">
+                          <div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div>
+                          <div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 line-clamp-1 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div>
+                          <div className="flex min-w-[116px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-[11px] font-bold text-white"><Check className="size-4" />{t.previewReady}</div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div key="prompt" initial={false} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center">
+                        <button type="button" onClick={toggleListening} disabled={!voiceSupported} aria-pressed={listening} aria-label={listening ? t.voiceStop : t.voiceStart} className={`relative flex size-[72px] items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] disabled:cursor-not-allowed disabled:opacity-50 ${listening ? 'bg-[#D10E63] text-white' : 'bg-[#D10E63]/15 text-[#F15B9B] ring-1 ring-[#D10E63]/30 hover:bg-[#D10E63]/25'}`}>
+                          {listening && !reduce && <motion.span aria-hidden className="absolute inset-0 rounded-full border border-[#F15B9B]" animate={{ scale: [1, 1.45], opacity: [0.65, 0] }} transition={{ duration: 1.4, repeat: Infinity }} />}
+                          {listening ? <Square className="size-5" fill="currentColor" /> : <Mic className="size-7" />}
+                        </button>
+                        <h2 className="mt-3 max-w-md text-balance font-sf text-[22px] font-semibold tracking-[-0.025em]">{t.voiceTitle}</h2>
+                        <p className="mt-2 max-w-md text-[13px] leading-5 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} aria-label={t.voicePlaceholder} className={`w-full resize-none rounded-2xl border bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none transition-[border-color,box-shadow] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] ${promptAttention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/10'}`} />
@@ -296,9 +315,6 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 </div>
                 <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40">
                   {t.voiceSubmit}<ArrowRight className="size-4" />
-                </button>
-                <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setDemoRequest(transcript.trim() || null); setPhase(0); setShowVoice(false) }} className="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold text-[#D6CABD] hover:text-white lg:mt-2">
-                  {t.voiceBack}<ArrowRight className="size-3.5" />
                 </button>
               </div>
             </motion.div>

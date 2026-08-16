@@ -47,7 +47,7 @@ export default function AcademyPage() {
             <h1>Formez-vous.<br/>Créez.<br/><em>Commercialisez.</em></h1>
             <p className="academy-home-lede">Créez vos propres Collaborateurs IA à partir d’une mission réelle, puis apprenez à les proposer à des clients avec la licence Co-créateur.</p>
             <div className="academy-home-actions">
-              <Link href="/academy/parcours-gratuits/premiere-mission-ia" className="academy-home-primary">Commencer ma première mission<ArrowRight/></Link>
+              <Link href="/academy/onboarding" className="academy-home-primary">Commencer avec Alma<ArrowRight/></Link>
               <Link href="/academy/formations/co-createur-ia" className="academy-home-scroll">Découvrir le métier<ArrowDown/></Link>
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function AcademyPage() {
           <p className="academy-home-final-kicker">Le meilleur moment pour apprendre est avant de tout savoir</p>
           <h2>Ne préparez pas votre projet<br/>pendant six mois.</h2>
           <p className="academy-home-final-script">Commencez par une mission.</p>
-          <Link href="/academy/parcours-gratuits/premiere-mission-ia">Créer mon premier Collaborateur IA<ArrowRight/></Link>
+          <Link href="/academy/onboarding">Créer mon premier Collaborateur IA avec Alma<ArrowRight/></Link>
           <small>Gratuit · Sans carte bancaire · Commencez en 5 minutes</small>
         </div>
       </section>

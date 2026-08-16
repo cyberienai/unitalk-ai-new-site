@@ -16,7 +16,7 @@ const offers = [
     description: 'Cadrez une mission réelle et préparez votre premier Collaborateur IA.',
     features: ['Parcours guidé de 60 minutes', '3 missions ouvertes', 'Premier Collaborateur IA cadré', 'Sans carte bancaire'],
     cta: 'Commencer gratuitement',
-    href: '/academy/parcours-gratuits/premiere-mission-ia',
+    href: '/academy/onboarding',
   },
   {
     name: 'Formation Co-créateur',

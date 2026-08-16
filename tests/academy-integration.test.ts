@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { MISSIONS, NETWORKS, PATHS, SKILLS } from '@/lib/academy-catalog'
 
 const root=join(import.meta.dirname,'..')
-const routes=['','missions','competences','parcours','networks','tarifs','experts','modele','alma','espace','financement','qualite','parcours-gratuits','parcours-gratuits/premiere-mission-ia','formations/co-createur-ia','entreprendre-avec-ia']
+const routes=['','missions','competences','parcours','networks','tarifs','experts','modele','alma','espace','onboarding','inscription','connexion','financement','qualite','parcours-gratuits','parcours-gratuits/premiere-mission-ia','formations/co-createur-ia','entreprendre-avec-ia']
 function sourceFiles(dir:string):string[]{return readdirSync(dir).flatMap(name=>{const path=join(dir,name);return statSync(path).isDirectory()?sourceFiles(path):/\.(?:ts|tsx)$/.test(name)?[path]:[]})}
 
 describe('Academy integration',()=>{
@@ -29,7 +29,7 @@ describe('Academy integration',()=>{
     const free=readFileSync(join(root,'app','academy','parcours-gratuits','premiere-mission-ia','page.tsx'),'utf8')
     const pricing=readFileSync(join(root,'app','academy','tarifs','page.tsx'),'utf8')
     expect(home).toContain('Formez-vous.<br/>Créez.<br/><em>Commercialisez.</em>')
-    expect(home).toContain('/academy/parcours-gratuits/premiere-mission-ia')
+    expect(home).toContain('/academy/onboarding')
     expect(course).toContain('Créez quelque chose qu’une entreprise veut utiliser.')
     expect(course).toContain('Présenter et chiffrer l’offre')
     expect(free).toContain('Commencez par une mission réelle.')
