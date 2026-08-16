@@ -115,15 +115,6 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
     icon: GraduationCap,
   },
   {
-    title: { fr: 'Accompagnement par Alma', en: 'Support from Alma' },
-    desc: {
-      fr: 'Passez de la première mission à une adoption structurée avec vos équipes.',
-      en: 'Move from the first mission to structured adoption with your teams.',
-    },
-    href: '/collaborateurs-ia/alma#accompagnement',
-    icon: UsersRound,
-  },
-  {
     title: { fr: 'Experts humains', en: 'Human experts' },
     desc: {
       fr: 'Concevez, intégrez ou faites évoluer vos Collaborateurs IA avec un spécialiste.',
