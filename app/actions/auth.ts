@@ -12,8 +12,8 @@ import {
 } from '@/lib/mock-auth'
 
 const PROVIDER_DEMO_EMAIL: Record<Exclude<AuthProvider, 'email'>, string> = {
-  google: 'membre@gmail.com',
-  microsoft: 'membre@outlook.com',
+  google: 'patrick@acme.fr',
+  microsoft: 'patrick@acme.fr',
 }
 
 const PROVIDER_DEMO_IDENTITY: Record<Exclude<AuthProvider, 'email'>, { firstName: string; lastName: string }> = {
@@ -74,11 +74,12 @@ export async function startSession(provider: AuthProvider, email?: string): Prom
       : PROVIDER_DEMO_EMAIL[provider as 'google' | 'microsoft']
 
   const identity = provider === 'email' ? undefined : PROVIDER_DEMO_IDENTITY[provider as 'google' | 'microsoft']
+  const emailName = nameFromEmail(resolvedEmail).split(' ')
   const session: MockSession = {
     email: resolvedEmail,
     name: identity ? `${identity.firstName} ${identity.lastName}` : '',
-    firstName: identity?.firstName,
-    lastName: identity?.lastName,
+    firstName: identity?.firstName ?? emailName[0],
+    lastName: identity?.lastName ?? emailName.slice(1).join(' '),
     provider,
   }
 

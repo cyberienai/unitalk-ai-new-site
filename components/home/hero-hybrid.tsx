@@ -227,7 +227,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
       localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() }))
     } catch {}
     track('alma_need_submitted', { mode: 'voice', source: 'hero' })
-    router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
+    router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&source=mission-store`)
   }
 
   return (

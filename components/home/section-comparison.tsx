@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { motion } from 'framer-motion'
@@ -118,8 +117,9 @@ export function SectionComparison() {
           transition={{ duration: 0.5, ease }}
           className="mt-10"
         >
-          <Link
-            href="/decouvrir"
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('open-home-alma'))}
             className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#B00C54] underline-offset-4 outline-none transition-colors hover:text-[#8F0A44] hover:underline focus-visible:rounded focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
           >
             {t.cta}
@@ -127,7 +127,7 @@ export function SectionComparison() {
               className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
               aria-hidden="true"
             />
-          </Link>
+          </button>
         </motion.div>
       </div>
     </section>

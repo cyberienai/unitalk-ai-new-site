@@ -17,6 +17,7 @@ import { MISSIONS } from '@/lib/missions-catalog'
 import { actionDescription, shortCategoryLabel } from '@/components/missions/store-card'
 import type { MockSession } from '@/lib/mock-auth'
 import { parseDiscoverSource } from '@/lib/discover-entry'
+import { emailDomain, isProfessionalEmail } from '@/lib/professional-email'
 
 function normalizeDomain(v: string | null) { return v?.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase() ?? '' }
 
@@ -35,7 +36,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
 
   const [state, setState] = useState<OnboardingState>(() => {
     const init = initialOnboardingState()
-    const sessionDomain = initialSession?.email.split('@').at(-1)?.trim().toLowerCase()
+    const sessionDomain = initialSession && isProfessionalEmail(initialSession.email) ? emailDomain(initialSession.email) : ''
     const domain = requestedDomain || sessionDomain
     return {
       ...init,
@@ -57,12 +58,13 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
     : { kind: 'empty', source }
 
   const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
+  const flowSteps: OnboardingStep[] = selectedMission ? ['entreprise', 'collaborateur'] : STEP_ORDER
 
   useEffect(() => { if (!selectedMission?.title) return; setState(s => s.mission.title === selectedMission.title && s.missionDefined ? s : { ...s, mission: { ...s.mission, title: selectedMission.title }, missionDefined: true }) }, [selectedMission?.title])
 
   function goTo(next: OnboardingStep) { setStep(next) }
-  const stepIndex = STEP_ORDER.indexOf(step)
-  const back = stepIndex > 0 ? STEP_ORDER[stepIndex - 1] : null
+  const stepIndex = flowSteps.indexOf(step)
+  const back = stepIndex > 0 ? flowSteps[stepIndex - 1] : null
 
   const anim = reduce ? {} : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -8 }, transition: { duration: 0.25 } }
 
@@ -72,7 +74,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
       <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
         <ScreenAccount lang={lang} context={context} languageToggle={<LanguageToggle />}
           onAuthenticated={({ provider, email, firstName, lastName }) => {
-            const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
+            const domain = email && isProfessionalEmail(email) ? emailDomain(email) : undefined
             setState(s => ({
               ...s, authenticated: true, mission: selectedMission?.title ? { ...s.mission, title: selectedMission.title } : s.mission, missionDefined: Boolean(selectedMission?.title),
               firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '',
@@ -106,7 +108,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
       <ScreenAccount lang={lang} context={context} languageToggle={<LanguageToggle />}
         onAuthenticated={({ provider, email, firstName, lastName }) => {
-          const domain = provider === 'email' ? email?.split('@').at(-1)?.trim().toLowerCase() : undefined
+          const domain = email && isProfessionalEmail(email) ? emailDomain(email) : undefined
           setState(s => ({ ...s, authenticated: true, mission: selectedMission?.title ? { ...s.mission, title: selectedMission.title } : s.mission, missionDefined: Boolean(selectedMission?.title), firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '', company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company }))
           if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}`)
           else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
@@ -120,15 +122,15 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
       <header className="flex items-center justify-between gap-4 px-5 py-4 sm:px-8">
         <a href="/" className="flex shrink-0 items-center gap-2.5"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
-        <div className="hidden flex-1 justify-center md:flex"><FlowStepper current={step} lang={lang} onStepClick={goTo} /></div>
+         <div className="hidden flex-1 justify-center md:flex"><FlowStepper current={step} lang={lang} steps={flowSteps} onStepClick={goTo} /></div>
         <div className="flex shrink-0 items-center gap-2 sm:gap-4"><LanguageToggle /></div>
       </header>
-      <div className="px-5 py-3 md:hidden"><FlowStepper current={step} lang={lang} onStepClick={goTo} /></div>
+       <div className="px-5 py-3 md:hidden"><FlowStepper current={step} lang={lang} steps={flowSteps} onStepClick={goTo} /></div>
       <div className="mx-auto w-full max-w-6xl flex-1 px-5 py-4 sm:px-8">
         {back && <button type="button" onClick={() => goTo(back)} className="mb-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#6E665A] hover:text-[#1C1A17] md:hidden"><ArrowLeft className="h-3.5 w-3.5" />{lang === 'fr' ? 'Précédent' : 'Back'}</button>}
         <AnimatePresence mode="wait">
           <motion.div key={step} {...anim}>
-            {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo('mission')} />}
+            {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo(selectedMission ? 'collaborateur' : 'mission')} />}
             {step === 'mission' && <ScreenMission lang={lang} company={state.company} mission={state.mission} onDefine={m => setState(s => ({ ...s, mission: m, missionDefined: true }))} onContinue={() => goTo('collaborateur')} />}
             {step === 'collaborateur' && <ScreenCollaborateur lang={lang} mission={state.mission} profile={state.profile} name={state.collaboratorName} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} />}
           </motion.div>

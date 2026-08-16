@@ -39,7 +39,6 @@ export function ScreenContext({
   const domain = company.find((fact) => fact.key === 'domain')?.value.trim() ?? ''
   const companyName = company.find((fact) => fact.key === 'name')?.value.trim() ?? ''
   const firstNameMissing = !firstName.trim()
-  const lastNameMissing = !lastName.trim()
   const companyMissing = !companyName
   const domainMissing = !domain
 
@@ -63,7 +62,7 @@ export function ScreenContext({
   // on "Confirmer" never silently drops an in-progress edit.
   function confirmCompany() {
     setSubmitted(true)
-    if (firstNameMissing || lastNameMissing || companyMissing || domainMissing) return
+    if (firstNameMissing || companyMissing || domainMissing) return
     if (editingKey) {
       const fact = company.find((f) => f.key === editingKey)
       if (fact) saveEdit(fact)
@@ -137,7 +136,7 @@ export function ScreenContext({
                 aria-invalid={(submitted || lastNameTouched) && lastNameMissing}
                 className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
               />
-              {(submitted || lastNameTouched) && lastNameMissing && <span className="mt-1 block text-[10px] text-[#A80B50]">{t.required}</span>}
+              {(submitted || lastNameTouched) && !lastName.trim() && <span className="mt-1 block text-[10px] text-[#8A8175]">{t.optional}</span>}
             </label>
           </div>
         </div>
@@ -248,7 +247,7 @@ const COPY = {
     hello: 'Bonjour',
     welcome: 'Bienvenue.',
     intro: 'Commençons par les informations que vous souhaitez associer à votre entreprise.',
-    confirmed: 'Parfait. Votre entreprise est prête. Passons à la mission.',
+    confirmed: 'Parfait. Votre entreprise est prête. Passons au Collaborateur IA.',
     almaName: 'Alma',
     almaRole: 'Conseillère IA · Unitalk',
     cardTitle: 'Votre fiche entreprise',
@@ -257,16 +256,17 @@ const COPY = {
     cancel: 'Annuler',
     firstName: 'Votre prénom',
     lastName: 'Votre nom',
+    optional: 'Facultatif',
     required: 'Ce champ est requis.',
-    confirm: "C’est correct · Définir ma mission",
+    confirm: "C’est mon entreprise · Continuer",
     confirmedCta: 'Entreprise confirmée',
-    ctaNote: 'Alma va vous guider pour décrire votre première mission.',
+    ctaNote: 'Vous pourrez corriger ces informations à tout moment.',
   },
   en: {
     hello: 'Hello',
     welcome: 'Welcome.',
     intro: 'Let’s start with the information you want to associate with your company.',
-    confirmed: 'Perfect. Your company is ready. Let’s move on to the mission.',
+    confirmed: 'Perfect. Your company is ready. Let’s move on to the AI Collaborator.',
     almaName: 'Alma',
     almaRole: 'AI advisor · Unitalk',
     cardTitle: 'Your company profile',
@@ -275,9 +275,10 @@ const COPY = {
     cancel: 'Cancel',
     firstName: 'Your first name',
     lastName: 'Your last name',
+    optional: 'Optional',
     required: 'This field is required.',
-    confirm: 'Looks right · Define my mission',
+    confirm: 'This is my company · Continue',
     confirmedCta: 'Company confirmed',
-    ctaNote: 'Alma will guide you through describing your first mission.',
+    ctaNote: 'You can update this information at any time.',
   },
 } as const

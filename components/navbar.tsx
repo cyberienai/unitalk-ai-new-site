@@ -24,8 +24,8 @@ type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
 
 const ALMA_CTA = {
-  href: '/decouvrir?source=nav',
-  label: { fr: 'Commencez gratuitement', en: 'Start free' } as Bi,
+  href: '/missions?composer=1&source=nav',
+  label: { fr: 'Décrire une mission', en: 'Describe a mission' } as Bi,
 }
 
 const ACADEMY_URL = '/academy'

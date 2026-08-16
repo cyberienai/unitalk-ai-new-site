@@ -44,6 +44,7 @@ export function MissionsContent() {
   const searchParams = useSearchParams()
   const returnSlug = searchParams.get('return')
   const requestedCategory = searchParams.get('categorie')
+  const composerRequested = searchParams.get('composer') === '1'
   const validCategory = useMemo(() => requestedCategory && CATEGORIES.includes(requestedCategory as any) ? requestedCategory : 'all', [requestedCategory])
   const t = COPY[lang]
   const [need, setNeed] = useState('')
@@ -51,6 +52,7 @@ export function MissionsContent() {
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
   const recognitionRef = useRef<any>(null)
+  const composerRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     try {
@@ -70,6 +72,14 @@ export function MissionsContent() {
   }, [returnSlug])
 
   useEffect(() => { setCategory(validCategory); if (requestedCategory && validCategory === 'all') window.history.replaceState(window.history.state, '', '/missions') }, [requestedCategory, validCategory])
+
+  useEffect(() => {
+    if (!composerRequested) return
+    requestAnimationFrame(() => {
+      composerRef.current?.scrollIntoView({ block: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+      composerRef.current?.focus({ preventScroll: true })
+    })
+  }, [composerRequested])
 
   useEffect(() => {
     const SpeechRecognition = typeof window !== 'undefined' ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition : undefined
@@ -118,7 +128,7 @@ export function MissionsContent() {
     if (!clean) return
     const draftId = `draft_${crypto.randomUUID()}`
     try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() })) } catch {}
-    navigateToDiscover(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
+    navigateToDiscover(`/decouvrir?draft=${encodeURIComponent(draftId)}&source=mission-store`)
   }
 
   function selectCategory(next: string) {
@@ -135,7 +145,7 @@ export function MissionsContent() {
         <header className="mx-auto max-w-3xl text-center">
           <h1 className="hero-heading scroll-mt-[calc(var(--header-height,64px)+24px)]">{t.title}</h1>
           <div className="relative mx-auto mt-5 max-w-2xl">
-            <textarea value={need} onChange={e => setNeed(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); handDraftToAlma(need) } }} rows={1} placeholder={t.placeholder} aria-label={t.placeholder} className="min-h-14 w-full resize-none rounded-[18px] border border-[#D8D0C2] bg-[#FFFDF9] py-[17px] pl-5 pr-14 text-[15px] leading-5 shadow-[0_14px_38px_-30px_rgba(28,26,23,.55)] outline-none placeholder:text-[#857C6E] hover:border-[#C8BFB0] focus:border-[#D10E63]/70 focus:shadow-[0_16px_42px_-28px_rgba(209,14,99,.35)] focus:ring-4 focus:ring-[#D10E63]/10" />
+            <textarea ref={composerRef} value={need} onChange={e => setNeed(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); handDraftToAlma(need) } }} rows={1} placeholder={t.placeholder} aria-label={t.placeholder} className="min-h-14 w-full resize-none rounded-[18px] border border-[#D8D0C2] bg-[#FFFDF9] py-[17px] pl-5 pr-14 text-[15px] leading-5 shadow-[0_14px_38px_-30px_rgba(28,26,23,.55)] outline-none placeholder:text-[#857C6E] hover:border-[#C8BFB0] focus:border-[#D10E63]/70 focus:shadow-[0_16px_42px_-28px_rgba(209,14,99,.35)] focus:ring-4 focus:ring-[#D10E63]/10" />
             <button type="button" onClick={() => (need.trim() ? handDraftToAlma(need) : toggleListening())} disabled={!need.trim() && !voiceSupported} aria-label={need.trim() ? t.send : listening ? t.stop : t.talk} className="group absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-[#D10E63] text-white shadow-[0_8px_20px_-8px_rgba(209,14,99,.65)] hover:-translate-y-0.5 hover:bg-[#E51872] disabled:cursor-not-allowed disabled:bg-[#B9B1A5] disabled:text-[#F3EFE6] disabled:shadow-none">
               {need.trim() ? <ArrowUp className="h-4 w-4" strokeWidth={2.5} /> : listening ? <Square className="h-4 w-4" fill="currentColor" /> : <Mic className="h-4 w-4" />}
             </button>

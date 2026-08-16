@@ -9,6 +9,7 @@ import type { AuthProvider } from '@/lib/mock-auth'
 import { GoogleIcon, MicrosoftIcon } from '@/components/auth/provider-icons'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import type { DiscoverSource } from '@/lib/discover-entry'
+import { isProfessionalEmail } from '@/lib/professional-email'
 
 export type SelectedMission = { slug?: string; title: string; description: string; category: string }
 
@@ -31,8 +32,10 @@ export function ScreenAccount({
   const [email, setEmail] = useState('')
   const [emailTouched, setEmailTouched] = useState(false)
   const [missionOpen, setMissionOpen] = useState(true)
-  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  const emailFormatValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  const emailValid = isProfessionalEmail(email)
   const mission = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : context.kind === 'new-mission' ? { title: t.newMissionTitle, description: t.newMissionDescription, category: 'Assistance' } : null
+  const isDraft = context.kind === 'draft'
 
   async function go(provider: AuthProvider) {
     if (pending || (provider === 'email' && !emailValid)) return
@@ -87,8 +90,8 @@ export function ScreenAccount({
       <section className="relative order-1 flex min-w-0 items-center bg-[#F3EFE6] px-6 py-16 sm:px-10 lg:order-2 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)]">
         <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[460px]">
-          <h1 className="font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{mission ? t.contextualTitle : t.genericTitle}</h1>
-          <p className="mt-3 text-[17px] font-semibold leading-7 text-[#4E483F]">{mission ? t.contextualLead : t.genericLead}</p>
+          <h1 className="font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
+          <p className="mt-3 text-[17px] font-semibold leading-7 text-[#4E483F]">{isDraft ? t.draftLead : mission ? t.contextualLead : t.genericLead}</p>
           {mission && <p className="mt-3 text-sm text-[#6E665A]">{t.contextualReassurance}</p>}
 
           <div className="mt-7 flex flex-col gap-3">
@@ -97,7 +100,7 @@ export function ScreenAccount({
             <div className="my-1 flex items-center gap-3"><span className="h-px flex-1 bg-[#D8D0C2]" /><span className="text-[11px] text-[#8A8175]">{t.orEmail}</span><span className="h-px flex-1 bg-[#D8D0C2]" /></div>
             <label htmlFor="discover-email" className="text-sm font-semibold text-[#4E483F]">{t.emailLabel}</label>
             <input id="discover-email" type="email" inputMode="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} onBlur={() => setEmailTouched(true)} onKeyDown={e => { if (e.key === 'Enter' && !e.nativeEvent.isComposing) { setEmailTouched(true); go('email') } }} placeholder={t.emailPlaceholder} aria-invalid={emailTouched && !!email && !emailValid} disabled={!!pending} className="h-12 w-full rounded-xl border border-[#D8D0C2] bg-white px-4 text-[15px] outline-none transition-colors placeholder:text-[#A79F91] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/20" />
-            {emailTouched && !!email && !emailValid && <p className="text-[12px] text-[#A80B50]">{t.emailError}</p>}
+            {emailTouched && !!email && !emailValid && <p className="text-[12px] text-[#A80B50]">{emailFormatValid ? t.personalEmailError : t.emailError}</p>}
             <button type="button" onClick={() => { setEmailTouched(true); go('email') }} disabled={!!pending || !emailValid} className={`inline-flex h-14 items-center justify-center rounded-xl px-5 text-[15px] font-semibold transition-colors ${emailValid && !pending ? 'bg-[#D10E63] text-white hover:bg-[#B90C58]' : 'cursor-not-allowed bg-[#DED6C8] text-[#6E665A]'}`}>{pending === 'email' ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <>{t.email} →</>}</button>
           </div>
           <p className="mt-4 text-[11px] leading-5 text-[#857C6E]">{t.legalPrefix} <a href="/conditions" className="font-semibold underline underline-offset-3 hover:text-[#1C1A17]">{t.terms}</a> {t.legalAnd} <a href="/confidentialite" className="font-semibold underline underline-offset-3 hover:text-[#1C1A17]">{t.privacy}</a>.</p>
@@ -121,13 +124,15 @@ const COPY = {
     almaGenericTitle: 'Vous n\'avez pas encore choisi de mission.',
     almaGenericBody: 'Après votre inscription, nous partons de votre entreprise et du travail que vous voulez accomplir. Je vous aide à choisir ou construire la première mission, puis à préparer le Collaborateur IA qui l\'accomplira.',
     genericSteps: ['Présenter votre entreprise', 'Définir une première mission', 'Préparer votre Collaborateur IA'],
-    genericTitle: 'Créez votre compte Unitalk.',
-    genericLead: 'Aucune mission n\'est présélectionnée. Alma vous aide à définir la première après votre connexion.',
+    genericTitle: 'Décrivez d’abord le travail à accomplir.',
+    genericLead: 'Choisissez une mission ou décrivez votre besoin avant de créer votre compte.',
     google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', orEmail: 'ou par email',
     emailLabel: 'Adresse email professionnelle', emailPlaceholder: 'vous@entreprise.com',
-    emailError: 'Saisissez une adresse email valide.', email: 'Continuer',
+    emailError: 'Saisissez une adresse email professionnelle valide.', personalEmailError: 'Utilisez votre adresse professionnelle, pas une adresse personnelle.', email: 'Continuer',
     contextualTitle: 'Votre mission est choisie.',
-    contextualLead: 'Connectez-vous pour l\'adapter à votre entreprise avec Alma.',
+    contextualLead: 'Créez votre compte pour confirmer votre entreprise et choisir le prénom de votre Collaborateur IA.',
+    draftTitle: 'Votre demande est conservée.',
+    draftLead: 'Créez votre compte pour confirmer votre entreprise et choisir le prénom du Collaborateur IA qui prendra cette mission.',
     contextualReassurance: '7 jours d\'essai · Aucune carte bancaire',
     legalPrefix: 'En continuant, vous acceptez les', terms: 'Conditions d\'utilisation', legalAnd: 'et la', privacy: 'Politique de confidentialité',
   },
@@ -140,13 +145,15 @@ const COPY = {
     almaGenericTitle: 'You have not selected a mission yet.',
     almaGenericBody: 'After signup, we start from your company and the work you want to accomplish. I help select or build the first mission, then prepare the AI Collaborator that will carry it out.',
     genericSteps: ['Introduce your company', 'Define a first mission', 'Prepare your AI Collaborator'],
-    genericTitle: 'Create your Unitalk account.',
-    genericLead: 'No mission is preselected. Alma helps define the first one after you sign in.',
+    genericTitle: 'Describe the work first.',
+    genericLead: 'Choose a mission or describe your need before creating your account.',
     google: 'Continue with Google', microsoft: 'Continue with Microsoft', orEmail: 'or by email',
     emailLabel: 'Work email address', emailPlaceholder: 'you@company.com',
-    emailError: 'Enter a valid email address.', email: 'Continue',
+    emailError: 'Enter a valid work email address.', personalEmailError: 'Use your work email address, not a personal address.', email: 'Continue',
     contextualTitle: 'Your mission is selected.',
-    contextualLead: 'Sign in to adapt it to your company with Alma.',
+    contextualLead: 'Create your account to confirm your company and choose your AI Collaborator’s first name.',
+    draftTitle: 'Your request is saved.',
+    draftLead: 'Create your account to confirm your company and choose the first name of the AI Collaborator taking on this mission.',
     contextualReassurance: '7-day trial · No credit card',
     legalPrefix: 'By continuing, you agree to the', terms: 'Terms of Use', legalAnd: 'and the', privacy: 'Privacy Policy',
   },

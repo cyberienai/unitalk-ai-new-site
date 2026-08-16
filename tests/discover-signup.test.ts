@@ -6,7 +6,7 @@ const flow = readFileSync(new URL('../components/discover/discover-flow.tsx', im
 
 describe('mission signup', () => {
   it('describes the real post-login sequence', () => {
-    expect(source).toContain("contextualLead: 'Connectez-vous pour l’adapter à votre entreprise avec Alma.'")
+    expect(source).toContain("contextualLead: 'Créez votre compte pour confirmer votre entreprise et choisir le prénom de votre Collaborateur IA.'")
     expect(source).toContain("missionAlmaBody: 'Après votre connexion, je vous aide à adapter cette mission à votre entreprise, puis à préparer le Collaborateur IA qui l’accomplira.'")
   })
 
@@ -18,7 +18,7 @@ describe('mission signup', () => {
   })
 
   it('publishes transparent trial and legal wording', () => {
-    expect(source).toContain("trialLimit: `Limite de l’essai :")
+    expect(source).toContain("contextualReassurance: '7 jours d\\'essai · Aucune carte bancaire'")
     expect(source).toContain('href="/conditions"')
     expect(source).toContain('href="/confidentialite"')
   })
@@ -28,11 +28,18 @@ describe('mission signup', () => {
     expect(source).toContain("emailValid && !pending ? 'bg-[#D10E63]")
     expect(source).toContain("cursor-not-allowed bg-[#DED6C8]")
     expect(source).toContain('bg-[#D10E63]')
-    expect(source).toContain('emailError: \'Saisissez une adresse email valide.\'')
+    expect(source).toContain('emailError: \'Saisissez une adresse email professionnelle valide.\'')
+    expect(source).toContain('personalEmailError: \'Utilisez votre adresse professionnelle, pas une adresse personnelle.\'')
   })
 
   it('keeps domain prefill in the unified discovery flow', () => {
     expect(flow).toContain("normalizeDomain(searchParams.get('domain'))")
+    expect(flow).toContain('isProfessionalEmail(initialSession.email)')
     expect(flow).toContain('const domain = requestedDomain || sessionDomain')
+  })
+
+  it('skips detailed mission editing when a mission is already known', () => {
+    expect(flow).toContain("const flowSteps: OnboardingStep[] = selectedMission ? ['entreprise', 'collaborateur'] : STEP_ORDER")
+    expect(flow).toContain("onContinue={() => goTo(selectedMission ? 'collaborateur' : 'mission')}")
   })
 })

@@ -11,17 +11,19 @@ export function FlowStepper({
   current,
   lang,
   onStepClick,
+  steps = STEP_ORDER,
 }: {
   current: OnboardingStep
   lang: Lang
   onStepClick: (step: OnboardingStep) => void
+  steps?: OnboardingStep[]
 }) {
-  const currentIndex = STEP_ORDER.indexOf(current)
+  const currentIndex = steps.indexOf(current)
 
   return (
     <nav aria-label={lang === 'fr' ? 'Étapes' : 'Steps'}>
       <ol className="flex items-center justify-center gap-1 sm:gap-2">
-        {STEP_ORDER.map((step, i) => {
+        {steps.map((step, i) => {
           const state = i < currentIndex ? 'done' : i === currentIndex ? 'active' : 'todo'
           const isDone = state === 'done'
           const label = STEP_LABELS[step][lang]
