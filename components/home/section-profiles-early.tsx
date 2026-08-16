@@ -30,7 +30,8 @@ const COPY = {
     priceSuffix: '/ mois',
     licenseLabel: 'Licence Collaborateur IA',
     priceNote: 'Capacité IA et configuration de l’entreprise à choisir ensuite.',
-    included: 'Profils métier inclus sans limite',
+    included: 'Plusieurs profils métier sur la même identité',
+    capacityFrom: 'Capacité IA dès 0 € avec vos clés',
     ready: 'Prêt pour votre première mission',
     previous: 'Afficher les Collaborateurs précédents',
     next: 'Afficher les Collaborateurs suivants',
@@ -54,7 +55,8 @@ const COPY = {
     priceSuffix: '/ month',
     licenseLabel: 'AI Collaborator License',
     priceNote: 'AI capacity and company setup are selected next.',
-    included: 'Unlimited job profiles included',
+    included: 'Multiple job profiles on the same identity',
+    capacityFrom: 'AI capacity from €0 with your keys',
     ready: 'Ready for your first mission',
     previous: 'Show previous AI Collaborators',
     next: 'Show next AI Collaborators',
@@ -102,5 +104,5 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
 
 function ProfileCard({ profile, t }: { profile: Profile; t: typeof COPY.fr | typeof COPY.en }) {
   const href = `/tarifs?profil=${profile.slug}#configurateur`
-  return <article className="group flex h-full min-h-[380px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_16px_34px_-20px_rgba(28,26,23,.24)]"><div className="flex items-center gap-4"><div className="relative size-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#D10E63]/10"><Image src={profile.avatar} alt={profile.name} fill sizes="64px" className="object-cover" /></div><div><h3 className="font-sf text-xl font-bold">{profile.name}</h3><p className="mt-1 text-[13px] font-semibold text-[#625B50]">{profile.role}</p></div></div><p className="mt-5 text-sm leading-7 text-[#5A5348]">{profile.desc}</p><div className="mt-4 flex flex-wrap gap-2">{profile.tags.map((tag) => <span key={tag} className="rounded-full border border-[#D8D0C2] bg-[#F3EFE6] px-3 py-1 text-[11px] font-semibold text-[#625B50]">{tag}</span>)}</div><div className="mt-auto border-t border-[#DED6C8] pt-5"><div className="flex items-start justify-between gap-3"><div><p className="font-mono text-[9px] font-bold uppercase tracking-[.12em] text-[#8A8175]">{t.licenseLabel}</p><p className="mt-1 font-sf text-2xl font-bold">{unitalkPricing.aiCollaborator.monthlyPrice} € <span className="text-xs font-semibold text-[#6E665A]">{t.priceSuffix}</span></p><p className="mt-1 text-[11px] font-semibold text-[#1C1A17]">{t.included}</p></div><span className="max-w-[108px] text-right text-[10px] font-bold uppercase leading-4 tracking-[.06em] text-[#8A8175]">{t.ready}</span></div><p className="mt-3 text-[10px] leading-4 text-[#6E665A]">{t.priceNote}</p><Link href={href} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-white hover:bg-[#B00C54]">{t.choose} {profile.name}<ArrowRight className="size-4" /></Link></div></article>
+  return <article className="group flex h-full min-h-[380px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_16px_34px_-20px_rgba(28,26,23,.24)]"><div className="flex items-center gap-4"><div className="relative size-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#D10E63]/10"><Image src={profile.avatar} alt={profile.name} fill sizes="64px" className="object-cover" /></div><div><h3 className="font-sf text-xl font-bold">{profile.name}</h3><p className="mt-1 text-[13px] font-semibold text-[#625B50]">{profile.role}</p></div></div><p className="mt-5 text-sm leading-7 text-[#5A5348]">{profile.desc}</p><div className="mt-4 flex flex-wrap gap-2">{profile.tags.map((tag) => <span key={tag} className="rounded-full border border-[#D8D0C2] bg-[#F3EFE6] px-3 py-1 text-[11px] font-semibold text-[#625B50]">{tag}</span>)}</div><div className="mt-auto border-t border-[#DED6C8] pt-5"><div className="flex items-start justify-between gap-3"><div><p className="font-mono text-[9px] font-bold uppercase tracking-[.12em] text-[#8A8175]">{t.licenseLabel}</p><p className="mt-1 font-sf text-2xl font-bold">{unitalkPricing.aiCollaborator.monthlyPrice} € <span className="text-xs font-semibold text-[#6E665A]">{t.priceSuffix}</span></p><p className="mt-1 text-[11px] font-semibold text-[#1C1A17]">{t.included}</p><p className="mt-1 text-[10px] font-semibold text-[#625B50]">{t.capacityFrom}</p></div><span className="max-w-[108px] text-right text-[10px] font-bold uppercase leading-4 tracking-[.06em] text-[#8A8175]">{t.ready}</span></div><p className="mt-3 text-[10px] leading-4 text-[#6E665A]">{t.priceNote}</p><Link href={href} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-white hover:bg-[#B00C54]">{t.choose} {profile.name}<ArrowRight className="size-4" /></Link></div></article>
 }

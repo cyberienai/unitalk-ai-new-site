@@ -56,7 +56,7 @@ export function SectionComparison() {
   const t = COPY[lang]
 
   return (
-    <section className="border-t border-[#E7E0D2] bg-[#F4F1EA] px-6 py-14 sm:py-20">
+    <section className="border-t border-[#E7E0D2] bg-[#F4F1EA] px-6 py-14 sm:py-16">
       <div className="mx-auto max-w-5xl">
         <Kicker>{t.kicker}</Kicker>
         <h2 className="mt-5 max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-[#1C1A17] sm:text-4xl md:text-5xl">
@@ -66,7 +66,7 @@ export function SectionComparison() {
         <p className="mt-6 max-w-3xl border-l-2 border-[#D10E63] pl-5 font-sf text-xl font-semibold leading-8 tracking-[-0.025em] text-[#1C1A17] sm:text-2xl">{t.statement}</p>
 
         {/* The transforming lines */}
-        <div className="mt-10 overflow-hidden rounded-lg border border-[#E4DDCE]">
+        <div className="mt-8 overflow-hidden rounded-lg border border-[#E4DDCE]">
           {/* Column headers */}
           <div className="hidden grid-cols-2 sm:grid">
             <div className="bg-[#EDE7DA] px-5 py-3.5 text-right">
@@ -114,7 +114,7 @@ export function SectionComparison() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.5, ease }}
-          className="mt-10"
+          className="mt-8"
         >
           <button
             type="button"

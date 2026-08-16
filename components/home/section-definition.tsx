@@ -37,7 +37,7 @@ const COPY = {
 export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
   const t = COPY[lang]
   return (
-    <section className="border-b border-[#DED6C8] bg-[#F3EFE6] py-16 sm:py-20">
+    <section className="border-b border-[#DED6C8] bg-[#F3EFE6] py-14 sm:py-16">
       <div className="editorial-shell">
         <div className="max-w-3xl">
           <Kicker>{t.kicker}</Kicker>
@@ -45,7 +45,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           <p className="mt-5 max-w-2xl text-[16px] leading-7 text-[#4E483F] sm:text-[17px]">{t.lead}</p>
         </div>
 
-        <ol className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {t.steps.map((step) => {
             const Icon = 'icon' in step ? step.icon : null
             return (
@@ -64,7 +64,7 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           })}
         </ol>
 
-        <div className="mt-10 flex flex-col items-center">
+        <div className="mt-8 flex flex-col items-center">
           <button type="button" onClick={() => window.dispatchEvent(new Event('open-home-alma'))} className="inline-flex min-h-12 items-center rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.cta} →</button>
           <p className="mt-3 text-center text-xs font-medium text-[#625B50]">{t.note}</p>
         </div>

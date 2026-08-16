@@ -55,7 +55,7 @@ const T = {
     examples: ['Qualifier mes prospects', 'Traiter mes e-mails entrants'],
     previewMission: 'Mission',
     previewCollaborator: 'Collaborateur IA',
-    previewReady: 'Prêt à travailler',
+    previewReady: 'Prêt à personnaliser',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -80,7 +80,7 @@ const T = {
     examples: ['Qualify my prospects', 'Handle my incoming emails'],
     previewMission: 'Mission',
     previewCollaborator: 'AI Collaborator',
-    previewReady: 'Ready to work',
+    previewReady: 'Ready to personalize',
   },
 } as const
 
@@ -173,13 +173,13 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   }
 
   return (
-    <section className="relative overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-12 pt-24 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-5 lg:pt-[88px]">
+    <section className="relative overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-12 pt-24 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-5 lg:pt-[88px] [@media(min-width:1024px)_and_(max-height:800px)]:pb-3 [@media(min-width:1024px)_and_(max-height:800px)]:pt-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full bg-[#D10E63]/[0.08] blur-3xl" />
-      <div className="editorial-shell relative grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12">
+      <div className="editorial-shell relative grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12 [@media(min-width:1024px)_and_(max-height:800px)]:gap-9">
         <div className="max-w-[720px] text-left">
           <motion.div {...enter(0)} className="mb-5 flex lg:mb-4"><Kicker>{t.eyebrow}</Kicker></motion.div>
-          <motion.h1 {...enter(0.08)} className="text-[clamp(3.25rem,6.1vw,6.5rem)] font-semibold leading-[.88] tracking-[-.07em] text-[#1C1A17] lg:text-[clamp(3.5rem,5.2vw,5.35rem)]">
+          <motion.h1 {...enter(0.08)} className="text-[clamp(3.25rem,6.1vw,6.5rem)] font-semibold leading-[.88] tracking-[-.07em] text-[#1C1A17] lg:text-[clamp(3.5rem,5.2vw,5.35rem)] [@media(min-width:1024px)_and_(max-height:800px)]:text-[clamp(3.2rem,4.8vw,4.65rem)]">
             <span className="block">{t.headlineA}</span>
             <span className="block">{t.headlineB}</span>
             <span className="block text-[#D10E63]">{t.headlineC}</span>

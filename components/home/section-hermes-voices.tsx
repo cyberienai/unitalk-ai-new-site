@@ -29,7 +29,7 @@ export function SectionHermesVoices({ lang }: { lang: Lang }) {
   const reduce = useReducedMotion()
 
   return (
-    <section className="relative overflow-hidden border-y border-[#302C28] bg-[#181615] px-5 py-20 text-[#FAF8F3] sm:px-8 sm:py-28">
+    <section className="relative overflow-hidden border-y border-[#302C28] bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.035] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:72px_72px]" />
       <div aria-hidden className="pointer-events-none absolute -right-20 top-0 size-[34rem] rounded-full bg-[#D10E63]/20 blur-3xl" />
       <div className="editorial-shell">
