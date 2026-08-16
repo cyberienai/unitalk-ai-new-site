@@ -21,7 +21,7 @@ describe('home first mission progression', () => {
     expect(source).not.toContain('Première mission offerte, sans carte bancaire')
     expect(source).toContain("new Event('open-home-alma')")
     expect(source).toContain("avatar: '/alma-avatar.png'")
-    expect(source).toContain('Objectif, profil, outils et validations.')
+    expect(source).toContain("Votre Collaborateur IA avec l'objectif, les outils et les validations.")
     expect(source).toContain('Le résultat et la suite.')
   })
 

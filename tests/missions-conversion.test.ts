@@ -20,6 +20,7 @@ describe('missions conversion path', () => {
 
   it('keeps the user request through authentication', () => {
     expect(page).toContain('Préparer cette mission')
+    expect(page).toContain('AlmaMissionComposer')
     expect(page).toContain('unitalk_mission_')
     expect(page).toContain('/decouvrir?draft=${encodeURIComponent(draftId)}&source=mission-store')
   })

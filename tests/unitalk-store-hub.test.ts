@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.meta.url), 'utf8')
+const composer = readFileSync(new URL('../components/alma-mission-composer.tsx', import.meta.url), 'utf8')
 const page = readFileSync(new URL('../app/marketplace/page.tsx', import.meta.url), 'utf8')
 
 describe('Marketplace IA hub', () => {
@@ -17,11 +18,12 @@ describe('Marketplace IA hub', () => {
   })
 
   it('highlights Alma with voice-assisted search', () => {
-    expect(hub).toContain('src="/alma-avatar.png"')
+    expect(composer).toContain('src="/alma-avatar.png"')
     expect(hub).toContain('Curatrice de la Marketplace')
     expect(hub).toContain('getSpeechRecognition')
-    expect(hub).toContain('aria-pressed={listening}')
+    expect(hub).toContain('AlmaMissionComposer')
     expect(hub).toContain('Composer ma solution')
+    expect(hub).toContain('unitalk_mission_')
   })
 
   it('uses a responsive category rail', () => {
