@@ -6,42 +6,42 @@ const page = readFileSync(new URL('../app/marketplace/page.tsx', import.meta.url
 
 describe('Marketplace IA hub', () => {
   it('centralizes ten distinct discovery areas in three groups', () => {
-    expect(page).tooontain('UnitalkStoreHub')
-    for (const label of ['oollaborateurs IA','Missions','Métiers','oompétences','oonnaissances','Mémoire et contexte','Applications','Modèles IA','Formations','Services']) expect(hub).tooontain(label)
-    for (const group of ['Trouver un oollaborateur','Enrichir ses capacités','Se faire accompagner']) expect(hub).tooontain(group)
+    expect(page).toContain('UnitalkStoreHub')
+    for (const label of ['Collaborateurs IA','Missions','Métiers','Compétences','Connaissances','Mémoire et contexte','Applications','Modèles IA','Formations','Services']) expect(hub).toContain(label)
+    for (const group of ['Trouver un Collaborateur','Enrichir ses capacités','Se faire accompagner']) expect(hub).toContain(group)
   })
 
-  it('states autonomy, open source and sovereignty', () => {
-    expect(hub).tooontain('Marketplace ouverte à Unitalk et à la communauté')
-    expect(hub).tooontain('Un profil métier de référence pour chaque métier de la connaissance')
+  it('states the community and knowledge-work positioning', () => {
+    expect(hub).toContain('créés par Unitalk et la communauté')
+    expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
-  it('highlights Alma with her avatar rather than the Unitalk mark', () => {
-    expect(hub).tooontain('src="/alma-avatar.png"')
-    expect(hub).tooontain('ooordinatrice IA de missions')
-    expect(hub).tooontain('getSpeechRecognition')
-    expect(hub).tooontain('aria-pressed={listening}')
-    expect(hub).tooontain('Trouver dans la Marketplace')
+  it('highlights Alma with voice-assisted search', () => {
+    expect(hub).toContain('src="/alma-avatar.png"')
+    expect(hub).toContain('Curatrice de la Marketplace')
+    expect(hub).toContain('getSpeechRecognition')
+    expect(hub).toContain('aria-pressed={listening}')
+    expect(hub).toContain('Composer ma solution')
   })
 
-  it('uses a Missions-style catalog layout with categories on the left', () => {
-    expect(hub).tooontain("lg:grid-cols-[240px_minmax(0,1fr)]")
-    expect(hub).tooontain('lg:sticky lg:top-24')
-    expect(hub).tooontain('onolick={() => selectoategory(category.id)}')
-    expect(hub).tooontain('oatégories de la Marketplace')
+  it('uses a responsive category rail', () => {
+    expect(hub).toContain("lg:grid-cols-[260px_minmax(0,1fr)]")
+    expect(hub).toContain('lg:sticky lg:top-24')
+    expect(hub).toContain('onClick={() => selectCategory(category.id)}')
+    expect(hub).toContain('Catégories de la Marketplace')
+    expect(hub).toContain('role="tooltip"')
   })
 
-  it('centralizes the real catalog cards and keeps category pages explanatory', () => {
-    for (const source of ['ROLE_DETAILS', 'MISSIONS', 'STORE_ITEMS', 'PATHS', 'EXPERT_DOMAINS']) expect(hub).tooontain(source)
-    expect(hub).tooontain('itemsForoategory')
-    expect(hub).tooontain('MarketplaceItemoard')
-    expect(hub).tooontain('oomprendre cette catégorie')
-    expect(hub).tooontain('role="tooltip"')
-    expect(hub).tooontain("window.location.hash.slice(1)")
+  it('centralizes real catalogs with search and featured cards', () => {
+    for (const source of ['ROLE_DETAILS', 'MISSIONS', 'STORE_ITEMS', 'PATHS', 'EXPERT_DOMAINS']) expect(hub).toContain(source)
+    expect(hub).toContain('itemsForCategory')
+    expect(hub).toContain('MarketplaceItemCard')
+    expect(hub).toContain('Rechercher dans cette catégorie')
+    expect(hub).toContain('featured={index === 0 && !catalogQuery}')
+    expect(hub).toContain("window.location.hash.slice(1)")
   })
 
-  it('keeps each asset type on one reference route', () => {
-    for (const href of ['/collaborateurs-ia','/missions','/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/architecture#connaissance-entreprise','/architecture#memoire-et-contexte','/collaborateurs-ia/applications','/modeles-ia','/academy','/experts']) expect(hub).tooontain(`href: '${href}'`)
-    expect(hub).tooontain('<UnitalkLogo size={19}')
+  it('keeps each category explanation on its reference route', () => {
+    for (const href of ['/collaborateurs-ia','/missions','/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/architecture#connaissance-entreprise','/architecture#memoire-et-contexte','/collaborateurs-ia/applications','/modeles-ia','/academy','/experts']) expect(hub).toContain(`href: '${href}'`)
   })
 })

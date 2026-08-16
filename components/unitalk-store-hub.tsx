@@ -472,12 +472,10 @@ export function UnitalkStoreHub() {
         <div className="editorial-shell relative">
           <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16">
             <header>
-              <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.kicker} / Collaborateurs IA</p>
-              <h1 className="mt-6 max-w-[720px] font-sf text-[clamp(2.8rem,5.5vw,5.6rem)] font-semibold leading-[.93] tracking-[-.06em]">
-                {lang === 'fr' ? <><span className="block">Tout pour</span><span className="block">faire grandir</span><span className="block text-[#D10E63]">votre équipe IA.</span></> : <><span className="block">Everything to</span><span className="block">grow your</span><span className="block text-[#D10E63]">AI team.</span></>}
-              </h1>
+              <div className="flex items-center gap-3"><UnitalkLogo size={24} activeSegment={0} inactiveColor="#C9BFB0" /><p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.kicker}</p></div>
+              <h1 className="mt-6 max-w-[760px] font-sf text-[clamp(2.8rem,5.5vw,5.6rem)] font-semibold leading-[.93] tracking-[-.06em]">{t.title}</h1>
               <p className="mt-7 max-w-xl text-[17px] leading-8 text-[#4E483F]">{t.lead}</p>
-              <a href="#categories" className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/35 underline-offset-4 hover:text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90" /></a>
+              <a href="#categories" className="group mt-7 inline-flex min-h-11 items-center gap-3 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 text-sm font-bold text-[#4E483F] hover:border-[#D10E63]/45 hover:text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90 transition-transform group-hover:translate-y-0.5" /></a>
             </header>
 
             <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#181615] p-5 text-white shadow-[0_34px_90px_-40px_rgba(24,22,21,.75)] sm:p-6">
@@ -489,7 +487,8 @@ export function UnitalkStoreHub() {
                 </div>
                 <span className="inline-flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F2A4C5]"><span className="size-1.5 rounded-full bg-[#45C578]" />{t.ready}</span>
               </div>
-              <p className="mt-5 text-xl font-semibold tracking-[-.025em] sm:text-2xl">{t.composerTitle}</p>
+              <p className="mt-5 font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.almaKicker}</p>
+              <p className="mt-2 text-xl font-semibold tracking-[-.025em] sm:text-2xl">{t.composerTitle}</p>
               <div className="mt-4 rounded-[18px] border border-white/10 bg-white/[.055] p-3 focus-within:border-[#D10E63]/70 focus-within:ring-4 focus-within:ring-[#D10E63]/10">
                 <textarea ref={composerRef} value={need} onChange={(event) => setNeed(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); handNeedToAlma() } }} rows={3} placeholder={t.placeholder} aria-label={t.placeholder} aria-describedby="marketplace-composer-help" className="min-h-20 w-full resize-none bg-transparent px-1 py-1 text-[15px] leading-6 text-white outline-none placeholder:text-[#91887D]" />
                 <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-3 sm:flex-row sm:items-center sm:justify-between">
@@ -504,32 +503,37 @@ export function UnitalkStoreHub() {
         </div>
       </section>
 
-      <section id="categories" className="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-20">
+      <section id="categories" className="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24">
         <div className="editorial-shell">
-          <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start">
-            <aside className="lg:sticky lg:top-24">
-              <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.categoriesKicker}</p>
-              <nav aria-label={lang === 'fr' ? 'Catégories de la Marketplace' : 'Marketplace categories'} className="mt-5 overflow-hidden rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3]">
-                {CATEGORIES.map((category) => (
-                  <button key={category.id} type="button" aria-pressed={activeCategory.id === category.id} onClick={() => selectCategory(category.id)} className={`group/tip relative flex min-h-12 w-full items-center gap-3 border-b border-[#E4DDCE] px-4 text-left text-[13px] font-semibold last:border-0 ${activeCategory.id === category.id ? 'bg-[#FCEAF2] text-[#AD0C53]' : 'text-[#4E483F] hover:bg-[#EEE8DD] hover:text-[#B00C54]'}`}>
-                    <UnitalkLogo size={19} activeSegment={0} inactiveColor="#C9BFB0" />
-                    <span className="flex-1">{category.title[lang]}</span>
-                    <Info aria-hidden="true" className="size-3.5 opacity-55" />
-                    <span role="tooltip" className="pointer-events-none absolute left-full top-1/2 z-30 ml-3 hidden w-64 -translate-y-1/2 rounded-xl bg-[#241F1D] px-3 py-2 text-[11px] font-medium leading-5 text-[#F3EFE6] opacity-0 shadow-xl transition-opacity lg:block group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100">{category.description[lang]}</span>
-                  </button>
-                ))}
-              </nav>
+          <div className="grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start xl:gap-12">
+            <aside className="min-w-0 lg:sticky lg:top-24">
+              <div className="overflow-hidden rounded-[26px] bg-[#181615] p-3 text-[#FAF8F3] shadow-[0_28px_70px_-45px_rgba(28,26,23,.7)]">
+                <div className="px-3 pb-4 pt-3"><p className="font-mono text-[9px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.categoriesKicker}</p><p className="mt-2 text-sm leading-5 text-[#AFA397]">{lang === 'fr' ? 'Choisissez un composant.' : 'Choose a component.'}</p></div>
+                <nav aria-label={lang === 'fr' ? 'Catégories de la Marketplace' : 'Marketplace categories'} className="flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-1 lg:overflow-visible">
+                  {CATEGORIES.map((category, index) => {
+                    const Icon = category.icon
+                    return <button key={category.id} type="button" aria-pressed={activeCategory.id === category.id} onClick={() => selectCategory(category.id)} className={`group/tip relative flex min-h-12 shrink-0 items-center gap-3 rounded-xl px-3 text-left text-[13px] font-semibold transition-colors lg:w-full ${activeCategory.id === category.id ? 'bg-[#D10E63] text-white' : 'bg-white/[.045] text-[#D8D0C4] hover:bg-white/[.09] hover:text-white'}`}>
+                      <Icon aria-hidden="true" className="size-4 shrink-0" strokeWidth={1.7} />
+                      <span className="whitespace-nowrap lg:flex-1">{category.title[lang]}</span>
+                      <span className={`hidden font-mono text-[8px] lg:block ${activeCategory.id === category.id ? 'text-white/65' : 'text-[#766E65]'}`}>{String(index + 1).padStart(2, '0')}</span>
+                      <Info aria-hidden="true" className="hidden size-3.5 opacity-55 lg:block" />
+                      <span role="tooltip" className="pointer-events-none absolute left-full top-1/2 z-30 ml-3 hidden w-64 -translate-y-1/2 rounded-xl bg-[#FAF8F3] px-3 py-2 text-[11px] font-medium leading-5 text-[#292620] opacity-0 shadow-xl ring-1 ring-[#D8D0C2] transition-opacity xl:block group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100">{category.description[lang]}</span>
+                    </button>
+                  })}
+                </nav>
+              </div>
             </aside>
-            <div id="marketplace-results" className="scroll-mt-24">
-              <div className="border-b border-[#CFC5B5] pb-7">
+            <div id="marketplace-results" className="min-w-0 scroll-mt-24">
+              <div className="border-b border-[#CFC5B5] pb-8">
                 <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.categoriesTitle}</p>
-                <div className="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-                  <div><h2 className="text-[clamp(2.3rem,4.4vw,4.7rem)] font-semibold leading-[.94] tracking-[-.06em]">{activeCategory.title[lang]}</h2><p className="mt-4 text-sm font-semibold text-[#625B50]">{categoryItems.length} {t.items}</p></div>
-                  <Link href={activeCategory.href} className="group inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 text-sm font-bold text-[#4E483F] hover:border-[#D10E63]/50 hover:text-[#B00C54]">{t.understand}<ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></Link>
+                <div className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                  <div className="max-w-2xl"><h2 className="text-[clamp(2.5rem,5vw,5.2rem)] font-semibold leading-[.9] tracking-[-.065em]">{activeCategory.title[lang]}</h2><p className="mt-5 text-[15px] leading-7 text-[#625B50]">{activeCategory.description[lang]}</p><p className="mt-3 font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{filteredItems.length} {t.items}</p></div>
+                  <Link href={activeCategory.href} className="group inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">{t.understand}<ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></Link>
                 </div>
               </div>
-              {visibleItems.length > 0 ? <div className="mt-6 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} />)}</div> : <div className="mt-6 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><UnitalkLogo size={32} activeSegment={0} inactiveColor="#C9BFB0" /><h3 className="mt-6 text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
-              {categoryItems.length > PAGE_SIZE && <div className="mt-8 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= categoryItems.length ? PAGE_SIZE : categoryItems.length)} className="inline-flex min-h-11 items-center rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#B00C54] hover:bg-[#D10E63] hover:text-white">{visibleCount >= categoryItems.length ? t.showLess : t.showMore}</button></div>}
+              {categoryItems.length > 0 && <label className="relative mt-6 block"><span className="sr-only">{t.search}</span><Search aria-hidden="true" className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#857C6E]" /><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FAF8F3] pl-11 pr-12 text-sm outline-none transition focus:border-[#D10E63] focus:ring-4 focus:ring-[#D10E63]/10" />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={lang === 'fr' ? 'Effacer la recherche' : 'Clear search'} className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-[#857C6E] hover:bg-[#EEE8DD] hover:text-[#1C1A17]"><X className="size-4" /></button>}</label>}
+              {visibleItems.length > 0 ? <div className="mt-6 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} featured={index === 0 && !catalogQuery} />)}</div> : categoryItems.length > 0 ? <div className="mt-6 rounded-3xl border border-dashed border-[#CFC5B5] p-10 text-center"><Search className="mx-auto size-6 text-[#857C6E]" /><h3 className="mt-5 text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{lang === 'fr' ? 'Effacer la recherche' : 'Clear search'}</button></div> : <div className="mt-6 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><UnitalkLogo size={32} activeSegment={0} inactiveColor="#C9BFB0" /><h3 className="mt-6 text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
+              {filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
             </div>
           </div>
         </div>
@@ -549,23 +553,23 @@ export function UnitalkStoreHub() {
   )
 }
 
-function MarketplaceItemCard({ item, lang }: { item: MarketplaceItem; lang: Lang }) {
+function MarketplaceItemCard({ item, lang, featured = false }: { item: MarketplaceItem; lang: Lang; featured?: boolean }) {
   const content = (
     <>
       <div className="flex items-start justify-between gap-4">
-        {item.image ? <Image src={item.image} alt="" width={48} height={48} className="size-12 rounded-2xl object-cover ring-1 ring-[#D8D0C2]" /> : <UnitalkLogo size={30} activeSegment={0} inactiveColor="#C9BFB0" />}
-        <span className="font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#857C6E]">{item.origin ?? 'Unitalk'}</span>
+        {item.image ? <Image src={item.image} alt="" width={56} height={56} className="size-14 rounded-2xl object-cover ring-1 ring-[#D8D0C2]" /> : <span className={`flex size-12 items-center justify-center rounded-2xl ${featured ? 'bg-[#D10E63]/15' : 'bg-[#EEE8DD]'}`}><UnitalkLogo size={28} activeSegment={0} inactiveColor={featured ? '#6B394E' : '#C9BFB0'} /></span>}
+        <span className={`rounded-full px-2.5 py-1 font-mono text-[8px] font-black uppercase tracking-[.14em] ${featured ? 'bg-white/10 text-[#F2A4C5]' : 'bg-[#EEE8DD] text-[#6E665A]'}`}>{item.origin ?? 'Unitalk'}</span>
       </div>
-      <p className="mt-7 font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#B00C54]">{item.meta}</p>
-      <h3 className="mt-3 text-xl font-bold tracking-[-.025em]">{item.title}</h3>
-      <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#625B50]">{item.description}</p>
+      <p className={`mt-7 line-clamp-2 font-mono text-[9px] font-black uppercase tracking-[.14em] ${featured ? 'text-[#F2A4C5]' : 'text-[#B00C54]'}`}>{item.meta}</p>
+      <h3 className={`mt-3 font-bold tracking-[-.035em] ${featured ? 'text-2xl text-white' : 'text-xl'}`}>{item.title}</h3>
+      <p className={`mt-3 line-clamp-3 text-sm leading-6 ${featured ? 'text-[#CFC6B8]' : 'text-[#625B50]'}`}>{item.description}</p>
       <div className="mt-auto flex items-center justify-between pt-6">
-        {item.pending && <span className="rounded-full bg-[#EEE8DD] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.1em] text-[#6E665A]">{lang === 'fr' ? 'En préparation' : 'In preparation'}</span>}
-        {item.href && <ArrowRight className="ml-auto size-5 text-[#D10E63] transition-transform group-hover:translate-x-1" />}
+        {item.pending && <span className={`rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.1em] ${featured ? 'bg-white/10 text-[#D8D0C4]' : 'bg-[#EEE8DD] text-[#6E665A]'}`}>{lang === 'fr' ? 'En préparation' : 'In preparation'}</span>}
+        {item.href && <span className={`ml-auto flex size-9 items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${featured ? 'bg-[#D10E63] text-white' : 'bg-[#EEE8DD] text-[#D10E63]'}`}><ArrowRight className="size-4" /></span>}
       </div>
     </>
   )
 
-  const className = 'group flex min-h-[260px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 outline-none transition hover:-translate-y-1 hover:border-[#D10E63]/35 focus-visible:ring-2 focus-visible:ring-[#D10E63]'
+  const className = `group relative flex min-h-[285px] flex-col overflow-hidden rounded-[26px] border p-6 outline-none transition hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-[#D10E63] ${featured ? 'border-[#292521] bg-[#181615] shadow-[0_24px_60px_-42px_rgba(28,26,23,.8)]' : 'border-[#D8D0C2] bg-[#FAF8F3] hover:border-[#D10E63]/35 hover:shadow-[0_22px_55px_-45px_rgba(28,26,23,.6)]'}`
   return item.href ? <Link href={item.href} className={className}>{content}</Link> : <article className={className}>{content}</article>
 }

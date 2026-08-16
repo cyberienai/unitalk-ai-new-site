@@ -260,9 +260,6 @@ export function MissionsContent({
             </div>
           </div>
 
-          <div className="mt-8 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:mt-10 lg:grid-cols-4">
-            {t.ribbon.map((item, index) => <p key={item} className="flex min-h-14 items-center gap-3 border-b border-[#CFC5B5] py-3 text-xs font-bold last:border-b-0 sm:border-r sm:px-4 sm:[&:nth-child(2)]:border-r-0 lg:min-h-16 lg:border-b-0 lg:[&:nth-child(2)]:border-r lg:first:pl-0 lg:last:border-r-0"><span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{item}</p>)}
-          </div>
         </div>
       </section>
 
@@ -356,7 +353,6 @@ const COPY = {
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
     starters: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants', 'Trouver de nouveaux prospects'],
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne. Votre description reste dans ce navigateur pendant la reprise.',
-    ribbon: ['Résultat attendu', 'Sources et outils', 'Validations humaines', 'Collaborateur adapté'],
     catalogTitle: 'Partez d’une mission déjà cadrée',
     catalogKicker: 'Catalogue de missions',
     catalogLead: 'Comparez le résultat attendu, le niveau de préparation et les validations nécessaires. Chaque mission peut ensuite être adaptée à votre entreprise.',
@@ -382,7 +378,6 @@ const COPY = {
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
     starters: ['Chase my unpaid invoices', 'Handle my incoming emails', 'Find new prospects'],
     handoff: 'Enter to continue · Shift + Enter for a new line. Your description remains in this browser while you resume.',
-    ribbon: ['Expected outcome', 'Sources and tools', 'Human approvals', 'Right Collaborator'],
     catalogTitle: 'Start from an already scoped mission',
     catalogKicker: 'Mission catalog',
     catalogLead: 'Compare the expected outcome, preparation level and required approvals. Every mission can then be adapted to your company.',
