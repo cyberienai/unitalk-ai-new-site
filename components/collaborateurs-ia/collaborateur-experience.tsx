@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, ChevronDown, CircleCheck, FolderOpen, Globe2, ShieldCheck, SquareTerminal, TimerReset } from 'lucide-react'
+import { ArrowRight, Brain, BriefcaseBusiness, Check, ChevronDown, CircleCheck, Cpu, FolderOpen, Globe2, Mail, Plug, ShieldCheck, SquareTerminal, TimerReset, UserRound, Wrench } from 'lucide-react'
 import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage, type Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
@@ -66,6 +66,28 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
+      <section className="border-y border-[#DCD4C4] bg-[#EAE3D4] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell">
+          <SectionHeading eyebrow={t.anatomyKicker} title={t.anatomyTitle} body={t.anatomyBody} />
+          <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {t.anatomyItems.map((item, index) => {
+              const Icon = [UserRound, SquareTerminal, Mail, FolderOpen, BriefcaseBusiness, Plug, Brain, Cpu][index]
+              return (
+                <article key={item.title} className="rounded-2xl border border-[#D2C8B8] bg-[#FBF9F3] p-6">
+                  <Icon className="size-5 text-[#B00C54]" />
+                  <h2 className="mt-6 text-lg font-bold tracking-[-0.02em]">{item.title}</h2>
+                  <p className="mt-3 text-sm leading-7 text-[#625B50]">{item.body}</p>
+                </article>
+              )
+            })}
+          </div>
+          <div className="mt-6 flex items-start gap-4 rounded-2xl border border-[#D10E63]/25 bg-[#F7E5ED] p-5">
+            <ShieldCheck className="mt-0.5 size-5 shrink-0 text-[#B00C54]" />
+            <p className="text-sm font-semibold leading-7 text-[#3F3A33]">{t.anatomyRule}</p>
+          </div>
+        </div>
+      </section>
+
       <section id="formats" className="border-y border-[#DCD4C4] bg-[#FBF9F3] px-5 py-16 sm:px-8">
         <div className="editorial-shell">
           <SectionHeading eyebrow={t.formatsKicker} title={t.formatsTitle} body={t.formatsBody} />
@@ -119,6 +141,26 @@ export function CollaborateurExperience() {
               <IdentityList label={t.profilesLabel} items={t.profiles} />
               <IdentityList label={t.experienceLabel} items={t.experience} />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="overflow-hidden border-t border-[#DCD4C4] bg-[#FBF9F3] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20">
+          <div>
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#B00C54]">{t.migrationKicker}</p>
+            <h2 className="mt-5 max-w-3xl text-balance text-[36px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[48px]">{t.migrationTitle}</h2>
+            <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{t.migrationBody}</p>
+            <Link href="/decouvrir?source=collaborateur-ia-migration&intention=migration-hermes" className="group mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white">
+              {t.migrationCta}<ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <div className="rounded-3xl bg-[#181615] p-6 text-[#FBF9F3] sm:p-8">
+            <div className="flex items-center gap-3 border-b border-white/10 pb-6"><Wrench className="size-5 text-[#F2A4C5]" /><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#F2A4C5]">{t.migrationCardLabel}</p></div>
+            <ol className="mt-6 space-y-5">
+              {t.migrationSteps.map((step, index) => <li key={step} className="flex gap-4 text-sm font-semibold leading-6 text-[#E7E0D5]"><span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#D10E63] font-mono text-[10px] font-black text-white">0{index + 1}</span>{step}</li>)}
+            </ol>
+            <p className="mt-7 border-t border-white/10 pt-6 text-sm font-bold leading-7 text-white">{t.ownership}</p>
           </div>
         </div>
       </section>
@@ -208,6 +250,18 @@ const COPY = {
     heroKicker: 'Collaborateur IA pour entreprise', heroTitle: 'Son identité IA reste la même.\nSes responsabilités évoluent.', heroBody: 'Confiez enfin le travail répétitif à un Collaborateur IA qui connaît votre entreprise, agit dans vos outils et demande votre validation lorsque la décision vous appartient.', heroBenefits: ['Travaille avec vos applications', 'Conserve le contexte validé', 'Disponible pour vos missions récurrentes', 'Actions sensibles sous votre contrôle'], heroCta: 'Démarrer gratuitement', heroCtaAlma: 'avec Alma', seeWork: 'Voir une mission en action', trial: '7 jours gratuits · Sans carte bancaire · À partir de 74 €/mois après l’essai', licenseDocumentation: 'Ce que comprend la Licence Collaborateur IA →',
     reassuranceLabel: 'Garanties de l’offre', reassurances: [{ title: 'Vous commencez par un besoin réel', body: 'Alma transforme votre besoin en mission cadrée.' }, { title: 'Vous gardez le contrôle', body: 'Les accès et validations sont définis avant l’activation.' }, { title: 'Son expérience ne repart pas de zéro', body: 'Le contexte validé reste attaché à son identité IA.' }],
     startKicker: 'Simple à démarrer', startTitle: 'Tout commence par une mission.', startBody: 'Pas besoin de lancer un projet informatique. Décrivez le résultat attendu : Alma vous aide à cadrer le travail et à préparer le bon Collaborateur IA.', startSteps: [{ title: 'Décrivez le travail', body: 'Expliquez ce que vous voulez déléguer avec vos propres mots.' }, { title: 'Validez le cadre', body: 'Résultat, sources, applications, droits et validations.' }, { title: 'Mettez-le au travail', body: 'Le Collaborateur IA exécute et vous rend le résultat.' }],
+    anatomyKicker: 'Tout ce qu’il possède', anatomyTitle: 'Une vraie identité IA. Son propre espace de travail.', anatomyBody: 'Un Collaborateur IA ne se limite pas à une conversation. Il réunit une identité professionnelle, un environnement autonome propulsé par Hermes et les ressources que votre entreprise lui attribue.',
+    anatomyItems: [
+      { title: 'Identité IA', body: 'Un prénom, un avatar, une voix et un rattachement explicite à votre organisation.' },
+      { title: 'Espace autonome open source', body: 'Un environnement Hermes isolé avec navigateur, terminal, exécution de code, planification et outils autorisés.' },
+      { title: 'Communication', body: 'Une adresse email, un calendrier, un numéro de téléphone si activé et les messageries d’équipe autorisées.' },
+      { title: 'Fichiers et médias', body: 'Ses fichiers, documents, images, sons et vidéos restent organisés dans le contexte de ses missions.' },
+      { title: 'Profils et compétences', body: 'Des profils métier, des compétences versionnées et l’expérience validée par votre entreprise.' },
+      { title: 'Modèles et applications', body: 'Les modèles IA, applications connectées, API et outils MCP choisis par votre organisation.' },
+      { title: 'Mémoire et historique', body: 'La mémoire autorisée, l’historique des conversations, les étapes d’exécution et les journaux de son code.' },
+      { title: 'Ressources matérielles', body: 'Un environnement isolé avec stockage, secrets et ressources CPU, RAM ou GPU affectées selon l’offre et l’hébergement.' },
+    ],
+    anatomyRule: 'Chaque accès reste gouverné : posséder un outil ne signifie pas pouvoir l’utiliser dans toutes les missions. Les droits, validations et limites sont définis par votre entreprise.',
     aiIdentity: 'Identité IA', lucasMeta: 'Collaborateur IA · Solvea', currentMission: 'Mission en cours', mission: 'Répondre aux demandes reçues par email', profilesLabel: 'Profils métier', profiles: ['Relation client', 'Commercial', 'Fidélisation'], permissionsLabel: 'Autorisations de cette mission', permissions: ['Lire les demandes reçues', 'Préparer une réponse', 'Soumettre avant envoi'], stateLabel: 'État', state: '3 réponses prêtes à valider',
     identitySelector: 'Exemples de Collaborateurs IA', showIdentity: 'Afficher', heroIdentities: [
       { name: 'Lucas', avatar: '/images/lucas-avatar.png', meta: 'Collaborateur IA · Solvea', mission: 'Répondre aux demandes reçues par email', profiles: ['Relation client', 'Commercial', 'Fidélisation'], permissions: ['Lire les demandes reçues', 'Préparer une réponse', 'Soumettre avant envoi'], state: '3 réponses prêtes à valider' },
@@ -225,6 +279,7 @@ const COPY = {
     workKicker: 'Exécuter', workTitle: 'Il ne se contente pas de produire. Il agit avec les moyens autorisés.', workBody: 'Code désigne un format de production et un savoir-faire. Le Terminal est un moyen d’exécution disponible uniquement dans l’environnement isolé et selon les droits de la mission.', workItems: [{ title: 'Navigateur', body: 'Parcourir et utiliser les sites autorisés.' }, { title: 'Fichiers', body: 'Lire, produire et organiser les fichiers de la mission.' }, { title: 'Terminal', body: 'Exécuter et vérifier du code dans son environnement isolé.' }, { title: 'Planification', body: 'Reprendre un travail et continuer au-delà d’une conversation.' }], hermes: 'Hermes Agent est le système d’exploitation agentique open source de Nous Research, distribué sous licence MIT. Unitalk AI l’intègre dans une distribution professionnelle indépendante.',
     appsKicker: 'Applications et services', appsTitle: 'Les outils restent séparés des droits accordés au Collaborateur IA.', appTypes: [{ title: 'Connecteurs', body: 'Services externes autorisés par l’entreprise.' }, { title: 'Applications natives', body: 'Applications open source vérifiées et déployées sur le Serveur IA privé de l’entreprise.' }, { title: 'Applications métier', body: 'Applications privées ou modèles vibecodés pour soutenir une mission précise.' }], permissionRule: 'Installer une application ne donne aucun accès à un Collaborateur IA. Les droits sont accordés séparément.', architecture: { collaboratorLabel: 'Collaborateur IA', collaboratorValue: 'Environnement Hermes/VPS isolé', serverLabel: 'Serveur IA privé', serverValue: 'Applications et services de l’entreprise', accessLabel: 'Accès', accessValue: 'n8n, API, MCP ou navigateur selon les droits' },
     identityKicker: 'Une identité qui dure', identityTitle: 'Une seule identité IA. Plusieurs responsabilités.', identityBody: 'Les profils métier peuvent évoluer et l’expérience validée peut rester attachée à Lucas. Son identité, son rattachement et les règles de l’entreprise ne sont pas recréés à chaque mission.', experienceLabel: 'Expérience validée', experience: ['Politique de réponse client · version 3', 'Règles de qualification commerciale · version 2'],
+    migrationKicker: 'Migration et portabilité', migrationTitle: 'Migration en un clic. Votre intelligence vous appartient.', migrationBody: 'Importez une configuration Hermes compatible sans reconstruire votre Collaborateur IA depuis zéro. Unitalk prépare la reprise de son identité, de ses profils, de ses compétences, de ses outils et de sa mémoire exportable, puis vous fait valider les droits avant activation.', migrationCta: 'Migrer en un clic', migrationCardLabel: 'Compatible avec Hermes', migrationSteps: ['Connectez ou importez votre environnement Hermes.', 'Vérifiez les données, outils, secrets et dépendances détectés.', 'Validez la migration et retrouvez votre Collaborateur IA dans Unitalk.'], ownership: 'Sans verrouillage fournisseur. Vos données, votre mémoire, vos méthodes et votre intelligence restent sous le contrôle de votre entreprise.',
     midCtaTitle: 'Quel travail voulez-vous ne plus avoir à faire seul ?', midCtaBody: 'Décrivez-le à Alma. Elle vous aide à cadrer la mission avant toute activation.', midCta: 'Décrire ma mission',
     finalKicker: 'Votre première mission', finalTitle: 'Montrez le travail. Alma prépare le Collaborateur IA.', finalBody: 'Commencez avec une mission concrète. Vous validez son périmètre, ses accès et les décisions qui doivent rester humaines.', finalProofs: ['7 jours gratuits', 'Sans carte bancaire', 'À partir de 74 €/mois'], finalCta: 'Démarrer gratuitement', exploreMissions: 'Ou explorer les missions', pricing: 'Consulter les tarifs détaillés',
   },
@@ -232,6 +287,18 @@ const COPY = {
     heroKicker: 'AI Collaborator for business', heroTitle: 'Its AI identity stays the same.\nIts responsibilities evolve.', heroBody: 'Finally hand repetitive work to an AI Collaborator that knows your company, acts in your tools and asks for approval whenever the decision belongs to you.', heroBenefits: ['Works with your applications', 'Keeps validated context', 'Available for recurring missions', 'Sensitive actions under your control'], heroCta: 'Start free', heroCtaAlma: 'with Alma', seeWork: 'See a mission in action', trial: '7 days free · No credit card · From €74/month after trial', licenseDocumentation: 'What the AI Collaborator License includes →',
     reassuranceLabel: 'Offer guarantees', reassurances: [{ title: 'Start with real work', body: 'Alma turns your need into a scoped mission.' }, { title: 'You stay in control', body: 'Access and approvals are defined before activation.' }, { title: 'Experience does not reset', body: 'Validated context remains attached to its AI identity.' }],
     startKicker: 'Easy to start', startTitle: 'One first mission, not an IT project.', startBody: 'Describe the expected outcome. Alma helps scope the work and prepare the right AI Collaborator.', startSteps: [{ title: 'Describe the work', body: 'Explain what you want to delegate in your own words.' }, { title: 'Approve the scope', body: 'Outcome, sources, applications, permissions and approvals.' }, { title: 'Put it to work', body: 'The AI Collaborator executes and delivers the result.' }],
+    anatomyKicker: 'Everything it owns', anatomyTitle: 'A real AI identity. Its own workspace.', anatomyBody: 'An AI Collaborator is more than a conversation. It brings together a professional identity, an autonomous Hermes-powered environment and the resources your company assigns to it.',
+    anatomyItems: [
+      { title: 'AI identity', body: 'A first name, avatar, voice and explicit attachment to your organization.' },
+      { title: 'Autonomous open-source workspace', body: 'An isolated Hermes environment with browser, terminal, code execution, scheduling and authorized tools.' },
+      { title: 'Communication', body: 'An email address, calendar, phone number when enabled and authorized team messaging.' },
+      { title: 'Files and media', body: 'Its files, documents, images, audio and video remain organized in mission context.' },
+      { title: 'Profiles and skills', body: 'Job profiles, versioned skills and experience approved by your company.' },
+      { title: 'Models and applications', body: 'The AI models, connected applications, APIs and MCP tools selected by your organization.' },
+      { title: 'Memory and history', body: 'Authorized memory, conversation history, execution steps and code logs.' },
+      { title: 'Compute resources', body: 'An isolated environment with storage, secrets and CPU, RAM or GPU resources allocated according to the plan and hosting.' },
+    ],
+    anatomyRule: 'Every access remains governed: having a tool does not mean it can be used in every mission. Your company defines permissions, approvals and limits.',
     aiIdentity: 'AI identity', lucasMeta: 'AI Collaborator · Solvea', currentMission: 'Current mission', mission: 'Answer requests received by email', profilesLabel: 'Job profiles', profiles: ['Customer relations', 'Sales', 'Customer success'], permissionsLabel: 'Permissions for this mission', permissions: ['Read received requests', 'Prepare a reply', 'Submit before sending'], stateLabel: 'Status', state: '3 replies ready for review',
     identitySelector: 'AI Collaborator examples', showIdentity: 'Show', heroIdentities: [
       { name: 'Lucas', avatar: '/images/lucas-avatar.png', meta: 'AI Collaborator · Solvea', mission: 'Answer requests received by email', profiles: ['Customer relations', 'Sales', 'Customer success'], permissions: ['Read received requests', 'Prepare a reply', 'Submit before sending'], state: '3 replies ready for review' },
@@ -249,6 +316,7 @@ const COPY = {
     workKicker: 'Execute', workTitle: 'It does not only produce. It acts with authorized means.', workBody: 'Code is a production format and skill. The Terminal is an execution method available only in the isolated environment and under mission permissions.', workItems: [{ title: 'Browser', body: 'Browse and use authorized websites.' }, { title: 'Files', body: 'Read, produce and organize mission files.' }, { title: 'Terminal', body: 'Run and verify code in its isolated environment.' }, { title: 'Scheduling', body: 'Resume work and continue beyond a conversation.' }], hermes: 'Hermes Agent is the open-source agentic operating system from Nous Research, distributed under the MIT License. Unitalk AI integrates it into an independent professional distribution.',
     appsKicker: 'Applications and services', appsTitle: 'Tools remain separate from the permissions granted to the AI Collaborator.', appTypes: [{ title: 'Connectors', body: 'External services authorized by the company.' }, { title: 'Native applications', body: 'Verified open-source applications deployed on the company’s private AI Server.' }, { title: 'Business applications', body: 'Private applications or vibe-coded templates supporting a specific mission.' }], permissionRule: 'Installing an application grants no access to an AI Collaborator. Permissions are granted separately.', architecture: { collaboratorLabel: 'AI Collaborator', collaboratorValue: 'Isolated Hermes/VPS environment', serverLabel: 'Private AI Server', serverValue: 'Company applications and services', accessLabel: 'Access', accessValue: 'n8n, API, MCP or browser according to permissions' },
     identityKicker: 'An identity that lasts', identityTitle: 'One AI identity. Several responsibilities.', identityBody: 'Job profiles can evolve and validated experience can remain attached to Lucas. Its identity, organization and company rules are not recreated for every mission.', experienceLabel: 'Validated experience', experience: ['Customer reply policy · version 3', 'Sales qualification rules · version 2'],
+    migrationKicker: 'Migration and portability', migrationTitle: 'One-click migration. Your intelligence belongs to you.', migrationBody: 'Import a compatible Hermes setup without rebuilding your AI Collaborator from scratch. Unitalk prepares the transfer of its identity, profiles, skills, tools and exportable memory, then asks you to approve permissions before activation.', migrationCta: 'Migrate in one click', migrationCardLabel: 'Compatible with Hermes', migrationSteps: ['Connect or import your Hermes environment.', 'Review detected data, tools, secrets and dependencies.', 'Approve the migration and find your AI Collaborator in Unitalk.'], ownership: 'No vendor lock-in. Your data, memory, methods and intelligence remain under your company’s control.',
     midCtaTitle: 'What work do you no longer want to handle alone?', midCtaBody: 'Describe it to Alma. She helps scope the mission before anything is activated.', midCta: 'Describe my mission',
     finalKicker: 'Your first mission', finalTitle: 'Show the work. Alma prepares the AI Collaborator.', finalBody: 'Start with one concrete mission. You approve its scope, access and the decisions that must remain human.', finalProofs: ['7 days free', 'No credit card', 'From €74/month'], finalCta: 'Start free', exploreMissions: 'Or explore missions', pricing: 'View detailed pricing',
   },

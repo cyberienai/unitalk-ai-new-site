@@ -26,4 +26,19 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Tout commence par une mission.')
     expect(source).toContain('href="/missions"')
   })
+
+  it('describes a complete AI identity and autonomous Hermes workspace', () => {
+    for (const capability of ['Une vraie identité IA', 'Espace autonome open source', 'Communication', 'Fichiers et médias', 'Profils et compétences', 'Modèles et applications', 'Mémoire et historique', 'Ressources matérielles']) expect(source).toContain(capability)
+    expect(source).toContain('l’historique des conversations')
+    expect(source).toContain('les journaux de son code')
+    expect(source).toContain('CPU, RAM ou GPU affectées selon l’offre et l’hébergement')
+  })
+
+  it('makes Hermes migration and ownership explicit', () => {
+    expect(source).toContain('Migration en un clic. Votre intelligence vous appartient.')
+    expect(source).toContain('Migrer en un clic')
+    expect(source).toContain('Compatible avec Hermes')
+    expect(source).toContain('Sans verrouillage fournisseur')
+    expect(source).toContain('intention=migration-hermes')
+  })
 })

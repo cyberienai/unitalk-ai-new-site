@@ -6,6 +6,7 @@ import { ArrowRight, Mic, Search, Square } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
+import { AlmaFace } from '@/components/alma-face'
 
 type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type SpeechRecognitionInstance = {
@@ -187,7 +188,7 @@ export function MissionsContent({
       <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
         <header className="mx-auto max-w-4xl text-center">
           <h1 className="hero-heading">{t.title}</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-7 text-[#4E483F]">{t.lead}</p>
+          <p className="mx-auto mt-5 max-w-2xl text-[17px] leading-7 text-[#4E483F]">{withAlmaAvatar(t.lead)}</p>
 
           <div className="mx-auto mt-8 max-w-2xl rounded-[24px] border border-[#D8D0C2] bg-[#FFFDF9] p-3 text-left shadow-[0_20px_55px_-38px_rgba(28,26,23,.65)] sm:p-4">
             <textarea
@@ -262,8 +263,8 @@ export function MissionsContent({
 
         <section className="mt-20 rounded-[28px] bg-[#181615] px-6 py-12 text-center text-white sm:px-10 sm:py-14">
           <h2 className="text-balance font-sf text-[32px] font-semibold leading-tight tracking-[-0.04em] sm:text-[42px]">{t.finalTitle}</h2>
-          <p className="mx-auto mt-4 max-w-xl text-[15px] leading-7 text-[#CFC6B8]">{t.finalBody}</p>
-          <button type="button" onClick={focusComposer} className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white hover:bg-[#E51872]">{t.finalCta}<ArrowRight className="size-4" /></button>
+          <p className="mx-auto mt-4 max-w-xl text-[15px] leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.finalBody)}</p>
+          <button type="button" onClick={focusComposer} className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white hover:bg-[#E51872]">{withAlmaAvatar(t.finalCta)}<ArrowRight className="size-4" /></button>
         </section>
       </div>
     </main>
@@ -274,12 +275,21 @@ function AlmaCatalogCard({ lang, onClick }: { lang: 'fr' | 'en'; onClick: () => 
   const fr = lang === 'fr'
   return (
     <article className="flex min-h-[250px] flex-col rounded-[18px] bg-[#211E1A] p-6 text-[#FAF8F3] shadow-[0_18px_42px_-28px_rgba(28,26,23,.65)]">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2A4C5]">Alma</p>
+      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2A4C5]">{withAlmaAvatar('Alma')}</p>
       <h3 className="mt-4 font-sf text-xl font-semibold leading-snug">{fr ? 'Vous ne trouvez pas exactement votre mission ?' : 'Can’t find exactly the mission you need?'}</h3>
-      <p className="mt-3 text-sm leading-6 text-[#CFC6B8]">{fr ? 'Décrivez le résultat attendu. Alma conserve votre demande et la reprend après votre connexion.' : 'Describe the expected result. Alma saves your request and picks it up after you sign in.'}</p>
+      <p className="mt-3 text-sm leading-6 text-[#CFC6B8]">{withAlmaAvatar(fr ? 'Décrivez le résultat attendu. Alma conserve votre demande et la reprend après votre connexion.' : 'Describe the expected result. Alma saves your request and picks it up after you sign in.')}</p>
       <button type="button" onClick={onClick} className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#F2A4C5]">{fr ? 'Décrire mon besoin' : 'Describe my need'}<ArrowRight className="size-4" /></button>
     </article>
   )
+}
+
+function withAlmaAvatar(value: string) {
+  return value.split('Alma').map((part, index) => (
+    <span key={`${part}-${index}`}>
+      {index > 0 && <><AlmaFace em={1.15} />Alma</>}
+      {part}
+    </span>
+  ))
 }
 
 function CategoryPill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {

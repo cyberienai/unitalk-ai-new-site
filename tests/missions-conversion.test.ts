@@ -12,6 +12,12 @@ describe('missions conversion path', () => {
     expect(page).toContain('Rechercher dans les missions')
   })
 
+  it('shows Alma with her avatar wherever she is named', () => {
+    expect(page).toContain('withAlmaAvatar(t.lead)')
+    expect(page).toContain("withAlmaAvatar('Alma')")
+    expect(page).toContain('withAlmaAvatar(t.finalCta)')
+  })
+
   it('keeps the user request through authentication', () => {
     expect(page).toContain('Continuer avec cette mission')
     expect(page).toContain('unitalk_mission_')

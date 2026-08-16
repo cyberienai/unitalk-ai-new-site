@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/lib/language-context'
 import { AlmaFace } from '@/components/alma-face'
@@ -45,22 +46,29 @@ const T = {
     title2: 'Vos règles.',
     subtitle:
       'Votre Collaborateur IA accède aux modèles autorisés via Unitalk AI Gateway. Vous choisissez comment les utiliser : vos propres clés, des crédits Unitalk ou les deux.',
-    modesLabel: 'Deux façons de payer',
+    modesLabel: 'Choisissez la capacité de chaque Collaborateur IA',
     byokTitle: 'BYOK — vos propres clés',
     byokDesc:
       'Bring Your Own Key : connectez vos clés API (GPT, Claude, Gemini…) et ne payez que l’abonnement. Vous gardez la main sur vos coûts, au prix réel des modèles.',
-    byokPoints: ['Vos clés, vos coûts', 'Aucune marge sur les modèles', 'Contrôle total des accès', 'Idéal pour les gros volumes'],
-    byokBadge: '0€ de crédits',
-    creditsTitle: 'Crédits IA prépayés',
-    creditsDesc:
-      'Tout est géré par Unitalk : aucune clé à configurer, vous démarrez en une minute. Rechargez quand vous voulez, sans engagement.',
-    creditsPoints: ['Rien à configurer', 'Prêt en une minute', 'Recharge à la demande', 'Packs de 20€ à 200€'],
-    creditsBadge: 'Le plus simple',
-    switchNote: 'Vous basculez de l’un à l’autre quand vous voulez, sans perdre votre configuration.',
-    featLabel: 'Ce que ça change pour votre agent',
+    byokPoints: ['Vos clés, vos coûts', 'Aucune marge sur les modèles', 'Contrôle total des accès'],
+    byokBadge: '0 €/mois',
+    quarterTitle: 'Quart-temps',
+    quarterDesc: 'Pour une charge légère ou des missions récurrentes avec 5 millions de tokens par mois.',
+    quarterPoints: ['5 millions de tokens/mois', '25 €/mois par Collaborateur IA', 'Offert jusqu’au 31 décembre 2026'],
+    quarterBadge: 'Pour démarrer',
+    halfTitle: 'Mi-temps',
+    halfDesc: 'Pour une prise en charge quotidienne avec davantage de volume et de continuité.',
+    halfPoints: ['10 millions de tokens/mois', '50 €/mois par Collaborateur IA', 'Capacité ajustable à tout moment'],
+    halfBadge: 'Quotidien',
+    fullTitle: 'Temps plein',
+    fullDesc: 'Pour les processus complexes, les volumes importants et les missions intensives.',
+    fullPoints: ['20 millions de tokens/mois', '100 €/mois par Collaborateur IA', 'Capacité ajustable à tout moment'],
+    fullBadge: 'Intensif',
+    switchNote: 'La capacité IA finance l’usage des modèles. Elle s’ajoute à la licence du Collaborateur IA et peut évoluer sans modifier son identité.',
+    featLabel: 'Ce que ça change pour votre Collaborateur IA',
     feats: {
       best: { title: 'Accès aux meilleurs modèles', desc: 'GPT, Claude, Gemini et plus — toujours le bon modèle pour la bonne tâche.' },
-      multimodal: { title: 'Multimodal', desc: 'Voix, texte, image, audio, code : votre agent comprend et produit tous les formats.' },
+      multimodal: { title: 'Multimodal', desc: 'Voix, texte, image, audio, code : votre Collaborateur IA comprend et produit tous les formats.' },
       memory: { title: 'Mémoire persistante', desc: 'Un contexte d’entreprise qui se souvient de tout, d’un échange à l’autre.' },
       skills: { title: 'Compétences extensibles', desc: 'Des compétences auto-apprises et une connexion à 3 000+ apps via MCP.' },
     } as Record<FeatKey, Feat>,
@@ -68,7 +76,7 @@ const T = {
     ctaTitle2: 'Alma vous conseille.',
     ctaDesc:
       'Elle vous recommande BYOK ou crédits selon votre usage, lors de votre appel. Gratuit, sans carte bancaire.',
-    ctaBtn: 'Créer mon agent gratuitement',
+    ctaBtn: 'Créer mon Collaborateur IA gratuitement',
   },
   en: {
     eyebrow: 'AI models',
@@ -76,22 +84,29 @@ const T = {
     title2: 'Your rules.',
     subtitle:
       'Your AI Collaborator accesses authorized models through Unitalk AI Gateway. Choose your own keys, Unitalk credits, or both.',
-    modesLabel: 'Two ways to pay',
+    modesLabel: 'Choose each AI Collaborator’s capacity',
     byokTitle: 'BYOK — your own keys',
     byokDesc:
       'Bring Your Own Key: connect your API keys (GPT, Claude, Gemini…) and only pay for the subscription. You stay in control of your costs, at the models’ real price.',
-    byokPoints: ['Your keys, your costs', 'No markup on models', 'Full access control', 'Ideal for high volumes'],
-    byokBadge: '€0 in credits',
-    creditsTitle: 'Prepaid AI credits',
-    creditsDesc:
-      'Everything is handled by Unitalk: no key to configure, you start in a minute. Top up whenever you want, no commitment.',
-    creditsPoints: ['Nothing to configure', 'Ready in a minute', 'Top up on demand', 'Packs from €20 to €200'],
-    creditsBadge: 'Simplest',
-    switchNote: 'You switch between the two whenever you want, without losing your configuration.',
-    featLabel: 'What it means for your agent',
+    byokPoints: ['Your keys, your costs', 'No markup on models', 'Full access control'],
+    byokBadge: '€0/month',
+    quarterTitle: 'Quarter-time',
+    quarterDesc: 'For a light workload or recurring missions with 5 million tokens per month.',
+    quarterPoints: ['5 million tokens/month', '€25/month per AI Collaborator', 'Free through December 31, 2026'],
+    quarterBadge: 'Start here',
+    halfTitle: 'Half-time',
+    halfDesc: 'For daily work with more volume and continuity.',
+    halfPoints: ['10 million tokens/month', '€50/month per AI Collaborator', 'Adjust capacity at any time'],
+    halfBadge: 'Daily',
+    fullTitle: 'Full-time',
+    fullDesc: 'For complex processes, high volumes and intensive missions.',
+    fullPoints: ['20 million tokens/month', '€100/month per AI Collaborator', 'Adjust capacity at any time'],
+    fullBadge: 'Intensive',
+    switchNote: 'AI capacity funds model usage. It is added to the AI Collaborator license and can change without altering its identity.',
+    featLabel: 'What it means for your AI Collaborator',
     feats: {
       best: { title: 'Access to the best models', desc: 'GPT, Claude, Gemini and more — always the right model for the right task.' },
-      multimodal: { title: 'Multimodal', desc: 'Voice, text, image, audio, code: your agent understands and produces every format.' },
+      multimodal: { title: 'Multimodal', desc: 'Voice, text, image, audio, code: your AI Collaborator understands and produces every format.' },
       memory: { title: 'Persistent memory', desc: 'A company context that remembers everything, from one exchange to the next.' },
       skills: { title: 'Extensible skills', desc: 'Self-taught skills and a connection to 3,000+ apps via MCP.' },
     } as Record<FeatKey, Feat>,
@@ -99,7 +114,7 @@ const T = {
     ctaTitle2: 'Alma advises you.',
     ctaDesc:
       'She recommends BYOK or credits based on your usage, on your call. Free, no credit card.',
-    ctaBtn: 'Create my agent for free',
+    ctaBtn: 'Create my AI Collaborator for free',
   },
 }
 
@@ -109,7 +124,9 @@ export function ModelesIaContent() {
 
   const modes = [
     { title: t.byokTitle, desc: t.byokDesc, points: t.byokPoints, badge: t.byokBadge, highlight: false },
-    { title: t.creditsTitle, desc: t.creditsDesc, points: t.creditsPoints, badge: t.creditsBadge, highlight: true },
+    { title: t.quarterTitle, desc: t.quarterDesc, points: t.quarterPoints, badge: t.quarterBadge, highlight: true },
+    { title: t.halfTitle, desc: t.halfDesc, points: t.halfPoints, badge: t.halfBadge, highlight: false },
+    { title: t.fullTitle, desc: t.fullDesc, points: t.fullPoints, badge: t.fullBadge, highlight: false },
   ]
 
   return (
@@ -133,7 +150,7 @@ export function ModelesIaContent() {
       {/* Two payment modes */}
       <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#857C6E]">{t.modesLabel}</p>
-        <div className="mt-6 grid gap-5 lg:grid-cols-2">
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
           {modes.map((mode) => (
             <motion.div
               key={mode.title}
@@ -214,23 +231,29 @@ export function ModelesIaContent() {
             style={{ letterSpacing: '-0.02em' }}
           >
                 {t.ctaTitle1}
-                <span className="text-[#FF6FB0]">
-                  <AlmaFace />
-                  {t.ctaTitle2}
-                </span>
+                <span className="text-[#FF6FB0]">{withAlmaAvatar(t.ctaTitle2)}</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-[#C4BAA8]">
-            {t.ctaDesc}
+            {withAlmaAvatar(t.ctaDesc)}
           </p>
-          <a
+          <Link
             href="/decouvrir"
             className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
           >
             {t.ctaBtn}
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </a>
+          </Link>
         </div>
       </section>
     </main>
   )
+}
+
+function withAlmaAvatar(value: string) {
+  return value.split('Alma').map((part, index) => (
+    <span key={`${part}-${index}`}>
+      {index > 0 && <><AlmaFace />Alma</>}
+      {part}
+    </span>
+  ))
 }
