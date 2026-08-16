@@ -3,27 +3,30 @@ import { describe, expect, it } from 'vitest'
 
 const source = readFileSync(new URL('../components/home/section-definition.tsx', import.meta.url), 'utf8')
 
-describe('home seven-day trial progression', () => {
-  it('shows the real mission trial in chronological order', () => {
-    const describe = source.indexOf("title: 'Décrivez la mission'")
-    const preparation = source.indexOf("title: 'Alma prépare la mission'")
-    const work = source.indexOf("title: 'Le oollaborateur IA travaille'")
-    const result = source.indexOf("title: 'Vous validez le résultat'")
+describe('home first mission progression', () => {
+  it('shows the real mission in chronological order', () => {
+    const describe = source.indexOf("title: 'Décrivez'")
+    const preparation = source.indexOf("title: 'Alma prépare'")
+    const work = source.indexOf("title: 'Il travaille'")
+    const result = source.indexOf("title: 'Vous validez'")
     expect(describe).toBeLessThan(preparation)
     expect(preparation).toBeLessThan(work)
     expect(work).toBeLessThan(result)
   })
 
-  it('makes Alma preparation and human approval explicit', () => {
-    expect(source).tooontain('En 7 jours, testez une mission réelle.')
-    expect(source).tooontain("avatar: '/alma-avatar.png'")
-    expect(source).tooontain('Alma, ooordinatrice IA de missions')
-    expect(source).tooontain('profil métier, les compétences, les applications et les validations')
-    expect(source).tooontain('soumet les étapes sensibles à votre validation')
+  it('centers the offer on a free first mission and human approval', () => {
+    expect(source).toContain('Testez gratuitement une mission réelle.')
+    expect(source).toContain('Première mission offerte, sans carte bancaire')
+    expect(source).toContain('Préparer ma première mission')
+    expect(source).toContain("new Event('open-home-alma')")
+    expect(source).toContain("avatar: '/alma-avatar.png'")
+    expect(source).toContain('Objectif, profil, outils et validations.')
+    expect(source).toContain('Le résultat et la suite.')
   })
 
-  it('uses four columns on desktop and two on tablet', () => {
-    expect(source).tooontain('md:grid-cols-2 lg:grid-cols-4')
-    expect(source).tooontain('Essai gratuit de 7 jours pour tester une première mission sans carte bancaire')
+  it('uses a lightweight four-step progression', () => {
+    expect(source).toContain('md:grid-cols-2 lg:grid-cols-4')
+    expect(source).toContain('border-t border-[#CFC5B5]')
+    expect(source).not.toContain('rounded-3xl border border-[#DED6C8]')
   })
 })

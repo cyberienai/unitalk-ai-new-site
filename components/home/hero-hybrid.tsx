@@ -44,7 +44,7 @@ const T = {
     cta: 'Décrire ma première mission',
     voiceKicker: 'Coordinatrice de missions IA',
     voiceTitle: 'Décrivez le travail à accomplir.',
-    voiceBody: 'Alma transforme votre besoin en mission et prépare votre Collaborateur IA après votre connexion.',
+    voiceBody: 'Alma transforme votre besoin en mission. Connectez-vous ensuite pour préparer votre Collaborateur IA.',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
@@ -52,9 +52,9 @@ const T = {
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
     voiceSubmit: 'Continuer avec cette mission',
     examples: ['Qualifier mes prospects', 'Traiter mes e-mails entrants'],
-    previewMission: 'Mission',
-    previewCollaborator: 'Collaborateur IA',
-    previewReady: 'Prêt à personnaliser',
+    previewMission: 'Proposition d’Alma',
+    previewCollaborator: 'Collaborateur recommandé',
+    previewReady: 'Recommandé pour cette mission',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -64,11 +64,11 @@ const T = {
     headlineC: 'Ready for your missions.',
     subtitle: 'Entrust it with calls, emails, prospecting or administrative work. It works with your team and improves with every mission.',
     proofs: ['First mission included', 'Mission ready in minutes', 'No credit card'],
-    techSignature: 'Autonomous · Open source · Sovereign',
+    techSignature: 'Powered by Hermes · Open source · Hosted in France',
     cta: 'Describe my first mission',
     voiceKicker: 'AI mission coordinator',
     voiceTitle: 'Describe the work to be done.',
-    voiceBody: 'Alma turns your need into a mission and prepares your AI Collaborator after you sign in.',
+    voiceBody: 'Alma turns your need into a mission. Then sign in to prepare your AI Collaborator.',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
@@ -76,9 +76,9 @@ const T = {
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
     voiceSubmit: 'Continue with this mission',
     examples: ['Qualify my prospects', 'Handle my incoming emails'],
-    previewMission: 'Mission',
-    previewCollaborator: 'AI Collaborator',
-    previewReady: 'Ready to personalize',
+    previewMission: 'Alma’s proposal',
+    previewCollaborator: 'Recommended AI Collaborator',
+    previewReady: 'Recommended for this mission',
   },
 } as const
 
@@ -191,6 +191,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
               </span>
             ))}
           </motion.div>
+          <motion.p {...enter(0.31)} className="mt-3 text-[11px] font-semibold text-[#6E665A]">{t.techSignature}</motion.p>
         </div>
 
          <motion.div id="alma-hero" ref={voicePanelRef} {...enter(0.18)} className="mx-auto w-full max-w-2xl scroll-mt-24">
@@ -211,7 +212,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                         <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]">
                           <div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div>
                           <div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div>
-                          <div className="flex min-w-[116px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-[11px] font-bold text-white"><Check className="size-4" />{t.previewReady}</div>
+                          <div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div>
                         </div>
                       </motion.div>
                     ) : (
@@ -240,9 +241,21 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                     </div>
                   )}
                 </div>
-                <button type="button" onClick={submitVoiceNeed} disabled={!cleanTranscript} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-transparent bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:border-[#D10E63]/35 disabled:bg-[#D10E63]/15 disabled:text-[#F3B4CF] disabled:opacity-100">
-                  {t.voiceSubmit}<ArrowRight className="size-4" />
-                </button>
+                <AnimatePresence initial={false}>
+                  {cleanTranscript && (
+                    <motion.button
+                      type="button"
+                      onClick={submitVoiceNeed}
+                      initial={reduce ? false : { opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
+                      transition={{ duration: reduce ? 0 : 0.2, ease }}
+                      className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#E51872] px-6 text-sm font-bold text-white shadow-[0_8px_24px_-12px_rgba(229,24,114,.8)] transition-colors hover:bg-[#F02A82]"
+                    >
+                      {t.voiceSubmit}<ArrowRight className="size-4" />
+                    </motion.button>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
         </motion.div>

@@ -25,12 +25,12 @@ type Decision = null | 'validate' | 'refuse' | 'modify'
 
 const T = {
   fr: {
-    kicker: 'Workspace',
+    kicker: 'Mission en action',
     title: 'Les humains décident. Les Collaborateurs IA agissent.',
     surfaces: 'Le Workspace privé réunit les missions, l’activité, les validations et les résultats. Vos équipes voient ce qui se passe, interviennent quand c’est nécessaire et gardent le contrôle des décisions.',
     surfacesList: 'Web · Desktop · Messageries · Terminal',
     cta: 'Découvrir le Workspace',
-    missionId: 'Mission FIN-042',
+    missionId: 'Exemple illustratif · Mission FIN-042',
     statusPending: 'En attente de validation',
     statusValidated: 'Validée',
     statusRefused: 'Décision refusée',
@@ -60,12 +60,12 @@ const T = {
     },
   },
   en: {
-    kicker: 'Workspace',
+    kicker: 'Mission in action',
     title: 'Humans decide. AI Collaborators act.',
     surfaces: 'The private Workspace brings together missions, activity, validations and results. Your teams see what is happening, step in when needed and keep control of the decisions.',
     surfacesList: 'Web · Desktop · Messaging · Terminal',
     cta: 'Discover the Workspace',
-    missionId: 'Mission FIN-042',
+    missionId: 'Illustrative example · Mission FIN-042',
     statusPending: 'Awaiting validation',
     statusValidated: 'Validated',
     statusRefused: 'Decision declined',
