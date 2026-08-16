@@ -40,11 +40,10 @@ const T = {
     headlineC: 'Prêt pour vos missions.',
     subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives. Il travaille avec votre équipe et réutilise les méthodes que vous validez.',
     proofs: ['Première mission offerte', 'Première version en quelques minutes', 'Sans carte bancaire'],
-    techSignature: 'Moteur Hermes open source · Infrastructure Unitalk hébergée en France',
     cta: 'Décrire ma mission',
     voiceKicker: 'Coordinatrice de missions IA',
-    voiceTitle: 'Décrivez le travail à accomplir.',
-    voiceBody: 'Décrivez votre besoin. Alma prépare votre Collaborateur.',
+    voiceTitle: 'Décrivez votre besoin.',
+    voiceBody: 'Alma prépare votre Collaborateur.',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
@@ -64,11 +63,10 @@ const T = {
     headlineC: 'Ready for your missions.',
     subtitle: 'Entrust it with calls, emails, prospecting or administrative work. It works with your team and reuses the methods you approve.',
     proofs: ['First mission included', 'First draft in minutes', 'No credit card'],
-    techSignature: 'Open-source Hermes engine · Unitalk infrastructure hosted in France',
     cta: 'Describe my mission',
     voiceKicker: 'AI mission coordinator',
-    voiceTitle: 'Describe the work to be done.',
-    voiceBody: 'Describe your need. Alma prepares your Collaborator.',
+    voiceTitle: 'Describe your need.',
+    voiceBody: 'Alma prepares your Collaborator.',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
@@ -183,15 +181,6 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             <span className="block text-[#D10E63]">{t.headlineC}</span>
           </motion.h1>
           <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{t.subtitle}</motion.p>
-
-          <motion.div {...enter(0.28)} className="mt-7 hidden flex-wrap gap-3 lg:mt-5 lg:flex">
-            {t.proofs.map((proof) => (
-              <span key={proof} className="inline-flex items-center gap-2 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/[0.07] px-3.5 py-2 text-xs font-bold text-[#B00C54]">
-                <Check aria-hidden="true" className="size-3.5 shrink-0" />{proof}
-              </span>
-            ))}
-          </motion.div>
-          <motion.p {...enter(0.31)} className="mt-3 hidden text-[11px] font-semibold text-[#6E665A] lg:block">{t.techSignature}</motion.p>
         </div>
 
          <motion.div id="alma-hero" ref={voicePanelRef} {...enter(0.18)} className="mx-auto w-full max-w-2xl scroll-mt-24">
@@ -220,15 +209,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
               />
             </motion.div>
         </motion.div>
-        <motion.div {...enter(0.28)} className="flex flex-wrap gap-2 lg:hidden">
-          {t.proofs.map((proof) => (
-            <span key={proof} className="inline-flex items-center gap-1.5 rounded-xl border border-[#D10E63]/15 bg-[#D10E63]/[0.07] px-3 py-1.5 text-[11px] font-bold text-[#B00C54]">
-              <Check aria-hidden="true" className="size-3 shrink-0" />{proof}
-            </span>
-          ))}
-          <p className="w-full pt-1 text-[10px] font-semibold leading-4 text-[#6E665A]">{t.techSignature}</p>
-        </motion.div>
       </div>
+      <motion.div {...enter(0.32)} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 lg:mt-6">
+        {t.proofs.map((proof) => (
+          <span key={proof} className="inline-flex items-center gap-2 text-[12px] font-semibold text-[#6E665A]">
+            <Check aria-hidden="true" className="size-3.5 shrink-0 text-[#D10E63]" />{proof}
+          </span>
+        ))}
+      </motion.div>
     </section>
   )
 }
