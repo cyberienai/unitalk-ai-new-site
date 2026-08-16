@@ -12,19 +12,14 @@ import {
   ChevronDown,
   GraduationCap,
   Handshake,
-  Monitor,
-  PackagePlus,
   Sparkles,
-  UsersRound,
   type LucideIcon,
 } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { AnonymousOnly, UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
 import { useAlma } from '@/lib/alma-context'
-import { AlmaInline } from '@/components/alma-inline'
 
-type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
 
 const ALMA_CTA = {
@@ -36,7 +31,7 @@ const ACADEMY_URL = '/academy'
 
 // Marketplace dropdown: one entry point for every way to discover,
 // equip or contribute an AI Collaborator.
-type MenuEntry = { title: Bi; desc: Bi; href: string; avatar?: string; icon: LucideIcon }
+type MenuEntry = { title: Bi; desc: Bi; href: string; icon: LucideIcon }
 type MenuAction = { title: Bi; href: string }
 
 const MARKETPLACE_FEATURED: MenuEntry = {
@@ -49,27 +44,6 @@ const MARKETPLACE_FEATURED: MenuEntry = {
   icon: Sparkles,
 }
 
-const MARKETPLACE_UNDERSTAND: MenuEntry[] = [
-  {
-    title: { fr: 'Qu’est-ce qu’un Collaborateur IA ?', en: 'What is an AI Collaborator?' },
-    desc: {
-      fr: 'Une identité professionnelle, un environnement privé et une expérience qui progresse avec votre entreprise.',
-      en: 'A professional identity, a private environment and experience that grows with your company.',
-    },
-    href: '/collaborateurs-ia',
-    icon: UsersRound,
-  },
-  {
-    title: { fr: 'Unitalk Desktop', en: 'Unitalk Desktop' },
-    desc: {
-      fr: 'Le poste de travail local de votre équipe humain-IA.',
-      en: 'The local workstation for your human-AI team.',
-    },
-    href: '/desktop',
-    icon: Monitor,
-  },
-]
-
 const MARKETPLACE_CATALOGS: MenuEntry[] = [
   { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Les responsabilités durables qu’un Collaborateur IA peut exercer.', en: 'Lasting responsibilities an AI Collaborator can perform.' }, href: '/collaborateurs-ia/profils-metier', icon: BriefcaseBusiness },
   { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Des savoir-faire précis, testés et partageables.', en: 'Precise, tested and shareable know-how.' }, href: '/collaborateurs-ia/competences', icon: Sparkles },
@@ -78,37 +52,6 @@ const MARKETPLACE_CATALOGS: MenuEntry[] = [
   { title: { fr: 'Formations', en: 'Training' }, desc: { fr: 'Apprenez à utiliser, créer et gouverner vos Collaborateurs IA.', en: 'Learn to use, create and govern your AI Collaborators.' }, href: '/academy', icon: GraduationCap },
   { title: { fr: 'Services', en: 'Services' }, desc: { fr: 'Faites-vous accompagner par des experts de l’écosystème.', en: 'Get support from experts across the ecosystem.' }, href: '/experts', icon: Handshake },
   { title: { fr: 'Missions', en: 'Missions' }, desc: { fr: 'Partez du travail à accomplir pour trouver le bon Collaborateur IA.', en: 'Start from the work to find the right AI Collaborator.' }, href: '/missions', icon: BookOpenCheck },
-]
-
-const MARKETPLACE_PARTICIPATE: MenuEntry[] = [
-  {
-    title: { fr: 'Alma · Coordinatrice de missions IA', en: 'Alma · AI mission coordinator' },
-    desc: {
-      fr: 'Cadrez une première mission et préparez votre Collaborateur IA.',
-      en: 'Frame a first mission and prepare your AI Collaborator.',
-    },
-    href: '/unitalk/@alma',
-    avatar: '/alma-avatar.png',
-    icon: Sparkles,
-  },
-  {
-    title: { fr: 'Devenir Co-créateur IA', en: 'Become an AI Co-creator' },
-    desc: {
-      fr: 'Apprenez à créer, publier et monétiser des profils, compétences et missions.',
-      en: 'Learn to create, publish and monetize profiles, skills and missions.',
-    },
-    href: '/co-createur-ia',
-    icon: GraduationCap,
-  },
-  {
-    title: { fr: 'Publier un profil', en: 'Publish a profile' },
-    desc: {
-      fr: 'Proposez votre expertise au catalogue public de la communauté.',
-      en: 'Submit your expertise to the public community catalog.',
-    },
-    href: '/collaborateurs-ia/profils-metier/publier',
-    icon: PackagePlus,
-  },
 ]
 
 const COLLAB_ACTIONS: MenuAction[] = [
@@ -178,47 +121,6 @@ function UkFlag() {
         </g>
       </svg>
     </span>
-  )
-}
-
-function CollabMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lang; onSelect: () => void }) {
-  const Icon = entry.icon
-  return (
-    <a
-      href={entry.href}
-      role="menuitem"
-      onClick={onSelect}
-      className="group flex min-h-[92px] w-full gap-3 rounded-2xl border border-transparent p-3.5 outline-none transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-[#DED6C8] hover:bg-[#FFFDF9] focus-visible:border-[#D10E63] focus-visible:bg-[#FFFDF9] focus-visible:ring-2 focus-visible:ring-[#D10E63]/30"
-    >
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#EEE8DD] text-[#6F6558] transition-colors group-hover:bg-[#F9DFE9] group-hover:text-[#B00C54]">
-        <Icon aria-hidden="true" className="size-[17px]" strokeWidth={1.8} />
-      </span>
-      <span className="min-w-0">
-        <span className="block text-[14px] font-semibold leading-tight text-[#1C1A17] transition-colors group-hover:text-[#B00C54]">{entry.title[lang]}</span>
-        <span className="mt-1.5 block text-[12px] leading-[1.55] text-[#6B6256]">{entry.desc[lang]}</span>
-      </span>
-    </a>
-  )
-}
-
-function AccompanimentMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lang; onSelect: () => void }) {
-  const Icon = entry.icon
-  return (
-    <a href={entry.href} role="menuitem" onClick={onSelect} className="group flex min-h-[78px] w-full items-center gap-3 rounded-2xl px-3.5 py-3 outline-none transition-colors hover:bg-[#ECE5D9] focus-visible:bg-[#ECE5D9] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D10E63]/40">
-      {entry.avatar ? <img src={entry.avatar} alt="" aria-hidden="true" className="size-9 shrink-0 rounded-xl object-cover ring-1 ring-[#D8CFC1]" /> : <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#E5DDD0] text-[#6F6558]"><Icon aria-hidden="true" className="size-[17px]" strokeWidth={1.8} /></span>}
-      <span className="min-w-0 flex-1"><span className="block text-[14px] font-semibold leading-tight text-[#1C1A17] transition-colors group-hover:text-[#B00C54]">{entry.title[lang]}</span><span className="mt-1 block line-clamp-2 text-[12px] leading-[1.5] text-[#6B6256]">{entry.desc[lang]}</span></span>
-      <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-[#B00C54] opacity-0 transition-[transform,opacity] group-hover:translate-x-0.5 group-hover:opacity-100 group-focus-visible:opacity-100" />
-    </a>
-  )
-}
-
-function MobileCollabLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: Lang; onSelect: () => void }) {
-  const Icon = entry.icon
-  return (
-    <a href={entry.href} onClick={onSelect} className="group flex min-h-14 items-center gap-3 rounded-xl px-2.5 py-2 outline-none transition-colors hover:bg-[#EAE3D7] focus-visible:bg-[#EAE3D7] focus-visible:ring-2 focus-visible:ring-[#D10E63]/30">
-      {entry.avatar ? <img src={entry.avatar} alt="" aria-hidden="true" className="size-8 rounded-lg object-cover" /> : <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[#E7DFD2] text-[#6F6558]"><Icon aria-hidden="true" className="size-4" strokeWidth={1.8} /></span>}
-      <span className="min-w-0"><span className="block text-[13.5px] font-semibold leading-tight text-[#292620] transition-colors group-hover:text-[#B00C54]">{entry.title[lang]}</span><span className="mt-1 block line-clamp-1 text-[11.5px] text-[#766D61]">{entry.desc[lang]}</span></span>
-    </a>
   )
 }
 
@@ -425,33 +327,22 @@ export function Navbar(
                       className="absolute -left-[180px] top-full w-[1040px] max-w-[calc(100vw-2rem)] pt-3"
                     >
                       <div className="overflow-hidden rounded-[28px] border border-[#D8D0C2] bg-[#F8F5EE] shadow-[0_36px_90px_-24px_rgba(28,26,23,0.42)] ring-1 ring-white/70">
-                        <div className="relative isolate grid grid-cols-[1fr_auto] items-center gap-8 overflow-hidden bg-[#171514] px-7 py-6 text-[#FAF8F3]">
+                        <div className="relative isolate overflow-hidden bg-[#171514] px-7 py-6 text-[#FAF8F3]">
                           <div aria-hidden="true" className="absolute -right-10 -top-24 -z-10 size-72 rounded-full bg-[#D10E63]/25 blur-3xl" />
-                          <div className="flex min-w-0 items-center gap-5">
-                            <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-[#F2A4C5]/30 bg-[#D10E63]/20 text-[#F2A4C5]"><Sparkles className="size-5" strokeWidth={1.7} /></span>
-                             <div><p className="font-mono text-[9px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuFeatured}</p><h2 className="mt-1.5 text-[23px] font-semibold leading-tight tracking-[-.035em]">{MARKETPLACE_FEATURED.title[lang]}</h2><p className="mt-1.5 text-[12px] text-[#BDB3A6]">{MARKETPLACE_FEATURED.desc[lang]} <span className="text-[#E1D9CD]"><AlmaInline /> {lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</span></p></div>
+                          <div className="flex items-center justify-between gap-6">
+                            <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group flex min-w-0 items-center gap-4 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
+                              <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-[#F2A4C5]/30 bg-[#D10E63]/20 text-[#F2A4C5]"><Sparkles className="size-5" strokeWidth={1.7} /></span>
+                              <span><span className="font-mono text-[9px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuFeatured}</span><span className="mt-1.5 block text-[23px] font-semibold leading-tight tracking-[-.035em]">{MARKETPLACE_FEATURED.title[lang]}</span></span>
+                              <ArrowRight className="size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-1" />
+                            </a>
                           </div>
-                           <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group inline-flex items-center gap-2 rounded-full bg-[#F2A4C5] px-4 py-2.5 text-xs font-bold text-[#24151B] outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-white">{lang === 'fr' ? 'Explorer la Marketplace' : 'Explore the Marketplace'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
-                        </div>
-
-                        <div className="grid grid-cols-[240px_1fr_310px] divide-x divide-[#DED6C8]">
-                          <div className="p-5">
-                            <p className="flex items-center gap-2 px-2 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]"><span className="font-mono text-[#B00C54]">01</span>{t.menuDiscover}</p>
-                             {MARKETPLACE_UNDERSTAND.map((item) => <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
-                          </div>
-
-                          <div className="p-5">
-                            <p className="flex items-center gap-2 px-2 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]"><span className="font-mono text-[#B00C54]">02</span>{t.menuEquip}</p>
-                            <div className="grid grid-cols-2 gap-1.5">
-                               {MARKETPLACE_CATALOGS.map((item) => <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
-                            </div>
-                          </div>
-
-                          <div className="bg-[#F1ECE3] p-5">
-                            <p className="flex items-center gap-2 px-3 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]"><span className="font-mono text-[#B00C54]">03</span>{t.menuAccompaniment}</p>
-                            <div className="flex flex-col">
-                               {MARKETPLACE_PARTICIPATE.map((item) => <AccompanimentMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
-                            </div>
+                          <div className="mt-6 grid grid-cols-4 gap-x-6 gap-y-1 border-t border-white/10 pt-4">
+                            {MARKETPLACE_CATALOGS.map((item) => (
+                              <a key={item.href} href={item.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group inline-flex min-h-9 items-center gap-2 rounded-md text-[13px] font-semibold text-[#D8D0C4] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
+                                <span className="size-1.5 rounded-full bg-[#D10E63]" />
+                                {item.title[lang]}
+                              </a>
+                            ))}
                           </div>
                         </div>
 
@@ -614,40 +505,13 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                            <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                            <a href={MARKETPLACE_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]"><span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" /><span className="relative flex items-center gap-3"><span className="h-8 w-0.5 shrink-0 rounded-full bg-[#F2A4C5]" /><span><span className="block text-[14px] font-bold">{MARKETPLACE_FEATURED.title[lang]}</span><span className="mt-1 block text-[11.5px] leading-5 text-[#CFC6B8]">{MARKETPLACE_FEATURED.desc[lang]}</span></span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></span></a>
-                            <p className="px-2 pb-1 pt-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                              {t.menuDiscover}
-                            </p>
-                            {MARKETPLACE_UNDERSTAND.map((item) => (
-                              <MobileCollabLink
-                                key={item.href}
-                                entry={item}
-                                lang={lang}
-                                onSelect={() => setIsMenuOpen(false)}
-                              />
-                            ))}
-                            <p className="px-2 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                              {t.menuEquip}
-                            </p>
-                            {MARKETPLACE_CATALOGS.map((item) => (
-                              <MobileCollabLink
-                                key={item.href}
-                                entry={item}
-                                lang={lang}
-                                onSelect={() => setIsMenuOpen(false)}
-                              />
-                            ))}
-                            <p className="px-2 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
-                              {t.menuAccompaniment}
-                            </p>
-                            {MARKETPLACE_PARTICIPATE.map((item) => (
-                              <MobileCollabLink
-                                key={item.href}
-                                entry={item}
-                                lang={lang}
-                                onSelect={() => setIsMenuOpen(false)}
-                              />
-                            ))}
+                            <div className="relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]">
+                              <span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" />
+                              <a href={MARKETPLACE_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative flex items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><span className="h-8 w-0.5 shrink-0 rounded-full bg-[#F2A4C5]" /><span className="block text-[14px] font-bold">{MARKETPLACE_FEATURED.title[lang]}</span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></a>
+                              <div className="relative mt-4 grid grid-cols-2 gap-x-4 border-t border-white/10 pt-3">
+                                {MARKETPLACE_CATALOGS.map((item) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="flex min-h-9 items-center gap-2 text-[12.5px] font-semibold text-[#D8D0C4] hover:text-white"><span className="size-1.5 rounded-full bg-[#D10E63]" />{item.title[lang]}</a>)}
+                              </div>
+                            </div>
                             <div className="my-1.5 border-t border-[#E4DDCE]" />
                             {COLLAB_ACTIONS.map((item) => (
                               <a

@@ -10,7 +10,6 @@ const store = readFileSync(new URL('../components/store-content.tsx', import.met
 
 describe('Desktop discovery and Store scopes', () => {
   it('links the Desktop page from primary discovery surfaces', () => {
-    expect(navbar).toContain("href: '/desktop'")
     expect(footer).toContain("href: '/desktop'")
     expect(sitemap).toContain("'/desktop'")
   })

@@ -7,7 +7,7 @@ describe('Marketplace IA mega menu', () => {
   it('provides a clear community marketplace thesis', () => {
     expect(navbar).toContain('La Marketplace des Collaborateurs IA')
     expect(navbar).toContain('Ouverte à la communauté')
-    expect(navbar).toContain('Alma cadre. Les Agents Hermes exécutent. Les humains valident.')
+    expect(navbar).toContain('MARKETPLACE_CATALOGS.map')
   })
 
   it('exposes all seven marketplace areas and participation paths', () => {
