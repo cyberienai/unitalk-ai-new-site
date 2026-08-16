@@ -12,7 +12,7 @@ const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre intelligence vous appartient.',
-    lead: 'Les méthodes que vous validez deviennent un actif que votre entreprise conserve, fait évoluer et partage selon ses droits.',
+    lead: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Préparer ma première mission avec Alma',
     ctaNote: 'Alma comprend votre besoin et prépare la mission.',
@@ -21,7 +21,7 @@ const COPY = {
   en: {
     kicker: 'Mission after mission',
     title: 'Your intelligence belongs to you.',
-    lead: 'The methods you validate become an asset your company keeps, evolves and shares according to its rights.',
+    lead: 'Your company can count on its own AI Collaborator.',
     closing: 'Ready to hand over a first mission?',
     cta: 'Prepare my first mission with Alma',
     ctaNote: 'Alma understands your need and prepares the mission.',

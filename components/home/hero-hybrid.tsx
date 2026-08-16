@@ -15,7 +15,6 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un',
     headline: 'Votre propre Collaborateur IA, prêt à travailler avec vos outils.',
     subtitle: 'Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives. Il travaille avec vos outils et progresse à chaque mission.',
-    tickerMissions: ['répondre à vos appels', 'traiter vos emails', 'mettre à jour votre CRM', 'préparer vos comptes rendus', 'organiser votre agenda', 'analyser vos données'],
     proofs: ['7 jours pour tester une vraie mission', 'Sans carte bancaire', '1 million de tokens inclus'],
     cta: 'Confier une première mission',
     console: 'Préparation de mission',
@@ -36,7 +35,6 @@ const T = {
     eyebrow: 'Someone is missing',
     headline: 'Your own AI Collaborator, ready to work with your tools.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
-    tickerMissions: ['answer your calls', 'handle your emails', 'update your CRM', 'prepare meeting notes', 'organize your calendar', 'analyze your data'],
     proofs: ['7 days to test a real mission', 'No credit card', '1 million tokens included'],
     cta: 'Hand over a first mission',
     console: 'Mission preparation',
@@ -188,14 +186,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   )
 }
 
-function TimelineRow({ label, labelContent, detail, status, children }: { label?: string; labelContent?: React.ReactNode; detail?: string; status: 'done' | 'active' | 'next'; children?: React.ReactNode }) {
+function TimelineRow({ label, detail, status, children }: { label: string; detail?: string; status: 'done' | 'active' | 'next'; children?: React.ReactNode }) {
   return (
     <li className="grid grid-cols-[20px_1fr] gap-3">
       <span className="mt-0.5 flex h-5 w-5 items-center justify-center">
         {status === 'done' ? <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#D10E63] text-white"><Check className="h-3 w-3" strokeWidth={3} /></span> : status === 'active' ? <Loader2 className="h-5 w-5 animate-spin text-[#F15B9B]" /> : <Circle className="h-4 w-4 text-[#625A52]" />}
       </span>
       <div className={status === 'next' ? 'text-[#AFA397]' : 'text-[#F8F1E7]'}>
-        <p className="text-sm font-medium">{labelContent ?? label}</p>
+        <p className="text-sm font-medium">{label}</p>
         {detail && <p className="mt-1 text-xs leading-relaxed text-[#AFA397]">{detail}</p>}
         {children}
       </div>

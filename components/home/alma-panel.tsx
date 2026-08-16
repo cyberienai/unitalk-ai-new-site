@@ -74,7 +74,6 @@ const T: Record<Lang, Record<string, string>> = {
     placeholder: 'Ex : relancer chaque semaine mes factures impayées…',
     send: 'Envoyer',
     suggestionsLabel: 'Ou partez d’un exemple',
-    almaName: 'Alma',
     you: 'Vous',
     building: 'Mission en préparation',
     structured: 'Mission structurée',
@@ -97,7 +96,6 @@ const T: Record<Lang, Record<string, string>> = {
     placeholder: 'E.g. chase my unpaid invoices every week…',
     send: 'Send',
     suggestionsLabel: 'Or start from an example',
-    almaName: 'Alma',
     you: 'You',
     building: 'Mission in preparation',
     structured: 'Structured mission',
@@ -142,7 +140,6 @@ export function AlmaPanel({
   const [voiceSupported] = useState(() => Boolean(getSpeechRecognition()))
   const [listening, setListening] = useState(false)
 
-  const dialogRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
 
@@ -231,7 +228,6 @@ export function AlmaPanel({
       }}
     >
       <motion.div
-        ref={dialogRef}
         initial={reduce ? false : { opacity: 0, y: 24, scale: 0.99 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.3, ease }}

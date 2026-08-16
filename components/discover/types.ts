@@ -123,7 +123,7 @@ export function initialOnboardingState(): OnboardingState {
 }
 
 // -------------------------------------------------------------------------- //
-// Kept helpers — imported by home components (alma-panel, section-missions).  //
+// Shared helpers used by the homepage Alma panel and discovery flow.           //
 // -------------------------------------------------------------------------- //
 
 export function getMission(slug: string): Mission {
