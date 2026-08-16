@@ -8,7 +8,7 @@ const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url)
 
 describe('home commercial messaging', () => {
   it('uses a concrete hero promise and recruitment reasons', () => {
-    expect(hero).toContain('Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives.')
+    expect(hero).toContain('Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives.')
     for (const proof of ['7 jours pour tester une vraie mission', 'Sans carte bancaire', '1 million de tokens inclus']) expect(hero).toContain(proof)
   })
 

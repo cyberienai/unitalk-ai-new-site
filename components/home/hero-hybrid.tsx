@@ -2,13 +2,35 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Circle, Loader2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Circle, Loader2, Mic, Square } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
-import { useAlma } from '@/components/home/alma-panel-context'
 import { track } from '@vercel/analytics'
+
+type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
+type SpeechRecognitionInstance = {
+  lang: string
+  continuous: boolean
+  interimResults: boolean
+  onresult: ((event: SpeechResultEvent) => void) | null
+  onend: (() => void) | null
+  onerror: (() => void) | null
+  start: () => void
+  stop: () => void
+  abort: () => void
+}
+
+function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
+  if (typeof window === 'undefined') return null
+  const speechWindow = window as typeof window & {
+    SpeechRecognition?: new () => SpeechRecognitionInstance
+    webkitSpeechRecognition?: new () => SpeechRecognitionInstance
+  }
+  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null
+}
 
 const T = {
   fr: {
@@ -30,6 +52,16 @@ const T = {
     cycle: 'Cycle',
     almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
     almaAction: "Parler à Alma",
+    voiceKicker: 'Conversation vocale',
+    voiceTitle: 'Dites à Alma ce qu’il faut accomplir.',
+    voiceBody: 'Parlez naturellement. Alma transcrit votre besoin et prépare la première mission.',
+    voiceStart: 'Commencer à parler',
+    voiceStop: 'Terminer',
+    voiceListening: 'Alma vous écoute…',
+    voicePlaceholder: 'Votre besoin apparaîtra ici…',
+    voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
+    voiceSubmit: 'Préparer cette mission',
+    voiceBack: 'Revenir à la démonstration',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -50,6 +82,16 @@ const T = {
     cycle: 'Cycle',
     almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
     almaAction: "Talk to Alma",
+    voiceKicker: 'Voice conversation',
+    voiceTitle: 'Tell Alma what needs to get done.',
+    voiceBody: 'Speak naturally. Alma transcribes your need and prepares the first mission.',
+    voiceStart: 'Start talking',
+    voiceStop: 'Finish',
+    voiceListening: 'Alma is listening…',
+    voicePlaceholder: 'Your need will appear here…',
+    voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
+    voiceSubmit: 'Prepare this mission',
+    voiceBack: 'Return to the demo',
   },
 } as const
 
@@ -76,11 +118,39 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const t = T[lang]
   const journeys = JOURNEYS[lang]
   const reduce = useReducedMotion()
-  const { openAlma } = useAlma()
+  const router = useRouter()
+  const [showVoice, setShowVoice] = useState(false)
+  const [voiceSupported, setVoiceSupported] = useState(false)
+  const [listening, setListening] = useState(false)
+  const [transcript, setTranscript] = useState('')
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const current = journeys[cycle]
   const isChloe = cycle === journeys.length - 1
+
+  useEffect(() => {
+    const SpeechRecognition = getSpeechRecognition()
+    if (!SpeechRecognition) return
+    const recognition = new SpeechRecognition()
+    recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
+    recognition.continuous = false
+    recognition.interimResults = true
+    recognition.onresult = (event) => {
+      let value = ''
+      for (let index = 0; index < event.results.length; index++) value += event.results[index][0].transcript
+      setTranscript(value.trim())
+    }
+    recognition.onend = () => setListening(false)
+    recognition.onerror = () => setListening(false)
+    recognitionRef.current = recognition
+    const id = window.setTimeout(() => setVoiceSupported(true), 0)
+    return () => {
+      window.clearTimeout(id)
+      recognition.abort()
+      recognitionRef.current = null
+    }
+  }, [lang])
 
   useEffect(() => {
     if (reduce) return
@@ -100,6 +170,34 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.55, delay: reduce ? 0 : delay, ease },
   })
+
+  function toggleListening() {
+    const recognition = recognitionRef.current
+    if (!recognition) return
+    if (listening) {
+      recognition.stop()
+      return
+    }
+    setTranscript('')
+    setListening(true)
+    track('alma_voice_started', { source: 'hero' })
+    try {
+      recognition.start()
+    } catch {
+      setListening(false)
+    }
+  }
+
+  function submitVoiceNeed() {
+    const clean = transcript.trim()
+    if (!clean) return
+    const draftId = `draft_${crypto.randomUUID()}`
+    try {
+      localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() }))
+    } catch {}
+    track('alma_need_submitted', { mode: 'voice', source: 'hero' })
+    router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
+  }
 
   return (
     <section className="relative overflow-hidden bg-[#F3EFE6] pb-12 pt-24 sm:pt-28 lg:pb-16">
@@ -122,7 +220,38 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
         </div>
 
         <motion.div {...enter(0.18)} className="mx-auto w-full max-w-2xl">
-          <motion.div>
+          <AnimatePresence mode="wait" initial={false}>
+          {showVoice ? (
+            <motion.div key="voice" initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
+              <div className="relative flex min-h-[509px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] p-5 text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:p-7">
+                <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <Image src="/alma-avatar.png" alt="Alma" width={44} height={44} className="size-11 rounded-full object-cover ring-2 ring-[#D10E63]/35" />
+                    <div><p className="font-sf font-semibold">Alma</p><p className="text-xs text-[#D6CABD]">{t.voiceKicker}</p></div>
+                  </div>
+                  <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setShowVoice(false) }} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/15 px-4 text-xs font-bold text-[#D6CABD] hover:border-white/30 hover:text-white">
+                    <ArrowLeft className="size-3.5" />{t.voiceBack}
+                  </button>
+                </div>
+
+                <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
+                  <button type="button" onClick={toggleListening} disabled={!voiceSupported} aria-pressed={listening} aria-label={listening ? t.voiceStop : t.voiceStart} className={`relative flex size-24 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] disabled:cursor-not-allowed disabled:opacity-50 ${listening ? 'bg-[#D10E63] text-white' : 'bg-[#D10E63]/15 text-[#F15B9B] ring-1 ring-[#D10E63]/30 hover:bg-[#D10E63]/25'}`}>
+                    {listening && !reduce && <motion.span aria-hidden className="absolute inset-0 rounded-full border border-[#F15B9B]" animate={{ scale: [1, 1.45], opacity: [0.65, 0] }} transition={{ duration: 1.4, repeat: Infinity }} />}
+                    {listening ? <Square className="size-7" fill="currentColor" /> : <Mic className="size-9" />}
+                  </button>
+                  <h2 className="mt-6 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">{t.voiceTitle}</h2>
+                  <p className="mt-3 max-w-md text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
+                </div>
+
+                <textarea value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#887D72] focus:border-[#D10E63]" />
+                <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40">
+                  {t.voiceSubmit}<ArrowRight className="size-4" />
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+          <motion.div key="demo" initial={reduce ? false : { opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: 20 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
           <div className="relative overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] min-h-[420px]">
             <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-6">
@@ -172,7 +301,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             </div>
             <button
               type="button"
-              onClick={() => openAlma(undefined, 'hero_alma')}
+              onClick={() => { setShowVoice(true); track('home_cta_clicked', { position: 'hero_voice', label: t.almaAction }) }}
               className="group flex items-center gap-1.5 self-start whitespace-nowrap text-xs font-bold text-[#F15B9B] hover:text-[#F8A3CB] sm:self-auto"
             >
               {t.almaAction}
@@ -180,6 +309,8 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             </button>
           </motion.div>
         </motion.div>
+          )}
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>
