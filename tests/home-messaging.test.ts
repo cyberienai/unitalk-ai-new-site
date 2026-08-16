@@ -13,10 +13,9 @@ describe('home commercial messaging', () => {
   })
 
   it('uses plain-language comparison rows', () => {
-    expect(comparison).toContain("['Répond à une demande', 'Prend en charge une mission']")
-    expect(comparison).toContain("['Vous échangez dans une interface', 'Possède un nom, une voix et une identité professionnelle']")
-    expect(comparison).toContain("['Attend votre prochain message', 'Communique par e-mail, téléphone et calendrier']")
-    expect(comparison).toContain("['Suit vos instructions', 'Apprend vos méthodes validées']")
+    expect(comparison).toContain("['Un outil individuel et isolé', 'Une identité rattachée à une personne, une équipe ou l’organisation']")
+    expect(comparison).toContain("['Répond dans son interface', 'Prend en charge des missions et communique par e-mail, téléphone et calendrier']")
+    expect(comparison).toContain("['Conserve le fil d’une conversation', 'Partage avec l’entreprise une mémoire gouvernée selon les droits']")
   })
 
   it('clarifies Alma and brings profiles earlier', () => {

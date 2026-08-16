@@ -33,7 +33,6 @@ export function ScreenContext({
   const [status, setStatus] = useState<'ready' | 'confirmed'>('ready')
   const [logoFailed, setLogoFailed] = useState(false)
   const [firstNameTouched, setFirstNameTouched] = useState(false)
-  const [lastNameTouched, setLastNameTouched] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
   const domain = company.find((fact) => fact.key === 'domain')?.value.trim() ?? ''
@@ -132,11 +131,10 @@ export function ScreenContext({
                 autoComplete="family-name"
                 value={lastName}
                 onChange={(event) => onIdentityChange({ firstName, lastName: event.target.value })}
-                onBlur={() => setLastNameTouched(true)}
-                aria-invalid={(submitted || lastNameTouched) && lastNameMissing}
+                aria-invalid={false}
                 className="mt-1.5 h-10 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-[13px] text-[#1C1A17] outline-none focus:border-[#D10E63]/60 focus:ring-3 focus:ring-[#D10E63]/10"
               />
-              {(submitted || lastNameTouched) && !lastName.trim() && <span className="mt-1 block text-[10px] text-[#8A8175]">{t.optional}</span>}
+              {!lastName.trim() && <span className="mt-1 block text-[10px] text-[#8A8175]">{t.optional}</span>}
             </label>
           </div>
         </div>

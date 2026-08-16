@@ -7,7 +7,7 @@ const flow = readFileSync(new URL('../components/discover/discover-flow.tsx', im
 describe('mission signup', () => {
   it('describes the real post-login sequence', () => {
     expect(source).toContain("contextualLead: 'Créez votre compte pour confirmer votre entreprise et choisir le prénom de votre Collaborateur IA.'")
-    expect(source).toContain("missionAlmaBody: 'Après votre connexion, je vous aide à adapter cette mission à votre entreprise, puis à préparer le Collaborateur IA qui l’accomplira.'")
+    expect(source).toContain("missionAlmaBody: 'Après votre connexion, vous confirmez votre entreprise puis choisissez le prénom du Collaborateur IA qui prendra cette mission.'")
   })
 
   it('places the mission change link before the Alma block', () => {
