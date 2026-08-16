@@ -52,7 +52,12 @@ const breadcrumbJsonLd = {
   ],
 }
 
-export default function MissionsPage() {
+export default async function MissionsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ return?: string; categorie?: string; composer?: string }>
+}) {
+  const query = await searchParams
   return (
     <>
       <script
@@ -65,7 +70,11 @@ export default function MissionsPage() {
       />
       <Navbar />
       <Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]" />}>
-        <MissionsContent />
+        <MissionsContent
+          returnSlug={query.return}
+          requestedCategory={query.categorie}
+          composerRequested={query.composer === '1'}
+        />
       </Suspense>
       <SiteFooter />
     </>

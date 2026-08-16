@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { ArrowRight, ArrowUp, ChevronDown, Mic, Square } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
@@ -38,14 +38,18 @@ const FEATURED_SLUGS = [
   'participer-a-vos-reunions',           // Réunions — agentic: assiste
 ] as const
 
-export function MissionsContent() {
+export function MissionsContent({
+  returnSlug,
+  requestedCategory,
+  composerRequested = false,
+}: {
+  returnSlug?: string
+  requestedCategory?: string
+  composerRequested?: boolean
+}) {
   const { lang } = useLanguage()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const returnSlug = searchParams.get('return')
-  const requestedCategory = searchParams.get('categorie')
-  const composerRequested = searchParams.get('composer') === '1'
-  const validCategory = useMemo(() => requestedCategory && CATEGORIES.includes(requestedCategory as any) ? requestedCategory : 'all', [requestedCategory])
+  const validCategory = useMemo(() => requestedCategory && CATEGORIES.includes(requestedCategory as typeof CATEGORIES[number]) ? requestedCategory : 'all', [requestedCategory])
   const t = COPY[lang]
   const [need, setNeed] = useState('')
   const [category, setCategory] = useState(validCategory)
