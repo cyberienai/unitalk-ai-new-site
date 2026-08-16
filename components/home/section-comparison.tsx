@@ -22,10 +22,11 @@ const COPY = {
     afterTitle: 'Collaborateur IA Unitalk',
     cta: 'Décrire ma première mission',
     rows: [
-      ['Un outil individuel', 'Une identité rattachée à votre entreprise'],
-      ['Répond dans son interface', 'Accomplit des missions et communique avec vos équipes'],
-      ['Mémoire de conversation', 'Mémoire privée et partagée selon vos droits'],
-      ['Suit vos instructions', 'Agit dans vos applications sous votre contrôle'],
+      ['Un assistant enfermé dans une interface', 'Une identité qui agit dans vos outils'],
+      ['Une conversation volatile', 'Une mémoire durable, privée et partagée'],
+      ['Un modèle verrouillé', 'Un agent open source que vous hébergez'],
+      ['Lit vos instructions', 'Applique vos règles métier et vous soumet les étapes sensibles'],
+      ['Intelligence sous clé propriétaire', 'Données et modèles souverains, hébergés en France'],
     ],
   },
   en: {

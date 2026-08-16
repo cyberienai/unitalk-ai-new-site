@@ -4,9 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, CircleCheck, Mic, ShieldCheck, Square } from "lucide-react";
-import { Kicker } from "@/components/home/section-kicker";
-import { useLanguage, type Lang } from "@/lib/language-context";
+import { ArrowDown, ArrowRight, Check, Mic, Square } from "lucide-react";
+import { useLanguage } from "@/lib/language-context";
 
 const SIGNUP = "/inscription?source=alma-profile&intent=nouvelle-mission";
 
@@ -70,337 +69,85 @@ export function AlmaFinalContent() {
 
   return (
     <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
-      <section className="relative px-5 pb-12 pt-24 sm:px-8 sm:pb-16 sm:pt-28">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
-        />
-        <div className="editorial-shell relative grid items-center gap-10 lg:grid-cols-[.92fr_1.08fr] lg:gap-16">
-          <div className="max-w-xl">
-            <Kicker>Alma · Unitalk</Kicker>
-            <h1 className="hero-heading mt-5 whitespace-pre-line [font-size:46px]">{t.title}</h1>
-            <p className="mt-5 text-[17px] leading-8 text-[#4E483F]">
-              {t.lead}
-            </p>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {t.heroBenefits.map((benefit) => <li key={benefit} className="flex items-start gap-2.5 text-sm font-semibold leading-6 text-[#3F3A33]"><CircleCheck className="mt-0.5 size-4 shrink-0 text-[#D10E63]" />{benefit}</li>)}
-            </ul>
-            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              <Link
-                href={SIGNUP}
-                className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white shadow-[0_12px_30px_-10px_rgba(209,14,99,.55)] sm:w-auto"
-              >
-                {t.primary}
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-              <Link
-                href="/unitalk/@alma/store"
-                className="text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4"
-              >
-                {t.store}
-              </Link>
+      <section className="relative border-b border-[#D8D0C2] px-5 pb-10 pt-24 sm:px-8 sm:pb-12 sm:pt-28 lg:pt-24">
+        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+        <div className="editorial-shell relative">
+          <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">Alma / {t.role}</p>
+          <div className="mt-6 grid gap-10 lg:grid-cols-[1.12fr_.88fr] lg:items-center">
+            <div>
+              <h1 className="max-w-[850px] text-[clamp(3rem,6vw,6.2rem)] font-semibold leading-[.92] tracking-[-.065em]"><span className="block">{t.title.split("\n")[0]}</span><span className="block text-[#D10E63]">{t.title.split("\n")[1]}</span></h1>
+              <p className="mt-5 max-w-2xl text-[16px] leading-7 text-[#4E483F]">{t.lead}</p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row"><a href="#alma-need" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white">{t.primary}<ArrowDown className="ml-2 size-4" /></a><Link href="/unitalk/@alma/store" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#BFB5A5] bg-[#FAF8F3] px-7 text-sm font-bold">{t.store}</Link></div>
+              <p className="mt-3 text-xs font-semibold text-[#6E665A]">{t.trial}</p>
             </div>
-            <p className="mt-4 text-xs font-semibold text-[#6E665A]">{t.trial}</p>
-            <Link href="/documentation/alma-organisation" className="mt-4 inline-flex text-xs font-bold text-[#B00C54] underline-offset-4 hover:underline">{t.documentation}</Link>
-          </div>
-          <IdentityCard lang={lang} />
-        </div>
-      </section>
-
-      <section aria-label={t.reassuranceLabel} className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 sm:px-8">
-        <div className="editorial-shell grid divide-y divide-[#D2C8B8] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {t.reassurances.map(([title, body]) => <div key={title} className="py-5 sm:px-6 sm:first:pl-0 sm:last:pr-0"><h2 className="text-sm font-bold">{title}</h2><p className="mt-1 text-xs leading-5 text-[#625B50]">{body}</p></div>)}
-        </div>
-      </section>
-
-      <section className="px-5 py-16 sm:px-8 sm:py-20">
-        <div className="editorial-shell grid gap-10 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 sm:p-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
-          <div>
-            <Kicker>{t.composerKicker}</Kicker>
-            <h2 className="mt-5 text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[42px]">{t.composerTitle}</h2>
-            <p className="mt-4 max-w-xl text-[16px] leading-7 text-[#4E483F]">{t.composerLead}</p>
-            <div className="mt-6 flex flex-wrap gap-2">{t.examples.map(example => <button key={example} type="button" onClick={() => setNeed(example)} className="rounded-full border border-[#D8D0C2] bg-white px-3.5 py-2 text-left text-xs font-semibold text-[#625B50] hover:border-[#D10E63]/50 hover:text-[#B00C54]">{example}</button>)}</div>
-          </div>
-          <div className="rounded-3xl bg-[#181615] p-5 text-[#FAF8F3] sm:p-7">
-            <div className="flex items-center gap-3"><Image src="/alma-avatar.png" alt="Alma" width={44} height={44} className="size-11 rounded-full object-cover ring-2 ring-[#D10E63]/30"/><div><p className="font-bold">Alma</p><p className="text-xs text-[#AFA397]">{t.role}</p></div></div>
-            <label htmlFor="alma-need" className="mt-6 block text-sm font-bold">{t.composerLabel}</label>
-            <div className="relative mt-3"><textarea id="alma-need" value={need} onChange={event => setNeed(event.target.value)} rows={5} placeholder={listening ? t.listening : t.composerPlaceholder} className="w-full resize-none rounded-2xl border border-white/15 bg-white/[.06] p-4 pr-14 text-sm leading-6 text-white outline-none placeholder:text-[#887D72] focus:border-[#F2A4C5] focus:ring-2 focus:ring-[#D10E63]/25" />{voiceSupported && <button type="button" onClick={toggleListening} aria-label={listening ? t.voiceStop : t.voiceStart} aria-pressed={listening} className={`absolute right-3 top-3 flex size-10 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5] ${listening ? 'bg-[#D10E63] text-white' : 'bg-white/10 text-[#F2A4C5] hover:bg-white/15'}`}>{listening ? <Square className="size-3.5" fill="currentColor"/> : <Mic className="size-4"/>}</button>}</div>
-            <button type="button" onClick={startWithNeed} className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{need.trim() ? t.composerCta : t.composerEmptyCta}<ArrowRight className="ml-2 size-4" /></button>
-            <p className="mt-3 text-center text-[11px] text-[#887D72]">{t.composerNote}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-[#D8D0C2] bg-[#FAF8F3] px-5 py-16 sm:px-8 sm:py-20">
-        <div className="editorial-shell"><Kicker>{t.howKicker}</Kicker><h2 className="mt-5 max-w-3xl text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[44px]">{t.howTitle}</h2><div className="mt-10 grid gap-4 md:grid-cols-3">{t.howSteps.map(([title, body], index) => <article key={title} className="rounded-3xl border border-[#D8D0C2] bg-[#F3EFE6] p-6"><p className="font-mono text-[10px] font-black text-[#B00C54]">0{index + 1}</p><h3 className="mt-6 text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{body}</p></article>)}</div></div>
-      </section>
-
-      <section className="border-y border-[#DED6C8] bg-[#FAF8F3] px-5 py-14 sm:px-8">
-        <div className="editorial-shell">
-          <Kicker>{t.proofKicker}</Kicker>
-          <h2 className="mt-5 max-w-3xl text-[32px] font-semibold tracking-[-.035em] sm:text-[40px]">
-            {t.proofTitle}
-          </h2>
-          <div className="mt-8 grid gap-px overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#DED6C8] lg:grid-cols-[.8fr_1.2fr_.8fr]">
-            <Proof label={t.need} value={t.needValue} />
-            <div className="bg-[#F3EFE6] p-6">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">
-                {t.prepares}
-              </p>
-              <dl className="mt-5 space-y-4">
-                <Mini label={t.expected} value={t.expectedValue} />
-                <Mini label={t.rules} value={t.rulesValue} />
-                <Mini label={t.sources} value={t.sourcesValue} />
-                <Mini label={t.validation} value={t.validationValue} />
-              </dl>
+            <div className="relative min-h-[360px] overflow-hidden rounded-t-[8rem] bg-[#D8D0C2] sm:min-h-[420px] lg:min-h-[410px] xl:min-h-[440px]">
+              <Image src="/alma-avatar.png" alt={t.alt} fill priority className="object-cover object-top" />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#181615] via-[#181615]/85 to-transparent px-7 pb-7 pt-24 text-white">
+                <p className="text-3xl font-semibold tracking-[-.04em]">Alma</p><p className="mt-1 text-sm text-white/70">{t.verified}</p>
+              </div>
             </div>
-            <Proof label={t.missionReady} value={t.missionValue} />
           </div>
+          <div aria-label={t.reassuranceLabel} className="mt-8 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:grid-cols-4">{t.heroBenefits.map((benefit, index) => <p key={benefit} className="flex min-h-16 items-center gap-4 border-b border-[#CFC5B5] py-3 text-sm font-bold last:border-b-0 sm:border-r lg:border-b-0 lg:last:border-r-0"><span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{benefit}</p>)}</div>
         </div>
       </section>
 
-      <section className="px-5 py-12 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-6 rounded-3xl bg-[#EAE3D4] p-7 sm:flex-row sm:items-center sm:p-9"><div><h2 className="text-2xl font-bold tracking-[-.03em]">{t.midTitle}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-[#625B50]">{t.midBody}</p></div><a href="#alma-need" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.midCta}<ArrowRight className="ml-2 size-4" /></a></div></section>
-
-      <section className="bg-[#151310] px-5 py-14 text-[#FAF8F3] sm:px-8">
+      <section className="bg-[#181615] px-5 py-20 text-white sm:px-8 sm:py-28">
         <div className="editorial-shell">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">
-            {t.progressKicker}
-          </p>
-          <h2 className="mt-5 max-w-3xl text-[32px] font-semibold tracking-[-.035em] sm:text-[40px]">
-            {t.progressTitle}
-          </h2>
-          <div className="scrollbar-hide mt-9 flex items-center gap-3 overflow-x-auto pb-2 text-xs font-bold uppercase tracking-[.1em]">
-            {t.progress.map((item, index) => (
-              <span key={item} className="flex shrink-0 items-center gap-3">
-                <span
-                  className={`rounded-full border px-4 py-2 ${index === 0 ? "border-[#F2A4C5] text-[#F2A4C5]" : "border-white/20 text-[#E7E0D5]"}`}
-                >
-                  {item}
-                </span>
-                {index < t.progress.length - 1 && (
-                  <ArrowRight className="size-4 text-[#F2A4C5]" />
-                )}
-              </span>
-            ))}
-          </div>
-          <p className="mt-8 max-w-3xl text-[16px] leading-8 text-[#CFC6B8]">
-            {t.progressBody}
-          </p>
-        </div>
-      </section>
-
-      <section id="accompagnement" className="scroll-mt-24 border-b border-[#D8D0C2] bg-[#FAF8F3] px-5 py-16 sm:px-8 sm:py-20">
-        <div className="editorial-shell grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-16">
-          <div>
-            <Kicker>{t.supportKicker}</Kicker>
-            <h2 className="mt-5 max-w-xl text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[44px]">{t.supportTitle}</h2>
-            <p className="mt-5 max-w-xl text-[16px] leading-7 text-[#4E483F]">{t.supportLead}</p>
-          </div>
-          <div className="border-t border-[#D8D0C2]">
-            {t.supportSteps.map(([title, body], index) => (
-              <article key={title} className="grid gap-3 border-b border-[#D8D0C2] py-6 sm:grid-cols-[48px_180px_1fr] sm:gap-5">
-                <p className="font-mono text-[10px] font-black text-[#B00C54]">0{index + 1}</p>
-                <h3 className="text-lg font-bold tracking-[-.02em]">{title}</h3>
-                <p className="text-sm leading-6 text-[#625B50]">{body}</p>
-              </article>
-            ))}
+          <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr]"><SectionTitle dark kicker={t.composerKicker} title={t.composerTitle} /><p className="max-w-2xl text-[16px] leading-8 text-[#CFC6B8] lg:pt-10">{t.composerLead}</p></div>
+          <div className="mt-14 grid overflow-hidden rounded-[2rem] border border-white/10 bg-[#211E1B] lg:grid-cols-[1.05fr_.95fr]">
+            <div className="p-6 sm:p-10">
+              <div className="flex items-center gap-3"><Image src="/alma-avatar.png" alt="" width={48} height={48} aria-hidden className="size-12 rounded-full object-cover ring-2 ring-[#D10E63]/40"/><div><p className="font-bold">Alma</p><p className="text-xs text-[#AFA397]">{t.role}</p></div></div>
+              <label htmlFor="alma-need" className="mt-8 block font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.composerLabel}</label>
+              <div className="relative mt-3"><textarea id="alma-need" value={need} onChange={event => setNeed(event.target.value)} rows={6} placeholder={listening ? t.listening : t.composerPlaceholder} className="w-full resize-none border-b border-white/20 bg-transparent py-4 pr-14 text-xl leading-8 text-white outline-none placeholder:text-[#756E65] focus:border-[#F2A4C5]" />{voiceSupported && <button type="button" onClick={toggleListening} aria-label={listening ? t.voiceStop : t.voiceStart} aria-pressed={listening} className={`absolute right-0 top-3 flex size-11 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5] ${listening ? "bg-[#D10E63]" : "bg-white/10 text-[#F2A4C5]"}`}>{listening ? <Square className="size-3.5" fill="currentColor"/> : <Mic className="size-4"/>}</button>}</div>
+              <div className="mt-5 flex flex-wrap gap-2">{t.examples.map(example => <button key={example} type="button" onClick={() => setNeed(example)} className="rounded-full border border-white/15 px-3.5 py-2 text-left text-xs font-semibold text-[#CFC6B8] hover:border-[#F2A4C5] hover:text-white">{example}</button>)}</div>
+              <button type="button" onClick={startWithNeed} className="mt-7 inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white">{need.trim() ? t.composerCta : t.composerEmptyCta}<ArrowRight className="ml-2 size-4" /></button>
+            </div>
+            <div className="border-t border-white/10 bg-[#171514] p-6 sm:p-10 lg:border-l lg:border-t-0">
+              <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.prepares}</p>
+              <dl className="mt-10 divide-y divide-white/10"><MissionDatum label={t.expected} value={t.expectedValue} /><MissionDatum label={t.rules} value={t.rulesValue} /><MissionDatum label={t.sources} value={t.sourcesValue} /><MissionDatum label={t.validation} value={t.validationValue} /></dl>
+              <p className="mt-8 text-xs text-[#887D72]">{t.composerNote}</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="px-5 py-14 sm:px-8">
-        <div className="editorial-shell grid gap-10 lg:grid-cols-[.82fr_1.18fr] lg:gap-16">
-          <div>
-            <Kicker>{t.storeKicker}</Kicker>
-            <h2 className="mt-5 max-w-xl text-[32px] font-semibold tracking-[-.035em] sm:text-[40px]">
-              {t.storeTitle}
-            </h2>
-            <p className="mt-5 text-[16px] leading-7 text-[#4E483F]">
-              {t.storeLead}
-            </p>
-            <Link
-              href="/unitalk/@alma/store"
-              className="group mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline"
-            >
-              {t.storeCta}
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Extension title={t.baseTitle} body={t.baseBody} included />
-            <Extension
-              title={t.transformationTitle}
-              body={t.transformationBody}
-            />
-            <Extension title={t.skillTitle} body={t.skillBody} />
-          </div>
-          <div className="mt-8 rounded-3xl border border-[#D8D0C2] bg-[#EAE3D4] p-6 sm:p-8 lg:col-span-2"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">Unitalk Academy</p><h3 className="mt-4 text-2xl font-bold">{t.academyTitle}</h3><p className="mt-3 max-w-3xl text-sm leading-7 text-[#4E483F]">{t.academyBody}</p><a href="/academy/alma?source=alma-profile" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.academyCta}<ArrowRight className="size-4"/></a></div>
-        </div>
-      </section>
-
-      <section className="border-y border-[#DED6C8] bg-[#EAE3D4] px-5 py-12 sm:px-8">
-        <div className="editorial-shell grid gap-8 lg:grid-cols-[.75fr_1.25fr]">
-          <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">
-              {t.privacyKicker}
-            </p>
-            <h2 className="mt-4 text-[30px] font-semibold tracking-[-.03em] sm:text-[36px]">
-              {t.privacyTitle}
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Privacy title={t.publicTitle} items={t.publicItems} />
-            <Privacy title={t.privateTitle} items={t.privateItems} />
+      <section className="px-5 py-20 sm:px-8 sm:py-28">
+        <div className="editorial-shell"><SectionTitle kicker={t.proofKicker} title={t.proofTitle} />
+          <div className="mt-14 grid overflow-hidden rounded-[2rem] border border-[#CFC5B5] bg-[#FAF8F3] lg:grid-cols-[.9fr_auto_1.1fr] lg:items-stretch">
+            <div className="p-7 sm:p-10"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#857C6E]">{t.need}</p><p className="mt-12 text-[clamp(2.2rem,4.5vw,4.6rem)] font-semibold leading-[.98] tracking-[-.055em]">{t.needValue}</p></div>
+            <div className="flex items-center justify-center border-y border-[#CFC5B5] bg-[#EAE3D4] p-5 lg:border-x lg:border-y-0"><ArrowRight className="size-8 rotate-90 text-[#D10E63] lg:rotate-0" /></div>
+            <div className="bg-[#D10E63] p-7 text-white sm:p-10"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-white/70">{t.missionReady}</p><p className="mt-12 text-[clamp(3rem,6vw,6rem)] font-semibold leading-[.9] tracking-[-.07em]">{t.missionValue}</p><p className="mt-8 text-lg font-semibold text-white/80">{t.expectedValue}</p></div>
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20">
-        <div className="editorial-shell flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
-          <div className="max-w-3xl">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">
-              {t.finalKicker}
-            </p>
-            <h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[40px]">
-              {t.finalTitle}
-            </h2>
-            <p className="mt-5 max-w-2xl text-[16px] leading-7 text-[#4E483F]">
-              {t.finalBody}
-            </p>
-          </div>
-          <div className="flex flex-col items-start gap-4 lg:items-end">
-            <Link
-              href={SIGNUP}
-              className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white"
-            >
-              {t.primary}
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              href="/missions"
-              className="text-sm font-bold underline decoration-[#D10E63]/30 underline-offset-4"
-            >
-              {t.missions}
-            </Link>
-          </div>
-        </div>
-      </section>
+      <section className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 py-20 sm:px-8 sm:py-28"><div className="editorial-shell"><div className="grid gap-10 lg:grid-cols-[.72fr_1.28fr]"><SectionTitle kicker={t.howKicker} title={t.howTitle} /><p className="max-w-2xl text-[16px] leading-8 text-[#4E483F] lg:pt-10">{t.progressBody}</p></div><div className="mt-14 border-t border-[#C8BDAC]">{t.howSteps.map(([title, body], index) => <article key={title} className="grid gap-3 border-b border-[#C8BDAC] py-7 sm:grid-cols-[70px_.7fr_1.3fr] sm:items-center"><p className="font-mono text-[10px] font-black text-[#B00C54]">0{index + 1}</p><h3 className="text-2xl font-semibold tracking-[-.035em]">{title}</h3><p className="text-sm leading-7 text-[#625B50]">{body}</p></article>)}</div></div></section>
+
+      <section className="bg-[#D10E63] px-5 py-20 text-white sm:px-8 sm:py-28"><div className="editorial-shell grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-white/70">{t.progressKicker}</p><h2 className="mt-5 max-w-4xl text-[clamp(2.7rem,6vw,6rem)] font-semibold leading-[.92] tracking-[-.065em]">{t.progressTitle}</h2></div><div><p className="text-[17px] leading-8 text-white/80">{t.progressBody}</p><div className="mt-8 flex flex-wrap gap-2">{t.progress.map((item, index) => <span key={item} className={`rounded-full border px-4 py-2 text-xs font-bold ${index === 1 ? "border-white bg-white text-[#D10E63]" : "border-white/30"}`}>{item}</span>)}</div></div></div></section>
+
+      <section id="accompagnement" className="scroll-mt-24 bg-[#181615] px-5 py-20 text-white sm:px-8 sm:py-28"><div className="editorial-shell"><div className="grid gap-10 lg:grid-cols-[.75fr_1.25fr]"><SectionTitle dark kicker={t.supportKicker} title={t.supportTitle} /><p className="max-w-2xl text-[16px] leading-8 text-[#CFC6B8] lg:pt-10">{t.supportLead}</p></div><div className="mt-14 grid border-y border-white/15 sm:grid-cols-2 lg:grid-cols-4">{t.supportSteps.map(([title, body], index) => <article key={title} className="border-b border-white/15 py-7 sm:border-r sm:px-6 sm:first:pl-0 lg:border-b-0 lg:last:border-r-0"><p className="font-mono text-[10px] font-black text-[#F2A4C5]">0{index + 1}</p><h3 className="mt-8 text-2xl font-semibold">{title}</h3><p className="mt-4 text-sm leading-7 text-[#AFA397]">{body}</p></article>)}</div></div></section>
+
+      <section className="px-5 py-20 sm:px-8 sm:py-28"><div className="editorial-shell"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]"><SectionTitle kicker={t.storeKicker} title={t.storeTitle} /><div className="lg:pt-10"><p className="text-[16px] leading-8 text-[#4E483F]">{t.storeLead}</p><Link href="/unitalk/@alma/store" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.storeCta}<ArrowRight className="size-4" /></Link></div></div><div className="mt-14 grid gap-px overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#D8D0C2] lg:grid-cols-3"><EcosystemItem index="01" title={t.baseTitle} body={t.baseBody} tag="Inclus" /><EcosystemItem index="02" title={t.transformationTitle} body={t.transformationBody} tag="Extension" /><EcosystemItem index="03" title={t.skillTitle} body={t.skillBody} tag="Extension" /></div><div className="mt-5 grid gap-6 rounded-[2rem] bg-[#EAE3D4] p-7 sm:p-9 lg:grid-cols-[.7fr_1.3fr]"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">Unitalk Academy</p><h3 className="mt-4 text-2xl font-semibold">{t.academyTitle}</h3></div><div><p className="text-sm leading-7 text-[#4E483F]">{t.academyBody}</p><Link href="/academy/alma?source=alma-profile" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.academyCta}<ArrowRight className="size-4" /></Link></div></div></div></section>
+
+      <section className="grid lg:grid-cols-2"><div className="bg-[#FAF8F3] px-5 py-20 sm:px-8 sm:py-24 lg:pl-[max(2rem,calc((100vw-72rem)/2))]"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.publicTitle}</p><h2 className="mt-5 max-w-xl text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[.95] tracking-[-.06em]">{t.privacyTitle}</h2><PrivacyList items={t.publicItems} /></div><div className="bg-[#211E1B] px-5 py-20 text-white sm:px-8 sm:py-24 lg:pr-[max(2rem,calc((100vw-72rem)/2))]"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.privateTitle}</p><h2 className="mt-5 max-w-xl text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[.95] tracking-[-.06em]">{t.privacyKicker}</h2><PrivacyList dark items={t.privateItems} /></div></section>
+
+      <section className="bg-[#D10E63] px-5 py-20 text-white sm:px-8 sm:py-24"><div className="editorial-shell grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-white/70">{t.finalKicker}</p><h2 className="mt-5 max-w-5xl text-[clamp(2.7rem,6vw,6rem)] font-semibold leading-[.92] tracking-[-.065em]">{t.finalTitle}</h2><p className="mt-7 max-w-2xl text-[17px] leading-8 text-white/80">{t.finalBody}</p></div><div className="flex min-w-64 flex-col gap-3"><Link href={SIGNUP} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white">{t.primary}<ArrowRight className="ml-2 size-4" /></Link><Link href="/missions" className="text-center text-sm font-bold underline decoration-white/35 underline-offset-4">{t.missions}</Link></div></div></section>
     </main>
   );
 }
 
-function IdentityCard({ lang }: { lang: Lang }) {
-  const t = COPY[lang];
-  return (
-    <article className="overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] shadow-[0_24px_70px_-50px_rgba(28,26,23,.55)]">
-      <div className="grid sm:grid-cols-[.9fr_1.1fr]">
-        <div className="relative min-h-[300px] bg-[#DED6C8] sm:min-h-[390px]">
-          <Image
-            src="/alma-avatar.png"
-            alt={t.alt}
-            fill
-            priority
-            className="object-cover object-top"
-          />
-        </div>
-        <div className="p-6">
-          <p className="font-mono text-[9px] font-bold uppercase tracking-[.16em] text-[#B00C54]">
-            {t.verified}
-          </p>
-          <h2 className="mt-5 text-3xl font-semibold">Alma</h2>
-          <p className="mt-2 text-sm font-semibold">{t.role}</p>
-          <dl className="mt-6 border-t border-[#DED6C8]">
-            <Fact label={t.organization} value="Unitalk" />
-            <Fact label={t.nature} value={t.ai} />
-            <Fact label={t.supervised} value="Patrick Chassany" />
-            <Fact label={t.baseProfile} value={t.baseValue} />
-          </dl>
-        </div>
-      </div>
-    </article>
-  );
-}
-function Fact({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="border-b border-[#DED6C8] py-3">
-      <dt className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">
-        {label}
-      </dt>
-      <dd className="mt-1.5 text-sm font-semibold">{value}</dd>
-    </div>
-  );
-}
-function Proof({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="bg-[#F3EFE6] p-6">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">
-        {label}
-      </p>
-      <p className="mt-5 text-[18px] font-semibold leading-8">{value}</p>
-    </div>
-  );
-}
-function Mini({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">
-        {label}
-      </dt>
-      <dd className="mt-1 text-sm font-semibold leading-6">{value}</dd>
-    </div>
-  );
-}
-function Extension({
-  title,
-  body,
-  included = false,
-}: {
-  title: string;
-  body: string;
-  included?: boolean;
-}) {
-  return (
-    <article className="rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-5">
-      <p
-        className={`font-mono text-[9px] font-bold uppercase tracking-[.14em] ${included ? "text-[#257A43]" : "text-[#B00C54]"}`}
-      >
-        {included ? "Inclus" : "Extension"}
-      </p>
-      <h3 className="mt-4 text-lg font-semibold">{title}</h3>
-      <p className="mt-3 text-sm leading-6 text-[#4E483F]">{body}</p>
-    </article>
-  );
-}
-function Privacy({
-  title,
-  items,
-}: {
-  title: string;
-  items: readonly string[];
-}) {
-  return (
-    <article className="rounded-[18px] border border-[#D8D0C2] bg-[#FAF8F3] p-5">
-      <ShieldCheck className="size-5 text-[#D10E63]" />
-      <h3 className="mt-4 text-lg font-semibold">{title}</h3>
-      <ul className="mt-4 space-y-2">
-        {items.map((item) => (
-          <li
-            key={item}
-            className="flex gap-2 text-sm leading-6 text-[#4E483F]"
-          >
-            <Check className="mt-1 size-4 shrink-0 text-[#D10E63]" />
-            {item}
-          </li>
-        ))}
-      </ul>
-    </article>
-  );
-}
+function SectionTitle({ kicker, title, dark = false }: { kicker: string; title: string; dark?: boolean }) { return <div><p className={`font-mono text-[10px] font-black uppercase tracking-[.2em] ${dark ? "text-[#F2A4C5]" : "text-[#B00C54]"}`}>{kicker}</p><h2 className="mt-5 max-w-4xl text-[clamp(2.4rem,5vw,5rem)] font-semibold leading-[.95] tracking-[-.06em]">{title}</h2></div> }
+
+function MissionDatum({ label, value }: { label: string; value: string }) { return <div className="grid gap-2 py-5 sm:grid-cols-[130px_1fr]"><dt className="font-mono text-[9px] font-black uppercase tracking-[.15em] text-[#857C6E]">{label}</dt><dd className="text-sm font-semibold leading-6 text-[#E7E0D5]">{value}</dd></div> }
+
+function EcosystemItem({ index, tag, title, body }: { index: string; tag: string; title: string; body: string }) { return <article className="min-h-[330px] bg-[#FAF8F3] p-7"><div className="flex justify-between font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]"><span>{tag}</span><span className="text-[#857C6E]">{index}</span></div><h3 className="mt-20 text-3xl font-semibold leading-tight tracking-[-.04em]">{title}</h3><p className="mt-5 text-sm leading-7 text-[#625B50]">{body}</p></article> }
+
+function PrivacyList({ items, dark = false }: { items: readonly string[]; dark?: boolean }) { return <ul className={`mt-12 max-w-xl border-t ${dark ? "border-white/15" : "border-[#D8D0C2]"}`}>{items.map(item => <li key={item} className={`flex gap-3 border-b py-5 text-sm font-semibold leading-6 ${dark ? "border-white/15 text-[#CFC6B8]" : "border-[#D8D0C2] text-[#4E483F]"}`}><Check className={`mt-1 size-4 shrink-0 ${dark ? "text-[#F2A4C5]" : "text-[#D10E63]"}`} />{item}</li>)}</ul> }
 
 const COPY = {
   fr: {
-    title: "Dites ce qu’il faut accomplir.\nAlma prépare la bonne équipe IA.",
-    lead: "Décrivez un travail concret avec vos propres mots. Alma le transforme en mission claire, identifie le Collaborateur IA adapté et prépare les compétences, les applications et les validations nécessaires.",
+    title: "Décrivez le travail à accomplir.\nAlma prépare qui s’en charge.",
+    lead: "Partez du travail réel. Alma le transforme en mission prête à confier, cherche le Collaborateur IA adapté et prépare ses compétences, ses applications, ses accès et vos validations.",
     heroBenefits: ["Part de votre besoin réel", "Recherche d’abord dans votre équipe", "Cadre les accès et validations", "Prépare un résultat vérifiable"],
     role: "Coordinatrice de missions",
     included:
@@ -412,11 +159,11 @@ const COPY = {
     reassuranceLabel: "Garanties Alma",
     reassurances: [["Pas besoin de connaître le bon profil", "Décrivez simplement le travail ou le résultat attendu."], ["Vous gardez les décisions sensibles", "Alma identifie les validations qui doivent rester humaines."], ["Elle évite les créations inutiles", "Alma fait d’abord progresser un Collaborateur IA existant."]],
     composerKicker: "Commencer maintenant",
-    composerTitle: "Quel travail voulez-vous déléguer ?",
-    composerLead: "Une phrase suffit pour commencer. Alma précisera ensuite le résultat, le contexte, les règles et les applications nécessaires.",
+    composerTitle: "Quel travail voulez-vous confier ?",
+    composerLead: "Décrivez le résultat attendu avec vos mots. Alma prépare la mission, les règles, les sources, les accès et les validations nécessaires.",
     composerLabel: "Décrivez le travail à accomplir",
     composerPlaceholder: "Ex. Je veux qualifier les demandes entrantes et préparer une réponse avant validation…",
-    composerCta: "Préparer cette mission avec Alma",
+    composerCta: "Préparer ma mission avec Alma",
     composerEmptyCta: "Créer mon compte et parler à Alma",
     composerNote: "Votre demande est conservée pour poursuivre après l’authentification.",
     voiceStart: "Décrire le travail avec votre voix",
@@ -424,7 +171,7 @@ const COPY = {
     listening: "Je vous écoute…",
     examples: ["Répondre aux demandes clients", "Qualifier de nouveaux prospects", "Préparer mes réunions", "Relancer les factures impayées"],
     howKicker: "Le rôle d’Alma",
-    howTitle: "Du besoin flou à une mission prête à confier.",
+    howTitle: "Alma prépare la mission avant toute activation.",
     howSteps: [["Elle clarifie", "Résultat attendu, fréquence, sources et exceptions."], ["Elle équipe", "Collaborateur IA, profil métier, compétences et applications."], ["Elle sécurise", "Droits, validations humaines et critères de résultat."]],
     alt: "Portrait professionnel d’Alma",
     verified: "Identité IA vérifiée par Unitalk",
@@ -435,7 +182,7 @@ const COPY = {
     baseProfile: "Profil socle",
     baseValue: "Inclus avec la Licence Entreprise",
     proofKicker: "Preuve de travail",
-    proofTitle: "Une demande devient un livrable structuré.",
+    proofTitle: "Un besoin devient une mission prête à confier.",
     midTitle: "Vous avez déjà un besoin en tête ?",
     midBody: "Décrivez-le maintenant. Alma conserve votre demande et reprend exactement à cet endroit après la création du compte.",
     midCta: "Décrire mon besoin",
@@ -453,8 +200,8 @@ const COPY = {
     validationValue: "Approbation du responsable financier",
     missionReady: "Mission structurée",
     missionValue: "Relancer les factures impayées",
-    progressKicker: "Faire progresser avant de créer",
-    progressTitle: "Alma cherche d’abord qui peut accomplir la mission.",
+    progressKicker: "Équiper l’existant avant de créer",
+    progressTitle: "Alma cherche d’abord qui peut prendre la mission.",
     progress: [
       "Mission",
       "Identité existante",
@@ -465,7 +212,7 @@ const COPY = {
     progressBody:
       "Alma fait d’abord progresser un Collaborateur IA existant. Elle ne propose une nouvelle identité que lorsque la mission exige réellement une présence ou des ressources distinctes.",
     supportKicker: "Accompagnement continu",
-    supportTitle: "Alma reste présente. Un expert intervient lorsque nécessaire.",
+    supportTitle: "Alma reste présente. Un expert prend le relais si nécessaire.",
     supportLead: "La préparation de la mission n’est pas la fin du parcours. Alma accompagne les usages, aide votre équipe à progresser et prépare un relais humain lorsque le besoin dépasse son périmètre.",
     supportSteps: [
       ["Préparer", "Alma clarifie le travail, structure la mission et cadre les accès et validations."],
@@ -504,14 +251,14 @@ const COPY = {
     ],
     finalKicker: "Qu’avez-vous besoin d’accomplir ?",
     finalTitle:
-      "Décrivez le travail. Alma vous aide à en faire une mission claire.",
+      "Décrivez le travail. Alma prépare la mission, les accès et les validations.",
     finalBody:
-      "Vous n’avez pas besoin de choisir une mission avant de créer votre compte. Le contexte Alma est conservé après votre authentification.",
+      "Commencez avec vos propres mots. Votre demande est conservée pendant la création du compte, puis Alma reprend avec vous sans repartir de zéro.",
     missions: "Explorer les missions",
   },
   en: {
-    title: "Say what needs to be done.\nAlma prepares the right AI team.",
-    lead: "Describe concrete work in your own words. Alma turns it into a clear mission, identifies the right AI Collaborator and prepares the required skills, applications and approvals.",
+    title: "Describe the work to be done.\nAlma prepares who takes it on.",
+    lead: "Start from the real work. Alma turns it into a mission ready to assign, finds the right AI Collaborator and prepares their skills, applications, access and your approvals.",
     heroBenefits: ["Starts from your real need", "Checks your team first", "Scopes access and approvals", "Prepares a verifiable outcome"],
     role: "Mission coordinator",
     included:
@@ -523,11 +270,11 @@ const COPY = {
     reassuranceLabel: "Alma guarantees",
     reassurances: [["No need to know the right profile", "Simply describe the work or expected outcome."], ["You keep sensitive decisions", "Alma identifies approvals that must remain human."], ["She avoids unnecessary creation", "Alma first develops an existing AI Collaborator."]],
     composerKicker: "Start now",
-    composerTitle: "What work do you want to delegate?",
-    composerLead: "One sentence is enough to start. Alma then clarifies the outcome, context, rules and required applications.",
+    composerTitle: "What work do you want to entrust?",
+    composerLead: "Describe the expected outcome in your own words. Alma prepares the mission, rules, sources, access and required approvals.",
     composerLabel: "Describe the work to be done",
     composerPlaceholder: "E.g. I want to qualify inbound requests and prepare a response for approval…",
-    composerCta: "Prepare this mission with Alma",
+    composerCta: "Prepare my mission with Alma",
     composerEmptyCta: "Create my account and talk to Alma",
     composerNote: "Your request is retained so you can continue after authentication.",
     voiceStart: "Describe the work with your voice",
@@ -535,7 +282,7 @@ const COPY = {
     listening: "Listening…",
     examples: ["Answer customer requests", "Qualify new prospects", "Prepare my meetings", "Follow up unpaid invoices"],
     howKicker: "Alma’s role",
-    howTitle: "From a vague need to a mission ready to assign.",
+    howTitle: "Alma prepares the mission before anything is activated.",
     howSteps: [["She clarifies", "Expected outcome, frequency, sources and exceptions."], ["She equips", "AI Collaborator, job profile, skills and applications."], ["She secures", "Permissions, human approvals and result criteria."]],
     alt: "Professional portrait of Alma",
     verified: "AI identity verified by Unitalk",
@@ -546,7 +293,7 @@ const COPY = {
     baseProfile: "Core profile",
     baseValue: "Included with the Organization License",
     proofKicker: "Work proof",
-    proofTitle: "A request becomes a structured deliverable.",
+    proofTitle: "A need becomes a mission ready to assign.",
     midTitle: "Already have a need in mind?",
     midBody: "Describe it now. Alma retains your request and resumes from this exact point after account creation.",
     midCta: "Describe my need",
@@ -563,8 +310,8 @@ const COPY = {
     validationValue: "Finance manager approval",
     missionReady: "Structured mission",
     missionValue: "Follow up unpaid invoices",
-    progressKicker: "Develop before creating",
-    progressTitle: "Alma first looks for who can accomplish the mission.",
+    progressKicker: "Equip what exists before creating",
+    progressTitle: "Alma first looks for who can take on the mission.",
     progress: [
       "Mission",
       "Existing identity",
@@ -575,7 +322,7 @@ const COPY = {
     progressBody:
       "Alma first develops an existing AI Collaborator. She only proposes a new identity when the mission genuinely requires a distinct presence or resources.",
     supportKicker: "Ongoing support",
-    supportTitle: "Alma stays involved. An expert steps in when needed.",
+    supportTitle: "Alma stays involved. An expert takes over when needed.",
     supportLead: "Preparing the mission is not the end of the journey. Alma supports adoption, helps your team improve and prepares a human handoff when the need goes beyond her scope.",
     supportSteps: [
       ["Prepare", "Alma clarifies the work, structures the mission and scopes access and approvals."],
@@ -613,9 +360,9 @@ const COPY = {
       "Documents, memory, budgets and infrastructure",
     ],
     finalKicker: "What do you need to accomplish?",
-    finalTitle: "Describe the work. Alma helps turn it into a clear mission.",
+    finalTitle: "Describe the work. Alma prepares the mission, access and approvals.",
     finalBody:
-      "You do not need to select a mission before creating your account. The Alma context is retained after authentication.",
+      "Start in your own words. Your request is saved while you create your account, then Alma picks up with you without starting over.",
     missions: "Explore missions",
   },
 } as const;

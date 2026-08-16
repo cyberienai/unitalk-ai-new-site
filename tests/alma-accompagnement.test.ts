@@ -7,7 +7,7 @@ const accompaniment = readFileSync(new URL('../app/accompagnement/page.tsx', imp
 describe('Alma support', () => {
   it('integrates ongoing support and expert handoff into the Alma page', () => {
     expect(alma).toContain('id="accompagnement"')
-    expect(alma).toContain('Alma reste présente. Un expert intervient lorsque nécessaire.')
+    expect(alma).toContain('Alma reste présente. Un expert prend le relais si nécessaire.')
     expect(alma).toContain('transmet le contexte à l’expert adapté')
   })
 

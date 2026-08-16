@@ -41,7 +41,7 @@ const T = {
     console: 'Préparation de mission',
     mission: 'Mission reçue',
     collaborator: 'Collaboratrice IA',
-    assigned: 'Emma sélectionnée',
+    assigned: 'Emma · Collaboratrice IA',
     equipping: 'Alma équipe Emma',
     ready: 'Prête à travailler',
     newRole: 'Nouveau rôle nécessaire',
@@ -341,7 +341,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 height={40} 
                 className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/30" 
               />
-              <p className="max-w-[280px] whitespace-pre-line text-[13px] font-medium leading-relaxed text-[#D6CABD] sm:max-w-none">
+              <p className="max-w-[280px] whitespace-pre-line text-[13px] font-medium leading-relaxed text-[#EDE3D6] sm:max-w-none">
                 {t.almaCaption}
               </p>
             </div>
@@ -353,6 +353,17 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
               {t.almaAction}
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </button>
+          </motion.div>
+
+          <motion.div {...enter(0.28)} className="mt-3 flex items-center gap-2">
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-[#887D72]">Propulsé par</span>
+            <span className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1">
+              <span className="font-mono text-[10px] font-bold tracking-[0.06em] text-[#C8BCAF]">Hermes</span>
+              <span className="text-[10px] text-[#6B6258]">·</span>
+              <span className="font-mono text-[10px] font-medium text-[#6B6258]">open source</span>
+              <span className="text-[10px] text-[#6B6258]">·</span>
+              <span className="font-mono text-[10px] font-medium text-[#6B6258]">MIT</span>
+            </span>
           </motion.div>
         </motion.div>
           )}
