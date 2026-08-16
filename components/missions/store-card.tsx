@@ -1,8 +1,10 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, getMissionCategory, getMissionCategoryHref, getMissionGuideHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import { ROLE_DETAILS, TEAM_HUMANS, collaboratorHref } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
 
 // Ghost-border cards used by secondary catalog views.
@@ -53,14 +55,13 @@ export function StoreCard({
   const categoryData = getMissionCategory(mission.category)
   const description = actionDescription(mission, lang)
   const personalize = mission.status === 'available' ? (lang === 'fr' ? 'Adapter cette mission' : 'Adapt this mission') : mission.status === 'on-setup' ? (lang === 'fr' ? 'La préparer avec Alma' : 'Prepare it with Alma') : (lang === 'fr' ? 'Décrire mon besoin' : 'Describe my need')
-  const status = STATUS_LABELS[mission.status][lang]
   return (
     <article
       data-mission-card={mission.slug}
       style={{ viewTransitionName: `mission-${mission.slug}` }}
       className="group relative flex min-h-[270px] w-full flex-col overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] p-6 text-left shadow-[0_24px_60px_-52px_rgba(28,26,23,.75)] transition-[transform,border-color,background-color,box-shadow] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-300 hover:-translate-y-1.5 hover:border-[#D10E63]/35 hover:bg-[#FFFDF9] hover:shadow-[0_28px_65px_-42px_rgba(28,26,23,.35)] hover:before:scale-x-100 focus-within:border-[#D10E63]/40 focus-within:before:scale-x-100"
     >
-      <div className="mb-5 flex items-center justify-between gap-3"><span className={`rounded-full px-2.5 py-1 font-mono text-[9px] font-black uppercase tracking-[.12em] ${mission.status === 'available' ? 'bg-[#DDF2E4] text-[#257A43]' : mission.status === 'on-setup' ? 'bg-[#FCEAF2] text-[#B00C54]' : 'bg-[#EDE7DA] text-[#6E665A]'}`}>{status}</span>{mission.regulated && <span className="text-[10px] font-bold text-[#8A5D19]">{lang === 'fr' ? 'Validation professionnelle' : 'Professional approval'}</span>}</div>
+      <div className="mb-5 flex items-center justify-between gap-3"><MissionProfiles mission={mission} lang={lang} />{mission.regulated && <span className="text-[10px] font-bold text-[#8A5D19]">{lang === 'fr' ? 'Validation professionnelle' : 'Professional approval'}</span>}</div>
       <Link href={`/missions/${mission.slug}`} className="relative z-10 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
         <h3 className="line-clamp-2 font-sf text-[21px] font-semibold leading-[1.18] tracking-[-0.03em] text-[#1C1A17]">{mission.title[lang]}</h3>
       </Link>
@@ -80,6 +81,39 @@ export function StoreCard({
         </Link>
       </footer>
     </article>
+  )
+}
+
+function MissionProfiles({ mission, lang }: { mission: Mission; lang: Lang }) {
+  const collaborator = ROLE_DETAILS[mission.collaboratorSlug]
+  if (!collaborator) return null
+
+  const creator = collaborator.managerHandle ? TEAM_HUMANS[collaborator.managerHandle] : undefined
+  const profiles = [
+    { key: collaborator.slug, name: collaborator.name, avatar: collaborator.avatar, href: collaboratorHref(collaborator.slug), kind: lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator' },
+    ...(creator ? [{ key: creator.handle, name: creator.name, avatar: creator.avatar, href: `/@${creator.handle}`, kind: lang === 'fr' ? 'Créateur' : 'Creator' }] : []),
+  ]
+
+  return (
+    <div className="flex min-w-0 items-center gap-2.5">
+      <div className="flex -space-x-2">
+        {profiles.map((profile, index) => (
+          <Link
+            key={profile.key}
+            href={profile.href}
+            aria-label={`${profile.name}, ${profile.kind}`}
+            title={`${profile.name} · ${profile.kind}`}
+            className="relative z-10 block rounded-full outline-none transition-transform hover:z-20 hover:-translate-y-0.5 focus-visible:z-20 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+            style={{ zIndex: profiles.length - index }}
+          >
+            <Image src={profile.avatar} alt="" width={32} height={32} className="size-8 rounded-full border-2 border-[#FAF8F3] object-cover" />
+          </Link>
+        ))}
+      </div>
+      <span className="truncate font-mono text-[9px] font-black uppercase tracking-[.1em] text-[#6E665A]">
+        {lang === 'fr' ? 'Proposée par la communauté' : 'Community proposed'}
+      </span>
+    </div>
   )
 }
 

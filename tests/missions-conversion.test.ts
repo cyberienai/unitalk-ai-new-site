@@ -31,6 +31,14 @@ describe('missions conversion path', () => {
     expect(card).not.toContain('Crédits Mission')
   })
 
+  it('shows linked AI Collaborator and creator profiles instead of availability badges', () => {
+    expect(card).toContain('ROLE_DETAILS[mission.collaboratorSlug]')
+    expect(card).toContain('TEAM_HUMANS[collaborator.managerHandle]')
+    expect(card).toContain('collaboratorHref(collaborator.slug)')
+    expect(card).toContain('Proposée par la communauté')
+    expect(card).not.toContain('const status = STATUS_LABELS[mission.status][lang]')
+  })
+
   it('keeps a single canonical for filtered variants', () => {
     expect(route).toContain("alternates: { canonical: '/missions' }")
   })

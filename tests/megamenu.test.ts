@@ -10,10 +10,17 @@ describe('Marketplace IA mega menu', () => {
     expect(navbar).toContain('Des missions, des profils, des compétences et des applications')
   })
 
-  it('keeps the mega menu focused on one Marketplace entry', () => {
-    expect(navbar).not.toContain('MARKETPLACE_CATALOGS')
-    expect(navbar).toContain('w-[620px]')
-    expect(navbar).toContain('<UnitalkLogo size={36}')
+  it('exposes the Marketplace catalogs in a true mega menu', () => {
+    expect(navbar).toContain('MARKETPLACE_CATALOGS')
+    expect(navbar).toContain('w-[1080px]')
+    expect(navbar).toContain('<UnitalkLogo size={30}')
+    for (const href of ['/missions', '/collaborateurs-ia/profils-metier', '/collaborateurs-ia/competences', '/collaborateurs-ia/applications', '/collaborateurs-ia/integrations', '/modeles-ia']) expect(navbar).toContain(href)
+  })
+
+  it('provides creation and ecosystem paths', () => {
+    expect(navbar).toContain('MARKETPLACE_BUILD')
+    expect(navbar).toContain("menuBuild: 'Créer & développer'")
+    for (const href of ['/co-createur-ia', '/academy', '/experts', '/partenaires']) expect(navbar).toContain(href)
   })
 
   it('promotes the Marketplace page', () => {

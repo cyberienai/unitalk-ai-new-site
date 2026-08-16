@@ -7,7 +7,7 @@ describe('partner programs', () => {
   it('connects a real mission to creation, affiliation and deployment', () => {
     expect(partners).toContain('Transformez une mission réelle en activité durable.')
     expect(partners).toContain('/academy/parcours-gratuits/premiere-mission-ia')
-    expect(partners).toContain('/academy/formations/co-createur-ia')
+    expect(partners).toContain('/reseau-co-createurs')
     expect(partners).toContain('/partenaires/deployer')
     expect(partners).toContain("href: '/platform'")
     expect(partners).toContain('Construire ou connecter une technologie')

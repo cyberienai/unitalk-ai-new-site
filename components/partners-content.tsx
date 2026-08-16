@@ -46,8 +46,8 @@ const COPY = {
         title: 'Créer des Collaborateurs IA',
         audience: 'Expert, consultant, formateur ou intégrateur.',
         body: 'Apprenez à transformer une méthode métier en mission, compétences, application et Collaborateur IA testable.',
-        cta: 'Devenir Co-créateur IA',
-        href: '/academy/formations/co-createur-ia',
+        cta: 'Rejoindre le réseau Co-créateurs',
+        href: '/reseau-co-createurs',
       },
       {
         title: 'Recommander Unitalk',

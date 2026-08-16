@@ -1,8 +1,5 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
-import { Navbar } from '@/components/navbar'
-import { SiteFooter } from '@/components/site-footer'
-import { ProfilesCatalogContent } from '@/components/collaborateurs-ia/profils/profiles-catalog-content'
+import { MarketplaceCategoryExplainer } from '@/components/marketplace-category-explainer'
 
 const SITE_URL = 'https://unitalk.ai'
 
@@ -31,5 +28,5 @@ export const metadata: Metadata = {
 }
 
 export default function ProfilsMetierPage() {
-  return <><Navbar /><Suspense fallback={<div className="min-h-screen bg-[#F3EFE6]" />}><ProfilesCatalogContent /></Suspense><SiteFooter /></>
+  return <MarketplaceCategoryExplainer categoryId="metiers" eyebrow={{fr:'Marketplace · Métiers',en:'Marketplace · Professions'}} title={{fr:'Un métier définit la responsabilité. Le profil métier la rend installable.',en:'A profession defines the responsibility. A job profile makes it installable.'}} lead={{fr:'Chaque métier de la connaissance possède un profil de référence : périmètre, résultats attendus, méthodes, accès et décisions qui restent humaines.',en:'Each knowledge-work profession has a reference profile: scope, expected outcomes, methods, access and decisions that remain human.'}} principles={[{title:{fr:'Une responsabilité claire',en:'A clear responsibility'},body:{fr:'Le métier indique ce dont le Collaborateur IA répond dans l’organisation.',en:'The profession states what the AI Collaborator is accountable for.'}},{title:{fr:'Un profil structuré',en:'A structured profile'},body:{fr:'Le profil métier décrit les missions, compétences, outils et limites associés.',en:'The job profile describes associated missions, skills, tools and limits.'}},{title:{fr:'Une base adaptable',en:'An adaptable foundation'},body:{fr:'L’entreprise adapte ensuite ce profil à son secteur, ses règles et son vocabulaire.',en:'The organization then adapts the profile to its sector, rules and vocabulary.'}}]} />
 }

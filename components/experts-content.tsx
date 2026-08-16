@@ -168,7 +168,7 @@ export function ExpertsContent() {
           <div className="mt-5 grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-end"><h2 className="font-sf text-[clamp(3rem,6vw,6.4rem)] font-semibold leading-[.88] tracking-[-.07em]">Votre méthode peut devenir une capacité.</h2><p className="max-w-xl text-[17px] leading-8 text-white/80">Vous pouvez transmettre votre expertise, apprendre à construire des Collaborateurs IA ou les déployer chez vos clients. Ce ne sont pas les mêmes métiers.</p></div>
           <div className="mt-12 grid gap-px bg-white/25 lg:grid-cols-3">
             <ProfessionalPath icon={<Fingerprint/>} title="Transmettre une méthode" body="Documentez un savoir-faire et contribuez aux missions pédagogiques de l’Academy." href="/academy/experts" cta="Contribuer à l’Academy"/>
-            <ProfessionalPath icon={<Sparkles/>} title="Devenir Co-créateur" body="Apprenez à interviewer, formaliser, construire, tester et commercialiser." href="/academy/formations/co-createur-ia" cta="Voir la formation"/>
+            <ProfessionalPath icon={<Sparkles/>} title="Rejoindre le réseau" body="Formez-vous, faites évaluer une création, puis progressez vers l’agrément Co-créateur." href="/reseau-co-createurs" cta="Découvrir le programme pilote"/>
             <ProfessionalPath icon={<Gauge/>} title="Déployer chez des clients" body="Prenez en charge la vente, la configuration, les accès et l’accompagnement." href="/partenaires/deployer" cta="Voir le programme Partenaire"/>
           </div>
         </div>

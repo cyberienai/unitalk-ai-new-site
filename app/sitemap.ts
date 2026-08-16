@@ -32,6 +32,7 @@ const STATIC_ROUTES = [
   '/ai-server',
   '/hebergeurs',
   '/co-createur-ia',
+  '/reseau-co-createurs',
   '/leaders',
   '/ai-gateway',
   '/desktop',

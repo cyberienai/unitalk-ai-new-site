@@ -19,7 +19,8 @@ describe('competences catalog', () => {
     expect(content).not.toContain('Tout le catalogue')
     expect(content).not.toContain('Tous les compétences')
     expect(content).not.toContain('Parlez à Alma')
-    expect(page).toContain("if (params.type !== undefined)")
+    expect(page).toContain('MarketplaceCategoryExplainer')
+    expect(page).toContain('categoryId="competences"')
   })
 
   it('provides URL search, category, creator and sort controls', () => {

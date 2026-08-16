@@ -1,17 +1,19 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
   ArrowRight,
+  ArrowUpRight,
   Blocks,
   BookOpenCheck,
   BrainCircuit,
   BriefcaseBusiness,
   GraduationCap,
   Handshake,
+  Info,
   LibraryBig,
   Mic,
   Sparkles,
@@ -22,6 +24,11 @@ import {
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { UnitalkLogo } from '@/components/unitalk-logo'
+import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
+import { MISSIONS } from '@/lib/missions-catalog'
+import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
+import { PATHS } from '@/lib/academy-catalog'
+import { EXPERT_DOMAINS } from '@/lib/experts'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -32,6 +39,28 @@ type Category = {
   href: string
   icon: LucideIcon
 }
+
+type MarketplaceItem = {
+  key: string
+  title: string
+  description: string
+  href?: string
+  meta: string
+  image?: string
+  origin?: string
+  pending?: boolean
+}
+
+const PAGE_SIZE = 12
+
+const MODEL_ITEMS = [
+  { key: 'gpt', title: 'GPT', maker: 'OpenAI', meta: 'Texte · Vision · Code' },
+  { key: 'claude', title: 'Claude', maker: 'Anthropic', meta: 'Texte · Analyse · Code' },
+  { key: 'gemini', title: 'Gemini', maker: 'Google', meta: 'Texte · Vision · Multimodal' },
+  { key: 'mistral', title: 'Mistral', maker: 'Mistral AI', meta: 'Texte · Code · Europe' },
+  { key: 'deepseek', title: 'DeepSeek', maker: 'DeepSeek', meta: 'Raisonnement · Code' },
+  { key: 'llama', title: 'Llama', maker: 'Meta', meta: 'Open weights · Texte' },
+] as const
 
 type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type SpeechRecognitionInstance = {
@@ -185,6 +214,91 @@ const GROUPS: { title: Bi; description: Bi; categories: Category[] }[] = [
   },
 ]
 
+const CATEGORIES = GROUPS.flatMap((group) => group.categories)
+
+function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
+  if (categoryId === 'collaborateurs-ia') {
+    return Object.values(ROLE_DETAILS).map((item) => ({
+      key: item.slug,
+      title: item.name,
+      description: item.description[lang],
+      href: collaboratorHref(item.slug),
+      meta: item.role[lang],
+      image: item.avatar,
+      origin: item.company,
+    }))
+  }
+
+  if (categoryId === 'missions') {
+    return MISSIONS.map((item) => ({
+      key: item.slug,
+      title: item.title[lang],
+      description: item.description[lang],
+      href: `/missions/${item.slug}`,
+      meta: item.result[lang],
+      origin: item.origin === 'native' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
+    }))
+  }
+
+  const storeType = categoryId === 'metiers' ? 'profil' : categoryId === 'competences' ? 'competence' : null
+  if (storeType) {
+    return STORE_ITEMS.filter((item) => item.type === storeType).map((item) => ({
+      key: `${item.type}-${item.slug}`,
+      title: item.name[lang],
+      description: item.description[lang],
+      href: storeItemHref(item),
+      meta: item.roleInOrg?.[lang] ?? item.facet,
+      origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
+    }))
+  }
+
+  if (categoryId === 'applications') {
+    return STORE_ITEMS.filter((item) => item.type === 'application' || item.type === 'integration').map((item) => ({
+      key: `${item.type}-${item.slug}`,
+      title: item.name[lang],
+      description: item.description[lang],
+      href: storeItemHref(item),
+      meta: item.editor ?? (item.type === 'integration' ? (lang === 'fr' ? 'Intégration' : 'Integration') : item.facet),
+      origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
+      pending: item.commercialStatus === 'draft',
+    }))
+  }
+
+  if (categoryId === 'modeles-ia') {
+    return MODEL_ITEMS.map((item) => ({
+      key: item.key,
+      title: item.title,
+      description: lang === 'fr' ? `Famille de modèles ${item.maker}, disponible selon les droits, les clés et la configuration AI Gateway.` : `${item.maker} model family, available according to permissions, keys and AI Gateway configuration.`,
+      meta: item.meta,
+      origin: item.maker,
+    }))
+  }
+
+  if (categoryId === 'formations') {
+    return PATHS.map((item) => ({
+      key: item.slug,
+      title: item.title,
+      description: item.promise,
+      href: `/academy/parcours/${item.slug}`,
+      meta: item.format,
+      origin: 'Unitalk Academy',
+    }))
+  }
+
+  if (categoryId === 'services') {
+    return EXPERT_DOMAINS.map((item) => ({
+      key: item.key,
+      title: item.title[lang],
+      description: item.desc[lang],
+      href: `/experts?domaine=${item.key}`,
+      meta: item.cta[lang],
+      origin: 'Unitalk Experts',
+    }))
+  }
+
+  return []
+}
+
 const COPY = {
   fr: {
     kicker: 'Marketplace IA',
@@ -193,11 +307,11 @@ const COPY = {
     placeholder: 'Ex. Je veux qualifier mes prospects et mettre à jour mon CRM…',
     ask: 'Demander à Alma',
     explore: 'Explorer les catégories',
-    almaKicker: 'Votre guide dans la Marketplace',
+    almaKicker: 'Alma dans la Marketplace',
     almaTitle: 'Décrivez le travail. Alma trouve la bonne combinaison.',
     almaBody: 'Alma part de votre besoin, identifie le métier et les compétences utiles, puis recommande les connaissances, la mémoire, les applications et les modèles adaptés.',
     almaCta: 'Parler à Alma',
-    almaRole: 'Guide de la Marketplace',
+    almaRole: 'Coordinatrice IA de missions',
     ready: 'Prête à vous guider',
     composerTitle: 'Que recherchez-vous ?',
     talk: 'Dicter',
@@ -208,9 +322,15 @@ const COPY = {
     starters: ['Un métier pour la prospection', 'Une compétence de veille', 'Une application pour mon CRM'],
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne.',
     categoriesKicker: 'Accès directs',
-    categoriesTitle: 'Dix catégories. Un même Collaborateur IA.',
-    categoriesLead: 'Chaque raccourci ouvre son catalogue ou sa page de référence. Le symbole Unitalk identifie l’univers Marketplace ; Alma conserve son propre avatar.',
+    categoriesTitle: 'Toute la Marketplace, sur une seule page.',
+    categoriesLead: 'Choisissez une catégorie à gauche pour afficher directement ses créations. Son lien explicatif reste accessible séparément.',
     unitalkOrigin: 'Univers Unitalk',
+    understand: 'Comprendre cette catégorie',
+    showMore: 'Afficher plus',
+    showLess: 'Réduire',
+    emptyTitle: 'Catalogue en préparation',
+    emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
+    items: 'créations',
     contribute: 'Ouvrir la Marketplace à votre savoir-faire.',
     contributeBody: 'Formalisez une méthode, un métier, une connaissance, un outil, une formation ou un service, puis proposez-le à la communauté.',
     contributeCta: 'Devenir Co-créateur IA',
@@ -222,11 +342,11 @@ const COPY = {
     placeholder: 'E.g. I want to qualify prospects and update my CRM…',
     ask: 'Ask Alma',
     explore: 'Browse categories',
-    almaKicker: 'Your Marketplace guide',
+    almaKicker: 'Alma in the Marketplace',
     almaTitle: 'Describe the work. Alma finds the right combination.',
     almaBody: 'Alma starts with your need, identifies the right profession and skills, then recommends suitable knowledge, memory, applications and models.',
     almaCta: 'Talk to Alma',
-    almaRole: 'Marketplace guide',
+    almaRole: 'AI mission coordinator',
     ready: 'Ready to guide you',
     composerTitle: 'What are you looking for?',
     talk: 'Dictate',
@@ -237,9 +357,15 @@ const COPY = {
     starters: ['A profession for prospecting', 'A monitoring skill', 'An application for my CRM'],
     handoff: 'Enter to continue · Shift + Enter for a new line.',
     categoriesKicker: 'Direct access',
-    categoriesTitle: 'Ten categories. One AI Collaborator.',
-    categoriesLead: 'Each shortcut opens its catalog or reference page. The Unitalk symbol identifies the Marketplace universe; Alma keeps her own avatar.',
+    categoriesTitle: 'The whole Marketplace, on one page.',
+    categoriesLead: 'Choose a category on the left to display its creations directly. Its explanatory page remains available separately.',
     unitalkOrigin: 'Unitalk universe',
+    understand: 'Understand this category',
+    showMore: 'Show more',
+    showLess: 'Show less',
+    emptyTitle: 'Catalog in preparation',
+    emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
+    items: 'items',
     contribute: 'Open the Marketplace to your expertise.',
     contributeBody: 'Formalize a method, profession, knowledge base, tool, course or service, then offer it to the community.',
     contributeCta: 'Become an AI Co-creator',
@@ -253,8 +379,13 @@ export function UnitalkStoreHub() {
   const [need, setNeed] = useState('')
   const [listening, setListening] = useState(false)
   const [voiceError, setVoiceError] = useState('')
+  const [activeCategoryId, setActiveCategoryId] = useState(CATEGORIES[0].id)
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const composerRef = useRef<HTMLTextAreaElement>(null)
+  const activeCategory = CATEGORIES.find((category) => category.id === activeCategoryId) ?? CATEGORIES[0]
+  const categoryItems = useMemo(() => itemsForCategory(activeCategory.id, lang), [activeCategory.id, lang])
+  const visibleItems = categoryItems.slice(0, visibleCount)
 
   useEffect(() => {
     const SpeechRecognition = getSpeechRecognition()
@@ -277,6 +408,19 @@ export function UnitalkStoreHub() {
     return () => recognition.abort()
   }, [lang, t.voiceDenied])
 
+  useEffect(() => {
+    const selectFromHash = () => {
+      const categoryId = window.location.hash.slice(1)
+      if (CATEGORIES.some((category) => category.id === categoryId)) {
+        setActiveCategoryId(categoryId)
+        setVisibleCount(PAGE_SIZE)
+      }
+    }
+    selectFromHash()
+    window.addEventListener('hashchange', selectFromHash)
+    return () => window.removeEventListener('hashchange', selectFromHash)
+  }, [])
+
   function toggleListening() {
     const recognition = recognitionRef.current
     if (!recognition) {
@@ -298,6 +442,13 @@ export function UnitalkStoreHub() {
     const draftId = `draft_${crypto.randomUUID()}`
     try { localStorage.setItem(`unitalk_marketplace_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() })) } catch {}
     router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&source=marketplace`)
+  }
+
+  function selectCategory(categoryId: string) {
+    setActiveCategoryId(categoryId)
+    setVisibleCount(PAGE_SIZE)
+    window.history.replaceState(null, '', `${window.location.pathname}#${categoryId}`)
+    requestAnimationFrame(() => document.getElementById('marketplace-results')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }))
   }
 
   return (
@@ -346,30 +497,26 @@ export function UnitalkStoreHub() {
             <aside className="lg:sticky lg:top-24">
               <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.categoriesKicker}</p>
               <nav aria-label={lang === 'fr' ? 'Catégories de la Marketplace' : 'Marketplace categories'} className="mt-5 overflow-hidden rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3]">
-                {GROUPS.flatMap((group) => group.categories).map((category) => (
-                  <a key={category.id} href={`#${category.id}`} className="group flex min-h-12 items-center gap-3 border-b border-[#E4DDCE] px-4 text-[13px] font-semibold text-[#4E483F] last:border-0 hover:bg-[#EEE8DD] hover:text-[#B00C54]">
+                {CATEGORIES.map((category) => (
+                  <button key={category.id} type="button" aria-pressed={activeCategory.id === category.id} onClick={() => selectCategory(category.id)} className={`group/tip relative flex min-h-12 w-full items-center gap-3 border-b border-[#E4DDCE] px-4 text-left text-[13px] font-semibold last:border-0 ${activeCategory.id === category.id ? 'bg-[#FCEAF2] text-[#AD0C53]' : 'text-[#4E483F] hover:bg-[#EEE8DD] hover:text-[#B00C54]'}`}>
                     <UnitalkLogo size={19} activeSegment={0} inactiveColor="#C9BFB0" />
-                    {category.title[lang]}
-                  </a>
+                    <span className="flex-1">{category.title[lang]}</span>
+                    <Info aria-hidden="true" className="size-3.5 opacity-55" />
+                    <span role="tooltip" className="pointer-events-none absolute left-full top-1/2 z-30 ml-3 hidden w-64 -translate-y-1/2 rounded-xl bg-[#241F1D] px-3 py-2 text-[11px] font-medium leading-5 text-[#F3EFE6] opacity-0 shadow-xl transition-opacity lg:block group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100">{category.description[lang]}</span>
+                  </button>
                 ))}
               </nav>
             </aside>
-            <div>
+            <div id="marketplace-results" className="scroll-mt-24">
               <div className="border-b border-[#CFC5B5] pb-7">
-                <h2 className="text-[clamp(2.3rem,4.4vw,4.7rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.categoriesTitle}</h2>
-                <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#625B50]">{t.categoriesLead}</p>
+                <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.categoriesTitle}</p>
+                <div className="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                  <div><h2 className="text-[clamp(2.3rem,4.4vw,4.7rem)] font-semibold leading-[.94] tracking-[-.06em]">{activeCategory.title[lang]}</h2><p className="mt-4 text-sm font-semibold text-[#625B50]">{categoryItems.length} {t.items}</p></div>
+                  <Link href={activeCategory.href} className="group inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 text-sm font-bold text-[#4E483F] hover:border-[#D10E63]/50 hover:text-[#B00C54]">{t.understand}<ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></Link>
+                </div>
               </div>
-              <div className="mt-10 space-y-14">
-                {GROUPS.map((group, groupIndex) => (
-                  <section key={group.title.fr} aria-labelledby={`marketplace-group-${groupIndex}`}>
-                    <div className="grid gap-2 border-b border-[#CFC5B5] pb-5 md:grid-cols-[1fr_1.2fr] md:items-end">
-                      <h3 id={`marketplace-group-${groupIndex}`} className="text-[26px] font-semibold tracking-[-.035em]">{group.title[lang]}</h3>
-                      <p className="text-sm leading-6 text-[#625B50]">{group.description[lang]}</p>
-                    </div>
-                    <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{group.categories.map((category) => <CategoryCard key={category.id} category={category} lang={lang} originLabel={t.unitalkOrigin} />)}</div>
-                  </section>
-                ))}
-              </div>
+              {visibleItems.length > 0 ? <div className="mt-6 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} />)}</div> : <div className="mt-6 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><UnitalkLogo size={32} activeSegment={0} inactiveColor="#C9BFB0" /><h3 className="mt-6 text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
+              {categoryItems.length > PAGE_SIZE && <div className="mt-8 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= categoryItems.length ? PAGE_SIZE : categoryItems.length)} className="inline-flex min-h-11 items-center rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#B00C54] hover:bg-[#D10E63] hover:text-white">{visibleCount >= categoryItems.length ? t.showLess : t.showMore}</button></div>}
             </div>
           </div>
         </div>
@@ -389,17 +536,23 @@ export function UnitalkStoreHub() {
   )
 }
 
-function CategoryCard({ category, lang, originLabel }: { category: Category; lang: Lang; originLabel: string }) {
-  const Icon = category.icon
-  return (
-    <Link id={category.id} href={category.href} className="group relative flex min-h-[230px] scroll-mt-28 flex-col overflow-hidden rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 outline-none transition hover:-translate-y-1 hover:border-[#D10E63]/35 focus-visible:ring-2 focus-visible:ring-[#D10E63]">
-      <div className="flex items-start justify-between">
-        <span className="flex size-11 items-center justify-center rounded-2xl bg-[#EEE8DD] text-[#B00C54]"><Icon className="size-5" strokeWidth={1.7} /></span>
-        <span className="flex items-center gap-2 font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#857C6E]"><UnitalkLogo size={22} activeSegment={0} inactiveColor="#C9BFB0" />{originLabel}</span>
+function MarketplaceItemCard({ item, lang }: { item: MarketplaceItem; lang: Lang }) {
+  const content = (
+    <>
+      <div className="flex items-start justify-between gap-4">
+        {item.image ? <Image src={item.image} alt="" width={48} height={48} className="size-12 rounded-2xl object-cover ring-1 ring-[#D8D0C2]" /> : <UnitalkLogo size={30} activeSegment={0} inactiveColor="#C9BFB0" />}
+        <span className="font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#857C6E]">{item.origin ?? 'Unitalk'}</span>
       </div>
-      <h4 className="mt-8 text-2xl font-bold tracking-[-.025em]">{category.title[lang]}</h4>
-      <p className="mt-3 text-sm leading-7 text-[#625B50]">{category.description[lang]}</p>
-      <ArrowRight className="mt-auto size-5 pt-6 box-content text-[#D10E63] transition-transform group-hover:translate-x-1" />
-    </Link>
+      <p className="mt-7 font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#B00C54]">{item.meta}</p>
+      <h3 className="mt-3 text-xl font-bold tracking-[-.025em]">{item.title}</h3>
+      <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#625B50]">{item.description}</p>
+      <div className="mt-auto flex items-center justify-between pt-6">
+        {item.pending && <span className="rounded-full bg-[#EEE8DD] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.1em] text-[#6E665A]">{lang === 'fr' ? 'En préparation' : 'In preparation'}</span>}
+        {item.href && <ArrowRight className="ml-auto size-5 text-[#D10E63] transition-transform group-hover:translate-x-1" />}
+      </div>
+    </>
   )
+
+  const className = 'group flex min-h-[260px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 outline-none transition hover:-translate-y-1 hover:border-[#D10E63]/35 focus-visible:ring-2 focus-visible:ring-[#D10E63]'
+  return item.href ? <Link href={item.href} className={className}>{content}</Link> : <article className={className}>{content}</article>
 }

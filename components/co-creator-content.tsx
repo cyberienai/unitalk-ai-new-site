@@ -114,6 +114,13 @@ export function CoCreatorContent() {
         </div>
       </LightSection>
 
+      <section className="border-y border-[#DED6C8] bg-[#D10E63] py-16 text-white sm:py-20">
+        <div className="editorial-shell grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div><Kicker dark>Après la formation</Kicker><h2 className="mt-5 max-w-4xl font-sf text-[36px] font-bold leading-[1.03] tracking-[-0.04em] sm:text-[50px]">Une création évaluée peut ouvrir la porte du réseau.</h2><p className="mt-5 max-w-3xl text-[16px] leading-8 text-white/80">Le programme pilote accompagne une progression réelle : Co-créateur formé, Co-créateur agréé, puis Partenaire de déploiement. Aucun raccourci, aucune garantie de revenu.</p></div>
+          <Link href="/reseau-co-createurs" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-[#181615] px-6 text-sm font-bold text-white">Découvrir le réseau pilote →</Link>
+        </div>
+      </section>
+
       <section className="border-y border-[#2D2925] bg-[#151310] py-16 text-[#FAF8F3] sm:py-20">
         <div className="editorial-shell">
           <Kicker dark>Deux façons de développer votre activité</Kicker>

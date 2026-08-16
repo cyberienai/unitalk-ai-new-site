@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
-const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url), 'utf8')
 const footer = readFileSync(new URL('../components/site-footer.tsx', import.meta.url), 'utf8')
 const sitemap = readFileSync(new URL('../app/sitemap.ts', import.meta.url), 'utf8')
 const applications = readFileSync(new URL('../app/collaborateurs-ia/applications/page.tsx', import.meta.url), 'utf8')
@@ -17,9 +16,10 @@ describe('Desktop discovery and Store scopes', () => {
     expect(sitemap).toContain("'/desktop'")
   })
 
-  it('keeps the Applications page application-only', () => {
+  it('centralizes applications in Marketplace and keeps legacy scopes explicit', () => {
     expect(marketplace).toContain('UnitalkStoreHub')
-    expect(applications).toContain('<StoreContent initialType="application"/>')
+    expect(applications).toContain('MarketplaceCategoryExplainer')
+    expect(applications).toContain('categoryId="applications"')
     expect(applicationsCatalog).toContain('<StoreContent initialType="application"/>')
     expect(integrations).toContain('<StoreContent initialType="integration"/>')
     expect(servers).toContain('<StoreContent initialType="server"/>')
