@@ -21,37 +21,30 @@ describe('CollaborateurExperience', () => {
   })
 
   it('distinguishes Code from Terminal and starts with a mission', () => {
-    expect(source).toContain('Code désigne un format de production et un savoir-faire')
-    expect(source).toContain('Le Terminal est un moyen d’exécution')
-    expect(source).toContain('Tout commence par une mission.')
-    expect(source).toContain('href="/missions"')
+    expect(source).toContain('Code est un format de production')
+    expect(source).toContain('le Terminal est un moyen d’exécution distinct')
+    expect(source).toContain('Une première mission, pas un projet informatique.')
+    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
   })
 
   it('uses the radical editorial system and a normalized conversion path', () => {
-    expect(source).toContain('text-[clamp(3rem,6vw,6.2rem)]')
+    expect(source).toContain('text-[clamp(3rem,6.2vw,6.4rem)]')
     expect(source).toContain('bg-[#181615]')
     expect(source).toContain('bg-[#D10E63]')
-    expect(source).toContain('/decouvrir?source=collaborateurs-ia')
-    expect(source).toContain('Confiez une mission.')
-    expect(source).toContain('Licence dès 49 €/mois')
+    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
+    expect(source).toContain('Son identité IA reste la même.')
+    expect(source).toContain('Voir le prix complet')
   })
 
-  it('describes a complete AI identity and autonomous Hermes workspace', () => {
-    for (const capability of ['Une vraie identité IA', 'Espace autonome open source', 'Communication', 'Fichiers et médias', 'Profils et compétences', 'Modèles et applications', 'Mémoire et historique', 'Ressources matérielles']) expect(source).toContain(capability)
-    expect(source).toContain('l’historique des conversations')
-    expect(source).toContain('les journaux de son code')
-    expect(source).toContain('CPU, RAM ou GPU affectées selon l’offre et l’hébergement')
-    expect(source).toContain('Autonomie · Open source · Souveraineté')
-    expect(source).toContain('Votre entreprise garde la maîtrise de ses données, de sa mémoire, de ses modèles et de son infrastructure.')
+  it('shows one concrete mission with explicit human control', () => {
+    for (const proof of ['3 nouveaux messages identifiés', 'Dossiers clients retrouvés', '3 réponses préparées', 'Validation humaine', '2 réponses prêtes à envoyer']) expect(source).toContain(proof)
+    expect(source).toContain('Démonstration fictive')
+    expect(source).toContain('Modifier les tarifs')
+    expect(source).toContain('Interdit')
   })
 
-  it('makes Hermes migration and ownership explicit', () => {
-    expect(source).toContain('Vous avez ChatGPT, Claude, Gemini ou Hermes ?')
-    expect(source).toContain('Importez vos historiques de conversations exportables')
-    expect(source).toContain('il ne devient pas automatiquement une mémoire fiable')
-    expect(source).toContain('Préparer mon import')
-    expect(source).toContain('Conversations ou environnement')
-    expect(source).toContain('Votre entreprise garde le contrôle des éléments conservés')
-    expect(source).toContain('/decouvrir?source=collaborateurs-ia')
+  it('keeps technical detail on dedicated pages', () => {
+    for (const href of ['/ai-gateway', '/architecture', '/collaborateurs-ia/applications', '/desktop']) expect(source).toContain(href)
+    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
   })
 })
