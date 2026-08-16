@@ -9,6 +9,7 @@ import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
 import { AlmaFace } from '@/components/alma-face'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
+import { Kicker } from '@/components/home/section-kicker'
 
 type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type SpeechRecognitionInstance = {
@@ -199,20 +200,20 @@ export function MissionsContent({
 
   return (
     <main id="missions-top" className="min-h-screen overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-      <section className="relative border-b border-[#CFC5B5] px-5 pb-10 pt-28 sm:px-8 sm:pb-12 sm:pt-32">
+      <section className="relative overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] px-5 pb-10 pt-24 sm:px-8 sm:pb-12 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-8 lg:pt-[88px]">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div aria-hidden className="pointer-events-none absolute -right-36 top-20 size-[32rem] rounded-full bg-[#D10E63]/[.055] blur-3xl" />
         <div className="editorial-shell relative w-full">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16">
+          <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-12">
             <header>
-              <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.eyebrow}</p>
-              <h1 className="mt-6 max-w-[720px] font-sf text-[clamp(2.8rem,5.5vw,5.6rem)] font-semibold leading-[.93] tracking-[-.06em]">
+              <Kicker>{t.eyebrow}</Kicker>
+              <h1 className="mt-4 max-w-[720px] text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] lg:text-[clamp(3.1rem,4.8vw,5rem)]">
                 <span className="block">{t.heroA}</span>
                 <span className="block">{t.heroB}</span>
                 <span className="block text-[#D10E63]">{t.heroC}</span>
               </h1>
-              <p className="mt-7 max-w-xl text-[17px] leading-8 text-[#4E483F]">{withAlmaAvatar(t.lead)}</p>
-              <a href="#mission-selection" className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/35 underline-offset-4 hover:text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90" /></a>
+              <p className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 lg:text-[16px] lg:leading-7">{withAlmaAvatar(t.lead)}</p>
+              <a href="#mission-selection" className="group mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#D10E63] px-5 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.explore}<ArrowRight className="size-4 rotate-90 transition-transform group-hover:translate-y-0.5" /></a>
             </header>
 
             <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} listening={listening} onToggleListening={toggleListening} voiceStartLabel={t.talk} voiceStopLabel={t.stop} error={voiceError} textareaRef={composerRef} />

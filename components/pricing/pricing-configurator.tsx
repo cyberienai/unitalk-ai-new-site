@@ -82,8 +82,8 @@ const PLAN_INFO = {
 
 const T = {
   fr: {
-    eyebrow: 'Votre configuration',
-    heading: 'Configurez votre équipe IA',
+    eyebrow: 'Votre personnalisation',
+    heading: 'Personnalisez votre équipe IA',
     collabTitle: 'Collaborateurs IA',
     collabDesc: 'Chaque licence comprend une identité IA, une voix, un email, un calendrier, un numéro de téléphone, une mémoire, des applications autorisées et un environnement privé. Hermes fournit les profils et compétences sous licence MIT.',
     planTitle: 'Quelle capacité IA pour chaque Collaborateur ?',
@@ -93,7 +93,7 @@ const T = {
     
     // Right card
     cardKicker: 'Estimation mensuelle',
-    cardTitle: 'Votre configuration Unitalk',
+    cardTitle: 'Votre équipe IA',
     cardEstimationBadge: 'Calcul en direct',
     lineOrg: 'Licence Entreprise IA',
     lineOrgDetail: 'Administration centralisée, Alma, Workspace et Desktop',
@@ -118,11 +118,11 @@ const T = {
     cardCurrency: '€',
     remove: 'Retirer',
     add: 'Ajouter',
-    selectedProfile: 'Profil présélectionné',
+    selectedProfile: 'Profil de départ',
   },
   en: {
-    eyebrow: 'Your configuration',
-    heading: 'Configure your AI team',
+    eyebrow: 'Your personalization',
+    heading: 'Personalize your AI team',
     collabTitle: 'AI Collaborators',
     collabDesc: 'Each license includes an AI identity, voice, email, calendar, phone number, memory, authorized applications and a private environment. Hermes provides profiles and skills under the MIT License.',
     planTitle: 'Which AI capacity for each Collaborator?',
@@ -132,7 +132,7 @@ const T = {
     
     // Right card
     cardKicker: 'Monthly estimate',
-    cardTitle: 'Your Unitalk configuration',
+    cardTitle: 'Your AI team',
     cardEstimationBadge: 'Calculated live',
     lineOrg: 'AI Company License',
     lineOrgDetail: 'Central administration, Alma, Workspace and Desktop',
@@ -157,7 +157,7 @@ const T = {
     cardCurrency: '€',
     remove: 'Remove',
     add: 'Add',
-    selectedProfile: 'Preselected profile',
+    selectedProfile: 'Starting profile',
   }
 } as const
 
