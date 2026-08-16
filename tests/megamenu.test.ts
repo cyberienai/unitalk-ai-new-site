@@ -30,6 +30,7 @@ describe('Collaborateurs IA mega menu', () => {
 
   it('keeps Missions first and removes Partners from the top navigation', () => {
     expect(navbar).toContain('<NavItem href="/missions"')
+    expect(navbar).not.toContain("'/missions', '/co-createur-ia'")
     expect(navbar).not.toContain('<NavItem href="/partenaires"')
   })
 

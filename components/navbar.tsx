@@ -213,8 +213,9 @@ export function Navbar(
   // so labels and hover states stay legible.
   const overDark = darkHero && !scrolled && !isMenuOpen && !collabOpen
 
-  // The Marketplace owns every catalog and community path grouped in its menu.
-  const marketplacePrefixes = ['/marketplace', '/collaborateurs-ia', '/modeles-ia', '/academy', '/experts', '/missions', '/co-createur-ia']
+  // Missions has its own top-level navigation item, so it must not also mark
+  // the Collaborateurs IA trigger as the current page.
+  const marketplacePrefixes = ['/marketplace', '/collaborateurs-ia', '/modeles-ia', '/academy', '/experts', '/co-createur-ia']
   const isCollabActive = marketplacePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'

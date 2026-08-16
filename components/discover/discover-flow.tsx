@@ -18,10 +18,11 @@ import { actionDescription, shortCategoryLabel } from '@/components/missions/sto
 import type { MockSession } from '@/lib/mock-auth'
 import { parseDiscoverSource } from '@/lib/discover-entry'
 import { emailDomain, isProfessionalEmail } from '@/lib/professional-email'
+import type { PurchaseDraft } from '@/lib/purchase-draft'
 
 function normalizeDomain(v: string | null) { return v?.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase() ?? '' }
 
-export function DiscoverFlow({ initialSession }: { initialSession?: MockSession | null }) {
+export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initialSession?: MockSession | null; initialPurchaseDraft?: PurchaseDraft | null }) {
   const { lang } = useLanguage()
   const reduce = useReducedMotion()
   const router = useRouter()
@@ -43,7 +44,11 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
       authenticated: Boolean(initialSession),
       firstName: initialSession?.firstName?.trim() ?? '',
       lastName: initialSession?.lastName?.trim() ?? '',
-      company: domain ? init.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : init.company,
+      company: initialPurchaseDraft?.onboarding?.company ?? (domain ? init.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : init.company),
+      mission: initialPurchaseDraft?.onboarding?.mission ?? init.mission,
+      missionDefined: Boolean(initialPurchaseDraft?.onboarding?.mission.title),
+      profile: initialPurchaseDraft?.onboarding?.profile ?? init.profile,
+      collaboratorName: initialPurchaseDraft?.onboarding?.collaboratorName ?? init.collaboratorName,
     }
   })
   const [step, setStep] = useState<OnboardingStep>('entreprise')
@@ -132,7 +137,7 @@ export function DiscoverFlow({ initialSession }: { initialSession?: MockSession 
           <motion.div key={step} {...anim}>
             {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo(selectedMission ? 'collaborateur' : 'mission')} />}
             {step === 'mission' && <ScreenMission lang={lang} company={state.company} mission={state.mission} onDefine={m => setState(s => ({ ...s, mission: m, missionDefined: true }))} onContinue={() => goTo('collaborateur')} />}
-            {step === 'collaborateur' && <ScreenCollaborateur lang={lang} mission={state.mission} profile={state.profile} name={state.collaboratorName} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} />}
+            {step === 'collaborateur' && <ScreenCollaborateur lang={lang} company={state.company} mission={state.mission} profile={state.profile} name={state.collaboratorName} hasPricing={Boolean(initialPurchaseDraft?.pricing)} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} />}
           </motion.div>
         </AnimatePresence>
       </div>

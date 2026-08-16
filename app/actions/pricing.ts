@@ -9,6 +9,8 @@ import {
   type AiCapacityId,
   type PricingDraftEnvelope,
 } from '@/lib/unitalk-pricing'
+import { SESSION_COOKIE } from '@/lib/mock-auth'
+import { PURCHASE_DRAFT_COOKIE, onboardingComplete, parsePurchaseDraft, type PurchaseDraft } from '@/lib/purchase-draft'
 
 export async function persistPricingDraft(input: { collaborators: number; capacity: AiCapacityId; coCreators: number }): Promise<never> {
   const envelope: PricingDraftEnvelope = {
@@ -23,5 +25,17 @@ export async function persistPricingDraft(input: { collaborators: number; capaci
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
   })
-  redirect(`/inscription?source=tarifs&pricingDraft=${encodeURIComponent(envelope.id)}`)
+  const current = parsePurchaseDraft(store.get(PURCHASE_DRAFT_COOKIE)?.value)
+  const purchase: PurchaseDraft = {
+    id: current?.id ?? envelope.id,
+    onboarding: current?.onboarding,
+    pricing: envelope.draft,
+    updatedAt: new Date().toISOString(),
+  }
+  store.set(PURCHASE_DRAFT_COOKIE, JSON.stringify(purchase), {
+    path: '/', maxAge: 60 * 60 * 24 * 7, sameSite: 'lax', httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+  })
+  if (store.get(SESSION_COOKIE) && onboardingComplete(purchase)) redirect(`/commande?draft=${encodeURIComponent(purchase.id)}`)
+  redirect(`/inscription?source=tarifs&pricingDraft=${encodeURIComponent(purchase.id)}`)
 }

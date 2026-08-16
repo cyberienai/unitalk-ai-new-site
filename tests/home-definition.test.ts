@@ -16,6 +16,8 @@ describe('home seven-day trial progression', () => {
 
   it('makes Alma preparation and human approval explicit', () => {
     expect(source).toContain('En 7 jours, testez une mission réelle.')
+    expect(source).toContain("avatar: '/alma-avatar.png'")
+    expect(source).toContain('Alma, Coordinatrice IA de missions')
     expect(source).toContain('profil métier, les compétences, les applications et les validations')
     expect(source).toContain('soumet les étapes sensibles à votre validation')
   })

@@ -7,19 +7,25 @@ import type { Lang } from '@/lib/language-context'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { AlmaHead } from './context-column'
 import type { MissionInfo } from './types'
+import type { CompanyFact } from './types'
+import { persistOnboardingDraft } from '@/app/actions/purchase-draft'
 
 export function ScreenCollaborateur({
   lang,
   mission,
   profile,
+  company,
   name,
+  hasPricing,
   onName,
   onCreated,
 }: {
   lang: Lang
   mission: MissionInfo
   profile: { fr: string; en: string }
+  company: CompanyFact[]
   name: string
+  hasPricing: boolean
   onName: (name: string) => void
   onCreated: (name: string) => void
 }) {
@@ -30,7 +36,7 @@ export function ScreenCollaborateur({
   const displayName = capitalizeName(name)
   const initial = displayName.charAt(0)
 
-  function createCollaborator() {
+  async function createCollaborator() {
     if (!displayName || opening) return
     if (!confirming) {
       onCreated(displayName)
@@ -38,7 +44,8 @@ export function ScreenCollaborateur({
       return
     }
     setOpening(true)
-    router.push('/workspace')
+    await persistOnboardingDraft({ company, mission, profile, collaboratorName: displayName })
+    router.push(hasPricing ? '/commande' : '/tarifs')
   }
 
   return (
@@ -136,13 +143,13 @@ const COPY = {
     nameHint: 'Un prénom rend la collaboration plus naturelle au quotidien.',
     continueWith: 'Continuer avec',
     createEmpty: 'Choisissez un prénom pour continuer',
-    opening: 'Ouverture du Workspace…',
-    almaConfirm: 'Tout est prêt. Vérifiez avant d’ouvrir le Workspace.',
+    opening: 'Enregistrement…',
+    almaConfirm: 'Tout est prêt. Vérifiez avant de choisir la capacité et confirmer la commande.',
     readyTitle: (name: string) => `${name} est prêt pour sa première mission.`,
     freeMission: 'Première mission offerte', trial: '7 jours d’essai', noCard: 'Sans carte bancaire',
     apps: 'Applications', appsValue: 'À connecter dans le Workspace avec votre accord',
     approvals: 'Validations humaines', approvalsValue: 'Activées pour les actions sensibles',
-    open: 'Activer l’essai et ouvrir le Workspace', back: 'Modifier le prénom',
+    open: 'Continuer vers les tarifs', back: 'Modifier le prénom',
     consent: 'Rien ne devient payant sans votre accord. Aucune application n’est connectée automatiquement.',
   },
   en: {
@@ -155,13 +162,13 @@ const COPY = {
     nameHint: 'A first name makes day-to-day collaboration feel more natural.',
     continueWith: 'Continue with',
     createEmpty: 'Choose a first name to continue',
-    opening: 'Opening the Workspace…',
-    almaConfirm: 'Everything is ready. Review it before opening the Workspace.',
+    opening: 'Saving…',
+    almaConfirm: 'Everything is ready. Review it before choosing capacity and confirming the order.',
     readyTitle: (name: string) => `${name} is ready for the first mission.`,
     freeMission: 'First mission included', trial: '7-day trial', noCard: 'No credit card',
     apps: 'Applications', appsValue: 'Connect them in the Workspace with your approval',
     approvals: 'Human approvals', approvalsValue: 'Enabled for sensitive actions',
-    open: 'Activate trial and open Workspace', back: 'Change first name',
+    open: 'Continue to pricing', back: 'Change first name',
     consent: 'Nothing becomes paid without your approval. No application is connected automatically.',
   },
 } as const
