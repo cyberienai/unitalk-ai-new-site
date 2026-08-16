@@ -11,26 +11,26 @@ const COPY = {
     title: 'En 7 jours, testez une mission réelle.',
     lead: 'Pas une démonstration générique : choisissez un besoin concret de votre entreprise et observez comment Alma et votre Collaborateur IA le prennent en charge.',
     steps: [
-      { label: 'Jour 1', title: 'Décrivez la mission', body: 'Expliquez votre besoin à Alma, à la voix ou par écrit.', icon: MessageSquareText },
-      { label: 'Jours 1–2', title: 'Alma prépare le cadre', body: 'Elle précise le résultat attendu, le profil métier, les compétences, les applications et les validations.', icon: Sparkles },
-      { label: 'Jours 2–6', title: 'Le Collaborateur IA agit', body: 'Il accomplit la mission dans le périmètre défini et soumet les étapes sensibles à votre validation.', icon: ShieldCheck },
-      { label: 'Jour 7', title: 'Vous jugez le résultat', body: 'Vous évaluez le travail réalisé et décidez librement de poursuivre.', icon: Check },
+      { title: 'Décrivez la mission', body: 'Expliquez votre besoin à Alma, à la voix ou par écrit.', icon: MessageSquareText },
+      { title: 'Alma prépare le cadre', body: 'Elle précise le résultat attendu, le profil métier, les compétences, les applications et les validations.', icon: Sparkles },
+      { title: 'Le Collaborateur IA agit', body: 'Il accomplit la mission dans le périmètre défini et soumet les étapes sensibles à votre validation.', icon: ShieldCheck },
+      { title: 'Vous jugez le résultat', body: 'Vous évaluez le travail réalisé et décidez librement de poursuivre.', icon: Check },
     ],
     cta: 'Préparer ma première mission avec Alma',
-    note: 'Essai gratuit · Sans carte bancaire · 1 million de tokens inclus',
+    note: 'Essai gratuit de 7 jours pour tester une première mission sans carte bancaire',
   },
   en: {
     kicker: 'Your first week',
     title: 'Test a real mission in 7 days.',
     lead: 'Not a generic demo: choose a concrete need from your company and see how Alma and your AI Collaborator handle it.',
     steps: [
-      { label: 'Day 1', title: 'Describe the mission', body: 'Explain your need to Alma, by voice or in writing.', icon: MessageSquareText },
-      { label: 'Days 1–2', title: 'Alma prepares the framework', body: 'It clarifies the expected result, job profile, skills, applications and approvals.', icon: Sparkles },
-      { label: 'Days 2–6', title: 'The AI Collaborator acts', body: 'It completes the mission within the agreed scope and submits sensitive steps for your approval.', icon: ShieldCheck },
-      { label: 'Day 7', title: 'You assess the result', body: 'Review the work and freely decide whether to continue.', icon: Check },
+      { title: 'Describe the mission', body: 'Explain your need to Alma, by voice or in writing.', icon: MessageSquareText },
+      { title: 'Alma prepares the framework', body: 'It clarifies the expected result, job profile, skills, applications and approvals.', icon: Sparkles },
+      { title: 'The AI Collaborator acts', body: 'It completes the mission within the agreed scope and submits sensitive steps for your approval.', icon: ShieldCheck },
+      { title: 'You assess the result', body: 'Review the work and freely decide whether to continue.', icon: Check },
     ],
     cta: 'Prepare my first mission with Alma',
-    note: 'Free trial · No credit card · 1 million tokens included',
+    note: '7-day free trial to test a first mission, with no credit card required',
   },
 } as const
 
@@ -50,13 +50,12 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
           {t.steps.map((step) => {
             const Icon = step.icon
             return (
-              <li key={step.label} className="rounded-3xl border border-[#DED6C8] bg-[#FBF9F3] p-6">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#9F0B4B]">{step.label}</span>
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-[#D10E63]/10 text-[#B00C54]"><Icon className="size-5" /></span>
+              <li key={step.title} className="rounded-3xl border border-[#DED6C8] bg-[#FBF9F3] p-6">
+                <div className="flex items-center gap-3">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]"><Icon className="size-[18px]" /></span>
+                  <h3 className="font-sf text-lg font-semibold leading-tight text-[#1C1A17]">{step.title}</h3>
                 </div>
-                <h3 className="mt-5 font-sf text-lg font-semibold text-[#1C1A17]">{step.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#5A5348]">{step.body}</p>
+                <p className="mt-4 text-sm leading-6 text-[#5A5348]">{step.body}</p>
               </li>
             )
           })}
