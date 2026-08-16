@@ -9,7 +9,7 @@ const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url)
 describe('home commercial messaging', () => {
   it('uses a concrete hero promise and recruitment reasons', () => {
     expect(hero).toContain('Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives.')
-    expect(hero).toContain('Il travaille avec votre équipe et réutilise les méthodes que vous validez.')
+    expect(hero).toContain('Il travaille avec votre équipe et progresse à chaque mission.')
     expect(hero).toContain("voiceTitle: 'Décrivez votre besoin.'")
     expect(hero).toContain("voiceBody: 'Alma prépare votre Collaborateur IA personnalisé.'")
     expect(hero).toContain('Continuer avec cette mission')
