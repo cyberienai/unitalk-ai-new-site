@@ -34,7 +34,7 @@ function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
-    headline: 'Votre propre Collaborateur IA, prêt à travailler avec vos outils.',
+    headline: 'Votre propre Collaborateur IA, prêt à accomplir vos missions.',
     subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives. Il progresse à chaque mission et appartient à votre entreprise.',
     proofs: ['7 jours pour tester une vraie mission', 'Sans carte bancaire', '1 million de tokens inclus', 'Hébergé en France'],
     cta: 'Décrire ma première mission',
@@ -71,7 +71,7 @@ const T = {
   },
   en: {
     eyebrow: 'Someone is missing',
-    headline: 'Your own AI Collaborator, ready to work with your tools.',
+    headline: 'Your own AI Collaborator, ready to carry out your missions.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
     proofs: ['7 days to test a real mission', 'No credit card', '1 million tokens included', 'Hosted in France'],
     cta: 'Describe my first mission',
