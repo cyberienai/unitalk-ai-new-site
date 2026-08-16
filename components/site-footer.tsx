@@ -162,7 +162,7 @@ export function SiteFooter() {
               {t.tagline}
             </p>
             <div className="mt-6 flex flex-col gap-4">
-              <a href="tel:+331****3394" className="group inline-flex flex-col gap-1">
+              <a href="tel:+33189713394" className="group inline-flex flex-col gap-1">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#B8AF9F]">
                   {lang === 'fr' ? 'Téléphone' : 'Phone'}
                 </span>

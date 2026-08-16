@@ -19,7 +19,7 @@ describe('Hermes creator recommendations', () => {
   })
 
   it('links the editorial category and discloses affiliation', () => {
-    expect(navbar).toContain("fr: 'Recommandés'")
+    expect(navbar).toContain("fr: 'Sélection Unitalk'")
     expect(navbar).toContain("href: '/blog/hermes-agent-youtube'")
     expect(content).toContain('participent au programme d’affiliation Unitalk')
     expect(content).toContain('Commander ma première mission gratuitement')

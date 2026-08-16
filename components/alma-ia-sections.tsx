@@ -212,7 +212,7 @@ export function MigrationBanner({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <p className="text-sm font-normal leading-relaxed text-[#E8E1D0] sm:text-base">{t.migrText}</p>
           </div>
           <a
-            href="/migration"
+            href="/collaborateurs-ia?intention=migration-hermes#migration"
             className="group inline-flex flex-shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[#D10E63] bg-transparent px-5 py-2.5 text-sm font-semibold text-[#D10E63] transition-all hover:bg-[#D10E63]/10"
           >
             <ArrowLeftRight className="h-4 w-4" strokeWidth={2} />

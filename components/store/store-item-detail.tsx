@@ -100,6 +100,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
   }
 
   const typeLabel = TYPE_LABELS[item.type][lang]
+  const unavailable = item.commercialStatus === 'draft'
 
   return (
     <main className="min-h-screen bg-[var(--store-page)]">
@@ -131,8 +132,11 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
           </p>
           {item.type === 'profil' && <div className="mt-4 inline-flex rounded-full border border-[#D10E63]/25 bg-[#F2E4EC] px-3 py-1.5 text-[11px] font-bold text-[#AD0C53]">{t.hermesProfile}</div>}
 
+          {unavailable && <p className="mt-4 inline-flex rounded-full bg-[#F3E8D6] px-3 py-1.5 text-[11px] font-bold uppercase tracking-[.08em] text-[#8A6727]">{lang === 'fr' ? 'En préparation · Non installable' : 'In preparation · Not installable'}</p>}
+
           {/* Actions */}
           <div className="mt-6 flex flex-wrap items-center gap-3">
+            {!unavailable ? <>
             <Link
               href={`/decouvrir?store=${item.slug}`}
               className="inline-flex h-11 items-center gap-2 rounded-xl bg-[#D10E63] px-5 text-sm font-bold text-[#FBF9F3] transition-colors hover:bg-[#B60C56]"
@@ -147,6 +151,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
               <Sparkles className="h-4 w-4 text-[#D10E63]" />
               {t.compose}
             </Link>
+            </> : <span className="inline-flex h-11 items-center rounded-xl bg-[#DED6C8] px-5 text-sm font-bold text-[#6E665A]">{lang === 'fr' ? 'Installation indisponible' : 'Installation unavailable'}</span>}
           </div>
         </header>
 

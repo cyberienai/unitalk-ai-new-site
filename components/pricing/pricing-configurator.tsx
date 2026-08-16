@@ -13,7 +13,6 @@ import {
 import { usePricingDraft } from './pricing-draft-context'
 import { useLanguage } from '@/lib/language-context'
 
-const CURRENT_DATE = new Date('2026-08-13T12:00:00Z')
 const PERIODS_FR = [
   ['Jusqu’au 21 décembre 2026', new Date('2026-12-21T12:00:00Z')],
   ['Du 22 au 31 décembre 2026', new Date('2026-12-22T12:00:00Z')],
@@ -171,7 +170,7 @@ export function PricingConfigurator() {
   const { draft, selectedProfile, setCollaborators, setCapacity, setCoCreators } = usePricingDraft()
   const { collaborators, capacity, coCreators } = draft
   const [pending, setPending] = useState(false)
-  const breakdown = configurationBreakdownAt(collaborators, capacity, coCreators, CURRENT_DATE)
+  const breakdown = configurationBreakdownAt(collaborators, capacity, coCreators, new Date())
 
   function submit() {
     setPending(true)

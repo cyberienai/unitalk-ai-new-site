@@ -31,6 +31,7 @@ describe('pricing simplification', () => {
     expect(sections).toContain("heroAccent: 'Composables. Sans surprise.'")
     expect(sections).not.toContain("heroAccent: 'Clairs. Composables. Sans surprise.'")
     expect(sections).toContain('Ce que vous payez. Ce qui reste gratuit.')
+    expect(sections).toContain('Une seule Licence Entreprise IA est nécessaire par entreprise')
     expect(configurator).toContain("lineOrg: 'Licence Entreprise IA'")
     expect(configurator).toContain("lineOrgDetail: 'Administration centralisée, Alma, Workspace et Desktop'")
     expect(configurator).toContain("lineHermes: 'Hermes open source'")

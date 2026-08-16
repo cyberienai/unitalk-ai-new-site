@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: 'Conditions générales d’utilisation',
   description:
     'Conditions générales d’utilisation d’Unitalk : objet du service, accès, obligations, responsabilité et résiliation.',
+  robots: { index: false, follow: true },
+  alternates: { canonical: '/conditions' },
 }
 
 const DOC: { fr: LegalDoc; en: LegalDoc } = {

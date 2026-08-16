@@ -7,7 +7,7 @@ describe('onboarding trial confirmation', () => {
   it('adds a compact confirmation after choosing a first name', () => {
     expect(source).toContain('setConfirming(true)')
     expect(source).toContain('est prêt pour sa première mission.')
-    expect(source).toContain('Activer l’essai et ouvrir le Workspace')
+    expect(source).toContain('Continuer vers les tarifs')
   })
 
   it('makes trial and activation conditions explicit', () => {

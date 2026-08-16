@@ -6,6 +6,8 @@ import { LegalContent, type LegalDoc } from '@/components/legal-content'
 export const metadata: Metadata = {
   title: 'Mentions légales',
   description: 'Mentions légales d’Unitalk : éditeur du site, hébergement, propriété intellectuelle et contact.',
+  robots: { index: false, follow: true },
+  alternates: { canonical: '/mentions-legales' },
 }
 
 const DOC: { fr: LegalDoc; en: LegalDoc } = {

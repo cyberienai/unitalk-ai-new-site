@@ -19,6 +19,7 @@ describe('pricing page publication requirements', () => {
     expect(action).toContain('httpOnly: true')
     expect(pricing).toContain("source: 'tarifs'")
     expect(action).toContain('/inscription?source=tarifs&pricingDraft=')
+    expect(action).toContain('PURCHASE_DRAFT_COOKIE')
   })
 
   it('publishes composable pricing metadata and an OG image', () => {

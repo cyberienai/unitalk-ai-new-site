@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: 'Politique de confidentialité',
   description:
     'Politique de confidentialité d’Unitalk : données collectées, finalités, hébergement en France et droits des utilisateurs.',
+  robots: { index: false, follow: true },
+  alternates: { canonical: '/confidentialite' },
 }
 
 const DOC: { fr: LegalDoc; en: LegalDoc } = {

@@ -15,7 +15,7 @@ const T = {
     proofs: ['Prix calculé immédiatement', 'Hermes gratuit · Licence MIT', 'Configuration ajustable'],
     plansTitle: 'Ce que vous payez. Ce qui reste gratuit.',
     plansLead:
-      "La Licence Entreprise IA est facturée une seule fois. Chaque Licence Collaborateur IA ajoute une identité et des ressources privées. La capacité IA finance l’utilisation des modèles. Hermes reste gratuit sous licence MIT.",
+      "Une seule Licence Entreprise IA est nécessaire par entreprise. Elle est facturée 50 €/mois hors promotion. Chaque Licence Collaborateur IA ajoute une identité et des ressources privées. La capacité IA finance l’utilisation des modèles. Hermes reste gratuit sous licence MIT.",
     plans: [
       {
         name: 'Licence Entreprise IA',

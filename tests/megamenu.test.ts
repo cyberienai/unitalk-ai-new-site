@@ -3,34 +3,33 @@ import { describe, expect, it } from 'vitest'
 
 const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url), 'utf8')
 
-describe('Collaborateurs IA mega menu', () => {
-  it('leads with the collaborator category rather than marketplace plumbing', () => {
-    expect(navbar).toContain("title: { fr: 'Les Collaborateurs IA'")
-    expect(navbar).toContain('Découvrez des collaborateurs prêts à prendre en charge vos missions.')
-    expect(navbar).not.toContain('La Marketplace des Collaborateurs IA')
+describe('Marketplace IA mega menu', () => {
+  it('starts from the work to entrust', () => {
+    expect(navbar).toContain('Quel travail voulez-vous confier ?')
+    expect(navbar).toContain('Décrivez votre mission…')
+    expect(navbar).toContain('Continuer avec Alma')
+    expect(navbar).toContain('Relancer mes factures impayées')
   })
 
-  it('keeps only the four customer-facing catalog paths', () => {
-    for (const href of ['/missions', '/collaborateurs-ia/profils-metier', '/collaborateurs-ia/competences', '/collaborateurs-ia/applications']) expect(navbar).toContain(href)
-    expect(navbar).not.toContain("title: { fr: 'Intégrations'")
-    expect(navbar).not.toContain("title: { fr: 'Modèles IA'")
+  it('organizes equipment into four clear paths', () => {
+    for (const href of ['/collaborateurs-ia/profils-metier', '/collaborateurs-ia/competences', '/collaborateurs-ia/applications', '/modeles-ia']) expect(navbar).toContain(href)
+    expect(navbar).toContain("menuCatalog: 'Équiper votre Collaborateur'")
   })
 
-  it('keeps a short create and develop column', () => {
-    for (const href of ['/co-createur-ia', '/academy', '/partenaires']) expect(navbar).toContain(href)
-    expect(navbar).not.toContain("title: { fr: 'Experts'")
+  it('organizes connection and deployment', () => {
+    for (const href of ['/collaborateurs-ia/integrations', '/collaborateurs-ia/serveurs', '/experts', '/academy']) expect(navbar).toContain(href)
+    expect(navbar).toContain("menuBuild: 'Connecter et déployer'")
   })
 
-  it('explains the category editorially', () => {
-    expect(navbar).toContain('Qu’est-ce qu’un Collaborateur IA ?')
-    expect(navbar).toContain('Une identité professionnelle qui travaille pour votre entreprise.')
-    expect(navbar).toContain('Comment fonctionne un Collaborateur IA →')
-    expect(navbar).not.toContain('<UnitalkLogo size={compact ? 18 : 20}')
+  it('uses a doctrine footer and explicit selection label', () => {
+    expect(navbar).toContain('Ouverte à la communauté · Open source · Souveraine')
+    expect(navbar).toContain('Sélection Unitalk')
+    expect(navbar).toContain('Explorer toute la Marketplace')
+    expect(navbar).not.toContain('<a href="/tarifs" onClick={() => setCollabOpen(false)}')
   })
 
-  it('keeps Missions first and removes Partners from the top navigation', () => {
+  it('keeps Missions visible and Partners out of the top navigation', () => {
     expect(navbar).toContain('<NavItem href="/missions"')
-    expect(navbar).not.toContain("'/missions', '/co-createur-ia'")
     expect(navbar).not.toContain('<NavItem href="/partenaires"')
   })
 
