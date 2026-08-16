@@ -42,7 +42,7 @@ const T = {
     proofs: ['Première mission offerte', 'Alma la prépare en quelques minutes', 'Sans carte bancaire', 'Propulsé par Hermes'],
     techSignature: 'Open source · Hébergé en France',
     cta: 'Décrire ma première mission',
-    voiceKicker: 'Coordinatrice IA de missions',
+    voiceKicker: 'Coordinatrice de missions IA',
     voiceTitle: 'Décrivez le travail à accomplir.',
     voiceBody: 'Alma transforme votre besoin en mission et prépare votre Collaborateur IA après votre connexion.',
     voiceStart: 'Commencer à parler',

@@ -117,7 +117,7 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 const COPY = {
   fr: {
     selected: 'Votre mission', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission',
-    almaRole: 'Collaboratrice IA · Coordinatrice de missions',
+    almaRole: 'Collaboratrice IA · Coordinatrice de missions IA',
     missionAlmaTitle: 'Nous reprendrons ici.',
     missionAlmaBody: 'Après votre connexion, vous confirmez votre entreprise puis choisissez le prénom du Collaborateur IA qui prendra cette mission.',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',

@@ -135,7 +135,7 @@ function capitalizeName(value: string): string {
 const COPY = {
   fr: {
     alma: 'Donnez-lui un prénom.',
-    almaRole: 'Conseillère IA · Unitalk',
+    almaRole: 'Coordinatrice de missions IA · Unitalk',
     mission: 'Mission',
     previousStepsDone: 'Entreprise confirmée · Mission conservée',
     firstName: 'Prénom',
@@ -154,7 +154,7 @@ const COPY = {
   },
   en: {
     alma: 'Give them a first name.',
-    almaRole: 'AI advisor · Unitalk',
+    almaRole: 'AI mission coordinator · Unitalk',
     mission: 'Mission',
     previousStepsDone: 'Company confirmed · Mission saved',
     firstName: 'First name',

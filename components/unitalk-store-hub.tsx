@@ -311,7 +311,7 @@ const COPY = {
     almaTitle: 'Décrivez le travail. Alma trouve la bonne combinaison.',
     almaBody: 'Alma part de votre besoin, identifie le métier et les compétences utiles, puis recommande les connaissances, la mémoire, les applications et les modèles adaptés.',
     almaCta: 'Parler à Alma',
-    almaRole: 'Coordinatrice IA de missions',
+    almaRole: 'Coordinatrice de missions IA',
     ready: 'Prête à vous guider',
     composerTitle: 'Que recherchez-vous ?',
     talk: 'Dicter',
