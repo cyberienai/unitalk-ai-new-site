@@ -16,11 +16,11 @@ const T = {
     headline: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
     subtitle: 'Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives. Il travaille avec vos outils et progresse à chaque mission.',
     tickerMissions: ['répondre à vos appels', 'traiter vos emails', 'mettre à jour votre CRM', 'préparer vos comptes rendus', 'organiser votre agenda', 'analyser vos données'],
-    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', 'Hermes open source · MIT'],
+    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', '1 million de tokens offerts'],
     cta: 'Confier une première mission',
     console: 'Préparation de mission',
     mission: 'Mission reçue',
-    assigned: 'Emma sélectionnée',
+    assigned: 'Emma, Collaboratrice IA sélectionnée',
     equipping: 'Alma équipe Emma',
     ready: 'Prête à travailler',
     newRole: 'Nouveau rôle nécessaire',
@@ -41,11 +41,11 @@ const T = {
     headline: 'Your company can count on its own AI Collaborator.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
     tickerMissions: ['answer your calls', 'handle your emails', 'update your CRM', 'prepare meeting notes', 'organize your calendar', 'analyze your data'],
-    proofs: ['7-day free trial', 'No credit card', 'Open-source Hermes · MIT'],
+    proofs: ['7-day free trial', 'No credit card', '1 million free tokens'],
     cta: 'Hand over a first mission',
     console: 'Mission preparation',
     mission: 'Mission received',
-    assigned: 'Emma selected',
+    assigned: 'Emma, AI Collaborator selected',
     equipping: 'Alma equips Emma',
     ready: 'Ready to work',
     newRole: 'New role required',
@@ -191,7 +191,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 height={40} 
                 className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/30" 
               />
-              <p className="text-xs font-medium leading-relaxed text-[#AFA397] max-w-[280px] sm:max-w-none whitespace-pre-line">
+              <p className="max-w-[280px] whitespace-pre-line text-[13px] font-medium leading-relaxed text-[#D6CABD] sm:max-w-none">
                 {t.almaCaption}
               </p>
             </div>
