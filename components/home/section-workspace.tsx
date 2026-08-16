@@ -26,9 +26,9 @@ type Decision = null | 'validate' | 'refuse' | 'modify'
 const T = {
   fr: {
     kicker: 'Mission en action',
-    title: 'Les humains décident. Les Collaborateurs IA agissent.',
+    title: 'Les Collaborateurs IA agissent. Vos équipes gardent les décisions sensibles.',
     surfaces: 'Le Workspace privé réunit les missions, l’activité, les validations et les résultats. Vos équipes voient ce qui se passe, interviennent quand c’est nécessaire et gardent le contrôle des décisions.',
-    surfacesList: 'Web · Desktop · Messageries · Terminal',
+    surfacesList: 'Web · Application de bureau · Messageries · Terminal',
     cta: 'Découvrir le Workspace',
     missionId: 'Exemple illustratif · Mission FIN-042',
     statusPending: 'En attente de validation',
@@ -51,8 +51,8 @@ const T = {
     decisionClient: 'Client Dupont · 14 800 €',
     decisionQuestion: 'Transmettre ce dossier au contentieux ?',
     refuse: 'Refuser',
-    modify: 'Modifier',
-    validate: 'Valider',
+    modify: 'Demander une modification',
+    validate: 'Approuver',
     outcomes: {
       validate: { time: '10:21', text: 'Décision enregistrée. Emma transmet le dossier et poursuit la mission.' },
       refuse: { time: '10:21', text: 'Dossier non transmis. Emma le maintient en suivi et vous alerte à la prochaine échéance.' },
@@ -61,7 +61,7 @@ const T = {
   },
   en: {
     kicker: 'Mission in action',
-    title: 'Humans decide. AI Collaborators act.',
+    title: 'AI Collaborators act. Your teams keep control of sensitive decisions.',
     surfaces: 'The private Workspace brings together missions, activity, validations and results. Your teams see what is happening, step in when needed and keep control of the decisions.',
     surfacesList: 'Web · Desktop · Messaging · Terminal',
     cta: 'Discover the Workspace',
@@ -70,7 +70,7 @@ const T = {
     statusValidated: 'Validated',
     statusRefused: 'Decision declined',
     statusModify: 'To review',
-    missionTitle: 'Chase unpaid invoices',
+    missionTitle: 'Follow up on overdue invoices',
     meta: [
       { label: 'Collaborator', value: 'Emma · AI Collaborator' },
       { label: 'Profile', value: 'Finance' },
@@ -86,8 +86,8 @@ const T = {
     decisionClient: 'Dupont · €14,800',
     decisionQuestion: 'Escalate this file to collections?',
     refuse: 'Decline',
-    modify: 'Amend',
-    validate: 'Validate',
+    modify: 'Request changes',
+    validate: 'Approve',
     outcomes: {
       validate: { time: '10:21', text: 'Decision recorded. Emma escalates the file and continues the mission.' },
       refuse: { time: '10:21', text: 'File not escalated. Emma keeps it under watch and alerts you at the next due date.' },
@@ -136,7 +136,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
           <p className="mt-5 max-w-lg text-pretty text-[17px] leading-relaxed text-[#4E483F]">{t.surfaces}</p>
           <Link
             href="/workspace"
-            className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#1C1A17] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:decoration-[#D10E63]"
+            className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full border border-[#D10E63] px-6 text-[15px] font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white"
           >
             {t.cta}
             <ArrowRight className="h-4 w-4" />

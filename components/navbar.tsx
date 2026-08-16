@@ -64,18 +64,9 @@ const T = {
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     collabMenu: 'Menu Collaborateurs IA',
-    menuDiscover: 'Comprendre',
-    menuAccompaniment: 'Participer',
-    menuFeatured: 'Marketplace IA',
-    menuEquip: 'Explorer',
-    menuResources: 'Ressources',
-    menuStore: 'Ouvrir la Marketplace IA',
-    menuMarketplace: 'Voir les Collaborateurs IA',
-    menuCatalog: 'Équiper votre Collaborateur',
-    menuBuild: 'Connecter et déployer',
-    missionTitle: 'Quel travail voulez-vous confier ?',
-    missionPlaceholder: 'Décrivez votre mission…',
-    continueAlma: 'Continuer avec Alma',
+    menuDiscover: 'Découvrir',
+    menuDeploy: 'Déployer',
+    menuStore: 'Explorer toute la Marketplace',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -88,18 +79,9 @@ const T = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
-    menuDiscover: 'Understand',
-    menuAccompaniment: 'Participate',
-    menuFeatured: 'AI Marketplace',
-    menuEquip: 'Explore',
-    menuResources: 'Resources',
-    menuStore: 'Open the AI Marketplace',
-    menuMarketplace: 'View AI Collaborators',
-    menuCatalog: 'Equip your Collaborator',
-    menuBuild: 'Connect and deploy',
-    missionTitle: 'What work do you want to entrust?',
-    missionPlaceholder: 'Describe your mission…',
-    continueAlma: 'Continue with Alma',
+    menuDiscover: 'Discover',
+    menuDeploy: 'Deploy',
+    menuStore: 'Explore the full Marketplace',
   },
 }
 
@@ -361,34 +343,25 @@ export function Navbar(
                        className="fixed left-1/2 top-[76px] w-[900px] max-w-[calc(100vw-2rem)] -translate-x-1/2 pt-3"
                        >
                        <div className="max-h-[560px] overflow-hidden rounded-[24px] border border-[#DED6C8] bg-[#F3EFE6] text-[#1C1A17] shadow-[0_36px_90px_-26px_rgba(21,19,22,.35)]">
-                          <div className="grid grid-cols-[34%_36%_30%]">
+                          <div className="grid grid-cols-2">
                            <div className="border-r border-[#DED6C8] p-5">
-                             <p className="font-mono text-[9px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.menuFeatured}</p>
-                             <h2 className="mt-3 text-[24px] font-semibold leading-[1] tracking-[-.045em]">{t.missionTitle}</h2>
-                             <form onSubmit={(event) => { event.preventDefault(); continueMarketplaceMission() }} className="mt-5">
-                               <input value={marketplaceMission} onChange={(event) => setMarketplaceMission(event.target.value)} placeholder={t.missionPlaceholder} aria-label={t.missionPlaceholder} className="min-h-12 w-full rounded-xl border border-[#D8D0C2] bg-[#FFFDF9] px-4 text-sm text-[#1C1A17] outline-none placeholder:text-[#857C6E] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/20" />
-                               <button type="submit" className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-white transition-colors hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40">{t.continueAlma}<ArrowRight className="size-4" /></button>
-                             </form>
-                           </div>
-
-                            <div className="border-r border-[#DED6C8] bg-[#F3EFE6] p-5 text-[#1C1A17]">
-                              <p className="px-1 pb-4 pt-1 font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.menuCatalog}</p>
-                             <div className="grid grid-cols-2 gap-2">
-                               {MARKETPLACE_CATALOGS.map((entry, index) => <MarketplaceMenuLink key={entry.href} entry={entry} index={index} lang={lang} onSelect={() => setCollabOpen(false)} />)}
+                             <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.menuDiscover}</p>
+                             <div className="mt-4 space-y-2">
+                               {MARKETPLACE_CATALOGS.map((entry) => <DeploymentMenuLink key={entry.href} entry={entry} lang={lang} onSelect={() => setCollabOpen(false)} />)}
                              </div>
                            </div>
 
-                             <div className="bg-[#F3EFE6] p-5 text-[#1C1A17]">
-                              <div className="flex items-center justify-between px-1 pb-4 pt-1"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.menuBuild}</p><a href="/documentation" onClick={() => setCollabOpen(false)} className="text-[10px] font-bold text-[#625B50] hover:text-[#B00C54]">Documentation</a></div>
-                              <div className="space-y-2">
-                                {MARKETPLACE_BUILD.map((entry) => <DeploymentMenuLink key={entry.href} entry={entry} lang={lang} onSelect={() => setCollabOpen(false)} />)}
+                           <div className="p-5">
+                             <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.menuDeploy}</p>
+                             <div className="mt-4 space-y-2">
+                               {MARKETPLACE_BUILD.map((entry) => <DeploymentMenuLink key={entry.href} entry={entry} lang={lang} onSelect={() => setCollabOpen(false)} />)}
                              </div>
                            </div>
                          </div>
 
-                           <div className="flex min-h-12 items-center justify-end gap-5 border-t border-[#DED6C8] bg-[#FFFDF9] px-6 text-[11px] font-semibold text-[#625B50]">
+                           <div className="flex min-h-12 items-center justify-between border-t border-[#DED6C8] bg-[#FFFDF9] px-6 text-[11px] font-semibold text-[#625B50]">
                             <div className="flex items-center gap-5">{COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#B00C54]">{item.title[lang]}</a>)}</div>
-                            <a href="/marketplace" onClick={() => setCollabOpen(false)} className="group inline-flex shrink-0 items-center gap-2 font-bold text-[#B00C54]">{lang === 'fr' ? 'Explorer toute la Marketplace' : 'Explore the full Marketplace'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
+                            <a href="/marketplace" onClick={() => setCollabOpen(false)} className="group inline-flex shrink-0 items-center gap-2 font-bold text-[#B00C54]">{t.menuStore}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
                          </div>
                        </div>
                     </motion.div>

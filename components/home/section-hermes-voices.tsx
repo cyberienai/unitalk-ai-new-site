@@ -9,16 +9,16 @@ type Lang = 'fr' | 'en'
 
 const COPY = {
   fr: {
-    kicker: 'Recommandés par',
-    title: '10 voix qui mettent Hermes à l’épreuve.',
-    body: 'Hermes est le moteur open source qui fait travailler les Collaborateurs IA Unitalk. Dix créateurs indépendants l’ont testé, challengé et montré en action.',
+    kicker: 'Regards indépendants sur Hermes',
+    title: '10 créateurs montrent Hermes en pratique.',
+    body: 'Tests, démonstrations, cours et entretiens : découvrez comment des créateurs indépendants explorent le moteur open source Hermes.',
     link: 'Voir la sélection éditoriale',
     proof: '10 tests, cours, démonstrations et entretiens publics.',
   },
   en: {
-    kicker: 'Recommended by',
-    title: '10 voices putting Hermes to the test.',
-    body: 'Hermes is the open-source engine that powers Unitalk AI Collaborators at work. Ten independent creators have tested, challenged and demonstrated it in action.',
+    kicker: 'Independent views on Hermes',
+    title: '10 creators show Hermes in practice.',
+    body: 'Tests, demonstrations, courses and interviews explore the open-source Hermes engine through independent creators.',
     link: 'View the editorial selection',
     proof: '10 public tests, courses, demonstrations and interviews.',
   },
@@ -38,7 +38,7 @@ export function SectionHermesVoices({ lang }: { lang: Lang }) {
             <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.kicker}</p>
             <h2 className="mt-5 max-w-xl text-[clamp(2.6rem,5vw,5.2rem)] font-semibold leading-[.92] tracking-[-.065em]">{t.title}</h2>
             <p className="mt-6 max-w-xl text-[15px] leading-7 text-[#CFC6B8]">{t.body}</p>
-            <Link href="/blog/hermes-agent-youtube" className="mt-8 inline-flex min-h-11 items-center rounded-full border border-white/20 px-5 text-sm font-bold text-white transition-colors hover:border-[#F2A4C5] hover:text-[#F2A4C5]">{t.link}</Link>
+            <Link href="/blog/hermes-agent-youtube" className="mt-8 inline-flex items-center text-sm font-bold text-[#F2A4C5] underline decoration-[#F2A4C5]/35 underline-offset-4 transition-colors hover:text-white hover:decoration-white">{t.link} →</Link>
           </div>
 
           <ol className="scrollbar-hide -mx-5 flex snap-x gap-4 overflow-x-auto px-5 pb-5 pt-4 sm:-mx-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
@@ -46,7 +46,7 @@ export function SectionHermesVoices({ lang }: { lang: Lang }) {
               <motion.li key={creator.videoUrl} initial={reduce ? false : { opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: .55, delay: reduce ? 0 : index * .045, ease: [0.22, 1, 0.36, 1] }} className={`group w-[152px] shrink-0 snap-start lg:w-auto ${index % 2 ? 'lg:translate-y-9' : ''}`}>
                 <Link href={`/blog/hermes-agent-youtube?createur=${encodeURIComponent(creator.affiliateCode)}`} className="block rounded-[999px_999px_22px_22px] border border-white/10 bg-[#211E1B] p-2 pb-4 outline-none transition-all duration-300 hover:-translate-y-2 hover:border-[#F2A4C5]/55 hover:bg-[#292521] hover:shadow-[0_22px_45px_-24px_rgba(209,14,99,.7)] focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
                   <span className="relative block aspect-square overflow-hidden rounded-full bg-[#2D2925] ring-1 ring-white/10">
-                    <Image src={creator.avatarUrl} alt={`Chaîne YouTube ${creator.name}`} fill sizes="(max-width: 1024px) 136px, 150px" referrerPolicy="no-referrer" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <Image src={creator.avatarUrl} alt={lang === 'fr' ? `Chaîne YouTube de ${creator.name}` : `${creator.name}’s YouTube channel`} fill sizes="(max-width: 1024px) 136px, 150px" referrerPolicy="no-referrer" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                     <span aria-hidden className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/15" />
                   </span>
                   <span className="mt-4 block text-center text-[13px] font-semibold tracking-[-.01em] text-[#EAE4DA]">{creator.name}</span>

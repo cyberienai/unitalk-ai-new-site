@@ -23,16 +23,16 @@ const COPY = {
   fr: {
     kicker: 'Collaborateurs IA',
     title: 'Trouvez le Collaborateur IA adapté à votre travail.',
-    lead: 'Chaque Collaborateur possède son métier, ses compétences et ses outils.',
+    lead: 'Chaque Collaborateur IA garde une identité durable. Ses profils métier, compétences et outils évoluent avec ses missions.',
     almaLead: 'Vous ne savez pas lequel choisir ? Alma vous aide à trouver celui qui convient à votre mission.',
     cta: 'Voir tous les profils métier',
-    choose: 'Choisir',
+    choose: 'Configurer',
     priceSuffix: '/ mois',
     licenseLabel: 'Licence Collaborateur IA',
-    priceNote: 'Configurez le reste ensuite.',
-    included: 'Plusieurs rôles, une identité',
-    capacityFrom: 'Utilisez vos clés IA',
-    ready: 'Prêt à commencer',
+    priceNote: 'Capacité IA et éventuelles options calculées dans le configurateur.',
+    included: 'Une identité durable, des profils évolutifs',
+    capacityFrom: 'Vos clés IA ou une capacité Unitalk',
+    ready: 'Configuration rapide',
     previous: 'Afficher les Collaborateurs précédents',
     next: 'Afficher les Collaborateurs suivants',
     selector: 'Choisir un groupe de Collaborateurs IA',
@@ -48,16 +48,16 @@ const COPY = {
   en: {
     kicker: 'AI Collaborators',
     title: 'Find the AI Collaborator suited to your work.',
-    lead: 'Each AI Collaborator has a profession, skills and tools.',
+    lead: 'Each AI Collaborator keeps a durable identity. Its job profiles, skills and tools evolve with its missions.',
     almaLead: 'Not sure whom to choose? Alma helps you find the right one for your mission.',
     cta: 'View all job profiles',
-    choose: 'Choose',
+    choose: 'Configure',
     priceSuffix: '/ month',
     licenseLabel: 'AI Collaborator License',
-    priceNote: 'Set up the rest later.',
-    included: 'Multiple roles, one identity',
-    capacityFrom: 'Use your AI keys',
-    ready: 'Ready to start',
+    priceNote: 'AI capacity and optional extras are calculated in the configurator.',
+    included: 'One durable identity, evolving profiles',
+    capacityFrom: 'Your AI keys or Unitalk capacity',
+    ready: 'Quick setup',
     previous: 'Show previous AI Collaborators',
     next: 'Show next AI Collaborators',
     selector: 'Choose a group of AI Collaborators',
@@ -104,5 +104,5 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
 
 function ProfileCard({ profile, t }: { profile: Profile; t: typeof COPY.fr | typeof COPY.en }) {
   const href = `/tarifs?profil=${profile.slug}#configurateur`
-  return <article className="group flex h-full min-h-[380px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_16px_34px_-20px_rgba(28,26,23,.24)]"><div className="flex items-center gap-4"><div className="relative size-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#D10E63]/10"><Image src={profile.avatar} alt={profile.name} fill sizes="64px" className="object-cover" /></div><div><h3 className="font-sf text-xl font-bold">{profile.name}</h3><p className="mt-1 text-[13px] font-semibold text-[#625B50]">{profile.role}</p></div></div><p className="mt-5 text-sm leading-7 text-[#5A5348]">{profile.desc}</p><div className="mt-4 flex flex-wrap gap-2">{profile.tags.map((tag) => <span key={tag} className="rounded-full border border-[#D8D0C2] bg-[#F3EFE6] px-3 py-1 text-[11px] font-semibold text-[#625B50]">{tag}</span>)}</div><div className="mt-auto border-t border-[#DED6C8] pt-5"><div className="flex items-start justify-between gap-3"><div><p className="font-mono text-[9px] font-bold uppercase tracking-[.12em] text-[#8A8175]">{t.licenseLabel}</p><p className="mt-1 font-sf text-2xl font-bold">{unitalkPricing.aiCollaborator.monthlyPrice} € <span className="text-xs font-semibold text-[#6E665A]">{t.priceSuffix}</span></p><p className="mt-1 text-[11px] font-semibold text-[#1C1A17]">{t.included}</p><p className="mt-1 text-[10px] font-semibold text-[#625B50]">{t.capacityFrom}</p></div><span className="max-w-[108px] text-right text-[10px] font-bold uppercase leading-4 tracking-[.06em] text-[#8A8175]">{t.ready}</span></div><p className="mt-3 text-[10px] leading-4 text-[#6E665A]">{t.priceNote}</p><Link href={href} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-white hover:bg-[#B00C54]">{t.choose} {profile.name}<ArrowRight className="size-4" /></Link></div></article>
+  return <article className="group flex h-full min-h-[380px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_16px_34px_-20px_rgba(28,26,23,.24)]"><div className="flex items-center gap-4"><div className="relative size-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#D10E63]/10"><Image src={profile.avatar} alt={profile.name} fill sizes="64px" className="object-cover" /></div><div><h3 className="font-sf text-xl font-bold">{profile.name}</h3><p className="mt-1 text-[13px] font-semibold text-[#625B50]">{profile.role}</p></div></div><p className="mt-5 text-sm leading-7 text-[#5A5348]">{profile.desc}</p><div className="mt-4 flex flex-wrap gap-2">{profile.tags.map((tag) => <span key={tag} className="rounded-full border border-[#D8D0C2] bg-[#F3EFE6] px-3 py-1 text-[11px] font-semibold text-[#625B50]">{tag}</span>)}</div><div className="mt-auto border-t border-[#DED6C8] pt-5"><div className="flex items-start justify-between gap-3"><div><p className="font-mono text-[9px] font-bold uppercase tracking-[.12em] text-[#8A8175]">{t.licenseLabel}</p><p className="mt-1 font-sf text-2xl font-bold">{unitalkPricing.aiCollaborator.monthlyPrice} € <span className="text-xs font-semibold text-[#6E665A]">{t.priceSuffix}</span></p><p className="mt-1 text-[11px] font-semibold text-[#1C1A17]">{t.included}</p><p className="mt-1 text-[10px] font-semibold text-[#625B50]">{t.capacityFrom}</p></div><span className="max-w-[108px] text-right text-[10px] font-bold uppercase leading-4 tracking-[.06em] text-[#8A8175]">{t.ready}</span></div><p className="mt-3 text-[10px] leading-4 text-[#6E665A]">{t.priceNote}</p><Link href={href} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-[#D10E63] px-4 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.choose} {profile.name}<ArrowRight className="size-4" /></Link></div></article>
 }

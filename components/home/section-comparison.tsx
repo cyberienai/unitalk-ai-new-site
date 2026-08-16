@@ -17,34 +17,34 @@ const COPY = {
     kicker: 'La différence',
     title: 'Une mission accomplie.',
     titleAccent: 'Une expérience qui reste.',
-    lead: 'Un assistant IA vous aide à travailler. Votre Collaborateur IA travaille pour votre entreprise. Il conserve ce qu’il apprend, applique vos méthodes et agit dans les outils que vous lui autorisez.',
-    statement: 'Vous ne construisez pas un assistant. Vous faites grandir un collaborateur.',
+    lead: 'Un assistant IA vous aide à travailler. Votre Collaborateur IA réalise des missions pour votre entreprise, réutilise les méthodes validées et agit dans les outils autorisés.',
+    statement: 'Vous ne construisez pas un assistant. Vous faites progresser votre Collaborateur IA.',
     beforeTitle: 'Assistant IA généraliste',
     afterTitle: 'Collaborateur IA Unitalk',
     cta: 'Décrire ma mission',
     rows: [
-      ['Une conversation', 'Une identité professionnelle'],
-      ['Une mémoire de session', 'Une mémoire qui progresse avec l’entreprise'],
-      ['Un outil que vous utilisez', 'Une identité professionnelle rattachée à votre entreprise'],
-      ['Des instructions à répéter', 'Des méthodes métier qu’il applique'],
-      ['Une IA générique', 'Une expérience qui devient propre à votre entreprise'],
+      ['Une conversation ponctuelle', 'Une identité professionnelle durable'],
+      ['Une mémoire de session', 'Des méthodes validées réutilisables'],
+      ['Un outil à piloter', 'Des missions suivies dans votre Workspace'],
+      ['Des instructions à répéter', 'Des règles et validations enregistrées'],
+      ['Des actions isolées', 'Une activité visible par votre équipe'],
     ],
   },
   en: {
     kicker: 'The difference',
     title: 'A mission accomplished.',
     titleAccent: 'An experience that stays.',
-    lead: 'An AI assistant helps you work. Your AI Collaborator works for your company. It retains what it learns, applies your methods and acts inside the tools you authorize.',
-    statement: 'You are not building an assistant. You are growing a collaborator.',
+    lead: 'An AI assistant helps you work. Your AI Collaborator completes missions for your company, reuses approved methods and acts inside authorized tools.',
+    statement: 'You are not building an assistant. You are developing your AI Collaborator.',
     beforeTitle: 'General-purpose AI assistant',
     afterTitle: 'Unitalk AI Collaborator',
     cta: 'Describe my mission',
     rows: [
-      ['A conversation', 'A professional identity'],
-      ['Session memory', 'Memory that grows with your company'],
-      ['A tool you use', 'A professional identity attached to your company'],
-      ['Instructions to repeat', 'Business methods it applies'],
-      ['Generic AI', 'Experience that becomes specific to your company'],
+      ['A one-off conversation', 'A durable professional identity'],
+      ['Session memory', 'Reusable approved methods'],
+      ['A tool to operate', 'Missions tracked in your Workspace'],
+      ['Instructions to repeat', 'Recorded rules and approvals'],
+      ['Isolated actions', 'Activity visible to your team'],
     ],
   },
 } as const
@@ -107,8 +107,7 @@ export function SectionComparison() {
           ))}
         </div>
 
-        {/* Discreet secondary CTA — channels the interest built by the table
-            without competing with the hero's primary conversion. */}
+        {/* Same Alma action, same visual language across the homepage. */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -119,7 +118,7 @@ export function SectionComparison() {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event('open-home-alma'))}
-            className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#B00C54] underline-offset-4 outline-none transition-colors hover:text-[#8F0A44] hover:underline focus-visible:rounded focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"
+            className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-[15px] font-bold text-white outline-none transition-colors hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F4F1EA]"
           >
             {t.cta}
             <ArrowRight

@@ -11,8 +11,8 @@ const ease = [0.16, 1, 0.3, 1] as const
 const COPY = {
   fr: {
     kicker: 'Mission après mission',
-    title: 'Votre intelligence vous appartient.',
-    lead: 'Mission après mission, votre Collaborateur IA conserve les méthodes que vous validez. Son identité, sa mémoire et son expérience restent rattachées à votre entreprise.',
+    title: 'L’expérience acquise reste rattachée à votre entreprise.',
+    lead: 'Mission après mission, votre Collaborateur IA réutilise les méthodes et consignes que votre entreprise a explicitement validées.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Décrire ma mission',
     ctaNote: 'Alma conserve votre demande et vous accompagne après la connexion.',
@@ -20,8 +20,8 @@ const COPY = {
   },
   en: {
     kicker: 'Mission after mission',
-    title: 'Your intelligence belongs to you.',
-    lead: 'Mission after mission, your AI Collaborator retains the methods you approve. Its identity, memory and experience remain attached to your organization.',
+    title: 'The experience gained stays attached to your organization.',
+    lead: 'Mission after mission, your AI Collaborator reuses the methods and instructions your organization has explicitly approved.',
     closing: 'Ready to hand over a first mission?',
     cta: 'Describe my mission',
     ctaNote: 'Alma saves your request and supports you after sign-in.',
@@ -77,7 +77,7 @@ export function SectionVision() {
                 }
                 openAlma(undefined, 'final_cta')
               }}
-              className="group inline-flex items-center gap-2.5 rounded-full bg-[#181615] px-8 py-4 text-base font-bold text-white transition-colors hover:bg-[#2B2824] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#D10E63]"
+              className="group inline-flex min-h-12 items-center gap-2.5 rounded-full border border-white/35 bg-white px-8 py-3 text-base font-bold text-[#B00C54] transition-colors hover:bg-[#FFF3F8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#D10E63]"
             >
               {t.cta}
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
