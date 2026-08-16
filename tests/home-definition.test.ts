@@ -22,6 +22,6 @@ describe('home seven-day trial progression', () => {
 
   it('uses four columns on desktop and two on tablet', () => {
     expect(source).toContain('md:grid-cols-2 lg:grid-cols-4')
-    expect(source).toContain('1 million de tokens inclus')
+    expect(source).toContain('Essai gratuit de 7 jours pour tester une première mission sans carte bancaire')
   })
 })

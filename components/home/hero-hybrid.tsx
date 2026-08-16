@@ -36,7 +36,7 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un',
     headline: 'Votre propre Collaborateur IA, prêt à accomplir vos missions.',
     subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives. Il progresse à chaque mission et appartient à votre entreprise.',
-    proofs: ['Essai gratuit sur une première mission', 'Préparée en quelques minutes', 'Sans carte bancaire', 'Hébergé en France'],
+    proofs: ['Une première mission offerte', 'Préparation en quelques minutes', 'Sans carte bancaire', 'Hébergement en France'],
     cta: 'Décrire ma première mission',
     console: 'Préparation de mission',
     mission: 'Mission reçue',
@@ -54,25 +54,25 @@ const T = {
     almaAction: "Revenir à Alma",
     voiceKicker: 'Coordinatrice IA de missions',
     voiceTitle: 'Parlez ou écrivez à Alma.',
-    voiceBody: 'Alma transforme votre besoin en une première mission structurée.',
+    voiceBody: 'Alma conserve votre demande et prépare la suite après votre connexion.',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
     voicePlaceholder: 'Décrivez le travail à accomplir…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
-    voiceSubmit: 'Préparer cette mission',
+    voiceSubmit: 'Continuer avec cette mission',
     voiceBack: 'Voir la démonstration',
     examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants'],
     structured: 'Mission structurée',
     recommended: 'Collaboratrice recommandée',
-    prepared: 'Applications et validations préparées',
+    prepared: 'Règle comprise et moyens identifiés',
     customizable: 'Prête à personnaliser',
   },
   en: {
     eyebrow: 'Someone is missing',
     headline: 'Your own AI Collaborator, ready to carry out your missions.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
-    proofs: ['Free trial on a first mission', 'Prepared in minutes', 'No credit card', 'Hosted in France'],
+    proofs: ['First mission included', 'Prepared in minutes', 'No credit card', 'Hosted in France'],
     cta: 'Describe my first mission',
     console: 'Mission preparation',
     mission: 'Mission received',
@@ -90,18 +90,18 @@ const T = {
     almaAction: "Return to Alma",
     voiceKicker: 'AI mission coordinator',
     voiceTitle: 'Talk or write to Alma.',
-    voiceBody: 'Alma turns your need into a first structured mission.',
+    voiceBody: 'Alma saves your request and prepares the next steps after you sign in.',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
     voicePlaceholder: 'Describe the work to be done…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
-    voiceSubmit: 'Prepare this mission',
+    voiceSubmit: 'Continue with this mission',
     voiceBack: 'View the demo',
     examples: ['Chase my unpaid invoices', 'Handle my incoming emails'],
     structured: 'Structured mission',
     recommended: 'Recommended collaborator',
-    prepared: 'Applications and approvals prepared',
+    prepared: 'Rule understood and means identified',
     customizable: 'Ready to personalize',
   },
 } as const
@@ -309,7 +309,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                     <ol className="space-y-4">
                        <TimelineRow label={preparedDemo ? t.structured : t.mission} status={visiblePhase > 0 ? 'done' : 'active'} />
                        <TimelineRow label={preparedDemo ? `${collaboratorName} · ${t.recommended}` : isChloe ? t.newRole : t.assigned} detail={preparedDemo?.objective ?? (isChloe ? t.newRoleDetail : undefined)} status={visiblePhase > 1 ? 'done' : visiblePhase === 1 ? 'active' : 'next'} />
-                       <TimelineRow label={preparedDemo ? t.prepared : isChloe ? t.preparing : t.equipping} status={visiblePhase > 2 ? 'done' : visiblePhase === 2 ? 'active' : 'next'}>
+                       <TimelineRow label={preparedDemo ? t.prepared : isChloe ? t.preparing : t.equipping} detail={preparedDemo?.rule} status={visiblePhase > 2 ? 'done' : visiblePhase === 2 ? 'active' : 'next'}>
                         {!isChloe && visiblePhase >= 2 && <div className="mt-3 flex flex-wrap gap-2">{current.skills.map((skill, index) => <motion.span key={skill} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: index < (visiblePhase === 2 ? 2 : 3) ? 1 : 0.3, y: 0 }} transition={{ delay: reduce ? 0 : index * 0.18 }} className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/10 px-2.5 py-1 text-[11px] text-[#F3B4CF]">{skill}</motion.span>)}</div>}
                       </TimelineRow>
                        <TimelineRow label={preparedDemo ? t.customizable : isChloe ? t.chloeReady : t.ready} status={visiblePhase === 3 ? 'done' : 'next'} />
@@ -359,12 +359,14 @@ function getPreparedDemo(value: string, lang: Lang) {
       ? {
           title: 'Relancer les factures impayées',
           objective: 'Obtenir le règlement des factures échues sans relancer les dossiers en litige.',
+          rule: 'Ne jamais contacter un client ayant un litige ouvert. Validation avant contentieux.',
           name: 'Emma', role: 'Collaboratrice IA · Finance', avatar: '/images/emma-avatar.png',
           skills: ['Messagerie', 'Facturation', 'CRM'],
         }
       : {
           title: 'Follow up on unpaid invoices',
           objective: 'Collect overdue invoices without contacting customers with an open dispute.',
+          rule: 'Never contact a customer with an open dispute. Approval before collections.',
           name: 'Emma', role: 'AI Collaborator · Finance', avatar: '/images/emma-avatar.png',
           skills: ['Email', 'Billing', 'CRM'],
         }
@@ -375,12 +377,14 @@ function getPreparedDemo(value: string, lang: Lang) {
       ? {
           title: 'Traiter les e-mails entrants',
           objective: 'Trier les messages, préparer les réponses et signaler les demandes sensibles.',
+          rule: 'Signaler les demandes sensibles et valider leur réponse avant envoi.',
           name: 'Emma', role: 'Collaboratrice IA · Assistante de direction', avatar: '/images/emma-avatar.png',
           skills: ['Outlook', 'Priorisation', 'Microsoft Teams'],
         }
       : {
           title: 'Handle incoming emails',
           objective: 'Sort messages, prepare replies and flag sensitive requests.',
+          rule: 'Flag sensitive requests and approve their reply before sending.',
           name: 'Emma', role: 'AI Collaborator · Executive Assistant', avatar: '/images/emma-avatar.png',
           skills: ['Outlook', 'Prioritization', 'Microsoft Teams'],
         }
@@ -390,12 +394,14 @@ function getPreparedDemo(value: string, lang: Lang) {
     ? {
         title: value.trim(),
         objective: 'Transformer votre demande en résultat concret et vérifiable.',
+        rule: 'Les règles et validations seront confirmées avec votre entreprise.',
         name: 'Emma', role: 'Collaboratrice IA recommandée par Alma', avatar: '/images/emma-avatar.png',
         skills: ['Objectif', 'Applications', 'Validations'],
       }
     : {
         title: value.trim(),
         objective: 'Turn your request into a concrete, verifiable result.',
+        rule: 'Rules and approvals will be confirmed with your company.',
         name: 'Emma', role: 'AI Collaborator recommended by Alma', avatar: '/images/emma-avatar.png',
         skills: ['Objective', 'Applications', 'Approvals'],
       }

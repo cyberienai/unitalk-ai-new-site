@@ -9,17 +9,17 @@ const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url)
 describe('home commercial messaging', () => {
   it('uses a concrete hero promise and recruitment reasons', () => {
     expect(hero).toContain('Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives.')
-    for (const proof of ['Essai gratuit sur une première mission', 'Préparée en quelques minutes', 'Sans carte bancaire', 'Hébergé en France']) expect(hero).toContain(proof)
+    for (const proof of ['Une première mission offerte', 'Préparation en quelques minutes', 'Sans carte bancaire', 'Hébergement en France']) expect(hero).toContain(proof)
   })
 
   it('uses plain-language comparison rows', () => {
-    expect(comparison).toContain("['Un outil individuel et isolé', 'Une identité rattachée à une personne, une équipe ou l’organisation']")
-    expect(comparison).toContain("['Répond dans son interface', 'Prend en charge des missions et communique par e-mail, téléphone et calendrier']")
-    expect(comparison).toContain("['Conserve le fil d’une conversation', 'Partage avec l’entreprise une mémoire gouvernée selon les droits']")
+    expect(comparison).toContain("['Un outil individuel', 'Une identité rattachée à votre entreprise']")
+    expect(comparison).toContain("['Répond dans son interface', 'Accomplit des missions et communique avec vos équipes']")
+    expect(comparison).toContain("['Mémoire de conversation', 'Mémoire privée et partagée selon vos droits']")
   })
 
   it('clarifies Alma and brings profiles earlier', () => {
-    expect(profiles).toContain('Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.')
+    expect(profiles).toContain('Alma vous aide à choisir le bon profil.')
     expect(profiles).toContain("recruit: 'Choisir'")
     expect(navbar).not.toContain('Alma · Conseillère IA')
     expect(navbar).toContain('Alma · Coordinatrice de missions IA')

@@ -4,7 +4,7 @@ const T = {
       { label: 'Accompagnement', title: 'Vous n’êtes jamais seul', desc: 'Alma vous accompagne et transmet à un ingénieur IA si nécessaire.' },
       { label: 'Évolution', title: 'Profils métier et compétences sans limite', desc: 'Faites évoluer chaque Collaborateur IA selon vos missions.' },
       { label: 'Intégrations', title: 'Plus de 3 000 intégrations disponibles', desc: 'Connectez les outils que votre entreprise utilise déjà.' },
-      { label: 'Modèles IA', title: 'Le meilleur modèle adapté à chaque tâche', desc: 'Unitalk sélectionne le modèle autorisé le plus pertinent pour le travail à accomplir.' },
+      { label: 'Modèles IA', title: 'Le modèle le plus pertinent pour chaque tâche', desc: 'Unitalk le sélectionne parmi les modèles autorisés pour le travail à accomplir.' },
     ],
   },
   en: {
@@ -12,7 +12,7 @@ const T = {
       { label: 'Support', title: 'You are never on your own', desc: 'Alma supports you and hands over to an AI engineer when needed.' },
       { label: 'Evolution', title: 'Job profiles and skills without limits', desc: 'Evolve each AI Collaborator as your missions change.' },
       { label: 'Integrations', title: 'More than 3,000 integrations available', desc: 'Connect the tools your company already uses.' },
-      { label: 'AI models', title: 'The best model suited to each task', desc: 'Unitalk selects the most relevant authorized model for the work at hand.' },
+      { label: 'AI models', title: 'The most relevant model for each task', desc: 'Unitalk selects it from the models authorized for the work at hand.' },
     ],
   },
 } as const
