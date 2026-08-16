@@ -47,9 +47,10 @@ const T = {
     ready: 'Prête à travailler',
     newRole: 'Nouveau rôle nécessaire',
     newRoleDetail: 'Cette mission demande un profil commercial distinct.',
+    chloeRole: 'Collaboratrice IA · Commerciale',
     preparing: 'Alma prépare Chloé',
     chloeReady: 'Chloé rejoint votre équipe',
-    cycle: 'Cycle',
+    step: 'Étape',
     almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
     almaAction: "Parler à Alma",
     voiceKicker: 'Décrire une mission à la voix',
@@ -77,9 +78,10 @@ const T = {
     ready: 'Ready to work',
     newRole: 'New role required',
     newRoleDetail: 'This mission requires a distinct sales profile.',
+    chloeRole: 'AI Collaborator · Sales',
     preparing: 'Alma prepares Chloé',
     chloeReady: 'Chloé joins your team',
-    cycle: 'Cycle',
+    step: 'Step',
     almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
     almaAction: "Talk to Alma",
     voiceKicker: 'Describe a mission by voice',
@@ -256,7 +258,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-6">
               <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#D10E63]" /><span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#D6CABD]">{t.console}</span></div>
-              <span className="font-mono text-[10px] text-[#887D72]">{t.cycle} {cycle + 1}/4</span>
+              <span className="font-mono text-[10px] text-[#AFA397]">{t.step} {visiblePhase + 1}/4</span>
             </div>
 
             <div className="p-5 sm:p-7">
@@ -269,7 +271,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                       <Image src={isChloe ? '/images/chloe-avatar.png' : '/images/emma-avatar.png'} alt={isChloe ? 'Chloé' : 'Emma'} width={56} height={56} className="h-14 w-14 rounded-full object-cover ring-2 ring-[#D10E63]/30" />
                       <p className="mt-3 font-sf text-lg font-semibold">{isChloe ? 'Chloé' : 'Emma'}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-[#D6CABD]">{isChloe ? t.preparing : t.collaborator}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-[#D6CABD]">{isChloe ? t.chloeRole : t.collaborator}</p>
                     </div>
 
                     <ol className="space-y-4">
