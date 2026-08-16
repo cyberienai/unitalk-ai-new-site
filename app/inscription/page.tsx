@@ -4,6 +4,7 @@ import { AuthCard } from '@/components/auth/auth-card'
 export const metadata: Metadata = {
   title: 'Inscription · Unitalk',
   description: 'Créez votre compte Unitalk avec Google, Microsoft ou votre e-mail. Essai de 7 jours, sans carte bancaire.',
+  robots: { index: false, follow: false },
 }
 
 function firstParam(v: string | string[] | undefined): string | undefined {

@@ -20,6 +20,13 @@ export const metadata: Metadata = {
     title: 'Missions pour Collaborateurs IA | Unitalk',
     description:
       'Découvrez des missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Missions pour Collaborateurs IA Unitalk' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Missions pour Collaborateurs IA | Unitalk',
+    description: 'Choisissez une mission prête à adapter ou décrivez le travail à accomplir à Alma.',
+    images: ['/opengraph-image'],
   },
 }
 
@@ -36,12 +43,25 @@ const itemListJsonLd = {
   })),
 }
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
+    { '@type': 'ListItem', position: 2, name: 'Missions', item: `${SITE_URL}/missions` },
+  ],
+}
+
 export default function MissionsPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Navbar />
       <Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]" />}>

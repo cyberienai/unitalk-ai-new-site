@@ -5,7 +5,7 @@ import { ArrowRight, Award, BookOpen, Check, ChevronRight, Clock3, FileCheck2, G
 import { academyMission, academyPath, MISSIONS, PATHS } from '@/lib/academy-catalog'
 import { decodeSession, initials, SESSION_COOKIE } from '@/lib/mock-auth'
 
-export const metadata: Metadata = { title: 'Mon espace Academy' }
+export const metadata: Metadata = { title: 'Mon espace Academy', robots: { index: false, follow: false } }
 
 type SearchParams = Promise<{ mission?: string; parcours?: string; network?: string }>
 

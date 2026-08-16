@@ -4,6 +4,7 @@ import { AuthCard } from '@/components/auth/auth-card'
 export const metadata: Metadata = {
   title: 'Connexion · Unitalk',
   description: 'Connectez-vous à Unitalk avec Google, Microsoft ou votre e-mail.',
+  robots: { index: false, follow: false },
 }
 
 function firstParam(v: string | string[] | undefined): string | undefined {

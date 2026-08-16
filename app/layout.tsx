@@ -36,8 +36,11 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
   category: 'technology',
-  alternates: {
-    canonical: '/',
+  twitter: {
+    card: 'summary_large_image',
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: ['/opengraph-image'],
   },
   openGraph: {
     type: 'website',
@@ -46,11 +49,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Unitalk, Collaborateurs IA pour entreprise' }],
   },
   robots: {
     index: true,
