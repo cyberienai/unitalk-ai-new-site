@@ -36,7 +36,7 @@ const T = {
     eyebrow: 'Il vous manque quelqu’un',
     headline: 'Votre propre Collaborateur IA, prêt à accomplir vos missions.',
     subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives. Il progresse à chaque mission et appartient à votre entreprise.',
-    proofs: ['Une première mission offerte', 'Préparation en quelques minutes', 'Sans carte bancaire', 'Hébergement en France'],
+    proofs: ['Une première mission offerte', 'Alma le prépare en quelques minutes', 'Sans carte bancaire', 'Hébergement en France'],
     cta: 'Décrire ma première mission',
     console: 'Préparation de mission',
     mission: 'Mission reçue',
@@ -72,7 +72,7 @@ const T = {
     eyebrow: 'Someone is missing',
     headline: 'Your own AI Collaborator, ready to carry out your missions.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
-    proofs: ['First mission included', 'Prepared in minutes', 'No credit card', 'Hosted in France'],
+    proofs: ['First mission included', 'Alma prepares it in minutes', 'No credit card', 'Hosted in France'],
     cta: 'Describe my first mission',
     console: 'Mission preparation',
     mission: 'Mission received',
@@ -243,7 +243,16 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.p {...enter(0.16)} className="mt-5 text-balance text-[17px] leading-relaxed text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
 
           <motion.div {...enter(0.28)} className="mt-7 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-medium text-[#6E665A] sm:justify-start">
-            {t.proofs.map((proof) => <span key={proof} className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" />{proof}</span>)}
+            {t.proofs.map((proof, index) => (
+              <span key={proof} className="inline-flex items-center gap-1.5">
+                {index === 1 ? (
+                  <Image src="/alma-avatar.png" alt="" width={18} height={18} className="size-[18px] rounded-full object-cover ring-1 ring-[#D10E63]/30" />
+                ) : (
+                  <Check className="h-3.5 w-3.5 text-[#D10E63]" />
+                )}
+                {proof}
+              </span>
+            ))}
           </motion.div>
 
            <motion.div {...enter(0.34)} className="mt-8">

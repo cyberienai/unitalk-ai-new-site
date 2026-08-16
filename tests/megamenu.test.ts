@@ -3,14 +3,15 @@ import { describe, expect, it } from 'vitest'
 
 const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url), 'utf8')
 
-describe('Collaborateurs IA mega menu', () => {
-  it('provides a clear start point and product thesis', () => {
-    expect(navbar).toContain('Comprendre le Collaborateur IA')
+describe('Marketplace IA mega menu', () => {
+  it('provides a clear community marketplace thesis', () => {
+    expect(navbar).toContain('La Marketplace des Collaborateurs IA')
+    expect(navbar).toContain('Ouverte à la communauté')
     expect(navbar).toContain('Alma cadre. Les Agents Hermes exécutent. Les humains valident.')
   })
 
-  it('exposes the core product and ecosystem destinations', () => {
-    for (const href of ['/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/applications','/desktop','/unitalk/@alma','/co-createur-ia','/experts','/academy','/documentation','/tarifs']) expect(navbar).toContain(href)
+  it('exposes all seven marketplace areas and participation paths', () => {
+    for (const href of ['/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/applications/catalogue','/modeles-ia','/academy','/experts','/missions','/co-createur-ia']) expect(navbar).toContain(href)
   })
 
   it('uses accessible menu semantics and matching mobile discovery', () => {

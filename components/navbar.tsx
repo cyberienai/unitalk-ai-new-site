@@ -5,11 +5,15 @@ import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
+  BookOpenCheck,
   Blocks,
+  BrainCircuit,
   BriefcaseBusiness,
   ChevronDown,
   GraduationCap,
+  Handshake,
   Monitor,
+  PackagePlus,
   Sparkles,
   UsersRound,
   type LucideIcon,
@@ -30,23 +34,22 @@ const ALMA_CTA = {
 
 const ACADEMY_URL = '/academy'
 
-// Collaborateurs IA dropdown — the product hub, in three sections:
-// Product-focused Collaborateurs IA menu: concept, profiles, skills,
-// applications and Alma. Experts remain available in the footer.
+// Marketplace dropdown: one entry point for every way to discover,
+// equip or contribute an AI Collaborator.
 type MenuEntry = { title: Bi; desc: Bi; href: string; avatar?: string; icon: LucideIcon }
 type MenuAction = { title: Bi; href: string }
 
-const COLLAB_FEATURED: MenuEntry = {
-  title: { fr: 'Comprendre le Collaborateur IA', en: 'Understand the AI Collaborator' },
+const MARKETPLACE_FEATURED: MenuEntry = {
+  title: { fr: 'La Marketplace des Collaborateurs IA', en: 'The AI Collaborator Marketplace' },
   desc: {
-    fr: 'Identité, Agent Hermes, profils, compétences, outils et contrôle humain.',
-    en: 'Identity, Hermes Agent, profiles, skills, tools and human control.',
+    fr: 'Trouvez, adoptez et enrichissez des Collaborateurs IA créés par Unitalk et la communauté.',
+    en: 'Find, adopt and expand AI Collaborators created by Unitalk and the community.',
   },
-  href: '/collaborateurs-ia',
+  href: '/collaborateurs-ia/applications',
   icon: Sparkles,
 }
 
-const COLLAB_DISCOVER: MenuEntry[] = [
+const MARKETPLACE_UNDERSTAND: MenuEntry[] = [
   {
     title: { fr: 'Qu’est-ce qu’un Collaborateur IA ?', en: 'What is an AI Collaborator?' },
     desc: {
@@ -55,33 +58,6 @@ const COLLAB_DISCOVER: MenuEntry[] = [
     },
     href: '/collaborateurs-ia',
     icon: UsersRound,
-  },
-  {
-    title: { fr: 'Profils métier', en: 'Job profiles' },
-    desc: {
-      fr: 'Les responsabilités durables qu’il peut exercer.',
-      en: 'The lasting responsibilities it can perform.',
-    },
-    href: '/collaborateurs-ia/profils-metier',
-    icon: BriefcaseBusiness,
-  },
-  {
-    title: { fr: 'Compétences', en: 'Skills' },
-    desc: {
-      fr: 'Les savoir-faire qu’il peut appliquer, améliorer et partager.',
-      en: 'The know-how it can apply, improve and share.',
-    },
-    href: '/collaborateurs-ia/competences',
-    icon: Sparkles,
-  },
-  {
-    title: { fr: 'Unitalk Store', en: 'Unitalk Store' },
-    desc: {
-      fr: 'Profils, compétences, applications, modèles et formations, avec Alma.',
-      en: 'Profiles, skills, applications, models and training, with Alma.',
-    },
-    href: '/collaborateurs-ia/applications',
-    icon: Blocks,
   },
   {
     title: { fr: 'Unitalk Desktop', en: 'Unitalk Desktop' },
@@ -94,7 +70,17 @@ const COLLAB_DISCOVER: MenuEntry[] = [
   },
 ]
 
-const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
+const MARKETPLACE_CATALOGS: MenuEntry[] = [
+  { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Les responsabilités durables qu’un Collaborateur IA peut exercer.', en: 'Lasting responsibilities an AI Collaborator can perform.' }, href: '/collaborateurs-ia/profils-metier', icon: BriefcaseBusiness },
+  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Des savoir-faire précis, testés et partageables.', en: 'Precise, tested and shareable know-how.' }, href: '/collaborateurs-ia/competences', icon: Sparkles },
+  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Outils, connecteurs et services accessibles selon vos droits.', en: 'Tools, connectors and services available under your permissions.' }, href: '/collaborateurs-ia/applications/catalogue', icon: Blocks },
+  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et fournisseurs autorisés par votre organisation.', en: 'Models and providers approved by your organization.' }, href: '/modeles-ia', icon: BrainCircuit },
+  { title: { fr: 'Formations', en: 'Training' }, desc: { fr: 'Apprenez à utiliser, créer et gouverner vos Collaborateurs IA.', en: 'Learn to use, create and govern your AI Collaborators.' }, href: '/academy', icon: GraduationCap },
+  { title: { fr: 'Services', en: 'Services' }, desc: { fr: 'Faites-vous accompagner par des experts de l’écosystème.', en: 'Get support from experts across the ecosystem.' }, href: '/experts', icon: Handshake },
+  { title: { fr: 'Missions', en: 'Missions' }, desc: { fr: 'Partez du travail à accomplir pour trouver le bon Collaborateur IA.', en: 'Start from the work to find the right AI Collaborator.' }, href: '/missions', icon: BookOpenCheck },
+]
+
+const MARKETPLACE_PARTICIPATE: MenuEntry[] = [
   {
     title: { fr: 'Alma · Coordinatrice de missions IA', en: 'Alma · AI mission coordinator' },
     desc: {
@@ -115,13 +101,13 @@ const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
     icon: GraduationCap,
   },
   {
-    title: { fr: 'Experts humains', en: 'Human experts' },
+    title: { fr: 'Publier un profil', en: 'Publish a profile' },
     desc: {
-      fr: 'Concevez, intégrez ou faites évoluer vos Collaborateurs IA avec un spécialiste.',
-      en: 'Design, integrate or advance your AI Collaborators with a specialist.',
+      fr: 'Proposez votre expertise au catalogue public de la communauté.',
+      en: 'Submit your expertise to the public community catalog.',
     },
-    href: '/experts',
-    icon: BriefcaseBusiness,
+    href: '/collaborateurs-ia/profils-metier/publier',
+    icon: PackagePlus,
   },
 ]
 
@@ -135,17 +121,16 @@ const T = {
     signIn: 'Connexion',
     pricing: 'Tarifs',
     workspace: 'Workspace',
-    missions: 'Missions',
-    collaborators: 'Collaborateurs IA',
+    collaborators: 'Marketplace IA',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
-    collabMenu: 'Menu Collaborateurs IA',
+    collabMenu: 'Menu Marketplace IA',
     menuDiscover: 'Comprendre',
-    menuAccompaniment: 'Déployer',
-    menuFeatured: 'Commencer ici',
-    menuEquip: 'Équiper',
+    menuAccompaniment: 'Participer',
+    menuFeatured: 'Ouverte à la communauté',
+    menuEquip: 'Explorer',
     menuResources: 'Ressources',
-    menuStore: 'Ouvrir le Unitalk Store',
+    menuStore: 'Ouvrir la Marketplace IA',
     menuAcademy: 'Explorer Unitalk Academy',
   },
   en: {
@@ -153,17 +138,16 @@ const T = {
     signIn: 'Sign in',
     pricing: 'Pricing',
     workspace: 'Workspace',
-    missions: 'Missions',
-    collaborators: 'AI Collaborators',
+    collaborators: 'AI Marketplace',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
-    collabMenu: 'AI Collaborators menu',
+    collabMenu: 'AI Marketplace menu',
     menuDiscover: 'Understand',
-    menuAccompaniment: 'Deploy',
-    menuFeatured: 'Start here',
-    menuEquip: 'Equip',
+    menuAccompaniment: 'Participate',
+    menuFeatured: 'Open to the community',
+    menuEquip: 'Explore',
     menuResources: 'Resources',
-    menuStore: 'Open the Unitalk Store',
+    menuStore: 'Open the AI Marketplace',
     menuAcademy: 'Explore Unitalk Academy',
   },
 }
@@ -307,21 +291,11 @@ export function Navbar(
   // so labels and hover states stay legible.
   const overDark = darkHero && !scrolled && !isMenuOpen && !collabOpen
 
-  // Active-state resolution
-  // Collaborateurs IA owns the product hub: the presentation page and the three
-  // capability catalogs (profils métier, compétences, applications) plus details.
-  const isCollabActive = pathname === '/collaborateurs-ia' || pathname.startsWith('/collaborateurs-ia/')
-  const isMissionsActive = pathname === '/missions' || pathname.startsWith('/missions/')
-  // Experts: the human pillar — accompaniment around the Collaborateurs IA.
+  // The Marketplace owns every catalog and community path grouped in its menu.
+  const marketplacePrefixes = ['/collaborateurs-ia', '/modeles-ia', '/academy', '/experts', '/missions', '/co-createur-ia']
+  const isCollabActive = marketplacePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'
-
-  function handleMissionsClick(event: React.MouseEvent<HTMLAnchorElement>) {
-    if (pathname !== '/missions' || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-    event.preventDefault()
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' })
-  }
 
   // Lock body scroll while the mobile menu is open
   useEffect(() => {
@@ -383,7 +357,7 @@ export function Navbar(
             : 'border-transparent bg-transparent backdrop-blur-0'
         }`}
       >
-        <nav className={`editorial-shell flex items-center justify-between ${isMissionsActive ? 'h-[64px]' : 'h-[76px]'}`}>
+        <nav className="editorial-shell flex h-[76px] items-center justify-between">
           {/* Group 1 — Identity + Group 2 — Navigation */}
           <div className="flex items-center gap-8 xl:gap-10">
             <a href="/" aria-label={t.home} className="flex items-center gap-2 sm:gap-3">
@@ -398,12 +372,7 @@ export function Navbar(
             </a>
 
             <div className="hidden items-center gap-1 lg:flex">
-              {/* Missions — the entry point: start from the need to accomplish */}
-              <NavItem href="/missions" active={isMissionsActive} overDark={overDark} onClick={handleMissionsClick}>
-                {t.missions}
-              </NavItem>
-
-              {/* Collaborateurs IA — product hub dropdown (who takes the work on) */}
+              {/* Marketplace IA — every way to find, equip or contribute a Collaborateur IA */}
               <div
                 ref={collabRef}
                 className="relative"
@@ -460,29 +429,28 @@ export function Navbar(
                           <div aria-hidden="true" className="absolute -right-10 -top-24 -z-10 size-72 rounded-full bg-[#D10E63]/25 blur-3xl" />
                           <div className="flex min-w-0 items-center gap-5">
                             <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-[#F2A4C5]/30 bg-[#D10E63]/20 text-[#F2A4C5]"><Sparkles className="size-5" strokeWidth={1.7} /></span>
-                            <div><p className="font-mono text-[9px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuFeatured}</p><h2 className="mt-1.5 text-[23px] font-semibold leading-tight tracking-[-.035em]">{COLLAB_FEATURED.title[lang]}</h2><p className="mt-1.5 text-[12px] text-[#BDB3A6]">{COLLAB_FEATURED.desc[lang]} <span className="text-[#E1D9CD]"><AlmaInline /> {lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</span></p></div>
+                             <div><p className="font-mono text-[9px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuFeatured}</p><h2 className="mt-1.5 text-[23px] font-semibold leading-tight tracking-[-.035em]">{MARKETPLACE_FEATURED.title[lang]}</h2><p className="mt-1.5 text-[12px] text-[#BDB3A6]">{MARKETPLACE_FEATURED.desc[lang]} <span className="text-[#E1D9CD]"><AlmaInline /> {lang === 'fr' ? 'Alma cadre. Les Agents Hermes exécutent. Les humains valident.' : 'Alma scopes. Hermes Agents execute. Humans approve.'}</span></p></div>
                           </div>
-                          <a href={COLLAB_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group inline-flex items-center gap-2 rounded-full bg-[#F2A4C5] px-4 py-2.5 text-xs font-bold text-[#24151B] outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-white">{lang === 'fr' ? 'Voir comment ça marche' : 'See how it works'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
+                           <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group inline-flex items-center gap-2 rounded-full bg-[#F2A4C5] px-4 py-2.5 text-xs font-bold text-[#24151B] outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-white">{lang === 'fr' ? 'Explorer la Marketplace' : 'Explore the Marketplace'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
                         </div>
 
                         <div className="grid grid-cols-[240px_1fr_310px] divide-x divide-[#DED6C8]">
                           <div className="p-5">
                             <p className="flex items-center gap-2 px-2 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]"><span className="font-mono text-[#B00C54]">01</span>{t.menuDiscover}</p>
-                            <CollabMenuLink entry={COLLAB_DISCOVER[0]} lang={lang} onSelect={() => setCollabOpen(false)} />
-                            <CollabMenuLink entry={COLLAB_DISCOVER[4]} lang={lang} onSelect={() => setCollabOpen(false)} />
+                             {MARKETPLACE_UNDERSTAND.map((item) => <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
                           </div>
 
                           <div className="p-5">
                             <p className="flex items-center gap-2 px-2 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]"><span className="font-mono text-[#B00C54]">02</span>{t.menuEquip}</p>
                             <div className="grid grid-cols-2 gap-1.5">
-                              {COLLAB_DISCOVER.slice(1, 4).map((item) => <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
+                               {MARKETPLACE_CATALOGS.map((item) => <CollabMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
                             </div>
                           </div>
 
                           <div className="bg-[#F1ECE3] p-5">
                             <p className="flex items-center gap-2 px-3 pb-3 pt-1 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#8A8172]"><span className="font-mono text-[#B00C54]">03</span>{t.menuAccompaniment}</p>
                             <div className="flex flex-col">
-                              {COLLAB_ACCOMPANIMENT.map((item) => <AccompanimentMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
+                               {MARKETPLACE_PARTICIPATE.map((item) => <AccompanimentMenuLink key={item.href} entry={item} lang={lang} onSelect={() => setCollabOpen(false)} />)}
                             </div>
                           </div>
                         </div>
@@ -507,9 +475,6 @@ export function Navbar(
               <NavItem href="/tarifs" active={isPricingActive} overDark={overDark}>
                 {t.pricing}
               </NavItem>
-              <a href={ACADEMY_URL} className={`relative inline-flex items-center px-2 py-2 text-sm font-medium transition-colors ${overDark ? 'text-[#EDE8DE] hover:text-[#FBF9F3]' : 'text-[#1C1A17] hover:text-[#D10E63]'}`}>
-                Academy
-              </a>
             </div>
           </div>
 
@@ -621,20 +586,9 @@ export function Navbar(
             >
               {/* Scrollable link area — leaves the CTA footer always visible */}
               <nav className="scrollbar-hide flex-1 overflow-y-auto overflow-x-hidden px-6 py-2">
-                {/* Primary links — same order as desktop: Missions first (the need) */}
+                {/* Primary links — same structure as desktop */}
                 <div className="divide-y divide-[#E4DDCE]">
-                  <a
-                    href="/missions"
-                    onClick={(event) => {
-                      handleMissionsClick(event)
-                      setIsMenuOpen(false)
-                    }}
-                    className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                  >
-                    {t.missions}
-                  </a>
-
-                  {/* Collaborateurs IA — collapsible so the menu stays short */}
+                  {/* Marketplace IA — collapsible so the menu stays short */}
                   <div className="py-1">
                     <button
                       type="button"
@@ -660,11 +614,22 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                            <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                            <a href={COLLAB_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]"><span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" /><span className="relative flex items-center gap-3"><span className="h-8 w-0.5 shrink-0 rounded-full bg-[#F2A4C5]" /><span><span className="block text-[14px] font-bold">{COLLAB_FEATURED.title[lang]}</span><span className="mt-1 block text-[11.5px] leading-5 text-[#CFC6B8]">{COLLAB_FEATURED.desc[lang]}</span></span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></span></a>
+                            <a href={MARKETPLACE_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]"><span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" /><span className="relative flex items-center gap-3"><span className="h-8 w-0.5 shrink-0 rounded-full bg-[#F2A4C5]" /><span><span className="block text-[14px] font-bold">{MARKETPLACE_FEATURED.title[lang]}</span><span className="mt-1 block text-[11.5px] leading-5 text-[#CFC6B8]">{MARKETPLACE_FEATURED.desc[lang]}</span></span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></span></a>
                             <p className="px-2 pb-1 pt-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuDiscover}
                             </p>
-                            {COLLAB_DISCOVER.map((item) => (
+                            {MARKETPLACE_UNDERSTAND.map((item) => (
+                              <MobileCollabLink
+                                key={item.href}
+                                entry={item}
+                                lang={lang}
+                                onSelect={() => setIsMenuOpen(false)}
+                              />
+                            ))}
+                            <p className="px-2 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
+                              {t.menuEquip}
+                            </p>
+                            {MARKETPLACE_CATALOGS.map((item) => (
                               <MobileCollabLink
                                 key={item.href}
                                 entry={item}
@@ -675,7 +640,7 @@ export function Navbar(
                             <p className="px-2 pb-1 pt-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8A8172]">
                               {t.menuAccompaniment}
                             </p>
-                            {COLLAB_ACCOMPANIMENT.map((item) => (
+                            {MARKETPLACE_PARTICIPATE.map((item) => (
                               <MobileCollabLink
                                 key={item.href}
                                 entry={item}
@@ -716,9 +681,6 @@ export function Navbar(
                     className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.pricing}
-                  </a>
-                  <a href={ACADEMY_URL} onClick={() => setIsMenuOpen(false)} className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]">
-                    Academy
                   </a>
                   <UserMenuMobile onNavigate={() => setIsMenuOpen(false)} />
                   <button

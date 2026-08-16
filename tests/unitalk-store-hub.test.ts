@@ -4,10 +4,11 @@ import { describe, expect, it } from 'vitest'
 const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.meta.url), 'utf8')
 const page = readFileSync(new URL('../app/collaborateurs-ia/applications/page.tsx', import.meta.url), 'utf8')
 
-describe('Unitalk Store hub', () => {
-  it('centralizes six distinct discovery areas', () => {
+describe('Marketplace IA hub', () => {
+  it('centralizes seven distinct discovery areas', () => {
     expect(page).toContain('UnitalkStoreHub')
-    for (const label of ['Profils métier','Compétences','Applications','Modèles IA','Formations','Missions']) expect(hub).toContain(label)
+    for (const label of ['Profils métier','Compétences','Applications','Modèles IA','Formations','Services','Missions']) expect(hub).toContain(label)
+    expect(hub).toContain('ouverte aux créations de Unitalk et de la communauté')
   })
 
   it('highlights Alma with her profiles and skills', () => {
@@ -23,5 +24,6 @@ describe('Unitalk Store hub', () => {
     expect(hub).toContain("href:'/collaborateurs-ia/applications/catalogue'")
     expect(hub).toContain("href:'/modeles-ia'")
     expect(hub).toContain("href:'/academy'")
+    expect(hub).toContain("href:'/experts'")
   })
 })

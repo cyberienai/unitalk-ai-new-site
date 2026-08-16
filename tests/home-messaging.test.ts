@@ -9,7 +9,7 @@ const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url)
 describe('home commercial messaging', () => {
   it('uses a concrete hero promise and recruitment reasons', () => {
     expect(hero).toContain('Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives.')
-    for (const proof of ['Une première mission offerte', 'Préparation en quelques minutes', 'Sans carte bancaire', 'Hébergement en France']) expect(hero).toContain(proof)
+    for (const proof of ['Une première mission offerte', 'Alma le prépare en quelques minutes', 'Sans carte bancaire', 'Hébergement en France']) expect(hero).toContain(proof)
   })
 
   it('uses plain-language comparison rows', () => {

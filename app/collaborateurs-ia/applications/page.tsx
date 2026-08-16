@@ -6,16 +6,16 @@ import { SiteFooter } from '@/components/site-footer'
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Unitalk Store : profils, compétences, applications, modèles et formations',
+  title: 'Marketplace IA : Collaborateurs IA et créations de la communauté',
   description:
-    'Le Store central de votre équipe humain-IA : profils métier, compétences, applications, modèles, missions et formations recommandés par Alma.',
+    'La Marketplace des Collaborateurs IA : profils métier, compétences, applications, modèles, formations, services et missions créés par Unitalk et la communauté.',
   alternates: { canonical: '/collaborateurs-ia/applications' },
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/collaborateurs-ia/applications`,
-    title: 'Unitalk Store | Unitalk',
+    title: 'Marketplace IA | Unitalk',
     description:
-      'Tout ce qui équipe votre équipe humain-IA, recommandé et assemblé avec Alma.',
+      'Trouvez, adoptez et enrichissez des Collaborateurs IA conçus par Unitalk et la communauté.',
   },
 }
 

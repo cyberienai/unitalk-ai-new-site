@@ -14,15 +14,14 @@ const T = {
         title: 'Produit',
         links: [
           {
-            label: 'Collaborateurs IA',
-            href: '/collaborateurs-ia',
+            label: 'Marketplace IA',
+            href: '/collaborateurs-ia/applications',
             children: [
               { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
               { label: 'Compétences', href: '/collaborateurs-ia/competences' },
-              { label: 'Unitalk Store', href: '/collaborateurs-ia/applications' },
+              { label: 'Applications', href: '/collaborateurs-ia/applications/catalogue' },
             ],
           },
-          { label: 'Missions', href: '/missions' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Unitalk Desktop', href: '/desktop' },
           { label: 'Tarifs', href: '/tarifs' },
@@ -76,15 +75,14 @@ const T = {
         title: 'Product',
         links: [
           {
-            label: 'AI Collaborators',
-            href: '/collaborateurs-ia',
+            label: 'AI Marketplace',
+            href: '/collaborateurs-ia/applications',
             children: [
               { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
               { label: 'Skills', href: '/collaborateurs-ia/competences' },
-              { label: 'Unitalk Store', href: '/collaborateurs-ia/applications' },
+              { label: 'Applications', href: '/collaborateurs-ia/applications/catalogue' },
             ],
           },
-          { label: 'Missions', href: '/missions' },
           { label: 'Workspace', href: '/workspace' },
           { label: 'Unitalk Desktop', href: '/desktop' },
           { label: 'Pricing', href: '/tarifs' },
