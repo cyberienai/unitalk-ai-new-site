@@ -33,13 +33,14 @@ function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
 
 const T = {
   fr: {
-    eyebrow: 'Il vous manque quelqu’un',
+    eyebrow: 'Il vous manque quelqu’un ?',
     headline: 'Votre propre Collaborateur IA, prêt à accomplir vos missions.',
     headlineA: 'Votre propre',
     headlineB: 'Collaborateur IA.',
     headlineC: 'Prêt pour vos missions.',
-    subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives. Il travaille avec vos équipes, progresse à chaque mission et devient propre à votre entreprise.',
-    proofs: ['Votre première mission offerte', 'Alma la prépare en quelques minutes', 'Sans carte bancaire', 'Hébergement en France'],
+    subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives. Il travaille avec vos équipes, progresse à chaque mission et construit son savoir-faire dans votre entreprise.',
+    proofs: ['Première mission offerte', 'Alma la prépare en quelques minutes', 'Sans carte bancaire', 'Propulsé par Hermes'],
+    techSignature: 'Open source · Hébergé en France',
     cta: 'Décrire ma première mission',
     voiceKicker: 'Coordinatrice IA de missions',
     voiceTitle: 'Décrivez le travail à accomplir.',
@@ -50,7 +51,8 @@ const T = {
     voicePlaceholder: 'Ex. Je veux quelqu’un pour qualifier mes prospects et prendre les rendez-vous…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
     voiceSubmit: 'Continuer avec cette mission',
-    examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants'],
+    voiceSubmitEmpty: 'Décrivez d’abord votre mission',
+    examples: ['Qualifier mes prospects', 'Traiter mes e-mails entrants'],
     previewMission: 'Mission',
     previewCollaborator: 'Collaborateur IA',
     previewReady: 'Prêt à travailler',
@@ -62,7 +64,8 @@ const T = {
     headlineB: 'AI Collaborator.',
     headlineC: 'Ready for your missions.',
     subtitle: 'Entrust it with calls, emails, prospecting or administrative work. It works with your teams, improves with every mission and becomes specific to your company.',
-    proofs: ['First mission included', 'Alma prepares it in minutes', 'No credit card', 'Hosted in France'],
+    proofs: ['First mission included', 'Alma prepares it in minutes', 'No credit card', 'Powered by Hermes'],
+    techSignature: 'Open source · Hosted in France',
     cta: 'Describe my first mission',
     voiceKicker: 'AI mission coordinator',
     voiceTitle: 'Describe the work to be done.',
@@ -73,7 +76,8 @@ const T = {
     voicePlaceholder: 'E.g. I need someone to qualify prospects and book meetings…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
     voiceSubmit: 'Continue with this mission',
-    examples: ['Chase my unpaid invoices', 'Handle my incoming emails'],
+    voiceSubmitEmpty: 'Describe your mission first',
+    examples: ['Qualify my prospects', 'Handle my incoming emails'],
     previewMission: 'Mission',
     previewCollaborator: 'AI Collaborator',
     previewReady: 'Ready to work',
@@ -183,12 +187,13 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <motion.p {...enter(0.16)} className="mt-6 max-w-xl text-[17px] leading-8 text-[#4E483F] md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{t.subtitle}</motion.p>
 
           <motion.div {...enter(0.28)} className="mt-7 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:mt-5 lg:grid-cols-4">
-            {t.proofs.map((proof) => (
+            {t.proofs.map((proof, index) => (
               <span key={proof} className="flex min-h-16 items-center gap-3 border-b border-[#CFC5B5] py-3 text-xs font-bold last:border-b-0 sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 sm:first:pl-0 lg:min-h-12 lg:border-b-0 lg:px-3 lg:text-[11px] lg:leading-4 lg:[&:nth-child(2n)]:border-r lg:last:border-r-0">
-                <span aria-hidden className="h-px w-4 shrink-0 bg-[#D10E63]" />{proof}
+                <span className="font-mono text-[9px] font-bold text-[#B00C54]">0{index + 1}</span>{proof}
               </span>
             ))}
           </motion.div>
+          <motion.p {...enter(0.31)} className="mt-2 font-mono text-[9px] font-semibold uppercase tracking-[.14em] text-[#857C6E]">{t.techSignature}</motion.p>
 
            <motion.div {...enter(0.34)} className="mt-7 lg:mt-5">
              <button type="button" onClick={openVoiceSurface} className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#181615] px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#181615] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
@@ -235,8 +240,8 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 <div className="mt-3 flex flex-wrap gap-2">
                   {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] transition-colors hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
                 </div>
-                <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40">
-                  {t.voiceSubmit}<ArrowRight className="size-4" />
+                <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:bg-white/[0.08] disabled:text-[#AFA397] disabled:opacity-100">
+                  {transcript.trim() ? t.voiceSubmit : t.voiceSubmitEmpty}{transcript.trim() && <ArrowRight className="size-4" />}
                 </button>
               </div>
             </motion.div>

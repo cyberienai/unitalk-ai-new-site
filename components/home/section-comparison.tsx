@@ -17,31 +17,34 @@ const COPY = {
     kicker: 'La différence',
     title: 'Une mission accomplie.',
     titleAccent: 'Une expérience qui reste.',
-    lead: 'Un assistant comme ChatGPT ou Claude reste un outil individuel. Votre Collaborateur IA appartient à l’entreprise et peut être rattaché à une personne, une équipe ou toute l’entreprise.',
+    lead: 'ChatGPT vous aide à travailler. Votre Collaborateur IA travaille pour votre entreprise. Il conserve ce qu’il apprend, applique vos méthodes et agit dans les outils que vous lui autorisez.',
+    statement: 'Vous ne construisez pas un assistant. Vous faites grandir un collaborateur.',
     beforeTitle: 'Assistant IA généraliste',
     afterTitle: 'Collaborateur IA Unitalk',
     cta: 'Décrire ma première mission',
     rows: [
-      ['Un assistant enfermé dans une interface', 'Une identité qui agit dans vos outils'],
-      ['Une conversation volatile', 'Une mémoire durable, privée et partagée'],
-      ['Un modèle verrouillé', 'Un agent open source que vous hébergez'],
-      ['Lit vos instructions', 'Applique vos règles métier et vous soumet les étapes sensibles'],
-      ['Intelligence sous clé propriétaire', 'Données et modèles souverains, hébergés en France'],
+      ['Une conversation', 'Une identité professionnelle'],
+      ['Une mémoire de session', 'Une mémoire qui progresse avec l’entreprise'],
+      ['Un outil que vous utilisez', 'Une identité professionnelle rattachée à votre entreprise'],
+      ['Des instructions à répéter', 'Des méthodes métier qu’il applique'],
+      ['Une IA générique', 'Une expérience qui devient propre à votre entreprise'],
     ],
   },
   en: {
     kicker: 'The difference',
     title: 'A mission accomplished.',
     titleAccent: 'An experience that stays.',
-    lead: 'An assistant such as ChatGPT or Claude remains an individual tool. Your AI Collaborator belongs to the company and can be attached to one person, a team or the whole organization.',
+    lead: 'ChatGPT helps you work. Your AI Collaborator works for your company. It retains what it learns, applies your methods and acts inside the tools you authorize.',
+    statement: 'You are not building an assistant. You are growing a collaborator.',
     beforeTitle: 'General-purpose AI assistant',
     afterTitle: 'Unitalk AI Collaborator',
     cta: 'Describe my first mission',
     rows: [
-      ['An individual tool', 'An identity attached to your company'],
-      ['Answers inside its interface', 'Carries out missions and communicates with your teams'],
-      ['Conversation memory', 'Private and shared memory according to your permissions'],
-      ['Follows your instructions', 'Acts in your applications under your control'],
+      ['A conversation', 'A professional identity'],
+      ['Session memory', 'Memory that grows with your company'],
+      ['A tool you use', 'A professional identity attached to your company'],
+      ['Instructions to repeat', 'Business methods it applies'],
+      ['Generic AI', 'Experience that becomes specific to your company'],
     ],
   },
 } as const
@@ -60,6 +63,7 @@ export function SectionComparison() {
           {t.title} <span className="block text-[#D10E63]">{t.titleAccent}</span>
         </h2>
         <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-[#6B6459] sm:text-base">{t.lead}</p>
+        <p className="mt-6 max-w-3xl border-l-2 border-[#D10E63] pl-5 font-sf text-xl font-semibold leading-8 tracking-[-0.025em] text-[#1C1A17] sm:text-2xl">{t.statement}</p>
 
         {/* The transforming lines */}
         <div className="mt-10 overflow-hidden rounded-lg border border-[#E4DDCE]">

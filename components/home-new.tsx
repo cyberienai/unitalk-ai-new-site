@@ -33,9 +33,6 @@ export function HomeNew() {
         {/* 2. Concrete guarantees before the visitor evaluates the offer */}
         <SectionReassurance lang={lang} />
 
-        {/* Independent voices documenting the open-source foundation */}
-        <SectionHermesVoices lang={lang} />
-
         {/* 3. A real first mission during the seven-day trial */}
         <SectionDefinition lang={lang} />
 
@@ -44,6 +41,9 @@ export function HomeNew() {
 
         {/* 5. One concise comparison — a tool vs a durable Collaborator */}
         <SectionComparison />
+
+        {/* Independent voices document the engine once the product is understood */}
+        <SectionHermesVoices lang={lang} />
 
         {/* 6. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />

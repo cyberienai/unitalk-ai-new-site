@@ -3,44 +3,34 @@ import { describe, expect, it } from 'vitest'
 
 const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url), 'utf8')
 
-describe('Marketplace IA mega menu', () => {
-  it('provides a clear community marketplace thesis', () => {
-    expect(navbar).toContain('La Marketplace des Collaborateurs IA')
-    expect(navbar).toContain('Ouverte à la communauté')
-    expect(navbar).toContain('Des missions, des profils, des compétences et des applications')
+describe('Collaborateurs IA mega menu', () => {
+  it('leads with the collaborator category rather than marketplace plumbing', () => {
+    expect(navbar).toContain("title: { fr: 'Les Collaborateurs IA'")
+    expect(navbar).toContain('Découvrez des collaborateurs prêts à prendre en charge vos missions.')
+    expect(navbar).not.toContain('La Marketplace des Collaborateurs IA')
   })
 
-  it('exposes the Marketplace catalogs in a true mega menu', () => {
-    expect(navbar).toContain('MARKETPLACE_CATALOGS')
-    expect(navbar).toContain('w-[980px]')
-    expect(navbar).toContain('<UnitalkLogo size={32}')
-    for (const href of ['/missions', '/collaborateurs-ia/profils-metier', '/collaborateurs-ia/competences', '/collaborateurs-ia/applications', '/collaborateurs-ia/integrations', '/modeles-ia']) expect(navbar).toContain(href)
+  it('keeps only the four customer-facing catalog paths', () => {
+    for (const href of ['/missions', '/collaborateurs-ia/profils-metier', '/collaborateurs-ia/competences', '/collaborateurs-ia/applications']) expect(navbar).toContain(href)
+    expect(navbar).not.toContain("title: { fr: 'Intégrations'")
+    expect(navbar).not.toContain("title: { fr: 'Modèles IA'")
   })
 
-  it('provides creation and ecosystem paths', () => {
-    expect(navbar).toContain('MARKETPLACE_BUILD')
-    expect(navbar).toContain("menuBuild: 'Créer & développer'")
-    for (const href of ['/co-createur-ia', '/academy', '/experts', '/partenaires']) expect(navbar).toContain(href)
+  it('keeps a short create and develop column', () => {
+    for (const href of ['/co-createur-ia', '/academy', '/partenaires']) expect(navbar).toContain(href)
+    expect(navbar).not.toContain("title: { fr: 'Experts'")
   })
 
-  it('promotes the Marketplace page', () => {
-    expect(navbar).toContain("menuMarketplace: 'Explorer la Marketplace'")
-    expect(navbar).toContain("href: '/marketplace'")
-  })
-
-  it('explains AI Collaborators from a dedicated Understand area', () => {
+  it('explains the category editorially', () => {
     expect(navbar).toContain('Qu’est-ce qu’un Collaborateur IA ?')
-    expect(navbar).toContain('Identité durable, missions, compétences et contrôle humain.')
-    expect(navbar).toContain("href: '/collaborateurs-ia'")
-    expect(navbar).toContain('COLLABORATOR_EXPLAINER.title[lang]')
+    expect(navbar).toContain('Une identité professionnelle qui travaille pour votre entreprise.')
+    expect(navbar).toContain('Comment fonctionne un Collaborateur IA →')
+    expect(navbar).not.toContain('<UnitalkLogo size={compact ? 18 : 20}')
   })
 
-  it('keeps Missions as the first top-level navigation entry', () => {
+  it('keeps Missions first and removes Partners from the top navigation', () => {
     expect(navbar).toContain('<NavItem href="/missions"')
-  })
-
-  it('links the partner ecosystem from the top navigation', () => {
-    expect(navbar).toContain('<NavItem href="/partenaires"')
+    expect(navbar).not.toContain('<NavItem href="/partenaires"')
   })
 
   it('uses accessible menu semantics and matching mobile discovery', () => {
