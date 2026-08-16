@@ -25,7 +25,10 @@ describe('home profile carousel', () => {
   it('uses one collaborator price and sells professions rather than time levels', () => {
     expect(profiles).toContain('unitalkPricing.aiCollaborator.monthlyPrice')
     expect(profiles).toContain('Licence Collaborateur IA')
-    expect(profiles).toContain('Capacité IA et configuration de l’entreprise à choisir ensuite.')
+    expect(profiles).toContain('Configurez le reste ensuite.')
+    expect(profiles).toContain('Plusieurs rôles, une identité')
+    expect(profiles).toContain('Utilisez vos clés IA')
+    expect(profiles).toContain('Prêt à commencer')
     expect(profiles).not.toContain('Quart-temps · 74€/mois')
     expect(profiles).not.toContain('Mi-temps · 99€/mois')
     expect(profiles).not.toContain('Temps plein · 149€/mois')

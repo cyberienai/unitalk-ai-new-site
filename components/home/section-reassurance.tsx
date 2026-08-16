@@ -25,11 +25,11 @@ export function SectionReassurance({ lang }: { lang: 'fr' | 'en' }) {
   return (
     <section aria-label={lang === 'fr' ? 'Réassurance' : 'Reassurance'} className="w-full bg-[#EAE3D4]">
       <div className="editorial-shell py-10 sm:py-12">
-        <ul className="grid border-l border-t border-[#BFB5A5] sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-4">
           {t.items.map((item, index) => (
-            <li key={item.title} className="relative min-h-[160px] border-b border-r border-[#BFB5A5] p-5 sm:p-6">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]" aria-hidden="true">{item.label}</span>
-              <h2 className="mt-4 max-w-[15rem] font-sf text-[17px] font-semibold leading-[1.2] tracking-[-0.015em] text-[#1C1A17] lg:min-h-[2.5rem]">
+            <li key={item.title} className="relative min-h-[160px] border-b border-[#CFC5B5] px-1 py-6 last:border-b-0 sm:px-6 sm:first:pl-0 sm:[&:nth-child(2)]:border-l sm:[&:nth-child(2)]:pl-6 sm:[&:nth-child(n+3)]:border-b-0 lg:border-b-0 lg:border-l lg:first:border-l-0 lg:[&:nth-child(3)]:pl-6">
+              <span className="inline-flex rounded-xl border border-[#D10E63]/20 bg-[#D10E63]/[0.08] px-3 py-1.5 text-[12px] font-bold text-[#B00C54]" aria-hidden="true">{item.label}</span>
+              <h2 className="mt-4 max-w-[15rem] text-[17px] font-semibold leading-[1.2] tracking-[-0.015em] text-[#1C1A17] lg:min-h-[2.5rem]">
                 {index === 0 && <AlmaFace em={1.35} />}{item.title}
               </h2>
               <p className="mt-3 max-w-[17rem] text-[13px] leading-[1.55] text-[#5A5348]">

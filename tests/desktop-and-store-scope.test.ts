@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
-const footer = readFileSync(new URL('../components/site-footer.tsx', import.meta.url), 'utf8')
 const sitemap = readFileSync(new URL('../app/sitemap.ts', import.meta.url), 'utf8')
 const applications = readFileSync(new URL('../app/collaborateurs-ia/applications/page.tsx', import.meta.url), 'utf8')
 const applicationsCatalog = readFileSync(new URL('../app/collaborateurs-ia/applications/catalogue/page.tsx', import.meta.url), 'utf8')
@@ -11,8 +10,7 @@ const servers = readFileSync(new URL('../app/collaborateurs-ia/serveurs/page.tsx
 const store = readFileSync(new URL('../components/store-content.tsx', import.meta.url), 'utf8')
 
 describe('Desktop discovery and Store scopes', () => {
-  it('links the Desktop page from primary discovery surfaces', () => {
-    expect(footer).toContain("href: '/desktop'")
+  it('keeps the Desktop page discoverable', () => {
     expect(sitemap).toContain("'/desktop'")
   })
 

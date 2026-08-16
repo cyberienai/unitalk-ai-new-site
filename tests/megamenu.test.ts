@@ -8,10 +8,9 @@ describe('Marketplace IA mega menu', () => {
     expect(navbar).toContain('Quel travail voulez-vous confier ?')
     expect(navbar).toContain('Décrivez votre mission…')
     expect(navbar).toContain('Continuer avec Alma')
-    expect(navbar).toContain('Parler à Alma')
-    expect(navbar).toContain('Alma vous écoute…')
-    expect(navbar).toContain('getSpeechRecognition')
-    expect(navbar).toContain('Relancer mes factures impayées')
+    expect(navbar).not.toContain('Parler à Alma')
+    expect(navbar).not.toContain('getSpeechRecognition')
+    expect(navbar).not.toContain('Relancer mes factures impayées')
   })
 
   it('organizes equipment into four clear paths', () => {
@@ -24,8 +23,8 @@ describe('Marketplace IA mega menu', () => {
     expect(navbar).toContain("menuBuild: 'Connecter et déployer'")
   })
 
-  it('uses a doctrine footer and explicit selection label', () => {
-    expect(navbar).toContain('Ouverte · Open source · Souveraine')
+  it('uses a concise footer and explicit selection label', () => {
+    expect(navbar).not.toContain('Ouverte · Open source · Souveraine')
     expect(navbar).toContain('Sélection Unitalk')
     expect(navbar).toContain('Explorer toute la Marketplace')
     expect(navbar).not.toContain('<a href="/tarifs" onClick={() => setCollabOpen(false)}')

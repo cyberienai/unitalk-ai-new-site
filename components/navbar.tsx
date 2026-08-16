@@ -6,8 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
   ChevronDown,
-  Mic,
-  Square,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { UnitalkLogo } from './unitalk-logo'
@@ -16,28 +14,6 @@ import { AnonymousOnly, UserMenuDesktop, UserMenuMobile } from './auth/user-menu
 import { useAlma } from '@/lib/alma-context'
 
 type Bi = { fr: string; en: string }
-type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
-type SpeechRecognitionInstance = {
-  lang: string
-  continuous: boolean
-  interimResults: boolean
-  onresult: ((event: SpeechResultEvent) => void) | null
-  onend: (() => void) | null
-  onerror: (() => void) | null
-  start: () => void
-  stop: () => void
-  abort: () => void
-}
-
-function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
-  if (typeof window === 'undefined') return null
-  const speechWindow = window as typeof window & {
-    SpeechRecognition?: new () => SpeechRecognitionInstance
-    webkitSpeechRecognition?: new () => SpeechRecognitionInstance
-  }
-  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null
-}
-
 const ALMA_CTA = {
   href: '/missions?composer=1&source=nav',
   label: { fr: 'Décrire une mission', en: 'Describe a mission' } as Bi,
@@ -98,17 +74,8 @@ const T = {
     menuCatalog: 'Équiper votre Collaborateur',
     menuBuild: 'Connecter et déployer',
     missionTitle: 'Quel travail voulez-vous confier ?',
-    voiceStart: 'Parler à Alma',
-    voiceListening: 'Alma vous écoute…',
-    voiceUnavailable: 'Voix indisponible',
-    writeInstead: 'ou écrivez votre mission',
     missionPlaceholder: 'Décrivez votre mission…',
-    missionSuggestions: ['Relancer mes factures impayées', 'Trouver de nouveaux prospects'],
-    missionExamples: 'Voir toutes les missions',
-    almaGuide: 'Alma vous oriente.',
-    almaGuideBody: 'Elle trouve le Collaborateur IA, les compétences et les applications adaptés à votre mission.',
     continueAlma: 'Continuer avec Alma',
-    doctrine: 'Ouverte · Open source · Souveraine',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -131,17 +98,8 @@ const T = {
     menuCatalog: 'Equip your Collaborator',
     menuBuild: 'Connect and deploy',
     missionTitle: 'What work do you want to entrust?',
-    voiceStart: 'Talk to Alma',
-    voiceListening: 'Alma is listening…',
-    voiceUnavailable: 'Voice unavailable',
-    writeInstead: 'or type your mission',
     missionPlaceholder: 'Describe your mission…',
-    missionSuggestions: ['Follow up on unpaid invoices', 'Find new prospects'],
-    missionExamples: 'View all missions',
-    almaGuide: 'Alma guides you.',
-    almaGuideBody: 'She finds the right AI Collaborator, skills and applications for your mission.',
     continueAlma: 'Continue with Alma',
-    doctrine: 'Open · Open source · Sovereign',
   },
 }
 
@@ -236,10 +194,8 @@ export function Navbar(
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [marketplaceMission, setMarketplaceMission] = useState('')
-  const [listening, setListening] = useState(false)
   const collabRef = useRef<HTMLDivElement | null>(null)
   const collabButtonRef = useRef<HTMLButtonElement | null>(null)
-  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   // Hover intent: small close delay so moving from trigger to panel doesn't flicker.
   const collabHoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const openCollabHover = () => {
@@ -252,7 +208,6 @@ export function Navbar(
   }
   const { lang, setLang } = useLanguage()
   const router = useRouter()
-  const voiceSupported = typeof window !== 'undefined' && getSpeechRecognition() !== null
   const { setLauncherSuppressed } = useAlma()
   const t = T[lang]
   const pathname = usePathname() || '/'
@@ -282,27 +237,6 @@ export function Navbar(
     setLauncherSuppressed(collabOpen)
     return () => setLauncherSuppressed(false)
   }, [collabOpen, setLauncherSuppressed])
-
-  useEffect(() => {
-    const SpeechRecognition = getSpeechRecognition()
-    if (!SpeechRecognition) return
-    const recognition = new SpeechRecognition()
-    recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
-    recognition.continuous = false
-    recognition.interimResults = true
-    recognition.onresult = (event) => {
-      let transcript = ''
-      for (let index = 0; index < event.results.length; index++) transcript += event.results[index][0].transcript
-      setMarketplaceMission(transcript.trim())
-    }
-    recognition.onend = () => setListening(false)
-    recognition.onerror = () => setListening(false)
-    recognitionRef.current = recognition
-    return () => {
-      recognition.abort()
-      recognitionRef.current = null
-    }
-  }, [lang])
 
   // Subtle bottom border once the page is scrolled
   useEffect(() => {
@@ -345,18 +279,6 @@ export function Navbar(
     const mission = marketplaceMission.trim()
     setCollabOpen(false)
     router.push(`/missions?composer=1&source=marketplace-menu${mission ? `&q=${encodeURIComponent(mission)}` : ''}`)
-  }
-
-  function toggleMarketplaceVoice() {
-    if (!voiceSupported || !recognitionRef.current) return
-    if (listening) {
-      recognitionRef.current.stop()
-      setListening(false)
-      return
-    }
-    setMarketplaceMission('')
-    setListening(true)
-    recognitionRef.current.start()
   }
 
   return (
@@ -436,31 +358,17 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                       className="absolute -left-[210px] top-full w-[1040px] max-w-[calc(100vw-2rem)] pt-3"
-                     >
-                       <div className="max-h-[560px] overflow-hidden rounded-[24px] border border-white/[.08] bg-[#151316] text-[#FAF8F3] shadow-[0_36px_90px_-26px_rgba(21,19,22,.7)]">
-                          <div className="grid grid-cols-[40%_32%_28%]">
-                           <div className="relative isolate overflow-hidden bg-[linear-gradient(145deg,#3A0B23_0%,#181117_76%)] p-6">
-                             <div aria-hidden className="absolute -right-20 -top-20 -z-10 size-56 rounded-full bg-[#D10E63]/25 blur-3xl" />
-                             <p className="font-mono text-[9px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.menuFeatured}</p>
-                             <h2 className="mt-3 max-w-sm text-[27px] font-semibold leading-[1] tracking-[-.045em]">{t.missionTitle}</h2>
-                             <button type="button" onClick={toggleMarketplaceVoice} disabled={!voiceSupported} aria-pressed={listening} className={`group relative mt-5 flex min-h-14 w-full items-center justify-center gap-3 overflow-hidden rounded-xl border px-4 text-sm font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F2A4C5] disabled:cursor-not-allowed disabled:opacity-55 ${listening ? 'border-[#F2A4C5]/60 bg-[#D10E63] text-white' : 'border-[#D10E63]/50 bg-[#D10E63]/15 text-[#F7D4E2] hover:bg-[#D10E63]/25'}`}>
-                               {listening && <motion.span aria-hidden className="absolute size-10 rounded-full border border-white/60" animate={{ scale: [1, 2.2], opacity: [.6, 0] }} transition={{ duration: 1.5, repeat: Infinity }} />}
-                               <span className="relative flex size-9 items-center justify-center rounded-full bg-[#D10E63] text-white">{listening ? <Square className="size-3.5 fill-current" /> : <Mic className="size-[18px]" />}</span>
-                               <span className="relative">{voiceSupported ? (listening ? t.voiceListening : t.voiceStart) : t.voiceUnavailable}</span>
-                             </button>
-                             <div className="my-3 flex items-center gap-3"><span className="h-px flex-1 bg-white/10" /><span className="font-mono text-[8px] uppercase tracking-[.14em] text-[#8F8188]">{t.writeInstead}</span><span className="h-px flex-1 bg-white/10" /></div>
-                             <form onSubmit={(event) => { event.preventDefault(); continueMarketplaceMission() }}>
-                               <div className="flex min-h-12 items-center rounded-xl border border-white/15 bg-white/[.07] px-4 focus-within:border-[#D10E63]/70 focus-within:ring-2 focus-within:ring-[#D10E63]/20">
-                                 <input value={marketplaceMission} onChange={(event) => setMarketplaceMission(event.target.value)} placeholder={t.missionPlaceholder} aria-label={t.missionPlaceholder} className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-[#9E9198]" />
-                                 <button type="submit" aria-label={t.continueAlma} className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#D10E63] text-white"><ArrowRight className="size-4" /></button>
-                               </div>
+                       className="fixed left-1/2 top-[76px] w-[900px] max-w-[calc(100vw-2rem)] -translate-x-1/2 pt-3"
+                       >
+                       <div className="max-h-[560px] overflow-hidden rounded-[24px] border border-[#DED6C8] bg-[#F3EFE6] text-[#1C1A17] shadow-[0_36px_90px_-26px_rgba(21,19,22,.35)]">
+                          <div className="grid grid-cols-[34%_36%_30%]">
+                           <div className="border-r border-[#DED6C8] p-5">
+                             <p className="font-mono text-[9px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.menuFeatured}</p>
+                             <h2 className="mt-3 text-[24px] font-semibold leading-[1] tracking-[-.045em]">{t.missionTitle}</h2>
+                             <form onSubmit={(event) => { event.preventDefault(); continueMarketplaceMission() }} className="mt-5">
+                               <input value={marketplaceMission} onChange={(event) => setMarketplaceMission(event.target.value)} placeholder={t.missionPlaceholder} aria-label={t.missionPlaceholder} className="min-h-12 w-full rounded-xl border border-[#D8D0C2] bg-[#FFFDF9] px-4 text-sm text-[#1C1A17] outline-none placeholder:text-[#857C6E] focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/20" />
+                               <button type="submit" className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 text-sm font-bold text-white transition-colors hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40">{t.continueAlma}<ArrowRight className="size-4" /></button>
                              </form>
-                              <div className="mt-3 space-y-1">
-                                {t.missionSuggestions.map((suggestion) => <button key={suggestion} type="button" onClick={() => setMarketplaceMission(suggestion)} className="block w-full rounded-lg px-2 py-1.5 text-left text-[12px] text-[#D8CDD2] transition-colors hover:bg-white/[.06] hover:text-white">{suggestion}</button>)}
-                              </div>
-                              <a href="/missions" onClick={() => setCollabOpen(false)} className="mt-1 inline-flex px-2 text-[11px] font-bold text-[#F2A4C5] underline decoration-[#F2A4C5]/30 underline-offset-4 hover:decoration-[#F2A4C5]">{t.missionExamples}</a>
-                              <div className="mt-5 border-t border-white/10 pt-4"><p className="text-sm font-bold text-white">{t.almaGuide}</p><p className="mt-1.5 text-[11px] leading-5 text-[#B8ABB1]">{t.almaGuideBody}</p></div>
                            </div>
 
                             <div className="border-r border-[#DED6C8] bg-[#F3EFE6] p-5 text-[#1C1A17]">
@@ -470,7 +378,7 @@ export function Navbar(
                              </div>
                            </div>
 
-                            <div className="bg-[#EAE3D4] p-5 text-[#1C1A17]">
+                             <div className="bg-[#F3EFE6] p-5 text-[#1C1A17]">
                               <div className="flex items-center justify-between px-1 pb-4 pt-1"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.menuBuild}</p><a href="/documentation" onClick={() => setCollabOpen(false)} className="text-[10px] font-bold text-[#625B50] hover:text-[#B00C54]">Documentation</a></div>
                               <div className="space-y-2">
                                 {MARKETPLACE_BUILD.map((entry) => <DeploymentMenuLink key={entry.href} entry={entry} lang={lang} onSelect={() => setCollabOpen(false)} />)}
@@ -478,8 +386,7 @@ export function Navbar(
                            </div>
                          </div>
 
-                          <div className="flex min-h-12 items-center justify-between gap-5 border-t border-[#DED6C8] bg-[#FFFDF9] px-6 text-[11px] font-semibold text-[#625B50]">
-                            <span className="font-mono text-[9px] uppercase tracking-[.12em]">{t.doctrine}</span>
+                           <div className="flex min-h-12 items-center justify-end gap-5 border-t border-[#DED6C8] bg-[#FFFDF9] px-6 text-[11px] font-semibold text-[#625B50]">
                             <div className="flex items-center gap-5">{COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#B00C54]">{item.title[lang]}</a>)}</div>
                             <a href="/marketplace" onClick={() => setCollabOpen(false)} className="group inline-flex shrink-0 items-center gap-2 font-bold text-[#B00C54]">{lang === 'fr' ? 'Explorer toute la Marketplace' : 'Explore the full Marketplace'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
                          </div>
@@ -635,10 +542,10 @@ export function Navbar(
                           className="overflow-hidden"
                         >
                            <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                              <div className="relative my-3 overflow-hidden rounded-2xl bg-[linear-gradient(145deg,#3A0B23,#181117)] p-4 text-[#FAF8F3]">
-                               <p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.menuFeatured}</p><p className="mt-2 text-lg font-bold">{t.missionTitle}</p>
-                               <button type="button" onClick={toggleMarketplaceVoice} disabled={!voiceSupported} aria-pressed={listening} className={`mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border text-xs font-bold disabled:opacity-50 ${listening ? 'border-[#F2A4C5] bg-[#D10E63]' : 'border-[#D10E63]/50 bg-[#D10E63]/15 text-[#F7D4E2]'}`}>{listening ? <Square className="size-3 fill-current" /> : <Mic className="size-4" />}{voiceSupported ? (listening ? t.voiceListening : t.voiceStart) : t.voiceUnavailable}</button>
-                               <div className="mt-3 flex min-h-11 items-center rounded-xl border border-white/15 bg-white/[.07] px-3"><input value={marketplaceMission} onChange={(event) => setMarketplaceMission(event.target.value)} placeholder={t.missionPlaceholder} aria-label={t.missionPlaceholder} className="min-w-0 flex-1 bg-transparent text-xs text-white outline-none placeholder:text-white/45" /><button type="button" onClick={() => { continueMarketplaceMission(); setIsMenuOpen(false) }} aria-label={t.continueAlma} className="flex size-8 items-center justify-center rounded-full bg-[#D10E63]"><ArrowRight className="size-4" /></button></div>
+                              <div className="relative my-3 overflow-hidden rounded-2xl border border-[#DED6C8] bg-[#FFFDF9] p-4 text-[#1C1A17]">
+                                <p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.menuFeatured}</p><p className="mt-2 text-lg font-bold">{t.missionTitle}</p>
+                                <input value={marketplaceMission} onChange={(event) => setMarketplaceMission(event.target.value)} placeholder={t.missionPlaceholder} aria-label={t.missionPlaceholder} className="mt-3 min-h-11 w-full rounded-xl border border-[#CFC5B5] bg-white px-3 text-xs text-[#1C1A17] outline-none placeholder:text-[#857C6E] focus:border-[#D10E63]" />
+                                <button type="button" onClick={() => { continueMarketplaceMission(); setIsMenuOpen(false) }} className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-4 text-xs font-bold text-white">{t.continueAlma}<ArrowRight className="size-4" /></button>
                               </div>
                               <p className="px-1 pb-1 pt-3 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#857C6E]">{t.menuCatalog}</p>
                               <div className="grid grid-cols-2 gap-x-4">

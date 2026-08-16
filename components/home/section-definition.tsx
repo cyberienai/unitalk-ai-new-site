@@ -63,11 +63,6 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
             )
           })}
         </ol>
-
-        <div className="mt-8 flex flex-col items-center">
-          <button type="button" onClick={() => window.dispatchEvent(new Event('open-home-alma'))} className="inline-flex min-h-12 items-center rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.cta} →</button>
-          <p className="mt-3 text-center text-xs font-medium text-[#625B50]">{t.note}</p>
-        </div>
       </div>
     </section>
   )
