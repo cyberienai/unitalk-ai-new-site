@@ -273,13 +273,13 @@ export function MissionsContent({
              <p className="max-w-2xl text-[15px] leading-7 text-[#625B50] lg:justify-self-end">{t.catalogLead}</p>
           </div>
 
-          <div className="mt-7 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-            <label className="relative block">
+          <div className="mt-7 space-y-4">
+            <label className="relative block max-w-2xl">
               <span className="sr-only">{t.search}</span>
-              <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#6E665A]" />
+              <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
               <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
             </label>
-            <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-2 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                {(Object.keys(t.families) as NeedFamily[]).map((key) => <CategoryPill key={key} active={!requestedCategory && family === key} onClick={() => selectFamily(key)}>{t.families[key]}</CategoryPill>)}
             </div>
           </div>

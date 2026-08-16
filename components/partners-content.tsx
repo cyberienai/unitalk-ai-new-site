@@ -24,7 +24,7 @@ const COPY = {
     heroLead:
       'Apprenez à créer des Collaborateurs IA, trouvez les premiers clients, puis déployez les solutions qui prouvent leur valeur.',
     heroSub:
-      'Vous pouvez commencer sans réseau, sans catalogue et sans tout savoir. Commencez par un problème qu’une entreprise veut vraiment résoudre.',
+      'Le coût de construire baisse. La capacité d’une petite équipe augmente. Ce qui compte reste inchangé : comprendre un problème réel et créer quelque chose que des clients veulent utiliser.',
     heroCta: 'Commencer par une mission',
     heroCtaHref: '/academy/parcours-gratuits/premiere-mission-ia',
     heroSecondary: 'Déployer chez mes clients',
@@ -93,9 +93,16 @@ const COPY = {
     openBody1:
       'Hermes est un agent autonome open source capable d’utiliser des outils, d’accomplir des tâches et de progresser grâce à sa mémoire et à ses compétences.',
     openBody2:
-      'Unitalk lui ajoute une identité professionnelle, un rattachement, une mémoire gouvernée, des communications, un workspace et une infrastructure adaptée au travail en entreprise.',
+      'Unitalk transforme cette capacité technique en Collaborateur IA : une responsabilité claire, des missions, des outils autorisés, une mémoire contrôlée et des validations humaines.',
     openCta: 'Découvrir Hermes et l’open source',
     openHref: '/manifeste',
+
+    editorialEyebrow: 'Pourquoi maintenant',
+    editorialTitle: 'Il n’a jamais été aussi accessible de construire une entreprise capable.',
+    editorialBody: 'Paul Graham rappelle que les grandes entreprises commencent par un petit groupe qui comprend profondément un problème. Sam Altman observe que l’intelligence devient une ressource de plus en plus accessible. Ensemble, ces idées décrivent une fenêtre rare : une petite équipe peut désormais construire, tester et servir beaucoup plus vite, sans cesser d’écouter ses clients.',
+    editorialCta: 'Lire notre analyse de Paul Graham et Sam Altman',
+    editorialHref: '/blog/paul-graham-sam-altman-creer-maintenant',
+    editorialNote: 'Une lecture éditoriale Unitalk de leurs idées publiques, sans citation ni approbation implicite.',
 
     modelEyebrow: 'Votre modèle',
     modelTitle: 'Votre rémunération suit votre niveau d’engagement.',
@@ -226,6 +233,13 @@ const COPY = {
       'Unitalk adds a professional identity, an attachment, governed memory, communications, a workspace and infrastructure fit for enterprise work.',
     openCta: 'Discover Hermes and open source',
     openHref: '/manifeste',
+
+    editorialEyebrow: 'Why now',
+    editorialTitle: 'Building a capable company has never been this accessible.',
+    editorialBody: 'Paul Graham reminds founders that great companies begin with a small group that deeply understands a problem. Sam Altman argues that intelligence is becoming increasingly accessible. Together, these ideas describe a rare window: a small team can now build, test and serve much faster without ceasing to listen to customers.',
+    editorialCta: 'Read our analysis of Paul Graham and Sam Altman',
+    editorialHref: '/blog/paul-graham-sam-altman-creer-maintenant',
+    editorialNote: 'A Unitalk editorial reading of their public ideas, with no implied quote or endorsement.',
 
     modelEyebrow: 'Your model',
     modelTitle: 'Create the value that fits you.',
@@ -443,6 +457,13 @@ export function PartnersContent() {
             {t.openCta}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
+        </div>
+      </section>
+
+      <section className="border-t border-[#E4DDCE] bg-[#D10E63] px-5 py-16 text-white sm:px-6 sm:py-24 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
+          <div><p className="font-mono text-[11px] font-semibold uppercase tracking-[.2em] text-white/65">{t.editorialEyebrow}</p><h2 className="mt-4 text-balance font-sf text-3xl font-bold leading-tight tracking-[-.03em] sm:text-5xl">{t.editorialTitle}</h2></div>
+          <div><p className="text-[16px] leading-8 text-white/85">{t.editorialBody}</p><Link href={t.editorialHref} className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#181615] px-6 py-3 text-sm font-bold text-white">{t.editorialCta}<ArrowRight className="size-4"/></Link><p className="mt-4 text-xs leading-5 text-white/60">{t.editorialNote}</p></div>
         </div>
       </section>
 
