@@ -20,7 +20,7 @@ describe('home commercial messaging', () => {
 
   it('clarifies Alma and brings profiles earlier', () => {
     expect(profiles).toContain('Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.')
-    expect(profiles).toContain("recruit: 'Configurer'")
+    expect(profiles).toContain("recruit: 'Choisir'")
     expect(navbar).not.toContain('Alma · Conseillère IA')
     expect(navbar).toContain('Alma · Coordinatrice de missions IA')
   })

@@ -1,6 +1,7 @@
 'use client'
 
-import { Check, MessageSquareText, ShieldCheck, Sparkles } from 'lucide-react'
+import Image from 'next/image'
+import { Check, MessageSquareText, ShieldCheck } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { useAlma } from '@/components/home/alma-panel-context'
@@ -12,7 +13,7 @@ const COPY = {
     lead: 'Pas une démonstration générique : choisissez un besoin concret de votre entreprise et observez comment Alma et votre Collaborateur IA le prennent en charge.',
     steps: [
       { title: 'Décrivez la mission', body: 'Expliquez votre besoin à Alma, à la voix ou par écrit.', icon: MessageSquareText },
-      { title: 'Alma prépare le cadre', body: 'Elle précise le résultat attendu, le profil métier, les compétences, les applications et les validations.', icon: Sparkles },
+      { title: 'Alma prépare le cadre', body: 'Elle précise le résultat attendu, le profil métier, les compétences, les applications et les validations.', avatar: true },
       { title: 'Le Collaborateur IA agit', body: 'Il accomplit la mission dans le périmètre défini et soumet les étapes sensibles à votre validation.', icon: ShieldCheck },
       { title: 'Vous jugez le résultat', body: 'Vous évaluez le travail réalisé et décidez librement de poursuivre.', icon: Check },
     ],
@@ -25,7 +26,7 @@ const COPY = {
     lead: 'Not a generic demo: choose a concrete need from your company and see how Alma and your AI Collaborator handle it.',
     steps: [
       { title: 'Describe the mission', body: 'Explain your need to Alma, by voice or in writing.', icon: MessageSquareText },
-      { title: 'Alma prepares the framework', body: 'It clarifies the expected result, job profile, skills, applications and approvals.', icon: Sparkles },
+      { title: 'Alma prepares the framework', body: 'It clarifies the expected result, job profile, skills, applications and approvals.', avatar: true },
       { title: 'The AI Collaborator acts', body: 'It completes the mission within the agreed scope and submits sensitive steps for your approval.', icon: ShieldCheck },
       { title: 'You assess the result', body: 'Review the work and freely decide whether to continue.', icon: Check },
     ],
@@ -48,11 +49,15 @@ export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
 
         <ol className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {t.steps.map((step) => {
-            const Icon = step.icon
+            const Icon = 'icon' in step ? step.icon : null
             return (
               <li key={step.title} className="rounded-3xl border border-[#DED6C8] bg-[#FBF9F3] p-6">
                 <div className="flex items-center gap-3">
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]"><Icon className="size-[18px]" /></span>
+                  {'avatar' in step ? (
+                    <Image src="/alma-avatar.png" alt="Alma" width={36} height={36} className="size-9 shrink-0 rounded-full object-cover ring-2 ring-[#D10E63]/20" />
+                  ) : (
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]">{Icon && <Icon className="size-[18px]" />}</span>
+                  )}
                   <h3 className="font-sf text-lg font-semibold leading-tight text-[#1C1A17]">{step.title}</h3>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-[#5A5348]">{step.body}</p>

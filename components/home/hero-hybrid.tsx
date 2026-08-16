@@ -54,7 +54,7 @@ const T = {
     almaAction: "Revenir à Alma",
     voiceKicker: 'Alma · Coordinatrice IA de missions',
     voiceTitle: 'Parlez ou écrivez à Alma.',
-    voiceBody: 'Décrivez le travail à accomplir.\nAlma le transforme en une première mission structurée.',
+    voiceBody: 'Alma transforme votre besoin en une première mission structurée.',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
@@ -89,7 +89,7 @@ const T = {
     almaAction: "Return to Alma",
     voiceKicker: 'Alma · AI mission coordinator',
     voiceTitle: 'Talk or write to Alma.',
-    voiceBody: 'Describe the work to be done.\nAlma turns it into a first structured mission.',
+    voiceBody: 'Alma turns your need into a first structured mission.',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
@@ -267,11 +267,11 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
                 </div>
 
-                <div className="mb-4 flex flex-wrap justify-center gap-2">
-                  {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-[#D6CABD] hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
-                </div>
                 <label className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#D6CABD]">{t.voiceWritten}</label>
                 <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#AFA397] focus:border-[#D10E63]" />
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] transition-colors hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
+                </div>
                 {transcript.trim() && (
                   <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-2xl border border-[#D10E63]/25 bg-[#D10E63]/10 p-3">
                     <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#F3B4CF]">{t.previewLabel}</p>
