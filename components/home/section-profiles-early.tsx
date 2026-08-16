@@ -21,7 +21,7 @@ type Profile = {
 
 const COPY = {
   fr: {
-    kicker: 'La Place de Marché',
+    kicker: 'Place de marché des Collaborateurs IA',
     title: 'Choisissez le Collaborateur IA adapté à votre première mission.',
     lead: 'Besoin d’aide pour vos emails, votre prospection ou votre relation client ?',
     almaLead: 'Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.',
@@ -41,7 +41,7 @@ const COPY = {
     ] satisfies Profile[],
   },
   en: {
-    kicker: 'The Marketplace',
+    kicker: 'AI Collaborator Marketplace',
     title: 'Choose the AI Collaborator suited to your first mission.',
     lead: 'Need help with email, prospecting or customer relations?',
     almaLead: 'Alma scopes your need and prepares the AI Collaborator suited to your mission.',
