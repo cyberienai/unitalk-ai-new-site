@@ -4,9 +4,10 @@ import { PartnerDeployContent } from '@/components/partner-deploy-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Partner · Déployer chez vos clients · Unitalk',
+  title: 'Programme Partenaire · Déployer des Collaborateurs IA chez vos clients',
   description:
-    'Déployez des Collaborateurs IA chez vos clients pour 499 € / mois. Espace multi-clients, profils métier illimités, co-branding, academy, support prioritaire et partage des revenus. Chaque client conserve son propre abonnement.',
+    'Partez d’une mission réelle, prouvez la valeur puis déployez des Collaborateurs IA chez plusieurs clients avec l’espace Partner Unitalk à 499 € par mois.',
+  alternates: { canonical: '/partenaires/deployer' },
 }
 
 export default function PartnerDeployPage() {

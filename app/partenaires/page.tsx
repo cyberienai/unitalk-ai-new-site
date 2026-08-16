@@ -4,9 +4,10 @@ import { PartnersContent } from '@/components/partners-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Partenaires · Unitalk',
+  title: 'Devenir partenaire Unitalk · Créer, recommander ou déployer',
   description:
-    "Le carrefour de l'écosystème Unitalk. Déployez des Collaborateurs IA chez vos clients, construisez sur notre infrastructure, connectez vos solutions, contribuez à Hermes ou transmettez votre expertise.",
+    "Partez d'une mission réelle, créez des Collaborateurs IA puis choisissez votre modèle : Co-créateur, Affilié ou Partenaire de déploiement Unitalk.",
+  alternates: { canonical: '/partenaires' },
 }
 
 export default function PartenairesPage() {

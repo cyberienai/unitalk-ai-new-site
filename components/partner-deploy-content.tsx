@@ -11,31 +11,31 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 const COPY = {
   fr: {
-    heroTag: 'Multi-clients · Co-branding · Support prioritaire',
-    heroTitle: 'Déployez des Collaborateurs IA chez vos clients.',
+    heroTag: 'Mission · Preuve · Déploiement multi-clients',
+    heroTitle: 'Transformez une mission réussie en offre déployable.',
     heroLead:
-      'Vous apportez la relation, l’expertise et la méthode. Unitalk fournit l’infrastructure, le workspace et les Collaborateurs IA.',
+      'Vous trouvez le problème, construisez la preuve et accompagnez le client. Unitalk fournit l’infrastructure, le workspace et les Collaborateurs IA.',
     heroPrice: '499 € / mois',
     heroCta: 'Devenir partenaire',
     heroCtaHref: 'mailto:partenaires@unitalk.ai',
-    heroSecondary: 'Parler à notre équipe',
-    heroSecondaryHref: 'mailto:partenaires@unitalk.ai',
+    heroSecondary: 'Me former comme Co-créateur',
+    heroSecondaryHref: '/academy/formations/co-createur-ia',
 
     propEyebrow: 'La proposition',
-    propKicker: 'Vous ne revendez pas un chatbot.',
-    propTitle: 'Vous développez les capacités de vos clients.',
+    propKicker: 'Vous ne revendez pas un logiciel générique.',
+    propTitle: 'Vous partez d’un résultat que le client veut obtenir.',
     propBody1:
-      'Chaque Collaborateur IA possède une identité, une mémoire et des accès propres à l’entreprise qui l’emploie.',
+      'La mission définit le résultat, les sources, les outils, les contrôles humains et la preuve attendue. Le Collaborateur IA est construit autour de ce travail réel.',
     propBody2:
-      'Vous pouvez lui ajouter autant de profils métier que nécessaire, sans surcoût par profil. Ses capacités progressent ensuite avec les missions et les méthodes validées par le client.',
+      'Chaque client conserve son environnement, ses données et ses décisions. Vous pouvez ensuite enrichir le Collaborateur IA avec les profils, compétences et applications que ses missions exigent.',
 
     howEyebrow: 'Fonctionnement',
-    howTitle: 'Du besoin au déploiement.',
+    howTitle: 'Du problème client à une offre reproductible.',
     steps: [
-      { n: '01', t: 'Concevez', d: 'Structurez la mission, les règles et les décisions qui doivent rester humaines.' },
-      { n: '02', t: 'Configurez', d: 'Affectez le bon Collaborateur IA, puis ajoutez les profils métier, les compétences et les applications nécessaires.' },
-      { n: '03', t: 'Déployez', d: 'Ouvrez uniquement les accès autorisés et rejoignez le workspace du client.' },
-      { n: '04', t: 'Développez', d: 'Transformez les méthodes validées en capacités réutilisables, sans exposer les données privées du client.' },
+      { n: '01', t: 'Cadrez', d: 'Choisissez une mission réelle, son résultat et les décisions qui doivent rester humaines.' },
+      { n: '02', t: 'Construisez', d: 'Configurez le Collaborateur IA, ses compétences, ses sources et son application métier.' },
+      { n: '03', t: 'Prouvez', d: 'Testez sur des cas contrôlés et documentez le résultat, les erreurs et les corrections.' },
+      { n: '04', t: 'Déployez', d: 'Présentez une offre claire, ouvrez uniquement les accès autorisés et accompagnez le client.' },
     ],
 
     offerEyebrow: 'Offre',
@@ -49,7 +49,7 @@ const COPY = {
       'profils métier illimités',
       'missions, compétences, applications et packs',
       'co-branding',
-      'academy et certification',
+      'accès aux ressources Unitalk Academy',
       'support prioritaire',
       'publication et partage des revenus',
     ],
@@ -68,7 +68,7 @@ const COPY = {
       'les compétences et applications payantes qu’ils choisissent d’utiliser',
     ],
     modelShare:
-      'Lorsque vous publiez un élément éligible dans l’écosystème Unitalk, vous pouvez percevoir une part des revenus générés.',
+      'Le programme Partenaire prévoit 50 % de commission selon ses conditions lorsque vous prenez en charge le développement commercial et le déploiement. Les montants, règles d’attribution et exclusions sont confirmés avant engagement.',
     modelSignature: 'Privé par défaut. Partagé par choix.',
 
     vsEyebrow: 'Partner ou Platform ?',
@@ -88,11 +88,13 @@ const COPY = {
       { q: 'Les profils métier sont-ils limités ?', a: 'Non. Chaque Collaborateur IA peut recevoir autant de profils métier que ses missions l’exigent.' },
       { q: 'L’abonnement de mes clients est-il inclus ?', a: 'Non. Chaque client conserve son propre abonnement, son environnement et sa consommation IA.' },
       { q: 'Puis-je facturer mes propres prestations ?', a: 'Oui. Vous définissez librement vos tarifs de conseil, de déploiement et d’accompagnement.' },
+      { q: 'Dois-je être formé comme Co-créateur ?', a: 'Vous devez savoir cadrer, construire et tester une mission avant de la déployer. Unitalk Academy propose le parcours Co-créateur pour acquérir et démontrer cette méthode.' },
+      { q: 'La commission de 50 % est-elle garantie ?', a: 'Non. Elle dépend des montants éligibles effectivement encaissés, des règles d’attribution et des exclusions du programme. Elle ne se cumule pas avec la commission Affilié sur une même vente, sauf accord explicite.' },
       { q: 'Puis-je utiliser ma marque ?', a: 'Partner prévoit du co-branding. Pour une expérience entièrement en marque propre, choisissez Platform.' },
     ],
 
-    finalTitle: 'Faites de votre expertise une capacité déployable.',
-    finalBody: 'Créez, configurez et déployez des Collaborateurs IA chez vos clients.',
+    finalTitle: 'Commencez par un client, une mission et une preuve.',
+    finalBody: 'Quand le résultat est démontré, transformez-le en offre et déployez-le dans un environnement client gouverné.',
     finalCta: 'Devenir partenaire — 499 € / mois',
     finalHref: 'mailto:partenaires@unitalk.ai',
   },
@@ -209,12 +211,12 @@ export function PartnerDeployContent() {
               {t.heroCta}
               <ArrowRight className="h-4 w-4" />
             </a>
-            <a
+            <Link
               href={t.heroSecondaryHref}
               className="inline-flex h-12 items-center justify-center rounded-full border border-[#D8D0C2] px-7 text-sm font-semibold text-[#1C1A17] transition-colors hover:border-[#1C1A17]"
             >
               {t.heroSecondary}
-            </a>
+            </Link>
           </div>
         </div>
       </section>

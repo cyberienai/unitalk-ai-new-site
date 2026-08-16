@@ -1,6 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
+import { motion, useReducedMotion } from 'framer-motion'
 import { HERMES_CREATORS } from '@/lib/hermes-creators'
 
 type Lang = 'fr' | 'en'
@@ -24,31 +26,37 @@ const COPY = {
 
 export function SectionHermesVoices({ lang }: { lang: Lang }) {
   const t = COPY[lang]
+  const reduce = useReducedMotion()
 
   return (
-    <section className="border-y border-[#302C28] bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20">
+    <section className="relative overflow-hidden border-y border-[#302C28] bg-[#181615] px-5 py-20 text-[#FAF8F3] sm:px-8 sm:py-28">
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.035] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:72px_72px]" />
+      <div aria-hidden className="pointer-events-none absolute -right-20 top-0 size-[34rem] rounded-full bg-[#D10E63]/20 blur-3xl" />
       <div className="editorial-shell">
-        <div className="grid gap-10 lg:grid-cols-[.78fr_1.22fr] lg:items-end">
-          <div>
+        <div className="relative grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:items-center">
+          <div className="relative z-10">
             <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.kicker}</p>
-            <h2 className="mt-5 max-w-xl text-[clamp(2.25rem,4.5vw,4.5rem)] font-semibold leading-[.96] tracking-[-.055em]">{t.title}</h2>
+            <h2 className="mt-5 max-w-xl text-[clamp(2.6rem,5vw,5.2rem)] font-semibold leading-[.92] tracking-[-.065em]">{t.title}</h2>
             <p className="mt-6 max-w-xl text-[15px] leading-7 text-[#CFC6B8]">{t.body}</p>
-            <Link href="/blog/hermes-agent-youtube" className="mt-7 inline-flex border-b border-[#F2A4C5]/60 pb-1 text-sm font-bold text-[#F2A4C5] transition-colors hover:border-white hover:text-white">{t.link}</Link>
+            <Link href="/blog/hermes-agent-youtube" className="mt-8 inline-flex min-h-11 items-center rounded-full border border-white/20 px-5 text-sm font-bold text-white transition-colors hover:border-[#F2A4C5] hover:text-[#F2A4C5]">{t.link}</Link>
           </div>
 
-          <ol className="grid border-l border-t border-white/10 sm:grid-cols-2">
+          <ol className="scrollbar-hide -mx-5 flex snap-x gap-4 overflow-x-auto px-5 pb-5 pt-4 sm:-mx-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
             {HERMES_CREATORS.map((creator, index) => (
-              <li key={creator.videoUrl} className="group border-b border-r border-white/10 bg-white/[.018] transition-colors hover:bg-white/[.05]">
-                <Link href={`/blog/hermes-agent-youtube?createur=${encodeURIComponent(creator.affiliateCode)}`} className="flex min-h-[76px] items-center gap-4 px-5 py-4 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5]">
-                  <span className="font-mono text-[9px] tracking-[.16em] text-[#756D64]">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="text-[15px] font-semibold tracking-[-.01em] text-[#EAE4DA] transition-colors group-hover:text-white">{creator.name}</span>
-                  <span className="ml-auto font-mono text-[8px] font-bold uppercase tracking-[.14em] text-[#8F8579]">{creator.language}</span>
+              <motion.li key={creator.videoUrl} initial={reduce ? false : { opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: .55, delay: reduce ? 0 : index * .045, ease: [0.22, 1, 0.36, 1] }} className={`group w-[152px] shrink-0 snap-start lg:w-auto ${index % 2 ? 'lg:translate-y-9' : ''}`}>
+                <Link href={`/blog/hermes-agent-youtube?createur=${encodeURIComponent(creator.affiliateCode)}`} className="block rounded-[999px_999px_22px_22px] border border-white/10 bg-[#211E1B] p-2 pb-4 outline-none transition-all duration-300 hover:-translate-y-2 hover:border-[#F2A4C5]/55 hover:bg-[#292521] hover:shadow-[0_22px_45px_-24px_rgba(209,14,99,.7)] focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
+                  <span className="relative block aspect-square overflow-hidden rounded-full bg-[#2D2925] ring-1 ring-white/10">
+                    <Image src={creator.avatarUrl} alt={`Chaîne YouTube ${creator.name}`} fill sizes="(max-width: 1024px) 136px, 150px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <span aria-hidden className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/15" />
+                  </span>
+                  <span className="mt-4 block text-center text-[13px] font-semibold tracking-[-.01em] text-[#EAE4DA]">{creator.name}</span>
+                  <span className="mt-1 block text-center font-mono text-[8px] font-bold uppercase tracking-[.14em] text-[#8F8579]">{creator.language} · {String(index + 1).padStart(2, '0')}</span>
                 </Link>
-              </li>
+              </motion.li>
             ))}
           </ol>
         </div>
-        <p className="mt-7 text-[10px] leading-5 text-[#756D64]">{t.note}</p>
+        <p className="relative mt-8 max-w-3xl border-t border-white/10 pt-5 text-[10px] leading-5 text-[#756D64]">{t.note}</p>
       </div>
     </section>
   )

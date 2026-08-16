@@ -19,73 +19,66 @@ type Path = {
 
 const COPY = {
   fr: {
-    heroTag: 'Déploiement · Infrastructure · Intégrations · Open source · Formation',
-    heroTitle: 'Construisons l’écosystème des Collaborateurs IA.',
+    heroTag: 'Créer · Recommander · Déployer',
+    heroTitle: 'Transformez une mission réelle en activité durable.',
     heroLead:
-      'Déployez Unitalk chez vos clients, construisez sur son infrastructure, connectez vos solutions ou contribuez à Hermes.',
+      'Apprenez à créer des Collaborateurs IA, trouvez les premiers clients, puis déployez les solutions qui prouvent leur valeur.',
     heroSub:
-      'Unitalk réunit les partenaires capables de transformer l’IA en travail utile, gouverné et durable pour les entreprises.',
-    heroCta: 'Trouver ma place',
-    heroCtaHref: 'mailto:partenaires@unitalk.ai',
-    heroSecondary: 'Découvrir Hermes',
-    heroSecondaryHref: '/manifeste',
+      'Vous pouvez commencer sans réseau, sans catalogue et sans tout savoir. Commencez par un problème qu’une entreprise veut vraiment résoudre.',
+    heroCta: 'Commencer par une mission',
+    heroCtaHref: '/academy/parcours-gratuits/premiere-mission-ia',
+    heroSecondary: 'Déployer chez mes clients',
+    heroSecondaryHref: '/partenaires/deployer',
 
-    pathsEyebrow: 'Plusieurs façons de construire avec Unitalk',
-    pathsTitle: 'Choisissez votre voie.',
+    sequenceEyebrow: 'Le chemin le plus simple',
+    sequenceTitle: 'Ne cherchez pas d’abord à devenir partenaire. Devenez utile.',
+    sequence: [
+      { n:'01', title:'Trouvez une mission', body:'Partez d’un problème précis, porté par une personne qui attend un résultat.' },
+      { n:'02', title:'Créez la solution', body:'Construisez et testez le Collaborateur IA avec l’expert métier et des validations humaines.' },
+      { n:'03', title:'Montrez la preuve', body:'Démontrez le résultat, les limites, les corrections et la valeur obtenue.' },
+      { n:'04', title:'Choisissez votre modèle', body:'Recommandez Unitalk ou prenez en charge la vente, le déploiement et le suivi.' },
+    ],
+
+    pathsEyebrow: 'Trois niveaux d’engagement',
+    pathsTitle: 'Choisissez ce que vous voulez réellement faire.',
     paths: [
       {
+        title: 'Créer des Collaborateurs IA',
+        audience: 'Expert, consultant, formateur ou intégrateur.',
+        body: 'Apprenez à transformer une méthode métier en mission, compétences, application et Collaborateur IA testable.',
+        cta: 'Devenir Co-créateur IA',
+        href: '/academy/formations/co-createur-ia',
+      },
+      {
+        title: 'Recommander Unitalk',
+        audience: 'Vous créez la relation et transmettez l’opportunité.',
+        body: 'Présentez Unitalk à une nouvelle entreprise et recevez 30 % des abonnements éligibles encaissés pendant sa première année.',
+        cta: 'Comprendre l’affiliation',
+        href: '#affiliation',
+      },
+      {
         title: 'Déployer chez vos clients',
-        audience: 'Agence, cabinet de conseil ou intégrateur.',
-        body: 'Créez, configurez et accompagnez des Collaborateurs IA dans des environnements clients séparés.',
+        audience: 'Vous vendez, configurez et accompagnez.',
+        body: 'Pilotez plusieurs environnements clients, facturez vos prestations et recevez 50 % selon les conditions du programme Partenaire.',
         cta: 'Découvrir Partner — 499 € / mois',
         href: '/partenaires/deployer',
       },
       {
-        title: 'Construire votre produit',
-        audience: 'Éditeur, plateforme ou fournisseur de services.',
-        body: 'Intégrez les agents, la mémoire, les modèles et l’exécution Unitalk à votre propre expérience et sous votre marque.',
-        cta: 'Découvrir Platform — Sur mesure',
+        title: 'Construire ou connecter une technologie',
+        audience: 'Éditeur, plateforme, fournisseur ou communauté open source.',
+        body: 'Intégrez Unitalk à votre produit, proposez une application, une API, un modèle ou une infrastructure, ou contribuez à Hermes.',
+        cta: 'Explorer la voie technologique',
         href: '/platform',
-      },
-      {
-        title: 'Connecter votre solution',
-        audience: 'Vous fournissez une application, une API, un modèle ou une infrastructure.',
-        body: 'Rendez votre technologie accessible aux Collaborateurs IA dans le respect des droits définis par chaque entreprise.',
-        cta: 'Proposer une intégration',
-        href: 'mailto:partenaires@unitalk.ai',
-        external: true,
-      },
-      {
-        title: 'Contribuer à l’open source',
-        audience: 'Développeur, chercheur ou membre d’une communauté technique.',
-        body: 'Contribuez à Hermes, créez des outils et améliorez le moteur autonome sur lequel s’appuient les Collaborateurs IA Unitalk.',
-        cta: 'Découvrir Hermes',
-        href: '/manifeste',
-      },
-      {
-        title: 'Recommander Unitalk',
-        audience: 'Consultant, créateur, expert ou membre de la communauté.',
-        body: 'Présentez Unitalk à de nouvelles entreprises et recevez 30 % des abonnements encaissés pendant leur première année.',
-        cta: 'Rejoindre le programme d’affiliation',
-        href: 'mailto:partenaires@unitalk.ai?subject=Programme%20d%27affiliation%20Unitalk',
-        external: true,
-      },
-      {
-        title: 'Transmettre votre expertise',
-        audience: 'Formateur ou spécialiste métier.',
-        body: 'Créez des parcours, formalisez des méthodes et accompagnez les équipes dans leur collaboration avec l’IA.',
-        cta: 'Découvrir les experts',
-        href: '/experts',
       },
     ] as Path[],
 
     baseEyebrow: 'Une base commune',
-    baseTitle: 'Vous apportez votre expertise. Unitalk relie les briques.',
+    baseTitle: 'Vous apportez la mission et la relation. Unitalk fournit le terrain de travail.',
     baseIntro: 'Unitalk fournit, selon le partenariat :',
     baseItems: [
       'des Collaborateurs IA propulsés par Hermes',
       'une identité et une mémoire persistantes',
-      'des profils métier illimités',
+      'des profils métier, compétences et missions',
       'des missions, compétences et applications',
       'un workspace commun aux humains et à l’IA',
       'une AI Gateway multimodèle',
@@ -105,25 +98,39 @@ const COPY = {
     openHref: '/manifeste',
 
     modelEyebrow: 'Votre modèle',
-    modelTitle: 'Créez la valeur qui vous ressemble.',
+    modelTitle: 'Votre rémunération suit votre niveau d’engagement.',
     modelIntro: 'Selon votre activité, vous pouvez :',
     modelItems: [
-      'facturer vos prestations',
-      'déployer Unitalk chez vos clients',
-      'construire votre propre produit',
-      'publier des compétences et des applications',
-      'proposer une infrastructure ou une intégration',
-      'former et accompagner les équipes',
+      'Co-créateur : vendre vos créations et prestations',
+      'Affilié : recommander un client attribué à votre code',
+      'Partenaire : vendre, déployer et accompagner',
+      'Platform : construire une expérience sous votre marque',
+      'Technologie : proposer une intégration ou une infrastructure',
+      'Open source : contribuer à Hermes et à ses outils',
     ],
     modelNote:
-      'Ce qui appartient à un client reste privé. Ce qui peut être partagé l’est uniquement selon les droits définis.',
+      'Les commissions portent sur les montants éligibles effectivement encaissés. Elles ne garantissent aucun revenu et ne se cumulent pas sur une même vente, sauf accord explicite.',
     modelSignature: 'Privé par défaut. Partagé par choix.',
 
-    finalTitle: 'Quelle place voulez-vous prendre dans l’écosystème Unitalk ?',
-    finalBody: 'Présentez-nous votre activité. Alma vous orientera vers le programme adapté.',
-    finalCta: 'Devenir partenaire',
-    finalHref: 'mailto:partenaires@unitalk.ai',
-    finalTag: 'Déploiement · Infrastructure · Intégrations · Open source · Formation',
+    programsEyebrow: 'Deux programmes commerciaux',
+    programsTitle: 'Recommander n’est pas déployer.',
+    programsLead: 'Choisissez le programme qui correspond au travail que vous prenez réellement en charge.',
+    affiliateTitle: 'Affilié · 30 %',
+    affiliateBody: 'Vous créez la mise en relation. Recevez 30 % des abonnements éligibles encaissés pendant la première année pour chaque nouveau client attribué à votre code.',
+    affiliateItems: ['Code affilié personnel','Attribution des commandes','Aucun déploiement client requis'],
+    affiliateCta: 'Rejoindre le programme d’affiliation',
+    affiliateHref: 'mailto:partenaires@unitalk.ai?subject=Programme%20d%27affiliation%20Unitalk',
+    partnerTitle: 'Partenaire · 50 %',
+    partnerBody: 'Vous développez la relation commerciale, déployez les Collaborateurs IA et accompagnez le client. Recevez 50 % selon les conditions du programme.',
+    partnerItems: ['Espace multi-clients','Déploiement et accompagnement','Prestations facturées librement'],
+    partnerCta: 'Découvrir le programme Partenaire',
+    programsNote: 'Les commissions s’appliquent aux montants éligibles effectivement encaissés, selon les règles d’attribution et les exclusions de chaque programme. Elles ne garantissent aucun revenu et ne se cumulent pas sur une même vente, sauf accord explicite.',
+
+    finalTitle: 'Votre activité peut commencer par une seule mission utile.',
+    finalBody: 'Cadrez le problème, construisez la preuve, puis choisissez le programme qui correspond au travail que vous prenez réellement en charge.',
+    finalCta: 'Commencer gratuitement',
+    finalHref: '/academy/parcours-gratuits/premiere-mission-ia',
+    finalTag: 'Mission · Création · Preuve · Déploiement',
   },
   en: {
     heroTag: 'Deployment · Infrastructure · Integrations · Open source · Training',
@@ -136,6 +143,15 @@ const COPY = {
     heroCtaHref: 'mailto:partenaires@unitalk.ai',
     heroSecondary: 'Discover Hermes',
     heroSecondaryHref: '/manifeste',
+
+    sequenceEyebrow: 'The simplest path',
+    sequenceTitle: 'Do not start by becoming a partner. Start by becoming useful.',
+    sequence: [
+      { n:'01', title:'Find a mission', body:'Start from a precise problem and a person who expects a result.' },
+      { n:'02', title:'Build the solution', body:'Build and test the AI Collaborator with the domain expert and human approvals.' },
+      { n:'03', title:'Show the proof', body:'Demonstrate the result, limits, corrections and value delivered.' },
+      { n:'04', title:'Choose your model', body:'Refer Unitalk or take ownership of sales, deployment and follow-up.' },
+    ],
 
     pathsEyebrow: 'Several ways to build with Unitalk',
     pathsTitle: 'Choose your path.',
@@ -226,6 +242,20 @@ const COPY = {
       'What belongs to a client stays private. What can be shared is shared only according to the defined rights.',
     modelSignature: 'Private by default. Shared by choice.',
 
+    programsEyebrow: 'Two commercial programs',
+    programsTitle: 'Referring is not deploying.',
+    programsLead: 'Choose the program that matches the work you actually take ownership of.',
+    affiliateTitle: 'Affiliate · 30%',
+    affiliateBody: 'You make the introduction. Receive 30% of eligible subscriptions collected during the first year for each new client attributed to your code.',
+    affiliateItems: ['Personal affiliate code','Order attribution','No client deployment required'],
+    affiliateCta: 'Join the affiliate program',
+    affiliateHref: 'mailto:partenaires@unitalk.ai?subject=Unitalk%20affiliate%20program',
+    partnerTitle: 'Partner · 50%',
+    partnerBody: 'You develop the commercial relationship, deploy AI Collaborators and support the client. Receive 50% under the program terms.',
+    partnerItems: ['Multi-client workspace','Deployment and support','Freely priced services'],
+    partnerCta: 'Discover the Partner program',
+    programsNote: 'Commissions apply to eligible amounts actually collected, under each program’s attribution rules and exclusions. They do not guarantee income and cannot be combined on the same sale unless explicitly agreed.',
+
     finalTitle: 'What place do you want in the Unitalk ecosystem?',
     finalBody: 'Tell us about your activity. Alma will point you to the right program.',
     finalCta: 'Become a partner',
@@ -281,13 +311,13 @@ export function PartnersContent() {
             transition={{ duration: 0.6, ease, delay: 0.22 }}
             className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <a
+            <Link
               href={t.heroCtaHref}
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54]"
             >
               {t.heroCta}
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
             <Link
               href={t.heroSecondaryHref}
               className="inline-flex h-12 items-center justify-center gap-1.5 rounded-full border border-[#D8D0C2] px-7 text-sm font-semibold text-[#1C1A17] transition-colors hover:border-[#1C1A17]"
@@ -295,6 +325,16 @@ export function PartnersContent() {
               {t.heroSecondary}
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      <section className="border-t border-[#E4DDCE] bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-6 sm:py-24 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#F2A4C5]">{t.sequenceEyebrow}</p>
+          <h2 className="mt-4 max-w-4xl text-balance font-sf text-3xl font-bold leading-tight tracking-[-0.03em] sm:text-5xl">{t.sequenceTitle}</h2>
+          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
+            {t.sequence.map((step) => <article key={step.n} className="min-h-56 bg-[#181615] p-6"><span className="font-mono text-xs font-bold text-[#F2A4C5]">{step.n}</span><h3 className="mt-8 font-sf text-xl font-bold">{step.title}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{step.body}</p></article>)}
+          </div>
         </div>
       </section>
 
@@ -313,7 +353,6 @@ export function PartnersContent() {
             {t.paths.map((p, i) => (
               <motion.div
                 key={p.title}
-                id={p.title === 'Recommander Unitalk' || p.title === 'Refer Unitalk' ? 'affiliation' : undefined}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
@@ -345,6 +384,18 @@ export function PartnersContent() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="programmes" className="border-t border-[#E4DDCE] px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D10E63]">{t.programsEyebrow}</p>
+          <div className="mt-4 grid gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end"><h2 className="text-balance font-sf text-3xl font-bold tracking-[-0.03em] sm:text-5xl">{t.programsTitle}</h2><p className="max-w-2xl text-[15px] leading-7 text-[#4E483F]">{t.programsLead}</p></div>
+          <div className="mt-10 grid gap-4 lg:grid-cols-2">
+            <article id="affiliation" className="flex flex-col rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-7 sm:p-8"><p className="font-mono text-[11px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{t.affiliateTitle}</p><p className="mt-5 text-[15px] leading-7 text-[#4E483F]">{t.affiliateBody}</p><ul className="mt-6 space-y-3">{t.affiliateItems.map(item=><li key={item} className="flex gap-3 text-sm font-semibold"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#D10E63]"/>{item}</li>)}</ul><a href={t.affiliateHref} className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.affiliateCta}<ArrowUpRight className="size-4"/></a></article>
+            <article className="flex flex-col rounded-2xl bg-[#D10E63] p-7 text-white sm:p-8"><p className="font-mono text-[11px] font-bold uppercase tracking-[.16em] text-white/70">{t.partnerTitle}</p><p className="mt-5 text-[15px] leading-7 text-white/85">{t.partnerBody}</p><ul className="mt-6 space-y-3">{t.partnerItems.map(item=><li key={item} className="flex gap-3 text-sm font-semibold"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-white"/>{item}</li>)}</ul><Link href="/partenaires/deployer" className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-white">{t.partnerCta}<ArrowRight className="size-4"/></Link></article>
+          </div>
+          <p className="mt-6 max-w-4xl text-xs leading-6 text-[#6B6560]">{t.programsNote}</p>
         </div>
       </section>
 
@@ -429,13 +480,13 @@ export function PartnersContent() {
             {t.finalTitle}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-[#B8B0A4]">{t.finalBody}</p>
-          <a
+          <Link
             href={t.finalHref}
             className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00C54]"
           >
             {t.finalCta}
             <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
           <p className="mt-6 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-[#8F877A]">
             {t.finalTag}
           </p>

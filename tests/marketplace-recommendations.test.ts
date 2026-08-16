@@ -14,6 +14,7 @@ describe('Hermes creator recommendations', () => {
     for (const creator of HERMES_CREATORS) {
       expect(creator.channelUrl).toMatch(/^https:\/\/www\.youtube\.com\//)
       expect(creator.videoUrl).toMatch(/^https:\/\/www\.youtube\.com\/watch\?v=/)
+      expect(creator.avatarUrl).toMatch(/^https:\/\/yt3\.googleusercontent\.com\//)
     }
   })
 
@@ -23,6 +24,9 @@ describe('Hermes creator recommendations', () => {
     expect(content).toContain('participent au programme d’affiliation Unitalk')
     expect(content).toContain('Commander ma première mission gratuitement')
     expect(content).toContain('youtube-nocookie.com/embed')
+    expect(content).toContain('function CreatorAvatar')
+    expect(content).toContain('referrerPolicy="no-referrer"')
+    expect(content).toContain('Portrait de ${creator.name}')
     expect(order).toContain('hermesCreatorByAffiliateCode')
     expect(order).toContain('Avantage 30 %')
     expect(page).toContain("canonical: '/blog/hermes-agent-youtube'")

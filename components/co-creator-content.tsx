@@ -114,6 +114,45 @@ export function CoCreatorContent() {
         </div>
       </LightSection>
 
+      <section className="border-y border-[#2D2925] bg-[#151310] py-16 text-[#FAF8F3] sm:py-20">
+        <div className="editorial-shell">
+          <Kicker dark>Deux façons de développer votre activité</Kicker>
+          <div className="mt-5 grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
+            <h2 className="max-w-3xl font-sf text-[36px] font-bold leading-[1.05] tracking-[-0.035em] sm:text-[46px]">
+              Recommandez ou déployez. Votre rémunération suit votre engagement.
+            </h2>
+            <p className="max-w-2xl text-[16px] leading-8 text-[#CFC6B8]">
+              Le programme d’affiliation rémunère la recommandation. Le programme Partenaire rémunère une implication plus complète dans la vente, le déploiement et l’accompagnement du client.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-4 lg:grid-cols-2">
+            <CommercialProgram
+              number="30 %"
+              title="Commission Affilié"
+              audience="Vous recommandez Unitalk."
+              body="Recevez 30 % des abonnements éligibles encaissés pendant la première année pour chaque nouveau client attribué à votre code affilié."
+              items={['Code affilié personnel', 'Attribution des commandes', 'Suivi des abonnements éligibles']}
+              href="/partenaires#affiliation"
+              cta="Rejoindre le programme d’affiliation"
+            />
+            <CommercialProgram
+              number="50 %"
+              title="Commission Partenaire"
+              audience="Vous vendez, déployez et accompagnez."
+              body="Recevez 50 % selon les conditions du programme Partenaire lorsque vous prenez en charge le développement commercial et le déploiement chez vos clients."
+              items={['Espace multi-clients', 'Déploiement et accompagnement', 'Suivi commercial et partage des revenus']}
+              href="/partenaires/deployer"
+              cta="Découvrir le programme Partenaire"
+              featured
+            />
+          </div>
+          <p className="mt-6 max-w-4xl text-xs leading-6 text-[#8F8579]">
+            Les commissions s’appliquent aux montants éligibles effectivement encaissés, selon les règles d’attribution, la durée et les exclusions de chaque programme. Elles ne constituent pas une garantie de revenu et ne se cumulent pas sur une même vente, sauf accord explicite.
+          </p>
+        </div>
+      </section>
+
       <section className="py-16 sm:py-20">
         <div className="editorial-shell">
           <div className="rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-7 sm:p-10">
@@ -165,6 +204,10 @@ function FeatureList({ title, items }: { title: string; items: string[] }) {
 
 function Revenue({ title, children }: { title: string; children: React.ReactNode }) {
   return <article className="rounded-xl border border-[#DED6C8] bg-[#FAF8F3] p-5"><h3 className="font-sf text-2xl font-bold">{title}</h3><p className="mt-3 text-sm leading-7 text-[#4E483F]">{children}</p></article>
+}
+
+function CommercialProgram({ number, title, audience, body, items, href, cta, featured = false }: { number: string; title: string; audience: string; body: string; items: string[]; href: string; cta: string; featured?: boolean }) {
+  return <article className={`flex min-h-[390px] flex-col rounded-2xl border p-6 sm:p-8 ${featured ? 'border-[#D10E63] bg-[#201B1D]' : 'border-white/15 bg-white/[.035]'}`}><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{title}</p><p className="mt-5 font-sf text-[64px] font-bold leading-none tracking-[-.06em] text-white">{number}</p><h3 className="mt-5 text-xl font-bold">{audience}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{body}</p><ul className="mt-6 space-y-3 border-t border-white/10 pt-5">{items.map((item) => <li key={item} className="flex items-center gap-3 text-xs font-semibold text-[#E7E0D6]"><span className="size-1.5 rounded-full bg-[#F2A4C5]" />{item}</li>)}</ul><Link href={href} className={`mt-auto inline-flex min-h-12 items-center justify-center rounded-xl px-5 pt-6 text-sm font-bold ${featured ? 'bg-[#D10E63] text-white hover:bg-[#B90C58]' : 'border border-white/20 text-white hover:border-[#F2A4C5]'}`}>{cta} →</Link></article>
 }
 
 const STEPS = [

@@ -35,6 +35,9 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
     headline: 'Votre propre Collaborateur IA, prêt à accomplir vos missions.',
+    headlineA: 'Votre propre',
+    headlineB: 'Collaborateur IA.',
+    headlineC: 'Prêt pour vos missions.',
     subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives. Il progresse à chaque mission et appartient à votre entreprise.',
     proofs: ['Une première mission offerte', 'Alma le prépare en quelques minutes', 'Sans carte bancaire', 'Hébergement en France'],
     cta: 'Décrire ma première mission',
@@ -71,6 +74,9 @@ const T = {
   en: {
     eyebrow: 'Someone is missing',
     headline: 'Your own AI Collaborator, ready to carry out your missions.',
+    headlineA: 'Your own',
+    headlineB: 'AI Collaborator.',
+    headlineC: 'Ready for your missions.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
     proofs: ['First mission included', 'Alma prepares it in minutes', 'No credit card', 'Hosted in France'],
     cta: 'Describe my first mission',
@@ -234,29 +240,29 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   }
 
   return (
-    <section className="relative overflow-hidden bg-[#F3EFE6] pb-12 pt-24 sm:pt-28 lg:pb-16">
-      <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[36rem] w-[36rem] rounded-full bg-[#D10E63]/[0.07] blur-3xl" />
-      <div className="editorial-shell relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
-        <div className="max-w-xl text-center sm:text-left">
-          <motion.div {...enter(0)} className="mb-5 flex justify-center sm:justify-start"><Kicker>{t.eyebrow}</Kicker></motion.div>
-          <motion.h1 {...enter(0.08)} className="hero-heading text-[#1C1A17]">{t.headline}</motion.h1>
-          <motion.p {...enter(0.16)} className="mt-5 text-balance text-[17px] leading-relaxed text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
+    <section className="relative min-h-[780px] overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-12 pt-28 sm:pt-36 lg:pb-16">
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+      <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full bg-[#D10E63]/[0.08] blur-3xl" />
+      <div className="editorial-shell relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+        <div className="max-w-[720px] text-left">
+          <motion.div {...enter(0)} className="mb-7 flex"><Kicker>{t.eyebrow}</Kicker></motion.div>
+          <motion.h1 {...enter(0.08)} className="text-[clamp(3.25rem,6.1vw,6.5rem)] font-semibold leading-[.88] tracking-[-.07em] text-[#1C1A17]">
+            <span className="block">{t.headlineA}</span>
+            <span className="block">{t.headlineB}</span>
+            <span className="block text-[#D10E63]">{t.headlineC}</span>
+          </motion.h1>
+          <motion.p {...enter(0.16)} className="mt-7 max-w-xl text-[17px] leading-8 text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
 
-          <motion.div {...enter(0.28)} className="mt-7 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-medium text-[#6E665A] sm:justify-start">
+          <motion.div {...enter(0.28)} className="mt-8 grid border-y border-[#CFC5B5] sm:grid-cols-2">
             {t.proofs.map((proof, index) => (
-              <span key={proof} className="inline-flex items-center gap-1.5">
-                {index === 1 ? (
-                  <Image src="/alma-avatar.png" alt="" width={18} height={18} className="size-[18px] rounded-full object-cover ring-1 ring-[#D10E63]/30" />
-                ) : (
-                  <Check className="h-3.5 w-3.5 text-[#D10E63]" />
-                )}
-                {proof}
+              <span key={proof} className="flex min-h-16 items-center gap-4 border-b border-[#CFC5B5] py-3 text-xs font-bold last:border-b-0 sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 sm:first:pl-0">
+                <span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{proof}
               </span>
             ))}
           </motion.div>
 
            <motion.div {...enter(0.34)} className="mt-8">
-             <button type="button" onClick={openVoiceSurface} className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(209,14,99,0.7)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
+             <button type="button" onClick={openVoiceSurface} className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#181615] px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#181615] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
                {t.cta}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
              </button>
           </motion.div>
