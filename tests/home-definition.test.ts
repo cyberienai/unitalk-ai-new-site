@@ -15,9 +15,10 @@ describe('home first mission progression', () => {
   })
 
   it('centers the offer on a free first mission and human approval', () => {
-    expect(source).toContain('Testez gratuitement une mission réelle.')
-    expect(source).toContain('Première mission offerte, sans carte bancaire')
-    expect(source).toContain('Préparer ma première mission')
+    expect(source).toContain('Confiez une mission réelle.')
+    expect(source).toContain('Décrivez votre besoin. Vous gardez le contrôle jusqu’au résultat.')
+    expect(source).toContain('Décrire ma mission')
+    expect(source).not.toContain('Première mission offerte, sans carte bancaire')
     expect(source).toContain("new Event('open-home-alma')")
     expect(source).toContain("avatar: '/alma-avatar.png'")
     expect(source).toContain('Objectif, profil, outils et validations.')

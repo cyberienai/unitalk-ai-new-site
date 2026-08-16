@@ -92,7 +92,7 @@ const COPY = {
     ],
     finalTitle: 'Commencez par un travail que vous connaissez par cœur.',
     finalBody: 'Décrivez-le en une phrase. Nous transformons votre savoir-faire en une mission contrôlée.',
-    finalCta: 'Décrire ma première mission',
+    finalCta: 'Décrire ma mission',
     pricing: 'Voir les tarifs',
   },
   en: {
@@ -146,7 +146,7 @@ const COPY = {
     ],
     finalTitle: 'Start with work you know by heart.',
     finalBody: 'Describe it in one sentence. We turn your know-how into a controlled mission.',
-    finalCta: 'Describe my first mission',
+    finalCta: 'Describe my mission',
     pricing: 'See pricing',
   },
 } as const

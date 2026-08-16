@@ -21,7 +21,7 @@ const COPY = {
     statement: 'Vous ne construisez pas un assistant. Vous faites grandir un collaborateur.',
     beforeTitle: 'Assistant IA généraliste',
     afterTitle: 'Collaborateur IA Unitalk',
-    cta: 'Décrire ma première mission',
+    cta: 'Décrire ma mission',
     rows: [
       ['Une conversation', 'Une identité professionnelle'],
       ['Une mémoire de session', 'Une mémoire qui progresse avec l’entreprise'],
@@ -38,7 +38,7 @@ const COPY = {
     statement: 'You are not building an assistant. You are growing a collaborator.',
     beforeTitle: 'General-purpose AI assistant',
     afterTitle: 'Unitalk AI Collaborator',
-    cta: 'Describe my first mission',
+    cta: 'Describe my mission',
     rows: [
       ['A conversation', 'A professional identity'],
       ['Session memory', 'Memory that grows with your company'],

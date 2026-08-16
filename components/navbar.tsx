@@ -16,7 +16,7 @@ import { useAlma } from '@/lib/alma-context'
 type Bi = { fr: string; en: string }
 const ALMA_CTA = {
   href: '/missions?composer=1&source=nav',
-  label: { fr: 'Décrire une mission', en: 'Describe a mission' } as Bi,
+  label: { fr: 'Décrire ma mission', en: 'Describe my mission' } as Bi,
 }
 
 // Focused Collaborateurs IA menu. Infrastructure remains available deeper in
