@@ -1,0 +1,31 @@
+import { readFileSync } from 'node:fs'
+import { describe, expect, it } from 'vitest'
+
+const page = readFileSync(new URL('../components/missions-content.tsx', import.meta.url), 'utf8')
+const card = readFileSync(new URL('../components/missions/store-card.tsx', import.meta.url), 'utf8')
+const route = readFileSync(new URL('../app/missions/page.tsx', import.meta.url), 'utf8')
+
+describe('missions conversion path', () => {
+  it('separates mission creation from catalog search', () => {
+    expect(page).toContain('Quel travail voulez-vous confier ?')
+    expect(page).toContain('Ou choisissez une mission prête à personnaliser')
+    expect(page).toContain('Rechercher dans les missions')
+  })
+
+  it('keeps the user request through authentication', () => {
+    expect(page).toContain('Continuer avec cette mission')
+    expect(page).toContain('unitalk_mission_')
+    expect(page).toContain('/decouvrir?draft=${encodeURIComponent(draftId)}&source=mission-store')
+  })
+
+  it('uses explicit, accessible card actions', () => {
+    expect(card).toContain("'Adapter cette mission'")
+    expect(card).toContain('href={`/missions/${mission.slug}`}')
+    expect(card).not.toContain('className="absolute inset-0 z-0')
+    expect(card).not.toContain('Crédits Mission')
+  })
+
+  it('keeps a single canonical for filtered variants', () => {
+    expect(route).toContain("alternates: { canonical: '/missions' }")
+  })
+})
