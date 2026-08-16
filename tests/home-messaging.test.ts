@@ -13,9 +13,9 @@ describe('home commercial messaging', () => {
   })
 
   it('uses plain-language comparison rows', () => {
-    expect(comparison).toContain("['Exécute une tâche', 'Apprend votre façon de travailler']")
-    expect(comparison).toContain("['Fonctionne dans son outil', 'Travaille avec vos applications']")
-    expect(comparison).toContain("['Résultat ponctuel', 'Expérience conservée']")
+    expect(comparison).toContain("['Répond à une demande', 'Prend en charge une mission']")
+    expect(comparison).toContain("['Reste dans son interface', 'Agit dans vos applications autorisées']")
+    expect(comparison).toContain("['Suit vos instructions', 'Apprend vos méthodes validées']")
   })
 
   it('clarifies Alma and brings profiles earlier', () => {

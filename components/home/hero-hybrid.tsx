@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowLeft, ArrowRight, Check, Circle, Loader2, Mic, Square } from 'lucide-react'
+import { ArrowRight, Check, Circle, Loader2, Mic, Square } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { track } from '@vercel/analytics'
@@ -52,17 +52,19 @@ const T = {
     chloeReady: 'Chloé rejoint votre équipe',
     step: 'Étape',
     almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
-    almaAction: "Parler à Alma",
-    voiceKicker: 'Décrire une mission à la voix',
-    voiceTitle: 'Dites à Alma ce qu’il faut accomplir.',
-    voiceBody: 'Parlez naturellement. Alma transcrit votre besoin et prépare la première mission.',
+    almaAction: "Revenir à Alma",
+    voiceKicker: 'Alma · Coordinatrice IA de missions',
+    voiceRole: 'Collaboratrice IA Unitalk chargée de coordonner les missions confiées aux Collaborateurs IA.',
+    voiceTitle: 'Décrivez une mission à la voix.',
+    voiceBody: 'Parlez naturellement.\nAlma transcrit votre besoin et prépare la première mission.',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
     voicePlaceholder: 'Votre besoin apparaîtra ici…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
+    voiceWritten: 'Ou décrivez votre mission par écrit',
     voiceSubmit: 'Préparer cette mission',
-    voiceBack: 'Revenir à la démonstration',
+    voiceBack: 'Voir la démonstration',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -83,17 +85,19 @@ const T = {
     chloeReady: 'Chloé joins your team',
     step: 'Step',
     almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
-    almaAction: "Talk to Alma",
-    voiceKicker: 'Describe a mission by voice',
-    voiceTitle: 'Tell Alma what needs to get done.',
-    voiceBody: 'Speak naturally. Alma transcribes your need and prepares the first mission.',
+    almaAction: "Return to Alma",
+    voiceKicker: 'Alma · AI mission coordinator',
+    voiceRole: 'A Unitalk AI Collaborator responsible for coordinating missions entrusted to AI Collaborators.',
+    voiceTitle: 'Describe a mission by voice.',
+    voiceBody: 'Speak naturally.\nAlma transcribes your need and prepares the first mission.',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
     voicePlaceholder: 'Your need will appear here…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
+    voiceWritten: 'Or describe your mission in writing',
     voiceSubmit: 'Prepare this mission',
-    voiceBack: 'Return to the demo',
+    voiceBack: 'View the demo',
   },
 } as const
 
@@ -121,7 +125,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const journeys = JOURNEYS[lang]
   const reduce = useReducedMotion()
   const router = useRouter()
-  const [showVoice, setShowVoice] = useState(false)
+  const [showVoice, setShowVoice] = useState(true)
   const [voiceSupported, setVoiceSupported] = useState(false)
   const [listening, setListening] = useState(false)
   const [transcript, setTranscript] = useState('')
@@ -227,14 +231,11 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             <motion.div key="voice" initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
               <div className="relative flex min-h-[509px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] p-5 text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:p-7">
                 <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
                   <div className="flex items-center gap-3">
                     <Image src="/alma-avatar.png" alt="Alma" width={44} height={44} className="size-11 rounded-full object-cover ring-2 ring-[#D10E63]/35" />
                     <div><p className="font-sf font-semibold">Alma</p><p className="text-xs text-[#D6CABD]">{t.voiceKicker}</p></div>
                   </div>
-                  <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setShowVoice(false) }} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/15 px-4 text-xs font-bold text-[#D6CABD] hover:border-white/30 hover:text-white">
-                    <ArrowLeft className="size-3.5" />{t.voiceBack}
-                  </button>
                 </div>
 
                 <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
@@ -242,13 +243,18 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                     {listening && !reduce && <motion.span aria-hidden className="absolute inset-0 rounded-full border border-[#F15B9B]" animate={{ scale: [1, 1.45], opacity: [0.65, 0] }} transition={{ duration: 1.4, repeat: Infinity }} />}
                     {listening ? <Square className="size-7" fill="currentColor" /> : <Mic className="size-9" />}
                   </button>
-                  <h2 className="mt-6 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">{t.voiceTitle}</h2>
-                  <p className="mt-3 max-w-md text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
+                  <p className="mt-6 max-w-md text-sm leading-6 text-[#D6CABD]">{t.voiceRole}</p>
+                  <h2 className="mt-5 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">{t.voiceTitle}</h2>
+                  <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
                 </div>
 
+                <label className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#D6CABD]">{t.voiceWritten}</label>
                 <textarea value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#887D72] focus:border-[#D10E63]" />
                 <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40">
                   {t.voiceSubmit}<ArrowRight className="size-4" />
+                </button>
+                <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setShowVoice(false) }} className="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold text-[#D6CABD] hover:text-white">
+                  {t.voiceBack}<ArrowRight className="size-3.5" />
                 </button>
               </div>
             </motion.div>
