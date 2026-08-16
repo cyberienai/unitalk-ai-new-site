@@ -135,6 +135,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const [listening, setListening] = useState(false)
   const [transcript, setTranscript] = useState('')
   const [demoRequest, setDemoRequest] = useState<string | null>(null)
+  const [promptAttention, setPromptAttention] = useState(false)
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
@@ -212,11 +213,13 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
 
   function openVoiceSurface() {
     setShowVoice(true)
+    setPromptAttention(true)
     track('home_cta_clicked', { position: 'hero', label: t.cta })
-    requestAnimationFrame(() => {
+    window.setTimeout(() => {
       voicePanelRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' })
       textareaRef.current?.focus({ preventScroll: true })
-    })
+    }, showVoice ? 0 : 380)
+    window.setTimeout(() => setPromptAttention(false), 1400)
   }
 
   function submitVoiceNeed() {
@@ -272,7 +275,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
                 </div>
 
-                <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} aria-label={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#AFA397] focus:border-[#D10E63]" />
+                <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} aria-label={t.voicePlaceholder} className={`w-full resize-none rounded-2xl border bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none transition-[border-color,box-shadow] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] ${promptAttention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/10'}`} />
                 <div className="mt-3 flex flex-wrap gap-2">
                   {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] transition-colors hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
                 </div>

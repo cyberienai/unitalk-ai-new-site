@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Missions pour Collaborateurs IA | Unitalk',
-    description: 'Choisissez une mission prête à adapter ou décrivez le travail à accomplir à Alma.',
+    description: 'Choisissez une mission à personnaliser pour votre entreprise ou décrivez à Alma le travail à accomplir.',
     images: ['/opengraph-image'],
   },
 }
