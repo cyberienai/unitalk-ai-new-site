@@ -22,7 +22,7 @@ describe('pricing page publication requirements', () => {
   })
 
   it('publishes composable pricing metadata and an OG image', () => {
-    expect(page).toContain('Tarifs Unitalk : Entreprise, Agents Hermes et capacité IA')
+    expect(page).toContain('Tarifs Collaborateur IA et entreprise IA | Unitalk')
     expect(page).toContain("images: [{ url: '/opengraph-image'")
     expect(page).not.toContain("'@type':'Offer'")
   })

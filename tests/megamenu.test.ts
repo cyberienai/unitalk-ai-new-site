@@ -8,8 +8,7 @@ describe('Marketplace IA mega menu', () => {
     expect(navbar).toContain('La Marketplace des Collaborateurs IA')
     expect(navbar).toContain('Ouverte à la communauté')
     expect(navbar).toContain("menuPrinciples: ['Autonomes', 'Open source', 'Souverains']")
-    expect(navbar).toContain('propulsés par Hermes open source')
-    expect(navbar).toContain('créations souveraines et interopérables')
+    expect(navbar).toContain('Des missions, des profils, des compétences et des applications')
     expect(navbar).toContain('MARKETPLACE_CATALOGS.map')
   })
 
@@ -23,7 +22,20 @@ describe('Marketplace IA mega menu', () => {
     for (const href of ['/missions','/collaborateurs-ia/alma','/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/integrations','/collaborateurs-ia/applications','/collaborateurs-ia/serveurs','/modeles-ia','/academy','/experts','/co-createur-ia']) expect(navbar).toContain(href)
     expect(navbar.indexOf("fr: 'Missions'")).toBeLessThan(navbar.indexOf("fr: 'Alma'"))
     expect(navbar.indexOf("fr: 'Alma'")).toBeLessThan(navbar.indexOf("fr: 'Profils métier'"))
-    expect(navbar.indexOf("fr: 'Services'")).toBeLessThan(navbar.indexOf("fr: 'Serveurs'"))
+    expect(navbar.indexOf("fr: 'Connecteurs'")).toBeLessThan(navbar.indexOf("fr: 'Applications'"))
+    expect(navbar.indexOf("fr: 'Experts'")).toBeLessThan(navbar.indexOf("fr: 'Serveurs IA'"))
+  })
+
+  it('uses distinct category icons and contextual promises', () => {
+    for (const icon of ['BriefcaseBusiness', 'Bot', 'ContactRound', 'Sparkles', 'Cable', 'PanelsTopLeft', 'BrainCircuit', 'GraduationCap', 'UserRoundCheck', 'ServerCog']) expect(navbar).toContain(`icon: ${icon}`)
+    expect(navbar).toContain('onMouseEnter={() => setActiveCatalog(index)}')
+    expect(navbar).toContain('Partez du travail à accomplir.')
+    expect(navbar).toContain('Équipez votre Collaborateur IA.')
+  })
+
+  it('keeps the menu within the viewport and promotes the Marketplace', () => {
+    expect(navbar).toContain('max-h-[calc(100vh-72px)] overflow-y-auto')
+    expect(navbar).toContain("menuMarketplace: 'Explorer la Marketplace'")
   })
 
   it('keeps Missions as the first top-level navigation entry', () => {

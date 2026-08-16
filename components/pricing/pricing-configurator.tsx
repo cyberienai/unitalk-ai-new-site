@@ -29,54 +29,54 @@ const PERIODS_EN = [
 const PLAN_INFO = {
   fr: {
     byok: {
-      name: 'Vos clés',
-      slogan: 'Vous payez directement le fournisseur',
-      tokens: '0 € facturé par Unitalk',
-      desc: 'Idéal si vous possédez déjà des abonnements d’API chez OpenAI, Anthropic ou Google.',
+      name: 'Vos Clés API',
+      slogan: 'BYOK · Aucun quota Unitalk',
+      tokens: 'Consommation facturée par vos fournisseurs',
+      desc: 'Connectez les clés API que votre entreprise utilise déjà chez OpenAI, Anthropic, Google ou un autre fournisseur compatible.',
     },
     quarterTime: {
-      name: '5 M',
+      name: 'Quart-temps',
       slogan: 'Pour commencer',
       tokens: '5 millions de tokens par mois',
-      desc: 'Parfait pour assurer la veille, mettre à jour le CRM en arrière-plan et exécuter des tâches simples.',
+      desc: 'Pour les missions légères ou récurrentes : veille, mise à jour du CRM et tâches simples.',
     },
     halfTime: {
-      name: '10 M',
+      name: 'Mi-temps',
       slogan: 'Pour un usage quotidien',
       tokens: '10 millions de tokens par mois',
-      desc: 'Idéal pour le tri et la réponse aux emails, la qualification réactive de prospects et la planification d’agenda.',
+      desc: 'Pour une activité quotidienne : traitement des emails, qualification de prospects et gestion du calendrier.',
     },
     fullTime: {
-      name: '20 M',
+      name: 'Temps plein',
       slogan: 'Pour les volumes importants',
       tokens: '20 millions de tokens par mois',
-      desc: 'Un collaborateur IA dédié à 100% à l’action, prêt à piloter des processus multi-applications complexes.',
+      desc: 'Pour les processus complexes, les volumes soutenus et le travail continu dans plusieurs applications.',
     },
   },
   en: {
     byok: {
-      name: 'BYOK (Own Keys)',
-      slogan: 'Use your own API keys',
-      tokens: 'Usage billed directly by your provider',
-      desc: 'Ideal if you already have API subscriptions with OpenAI, Anthropic, or Google.',
+      name: 'Your API Keys',
+      slogan: 'BYOK · No Unitalk allowance',
+      tokens: 'Usage billed by your providers',
+      desc: 'Connect the API keys your company already uses with OpenAI, Anthropic, Google or another compatible provider.',
     },
     quarterTime: {
-      name: 'Part-time (1/4)',
-      slogan: 'Background Tasks & Automations',
+      name: 'Quarter-time',
+      slogan: 'To get started',
       tokens: '5 million tokens / month',
-      desc: 'Perfect for monitoring, updating the CRM in the background, and running simple tasks.',
+      desc: 'For light or recurring missions: monitoring, CRM updates and simple tasks.',
     },
     halfTime: {
-      name: 'Half-time (1/2)',
-      slogan: 'Active Daily Support',
+      name: 'Half-time',
+      slogan: 'For daily use',
       tokens: '10 million tokens / month',
-      desc: 'Ideal for email sorting and replying, responsive lead qualification, and calendar planning.',
+      desc: 'For daily activity: handling emails, qualifying prospects and managing the calendar.',
     },
     fullTime: {
-      name: 'Full-time (1/1)',
-      slogan: 'Dedicated 24/7 Autonomy',
+      name: 'Full-time',
+      slogan: 'For high volumes',
       tokens: '20 million tokens / month',
-      desc: 'An AI collaborator 100% dedicated to action, ready to drive complex multi-app workflows.',
+      desc: 'For complex processes, sustained volumes and continuous work across multiple applications.',
     },
   }
 } as const
@@ -84,71 +84,77 @@ const PLAN_INFO = {
 const T = {
   fr: {
     eyebrow: 'Votre configuration',
-    heading: 'Combien de Collaborateurs IA ?',
+    heading: 'Configurez votre équipe IA',
     collabTitle: 'Collaborateurs IA',
-    collabDesc: 'Chaque Collaborateur reçoit une identité et son propre Agent Hermes.',
-    planTitle: 'Combien doivent-ils pouvoir travailler ?',
-    planDesc: 'Choisissez une capacité mensuelle par Collaborateur.',
+    collabDesc: 'Chaque licence comprend une identité IA, une voix, un email, un calendrier, un numéro de téléphone, une mémoire, des applications autorisées et un environnement privé. Hermes fournit les profils et compétences sous licence MIT.',
+    planTitle: 'Quelle capacité IA pour chaque Collaborateur ?',
+    planDesc: 'Choisissez vos Clés API ou un volume mensuel de modèles IA.',
     cocreatorTitle: 'Co-créateurs IA',
     cocreatorDesc: 'Personnes autorisées à créer, tester, versionner et publier des actifs Unitalk.',
     
     // Right card
-    cardKicker: 'Votre prix',
-    cardTitle: 'Ce que vous paierez',
-    cardEstimationBadge: 'En direct',
-    lineOrg: 'Alma Entreprise',
-    lineOrgDetail: 'Workspace & Desktop inclus',
+    cardKicker: 'Estimation mensuelle',
+    cardTitle: 'Votre configuration Unitalk',
+    cardEstimationBadge: 'Calcul en direct',
+    lineOrg: 'Compte Entreprise IA',
+    lineOrgDetail: 'Administration centralisée, Alma, Workspace et Desktop',
     lineLaunchPromo: 'Offre de lancement',
-    lineCollab: 'Collaborateurs IA',
-    lineForfait: 'Capacité par Collaborateur',
-    linePromoTrial: 'Capacité offerte au lancement',
+    lineCollab: 'Licence Collaborateur IA',
+    lineCollabDetail: 'Identité, mémoire, communications, applications et serveur IA',
+    lineForfait: 'Capacité IA',
+    lineHermes: 'Hermes open source',
+    lineHermesDetail: 'Profils métier et compétences · Licence MIT',
+    linePromoTrial: 'Remise de lancement sur la capacité',
     lineCocreator: 'Licence Co-créateur IA',
     
     cardPeriod: '/mois',
     cardAfterTrial: 'Total mensuel',
-    cardSovereignBadge: 'Après l’essai gratuit',
-    cardToday: 'Aujourd’hui (7 jours d’essai)',
-    cardTrialIncluded: '1 million de tokens d’action inclus',
+    cardSovereignBadge: 'Prix après l’essai et promotions applicables',
+    cardToday: 'À payer aujourd’hui',
+    cardTrialIncluded: '7 jours d’essai et 1 million de tokens inclus',
     cardTrialFree: '0 €',
     cardCta: 'Commencer gratuitement',
     cardNoCardNeeded: '7 jours gratuits · Sans carte bancaire',
-    cardAccordion: 'Voir le prix après les offres de lancement',
+    cardAccordion: 'Voir l’évolution du prix après les promotions',
     cardCurrency: '€',
     remove: 'Retirer',
     add: 'Ajouter',
-    selectedProfile: 'Profil choisi',
+    selectedProfile: 'Profil présélectionné',
   },
   en: {
     eyebrow: 'Your configuration',
-    heading: 'Build your team',
-    collabTitle: 'Hermes Agents',
-    collabDesc: 'A distinct professional identity with its tools, permissions and job profiles.',
-    planTitle: 'AI capacity per Hermes Agent',
-    planDesc: 'Choose the monthly model allowance assigned to each agent.',
+    heading: 'Configure your AI team',
+    collabTitle: 'AI Collaborators',
+    collabDesc: 'Each license includes an AI identity, voice, email, calendar, phone number, memory, authorized applications and a private environment. Hermes provides profiles and skills under the MIT License.',
+    planTitle: 'Which AI capacity for each Collaborator?',
+    planDesc: 'Choose your API keys or a monthly AI model allowance.',
     cocreatorTitle: 'AI Co-creators',
     cocreatorDesc: 'People allowed to create, test, version and publish Unitalk assets.',
     
     // Right card
-    cardKicker: 'Live pricing',
-    cardTitle: 'Your configuration',
-    cardEstimationBadge: 'Estimate',
-    lineOrg: 'Alma Organization',
-    lineOrgDetail: 'Workspace & Desktop included',
+    cardKicker: 'Monthly estimate',
+    cardTitle: 'Your Unitalk configuration',
+    cardEstimationBadge: 'Calculated live',
+    lineOrg: 'AI Company Account',
+    lineOrgDetail: 'Central administration, Alma, Workspace and Desktop',
     lineLaunchPromo: 'Launch Offer (Alma)',
-    lineCollab: 'Hermes Agents',
-    lineForfait: 'Capacity',
-    linePromoTrial: 'Trial capacity offer',
+    lineCollab: 'AI Collaborator License',
+    lineCollabDetail: 'Identity, memory, communications, applications and AI server',
+    lineForfait: 'AI Capacity',
+    lineHermes: 'Open-source Hermes',
+    lineHermesDetail: 'Job profiles and skills · MIT License',
+    linePromoTrial: 'Launch discount on capacity',
     lineCocreator: 'AI Co-creator License',
     
     cardPeriod: '/month',
     cardAfterTrial: 'Monthly total',
-    cardSovereignBadge: 'After the free trial',
-    cardToday: 'Today (7-day trial)',
-    cardTrialIncluded: '1 million action tokens included',
+    cardSovereignBadge: 'Price after trial and applicable promotions',
+    cardToday: 'Due today',
+    cardTrialIncluded: '7-day trial and 1 million tokens included',
     cardTrialFree: '0 €',
     cardCta: 'Start free',
     cardNoCardNeeded: '7 days free · No credit card',
-    cardAccordion: 'See pricing evolution without promotions',
+    cardAccordion: 'See how pricing changes after promotions',
     cardCurrency: '€',
     remove: 'Remove',
     add: 'Add',
@@ -173,12 +179,12 @@ export function PricingConfigurator() {
   }
 
   return (
-    <div id="configurateur" className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8">
+    <div id="configurateur" className="grid overflow-hidden rounded-[2rem] border border-[#292521] bg-[#17130F] shadow-[0_40px_90px_-55px_rgba(0,0,0,.85)] lg:grid-cols-[1.08fr_0.92fr]">
       {/* Left Column — Configurator */}
-      <div className="flex flex-col gap-5 rounded-3xl border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-7">
+      <div className="flex flex-col gap-6 bg-[#FAF8F3] p-6 sm:p-9 lg:p-10">
         <div>
           <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#D10E63]">{t.eyebrow}</span>
-          <h2 className="mt-2 font-sf text-2xl font-bold tracking-[-0.025em] text-[#1C1A17]">{t.heading}</h2>
+          <h2 className="mt-4 max-w-xl font-sf text-[clamp(2rem,4vw,3.8rem)] font-semibold leading-[.95] tracking-[-.055em] text-[#1C1A17]">{t.heading}</h2>
           {selectedProfile && <p className="mt-3 inline-flex rounded-full bg-[#D10E63]/10 px-3 py-1.5 text-xs font-bold text-[#B00C54]">{t.selectedProfile} : {selectedProfile}</p>}
           <Link href="/documentation" className="mt-4 block text-xs font-bold text-[#B00C54] underline-offset-4 hover:underline">Voir le détail des licences →</Link>
         </div>
@@ -190,7 +196,7 @@ export function PricingConfigurator() {
               <Users className="h-4.5 w-4.5 text-[#D10E63]" />
               {t.collabTitle}
             </h3>
-            <p className="mt-1 text-xs text-[#6E665A] max-w-sm">
+            <p className="mt-2 max-w-xl text-sm leading-6 text-[#6E665A]">
               {t.collabDesc}
             </p>
           </div>
@@ -207,8 +213,8 @@ export function PricingConfigurator() {
 
         {/* Forfait sélection */}
         <fieldset className="border-t border-[#DED6C8]/60 pt-5">
-          <legend className="text-base font-bold text-[#1C1A17]">{t.planTitle}</legend>
-          <p className="mt-1 text-xs text-[#6E665A]">
+          <legend className="text-lg font-bold tracking-[-.02em] text-[#1C1A17]">{t.planTitle}</legend>
+          <p className="mt-2 text-sm text-[#6E665A]">
             {t.planDesc}
           </p>
           
@@ -221,7 +227,7 @@ export function PricingConfigurator() {
               return (
                 <label 
                   key={id} 
-                  className={`relative cursor-pointer rounded-2xl border p-3.5 outline-none transition-all ${
+                  className={`relative min-h-[150px] cursor-pointer rounded-2xl border p-4 outline-none transition-all ${
                     selected 
                       ? 'border-[#D10E63] bg-[#FCEBF2]/30 shadow-sm' 
                       : 'border-[#DED6C8] bg-white hover:border-[#D10E63]/40'
@@ -237,7 +243,7 @@ export function PricingConfigurator() {
                       className="mt-1.5 accent-[#D10E63]" 
                     />
                     <span className="flex-1">
-                      <strong className="block text-[15px] font-bold text-[#1C1A17]">{info.name}</strong>
+                      <strong className="block pr-14 text-[15px] font-bold text-[#1C1A17]">{info.name}</strong>
                       <span className="mt-0.5 block text-xs font-semibold text-[#D10E63]">{info.slogan}</span>
                       <span className="mt-3 block text-xs font-bold text-[#8A8175]">{info.tokens}</span>
                     </span>
@@ -259,22 +265,23 @@ export function PricingConfigurator() {
       </div>
 
       {/* Right Column — RADICAL Estimate Card (Sombre & Ultra Premium) */}
-      <aside aria-label={t.cardTitle} className="flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#17130F] p-6 text-[#F8F1E7] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.65)] sm:p-8 lg:sticky lg:top-24 lg:self-start">
+      <aside aria-label={t.cardTitle} className="relative flex min-h-full flex-col justify-between overflow-hidden border-t border-white/10 bg-[#17130F] p-6 text-[#F8F1E7] sm:p-9 lg:border-l lg:border-t-0 lg:p-10">
         <div>
           <div className="flex items-start justify-between border-b border-white/10 pb-4">
             <div>
               <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#F15B9B]">{t.cardKicker}</p>
-              <h2 className="mt-1 text-xl font-bold text-white">{t.cardTitle}</h2>
+              <h2 className="mt-3 text-[clamp(1.8rem,3vw,3rem)] font-semibold leading-[.95] tracking-[-.05em] text-white">{t.cardTitle}</h2>
             </div>
             <span className="rounded-full bg-[#22C55E]/10 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-[#22C55E]">{t.cardEstimationBadge}</span>
           </div>
 
-          <dl className="divide-y divide-white/10 py-2 text-[13px]">
+          <dl className="mt-6 divide-y divide-white/10 border-y border-white/10 text-[13px]">
             <PriceLine label={t.lineOrg} detail={t.lineOrgDetail} value={breakdown.organizationBase} currency={t.cardCurrency} />
             {breakdown.organizationDiscount > 0 && <PriceLine label={t.lineLaunchPromo} value={-breakdown.organizationDiscount} discount currency={t.cardCurrency} />}
-            <PriceLine label={`${t.lineCollab} (${collaborators})`} detail={`${collaborators} × 49 €`} value={breakdown.collaboratorsBase} currency={t.cardCurrency} />
-            <PriceLine label={`${t.lineForfait} ${planInfo[capacity].name}`} detail={`${collaborators} × ${unitalkPricing.aiCapacity[capacity].monthlyPrice} €`} value={breakdown.capacityBase} currency={t.cardCurrency} />
-            {breakdown.capacityDiscount > 0 && <PriceLine label={t.linePromoTrial} value={-breakdown.capacityDiscount} discount currency={t.cardCurrency} />}
+             <PriceLine label={`${t.lineCollab} (${collaborators})`} detail={`${t.lineCollabDetail} · ${collaborators} × 49 €`} value={breakdown.collaboratorsBase} currency={t.cardCurrency} />
+             <PriceLine label={`${t.lineForfait} · ${planInfo[capacity].name}`} detail={`${collaborators} × ${unitalkPricing.aiCapacity[capacity].monthlyPrice} €`} value={breakdown.capacityBase} currency={t.cardCurrency} />
+             {breakdown.capacityDiscount > 0 && <PriceLine label={t.linePromoTrial} value={-breakdown.capacityDiscount} discount currency={t.cardCurrency} />}
+             <PriceLine label={t.lineHermes} detail={t.lineHermesDetail} value={0} currency={t.cardCurrency} />
             {coCreators > 0 && <PriceLine label={t.lineCocreator} detail={`${coCreators} × 50 €`} value={breakdown.coCreatorsBase} currency={t.cardCurrency} />}
           </dl>
         </div>
@@ -285,7 +292,7 @@ export function PricingConfigurator() {
               <strong className="block text-sm text-white">{t.cardAfterTrial}</strong>
               <span className="text-[10px] text-[#8F877A]">{t.cardSovereignBadge}</span>
             </dt>
-            <dd aria-live="polite" className="text-3xl font-black tracking-[-0.04em] text-white">
+            <dd aria-live="polite" className="text-[clamp(2.8rem,5vw,5.5rem)] font-semibold leading-none tracking-[-.07em] text-white">
               {breakdown.total} {t.cardCurrency}<span className="text-xs font-normal text-[#8F877A]">{t.cardPeriod}</span>
             </dd>
           </div>
@@ -360,10 +367,10 @@ function Counter({ value, min, max, onChange, noun, removeLabel, addLabel }: { v
 
 function PriceLine({ label, detail, value, discount = false, currency = '€' }: { label: string; detail?: string; value: number; discount?: boolean; currency?: string }) {
   return (
-    <div className="grid grid-cols-[1fr_auto] gap-x-3 py-2 text-xs">
+    <div className="grid grid-cols-[1fr_auto] gap-x-4 py-4 text-xs">
       <dt className={discount ? 'text-[#F15B9B]' : 'text-[#C9C0B0]'}>
         {label}
-        {detail && <span className="ml-1 text-[10px] text-[#8F877A]">{detail}</span>}
+        {detail && <span className="mt-1 block max-w-xs text-[10px] leading-4 text-[#8F877A]">{detail}</span>}
       </dt>
       <dd className={`font-semibold ${discount ? 'text-[#F15B9B]' : 'text-white'}`}>
         {value < 0 ? '−' : ''}{Math.abs(value)} {currency}

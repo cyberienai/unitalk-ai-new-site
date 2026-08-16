@@ -10,21 +10,21 @@ import { PricingFaqFinal } from '@/components/pricing/pricing-faq-final'
 import { PRICING_DRAFT_COOKIE, normalizePricingDraft, parsePricingDraftEnvelope, type AiCapacityId } from '@/lib/unitalk-pricing'
 
 export const metadata: Metadata = {
-  title: 'Tarifs Unitalk : un compte et une facture pour toute l’entreprise',
+  title: 'Tarifs Collaborateur IA et entreprise IA | Unitalk',
   description:
-    'Réunissez vos Collaborateurs humains et IA dans un compte professionnel, avec une facture unique, des crédits prépayés mutualisés et un choix multimodèle.',
+    'Configurez votre entreprise IA : Compte Entreprise, licences Collaborateur IA dès 49 €/mois et capacité modèles IA avec Vos Clés API ou jusqu’à 20 millions de tokens.',
   alternates: { canonical: '/tarifs' },
   openGraph: {
     type: 'website',
     url: 'https://unitalk.ai/tarifs',
-    title: 'Un compte et une facture pour toute l’entreprise | Unitalk',
-    description: 'Collaborateurs humains et IA, crédits prépayés mutualisés et modèles récents réunis dans un compte professionnel.',
+    title: 'Tarifs Collaborateur IA et entreprise IA | Unitalk',
+    description: 'Un compte central, des Collaborateurs IA à 49 €/mois, Hermes gratuit sous licence MIT et une capacité modèles IA ajustable.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
-  twitter: { card: 'summary_large_image', title: 'Un compte et une facture pour toute l’entreprise | Unitalk', description: 'Réunissez vos Collaborateurs humains et IA dans un compte professionnel.', images: ['/opengraph-image'] },
+  twitter: { card: 'summary_large_image', title: 'Tarifs Collaborateur IA | Unitalk', description: 'Configurez votre entreprise IA et calculez immédiatement votre prix mensuel.', images: ['/opengraph-image'] },
 }
 
-const pricingFaqItems=[['Pourquoi l’Entreprise Unitalk est-elle facturée séparément ?','Elle réunit Alma, le Workspace, Desktop, les membres humains, la gouvernance, les crédits et l’accès aux Stores au niveau de l’entreprise.'],['Un Collaborateur IA peut-il exercer plusieurs métiers ?','Oui. Ses profils métier sont illimités. Une nouvelle Licence Collaborateur IA n’est nécessaire que pour une identité distincte ou des ressources dédiées.'],['La capacité IA est-elle facturée par Collaborateur IA ?','Oui. Chaque identité possède sa capacité. Le configurateur applique par défaut la même capacité à toutes les identités sélectionnées.'],['Que signifie BYOK ?','Vous utilisez vos propres clés de modèles. Unitalk ne facture pas cette capacité, mais votre fournisseur facture directement vos usages.'],['Que se passe-t-il à la fin des promotions ?','Le configurateur affiche les montants datés avant votre inscription. Toute bascule payante respecte les conditions et consentements réels du produit.']]
+const pricingFaqItems=[['Comment est calculé le prix de Unitalk ?','Le total comprend un Compte Entreprise IA, les licences Collaborateur IA et leur capacité modèles IA.'],['Que comprend une licence Collaborateur IA ?','Une identité IA, des moyens de communication, une mémoire, des applications, des fichiers, des ressources privées et un environnement isolé.'],['Hermes est-il payant ?','Non. Hermes est gratuit et open source sous licence MIT.'],['Puis-je utiliser mes propres Clés API ?','Oui. Unitalk ne facture alors aucun quota de modèles ; vos fournisseurs facturent directement leur consommation.'],['Puis-je modifier ma configuration ?','Oui. Le nombre de Collaborateurs IA et leur capacité restent ajustables.']]
 const faqJsonLd={ '@context':'https://schema.org','@type':'FAQPage',mainEntity:pricingFaqItems.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}})) }
 
 const PROFILE_LABELS: Record<string, string> = { emma: 'Emma · Assistante de direction', chloe: 'Chloé · Commerciale', lucas: 'Lucas · Relation client', nadia: 'Nadia · Responsable marketing', marcus: 'Marcus · Responsable CRM', hugo: 'Hugo · Coordinateur des opérations' }

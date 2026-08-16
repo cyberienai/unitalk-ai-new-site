@@ -6,66 +6,86 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    title: 'Un compte. Une facture. Toute votre entreprise.',
+    eyebrow: 'Tarifs · Entreprise IA',
+    heroAccent: 'Clairs. Composables. Sans surprise.',
+    title: 'Des tarifs clairs pour toute votre entreprise IA.',
     subtitle:
-      'Un compte professionnel réunit tous vos Collaborateurs, humains et IA. Les crédits prépayés sont partagés et mutualisés, les dernières versions des modèles restent accessibles, et votre entreprise choisit les capacités adaptées à chaque modalité de travail.',
-    trial: '7 jours gratuits. Sans CB.',
-    plansTitle: 'Le prix tient en trois lignes.',
+      'Réunissez vos équipes humaines et vos Collaborateurs IA dans un compte unique. Choisissez le nombre de Collaborateurs, leurs ressources et leur capacité d’utilisation des modèles IA. Le total est calculé immédiatement.',
+    trial: '7 jours gratuits · Sans carte bancaire',
+    proofs: ['Prix calculé immédiatement', 'Hermes gratuit · Licence MIT', 'Configuration ajustable'],
+    plansTitle: 'Ce que vous payez. Ce qui reste gratuit.',
     plansLead:
-      "L'Entreprise se paie une fois. L'Agent Hermes et sa capacité se paient pour chaque Collaborateur IA.",
+      "Le compte Entreprise IA est facturé une seule fois. Chaque licence Collaborateur IA ajoute une identité et des ressources privées. La capacité IA finance l’utilisation des modèles. Hermes reste gratuit sous licence MIT.",
     plans: [
       {
-        name: 'Entreprise',
+        name: 'Compte Entreprise IA',
         price: '50€',
         period: ' / entreprise',
-        desc: 'Alma, Workspace, Desktop, gouvernance, Stores et AI Gateway.',
-        features: ['Une seule fois', 'Membres humains illimités', 'Offerte pendant le lancement'],
+        desc: 'Le compte central de votre entreprise pour administrer les humains, les Collaborateurs IA, leurs accès, leurs budgets et leur facturation.',
+        features: ['Alma pour préparer les missions', 'Espace commun pour suivre le travail et valider les décisions', 'Catalogues de profils, compétences et applications', 'Modèles IA, budgets et facturation centralisés', 'Membres humains illimités'],
       },
       {
-        name: 'Agent Hermes',
+        name: 'Licence Collaborateur IA',
         price: '49€',
         period: ' / Collaborateur',
-        desc: "L'identité, l'environnement de travail et les profils métier de votre Collaborateur IA.",
-        features: ['Une identité professionnelle', 'Profils métier illimités', 'Outils et droits propres'],
+        desc: "Une identité IA professionnelle et son environnement privé de travail dans votre entreprise.",
+        features: ['Identité IA : prénom, avatar et voix', 'Email, calendrier et numéro de téléphone', 'Mémoire IA et historique', 'Applications et modèles IA autorisés', 'Ressources IA, fichiers et serveur IA isolé'],
       },
       {
-        name: 'Capacité IA',
+        name: 'Capacité modèles IA',
         price: '0–100€',
-        period: ' / Agent',
-        desc: 'Vos clés API ou 5, 10 ou 20 millions de tokens par mois.',
-        features: ['BYOK à 0 €', 'Ajustable à tout moment', 'Crédits ponctuels disponibles'],
+        period: ' / Collaborateur',
+        desc: 'Utilisez vos Clés API ou attribuez 5, 10 ou 20 millions de tokens par mois à chaque Collaborateur IA.',
+        features: ['Apportez vos propres clés APIs à 0 €', 'Ajoutez des crédits prépayés', 'Ajustable à tout moment'],
+      },
+      {
+        name: 'Hermes open source',
+        price: 'Gratuit',
+        period: ' · Licence MIT',
+        desc: 'Le moteur agentique open source qui permet de planifier, apprendre des savoir-faire et exécuter le travail.',
+        features: ['Profils métier et compétences', 'Navigateur, terminal et planification', 'Code source ouvert · Licence MIT', 'Aucun prix de licence Hermes'],
       },
     ],
   },
   en: {
-    title: 'One account. One invoice. Your entire company.',
+    eyebrow: 'Pricing · AI Company',
+    heroAccent: 'Clear. Composable. No surprises.',
+    title: 'Clear pricing for your entire AI company.',
     subtitle:
-      'One professional account brings together every human and AI Collaborator. Prepaid credits are shared and pooled, the latest model versions remain available, and your company selects the right capabilities for every work modality.',
+      'Bring your human teams and AI Collaborators together under one account. Choose the number of Collaborators, their resources and their AI model capacity. Your total is calculated instantly.',
     trial: '7 days free. No credit card.',
-    plansTitle: 'The price fits in three lines.',
+    proofs: ['Instant price calculation', 'Hermes free · MIT License', 'Adjustable configuration'],
+    plansTitle: 'What you pay for. What stays free.',
     plansLead:
-      'Pay for the Organization once. Pay for the Hermes Agent and its capacity for each AI Collaborator.',
+      'The AI Company account is billed once. Each AI Collaborator License adds a private identity and resources. AI capacity funds model usage. Hermes remains free under the MIT License.',
     plans: [
       {
-        name: 'Organization',
+        name: 'AI Company Account',
         price: '€50',
         period: ' / company',
-        desc: 'Alma, Workspace, Desktop, governance, Stores and AI Gateway.',
-        features: ['Paid once', 'Unlimited human members', 'Free during launch'],
+        desc: 'Your company’s central account for administering people, AI Collaborators, access, budgets and billing.',
+        features: ['Alma to prepare missions', 'Shared space to follow work and approve decisions', 'Catalogs of profiles, skills and applications', 'AI models, budgets and centralized billing', 'Unlimited human members'],
       },
       {
-        name: 'Hermes Agent',
+        name: 'AI Collaborator License',
         price: '€49',
         period: ' / Collaborator',
-        desc: 'The identity, working environment and job profiles of your AI Collaborator.',
-        features: ['One professional identity', 'Unlimited job profiles', 'Own tools and permissions'],
+        desc: 'A professional AI identity and its private working environment in your company.',
+        features: ['AI identity: first name, avatar and voice', 'Email, calendar and phone number', 'AI memory and history', 'Authorized applications and AI models', 'AI resources, files and isolated AI server'],
       },
       {
-        name: 'AI capacity',
+        name: 'AI Model Capacity',
         price: '€0–100',
-        period: ' / Agent',
-        desc: 'Your API keys or 5, 10 or 20 million tokens per month.',
-        features: ['BYOK at €0', 'Adjust anytime', 'On-demand credits available'],
+        period: ' / Collaborator',
+        desc: 'Use your API Keys or assign 5, 10 or 20 million tokens per month to each AI Collaborator.',
+        features: ['Bring your own API keys at €0', 'Add prepaid credits', 'Adjust anytime'],
+      },
+      {
+        name: 'Open-source Hermes',
+        price: 'Free',
+        period: ' · MIT License',
+        desc: 'The open-source agentic engine that plans, learns know-how and executes work.',
+        features: ['Job profiles and skills', 'Browser, terminal and scheduling', 'Open source code · MIT License', 'No Hermes license fee'],
       },
     ],
   },
@@ -76,22 +96,26 @@ export function PricingHero() {
   const t = T[lang]
 
   return (
-    <section className="relative overflow-hidden pb-10 pt-28 sm:pt-32">
+    <section className="relative min-h-[760px] overflow-hidden border-b border-[#D8D0C2] px-5 pb-20 pt-32 sm:px-8 sm:pt-40">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
       />
       <div className="editorial-shell relative">
-        <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-balance font-sf text-[clamp(2.7rem,6vw,5.5rem)] font-semibold leading-[.94] tracking-[-.065em]">
-            {t.title}
+        <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.eyebrow}</p>
+        <div className="mt-8 grid gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+          <h1 className="max-w-[900px] text-balance font-sf text-[clamp(3rem,6.8vw,6.8rem)] font-semibold leading-[.89] tracking-[-.07em]">
+            {t.title}<span className="mt-3 block text-[#D10E63]">{t.heroAccent}</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">
-            {t.subtitle}
-          </p>
-          <p className="mt-4 text-sm font-semibold text-[#B00C54]">{t.trial}</p>
+          <div className="lg:pb-3">
+            <p className="text-[17px] leading-8 text-[#4E483F]">{t.subtitle}</p>
+            <p className="mt-5 text-sm font-bold text-[#B00C54]">{t.trial}</p>
+          </div>
         </div>
-        <div className="mt-10">
+        <div className="mt-16 grid border-y border-[#CFC5B5] sm:grid-cols-3">
+          {t.proofs.map((proof, index) => <p key={proof} className="flex min-h-20 items-center gap-4 border-b border-[#CFC5B5] py-4 text-sm font-bold last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"><span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{proof}</p>)}
+        </div>
+        <div className="mt-14">
           <PricingConfigurator />
         </div>
       </div>
@@ -104,31 +128,33 @@ export function PricingCollaboration() {
   const t = T[lang]
 
   return (
-    <section className="border-y border-[#DED6C8] bg-[#EAE3D4] py-14">
+    <section className="border-y border-[#DED6C8] bg-[#EAE3D4] px-5 py-20 sm:px-8 sm:py-28">
       <div className="editorial-shell">
-        <h2 className="max-w-4xl text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">
+        <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{lang === 'fr' ? 'Architecture du prix' : 'Pricing architecture'}</p>
+        <h2 className="mt-6 max-w-5xl text-[clamp(2.7rem,6vw,6rem)] font-semibold leading-[.92] tracking-[-.065em]">
           {t.plansTitle}
         </h2>
-        <p className="mt-3 max-w-2xl text-[16px] text-[#4E483F]">{t.plansLead}</p>
+        <p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{t.plansLead}</p>
 
-        <div className="mt-9 grid gap-4 md:grid-cols-3">
-          {t.plans.map((plan) => (
+        <div className="mt-14 grid gap-px overflow-hidden rounded-[2rem] border border-[#CFC5B5] bg-[#CFC5B5] md:grid-cols-2 xl:grid-cols-4">
+          {t.plans.map((plan, index) => (
             <article
               key={plan.name}
-              className="flex flex-col justify-between rounded-[22px] border border-[#DED6C8] bg-[#FAF8F3] p-6 text-[#1C1A17]"
+              className={`flex min-h-[440px] flex-col p-7 ${index === 3 ? 'bg-[#181615] text-white' : index === 1 ? 'bg-[#D10E63] text-white' : 'bg-[#FAF8F3] text-[#1C1A17]'}`}
             >
               <div>
-                <h3 className="text-xl font-bold">{plan.name}</h3>
-                <p className="mt-2 text-2xl font-black text-[#D10E63]">
+                <p className={`font-mono text-[9px] font-black uppercase tracking-[.18em] ${index === 1 || index === 3 ? 'text-white/65' : 'text-[#B00C54]'}`}>0{index + 1}</p>
+                <h3 className="mt-8 text-2xl font-semibold tracking-[-.035em]">{plan.name}</h3>
+                <p className={`mt-5 text-[clamp(2.5rem,4vw,4.5rem)] font-semibold leading-none tracking-[-.07em] ${index === 1 || index === 3 ? 'text-white' : 'text-[#D10E63]'}`}>
                   {plan.price}
-                  <span className="text-xs font-normal text-[#6B6560]">{plan.period}</span>
+                  <span className={`block pt-3 text-xs font-semibold tracking-normal ${index === 1 || index === 3 ? 'text-white/65' : 'text-[#6B6560]'}`}>{plan.period}</span>
                 </p>
-                <p className="mt-4 text-sm leading-relaxed text-[#5A5348]">{plan.desc}</p>
+                <p className={`mt-7 text-sm leading-7 ${index === 1 || index === 3 ? 'text-white/75' : 'text-[#5A5348]'}`}>{plan.desc}</p>
               </div>
-              <ul className="mt-6 space-y-2.5 border-t border-[#DED6C8]/40 pt-5 text-xs text-[#3F3A33]">
+              <ul className={`mt-auto space-y-3 border-t pt-6 text-xs font-semibold ${index === 1 || index === 3 ? 'border-white/20 text-white/85' : 'border-[#DED6C8] text-[#3F3A33]'}`}>
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex gap-2">
-                    <Check className="size-4 shrink-0 text-[#22C55E]" /> {feature}
+                    <Check className={`size-4 shrink-0 ${index === 1 || index === 3 ? 'text-[#F2A4C5]' : 'text-[#D10E63]'}`} /> {feature}
                   </li>
                 ))}
               </ul>
