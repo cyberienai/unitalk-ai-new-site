@@ -23,7 +23,8 @@ const COPY = {
   fr: {
     kicker: 'La Place de Marché',
     title: 'Choisissez le Collaborateur IA adapté à votre première mission.',
-    lead: 'Besoin d’aide pour vos emails, votre prospection ou votre relation client ? Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.',
+    lead: 'Besoin d’aide pour vos emails, votre prospection ou votre relation client ?',
+    almaLead: 'Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.',
     cta: 'Voir tous les profils métier',
     recruit: 'Choisir',
     previous: 'Afficher les profils précédents',
@@ -42,7 +43,8 @@ const COPY = {
   en: {
     kicker: 'The Marketplace',
     title: 'Choose the AI Collaborator suited to your first mission.',
-    lead: 'Need help with email, prospecting or customer relations? Alma scopes your need and prepares the AI Collaborator suited to your mission.',
+    lead: 'Need help with email, prospecting or customer relations?',
+    almaLead: 'Alma scopes your need and prepares the AI Collaborator suited to your mission.',
     cta: 'View all job profiles',
     recruit: 'Choose',
     previous: 'Show previous profiles',
@@ -80,7 +82,9 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
           <div className="max-w-3xl text-center lg:text-left">
             <Kicker>{t.kicker}</Kicker>
             <h2 className="mt-5 text-balance font-sf text-[32px] font-semibold leading-[1.08] tracking-[-0.035em] text-[#1C1A17] sm:text-[40px] md:text-[44px]">{t.title}</h2>
-            <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#4E483F] md:text-[17px]"><AlmaInline />{' '}{t.lead}</p>
+            <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#4E483F] md:text-[17px]">
+              {t.lead} <AlmaInline />{' '}{t.almaLead}
+            </p>
           </div>
           <Link href="/collaborateurs-ia/profils-metier" className="group mx-auto inline-flex items-center gap-2 rounded-full border border-[#D10E63] px-6 py-3 text-sm font-bold text-[#D10E63] transition-all hover:bg-[#D10E63] hover:text-white lg:mx-0">
             {t.cta}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

@@ -52,7 +52,7 @@ const T = {
     step: 'Étape',
     almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
     almaAction: "Revenir à Alma",
-    voiceKicker: 'Alma · Coordinatrice IA de missions',
+    voiceKicker: 'Coordinatrice IA de missions',
     voiceTitle: 'Parlez ou écrivez à Alma.',
     voiceBody: 'Alma transforme votre besoin en une première mission structurée.',
     voiceStart: 'Commencer à parler',
@@ -62,9 +62,11 @@ const T = {
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
     voiceSubmit: 'Préparer cette mission',
     voiceBack: 'Voir la démonstration',
-    examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants', 'Trouver de nouveaux prospects'],
-    previewLabel: 'Alma prépare',
-    previewItems: ['Objectif', 'Résultat attendu', 'Applications', 'Validations humaines'],
+    examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants'],
+    structured: 'Mission structurée',
+    recommended: 'Collaboratrice recommandée',
+    prepared: 'Applications et validations préparées',
+    customizable: 'Prête à personnaliser',
   },
   en: {
     eyebrow: 'Someone is missing',
@@ -86,7 +88,7 @@ const T = {
     step: 'Step',
     almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
     almaAction: "Return to Alma",
-    voiceKicker: 'Alma · AI mission coordinator',
+    voiceKicker: 'AI mission coordinator',
     voiceTitle: 'Talk or write to Alma.',
     voiceBody: 'Alma turns your need into a first structured mission.',
     voiceStart: 'Start talking',
@@ -96,9 +98,11 @@ const T = {
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
     voiceSubmit: 'Prepare this mission',
     voiceBack: 'View the demo',
-    examples: ['Chase my unpaid invoices', 'Handle my incoming emails', 'Find new prospects'],
-    previewLabel: 'Alma prepares',
-    previewItems: ['Objective', 'Expected result', 'Applications', 'Human approvals'],
+    examples: ['Chase my unpaid invoices', 'Handle my incoming emails'],
+    structured: 'Structured mission',
+    recommended: 'Recommended collaborator',
+    prepared: 'Applications and approvals prepared',
+    customizable: 'Ready to personalize',
   },
 } as const
 
@@ -130,13 +134,16 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const [voiceSupported, setVoiceSupported] = useState(false)
   const [listening, setListening] = useState(false)
   const [transcript, setTranscript] = useState('')
+  const [demoRequest, setDemoRequest] = useState<string | null>(null)
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const voicePanelRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const current = journeys[cycle]
-  const isChloe = cycle === journeys.length - 1
+  const preparedDemo = demoRequest ? getPreparedDemo(demoRequest, lang) : null
+  const current = preparedDemo ?? journeys[cycle]
+  const isChloe = !preparedDemo && cycle === journeys.length - 1
+  const collaboratorName = preparedDemo?.name ?? (isChloe ? 'Chloé' : 'Emma')
 
   useEffect(() => {
     const SpeechRecognition = getSpeechRecognition()
@@ -269,16 +276,10 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 <div className="mt-3 flex flex-wrap gap-2">
                   {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] transition-colors hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
                 </div>
-                {transcript.trim() && (
-                  <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-2xl border border-[#D10E63]/25 bg-[#D10E63]/10 p-3">
-                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#F3B4CF]">{t.previewLabel}</p>
-                    <div className="mt-2 flex flex-wrap gap-2">{t.previewItems.map((item) => <span key={item} className="rounded-full bg-white/[0.07] px-2.5 py-1 text-[11px] text-[#F8F1E7]">{item}</span>)}</div>
-                  </motion.div>
-                )}
                 <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40">
                   {t.voiceSubmit}<ArrowRight className="size-4" />
                 </button>
-                <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setShowVoice(false) }} className="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold text-[#D6CABD] hover:text-white">
+                <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setDemoRequest(transcript.trim() || null); setPhase(0); setShowVoice(false) }} className="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold text-[#D6CABD] hover:text-white">
                   {t.voiceBack}<ArrowRight className="size-3.5" />
                 </button>
               </div>
@@ -294,24 +295,24 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
 
             <div className="p-5 sm:p-7">
               <AnimatePresence mode="wait" initial={false}>
-                <motion.div key={cycle} initial={reduce ? false : { opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -14 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
+                 <motion.div key={preparedDemo ? `prepared-${demoRequest}` : cycle} initial={reduce ? false : { opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -14 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
                   <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#887D72]">{t.mission}</p>
-                  <h2 className="mt-2 font-sf text-[25px] font-semibold tracking-[-0.025em] text-white sm:text-[30px]">{current.mission}</h2>
+                   <h2 className="mt-2 font-sf text-[25px] font-semibold tracking-[-0.025em] text-white sm:text-[30px]">{preparedDemo?.title ?? journeys[cycle].mission}</h2>
 
                   <div className="mt-7 grid gap-7 sm:grid-cols-[150px_1fr]">
                     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                      <Image src={isChloe ? '/images/chloe-avatar.png' : '/images/emma-avatar.png'} alt={isChloe ? 'Chloé' : 'Emma'} width={56} height={56} className="h-14 w-14 rounded-full object-cover ring-2 ring-[#D10E63]/30" />
-                      <p className="mt-3 font-sf text-lg font-semibold">{isChloe ? 'Chloé' : 'Emma'}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-[#D6CABD]">{isChloe ? t.chloeRole : t.collaborator}</p>
+                       <Image src={preparedDemo?.avatar ?? (isChloe ? '/images/chloe-avatar.png' : '/images/emma-avatar.png')} alt={collaboratorName} width={56} height={56} className="h-14 w-14 rounded-full object-cover ring-2 ring-[#D10E63]/30" />
+                       <p className="mt-3 font-sf text-lg font-semibold">{collaboratorName}</p>
+                       <p className="mt-1 text-xs leading-relaxed text-[#D6CABD]">{preparedDemo?.role ?? (isChloe ? t.chloeRole : t.collaborator)}</p>
                     </div>
 
                     <ol className="space-y-4">
-                      <TimelineRow label={t.mission} status={visiblePhase > 0 ? 'done' : 'active'} />
-                      <TimelineRow label={isChloe ? t.newRole : t.assigned} detail={isChloe ? t.newRoleDetail : undefined} status={visiblePhase > 1 ? 'done' : visiblePhase === 1 ? 'active' : 'next'} />
-                      <TimelineRow label={isChloe ? t.preparing : t.equipping} status={visiblePhase > 2 ? 'done' : visiblePhase === 2 ? 'active' : 'next'}>
+                       <TimelineRow label={preparedDemo ? t.structured : t.mission} status={visiblePhase > 0 ? 'done' : 'active'} />
+                       <TimelineRow label={preparedDemo ? `${collaboratorName} · ${t.recommended}` : isChloe ? t.newRole : t.assigned} detail={preparedDemo?.objective ?? (isChloe ? t.newRoleDetail : undefined)} status={visiblePhase > 1 ? 'done' : visiblePhase === 1 ? 'active' : 'next'} />
+                       <TimelineRow label={preparedDemo ? t.prepared : isChloe ? t.preparing : t.equipping} status={visiblePhase > 2 ? 'done' : visiblePhase === 2 ? 'active' : 'next'}>
                         {!isChloe && visiblePhase >= 2 && <div className="mt-3 flex flex-wrap gap-2">{current.skills.map((skill, index) => <motion.span key={skill} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: index < (visiblePhase === 2 ? 2 : 3) ? 1 : 0.3, y: 0 }} transition={{ delay: reduce ? 0 : index * 0.18 }} className="rounded-full border border-[#D10E63]/25 bg-[#D10E63]/10 px-2.5 py-1 text-[11px] text-[#F3B4CF]">{skill}</motion.span>)}</div>}
                       </TimelineRow>
-                      <TimelineRow label={isChloe ? t.chloeReady : t.ready} status={visiblePhase === 3 ? 'done' : 'next'} />
+                       <TimelineRow label={preparedDemo ? t.customizable : isChloe ? t.chloeReady : t.ready} status={visiblePhase === 3 ? 'done' : 'next'} />
                     </ol>
                   </div>
                 </motion.div>
@@ -348,6 +349,56 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
       </div>
     </section>
   )
+}
+
+function getPreparedDemo(value: string, lang: Lang) {
+  const normalized = value.toLocaleLowerCase(lang)
+
+  if (normalized.includes('factur') || normalized.includes('invoice')) {
+    return lang === 'fr'
+      ? {
+          title: 'Relancer les factures impayées',
+          objective: 'Obtenir le règlement des factures échues sans relancer les dossiers en litige.',
+          name: 'Emma', role: 'Collaboratrice IA · Finance', avatar: '/images/emma-avatar.png',
+          skills: ['Messagerie', 'Facturation', 'CRM'],
+        }
+      : {
+          title: 'Follow up on unpaid invoices',
+          objective: 'Collect overdue invoices without contacting customers with an open dispute.',
+          name: 'Emma', role: 'AI Collaborator · Finance', avatar: '/images/emma-avatar.png',
+          skills: ['Email', 'Billing', 'CRM'],
+        }
+  }
+
+  if (normalized.includes('e-mail') || normalized.includes('email') || normalized.includes('mail')) {
+    return lang === 'fr'
+      ? {
+          title: 'Traiter les e-mails entrants',
+          objective: 'Trier les messages, préparer les réponses et signaler les demandes sensibles.',
+          name: 'Emma', role: 'Collaboratrice IA · Assistante de direction', avatar: '/images/emma-avatar.png',
+          skills: ['Outlook', 'Priorisation', 'Microsoft Teams'],
+        }
+      : {
+          title: 'Handle incoming emails',
+          objective: 'Sort messages, prepare replies and flag sensitive requests.',
+          name: 'Emma', role: 'AI Collaborator · Executive Assistant', avatar: '/images/emma-avatar.png',
+          skills: ['Outlook', 'Prioritization', 'Microsoft Teams'],
+        }
+  }
+
+  return lang === 'fr'
+    ? {
+        title: value.trim(),
+        objective: 'Transformer votre demande en résultat concret et vérifiable.',
+        name: 'Emma', role: 'Collaboratrice IA recommandée par Alma', avatar: '/images/emma-avatar.png',
+        skills: ['Objectif', 'Applications', 'Validations'],
+      }
+    : {
+        title: value.trim(),
+        objective: 'Turn your request into a concrete, verifiable result.',
+        name: 'Emma', role: 'AI Collaborator recommended by Alma', avatar: '/images/emma-avatar.png',
+        skills: ['Objective', 'Applications', 'Approvals'],
+      }
 }
 
 function TimelineRow({ label, detail, status, children }: { label: string; detail?: string; status: 'done' | 'active' | 'next'; children?: React.ReactNode }) {
