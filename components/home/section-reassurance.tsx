@@ -1,25 +1,25 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mic, Sparkles, Workflow, ShieldCheck } from 'lucide-react'
+import { Blocks, BrainCircuit, Layers3, LifeBuoy } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
     items: [
-      { icon: Mic, title: 'Voix ou texte', desc: 'Décrivez votre mission naturellement.' },
-      { icon: Sparkles, title: '1 million de tokens inclus', desc: 'Pour tester une mission réelle pendant 7 jours.' },
-      { icon: Workflow, title: 'Coordination par Alma', desc: 'La coordinatrice IA de missions Unitalk, au service de votre entreprise.' },
-      { icon: ShieldCheck, title: 'Hébergé en France', desc: 'RGPD, AI Act et données isolées.' },
+      { icon: LifeBuoy, title: 'Vous n’êtes jamais seul', desc: 'Alma vous accompagne et transmet à un ingénieur IA si nécessaire.' },
+      { icon: Layers3, title: 'Profils métier et compétences illimités', desc: 'Faites évoluer chaque Collaborateur IA selon vos missions.' },
+      { icon: Blocks, title: 'Plus de 3 000 applications', desc: 'Connectez les outils que votre entreprise utilise déjà.' },
+      { icon: BrainCircuit, title: 'Le meilleur modèle pour chaque tâche', desc: 'Le modèle IA adapté est sélectionné selon le travail à accomplir.' },
     ],
   },
   en: {
     items: [
-      { icon: Mic, title: 'Voice or text', desc: 'Describe your mission naturally.' },
-      { icon: Sparkles, title: '1 million tokens included', desc: 'To test a real mission for 7 days.' },
-      { icon: Workflow, title: 'Coordination by Alma', desc: 'Unitalk’s AI mission coordinator, serving your company.' },
-      { icon: ShieldCheck, title: 'Hosted in France', desc: 'GDPR, AI Act and isolated data.' },
+      { icon: LifeBuoy, title: 'You are never on your own', desc: 'Alma supports you and hands over to an AI engineer when needed.' },
+      { icon: Layers3, title: 'Unlimited job profiles and skills', desc: 'Evolve each AI Collaborator as your missions change.' },
+      { icon: Blocks, title: 'More than 3,000 applications', desc: 'Connect the tools your company already uses.' },
+      { icon: BrainCircuit, title: 'The best model for every task', desc: 'The right AI model is selected for the work at hand.' },
     ],
   },
 } as const
