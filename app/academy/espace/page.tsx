@@ -39,7 +39,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
             <p className="academy-space-eyebrow">Votre espace d’apprentissage</p>
              <h1>Votre mission.<br /><em>Votre création.</em><br />Votre offre.</h1>
              <p>Suivez le chemin qui transforme un problème réel en Collaborateur IA testable puis commercialisable.</p>
-            <Link href={`/connexion?redirect=${encodeURIComponent(redirect)}`}>Se connecter avec Unitalk <ArrowRight /></Link>
+             <Link href={`/academy/connexion?redirect=${encodeURIComponent(redirect)}`}>Se connecter avec Unitalk <ArrowRight /></Link>
             <span><LockKeyhole /> Un seul compte pour Unitalk et Academy</span>
           </section>
           <DashboardPreview selection={selectedMission?.title ?? selectedPath?.title} />
@@ -109,7 +109,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
               <span>Alma · Guide Academy</span>
               <h2>Besoin d’un coup de pouce ?</h2>
                <p>Je peux vous aider à cadrer la mission, préparer le Collaborateur IA ou organiser son premier test.</p>
-               <Link href="/decouvrir?source=academy-espace">Demander à Alma <ArrowRight /></Link>
+               <Link href={`/academy/onboarding?mission=${activeMission.slug}`}>Demander à Alma <ArrowRight /></Link>
                <small>Vous gardez la validation des décisions et du résultat.</small>
             </aside>
           </div>

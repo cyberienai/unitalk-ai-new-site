@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowDown, ArrowRight, Clock3, FileCheck2, Sparkles } from 'lucide-react'
 import { MISSIONS, NETWORKS } from '@/lib/academy-catalog'
+import { AcademyAlmaHero } from '@/components/academy/academy-alma-hero'
 
 export const metadata: Metadata = { title: 'Missions réelles pour créer avec l’IA', description:'Choisissez un problème concret, produisez une preuve et transformez la méthode en capacité pour un Collaborateur IA.' }
 
@@ -42,6 +43,8 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
           </aside>
         </div>
       </section>
+
+      <AcademyAlmaHero title="Vous ne savez pas quelle mission choisir ?" body="Décrivez simplement le résultat attendu. Alma vous aide à choisir un point de départ et à préparer votre parcours Academy." cta="Demander à Alma" />
 
       <section id="catalogue" className="academy-missions-catalogue">
         <div className="academy-missions-shell">

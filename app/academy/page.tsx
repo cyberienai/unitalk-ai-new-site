@@ -8,6 +8,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { MISSIONS, NETWORKS } from '@/lib/academy-catalog'
+import { AcademyAlmaHero } from '@/components/academy/academy-alma-hero'
 
 const featuredMission = MISSIONS[0]
 const freeMissions = MISSIONS.filter(mission => mission.free)
@@ -79,6 +80,8 @@ export default function AcademyPage() {
           </div>
         </div>
       </section>
+
+      <AcademyAlmaHero title="Votre première mission ne commence pas par un formulaire." body="Expliquez à Alma ce que vous voulez accomplir. Elle personnalise votre point de départ, puis vous retrouvez vos formations dans le même compte Unitalk." cta="Commencer l’onboarding avec Alma" />
 
       <section id="methode" className="academy-home-method">
         <div className="academy-home-shell">
