@@ -10,6 +10,7 @@ import {
   type AuthProvider,
   type MockSession,
 } from '@/lib/mock-auth'
+import { isProfessionalEmail } from '@/lib/professional-email'
 
 const PROVIDER_DEMO_EMAIL: Record<Exclude<AuthProvider, 'email'>, string> = {
   google: 'patrick@acme.fr',
@@ -68,6 +69,7 @@ export async function establishSession(formData: FormData): Promise<void> {
  */
 export async function startSession(provider: AuthProvider, email?: string): Promise<MockSession> {
   const rawEmail = email?.trim().toLowerCase() ?? ''
+  if (provider === 'email' && !isProfessionalEmail(rawEmail)) throw new Error('A professional email address is required.')
   const resolvedEmail =
     provider === 'email'
       ? rawEmail || 'membre@entreprise.com'
