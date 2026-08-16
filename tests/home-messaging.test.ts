@@ -14,7 +14,8 @@ describe('home commercial messaging', () => {
 
   it('uses plain-language comparison rows', () => {
     expect(comparison).toContain("['Répond à une demande', 'Prend en charge une mission']")
-    expect(comparison).toContain("['Reste dans son interface', 'Agit dans vos applications autorisées']")
+    expect(comparison).toContain("['Vous échangez dans une interface', 'Possède un nom, une voix et une identité professionnelle']")
+    expect(comparison).toContain("['Attend votre prochain message', 'Communique par e-mail, téléphone et calendrier']")
     expect(comparison).toContain("['Suit vos instructions', 'Apprend vos méthodes validées']")
   })
 
