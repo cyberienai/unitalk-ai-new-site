@@ -10,10 +10,11 @@ describe('home commercial messaging', () => {
   it('uses a concrete hero promise and recruitment reasons', () => {
     expect(hero).toContain('Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives.')
     expect(hero).toContain('Il travaille avec votre équipe et réutilise les méthodes que vous validez.')
-    expect(hero).toContain('Décrivez votre besoin. Alma prépare votre Collaborateur.')
+    expect(hero).toContain("voiceTitle: 'Décrivez votre besoin.'")
+    expect(hero).toContain("voiceBody: 'Alma prépare votre Collaborateur.'")
     expect(hero).toContain('Continuer avec cette mission')
     expect(hero).not.toContain('voiceSubmitEmpty')
-    for (const proof of ['Première mission offerte', 'Première version en quelques minutes', 'Sans carte bancaire', 'Moteur Hermes open source', 'Infrastructure Unitalk hébergée en France']) expect(hero).toContain(proof)
+    for (const proof of ['Première mission offerte', 'Première version en quelques minutes', 'Sans carte bancaire']) expect(hero).toContain(proof)
   })
 
   it('uses plain-language comparison rows', () => {

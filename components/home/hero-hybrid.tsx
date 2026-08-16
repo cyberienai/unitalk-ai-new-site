@@ -172,8 +172,9 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     <section className="relative overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-10 pt-24 sm:pb-12 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-5 lg:pt-[88px] [@media(min-width:1024px)_and_(max-height:800px)]:pb-3 [@media(min-width:1024px)_and_(max-height:800px)]:pt-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full bg-[#D10E63]/[0.08] blur-3xl" />
-      <div className="editorial-shell relative grid w-full grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12 [@media(min-width:1024px)_and_(max-height:800px)]:gap-9">
-        <div className="max-w-[720px] text-left">
+      <div className="editorial-shell relative w-full">
+        <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12 [@media(min-width:1024px)_and_(max-height:800px)]:gap-9">
+          <div className="max-w-[720px] text-left">
           <motion.div {...enter(0)} className="mb-4 flex lg:mb-4"><Kicker>{t.eyebrow}</Kicker></motion.div>
           <motion.h1 {...enter(0.08)} className="text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] text-[#1C1A17] lg:text-[clamp(3.1rem,4.8vw,5rem)] [@media(min-width:1024px)_and_(max-height:800px)]:text-[clamp(3rem,4.5vw,4.5rem)]">
             <span className="block">{t.headlineA}</span>
@@ -208,15 +209,16 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>}
               />
             </motion.div>
+          </motion.div>
+        </div>
+        <motion.div {...enter(0.32)} className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-[#CFC5B5] pt-4 sm:mt-8 lg:mt-6">
+          {t.proofs.map((proof) => (
+            <span key={proof} className="inline-flex items-center gap-2 text-[12px] font-semibold text-[#6E665A]">
+              <Check aria-hidden="true" className="size-3.5 shrink-0 text-[#D10E63]" />{proof}
+            </span>
+          ))}
         </motion.div>
       </div>
-      <motion.div {...enter(0.32)} className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 lg:mt-6">
-        {t.proofs.map((proof) => (
-          <span key={proof} className="inline-flex items-center gap-2 text-[12px] font-semibold text-[#6E665A]">
-            <Check aria-hidden="true" className="size-3.5 shrink-0 text-[#D10E63]" />{proof}
-          </span>
-        ))}
-      </motion.div>
     </section>
   )
 }
