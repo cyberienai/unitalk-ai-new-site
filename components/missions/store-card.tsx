@@ -339,7 +339,7 @@ export function AlmaBand({
         </h3>
         <p className="mt-1.5 max-w-2xl text-sm leading-[1.55] text-[#C9C1B8]">
           {lang === 'fr'
-            ? 'Décrivez votre objectif à Alma. Elle préparera le Collaborateur IA adapté à votre organisation.'
+            ? 'Décrivez votre objectif à Alma. Elle préparera le Collaborateur IA adapté à votre entreprise.'
             : 'Describe your goal to Alma. She’ll prepare the AI Collaborator suited to your organization.'}
         </p>
       </div>

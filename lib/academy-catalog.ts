@@ -10,9 +10,9 @@ export const NETWORKS: AcademyNetwork[] = [
   { id:'marketing', name:'Marketing', tagline:'Observer, positionner, créer, mesurer.', description:'Les méthodes pour comprendre un marché, construire une marque et piloter une acquisition responsable avec l’IA.', color:'#D10E63', members:'182 membres', events:'2 ateliers ce mois' },
   { id:'commerce', name:'Commerce', tagline:'Prospecter, qualifier, convaincre, fidéliser.', description:'Un réseau pour formaliser les meilleures pratiques commerciales et apprendre à travailler avec une équipe humain-IA.', color:'#C05A24', members:'146 membres', events:'1 classe ouverte' },
   { id:'finance', name:'Finance', tagline:'Analyser, contrôler, décider.', description:'Des missions et compétences pour fiabiliser l’analyse, la prévision et le contrôle sans abandonner le jugement humain.', color:'#3E6DA8', members:'96 membres', events:'1 étude de cas' },
-  { id:'rh', name:'Ressources humaines', tagline:'Développer les personnes et les organisations.', description:'Compétences de recrutement, formation, adoption et gouvernance des équipes humain-IA.', color:'#7562A8', members:'118 membres', events:'2 rencontres' },
+  { id:'rh', name:'Ressources humaines', tagline:'Développer les personnes et les entreprises.', description:'Compétences de recrutement, formation, adoption et gouvernance des équipes humain-IA.', color:'#7562A8', members:'118 membres', events:'2 rencontres' },
   { id:'industrie', name:'Industrie', tagline:'Documenter, améliorer, transmettre.', description:'Le réseau des méthodes opérationnelles, de la qualité, de la maintenance et de la transmission des savoir-faire terrain.', color:'#2E7D4F', members:'84 membres', events:'1 atelier terrain' },
-  { id:'entrepreneuriat', name:'Entrepreneuriat', tagline:'Concevoir une entreprise capable.', description:'Pour construire une activité augmentée, une offre claire et une organisation qui combine humains et capacités IA.', color:'#1C1A17', members:'231 membres', events:'3 sessions ouvertes' },
+  { id:'entrepreneuriat', name:'Entrepreneuriat', tagline:'Concevoir une entreprise capable.', description:'Pour construire une activité augmentée, une offre claire et une entreprise qui combine humains et capacités IA.', color:'#1C1A17', members:'231 membres', events:'3 sessions ouvertes' },
 ]
 
 export const MISSIONS: LearningMission[] = [

@@ -46,17 +46,17 @@ const T = {
     name: 'Alma',
     tagline: 'Responsable du développement de votre équipe',
     intro:
-      'Alma crée, optimise et accompagne vos Collaborateurs IA. Elle est votre interlocutrice unique pour construire votre organisation augmentée.',
+      'Alma crée, optimise et accompagne vos Collaborateurs IA. Elle est votre interlocutrice unique pour construire votre entreprise augmentée.',
     verified: 'Intelligence vérifiée',
     responds: 'Répond en moins de 5 secondes',
     domainsTitle: 'Ce qu’Alma fait pour vous',
     engineerTitle: 'Un Ingénieur IA nommé',
     engineerText:
-      'Quand Alma ne peut pas répondre, elle escalade vers un ingénieur humain attitré à votre organisation. Pas de chatbot sans fin — un vrai contact humain, avec le contexte complet.',
+      'Quand Alma ne peut pas répondre, elle escalade vers un ingénieur humain attitré à votre entreprise. Pas de chatbot sans fin — un vrai contact humain, avec le contexte complet.',
     cta: 'Parler à Alma',
     ctaNote: 'Disponible immédiatement · Gratuit pendant 7 jours',
     hosting:
-      'Intelligence hébergée par Unitalk. Alma apprend de votre organisation et n’en partage rien en dehors.',
+      'Intelligence hébergée par Unitalk. Alma apprend de votre entreprise et n’en partage rien en dehors.',
     domains: [
       {
         icon: Rocket,

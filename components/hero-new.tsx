@@ -23,9 +23,9 @@ const T = {
     exploreCta: 'Voir les missions',
     heroProofs: ['Configuration personnalisée', 'Espace de travail privé', 'Essai gratuit 7 jours'],
     heroTrialMobile: '7 jours d’essai gratuit',
-    orgTitle: 'Votre organisation',
-    orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre organisation.',
-    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’organisation.',
+    orgTitle: 'Votre entreprise',
+    orgMeta: 'Des Collaborateurs IA dédiés ou partagés. Tous appartiennent à votre entreprise.',
+    orgFootnote: 'Chaque Collaborateur IA peut travailler pour une personne, une équipe, un département ou toute l’entreprise.',
     orgPairs: [
       { human: 'Patrick', dept: 'Direction', ai: 'Emma', slug: 'emma', avatar: '/images/emma-avatar.png', status: 'Assistanat · Réunions · Reporting' },
       { human: 'Sophie', dept: 'Marketing', ai: 'Léa', slug: 'lea', avatar: '/images/lea-avatar.png', status: 'Contenu · Design · Publication' },
@@ -196,7 +196,7 @@ export function HeroNew({ lang = 'fr' }: { lang?: 'fr' | 'en' }) {
             <div className="px-5 pt-5 pb-1 sm:px-6">
               <Link
                 href="/decouvrir"
-                aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre organisation' : 'discover your organization'}`}
+                aria-label={`${t.orgTitle} — ${lang === 'fr' ? 'découvrir votre entreprise' : 'discover your organization'}`}
                 className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#D10E63]/[0.05]"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#D10E63] text-[#FBF9F3]"><Network className="h-4 w-4" /></span>

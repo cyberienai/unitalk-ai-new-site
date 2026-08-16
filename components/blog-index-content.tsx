@@ -30,7 +30,7 @@ const COPY = {
       { category: 'Méthode', title: 'Une mission bien confiée vaut mieux qu’un long prompt.' },
       { category: 'Identité', title: 'Votre IA doit savoir qui elle était hier.' },
       { category: 'Workspace', title: 'L’IA agit. L’entreprise décide.' },
-      { category: 'Organisation', title: 'Un Collaborateur IA ne se déploie pas. Il s’intègre.' },
+      { category: 'Entreprise', title: 'Un Collaborateur IA ne se déploie pas. Il s’intègre.' },
       { category: 'Mémoire', title: 'Une entreprise qui oublie recommence toujours à zéro.' },
       { category: 'Méthode', title: 'Le véritable travail commence après le premier résultat.' },
       { category: 'Compétences', title: 'Une compétence n’a de valeur que si elle peut être réutilisée.' },

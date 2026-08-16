@@ -143,14 +143,14 @@ const changelogData: MonthGroup[] = [
             tag: 'NOUVEAUTÉ',
             title: 'Partage de chat',
             description:
-              'Les conversations de votre assistant privé peuvent désormais être partagées, soit en mode public, soit avec les collaborateurs de votre choix au sein de votre organisation. Choisissez entre un accès view-only (les destinataires peuvent lire la conversation) ou un accès full access (les destinataires peuvent poursuivre la conversation, poser de nouvelles questions et la repartager). Il suffit de cliquer sur l’icône Partager en haut à droite de votre chat pour commencer.',
+              'Les conversations de votre assistant privé peuvent désormais être partagées, soit en mode public, soit avec les collaborateurs de votre choix au sein de votre entreprise. Choisissez entre un accès view-only (les destinataires peuvent lire la conversation) ou un accès full access (les destinataires peuvent poursuivre la conversation, poser de nouvelles questions et la repartager). Il suffit de cliquer sur l’icône Partager en haut à droite de votre chat pour commencer.',
           },
           {
             date: '11 Mai',
             tag: 'NOUVEAUTÉ',
             title: 'Partage d’images et de vidéos',
             description:
-              'Partagez les chats dans lesquels vous générez une image ou une vidéo, comme n’importe quelle autre conversation, en public ou avec des membres spécifiques de votre organisation. Avec l’accès view-only, les destinataires peuvent voir le résultat, avec l’accès full access, ils peuvent régénérer ou modifier l’image ou la vidéo, et la repartager.',
+              'Partagez les chats dans lesquels vous générez une image ou une vidéo, comme n’importe quelle autre conversation, en public ou avec des membres spécifiques de votre entreprise. Avec l’accès view-only, les destinataires peuvent voir le résultat, avec l’accès full access, ils peuvent régénérer ou modifier l’image ou la vidéo, et la repartager.',
           },
         ],
       },

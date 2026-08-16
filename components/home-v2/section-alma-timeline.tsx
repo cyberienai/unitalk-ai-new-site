@@ -10,7 +10,7 @@ const T = {
     eyebrow: 'Dans la durée',
     title: 'Alma vous accompagne dans le temps.',
     subtitle:
-      'Alma ne disparaît pas après votre inscription. Elle continue à faire évoluer votre organisation.',
+      'Alma ne disparaît pas après votre inscription. Elle continue à faire évoluer votre entreprise.',
     steps: [
       'vous interviewer régulièrement',
       'mesurer votre satisfaction',
@@ -23,7 +23,7 @@ const T = {
       'suggérer de nouvelles expertises',
       'vous informer des nouveaux modèles IA pertinents',
     ],
-    closing: 'Votre organisation devient plus performante au fil du temps.',
+    closing: 'Votre entreprise devient plus performante au fil du temps.',
   },
   en: {
     eyebrow: 'Over time',

@@ -76,7 +76,7 @@ const content = {
     teamLead:
       'Un vrai collaborateur ne se définit pas par ce qu’il sait faire, mais par ce qu’il est : une identité professionnelle complète.',
     teamAttributes: [
-      { title: 'Un rôle', body: 'Sa place et ses responsabilités dans votre organisation.' },
+      { title: 'Un rôle', body: 'Sa place et ses responsabilités dans votre entreprise.' },
       { title: 'Une mission', body: 'Un objectif clair auquel il se consacre.' },
       { title: 'Une mémoire', body: 'Ce qu\'il apprend reste et lui sert au fil du temps.' },
       { title: 'Ses propres compétences', body: 'Des savoir-faire choisis pour ses missions.' },
@@ -91,7 +91,7 @@ const content = {
 
     // Section: Emma, un exemple concret
     emmaEyebrow: 'UN EXEMPLE CONCRET',
-    emmaJoinLabel: 'Elle rejoint votre organisation avec :',
+    emmaJoinLabel: 'Elle rejoint votre entreprise avec :',
     emmaAttributes: ['Une identité', 'Une mission', "Des droits d'accès", 'Une mémoire', 'Une présence numérique'],
     emmaTasks: [
       'Elle répond aux emails.',
@@ -106,7 +106,7 @@ const content = {
     // Section: Chaque Collaborateur IA rejoint votre organigramme
     memberEyebrow: 'CHAQUE COLLABORATEUR IA REJOINT VOTRE ORGANIGRAMME',
     memberTitle: 'Livré prêt à travailler.',
-    memberAccent: 'Il devient un membre de votre organisation.',
+    memberAccent: 'Il devient un membre de votre entreprise.',
     deliveredLabel: 'Chaque Collaborateur IA est livré avec :',
     delivered: [
       'Un agent Hermes',
@@ -172,7 +172,7 @@ const content = {
       { value: '8 mois', label: 'Dans l’équipe' },
     ],
     emmaIntroStrong: 'Un membre à part entière.',
-    emmaIntro: "Emma rejoint votre organisation avec un rôle, une mission, des droits d'accès et une identité. Comme un collègue, elle se souvient, progresse et bâtit sa réputation mission après mission.",
+    emmaIntro: "Emma rejoint votre entreprise avec un rôle, une mission, des droits d'accès et une identité. Comme un collègue, elle se souvient, progresse et bâtit sa réputation mission après mission.",
     emmaName: 'Emma',
     emmaRole: 'Executive Assistant',
     emmaEmail: 'emma@votre-entreprise.fr',
@@ -186,7 +186,7 @@ const content = {
 
     // Section: Trois façons de commencer
     plansEyebrow: 'TROIS FAÇONS DE COMMENCER',
-    plansTitle: "Une porte d'entrée pour chaque organisation.",
+    plansTitle: "Une porte d'entrée pour chaque entreprise.",
     plans: [
       {
         name: 'Solo',
@@ -209,7 +209,7 @@ const content = {
       },
       {
         name: 'Business',
-        audience: 'Pour les organisations établies',
+        audience: 'Pour les entreprises établies',
         pitch: "Construisez l'infrastructure d'intelligence de votre entreprise.",
         price: 'Sur devis',
         unit: 'Infrastructure privée',

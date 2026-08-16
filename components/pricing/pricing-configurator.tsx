@@ -96,7 +96,7 @@ const T = {
     cardKicker: 'Votre prix',
     cardTitle: 'Ce que vous paierez',
     cardEstimationBadge: 'En direct',
-    lineOrg: 'Alma Organisation',
+    lineOrg: 'Alma Entreprise',
     lineOrgDetail: 'Workspace & Desktop inclus',
     lineLaunchPromo: 'Offre de lancement',
     lineCollab: 'Collaborateurs IA',

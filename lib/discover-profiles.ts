@@ -96,7 +96,7 @@ export const COMPANY_PROFILES: Record<string, CompanyProfile> = {
   },
   default: {
     key: 'default',
-    label: { fr: 'Organisation', en: 'Organization' },
+    label: { fr: 'Entreprise', en: 'Organization' },
     tagline: {
       fr: 'Une base solide pour démarrer, à adapter à votre réalité.',
       en: 'A solid starting point, to adapt to your reality.',

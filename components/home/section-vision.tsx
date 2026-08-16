@@ -12,7 +12,7 @@ const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre intelligence vous appartient.',
-    lead: 'Mission après mission, votre Collaborateur IA conserve les méthodes que vous validez. Son identité, sa mémoire et son expérience restent rattachées à votre organisation.',
+    lead: 'Mission après mission, votre Collaborateur IA conserve les méthodes que vous validez. Son identité, sa mémoire et son expérience restent rattachées à votre entreprise.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Décrire ma première mission',
     ctaNote: 'Alma conserve votre demande et vous accompagne après la connexion.',

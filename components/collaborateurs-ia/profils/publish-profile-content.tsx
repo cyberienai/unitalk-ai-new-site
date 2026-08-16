@@ -26,7 +26,7 @@ const COPY = {
     visibilityLead: 'Ce choix exprime votre intention. La visibilité finale dépendra de la vérification et de votre validation explicite.',
     visibility: {
       private: ['Privé', 'Disponible uniquement pour vous et vos tests.', 'Vous seul'],
-      organization: ['Organisation', 'Disponible aux membres autorisés de votre organisation.', 'Votre équipe'],
+      organization: ['Entreprise', 'Disponible aux membres autorisés de votre entreprise.', 'Votre équipe'],
       public: ['Proposer au catalogue public', 'Candidat à la vérification éditoriale et technique Unitalk.', 'Catalogue Unitalk'],
     },
     requiredKicker: 'Dossier de publication',
@@ -39,7 +39,7 @@ const COPY = {
       ['Revue du périmètre', 'Responsabilité, limites, accès et risques.'],
       ['Tests représentatifs', 'Vérification sur des missions et cas contrôlés.'],
       ['Corrections', 'Demandes de précision ou d’ajustement si nécessaire.'],
-      ['Validation de visibilité', 'Confirmation privée, organisationnelle ou publique.'],
+      ['Validation de visibilité', 'Confirmation privée, d’entreprise ou publique.'],
       ['Publication et versionnage', 'Diffusion de la version validée et suivi des évolutions.'],
     ],
     ownershipTitle: 'Vous gardez la maîtrise de votre création.',

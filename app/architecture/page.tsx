@@ -5,16 +5,16 @@ import { SiteFooter } from '@/components/site-footer'
 export const metadata: Metadata = {
   title: 'Architecture — Unitalk',
   description:
-    'Comprendre l\'architecture des licences Unitalk AI : Alma Organisation, Collaborateur IA, Capacité IA, Workspace & Desktop.',
+    'Comprendre l\'architecture des licences Unitalk AI : Alma Entreprise, Collaborateur IA, Capacité IA, Workspace & Desktop.',
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const almaTree = [
   'Alma, Coordinatrice de missions',
-  'Organisation — Membres humains, Équipes et rôles, Responsables, Droits administratifs',
+  'Entreprise — Membres humains, Équipes et rôles, Responsables, Droits administratifs',
   'Gouvernance — Politiques d\'accès, Validations humaines, Règles d\'escalade, Budgets et quotas, Traçabilité',
-  'Connaissance de l\'entreprise — Mémoire partagée, Documents et procédures, Méthodes validées, Contexte organisationnel',
+  'Connaissance de l\'entreprise — Mémoire partagée, Documents et procédures, Méthodes validées, Contexte d’entreprise',
   'Stores Unitalk — Profils métier, Compétences, Missions, Applications',
   'Applications connectées — Connecteurs, API, MCP, Webhooks, Applications métier privées',
   'Unitalk AI Gateway — Modèles autorisés, Fournisseurs, Clés API, Routage et fallback, Budgets et quotas, Suivi des coûts',
@@ -34,7 +34,7 @@ const workspaceTree = [
 ]
 
 const collaboratorTree = [
-  'Identité IA professionnelle — Nom, Avatar, Nature IA explicite, Rattachement à l\'organisation, Responsable humain, Profil public',
+  'Identité IA professionnelle — Nom, Avatar, Nature IA explicite, Rattachement à l\'entreprise, Responsable humain, Profil public',
   'Profil Collaborateur IA pour Hermes — Runtime agentique, Environnement de travail, Mémoire propre, Fichiers, Terminal, Navigateur, Tâches planifiées',
   'Profils métier illimités',
   'Compétences installées — Compétences Unitalk, Compétences privées, Versions, Expérience validée',
@@ -58,17 +58,17 @@ const placementRows = [
   ['Applications', 'Connexions disponibles', 'Applications autorisées'],
   ['MCP', 'Serveurs enregistrés', 'Outils MCP autorisés'],
   ['Modèles IA', 'Fournisseurs et modèles autorisés', 'Modèles utilisables'],
-  ['Clés API', 'Coffre de l\'organisation', 'Accès indirect selon les droits'],
+  ['Clés API', 'Coffre de l\'entreprise', 'Accès indirect selon les droits'],
   ['Serveurs IA', 'Inventaire et politique', 'Environnement d\'exécution affecté'],
   ['Identité IA', 'Gouvernance et rattachement', 'Identité propre'],
   ['Email et agenda', 'Domaines et politiques', 'Coordonnées propres'],
   ['Téléphone', 'Fournisseur et budget', 'Ligne attribuée'],
-  ['Mémoire partagée', 'Organisation', 'Lecture selon les droits'],
+  ['Mémoire partagée', 'Entreprise', 'Lecture selon les droits'],
   ['Mémoire privée', 'Politique de conservation', 'Mémoire propre du Collaborateur'],
 ]
 
 const priceLines = [
-  { name: 'Alma Organisation', desc: 'Contrôle, connaissance, Stores, Gateway et infrastructure', price: '50 €/mois' },
+  { name: 'Alma Entreprise', desc: 'Contrôle, connaissance, Stores, Gateway et infrastructure', price: '50 €/mois' },
   { name: 'Unitalk Workspace & Desktop', desc: 'Web, Desktop, missions, activité et validations', price: 'Inclus', featured: false },
   { name: 'Collaborateur IA + profil Hermes', desc: 'Identité, environnement, profils et outils', price: '49 €/mois' },
   { name: 'Capacité IA', desc: 'Modèles, tokens et charge d\'action', price: '0 à 100 €/mois' },
@@ -127,7 +127,7 @@ export default function ArchitecturePage() {
             Comment les licences Unitalk s&rsquo;articulent
           </h1>
           <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-[#4E483F]">
-            Alma Organisation gouverne les ressources disponibles. Chaque Collaborateur IA reçoit
+            Alma Entreprise gouverne les ressources disponibles. Chaque Collaborateur IA reçoit
             ensuite une identité, des compétences, des applications, des canaux de communication et
             une capacité adaptés à ses missions.
           </p>
@@ -140,7 +140,7 @@ export default function ArchitecturePage() {
           <h2 className="text-[28px] font-bold tracking-[-0.03em]">Distinctions essentielles</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {[
-              { label: 'Alma Organisation', sub: 'Configure et gouverne', color: '#0055A4' },
+              { label: 'Alma Entreprise', sub: 'Configure et gouverne', color: '#0055A4' },
               { label: 'Workspace & Desktop', sub: 'Permettent de travailler', color: '#22A06B' },
               { label: 'Licence Collaborateur IA', sub: 'Crée une identité capable d\'agir', color: '#D10E63' },
               { label: 'Capacité IA', sub: 'Finance l\'usage des modèles', color: '#E56910' },
@@ -162,15 +162,15 @@ export default function ArchitecturePage() {
         </SectionInner>
       </Section>
 
-      {/* Alma Organisation */}
+      {/* Alma Entreprise */}
       <Section className="bg-[#EAE3D4]">
         <SectionInner>
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#0055A4]/25 bg-[#0055A4]/[0.08] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#0055A4]">
             Licence
           </div>
-          <h2 className="text-[32px] font-bold tracking-[-0.03em]">Alma Organisation</h2>
+          <h2 className="text-[32px] font-bold tracking-[-0.03em]">Alma Entreprise</h2>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#4E483F]">
-            Alma Organisation configure et gouverne. Elle fournit le <strong>cadre de gestion</strong> :&nbsp;
+            Alma Entreprise configure et gouverne. Elle fournit le <strong>cadre de gestion</strong> :&nbsp;
             contrôle, connaissance, Stores, Gateway et infrastructure.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -182,7 +182,7 @@ export default function ArchitecturePage() {
                 les membres humains illimités, la gouvernance et l&rsquo;accès aux Stores.
               </p>
               <p className="text-xs text-[#857C6E]">
-                Workspace &amp; Desktop sont <strong className="text-[#22A06B]">inclus</strong> avec Alma Organisation.
+                Workspace &amp; Desktop sont <strong className="text-[#22A06B]">inclus</strong> avec Alma Entreprise.
               </p>
             </div>
           </div>
@@ -218,12 +218,12 @@ export default function ArchitecturePage() {
       <Section className="bg-[#EAE3D4]">
         <SectionInner>
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#22A06B]/25 bg-[#22A06B]/[0.08] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#22A06B]">
-            Inclus avec Alma Organisation
+            Inclus avec Alma Entreprise
           </div>
           <h2 className="text-[32px] font-bold tracking-[-0.03em]">Workspace &amp; Desktop</h2>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#4E483F]">
             Le Workspace Web et l&rsquo;application Desktop sont <strong className="text-[#22A06B]">inclus</strong> avec
-            Alma Organisation. Les membres humains sont illimités.
+            Alma Entreprise. Les membres humains sont illimités.
           </p>
           <div className="mt-8">
             <TreeBranch label="Périmètre" children={workspaceTree} />
@@ -264,7 +264,7 @@ export default function ArchitecturePage() {
         <SectionInner>
           <h2 className="text-[28px] font-bold tracking-[-0.03em]">Placement des éléments</h2>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#4E483F]">
-            Certains éléments sont gérés au niveau de l&rsquo;Organisation, d&rsquo;autres sont
+            Certains éléments sont gérés au niveau de l&rsquo;Entreprise, d&rsquo;autres sont
             attribués individuellement à chaque Collaborateur IA.
           </p>
           <div className="mt-8 overflow-x-auto">
@@ -272,7 +272,7 @@ export default function ArchitecturePage() {
               <thead>
                 <tr className="border-b border-[#DED6C8]">
                   <th className="py-3 pr-6 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#857C6E]">Élément</th>
-                  <th className="py-3 pr-6 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#857C6E]">Gestion Organisation</th>
+                  <th className="py-3 pr-6 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#857C6E]">Gestion Entreprise</th>
                   <th className="py-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#857C6E]">Attribution Collaborateur</th>
                 </tr>
               </thead>
@@ -316,7 +316,7 @@ export default function ArchitecturePage() {
             ))}
           </div>
           <p className="mt-6 text-sm leading-relaxed text-[#4E483F]">
-            <strong>Alma Organisation gouverne les ressources disponibles.</strong> Chaque Collaborateur IA
+            <strong>Alma Entreprise gouverne les ressources disponibles.</strong> Chaque Collaborateur IA
             reçoit ensuite une identité, des compétences, des applications, des canaux de communication
             et une capacité adaptés à ses missions. Ce découpage garantit que chaque niveau est facturé
             pour ce qu&rsquo;il fournit réellement — pas plus, pas moins.

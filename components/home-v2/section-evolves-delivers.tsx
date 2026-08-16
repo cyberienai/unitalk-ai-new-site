@@ -40,7 +40,7 @@ const T = {
     newMissionLabel: 'Nouvelle mission',
     newMission: 'Préparer la revue trimestrielle',
     closing: [
-      'Il appartient à votre organisation.',
+      'Il appartient à votre entreprise.',
       'Il apprend avec votre entreprise.',
       'Il travaille aux côtés de vos équipes.',
     ],

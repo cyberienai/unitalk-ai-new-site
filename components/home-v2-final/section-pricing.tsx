@@ -12,7 +12,7 @@ const T = {
     intro: 'Une seule offre, sans surprise. Vous ajoutez des profils métier quand vous en avez besoin.',
     includedTitle: 'L’offre de départ comprend',
     included: [
-      'Votre Organisation Unitalk',
+      'Votre Entreprise Unitalk',
       'Tous vos membres humains',
       'Votre Workspace',
       'Votre premier Collaborateur IA',
@@ -27,7 +27,7 @@ const T = {
     extensions: [
       'Collaborateurs IA supplémentaires',
       'Profils métier supplémentaires',
-      'Serveur IA privé pour les applications et les données de l’organisation',
+      'Serveur IA privé pour les applications et les données de l’entreprise',
       'Utilisation des modèles d’IA',
       'Voix, téléphone et ressources de calcul supplémentaires',
     ],

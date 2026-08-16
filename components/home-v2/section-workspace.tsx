@@ -11,7 +11,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 const T = {
   fr: {
     eyebrow: 'Un seul environnement',
-    title: 'Le workspace de votre organisation.',
+    title: 'Le workspace de votre entreprise.',
     subtitle: 'Humains et Collaborateurs IA travaillent dans le même environnement. Une seule interface pour tout piloter.',
     items: [
       { icon: MessagesSquare, label: 'vos conversations' },

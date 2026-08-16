@@ -31,7 +31,7 @@ const offers = [
   },
   {
     name: 'Équipe',
-    eyebrow: 'Pour les organisations',
+    eyebrow: 'Pour les entreprises',
     price: 'Sur mesure',
     cadence: 'à partir de vos besoins',
     description: 'Construisez un programme ancré dans vos métiers, méthodes et règles de gouvernance.',

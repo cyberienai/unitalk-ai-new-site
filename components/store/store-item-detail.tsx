@@ -79,7 +79,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
     compose: lang === 'fr' ? 'Préparer avec Alma' : 'Prepare with Alma',
     createdBy: lang === 'fr' ? 'Créé par' : 'Created by',
     editor: lang === 'fr' ? 'Éditeur' : 'Editor',
-    roleInOrg: lang === 'fr' ? 'Rôle dans l’Organisation' : 'Role in the Organization',
+    roleInOrg: lang === 'fr' ? 'Rôle dans l’Entreprise' : 'Role in the Organization',
     knowHow: lang === 'fr' ? 'Savoir-faire inclus' : 'Included know-how',
     exampleMissions: lang === 'fr' ? 'Missions possibles' : 'Example missions',
     enables: lang === 'fr' ? 'Ce qu’elle permet' : 'What it enables',

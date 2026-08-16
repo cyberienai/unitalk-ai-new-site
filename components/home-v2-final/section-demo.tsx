@@ -29,7 +29,7 @@ const T = {
     identityHeader: 'Son identité professionnelle',
     identityItems: ['Email', 'Téléphone', 'Calendrier', 'Mémoire', 'Fichiers'],
     personalizeNote:
-      'Son nom, son avatar et sa voix pourront être personnalisés après son arrivée dans votre organisation.',
+      'Son nom, son avatar et sa voix pourront être personnalisés après son arrivée dans votre entreprise.',
     step1: 'Choisissez une mission',
     profileTitle: 'Profil métier proposé',
     skillsTitle: 'Compétences préparées',
@@ -54,7 +54,7 @@ const T = {
         key: 'newsletter',
         label: 'Préparer une newsletter',
         profile: 'Responsable du contenu',
-        profileDesc: 'Planifie, produit et diffuse les contenus de votre organisation.',
+        profileDesc: 'Planifie, produit et diffuse les contenus de votre entreprise.',
         skills: ['Recherche', 'Rédaction', 'Création visuelle', 'Publication'],
         tools: [
           { name: 'Site Web', connected: false },

@@ -28,5 +28,5 @@ const defs: ProfileDef[] = [
 export const DIGITAL_AGENCY_PROFILES: StoreItem[] = defs.map((def, index) => ({
   type:'profil', slug:def.slug, name:{fr:def.name,en:def.name}, description:{fr:def.description,en:def.description}, creator:'unitalk', facet:def.family,
   roleInOrg:{fr:def.description,en:def.description}, knowHow:def.skills.map(x=>({fr:x,en:x})), exampleMissions:def.missions.map(x=>({fr:x,en:x})), relatedSkills:[], possibleApps:[],
-  order:200+index,dateAdded:'2026-08-13',keywords:[def.name,...def.skills,...def.missions],version:'1.0.0',commercialStatus:'included',usageRights:{fr:'Utilisation dans l’organisation selon les droits accordés.',en:'Use within the organization according to granted rights.'},specializations:def.specializations?.map(x=>({fr:x,en:x})),
+  order:200+index,dateAdded:'2026-08-13',keywords:[def.name,...def.skills,...def.missions],version:'1.0.0',commercialStatus:'included',usageRights:{fr:'Utilisation dans l’entreprise selon les droits accordés.',en:'Use within the organization according to granted rights.'},specializations:def.specializations?.map(x=>({fr:x,en:x})),
 }))

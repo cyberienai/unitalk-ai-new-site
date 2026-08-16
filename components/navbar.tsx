@@ -5,17 +5,7 @@ import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
-  BookOpenCheck,
-  Blocks,
-  BrainCircuit,
-  BriefcaseBusiness,
   ChevronDown,
-  GraduationCap,
-  Handshake,
-  Plug,
-  Server,
-  Sparkles,
-  type LucideIcon,
 } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
@@ -33,29 +23,29 @@ const ACADEMY_URL = '/academy'
 
 // Marketplace dropdown: one entry point for every way to discover,
 // equip or contribute an AI Collaborator.
-type MenuEntry = { title: Bi; desc: Bi; href: string; icon: LucideIcon }
+type MenuEntry = { title: Bi; desc: Bi; href: string }
 type MenuAction = { title: Bi; href: string }
 
 const MARKETPLACE_FEATURED: MenuEntry = {
   title: { fr: 'La Marketplace des Collaborateurs IA', en: 'The AI Collaborator Marketplace' },
   desc: {
-    fr: 'Trouvez, adoptez et enrichissez des Collaborateurs IA créés par Unitalk et la communauté.',
-    en: 'Find, adopt and expand AI Collaborators created by Unitalk and the community.',
+    fr: 'Des créations souveraines et interopérables pour équiper des Collaborateurs IA autonomes, propulsés par Hermes open source.',
+    en: 'Sovereign, interoperable creations for autonomous AI Collaborators powered by open-source Hermes.',
   },
   href: '/marketplace',
-  icon: Sparkles,
 }
 
 const MARKETPLACE_CATALOGS: MenuEntry[] = [
-  { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Les responsabilités durables qu’un Collaborateur IA peut exercer.', en: 'Lasting responsibilities an AI Collaborator can perform.' }, href: '/collaborateurs-ia/profils-metier', icon: BriefcaseBusiness },
-  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Des savoir-faire précis, testés et partageables.', en: 'Precise, tested and shareable know-how.' }, href: '/collaborateurs-ia/competences', icon: Sparkles },
-  { title: { fr: 'Intégrations', en: 'Integrations' }, desc: { fr: 'Services tiers et connecteurs accessibles selon vos droits.', en: 'Third-party services and connectors under your permissions.' }, href: '/collaborateurs-ia/integrations', icon: Plug },
-  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Apps open source et modèles métier vibecodés.', en: 'Open-source apps and vibe-coded business templates.' }, href: '/collaborateurs-ia/applications', icon: Blocks },
-  { title: { fr: 'Serveurs', en: 'Servers' }, desc: { fr: 'Infrastructure privée Small, Medium, Large ou XXL.', en: 'Small, Medium, Large or XXL private infrastructure.' }, href: '/collaborateurs-ia/serveurs', icon: Server },
-  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et fournisseurs autorisés par votre organisation.', en: 'Models and providers approved by your organization.' }, href: '/modeles-ia', icon: BrainCircuit },
-  { title: { fr: 'Formations', en: 'Training' }, desc: { fr: 'Apprenez à utiliser, créer et gouverner vos Collaborateurs IA.', en: 'Learn to use, create and govern your AI Collaborators.' }, href: '/academy', icon: GraduationCap },
-  { title: { fr: 'Services', en: 'Services' }, desc: { fr: 'Faites-vous accompagner par des experts de l’écosystème.', en: 'Get support from experts across the ecosystem.' }, href: '/experts', icon: Handshake },
-  { title: { fr: 'Missions', en: 'Missions' }, desc: { fr: 'Partez du travail à accomplir pour trouver le bon Collaborateur IA.', en: 'Start from the work to find the right AI Collaborator.' }, href: '/missions', icon: BookOpenCheck },
+  { title: { fr: 'Missions', en: 'Missions' }, desc: { fr: 'Partez du travail à accomplir pour trouver le bon Collaborateur IA.', en: 'Start from the work to find the right AI Collaborator.' }, href: '/missions' },
+  { title: { fr: 'Alma', en: 'Alma' }, desc: { fr: 'Cadrez la mission et préparez le Collaborateur IA adapté.', en: 'Scope the mission and prepare the right AI Collaborator.' }, href: '/collaborateurs-ia/alma' },
+  { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Les responsabilités durables qu’un Collaborateur IA peut exercer.', en: 'Lasting responsibilities an AI Collaborator can perform.' }, href: '/collaborateurs-ia/profils-metier' },
+  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Des savoir-faire précis, testés et partageables.', en: 'Precise, tested and shareable know-how.' }, href: '/collaborateurs-ia/competences' },
+  { title: { fr: 'Intégrations', en: 'Integrations' }, desc: { fr: 'Services tiers et connecteurs accessibles selon vos droits.', en: 'Third-party services and connectors under your permissions.' }, href: '/collaborateurs-ia/integrations' },
+  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Apps open source et modèles métier vibecodés.', en: 'Open-source apps and vibe-coded business templates.' }, href: '/collaborateurs-ia/applications' },
+  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et fournisseurs autorisés par votre entreprise.', en: 'Models and providers approved by your company.' }, href: '/modeles-ia' },
+  { title: { fr: 'Formations', en: 'Training' }, desc: { fr: 'Apprenez à utiliser, créer et gouverner vos Collaborateurs IA.', en: 'Learn to use, create and govern your AI Collaborators.' }, href: '/academy' },
+  { title: { fr: 'Services', en: 'Services' }, desc: { fr: 'Faites-vous accompagner par des experts de l’écosystème.', en: 'Get support from experts across the ecosystem.' }, href: '/experts' },
+  { title: { fr: 'Serveurs', en: 'Servers' }, desc: { fr: 'Infrastructure privée Small, Medium, Large ou XXL.', en: 'Small, Medium, Large or XXL private infrastructure.' }, href: '/collaborateurs-ia/serveurs' },
 ]
 
 const COLLAB_ACTIONS: MenuAction[] = [
@@ -68,6 +58,8 @@ const T = {
     signIn: 'Connexion',
     pricing: 'Tarifs',
     workspace: 'Workspace',
+    missions: 'Missions',
+    partners: 'Partenaires',
     collaborators: 'Marketplace IA',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -79,12 +71,15 @@ const T = {
     menuResources: 'Ressources',
     menuStore: 'Ouvrir la Marketplace IA',
     menuAcademy: 'Explorer Unitalk Academy',
+    menuPrinciples: ['Autonomes', 'Open source', 'Souverains'],
   },
   en: {
     home: 'Unitalk AI Home',
     signIn: 'Sign in',
     pricing: 'Pricing',
     workspace: 'Workspace',
+    missions: 'Missions',
+    partners: 'Partners',
     collaborators: 'AI Marketplace',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -96,6 +91,7 @@ const T = {
     menuResources: 'Resources',
     menuStore: 'Open the AI Marketplace',
     menuAcademy: 'Explore Unitalk Academy',
+    menuPrinciples: ['Autonomous', 'Open source', 'Sovereign'],
   },
 }
 
@@ -278,6 +274,9 @@ export function Navbar(
             </a>
 
             <div className="hidden items-center gap-1 lg:flex">
+              <NavItem href="/missions" active={pathname === '/missions' || pathname.startsWith('/missions/')} overDark={overDark}>
+                {t.missions}
+              </NavItem>
               {/* Marketplace IA — every way to find, equip or contribute a Collaborateur IA */}
               <div
                 ref={collabRef}
@@ -328,35 +327,35 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                      className="absolute -left-[180px] top-full w-[1040px] max-w-[calc(100vw-2rem)] pt-3"
+                      className="absolute -left-[180px] top-full w-[1080px] max-w-[calc(100vw-2rem)] pt-3"
                     >
-                      <div className="overflow-hidden rounded-[28px] border border-[#D8D0C2] bg-[#F8F5EE] shadow-[0_36px_90px_-24px_rgba(28,26,23,0.42)] ring-1 ring-white/70">
-                        <div className="relative isolate overflow-hidden bg-[#171514] px-7 py-6 text-[#FAF8F3]">
-                          <div aria-hidden="true" className="absolute -right-10 -top-24 -z-10 size-72 rounded-full bg-[#D10E63]/25 blur-3xl" />
-                          <div className="flex items-center justify-between gap-6">
-                            <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group flex min-w-0 items-center gap-4 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
-                              <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-[#F2A4C5]/30 bg-[#D10E63]/20 text-[#F2A4C5]"><Sparkles className="size-5" strokeWidth={1.7} /></span>
-                              <span><span className="font-mono text-[9px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuFeatured}</span><span className="mt-1.5 block text-[23px] font-semibold leading-tight tracking-[-.035em]">{MARKETPLACE_FEATURED.title[lang]}</span></span>
-                              <ArrowRight className="size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-1" />
-                            </a>
-                          </div>
-                          <div className="mt-6 grid grid-cols-4 gap-x-6 gap-y-1 border-t border-white/10 pt-4">
-                            {MARKETPLACE_CATALOGS.map((item) => (
-                              <a key={item.href} href={item.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group inline-flex min-h-9 items-center gap-2 rounded-md text-[13px] font-semibold text-[#D8D0C4] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
-                                <span className="size-1.5 rounded-full bg-[#D10E63]" />
-                                {item.title[lang]}
+                      <div className="overflow-hidden rounded-[30px] border border-[#292521] bg-[#171514] text-[#FAF8F3] shadow-[0_40px_100px_-24px_rgba(28,26,23,.62)]">
+                        <div className="grid lg:grid-cols-[.82fr_1.18fr]">
+                          <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group relative isolate flex min-h-[330px] flex-col overflow-hidden border-b border-white/10 p-8 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5] lg:border-b-0 lg:border-r">
+                            <div aria-hidden className="absolute -right-20 -top-24 -z-10 size-80 rounded-full bg-[#D10E63]/35 blur-3xl" />
+                            <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.menuFeatured}</p>
+                            <h2 className="mt-6 max-w-md text-[clamp(2.25rem,3.4vw,3.6rem)] font-semibold leading-[.9] tracking-[-.065em]">{MARKETPLACE_FEATURED.title[lang]}</h2>
+                            <p className="mt-6 max-w-md text-sm leading-7 text-[#CFC6B8]">{MARKETPLACE_FEATURED.desc[lang]}</p>
+                            <div className="mt-auto flex flex-wrap gap-2 pt-8">{t.menuPrinciples.map((item) => <span key={item} className="rounded-full border border-white/15 px-3 py-1.5 font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{item}</span>)}</div>
+                            <span className="absolute bottom-8 right-8 font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">unitalk / 01</span>
+                          </a>
+                          <div className="grid grid-cols-5 gap-px bg-white/10">
+                            {MARKETPLACE_CATALOGS.map((item, index) => (
+                              <a key={item.href} href={item.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group flex min-h-[110px] flex-col bg-[#211E1B] p-4 outline-none transition-colors duration-300 hover:bg-[#292521] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5]">
+                                <span className="flex items-center justify-between"><UnitalkLogo size={22} activeSegment={index % 8} color="#F2A4C5" inactiveColor="#514A43" className="transition-transform duration-300 group-hover:scale-110"/><span className="font-mono text-[8px] tracking-[.12em] text-[#857C6E]">{String(index + 1).padStart(2, '0')}</span></span>
+                                <strong className="mt-auto text-[13px] font-semibold">{item.title[lang]}</strong>
                               </a>
                             ))}
                           </div>
                         </div>
 
-                        <div className="grid border-t border-[#DED6C8] bg-[#FFFDF9] sm:grid-cols-[1fr_auto] sm:items-center">
-                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-7 py-4 text-[11.5px] font-bold text-[#625B50]">
-                            <span className="font-mono text-[9px] uppercase tracking-[.16em] text-[#9A9081]">{t.menuResources}</span>
-                            {COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">{item.title[lang]}</a>)}
-                            <a href="/documentation" onClick={() => setCollabOpen(false)} className="hover:text-[#D10E63]">Documentation</a>
+                        <div className="grid border-t border-white/10 bg-[#171514] sm:grid-cols-[1fr_auto] sm:items-center">
+                          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-7 py-4 text-[11.5px] font-bold text-[#CFC6B8]">
+                            <a href="/tarifs" onClick={() => setCollabOpen(false)} className="text-white hover:text-[#F2A4C5]">{t.pricing}</a>
+                            {COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#F2A4C5]">{item.title[lang]}</a>)}
+                            <a href="/documentation" onClick={() => setCollabOpen(false)} className="hover:text-[#F2A4C5]">Documentation</a>
                           </div>
-                          <div className="flex border-t border-[#DED6C8] sm:border-l sm:border-t-0"><a href="/tarifs" onClick={() => setCollabOpen(false)} className="px-5 py-4 text-xs font-bold text-[#625B50] transition-colors hover:bg-[#F3EEE5] hover:text-[#B00C54]">{t.pricing}</a><a href={ACADEMY_URL} onClick={() => setCollabOpen(false)} className="group flex items-center gap-2 border-l border-[#DED6C8] px-5 py-4 text-xs font-bold text-[#1C1A17] transition-colors hover:bg-[#F3EEE5]">{t.menuAcademy}<ArrowRight className="size-3.5 text-[#B00C54] transition-transform group-hover:translate-x-0.5" /></a></div>
+                          <a href={ACADEMY_URL} onClick={() => setCollabOpen(false)} className="border-t border-white/10 bg-[#D10E63] px-5 py-4 text-xs font-bold text-white transition-colors hover:bg-[#B80C56] sm:border-l sm:border-t-0">{t.menuAcademy}</a>
                         </div>
                       </div>
                     </motion.div>
@@ -366,6 +365,9 @@ export function Navbar(
 
               <NavItem href="/workspace" active={isWorkspaceActive} overDark={overDark}>
                 {t.workspace}
+              </NavItem>
+              <NavItem href="/partenaires" active={pathname === '/partenaires' || pathname.startsWith('/partenaires/')} overDark={overDark}>
+                {t.partners}
               </NavItem>
               <NavItem href="/tarifs" active={isPricingActive} overDark={overDark}>
                 {t.pricing}
@@ -484,6 +486,7 @@ export function Navbar(
                 {/* Primary links — same structure as desktop */}
                 <div className="divide-y divide-[#E4DDCE]">
                   {/* Marketplace IA — collapsible so the menu stays short */}
+                  <a href="/missions" onClick={() => setIsMenuOpen(false)} className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]">{t.missions}</a>
                   <div className="py-1">
                     <button
                       type="button"
@@ -511,9 +514,9 @@ export function Navbar(
                            <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
                             <div className="relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]">
                               <span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" />
-                              <a href={MARKETPLACE_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="group relative flex items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><span className="h-8 w-0.5 shrink-0 rounded-full bg-[#F2A4C5]" /><span className="block text-[14px] font-bold">{MARKETPLACE_FEATURED.title[lang]}</span><ArrowRight className="ml-auto size-4 shrink-0 text-[#F2A4C5] transition-transform group-hover:translate-x-0.5" /></a>
+                               <a href={MARKETPLACE_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="relative flex items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><UnitalkLogo size={28} activeSegment={0} color="#F2A4C5" inactiveColor="#514A43" /><span className="block text-[14px] font-bold">{MARKETPLACE_FEATURED.title[lang]}</span></a>
                               <div className="relative mt-4 grid grid-cols-2 gap-x-4 border-t border-white/10 pt-3">
-                                {MARKETPLACE_CATALOGS.map((item) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="flex min-h-9 items-center gap-2 text-[12.5px] font-semibold text-[#D8D0C4] hover:text-white"><span className="size-1.5 rounded-full bg-[#D10E63]" />{item.title[lang]}</a>)}
+                                 {MARKETPLACE_CATALOGS.map((item, index) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="flex min-h-9 items-center gap-2 text-[12.5px] font-semibold text-[#D8D0C4] hover:text-white"><UnitalkLogo size={14} activeSegment={index % 8} color="#F2A4C5" inactiveColor="#514A43" />{item.title[lang]}</a>)}
                               </div>
                             </div>
                             <div className="my-1.5 border-t border-[#E4DDCE]" />
@@ -542,6 +545,9 @@ export function Navbar(
                     className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
                   >
                     {t.workspace}
+                  </a>
+                  <a href="/partenaires" onClick={() => setIsMenuOpen(false)} className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]">
+                    {t.partners}
                   </a>
                   <a
                     href="/tarifs"

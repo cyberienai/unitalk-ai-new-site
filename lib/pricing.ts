@@ -44,7 +44,7 @@ export type ConsumptionMode = {
   name: Bilingual
   tagline: Bilingual
   description: Bilingual
-  // Ajout mensuel par organisation (EXEMPLE). 0 = inclus / à votre charge.
+  // Ajout mensuel par entreprise (EXEMPLE). 0 = inclus / à votre charge.
   monthlyAddon: number
   priceLabel: Bilingual
 }

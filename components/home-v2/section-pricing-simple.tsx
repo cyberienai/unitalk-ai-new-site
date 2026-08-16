@@ -12,16 +12,16 @@ const T = {
     eyebrow: 'Une offre simple',
     title: 'Vous ne payez pas pour des fonctionnalités.',
     subtitle:
-      'Vous payez pour une organisation, des Collaborateurs IA et les ressources nécessaires pour les faire travailler.',
+      'Vous payez pour une entreprise, des Collaborateurs IA et les ressources nécessaires pour les faire travailler.',
     blocks: [
       {
         icon: Building2,
         price: 'Incluse',
-        title: 'Une licence organisation',
+        title: 'Une licence entreprise',
         items: [
           'Un assistant IA privé pour chaque collaborateur',
           'Tous les modèles compatibles, dont ChatGPT',
-          'Un workspace unique pour toute l’organisation',
+          'Un workspace unique pour toute l’entreprise',
         ],
         highlight: false,
       },

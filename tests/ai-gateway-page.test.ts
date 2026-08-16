@@ -18,4 +18,18 @@ describe('Unitalk AI Gateway publication', () => {
     expect(gateway).toContain('Observabilité')
     for (const mode of ['Crédits Unitalk', 'BYOK', 'Hybride']) expect(gateway).toContain(mode)
   })
+
+  it('lets users browse image, audio and video model families', () => {
+    expect(gateway).toContain("image: 'Image'")
+    expect(gateway).toContain("audio: 'Audio'")
+    expect(gateway).toContain("video: 'Vidéo'")
+    for (const family of ['FLUX', 'ElevenLabs', 'Kling', 'Runway']) expect(gateway).toContain(family)
+  })
+
+  it('explains centralized administration and billing', () => {
+    expect(gateway).toContain('Facturation centralisée')
+    expect(gateway).toContain('Collaborateurs IA et humains, administrés au même endroit.')
+    expect(gateway).toContain('membres humains, les Collaborateurs IA, leurs rôles, leurs droits, leurs budgets et leurs moyens de paiement')
+    expect(gateway).toContain('abonnements, capacités IA, crédits prépayés et consommation')
+  })
 })

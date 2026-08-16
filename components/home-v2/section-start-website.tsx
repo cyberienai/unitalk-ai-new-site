@@ -93,7 +93,7 @@ const CONTENT = {
       },
       prepare: {
         profil: 'Avant-vente',
-        skills: ['Recherche', 'Synthèse', 'Préparation commerciale', 'Organisation'],
+        skills: ['Recherche', 'Synthèse', 'Préparation commerciale', 'Entreprise'],
         tools: ['CRM', 'Agenda', 'Messagerie'],
       },
       faq: {

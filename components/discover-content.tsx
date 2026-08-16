@@ -25,17 +25,17 @@ function displayRole(role: RoleDetail, lang: 'fr' | 'en'): string {
 const STEPS: { id: StepId; label: { fr: string; en: string } }[] = [
   { id: 1, label: { fr: 'Entreprise', en: 'Company' } },
   { id: 2, label: { fr: 'Analyse', en: 'Analysis' } },
-  { id: 3, label: { fr: 'Organisation', en: 'Organization' } },
+  { id: 3, label: { fr: 'Entreprise', en: 'Organization' } },
   { id: 4, label: { fr: 'Collaborateurs IA', en: 'AI Collaborators' } },
 ]
 
 const T = {
   fr: {
     back: 'Retour au site',
-    kicker: 'Découvrir mon organisation',
+    kicker: 'Découvrir mon entreprise',
     title: 'Quel est le site de votre entreprise ?',
     subtitle:
-      'À partir de vos informations publiques et de votre échange, Alma construit la mémoire de votre entreprise, puis vous propose une organisation de Collaborateurs IA adaptée.',
+      'À partir de vos informations publiques et de votre échange, Alma construit la mémoire de votre entreprise, puis vous propose une entreprise de Collaborateurs IA adaptée.',
     placeholder: 'votre-entreprise.com',
     cta: 'Lancer l’analyse',
     // Voice panel
@@ -48,7 +48,7 @@ const T = {
     invalid: 'Entrez un domaine valide, par exemple unitalk.ai',
     recognized: 'Domaine reconnu',
     disclaimer:
-      'Aperçu de démonstration. Unitalk ne consulte pas encore votre site : nous partons de votre secteur pour proposer une organisation type, à confirmer.',
+      'Aperçu de démonstration. Unitalk ne consulte pas encore votre site : nous partons de votre secteur pour proposer une entreprise type, à confirmer.',
     // step 2
     analyzing: 'Analyse en cours',
     skip: 'Passer',
@@ -57,10 +57,10 @@ const T = {
       'Identification du secteur d’activité',
       'Cartographie des fonctions clés',
       'Sélection des Collaborateurs IA',
-      'Construction de votre organisation',
+      'Construction de votre entreprise',
     ],
     // step 3
-    proposalFor: 'Proposition d’organisation pour',
+    proposalFor: 'Proposition d’entreprise pour',
     toConfirm: 'Proposition à confirmer',
     company: 'Votre entreprise',
     orgIntro:
@@ -72,7 +72,7 @@ const T = {
       'Sélectionnez ceux que vous voulez ajouter. Vous pourrez tout ajuster ensuite.',
     add: 'Ajouter à mon équipe',
     added: 'Ajouté',
-    createOrg: 'Créer cette organisation',
+    createOrg: 'Créer cette entreprise',
     restart: 'Recommencer',
     reco: 'Recommandé',
     finalNote:

@@ -30,7 +30,7 @@ const T = {
     files: [
       { id: 'soul' as FileId, name: 'soul.md', human: 'Identité & valeurs' },
       { id: 'user' as FileId, name: 'user.md', human: 'Vos préférences' },
-      { id: 'org' as FileId, name: 'organisation.md', human: 'Mémoire organisationnelle' },
+      { id: 'org' as FileId, name: 'organisation.md', human: 'Mémoire d’entreprise' },
     ],
     content: {
       soul: [
@@ -49,7 +49,7 @@ const T = {
         { h: 'Direction commerciale, puis équipe avant-vente.', muted: true },
       ],
       org: [
-        { h: '# Mémoire organisationnelle', muted: false },
+        { h: '# Mémoire d’entreprise', muted: false },
         { h: 'Clients : PME de 10 à 250 personnes.', muted: true },
         { h: 'Acquisition : demandes de démonstration.', muted: true },
         { h: '## Outils', muted: false },

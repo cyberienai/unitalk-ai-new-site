@@ -21,7 +21,7 @@ const T = {
       },
       {
         q: 'Mon Collaborateur IA change-t-il de métier ?',
-        a: 'Il conserve son identité, sa mémoire, ses accès et son historique. Vous pouvez lui ajouter plusieurs profils métier selon les besoins de votre organisation.',
+        a: 'Il conserve son identité, sa mémoire, ses accès et son historique. Vous pouvez lui ajouter plusieurs profils métier selon les besoins de votre entreprise.',
       },
       {
         q: 'Puis-je personnaliser son identité ?',

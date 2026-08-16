@@ -17,7 +17,7 @@ const COPY = {
     kicker: 'La différence',
     title: 'Une mission accomplie.',
     titleAccent: 'Une expérience qui reste.',
-    lead: 'Un assistant comme ChatGPT ou Claude reste un outil individuel. Votre Collaborateur IA appartient à l’entreprise et peut être rattaché à une personne, une équipe ou toute l’organisation.',
+    lead: 'Un assistant comme ChatGPT ou Claude reste un outil individuel. Votre Collaborateur IA appartient à l’entreprise et peut être rattaché à une personne, une équipe ou toute l’entreprise.',
     beforeTitle: 'Assistant IA généraliste',
     afterTitle: 'Collaborateur IA Unitalk',
     cta: 'Décrire ma première mission',

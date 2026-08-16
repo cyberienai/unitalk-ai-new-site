@@ -54,7 +54,7 @@ const COPY = {
   fr: {
     accessibleTitle: 'Modèles accessibles via Unitalk AI Gateway',
     privateTitle: 'Vos modèles privés',
-    privateBody: 'Connectés selon la configuration et les autorisations de votre organisation.',
+    privateBody: 'Connectés selon la configuration et les autorisations de votre entreprise.',
   },
   en: {
     accessibleTitle: 'Models available through Unitalk AI Gateway',

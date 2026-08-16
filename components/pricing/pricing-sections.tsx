@@ -6,16 +6,16 @@ import { useLanguage } from '@/lib/language-context'
 
 const T = {
   fr: {
-    title: 'Le logiciel se paie par siège. Le travail, par capacité.',
+    title: 'Un compte. Une facture. Toute votre entreprise.',
     subtitle:
-      'Votre Organisation réunit Alma, Workspace et Desktop. Chaque Collaborateur IA ajoute une identité et un Agent Hermes. Vous choisissez ensuite la capacité dont il a réellement besoin.',
+      'Un compte professionnel réunit tous vos Collaborateurs, humains et IA. Les crédits prépayés sont partagés et mutualisés, les dernières versions des modèles restent accessibles, et votre entreprise choisit les capacités adaptées à chaque modalité de travail.',
     trial: '7 jours gratuits. Sans CB.',
     plansTitle: 'Le prix tient en trois lignes.',
     plansLead:
-      "L'Organisation se paie une fois. L'Agent Hermes et sa capacité se paient pour chaque Collaborateur IA.",
+      "L'Entreprise se paie une fois. L'Agent Hermes et sa capacité se paient pour chaque Collaborateur IA.",
     plans: [
       {
-        name: 'Organisation',
+        name: 'Entreprise',
         price: '50€',
         period: ' / entreprise',
         desc: 'Alma, Workspace, Desktop, gouvernance, Stores et AI Gateway.',
@@ -38,9 +38,9 @@ const T = {
     ],
   },
   en: {
-    title: 'Software charges per seat. Work should charge by capacity.',
+    title: 'One account. One invoice. Your entire company.',
     subtitle:
-      'Your Organization brings together Alma, Workspace and Desktop. Each AI Collaborator adds an identity and a Hermes Agent. Then choose only the capacity it actually needs.',
+      'One professional account brings together every human and AI Collaborator. Prepaid credits are shared and pooled, the latest model versions remain available, and your company selects the right capabilities for every work modality.',
     trial: '7 days free. No credit card.',
     plansTitle: 'The price fits in three lines.',
     plansLead:

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://unitalk.ai/collaborateurs-ia/profils-metier/publier',
     title: 'Publier un profil métier IA | Unitalk',
-    description: 'Faites vérifier un profil métier existant avant sa publication privée, organisationnelle ou publique.',
+    description: 'Faites vérifier un profil métier existant avant sa publication privée, d’entreprise ou publique.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
 }

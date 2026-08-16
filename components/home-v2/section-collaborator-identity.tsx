@@ -40,7 +40,7 @@ const T = {
       { icon: Workflow, label: 'des automatisations' },
     ],
     closing: [
-      'Ils appartiennent à votre organisation.',
+      'Ils appartiennent à votre entreprise.',
       'Ils apprennent avec votre entreprise.',
       'Ils travaillent aux côtés de vos équipes.',
     ],
@@ -55,7 +55,7 @@ const T = {
     ],
     expertisesLabel: 'Expertises',
     expertises: ['Assistanat', 'Agenda', 'Réunions', 'Reporting', 'Emails'],
-    memoryLabel: 'Mémoire d’organisation',
+    memoryLabel: 'Mémoire d’entreprise',
     memoryValue: 'Active · apprend en continu',
   },
   en: {

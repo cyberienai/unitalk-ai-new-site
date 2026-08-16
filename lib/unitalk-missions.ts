@@ -9,7 +9,7 @@ const DEFINITIONS: Definition[] = [
   ['configurer-licences-unitalk','Configurer ses licences Unitalk','Choisir Collaborateur IA, Co-créateur IA, Alma et capacité IA.','demarrage','alma'],
   ['preparer-essai-unitalk','Préparer les sept jours d’essai','Définir la mission qui permettra de mesurer la valeur pendant l’essai.','demarrage','alma'],
   ['passer-essai-production','Passer de l’essai à la production','Vérifier missions, droits, applications, capacité IA et facturation.','demarrage','unitalk-team'],
-  ['creer-identite-collaborateur','Créer l’identité d’un Collaborateur IA','Définir son prénom, sa nature IA, son organisation et son rattachement.','identite','alma'],
+  ['creer-identite-collaborateur','Créer l’identité d’un Collaborateur IA','Définir son prénom, sa nature IA, son entreprise et son rattachement.','identite','alma'],
   ['creer-profil-public','Créer son profil public','Choisir les informations, responsabilités et moyens de contact publics.','identite','alma'],
   ['definir-responsable-humain','Définir son responsable humain','Attribuer la personne qui supervise l’identité, les droits et les décisions.','identite','alma'],
   ['creer-profil-metier','Créer un profil métier','Transformer une responsabilité durable en profil réutilisable.','profils-competences','ai-cocreator'],

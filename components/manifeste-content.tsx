@@ -22,7 +22,7 @@ const COPY = {
     idTitle: 'Une identité. Une expertise sans limite.',
     idLead: 'Emma possède :',
     idItems: ['une mémoire', 'des compétences', 'des connaissances', 'des outils', 'des profils'],
-    idFoot: 'Elle grandit avec votre organisation.',
+    idFoot: 'Elle grandit avec votre entreprise.',
     // 4 — Ladder
     ladderTitle: 'D’un Collaborateur à une Force de travail IA.',
     ladder: ['Collaborateur IA', 'Équipe IA', 'Force de travail IA'],
@@ -39,7 +39,7 @@ const COPY = {
     ownBody: 'Vous payez pour l’intelligence qu’ils utilisent.',
     // 7 — Final CTA
     finalCta: 'Recruter votre premier Collaborateur IA',
-    finalSecondary: 'Découvrir votre organisation',
+    finalSecondary: 'Découvrir votre entreprise',
   },
   en: {
     heroLine: 'The world is hiring',

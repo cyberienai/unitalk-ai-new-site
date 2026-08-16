@@ -8,14 +8,23 @@ describe('Marketplace IA hub', () => {
   it('centralizes nine distinct discovery areas', () => {
     expect(page).toContain('UnitalkStoreHub')
     for (const label of ['Profils métier','Compétences','Intégrations','Applications','Serveurs','Modèles IA','Formations','Services','Missions']) expect(hub).toContain(label)
-    expect(hub).toContain('ouverte aux créations de Unitalk et de la communauté')
+    expect(hub).toContain('Des créations de la communauté Unitalk, prêtes à consulter et à adapter.')
   })
 
-  it('highlights Alma with her profiles and skills', () => {
+  it('states autonomy, open source and sovereignty', () => {
+    expect(hub).toContain('Collaborateurs IA autonomes')
+    expect(hub).toContain('Hermes open source')
+    expect(hub).toContain('créations souveraines et interopérables')
+  })
+
+  it('highlights Alma with her profiles, skills and Academy training', () => {
     expect(hub).toContain('La sélection d’Alma')
     expect(hub).toContain('Profils d’Alma')
     expect(hub).toContain('Compétences d’Alma')
+    expect(hub).toContain('Formations avec Alma')
+    expect(hub).toContain('Dans Unitalk Academy, Alma peut aussi construire un parcours adapté à votre objectif.')
     expect(hub).toContain('/unitalk/@alma/store')
+    expect(hub).toContain('/academy/alma')
   })
 
   it('keeps each asset type on one reference route', () => {

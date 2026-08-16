@@ -32,6 +32,8 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('l’historique des conversations')
     expect(source).toContain('les journaux de son code')
     expect(source).toContain('CPU, RAM ou GPU affectées selon l’offre et l’hébergement')
+    expect(source).toContain('Autonomie · Open source · Souveraineté')
+    expect(source).toContain('Votre entreprise garde la maîtrise de ses données, de sa mémoire, de ses modèles et de son infrastructure.')
   })
 
   it('makes Hermes migration and ownership explicit', () => {

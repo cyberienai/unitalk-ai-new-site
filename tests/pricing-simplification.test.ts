@@ -22,7 +22,7 @@ describe('pricing simplification', () => {
   it('uses plain-language pricing hierarchy', () => {
     expect(sections).toContain('Le logiciel se paie par siège. Le travail, par capacité.')
     expect(sections).toContain('Le prix tient en trois lignes.')
-    expect(configurator).toContain("lineOrg: 'Alma Organisation'")
+    expect(configurator).toContain("lineOrg: 'Alma Entreprise'")
     expect(configurator).toContain("lineOrgDetail: 'Workspace & Desktop inclus'")
     expect(configurator).toContain("cardAfterTrial: 'Total mensuel'")
   })

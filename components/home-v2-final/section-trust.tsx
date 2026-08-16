@@ -7,7 +7,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 const T = {
   fr: {
-    eyebrow: 'Conçu pour votre organisation',
+    eyebrow: 'Conçu pour votre entreprise',
     title: 'Vous gardez le contrôle.',
     intro: 'Vos données restent les vôtres. Votre Collaborateur IA travaille dans un cadre maîtrisé.',
     cards: [
@@ -17,7 +17,7 @@ const T = {
       },
       {
         title: 'Gouvernance des accès',
-        desc: 'Votre organisation définit les outils, les données et les actions autorisés pour chaque Collaborateur IA.',
+        desc: 'Votre entreprise définit les outils, les données et les actions autorisés pour chaque Collaborateur IA.',
       },
       {
         title: 'Validations maîtrisées',

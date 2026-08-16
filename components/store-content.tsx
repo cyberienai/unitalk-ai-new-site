@@ -155,7 +155,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
       title: lang === 'fr' ? 'Profils métier' : 'Job profiles',
       desc:
         lang === 'fr'
-          ? 'Des rôles et des savoir-faire durables adaptés au travail de votre Organisation.'
+          ? 'Des rôles et des savoir-faire durables adaptés au travail de votre Entreprise.'
           : 'Durable roles and know-how suited to your Organization’s work.',
     },
     competence: {
@@ -173,7 +173,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
       title: lang === 'fr' ? 'Applications' : 'Applications',
       desc:
         lang === 'fr'
-          ? 'Des applications open source vérifiées et des modèles métier vibecodés à adapter à votre Organisation.'
+          ? 'Des applications open source vérifiées et des modèles métier vibecodés à adapter à votre Entreprise.'
           : 'Verified open-source applications and vibe-coded business templates to adapt to your Organization.',
     },
     server: {
@@ -285,7 +285,7 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
         </h1>
         <p className="mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-[var(--store-muted)] sm:text-base">
           {lang === 'fr'
-            ? 'Explorez les profils, compétences, intégrations, applications et serveurs. Alma les assemble selon la mission et le contexte de votre Organisation.'
+            ? 'Explorez les profils, compétences, intégrations, applications et serveurs. Alma les assemble selon la mission et le contexte de votre Entreprise.'
             : 'Explore profiles, skills, integrations, applications and servers. Alma assembles them for the mission and your Organization context.'}
         </p>
 

@@ -11,14 +11,14 @@ const COPY = {
     heroTitle: 'Votre premier Collaborateur IA.',
     heroClaim: 'Une identité. Une expertise sans limite.',
     heroBody:
-      'Emma est votre Collaborateur IA, avec sa propre identité, sa mémoire, ses compétences et ses outils. Elle travaille avec vous, apprend votre contexte et grandit avec votre organisation.',
+      'Emma est votre Collaborateur IA, avec sa propre identité, sa mémoire, ses compétences et ses outils. Elle travaille avec vous, apprend votre contexte et grandit avec votre entreprise.',
     heroCta: 'Recruter Emma',
     heroSecondary: 'Voir son profil',
     available: 'Disponible',
     role: 'Assistante de direction',
     // Section 2
     s2Title: 'Le monde recrute des Collaborateurs IA.',
-    s2Body: 'Une nouvelle génération d’organisations émerge. Des humains et des Collaborateurs IA qui travaillent ensemble.',
+    s2Body: 'Une nouvelle génération d’entreprises émerge. Des humains et des Collaborateurs IA qui travaillent ensemble.',
     departments: ['Marketing', 'Ventes', 'Opérations', 'Finance', 'Support', 'Développement'],
     // Section 3
     s3Title: 'Un Collaborateur. Une expertise sans limite.',

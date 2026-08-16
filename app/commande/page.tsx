@@ -6,7 +6,7 @@ import { SiteFooter } from '@/components/site-footer'
 export const metadata: Metadata = {
   title: 'Bon de commande · Unitalk',
   description:
-    'Composez votre équipe de Collaborateurs IA : ajoutez des profils, choisissez votre licence organisation et votre mode de consommation (abonnement, crédits prépayés ou BYOK). Le prix s’ajuste automatiquement.',
+    'Composez votre équipe de Collaborateurs IA : ajoutez des profils, choisissez votre licence entreprise et votre mode de consommation (abonnement, crédits prépayés ou BYOK). Le prix s’ajuste automatiquement.',
   robots: { index: false, follow: false },
 }
 

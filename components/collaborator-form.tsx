@@ -40,7 +40,7 @@ const T = {
     migrateReassurance: 'Migration accompagnée • Sans interruption',
     domainLabel: 'Nom de domaine',
     domainPlaceholder: 'monentreprise.com',
-    domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre organisation.",
+    domainHint: "Nous analysons automatiquement votre site web pour créer le contexte partagé de votre entreprise.",
     analysis: {
       scanning: 'Analyse de votre site en cours…',
       company: 'Entreprise détectée',

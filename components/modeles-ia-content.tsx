@@ -24,7 +24,7 @@ const MODEL_FAMILIES: { name: string; maker: string; mark: ReactNode; tone: stri
 const T = {
   fr: {
     eyebrow: 'Modèles IA / Capacité', heroA: 'Le bon modèle.', heroB: 'Seulement quand', heroC: 'le travail l’exige.',
-    lead: 'Votre Collaborateur IA peut mobiliser plusieurs familles de modèles, sous les règles de votre organisation. Vous choisissez la capacité mensuelle, vos propres clés ou des crédits prépayés.',
+    lead: 'Votre Collaborateur IA peut mobiliser plusieurs familles de modèles, sous les règles de votre entreprise. Vous choisissez la capacité mensuelle, vos propres clés ou des crédits prépayés.',
     primary: 'Choisir ma capacité', secondary: 'Comprendre AI Gateway',
     ribbon: ['Plusieurs fournisseurs', 'Une politique commune', 'Coûts attribués', 'Aucun modèle imposé'],
     catalogKicker: 'La table des modèles', catalogTitle: 'Une équipe d’intelligences derrière chaque Collaborateur IA.', catalogBody: 'La famille utilisée peut varier selon la mission, la modalité, le budget et les autorisations. Cette sélection est indicative : les versions et disponibilités évoluent.',

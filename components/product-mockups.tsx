@@ -34,7 +34,7 @@ const mockCopy = {
     wsMissionLabel: 'Analyse des 42 contrats fournisseurs',
     wsMissionProgress: '32 / 42',
     // Org chart mockup
-    orgApp: 'Votre organisation',
+    orgApp: 'Votre entreprise',
     orgHuman: 'Équipe',
     orgAi: 'Collaborateurs IA',
     orgPairs: [

@@ -8,10 +8,10 @@ import { normalizeDomain } from '@/lib/discover-profiles'
 
 const T = {
   fr: {
-    kicker: 'Découvrir mon organisation',
-    title: 'Voyez votre organisation de Collaborateurs IA',
+    kicker: 'Découvrir mon entreprise',
+    title: 'Voyez votre entreprise de Collaborateurs IA',
     subtitle:
-      'Indiquez le site de votre entreprise. Unitalk vous propose, en quelques secondes, une organisation type et les Collaborateurs IA adaptés à votre activité.',
+      'Indiquez le site de votre entreprise. Unitalk vous propose, en quelques secondes, une entreprise type et les Collaborateurs IA adaptés à votre activité.',
     placeholder: 'votre-entreprise.com',
     cta: 'Commencer l’analyse',
     recognized: 'Domaine reconnu',

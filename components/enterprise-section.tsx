@@ -10,7 +10,7 @@ const T = {
     eyebrow: 'À l’échelle de l’entreprise',
     title1: 'Pas un assistant personnel. ',
     title2: 'Le moteur de votre entreprise.',
-    body: 'La plupart des outils d’IA aident une personne à aller plus vite. Unitalk travaille pour toute l’organisation — plusieurs agents, une mémoire commune, vos processus de bout en bout.',
+    body: 'La plupart des outils d’IA aident une personne à aller plus vite. Unitalk travaille pour toute l’entreprise — plusieurs agents, une mémoire commune, vos processus de bout en bout.',
     cta: 'Équiper mon entreprise',
     pillars: [
       { title: 'Une mémoire partagée', desc: 'Vos agents puisent dans la même connaissance de l’entreprise : clients, historiques, procédures. Rien ne se perd d’un service à l’autre.' },

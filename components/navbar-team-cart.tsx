@@ -31,7 +31,7 @@ export function NavbarTeamCart({ startLabel, createOrgHref = '/decouvrir' }: { s
     },
   }[lang]
 
-  // Empty cart → primary "Créer mon organisation" call to action.
+  // Empty cart → primary "Créer mon entreprise" call to action.
   if (count === 0) {
     return (
       <a

@@ -36,9 +36,9 @@ const T = {
     addHint: 'Le prix par Collaborateur IA baisse à mesure que vous en ajoutez.',
     add: 'Ajouter',
     added: 'Ajouté',
-    licenseTitle: 'Licence organisation',
+    licenseTitle: 'Licence entreprise',
     licenseDesc:
-      'Un seul abonnement pour tous les membres de votre organisation. Inclus, sans coût par membre.',
+      'Un seul abonnement pour tous les membres de votre entreprise. Inclus, sans coût par membre.',
     licenseIncluded: 'Inclus',
     consumptionTitle: 'Mode de consommation',
     consumptionHint: 'Comment souhaitez-vous financer l’usage des modèles IA ?',
@@ -250,7 +250,7 @@ export function CommandeContent() {
               </div>
             </section>
 
-            {/* Licence organisation */}
+            {/* Licence entreprise */}
             <section className="flex items-start gap-4 rounded-[1.75rem] border border-[#D8D0C2] bg-[#FBF9F3] p-6 sm:p-8">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#D10E63]">
                 <Building2 className="h-5 w-5" />

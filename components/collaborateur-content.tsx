@@ -32,7 +32,7 @@ const COPY = {
       'Commencez avec un Collaborateur. Ajoutez-en d’autres quand le besoin le justifie. Ensemble, ils forment votre force de travail IA.',
     ladder: ['Collaborateur IA', 'Équipe IA', 'Force de travail IA'],
     pairLabel: (name: string) => `${name} travaille en binôme avec`,
-    teamCta: 'Construire mon organisation',
+    teamCta: 'Construire mon entreprise',
   },
   en: {
     kicker: (name: string) => `Meet ${name}`,

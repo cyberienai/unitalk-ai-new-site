@@ -13,7 +13,7 @@ const T = {
     contactLink: 'Parlez-en à Alma',
     faqs: [
       { q: 'Dois-je être expert en IA ?', a: "Non. Tout commence par une simple conversation avec Alma. Elle découvre votre entreprise et prépare le Collaborateur IA dont vous avez besoin, sans que vous ayez à rédiger le moindre prompt." },
-      { q: 'Mon Collaborateur IA m’appartient-il ?', a: "Oui. Il appartient à votre organisation. Son identité, son contexte d’entreprise et son savoir-faire restent les vôtres : vous pouvez les consulter, les modifier et les exporter à tout moment." },
+      { q: 'Mon Collaborateur IA m’appartient-il ?', a: "Oui. Il appartient à votre entreprise. Son identité, son contexte d’entreprise et son savoir-faire restent les vôtres : vous pouvez les consulter, les modifier et les exporter à tout moment." },
       { q: 'Puis-je utiliser mes propres modèles d’IA ?', a: "Oui. Vos Collaborateurs IA s’appuient sur les meilleurs modèles du marché, dont ChatGPT, Claude et Gemini. Utilisez les crédits Unitalk ou connectez vos propres clés API pour garder le contrôle de vos coûts." },
       { q: 'Puis-je héberger Unitalk chez moi ?', a: "Oui. Unitalk Cloud (hébergé en France et conforme au RGPD), chez votre propre hébergeur, on-premise, ou localement avec Unitalk Desktop." },
     ],

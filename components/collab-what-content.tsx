@@ -14,7 +14,7 @@ export function CollabWhatContent() {
     fr: {
       eyebrow: 'Assistant vs Collaborateur',
       titleLine1: 'L\'Assistant IA augmente vos collaborateurs.',
-      titleLine2: 'Le Collaborateur IA augmente votre organisation.',
+      titleLine2: 'Le Collaborateur IA augmente votre entreprise.',
       subtitle: 'Il possède une identité, une mémoire, des outils et travaille durablement aux côtés de vos équipes.',
       humanLabel: 'Un employé',
       collabLabel: 'Son Collaborateur IA',
@@ -26,7 +26,7 @@ export function CollabWhatContent() {
         ['Oublie', 'Une mémoire permanente'],
         ['Aucun outil', 'Email, agenda, téléphone'],
         ['Isolé', 'Travaille avec l\'équipe'],
-        ['Pas d\'organisation', 'Membre de l\'organigramme'],
+        ['Pas d\'entreprise', 'Membre de l\'organigramme'],
       ],
       makeTitle: 'Ce qui fait un Collaborateur IA',
       cards: [

@@ -8,7 +8,7 @@ const T = {
   fr: {
     eyebrow: 'La différence',
     title: 'Pourquoi Unitalk ?',
-    subtitle: 'Les plateformes IA vous donnent des outils. Unitalk vous donne une organisation qui travaille.',
+    subtitle: 'Les plateformes IA vous donnent des outils. Unitalk vous donne une entreprise qui travaille.',
     oldTitle: 'Les plateformes IA',
     oldTag: 'Ailleurs',
     newTitle: 'Unitalk',

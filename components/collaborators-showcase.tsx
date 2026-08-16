@@ -26,7 +26,7 @@ const PROFILES = [
     icon: PenLine,
     name: { fr: 'Stratégie de contenu', en: 'Content strategy' },
     desc: {
-      fr: 'Planifier, produire et analyser les contenus de votre organisation.',
+      fr: 'Planifier, produire et analyser les contenus de votre entreprise.',
       en: "Plan, produce and analyze your organization's content.",
     },
   },

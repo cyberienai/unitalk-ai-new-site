@@ -63,6 +63,14 @@ const COPY = {
         href: '/manifeste',
       },
       {
+        title: 'Recommander Unitalk',
+        audience: 'Consultant, créateur, expert ou membre de la communauté.',
+        body: 'Présentez Unitalk à de nouvelles entreprises et recevez 30 % des abonnements encaissés pendant leur première année.',
+        cta: 'Rejoindre le programme d’affiliation',
+        href: 'mailto:partenaires@unitalk.ai?subject=Programme%20d%27affiliation%20Unitalk',
+        external: true,
+      },
+      {
         title: 'Transmettre votre expertise',
         audience: 'Formateur ou spécialiste métier.',
         body: 'Créez des parcours, formalisez des méthodes et accompagnez les équipes dans leur collaboration avec l’IA.',
@@ -160,6 +168,14 @@ const COPY = {
         body: 'Contribute to Hermes, build tools and improve the autonomous engine behind Unitalk’s AI Collaborators.',
         cta: 'Discover Hermes',
         href: '/manifeste',
+      },
+      {
+        title: 'Refer Unitalk',
+        audience: 'Consultant, creator, expert or community member.',
+        body: 'Introduce Unitalk to new companies and receive 30% of collected subscriptions during their first year.',
+        cta: 'Join the affiliate program',
+        href: 'mailto:partenaires@unitalk.ai?subject=Unitalk%20affiliate%20program',
+        external: true,
       },
       {
         title: 'Share your expertise',

@@ -39,7 +39,7 @@ export function StoreAlmaConsole({
       eyebrow: 'Demandez à Alma',
       title: 'Décrivez ce que votre Collaborateur IA doit savoir faire',
       subtitle:
-        'Alma identifie les profils métier, les compétences et les applications adaptés, puis les assemble selon votre Organisation.',
+        'Alma identifie les profils métier, les compétences et les applications adaptés, puis les assemble selon votre Entreprise.',
       send: 'Envoyer le message',
       attach: 'Joindre un document',
       mic: 'Parler à Alma',

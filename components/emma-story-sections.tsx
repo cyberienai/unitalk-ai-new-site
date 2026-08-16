@@ -63,7 +63,7 @@ const T = {
       steps: [
         { icon: Globe, title: 'Votre site web', desc: 'Alma analyse votre présence en ligne.' },
         { icon: MessageSquare, title: 'Alma interviewe le dirigeant', desc: 'Pour comprendre vos méthodes.' },
-        { icon: Share2, title: 'Contexte partagé', desc: 'Une mémoire commune à toute votre organisation.' },
+        { icon: Share2, title: 'Contexte partagé', desc: 'Une mémoire commune à toute votre entreprise.' },
         { icon: Sparkles, title: 'Compétences', desc: 'Générées automatiquement selon vos besoins.' },
         { icon: Bot, title: 'Emma travaille', desc: 'Opérationnelle, à vos côtés.' },
       ],

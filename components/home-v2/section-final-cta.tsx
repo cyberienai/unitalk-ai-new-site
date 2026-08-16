@@ -15,7 +15,7 @@ const T = {
     steps: [
       'Rencontrez Alma.',
       'Recrutez votre premier Collaborateur IA.',
-      'Construisez l’organisation IA de votre entreprise.',
+      'Construisez l’entreprise IA de votre entreprise.',
     ],
     cta: 'Recruter mon Collaborateur IA',
     proofs: ['Aucune carte bancaire', 'Essai gratuit', 'Configuration en quelques minutes'],
