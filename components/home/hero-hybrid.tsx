@@ -58,9 +58,8 @@ const T = {
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
-    voicePlaceholder: 'Votre besoin apparaîtra ici…',
+    voicePlaceholder: 'Décrivez le travail à accomplir…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
-    voiceWritten: 'Décrivez le travail à accomplir',
     voiceSubmit: 'Préparer cette mission',
     voiceBack: 'Voir la démonstration',
     examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants', 'Trouver de nouveaux prospects'],
@@ -93,9 +92,8 @@ const T = {
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
-    voicePlaceholder: 'Your need will appear here…',
+    voicePlaceholder: 'Describe the work to be done…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
-    voiceWritten: 'Describe the work to be done',
     voiceSubmit: 'Prepare this mission',
     voiceBack: 'View the demo',
     examples: ['Chase my unpaid invoices', 'Handle my incoming emails', 'Find new prospects'],
@@ -267,8 +265,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
                 </div>
 
-                <label className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#D6CABD]">{t.voiceWritten}</label>
-                <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#AFA397] focus:border-[#D10E63]" />
+                <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} aria-label={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#AFA397] focus:border-[#D10E63]" />
                 <div className="mt-3 flex flex-wrap gap-2">
                   {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] transition-colors hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
                 </div>
