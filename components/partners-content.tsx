@@ -313,6 +313,7 @@ export function PartnersContent() {
             {t.paths.map((p, i) => (
               <motion.div
                 key={p.title}
+                id={p.title === 'Recommander Unitalk' || p.title === 'Refer Unitalk' ? 'affiliation' : undefined}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}

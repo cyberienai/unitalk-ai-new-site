@@ -8,7 +8,7 @@ const route = readFileSync(new URL('../app/missions/page.tsx', import.meta.url),
 describe('missions conversion path', () => {
   it('separates mission creation from catalog search', () => {
     expect(page).toContain('Quel travail voulez-vous confier ?')
-    expect(page).toContain('Ou choisissez une mission prête à personnaliser')
+    expect(page).toContain('Partez d’une mission déjà cadrée')
     expect(page).toContain('Rechercher dans les missions')
   })
 
@@ -19,7 +19,7 @@ describe('missions conversion path', () => {
   })
 
   it('keeps the user request through authentication', () => {
-    expect(page).toContain('Continuer avec cette mission')
+    expect(page).toContain('Préparer cette mission')
     expect(page).toContain('unitalk_mission_')
     expect(page).toContain('/decouvrir?draft=${encodeURIComponent(draftId)}&source=mission-store')
   })

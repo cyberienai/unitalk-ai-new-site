@@ -8,6 +8,7 @@ import { ArrowRight, Check, Minus, Plus, Trash2, Users, Building2 } from 'lucide
 import { useLanguage } from '@/lib/language-context'
 import { useMyTeam } from '@/lib/my-team-context'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { HERMES_AFFILIATE_DISCOUNT, hermesCreatorByAffiliateCode } from '@/lib/hermes-creators'
 import {
   CONSUMPTION_MODES,
   computeOrder,
@@ -47,6 +48,12 @@ const T = {
     unitLine: 'Prix unitaire',
     tierLine: 'Palier',
     consumptionLine: 'Consommation',
+    affiliateTitle: 'Avantage créateur',
+    affiliateCode: 'Code affilié',
+    affiliateSaving: 'Avantage 30 %',
+    affiliateBody: 'Le créateur vous fait bénéficier de sa commission d’affiliation sur cette commande.',
+    invalidAffiliate: 'Ce code affilié n’est pas reconnu.',
+    affiliateProgram: 'Accéder au programme d’affiliation',
     totalLine: 'Total mensuel',
     perMonth: '/ mois',
     quote: 'Sur devis',
@@ -80,6 +87,12 @@ const T = {
     unitLine: 'Unit price',
     tierLine: 'Tier',
     consumptionLine: 'Consumption',
+    affiliateTitle: 'Creator benefit',
+    affiliateCode: 'Affiliate code',
+    affiliateSaving: '30% benefit',
+    affiliateBody: 'The creator passes their affiliate commission on to you for this order.',
+    invalidAffiliate: 'This affiliate code is not recognized.',
+    affiliateProgram: 'Access the affiliate program',
     totalLine: 'Monthly total',
     perMonth: '/ month',
     quote: 'Custom quote',
@@ -90,16 +103,19 @@ const T = {
   },
 } as const
 
-export function CommandeContent() {
+export function CommandeContent({ initialAffiliateCode = '' }: { initialAffiliateCode?: string }) {
   const { lang } = useLanguage()
   const t = T[lang]
   const { members, add, remove, has } = useMyTeam()
-
   const [profileCounts, setProfileCounts] = useState<Record<string, number>>({})
   const [mode, setMode] = useState<ConsumptionModeId>('subscription')
+  const [affiliateCode, setAffiliateCode] = useState(initialAffiliateCode)
 
   const count = members.length
   const order = useMemo(() => computeOrder(count, mode), [count, mode])
+  const affiliate = useMemo(() => hermesCreatorByAffiliateCode(affiliateCode), [affiliateCode])
+  const affiliateSaving = affiliate && order.total !== null ? order.total * HERMES_AFFILIATE_DISCOUNT : 0
+  const discountedTotal = order.total === null ? null : Math.max(0, order.total - affiliateSaving)
   const tier = tierForCount(Math.max(1, count))
 
   const setProfiles = (slug: string, delta: number) => {
@@ -338,6 +354,13 @@ export function CommandeContent() {
                     {order.addon > 0 ? `+ ${formatEuro(order.addon, lang)}` : '—'}
                   </dd>
                 </div>
+                <div className="border-t border-[#E4DCCF] pt-4">
+                  <label htmlFor="affiliate-code" className="text-xs font-bold text-[#3F3A33]">{t.affiliateCode}</label>
+                  <input id="affiliate-code" value={affiliateCode} onChange={(event) => setAffiliateCode(event.target.value.toUpperCase())} placeholder="EX. TINAHUANG30" className="mt-2 h-10 w-full rounded-xl border border-[#D8D0C2] bg-[#F3EFE6] px-3 font-mono text-xs uppercase tracking-[.08em] outline-none transition-colors focus:border-[#D10E63]" />
+                  {affiliate ? <div className="mt-3 rounded-xl bg-[#D10E63]/[.07] p-3"><p className="text-xs font-bold text-[#B00C54]">{t.affiliateTitle} · {affiliate.name}</p><p className="mt-1 text-[11px] leading-5 text-[#625B50]">{t.affiliateBody}</p></div> : affiliateCode ? <p className="mt-2 text-[11px] text-[#A33A30]">{t.invalidAffiliate}</p> : null}
+                  <Link href="/partenaires#affiliation" className="mt-3 inline-flex text-[11px] font-bold text-[#625B50] underline decoration-[#D10E63]/30 underline-offset-4 hover:text-[#B00C54]">{t.affiliateProgram}</Link>
+                </div>
+                {affiliate && !order.isQuote && <div className="flex items-center justify-between text-[#B00C54]"><dt className="font-semibold">{t.affiliateSaving}</dt><dd className="font-bold">− {formatEuro(affiliateSaving, lang)}</dd></div>}
               </dl>
 
               <div className="mt-6 flex items-end justify-between border-t border-[#E4DCCF] pt-5">
@@ -346,7 +369,7 @@ export function CommandeContent() {
                   <span className="font-sf text-2xl font-bold text-[#D10E63]">{t.quote}</span>
                 ) : (
                   <span className="font-sf text-3xl font-bold tracking-[-0.03em] text-[#1C1A17]">
-                    {formatEuro(order.total ?? 0, lang)}
+                    {formatEuro(discountedTotal ?? 0, lang)}
                     <span className="ml-1 text-sm font-medium text-[#8A8175]">{t.perMonth}</span>
                   </span>
                 )}

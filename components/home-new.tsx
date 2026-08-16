@@ -10,6 +10,7 @@ import { SectionWorkspace } from './home/section-workspace'
 import { SectionComparison } from './home/section-comparison'
 import { SectionVision } from './home/section-vision'
 import { SectionReassurance } from './home/section-reassurance'
+import { SectionHermesVoices } from './home/section-hermes-voices'
 import { SiteFooter } from './site-footer'
 
 /**
@@ -31,6 +32,9 @@ export function HomeNew() {
 
         {/* 2. Concrete guarantees before the visitor evaluates the offer */}
         <SectionReassurance lang={lang} />
+
+        {/* Independent voices documenting the open-source foundation */}
+        <SectionHermesVoices lang={lang} />
 
         {/* 3. A real first mission during the seven-day trial */}
         <SectionDefinition lang={lang} />

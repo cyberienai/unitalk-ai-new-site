@@ -10,11 +10,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default function CommandePage() {
+export default async function CommandePage({ searchParams }: { searchParams: Promise<{ affilie?: string }> }) {
+  const { affilie } = await searchParams
   return (
     <>
       <Navbar />
-      <CommandeContent />
+      <CommandeContent initialAffiliateCode={affilie} />
       <SiteFooter />
     </>
   )
