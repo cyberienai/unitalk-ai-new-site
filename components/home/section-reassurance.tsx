@@ -9,17 +9,17 @@ const T = {
   fr: {
     items: [
       { icon: LifeBuoy, title: 'Vous n’êtes jamais seul', desc: 'Alma vous accompagne et transmet à un ingénieur IA si nécessaire.' },
-      { icon: Layers3, title: 'Profils métier et compétences illimités', desc: 'Faites évoluer chaque Collaborateur IA selon vos missions.' },
-      { icon: Blocks, title: 'Plus de 3 000 applications', desc: 'Connectez les outils que votre entreprise utilise déjà.' },
-      { icon: BrainCircuit, title: 'Le meilleur modèle pour chaque tâche', desc: 'Le modèle IA adapté est sélectionné selon le travail à accomplir.' },
+      { icon: Layers3, title: 'Profils métier et compétences sans limite', desc: 'Faites évoluer chaque Collaborateur IA selon vos missions.' },
+      { icon: Blocks, title: 'Plus de 3 000 intégrations disponibles', desc: 'Connectez les outils que votre entreprise utilise déjà.' },
+      { icon: BrainCircuit, title: 'Le modèle adapté à chaque tâche', desc: 'Unitalk sélectionne le modèle autorisé le plus pertinent pour le travail à accomplir.' },
     ],
   },
   en: {
     items: [
       { icon: LifeBuoy, title: 'You are never on your own', desc: 'Alma supports you and hands over to an AI engineer when needed.' },
-      { icon: Layers3, title: 'Unlimited job profiles and skills', desc: 'Evolve each AI Collaborator as your missions change.' },
-      { icon: Blocks, title: 'More than 3,000 applications', desc: 'Connect the tools your company already uses.' },
-      { icon: BrainCircuit, title: 'The best model for every task', desc: 'The right AI model is selected for the work at hand.' },
+      { icon: Layers3, title: 'Job profiles and skills without limits', desc: 'Evolve each AI Collaborator as your missions change.' },
+      { icon: Blocks, title: 'More than 3,000 integrations available', desc: 'Connect the tools your company already uses.' },
+      { icon: BrainCircuit, title: 'The right model for each task', desc: 'Unitalk selects the most relevant authorized model for the work at hand.' },
     ],
   },
 } as const

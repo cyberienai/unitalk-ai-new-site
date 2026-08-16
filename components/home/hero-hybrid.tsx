@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
@@ -38,7 +37,7 @@ const T = {
     headline: 'Votre propre Collaborateur IA, prêt à travailler avec vos outils.',
     subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives. Il progresse à chaque mission et appartient à votre entreprise.',
     proofs: ['7 jours pour tester une vraie mission', 'Sans carte bancaire', '1 million de tokens inclus', 'Hébergé en France'],
-    cta: 'Confier une première mission',
+    cta: 'Décrire ma première mission',
     console: 'Préparation de mission',
     mission: 'Mission reçue',
     collaborator: 'Collaboratrice IA',
@@ -54,24 +53,28 @@ const T = {
     almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
     almaAction: "Revenir à Alma",
     voiceKicker: 'Alma · Coordinatrice IA de missions',
-    voiceRole: 'Collaboratrice IA Unitalk chargée de coordonner les missions confiées aux Collaborateurs IA.',
-    voiceTitle: 'Décrivez une mission à la voix.',
-    voiceBody: 'Parlez naturellement.\nAlma transcrit votre besoin et prépare la première mission.',
+    voiceTitle: 'Parlez ou écrivez à Alma.',
+    voiceBody: 'Décrivez le travail à accomplir.\nAlma le transforme en une première mission structurée.',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
     voicePlaceholder: 'Votre besoin apparaîtra ici…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
-    voiceWritten: 'Ou décrivez votre mission par écrit',
+    voiceWritten: 'Décrivez votre mission',
     voiceSubmit: 'Préparer cette mission',
     voiceBack: 'Voir la démonstration',
+    voicePrivacy: 'Microphone activé uniquement avec votre accord. Transcription modifiable avant envoi.',
+    examplesLabel: 'Exemples',
+    examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants', 'Trouver de nouveaux prospects'],
+    previewLabel: 'Alma prépare',
+    previewItems: ['Objectif', 'Résultat attendu', 'Applications', 'Validations humaines'],
   },
   en: {
     eyebrow: 'Someone is missing',
     headline: 'Your own AI Collaborator, ready to work with your tools.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
     proofs: ['7 days to test a real mission', 'No credit card', '1 million tokens included', 'Hosted in France'],
-    cta: 'Hand over a first mission',
+    cta: 'Describe my first mission',
     console: 'Mission preparation',
     mission: 'Mission received',
     collaborator: 'AI Collaborator',
@@ -87,17 +90,21 @@ const T = {
     almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
     almaAction: "Return to Alma",
     voiceKicker: 'Alma · AI mission coordinator',
-    voiceRole: 'A Unitalk AI Collaborator responsible for coordinating missions entrusted to AI Collaborators.',
-    voiceTitle: 'Describe a mission by voice.',
-    voiceBody: 'Speak naturally.\nAlma transcribes your need and prepares the first mission.',
+    voiceTitle: 'Talk or write to Alma.',
+    voiceBody: 'Describe the work to be done.\nAlma turns it into a first structured mission.',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
     voicePlaceholder: 'Your need will appear here…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
-    voiceWritten: 'Or describe your mission in writing',
+    voiceWritten: 'Describe your mission',
     voiceSubmit: 'Prepare this mission',
     voiceBack: 'View the demo',
+    voicePrivacy: 'Microphone activated only with your consent. Edit the transcript before sending.',
+    examplesLabel: 'Examples',
+    examples: ['Chase my unpaid invoices', 'Handle my incoming emails', 'Find new prospects'],
+    previewLabel: 'Alma prepares',
+    previewItems: ['Objective', 'Expected result', 'Applications', 'Human approvals'],
   },
 } as const
 
@@ -132,6 +139,8 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
+  const voicePanelRef = useRef<HTMLDivElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const current = journeys[cycle]
   const isChloe = cycle === journeys.length - 1
 
@@ -157,6 +166,12 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
       recognitionRef.current = null
     }
   }, [lang])
+
+  useEffect(() => {
+    const open = () => openVoiceSurface()
+    window.addEventListener('open-home-alma', open)
+    return () => window.removeEventListener('open-home-alma', open)
+  })
 
   useEffect(() => {
     if (reduce) return
@@ -194,6 +209,15 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     }
   }
 
+  function openVoiceSurface() {
+    setShowVoice(true)
+    track('home_cta_clicked', { position: 'hero', label: t.cta })
+    requestAnimationFrame(() => {
+      voicePanelRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' })
+      textareaRef.current?.focus({ preventScroll: true })
+    })
+  }
+
   function submitVoiceNeed() {
     const clean = transcript.trim()
     if (!clean) return
@@ -218,14 +242,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             {t.proofs.map((proof) => <span key={proof} className="inline-flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[#D10E63]" />{proof}</span>)}
           </motion.div>
 
-          <motion.div {...enter(0.34)} className="mt-8">
-            <Link href="/decouvrir" onClick={() => track('home_cta_clicked', { position: 'hero', label: t.cta })} className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(209,14,99,0.7)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
-              {t.cta}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+           <motion.div {...enter(0.34)} className="mt-8">
+             <button type="button" onClick={openVoiceSurface} className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(209,14,99,0.7)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
+               {t.cta}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+             </button>
           </motion.div>
         </div>
 
-        <motion.div {...enter(0.18)} className="mx-auto w-full max-w-2xl">
+         <motion.div id="alma-hero" ref={voicePanelRef} {...enter(0.18)} className="mx-auto w-full max-w-2xl scroll-mt-24">
           <AnimatePresence mode="wait" initial={false}>
           {showVoice ? (
             <motion.div key="voice" initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
@@ -238,18 +262,28 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
+                <div className="flex flex-col items-center py-6 text-center">
                   <button type="button" onClick={toggleListening} disabled={!voiceSupported} aria-pressed={listening} aria-label={listening ? t.voiceStop : t.voiceStart} className={`relative flex size-24 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] disabled:cursor-not-allowed disabled:opacity-50 ${listening ? 'bg-[#D10E63] text-white' : 'bg-[#D10E63]/15 text-[#F15B9B] ring-1 ring-[#D10E63]/30 hover:bg-[#D10E63]/25'}`}>
                     {listening && !reduce && <motion.span aria-hidden className="absolute inset-0 rounded-full border border-[#F15B9B]" animate={{ scale: [1, 1.45], opacity: [0.65, 0] }} transition={{ duration: 1.4, repeat: Infinity }} />}
                     {listening ? <Square className="size-7" fill="currentColor" /> : <Mic className="size-9" />}
                   </button>
-                  <p className="mt-6 max-w-md text-sm leading-6 text-[#D6CABD]">{t.voiceRole}</p>
                   <h2 className="mt-5 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">{t.voiceTitle}</h2>
                   <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
+                  <p className="mt-2 max-w-sm text-[11px] leading-5 text-[#AFA397]">{t.voicePrivacy}</p>
                 </div>
 
                 <label className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#D6CABD]">{t.voiceWritten}</label>
-                <textarea value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#887D72] focus:border-[#D10E63]" />
+                <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#AFA397] focus:border-[#D10E63]" />
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#AFA397]">{t.examplesLabel}</span>
+                  {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-[#D6CABD] hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
+                </div>
+                {transcript.trim() && (
+                  <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-2xl border border-[#D10E63]/25 bg-[#D10E63]/10 p-3">
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#F3B4CF]">{t.previewLabel}</p>
+                    <div className="mt-2 flex flex-wrap gap-2">{t.previewItems.map((item) => <span key={item} className="rounded-full bg-white/[0.07] px-2.5 py-1 text-[11px] text-[#F8F1E7]">{item}</span>)}</div>
+                  </motion.div>
+                )}
                 <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40">
                   {t.voiceSubmit}<ArrowRight className="size-4" />
                 </button>
@@ -309,7 +343,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             </div>
             <button
               type="button"
-              onClick={() => { setShowVoice(true); track('home_cta_clicked', { position: 'hero_voice', label: t.almaAction }) }}
+              onClick={openVoiceSurface}
               className="group flex items-center gap-1.5 self-start whitespace-nowrap text-xs font-bold text-[#F15B9B] hover:text-[#F8A3CB] sm:self-auto"
             >
               {t.almaAction}

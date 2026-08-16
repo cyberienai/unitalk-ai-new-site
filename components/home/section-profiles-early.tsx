@@ -22,13 +22,14 @@ type Profile = {
 const COPY = {
   fr: {
     kicker: 'La Place de Marché',
-    title: 'Découvrez des Collaborateurs IA autonomes prêts à rejoindre votre équipe.',
+    title: 'Choisissez le Collaborateur IA adapté à votre première mission.',
     lead: 'Besoin d’aide pour vos emails, votre prospection ou votre relation client ? Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.',
     cta: 'Voir tous les profils métier',
     recruit: 'Configurer',
     previous: 'Afficher les profils précédents',
     next: 'Afficher les profils suivants',
     selector: 'Choisir un groupe de Collaborateurs IA',
+    capacityNote: 'La capacité indique le volume de missions et d’actions que le Collaborateur IA peut prendre en charge.',
     profiles: [
       { name: 'Emma', slug: 'emma', role: 'Assistante de direction', avatar: '/images/emma-avatar.png', desc: 'Gère vos emails, prépare vos comptes rendus et organise votre agenda.', capacity: 'fullTime', tag: 'Temps plein · 149€/mois' },
       { name: 'Chloé', slug: 'chloe', role: 'Commerciale', avatar: '/images/chloe-avatar.png', desc: 'Recherche des prospects, prépare les relances et documente le suivi commercial.', capacity: 'quarterTime', tag: 'Quart-temps · 74€/mois' },
@@ -40,13 +41,14 @@ const COPY = {
   },
   en: {
     kicker: 'The Marketplace',
-    title: 'Discover autonomous AI Collaborators ready to join your team.',
+    title: 'Choose the AI Collaborator suited to your first mission.',
     lead: 'Need help with email, prospecting or customer relations? Alma scopes your need and prepares the AI Collaborator suited to your mission.',
     cta: 'View all job profiles',
     recruit: 'Configure',
     previous: 'Show previous profiles',
     next: 'Show next profiles',
     selector: 'Choose a group of AI Collaborators',
+    capacityNote: 'Capacity indicates the volume of missions and actions the AI Collaborator can handle.',
     profiles: [
       { name: 'Emma', slug: 'emma', role: 'Executive Assistant', avatar: '/images/emma-avatar.png', desc: 'Handles emails, prepares meeting notes and organizes your calendar.', capacity: 'fullTime', tag: 'Full-time · €149/mo' },
       { name: 'Chloé', slug: 'chloe', role: 'Sales Representative', avatar: '/images/chloe-avatar.png', desc: 'Finds prospects, prepares follow-ups and documents sales activity.', capacity: 'quarterTime', tag: 'Part-time · €74/mo' },
@@ -86,6 +88,7 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
         </div>
 
         <div className="mt-10">
+          <p className="mb-5 text-center text-sm text-[#625B50] lg:text-left">{t.capacityNote}</p>
           <div className="md:hidden">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div key={mobileProfile.slug} initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>

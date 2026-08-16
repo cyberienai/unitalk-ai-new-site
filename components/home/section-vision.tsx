@@ -12,7 +12,7 @@ const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre intelligence vous appartient.',
-    lead: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
+    lead: 'Son identité, ses profils privés, ses méthodes validées et son historique de mission restent rattachés à votre organisation.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Préparer ma première mission avec Alma',
     ctaNote: 'Alma comprend votre besoin et prépare la mission.',
@@ -21,7 +21,7 @@ const COPY = {
   en: {
     kicker: 'Mission after mission',
     title: 'Your intelligence belongs to you.',
-    lead: 'Your company can count on its own AI Collaborator.',
+    lead: 'Its identity, private profiles, approved methods and mission history remain attached to your organization.',
     closing: 'Ready to hand over a first mission?',
     cta: 'Prepare my first mission with Alma',
     ctaNote: 'Alma understands your need and prepares the mission.',
@@ -69,7 +69,14 @@ export function SectionVision() {
           <div className="mt-8 flex flex-col items-center gap-4">
             <button
               type="button"
-              onClick={() => openAlma(undefined, 'final_cta')}
+              onClick={() => {
+                const hero = document.getElementById('alma-hero')
+                if (hero) {
+                  window.dispatchEvent(new Event('open-home-alma'))
+                  return
+                }
+                openAlma(undefined, 'final_cta')
+              }}
               className="group inline-flex items-center gap-2.5 rounded-full bg-[#D10E63] px-8 py-4 text-base font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#181615]"
             >
               {t.cta}
