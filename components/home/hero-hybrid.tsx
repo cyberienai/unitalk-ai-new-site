@@ -14,7 +14,7 @@ const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
     headline: 'Votre propre Collaborateur IA, prêt à travailler avec vos outils.',
-    subtitle: 'Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives. Il travaille avec vos outils et progresse à chaque mission.',
+    subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection, vos analyses et vos tâches administratives. Il progresse à chaque mission et appartient à votre entreprise.',
     proofs: ['7 jours pour tester une vraie mission', 'Sans carte bancaire', '1 million de tokens inclus'],
     cta: 'Confier une première mission',
     console: 'Préparation de mission',
