@@ -96,7 +96,7 @@ const COLLAB_DISCOVER: MenuEntry[] = [
 
 const COLLAB_ACCOMPANIMENT: MenuEntry[] = [
   {
-    title: { fr: 'Alma · Conseillère IA', en: 'Alma · AI advisor' },
+    title: { fr: 'Alma · Coordinatrice de missions IA', en: 'Alma · AI mission coordinator' },
     desc: {
       fr: 'Cadrez une première mission et préparez votre Collaborateur IA.',
       en: 'Frame a first mission and prepare your AI Collaborator.',

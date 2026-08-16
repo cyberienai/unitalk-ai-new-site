@@ -1,26 +1,27 @@
 'use client'
 
 import Image from 'next/image'
-import { AlmaInline } from '@/components/alma-inline'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check, Circle, Loader2, Mic, X } from 'lucide-react'
+import { ArrowRight, Check, Circle, Loader2 } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { useAlma } from '@/components/home/alma-panel-context'
+import { track } from '@vercel/analytics'
 
 const T = {
   fr: {
     eyebrow: 'Il vous manque quelqu’un',
-    headline: 'Votre entreprise peut compter sur son propre Collaborateur IA.',
+    headline: 'Votre propre Collaborateur IA, prêt à travailler avec vos outils.',
     subtitle: 'Confiez-lui vos appels, emails, prospects, analyses ou tâches administratives. Il travaille avec vos outils et progresse à chaque mission.',
     tickerMissions: ['répondre à vos appels', 'traiter vos emails', 'mettre à jour votre CRM', 'préparer vos comptes rendus', 'organiser votre agenda', 'analyser vos données'],
-    proofs: ['Essai gratuit 7 jours', 'Sans carte bancaire', '1 million de tokens offerts'],
+    proofs: ['7 jours pour tester une vraie mission', 'Sans carte bancaire', '1 million de tokens inclus'],
     cta: 'Confier une première mission',
     console: 'Préparation de mission',
     mission: 'Mission reçue',
-    assigned: 'Emma, Collaboratrice IA sélectionnée',
+    collaborator: 'Collaboratrice IA',
+    assigned: 'Emma sélectionnée',
     equipping: 'Alma équipe Emma',
     ready: 'Prête à travailler',
     newRole: 'Nouveau rôle nécessaire',
@@ -30,22 +31,18 @@ const T = {
     cycle: 'Cycle',
     almaCaption: "Alma, coordinatrice de missions IA,\ncadre votre besoin et prépare vos collaborateurs",
     almaAction: "Parler à Alma",
-    voiceTitle: 'Conversation avec Alma',
-    voiceIntro: 'Bonjour, je suis Alma. Dites-moi quelle mission vous souhaitez confier à un Collaborateur IA.',
-    voiceStatus: 'La conversation vocale arrive bientôt. Vous pouvez déjà poursuivre par écrit.',
-    voiceContinue: 'Continuer par écrit',
-    voiceClose: 'Revenir à la démonstration',
   },
   en: {
     eyebrow: 'Someone is missing',
-    headline: 'Your company can count on its own AI Collaborator.',
+    headline: 'Your own AI Collaborator, ready to work with your tools.',
     subtitle: 'Entrust it with calls, emails, prospects, analysis or administrative work. It works with your tools and improves with every mission.',
     tickerMissions: ['answer your calls', 'handle your emails', 'update your CRM', 'prepare meeting notes', 'organize your calendar', 'analyze your data'],
-    proofs: ['7-day free trial', 'No credit card', '1 million free tokens'],
+    proofs: ['7 days to test a real mission', 'No credit card', '1 million tokens included'],
     cta: 'Hand over a first mission',
     console: 'Mission preparation',
     mission: 'Mission received',
-    assigned: 'Emma, AI Collaborator selected',
+    collaborator: 'AI Collaborator',
+    assigned: 'Emma selected',
     equipping: 'Alma equips Emma',
     ready: 'Ready to work',
     newRole: 'New role required',
@@ -55,11 +52,6 @@ const T = {
     cycle: 'Cycle',
     almaCaption: "Alma, AI mission coordinator, scopes your needs and prepares your collaborators.",
     almaAction: "Talk to Alma",
-    voiceTitle: 'Conversation with Alma',
-    voiceIntro: 'Hello, I am Alma. Tell me which mission you would like to entrust to an AI Collaborator.',
-    voiceStatus: 'Voice conversation is coming soon. You can already continue in writing.',
-    voiceContinue: 'Continue in writing',
-    voiceClose: 'Return to the demo',
   },
 } as const
 
@@ -87,7 +79,6 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   const journeys = JOURNEYS[lang]
   const reduce = useReducedMotion()
   const { openAlma } = useAlma()
-  const [showAlma, setShowAlma] = useState(false)
   const [cycle, setCycle] = useState(0)
   const [phase, setPhase] = useState<Phase>(0)
   const current = journeys[cycle]
@@ -126,28 +117,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           </motion.div>
 
           <motion.div {...enter(0.34)} className="mt-8">
-            <Link href="/decouvrir" className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(209,14,99,0.7)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
+            <Link href="/decouvrir" onClick={() => track('home_cta_clicked', { position: 'hero', label: t.cta })} className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(209,14,99,0.7)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
               {t.cta}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </motion.div>
         </div>
 
         <motion.div {...enter(0.18)} className="mx-auto w-full max-w-2xl">
-          <AnimatePresence mode="wait" initial={false}>
-          {showAlma ? (
-            <HeroAlmaVoice
-              key="alma"
-              lang={lang}
-              title={t.voiceTitle}
-              intro={t.voiceIntro}
-              status={t.voiceStatus}
-              continueLabel={t.voiceContinue}
-              closeLabel={t.voiceClose}
-              onClose={() => setShowAlma(false)}
-              onContinue={openAlma}
-            />
-          ) : (
-          <motion.div key="demo" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
+          <motion.div>
           <div className="relative overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] min-h-[420px]">
             <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-6">
@@ -165,7 +142,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                       <Image src={isChloe ? '/images/chloe-avatar.png' : '/images/emma-avatar.png'} alt={isChloe ? 'Chloé' : 'Emma'} width={56} height={56} className="h-14 w-14 rounded-full object-cover ring-2 ring-[#D10E63]/30" />
                       <p className="mt-3 font-sf text-lg font-semibold">{isChloe ? 'Chloé' : 'Emma'}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-[#AFA397]">{isChloe ? t.preparing : t.assigned}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-[#D6CABD]">{isChloe ? t.preparing : t.collaborator}</p>
                     </div>
 
                     <ol className="space-y-4">
@@ -197,88 +174,17 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             </div>
             <button
               type="button"
-              onClick={() => setShowAlma(true)}
+              onClick={() => openAlma(undefined, 'hero_alma')}
               className="group flex items-center gap-1.5 self-start whitespace-nowrap text-xs font-bold text-[#F15B9B] hover:text-[#F8A3CB] sm:self-auto"
             >
               {t.almaAction}
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </button>
           </motion.div>
-          </motion.div>
-          )}
-          </AnimatePresence>
+        </motion.div>
         </motion.div>
       </div>
     </section>
-  )
-}
-
-function HeroAlmaVoice({
-  lang,
-  title,
-  intro,
-  status,
-  continueLabel,
-  closeLabel,
-  onClose,
-  onContinue,
-}: {
-  lang: Lang
-  title: string
-  intro: string
-  status: string
-  continueLabel: string
-  closeLabel: string
-  onClose: () => void
-  onContinue: () => void
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.99 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.28, ease }}
-      className="overflow-hidden rounded-[26px] border border-[#DED6C8] bg-[#FBF9F3] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.35)]"
-      role="dialog"
-      aria-label={title}
-    >
-      <div className="flex items-center gap-3 border-b border-[#E4DDCE] bg-[#F3EFE6] px-5 py-4 sm:px-6">
-        <div className="relative shrink-0">
-          <Image src="/alma-avatar.png" alt="Alma" width={42} height={42} className="h-[42px] w-[42px] rounded-full object-cover ring-2 ring-[#D10E63]/25" />
-          <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#F3EFE6] bg-[#2E7D4F]" aria-hidden />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="font-sf text-base font-semibold text-[#1C1A17]">{title}</p>
-          <p className="text-xs text-[#6E665A]">{lang === 'fr' ? 'Coordinatrice de missions IA' : 'AI mission coordinator'}</p>
-        </div>
-        <button type="button" onClick={onClose} aria-label={closeLabel} title={closeLabel} className="flex h-9 w-9 items-center justify-center rounded-full text-[#6E665A] transition-colors hover:bg-[#E7DFD2] hover:text-[#1C1A17]">
-          <X className="h-4 w-4" />
-        </button>
-      </div>
-
-      <div className="flex min-h-[330px] flex-col px-5 py-6 sm:px-7">
-        <div className="flex items-start gap-2.5">
-          <Image src="/alma-avatar.png" alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
-          <p className="max-w-[85%] rounded-2xl rounded-tl-sm bg-[#EFE8DC] px-4 py-3 text-sm leading-6 text-[#2A2622]">{intro}</p>
-        </div>
-
-        <div className="my-auto flex flex-col items-center py-8 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#D10E63] ring-1 ring-[#D10E63]/20">
-            <Mic className="h-7 w-7" />
-          </span>
-          <div className="mt-5 flex h-7 items-center gap-1" aria-hidden>
-            {[12, 22, 16, 28, 18, 25, 13].map((height, index) => (
-              <motion.span key={index} className="w-1 rounded-full bg-[#D10E63]/55" animate={{ height: [8, height, 8] }} transition={{ duration: 1.1, delay: index * 0.08, repeat: Infinity, ease: 'easeInOut' }} />
-            ))}
-          </div>
-          <p className="mt-4 max-w-sm text-sm leading-6 text-[#6E665A]">{status}</p>
-        </div>
-
-        <button type="button" onClick={onContinue} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#B00B52]">
-          {continueLabel}<ArrowRight className="h-4 w-4" />
-        </button>
-      </div>
-    </motion.div>
   )
 }
 
@@ -288,7 +194,7 @@ function TimelineRow({ label, labelContent, detail, status, children }: { label?
       <span className="mt-0.5 flex h-5 w-5 items-center justify-center">
         {status === 'done' ? <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#D10E63] text-white"><Check className="h-3 w-3" strokeWidth={3} /></span> : status === 'active' ? <Loader2 className="h-5 w-5 animate-spin text-[#F15B9B]" /> : <Circle className="h-4 w-4 text-[#625A52]" />}
       </span>
-      <div className={status === 'next' ? 'text-[#746B62]' : 'text-[#F8F1E7]'}>
+      <div className={status === 'next' ? 'text-[#AFA397]' : 'text-[#F8F1E7]'}>
         <p className="text-sm font-medium">{labelContent ?? label}</p>
         {detail && <p className="mt-1 text-xs leading-relaxed text-[#AFA397]">{detail}</p>}
         {children}

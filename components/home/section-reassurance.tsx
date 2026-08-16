@@ -8,18 +8,18 @@ const ease = [0.22, 1, 0.36, 1] as const
 const T = {
   fr: {
     items: [
-      { icon: Mic, title: 'Parlez-lui, ne tapez plus', desc: 'À la voix ou au texte, comme vous voulez.' },
-      { icon: Sparkles, title: 'Tous les modèles IA', desc: 'ChatGPT et les autres inclus.' },
-      { icon: LifeBuoy, title: 'Accompagnement humain', desc: 'Onboarding et supervision inclus.' },
-      { icon: ShieldCheck, title: 'Hébergé en France', desc: 'RGPD, AI Act, données isolées.' },
+      { icon: Mic, title: 'Voix ou texte', desc: 'Décrivez votre mission naturellement.' },
+      { icon: Sparkles, title: '1 million de tokens inclus', desc: 'Pour tester une mission réelle pendant 7 jours.' },
+      { icon: LifeBuoy, title: 'Accompagnement humain', desc: 'Alma cadre la mission, votre équipe garde la main.' },
+      { icon: ShieldCheck, title: 'Hébergé en France', desc: 'RGPD, AI Act et données isolées.' },
     ],
   },
   en: {
     items: [
-      { icon: Mic, title: 'Talk to it, stop typing', desc: 'By voice or text, however you like.' },
-      { icon: Sparkles, title: 'Every AI model', desc: 'ChatGPT and the others included.' },
-      { icon: LifeBuoy, title: 'Human support', desc: 'Onboarding and supervision included.' },
-      { icon: ShieldCheck, title: 'Hosted in Europe', desc: 'GDPR, AI Act, isolated data.' },
+      { icon: Mic, title: 'Voice or text', desc: 'Describe your mission naturally.' },
+      { icon: Sparkles, title: '1 million tokens included', desc: 'To test a real mission for 7 days.' },
+      { icon: LifeBuoy, title: 'Human support', desc: 'Alma scopes the mission, your team stays in control.' },
+      { icon: ShieldCheck, title: 'Hosted in France', desc: 'GDPR, AI Act and isolated data.' },
     ],
   },
 } as const

@@ -6,11 +6,10 @@ const pricingPage = readFileSync(new URL('../app/tarifs/page.tsx', import.meta.u
 const configurator = readFileSync(new URL('../components/pricing/pricing-configurator.tsx', import.meta.url), 'utf8')
 
 describe('home profile carousel', () => {
-  it('rotates six generic identities with accessible controls', () => {
+  it('shows six identities with accessible manual controls', () => {
     for (const name of ['Emma', 'Chloé', 'Lucas', 'Nadia', 'Marcus', 'Hugo']) expect(profiles).toContain(`name: '${name}'`)
     expect(profiles).toContain('useReducedMotion()')
-    expect(profiles).toContain('onMouseEnter={() => setPaused(true)}')
-    expect(profiles).toContain('onFocusCapture={() => setPaused(true)}')
+    expect(profiles).not.toContain('ROTATION_MS')
     expect(profiles).toContain('role="tablist"')
     expect(profiles).toContain('md:hidden')
     expect(profiles).toContain('grid-cols-3')

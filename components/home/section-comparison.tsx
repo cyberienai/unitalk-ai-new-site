@@ -26,7 +26,7 @@ const COPY = {
       ['Exécute une tâche', 'Apprend votre façon de travailler'],
       ['Fonctionne dans son outil', 'Travaille avec vos applications'],
       ['Résultat ponctuel', 'Expérience conservée'],
-      ['Un usage par agent', 'Une identité, plusieurs profils métier'],
+      ['Un usage par agent', 'Une identité qui évolue avec plusieurs profils métier'],
       ['Décide seul ou s’arrête', 'Soumet les étapes sensibles à vos équipes'],
     ],
   },
@@ -66,12 +66,12 @@ export function SectionComparison() {
         {/* The transforming lines */}
         <div className="mt-10 overflow-hidden rounded-lg border border-[#E4DDCE]">
           {/* Column headers */}
-          <div className="grid grid-cols-2">
+          <div className="hidden grid-cols-2 sm:grid">
             <div className="bg-[#EDE7DA] px-5 py-3.5 text-right">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#9A9184]">{t.beforeTitle}</span>
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#625B50]">{t.beforeTitle}</span>
             </div>
             <div className="bg-[#1C1A17] px-5 py-3.5">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#E8A0BE]">{t.afterTitle}</span>
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#F3B4CF]">{t.afterTitle}</span>
             </div>
           </div>
 
@@ -82,19 +82,19 @@ export function SectionComparison() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.45, ease, delay: i * 0.08 }}
-              className="relative grid grid-cols-2 border-t border-[#E4DDCE]"
+              className="relative grid border-t border-[#E4DDCE] sm:grid-cols-2"
             >
               {/* left — warm, inert (text kept clear of the central seam) */}
-              <div className="flex items-center justify-end bg-[#EDE7DA]/70 py-5 pl-5 pr-10 text-right sm:pl-7 sm:pr-12">
-                <p className="text-[14px] leading-snug text-[#857C6E] sm:text-[15px]">{before}</p>
+              <div className="bg-[#EDE7DA]/70 px-5 py-4 sm:flex sm:items-center sm:justify-end sm:py-5 sm:pl-7 sm:pr-12 sm:text-right">
+                <div><span className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#625B50] sm:hidden">{t.beforeTitle}</span><p className="mt-1 text-[14px] leading-snug text-[#625B50] sm:mt-0 sm:text-[15px]">{before}</p></div>
               </div>
               {/* right — anthracite, owned (text kept clear of the central seam) */}
-              <div className="flex items-center bg-[#1C1A17] py-5 pl-10 pr-5 sm:pl-12 sm:pr-7">
-                <p className="text-[14px] font-medium leading-snug text-[#F4F1EA] sm:text-[15px]">{after}</p>
+              <div className="bg-[#1C1A17] px-5 py-4 sm:flex sm:items-center sm:py-5 sm:pl-12 sm:pr-7">
+                <div><span className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#F3B4CF] sm:hidden">{t.afterTitle}</span><p className="mt-1 text-[14px] font-medium leading-snug text-[#F4F1EA] sm:mt-0 sm:text-[15px]">{after}</p></div>
               </div>
 
               {/* the mission thread node sitting on the seam — short ticks only */}
-              <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
+              <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 sm:block">
                 <span className="relative flex items-center">
                   <span className="block h-px w-3 bg-gradient-to-r from-transparent to-[#D10E63]" />
                   <span className="block h-[10px] w-[10px] rounded-full bg-[#D10E63] ring-2 ring-[#F4F1EA]" />

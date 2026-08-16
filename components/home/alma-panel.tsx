@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Check, Mic, Send, X } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { getMission, pick } from '@/components/discover/types'
+import { track } from '@vercel/analytics'
 
 /**
  * ALMA PANEL — the interactive surface behind every "Parler à Alma" CTA.
@@ -14,11 +15,32 @@ import { getMission, pick } from '@/components/discover/types'
  * The user describes a need in plain language. Alma recognises the closest
  * mission from the catalog and structures it live (objective, cadence, human
  * validation) — then hands off to /decouvrir carrying that mission, where the
- * real six-step flow adapts it to the company. Written mode is fully
- * functional; voice is an honest, non-recording affordance (no auto microphone).
+ * real six-step flow adapts it to the company. Voice transcription starts only
+ * after an explicit click and falls back to writing when unsupported.
  */
 
 type Bi = { fr: string; en: string }
+type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string }; isFinal?: boolean }>; resultIndex?: number }
+type SpeechRecognitionInstance = {
+  lang: string
+  continuous: boolean
+  interimResults: boolean
+  onresult: ((event: SpeechResultEvent) => void) | null
+  onend: (() => void) | null
+  onerror: (() => void) | null
+  start: () => void
+  stop: () => void
+  abort: () => void
+}
+
+function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
+  if (typeof window === 'undefined') return null
+  const speechWindow = window as typeof window & {
+    SpeechRecognition?: new () => SpeechRecognitionInstance
+    webkitSpeechRecognition?: new () => SpeechRecognitionInstance
+  }
+  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null
+}
 
 // Lightweight intent recognition: keywords → a real catalog mission slug.
 const INTENTS: { slug: string; kw: string[] }[] = [
@@ -46,7 +68,9 @@ const T: Record<Lang, Record<string, string>> = {
     subtitle: 'Décrivez ce dont vous avez besoin. Alma structure la mission.',
     written: 'Écrit',
     voice: 'Voix',
-    voiceNote: 'Le mode voix arrive bientôt. En attendant, décrivez votre besoin par écrit : c’est déjà pleinement fonctionnel.',
+    voiceNote: 'Appuyez sur le micro et décrivez votre besoin. Alma transforme votre voix en une première mission structurée.',
+    voiceListening: 'Alma vous écoute… Appuyez à nouveau pour terminer.',
+    voiceUnsupported: 'La voix n’est pas prise en charge par ce navigateur. Vous pouvez décrire votre besoin par écrit.',
     placeholder: 'Ex : relancer chaque semaine mes factures impayées…',
     send: 'Envoyer',
     suggestionsLabel: 'Ou partez d’un exemple',
@@ -67,7 +91,9 @@ const T: Record<Lang, Record<string, string>> = {
     subtitle: 'Describe what you need. Alma structures the mission.',
     written: 'Written',
     voice: 'Voice',
-    voiceNote: 'Voice mode is coming soon. In the meantime, describe your need in writing: it is already fully functional.',
+    voiceNote: 'Press the microphone and describe your need. Alma turns your voice into a first structured mission.',
+    voiceListening: 'Alma is listening… Press again to finish.',
+    voiceUnsupported: 'Voice is not supported by this browser. You can describe your need in writing.',
     placeholder: 'E.g. chase my unpaid invoices every week…',
     send: 'Send',
     suggestionsLabel: 'Or start from an example',
@@ -110,28 +136,36 @@ export function AlmaPanel({
 
   const [mode, setMode] = useState<'written' | 'voice'>('written')
   const [input, setInput] = useState('')
-  const [sent, setSent] = useState<string | null>(null)
-  const [slug, setSlug] = useState<string | null>(null)
+  const initialMission = initialSlug ? getMission(initialSlug) : null
+  const [sent, setSent] = useState<string | null>(initialMission ? pick(initialMission.title, lang) : null)
+  const [slug, setSlug] = useState<string | null>(initialSlug ?? null)
+  const [voiceSupported] = useState(() => Boolean(getSpeechRecognition()))
+  const [listening, setListening] = useState(false)
 
   const dialogRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
 
   useEffect(() => {
-    if (open) {
-      setMode('written')
-      setInput('')
-      // When opened from a mission card, prefill the structured mission so the
-      // user lands straight on the framed result rather than a blank prompt.
-      if (initialSlug) {
-        const m = getMission(initialSlug)
-        setSent(m ? pick(m.title, lang) : null)
-        setSlug(initialSlug)
-      } else {
-        setSent(null)
-        setSlug(null)
-      }
+    const SpeechRecognition = getSpeechRecognition()
+    if (!SpeechRecognition) return
+    const recognition = new SpeechRecognition()
+    recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
+    recognition.continuous = false
+    recognition.interimResults = true
+    recognition.onresult = (event) => {
+      let transcript = ''
+      for (let index = 0; index < event.results.length; index++) transcript += event.results[index][0].transcript
+      setInput(transcript.trim())
     }
-  }, [open, initialSlug, lang])
+    recognition.onend = () => setListening(false)
+    recognition.onerror = () => setListening(false)
+    recognitionRef.current = recognition
+    return () => {
+      recognition.abort()
+      recognitionRef.current = null
+    }
+  }, [lang])
 
   useEffect(() => {
     if (!open) return
@@ -156,13 +190,32 @@ export function AlmaPanel({
     if (!clean) return
     setSent(clean)
     setSlug(matchMission(clean))
+    track('alma_need_submitted', { mode, mission: matchMission(clean) })
     setInput('')
   }
 
   function handoff() {
     if (!slug) return
+    track('alma_mission_structured', { mission: slug })
     onClose()
     router.push(`/decouvrir?entry=mission&mission=${slug}&draft=alma`)
+  }
+
+  function toggleListening() {
+    const recognition = recognitionRef.current
+    if (!recognition) return
+    if (listening) {
+      recognition.stop()
+      return
+    }
+    setInput('')
+    setListening(true)
+    track('alma_voice_started', { source: 'homepage' })
+    try {
+      recognition.start()
+    } catch {
+      setListening(false)
+    }
   }
 
   if (!open) return null
@@ -232,7 +285,13 @@ export function AlmaPanel({
           <div className="flex min-h-0 flex-col overflow-y-auto p-5 sm:p-6 md:border-r md:border-[#EAE2D5]">
             {mode === 'voice' && (
               <div className="mb-4 rounded-2xl border border-[#F3D3E0] bg-[#FCEAF2]/70 p-4 text-[13px] leading-relaxed text-[#7A2247]">
-                {t.voiceNote}
+                <p>{voiceSupported ? (listening ? t.voiceListening : t.voiceNote) : t.voiceUnsupported}</p>
+                {voiceSupported && (
+                  <button type="button" onClick={toggleListening} aria-pressed={listening} className={`mt-3 inline-flex min-h-11 items-center gap-2 rounded-full px-5 text-sm font-bold ${listening ? 'bg-[#1C1A17] text-white' : 'bg-[#D10E63] text-white'}`}>
+                    <Mic className={`size-4 ${listening ? 'animate-pulse' : ''}`} />
+                    {listening ? (lang === 'fr' ? 'Terminer' : 'Finish') : (lang === 'fr' ? 'Parler à Alma' : 'Talk to Alma')}
+                  </button>
+                )}
               </div>
             )}
 
@@ -397,7 +456,7 @@ export function AlmaPanel({
               }
             }}
             rows={1}
-            placeholder={t.placeholder}
+            placeholder={listening ? t.voiceListening : t.placeholder}
             className="max-h-32 min-h-[46px] flex-1 resize-none rounded-2xl border border-[#E4DDCE] bg-white px-4 py-3 text-sm text-[#1C1A17] outline-none placeholder:text-[#B7AE9E] focus:border-[#D10E63]"
           />
           <button

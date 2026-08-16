@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Kicker } from '@/components/home/section-kicker'
@@ -23,9 +23,9 @@ const COPY = {
   fr: {
     kicker: 'La Place de Marché',
     title: 'Découvrez des Collaborateurs IA autonomes prêts à rejoindre votre équipe.',
-    lead: 'Alma vous aide à définir la mission et configure le bon Collaborateur IA. Le Collaborateur IA exécute. Découvrez plusieurs identités génériques, chacune prête à recevoir les profils métier adaptés à votre entreprise.',
-    cta: 'Explorer tous les profils métier',
-    recruit: 'Recruter',
+    lead: 'Besoin d’aide pour vos emails, votre prospection ou votre relation client ? Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.',
+    cta: 'Voir tous les profils métier',
+    recruit: 'Configurer',
     previous: 'Afficher les profils précédents',
     next: 'Afficher les profils suivants',
     selector: 'Choisir un groupe de Collaborateurs IA',
@@ -41,9 +41,9 @@ const COPY = {
   en: {
     kicker: 'The Marketplace',
     title: 'Discover autonomous AI Collaborators ready to join your team.',
-    lead: 'Alma helps define the mission and configure the right AI Collaborator. Discover generic identities, each ready to receive the job profiles your company needs.',
-    cta: 'Explore all job profiles',
-    recruit: 'Hire',
+    lead: 'Need help with email, prospecting or customer relations? Alma scopes your need and prepares the AI Collaborator suited to your mission.',
+    cta: 'View all job profiles',
+    recruit: 'Configure',
     previous: 'Show previous profiles',
     next: 'Show next profiles',
     selector: 'Choose a group of AI Collaborators',
@@ -59,22 +59,13 @@ const COPY = {
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
-const ROTATION_MS = 4800
-
 export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
   const t = COPY[lang]
   const reduce = useReducedMotion()
   const [start, setStart] = useState(0)
-  const [paused, setPaused] = useState(false)
   const profiles = t.profiles as readonly Profile[]
   const desktopProfiles = Array.from({ length: 3 }, (_, index) => profiles[(start + index) % profiles.length])
   const mobileProfile = profiles[start]
-
-  useEffect(() => {
-    if (reduce || paused) return
-    const timer = window.setTimeout(() => setStart((current) => (current + 1) % profiles.length), ROTATION_MS)
-    return () => window.clearTimeout(timer)
-  }, [paused, profiles.length, reduce, start])
 
   function move(direction: number) {
     setStart((current) => (current + direction + profiles.length) % profiles.length)
@@ -94,15 +85,7 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
           </Link>
         </div>
 
-        <div
-          className="mt-10"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocusCapture={() => setPaused(true)}
-          onBlurCapture={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false)
-          }}
-        >
+        <div className="mt-10">
           <div className="md:hidden">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div key={mobileProfile.slug} initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
@@ -120,7 +103,7 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
           <div className="mt-6 flex items-center justify-center gap-4">
             <button type="button" onClick={() => move(-1)} aria-label={t.previous} className="flex size-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FAF8F3] text-[#4E483F] outline-none hover:border-[#D10E63]/50 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><ChevronLeft className="size-4" /></button>
             <div role="tablist" aria-label={t.selector} className="flex gap-2">
-              {profiles.map((profile, index) => <button key={profile.slug} type="button" role="tab" aria-selected={start === index} aria-label={profile.name} onClick={() => setStart(index)} className={`h-2 rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${start === index ? 'w-8 bg-[#D10E63]' : 'w-2 bg-[#BDB3A1] hover:bg-[#857C6E]'}`} />)}
+              {profiles.map((profile, index) => <button key={profile.slug} type="button" role="tab" aria-selected={start === index} aria-label={profile.name} onClick={() => setStart(index)} className={`h-3 rounded-full outline-none transition-all focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 ${start === index ? 'w-8 bg-[#D10E63]' : 'w-3 bg-[#857C6E] hover:bg-[#625B50]'}`} />)}
             </div>
             <button type="button" onClick={() => move(1)} aria-label={t.next} className="flex size-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FAF8F3] text-[#4E483F] outline-none hover:border-[#D10E63]/50 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><ChevronRight className="size-4" /></button>
           </div>
@@ -131,5 +114,5 @@ export function SectionProfilesEarly({ lang = 'fr' }: { lang?: Lang }) {
 }
 
 function ProfileCard({ profile, recruit }: { profile: Profile; recruit: string }) {
-  return <article className="group flex h-full min-h-[310px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_16px_34px_-20px_rgba(28,26,23,.24)] sm:p-6"><div className="flex items-center gap-4"><div className="relative size-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#D10E63]/10"><Image src={profile.avatar} alt={profile.name} fill sizes="64px" className="object-cover" /></div><div><h3 className="font-sf text-xl font-bold text-[#1C1A17]">{profile.name}</h3><p className="mt-1 text-xs font-semibold text-[#857C6E]">{profile.role}</p></div></div><p className="mt-5 text-sm leading-7 text-[#5A5348]">{profile.desc}</p><div className="mt-auto pt-6"><span className="inline-flex rounded-full bg-[#EDE7DA] px-3 py-1 text-[10px] font-bold uppercase tracking-[.06em] text-[#625B50]">{profile.tag}</span><Link href={`/tarifs?profil=${profile.slug}&capacite=${profile.capacity}#configurateur`} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63]/10 px-4 text-sm font-bold text-[#D10E63] transition-colors hover:bg-[#D10E63] hover:text-white">{recruit}<ArrowRight className="size-4" /></Link></div></article>
+  return <article className="group flex h-full min-h-[310px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:shadow-[0_16px_34px_-20px_rgba(28,26,23,.24)] sm:p-6"><div className="flex items-center gap-4"><div className="relative size-16 shrink-0 overflow-hidden rounded-full ring-2 ring-[#D10E63]/10"><Image src={profile.avatar} alt={profile.name} fill sizes="64px" className="object-cover" /></div><div><h3 className="font-sf text-xl font-bold text-[#1C1A17]">{profile.name}</h3><p className="mt-1 text-[13px] font-semibold text-[#625B50]">{profile.role}</p></div></div><p className="mt-5 text-sm leading-7 text-[#5A5348]">{profile.desc}</p><div className="mt-auto pt-6"><span className="inline-flex rounded-full bg-[#EDE7DA] px-3 py-1 text-[11px] font-bold uppercase tracking-[.06em] text-[#625B50]">{profile.tag}</span><Link href={`/tarifs?profil=${profile.slug}&capacite=${profile.capacity}#configurateur`} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63]/10 px-4 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{recruit} {profile.name}<ArrowRight className="size-4" /></Link></div></article>
 }

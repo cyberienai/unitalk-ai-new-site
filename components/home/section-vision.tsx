@@ -14,7 +14,7 @@ const COPY = {
     title: 'Votre intelligence vous appartient.',
     lead: 'Les méthodes que vous validez deviennent un actif que votre entreprise conserve, fait évoluer et partage selon ses droits.',
     closing: 'Prêt à confier une première mission ?',
-    cta: 'Confier une mission',
+    cta: 'Préparer ma première mission avec Alma',
     ctaNote: 'Alma comprend votre besoin et prépare la mission.',
     proof: ['7 jours d’essai gratuit', 'Sans carte bancaire', 'Hébergé en France'],
   },
@@ -23,7 +23,7 @@ const COPY = {
     title: 'Your intelligence belongs to you.',
     lead: 'The methods you validate become an asset your company keeps, evolves and shares according to its rights.',
     closing: 'Ready to hand over a first mission?',
-    cta: 'Hand over a mission',
+    cta: 'Prepare my first mission with Alma',
     ctaNote: 'Alma understands your need and prepares the mission.',
     proof: ['7-day free trial', 'No credit card', 'Hosted in France'],
   },
@@ -69,7 +69,7 @@ export function SectionVision() {
           <div className="mt-8 flex flex-col items-center gap-4">
             <button
               type="button"
-              onClick={() => openAlma()}
+              onClick={() => openAlma(undefined, 'final_cta')}
               className="group inline-flex items-center gap-2.5 rounded-full bg-[#D10E63] px-8 py-4 text-base font-bold text-[#FBF9F3] transition-colors hover:bg-[#E51872] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#181615]"
             >
               {t.cta}
@@ -82,7 +82,7 @@ export function SectionVision() {
             {t.proof.map((p) => (
               <li
                 key={p}
-                className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-[#8E877D]"
+                className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.1em] text-[#B9B2AA]"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-[#22A06B]" aria-hidden />
                 {p}

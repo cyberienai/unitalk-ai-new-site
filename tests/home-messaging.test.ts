@@ -19,8 +19,8 @@ describe('home commercial messaging', () => {
   })
 
   it('clarifies Alma and brings profiles earlier', () => {
-    expect(profiles).toContain('Alma vous aide à définir la mission et configure le bon Collaborateur IA.')
-    expect(profiles).toContain('Le Collaborateur IA exécute.')
+    expect(profiles).toContain('Alma cadre votre besoin et prépare le Collaborateur IA adapté à votre mission.')
+    expect(profiles).toContain("recruit: 'Configurer'")
     expect(theatre).not.toContain('Alma · Conseillère IA · Unitalk')
     expect(theatre).toContain('Alma · Coordinatrice de missions · Unitalk')
   })

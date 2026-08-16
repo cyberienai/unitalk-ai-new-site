@@ -102,15 +102,13 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-120px' })
 
-  const [reached, setReached] = useState(false)
+  const [hasReached, setReached] = useState(false)
   const [decision, setDecision] = useState<Decision>(null)
   const validated = decision === 'validate'
+  const reached = Boolean(reduce) || hasReached
 
   useEffect(() => {
-    if (reduce) {
-      setReached(true)
-      return
-    }
+    if (reduce) return
     if (inView) {
       const id = window.setTimeout(() => setReached(true), 350)
       return () => window.clearTimeout(id)
@@ -143,7 +141,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             {t.cta}
             <ArrowRight className="h-4 w-4" />
           </Link>
-          <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#857C6E]">{t.surfacesList}</p>
+          <p className="mt-4 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-[#625B50]">{t.surfacesList}</p>
         </div>
 
         {/* The mission sheet */}
@@ -172,7 +170,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-[#EEE7DA] pt-3.5">
               {t.meta.map((m) => (
                 <div key={m.label}>
-                  <dt className="font-mono text-[9.5px] font-bold uppercase tracking-[0.12em] text-[#A79E8E]">{m.label}</dt>
+                   <dt className="font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#625B50]">{m.label}</dt>
                   <dd className="mt-1 text-[13px] font-medium leading-snug text-[#2A2622]">{m.value}</dd>
                 </div>
               ))}
@@ -184,7 +182,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#6E655A]">{t.activityLabel}</p>
 
             <ol className="mt-3">
-              {t.activity.map((a, i) => (
+              {t.activity.map((a) => (
                 <li key={a.time} className="relative flex gap-4 pb-4">
                   {/* spine */}
                   <span aria-hidden className="absolute left-[6px] top-3 h-full w-px bg-[#E4DDCE]" />
@@ -193,7 +191,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
                     style={{ backgroundColor: reached ? MAGENTA : 'transparent', border: reached ? 'none' : '1.5px solid #DcD4C4' }}
                   />
                   <p className="text-[13.5px] leading-snug text-[#2A2622]">
-                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{a.time}</span>{' '}
+                     <span className="mr-2 font-mono text-[12px] text-[#625B50]">{a.time}</span>{' '}
                     {a.text}
                   </p>
                 </li>
@@ -280,7 +278,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
                     style={{ backgroundColor: validated ? GREEN : '#B4AB99' }}
                   />
                   <p className="text-[13.5px] leading-snug text-[#2A2622]">
-                    <span className="mr-2 font-mono text-[12px] text-[#A79E8E]">{outcome.time}</span>{' '}
+                     <span className="mr-2 font-mono text-[12px] text-[#625B50]">{outcome.time}</span>{' '}
                     {outcome.text}
                   </p>
                 </motion.li>

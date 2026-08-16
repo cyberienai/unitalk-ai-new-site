@@ -3,8 +3,9 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import { useLanguage } from '@/lib/language-context'
 import { AlmaPanel } from './alma-panel'
+import { track } from '@vercel/analytics'
 
-type AlmaContextValue = { openAlma: (slug?: string) => void; closeAlma: () => void }
+type AlmaContextValue = { openAlma: (slug?: string, source?: string) => void; closeAlma: () => void }
 
 const AlmaContext = createContext<AlmaContextValue | undefined>(undefined)
 
@@ -22,7 +23,8 @@ export function AlmaProvider({ children }: { children: ReactNode }) {
   return (
     <AlmaContext.Provider
       value={{
-        openAlma: (s?: string) => {
+        openAlma: (s?: string, source = 'homepage') => {
+          track('alma_panel_opened', { source, mission: s ?? null })
           setSlug(s ?? null)
           setOpen(true)
         },
@@ -30,7 +32,7 @@ export function AlmaProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-      <AlmaPanel open={open} onClose={() => setOpen(false)} lang={lang} initialSlug={slug} />
+      {open && <AlmaPanel key={`${lang}:${slug ?? 'new'}`} open onClose={() => setOpen(false)} lang={lang} initialSlug={slug} />}
     </AlmaContext.Provider>
   )
 }

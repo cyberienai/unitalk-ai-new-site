@@ -1,55 +1,70 @@
 'use client'
 
-import Link from 'next/link'
+import { Check, MessageSquareText, ShieldCheck, Sparkles } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
+import { useAlma } from '@/components/home/alma-panel-context'
 
 const COPY = {
   fr: {
-    kicker: 'La différence',
-    title: 'Un Collaborateur IA, ce n\'est pas un agent comme les autres.',
-    rows: [
-      { left: 'Vous lui dites quoi faire à chaque fois', right: 'Il apprend votre méthode et la reproduit' },
-      { left: 'Il travaille dans sa bulle', right: 'Il utilise vos applications et vos outils' },
-      { left: 'Le résultat disparaît avec la conversation', right: 'Ce qui marche est conservé et réutilisé' },
-      { left: 'Un agent = une tâche', right: 'Un Collaborateur = tous les métiers de l\'entreprise' },
-      { left: 'Il décide sans vous', right: 'Il vous soumet les décisions importantes' },
+    kicker: 'Votre première semaine',
+    title: 'En 7 jours, testez une mission réelle.',
+    lead: 'Pas une démonstration générique : choisissez un besoin concret de votre entreprise et observez comment Alma et votre Collaborateur IA le prennent en charge.',
+    steps: [
+      { label: 'Jour 1', title: 'Décrivez la mission', body: 'Expliquez votre besoin à Alma, à la voix ou par écrit.', icon: MessageSquareText },
+      { label: 'Jours 1–2', title: 'Alma prépare le cadre', body: 'Elle précise le résultat attendu, le profil métier, les compétences, les applications et les validations.', icon: Sparkles },
+      { label: 'Jours 2–6', title: 'Le Collaborateur IA agit', body: 'Il accomplit la mission dans le périmètre défini et soumet les étapes sensibles à votre validation.', icon: ShieldCheck },
+      { label: 'Jour 7', title: 'Vous jugez le résultat', body: 'Vous évaluez le travail réalisé et décidez librement de poursuivre.', icon: Check },
     ],
-    cta: 'Confier une première mission',
+    cta: 'Préparer ma première mission avec Alma',
+    note: 'Essai gratuit · Sans carte bancaire · 1 million de tokens inclus',
   },
   en: {
-    kicker: 'The difference',
-    title: 'An AI Collaborator is not just another agent.',
-    rows: [
-      { left: 'You tell it what to do every time', right: 'It learns your method and reproduces it' },
-      { left: 'It works in isolation', right: 'It uses your apps and your tools' },
-      { left: 'Results vanish with the conversation', right: 'What works is saved and reused' },
-      { left: 'One agent = one task', right: 'One Collaborator = every role in the company' },
-      { left: 'It decides without you', right: 'It submits important decisions to you' },
+    kicker: 'Your first week',
+    title: 'Test a real mission in 7 days.',
+    lead: 'Not a generic demo: choose a concrete need from your company and see how Alma and your AI Collaborator handle it.',
+    steps: [
+      { label: 'Day 1', title: 'Describe the mission', body: 'Explain your need to Alma, by voice or in writing.', icon: MessageSquareText },
+      { label: 'Days 1–2', title: 'Alma prepares the framework', body: 'It clarifies the expected result, job profile, skills, applications and approvals.', icon: Sparkles },
+      { label: 'Days 2–6', title: 'The AI Collaborator acts', body: 'It completes the mission within the agreed scope and submits sensitive steps for your approval.', icon: ShieldCheck },
+      { label: 'Day 7', title: 'You assess the result', body: 'Review the work and freely decide whether to continue.', icon: Check },
     ],
-    cta: 'Entrust a first mission',
+    cta: 'Prepare my first mission with Alma',
+    note: 'Free trial · No credit card · 1 million tokens included',
   },
 } as const
 
 export function SectionDefinition({ lang = 'fr' }: { lang?: Lang }) {
   const t = COPY[lang]
+  const { openAlma } = useAlma()
   return (
-    <section className="bg-[#F3EFE6] py-14 sm:py-20">
+    <section className="border-b border-[#DED6C8] bg-[#F3EFE6] py-16 sm:py-20">
       <div className="editorial-shell">
-        <Kicker>{t.kicker}</Kicker>
-        <h2 className="mt-4 max-w-2xl text-balance font-sf text-[clamp(1.6rem,3vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-[#1C1A17]">{t.title}</h2>
-
-        <div className="mt-10 space-y-px rounded-[18px] bg-[#DED6C8]">
-          {t.rows.map((row, i) => (
-            <div key={i} className={`grid grid-cols-[1fr_1fr] bg-white px-5 py-4 sm:px-8 sm:py-5 ${i === 0 ? 'rounded-t-[18px]' : ''} ${i === t.rows.length - 1 ? 'rounded-b-[18px]' : ''}`}>
-              <p className="text-[15px] leading-relaxed text-[#8A8278] line-through decoration-[#C5BCAE]">{row.left}</p>
-              <p className="text-[15px] leading-relaxed font-semibold text-[#1C1A17]">{row.right}</p>
-            </div>
-          ))}
+        <div className="max-w-3xl">
+          <Kicker>{t.kicker}</Kicker>
+          <h2 className="mt-4 text-balance font-sf text-[clamp(2rem,4vw,3.2rem)] font-semibold leading-[1.06] tracking-[-0.035em] text-[#1C1A17]">{t.title}</h2>
+          <p className="mt-5 max-w-2xl text-[16px] leading-7 text-[#4E483F] sm:text-[17px]">{t.lead}</p>
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <Link href="/decouvrir" className="inline-flex min-h-12 items-center rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5">{t.cta} →</Link>
+        <ol className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {t.steps.map((step) => {
+            const Icon = step.icon
+            return (
+              <li key={step.label} className="rounded-3xl border border-[#DED6C8] bg-[#FBF9F3] p-6">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#9F0B4B]">{step.label}</span>
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-[#D10E63]/10 text-[#B00C54]"><Icon className="size-5" /></span>
+                </div>
+                <h3 className="mt-5 font-sf text-lg font-semibold text-[#1C1A17]">{step.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-[#5A5348]">{step.body}</p>
+              </li>
+            )
+          })}
+        </ol>
+
+        <div className="mt-10 flex flex-col items-center">
+          <button type="button" onClick={() => openAlma(undefined, 'first_week')} className="inline-flex min-h-12 items-center rounded-full bg-[#D10E63] px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.cta} →</button>
+          <p className="mt-3 text-center text-xs font-medium text-[#625B50]">{t.note}</p>
         </div>
       </div>
     </section>

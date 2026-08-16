@@ -9,6 +9,7 @@ import { SectionProfilesEarly } from './home/section-profiles-early'
 import { SectionWorkspace } from './home/section-workspace'
 import { SectionComparison } from './home/section-comparison'
 import { SectionVision } from './home/section-vision'
+import { SectionReassurance } from './home/section-reassurance'
 import { SiteFooter } from './site-footer'
 
 /**
@@ -28,19 +29,22 @@ export function HomeNew() {
         {/* 1. Hero + product theatre (anthracite) */}
         <HeroHybrid lang={lang} />
 
-        {/* 2. Profiles early — Alma prepares, the Collaborator executes */}
-        <SectionProfilesEarly lang={lang} />
+        {/* 2. Concrete guarantees before the visitor evaluates the offer */}
+        <SectionReassurance lang={lang} />
 
-        {/* 3. Product definition — mission, preparation, work, experience */}
+        {/* 3. A real first mission during the seven-day trial */}
         <SectionDefinition lang={lang} />
 
-        {/* 4. Comparison — a tool vs a durable Collaborator */}
+        {/* 4. Profiles early — Alma prepares, the Collaborator executes */}
+        <SectionProfilesEarly lang={lang} />
+
+        {/* 5. One concise comparison — a tool vs a durable Collaborator */}
         <SectionComparison />
 
-        {/* 5. Workspace proof — the mission thread stops at the human gate */}
+        {/* 6. Workspace proof — the mission thread stops at the human gate */}
         <SectionWorkspace lang={lang} />
 
-        {/* 6. Ownership & governance — the company owns what was learned; what
+        {/* 7. Ownership & governance — the company owns what was learned; what
              stays private vs shared by choice; then the final conversion moment */}
         <SectionVision />
 
