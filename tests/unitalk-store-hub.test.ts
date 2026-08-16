@@ -5,36 +5,25 @@ const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.m
 const page = readFileSync(new URL('../app/marketplace/page.tsx', import.meta.url), 'utf8')
 
 describe('Marketplace IA hub', () => {
-  it('centralizes nine distinct discovery areas', () => {
+  it('centralizes ten distinct discovery areas in three groups', () => {
     expect(page).toContain('UnitalkStoreHub')
-    for (const label of ['Profils métier','Compétences','Intégrations','Applications','Serveurs','Modèles IA','Formations','Services','Missions']) expect(hub).toContain(label)
-    expect(hub).toContain('Des créations de la communauté Unitalk, prêtes à consulter et à adapter.')
+    for (const label of ['Collaborateurs IA','Missions','Métiers','Compétences','Connaissances','Mémoire et contexte','Applications','Modèles IA','Formations','Services']) expect(hub).toContain(label)
+    for (const group of ['Trouver un Collaborateur','Enrichir ses capacités','Se faire accompagner']) expect(hub).toContain(group)
   })
 
   it('states autonomy, open source and sovereignty', () => {
-    expect(hub).toContain('Collaborateurs IA autonomes')
-    expect(hub).toContain('Hermes open source')
-    expect(hub).toContain('créations souveraines et interopérables')
+    expect(hub).toContain('Marketplace ouverte à Unitalk et à la communauté')
+    expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
-  it('highlights Alma with her profiles, skills and Academy training', () => {
-    expect(hub).toContain('La sélection d’Alma')
-    expect(hub).toContain('Profils d’Alma')
-    expect(hub).toContain('Compétences d’Alma')
-    expect(hub).toContain('Formations avec Alma')
-    expect(hub).toContain('Dans Unitalk Academy, Alma peut aussi construire un parcours adapté à votre objectif.')
-    expect(hub).toContain('/unitalk/@alma/store')
-    expect(hub).toContain('/academy/alma')
+  it('highlights Alma with her avatar rather than the Unitalk mark', () => {
+    expect(hub).toContain('src="/alma-avatar.png"')
+    expect(hub).toContain('Votre guide dans la Marketplace')
+    expect(hub).toContain('Alma trouve la bonne combinaison')
   })
 
   it('keeps each asset type on one reference route', () => {
-    expect(hub).toContain("href:'/collaborateurs-ia/profils-metier'")
-    expect(hub).toContain("href:'/collaborateurs-ia/competences'")
-    expect(hub).toContain("href:'/collaborateurs-ia/integrations'")
-    expect(hub).toContain("href:'/collaborateurs-ia/applications'")
-    expect(hub).toContain("href:'/collaborateurs-ia/serveurs'")
-    expect(hub).toContain("href:'/modeles-ia'")
-    expect(hub).toContain("href:'/academy'")
-    expect(hub).toContain("href:'/experts'")
+    for (const href of ['/collaborateurs-ia','/missions','/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/architecture#connaissance-entreprise','/architecture#memoire-et-contexte','/collaborateurs-ia/applications','/modeles-ia','/academy','/experts']) expect(hub).toContain(`href: '${href}'`)
+    expect(hub).toContain('<UnitalkLogo size={22}')
   })
 })

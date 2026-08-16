@@ -15,21 +15,21 @@ const freeMissions = MISSIONS.filter(mission => mission.free)
 const steps = [
   {
     number: '01',
-    title: 'Choisissez un vrai problème.',
-    body: 'Pas de cours abstrait. Vous partez d’une mission cadrée, proche du travail réel.',
+    title: 'Partez d’une mission réelle.',
+    body: 'Choisissez un problème qu’une entreprise veut vraiment résoudre. Pas un exercice inventé pour le cours.',
     note: '5 min pour démarrer',
   },
   {
     number: '02',
-    title: 'Construisez avec l’IA.',
-    body: 'Une méthode, des étapes et des sources vous guident jusqu’au livrable final.',
-    note: '2 à 4 h de pratique',
+    title: 'Créez le Collaborateur IA.',
+    body: 'Formalisez son rôle, ses compétences, ses outils, ses règles et les décisions qui restent humaines.',
+    note: '1 création testable',
   },
   {
     number: '03',
-    title: 'Repartez avec une preuve.',
-    body: 'Votre travail est relu selon des critères explicites. Vous savez ce que vous maîtrisez.',
-    note: '1 livrable validé',
+    title: 'Testez, présentez, vendez.',
+    body: 'Prouvez sa valeur sur des cas réels, apprenez à cadrer l’offre, puis commercialisez-la avec la licence Co-créateur.',
+    note: '1 offre présentable',
   },
 ]
 
@@ -42,12 +42,12 @@ export default function AcademyPage() {
         </div>
         <div className="academy-home-shell academy-home-hero-grid">
           <div className="academy-home-hero-copy">
-            <p className="academy-home-eyebrow"><span>Nouvelle manière d’apprendre</span><span>2026</span></p>
-            <h1>Ne suivez plus<br/>de cours.<br/><em>Faites le travail.</em></h1>
-            <p className="academy-home-lede">L’Academy où l’on apprend l’IA comme on apprend un métier&nbsp;: en accomplissant des missions concrètes, évaluées et utiles.</p>
+            <p className="academy-home-eyebrow"><span>Le métier de Co-créateur IA</span><span>2026</span></p>
+            <h1>Formez-vous.<br/>Créez.<br/><em>Commercialisez.</em></h1>
+            <p className="academy-home-lede">Créez vos propres Collaborateurs IA à partir d’une mission réelle, puis apprenez à les proposer à des clients avec la licence Co-créateur.</p>
             <div className="academy-home-actions">
-              <Link href="/academy/missions?gratuit=1" className="academy-home-primary">Choisir une mission<ArrowRight/></Link>
-              <Link href="#methode" className="academy-home-scroll">Découvrir la méthode<ArrowDown/></Link>
+              <Link href="/academy/parcours-gratuits/premiere-mission-ia" className="academy-home-primary">Commencer ma première mission<ArrowRight/></Link>
+              <Link href="/academy/formations/co-createur-ia" className="academy-home-scroll">Découvrir le métier<ArrowDown/></Link>
             </div>
           </div>
 
@@ -72,10 +72,10 @@ export default function AcademyPage() {
         </div>
         <div className="academy-home-proofbar">
           <div className="academy-home-shell">
-            <p><strong>6</strong><span>missions concrètes</span></p>
-            <p><strong>3</strong><span>gratuites pour commencer</span></p>
-            <p><strong>100%</strong><span>orientées livrable</span></p>
-            <p className="academy-home-proofquote">“Apprendre, c’est produire<br/>quelque chose qui compte.”</p>
+            <p><strong>1</strong><span>mission réelle pour partir</span></p>
+            <p><strong>1</strong><span>Collaborateur IA à créer</span></p>
+            <p><strong>1</strong><span>offre à présenter</span></p>
+            <p className="academy-home-proofquote">“On apprend plus vite quand<br/>quelqu’un attend le résultat.”</p>
           </div>
         </div>
       </section>
@@ -84,8 +84,8 @@ export default function AcademyPage() {
         <div className="academy-home-shell">
           <header className="academy-home-section-head">
             <p>La méthode Unitalk</p>
-            <h2>Du premier geste<br/><em>à la preuve.</em></h2>
-            <span>Une progression simple, pensée pour celles et ceux qui veulent savoir faire, pas seulement savoir.</span>
+            <h2>De la mission<br/><em>au premier client.</em></h2>
+            <span>La formation n’est pas le produit final. Le produit final est un Collaborateur IA utile, testable et commercialisable.</span>
           </header>
           <div className="academy-home-steps">
             {steps.map((step, index) => (
@@ -105,8 +105,8 @@ export default function AcademyPage() {
       <section className="academy-home-missions">
         <div className="academy-home-shell">
           <header className="academy-home-mission-head">
-            <div><p>Point de départ</p><h2>Trois missions.<br/>Zéro excuse.</h2></div>
-            <p>Gratuites, accessibles immédiatement.<br/>Choisissez celle qui ressemble le plus à votre quotidien.</p>
+            <div><p>Point de départ</p><h2>Trois problèmes.<br/>Une création réelle.</h2></div>
+            <p>Commencez gratuitement par un besoin que vous comprenez.<br/>Transformez ensuite la méthode en Collaborateur IA.</p>
           </header>
           <div className="academy-home-card-grid">
             {freeMissions.map((mission, index) => {
@@ -129,10 +129,10 @@ export default function AcademyPage() {
       <section className="academy-home-final">
         <div className="academy-home-final-grid" aria-hidden="true"/>
         <div className="academy-home-shell">
-          <p className="academy-home-final-kicker">Votre prochaine compétence commence ici</p>
-          <h2>Vous n’avez pas besoin<br/>d’un cours de plus.</h2>
-          <p className="academy-home-final-script">Vous avez besoin de commencer.</p>
-          <Link href="/academy/missions?gratuit=1">Trouver ma première mission<ArrowRight/></Link>
+          <p className="academy-home-final-kicker">Le meilleur moment pour apprendre est avant de tout savoir</p>
+          <h2>Ne préparez pas votre projet<br/>pendant six mois.</h2>
+          <p className="academy-home-final-script">Commencez par une mission.</p>
+          <Link href="/academy/parcours-gratuits/premiere-mission-ia">Créer mon premier Collaborateur IA<ArrowRight/></Link>
           <small>Gratuit · Sans carte bancaire · Commencez en 5 minutes</small>
         </div>
       </section>

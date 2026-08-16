@@ -27,6 +27,15 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('href="/missions"')
   })
 
+  it('uses the radical editorial system and a normalized conversion path', () => {
+    expect(source).toContain('text-[clamp(3rem,6vw,6.2rem)]')
+    expect(source).toContain('bg-[#181615]')
+    expect(source).toContain('bg-[#D10E63]')
+    expect(source).toContain('/decouvrir?source=collaborateurs-ia')
+    expect(source).toContain('Confiez une mission.')
+    expect(source).toContain('Licence dès 49 €/mois')
+  })
+
   it('describes a complete AI identity and autonomous Hermes workspace', () => {
     for (const capability of ['Une vraie identité IA', 'Espace autonome open source', 'Communication', 'Fichiers et médias', 'Profils et compétences', 'Modèles et applications', 'Mémoire et historique', 'Ressources matérielles']) expect(source).toContain(capability)
     expect(source).toContain('l’historique des conversations')
@@ -37,10 +46,10 @@ describe('CollaborateurExperience', () => {
   })
 
   it('makes Hermes migration and ownership explicit', () => {
-    expect(source).toContain('Migration en un clic. Votre intelligence vous appartient.')
-    expect(source).toContain('Migrer en un clic')
+    expect(source).toContain('Vous avez déjà Hermes ? Préparons la migration.')
+    expect(source).toContain('Étudier ma migration')
     expect(source).toContain('Compatible avec Hermes')
     expect(source).toContain('Sans verrouillage fournisseur')
-    expect(source).toContain('intention=migration-hermes')
+    expect(source).toContain('/decouvrir?source=collaborateurs-ia')
   })
 })

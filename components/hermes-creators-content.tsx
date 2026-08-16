@@ -13,7 +13,7 @@ export function HermesCreatorsContent() {
     <section className="relative overflow-hidden border-b border-[#D8D0C2] px-5 pb-16 pt-32 sm:px-8 sm:pt-40">
       <div aria-hidden className="absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div className="editorial-shell relative">
-        <Link href="/marketplace" className="inline-flex items-center gap-2 text-sm font-bold text-[#625B50] hover:text-[#B00C54]"><ArrowLeft className="size-4" />{fr ? 'Marketplace' : 'Marketplace'}</Link>
+        <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-bold text-[#625B50] hover:text-[#B00C54]"><ArrowLeft className="size-4" />Blog</Link>
         <p className="mt-10 font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{fr ? 'Sélection éditoriale / YouTube' : 'Editorial selection / YouTube'}</p>
         <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
           <h1 className="max-w-4xl text-[clamp(2.8rem,6vw,6rem)] font-semibold leading-[.92] tracking-[-.065em]">{fr ? '10 créateurs pour comprendre Hermes.' : '10 creators to understand Hermes.'}</h1>

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowDown, ArrowRight, Clock3, FileCheck2, Sparkles } from 'lucide-react'
 import { MISSIONS, NETWORKS } from '@/lib/academy-catalog'
 
-export const metadata: Metadata = { title: 'Missions d’apprentissage' }
+export const metadata: Metadata = { title: 'Missions réelles pour créer avec l’IA', description:'Choisissez un problème concret, produisez une preuve et transformez la méthode en capacité pour un Collaborateur IA.' }
 
 type SearchParams = Promise<{ gratuit?: string; secteur?: string; q?: string }>
 
@@ -25,15 +25,15 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
         <div className="academy-missions-shell academy-missions-hero-layout">
           <div className="academy-missions-hero-copy">
             <p className="academy-missions-eyebrow"><span>Unitalk Academy</span><span>Catalogue 2026</span></p>
-            <h1>Apprenez<br />en <em>faisant.</em></h1>
-            <p className="academy-missions-lede">Pas de cours à regarder passivement. Choisissez un défi réel, produisez un livrable concret et faites évaluer votre méthode.</p>
+            <h1>Partez<br />du <em>travail réel.</em></h1>
+            <p className="academy-missions-lede">Choisissez un problème concret, produisez une preuve, puis transformez la méthode en capacité pour votre Collaborateur IA.</p>
             <a href="#catalogue" className="academy-missions-explore">Explorer les missions <ArrowDown /></a>
           </div>
 
           <aside className="academy-missions-manifesto">
             <div className="academy-missions-manifesto-number">01</div>
             <Sparkles aria-hidden="true" />
-            <blockquote>« Une compétence n’existe que lorsqu’elle produit une preuve. »</blockquote>
+             <blockquote>« Le meilleur cours commence par quelqu’un qui attend un résultat. »</blockquote>
             <div className="academy-missions-manifesto-facts">
               <span><strong>{MISSIONS.length}</strong>Missions</span>
               <span><strong>{NETWORKS.length}</strong>Secteurs</span>
@@ -48,9 +48,9 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
           <header className="academy-missions-catalogue-head">
             <div>
               <p className="academy-missions-section-label">Choisir son terrain</p>
-              <h2>Des missions.<br />Des preuves.</h2>
+               <h2>Un problème.<br />Une preuve. Une création.</h2>
             </div>
-            <p>Filtrez par secteur, puis choisissez le résultat que vous voulez savoir produire.</p>
+             <p>Filtrez par secteur, puis choisissez le résultat que votre futur Collaborateur IA devra savoir produire.</p>
           </header>
 
           <nav className="academy-missions-filters" aria-label="Filtrer les missions">
@@ -65,7 +65,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
 
           <div className="academy-missions-result-bar">
             <p><span>{String(missions.length).padStart(2, '0')}</span> mission{missions.length > 1 ? 's' : ''} disponible{missions.length > 1 ? 's' : ''}</p>
-            <span>Un résultat concret à chaque mission</span>
+             <span>Chaque mission peut devenir une capacité IA testable</span>
           </div>
 
           {missions.length > 0 ? (
@@ -107,9 +107,9 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
 
       <section className="academy-missions-cta">
         <div className="academy-missions-shell">
-          <p>Vous ne savez pas par où commencer ?</p>
-          <h2>Commencez petit.<br /><em>Repartez avec du concret.</em></h2>
-          <Link href="/academy/missions?gratuit=1">Découvrir les missions gratuites <ArrowRight /></Link>
+          <p>Vous ne savez pas encore quelle mission choisir ?</p>
+          <h2>Cadrez votre idée.<br /><em>Puis confrontez-la au réel.</em></h2>
+          <Link href="/academy/parcours-gratuits/premiere-mission-ia">Cadrer mon premier Collaborateur IA <ArrowRight /></Link>
         </div>
       </section>
     </main>

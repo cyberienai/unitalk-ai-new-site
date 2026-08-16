@@ -7,35 +7,18 @@ describe('Marketplace IA mega menu', () => {
   it('provides a clear community marketplace thesis', () => {
     expect(navbar).toContain('La Marketplace des Collaborateurs IA')
     expect(navbar).toContain('Ouverte à la communauté')
-    expect(navbar).toContain("menuPrinciples: ['Autonomes', 'Open source', 'Souverains']")
     expect(navbar).toContain('Des missions, des profils, des compétences et des applications')
-    expect(navbar).toContain('MARKETPLACE_CATALOGS.map')
   })
 
-  it('uses the radical model-catalog visual language', () => {
-    expect(navbar).toContain("grid lg:grid-cols-[.82fr_1.18fr]")
-    expect(navbar).toContain('text-[clamp(2.25rem,3.4vw,3.6rem)]')
-    expect(navbar).toContain('grid grid-cols-5 gap-px bg-white/10')
+  it('keeps the mega menu focused on one Marketplace entry', () => {
+    expect(navbar).not.toContain('MARKETPLACE_CATALOGS')
+    expect(navbar).toContain('w-[620px]')
+    expect(navbar).toContain('<UnitalkLogo size={36}')
   })
 
-  it('exposes all nine marketplace areas and participation paths', () => {
-    for (const href of ['/missions','/collaborateurs-ia/alma','/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/integrations','/collaborateurs-ia/applications','/collaborateurs-ia/serveurs','/modeles-ia','/academy','/experts','/co-createur-ia']) expect(navbar).toContain(href)
-    expect(navbar.indexOf("fr: 'Missions'")).toBeLessThan(navbar.indexOf("fr: 'Alma'"))
-    expect(navbar.indexOf("fr: 'Alma'")).toBeLessThan(navbar.indexOf("fr: 'Profils métier'"))
-    expect(navbar.indexOf("fr: 'Connecteurs'")).toBeLessThan(navbar.indexOf("fr: 'Applications'"))
-    expect(navbar.indexOf("fr: 'Experts'")).toBeLessThan(navbar.indexOf("fr: 'Serveurs IA'"))
-  })
-
-  it('uses distinct category icons and contextual promises', () => {
-    for (const icon of ['BriefcaseBusiness', 'Bot', 'ContactRound', 'Sparkles', 'Cable', 'PanelsTopLeft', 'BrainCircuit', 'GraduationCap', 'UserRoundCheck', 'ServerCog']) expect(navbar).toContain(`icon: ${icon}`)
-    expect(navbar).toContain('onMouseEnter={() => setActiveCatalog(index)}')
-    expect(navbar).toContain('Partez du travail à accomplir.')
-    expect(navbar).toContain('Équipez votre Collaborateur IA.')
-  })
-
-  it('keeps the menu within the viewport and promotes the Marketplace', () => {
-    expect(navbar).toContain('max-h-[calc(100vh-72px)] overflow-y-auto')
+  it('promotes the Marketplace page', () => {
     expect(navbar).toContain("menuMarketplace: 'Explorer la Marketplace'")
+    expect(navbar).toContain("href: '/marketplace'")
   })
 
   it('keeps Missions as the first top-level navigation entry', () => {

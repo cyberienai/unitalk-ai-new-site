@@ -28,6 +28,8 @@ describe('pricing simplification', () => {
 
   it('uses plain-language pricing hierarchy', () => {
     expect(sections).toContain('Des tarifs clairs pour toute votre entreprise IA.')
+    expect(sections).toContain("heroAccent: 'Composables. Sans surprise.'")
+    expect(sections).not.toContain("heroAccent: 'Clairs. Composables. Sans surprise.'")
     expect(sections).toContain('Ce que vous payez. Ce qui reste gratuit.')
     expect(configurator).toContain("lineOrg: 'Compte Entreprise IA'")
     expect(configurator).toContain("lineOrgDetail: 'Administration centralisée, Alma, Workspace et Desktop'")

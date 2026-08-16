@@ -1,41 +1,289 @@
 'use client'
 
 import Image from 'next/image'
-import { AlmaInline } from '@/components/alma-inline'
 import Link from 'next/link'
-import { ArrowRight, BookOpenCheck, Boxes, BrainCircuit, BriefcaseBusiness, Check, GraduationCap, MessageSquare, Plug, Search, Server, Sparkles } from 'lucide-react'
+import {
+  ArrowRight,
+  Blocks,
+  BookOpenCheck,
+  BrainCircuit,
+  BriefcaseBusiness,
+  GraduationCap,
+  Handshake,
+  LibraryBig,
+  Search,
+  Sparkles,
+  UserRound,
+  type LucideIcon,
+} from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
-import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
+import { UnitalkLogo } from '@/components/unitalk-logo'
 
-const COUNTS={profiles:STORE_ITEMS.filter(i=>i.type==='profil').length,skills:STORE_ITEMS.filter(i=>i.type==='competence').length,integrations:STORE_ITEMS.filter(i=>i.type==='integration').length,apps:STORE_ITEMS.filter(i=>i.type==='application').length,servers:STORE_ITEMS.filter(i=>i.type==='server').length}
-const FEATURED=['commercial','assistante-de-direction','responsable-seo','qualifier-un-prospect','preparer-une-reunion','google-sheets']
+type Lang = 'fr' | 'en'
+type Bi = { fr: string; en: string }
+type Category = {
+  id: string
+  title: Bi
+  description: Bi
+  href: string
+  icon: LucideIcon
+}
 
-const COPY={
-  fr:{kicker:'Marketplace IA',title:'La place de marché des Collaborateurs IA.',lead:'Des créations souveraines et interopérables pour équiper des Collaborateurs IA autonomes. Profils, compétences et applications s’appuient sur Hermes open source : votre entreprise garde la maîtrise de son intelligence, de ses données et de ses choix technologiques.',ask:'Demander à Alma',placeholder:'Ex. Je veux qualifier mes prospects et mettre à jour mon CRM…',explore:'Explorer les univers',almaKicker:'La sélection d’Alma',almaTitle:'Alma ne vous laisse pas assembler votre Collaborateur IA au hasard.',almaBody:'Elle part de la mission, puis recommande seulement les profils, compétences, intégrations, applications, modèles, serveurs et formations nécessaires, avec leurs droits et validations. Dans Unitalk Academy, Alma peut aussi construire un parcours adapté à votre objectif.',almaCta:'Parler à Alma',almaStore:'Explorer la sélection d’Alma',almaAcademyCta:'Se former avec Alma',almaProfiles:'Profils d’Alma',almaSkills:'Compétences d’Alma',almaAcademy:'Formations avec Alma',universesTitle:'Neuf univers. Une seule Marketplace.',universesLead:'Profils, compétences, intégrations, applications, modèles, serveurs, formations, services et missions forment un écosystème cohérent, ouvert et gouverné par votre entreprise.',featured:'Actifs populaires',featuredLead:'Des créations de la communauté Unitalk, prêtes à consulter et à adapter.',view:'Voir la fiche',creatorTitle:'Vous détenez une méthode, un outil, un service ou une formation ?',creatorBody:'La Marketplace est ouverte aux Co-créateurs et experts qui souhaitent formaliser, tester, versionner et proposer leurs créations à la communauté.',create:'Contribuer à la Marketplace',learn:'Se former sur Unitalk Academy'},
-  en:{kicker:'AI Marketplace',title:'The marketplace for AI Collaborators.',lead:'Find, adopt and expand AI Collaborators designed for your roles, tools and missions. A Marketplace open to creations from Unitalk and the community.',ask:'Ask Alma',placeholder:'E.g. I want to qualify prospects and update my CRM…',explore:'Browse areas',almaKicker:'Alma’s selection',almaTitle:'Alma does not make you assemble your AI Collaborator at random.',almaBody:'She starts from the mission, then recommends only the profiles, skills, integrations, applications, models, servers and training required, with permissions and approvals. In Unitalk Academy, Alma can also build a learning path around your goal.',almaCta:'Talk to Alma',almaStore:'Explore Alma’s selection',almaAcademyCta:'Learn with Alma',almaProfiles:'Alma profiles',almaSkills:'Alma skills',almaAcademy:'Training with Alma',universesTitle:'Nine areas. One Marketplace.',universesLead:'Profiles, skills, integrations, applications, models, servers, training, services and missions form one coherent ecosystem.',featured:'Popular assets',featuredLead:'Creations from Unitalk and the community, ready to review and adapt.',view:'View details',creatorTitle:'Do you own a method, tool, service or training course?',creatorBody:'The Marketplace is open to Co-creators and experts who want to formalize, test, version and offer their creations to the community.',create:'Contribute to the Marketplace',learn:'Train with Unitalk Academy'}
+const GROUPS: { title: Bi; description: Bi; categories: Category[] }[] = [
+  {
+    title: { fr: 'Trouver un Collaborateur', en: 'Find an AI Collaborator' },
+    description: {
+      fr: 'Partez d’une identité, d’un travail à accomplir ou d’un métier de la connaissance.',
+      en: 'Start with an identity, a job to be done or a knowledge-work profession.',
+    },
+    categories: [
+      {
+        id: 'collaborateurs-ia',
+        title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
+        description: {
+          fr: 'Des identités professionnelles complètes, prêtes à rejoindre votre organisation.',
+          en: 'Complete professional identities ready to join your organization.',
+        },
+        href: '/collaborateurs-ia',
+        icon: UserRound,
+      },
+      {
+        id: 'missions',
+        title: { fr: 'Missions', en: 'Missions' },
+        description: {
+          fr: 'Le travail concret à confier, avec son résultat attendu et ses validations.',
+          en: 'Concrete work to delegate, with its expected result and approvals.',
+        },
+        href: '/missions',
+        icon: BookOpenCheck,
+      },
+      {
+        id: 'metiers',
+        title: { fr: 'Métiers', en: 'Professions' },
+        description: {
+          fr: 'Un profil métier de référence pour chaque métier de la connaissance.',
+          en: 'One reference job profile for every knowledge-work profession.',
+        },
+        href: '/collaborateurs-ia/profils-metier',
+        icon: BriefcaseBusiness,
+      },
+    ],
+  },
+  {
+    title: { fr: 'Enrichir ses capacités', en: 'Expand capabilities' },
+    description: {
+      fr: 'Ajoutez les méthodes, le contexte et les outils nécessaires à son travail.',
+      en: 'Add the methods, context and tools required for the work.',
+    },
+    categories: [
+      {
+        id: 'competences',
+        title: { fr: 'Compétences', en: 'Skills' },
+        description: {
+          fr: 'Des savoir-faire précis, testés, versionnés et réutilisables.',
+          en: 'Precise, tested, versioned and reusable know-how.',
+        },
+        href: '/collaborateurs-ia/competences',
+        icon: Sparkles,
+      },
+      {
+        id: 'connaissances',
+        title: { fr: 'Connaissances', en: 'Knowledge' },
+        description: {
+          fr: 'Corpus, référentiels et procédures qu’un Collaborateur IA peut consulter.',
+          en: 'Corpora, reference materials and procedures an AI Collaborator can consult.',
+        },
+        href: '/architecture#connaissance-entreprise',
+        icon: LibraryBig,
+      },
+      {
+        id: 'memoire-contexte',
+        title: { fr: 'Mémoire et contexte', en: 'Memory and context' },
+        description: {
+          fr: 'Structures de mémoire, règles de conservation et contexte gouverné.',
+          en: 'Memory structures, retention rules and governed context.',
+        },
+        href: '/architecture#memoire-et-contexte',
+        icon: BrainCircuit,
+      },
+      {
+        id: 'applications',
+        title: { fr: 'Applications', en: 'Applications' },
+        description: {
+          fr: 'Les outils, connecteurs et applications métier autorisés.',
+          en: 'Approved tools, connectors and business applications.',
+        },
+        href: '/collaborateurs-ia/applications',
+        icon: Blocks,
+      },
+      {
+        id: 'modeles-ia',
+        title: { fr: 'Modèles IA', en: 'AI models' },
+        description: {
+          fr: 'Les moteurs autorisés pour raisonner, analyser, produire et agir.',
+          en: 'Approved engines for reasoning, analysis, creation and action.',
+        },
+        href: '/modeles-ia',
+        icon: BrainCircuit,
+      },
+    ],
+  },
+  {
+    title: { fr: 'Se faire accompagner', en: 'Get support' },
+    description: {
+      fr: 'Apprenez à adopter les Collaborateurs IA ou faites-vous accompagner par un expert.',
+      en: 'Learn to adopt AI Collaborators or get support from an expert.',
+    },
+    categories: [
+      {
+        id: 'formations',
+        title: { fr: 'Formations', en: 'Training' },
+        description: {
+          fr: 'Des parcours pour utiliser, créer et gouverner les Collaborateurs IA.',
+          en: 'Learning paths to use, create and govern AI Collaborators.',
+        },
+        href: '/academy',
+        icon: GraduationCap,
+      },
+      {
+        id: 'services',
+        title: { fr: 'Services', en: 'Services' },
+        description: {
+          fr: 'Cadrage, intégration, création, migration et expertise spécialisée.',
+          en: 'Scoping, integration, creation, migration and specialist expertise.',
+        },
+        href: '/experts',
+        icon: Handshake,
+      },
+    ],
+  },
+]
+
+const COPY = {
+  fr: {
+    kicker: 'Marketplace IA',
+    title: 'La place de marché des Collaborateurs IA.',
+    lead: 'Trouvez un Collaborateur IA, enrichissez ses capacités ou publiez vos créations. Une Marketplace ouverte à Unitalk et à la communauté.',
+    placeholder: 'Ex. Je veux qualifier mes prospects et mettre à jour mon CRM…',
+    ask: 'Demander à Alma',
+    explore: 'Explorer les catégories',
+    almaKicker: 'Votre guide dans la Marketplace',
+    almaTitle: 'Décrivez le travail. Alma trouve la bonne combinaison.',
+    almaBody: 'Alma part de votre besoin, identifie le métier et les compétences utiles, puis recommande les connaissances, la mémoire, les applications et les modèles adaptés.',
+    almaCta: 'Parler à Alma',
+    categoriesKicker: 'Accès directs',
+    categoriesTitle: 'Dix catégories. Un même Collaborateur IA.',
+    categoriesLead: 'Chaque raccourci ouvre son catalogue ou sa page de référence. Le symbole Unitalk identifie l’univers Marketplace ; Alma conserve son propre avatar.',
+    unitalkOrigin: 'Univers Unitalk',
+    contribute: 'Ouvrir la Marketplace à votre savoir-faire.',
+    contributeBody: 'Formalisez une méthode, un métier, une connaissance, un outil, une formation ou un service, puis proposez-le à la communauté.',
+    contributeCta: 'Devenir Co-créateur IA',
+  },
+  en: {
+    kicker: 'AI Marketplace',
+    title: 'The marketplace for AI Collaborators.',
+    lead: 'Find an AI Collaborator, expand its capabilities or publish your creations. A Marketplace open to Unitalk and the community.',
+    placeholder: 'E.g. I want to qualify prospects and update my CRM…',
+    ask: 'Ask Alma',
+    explore: 'Browse categories',
+    almaKicker: 'Your Marketplace guide',
+    almaTitle: 'Describe the work. Alma finds the right combination.',
+    almaBody: 'Alma starts with your need, identifies the right profession and skills, then recommends suitable knowledge, memory, applications and models.',
+    almaCta: 'Talk to Alma',
+    categoriesKicker: 'Direct access',
+    categoriesTitle: 'Ten categories. One AI Collaborator.',
+    categoriesLead: 'Each shortcut opens its catalog or reference page. The Unitalk symbol identifies the Marketplace universe; Alma keeps her own avatar.',
+    unitalkOrigin: 'Unitalk universe',
+    contribute: 'Open the Marketplace to your expertise.',
+    contributeBody: 'Formalize a method, profession, knowledge base, tool, course or service, then offer it to the community.',
+    contributeCta: 'Become an AI Co-creator',
+  },
 } as const
 
-export function UnitalkStoreHub(){const{lang}=useLanguage();const t=COPY[lang];const featured=FEATURED.map(slug=>STORE_ITEMS.find(item=>item.slug===slug)).filter(Boolean);const universes=[
-  {icon:BriefcaseBusiness,title:lang==='fr'?'Profils métier':'Job profiles',count:`${COUNTS.profiles}`,body:lang==='fr'?'Les responsabilités durables attribuées à une identité IA.':'Lasting responsibilities assigned to an AI identity.',href:'/collaborateurs-ia/profils-metier',tone:'light'},
-  {icon:Sparkles,title:lang==='fr'?'Compétences':'Skills',count:`${COUNTS.skills}`,body:lang==='fr'?'Les méthodes précises, testées et versionnées qu’elle peut appliquer.':'Precise, tested and versioned methods it can apply.',href:'/collaborateurs-ia/competences',tone:'light'},
-  {icon:Plug,title:lang==='fr'?'Intégrations':'Integrations',count:`${COUNTS.integrations}`,body:lang==='fr'?'Les services tiers accessibles selon les droits accordés.':'Third-party services available under granted permissions.',href:'/collaborateurs-ia/integrations',tone:'light'},
-  {icon:Boxes,title:lang==='fr'?'Applications':'Applications',count:`${COUNTS.apps}`,body:lang==='fr'?'Les applications open source et modèles métier vibecodés.':'Open-source applications and vibe-coded business templates.',href:'/collaborateurs-ia/applications',tone:'light'},
-  {icon:Server,title:lang==='fr'?'Serveurs':'Servers',count:`${COUNTS.servers}`,body:lang==='fr'?'Small, Medium, Large ou XXL, dimensionnés selon vos usages.':'Small, Medium, Large or XXL, sized for your use cases.',href:'/collaborateurs-ia/serveurs',tone:'light'},
-  {icon:BrainCircuit,title:lang==='fr'?'Modèles IA':'AI models',count:'Gateway',body:lang==='fr'?'Les modèles et fournisseurs autorisés via Unitalk AI Gateway.':'Authorized models and providers through Unitalk AI Gateway.',href:'/modeles-ia',tone:'dark'},
-  {icon:GraduationCap,title:lang==='fr'?'Formations':'Training',count:'Academy',body:lang==='fr'?'Les parcours pour apprendre à utiliser, créer et gouverner Unitalk.':'Paths to learn how to use, create and govern Unitalk.',href:'/academy',tone:'dark'},
-  {icon:MessageSquare,title:lang==='fr'?'Services':'Services',count:lang==='fr'?'Experts':'Experts',body:lang==='fr'?'L’accompagnement pour concevoir, intégrer et faire évoluer vos Collaborateurs IA.':'Support to design, integrate and advance your AI Collaborators.',href:'/experts',tone:'dark'},
-  {icon:BookOpenCheck,title:lang==='fr'?'Missions':'Missions',count:'200+',body:lang==='fr'?'Le travail à accomplir qui détermine l’équipement réellement nécessaire.':'The work to perform that determines the equipment actually needed.',href:'/missions',tone:'dark'},
-] as const;return <main className="bg-[#F3EFE6] font-sf text-[#1C1A17]">
-  <section className="relative overflow-hidden px-5 pb-16 pt-28 sm:px-8 sm:pb-20"><div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"/><div className="editorial-shell relative text-center"><Kicker>{t.kicker}</Kicker><h1 className="hero-heading mx-auto mt-5 max-w-5xl [font-size:clamp(2.6rem,6vw,5.2rem)]">{t.title}</h1><p className="mx-auto mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{t.lead}</p><form action="/decouvrir" className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-3 shadow-[0_25px_60px_-40px_rgba(28,26,23,.4)] sm:flex-row"><label className="relative min-w-0 flex-1"><span className="sr-only">{t.placeholder}</span><Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#857C6E]"/><input name="q" placeholder={t.placeholder} className="h-12 w-full bg-transparent pl-11 pr-4 text-sm outline-none"/></label><input type="hidden" name="source" value="unitalk-store"/><button className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.ask}<ArrowRight className="ml-2 size-4"/></button></form><a href="#univers" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90"/></a></div></section>
+export function UnitalkStoreHub() {
+  const { lang } = useLanguage()
+  const t = COPY[lang]
 
-  <section className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 py-16 sm:px-8 sm:py-20"><div className="editorial-shell grid gap-10 lg:grid-cols-[.82fr_1.18fr] lg:items-center"><div><div className="flex items-center gap-4"><Image src="/alma-avatar.png" alt="Alma" width={64} height={64} className="size-16 rounded-full object-cover ring-2 ring-[#D10E63]/25"/><div><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.almaKicker}</p><p className="mt-1 font-bold"><AlmaInline /> Alma · {lang==='fr'?'Coordinatrice de missions':'Mission coordinator'}</p></div></div><h2 className="mt-7 text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[44px]">{t.almaTitle}</h2><p className="mt-5 max-w-2xl text-[16px] leading-8 text-[#4E483F]">{t.almaBody}</p><div className="mt-7 flex flex-wrap gap-4"><Link href="/unitalk/@alma" className="inline-flex min-h-11 items-center rounded-full bg-[#D10E63] px-5 text-sm font-bold text-white">{t.almaCta}<ArrowRight className="ml-2 size-4"/></Link><Link href="/unitalk/@alma/store" className="inline-flex min-h-11 items-center text-sm font-bold text-[#B00C54]">{t.almaStore}</Link><Link href="/academy/alma" className="inline-flex min-h-11 items-center text-sm font-bold text-[#B00C54]">{t.almaAcademyCta}</Link></div></div><div className="grid gap-4 sm:grid-cols-2"><AlmaAsset title={t.almaProfiles} items={lang==='fr'?['Coordinatrice de missions','Conseillère en adoption IA','Conseillère en transformation IA']:['Mission coordinator','AI adoption advisor','AI transformation advisor']}/><AlmaAsset title={t.almaSkills} items={lang==='fr'?['Cadrer une mission','Préparer les validations','Interviewer un expert','Recommander une capacité IA']:['Scope a mission','Prepare approvals','Interview an expert','Recommend AI capacity']}/><div className="sm:col-span-2"><AlmaAsset title={t.almaAcademy} items={lang==='fr'?['Construire un parcours personnalisé','Recommander missions et formations','Suivre les preuves et évaluations']:['Build a personalized path','Recommend missions and training','Track evidence and assessments']}/></div></div></div></section>
+  return (
+    <main className="bg-[#F3EFE6] font-sf text-[#1C1A17]">
+      <section className="relative overflow-hidden px-5 pb-16 pt-28 sm:px-8 sm:pb-20">
+        <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+        <div className="editorial-shell relative text-center">
+          <Kicker>{t.kicker}</Kicker>
+          <h1 className="hero-heading mx-auto mt-5 max-w-5xl [font-size:clamp(2.6rem,6vw,5.2rem)]">{t.title}</h1>
+          <p className="mx-auto mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{t.lead}</p>
+          <form action="/decouvrir" className="mx-auto mt-9 flex max-w-3xl flex-col gap-3 rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-3 shadow-[0_25px_60px_-40px_rgba(28,26,23,.4)] sm:flex-row">
+            <label className="relative min-w-0 flex-1">
+              <span className="sr-only">{t.placeholder}</span>
+              <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#857C6E]" />
+              <input name="q" placeholder={t.placeholder} className="h-12 w-full bg-transparent pl-11 pr-4 text-sm outline-none" />
+            </label>
+            <input type="hidden" name="source" value="marketplace-ia" />
+            <button className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.ask}<ArrowRight className="ml-2 size-4" /></button>
+          </form>
+          <a href="#categories" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90" /></a>
+        </div>
+      </section>
 
-  <section id="univers" className="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-20"><div className="editorial-shell"><Kicker>{lang==='fr'?'Architecture de la Marketplace':'Marketplace architecture'}</Kicker><h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.universesTitle}</h2><p className="mt-4 max-w-3xl text-[16px] leading-7 text-[#4E483F]">{t.universesLead}</p><div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{universes.map(({icon:Icon,...u})=><Link key={u.title} href={u.href} className={`group flex min-h-[300px] flex-col rounded-3xl border p-7 transition hover:-translate-y-1 ${u.tone==='dark'?'border-white/10 bg-[#181615] text-[#FAF8F3]':'border-[#D8D0C2] bg-[#FAF8F3]'}`}><div className="flex items-start justify-between"><Icon className={u.tone==='dark'?'text-[#F2A4C5]':'text-[#D10E63]'}/><span className={`font-mono text-[10px] font-black uppercase tracking-[.14em] ${u.tone==='dark'?'text-[#F2A4C5]':'text-[#B00C54]'}`}>{u.count}</span></div><h3 className="mt-9 text-2xl font-bold">{u.title}</h3><p className={`mt-4 text-sm leading-7 ${u.tone==='dark'?'text-[#CFC6B8]':'text-[#625B50]'}`}>{u.body}</p><ArrowRight className={`mt-auto size-5 pt-8 box-content transition group-hover:translate-x-1 ${u.tone==='dark'?'text-[#F2A4C5]':'text-[#D10E63]'}`}/></Link>)}</div></div></section>
+      <section className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 py-14 sm:px-8 sm:py-16">
+        <div className="editorial-shell grid gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
+          <Image src="/alma-avatar.png" alt="Alma" width={80} height={80} className="size-20 rounded-full object-cover ring-2 ring-[#D10E63]/25" />
+          <div>
+            <p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.almaKicker}</p>
+            <h2 className="mt-3 text-[30px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[38px]">{t.almaTitle}</h2>
+            <p className="mt-4 max-w-3xl text-[15px] leading-7 text-[#4E483F]">{t.almaBody}</p>
+          </div>
+          <Link href="/unitalk/@alma" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.almaCta}<ArrowRight className="ml-2 size-4" /></Link>
+        </div>
+      </section>
 
-  <section className="border-y border-[#D8D0C2] bg-[#FAF8F3] px-5 py-16 sm:px-8"><div className="editorial-shell"><div className="grid gap-8 rounded-3xl bg-[#181615] p-7 text-white lg:grid-cols-[1fr_auto] lg:items-end sm:p-9"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{lang==='fr'?'Recommandés · YouTube':'Recommended · YouTube'}</p><h2 className="mt-5 max-w-3xl text-[32px] font-semibold leading-[1.02] tracking-[-.04em] sm:text-[42px]">{lang==='fr'?'10 créateurs pour comprendre Hermes Agent.':'10 creators to understand Hermes Agent.'}</h2><p className="mt-4 max-w-2xl text-sm leading-7 text-[#CFC6B8]">{lang==='fr'?'Une sélection indépendante de tutoriels, cours, démonstrations et entretiens vérifiés.':'An independent selection of verified tutorials, courses, demonstrations and interviews.'}</p></div><Link href="/marketplace/recommandes" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold">{lang==='fr'?'Voir la sélection':'View the selection'}<ArrowRight className="ml-2 size-4"/></Link></div><Kicker>{t.featured}</Kicker><h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.featuredLead}</h2><div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{featured.map(item=><article key={item!.slug} className="flex min-h-[230px] flex-col rounded-3xl border border-[#D8D0C2] bg-[#F3EFE6] p-6"><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#B00C54]">{item!.type}</p><h3 className="mt-5 text-xl font-bold">{item!.name[lang]}</h3><p className="mt-3 line-clamp-3 text-sm leading-6 text-[#625B50]">{item!.description[lang]}</p><Link href={storeItemHref(item!)} className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#B00C54]">{t.view}<ArrowRight className="size-4"/></Link></article>)}</div></div></section>
+      <section id="categories" className="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-20">
+        <div className="editorial-shell">
+          <Kicker>{t.categoriesKicker}</Kicker>
+          <h2 className="mt-5 text-[34px] font-semibold tracking-[-.04em] sm:text-[44px]">{t.categoriesTitle}</h2>
+          <p className="mt-4 max-w-3xl text-[16px] leading-7 text-[#4E483F]">{t.categoriesLead}</p>
+          <div className="mt-12 space-y-14">
+            {GROUPS.map((group, groupIndex) => (
+              <section key={group.title.fr} aria-labelledby={`marketplace-group-${groupIndex}`}>
+                <div className="grid gap-2 border-b border-[#CFC5B5] pb-5 md:grid-cols-[1fr_1.2fr] md:items-end">
+                  <h3 id={`marketplace-group-${groupIndex}`} className="text-[26px] font-semibold tracking-[-.035em]">{group.title[lang]}</h3>
+                  <p className="text-sm leading-6 text-[#625B50]">{group.description[lang]}</p>
+                </div>
+                <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {group.categories.map((category) => <CategoryCard key={category.id} category={category} lang={lang} originLabel={t.unitalkOrigin} />)}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      </section>
 
-  <section className="bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20"><div className="editorial-shell grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><Kicker dark>{lang==='fr'?'Contribuer à la Marketplace':'Contribute to the Marketplace'}</Kicker><h2 className="mt-5 max-w-4xl text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[44px]">{t.creatorTitle}</h2><p className="mt-5 max-w-3xl text-[16px] leading-8 text-[#CFC6B8]">{t.creatorBody}</p></div><div className="flex flex-col gap-3"><Link href="/co-createur-ia" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold">{t.create}<ArrowRight className="ml-2 size-4"/></Link><Link href="/academy/formations/co-createur-ia?source=marketplace-ia" className="text-center text-sm font-bold text-[#F2A4C5]">{t.learn}</Link></div></div></section>
-</main>}
+      <section className="bg-[#181615] px-5 py-16 text-[#FAF8F3] sm:px-8 sm:py-20">
+        <div className="editorial-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <Kicker dark>{lang === 'fr' ? 'Communauté' : 'Community'}</Kicker>
+            <h2 className="mt-5 max-w-4xl text-[34px] font-semibold leading-[1.06] tracking-[-.04em] sm:text-[44px]">{t.contribute}</h2>
+            <p className="mt-5 max-w-3xl text-[16px] leading-8 text-[#CFC6B8]">{t.contributeBody}</p>
+          </div>
+          <Link href="/co-createur-ia" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold">{t.contributeCta}<ArrowRight className="ml-2 size-4" /></Link>
+        </div>
+      </section>
+    </main>
+  )
+}
 
-function AlmaAsset({title,items}:{title:string;items:readonly string[]}){return <article className="rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6"><h3 className="text-lg font-bold">{title}</h3><ul className="mt-5 space-y-3">{items.map(item=><li key={item} className="flex gap-2 text-sm font-semibold"><Check className="size-4 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></article>}
+function CategoryCard({ category, lang, originLabel }: { category: Category; lang: Lang; originLabel: string }) {
+  const Icon = category.icon
+  return (
+    <Link id={category.id} href={category.href} className="group relative flex min-h-[230px] scroll-mt-28 flex-col overflow-hidden rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 outline-none transition hover:-translate-y-1 hover:border-[#D10E63]/35 focus-visible:ring-2 focus-visible:ring-[#D10E63]">
+      <div className="flex items-start justify-between">
+        <span className="flex size-11 items-center justify-center rounded-2xl bg-[#EEE8DD] text-[#B00C54]"><Icon className="size-5" strokeWidth={1.7} /></span>
+        <span className="flex items-center gap-2 font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#857C6E]"><UnitalkLogo size={22} activeSegment={0} inactiveColor="#C9BFB0" />{originLabel}</span>
+      </div>
+      <h4 className="mt-8 text-2xl font-bold tracking-[-.025em]">{category.title[lang]}</h4>
+      <p className="mt-3 text-sm leading-7 text-[#625B50]">{category.description[lang]}</p>
+      <ArrowRight className="mt-auto size-5 pt-6 box-content text-[#D10E63] transition-transform group-hover:translate-x-1" />
+    </Link>
+  )
+}

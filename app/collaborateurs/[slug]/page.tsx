@@ -42,10 +42,13 @@ export async function generateMetadata({
 
 export default async function CollaborateurPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ equipment?: string }>
 }) {
   const { slug } = await params
+  const query = await searchParams
   const page = getCollaboratorPage(slug)
   if (!page) notFound()
 
@@ -72,7 +75,7 @@ export default async function CollaborateurPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
       <Navbar />
-      <CollaborateurContent page={page} />
+      <CollaborateurContent page={page} equipmentId={query.equipment} />
       <SiteFooter />
     </>
   )

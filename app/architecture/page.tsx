@@ -77,12 +77,12 @@ const priceLines = [
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-function TreeBranch({ label, children }: { label: string; children: string[] }) {
+function TreeBranch({ label, items }: { label: string; items: string[] }) {
   return (
     <div className="rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-5 sm:p-6">
       <h3 className="font-sf text-lg font-bold text-[#1C1A17]">{label}</h3>
       <ul className="mt-3 space-y-2">
-        {children.map((item, i) => {
+        {items.map((item, i) => {
           const [main, ...rest] = item.split(' — ')
           return (
             <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed">
@@ -101,8 +101,8 @@ function TreeBranch({ label, children }: { label: string; children: string[] }) 
   )
 }
 
-function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <section className={`py-16 sm:py-20 ${className}`}>{children}</section>
+function Section({ children, className = '', id }: { children: React.ReactNode; className?: string; id?: string }) {
+  return <section id={id} className={`scroll-mt-24 py-16 sm:py-20 ${className}`}>{children}</section>
 }
 
 function SectionInner({ children }: { children: React.ReactNode }) {
@@ -163,7 +163,7 @@ export default function ArchitecturePage() {
       </Section>
 
       {/* Alma Entreprise */}
-      <Section className="bg-[#EAE3D4]">
+      <Section id="connaissance-entreprise" className="bg-[#EAE3D4]">
         <SectionInner>
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#0055A4]/25 bg-[#0055A4]/[0.08] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#0055A4]">
             Licence
@@ -174,7 +174,7 @@ export default function ArchitecturePage() {
             contrôle, connaissance, Stores, Gateway et infrastructure.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <TreeBranch label="Périmètre" children={almaTree} />
+            <TreeBranch label="Périmètre" items={almaTree} />
             <div className="flex flex-col justify-center gap-4 rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-6">
               <p className="text-[28px] font-black text-[#1C1A17]">50 €<span className="text-sm font-normal text-[#6B6560]">/mois</span></p>
               <p className="text-sm leading-relaxed text-[#4E483F]">
@@ -190,7 +190,7 @@ export default function ArchitecturePage() {
       </Section>
 
       {/* Collaborateur IA */}
-      <Section>
+      <Section id="memoire-et-contexte">
         <SectionInner>
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#D10E63]/25 bg-[#D10E63]/[0.08] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#B00C54]">
             Licence
@@ -201,7 +201,7 @@ export default function ArchitecturePage() {
             identité, environnement, profils métier, compétences, applications et outils de communication.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <TreeBranch label="Périmètre" children={collaboratorTree} />
+            <TreeBranch label="Périmètre" items={collaboratorTree} />
             <div className="flex flex-col justify-center gap-4 rounded-2xl border border-[#DED6C8] bg-white p-6">
               <p className="text-[28px] font-black text-[#1C1A17]">49 €<span className="text-sm font-normal text-[#6B6560]">/mois</span></p>
               <p className="text-sm leading-relaxed text-[#4E483F]">
@@ -226,7 +226,7 @@ export default function ArchitecturePage() {
             Alma Entreprise. Les membres humains sont illimités.
           </p>
           <div className="mt-8">
-            <TreeBranch label="Périmètre" children={workspaceTree} />
+            <TreeBranch label="Périmètre" items={workspaceTree} />
           </div>
         </SectionInner>
       </Section>
@@ -243,7 +243,7 @@ export default function ArchitecturePage() {
             les profils, compétences ou applications — uniquement les tokens et la charge d&rsquo;action.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <TreeBranch label="Niveaux" children={capacityTree} />
+            <TreeBranch label="Niveaux" items={capacityTree} />
             <div className="flex flex-col gap-3">
               <div className="rounded-2xl border border-[#DED6C8] bg-white p-5">
                 <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#857C6E]">Fourchette de prix</p>

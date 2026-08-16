@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 }
 
 const sectors = [
-  ['Création de contenu', 'Transformer une expertise en système de recherche, production et distribution.'],
-  ['Développement logiciel', 'Concevoir et maintenir un produit avec des capacités IA sous contrôle humain.'],
-  ['E-commerce', 'Coordonner catalogue, service client et opérations sans perdre la relation.'],
-  ['Conseil', 'Industrialiser une méthode tout en conservant le jugement de l’expert.'],
+  ['Création de contenu', 'Transformer une expertise en système de recherche, production et distribution.', '/academy/missions?secteur=marketing'],
+  ['Développement logiciel', 'Concevoir et maintenir un produit avec des capacités IA sous contrôle humain.', '/academy/missions/cartographier-processus'],
+  ['E-commerce', 'Coordonner catalogue, service client et opérations sans perdre la relation.', '/academy/missions?secteur=commerce'],
+  ['Conseil', 'Industrialiser une méthode tout en conservant le jugement de l’expert.', '/academy/missions?secteur=entrepreneuriat'],
 ]
 
 const principles = [
@@ -40,7 +40,7 @@ export default function EntrepreneurshipVisionPage() {
 
     <section className="px-5 py-16 sm:py-24"><div className="academy-reading"><AcademyKicker>Ce qui reste profondément humain</AcademyKicker><h2 className="mt-5 text-3xl font-semibold leading-tight tracking-[-.04em]">Vision, relation, gouvernance et originalité.</h2><p className="mt-5 text-[17px] leading-8 text-[#4e483f]">Une entreprise augmentée n’est pas une entreprise sans humain. L’entrepreneur choisit le problème, comprend ses clients, fixe les règles et assume les décisions qui engagent son activité.</p></div></section>
 
-    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-16"><div className="academy-reading"><AcademyKicker>Choisir un terrain</AcademyKicker><div className="mt-6 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">{sectors.map(([title,body])=><article key={title} className="py-6"><h2 className="text-xl font-semibold">{title}</h2><p className="mt-2 text-sm leading-7 text-[#625b50]">{body}</p><Link href={`/academy/missions?q=${encodeURIComponent(title)}`} className="academy-text-link mt-3">Explorer les missions<ArrowRight className="size-3.5"/></Link></article>)}</div></div></section>
+    <section className="border-y border-[#d8d0c2] bg-[#fffdf9] px-5 py-16"><div className="academy-reading"><AcademyKicker>Choisir un terrain</AcademyKicker><div className="mt-6 divide-y divide-[#d8d0c2] border-y border-[#d8d0c2]">{sectors.map(([title,body,href])=><article key={title} className="py-6"><h2 className="text-xl font-semibold">{title}</h2><p className="mt-2 text-sm leading-7 text-[#625b50]">{body}</p><Link href={href} className="academy-text-link mt-3">Explorer une mission adaptée<ArrowRight className="size-3.5"/></Link></article>)}</div></div></section>
 
     <section className="px-5 py-16 text-center sm:py-24"><div className="academy-reading"><AcademyKicker>Commencer</AcademyKicker><h2 className="mx-auto mt-5 max-w-2xl text-3xl font-semibold leading-tight tracking-[-.04em]">Ne commencez pas par automatiser toute l’entreprise. Commencez par une mission utile.</h2><div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"><AcademyCta href="/missions?gratuit=1">Explorer les missions gratuites</AcademyCta><AcademyCta href="/parcours/entreprendre-avec-ia" secondary>Voir le parcours</AcademyCta></div><p className="mx-auto mt-6 max-w-xl text-xs leading-5 text-[#857c6e]">Les revenus ne sont jamais garantis. Ils dépendent de la valeur de l’offre, de l’exécution, du marché et de la confiance obtenue.</p></div></section>
   </main>

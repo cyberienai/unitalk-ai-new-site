@@ -19,7 +19,7 @@ describe('Academy entrepreneurship vision', () => {
 
   it('offers sector entry points and a concrete first mission', () => {
     for (const sector of ['Création de contenu', 'Développement logiciel', 'E-commerce', 'Conseil']) expect(page).toContain(sector)
-    expect(page).toContain('/academy/missions?q=')
+    expect(page).toContain('/academy/missions?secteur=')
     expect(page).toContain('/parcours/entreprendre-avec-ia')
   })
 })

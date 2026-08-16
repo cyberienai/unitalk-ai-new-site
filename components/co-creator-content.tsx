@@ -16,10 +16,10 @@ export function CoCreatorContent() {
           <div>
             <Kicker>Unitalk Academy · Formation Co-créateur IA</Kicker>
             <h1 className="hero-heading mt-5 max-w-2xl">
-              Transformez le savoir-faire humain en Collaborateurs IA.
+              Formez-vous, créez et commercialisez vos propres Collaborateurs IA.
             </h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#4E483F]">
-              Apprenez à interviewer les équipes, formaliser leurs méthodes et créer les profils métier, compétences, missions et applications métier dont leurs Collaborateurs IA ont besoin.
+              Commencez par une mission réelle. Apprenez à construire une solution qu’une entreprise veut utiliser, puis à la proposer avec la licence Co-créateur.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-4">
               <PrimaryLink href={ACADEMY_FREE}>Commencer gratuitement sur Unitalk Academy →</PrimaryLink>
@@ -28,16 +28,16 @@ export function CoCreatorContent() {
                 Voir une création en situation
               </a>
             </div>
-            <p className="mt-4 text-sm text-[#6E665A]">Unitalk Academy forme. Unitalk AI met en pratique.</p>
+            <p className="mt-4 text-sm text-[#6E665A]">Unitalk Academy vous apprend le métier. La licence Unitalk vous donne les droits de créer et publier dans le produit.</p>
             <p className="mt-4 text-sm text-[#6E665A]">Vous avez déjà un profil prêt ? <Link href="/collaborateurs-ia/profils-metier/publier" className="font-bold text-[#B00C54] underline-offset-4 hover:underline">Publier un profil existant</Link></p>
           </div>
           <TransformationCard />
         </div>
       </section>
 
-      <LightSection eyebrow="Le métier" title="Un nouveau métier de transmission.">
+      <LightSection eyebrow="Le métier" title="Résoudre un problème avant de construire un produit.">
         <p className="max-w-3xl text-[17px] leading-8 text-[#4E483F]">
-          Le Co-créateur ne remplace pas l’expert métier. Il rend son savoir-faire transmissible.
+          Le Co-créateur part du travail réel. Il écoute l’expert, rend sa méthode transmissible et construit le Collaborateur IA qui pourra l’appliquer sous contrôle humain.
         </p>
         <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map(([title, body], index) => (
@@ -68,10 +68,10 @@ export function CoCreatorContent() {
         <div className="editorial-shell">
           <Kicker dark>Apprendre en construisant</Kicker>
           <h2 className="mt-5 max-w-3xl font-sf text-[36px] font-bold leading-[1.05] tracking-[-0.035em] sm:text-[46px]">
-            Pas une formation aux prompts.
+            Vous apprenez en livrant.
           </h2>
           <p className="mt-5 max-w-3xl text-[17px] leading-8 text-[#CFC6B8]">
-            Vous interviewez, construisez, vibecodez, testez et améliorez de véritables profils métier, compétences, missions et applications métier dans un environnement agentique propulsé par Hermes, l’agent autonome open source de Nous Research.
+            Pas de projet fictif à ranger après la formation. Vous interviewez, construisez, vibecodez, testez et améliorez un Collaborateur IA à partir d’une mission réelle, dans un environnement agentique propulsé par Hermes, l’agent autonome open source de Nous Research.
           </p>
           <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {DELIVERABLES.map((item, index) => (
@@ -87,14 +87,14 @@ export function CoCreatorContent() {
         </div>
       </section>
 
-      <LightSection eyebrow="Formation et licence" title="Apprenez. Créez. Publiez.">
+      <LightSection eyebrow="Formation et licence" title="Apprenez le métier. Obtenez les moyens de l’exercer.">
         <div className="mt-8 overflow-hidden rounded-2xl border border-[#DED6C8] bg-[#FAF8F3]">
           <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">Licence Co-créateur IA Unitalk</p>
               <p className="mt-4 font-sf text-[46px] font-bold tracking-[-0.05em]">{unitalkPricing.aiCocreator.monthlyPrice} €</p>
               <p className="text-sm font-semibold text-[#4E483F]">par mois et par Co-créateur</p>
-              <p className="mt-5 font-semibold text-[#B00C54]">Formation Hermes incluse</p>
+              <p className="mt-5 font-semibold text-[#B00C54]">Formation Hermes incluse avec la licence</p>
               <PrimaryLink href={ACADEMY_COURSE} className="mt-7">Voir la formation sur Unitalk Academy →</PrimaryLink>
               <a href={ACADEMY_FUNDING} className="mt-4 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Étudier une prise en charge →</a>
             </div>
@@ -118,10 +118,10 @@ export function CoCreatorContent() {
         <div className="editorial-shell">
           <div className="rounded-2xl border border-[#DED6C8] bg-[#FAF8F3] p-7 sm:p-10">
             <h2 className="max-w-3xl font-sf text-[36px] font-bold leading-[1.08] tracking-[-0.035em] sm:text-[46px]">
-              Le prochain Collaborateur IA peut commencer par un savoir-faire humain.
+              Votre activité peut commencer par une seule mission utile.
             </h2>
-            <p className="mt-5 text-[17px] text-[#4E483F]">Apprenez à écouter, formaliser, tester et transmettre.</p>
-            <PrimaryLink href={ACADEMY_FREE} className="mt-7">Commencer gratuitement sur Unitalk Academy →</PrimaryLink>
+            <p className="mt-5 text-[17px] text-[#4E483F]">Trouvez le problème. Construisez la solution. Montrez le résultat. Vendez seulement ensuite.</p>
+            <PrimaryLink href={ACADEMY_FREE} className="mt-7">Commencer ma première mission →</PrimaryLink>
             <Link href={PRICING_HREF} className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">Ajouter la licence produit Co-créateur →</Link>
             <Link href="/collaborateurs-ia/profils-metier/publier" className="mt-5 inline-flex text-sm font-bold text-[#B00C54] underline-offset-4 hover:underline">J’ai déjà un profil à publier →</Link>
             <p className="mt-5 text-xs text-[#6E665A]">Formation pratique · Environnement Hermes · Créations réelles · Licence Unitalk</p>

@@ -5,19 +5,8 @@ import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
-  Bot,
-  BrainCircuit,
-  BriefcaseBusiness,
-  Cable,
   ChevronDown,
-  ContactRound,
-  GraduationCap,
-  PanelsTopLeft,
-  ServerCog,
-  Sparkles,
-  UserRoundCheck,
 } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { AnonymousOnly, UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
@@ -32,7 +21,7 @@ const ALMA_CTA = {
 
 // Marketplace dropdown: one entry point for every way to discover,
 // equip or contribute an AI Collaborator.
-type MenuEntry = { title: Bi; desc: Bi; href: string; icon?: LucideIcon }
+type MenuEntry = { title: Bi; desc: Bi; href: string }
 type MenuAction = { title: Bi; href: string }
 
 const MARKETPLACE_FEATURED: MenuEntry = {
@@ -44,21 +33,8 @@ const MARKETPLACE_FEATURED: MenuEntry = {
   href: '/marketplace',
 }
 
-const MARKETPLACE_CATALOGS: MenuEntry[] = [
-  { title: { fr: 'Missions', en: 'Missions' }, desc: { fr: 'Partez du travail à accomplir.', en: 'Start with the work to be done.' }, href: '/missions', icon: BriefcaseBusiness },
-  { title: { fr: 'Alma', en: 'Alma' }, desc: { fr: 'Cadrez votre besoin avec Alma.', en: 'Scope your need with Alma.' }, href: '/collaborateurs-ia/alma', icon: Bot },
-  { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Choisissez un rôle prêt à évoluer.', en: 'Choose a role ready to evolve.' }, href: '/collaborateurs-ia/profils-metier', icon: ContactRound },
-  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Ajoutez un savoir-faire réutilisable.', en: 'Add reusable know-how.' }, href: '/collaborateurs-ia/competences', icon: Sparkles },
-  { title: { fr: 'Connecteurs', en: 'Connectors' }, desc: { fr: 'Reliez vos outils et vos données.', en: 'Connect your tools and data.' }, href: '/collaborateurs-ia/integrations', icon: Cable },
-  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Équipez votre Collaborateur IA.', en: 'Equip your AI Collaborator.' }, href: '/collaborateurs-ia/applications', icon: PanelsTopLeft },
-  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Sélectionnez l’intelligence adaptée.', en: 'Select the right intelligence.' }, href: '/modeles-ia', icon: BrainCircuit },
-  { title: { fr: 'Formations', en: 'Training' }, desc: { fr: 'Développez votre maîtrise de l’IA.', en: 'Build your AI expertise.' }, href: '/academy', icon: GraduationCap },
-  { title: { fr: 'Experts', en: 'Experts' }, desc: { fr: 'Faites-vous accompagner par un spécialiste.', en: 'Get support from a specialist.' }, href: '/experts', icon: UserRoundCheck },
-  { title: { fr: 'Serveurs IA', en: 'AI servers' }, desc: { fr: 'Déployez une infrastructure souveraine.', en: 'Deploy sovereign infrastructure.' }, href: '/collaborateurs-ia/serveurs', icon: ServerCog },
-]
-
 const COLLAB_ACTIONS: MenuAction[] = [
-  { title: { fr: 'Recommandés', en: 'Recommended' }, href: '/marketplace/recommandes' },
+  { title: { fr: 'Recommandés', en: 'Recommended' }, href: '/blog/hermes-agent-youtube' },
   { title: { fr: 'Pourquoi Unitalk ?', en: 'Why Unitalk?' }, href: '/collaborateurs-ia/pourquoi-unitalk' },
 ]
 
@@ -81,7 +57,6 @@ const T = {
     menuResources: 'Ressources',
     menuStore: 'Ouvrir la Marketplace IA',
     menuMarketplace: 'Explorer la Marketplace',
-    menuPrinciples: ['Autonomes', 'Open source', 'Souverains'],
   },
   en: {
     home: 'Unitalk AI Home',
@@ -101,7 +76,6 @@ const T = {
     menuResources: 'Resources',
     menuStore: 'Open the AI Marketplace',
     menuMarketplace: 'Explore the Marketplace',
-    menuPrinciples: ['Autonomous', 'Open source', 'Sovereign'],
   },
 }
 
@@ -180,7 +154,6 @@ export function Navbar(
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [collabOpen, setCollabOpen] = useState(false)
   const [mobileCollabOpen, setMobileCollabOpen] = useState(false)
-  const [activeCatalog, setActiveCatalog] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const collabRef = useRef<HTMLDivElement | null>(null)
   const collabButtonRef = useRef<HTMLButtonElement | null>(null)
@@ -188,7 +161,6 @@ export function Navbar(
   const collabHoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const openCollabHover = () => {
     if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
-    if (!collabOpen) setActiveCatalog(null)
     setCollabOpen(true)
   }
   const closeCollabHover = () => {
@@ -261,7 +233,6 @@ export function Navbar(
   }, [])
 
   const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
-  const featuredCopy = activeCatalog === null ? MARKETPLACE_FEATURED : MARKETPLACE_CATALOGS[activeCatalog]
 
   return (
     <>
@@ -301,10 +272,7 @@ export function Navbar(
                   ref={collabButtonRef}
                   type="button"
                   id="collab-trigger"
-                  onClick={() => setCollabOpen((open) => {
-                    if (!open) setActiveCatalog(null)
-                    return !open
-                  })}
+                  onClick={() => setCollabOpen((open) => !open)}
                   aria-expanded={collabOpen}
                   aria-haspopup="true"
                   aria-controls="collab-menu"
@@ -343,32 +311,17 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                      className="absolute -left-[180px] top-full w-[1080px] max-w-[calc(100vw-2rem)] pt-3"
+                      className="absolute -left-[120px] top-full w-[620px] max-w-[calc(100vw-2rem)] pt-3"
                     >
-                      <div className="max-h-[calc(100vh-72px)] overflow-y-auto rounded-[30px] border border-[#292521] bg-[#171514] text-[#FAF8F3] shadow-[0_40px_100px_-24px_rgba(28,26,23,.62)]">
-                        <div className="grid lg:grid-cols-[.82fr_1.18fr]">
-                          <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group relative isolate flex min-h-[330px] flex-col overflow-hidden border-b border-white/10 p-8 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5] lg:border-b-0 lg:border-r">
-                            <div aria-hidden className="absolute -right-20 -top-24 -z-10 size-80 rounded-full bg-[#D10E63]/35 blur-3xl" />
-                            <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.menuFeatured}</p>
-                            <h2 className="mt-6 max-w-md text-[clamp(2.25rem,3.4vw,3.6rem)] font-semibold leading-[.9] tracking-[-.065em]">{MARKETPLACE_FEATURED.title[lang]}</h2>
-                            <AnimatePresence mode="wait" initial={false}>
-                              <motion.p key={`${activeCatalog ?? 'featured'}-${lang}`} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.16 }} aria-live="polite" className="mt-6 max-w-md text-sm leading-7 text-[#CFC6B8]">{featuredCopy.desc[lang]}</motion.p>
-                            </AnimatePresence>
-                            <div className="mt-auto flex flex-wrap gap-2 pt-8">{t.menuPrinciples.map((item) => <span key={item} className="rounded-full border border-white/15 px-3 py-1.5 font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{item}</span>)}</div>
-                            <span className="absolute bottom-8 right-8 font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">unitalk / 01</span>
-                          </a>
-                          <div className="grid grid-cols-5 gap-px bg-white/10">
-                            {MARKETPLACE_CATALOGS.map((item, index) => {
-                              const Icon = item.icon!
-                              return (
-                                <a key={item.href} href={item.href} role="menuitem" onMouseEnter={() => setActiveCatalog(index)} onFocus={() => setActiveCatalog(index)} onClick={() => setCollabOpen(false)} className="group flex min-h-[110px] flex-col bg-[#211E1B] p-4 outline-none transition-colors duration-300 hover:bg-[#292521] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5]">
-                                  <span className="flex items-center justify-between"><Icon aria-hidden="true" className="size-[22px] stroke-[1.7] text-[#F2A4C5] transition-transform duration-300 group-hover:scale-110"/><span className="font-mono text-[8px] tracking-[.12em] text-[#857C6E]">{String(index + 1).padStart(2, '0')}</span></span>
-                                  <strong className="mt-auto text-[13px] font-semibold">{item.title[lang]}</strong>
-                                </a>
-                              )
-                            })}
-                          </div>
-                        </div>
+                      <div className="overflow-hidden rounded-[30px] border border-[#292521] bg-[#171514] text-[#FAF8F3] shadow-[0_40px_100px_-24px_rgba(28,26,23,.62)]">
+                        <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group relative isolate flex min-h-[220px] flex-col overflow-hidden p-8 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5]">
+                          <div aria-hidden className="absolute -right-20 -top-24 -z-10 size-80 rounded-full bg-[#D10E63]/35 blur-3xl" />
+                          <UnitalkLogo size={36} activeSegment={0} color="#F2A4C5" inactiveColor="#514A43" />
+                          <p className="mt-6 font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.menuFeatured}</p>
+                          <h2 className="mt-3 max-w-md text-[32px] font-semibold leading-[.98] tracking-[-.05em]">{MARKETPLACE_FEATURED.title[lang]}</h2>
+                          <p className="mt-4 max-w-md text-sm leading-6 text-[#CFC6B8]">{MARKETPLACE_FEATURED.desc[lang]}</p>
+                          <span className="mt-6 inline-flex items-center gap-2 text-xs font-bold text-[#F2A4C5]">{t.menuMarketplace}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" /></span>
+                        </a>
 
                         <div className="grid border-t border-white/10 bg-[#171514] sm:grid-cols-[1fr_auto] sm:items-center">
                           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-7 py-4 text-[11.5px] font-bold text-[#CFC6B8]">
@@ -536,12 +489,6 @@ export function Navbar(
                             <div className="relative my-3 overflow-hidden rounded-2xl bg-[#181615] p-4 text-[#FAF8F3]">
                               <span aria-hidden="true" className="absolute -right-8 -top-10 size-28 rounded-full bg-[#D10E63]/25 blur-2xl" />
                                <a href={MARKETPLACE_FEATURED.href} onClick={() => setIsMenuOpen(false)} className="relative flex items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><UnitalkLogo size={28} activeSegment={0} color="#F2A4C5" inactiveColor="#514A43" /><span className="block text-[14px] font-bold">{MARKETPLACE_FEATURED.title[lang]}</span></a>
-                              <div className="relative mt-4 grid grid-cols-2 gap-x-4 border-t border-white/10 pt-3">
-                                 {MARKETPLACE_CATALOGS.map((item) => {
-                                   const Icon = item.icon!
-                                   return <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="flex min-h-9 items-center gap-2 text-[12.5px] font-semibold text-[#D8D0C4] hover:text-white"><Icon aria-hidden="true" className="size-3.5 shrink-0 stroke-[1.8] text-[#F2A4C5]" />{item.title[lang]}</a>
-                                 })}
-                              </div>
                             </div>
                             <div className="my-1.5 border-t border-[#E4DDCE]" />
                             {COLLAB_ACTIONS.map((item) => (

@@ -17,7 +17,7 @@ export default function Page() {
           </div>
           <div className="academy-paths-hero-note">
             <Route aria-hidden="true" />
-            <p>Chaque parcours organise quelques missions autour d’un rôle précis. Vous avancez en produisant, pas en collectionnant des heures de vidéo.</p>
+            <p>Chaque parcours organise des missions autour d’un résultat professionnel. Vous avancez en produisant quelque chose qu’un client, une équipe ou une entreprise peut réellement utiliser.</p>
             <span>{PATHS.length} parcours · {PATHS.reduce((total, path) => total + path.missionSlugs.length, 0)} missions guidées</span>
           </div>
         </div>
@@ -27,7 +27,7 @@ export default function Page() {
         <div className="academy-catalog-shell">
           <header className="academy-catalog-heading">
             <p>Choisissez votre direction</p>
-            <h2>Progressez autour<br />d’un rôle concret.</h2>
+            <h2>Choisissez ce que vous<br />voulez savoir livrer.</h2>
           </header>
           <div className="academy-paths-list">
             {PATHS.map((path, index) => {
@@ -58,9 +58,9 @@ export default function Page() {
 
       <section className="academy-catalog-cta academy-paths-cta">
         <div className="academy-catalog-shell">
-          <p>Pas encore prêt pour un parcours complet ?</p>
-          <h2>Commencez par<br /><em>une seule mission.</em></h2>
-          <Link href="/academy/missions?gratuit=1">Voir les missions gratuites <ArrowRight /></Link>
+          <p>Le parcours Co-créateur commence sans théorie inutile.</p>
+          <h2>Commencez par<br /><em>une mission réelle.</em></h2>
+          <Link href="/academy/parcours-gratuits/premiere-mission-ia">Créer mon premier Collaborateur IA <ArrowRight /></Link>
         </div>
       </section>
     </main>

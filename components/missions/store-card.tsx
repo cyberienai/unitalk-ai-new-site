@@ -57,15 +57,15 @@ export function StoreCard({
     <article
       data-mission-card={mission.slug}
       style={{ viewTransitionName: `mission-${mission.slug}` }}
-      className="group relative flex min-h-[250px] w-full flex-col overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-5 text-left shadow-[0_12px_35px_-32px_rgba(28,26,23,.55)] transition-[transform,border-color,background-color,box-shadow] duration-200 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-200 hover:-translate-y-1 hover:border-[#D10E63]/30 hover:bg-[#FFFDF9] hover:shadow-[0_18px_42px_-28px_rgba(28,26,23,.28)] hover:before:scale-x-100 focus-within:border-[#D10E63]/35 focus-within:before:scale-x-100"
+      className="group relative flex min-h-[270px] w-full flex-col overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] p-6 text-left shadow-[0_24px_60px_-52px_rgba(28,26,23,.75)] transition-[transform,border-color,background-color,box-shadow] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-300 hover:-translate-y-1.5 hover:border-[#D10E63]/35 hover:bg-[#FFFDF9] hover:shadow-[0_28px_65px_-42px_rgba(28,26,23,.35)] hover:before:scale-x-100 focus-within:border-[#D10E63]/40 focus-within:before:scale-x-100"
     >
       <Link href={`/missions/${mission.slug}`} className="relative z-10 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
-        <h3 className="line-clamp-2 font-sf text-[19px] font-semibold leading-[1.25] tracking-[-0.02em] text-[#1C1A17]">{mission.title[lang]}</h3>
+        <h3 className="line-clamp-2 font-sf text-[21px] font-semibold leading-[1.18] tracking-[-0.03em] text-[#1C1A17]">{mission.title[lang]}</h3>
       </Link>
       <p className="mt-3 line-clamp-3 text-sm leading-[1.55] text-[#4E483F]">{description}</p>
-      <div className="mt-4 rounded-xl bg-[#F0EADD] px-3.5 py-3">
+      <div className="mt-5 border-l-2 border-[#D10E63] pl-4">
         <p className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#8A8175]">{lang === 'fr' ? 'Résultat' : 'Result'}</p>
-        <p className="mt-1 line-clamp-2 text-[13px] leading-5 text-[#3F3A33]">{mission.result[lang]}</p>
+        <p className="mt-1.5 line-clamp-2 text-[13px] leading-5 text-[#3F3A33]">{mission.result[lang]}</p>
       </div>
       <footer className="mt-auto flex flex-col items-start justify-between gap-3 border-t border-[#DED6C8] pt-4 sm:flex-row sm:items-center">
         <div className="flex flex-wrap items-center gap-x-1.5 text-[12px] font-semibold text-[#6E665A]">

@@ -7,7 +7,7 @@ import { useLanguage } from '@/lib/language-context'
 const T = {
   fr: {
     eyebrow: 'Tarifs · Entreprise IA',
-    heroAccent: 'Clairs. Composables. Sans surprise.',
+    heroAccent: 'Composables. Sans surprise.',
     title: 'Des tarifs clairs pour toute votre entreprise IA.',
     subtitle:
       'Réunissez vos équipes humaines et vos Collaborateurs IA dans un compte unique. Choisissez le nombre de Collaborateurs, leurs ressources et leur capacité d’utilisation des modèles IA. Le total est calculé immédiatement.',
@@ -49,7 +49,7 @@ const T = {
   },
   en: {
     eyebrow: 'Pricing · AI Company',
-    heroAccent: 'Clear. Composable. No surprises.',
+    heroAccent: 'Composable. No surprises.',
     title: 'Clear pricing for your entire AI company.',
     subtitle:
       'Bring your human teams and AI Collaborators together under one account. Choose the number of Collaborators, their resources and their AI model capacity. Your total is calculated instantly.',
@@ -96,26 +96,26 @@ export function PricingHero() {
   const t = T[lang]
 
   return (
-    <section className="relative min-h-[760px] overflow-hidden border-b border-[#D8D0C2] px-5 pb-20 pt-32 sm:px-8 sm:pt-40">
+    <section className="relative overflow-hidden border-b border-[#D8D0C2] px-5 pb-16 pt-28 sm:px-8 sm:pt-32">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
       />
       <div className="editorial-shell relative">
         <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.eyebrow}</p>
-        <div className="mt-8 grid gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
-          <h1 className="max-w-[900px] text-balance font-sf text-[clamp(3rem,6.8vw,6.8rem)] font-semibold leading-[.89] tracking-[-.07em]">
-            {t.title}<span className="mt-3 block text-[#D10E63]">{t.heroAccent}</span>
+        <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+          <h1 className="max-w-[900px] text-balance font-sf text-[clamp(2.7rem,5.8vw,5.8rem)] font-semibold leading-[.9] tracking-[-.065em]">
+            {t.title}<span className="mt-2 block text-[#D10E63]">{t.heroAccent}</span>
           </h1>
           <div className="lg:pb-3">
             <p className="text-[17px] leading-8 text-[#4E483F]">{t.subtitle}</p>
-            <p className="mt-5 text-sm font-bold text-[#B00C54]">{t.trial}</p>
+            <p className="mt-4 text-sm font-bold text-[#B00C54]">{t.trial}</p>
           </div>
         </div>
-        <div className="mt-16 grid border-y border-[#CFC5B5] sm:grid-cols-3">
-          {t.proofs.map((proof, index) => <p key={proof} className="flex min-h-20 items-center gap-4 border-b border-[#CFC5B5] py-4 text-sm font-bold last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"><span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{proof}</p>)}
+        <div className="mt-10 grid border-y border-[#CFC5B5] sm:grid-cols-3">
+          {t.proofs.map((proof, index) => <p key={proof} className="flex min-h-16 items-center gap-4 border-b border-[#CFC5B5] py-3 text-sm font-bold last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"><span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{proof}</p>)}
         </div>
-        <div className="mt-14">
+        <div className="mt-10 scroll-mt-24">
           <PricingConfigurator />
         </div>
       </div>

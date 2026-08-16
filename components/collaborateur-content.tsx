@@ -1,9 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { ArrowRight, ArrowUpRight, Layers, Sparkles, Wrench, Plug, Brain } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import type { CollaboratorPage } from '@/lib/collaborator-pages'
+import { CollaboratorEquipmentFlow } from '@/components/collaborator-equipment-flow'
+import { loadEquipmentDraft, type CollaboratorEquipmentDraft } from '@/lib/collaborator-equipment'
 
 const COPY = {
   fr: {
@@ -11,6 +14,7 @@ const COPY = {
     available: 'En poste',
     recruit: (name: string) => `Recruter ${name}`,
     seeProfile: 'Voir son profil',
+    equip: (name: string) => `Équiper ${name} avec Alma`,
     // Missions section
     missionsTitle: (name: string) => `Ce que ${name} prend en charge`,
     missionsLead:
@@ -39,6 +43,7 @@ const COPY = {
     available: 'On the job',
     recruit: (name: string) => `Recruit ${name}`,
     seeProfile: 'See profile',
+    equip: (name: string) => `Equip ${name} with Alma`,
     missionsTitle: (name: string) => `What ${name} takes on`,
     missionsLead:
       'Concrete missions, ready to hand over. Pick one: Alma clarifies the expected outcome with you.',
@@ -68,11 +73,18 @@ const enter = (delay = 0) => ({
   transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
 })
 
-export function CollaborateurContent({ page }: { page: CollaboratorPage }) {
+export function CollaborateurContent({ page, equipmentId }: { page: CollaboratorPage; equipmentId?: string }) {
   const { lang } = useLanguage()
   const t = COPY[lang]
   const { detail, copy, missions } = page
   const { name, avatar, company } = detail
+  const [publicEquipment, setPublicEquipment] = useState<CollaboratorEquipmentDraft | null>(() => equipmentId ? loadEquipmentDraft(equipmentId) : null)
+
+  useEffect(() => {
+    if (!equipmentId) return
+    const id = window.setTimeout(() => setPublicEquipment(loadEquipmentDraft(equipmentId)), 0)
+    return () => window.clearTimeout(id)
+  }, [equipmentId])
 
   // Role label handles Emma's inline form ("Assistante de <manager>").
   const roleLabel = detail.roleInline
@@ -105,10 +117,10 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage }) {
             </motion.p>
             <motion.div {...enter(0.24)} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
-                href="/decouvrir"
+                href="#equiper"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
               >
-                {t.recruit(name)}
+                {t.equip(name)}
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
@@ -149,6 +161,10 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage }) {
           </motion.div>
         </div>
       </section>
+
+      {publicEquipment && <PublicEquipmentPreview draft={publicEquipment} />}
+
+      <CollaboratorEquipmentFlow detail={detail} />
 
       {/* Missions — the specialization made tangible */}
       {missions.length > 0 && (
@@ -325,5 +341,20 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage }) {
         </div>
       </section>
     </main>
+  )
+}
+
+function PublicEquipmentPreview({ draft }: { draft: CollaboratorEquipmentDraft }) {
+  const publicItems = [draft.mission, draft.profile, ...draft.skills, ...draft.applications].filter((item) => item.visibility === 'public')
+  return (
+    <section id="equipement-public" className="scroll-mt-24 bg-[#181615] px-5 py-16 text-white sm:px-8 sm:py-20">
+      <div className="mx-auto max-w-5xl">
+        <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">Prévisualisation du profil public</p>
+        <div className="mt-5 grid gap-10 lg:grid-cols-[.72fr_1.28fr]">
+          <div><h2 className="font-sf text-[38px] font-semibold leading-[1.02] tracking-[-.05em]">Ce que les visiteurs peuvent voir.</h2><p className="mt-5 text-sm leading-7 text-[#CFC6B8]">Les applications réellement connectées, les validations, la mémoire, les données et les accès restent privés, même lorsqu’une compatibilité est publiée.</p></div>
+          <div className="grid gap-3 sm:grid-cols-2">{publicItems.map((item) => <article key={`${item.type}-${item.id}`} className="rounded-2xl border border-white/10 bg-white/[.04] p-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F2A4C5]">{item.type === 'mission' ? 'Mission' : item.type === 'profile' ? 'Profil métier' : item.type === 'skill' ? 'Compétence' : 'Application compatible'}</p><p className="mt-3 font-sf text-lg font-semibold">{item.label}</p></article>)}</div>
+        </div>
+      </div>
+    </section>
   )
 }
