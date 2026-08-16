@@ -18,7 +18,7 @@ describe('mission signup', () => {
   })
 
   it('publishes transparent trial and legal wording', () => {
-    expect(source).toContain("contextualReassurance: '7 jours d\\'essai · Aucune carte bancaire'")
+    expect(source).toContain("contextualReassurance: 'Première mission offerte · Sans carte bancaire'")
     expect(source).toContain('href="/conditions"')
     expect(source).toContain('href="/confidentialite"')
   })

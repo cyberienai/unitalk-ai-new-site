@@ -19,14 +19,14 @@ describe('home commercial messaging', () => {
 
   it('uses plain-language comparison rows', () => {
     expect(comparison).toContain("['Une conversation ponctuelle', 'Une identité professionnelle durable']")
-    expect(comparison).toContain("['Une mémoire de session', 'Des méthodes validées réutilisables']")
-    expect(comparison).toContain('Des missions suivies dans votre Workspace')
+    expect(comparison).toContain("['Des instructions à répéter', 'Des règles et validations enregistrées']")
+    expect(comparison).toContain("['Des actions isolées', 'Une activité visible par votre équipe']")
     expect(comparison).toContain('Vous ne construisez pas un assistant. Vous faites progresser votre Collaborateur IA.')
   })
 
   it('clarifies Alma and brings profiles earlier', () => {
     expect(profiles).toContain('Alma vous aide à trouver celui qui convient à votre mission.')
-    expect(profiles).toContain("choose: 'Configurer'")
+    expect(profiles).toContain("choose: 'Personnaliser'")
     expect(navbar).not.toContain('Alma · Conseillère IA')
     expect(hero).toContain("voiceKicker: 'Coordinatrice de missions IA'")
   })

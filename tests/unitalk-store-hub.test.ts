@@ -19,10 +19,10 @@ describe('Marketplace IA hub', () => {
 
   it('highlights Alma with voice-assisted search', () => {
     expect(composer).toContain('src="/alma-avatar.png"')
-    expect(hub).toContain('Curatrice de la Marketplace')
+    expect(hub).toContain('Coordinatrice de missions IA')
     expect(hub).toContain('getSpeechRecognition')
     expect(hub).toContain('AlmaMissionComposer')
-    expect(hub).toContain('Composer ma solution')
+    expect(hub).toContain('Continuer avec cette mission')
     expect(hub).toContain('unitalk_mission_')
   })
 

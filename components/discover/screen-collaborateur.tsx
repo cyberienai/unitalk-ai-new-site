@@ -146,7 +146,7 @@ const COPY = {
     opening: 'Enregistrement…',
     almaConfirm: 'Tout est prêt. Vérifiez avant de choisir la capacité et confirmer la commande.',
     readyTitle: (name: string) => `${name} est prêt pour sa première mission.`,
-    freeMission: 'Première mission offerte', trial: '7 jours d’essai', noCard: 'Sans carte bancaire',
+    freeMission: 'Première mission offerte', noCard: 'Sans carte bancaire',
     apps: 'Applications', appsValue: 'À connecter dans le Workspace avec votre accord',
     approvals: 'Validations humaines', approvalsValue: 'Activées pour les actions sensibles',
     open: 'Continuer vers les tarifs', back: 'Modifier le prénom',
@@ -165,7 +165,7 @@ const COPY = {
     opening: 'Saving…',
     almaConfirm: 'Everything is ready. Review it before choosing capacity and confirming the order.',
     readyTitle: (name: string) => `${name} is ready for the first mission.`,
-    freeMission: 'First mission included', trial: '7-day trial', noCard: 'No credit card',
+    freeMission: 'First mission included', noCard: 'No credit card',
     apps: 'Applications', appsValue: 'Connect them in the Workspace with your approval',
     approvals: 'Human approvals', approvalsValue: 'Enabled for sensitive actions',
     open: 'Continue to pricing', back: 'Change first name',
@@ -174,7 +174,7 @@ const COPY = {
 } as const
 
 function TrialConfirmation({ name, mission, profile, opening, onBack, onOpen, t }: { name: string; mission: string; profile: string; opening: boolean; onBack: () => void; onOpen: () => void; t: typeof COPY.fr | typeof COPY.en }) {
-  return <div><div className="flex justify-center"><span className="flex size-16 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]"><Check className="size-8" strokeWidth={2.5}/></span></div><h2 className="mt-5 text-center font-sf text-[28px] font-semibold leading-tight tracking-[-.04em]">{t.readyTitle(name)}</h2><div className="mt-6 divide-y divide-[#E7E0D2] border-y border-[#E7E0D2]"><Summary label={t.mission} value={mission}/><Summary label={typeof t.firstName === 'string' ? t.firstName : 'Prénom'} value={`${name} · ${profile}`}/><Summary label={t.apps} value={t.appsValue}/><Summary label={t.approvals} value={t.approvalsValue}/></div><div className="mt-5 flex flex-wrap justify-center gap-2">{[t.freeMission,t.trial,t.noCard].map(item=><span key={item} className="rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#4E483F]">{item}</span>)}</div><p className="mt-5 flex gap-2 text-[12px] leading-5 text-[#625B50]"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#B00C54]"/>{t.consent}</p><button type="button" onClick={onOpen} disabled={opening} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 text-sm font-bold text-white disabled:opacity-70">{opening?t.opening:t.open}<ArrowRight className="size-4"/></button><button type="button" onClick={onBack} disabled={opening} className="mt-3 inline-flex w-full items-center justify-center gap-1.5 py-2 text-xs font-bold text-[#625B50]"><ArrowLeft className="size-3.5"/>{t.back}</button></div>
+  return <div><div className="flex justify-center"><span className="flex size-16 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]"><Check className="size-8" strokeWidth={2.5}/></span></div><h2 className="mt-5 text-center font-sf text-[28px] font-semibold leading-tight tracking-[-.04em]">{t.readyTitle(name)}</h2><div className="mt-6 divide-y divide-[#E7E0D2] border-y border-[#E7E0D2]"><Summary label={t.mission} value={mission}/><Summary label={typeof t.firstName === 'string' ? t.firstName : 'Prénom'} value={`${name} · ${profile}`}/><Summary label={t.apps} value={t.appsValue}/><Summary label={t.approvals} value={t.approvalsValue}/></div><div className="mt-5 flex flex-wrap justify-center gap-2">{[t.freeMission,t.noCard].map(item=><span key={item} className="rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#4E483F]">{item}</span>)}</div><p className="mt-5 flex gap-2 text-[12px] leading-5 text-[#625B50]"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#B00C54]"/>{t.consent}</p><button type="button" onClick={onOpen} disabled={opening} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 text-sm font-bold text-white disabled:opacity-70">{opening?t.opening:t.open}<ArrowRight className="size-4"/></button><button type="button" onClick={onBack} disabled={opening} className="mt-3 inline-flex w-full items-center justify-center gap-1.5 py-2 text-xs font-bold text-[#625B50]"><ArrowLeft className="size-3.5"/>{t.back}</button></div>
 }
 
 function Summary({label,value}:{label:string;value:string}){return <div className="grid gap-1 py-3 sm:grid-cols-[7rem_1fr]"><p className="font-mono text-[9px] font-bold uppercase tracking-[.12em] text-[#8A8175]">{label}</p><p className="text-[13px] font-semibold leading-5 text-[#2D2924]">{value}</p></div>}

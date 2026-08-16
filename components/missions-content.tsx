@@ -215,7 +215,7 @@ export function MissionsContent({
               <a href="#mission-selection" className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/35 underline-offset-4 hover:text-[#B00C54]">{t.explore}<ArrowRight className="size-4 rotate-90" /></a>
             </header>
 
-            <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} listening={listening} onToggleListening={toggleListening} voiceStartLabel={t.talk} voiceStopLabel={t.stop} help={t.handoff} error={voiceError} status={t.ready} textareaRef={composerRef} />
+            <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} listening={listening} onToggleListening={toggleListening} voiceStartLabel={t.talk} voiceStopLabel={t.stop} error={voiceError} textareaRef={composerRef} />
           </div>
 
         </div>
@@ -304,12 +304,12 @@ const COPY = {
     title: 'Quel travail voulez-vous confier ?',
     heroA: 'Quel travail', heroB: 'voulez-vous', heroC: 'confier ?',
     lead: 'Décrivez le résultat attendu à Alma, ou partez d’une mission déjà cadrée. Vous gardez la validation des décisions qui engagent votre entreprise.', explore: 'Explorer les missions',
-    almaRole: 'Coordinatrice de missions IA', ready: 'Prête à cadrer', composerTitle: 'Quel résultat attendez-vous ?',
-    placeholder: 'Ex. Relancer chaque semaine les factures impayées et me demander validation avant la dernière relance…',
-    talk: 'Dicter', stop: 'Arrêter', continue: 'Préparer cette mission',
+    almaRole: 'Coordinatrice de missions IA', composerTitle: 'Décrivez votre besoin.', composerBody: 'Alma le transforme en mission prête à personnaliser.',
+    placeholder: 'Décrivez votre besoin…',
+    talk: 'Commencer à parler', stop: 'Terminer', continue: 'Continuer avec cette mission',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
-    starters: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants', 'Trouver de nouveaux prospects'],
+    starters: ['Répondre à mes appels', 'Qualifier mes prospects', 'Traiter mes e-mails entrants'],
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne. Votre description reste dans ce navigateur pendant la reprise.',
     catalogTitle: 'Partez d’une mission déjà cadrée',
     catalogKicker: 'Catalogue de missions',
@@ -329,12 +329,12 @@ const COPY = {
     title: 'What work should an AI Collaborator take on?',
     heroA: 'What work', heroB: 'should an AI Collaborator', heroC: 'take on?',
     lead: 'Describe the outcome to Alma, or start from an already scoped mission. You retain approval over decisions that commit your company.', explore: 'Explore missions',
-    almaRole: 'Mission coordinator', ready: 'Ready to scope', composerTitle: 'What outcome do you expect?',
-    placeholder: 'E.g. Follow up unpaid invoices every week and ask for approval before the final reminder…',
-    talk: 'Dictate', stop: 'Stop', continue: 'Prepare this mission',
+    almaRole: 'AI mission coordinator', composerTitle: 'Describe your need.', composerBody: 'Alma turns it into a mission ready to personalize.',
+    placeholder: 'Describe your need…',
+    talk: 'Start talking', stop: 'Finish', continue: 'Continue with this mission',
     voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
-    starters: ['Chase my unpaid invoices', 'Handle my incoming emails', 'Find new prospects'],
+    starters: ['Answer my calls', 'Qualify my prospects', 'Handle my incoming emails'],
     handoff: 'Enter to continue · Shift + Enter for a new line. Your description remains in this browser while you resume.',
     catalogTitle: 'Start from an already scoped mission',
     catalogKicker: 'Mission catalog',

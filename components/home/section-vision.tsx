@@ -16,7 +16,7 @@ const COPY = {
     closing: 'Prêt à confier une première mission ?',
     cta: 'Décrire ma mission',
     ctaNote: 'Alma conserve votre demande et vous accompagne après la connexion.',
-    proof: ['7 jours d’essai gratuit', 'Sans carte bancaire', 'Hébergé en France'],
+    proof: ['Première mission offerte', 'Sans carte bancaire', 'Rien ne devient payant sans votre accord'],
   },
   en: {
     kicker: 'Mission after mission',
@@ -25,7 +25,7 @@ const COPY = {
     closing: 'Ready to hand over a first mission?',
     cta: 'Describe my mission',
     ctaNote: 'Alma saves your request and supports you after sign-in.',
-    proof: ['7-day free trial', 'No credit card', 'Hosted in France'],
+    proof: ['First mission included', 'No credit card', 'Nothing becomes paid without your approval'],
   },
 }
 

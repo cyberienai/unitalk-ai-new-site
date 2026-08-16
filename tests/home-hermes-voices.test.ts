@@ -5,7 +5,7 @@ const source = readFileSync(new URL('../components/home/section-hermes-voices.ts
 
 describe('home Hermes social proof', () => {
   it('connects Hermes to the AI Collaborator promise in plain language', () => {
-    expect(source).toContain('Hermes est le moteur open source qui fait travailler les Collaborateurs IA Unitalk.')
+    expect(source).toContain('des créateurs indépendants explorent le moteur open source Hermes.')
     expect(source).not.toContain('socle agentique open source individuel')
   })
 
@@ -15,6 +15,7 @@ describe('home Hermes social proof', () => {
   })
 
   it('turns every portrait into a visible proof entry', () => {
+    expect(source).toContain('HERMES_CREATORS.slice(0, 5)')
     expect(source).toContain('Voir son test →')
     expect(source).toContain('referrerPolicy="no-referrer"')
   })

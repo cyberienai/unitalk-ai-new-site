@@ -24,8 +24,6 @@ const COPY = {
     cta: 'Décrire ma mission',
     rows: [
       ['Une conversation ponctuelle', 'Une identité professionnelle durable'],
-      ['Une mémoire de session', 'Des méthodes validées réutilisables'],
-      ['Un outil à piloter', 'Des missions suivies dans votre Workspace'],
       ['Des instructions à répéter', 'Des règles et validations enregistrées'],
       ['Des actions isolées', 'Une activité visible par votre équipe'],
     ],
@@ -41,8 +39,6 @@ const COPY = {
     cta: 'Describe my mission',
     rows: [
       ['A one-off conversation', 'A durable professional identity'],
-      ['Session memory', 'Reusable approved methods'],
-      ['A tool to operate', 'Missions tracked in your Workspace'],
       ['Instructions to repeat', 'Recorded rules and approvals'],
       ['Isolated actions', 'Activity visible to your team'],
     ],
