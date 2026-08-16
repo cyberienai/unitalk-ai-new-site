@@ -12,6 +12,8 @@ import {
   ChevronDown,
   GraduationCap,
   Handshake,
+  Plug,
+  Server,
   Sparkles,
   type LucideIcon,
 } from 'lucide-react'
@@ -40,14 +42,16 @@ const MARKETPLACE_FEATURED: MenuEntry = {
     fr: 'Trouvez, adoptez et enrichissez des Collaborateurs IA créés par Unitalk et la communauté.',
     en: 'Find, adopt and expand AI Collaborators created by Unitalk and the community.',
   },
-  href: '/collaborateurs-ia/applications',
+  href: '/marketplace',
   icon: Sparkles,
 }
 
 const MARKETPLACE_CATALOGS: MenuEntry[] = [
   { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Les responsabilités durables qu’un Collaborateur IA peut exercer.', en: 'Lasting responsibilities an AI Collaborator can perform.' }, href: '/collaborateurs-ia/profils-metier', icon: BriefcaseBusiness },
   { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Des savoir-faire précis, testés et partageables.', en: 'Precise, tested and shareable know-how.' }, href: '/collaborateurs-ia/competences', icon: Sparkles },
-  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Outils, connecteurs et services accessibles selon vos droits.', en: 'Tools, connectors and services available under your permissions.' }, href: '/collaborateurs-ia/applications/catalogue', icon: Blocks },
+  { title: { fr: 'Intégrations', en: 'Integrations' }, desc: { fr: 'Services tiers et connecteurs accessibles selon vos droits.', en: 'Third-party services and connectors under your permissions.' }, href: '/collaborateurs-ia/integrations', icon: Plug },
+  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Apps open source et modèles métier vibecodés.', en: 'Open-source apps and vibe-coded business templates.' }, href: '/collaborateurs-ia/applications', icon: Blocks },
+  { title: { fr: 'Serveurs', en: 'Servers' }, desc: { fr: 'Infrastructure privée Small, Medium, Large ou XXL.', en: 'Small, Medium, Large or XXL private infrastructure.' }, href: '/collaborateurs-ia/serveurs', icon: Server },
   { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et fournisseurs autorisés par votre organisation.', en: 'Models and providers approved by your organization.' }, href: '/modeles-ia', icon: BrainCircuit },
   { title: { fr: 'Formations', en: 'Training' }, desc: { fr: 'Apprenez à utiliser, créer et gouverner vos Collaborateurs IA.', en: 'Learn to use, create and govern your AI Collaborators.' }, href: '/academy', icon: GraduationCap },
   { title: { fr: 'Services', en: 'Services' }, desc: { fr: 'Faites-vous accompagner par des experts de l’écosystème.', en: 'Get support from experts across the ecosystem.' }, href: '/experts', icon: Handshake },
@@ -194,7 +198,7 @@ export function Navbar(
   const overDark = darkHero && !scrolled && !isMenuOpen && !collabOpen
 
   // The Marketplace owns every catalog and community path grouped in its menu.
-  const marketplacePrefixes = ['/collaborateurs-ia', '/modeles-ia', '/academy', '/experts', '/missions', '/co-createur-ia']
+  const marketplacePrefixes = ['/marketplace', '/collaborateurs-ia', '/modeles-ia', '/academy', '/experts', '/missions', '/co-createur-ia']
   const isCollabActive = marketplacePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isPricingActive = pathname === '/tarifs'

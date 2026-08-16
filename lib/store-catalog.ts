@@ -1,11 +1,13 @@
 // Store catalog: the equipment that outfits an AI Collaborator.
 //
-// Three item types share ONE shape (StoreItem) so the catalog page can mix them
+// Store item types share ONE shape (StoreItem) so the catalog page can mix them
 // in a single grid and reuse the same card, filters, sort and search as the
 // Missions catalog:
 //   - profil     : a durable job role and its know-how
 //   - competence : a precise, reusable skill
-//   - application: a service the Collaborator can work in (with granted rights)
+//   - integration: a third-party service the Collaborator can access
+//   - application: open-source software or a versioned business-app template
+//   - server     : a private execution tier assigned by the Organization
 //
 // Data is anchored on what already exists in the project (roles, skills, tools
 // from collaborators-catalog) plus a curated list of real applications. Every
@@ -15,7 +17,7 @@ import type { Bilingual } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
 import { DIGITAL_AGENCY_PROFILES } from '@/lib/digital-agency-profiles'
 
-export type StoreType = 'profil' | 'competence' | 'application'
+export type StoreType = 'profil' | 'competence' | 'integration' | 'application' | 'server'
 export type ApplicationKind = 'connector' | 'native-open-source' | 'private-app' | 'app-template'
 
 // Who created/published the Store item. Applications also carry an `editor`
@@ -77,26 +79,34 @@ export type StoreItem = {
 export const TYPE_SLUGS: Record<StoreType, string> = {
   profil: 'profils-metier',
   competence: 'competences',
+  integration: 'integrations',
   application: 'applications',
+  server: 'serveurs',
 }
 
 export const TYPE_BY_SLUG: Record<string, StoreType> = {
   'profils-metier': 'profil',
   competences: 'competence',
+  integrations: 'integration',
   applications: 'application',
+  serveurs: 'server',
 }
 
 export const TYPE_LABELS: Record<StoreType, Bilingual> = {
   profil: { fr: 'Profil métier', en: 'Job profile' },
   competence: { fr: 'Compétence', en: 'Skill' },
+  integration: { fr: 'Intégration', en: 'Integration' },
   application: { fr: 'Application', en: 'Application' },
+  server: { fr: 'Serveur', en: 'Server' },
 }
 
 // Plural labels used in the Type filter and result titles.
 export const TYPE_LABELS_PLURAL: Record<StoreType, Bilingual> = {
   profil: { fr: 'Profils métier', en: 'Job profiles' },
   competence: { fr: 'Compétences', en: 'Skills' },
+  integration: { fr: 'Intégrations', en: 'Integrations' },
   application: { fr: 'Applications', en: 'Applications' },
+  server: { fr: 'Serveurs', en: 'Servers' },
 }
 
 export const CREATOR_LABELS: Record<Creator | 'all', Bilingual> = {
@@ -152,6 +162,8 @@ export const APP_CATEGORY_LABELS: Record<string, Bilingual> = {
   finance: { fr: 'Finance', en: 'Finance' },
   rh: { fr: 'Ressources humaines', en: 'Human resources' },
   productivite: { fr: 'Productivité', en: 'Productivity' },
+  metier: { fr: 'Application métier', en: 'Business application' },
+  infrastructure: { fr: 'Infrastructure', en: 'Infrastructure' },
 }
 
 // Returns the right contextual-facet label map for a given type.
@@ -805,8 +817,8 @@ const COMPETENCES: StoreItem[] = [
   },
 ]
 
-// --- Applications ----------------------------------------------------------
-const APPLICATIONS: StoreItem[] = [
+// --- Integrations ----------------------------------------------------------
+const INTEGRATION_SOURCES: StoreItem[] = [
   {
     type: 'application', slug: 'google-sheets', name: { fr: 'Google Sheets', en: 'Google Sheets' }, description: { fr: 'Permet de lire et produire des tableaux structurés dans les feuilles autorisées.', en: 'Reads and produces structured tables in authorized sheets.' }, creator: 'unitalk', editor: 'Google', facet: 'productivite', uses: [{ fr: 'Préparer et partager des sélections structurées', en: 'Prepare and share structured selections' }], actions: [{ fr: 'Lire, créer et mettre à jour des lignes', en: 'Read, create and update rows' }], dataAccessed: [{ fr: 'Feuilles autorisées', en: 'Authorized sheets' }], permissions: [{ fr: 'Accès aux feuilles accordé', en: 'Access to granted sheets' }], connection: { fr: 'Connexion via le compte Google autorisé.', en: 'Connection through the authorized Google account.' }, compatibleProfiles: ['commercial','charge-prospection'], compatibleSkills: ['exporter-des-donnees-structurees'], order: 0, dateAdded: '2026-08-13', keywords: ['google sheets','tableur','export','csv'] },
   {
@@ -1153,12 +1165,35 @@ const APPLICATIONS: StoreItem[] = [
   },
 ]
 
-const APPLICATIONS_WITH_KIND = APPLICATIONS.map((application) => ({
-  ...application,
-  applicationKind: application.applicationKind ?? ('connector' as ApplicationKind),
+const INTEGRATIONS: StoreItem[] = INTEGRATION_SOURCES.map((integration) => ({
+  ...integration,
+  type: 'integration',
+  applicationKind: 'connector' as ApplicationKind,
 }))
 
-export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...APPLICATIONS_WITH_KIND]
+const APPLICATIONS: StoreItem[] = [
+  {
+    type: 'application', slug: 'cockpit-recouvrement', name: { fr: 'Cockpit de recouvrement', en: 'Collections cockpit' }, description: { fr: 'Modèle d’application métier pour suivre les factures, préparer les relances et soumettre les décisions sensibles.', en: 'Business-app template to track invoices, prepare reminders and submit sensitive decisions.' }, creator: 'unitalk', editor: 'Unitalk', facet: 'metier', applicationKind: 'app-template', enables: [{ fr: 'Centraliser les dossiers et validations de recouvrement', en: 'Centralize collections cases and approvals' }], produces: [{ fr: 'Une vue opérationnelle versionnée', en: 'A versioned operational view' }], contexts: [{ fr: 'Finance et gestion', en: 'Finance and management' }], order: 0, dateAdded: '2026-08-16', keywords: ['recouvrement','factures','vibecode','application métier'], version: '1.0', commercialStatus: 'draft', usageRights: { fr: 'Modèle à adapter et tester dans le contexte de votre Organisation.', en: 'Template to adapt and test in your Organization context.' },
+  },
+  {
+    type: 'application', slug: 'portail-veille', name: { fr: 'Portail de veille', en: 'Research portal' }, description: { fr: 'Modèle vibecodé pour réunir les sources, synthèses, alertes et validations d’une veille métier.', en: 'Vibe-coded template bringing together sources, summaries, alerts and approvals for business research.' }, creator: 'unitalk', editor: 'Unitalk', facet: 'metier', applicationKind: 'app-template', enables: [{ fr: 'Organiser une veille récurrente', en: 'Organize recurring research' }], produces: [{ fr: 'Un portail de synthèses et de sources', en: 'A portal of summaries and sources' }], contexts: [{ fr: 'Veille concurrentielle et réglementaire', en: 'Competitive and regulatory research' }], order: 1, dateAdded: '2026-08-16', keywords: ['veille','recherche','portail','vibecode'], version: '1.0', commercialStatus: 'draft', usageRights: { fr: 'Modèle à adapter et tester avant mise en production.', en: 'Template to adapt and test before production use.' },
+  },
+  {
+    type: 'application', slug: 'twenty-crm', name: { fr: 'Twenty CRM', en: 'Twenty CRM' }, description: { fr: 'Application CRM open source pouvant être déployée et configurée dans une infrastructure autorisée.', en: 'Open-source CRM application that can be deployed and configured in authorized infrastructure.' }, creator: 'community', editor: 'Twenty', facet: 'relation-client', applicationKind: 'native-open-source', enables: [{ fr: 'Gérer contacts, entreprises et opportunités', en: 'Manage contacts, companies and opportunities' }], contexts: [{ fr: 'Ventes et relation client', en: 'Sales and customer relations' }], order: 2, dateAdded: '2026-08-16', keywords: ['twenty','crm','open source','ventes'], commercialStatus: 'draft', usageRights: { fr: 'Déploiement soumis à la licence du projet et à validation technique.', en: 'Deployment subject to the project license and technical validation.' },
+  },
+  {
+    type: 'application', slug: 'plane', name: { fr: 'Plane', en: 'Plane' }, description: { fr: 'Application open source de suivi de projets et de tickets, déployable selon votre infrastructure.', en: 'Open-source project and issue tracking application deployable under your infrastructure.' }, creator: 'community', editor: 'Plane', facet: 'productivite', applicationKind: 'native-open-source', enables: [{ fr: 'Structurer projets, cycles et tickets', en: 'Structure projects, cycles and issues' }], contexts: [{ fr: 'Produit, développement et opérations', en: 'Product, development and operations' }], order: 3, dateAdded: '2026-08-16', keywords: ['plane','projet','tickets','open source'], commercialStatus: 'draft', usageRights: { fr: 'Déploiement soumis à la licence du projet et à validation technique.', en: 'Deployment subject to the project license and technical validation.' },
+  },
+]
+
+const SERVERS: StoreItem[] = [
+  { type: 'server', slug: 'small', name: { fr: 'Serveur privé Small', en: 'Small private server' }, description: { fr: 'Pour démarrer avec quelques missions légères et des applications peu exigeantes.', en: 'For getting started with a few light missions and low-demand applications.' }, creator: 'unitalk', facet: 'infrastructure', enables: [{ fr: 'Héberger un premier environnement privé', en: 'Host a first private environment' }], contexts: [{ fr: 'Pilote, petite équipe, faible charge', en: 'Pilot, small team, light workload' }], permissions: [{ fr: 'Configuration dimensionnée et validée avant activation', en: 'Configuration sized and approved before activation' }], order: 0, dateAdded: '2026-08-16', keywords: ['serveur','small','privé','pilote'], commercialStatus: 'draft' },
+  { type: 'server', slug: 'medium', name: { fr: 'Serveur privé Medium', en: 'Medium private server' }, description: { fr: 'Pour une équipe active, plusieurs applications et des missions régulières.', en: 'For an active team, several applications and regular missions.' }, creator: 'unitalk', facet: 'infrastructure', enables: [{ fr: 'Faire fonctionner plusieurs services métier', en: 'Run several business services' }], contexts: [{ fr: 'Équipe en production, charge régulière', en: 'Production team, regular workload' }], permissions: [{ fr: 'Configuration dimensionnée et validée avant activation', en: 'Configuration sized and approved before activation' }], order: 1, dateAdded: '2026-08-16', keywords: ['serveur','medium','privé','équipe'], commercialStatus: 'draft' },
+  { type: 'server', slug: 'large', name: { fr: 'Serveur privé Large', en: 'Large private server' }, description: { fr: 'Pour plusieurs Collaborateurs IA, des automatisations continues et des applications plus exigeantes.', en: 'For several AI Collaborators, continuous automations and more demanding applications.' }, creator: 'unitalk', facet: 'infrastructure', enables: [{ fr: 'Soutenir une exploitation multi-collaborateurs', en: 'Support multi-collaborator operations' }], contexts: [{ fr: 'Organisation structurée, charge soutenue', en: 'Structured organization, sustained workload' }], permissions: [{ fr: 'Architecture et capacité confirmées sur étude', en: 'Architecture and capacity confirmed after assessment' }], order: 2, dateAdded: '2026-08-16', keywords: ['serveur','large','privé','organisation'], commercialStatus: 'draft' },
+  { type: 'server', slug: 'xxl', name: { fr: 'Serveur privé XXL', en: 'XXL private server' }, description: { fr: 'Pour les déploiements complexes, les volumes élevés et les exigences d’infrastructure spécifiques.', en: 'For complex deployments, high volumes and specific infrastructure requirements.' }, creator: 'unitalk', facet: 'infrastructure', enables: [{ fr: 'Concevoir une infrastructure privée sur mesure', en: 'Design tailored private infrastructure' }], contexts: [{ fr: 'Déploiement critique ou à grande échelle', en: 'Critical or large-scale deployment' }], permissions: [{ fr: 'Architecture, hébergement et conditions définis sur étude', en: 'Architecture, hosting and terms defined after assessment' }], order: 3, dateAdded: '2026-08-16', keywords: ['serveur','xxl','privé','sur mesure'], commercialStatus: 'draft' },
+]
+
+export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...INTEGRATIONS, ...APPLICATIONS, ...SERVERS]
 
 // Fast lookup by type-slug + item-slug (used by fiche pages).
 export function getStoreItem(typeSlug: string, slug: string): StoreItem | undefined {
@@ -1202,7 +1237,9 @@ export const TYPE_FACETS: Facet[] = [
   { key: 'all', label: { fr: 'Tout le catalogue', en: 'The whole catalog' } },
   { key: 'profil', label: TYPE_LABELS_PLURAL.profil },
   { key: 'competence', label: TYPE_LABELS_PLURAL.competence },
+  { key: 'integration', label: TYPE_LABELS_PLURAL.integration },
   { key: 'application', label: TYPE_LABELS_PLURAL.application },
+  { key: 'server', label: TYPE_LABELS_PLURAL.server },
 ]
 
 export const CREATOR_FACETS: Facet[] = (['all', 'unitalk', 'community'] as (Creator | 'all')[]).map((k) => ({
@@ -1219,10 +1256,10 @@ export function contextualFacets(type: StoreType): Facet[] {
     .map((k) => ({ key: k, label: labels[k] }))
 }
 
-// Editors present among applications, in alphabetical order.
+// Editors present among integrations and applications, in alphabetical order.
 export function editorFacets(): Facet[] {
   const editors = Array.from(
-    new Set(STORE_ITEMS.filter((i) => i.type === 'application' && i.editor).map((i) => i.editor as string)),
+    new Set(STORE_ITEMS.filter((i) => (i.type === 'integration' || i.type === 'application') && i.editor).map((i) => i.editor as string)),
   ).sort((a, b) => a.localeCompare(b))
   return editors.map((e) => ({ key: e, label: { fr: e, en: e } }))
 }
@@ -1274,7 +1311,7 @@ export const PAGE_SIZE = 12
 export function storeFiltersFromParams(params: URLSearchParams): StoreFilters {
   const type = params.get('type')
   const validType: TypeKey =
-    type === 'profil' || type === 'competence' || type === 'application' ? type : 'all'
+    type === 'profil' || type === 'competence' || type === 'integration' || type === 'application' || type === 'server' ? type : 'all'
   const creator = params.get('creator')
   return {
     type: validType,

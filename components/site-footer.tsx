@@ -15,11 +15,13 @@ const T = {
         links: [
           {
             label: 'Marketplace IA',
-            href: '/collaborateurs-ia/applications',
+            href: '/marketplace',
             children: [
               { label: 'Profils métier', href: '/collaborateurs-ia/profils-metier' },
               { label: 'Compétences', href: '/collaborateurs-ia/competences' },
-              { label: 'Applications', href: '/collaborateurs-ia/applications/catalogue' },
+              { label: 'Intégrations', href: '/collaborateurs-ia/integrations' },
+              { label: 'Applications', href: '/collaborateurs-ia/applications' },
+              { label: 'Serveurs', href: '/collaborateurs-ia/serveurs' },
             ],
           },
           { label: 'Workspace', href: '/workspace' },
@@ -76,11 +78,13 @@ const T = {
         links: [
           {
             label: 'AI Marketplace',
-            href: '/collaborateurs-ia/applications',
+            href: '/marketplace',
             children: [
               { label: 'Job profiles', href: '/collaborateurs-ia/profils-metier' },
               { label: 'Skills', href: '/collaborateurs-ia/competences' },
-              { label: 'Applications', href: '/collaborateurs-ia/applications/catalogue' },
+              { label: 'Integrations', href: '/collaborateurs-ia/integrations' },
+              { label: 'Applications', href: '/collaborateurs-ia/applications' },
+              { label: 'Servers', href: '/collaborateurs-ia/serveurs' },
             ],
           },
           { label: 'Workspace', href: '/workspace' },

@@ -11,7 +11,7 @@ const SUGGESTIONS = ALMA_EXAMPLES
 
 /** Count matched items per type for the live recommendation panel. */
 function tally(query: string, lang: Lang): Record<StoreType, number> {
-  const out: Record<StoreType, number> = { profil: 0, competence: 0, application: 0 }
+  const out: Record<StoreType, number> = { profil: 0, competence: 0, integration: 0, application: 0, server: 0 }
   if (!query.trim()) return out
   for (const { item } of searchStore(query, lang)) out[item.type] += 1
   return out
@@ -52,7 +52,9 @@ export function StoreAlmaConsole({
       units: {
         profil: (n: number) => `${n} profil${n > 1 ? 's' : ''} métier`,
         competence: (n: number) => `${n} compétence${n > 1 ? 's' : ''}`,
+        integration: (n: number) => `${n} intégration${n > 1 ? 's' : ''}`,
         application: (n: number) => `${n} application${n > 1 ? 's' : ''}`,
+        server: (n: number) => `${n} serveur${n > 1 ? 's' : ''}`,
       },
       none: 'Aucun élément exact — Alma composera un équipement sur mesure.',
     },
@@ -73,7 +75,9 @@ export function StoreAlmaConsole({
       units: {
         profil: (n: number) => `${n} job profile${n > 1 ? 's' : ''}`,
         competence: (n: number) => `${n} skill${n > 1 ? 's' : ''}`,
+        integration: (n: number) => `${n} integration${n > 1 ? 's' : ''}`,
         application: (n: number) => `${n} application${n > 1 ? 's' : ''}`,
+        server: (n: number) => `${n} server${n > 1 ? 's' : ''}`,
       },
       none: 'No exact match — Alma will compose tailored equipment.',
     },
@@ -89,7 +93,7 @@ export function StoreAlmaConsole({
   useEffect(() => () => timers.current.forEach(clearTimeout), [])
 
   const counts = useMemo(() => tally(text, lang), [text, lang])
-  const totalFound = counts.profil + counts.competence + counts.application
+  const totalFound = counts.profil + counts.competence + counts.integration + counts.application + counts.server
   const hasText = text.trim().length > 0
 
   const submit = useCallback(() => {
@@ -121,7 +125,9 @@ export function StoreAlmaConsole({
   const entries: { type: StoreType; label: string }[] = [
     { type: 'profil', label: t.units.profil(counts.profil) },
     { type: 'competence', label: t.units.competence(counts.competence) },
+    { type: 'integration', label: t.units.integration(counts.integration) },
     { type: 'application', label: t.units.application(counts.application) },
+    { type: 'server', label: t.units.server(counts.server) },
   ]
 
   return (

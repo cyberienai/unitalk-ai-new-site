@@ -148,8 +148,8 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
       title: lang === 'fr' ? 'Le catalogue' : 'The catalog',
       desc:
         lang === 'fr'
-          ? 'Des profils métier, des compétences et des applications pour équiper vos Collaborateurs IA.'
-          : 'Job profiles, skills and applications to equip your AI Collaborators.',
+          ? 'Des profils métier, compétences, intégrations, applications et serveurs pour équiper vos Collaborateurs IA.'
+          : 'Job profiles, skills, integrations, applications and servers to equip your AI Collaborators.',
     },
     profil: {
       title: lang === 'fr' ? 'Profils métier' : 'Job profiles',
@@ -165,12 +165,20 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
           ? 'Des savoir-faire précis à ajouter à vos Collaborateurs IA selon leurs missions.'
           : 'Precise know-how to add to your AI Collaborators for their missions.',
     },
+    integration: {
+      title: lang === 'fr' ? 'Intégrations' : 'Integrations',
+      desc: lang === 'fr' ? 'Les services tiers auxquels vos Collaborateurs IA peuvent accéder selon les droits accordés.' : 'Third-party services your AI Collaborators can access under granted permissions.',
+    },
     application: {
       title: lang === 'fr' ? 'Applications' : 'Applications',
       desc:
         lang === 'fr'
-          ? 'Les services dans lesquels vos Collaborateurs IA peuvent travailler avec les autorisations de votre Organisation.'
-          : 'The services your AI Collaborators can work in, with your Organization’s permissions.',
+          ? 'Des applications open source vérifiées et des modèles métier vibecodés à adapter à votre Organisation.'
+          : 'Verified open-source applications and vibe-coded business templates to adapt to your Organization.',
+    },
+    server: {
+      title: lang === 'fr' ? 'Serveurs privés' : 'Private servers',
+      desc: lang === 'fr' ? 'Quatre niveaux d’infrastructure à dimensionner selon vos missions, applications et exigences.' : 'Four infrastructure tiers to size for your missions, applications and requirements.',
     },
   }
   const head = singleType ? heads[singleType] : heads.all
@@ -277,8 +285,8 @@ export function StoreContent({ initialType }: { initialType?: StoreType }) {
         </h1>
         <p className="mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-[var(--store-muted)] sm:text-base">
           {lang === 'fr'
-            ? 'Explorez les profils métier, les compétences et les applications. Alma les assemble selon sa mission et le contexte de votre Organisation.'
-            : 'Explore the job profiles, skills and applications. Alma assembles them for its mission and your Organization’s context.'}
+            ? 'Explorez les profils, compétences, intégrations, applications et serveurs. Alma les assemble selon la mission et le contexte de votre Organisation.'
+            : 'Explore profiles, skills, integrations, applications and servers. Alma assembles them for the mission and your Organization context.'}
         </p>
 
         {/* Tabs */}

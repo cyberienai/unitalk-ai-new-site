@@ -34,7 +34,7 @@ export function StoreFilters({
 }) {
   const singleType = filters.type !== 'all' ? (filters.type as StoreType) : null
   const facets = singleType ? contextualFacets(singleType) : []
-  const editors = filters.type === 'application' ? editorFacets() : []
+  const editors = filters.type === 'application' || filters.type === 'integration' ? editorFacets() : []
 
   const facetTitle =
     singleType === 'profil'

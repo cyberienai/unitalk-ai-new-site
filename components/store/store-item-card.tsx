@@ -22,7 +22,7 @@ function monoTint(seed: string): string {
 // The secondary metadata line: type first, then creator (profil/competence) or
 // editor (application). No status, no invented metric (sections 11 & 14).
 function creatorLabel(item: StoreItem, lang: Lang): string {
-  if (item.type === 'application') return item.editor ?? (lang === 'fr' ? 'Éditeur' : 'Editor')
+  if (item.type === 'application' || item.type === 'integration') return item.editor ?? (lang === 'fr' ? 'Éditeur' : 'Editor')
   return item.creator === 'unitalk'
     ? lang === 'fr'
       ? 'Par Unitalk'
@@ -33,7 +33,7 @@ function creatorLabel(item: StoreItem, lang: Lang): string {
 }
 
 export function StoreItemCard({ item, lang }: { item: StoreItem; lang: Lang }) {
-  const isApp = item.type === 'application'
+  const isApp = item.type === 'application' || item.type === 'integration' || item.type === 'server'
   const initial = item.name[lang].replace(/[^A-Za-z0-9]/g, '').charAt(0).toUpperCase() || '·'
 
   return (

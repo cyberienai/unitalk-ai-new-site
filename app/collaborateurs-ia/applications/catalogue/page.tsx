@@ -6,7 +6,7 @@ import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
   title: 'Catalogue des applications Unitalk',
-  description: 'Explorez uniquement les applications, connecteurs et services dans lesquels vos Collaborateurs IA peuvent travailler selon leurs droits.',
+  description: 'Explorez les applications open source vérifiées et les modèles métier vibecodés proposés aux Collaborateurs IA.',
   alternates: { canonical: '/collaborateurs-ia/applications/catalogue' },
 }
 

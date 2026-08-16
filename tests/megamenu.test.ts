@@ -10,8 +10,8 @@ describe('Marketplace IA mega menu', () => {
     expect(navbar).toContain('MARKETPLACE_CATALOGS.map')
   })
 
-  it('exposes all seven marketplace areas and participation paths', () => {
-    for (const href of ['/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/applications/catalogue','/modeles-ia','/academy','/experts','/missions','/co-createur-ia']) expect(navbar).toContain(href)
+  it('exposes all nine marketplace areas and participation paths', () => {
+    for (const href of ['/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/integrations','/collaborateurs-ia/applications','/collaborateurs-ia/serveurs','/modeles-ia','/academy','/experts','/missions','/co-createur-ia']) expect(navbar).toContain(href)
   })
 
   it('uses accessible menu semantics and matching mobile discovery', () => {

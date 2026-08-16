@@ -1,30 +1,15 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Navbar } from '@/components/navbar'
-import { UnitalkStoreHub } from '@/components/unitalk-store-hub'
+import { StoreContent } from '@/components/store-content'
 import { SiteFooter } from '@/components/site-footer'
 
-const SITE_URL = 'https://unitalk.ai'
-
 export const metadata: Metadata = {
-  title: 'Marketplace IA : Collaborateurs IA et créations de la communauté',
-  description:
-    'La Marketplace des Collaborateurs IA : profils métier, compétences, applications, modèles, formations, services et missions créés par Unitalk et la communauté.',
+  title: 'Applications open source et métier pour Collaborateurs IA',
+  description: 'Explorez les applications open source vérifiées et les modèles d’applications métier vibecodés pour vos Collaborateurs IA.',
   alternates: { canonical: '/collaborateurs-ia/applications' },
-  openGraph: {
-    type: 'website',
-    url: `${SITE_URL}/collaborateurs-ia/applications`,
-    title: 'Marketplace IA | Unitalk',
-    description:
-      'Trouvez, adoptez et enrichissez des Collaborateurs IA conçus par Unitalk et la communauté.',
-  },
 }
 
 export default function ApplicationsPage() {
-  return (
-    <>
-      <Navbar />
-      <UnitalkStoreHub />
-      <SiteFooter />
-    </>
-  )
+  return <><Navbar/><Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]"/>}><StoreContent initialType="application"/></Suspense><SiteFooter/></>
 }

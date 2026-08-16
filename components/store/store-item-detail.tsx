@@ -16,7 +16,7 @@ import {
 } from '@/lib/store-catalog'
 
 function creatorLine(item: StoreItem, lang: 'fr' | 'en'): string {
-  if (item.type === 'application' && item.editor) return item.editor
+  if ((item.type === 'application' || item.type === 'integration') && item.editor) return item.editor
   return CREATOR_LABELS[item.creator][lang]
 }
 
@@ -126,7 +126,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
             {item.description[lang]}
           </p>
           <p className="mt-3 text-[13px] text-[var(--store-muted)]">
-            {item.type === 'application' && item.editor ? t.editor : t.createdBy}{' '}
+            {(item.type === 'application' || item.type === 'integration') && item.editor ? t.editor : t.createdBy}{' '}
             <span className="font-semibold text-[var(--store-text)]">{creatorLine(item, lang)}</span>
           </p>
           {item.type === 'profil' && <div className="mt-4 inline-flex rounded-full border border-[#D10E63]/25 bg-[#F2E4EC] px-3 py-1.5 text-[11px] font-bold text-[#AD0C53]">{t.hermesProfile}</div>}

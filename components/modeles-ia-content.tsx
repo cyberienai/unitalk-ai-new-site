@@ -1,259 +1,95 @@
 'use client'
 
-import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { useState, type ReactNode } from 'react'
+import { Anthropic, DeepSeek, Gemini, Mistral, OpenAI } from '@lobehub/icons'
+import { ArrowDown, ArrowRight, Check, Code2, Eye, ImageIcon, Mic2, Sparkles, WalletCards } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { AlmaFace } from '@/components/alma-face'
 
-type FeatKey = 'best' | 'multimodal' | 'memory' | 'skills'
+type Workload = 'light' | 'daily' | 'intensive'
 
-const FEAT_ICON: Record<FeatKey, ReactNode> = {
-  best: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2 15 8l6 .9-4.5 4.3 1 6-5.5-3-5.5 3 1-6L3 8.9 9 8z" />
-    </svg>
-  ),
-  multimodal: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <circle cx="9" cy="9" r="2" />
-      <path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21" />
-    </svg>
-  ),
-  memory: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2a5 5 0 0 0-5 5v1a4 4 0 0 0-1 7.87V19a3 3 0 0 0 6 0" />
-      <path d="M12 2a5 5 0 0 1 5 5v1a4 4 0 0 1 1 7.87V19a3 3 0 0 1-6 0" />
-    </svg>
-  ),
-  skills: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="16 18 22 12 16 6" />
-      <polyline points="8 6 2 12 8 18" />
-    </svg>
-  ),
-}
-
-const FEAT_ORDER: FeatKey[] = ['best', 'multimodal', 'memory', 'skills']
-
-type Feat = { title: string; desc: string }
+const MODEL_FAMILIES: { name: string; maker: string; mark: ReactNode; tone: string }[] = [
+  { name: 'GPT', maker: 'OpenAI', mark: <OpenAI size={29} />, tone: 'bg-[#E7E2D7]' },
+  { name: 'Claude', maker: 'Anthropic', mark: <Anthropic size={29} />, tone: 'bg-[#F1DCCF]' },
+  { name: 'Gemini', maker: 'Google', mark: <Gemini size={29} />, tone: 'bg-[#DCE5E7]' },
+  { name: 'Mistral', maker: 'Mistral AI', mark: <Mistral size={29} />, tone: 'bg-[#F2D9D0]' },
+  { name: 'DeepSeek', maker: 'DeepSeek', mark: <DeepSeek size={29} />, tone: 'bg-[#DDE2EF]' },
+  { name: 'Kimi', maker: 'Moonshot AI', mark: <span className="text-xl font-black">K</span>, tone: 'bg-[#DEE8E2]' },
+  { name: 'Qwen', maker: 'Alibaba Cloud', mark: <span className="text-xl font-black">Q</span>, tone: 'bg-[#E7DDF0]' },
+  { name: 'Grok', maker: 'xAI', mark: <span className="text-xl font-black">G</span>, tone: 'bg-[#E2E0DD]' },
+  { name: 'MiniMax', maker: 'MiniMax', mark: <span className="text-lg font-black">MM</span>, tone: 'bg-[#E8DFD6]' },
+]
 
 const T = {
   fr: {
-    eyebrow: 'Modèles IA',
-    title1: 'Les meilleurs modèles. ',
-    title2: 'Vos règles.',
-    subtitle:
-      'Votre Collaborateur IA accède aux modèles autorisés via Unitalk AI Gateway. Vous choisissez comment les utiliser : vos propres clés, des crédits Unitalk ou les deux.',
-    modesLabel: 'Choisissez la capacité de chaque Collaborateur IA',
-    byokTitle: 'BYOK — vos propres clés',
-    byokDesc:
-      'Bring Your Own Key : connectez vos clés API (GPT, Claude, Gemini…) et ne payez que l’abonnement. Vous gardez la main sur vos coûts, au prix réel des modèles.',
-    byokPoints: ['Vos clés, vos coûts', 'Aucune marge sur les modèles', 'Contrôle total des accès'],
-    byokBadge: '0 €/mois',
-    quarterTitle: 'Quart-temps',
-    quarterDesc: 'Pour une charge légère ou des missions récurrentes avec 5 millions de tokens par mois.',
-    quarterPoints: ['5 millions de tokens/mois', '25 €/mois par Collaborateur IA', 'Offert jusqu’au 31 décembre 2026'],
-    quarterBadge: 'Pour démarrer',
-    halfTitle: 'Mi-temps',
-    halfDesc: 'Pour une prise en charge quotidienne avec davantage de volume et de continuité.',
-    halfPoints: ['10 millions de tokens/mois', '50 €/mois par Collaborateur IA', 'Capacité ajustable à tout moment'],
-    halfBadge: 'Quotidien',
-    fullTitle: 'Temps plein',
-    fullDesc: 'Pour les processus complexes, les volumes importants et les missions intensives.',
-    fullPoints: ['20 millions de tokens/mois', '100 €/mois par Collaborateur IA', 'Capacité ajustable à tout moment'],
-    fullBadge: 'Intensif',
-    switchNote: 'La capacité IA finance l’usage des modèles. Elle s’ajoute à la licence du Collaborateur IA et peut évoluer sans modifier son identité.',
-    featLabel: 'Ce que ça change pour votre Collaborateur IA',
-    feats: {
-      best: { title: 'Accès aux meilleurs modèles', desc: 'GPT, Claude, Gemini et plus — toujours le bon modèle pour la bonne tâche.' },
-      multimodal: { title: 'Multimodal', desc: 'Voix, texte, image, audio, code : votre Collaborateur IA comprend et produit tous les formats.' },
-      memory: { title: 'Mémoire persistante', desc: 'Un contexte d’entreprise qui se souvient de tout, d’un échange à l’autre.' },
-      skills: { title: 'Compétences extensibles', desc: 'Des compétences auto-apprises et une connexion à 3 000+ apps via MCP.' },
-    } as Record<FeatKey, Feat>,
-    ctaTitle1: 'Pas sûr du bon choix ? ',
-    ctaTitle2: 'Alma vous conseille.',
-    ctaDesc:
-      'Elle vous recommande BYOK ou crédits selon votre usage, lors de votre appel. Gratuit, sans carte bancaire.',
-    ctaBtn: 'Créer mon Collaborateur IA gratuitement',
+    eyebrow: 'Modèles IA / Capacité', heroA: 'Le bon modèle.', heroB: 'Seulement quand', heroC: 'le travail l’exige.',
+    lead: 'Votre Collaborateur IA peut mobiliser plusieurs familles de modèles, sous les règles de votre organisation. Vous choisissez la capacité mensuelle, vos propres clés ou des crédits prépayés.',
+    primary: 'Choisir ma capacité', secondary: 'Comprendre AI Gateway',
+    ribbon: ['Plusieurs fournisseurs', 'Une politique commune', 'Coûts attribués', 'Aucun modèle imposé'],
+    catalogKicker: 'La table des modèles', catalogTitle: 'Une équipe d’intelligences derrière chaque Collaborateur IA.', catalogBody: 'La famille utilisée peut varier selon la mission, la modalité, le budget et les autorisations. Cette sélection est indicative : les versions et disponibilités évoluent.',
+    formats: [['Raisonner', Sparkles], ['Voir', Eye], ['Créer une image', ImageIcon], ['Écouter et parler', Mic2], ['Coder', Code2]] as const,
+    gatewayLink: 'Voir le routage et la gouvernance',
+    capacityKicker: 'Capacité mensuelle', capacityTitle: 'Choisissez une cadence, pas un modèle.', capacityBody: 'La capacité suit le Collaborateur IA. Vous pouvez l’ajuster sans changer son identité, ses missions ou son expérience validée.',
+    workloadLabel: 'Estimez votre rythme de travail', workloads: { light: 'Léger', daily: 'Quotidien', intensive: 'Intensif' },
+    capacities: {
+      light: { name: 'Quart-temps', tokens: '5 M', price: '25 €', cadence: 'Missions légères ou récurrentes', note: 'Offert jusqu’au 31 décembre 2026' },
+      daily: { name: 'Mi-temps', tokens: '10 M', price: '50 €', cadence: 'Prise en charge quotidienne', note: 'Ajustable à tout moment' },
+      intensive: { name: 'Temps plein', tokens: '20 M', price: '100 €', cadence: 'Processus complexes et volumes importants', note: 'Ajustable à tout moment' },
+    },
+    perMonth: '/ mois / Collaborateur IA', tokensLabel: 'tokens par mois', choose: 'Commander', orderCapacity: 'Acheter de la capacité IA',
+    freedomKicker: 'À votre manière', freedomTitle: 'Mensuel, prépayé ou avec vos clés.',
+    prepaidTitle: 'Crédits prépayés', prepaidPrice: 'Dès 25 €', prepaidTag: 'Sans engagement', prepaidBody: 'Rechargez un solde pour les besoins ponctuels, les modèles avancés ou les usages image, audio et vidéo. Vous ne consommez que ce que les missions utilisent.', prepaidPoints: ['Recharge ponctuelle', 'Budget maîtrisé', 'Complète une capacité mensuelle'],
+    byokTitle: 'BYOK', byokPrice: '0 € / mois', byokTag: 'Vos clés', byokBody: 'Connectez les clés API de votre entreprise. Le fournisseur vous facture directement la consommation, tandis que Unitalk applique vos règles d’accès.', byokPoints: ['Prix direct fournisseur', 'Clés sous votre contrôle', 'Compatible avec une configuration hybride'],
+    monthlyTitle: 'Capacité mensuelle', monthlyPrice: '25 à 100 €', monthlyTag: 'Prévisible', monthlyBody: 'Un volume mensuel affecté à chaque Collaborateur IA pour ses missions régulières.', monthlyPoints: ['5, 10 ou 20 M de tokens', 'Budget récurrent lisible', 'Capacité ajustable'],
+    explainTitle: 'Trois moyens de payer. Une seule politique de contrôle.', explainBody: 'Vous pouvez utiliser une capacité mensuelle pour le quotidien, des crédits prépayés pour les pointes et vos propres clés pour les fournisseurs déjà contractualisés.',
+    order: 'Commander', finalA: 'Pas besoin de choisir seul.', finalB: 'Alma dimensionne avec vous.', finalBody: 'Décrivez la première mission. Alma estime le rythme, les formats et le niveau de capacité utile avant toute activation.', finalCta: 'Décrire ma mission', finalAlt: 'Voir les tarifs détaillés',
   },
   en: {
-    eyebrow: 'AI models',
-    title1: 'The best models. ',
-    title2: 'Your rules.',
-    subtitle:
-      'Your AI Collaborator accesses authorized models through Unitalk AI Gateway. Choose your own keys, Unitalk credits, or both.',
-    modesLabel: 'Choose each AI Collaborator’s capacity',
-    byokTitle: 'BYOK — your own keys',
-    byokDesc:
-      'Bring Your Own Key: connect your API keys (GPT, Claude, Gemini…) and only pay for the subscription. You stay in control of your costs, at the models’ real price.',
-    byokPoints: ['Your keys, your costs', 'No markup on models', 'Full access control'],
-    byokBadge: '€0/month',
-    quarterTitle: 'Quarter-time',
-    quarterDesc: 'For a light workload or recurring missions with 5 million tokens per month.',
-    quarterPoints: ['5 million tokens/month', '€25/month per AI Collaborator', 'Free through December 31, 2026'],
-    quarterBadge: 'Start here',
-    halfTitle: 'Half-time',
-    halfDesc: 'For daily work with more volume and continuity.',
-    halfPoints: ['10 million tokens/month', '€50/month per AI Collaborator', 'Adjust capacity at any time'],
-    halfBadge: 'Daily',
-    fullTitle: 'Full-time',
-    fullDesc: 'For complex processes, high volumes and intensive missions.',
-    fullPoints: ['20 million tokens/month', '€100/month per AI Collaborator', 'Adjust capacity at any time'],
-    fullBadge: 'Intensive',
-    switchNote: 'AI capacity funds model usage. It is added to the AI Collaborator license and can change without altering its identity.',
-    featLabel: 'What it means for your AI Collaborator',
-    feats: {
-      best: { title: 'Access to the best models', desc: 'GPT, Claude, Gemini and more — always the right model for the right task.' },
-      multimodal: { title: 'Multimodal', desc: 'Voice, text, image, audio, code: your AI Collaborator understands and produces every format.' },
-      memory: { title: 'Persistent memory', desc: 'A company context that remembers everything, from one exchange to the next.' },
-      skills: { title: 'Extensible skills', desc: 'Self-taught skills and a connection to 3,000+ apps via MCP.' },
-    } as Record<FeatKey, Feat>,
-    ctaTitle1: 'Not sure which to pick? ',
-    ctaTitle2: 'Alma advises you.',
-    ctaDesc:
-      'She recommends BYOK or credits based on your usage, on your call. Free, no credit card.',
-    ctaBtn: 'Create my AI Collaborator for free',
+    eyebrow: 'AI models / Capacity', heroA: 'The right model.', heroB: 'Only when the work', heroC: 'requires it.', lead: 'Your AI Collaborator can use several model families under your organization rules. Choose monthly capacity, your own keys or prepaid credits.', primary: 'Choose capacity', secondary: 'Understand AI Gateway', ribbon: ['Multiple providers', 'One shared policy', 'Attributed costs', 'No imposed model'],
+    catalogKicker: 'The model table', catalogTitle: 'A team of intelligences behind every AI Collaborator.', catalogBody: 'The family used may vary by mission, modality, budget and permissions. This selection is indicative: versions and availability evolve.', formats: [['Reason', Sparkles], ['See', Eye], ['Create images', ImageIcon], ['Listen and speak', Mic2], ['Code', Code2]] as const, gatewayLink: 'View routing and governance',
+    capacityKicker: 'Monthly capacity', capacityTitle: 'Choose a pace, not a model.', capacityBody: 'Capacity follows the AI Collaborator. Adjust it without changing its identity, missions or validated experience.', workloadLabel: 'Estimate your work pace', workloads: { light: 'Light', daily: 'Daily', intensive: 'Intensive' }, capacities: { light: { name: 'Quarter-time', tokens: '5M', price: '€25', cadence: 'Light or recurring missions', note: 'Free through December 31, 2026' }, daily: { name: 'Half-time', tokens: '10M', price: '€50', cadence: 'Daily workload', note: 'Adjust at any time' }, intensive: { name: 'Full-time', tokens: '20M', price: '€100', cadence: 'Complex processes and high volumes', note: 'Adjust at any time' } }, perMonth: '/ month / AI Collaborator', tokensLabel: 'tokens per month', choose: 'Order', orderCapacity: 'Buy AI capacity',
+    freedomKicker: 'Your way', freedomTitle: 'Monthly, prepaid or with your keys.', prepaidTitle: 'Prepaid credits', prepaidPrice: 'From €25', prepaidTag: 'No commitment', prepaidBody: 'Top up a balance for occasional needs, advanced models or image, audio and video usage. You only consume what missions use.', prepaidPoints: ['One-off top-up', 'Controlled budget', 'Complements monthly capacity'], byokTitle: 'BYOK', byokPrice: '€0 / month', byokTag: 'Your keys', byokBody: 'Connect your company API keys. Providers bill usage directly while Unitalk applies your access policies.', byokPoints: ['Direct provider price', 'Keys under your control', 'Works in a hybrid setup'], monthlyTitle: 'Monthly capacity', monthlyPrice: '€25 to €100', monthlyTag: 'Predictable', monthlyBody: 'A monthly volume assigned to each AI Collaborator for regular missions.', monthlyPoints: ['5, 10 or 20M tokens', 'Clear recurring budget', 'Adjustable capacity'], explainTitle: 'Three ways to pay. One control policy.', explainBody: 'Use monthly capacity for daily work, prepaid credits for peaks and your keys for providers you already contract with.',
+    order: 'Order', finalA: 'You do not have to choose alone.', finalB: 'Alma sizes it with you.', finalBody: 'Describe the first mission. Alma estimates its pace, formats and useful capacity before activation.', finalCta: 'Describe my mission', finalAlt: 'View detailed pricing',
   },
-}
+} as const
 
 export function ModelesIaContent() {
   const { lang } = useLanguage()
   const t = T[lang]
+  const [workload, setWorkload] = useState<Workload>('light')
+  const capacity = t.capacities[workload]
 
-  const modes = [
-    { title: t.byokTitle, desc: t.byokDesc, points: t.byokPoints, badge: t.byokBadge, highlight: false },
-    { title: t.quarterTitle, desc: t.quarterDesc, points: t.quarterPoints, badge: t.quarterBadge, highlight: true },
-    { title: t.halfTitle, desc: t.halfDesc, points: t.halfPoints, badge: t.halfBadge, highlight: false },
-    { title: t.fullTitle, desc: t.fullDesc, points: t.fullPoints, badge: t.fullBadge, highlight: false },
-  ]
-
-  return (
-    <main className="w-full bg-[#F3EFE6]">
-      {/* Hero */}
-      <section className="relative w-full overflow-hidden bg-grid pt-28 sm:pt-32 pb-10 sm:pb-14">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]">{t.eyebrow}</p>
-          <h1
-            className="mt-3 font-sf text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] text-[#1C1A17] text-balance"
-            style={{ letterSpacing: '-0.03em' }}
-          >
-            {t.title1}<span className="text-[#D10E63]">{t.title2}</span>
-          </h1>
-          <p className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#4E483F]">
-            {t.subtitle}
-          </p>
+  return <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
+    <section className="relative min-h-[740px] border-b border-[#D8D0C2] px-5 pb-16 pt-32 sm:px-8 sm:pt-40">
+      <div aria-hidden className="absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
+      <div className="editorial-shell relative">
+        <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.eyebrow}</p>
+        <div className="mt-8 grid gap-12 lg:grid-cols-[1.25fr_.75fr] lg:items-end">
+          <h1 className="max-w-[900px] text-[clamp(2.7rem,5.8vw,5.8rem)] font-semibold leading-[.94] tracking-[-.06em]"><span className="block">{t.heroA}</span><span className="block">{t.heroB}</span><span className="block text-[#D10E63]">{t.heroC}</span></h1>
+          <div className="lg:pb-3"><p className="text-[17px] leading-8 text-[#4E483F]">{t.lead}</p><div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row"><a href="#capacite" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white">{t.primary}<ArrowDown className="ml-2 size-4" /></a><Link href="/ai-gateway" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#BFB5A5] bg-[#FAF8F3] px-6 text-sm font-bold">{t.secondary}</Link></div></div>
         </div>
-      </section>
+        <div className="mt-16 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:grid-cols-4">{t.ribbon.map((item, index) => <p key={item} className="flex min-h-20 items-center gap-4 border-b border-[#CFC5B5] py-4 text-sm font-bold last:border-b-0 sm:border-r sm:[&:nth-child(2)]:border-r-0 lg:border-b-0 lg:[&:nth-child(2)]:border-r lg:last:border-r-0"><span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{item}</p>)}</div>
+      </div>
+    </section>
 
-      {/* Two payment modes */}
-      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#857C6E]">{t.modesLabel}</p>
-        <div className="mt-6 grid gap-5 md:grid-cols-2">
-          {modes.map((mode) => (
-            <motion.div
-              key={mode.title}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.4 }}
-              className={
-                'flex flex-col rounded-3xl border p-8 ' +
-                (mode.highlight
-                  ? 'border-[#D10E63]/40 bg-[#FBF9F3] shadow-[0_8px_30px_rgba(209,14,99,0.08)]'
-                  : 'border-[#DcD4C4] bg-[#FBF9F3]')
-              }
-            >
-              <div className="flex items-center justify-between">
-                <h2 className="font-sf text-2xl font-bold leading-snug text-[#1C1A17]" style={{ letterSpacing: '-0.02em' }}>
-                  {mode.title}
-                </h2>
-                <span
-                  className={
-                    'rounded-full px-3 py-1 text-[11px] font-semibold ' +
-                    (mode.highlight ? 'bg-[#D10E63] text-[#FBF9F3]' : 'bg-[#EAE3D4] text-[#4E483F]')
-                  }
-                >
-                  {mode.badge}
-                </span>
-              </div>
-              <p className="mt-3 text-sm sm:text-base leading-relaxed text-[#4E483F]">{mode.desc}</p>
-              <ul className="mt-6 space-y-2.5 border-t border-[#DcD4C4] pt-6">
-                {mode.points.map((point) => (
-                  <li key={point} className="flex items-center gap-2.5 text-sm text-[#3A362F]">
-                    <span className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#D10E63]/12 text-[#D10E63]">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-                    </span>
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-        <p className="mt-5 text-center text-sm text-[#857C6E]">{t.switchNote}</p>
-      </section>
+    <section className="bg-[#181615] px-5 py-20 text-white sm:px-8 sm:py-28"><div className="editorial-shell"><div className="grid gap-8 lg:grid-cols-[.85fr_1.15fr]"><SectionTitle dark kicker={t.catalogKicker} title={t.catalogTitle} /><div className="lg:pt-10"><p className="max-w-2xl text-[16px] leading-8 text-[#CFC6B8]">{t.catalogBody}</p><Link href="/ai-gateway#modeles" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.gatewayLink}<ArrowRight className="size-4" /></Link></div></div>
+      <div className="mt-14 grid gap-px overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">{MODEL_FAMILIES.map((model, index) => <article key={model.name} className="group relative min-h-52 bg-[#211E1B] p-6 transition-colors hover:bg-[#292521]"><span aria-hidden className={`flex size-14 items-center justify-center rounded-full text-[#181615] ${model.tone}`}>{model.mark}</span><span className="absolute right-6 top-6 font-mono text-[9px] text-[#756E65]">{String(index + 1).padStart(2, '0')}</span><h3 className="mt-10 text-2xl font-semibold tracking-[-.03em]">{model.name}</h3><p className="mt-1 text-xs text-[#AFA397]">{model.maker}</p></article>)}</div>
+      <div className="mt-10 flex flex-wrap gap-2">{t.formats.map(([label, Icon]) => <span key={label} className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/15 px-4 text-xs font-bold text-[#D8D0C2]"><Icon className="size-4 text-[#F2A4C5]" />{label}</span>)}</div>
+    </div></section>
 
-      {/* Feature grid */}
-      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-14">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#857C6E]">{t.featLabel}</p>
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {FEAT_ORDER.map((key, i) => {
-            const feat = t.feats[key]
-            return (
-              <motion.article
-                key={key}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="flex flex-col rounded-2xl border border-[#DcD4C4] bg-[#FBF9F3] p-6"
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#D10E63]/10 text-[#D10E63]">
-                  {FEAT_ICON[key]}
-                </span>
-                <h3 className="mt-5 font-sf text-lg font-bold leading-snug text-[#1C1A17]" style={{ letterSpacing: '-0.02em' }}>
-                  {feat.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{feat.desc}</p>
-              </motion.article>
-            )
-          })}
-        </div>
-      </section>
+    <section id="capacite" className="scroll-mt-24 px-5 py-20 sm:px-8 sm:py-28"><div className="editorial-shell"><div className="grid gap-10 lg:grid-cols-[.72fr_1.28fr]"><SectionTitle kicker={t.capacityKicker} title={t.capacityTitle} /><div className="lg:pt-10"><p className="max-w-2xl text-[16px] leading-8 text-[#4E483F]">{t.capacityBody}</p><fieldset className="mt-8"><legend className="font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#857C6E]">{t.workloadLabel}</legend><div className="mt-3 flex flex-wrap gap-2">{(Object.keys(t.workloads) as Workload[]).map((key) => <button key={key} type="button" aria-pressed={workload === key} onClick={() => setWorkload(key)} className={`min-h-11 rounded-full border px-5 text-sm font-bold transition-colors ${workload === key ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#CFC5B5] bg-[#FAF8F3] text-[#4E483F] hover:border-[#D10E63]/50'}`}>{t.workloads[key]}</button>)}</div></fieldset></div></div>
+      <div className="mt-14 grid overflow-hidden rounded-[2rem] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_36px_80px_-60px_rgba(28,26,23,.7)] lg:grid-cols-[.75fr_1.25fr]"><div className="bg-[#D10E63] p-7 text-white sm:p-10"><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-white/70">{capacity.name}</p><p className="mt-16 text-[clamp(4.5rem,10vw,8rem)] font-semibold leading-none tracking-[-.08em]">{capacity.tokens}</p><p className="mt-2 text-sm font-bold text-white/75">{t.tokensLabel}</p></div><div className="flex flex-col justify-between p-7 sm:p-10"><div><p className="text-[clamp(3rem,7vw,6rem)] font-semibold leading-none tracking-[-.07em]">{capacity.price}</p><p className="mt-3 text-sm font-bold text-[#6E665A]">{t.perMonth}</p><p className="mt-10 max-w-xl text-xl font-semibold leading-8">{capacity.cadence}</p><p className="mt-3 text-sm text-[#6E665A]">{capacity.note}</p></div><div className="mt-10 flex flex-col items-start gap-2"><Link href={`/commande?offre=capacite-${workload}`} className="inline-flex min-h-12 w-fit items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white">{t.choose}<ArrowRight className="ml-2 size-4" /></Link><span className="text-xs font-semibold text-[#6E665A]">{t.orderCapacity}</span></div></div></div>
+    </div></section>
 
-      {/* Bottom CTA */}
-      <section className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="rounded-3xl bg-[#1C1A17] px-6 py-12 sm:px-12 sm:py-16 text-center">
-          <h2
-            className="font-sf text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.1] text-[#FBF9F3] text-balance"
-            style={{ letterSpacing: '-0.02em' }}
-          >
-                {t.ctaTitle1}
-                <span className="text-[#FF6FB0]">{withAlmaAvatar(t.ctaTitle2)}</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed text-[#C4BAA8]">
-            {withAlmaAvatar(t.ctaDesc)}
-          </p>
-          <Link
-            href="/decouvrir"
-            className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#D10E63] px-6 py-3 text-sm font-semibold text-[#FBF9F3] transition-colors hover:bg-[#B00B52]"
-          >
-            {t.ctaBtn}
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </Link>
-        </div>
-      </section>
-    </main>
-  )
+    <section className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 py-20 sm:px-8 sm:py-28"><div className="editorial-shell"><SectionTitle kicker={t.freedomKicker} title={t.freedomTitle} /><div className="mt-14 grid gap-4 lg:grid-cols-3"><PaymentCard tag={t.prepaidTag} title={t.prepaidTitle} price={t.prepaidPrice} body={t.prepaidBody} points={t.prepaidPoints} cta={t.order} href="/commande?offre=credits-prepayes" featured icon={<WalletCards className="size-5" />} /><PaymentCard tag={t.monthlyTag} title={t.monthlyTitle} price={t.monthlyPrice} body={t.monthlyBody} points={t.monthlyPoints} cta={t.order} href="/commande?offre=capacite-mensuelle" /><PaymentCard tag={t.byokTag} title={t.byokTitle} price={t.byokPrice} body={t.byokBody} points={t.byokPoints} cta={t.order} href="/commande?offre=byok" /></div><div className="mt-5 grid gap-4 rounded-3xl border border-[#CFC5B5] bg-[#F3EFE6] p-6 sm:p-8 lg:grid-cols-[.75fr_1.25fr]"><h3 className="text-2xl font-semibold tracking-[-.035em]">{t.explainTitle}</h3><div><p className="text-sm leading-7 text-[#625B50]">{t.explainBody}</p><Link href="/commande?offre=capacite-ia" className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#181615] px-5 text-sm font-bold text-white">{t.orderCapacity}<ArrowRight className="ml-2 size-4" /></Link></div></div></div></section>
+
+    <section className="bg-[#D10E63] px-5 py-20 text-white sm:px-8 sm:py-24"><div className="editorial-shell grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><h2 className="max-w-5xl text-[clamp(2.7rem,6vw,6rem)] font-semibold leading-[.92] tracking-[-.065em]">{t.finalA}<br /><span className="text-white/70">{withAlmaAvatar(t.finalB)}</span></h2><p className="mt-7 max-w-2xl text-[17px] leading-8 text-white/80">{withAlmaAvatar(t.finalBody)}</p></div><div className="flex min-w-64 flex-col gap-3"><Link href="/decouvrir?source=modeles-ia" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white">{t.finalCta}<ArrowRight className="ml-2 size-4" /></Link><Link href="/tarifs" className="text-center text-sm font-bold text-white underline decoration-white/35 underline-offset-4">{t.finalAlt}</Link></div></div></section>
+  </main>
 }
 
-function withAlmaAvatar(value: string) {
-  return value.split('Alma').map((part, index) => (
-    <span key={`${part}-${index}`}>
-      {index > 0 && <><AlmaFace />Alma</>}
-      {part}
-    </span>
-  ))
-}
+function SectionTitle({ kicker, title, dark = false }: { kicker: string; title: string; dark?: boolean }) { return <div><p className={`font-mono text-[10px] font-black uppercase tracking-[.2em] ${dark ? 'text-[#F2A4C5]' : 'text-[#B00C54]'}`}>{kicker}</p><h2 className="mt-5 max-w-4xl text-[clamp(2.4rem,5vw,5rem)] font-semibold leading-[.95] tracking-[-.06em]">{title}</h2></div> }
+
+function PaymentCard({ tag, title, price, body, points, cta, href, featured = false, icon }: { tag: string; title: string; price: string; body: string; points: readonly string[]; cta: string; href: string; featured?: boolean; icon?: ReactNode }) { return <article className={`relative flex min-h-[470px] flex-col rounded-3xl border p-7 ${featured ? 'border-[#D10E63] bg-[#D10E63] text-white shadow-[0_24px_55px_-35px_rgba(209,14,99,.8)]' : 'border-[#CFC5B5] bg-[#FAF8F3]'}`}><div className="flex items-center justify-between"><p className={`font-mono text-[9px] font-black uppercase tracking-[.18em] ${featured ? 'text-white/70' : 'text-[#B00C54]'}`}>{tag}</p>{icon}</div><h3 className="mt-10 text-2xl font-semibold">{title}</h3><p className="mt-3 text-[clamp(2.3rem,4vw,4.2rem)] font-semibold leading-none tracking-[-.06em]">{price}</p><p className={`mt-6 text-sm leading-7 ${featured ? 'text-white/80' : 'text-[#625B50]'}`}>{body}</p><ul className={`mt-auto space-y-3 border-t pt-6 text-sm font-semibold ${featured ? 'border-white/20' : 'border-[#D8D0C2]'}`}>{points.map((point) => <li key={point} className="flex gap-2.5"><Check className={`mt-0.5 size-4 shrink-0 ${featured ? 'text-white' : 'text-[#D10E63]'}`} />{point}</li>)}</ul><Link href={href} className={`mt-7 inline-flex min-h-11 items-center justify-center rounded-full px-5 text-sm font-bold ${featured ? 'bg-[#181615] text-white' : 'bg-[#D10E63] text-white'}`}>{cta}<ArrowRight className="ml-2 size-4" /></Link></article> }
+
+function withAlmaAvatar(value: string) { return value.split('Alma').map((part, index) => <span key={`${part}-${index}`}>{index > 0 && <><AlmaFace />Alma</>}{part}</span>) }
