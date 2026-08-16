@@ -60,11 +60,9 @@ const T = {
     voiceListening: 'Alma vous écoute…',
     voicePlaceholder: 'Votre besoin apparaîtra ici…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
-    voiceWritten: 'Décrivez votre mission',
+    voiceWritten: 'Décrivez le travail à accomplir',
     voiceSubmit: 'Préparer cette mission',
     voiceBack: 'Voir la démonstration',
-    voicePrivacy: 'Microphone activé uniquement avec votre accord. Transcription modifiable avant envoi.',
-    examplesLabel: 'Exemples',
     examples: ['Relancer mes factures impayées', 'Traiter mes e-mails entrants', 'Trouver de nouveaux prospects'],
     previewLabel: 'Alma prépare',
     previewItems: ['Objectif', 'Résultat attendu', 'Applications', 'Validations humaines'],
@@ -97,11 +95,9 @@ const T = {
     voiceListening: 'Alma is listening…',
     voicePlaceholder: 'Your need will appear here…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
-    voiceWritten: 'Describe your mission',
+    voiceWritten: 'Describe the work to be done',
     voiceSubmit: 'Prepare this mission',
     voiceBack: 'View the demo',
-    voicePrivacy: 'Microphone activated only with your consent. Edit the transcript before sending.',
-    examplesLabel: 'Examples',
     examples: ['Chase my unpaid invoices', 'Handle my incoming emails', 'Find new prospects'],
     previewLabel: 'Alma prepares',
     previewItems: ['Objective', 'Expected result', 'Applications', 'Human approvals'],
@@ -269,15 +265,13 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   </button>
                   <h2 className="mt-5 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">{t.voiceTitle}</h2>
                   <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
-                  <p className="mt-2 max-w-sm text-[11px] leading-5 text-[#AFA397]">{t.voicePrivacy}</p>
                 </div>
 
-                <label className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#D6CABD]">{t.voiceWritten}</label>
-                <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#AFA397] focus:border-[#D10E63]" />
-                <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#AFA397]">{t.examplesLabel}</span>
+                <div className="mb-4 flex flex-wrap justify-center gap-2">
                   {t.examples.map((example) => <button key={example} type="button" onClick={() => { setTranscript(example); textareaRef.current?.focus() }} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-[#D6CABD] hover:border-[#D10E63]/50 hover:text-white">{example}</button>)}
                 </div>
+                <label className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#D6CABD]">{t.voiceWritten}</label>
+                <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} className="w-full resize-none rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-[#AFA397] focus:border-[#D10E63]" />
                 {transcript.trim() && (
                   <motion.div initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-2xl border border-[#D10E63]/25 bg-[#D10E63]/10 p-3">
                     <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#F3B4CF]">{t.previewLabel}</p>
