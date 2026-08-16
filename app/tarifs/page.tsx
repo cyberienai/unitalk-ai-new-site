@@ -12,7 +12,7 @@ import { PRICING_DRAFT_COOKIE, normalizePricingDraft, parsePricingDraftEnvelope,
 export const metadata: Metadata = {
   title: 'Tarifs Collaborateur IA et entreprise IA | Unitalk',
   description:
-    'Configurez votre entreprise IA : Compte Entreprise, licences Collaborateur IA dès 49 €/mois et capacité modèles IA avec Vos Clés API ou jusqu’à 20 millions de tokens.',
+    'Configurez votre entreprise IA : Licence Entreprise IA, Licences Collaborateur IA dès 49 €/mois et capacité modèles IA avec Vos Clés API ou jusqu’à 20 millions de tokens.',
   alternates: { canonical: '/tarifs' },
   openGraph: {
     type: 'website',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title: 'Tarifs Collaborateur IA | Unitalk', description: 'Configurez votre entreprise IA et calculez immédiatement votre prix mensuel.', images: ['/opengraph-image'] },
 }
 
-const pricingFaqItems=[['Comment est calculé le prix de Unitalk ?','Le total comprend un Compte Entreprise IA, les licences Collaborateur IA et leur capacité modèles IA.'],['Que comprend une licence Collaborateur IA ?','Une identité IA, des moyens de communication, une mémoire, des applications, des fichiers, des ressources privées et un environnement isolé.'],['Hermes est-il payant ?','Non. Hermes est gratuit et open source sous licence MIT.'],['Puis-je utiliser mes propres Clés API ?','Oui. Unitalk ne facture alors aucun quota de modèles ; vos fournisseurs facturent directement leur consommation.'],['Puis-je modifier ma configuration ?','Oui. Le nombre de Collaborateurs IA et leur capacité restent ajustables.']]
+const pricingFaqItems=[['Comment est calculé le prix de Unitalk ?','Le total comprend une Licence Entreprise IA, les Licences Collaborateur IA et leur capacité modèles IA.'],['Que comprend une Licence Collaborateur IA ?','Une identité IA, des moyens de communication, une mémoire, des applications, des fichiers, des ressources privées et un environnement isolé.'],['Hermes est-il payant ?','Non. Hermes est gratuit et open source sous licence MIT.'],['Puis-je utiliser mes propres Clés API ?','Oui. Unitalk ne facture alors aucun quota de modèles ; vos fournisseurs facturent directement leur consommation.'],['Puis-je modifier ma configuration ?','Oui. Le nombre de Collaborateurs IA et leur capacité restent ajustables.']]
 const faqJsonLd={ '@context':'https://schema.org','@type':'FAQPage',mainEntity:pricingFaqItems.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}})) }
 
 const PROFILE_LABELS: Record<string, string> = { emma: 'Emma · Assistante de direction', chloe: 'Chloé · Commerciale', lucas: 'Lucas · Relation client', nadia: 'Nadia · Responsable marketing', marcus: 'Marcus · Responsable CRM', hugo: 'Hugo · Coordinateur des opérations' }

@@ -46,10 +46,12 @@ describe('CollaborateurExperience', () => {
   })
 
   it('makes Hermes migration and ownership explicit', () => {
-    expect(source).toContain('Vous avez déjà Hermes ? Préparons la migration.')
-    expect(source).toContain('Étudier ma migration')
-    expect(source).toContain('Compatible avec Hermes')
-    expect(source).toContain('Sans verrouillage fournisseur')
+    expect(source).toContain('Vous avez ChatGPT, Claude, Gemini ou Hermes ?')
+    expect(source).toContain('Importez vos historiques de conversations exportables')
+    expect(source).toContain('il ne devient pas automatiquement une mémoire fiable')
+    expect(source).toContain('Préparer mon import')
+    expect(source).toContain('Conversations ou environnement')
+    expect(source).toContain('Votre entreprise garde le contrôle des éléments conservés')
     expect(source).toContain('/decouvrir?source=collaborateurs-ia')
   })
 })

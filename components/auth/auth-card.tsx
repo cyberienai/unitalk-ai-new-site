@@ -65,7 +65,7 @@ const COPY = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-export function AuthCard({ mode, redirectTo }: { mode: Mode; redirectTo: string }) {
+export function AuthCard({ mode, redirectTo, context = 'unitalk' }: { mode: Mode; redirectTo: string; context?: 'unitalk' | 'academy' }) {
   const { lang } = useLanguage()
   const t = COPY[lang]
   const [isPending, startTransition] = useTransition()
@@ -128,20 +128,26 @@ export function AuthCard({ mode, redirectTo }: { mode: Mode; redirectTo: string 
 
   const codeComplete = code.every((d) => d !== '')
   const busy = isPending || loadingProvider !== null
+  const title = context === 'academy'
+    ? mode === 'sign-in' ? (lang === 'fr' ? 'Retrouvez votre parcours' : 'Return to your learning path') : (lang === 'fr' ? 'Rejoignez Unitalk Academy' : 'Join Unitalk Academy')
+    : mode === 'sign-in' ? t.signInTitle : t.signUpTitle
+  const subtitle = context === 'academy'
+    ? mode === 'sign-in' ? (lang === 'fr' ? 'Le même compte pour vos missions, vos formations et Unitalk AI.' : 'One account for your missions, training and Unitalk AI.') : (lang === 'fr' ? 'Alma personnalisera votre première mission avant de vous ouvrir l’espace Formations.' : 'Alma will personalize your first mission before opening Training.')
+    : mode === 'sign-in' ? t.signInSub : t.signUpSub
 
   return (
     <div className="w-full max-w-[25rem]">
       {/* Brand */}
       <div className="mb-8 flex flex-col items-center text-center">
-        <a href="/" className="mb-6 inline-flex items-center gap-2" aria-label="Unitalk">
+        <a href={context === 'academy' ? '/academy' : '/'} className="mb-6 inline-flex items-center gap-2" aria-label="Unitalk">
           <UnitalkLogo size={28} />
           <span className="font-inter text-lg font-semibold text-[#1C1A17]">Unitalk</span>
         </a>
         <h1 className="font-sf text-[1.7rem] font-bold tracking-[-0.02em] text-[#1C1A17]">
-          {mode === 'sign-in' ? t.signInTitle : t.signUpTitle}
+          {title}
         </h1>
         <p className="mt-2 max-w-xs text-pretty text-[14px] leading-relaxed text-[#6B6560]">
-          {mode === 'sign-in' ? t.signInSub : t.signUpSub}
+          {subtitle}
         </p>
       </div>
 

@@ -7,8 +7,8 @@ import { signOut } from '@/app/actions/auth'
 import { initials, readClientSession, type MockSession } from '@/lib/mock-auth'
 
 const COPY = {
-  fr: { signIn: 'Connexion', workspace: 'Workspace', account: 'Compte', signOut: 'Se déconnecter' },
-  en: { signIn: 'Sign in', workspace: 'Workspace', account: 'Account', signOut: 'Sign out' },
+  fr: { signIn: 'Connexion', workspace: 'Workspace', training: 'Formations', account: 'Compte', signOut: 'Se déconnecter' },
+  en: { signIn: 'Sign in', workspace: 'Workspace', training: 'Training', account: 'Account', signOut: 'Sign out' },
 } as const
 
 export function AnonymousOnly({ children }: { children: React.ReactNode }) {
@@ -102,6 +102,7 @@ export function UserMenuDesktop({ overDark, anonymousAction }: { overDark: boole
             >
               {t.workspace}
             </a>
+            <a href="/academy/espace" role="menuitem" className="flex items-center rounded-lg px-3 py-2 text-[14px] font-medium text-[#4E483F] transition-colors hover:bg-[#F0EADD] hover:text-[#1C1A17]">{t.training}</a>
             <form action={signOut}>
               <button
                 type="submit"
@@ -143,8 +144,8 @@ export function UserMenuMobile({ onNavigate }: { onNavigate: () => void }) {
   }
 
   return (
-    <div className="flex min-h-11 items-center justify-between gap-3 py-1">
-      <div className="flex items-center gap-3">
+    <div className="py-2">
+      <div className="flex items-center gap-3 border-b border-[#E7E0D2] pb-3">
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D10E63] text-[12px] font-bold text-[#FBF9F3]">
           {initials(session.name)}
         </span>
@@ -153,10 +154,11 @@ export function UserMenuMobile({ onNavigate }: { onNavigate: () => void }) {
           <p className="truncate text-[12px] text-[#6B6560]">{session.email}</p>
         </div>
       </div>
-      <form action={signOut}>
+      <div className="mt-2 grid gap-1"><a href="/workspace" onClick={onNavigate} className="flex min-h-10 items-center text-[14px] font-semibold text-[#4E483F]">{t.workspace}</a><a href="/academy/espace" onClick={onNavigate} className="flex min-h-10 items-center text-[14px] font-semibold text-[#4E483F]">{t.training}</a></div>
+      <form action={signOut} className="mt-1 border-t border-[#E7E0D2] pt-2">
         <button
           type="submit"
-          className="shrink-0 text-[13px] font-semibold text-[#B00C54] transition-colors hover:text-[#8A0A41]"
+          className="min-h-10 text-[13px] font-semibold text-[#B00C54] transition-colors hover:text-[#8A0A41]"
         >
           {t.signOut}
         </button>

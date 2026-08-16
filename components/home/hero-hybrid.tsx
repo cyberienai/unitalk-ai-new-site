@@ -240,28 +240,28 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   }
 
   return (
-    <section className="relative min-h-[780px] overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-12 pt-28 sm:pt-36 lg:pb-16">
+    <section className="relative overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-12 pt-24 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-5 lg:pt-[88px]">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full bg-[#D10E63]/[0.08] blur-3xl" />
-      <div className="editorial-shell relative grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+      <div className="editorial-shell relative grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12">
         <div className="max-w-[720px] text-left">
-          <motion.div {...enter(0)} className="mb-7 flex"><Kicker>{t.eyebrow}</Kicker></motion.div>
-          <motion.h1 {...enter(0.08)} className="text-[clamp(3.25rem,6.1vw,6.5rem)] font-semibold leading-[.88] tracking-[-.07em] text-[#1C1A17]">
+          <motion.div {...enter(0)} className="mb-5 flex lg:mb-4"><Kicker>{t.eyebrow}</Kicker></motion.div>
+          <motion.h1 {...enter(0.08)} className="text-[clamp(3.25rem,6.1vw,6.5rem)] font-semibold leading-[.88] tracking-[-.07em] text-[#1C1A17] lg:text-[clamp(3.5rem,5.2vw,5.35rem)]">
             <span className="block">{t.headlineA}</span>
             <span className="block">{t.headlineB}</span>
             <span className="block text-[#D10E63]">{t.headlineC}</span>
           </motion.h1>
-          <motion.p {...enter(0.16)} className="mt-7 max-w-xl text-[17px] leading-8 text-[#4E483F] md:text-lg">{t.subtitle}</motion.p>
+          <motion.p {...enter(0.16)} className="mt-6 max-w-xl text-[17px] leading-8 text-[#4E483F] md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{t.subtitle}</motion.p>
 
-          <motion.div {...enter(0.28)} className="mt-8 grid border-y border-[#CFC5B5] sm:grid-cols-2">
+          <motion.div {...enter(0.28)} className="mt-7 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:mt-5 lg:grid-cols-4">
             {t.proofs.map((proof, index) => (
-              <span key={proof} className="flex min-h-16 items-center gap-4 border-b border-[#CFC5B5] py-3 text-xs font-bold last:border-b-0 sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 sm:first:pl-0">
+              <span key={proof} className="flex min-h-16 items-center gap-4 border-b border-[#CFC5B5] py-3 text-xs font-bold last:border-b-0 sm:border-r sm:px-4 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 sm:first:pl-0 lg:min-h-12 lg:border-b-0 lg:px-3 lg:text-[11px] lg:leading-4 lg:[&:nth-child(2n)]:border-r lg:last:border-r-0">
                 <span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{proof}
               </span>
             ))}
           </motion.div>
 
-           <motion.div {...enter(0.34)} className="mt-8">
+           <motion.div {...enter(0.34)} className="mt-7 lg:mt-5">
              <button type="button" onClick={openVoiceSurface} className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#181615] px-7 text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#181615] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F3EFE6] sm:w-auto">
                {t.cta}<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
              </button>
@@ -272,7 +272,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
           <AnimatePresence mode="wait" initial={false}>
           {showVoice ? (
             <motion.div key="voice" initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
-              <div className="relative flex min-h-[509px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] p-5 text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:p-7">
+              <div className="relative flex min-h-[500px] flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] p-5 text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:p-7 lg:min-h-0 lg:p-5">
                 <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-3">
@@ -281,13 +281,13 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center py-6 text-center">
-                  <button type="button" onClick={toggleListening} disabled={!voiceSupported} aria-pressed={listening} aria-label={listening ? t.voiceStop : t.voiceStart} className={`relative flex size-24 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] disabled:cursor-not-allowed disabled:opacity-50 ${listening ? 'bg-[#D10E63] text-white' : 'bg-[#D10E63]/15 text-[#F15B9B] ring-1 ring-[#D10E63]/30 hover:bg-[#D10E63]/25'}`}>
+                <div className="flex flex-col items-center py-6 text-center lg:py-3">
+                  <button type="button" onClick={toggleListening} disabled={!voiceSupported} aria-pressed={listening} aria-label={listening ? t.voiceStop : t.voiceStart} className={`relative flex size-24 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] disabled:cursor-not-allowed disabled:opacity-50 lg:size-[72px] ${listening ? 'bg-[#D10E63] text-white' : 'bg-[#D10E63]/15 text-[#F15B9B] ring-1 ring-[#D10E63]/30 hover:bg-[#D10E63]/25'}`}>
                     {listening && !reduce && <motion.span aria-hidden className="absolute inset-0 rounded-full border border-[#F15B9B]" animate={{ scale: [1, 1.45], opacity: [0.65, 0] }} transition={{ duration: 1.4, repeat: Infinity }} />}
-                    {listening ? <Square className="size-7" fill="currentColor" /> : <Mic className="size-9" />}
+                    {listening ? <Square className="size-7 lg:size-5" fill="currentColor" /> : <Mic className="size-9 lg:size-7" />}
                   </button>
-                  <h2 className="mt-5 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px]">{t.voiceTitle}</h2>
-                  <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD]">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
+                  <h2 className="mt-5 max-w-md text-balance font-sf text-2xl font-semibold tracking-[-0.025em] sm:text-[28px] lg:mt-3 lg:text-[22px]">{t.voiceTitle}</h2>
+                  <p className="mt-3 max-w-md whitespace-pre-line text-sm leading-6 text-[#D6CABD] lg:mt-2 lg:text-[13px] lg:leading-5">{voiceSupported ? (listening ? t.voiceListening : t.voiceBody) : t.voiceUnsupported}</p>
                 </div>
 
                 <textarea ref={textareaRef} value={transcript} onChange={(event) => setTranscript(event.target.value)} rows={2} placeholder={t.voicePlaceholder} aria-label={t.voicePlaceholder} className={`w-full resize-none rounded-2xl border bg-white/[0.05] px-4 py-3 text-sm leading-6 text-white outline-none transition-[border-color,box-shadow] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] ${promptAttention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/10'}`} />
@@ -297,7 +297,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 <button type="button" onClick={submitVoiceNeed} disabled={!transcript.trim()} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#E51872] disabled:cursor-not-allowed disabled:opacity-40">
                   {t.voiceSubmit}<ArrowRight className="size-4" />
                 </button>
-                <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setDemoRequest(transcript.trim() || null); setPhase(0); setShowVoice(false) }} className="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold text-[#D6CABD] hover:text-white">
+                <button type="button" onClick={() => { recognitionRef.current?.abort(); setListening(false); setDemoRequest(transcript.trim() || null); setPhase(0); setShowVoice(false) }} className="mt-4 inline-flex items-center justify-center gap-2 text-xs font-bold text-[#D6CABD] hover:text-white lg:mt-2">
                   {t.voiceBack}<ArrowRight className="size-3.5" />
                 </button>
               </div>

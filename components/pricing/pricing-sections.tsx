@@ -15,10 +15,10 @@ const T = {
     proofs: ['Prix calculé immédiatement', 'Hermes gratuit · Licence MIT', 'Configuration ajustable'],
     plansTitle: 'Ce que vous payez. Ce qui reste gratuit.',
     plansLead:
-      "Le compte Entreprise IA est facturé une seule fois. Chaque licence Collaborateur IA ajoute une identité et des ressources privées. La capacité IA finance l’utilisation des modèles. Hermes reste gratuit sous licence MIT.",
+      "La Licence Entreprise IA est facturée une seule fois. Chaque Licence Collaborateur IA ajoute une identité et des ressources privées. La capacité IA finance l’utilisation des modèles. Hermes reste gratuit sous licence MIT.",
     plans: [
       {
-        name: 'Compte Entreprise IA',
+        name: 'Licence Entreprise IA',
         price: '50€',
         period: ' / entreprise',
         desc: 'Le compte central de votre entreprise pour administrer les humains, les Collaborateurs IA, leurs accès, leurs budgets et leur facturation.',
@@ -60,7 +60,7 @@ const T = {
       'The AI Company account is billed once. Each AI Collaborator License adds a private identity and resources. AI capacity funds model usage. Hermes remains free under the MIT License.',
     plans: [
       {
-        name: 'AI Company Account',
+        name: 'AI Company License',
         price: '€50',
         period: ' / company',
         desc: 'Your company’s central account for administering people, AI Collaborators, access, budgets and billing.',

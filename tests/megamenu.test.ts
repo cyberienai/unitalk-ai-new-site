@@ -12,8 +12,8 @@ describe('Marketplace IA mega menu', () => {
 
   it('exposes the Marketplace catalogs in a true mega menu', () => {
     expect(navbar).toContain('MARKETPLACE_CATALOGS')
-    expect(navbar).toContain('w-[1080px]')
-    expect(navbar).toContain('<UnitalkLogo size={30}')
+    expect(navbar).toContain('w-[980px]')
+    expect(navbar).toContain('<UnitalkLogo size={32}')
     for (const href of ['/missions', '/collaborateurs-ia/profils-metier', '/collaborateurs-ia/competences', '/collaborateurs-ia/applications', '/collaborateurs-ia/integrations', '/modeles-ia']) expect(navbar).toContain(href)
   })
 

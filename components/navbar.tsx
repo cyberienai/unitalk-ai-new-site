@@ -138,7 +138,7 @@ function UkFlag() {
 }
 
 function MarketplaceMenuLink({ entry, index, lang, onSelect, compact = false }: { entry: MenuEntry; index: number; lang: 'fr' | 'en'; onSelect: () => void; compact?: boolean }) {
-  return <a href={entry.href} role="menuitem" onClick={onSelect} className={`group flex items-center gap-3 outline-none transition-colors hover:bg-white/[.055] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5] ${compact ? 'min-h-[52px] px-3 py-2' : 'min-h-[64px] p-3'}`}><UnitalkLogo size={compact ? 19 : 22} activeSegment={index % 8} color="#F2A4C5" inactiveColor="#514A43" className="shrink-0 transition-transform duration-300 group-hover:scale-110" /><span className="min-w-0"><strong className="block text-[12.5px] font-semibold text-[#FAF8F3] transition-colors group-hover:text-[#F2A4C5]">{entry.title[lang]}</strong><span className="mt-0.5 block truncate text-[10px] leading-4 text-[#9F9589]">{entry.desc[lang]}</span></span></a>
+  return <a href={entry.href} role="menuitem" onClick={onSelect} className={`group flex items-center gap-3 rounded-xl border border-transparent outline-none transition-colors hover:border-[#D8D0C2] hover:bg-white focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${compact ? 'min-h-[58px] px-3 py-2' : 'min-h-[70px] px-3 py-2.5'}`}><UnitalkLogo size={compact ? 18 : 20} activeSegment={index % 8} color="#D10E63" inactiveColor="#C5BBAB" className="shrink-0" /><span className="min-w-0"><strong className="block text-[14px] font-bold leading-5 text-[#1C1A17] transition-colors group-hover:text-[#B00C54]">{entry.title[lang]}</strong><span className="mt-0.5 block text-[12px] leading-[1.35] text-[#5F574D]">{entry.desc[lang]}</span></span></a>
 }
 
 function MobileMarketplaceLink({ entry, index, lang, onSelect }: { entry: MenuEntry; index: number; lang: 'fr' | 'en'; onSelect: () => void }) {
@@ -348,44 +348,40 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                      className="absolute -left-[180px] top-full w-[1080px] max-w-[calc(100vw-2rem)] pt-3"
+                      className="absolute -left-[170px] top-full w-[980px] max-w-[calc(100vw-2rem)] pt-3"
                     >
-                      <div className="overflow-hidden rounded-[30px] border border-[#292521] bg-[#171514] text-[#FAF8F3] shadow-[0_40px_100px_-24px_rgba(28,26,23,.62)]">
-                        <div className="grid grid-cols-[270px_1fr_286px] divide-x divide-white/10">
-                          <div className="flex flex-col">
-                            <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group relative isolate flex min-h-[210px] flex-col overflow-hidden p-6 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5]">
-                              <div aria-hidden className="absolute -right-20 -top-24 -z-10 size-72 rounded-full bg-[#D10E63]/35 blur-3xl" />
-                              <UnitalkLogo size={30} activeSegment={0} color="#F2A4C5" inactiveColor="#514A43" />
-                              <p className="mt-4 font-mono text-[8px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.menuFeatured}</p>
-                              <h2 className="mt-2 text-[23px] font-semibold leading-[.98] tracking-[-.05em]">{MARKETPLACE_FEATURED.title[lang]}</h2>
-                              <p className="mt-3 line-clamp-2 text-[11px] leading-5 text-[#CFC6B8]">{MARKETPLACE_FEATURED.desc[lang]}</p>
-                              <span className="mt-auto inline-flex items-center gap-2 pt-4 text-[11px] font-bold text-[#F2A4C5]">{t.menuMarketplace}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" /></span>
-                            </a>
-                            <a href={COLLABORATOR_EXPLAINER.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group border-t border-white/10 bg-white/[.025] px-5 py-3 outline-none transition-colors hover:bg-white/[.055] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5]"><p className="font-mono text-[8px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.menuDiscover}</p><h3 className="mt-1.5 text-[12px] font-semibold">{COLLABORATOR_EXPLAINER.title[lang]}</h3></a>
+                      <div className="overflow-hidden rounded-[26px] border border-[#D7CFC1] bg-[#F8F5EE] text-[#1C1A17] shadow-[0_32px_80px_-24px_rgba(28,26,23,.35)] ring-1 ring-white/80">
+                        <div className="flex items-center justify-between gap-8 border-b border-[#DED6C8] px-6 py-5">
+                          <div className="flex min-w-0 items-center gap-4">
+                            <UnitalkLogo size={32} activeSegment={0} color="#D10E63" inactiveColor="#D2C9BA" className="shrink-0" />
+                            <div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.menuFeatured}</p><h2 className="mt-1 text-[22px] font-bold tracking-[-.035em]">{MARKETPLACE_FEATURED.title[lang]}</h2><p className="mt-1 text-[13px] leading-5 text-[#5F574D]">{MARKETPLACE_FEATURED.desc[lang]}</p></div>
                           </div>
+                          <a href={MARKETPLACE_FEATURED.href} role="menuitem" onClick={() => setCollabOpen(false)} className="group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full bg-[#181615] px-5 text-xs font-bold text-white outline-none transition-colors hover:bg-[#332F29] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{t.menuMarketplace}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></a>
+                        </div>
 
-                          <div className="p-4">
-                            <p className="px-3 pb-2 font-mono text-[8px] font-black uppercase tracking-[.18em] text-[#857C6E]">{t.menuCatalog}</p>
-                            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10">
+                        <div className="grid grid-cols-[1fr_310px] divide-x divide-[#DED6C8]">
+                          <div className="p-5">
+                            <div className="flex items-center justify-between px-3 pb-3"><p className="font-mono text-[11px] font-black uppercase tracking-[.16em] text-[#6E665A]">{t.menuCatalog}</p><a href={COLLABORATOR_EXPLAINER.href} onClick={() => setCollabOpen(false)} className="text-[12px] font-bold text-[#B00C54] underline-offset-4 hover:underline">{lang === 'fr' ? 'Comprendre le Collaborateur IA' : 'Understand the AI Collaborator'}</a></div>
+                            <div className="grid grid-cols-2 gap-1">
                               {MARKETPLACE_CATALOGS.map((entry, index) => <MarketplaceMenuLink key={entry.href} entry={entry} index={index} lang={lang} onSelect={() => setCollabOpen(false)} />)}
                             </div>
                           </div>
 
-                          <div className="bg-white/[.025] p-4">
-                            <p className="px-3 pb-2 font-mono text-[8px] font-black uppercase tracking-[.18em] text-[#857C6E]">{t.menuBuild}</p>
-                            <div className="divide-y divide-white/10">
+                          <div className="bg-[#F0EBE1] p-5">
+                            <p className="px-3 pb-3 font-mono text-[11px] font-black uppercase tracking-[.16em] text-[#6E665A]">{t.menuBuild}</p>
+                            <div className="space-y-1">
                               {MARKETPLACE_BUILD.map((entry, index) => <MarketplaceMenuLink key={entry.href} entry={entry} index={index + 4} lang={lang} compact onSelect={() => setCollabOpen(false)} />)}
                             </div>
                           </div>
                         </div>
 
-                        <div className="grid border-t border-white/10 bg-[#171514] sm:grid-cols-[1fr_auto] sm:items-center">
-                          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-7 py-4 text-[11.5px] font-bold text-[#CFC6B8]">
-                            <a href="/tarifs" onClick={() => setCollabOpen(false)} className="text-white hover:text-[#F2A4C5]">{t.pricing}</a>
-                            {COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#F2A4C5]">{item.title[lang]}</a>)}
-                            <a href="/documentation" onClick={() => setCollabOpen(false)} className="hover:text-[#F2A4C5]">Documentation</a>
+                        <div className="flex items-center justify-between border-t border-[#DED6C8] bg-[#FFFDF9] px-6 py-3.5">
+                          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] font-bold text-[#4E483F]">
+                            <a href="/tarifs" onClick={() => setCollabOpen(false)} className="text-[#1C1A17] hover:text-[#B00C54]">{t.pricing}</a>
+                            {COLLAB_ACTIONS.map((item) => <a key={item.href} href={item.href} onClick={() => setCollabOpen(false)} className="hover:text-[#B00C54]">{item.title[lang]}</a>)}
+                            <a href="/documentation" onClick={() => setCollabOpen(false)} className="hover:text-[#B00C54]">Documentation</a>
                           </div>
-                          <a href="/co-createur-ia" onClick={() => setCollabOpen(false)} className="border-t border-white/10 bg-[#D10E63] px-6 py-3.5 text-xs font-bold text-white transition-colors hover:bg-[#B80C56] sm:border-l sm:border-t-0">{lang === 'fr' ? 'Créer pour la Marketplace' : 'Create for the Marketplace'}</a>
+                          <a href="/co-createur-ia" onClick={() => setCollabOpen(false)} className="shrink-0 text-[13px] font-bold text-[#B00C54] underline-offset-4 hover:underline">{lang === 'fr' ? 'Créer pour la Marketplace →' : 'Create for the Marketplace →'}</a>
                         </div>
                       </div>
                     </motion.div>
