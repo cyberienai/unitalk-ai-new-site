@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mic, Sparkles, LifeBuoy, ShieldCheck } from 'lucide-react'
+import { Mic, Sparkles, Workflow, ShieldCheck } from 'lucide-react'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -10,7 +10,7 @@ const T = {
     items: [
       { icon: Mic, title: 'Voix ou texte', desc: 'Décrivez votre mission naturellement.' },
       { icon: Sparkles, title: '1 million de tokens inclus', desc: 'Pour tester une mission réelle pendant 7 jours.' },
-      { icon: LifeBuoy, title: 'Accompagnement humain', desc: 'Alma cadre la mission, votre équipe garde la main.' },
+      { icon: Workflow, title: 'Coordination par Alma', desc: 'La coordinatrice IA de missions Unitalk, au service de votre entreprise.' },
       { icon: ShieldCheck, title: 'Hébergé en France', desc: 'RGPD, AI Act et données isolées.' },
     ],
   },
@@ -18,7 +18,7 @@ const T = {
     items: [
       { icon: Mic, title: 'Voice or text', desc: 'Describe your mission naturally.' },
       { icon: Sparkles, title: '1 million tokens included', desc: 'To test a real mission for 7 days.' },
-      { icon: LifeBuoy, title: 'Human support', desc: 'Alma scopes the mission, your team stays in control.' },
+      { icon: Workflow, title: 'Coordination by Alma', desc: 'Unitalk’s AI mission coordinator, serving your company.' },
       { icon: ShieldCheck, title: 'Hosted in France', desc: 'GDPR, AI Act and isolated data.' },
     ],
   },
