@@ -10,17 +10,15 @@ type Lang = 'fr' | 'en'
 const COPY = {
   fr: {
     kicker: 'Regards indépendants sur Hermes',
-    title: '10 créateurs montrent Hermes en pratique.',
-    body: 'Tests, démonstrations, cours et entretiens : découvrez comment des créateurs indépendants explorent le moteur open source Hermes.',
+    title: 'Hermes testé en pratique.',
+    body: 'Des créateurs indépendants présentent le moteur open source utilisé par les Collaborateurs IA.',
     link: 'Voir la sélection éditoriale',
-    proof: '10 tests, cours, démonstrations et entretiens publics.',
   },
   en: {
     kicker: 'Independent views on Hermes',
-    title: '10 creators show Hermes in practice.',
-    body: 'Tests, demonstrations, courses and interviews explore the open-source Hermes engine through independent creators.',
+    title: 'Hermes tested in practice.',
+    body: 'Independent creators present the open-source engine used by AI Collaborators.',
     link: 'View the editorial selection',
-    proof: '10 public tests, courses, demonstrations and interviews.',
   },
 } as const
 
@@ -29,20 +27,20 @@ export function SectionHermesVoices({ lang }: { lang: Lang }) {
   const reduce = useReducedMotion()
 
   return (
-    <section className="relative overflow-hidden border-y border-[#302C28] bg-[#181615] px-5 py-12 text-[#FAF8F3] sm:px-8 sm:py-16">
+    <section className="relative overflow-hidden border-y border-[#302C28] bg-[#181615] px-5 py-10 text-[#FAF8F3] sm:px-8 sm:py-12">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.035] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:72px_72px]" />
       <div aria-hidden className="pointer-events-none absolute -right-20 top-0 size-[34rem] rounded-full bg-[#D10E63]/20 blur-3xl" />
       <div className="editorial-shell">
         <div className="relative grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:items-center">
           <div className="relative z-10">
             <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#F2A4C5]">{t.kicker}</p>
-            <h2 className="mt-4 max-w-xl text-[clamp(2.1rem,4vw,4rem)] font-semibold leading-[.95] tracking-[-.055em]">{t.title}</h2>
+            <h2 className="mt-4 max-w-xl text-[clamp(2rem,3.5vw,3.3rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.title}</h2>
             <p className="mt-4 max-w-xl text-[14px] leading-6 text-[#CFC6B8]">{t.body}</p>
             <Link href="/blog/hermes-agent-youtube" className="mt-5 inline-flex items-center text-sm font-bold text-[#F2A4C5] underline decoration-[#F2A4C5]/35 underline-offset-4 transition-colors hover:text-white hover:decoration-white">{t.link} →</Link>
           </div>
 
           <ol className="scrollbar-hide -mx-5 flex snap-x gap-3 overflow-x-auto px-5 pb-3 pt-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
-            {HERMES_CREATORS.slice(0, 5).map((creator, index) => (
+            {HERMES_CREATORS.slice(0, 10).map((creator, index) => (
               <motion.li key={creator.videoUrl} initial={reduce ? false : { opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: .45, delay: reduce ? 0 : index * .045, ease: [0.22, 1, 0.36, 1] }} className="group w-[128px] shrink-0 snap-start lg:w-auto">
                 <Link href={`/blog/hermes-agent-youtube?createur=${encodeURIComponent(creator.affiliateCode)}`} className="block rounded-[999px_999px_22px_22px] border border-white/10 bg-[#211E1B] p-2 pb-4 outline-none transition-all duration-300 hover:-translate-y-2 hover:border-[#F2A4C5]/55 hover:bg-[#292521] hover:shadow-[0_22px_45px_-24px_rgba(209,14,99,.7)] focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
                   <span className="relative block aspect-square overflow-hidden rounded-full bg-[#2D2925] ring-1 ring-white/10">
@@ -57,7 +55,6 @@ export function SectionHermesVoices({ lang }: { lang: Lang }) {
             ))}
           </ol>
         </div>
-        <p className="relative mt-5 max-w-3xl border-t border-white/10 pt-4 text-[10px] text-[#8F8579]">{t.proof}</p>
       </div>
     </section>
   )

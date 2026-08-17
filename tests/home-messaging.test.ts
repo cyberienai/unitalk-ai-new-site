@@ -2,31 +2,30 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const hero = readFileSync(new URL('../components/home/hero-hybrid.tsx', import.meta.url), 'utf8')
-const comparison = readFileSync(new URL('../components/home/section-comparison.tsx', import.meta.url), 'utf8')
-const profiles = readFileSync(new URL('../components/home/section-profiles-early.tsx', import.meta.url), 'utf8')
+const sections = readFileSync(new URL('../components/home/home-final-sections.tsx', import.meta.url), 'utf8')
+const home = readFileSync(new URL('../components/home-new.tsx', import.meta.url), 'utf8')
 const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url), 'utf8')
 
 describe('home commercial messaging', () => {
-  it('uses a concrete hero promise and recruitment reasons', () => {
-    expect(hero).toContain('Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives.')
-    expect(hero).toContain('Il travaille avec votre équipe et progresse à chaque mission.')
-    expect(hero).toContain("voiceTitle: 'Décrivez votre besoin.'")
-    expect(hero).toContain("voiceBody: 'Alma prépare votre Collaborateur IA personnalisé.'")
-    expect(hero).toContain('Continuer avec cette mission')
+  it('uses a concrete organizational promise and an Alma personalization flow', () => {
+    expect(hero).toContain('Votre propre Collaborateur IA')
+    expect(hero).toContain('Prêt à accomplir vos missions.')
+    expect(hero).toContain('Alma personnalise votre Collaborateur IA pour votre entreprise.')
+    expect(hero).toContain("voiceTitle: 'Quel travail voulez-vous lui confier ?'")
+    expect(hero).toContain('Personnaliser mon Collaborateur IA')
     expect(hero).not.toContain('voiceSubmitEmpty')
-    for (const proof of ['Première mission offerte', 'Mission cadrée en quelques minutes', 'Sans carte bancaire']) expect(hero).toContain(proof)
+    for (const proof of ['Première mission offerte', 'Sans carte bancaire', 'Sans engagement']) expect(hero).toContain(proof)
   })
 
-  it('uses plain-language comparison rows', () => {
-    expect(comparison).toContain("['Une conversation ponctuelle', 'Une identité professionnelle durable']")
-    expect(comparison).toContain("['Des instructions à répéter', 'Des règles et validations enregistrées']")
-    expect(comparison).toContain("['Des actions isolées', 'Une activité visible par votre équipe']")
-    expect(comparison).toContain('Vous ne construisez pas un assistant. Vous faites progresser votre Collaborateur IA.')
+  it('explains identity, organization and evolution without a separate comparison', () => {
+    for (const copy of ['Identité', 'Communication', 'Agent Hermes et serveur privé', 'Responsable, rattachement et droits']) expect(sections).toContain(copy)
+    for (const copy of ['+ Profil Finance', '+ Compétence de relance', '+ Application de facturation', '= Nouvelles missions']) expect(sections).toContain(copy)
+    expect(home).not.toContain('SectionComparison')
+    expect(home).not.toContain('SectionProfilesEarly')
   })
 
-  it('clarifies Alma and brings profiles earlier', () => {
-    expect(profiles).toContain('Alma vous aide à trouver celui qui convient à votre mission.')
-    expect(profiles).toContain("choose: 'Personnaliser'")
+  it('clarifies Alma and provides four visitor paths', () => {
+    for (const path of ['J’ai un travail à confier', 'Je veux comprendre le produit', 'Je veux voir comment il travaille', 'Je veux voir comment il évolue']) expect(sections).toContain(path)
     expect(navbar).not.toContain('Alma · Conseillère IA')
     expect(hero).toContain("voiceKicker: 'Coordinatrice de missions IA'")
   })

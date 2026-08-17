@@ -27,7 +27,7 @@ const T = {
   fr: {
     kicker: 'Mission en action',
     title: 'Les humains décident. Les Collaborateurs IA agissent.',
-    surfaces: 'Le Workspace privé réunit les missions, l’activité, les validations et les résultats. Vos équipes voient ce qui se passe, interviennent quand c’est nécessaire et gardent le contrôle des décisions.',
+    surfaces: 'Dans le Workspace privé, vos équipes suivent le travail, consultent les résultats et interviennent lorsqu’une décision exige leur validation.',
     surfacesList: 'Web · Application de bureau · Messageries · Terminal',
     cta: 'Découvrir le Workspace',
     missionId: 'Exemple illustratif · Mission FIN-042',
@@ -62,7 +62,7 @@ const T = {
   en: {
     kicker: 'Mission in action',
     title: 'AI Collaborators act. Your teams keep control of sensitive decisions.',
-    surfaces: 'The private Workspace brings together missions, activity, validations and results. Your teams see what is happening, step in when needed and keep control of the decisions.',
+    surfaces: 'In the private Workspace, your teams follow the work, review results and step in whenever a decision requires their approval.',
     surfacesList: 'Web · Desktop · Messaging · Terminal',
     cta: 'Discover the Workspace',
     missionId: 'Illustrative example · Mission FIN-042',

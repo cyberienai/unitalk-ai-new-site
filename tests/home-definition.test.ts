@@ -1,33 +1,33 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
-const source = readFileSync(new URL('../components/home/section-definition.tsx', import.meta.url), 'utf8')
+const source = readFileSync(new URL('../components/home/home-final-sections.tsx', import.meta.url), 'utf8')
+const home = readFileSync(new URL('../components/home-new.tsx', import.meta.url), 'utf8')
 
-describe('home first mission progression', () => {
-  it('shows the real mission in chronological order', () => {
-    const describe = source.indexOf("title: 'Décrivez'")
-    const preparation = source.indexOf("title: 'Alma prépare'")
-    const work = source.indexOf("title: 'Il travaille'")
-    const result = source.indexOf("title: 'Vous validez'")
-    expect(describe).toBeLessThan(preparation)
-    expect(preparation).toBeLessThan(work)
-    expect(work).toBeLessThan(result)
+describe('home visitor orientation', () => {
+  it('offers four explicit intent doors', () => {
+    for (const href of ['/missions', '/collaborateurs-ia', '/workspace', '/marketplace']) expect(source).toContain(href)
+    expect(source).toContain("aria-label={lang === 'fr' ? 'Choisir un parcours'")
   })
 
-  it('centers the offer on a free first mission and human approval', () => {
-    expect(source).toContain('Confiez une mission réelle.')
-    expect(source).toContain('Décrivez votre besoin. Vous gardez le contrôle jusqu’au résultat.')
-    expect(source).toContain('Décrire ma mission')
-    expect(source).not.toContain('Première mission offerte, sans carte bancaire')
+  it('keeps one focused final conversion action', () => {
+    expect(source).toContain('Un Collaborateur IA sur lequel votre entreprise peut compter.')
+    expect(source).toContain('Décrire mon besoin')
     expect(source).toContain("new Event('open-home-alma')")
-    expect(source).toContain("avatar: '/alma-avatar.png'")
-    expect(source).toContain("Votre Collaborateur IA avec l'objectif, les outils et les validations.")
-    expect(source).toContain('Le résultat et la suite.')
   })
 
-  it('uses a lightweight four-step progression', () => {
-    expect(source).toContain('md:grid-cols-2 lg:grid-cols-4')
-    expect(source).toContain('border-t border-[#CFC5B5]')
-    expect(source).not.toContain('rounded-3xl border border-[#DED6C8]')
+  it('uses the agreed compact homepage order', () => {
+    const render = home.slice(home.indexOf('return ('))
+    const doors = render.indexOf('<HomeIntentDoors')
+    const anatomy = render.indexOf('<HomeCollaboratorAnatomy')
+    const workspace = render.indexOf('<SectionWorkspace')
+    const evolution = render.indexOf('<HomeEvolution')
+    const hermes = render.indexOf('<SectionHermesVoices')
+    const finalCta = render.indexOf('<HomeFinalCta')
+    expect(doors).toBeLessThan(workspace)
+    expect(workspace).toBeLessThan(anatomy)
+    expect(anatomy).toBeLessThan(evolution)
+    expect(evolution).toBeLessThan(hermes)
+    expect(hermes).toBeLessThan(finalCta)
   })
 })

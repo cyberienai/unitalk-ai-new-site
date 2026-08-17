@@ -3,29 +3,25 @@ import { describe, expect, it } from 'vitest'
 
 const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url), 'utf8')
 
-describe('Marketplace IA mega menu', () => {
-  it('starts from the work to entrust', () => {
-    expect(navbar).toContain('Quel travail voulez-vous confier ?')
-    expect(navbar).toContain('Décrivez votre mission…')
-    expect(navbar).toContain('Continuer avec Alma')
-    expect(navbar).not.toContain('Parler à Alma')
-    expect(navbar).not.toContain('getSpeechRecognition')
-    expect(navbar).not.toContain('Relancer mes factures impayées')
+describe('Collaborateurs IA mega menu', () => {
+  it('keeps the primary journey visible', () => {
+    for (const href of ['/missions', '/collaborateurs-ia', '/workspace', '/marketplace', '/tarifs']) expect(navbar).toContain(href)
+    expect(navbar).toContain("label: { fr: 'Décrire mon besoin'")
   })
 
-  it('organizes equipment into four clear paths', () => {
-    for (const href of ['/collaborateurs-ia/profils-metier', '/collaborateurs-ia/competences', '/collaborateurs-ia/applications', '/modeles-ia']) expect(navbar).toContain(href)
-    expect(navbar).toContain("menuCatalog: 'Équiper votre Collaborateur'")
+  it('organizes product understanding into four paths', () => {
+    for (const href of ['/collaborateurs-ia/alma', '/collaborateurs-ia/profils-metier', '/collaborateurs-ia/comparatif']) expect(navbar).toContain(href)
+    expect(navbar).toContain("menuDiscover: 'Comprendre'")
   })
 
-  it('organizes connection and deployment', () => {
-    for (const href of ['/collaborateurs-ia/integrations', '/collaborateurs-ia/serveurs', '/experts', '/academy']) expect(navbar).toContain(href)
-    expect(navbar).toContain("menuBuild: 'Connecter et déployer'")
+  it('organizes work and equipment', () => {
+    for (const href of ['/workspace', '/desktop', '/collaborateurs-ia/applications', '/ai-gateway']) expect(navbar).toContain(href)
+    expect(navbar).toContain("menuDeploy: 'Travailler et équiper'")
   })
 
   it('uses a concise footer and explicit selection label', () => {
     expect(navbar).not.toContain('Ouverte · Open source · Souveraine')
-    expect(navbar).toContain('Sélection Unitalk')
+    expect(navbar).toContain('Hermes open source')
     expect(navbar).toContain('Explorer toute la Marketplace')
     expect(navbar).not.toContain('<a href="/tarifs" onClick={() => setCollabOpen(false)}')
   })

@@ -4,13 +4,9 @@ import { useLanguage } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { AlmaProvider } from './home/alma-panel-context'
 import { HeroHybrid } from './home/hero-hybrid'
-import { SectionDefinition } from './home/section-definition'
-import { SectionProfilesEarly } from './home/section-profiles-early'
 import { SectionWorkspace } from './home/section-workspace'
-import { SectionComparison } from './home/section-comparison'
-import { SectionVision } from './home/section-vision'
-import { SectionReassurance } from './home/section-reassurance'
 import { SectionHermesVoices } from './home/section-hermes-voices'
+import { HomeCollaboratorAnatomy, HomeEvolution, HomeFinalCta, HomeIntentDoors } from './home/home-final-sections'
 import { SiteFooter } from './site-footer'
 
 /**
@@ -30,27 +26,12 @@ export function HomeNew() {
         {/* 1. Hero + product theatre (anthracite) */}
         <HeroHybrid lang={lang} />
 
-        {/* 2. From the request to a controlled result */}
-        <SectionDefinition lang={lang} />
-
-        {/* 3. Product proof before profiles and pricing */}
+        <HomeIntentDoors lang={lang} />
         <SectionWorkspace lang={lang} />
-
-        {/* 4. Alma finds the durable identity and evolving profiles */}
-        <SectionProfilesEarly lang={lang} />
-
-        {/* 5. One concise comparison — a tool vs a durable Collaborator */}
-        <SectionComparison />
-
-        {/* 6. Objection handling after the product has been demonstrated */}
-        <SectionReassurance lang={lang} />
-
-        {/* Independent voices document the engine once the product is understood */}
+        <HomeCollaboratorAnatomy lang={lang} />
+        <HomeEvolution lang={lang} />
         <SectionHermesVoices lang={lang} />
-
-        {/* 7. Ownership & governance — the company owns what was learned; what
-             stays private vs shared by choice; then the final conversion moment */}
-        <SectionVision />
+        <HomeFinalCta lang={lang} />
 
         <SiteFooter />
       </div>
