@@ -6,15 +6,13 @@ const flow = readFileSync(new URL('../components/discover/discover-flow.tsx', im
 
 describe('mission signup', () => {
   it('describes the real post-login sequence', () => {
-    expect(source).toContain("contextualLead: 'Créez votre compte pour confirmer votre entreprise et choisir le prénom de votre Collaborateur IA.'")
-    expect(source).toContain("missionAlmaBody: 'Après votre connexion, vous confirmez votre entreprise puis choisissez le prénom du Collaborateur IA qui prendra cette mission.'")
+    expect(source).toContain("missionAlmaTitle: 'Votre mission est conservée.'")
+    expect(source).toContain("missionAlmaBody: 'Après votre connexion, vérifiez les informations de votre entreprise et choisissez le prénom de votre Collaborateur IA.'")
   })
 
-  it('places the mission change link before the Alma block', () => {
-    const change = source.indexOf('← {t.change}')
-    const alma = source.indexOf('<div className="flex items-center gap-3"><img src="/alma-avatar.png"', change)
-    expect(change).toBeGreaterThan(0)
-    expect(change).toBeLessThan(alma)
+  it('keeps the account step focused without a mission-change exit', () => {
+    expect(source).not.toContain('← {t.change}')
+    expect(source).toContain('Votre mission est conservée.')
   })
 
   it('publishes transparent trial and legal wording', () => {
