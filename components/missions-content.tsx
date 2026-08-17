@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { ArrowRight, Search } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
@@ -24,9 +23,9 @@ type SpeechRecognitionInstance = {
   abort: () => void
 }
 
-type NeedFamily = 'recommended' | 'all' | 'available' | 'growth' | 'customers' | 'company' | 'teams' | 'produce'
+type NeedFamily = 'recommended' | 'all' | 'growth' | 'customers' | 'company' | 'teams' | 'produce'
 
-const FAMILY_CATEGORIES: Record<Exclude<NeedFamily, 'recommended' | 'all' | 'available'>, string[]> = {
+const FAMILY_CATEGORIES: Record<Exclude<NeedFamily, 'recommended' | 'all'>, string[]> = {
   growth: ['ventes', 'marketing'],
   customers: ['relation-client'],
   company: ['finance', 'direction', 'administration', 'operations'],
@@ -86,7 +85,6 @@ export function MissionsContent({
     if (requestedCategory) return 'all'
     if (requestedFamily && requestedFamily in FAMILY_CATEGORIES) return requestedFamily as NeedFamily
     if (requestedView === 'toutes') return 'all'
-    if (requestedView === 'disponibles') return 'available'
     return 'recommended'
   }, [requestedCategory, requestedFamily, requestedView])
   const [need, setNeed] = useState('')
@@ -134,10 +132,9 @@ export function MissionsContent({
 
   const filteredMissions = useMemo(() => {
     const search = normalize(query.trim())
-    const allowedCategories = family === 'recommended' || family === 'all' || family === 'available' ? null : FAMILY_CATEGORIES[family]
+    const allowedCategories = family === 'recommended' || family === 'all' ? null : FAMILY_CATEGORIES[family]
     let pool = MISSIONS.filter((mission) => {
       if (requestedCategory && mission.category !== requestedCategory) return false
-      if (family === 'available' && mission.status !== 'available') return false
       return !allowedCategories || allowedCategories.includes(mission.category)
     })
 
@@ -189,7 +186,7 @@ export function MissionsContent({
   function selectFamily(next: NeedFamily) {
     setFamily(next)
     setVisibleCount(PAGE_SIZE)
-    const href = next === 'recommended' ? '/missions' : next === 'all' ? '/missions?vue=toutes' : next === 'available' ? '/missions?vue=disponibles' : `/missions?famille=${encodeURIComponent(next)}`
+    const href = next === 'recommended' ? '/missions' : next === 'all' ? '/missions?vue=toutes' : `/missions?famille=${encodeURIComponent(next)}`
     router.replace(href, { scroll: false })
   }
 
@@ -200,11 +197,11 @@ export function MissionsContent({
 
   return (
     <main id="missions-top" className="min-h-screen overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-      <section className="relative overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] px-5 pb-10 pt-24 sm:px-8 sm:pb-12 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-8 lg:pt-[88px]">
+      <section className="relative overflow-hidden bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:flex lg:min-h-[760px] lg:items-center lg:py-28">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div aria-hidden className="pointer-events-none absolute -right-36 top-20 size-[32rem] rounded-full bg-[#D10E63]/[.055] blur-3xl" />
         <div className="editorial-shell relative w-full">
-          <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-12">
+          <div className="grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-14">
             <header>
               <Kicker>{t.eyebrow}</Kicker>
               <h1 className="mt-4 max-w-[720px] text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] lg:text-[clamp(3.1rem,4.8vw,5rem)]">
@@ -212,7 +209,7 @@ export function MissionsContent({
                 <span className="block">{t.heroB}</span>
                 <span className="block text-[#D10E63]">{t.heroC}</span>
               </h1>
-              <p className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 lg:text-[16px] lg:leading-7">{withAlmaAvatar(t.lead)}</p>
+              <p className="mt-5 max-w-xl text-[17px] leading-8 text-[#4E483F]">{withAlmaAvatar(t.lead)}</p>
               <a href="#mission-selection" className="group mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#D10E63] px-5 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.explore}<ArrowRight className="size-4 rotate-90 transition-transform group-hover:translate-y-0.5" /></a>
             </header>
 
@@ -223,19 +220,18 @@ export function MissionsContent({
       </section>
 
       <div className="mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8">
-        <section id="mission-selection" aria-labelledby="mission-selection-title" className="scroll-mt-24 pt-16 sm:pt-20">
-          <div className="grid gap-5 border-b border-[#CFC5B5] pb-7 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
-            <div><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.catalogKicker}</p><h2 id="mission-selection-title" className="mt-4 max-w-2xl font-sf text-[clamp(2.3rem,4.4vw,4.7rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.catalogTitle}</h2></div>
-             <p className="max-w-2xl text-[15px] leading-7 text-[#625B50] lg:justify-self-end">{t.catalogLead}</p>
+        <section aria-labelledby="mission-selection-title" className="pt-16 sm:pt-20">
+          <div id="mission-selection" className="scroll-mt-24">
+            <h2 id="mission-selection-title" className="max-w-2xl font-sf text-[clamp(2.3rem,4.4vw,4.7rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.catalogTitle}</h2>
           </div>
 
-          <div className="mt-7 space-y-4">
-            <label className="relative block max-w-2xl">
+          <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <label className="relative block w-full max-w-xs">
               <span className="sr-only">{t.search}</span>
               <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
               <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
             </label>
-            <div className="flex gap-2 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex max-w-full gap-2 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                {(Object.keys(t.families) as NeedFamily[]).map((key) => <CategoryPill key={key} active={!requestedCategory && family === key} onClick={() => selectFamily(key)}>{t.families[key]}</CategoryPill>)}
             </div>
           </div>
@@ -265,10 +261,6 @@ export function MissionsContent({
           <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"><div><h2 className="max-w-4xl text-balance font-sf text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[.92] tracking-[-.065em]">{t.finalTitle}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-white/80">{withAlmaAvatar(t.finalBody)}</p></div><button type="button" onClick={focusComposer} className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#181615] px-7 text-sm font-bold text-white hover:bg-[#2A2622]">{withAlmaAvatar(t.finalCta)}<ArrowRight className="size-4" /></button></div>
         </section>
 
-        <section className="mt-5 grid gap-8 rounded-[32px] border border-[#CFC5B5] bg-[#FAF8F3] p-7 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.creatorKicker}</p><h2 className="mt-5 max-w-3xl text-[clamp(2rem,4vw,3.8rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.creatorTitle}</h2><p className="mt-5 max-w-2xl text-sm leading-7 text-[#625B50]">{t.creatorBody}</p><ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-xs font-bold text-[#4E483F]">{t.creatorProofs.map((proof) => <li key={proof} className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-[#D10E63]" />{proof}</li>)}</ul></div>
-          <div className="flex flex-col gap-3"><Link href="/co-createur-ia" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white">{t.creatorCta}<ArrowRight className="ml-2 size-4" /></Link><Link href="/academy/formations/co-createur-ia?source=missions-catalog" className="text-center text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.creatorAcademy}</Link></div>
-        </section>
       </div>
     </main>
   )
@@ -280,8 +272,8 @@ function AlmaCatalogCard({ lang, onClick }: { lang: 'fr' | 'en'; onClick: () => 
     <article className="flex min-h-[250px] flex-col rounded-[18px] bg-[#211E1A] p-6 text-[#FAF8F3] shadow-[0_18px_42px_-28px_rgba(28,26,23,.65)]">
       <p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2A4C5]">{withAlmaAvatar('Alma')}</p>
       <h3 className="mt-4 font-sf text-xl font-semibold leading-snug">{fr ? 'Vous ne trouvez pas exactement votre mission ?' : 'Can’t find exactly the mission you need?'}</h3>
-       <p className="mt-3 text-sm leading-6 text-[#CFC6B8]">{withAlmaAvatar(fr ? 'Vous avez trouvé une mission proche ? Alma l’adapte à votre contexte, vos outils et vos validations.' : 'Found a close match? Alma adapts it to your context, tools and approvals.')}</p>
-      <button type="button" onClick={onClick} className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#F2A4C5]">{fr ? 'Décrire mon besoin' : 'Describe my need'}<ArrowRight className="size-4" /></button>
+       <p className="mt-3 text-sm leading-6 text-[#CFC6B8]">{withAlmaAvatar(fr ? 'Décrivez le résultat attendu. Alma personnalise votre Collaborateur IA pour l’obtenir.' : 'Describe the expected outcome. Alma customizes your AI Collaborator to deliver it.')}</p>
+      <button type="button" onClick={onClick} className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#F2A4C5]">{fr ? 'Décrire ma mission' : 'Describe my mission'}<ArrowRight className="size-4" /></button>
     </article>
   )
 }
@@ -301,53 +293,47 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 
 const COPY = {
   fr: {
-    eyebrow: 'Missions / Collaborateurs IA',
-    title: 'Quel travail voulez-vous confier ?',
-    heroA: 'Quel travail', heroB: 'voulez-vous', heroC: 'confier ?',
-    lead: 'Décrivez le résultat attendu à Alma, ou partez d’une mission déjà cadrée. Vous gardez la validation des décisions qui engagent votre entreprise.', explore: 'Explorer les missions',
-    almaRole: 'Coordinatrice de missions IA', composerTitle: 'Décrivez votre besoin.', composerBody: 'Alma le transforme en mission prête à personnaliser.',
-    placeholder: 'Décrivez votre besoin…',
-    talk: 'Commencer à parler', stop: 'Terminer', continue: 'Continuer avec cette mission',
+    eyebrow: 'Missions pour collaborateur IA',
+    title: 'Décrivez la mission. Alma personnalise votre Collaborateur IA.',
+    heroA: 'Décrivez', heroB: 'la mission.', heroC: 'Alma personnalise votre Collaborateur IA.',
+    lead: 'À partir du résultat attendu, Alma adapte son profil, ses compétences et ses outils à votre entreprise.', explore: 'Voir des missions déjà cadrées',
+    almaRole: 'Coordinatrice de missions IA', composerTitle: 'Quel résultat voulez-vous obtenir ?', composerBody: 'Décrivez-le simplement. Alma prépare le Collaborateur IA adapté à la mission.',
+    placeholder: 'Ex. Qualifier mes nouveaux prospects chaque matin…',
+    talk: 'Dicter ma mission', stop: 'Terminer', continue: 'Personnaliser mon Collaborateur IA',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
-    starters: ['Répondre à mes appels', 'Qualifier mes prospects', 'Traiter mes e-mails entrants'],
+    starters: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures'],
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne. Votre description reste dans ce navigateur pendant la reprise.',
-    catalogTitle: 'Partez d’une mission déjà cadrée',
-    catalogKicker: 'Catalogue de missions',
-    catalogLead: 'Comparez le résultat attendu, le niveau de préparation et les validations nécessaires. Chaque mission peut ensuite être adaptée à votre entreprise.',
+    catalogTitle: 'Ou partez d’une mission déjà cadrée',
     search: 'Rechercher dans les missions',
-    families: { recommended: 'Recommandées', all: 'Toutes', available: 'Disponibles', growth: 'Développer les ventes', customers: 'Servir les clients', company: 'Gérer l’entreprise', teams: 'Organiser les équipes', produce: 'Produire et analyser' },
-    recommended: '12 missions recommandées',
+    families: { recommended: 'Recommandées', all: 'Toutes', growth: 'Développer les ventes', customers: 'Servir les clients', company: 'Gérer l’entreprise', teams: 'Organiser les équipes', produce: 'Produire et analyser' },
+    recommended: '12 missions pour commencer',
     count: (shown: number, total: number) => `${shown} mission${shown > 1 ? 's' : ''} affichée${shown > 1 ? 's' : ''} sur ${total}`,
     showMore: 'Afficher 12 missions supplémentaires',
-    finalTitle: 'Votre mission n’est pas dans le catalogue ?',
-    finalBody: 'Décrivez simplement le travail à accomplir. Alma conserve votre demande et vous accompagne après votre connexion.',
-    finalCta: 'Décrire ma mission à Alma',
-    creatorKicker: 'Experts et Co-créateurs', creatorTitle: 'Transformez votre savoir-faire en Collaborateur IA capable d’accomplir des missions sous votre contrôle.', creatorBody: 'Formalisez une méthode, testez-la sur des cas réels et publiez-la selon les droits que vous définissez.', creatorProofs: ['Méthode testée sur des cas contrôlés', 'Actions autorisées, validées ou interdites', 'Versionnage et publication selon vos droits'], creatorCta: 'Devenir Co-créateur IA', creatorAcademy: 'Découvrir la formation',
+    finalTitle: 'Vous savez ce qui doit être fait.',
+    finalBody: 'Décrivez le résultat attendu. Alma personnalise votre Collaborateur IA pour votre mission.',
+    finalCta: 'Décrire ma mission',
   },
   en: {
     eyebrow: 'Missions / AI Collaborators',
-    title: 'What work should an AI Collaborator take on?',
-    heroA: 'What work', heroB: 'should an AI Collaborator', heroC: 'take on?',
-    lead: 'Describe the outcome to Alma, or start from an already scoped mission. You retain approval over decisions that commit your company.', explore: 'Explore missions',
-    almaRole: 'AI mission coordinator', composerTitle: 'Describe your need.', composerBody: 'Alma turns it into a mission ready to personalize.',
-    placeholder: 'Describe your need…',
-    talk: 'Start talking', stop: 'Finish', continue: 'Continue with this mission',
+    title: 'Describe the mission. Alma customizes your AI Collaborator.',
+    heroA: 'Describe', heroB: 'the mission.', heroC: 'Alma customizes your AI Collaborator.',
+    lead: 'From the expected outcome, Alma adapts its profile, skills and tools to your company.', explore: 'View already scoped missions',
+    almaRole: 'AI mission coordinator', composerTitle: 'What outcome do you want?', composerBody: 'Describe it simply. Alma prepares the right AI Collaborator for the mission.',
+    placeholder: 'E.g. Qualify my new prospects every morning…',
+    talk: 'Dictate my mission', stop: 'Finish', continue: 'Customize my AI Collaborator',
     voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
-    starters: ['Answer my calls', 'Qualify my prospects', 'Handle my incoming emails'],
+    starters: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices'],
     handoff: 'Enter to continue · Shift + Enter for a new line. Your description remains in this browser while you resume.',
-    catalogTitle: 'Start from an already scoped mission',
-    catalogKicker: 'Mission catalog',
-    catalogLead: 'Compare the expected outcome, preparation level and required approvals. Every mission can then be adapted to your company.',
+    catalogTitle: 'Or start from an already scoped mission',
     search: 'Search missions',
-    families: { recommended: 'Recommended', all: 'All', available: 'Available', growth: 'Grow sales', customers: 'Serve customers', company: 'Run the company', teams: 'Organize teams', produce: 'Produce and analyze' },
-    recommended: '12 recommended missions',
+    families: { recommended: 'Recommended', all: 'All', growth: 'Grow sales', customers: 'Serve customers', company: 'Run the company', teams: 'Organize teams', produce: 'Produce and analyze' },
+    recommended: '12 missions to get started',
     count: (shown: number, total: number) => `${shown} of ${total} mission${total > 1 ? 's' : ''} shown`,
     showMore: 'Show 12 more missions',
-    finalTitle: 'Is your mission missing from the catalog?',
-    finalBody: 'Simply describe the work to be done. Alma saves your request and supports you after sign-in.',
-    finalCta: 'Describe my mission to Alma',
-    creatorKicker: 'Experts and Co-creators', creatorTitle: 'Turn your know-how into an AI Collaborator that performs missions under your control.', creatorBody: 'Formalize a method, test it on real cases and publish it under the rights you define.', creatorProofs: ['Method tested on controlled cases', 'Actions allowed, approved or forbidden', 'Versioning and publishing under your rights'], creatorCta: 'Become an AI Co-creator', creatorAcademy: 'Explore the course',
+    finalTitle: 'You know what needs to be done.',
+    finalBody: 'Describe the expected outcome. Alma customizes your AI Collaborator for your mission.',
+    finalCta: 'Describe my mission',
   },
 } as const

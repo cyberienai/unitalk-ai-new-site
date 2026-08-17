@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight, PlayCircle, Sparkles } from 'lucide-react'
 import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, getMissionCategory, getMissionCategoryHref, getMissionGuideHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
-import { ROLE_DETAILS, TEAM_HUMANS, collaboratorHref } from '@/lib/collaborators-catalog'
+import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
 
 // Ghost-border cards used by secondary catalog views.
@@ -53,67 +53,38 @@ export function StoreCard({
 }) {
   const category = shortCategoryLabel(mission.category, lang)
   const categoryData = getMissionCategory(mission.category)
-  const description = actionDescription(mission, lang)
-  const personalize = mission.status === 'available' ? (lang === 'fr' ? 'Adapter cette mission' : 'Adapt this mission') : mission.status === 'on-setup' ? (lang === 'fr' ? 'La préparer avec Alma' : 'Prepare it with Alma') : (lang === 'fr' ? 'Décrire mon besoin' : 'Describe my need')
+  const collaborator = ROLE_DETAILS[mission.collaboratorSlug]
+  const personalize = lang === 'fr' ? 'Personnaliser' : 'Customize'
   return (
     <article
       data-mission-card={mission.slug}
       style={{ viewTransitionName: `mission-${mission.slug}` }}
-      className="group relative flex min-h-[270px] w-full flex-col overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] p-6 text-left shadow-[0_24px_60px_-52px_rgba(28,26,23,.75)] transition-[transform,border-color,background-color,box-shadow] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-300 hover:-translate-y-1.5 hover:border-[#D10E63]/35 hover:bg-[#FFFDF9] hover:shadow-[0_28px_65px_-42px_rgba(28,26,23,.35)] hover:before:scale-x-100 focus-within:border-[#D10E63]/40 focus-within:before:scale-x-100"
+      className="group relative flex min-h-[230px] w-full flex-col overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] p-6 text-left shadow-[0_24px_60px_-52px_rgba(28,26,23,.75)] transition-[transform,border-color,background-color,box-shadow] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-300 hover:-translate-y-1.5 hover:border-[#D10E63]/35 hover:bg-[#FFFDF9] hover:shadow-[0_28px_65px_-42px_rgba(28,26,23,.35)] hover:before:scale-x-100 focus-within:border-[#D10E63]/40 focus-within:before:scale-x-100"
     >
-      <div className="mb-5 flex items-center justify-between gap-3"><MissionProfiles mission={mission} lang={lang} />{mission.regulated && <span className="text-[10px] font-bold text-[#8A5D19]">{lang === 'fr' ? 'Validation professionnelle' : 'Professional approval'}</span>}</div>
+      {collaborator && (
+        <Link
+          href={collaboratorHref(collaborator.slug)}
+          aria-label={`${collaborator.name}, ${lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator'}`}
+          title={collaborator.name}
+          className="mb-5 w-fit rounded-full outline-none transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+        >
+          <Image src={collaborator.avatar} alt="" width={40} height={40} className="size-10 rounded-full border-2 border-[#FAF8F3] object-cover shadow-sm" />
+        </Link>
+      )}
       <Link href={`/missions/${mission.slug}`} className="relative z-10 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
         <h3 className="line-clamp-2 font-sf text-[21px] font-semibold leading-[1.18] tracking-[-0.03em] text-[#1C1A17]">{mission.title[lang]}</h3>
       </Link>
-      {description !== mission.result[lang] && <p className="mt-3 line-clamp-2 text-sm leading-[1.55] text-[#4E483F]">{description}</p>}
-      <div className="mt-5 border-l-2 border-[#D10E63] pl-4">
-        <p className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#8A8175]">{lang === 'fr' ? 'Résultat' : 'Result'}</p>
-        <p className="mt-1.5 line-clamp-2 text-[13px] leading-5 text-[#3F3A33]">{mission.result[lang]}</p>
-      </div>
+      <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#4E483F]">{mission.result[lang]}</p>
       <footer className="mt-auto flex flex-col items-start justify-between gap-3 border-t border-[#DED6C8] pt-4 sm:flex-row sm:items-center">
-        <div className="flex flex-wrap items-center gap-x-1.5 text-[12px] font-semibold text-[#6E665A]">
-          {categoryData ? <Link href={getMissionCategoryHref(categoryData)} className="rounded-full bg-[#EDE7DA] px-2.5 py-1 outline-none hover:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{category}</Link> : <span>{category}</span>}
-          <span aria-hidden>·</span>
-          <Link href={getMissionGuideHref(mission)} className="text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 hover:text-[#B00C54]">{lang === 'fr' ? 'Lire le guide' : 'Read the guide'}</Link>
+        <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold">
+          {categoryData ? <Link href={getMissionCategoryHref(categoryData)} className="rounded-full bg-[#EDE7DA] px-2.5 py-1 text-[#6E665A] outline-none hover:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{category}</Link> : <span className="text-[#6E665A]">{category}</span>}
+          <Link href={getMissionGuideHref(mission)} className="inline-flex items-center gap-1.5 text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 hover:text-[#B00C54]"><PlayCircle aria-hidden="true" className="size-3.5 text-[#D10E63]" />{lang === 'fr' ? 'Guide' : 'Guide'}</Link>
         </div>
         <Link onClick={onPersonalize} href={`/decouvrir?mission=${mission.slug}&source=mission-store`} className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-[13px] font-bold text-white hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 sm:w-auto">
           {personalize}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
         </Link>
       </footer>
     </article>
-  )
-}
-
-function MissionProfiles({ mission, lang }: { mission: Mission; lang: Lang }) {
-  const collaborator = ROLE_DETAILS[mission.collaboratorSlug]
-  if (!collaborator) return null
-
-  const creator = collaborator.managerHandle ? TEAM_HUMANS[collaborator.managerHandle] : undefined
-  const profiles = [
-    { key: collaborator.slug, name: collaborator.name, avatar: collaborator.avatar, href: collaboratorHref(collaborator.slug), kind: lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator' },
-    ...(creator ? [{ key: creator.handle, name: creator.name, avatar: creator.avatar, href: `/@${creator.handle}`, kind: lang === 'fr' ? 'Créateur' : 'Creator' }] : []),
-  ]
-
-  return (
-    <div className="flex min-w-0 items-center gap-2.5">
-      <div className="flex -space-x-2">
-        {profiles.map((profile, index) => (
-          <Link
-            key={profile.key}
-            href={profile.href}
-            aria-label={`${profile.name}, ${profile.kind}`}
-            title={`${profile.name} · ${profile.kind}`}
-            className="relative z-10 block rounded-full outline-none transition-transform hover:z-20 hover:-translate-y-0.5 focus-visible:z-20 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-            style={{ zIndex: profiles.length - index }}
-          >
-            <Image src={profile.avatar} alt="" width={32} height={32} className="size-8 rounded-full border-2 border-[#FAF8F3] object-cover" />
-          </Link>
-        ))}
-      </div>
-      <span className="truncate font-mono text-[9px] font-black uppercase tracking-[.1em] text-[#6E665A]">
-        {lang === 'fr' ? 'Proposée par la communauté' : 'Community proposed'}
-      </span>
-    </div>
   )
 }
 

@@ -11,8 +11,8 @@ const ease = [0.16, 1, 0.3, 1] as const
 const COPY = {
   fr: {
     kicker: 'Mission après mission',
-    title: 'L’expérience acquise reste rattachée à votre entreprise.',
-    lead: 'Mission après mission, votre Collaborateur IA réutilise les méthodes et consignes que votre entreprise a explicitement validées.',
+    title: 'Votre Collaborateur IA progresse avec votre entreprise.',
+    lead: 'Mission après mission, il réutilise les méthodes et consignes validées par votre entreprise. L’expérience acquise reste dans votre organisation.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Décrire ma mission',
     ctaNote: 'Alma conserve votre demande et vous accompagne après la connexion.',
@@ -20,8 +20,8 @@ const COPY = {
   },
   en: {
     kicker: 'Mission after mission',
-    title: 'The experience gained stays attached to your organization.',
-    lead: 'Mission after mission, your AI Collaborator reuses the methods and instructions your organization has explicitly approved.',
+    title: 'Your AI Collaborator improves with your organization.',
+    lead: 'Mission after mission, it reuses the methods and instructions your organization has approved. The experience gained stays within your organization.',
     closing: 'Ready to hand over a first mission?',
     cta: 'Describe my mission',
     ctaNote: 'Alma saves your request and supports you after sign-in.',

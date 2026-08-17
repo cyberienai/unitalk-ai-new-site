@@ -12,20 +12,20 @@ export const metadata: Metadata = {
   // renders as "Missions pour Collaborateurs IA | Unitalk" (no duplicate).
   title: 'Missions pour Collaborateurs IA',
   description:
-    'Découvrez des missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
+    'Décrivez le résultat attendu ou choisissez une mission déjà cadrée. Alma personnalise votre Collaborateur IA pour votre entreprise.',
   alternates: { canonical: '/missions' },
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/missions`,
     title: 'Missions pour Collaborateurs IA | Unitalk',
     description:
-      'Découvrez des missions prêtes à confier à votre Collaborateur IA : prospection, support client, contenu, réunions, automatisation et développement.',
+      'Décrivez le résultat attendu ou choisissez une mission déjà cadrée. Alma personnalise votre Collaborateur IA pour votre entreprise.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Missions pour Collaborateurs IA Unitalk' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Missions pour Collaborateurs IA | Unitalk',
-    description: 'Choisissez une mission à personnaliser pour votre entreprise ou décrivez à Alma le travail à accomplir.',
+    description: 'Décrivez le résultat attendu ou choisissez une mission déjà cadrée pour votre Collaborateur IA.',
     images: ['/opengraph-image'],
   },
 }
