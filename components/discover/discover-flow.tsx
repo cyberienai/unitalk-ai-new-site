@@ -19,6 +19,7 @@ import type { MockSession } from '@/lib/mock-auth'
 import { parseDiscoverSource } from '@/lib/discover-entry'
 import { emailDomain, isProfessionalEmail } from '@/lib/professional-email'
 import type { PurchaseDraft } from '@/lib/purchase-draft'
+import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 
 function normalizeDomain(v: string | null) { return v?.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase() ?? '' }
 
@@ -30,6 +31,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   const missionSlug = searchParams.get('mission')
   const draftId = searchParams.get('draft')
   const requestedCollaborator = searchParams.get('collaborateur')
+  const requestedCollaboratorDetail = requestedCollaborator ? ROLE_DETAILS[requestedCollaborator] : undefined
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
   const source = parseDiscoverSource(searchParams.get('source'))
   const requestedDomain = normalizeDomain(searchParams.get('domain'))
@@ -48,8 +50,8 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
       company: initialPurchaseDraft?.onboarding?.company ?? (domain ? init.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : init.company),
       mission: initialPurchaseDraft?.onboarding?.mission ?? init.mission,
       missionDefined: Boolean(initialPurchaseDraft?.onboarding?.mission.title),
-      profile: initialPurchaseDraft?.onboarding?.profile ?? (requestedCollaborator === 'hugo' ? { fr: 'Commercial', en: 'Sales' } : init.profile),
-      collaboratorName: initialPurchaseDraft?.onboarding?.collaboratorName ?? (requestedCollaborator === 'hugo' ? 'Hugo' : init.collaboratorName),
+      profile: initialPurchaseDraft?.onboarding?.profile ?? requestedCollaboratorDetail?.role ?? init.profile,
+      collaboratorName: initialPurchaseDraft?.onboarding?.collaboratorName ?? requestedCollaboratorDetail?.name ?? init.collaboratorName,
     }
   })
   const [step, setStep] = useState<OnboardingStep>('entreprise')

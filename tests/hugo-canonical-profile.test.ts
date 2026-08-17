@@ -22,6 +22,11 @@ describe('Hugo canonical public profile', () => {
     expect(handleRoute).toContain('url: `${SITE_URL}/@${slug}`')
   })
 
+  it('uses the new profile experience for every detailed AI identity', () => {
+    expect(handleRoute).toContain('page ? <CollaborateurContent page={page}')
+    expect(handleRoute).not.toContain("slug === 'hugo' && page")
+  })
+
   it('removes the duplicate URL and keeps internal destinations canonical', () => {
     expect(legacyRoute).toContain("if (slug === 'hugo') notFound()")
     expect(sitemap).toContain('url: `${SITE_URL}/@${slug}`')

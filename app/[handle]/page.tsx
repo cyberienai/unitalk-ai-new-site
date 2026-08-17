@@ -95,7 +95,7 @@ export default async function HandleProfilePage({ params }: { params: Promise<{ 
       <>
         {personJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />}
         <Navbar />
-        {slug === 'hugo' && page ? <CollaborateurContent page={page} /> : <TeamProfile slug={slug} />}
+        {page ? <CollaborateurContent page={page} /> : <TeamProfile slug={slug} />}
         <SiteFooter />
       </>
     )
