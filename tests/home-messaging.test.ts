@@ -11,7 +11,7 @@ describe('home commercial messaging', () => {
     expect(hero).toContain('Votre propre Collaborateur IA')
     expect(hero).toContain('Prêt à accomplir vos missions.')
     expect(hero).toContain('Alma le personnalise selon vos besoins, vos outils et les règles de votre entreprise.')
-    expect(hero).toContain("voiceTitle: 'Quel travail voulez-vous lui confier ?'")
+    expect(hero).toContain("voiceTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?'")
     expect(hero).toContain('Personnaliser mon Collaborateur IA')
     expect(hero).not.toContain('voiceSubmitEmpty')
     for (const proof of ['Première mission offerte', 'Sans carte bancaire', 'Sans engagement']) expect(hero).toContain(proof)
