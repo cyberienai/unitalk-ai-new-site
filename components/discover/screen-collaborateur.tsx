@@ -16,7 +16,6 @@ export function ScreenCollaborateur({
   profile,
   company,
   name,
-  hasPricing,
   onName,
   onCreated,
 }: {
@@ -25,7 +24,6 @@ export function ScreenCollaborateur({
   profile: { fr: string; en: string }
   company: CompanyFact[]
   name: string
-  hasPricing: boolean
   onName: (name: string) => void
   onCreated: (name: string) => void
 }) {
@@ -45,7 +43,7 @@ export function ScreenCollaborateur({
     }
     setOpening(true)
     await persistOnboardingDraft({ company, mission, profile, collaboratorName: displayName })
-    router.push(hasPricing ? '/commande' : '/tarifs')
+    router.push('/workspace')
   }
 
   return (
@@ -144,13 +142,13 @@ const COPY = {
     continueWith: 'Continuer avec',
     createEmpty: 'Choisissez un prénom pour continuer',
     opening: 'Enregistrement…',
-    almaConfirm: 'Tout est prêt. Vérifiez avant de choisir la capacité et confirmer la commande.',
+    almaConfirm: 'Tout est prêt. Vérifiez avant de créer votre Workspace gratuit.',
     readyTitle: (name: string) => `${name} est prêt pour sa première mission.`,
     freeMission: 'Première mission offerte', noCard: 'Sans carte bancaire',
     apps: 'Applications', appsValue: 'À connecter dans le Workspace avec votre accord',
     approvals: 'Validations humaines', approvalsValue: 'Activées pour les actions sensibles',
-    open: 'Continuer vers les tarifs', back: 'Modifier le prénom',
-    consent: 'Rien ne devient payant sans votre accord. Aucune application n’est connectée automatiquement.',
+    open: 'Créer mon Workspace gratuit', back: 'Modifier le prénom',
+    consent: 'Aucun abonnement payant n’est activé automatiquement. Aucune application n’est connectée sans votre accord.',
   },
   en: {
     alma: 'Give them a first name.',
@@ -163,13 +161,13 @@ const COPY = {
     continueWith: 'Continue with',
     createEmpty: 'Choose a first name to continue',
     opening: 'Saving…',
-    almaConfirm: 'Everything is ready. Review it before choosing capacity and confirming the order.',
+    almaConfirm: 'Everything is ready. Review it before creating your free Workspace.',
     readyTitle: (name: string) => `${name} is ready for the first mission.`,
     freeMission: 'First mission included', noCard: 'No credit card',
     apps: 'Applications', appsValue: 'Connect them in the Workspace with your approval',
     approvals: 'Human approvals', approvalsValue: 'Enabled for sensitive actions',
-    open: 'Continue to pricing', back: 'Change first name',
-    consent: 'Nothing becomes paid without your approval. No application is connected automatically.',
+    open: 'Create my free Workspace', back: 'Change first name',
+    consent: 'No paid subscription is activated automatically. No application is connected without your approval.',
   },
 } as const
 

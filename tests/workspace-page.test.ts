@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const source = readFileSync(new URL('../components/workspace/workspace-final-content.tsx', import.meta.url), 'utf8')
+const page = readFileSync(new URL('../app/workspace/page.tsx', import.meta.url), 'utf8')
 
 describe('Workspace landing', () => {
   it('uses the shared visual grammar and one clear hero', () => {
@@ -23,5 +24,13 @@ describe('Workspace landing', () => {
   it('marks the product scene as an illustrative fictional demonstration', () => {
     expect(source).toContain('Démonstration fictive')
     expect(source).toContain('Démonstration illustrative')
+  })
+
+  it('renders confirmed onboarding directly in Workspace', () => {
+    expect(page).toContain('onboardingComplete(draft)')
+    expect(page).toContain('<WorkspaceFinalContent onboarding={workspace}')
+    expect(source).toContain('onboarding?.missionTitle')
+    expect(source).toContain('onboarding?.collaboratorName')
+    expect(source).toContain('Première mission · Prête à démarrer')
   })
 })

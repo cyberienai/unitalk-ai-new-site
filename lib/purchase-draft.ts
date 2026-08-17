@@ -11,6 +11,7 @@ export type PurchaseDraft = {
     mission: MissionInfo
     profile: { fr: string; en: string }
     collaboratorName: string
+    confirmedAt: string
   }
   updatedAt: string
 }
@@ -31,5 +32,5 @@ export function onboardingComplete(draft: PurchaseDraft | null): boolean {
   if (!value) return false
   const domain = value.company.find((fact) => fact.key === 'domain')?.value.trim()
   const company = value.company.find((fact) => fact.key === 'name')?.value.trim()
-  return Boolean(domain && company && value.mission.title.trim() && value.collaboratorName.trim())
+  return Boolean(domain && company && value.mission.title.trim() && value.collaboratorName.trim() && value.confirmedAt)
 }

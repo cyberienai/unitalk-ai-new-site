@@ -96,6 +96,7 @@ const PERSONAS = {
     claim: { fr: 'Emma prépare vos réunions, vos priorités et vos décisions.', en: 'Emma prepares your meetings, priorities and decisions.' },
     lead: { fr: 'Confiez-lui votre agenda, vos dossiers et le suivi des actions. Votre équipe garde les arbitrages qui engagent l’entreprise.', en: 'Entrust her with your calendar, files and action tracking. Your team keeps decisions that commit the organization.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Emma.', en: 'Describe the mission you want to assign to Emma.' },
+    placeholder: { fr: 'Décrivez la réunion, les participants, les documents et le résultat attendu…', en: 'Describe the meeting, participants, documents and expected outcome…' },
     examples: { fr: ['Préparer mon comité de direction', 'Organiser mes rendez-vous', 'Suivre les décisions prises'], en: ['Prepare my leadership meeting', 'Organize my appointments', 'Track agreed decisions'] },
     proofTitle: { fr: 'Emma prépare. Votre direction décide.', en: 'Emma prepares. Your leadership decides.' },
     proofMission: { fr: 'Préparer le comité de direction', en: 'Prepare the leadership meeting' },
@@ -107,6 +108,7 @@ const PERSONAS = {
     claim: { fr: 'Léa transforme votre stratégie en contenus qui avancent.', en: 'Léa turns your strategy into content that moves forward.' },
     lead: { fr: 'Donnez-lui vos objectifs, votre ton et vos canaux. Elle prépare le calendrier, les briefs et les contenus à valider.', en: 'Give her your goals, tone and channels. She prepares the calendar, briefs and content for approval.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Léa.', en: 'Describe the mission you want to assign to Léa.' },
+    placeholder: { fr: 'Décrivez l’audience, les objectifs, les canaux et le ton de marque…', en: 'Describe the audience, goals, channels and brand tone…' },
     examples: { fr: ['Construire mon calendrier éditorial', 'Préparer une campagne de contenu', 'Analyser mes performances'], en: ['Build my editorial calendar', 'Prepare a content campaign', 'Analyze my performance'] },
     proofTitle: { fr: 'Léa prépare les contenus. Votre équipe garde la ligne éditoriale.', en: 'Léa prepares content. Your team owns the editorial line.' },
     proofMission: { fr: 'Construire le calendrier éditorial', en: 'Build the editorial calendar' },
@@ -118,6 +120,7 @@ const PERSONAS = {
     claim: { fr: 'Arthur écrit, teste et documente votre code.', en: 'Arthur writes, tests and documents your code.' },
     lead: { fr: 'Confiez-lui un ticket et le contexte autorisé. Il prépare le correctif, les tests et la documentation avant toute fusion.', en: 'Give him a ticket and authorized context. He prepares the fix, tests and documentation before any merge.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Arthur.', en: 'Describe the mission you want to assign to Arthur.' },
+    placeholder: { fr: 'Décrivez le ticket, le comportement attendu, le dépôt et les contraintes techniques…', en: 'Describe the ticket, expected behavior, repository and technical constraints…' },
     examples: { fr: ['Corriger un bug prioritaire', 'Implémenter une fonctionnalité', 'Documenter une API'], en: ['Fix a priority bug', 'Implement a feature', 'Document an API'] },
     proofTitle: { fr: 'Arthur prépare le code. Votre équipe valide la fusion.', en: 'Arthur prepares the code. Your team approves the merge.' },
     proofMission: { fr: 'Corriger un bug prioritaire', en: 'Fix a priority bug' },
@@ -129,6 +132,7 @@ const PERSONAS = {
     claim: { fr: 'Hugo trouve et qualifie vos prochains prospects.', en: 'Hugo finds and qualifies your next prospects.' },
     lead: { fr: 'Donnez-lui vos critères. Il recherche les entreprises, prépare les fiches CRM et organise les relances. Votre équipe valide le premier contact.', en: 'Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Hugo.', en: 'Describe the mission you want to assign to Hugo.' },
+    placeholder: { fr: 'Décrivez le type de prospect recherché…', en: 'Describe the type of prospect you are looking for…' },
     examples: { fr: ['PME de 20 à 200 salariés', 'Secteur logiciels B2B', 'France · Directeurs commerciaux'], en: ['Companies with 20–200 employees', 'B2B software sector', 'France · Sales directors'] },
     proofTitle: { fr: 'Hugo prospecte. Votre équipe décide.', en: 'Hugo prospects. Your team decides.' },
     proofMission: { fr: 'Qualifier les nouveaux prospects', en: 'Qualify new prospects' },
@@ -137,9 +141,10 @@ const PERSONAS = {
     apps: ['HubSpot', 'Salesforce', 'LinkedIn', 'Gmail', 'Outlook', 'Agenda'],
   },
   nadia: {
-    claim: { fr: 'Nadia consolide vos chiffres et prépare vos décisions financières.', en: 'Nadia consolidates your numbers and prepares financial decisions.' },
+    claim: { fr: 'Nadia éclaire vos décisions financières.', en: 'Nadia informs your financial decisions.' },
     lead: { fr: 'Donnez-lui vos sources et vos règles. Elle prépare le reporting, les prévisions et les écarts à faire valider.', en: 'Give her your sources and rules. She prepares reporting, forecasts and variances for approval.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Nadia.', en: 'Describe the mission you want to assign to Nadia.' },
+    placeholder: { fr: 'Décrivez les données, la période, les indicateurs et les hypothèses à vérifier…', en: 'Describe the data, period, metrics and assumptions to review…' },
     examples: { fr: ['Préparer mon reporting mensuel', 'Mettre à jour ma trésorerie', 'Analyser les écarts budgétaires'], en: ['Prepare my monthly report', 'Update my cash forecast', 'Analyze budget variances'] },
     proofTitle: { fr: 'Nadia consolide. Votre direction financière valide.', en: 'Nadia consolidates. Your finance team approves.' },
     proofMission: { fr: 'Préparer le reporting financier', en: 'Prepare financial reporting' },
@@ -151,6 +156,7 @@ const PERSONAS = {
     claim: { fr: 'Inès répond à vos clients et garde le ton juste.', en: 'Inès answers customers and keeps the right tone.' },
     lead: { fr: 'Confiez-lui les demandes entrantes. Elle classe, prépare les réponses et soumet les gestes commerciaux ou cas sensibles.', en: 'Entrust her with inbound requests. She classifies, prepares replies and submits commercial gestures or sensitive cases.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Inès.', en: 'Describe the mission you want to assign to Inès.' },
+    placeholder: { fr: 'Décrivez les demandes, les règles de réponse et les cas à faire valider…', en: 'Describe the requests, response rules and cases requiring approval…' },
     examples: { fr: ['Traiter les tickets du matin', 'Répondre aux réclamations', 'Mettre à jour ma FAQ'], en: ['Handle morning tickets', 'Answer complaints', 'Update my FAQ'] },
     proofTitle: { fr: 'Inès prépare les réponses. Votre équipe arbitre les cas sensibles.', en: 'Inès prepares replies. Your team decides sensitive cases.' },
     proofMission: { fr: 'Traiter les demandes clients', en: 'Handle customer requests' },
@@ -195,7 +201,7 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
             <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{persona.lead[lang]}</p>
             <Link href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`} className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white shadow-[0_14px_34px_-20px_rgba(28,26,23,.7)] hover:bg-[#2A2622]">{lang==='fr'?`Créer mon Collaborateur IA ${detail.role.fr}`:`Create my ${detail.role.en} AI Collaborator`}</Link>
           </div>
-          <div id="alma-profile" className="scroll-mt-24"><AlmaMissionComposer value={missionRequest} onChange={setMissionRequest} onSubmit={submitMission} title={persona.composer[lang]} body="" role={t.composerRole} placeholder={t.composerPlaceholder} submitLabel={lang==='fr'?`Confier cette mission à ${detail.name}`:`Assign this mission to ${detail.name}`} starters={persona.examples[lang]} listening={false} onToggleListening={() => {}} voiceSupported={false} voiceStartLabel="" voiceStopLabel="" compactMobile compactDesktop /><ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">{t.trialProofs.map(proof => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]"/>{proof}</li>)}</ul></div>
+          <div id="alma-profile" className="scroll-mt-24"><AlmaMissionComposer value={missionRequest} onChange={setMissionRequest} onSubmit={submitMission} title={persona.composer[lang]} body="" role={t.composerRole} placeholder={persona.placeholder[lang]} submitLabel={lang==='fr'?`Confier cette mission à ${detail.name}`:`Assign this mission to ${detail.name}`} starters={persona.examples[lang]} listening={false} onToggleListening={() => {}} voiceSupported={false} voiceStartLabel="" voiceStopLabel="" compactMobile compactDesktop /><ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">{t.trialProofs.map(proof => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]"/>{proof}</li>)}</ul></div>
         </div>
         <div className="mt-12 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:grid-cols-4">{t.proofs.map(([title,body]) => <HeroProof key={title} title={title} body={body}/>)}</div>
       </div>
