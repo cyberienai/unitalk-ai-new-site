@@ -86,7 +86,7 @@ export function HomeCollaboratorAnatomy({ lang }: { lang: Lang }) {
 export function HomeEvolution({ lang }: { lang: Lang }) {
   const t = COPY[lang]
   const capabilitySets = lang === 'fr' ? [
-    { tab: 'Direction', profile: 'Assistante de direction', skills: ['Préparer une réunion', 'Organiser les rendez-vous', 'Résumer un dossier'], application: 'E-mail et calendrier', result: 'Réunions et décisions mieux préparées' },
+    { tab: 'Direction', profile: 'Assistante de direction', skills: ['Préparer une réunion', 'Organiser les rendez-vous', 'Résumer un dossier'], application: 'E-mail et calendrier', result: 'Tâches planifiées' },
     { tab: 'Finance', profile: 'Finance', skills: ['Relancer une facture', 'Contrôler les éléments de facturation', 'Signaler les litiges'], application: 'Outil de facturation', result: 'Suivi financier renforcé' },
     { tab: 'Ventes', profile: 'Commercial', skills: ['Rechercher des prospects', 'Qualifier les opportunités', 'Préparer les relances'], application: 'CRM commercial', result: 'Prospection mieux suivie' },
     { tab: 'Clients', profile: 'Relation client', skills: ['Classer les demandes', 'Préparer les réponses', 'Détecter les cas sensibles'], application: 'Support et CRM', result: 'Demandes mieux traitées' },
@@ -105,7 +105,7 @@ export function HomeEvolution({ lang }: { lang: Lang }) {
 }
 
 function Capability({ label, value }: { label: string; value: string }) {
-  return <li className="relative grid grid-cols-[36px_1fr] items-center gap-3"><span className="z-10 flex size-9 items-center justify-center rounded-full border border-[#F2A4C5]/25 bg-[#2A2226] font-mono text-[10px] font-black text-[#F2A4C5]">+</span><div className="rounded-2xl border border-white/10 bg-white/[.045] px-4 py-3"><span className="block font-mono text-[10px] font-bold uppercase tracking-[.12em] text-[#AFA397]">{label}</span><strong className="mt-1 block text-sm leading-6 text-white">{value}</strong></div></li>
+  return <li className="relative grid grid-cols-[36px_1fr] items-center gap-3"><span className="z-10 flex size-9 items-center justify-center rounded-full border border-[#F2A4C5]/25 bg-[#2A2226] font-mono text-[10px] font-black text-[#F2A4C5]">+</span><div className="rounded-2xl border border-white/10 bg-white/[.045] px-4 py-2.5"><span className="block font-mono text-[10px] font-bold uppercase tracking-[.12em] text-[#AFA397]">{label}</span><strong className="mt-0.5 block text-sm leading-5 text-white">{value}</strong></div></li>
 }
 
 export function HomeFinalCta({ lang }: { lang: Lang }) {

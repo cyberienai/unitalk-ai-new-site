@@ -15,7 +15,7 @@ import { Kicker } from '@/components/home/section-kicker'
 const COPY = {
   fr: {
     composerTitle: 'Détaillez la mission que vous voulez confier à Hugo.',
-    composerPlaceholder: 'Décrivez simplement le résultat attendu…',
+    composerPlaceholder: 'Décrivez le type de prospect recherché…',
     composerSubmit: 'Confier cette mission à Hugo',
     composerRole: 'Alma · Coordinatrice de votre première mission',
     composerExamples: ['PME de 20 à 200 salariés', 'Secteur logiciels B2B', 'France · Directeurs commerciaux'],
@@ -27,13 +27,13 @@ const COPY = {
       ['Propriété de l’entreprise', 'Identité, mémoire et savoir-faire restent chez vous.'],
       ['Profils et compétences', 'Ajoutez-en sans recréer son identité.'],
     ],
-    proofKicker: 'Mission commerciale · Démonstration illustrative',
+    proofKicker: 'Mission commerciale · Exemple',
     proofTitle: 'Hugo prospecte. Votre équipe décide.',
     proofLead: 'Il recherche et qualifie selon vos critères, prépare le CRM et s’arrête avant le premier contact tant que votre équipe n’a pas validé.',
     decision: 'Décision requise', approve: 'Approuver', modify: 'Modifier', decline: 'Refuser',
     identityKicker: 'Identité professionnelle',
-    identityTitle: 'Une identité IA. Tous ses moyens de travailler.',
-    identityLead: 'Hugo conserve la même identité d’une mission à l’autre. Votre entreprise attribue ses communications, sa mémoire, ses applications et ses droits.',
+    identityTitle: 'Une identité IA. Autonome pour travailler.',
+    identityLead: 'Hugo appartient à votre entreprise, pas à la personne qui le supervise. Si cette personne quitte l’organisation, son identité, sa mémoire et son savoir-faire restent dans l’entreprise.',
     identityCta: 'En savoir plus',
     identityCard: { header: 'Identité IA de votre Collaborateur', owner: 'Entreprise propriétaire', supervisor: 'Responsable humain', communication: 'Communication', memory: 'Mémoire propre', shared: 'Savoir partagé', execution: 'Environnement de travail', governance: 'Accès gouvernés par l’entreprise' },
     appsKicker: 'Applications autorisées',
@@ -43,7 +43,7 @@ const COPY = {
     modelsTitle: 'Le modèle adapté à chaque tâche. Sous vos règles.',
     modelsBody: 'Hugo utilise uniquement les modèles autorisés par votre entreprise, dans les limites du budget défini.',
     evolutionKicker: 'Mission après mission',
-    evolutionTitle: 'Ses compétences évoluent. Son identité reste.',
+    evolutionTitle: 'Ses compétences évoluent. Son savoir-faire reste.',
     evolutionBody: 'Hugo commence avec un profil commercial. Ajoutez ensuite de nouvelles méthodes, applications et responsabilités selon le travail confié.',
     evolutionItems: ['Profils métier supplémentaires', 'Compétences testées par la communauté', 'Méthodes propres à votre entreprise', 'Nouvelles missions sans repartir de zéro'],
     missionsTitle: 'Missions commerciales prêtes à personnaliser',
@@ -53,7 +53,7 @@ const COPY = {
   },
   en: {
     composerTitle: 'Describe the mission you want to assign to Hugo.',
-    composerPlaceholder: 'Simply describe the expected outcome…',
+    composerPlaceholder: 'Describe the type of prospect you are looking for…',
     composerSubmit: 'Assign this mission to Hugo',
     composerRole: 'Alma · Coordinator of your first mission',
     composerExamples: ['Companies with 20–200 employees', 'B2B software sector', 'France · Sales directors'],
@@ -65,13 +65,13 @@ const COPY = {
       ['Organization ownership', 'Identity, memory and know-how remain yours.'],
       ['Profiles and skills', 'Add them without recreating the identity.'],
     ],
-    proofKicker: 'Sales mission · Illustrative demonstration',
+    proofKicker: 'Sales mission · Example',
     proofTitle: 'Hugo prospects. Your team decides.',
     proofLead: 'He researches and qualifies from your criteria, prepares the CRM and stops before first contact until your team approves.',
     decision: 'Decision required', approve: 'Approve', modify: 'Amend', decline: 'Decline',
     identityKicker: 'Professional identity',
-    identityTitle: 'One AI identity. Every means to work.',
-    identityLead: 'Hugo keeps the same identity from one mission to the next. Your organization assigns communications, memory, applications and permissions.',
+    identityTitle: 'One AI identity. Autonomous at work.',
+    identityLead: 'Hugo belongs to your organization, not to the person supervising him. If that person leaves, his identity, memory and know-how remain within the organization.',
     identityCta: 'Learn more',
     identityCard: { header: 'Your Collaborator’s AI identity', owner: 'Owning organization', supervisor: 'Human supervisor', communication: 'Communication', memory: 'Own memory', shared: 'Shared knowledge', execution: 'Working environment', governance: 'Access governed by the organization' },
     appsKicker: 'Authorized applications',
@@ -81,7 +81,7 @@ const COPY = {
     modelsTitle: 'The right model for each task. Under your rules.',
     modelsBody: 'Hugo only uses models authorized by your organization, within the defined budget.',
     evolutionKicker: 'Mission after mission',
-    evolutionTitle: 'His skills evolve. His identity remains.',
+    evolutionTitle: 'His skills evolve. His know-how remains.',
     evolutionBody: 'Hugo starts with a sales profile. Add new methods, applications and responsibilities as you assign new work.',
     evolutionItems: ['Additional job profiles', 'Skills tested by the community', 'Methods specific to your organization', 'New missions without starting over'],
     missionsTitle: 'Sales missions ready to customize',
@@ -121,7 +121,7 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
         <div className="grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-14">
           <div>
             <div className="inline-flex items-center gap-3"><Image src={detail.avatar} alt="" width={36} height={36} priority className="size-9 rounded-full border border-[#CFC5B5] object-cover"/><span className="text-sm font-bold text-[#4E483F]">{lang === 'fr' ? 'Hugo · Collaborateur IA commercial' : 'Hugo · Sales AI Collaborator'}</span></div>
-            <h1 className="mt-8 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">{lang === 'fr' ? <><span className="block">Hugo trouve et qualifie</span><span className="block text-[#D10E63]">vos prochains prospects.</span></> : <><span className="block">Hugo finds and qualifies</span><span className="block text-[#D10E63]">your next prospects.</span></>}</h1>
+            <h1 className="mt-5 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">{lang === 'fr' ? <><span className="block">Hugo trouve et qualifie</span><span className="block text-[#D10E63]">vos prochains prospects.</span></> : <><span className="block">Hugo finds and qualifies</span><span className="block text-[#D10E63]">your next prospects.</span></>}</h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{lang === 'fr' ? 'Donnez-lui vos critères. Il recherche les entreprises, prépare les fiches CRM et organise les relances. Votre équipe valide le premier contact.' : 'Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.'}</p>
             <Link href="/tarifs?profil=hugo#configurateur" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white shadow-[0_14px_34px_-20px_rgba(28,26,23,.7)] hover:bg-[#2A2622]">{t.createCommercial}</Link>
           </div>
@@ -158,8 +158,8 @@ function Decision({ children, primary=false, active=false, onClick }: { children
 
 function IdentityCard({ detail, lang, labels }: { detail: CollaboratorPage['detail']; lang:'fr'|'en'; labels: typeof COPY.fr.identityCard|typeof COPY.en.identityCard }) {
   const fr=lang==='fr'
-  const rows=[[labels.owner,fr?'Votre entreprise':'Your organization'],[labels.supervisor,fr?'Directeur commercial':'Sales director'],[fr?'Mémoire':'Memory',fr?'Propre + partagée selon droits':'Own + shared by permission'],[fr?'Exécution':'Execution',fr?'Hermes · environnement privé':'Hermes · private environment'],[fr?'Modèles IA':'AI models',fr?'Un modèle pertinent par tâche':'A relevant model per task']]
-  return <article className="overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_30px_75px_-48px_rgba(28,26,23,.55)]"><header className="border-b border-[#DED6C8] px-6 py-5 sm:px-8"><p className="font-mono text-[11px] font-black uppercase tracking-[.16em] text-[#B00C54]">{labels.header}</p></header><div className="grid gap-6 p-6 sm:grid-cols-[150px_1fr] sm:p-8"><div><Image src={detail.avatar} alt={detail.name} width={150} height={180} className="aspect-[4/5] w-full rounded-2xl object-cover"/><p className="mt-4 text-2xl font-semibold">{detail.name}</p><p className="mt-1 font-mono text-xs text-[#B00C54]">@{detail.slug}</p><p className="mt-2 text-sm font-semibold text-[#625B50]">{fr?'Collaborateur IA commercial':'Sales AI Collaborator'}</p><span className="mt-4 inline-flex rounded-full bg-[#267A48]/10 px-3 py-1 text-[10px] font-bold text-[#267A48]">{fr?'SUPERVISÉ':'SUPERVISED'}</span></div><div className="min-w-0"><dl className="divide-y divide-[#DED6C8] border-y border-[#DED6C8]">{rows.map(([label,value]) => <div key={label} className="grid gap-1 py-3 sm:grid-cols-[130px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[.1em] text-[#857C6E]">{label}</dt><dd className="text-sm font-semibold text-[#3F3A33]">{value}</dd></div>)}</dl><div className="mt-5 grid gap-3 sm:grid-cols-2"><IdentityFeature icon={Mail} title={labels.communication} body={fr?'E-mail attribuable · Calendrier · Téléphone selon activation · Messageries autorisées':'Assignable email · Calendar · Phone when enabled · Authorized messaging'}/><IdentityFeature icon={UserRound} title={labels.memory} body={fr?'Historique, contexte utile et expérience validée de Hugo.':'Hugo’s history, useful context and approved experience.'}/><IdentityFeature icon={Building2} title={labels.shared} body={fr?'Méthodes, documents et connaissances accessibles selon ses droits.':'Methods, documents and knowledge available under permissions.'}/><IdentityFeature icon={Server} title={labels.execution} body={fr?'Agent Hermes · Fichiers · Navigateur · Code · Secrets propres':'Hermes Agent · Files · Browser · Code · Own secrets'}/></div></div></div><footer className="border-t border-[#DED6C8] bg-[#EAE3D4] px-6 py-4 sm:px-8"><div className="flex items-center gap-2 text-xs font-bold text-[#4E483F]"><ShieldCheck className="size-4 text-[#D10E63]"/>{labels.governance}</div><p className="mt-2 text-xs leading-5 text-[#625B50]">{fr?'Exemple de configuration : e-mail attribuable, téléphone selon activation, applications à autoriser et budget à définir.':'Configuration example: assignable email, phone when enabled, applications to authorize and budget to define.'}</p></footer></article>
+  const rows=[[labels.owner,fr?'Votre entreprise':'Your organization'],[labels.supervisor,fr?'Directeur\ncommercial':'Sales\ndirector'],[fr?'Mémoire':'Memory',fr?'Propre + partagée selon droits':'Own + shared by permission']]
+  return <article className="overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_30px_75px_-48px_rgba(28,26,23,.55)]"><header className="border-b border-[#DED6C8] px-6 py-5 sm:px-8"><p className="font-mono text-[11px] font-black uppercase tracking-[.16em] text-[#B00C54]">{labels.header}</p></header><div className="grid gap-6 p-6 sm:grid-cols-[150px_1fr] sm:p-8"><div><Image src={detail.avatar} alt={detail.name} width={150} height={180} className="aspect-[4/5] w-full rounded-2xl object-cover"/><p className="mt-4 text-2xl font-semibold">{detail.name}</p><p className="mt-1 font-mono text-xs text-[#B00C54]">@{detail.slug}</p><p className="mt-2 text-sm font-semibold text-[#625B50]">{fr?'Collaborateur IA commercial':'Sales AI Collaborator'}</p><span className="mt-4 inline-flex rounded-full bg-[#267A48]/10 px-3 py-1 text-[10px] font-bold text-[#267A48]">{fr?'SUPERVISÉ':'SUPERVISED'}</span></div><div className="min-w-0"><dl className="divide-y divide-[#DED6C8] border-y border-[#DED6C8]">{rows.map(([label,value]) => <div key={label} className="grid gap-1 py-3 sm:grid-cols-[130px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[.1em] text-[#857C6E]">{label}</dt><dd className="whitespace-pre-line text-sm font-semibold leading-5 text-[#3F3A33]">{value}</dd></div>)}</dl><div className="mt-5 grid gap-3 sm:grid-cols-2"><IdentityFeature icon={Mail} title={labels.communication} body={fr?'E-mail attribuable · Calendrier · Téléphone selon activation · Messageries autorisées':'Assignable email · Calendar · Phone when enabled · Authorized messaging'}/><IdentityFeature icon={UserRound} title={labels.memory} body={fr?'Historique, contexte utile et expérience validée de Hugo.':'Hugo’s history, useful context and approved experience.'}/><IdentityFeature icon={Building2} title={labels.shared} body={fr?'Méthodes, documents et connaissances accessibles selon ses droits.':'Methods, documents and knowledge available under permissions.'}/><IdentityFeature icon={Server} title={labels.execution} body={fr?'Agent Hermes · Fichiers · Navigateur · Code · Secrets propres':'Hermes Agent · Files · Browser · Code · Own secrets'}/></div></div></div><footer className="border-t border-[#DED6C8] bg-[#EAE3D4] px-6 py-4 sm:px-8"><div className="flex items-center gap-2 text-xs font-bold text-[#4E483F]"><ShieldCheck className="size-4 text-[#D10E63]"/>{labels.governance}</div><p className="mt-2 text-xs leading-5 text-[#625B50]">{fr?'Exemple de configuration : e-mail attribuable, téléphone selon activation, applications à autoriser et budget à définir.':'Configuration example: assignable email, phone when enabled, applications to authorize and budget to define.'}</p></footer></article>
 }
 
 function IdentityFeature({ icon:Icon,title,body }:{icon:typeof UserRound;title:string;body:string}) { return <div className="rounded-2xl border border-[#DED6C8] bg-white p-4"><Icon className="size-4 text-[#D10E63]"/><h3 className="mt-3 text-sm font-semibold">{title}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{body}</p></div> }
