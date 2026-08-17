@@ -10,15 +10,15 @@ type Lang = 'fr' | 'en'
 const COPY = {
   fr: {
     kicker: 'Hermes vu de l’extérieur',
-    title: 'Hermes testé en pratique.',
-    body: 'Des créateurs indépendants présentent le moteur open source utilisé par les Collaborateurs IA.',
-    link: 'Voir la sélection éditoriale',
+    title: 'Hermes, le moteur open source de chaque Collaborateur IA.',
+    body: 'Découvrez les démonstrations indépendantes de Hermes en pratique.',
+    link: 'Voir les démonstrations',
   },
   en: {
     kicker: 'Hermes from the outside',
-    title: 'Hermes tested in practice.',
-    body: 'Independent creators present the open-source engine used by AI Collaborators.',
-    link: 'View the editorial selection',
+    title: 'Hermes, the open-source engine behind every AI Collaborator.',
+    body: 'Explore independent demonstrations of Hermes in practice.',
+    link: 'View demonstrations',
   },
 } as const
 
@@ -39,8 +39,8 @@ export function SectionHermesVoices({ lang }: { lang: Lang }) {
             <Link href="/blog/hermes-agent-youtube" className="mt-5 inline-flex items-center text-sm font-bold text-[#F2A4C5] underline decoration-[#F2A4C5]/35 underline-offset-4 transition-colors hover:text-white hover:decoration-white">{t.link} →</Link>
           </div>
 
-          <ol aria-label={lang === 'fr' ? 'Créateurs présentant Hermes' : 'Creators presenting Hermes'} className="scrollbar-hide -mr-5 flex snap-x gap-3 overflow-x-auto pb-3 pr-5 pt-2 sm:-mr-8 sm:pr-8 lg:mr-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:pr-0">
-            {HERMES_CREATORS.slice(0, 10).map((creator, index) => (
+          <ol aria-label={lang === 'fr' ? 'Créateurs présentant Hermes' : 'Creators presenting Hermes'} className="scrollbar-hide -mr-5 flex snap-x gap-3 overflow-x-auto pb-3 pr-5 pt-2 sm:-mr-8 sm:pr-8 lg:mr-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:pr-0">
+            {HERMES_CREATORS.slice(0, 3).map((creator, index) => (
               <motion.li key={creator.videoUrl} initial={reduce ? false : { opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: .45, delay: reduce ? 0 : index * .045, ease: [0.22, 1, 0.36, 1] }} className="group w-[128px] shrink-0 snap-start lg:w-auto">
                 <Link href={`/blog/hermes-agent-youtube?createur=${encodeURIComponent(creator.affiliateCode)}`} className="block rounded-[999px_999px_22px_22px] border border-white/10 bg-[#211E1B] p-2 pb-4 outline-none transition-all duration-300 hover:-translate-y-2 hover:border-[#F2A4C5]/55 hover:bg-[#292521] hover:shadow-[0_22px_45px_-24px_rgba(209,14,99,.7)] focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">
                   <span className="relative block aspect-square overflow-hidden rounded-full bg-[#2D2925] ring-1 ring-white/10">

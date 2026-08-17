@@ -294,9 +294,9 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 const COPY = {
   fr: {
     eyebrow: 'Missions pour collaborateur IA',
-    title: 'Décrivez la mission. Alma personnalise votre Collaborateur IA.',
-    heroA: 'Décrivez', heroB: 'la mission.', heroC: 'Alma personnalise votre Collaborateur IA.',
-    lead: 'À partir du résultat attendu, Alma adapte son profil, ses compétences et ses outils à votre entreprise.', explore: 'Voir des missions déjà cadrées',
+    title: 'Quel travail voulez-vous confier ?',
+    heroA: 'Quel travail', heroB: 'voulez-vous', heroC: 'confier ?',
+    lead: 'Décrivez le résultat attendu. Alma personnalise votre Collaborateur IA pour accomplir la mission.', explore: 'Voir des missions déjà cadrées',
     almaRole: 'Coordinatrice de missions IA', composerTitle: 'Quel résultat voulez-vous obtenir ?', composerBody: 'Décrivez-le simplement. Alma prépare le Collaborateur IA adapté à la mission.',
     placeholder: 'Ex. Qualifier mes nouveaux prospects chaque matin…',
     talk: 'Dicter ma mission', stop: 'Terminer', continue: 'Personnaliser mon Collaborateur IA',
@@ -316,9 +316,9 @@ const COPY = {
   },
   en: {
     eyebrow: 'Missions / AI Collaborators',
-    title: 'Describe the mission. Alma customizes your AI Collaborator.',
-    heroA: 'Describe', heroB: 'the mission.', heroC: 'Alma customizes your AI Collaborator.',
-    lead: 'From the expected outcome, Alma adapts its profile, skills and tools to your company.', explore: 'View already scoped missions',
+    title: 'What work would you like to assign?',
+    heroA: 'What work', heroB: 'would you like', heroC: 'to assign?',
+    lead: 'Describe the expected outcome. Alma customizes your AI Collaborator to carry out the mission.', explore: 'View already scoped missions',
     almaRole: 'AI mission coordinator', composerTitle: 'What outcome do you want?', composerBody: 'Describe it simply. Alma prepares the right AI Collaborator for the mission.',
     placeholder: 'E.g. Qualify my new prospects every morning…',
     talk: 'Dictate my mission', stop: 'Finish', continue: 'Customize my AI Collaborator',

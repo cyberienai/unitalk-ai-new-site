@@ -26,7 +26,7 @@ type Decision = null | 'validate' | 'refuse' | 'modify'
 const T = {
   fr: {
     kicker: 'Mission en action',
-    title: 'Les humains décident. Les Collaborateurs IA agissent.',
+    title: 'Emma prépare les relances. Votre équipe garde la décision.',
     surfaces: 'Dans le Workspace privé, vos équipes suivent le travail, consultent les résultats et interviennent lorsqu’une décision exige leur validation.',
     surfacesList: 'Web · Application de bureau · Messageries · Terminal',
     cta: 'Découvrir le Workspace',
@@ -61,7 +61,7 @@ const T = {
   },
   en: {
     kicker: 'Mission in action',
-    title: 'AI Collaborators act. Your teams keep control of sensitive decisions.',
+    title: 'Emma prepares the follow-ups. Your team keeps the decision.',
     surfaces: 'In the private Workspace, your teams follow the work, review results and step in whenever a decision requires their approval.',
     surfacesList: 'Web · Desktop · Messaging · Terminal',
     cta: 'Discover the Workspace',

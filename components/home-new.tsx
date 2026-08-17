@@ -18,12 +18,12 @@ export function HomeNew() {
         <Navbar />
         <main>
           <HeroHybrid lang={lang} />
-          <HomeIntentDoors lang={lang} />
           <SectionWorkspace lang={lang} />
           <HomeCollaboratorAnatomy lang={lang} />
           <HomeEvolution lang={lang} />
           <SectionHermesVoices lang={lang} />
           <HomeFinalCta lang={lang} />
+          <HomeIntentDoors lang={lang} />
         </main>
         <SiteFooter />
       </div>

@@ -10,7 +10,7 @@ describe('home commercial messaging', () => {
   it('uses a concrete organizational promise and an Alma personalization flow', () => {
     expect(hero).toContain('Votre propre Collaborateur IA')
     expect(hero).toContain('Prêt à accomplir vos missions.')
-    expect(hero).toContain('Alma personnalise votre Collaborateur IA selon vos besoins.')
+    expect(hero).toContain('Alma le personnalise selon vos besoins, vos outils et les règles de votre entreprise.')
     expect(hero).toContain("voiceTitle: 'Quel travail voulez-vous lui confier ?'")
     expect(hero).toContain('Personnaliser mon Collaborateur IA')
     expect(hero).not.toContain('voiceSubmitEmpty')

@@ -12,7 +12,7 @@ describe('home visitor orientation', () => {
   })
 
   it('keeps one focused final conversion action', () => {
-    expect(source).toContain('Un Collaborateur IA sur lequel votre entreprise peut compter.')
+    expect(source).toContain('Quel résultat votre équipe veut-elle obtenir ?')
     expect(source).toContain('Décrire mon besoin')
     expect(source).toContain('href="#alma-hero"')
   })
@@ -25,10 +25,10 @@ describe('home visitor orientation', () => {
     const evolution = render.indexOf('<HomeEvolution')
     const hermes = render.indexOf('<SectionHermesVoices')
     const finalCta = render.indexOf('<HomeFinalCta')
-    expect(doors).toBeLessThan(workspace)
     expect(workspace).toBeLessThan(anatomy)
     expect(anatomy).toBeLessThan(evolution)
     expect(evolution).toBeLessThan(hermes)
     expect(hermes).toBeLessThan(finalCta)
+    expect(finalCta).toBeLessThan(doors)
   })
 })
