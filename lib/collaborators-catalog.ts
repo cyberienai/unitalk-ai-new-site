@@ -343,7 +343,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     managerHandle: 'sophiemoreau',
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
-    role: { fr: 'Content Strategist', en: 'Content Strategist' },
+    role: { fr: 'Responsable éditoriale', en: 'Editorial Lead' },
     department: { fr: 'Marketing', en: 'Marketing' },
     description: {
       fr: "Léa construit la stratégie de contenu, planifie le calendrier éditorial et décline vos messages sur chaque canal. Elle rédige, adapte et mesure l'impact en continu.",

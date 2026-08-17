@@ -103,6 +103,7 @@ const PERSONAS = {
     activity: { fr: ['Documents et participants réunis.', '5 points ouverts identifiés.', 'Ordre du jour et synthèse préparés.'], en: ['Documents and participants gathered.', '5 open points identified.', 'Agenda and summary prepared.'] },
     decision: { fr: 'Valider l’ordre du jour avant diffusion ?', en: 'Approve the agenda before sharing?' },
     apps: ['Gmail', 'Outlook', 'Agenda', 'Notion', 'Slack', 'Teams'],
+    profiles: { fr: ['Assistante de direction', 'Cheffe de cabinet', 'Coordinatrice de réunions'], en: ['Executive Assistant', 'Chief of Staff', 'Meeting Coordinator'] },
   },
   lea: {
     claim: { fr: 'Léa transforme votre stratégie en contenus qui avancent.', en: 'Léa turns your strategy into content that moves forward.' },
@@ -115,6 +116,7 @@ const PERSONAS = {
     activity: { fr: ['Objectifs et audiences analysés.', '12 sujets répartis par canal.', 'Briefs et calendrier préparés.'], en: ['Goals and audiences analyzed.', '12 topics assigned by channel.', 'Briefs and calendar prepared.'] },
     decision: { fr: 'Valider les thèmes avant production ?', en: 'Approve themes before production?' },
     apps: ['Notion', 'Canva', 'WordPress', 'LinkedIn', 'Analytics', 'Gmail'],
+    profiles: { fr: ['Responsable éditoriale', 'Community manager', 'Analyste de contenu'], en: ['Editorial Lead', 'Community Manager', 'Content Analyst'] },
   },
   arthur: {
     claim: { fr: 'Arthur écrit, teste et documente votre code.', en: 'Arthur writes, tests and documents your code.' },
@@ -127,6 +129,7 @@ const PERSONAS = {
     activity: { fr: ['Ticket et logs analysés.', 'Correctif et tests préparés.', 'Résultats CI documentés.'], en: ['Ticket and logs analyzed.', 'Fix and tests prepared.', 'CI results documented.'] },
     decision: { fr: 'Autoriser la fusion du correctif ?', en: 'Authorize merging the fix?' },
     apps: ['GitHub', 'GitLab', 'Linear', 'Jira', 'Slack', 'CI/CD'],
+    profiles: { fr: ['Développeur', 'Relecteur de code', 'Rédacteur technique'], en: ['Developer', 'Code Reviewer', 'Technical Writer'] },
   },
   hugo: {
     claim: { fr: 'Hugo trouve et qualifie vos prochains prospects.', en: 'Hugo finds and qualifies your next prospects.' },
@@ -139,6 +142,7 @@ const PERSONAS = {
     activity: { fr: ['34 entreprises examinées selon vos critères.', '9 correspondent au segment cible.', 'Fiches CRM et messages préparés.'], en: ['34 companies reviewed under your criteria.', '9 match the target segment.', 'CRM records and messages prepared.'] },
     decision: { fr: 'Autoriser la préparation du premier contact ?', en: 'Authorize first-contact preparation?' },
     apps: ['HubSpot', 'Salesforce', 'LinkedIn', 'Gmail', 'Outlook', 'Agenda'],
+    profiles: { fr: ['Commercial', 'Business developer', 'Account manager'], en: ['Sales Representative', 'Business Developer', 'Account Manager'] },
   },
   nadia: {
     claim: { fr: 'Nadia éclaire vos décisions financières.', en: 'Nadia informs your financial decisions.' },
@@ -150,7 +154,8 @@ const PERSONAS = {
     proofMission: { fr: 'Préparer le reporting financier', en: 'Prepare financial reporting' },
     activity: { fr: ['Données ERP et tableurs consolidées.', 'Écarts et hypothèses signalés.', 'Reporting et prévision préparés.'], en: ['ERP and spreadsheet data consolidated.', 'Variances and assumptions flagged.', 'Report and forecast prepared.'] },
     decision: { fr: 'Valider les hypothèses avant diffusion ?', en: 'Approve assumptions before sharing?' },
-    apps: ['Excel', 'Google Sheets', 'ERP', 'Notion', 'Power BI', 'Gmail'],
+    apps: ['Pennylane', 'Qonto', 'Excel', 'Google Sheets', 'ERP', 'Power BI'],
+    profiles: { fr: ['Analyste financière', 'Contrôleuse de gestion', 'Responsable reporting'], en: ['Financial Analyst', 'Management Controller', 'Reporting Manager'] },
   },
   ines: {
     claim: { fr: 'Inès répond à vos clients et garde le ton juste.', en: 'Inès answers customers and keeps the right tone.' },
@@ -163,6 +168,7 @@ const PERSONAS = {
     activity: { fr: ['18 demandes classées.', '13 réponses contextualisées préparées.', '3 cas sensibles isolés.'], en: ['18 requests classified.', '13 contextual replies prepared.', '3 sensitive cases isolated.'] },
     decision: { fr: 'Autoriser un geste commercial exceptionnel ?', en: 'Authorize an exceptional commercial gesture?' },
     apps: ['Zendesk', 'Intercom', 'Gmail', 'Outlook', 'CRM', 'FAQ'],
+    profiles: { fr: ['Support client', 'Chargée de réclamations', 'Gestionnaire de FAQ'], en: ['Customer Support', 'Claims Specialist', 'FAQ Manager'] },
   },
 } as const
 
