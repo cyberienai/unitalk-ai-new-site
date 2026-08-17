@@ -16,21 +16,24 @@ const freeMissions = MISSIONS.filter(mission => mission.free)
 const steps = [
   {
     number: '01',
-    title: 'Partez d’une mission réelle.',
-    body: 'Choisissez un problème qu’une entreprise veut vraiment résoudre. Pas un exercice inventé pour le cours.',
-    note: '5 min pour démarrer',
+    label: 'Cadrer',
+    title: 'Choisissez un travail qui compte.',
+    body: 'Partez d’un problème métier réel, avec un résultat attendu et des critères de réussite clairs.',
+    note: '1 brief concret',
   },
   {
     number: '02',
-    title: 'Créez le Collaborateur IA.',
-    body: 'Formalisez son rôle, ses compétences, ses outils, ses règles et les décisions qui restent humaines.',
-    note: '1 création testable',
+    label: 'Construire',
+    title: 'Transformez la méthode en Collaborateur IA.',
+    body: 'Formalisez son rôle, ses compétences, ses outils, ses sources et les décisions qui restent humaines.',
+    note: '1 création à tester',
   },
   {
     number: '03',
-    title: 'Testez, présentez, vendez.',
-    body: 'Prouvez sa valeur sur des cas réels, apprenez à cadrer l’offre, puis commercialisez-la avec la licence Co-créateur.',
-    note: '1 offre présentable',
+    label: 'Prouver',
+    title: 'Testez la valeur. Présentez l’offre.',
+    body: 'Mesurez le résultat sur des cas réels, cadrez votre proposition puis commercialisez-la avec la licence Co-créateur.',
+    note: '1 offre prête à présenter',
   },
 ]
 
@@ -43,20 +46,21 @@ export default function AcademyPage() {
         </div>
         <div className="academy-home-shell academy-home-hero-grid">
           <div className="academy-home-hero-copy">
-            <p className="academy-home-eyebrow"><span>Le métier de Co-créateur IA</span><span>2026</span></p>
-            <h1>Formez-vous.<br/>Créez.<br/><em>Commercialisez.</em></h1>
-            <p className="academy-home-lede">Créez vos propres Collaborateurs IA à partir d’une mission réelle, puis apprenez à les proposer à des clients avec la licence Co-créateur.</p>
+            <p className="academy-home-eyebrow"><span>Unitalk Academy</span><span>Apprendre par la pratique</span></p>
+            <h1>Une mission.<br/>Une création.<br/><em>Une offre.</em></h1>
+            <p className="academy-home-lede">Apprenez le métier de Co-créateur IA sur un cas concret : cadrez un besoin, construisez un Collaborateur IA utile et transformez la preuve en offre commerciale.</p>
             <div className="academy-home-actions">
-              <Link href="/academy/onboarding" className="academy-home-primary">Commencer avec Alma<ArrowRight/></Link>
-              <Link href="/academy/formations/co-createur-ia" className="academy-home-scroll">Découvrir le métier<ArrowDown/></Link>
+              <Link href="/academy/onboarding" className="academy-home-primary">Choisir ma première mission<ArrowRight/></Link>
+              <Link href="#methode" className="academy-home-scroll">Voir la méthode<ArrowDown/></Link>
             </div>
+            <p className="academy-home-reassurance"><Check/>Gratuit pour commencer · Sans carte bancaire</p>
           </div>
 
           <div className="academy-home-brief-wrap">
             <div className="academy-home-brief-shadow" aria-hidden="true"/>
             <article className="academy-home-brief">
               <div className="academy-home-brief-top">
-                <span>Brief de mission</span><span className="academy-home-live"><i/>Ouverte</span>
+                <span>Votre point de départ</span><span className="academy-home-live"><i/>Mission gratuite</span>
               </div>
               <div className="academy-home-brief-number">M—001</div>
               <p className="academy-home-brief-sector">{NETWORKS.find(network => network.id === featuredMission.sector)?.name} / Intermédiaire</p>
@@ -68,33 +72,32 @@ export default function AcademyPage() {
               </dl>
               <Link href={`/academy/missions/${featuredMission.slug}`}>Ouvrir le brief<ArrowRight/></Link>
             </article>
-            <p className="academy-home-handnote">Votre première mission<br/>est gratuite <span>↗</span></p>
+            <p className="academy-home-handnote">Un vrai livrable.<br/>Pas un exercice. <span>↗</span></p>
           </div>
         </div>
         <div className="academy-home-proofbar">
           <div className="academy-home-shell">
-            <p><strong>1</strong><span>mission réelle pour partir</span></p>
-            <p><strong>1</strong><span>Collaborateur IA à créer</span></p>
-            <p><strong>1</strong><span>offre à présenter</span></p>
-            <p className="academy-home-proofquote">“On apprend plus vite quand<br/>quelqu’un attend le résultat.”</p>
+            <p><strong>01</strong><span>Cadrez une mission réelle</span></p>
+            <p><strong>02</strong><span>Construisez une solution testable</span></p>
+            <p><strong>03</strong><span>Présentez une offre crédible</span></p>
+            <p className="academy-home-proofquote">« La preuve avant<br/>la promesse. »</p>
           </div>
         </div>
       </section>
 
-      <AcademyAlmaHero title="Votre première mission ne commence pas par un formulaire." body="Expliquez à Alma ce que vous voulez accomplir. Elle personnalise votre point de départ, puis vous retrouvez vos formations dans le même compte Unitalk." cta="Commencer l’onboarding avec Alma" />
-
       <section id="methode" className="academy-home-method">
         <div className="academy-home-shell">
           <header className="academy-home-section-head">
-            <p>La méthode Unitalk</p>
-            <h2>De la mission<br/><em>au premier client.</em></h2>
-            <span>La formation n’est pas le produit final. Le produit final est un Collaborateur IA utile, testable et commercialisable.</span>
+            <p>La méthode Academy</p>
+            <h2>Apprendre<br/><em>en produisant.</em></h2>
+            <span>Vous ne suivez pas une succession de cours. Chaque étape produit une preuve concrète, réutilisable dans votre projet.</span>
           </header>
           <div className="academy-home-steps">
             {steps.map((step, index) => (
               <article key={step.number}>
                 <div className="academy-home-step-index"><span>{step.number}</span>{index < steps.length - 1 && <i/>}</div>
                 <div>
+                  <b>{step.label}</b>
                   <h3>{step.title}</h3>
                   <p>{step.body}</p>
                   <small><Check/>{step.note}</small>
@@ -105,11 +108,13 @@ export default function AcademyPage() {
         </div>
       </section>
 
+      <AcademyAlmaHero title="Alma vous aide à trouver le bon point de départ." body="Décrivez votre expertise, votre projet ou le travail que vous voulez améliorer. Alma vous oriente vers une première mission adaptée et prépare votre parcours dans votre espace Academy." cta="Définir ma première mission" />
+
       <section className="academy-home-missions">
         <div className="academy-home-shell">
           <header className="academy-home-mission-head">
-            <div><p>Point de départ</p><h2>Trois problèmes.<br/>Une création réelle.</h2></div>
-            <p>Commencez gratuitement par un besoin que vous comprenez.<br/>Transformez ensuite la méthode en Collaborateur IA.</p>
+            <div><p>Missions ouvertes</p><h2>Choisissez votre<br/>première preuve.</h2></div>
+            <p>Trois briefs gratuits, trois livrables concrets. Choisissez le problème le plus proche de votre expérience et confrontez-vous au travail réel.</p>
           </header>
           <div className="academy-home-card-grid">
             {freeMissions.map((mission, index) => {
@@ -119,24 +124,24 @@ export default function AcademyPage() {
                   <div className="academy-home-card-top"><span>0{index + 1}</span><Sparkles/><b>Gratuit</b></div>
                   <p>{network?.name}</p>
                   <h3>{mission.title}</h3>
-                  <div className="academy-home-card-output"><small>Votre livrable</small><strong>{mission.deliverable}</strong></div>
+                  <div className="academy-home-card-output"><small>À la fin, vous repartez avec</small><strong>{mission.deliverable}</strong></div>
                   <footer><span>{mission.duration} · {mission.level}</span><i><ArrowRight/></i></footer>
                 </Link>
               )
             })}
           </div>
-          <Link href="/academy/missions" className="academy-home-all">Explorer les 6 missions <ArrowRight/></Link>
+          <Link href="/academy/missions" className="academy-home-all">Voir les 6 missions Academy <ArrowRight/></Link>
         </div>
       </section>
 
       <section className="academy-home-final">
         <div className="academy-home-final-grid" aria-hidden="true"/>
         <div className="academy-home-shell">
-          <p className="academy-home-final-kicker">Le meilleur moment pour apprendre est avant de tout savoir</p>
-          <h2>Ne préparez pas votre projet<br/>pendant six mois.</h2>
+          <p className="academy-home-final-kicker">Votre première preuve peut commencer aujourd’hui</p>
+          <h2>Moins de théorie.<br/>Plus de travail réel.</h2>
           <p className="academy-home-final-script">Commencez par une mission.</p>
-          <Link href="/academy/onboarding">Créer mon premier Collaborateur IA avec Alma<ArrowRight/></Link>
-          <small>Gratuit · Sans carte bancaire · Commencez en 5 minutes</small>
+          <Link href="/academy/onboarding">Trouver ma mission avec Alma<ArrowRight/></Link>
+          <small>Première mission gratuite · Sans carte bancaire · Démarrage en 5 minutes</small>
         </div>
       </section>
     </main>

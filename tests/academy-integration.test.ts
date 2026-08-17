@@ -28,7 +28,7 @@ describe('Academy integration',()=>{
     const course=readFileSync(join(root,'app','academy','formations','co-createur-ia','page.tsx'),'utf8')
     const free=readFileSync(join(root,'app','academy','parcours-gratuits','premiere-mission-ia','page.tsx'),'utf8')
     const pricing=readFileSync(join(root,'app','academy','tarifs','page.tsx'),'utf8')
-    expect(home).toContain('Formez-vous.<br/>Créez.<br/><em>Commercialisez.</em>')
+    expect(home).toContain('Une mission.<br/>Une création.<br/><em>Une offre.</em>')
     expect(home).toContain('/academy/onboarding')
     expect(course).toContain('Créez quelque chose qu’une entreprise veut utiliser.')
     expect(course).toContain('Présenter et chiffrer l’offre')
