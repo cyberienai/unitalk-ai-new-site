@@ -26,7 +26,7 @@ type Decision = null | 'validate' | 'refuse' | 'modify'
 const T = {
   fr: {
     kicker: 'Mission en action',
-    title: 'Les Collaborateurs IA agissent. Vos équipes gardent les décisions sensibles.',
+    title: 'Les humains décident. Les Collaborateurs IA agissent.',
     surfaces: 'Le Workspace privé réunit les missions, l’activité, les validations et les résultats. Vos équipes voient ce qui se passe, interviennent quand c’est nécessaire et gardent le contrôle des décisions.',
     surfacesList: 'Web · Application de bureau · Messageries · Terminal',
     cta: 'Découvrir le Workspace',

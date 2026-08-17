@@ -16,7 +16,7 @@ const COPY = {
       { title: 'Il travaille', body: 'Dans le périmètre que vous avez défini.', icon: ShieldCheck },
       { title: 'Vous validez', body: 'Le résultat et la suite.', icon: Check },
     ],
-    cta: 'Décrire ma mission',
+    cta: 'Décrire mon besoin',
   },
   en: {
     kicker: 'How it works',

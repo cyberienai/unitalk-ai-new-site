@@ -14,7 +14,7 @@ const COPY = {
     title: 'Votre Collaborateur IA progresse avec votre entreprise.',
     lead: 'Mission après mission, il réutilise les méthodes et consignes validées par votre entreprise. L’expérience acquise reste dans votre organisation.',
     closing: 'Prêt à confier une première mission ?',
-    cta: 'Décrire ma mission',
+    cta: 'Décrire mon besoin',
     ctaNote: 'Alma conserve votre demande et vous accompagne après la connexion.',
     proof: ['Première mission offerte', 'Sans carte bancaire', 'Rien ne devient payant sans votre accord'],
   },

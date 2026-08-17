@@ -40,7 +40,7 @@ const T = {
     headlineC: 'Prêt pour vos missions.',
     subtitle: 'Confiez-lui vos appels, vos e-mails, votre prospection ou vos tâches administratives. Il travaille avec votre équipe et progresse à chaque mission.',
     proofs: ['Première mission offerte', 'Mission cadrée en quelques minutes', 'Sans carte bancaire'],
-    cta: 'Décrire ma mission',
+    cta: 'Décrire mon besoin',
     voiceKicker: 'Coordinatrice de missions IA',
     voiceTitle: 'Décrivez votre besoin.',
     voiceBody: 'Alma prépare votre Collaborateur IA personnalisé.',
@@ -169,7 +169,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   }
 
   return (
-    <section className="relative overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-10 pt-24 sm:pb-12 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-5 lg:pt-[88px] [@media(min-width:1024px)_and_(max-height:800px)]:pb-3 [@media(min-width:1024px)_and_(max-height:800px)]:pt-20">
+    <section className="relative overflow-hidden bg-[#F3EFE6] pb-10 pt-24 sm:pb-12 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-5 lg:pt-[88px] [@media(min-width:1024px)_and_(max-height:800px)]:pb-3 [@media(min-width:1024px)_and_(max-height:800px)]:pt-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full bg-[#D10E63]/[0.08] blur-3xl" />
       <div className="editorial-shell relative w-full">

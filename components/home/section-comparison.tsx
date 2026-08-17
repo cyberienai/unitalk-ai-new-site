@@ -21,7 +21,7 @@ const COPY = {
     statement: 'Vous ne construisez pas un assistant. Vous faites progresser votre Collaborateur IA.',
     beforeTitle: 'Assistant IA généraliste',
     afterTitle: 'Collaborateur IA Unitalk',
-    cta: 'Décrire ma mission',
+    cta: 'Décrire mon besoin',
     rows: [
       ['Une conversation ponctuelle', 'Une identité professionnelle durable'],
       ['Des instructions à répéter', 'Des règles et validations enregistrées'],
