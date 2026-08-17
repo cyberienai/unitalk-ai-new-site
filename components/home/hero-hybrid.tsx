@@ -39,7 +39,7 @@ const T = {
     headlineA: 'Votre propre',
     headlineB: 'Collaborateur IA.',
     headlineC: 'Prêt à accomplir vos missions.',
-    subtitle: 'Alma le personnalise selon vos besoins, vos outils et les règles de votre entreprise.',
+    subtitle: 'Alma le personnalise selon vos besoins, vos outils et vos règles. Mission après mission, il réutilise les méthodes validées et progresse avec votre entreprise.',
     proofs: ['Première mission offerte', 'Sans carte bancaire', 'Sans engagement', 'Accompagnement humain si nécessaire'],
     cta: 'Décrire mon besoin',
     voiceKicker: 'Coordinatrice de missions IA Unitalk',
@@ -62,7 +62,7 @@ const T = {
     headlineA: 'Your own',
     headlineB: 'AI Collaborator.',
     headlineC: 'Ready to carry out your missions.',
-    subtitle: 'Alma customizes it to your needs, your tools and your organization’s rules.',
+    subtitle: 'Alma customizes it to your needs, tools and rules. Mission after mission, it reuses approved methods and improves with your organization.',
     proofs: ['First mission included', 'No credit card', 'No commitment', 'Human support when needed'],
     cta: 'Describe my mission',
     voiceKicker: 'Unitalk AI mission coordinator',
@@ -182,7 +182,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             <span className="block">{t.headlineB}</span>
             <span className="block text-[#D10E63]">{t.headlineC}</span>
           </motion.h1>
-           <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{lang === 'fr' ? <> <AlmaInline className="mr-1" />Alma le personnalise selon vos besoins, vos outils et les règles de votre entreprise.</> : <> <AlmaInline className="mr-1" />Alma customizes it to your needs, your tools and your organization’s rules.</>}</motion.p>
+           <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7"><AlmaInline className="mr-1" />{t.subtitle}</motion.p>
         </div>
 
          <motion.div id="alma-hero" ref={voicePanelRef} {...enter(0.18)} className="mx-auto w-full max-w-2xl scroll-mt-24">
