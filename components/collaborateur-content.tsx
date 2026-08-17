@@ -96,7 +96,7 @@ const PERSONAS = {
     claim: { fr: 'Emma prépare vos réunions, vos priorités et vos décisions.', en: 'Emma prepares your meetings, priorities and decisions.' },
     accent: { fr: 'vos décisions', en: 'priorities and decisions' },
     lead: { fr: 'Confiez-lui votre agenda, vos dossiers et le suivi des actions. Votre équipe garde les arbitrages qui engagent l’entreprise.', en: 'Entrust her with your calendar, files and action tracking. Your team keeps decisions that commit the organization.' },
-    composer: { fr: 'Détaillez la mission que vous voulez confier à Emma.', en: 'Describe the mission you want to assign to Emma.' },
+    composer: { fr: 'Quelle mission souhaitez-vous confier à Emma ?', en: 'What mission would you like to assign to Emma?' },
     placeholder: { fr: 'Décrivez la réunion, les participants, les documents et le résultat attendu…', en: 'Describe the meeting, participants, documents and expected outcome…' },
     examples: { fr: ['Préparer mon comité de direction', 'Organiser mes rendez-vous', 'Suivre les décisions prises'], en: ['Prepare my leadership meeting', 'Organize my appointments', 'Track agreed decisions'] },
     proofTitle: { fr: 'Emma prépare. Votre direction décide.', en: 'Emma prepares. Your leadership decides.' },
@@ -110,7 +110,7 @@ const PERSONAS = {
     claim: { fr: 'Léa transforme votre stratégie en contenus qui avancent.', en: 'Léa turns your strategy into content that moves forward.' },
     accent: { fr: 'votre stratégie', en: 'your strategy' },
     lead: { fr: 'Donnez-lui vos objectifs, votre ton et vos canaux. Elle prépare le calendrier, les briefs et les contenus à valider.', en: 'Give her your goals, tone and channels. She prepares the calendar, briefs and content for approval.' },
-    composer: { fr: 'Détaillez la mission que vous voulez confier à Léa.', en: 'Describe the mission you want to assign to Léa.' },
+    composer: { fr: 'Quelle mission souhaitez-vous confier à Léa ?', en: 'What mission would you like to assign to Léa?' },
     placeholder: { fr: 'Décrivez l’audience, les objectifs, les canaux et le ton de marque…', en: 'Describe the audience, goals, channels and brand tone…' },
     examples: { fr: ['Construire mon calendrier éditorial', 'Préparer une campagne de contenu', 'Analyser mes performances'], en: ['Build my editorial calendar', 'Prepare a content campaign', 'Analyze my performance'] },
     proofTitle: { fr: 'Léa prépare les contenus. Votre équipe garde la ligne éditoriale.', en: 'Léa prepares content. Your team owns the editorial line.' },
@@ -124,7 +124,7 @@ const PERSONAS = {
     claim: { fr: 'Arthur écrit, teste et documente votre code.', en: 'Arthur writes, tests and documents your code.' },
     accent: { fr: 'votre code', en: 'your code' },
     lead: { fr: 'Confiez-lui un ticket et le contexte autorisé. Il prépare le correctif, les tests et la documentation avant toute fusion.', en: 'Give him a ticket and authorized context. He prepares the fix, tests and documentation before any merge.' },
-    composer: { fr: 'Détaillez la mission que vous voulez confier à Arthur.', en: 'Describe the mission you want to assign to Arthur.' },
+    composer: { fr: 'Quelle mission souhaitez-vous confier à Arthur ?', en: 'What mission would you like to assign to Arthur?' },
     placeholder: { fr: 'Décrivez le ticket, le comportement attendu, le dépôt et les contraintes techniques…', en: 'Describe the ticket, expected behavior, repository and technical constraints…' },
     examples: { fr: ['Corriger un bug prioritaire', 'Implémenter une fonctionnalité', 'Documenter une API'], en: ['Fix a priority bug', 'Implement a feature', 'Document an API'] },
     proofTitle: { fr: 'Arthur prépare le code. Votre équipe valide la fusion.', en: 'Arthur prepares the code. Your team approves the merge.' },
@@ -152,7 +152,7 @@ const PERSONAS = {
     claim: { fr: 'Nadia éclaire vos décisions financières.', en: 'Nadia informs your financial decisions.' },
     accent: { fr: 'vos décisions financières', en: 'your financial decisions' },
     lead: { fr: 'Donnez-lui vos sources et vos règles. Elle prépare le reporting, les prévisions et les écarts à faire valider.', en: 'Give her your sources and rules. She prepares reporting, forecasts and variances for approval.' },
-    composer: { fr: 'Détaillez la mission que vous voulez confier à Nadia.', en: 'Describe the mission you want to assign to Nadia.' },
+    composer: { fr: 'Quelle mission souhaitez-vous confier à Nadia ?', en: 'What mission would you like to assign to Nadia?' },
     placeholder: { fr: 'Décrivez les données, la période, les indicateurs et les hypothèses à vérifier…', en: 'Describe the data, period, metrics and assumptions to review…' },
     examples: { fr: ['Préparer mon reporting mensuel', 'Mettre à jour ma trésorerie', 'Analyser les écarts budgétaires'], en: ['Prepare my monthly report', 'Update my cash forecast', 'Analyze budget variances'] },
     proofTitle: { fr: 'Nadia consolide. Votre direction financière valide.', en: 'Nadia consolidates. Your finance team approves.' },
@@ -166,7 +166,7 @@ const PERSONAS = {
     claim: { fr: 'Inès répond à vos clients et garde le ton juste.', en: 'Inès answers customers and keeps the right tone.' },
     accent: { fr: 'à vos clients', en: 'your customers' },
     lead: { fr: 'Confiez-lui les demandes entrantes. Elle classe, prépare les réponses et soumet les gestes commerciaux ou cas sensibles.', en: 'Entrust her with inbound requests. She classifies, prepares replies and submits commercial gestures or sensitive cases.' },
-    composer: { fr: 'Détaillez la mission que vous voulez confier à Inès.', en: 'Describe the mission you want to assign to Inès.' },
+    composer: { fr: 'Quelle mission souhaitez-vous confier à Inès ?', en: 'What mission would you like to assign to Inès?' },
     placeholder: { fr: 'Décrivez les demandes, les règles de réponse et les cas à faire valider…', en: 'Describe the requests, response rules and cases requiring approval…' },
     examples: { fr: ['Traiter les tickets du matin', 'Répondre aux réclamations', 'Mettre à jour ma FAQ'], en: ['Handle morning tickets', 'Answer complaints', 'Update my FAQ'] },
     proofTitle: { fr: 'Inès prépare les réponses. Votre équipe arbitre les cas sensibles.', en: 'Inès prepares replies. Your team decides sensitive cases.' },
@@ -225,7 +225,7 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
 
     <section id="mission-en-action" className="scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24">
       <div className="editorial-shell grid gap-10 lg:grid-cols-[.78fr_1.22fr] lg:items-center">
-        <div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.proofKicker}</p><h2 className="mt-5 text-[clamp(2.7rem,5vw,5.2rem)] font-semibold leading-[.92] tracking-[-.065em]">{persona.proofTitle[lang]}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-[#CFC6B8]">{persona.lead[lang]}</p></div>
+        <div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{detail.department[lang]} · {lang==='fr'?'Exemple':'Example'}</p><h2 className="mt-5 text-[clamp(2.7rem,5vw,5.2rem)] font-semibold leading-[.92] tracking-[-.065em]">{persona.proofTitle[lang]}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-[#CFC6B8]">{persona.lead[lang]}</p></div>
         <article className="overflow-hidden rounded-[26px] border border-white/10 bg-[#211E1A]"><div className="border-b border-white/10 p-5"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#8F877A]">{lang==='fr'?'Mission · Exemple':'Mission · Example'}</p><h3 className="mt-2 text-xl font-semibold">{persona.proofMission[lang]}</h3></div><ol className="space-y-4 p-5 text-sm text-[#D8D0C2]">{persona.activity[lang].map((item,index) => <Activity key={item} time={['09:05','09:12','09:18'][index]}>{item}</Activity>)}</ol><div className="m-5 mt-0 rounded-2xl border border-[#F2A4C5]/20 bg-[#2A2226] p-4"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#F2A4C5]">{t.decision}</p><p className="mt-2 text-sm font-semibold">{persona.decision[lang]}</p><div className="mt-4 flex flex-wrap gap-2"><Decision active={decision==='approved'} primary onClick={() => setDecision('approved')}>{t.approve}</Decision><Decision active={decision==='modified'} onClick={() => setDecision('modified')}>{t.modify}</Decision><Decision active={decision==='declined'} onClick={() => setDecision('declined')}>{t.decline}</Decision></div>{outcome&&<p role="status" className="mt-4 rounded-xl bg-white/[.06] p-3 text-sm font-semibold text-[#F3EFE6]">{outcome}</p>}</div></article>
       </div>
     </section>

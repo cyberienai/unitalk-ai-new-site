@@ -56,13 +56,12 @@ export function ScreenAccount({
           {mission ? (
             <>
               <div className="flex items-center justify-between">
-                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E05A93]">{t.selected}</p>
+                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E05A93]">{isDraft ? t.request : t.selected}</p>
                 <button type="button" aria-expanded={missionOpen} onClick={() => setMissionOpen(o => !o)} className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#C9C1B8] lg:hidden">{missionOpen ? t.collapse : t.expand}<ChevronUp className={`ml-1 h-3.5 w-3.5 transition-transform ${missionOpen ? '' : 'rotate-180'}`} /></button>
               </div>
               <div className={missionOpen ? 'block' : 'hidden lg:block'}>
                 <h2 className="mt-4 font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{mission.title}</h2>
                 <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{mission.description}</p>
-                <a href={mission.slug ? `/missions?return=${encodeURIComponent(mission.slug)}` : '/missions'} className="mt-4 inline-flex text-[13px] font-medium text-[#C9C1B8] underline decoration-white/20 underline-offset-4 hover:text-white">← {t.change}</a>
               </div>
               <div className={`mt-10 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
                 <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#F2A4C5]">{t.almaRole}</p></div></div>
@@ -91,7 +90,7 @@ export function ScreenAccount({
         <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[460px]">
           <h1 className="max-w-md font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
-          <p className="mt-3 max-w-sm text-[15px] leading-6 text-[#625B50]">{isDraft ? t.draftLead : mission ? t.contextualLead : t.genericLead}</p>
+          {!mission && <p className="mt-3 max-w-sm text-[15px] leading-6 text-[#625B50]">{isDraft ? t.draftLead : t.genericLead}</p>}
           {mission && <p className="mt-3 text-sm text-[#6E665A]">{t.contextualReassurance}</p>}
 
           <div className="mt-7 flex flex-col gap-3">
@@ -116,16 +115,16 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 
 const COPY = {
   fr: {
-    selected: 'Votre mission', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission',
+    selected: 'Mission sélectionnée', request: 'Votre demande', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions IA',
-    missionAlmaTitle: 'Nous reprendrons ici.',
-    missionAlmaBody: 'Après votre connexion, vous confirmez votre entreprise puis choisissez le prénom du Collaborateur IA qui prendra cette mission.',
+    missionAlmaTitle: 'Votre mission est conservée.',
+    missionAlmaBody: 'Après votre connexion, vérifiez les informations de votre entreprise et choisissez le prénom de votre Collaborateur IA.',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',
     almaGenericTitle: 'Vous n\'avez pas encore choisi de mission.',
-    almaGenericBody: 'Après votre inscription, nous partons de votre entreprise et du travail que vous voulez accomplir. Je vous aide à choisir ou construire la première mission, puis à préparer le Collaborateur IA qui l\'accomplira.',
-    genericSteps: ['Présenter votre entreprise', 'Définir une première mission', 'Préparer votre Collaborateur IA'],
+    almaGenericBody: 'Après votre inscription, je vous aiderai à personnaliser votre Collaborateur IA pour sa première mission.',
+    genericSteps: ['Vérifier les informations de votre entreprise', 'Définir votre première mission', 'Choisir le prénom de votre Collaborateur IA'],
     genericTitle: 'Commencez avec Alma.',
-    genericLead: 'Confirmez votre entreprise, puis définissez votre première mission.',
+    genericLead: 'Vérifiez les informations de votre entreprise, puis définissez votre première mission.',
     google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', orEmail: 'ou par email',
     emailLabel: 'Adresse email professionnelle', emailPlaceholder: 'vous@entreprise.com',
     emailError: 'Saisissez une adresse email professionnelle valide.', personalEmailError: 'Utilisez votre adresse professionnelle, pas une adresse personnelle.', email: 'Continuer',
@@ -137,16 +136,16 @@ const COPY = {
     legalPrefix: 'En continuant, vous acceptez les', terms: 'Conditions d\'utilisation', legalAnd: 'et la', privacy: 'Politique de confidentialité',
   },
   en: {
-    selected: 'Your mission', collapse: 'Collapse', expand: 'Show', change: 'Change mission',
+    selected: 'Selected mission', request: 'Your request', collapse: 'Collapse', expand: 'Show', change: 'Change mission',
     almaRole: 'AI Collaborator · Mission coordinator',
-    missionAlmaTitle: 'We will pick up here.',
-    missionAlmaBody: 'After signing in, confirm your company, then choose the first name of the AI Collaborator taking on this mission.',
+    missionAlmaTitle: 'Your mission is saved.',
+    missionAlmaBody: 'After signing in, review your organization details and choose your AI Collaborator’s first name.',
     newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.',
     almaGenericTitle: 'You have not selected a mission yet.',
-    almaGenericBody: 'After signup, we start from your company and the work you want to accomplish. I help select or build the first mission, then prepare the AI Collaborator that will carry it out.',
-    genericSteps: ['Introduce your company', 'Define a first mission', 'Prepare your AI Collaborator'],
+    almaGenericBody: 'After signup, I will help you customize your AI Collaborator for the first mission.',
+    genericSteps: ['Review your organization details', 'Define your first mission', 'Choose your AI Collaborator’s first name'],
     genericTitle: 'Start with Alma.',
-    genericLead: 'Confirm your organization, then define your first mission.',
+    genericLead: 'Review your organization details, then define your first mission.',
     google: 'Continue with Google', microsoft: 'Continue with Microsoft', orEmail: 'or by email',
     emailLabel: 'Work email address', emailPlaceholder: 'you@company.com',
     emailError: 'Enter a valid work email address.', personalEmailError: 'Use your work email address, not a personal address.', email: 'Continue',
