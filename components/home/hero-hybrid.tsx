@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
+import { AlmaInline } from '@/components/alma-inline'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
 import { track } from '@vercel/analytics'
 
@@ -181,7 +182,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             <span className="block">{t.headlineB}</span>
             <span className="block text-[#D10E63]">{t.headlineC}</span>
           </motion.h1>
-          <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{t.subtitle}</motion.p>
+           <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{lang === 'fr' ? <> <AlmaInline className="mr-1" />Alma le personnalise selon vos besoins, vos outils et les règles de votre entreprise.</> : <> <AlmaInline className="mr-1" />Alma customizes it to your needs, your tools and your organization’s rules.</>}</motion.p>
         </div>
 
          <motion.div id="alma-hero" ref={voicePanelRef} {...enter(0.18)} className="mx-auto w-full max-w-2xl scroll-mt-24">
