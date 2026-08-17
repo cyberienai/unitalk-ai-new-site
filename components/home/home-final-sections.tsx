@@ -36,7 +36,7 @@ const COPY = {
     finalKicker: 'Votre première mission',
     finalTitle: 'Quelle première mission allez-vous confier à votre Collaborateur IA ?',
     finalBody: 'Décrivez une mission réelle. Alma prépare le Collaborateur IA, les capacités nécessaires et les points à confirmer avec vous.',
-    finalCta: 'Décrire mon besoin',
+    finalCta: 'Commencer gratuitement',
     finalProofs: ['Première mission offerte', 'Sans carte bancaire', 'Accompagnement humain si nécessaire', 'Sans engagement'],
   },
   en: {
@@ -67,7 +67,7 @@ const COPY = {
     finalKicker: 'Your first mission',
     finalTitle: 'What first mission will you assign to your AI Collaborator?',
     finalBody: 'Describe a real mission. Alma prepares the AI Collaborator, the required capabilities and the points to confirm with you.',
-    finalCta: 'Describe my need',
+    finalCta: 'Start for free',
     finalProofs: ['First mission included', 'No credit card', 'Human support when needed', 'No commitment'],
   },
 } as const
