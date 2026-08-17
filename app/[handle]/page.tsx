@@ -67,9 +67,8 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   }
 }
 
-export default async function HandleProfilePage({ params, searchParams }: { params: Promise<{ handle: string }>; searchParams: Promise<{ equipment?: string }> }) {
+export default async function HandleProfilePage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
-  const query = await searchParams
   const slug = slugFromHandle(handle)
   if (!slug) notFound()
 
@@ -96,7 +95,7 @@ export default async function HandleProfilePage({ params, searchParams }: { para
       <>
         {personJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />}
         <Navbar />
-        {slug === 'hugo' && page ? <CollaborateurContent page={page} equipmentId={query.equipment} /> : <TeamProfile slug={slug} />}
+        {slug === 'hugo' && page ? <CollaborateurContent page={page} /> : <TeamProfile slug={slug} />}
         <SiteFooter />
       </>
     )

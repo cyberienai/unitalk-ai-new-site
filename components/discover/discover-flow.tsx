@@ -29,6 +29,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   const searchParams = useSearchParams()
   const missionSlug = searchParams.get('mission')
   const draftId = searchParams.get('draft')
+  const requestedCollaborator = searchParams.get('collaborateur')
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
   const source = parseDiscoverSource(searchParams.get('source'))
   const requestedDomain = normalizeDomain(searchParams.get('domain'))
@@ -47,8 +48,8 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
       company: initialPurchaseDraft?.onboarding?.company ?? (domain ? init.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : init.company),
       mission: initialPurchaseDraft?.onboarding?.mission ?? init.mission,
       missionDefined: Boolean(initialPurchaseDraft?.onboarding?.mission.title),
-      profile: initialPurchaseDraft?.onboarding?.profile ?? init.profile,
-      collaboratorName: initialPurchaseDraft?.onboarding?.collaboratorName ?? init.collaboratorName,
+      profile: initialPurchaseDraft?.onboarding?.profile ?? (requestedCollaborator === 'hugo' ? { fr: 'Commercial', en: 'Sales' } : init.profile),
+      collaboratorName: initialPurchaseDraft?.onboarding?.collaboratorName ?? (requestedCollaborator === 'hugo' ? 'Hugo' : init.collaboratorName),
     }
   })
   const [step, setStep] = useState<OnboardingStep>('entreprise')
@@ -115,8 +116,9 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
         onAuthenticated={({ provider, email, firstName, lastName }) => {
           const domain = email && isProfessionalEmail(email) ? emailDomain(email) : undefined
           setState(s => ({ ...s, authenticated: true, mission: selectedMission?.title ? { ...s.mission, title: selectedMission.title } : s.mission, missionDefined: Boolean(selectedMission?.title), firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '', company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company }))
-          if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}`)
-          else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}`)
+          const collaboratorQuery = requestedCollaborator ? `&collaborateur=${encodeURIComponent(requestedCollaborator)}` : ''
+          if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}${collaboratorQuery}`)
+          else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}${collaboratorQuery}`)
         }}
       />
     </main>
