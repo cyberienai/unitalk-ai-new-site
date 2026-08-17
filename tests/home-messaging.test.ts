@@ -27,6 +27,6 @@ describe('home commercial messaging', () => {
   it('clarifies Alma and provides four visitor paths', () => {
     for (const path of ['J’ai un travail à confier', 'Je veux comprendre le produit', 'Je veux voir comment il travaille', 'Je veux voir comment il évolue']) expect(sections).toContain(path)
     expect(navbar).not.toContain('Alma · Conseillère IA')
-    expect(hero).toContain("voiceKicker: 'Coordinatrice de missions IA'")
+    expect(hero).toContain("voiceKicker: 'Coordinatrice de missions IA Unitalk'")
   })
 })
