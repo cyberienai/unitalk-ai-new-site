@@ -14,11 +14,11 @@ import { Kicker } from '@/components/home/section-kicker'
 
 const COPY = {
   fr: {
-    composerTitle: 'Quelle mission voulez-vous confier à Hugo ?',
+    composerTitle: 'Détaillez la mission que vous voulez confier à Hugo.',
     composerPlaceholder: 'Décrivez simplement le résultat attendu…',
     composerSubmit: 'Confier cette mission à Hugo',
     composerRole: 'Alma · Coordinatrice de votre première mission',
-    composerExamples: ['Qualifier mes prospects', 'Relancer les opportunités dormantes', 'Préparer mes rendez-vous'],
+    composerExamples: ['PME de 20 à 200 salariés', 'Secteur logiciels B2B', 'France · Directeurs commerciaux'],
     trialProofs: ['Première mission offerte', 'Sans carte bancaire', 'Sans engagement', 'Accompagnement humain si nécessaire'],
     createCommercial: 'Créer mon Collaborateur IA commercial',
     proofs: [
@@ -28,7 +28,7 @@ const COPY = {
       ['Profils et compétences', 'Ajoutez-en sans recréer son identité.'],
     ],
     proofKicker: 'Mission commerciale · Démonstration illustrative',
-    proofTitle: 'Hugo prépare la prospection. Votre équipe garde la décision.',
+    proofTitle: 'Hugo prospecte. Votre équipe décide.',
     proofLead: 'Il recherche et qualifie selon vos critères, prépare le CRM et s’arrête avant le premier contact tant que votre équipe n’a pas validé.',
     decision: 'Décision requise', approve: 'Approuver', modify: 'Modifier', decline: 'Refuser',
     identityKicker: 'Identité professionnelle',
@@ -52,11 +52,11 @@ const COPY = {
     finalCta: 'Commencer avec Alma', pricing: 'Voir les tarifs',
   },
   en: {
-    composerTitle: 'What mission would you like to assign to Hugo?',
+    composerTitle: 'Describe the mission you want to assign to Hugo.',
     composerPlaceholder: 'Simply describe the expected outcome…',
     composerSubmit: 'Assign this mission to Hugo',
     composerRole: 'Alma · Coordinator of your first mission',
-    composerExamples: ['Qualify my prospects', 'Follow up dormant opportunities', 'Prepare my sales meetings'],
+    composerExamples: ['Companies with 20–200 employees', 'B2B software sector', 'France · Sales directors'],
     trialProofs: ['First mission included', 'No credit card', 'No commitment', 'Human support when needed'],
     createCommercial: 'Create my Sales AI Collaborator',
     proofs: [
@@ -66,7 +66,7 @@ const COPY = {
       ['Profiles and skills', 'Add them without recreating the identity.'],
     ],
     proofKicker: 'Sales mission · Illustrative demonstration',
-    proofTitle: 'Hugo prepares prospecting. Your team makes the decision.',
+    proofTitle: 'Hugo prospects. Your team decides.',
     proofLead: 'He researches and qualifies from your criteria, prepares the CRM and stops before first contact until your team approves.',
     decision: 'Decision required', approve: 'Approve', modify: 'Amend', decline: 'Decline',
     identityKicker: 'Professional identity',
@@ -121,7 +121,7 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
         <div className="grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-14">
           <div>
             <div className="inline-flex items-center gap-3"><Image src={detail.avatar} alt="" width={36} height={36} priority className="size-9 rounded-full border border-[#CFC5B5] object-cover"/><span className="text-sm font-bold text-[#4E483F]">{lang === 'fr' ? 'Hugo · Collaborateur IA commercial' : 'Hugo · Sales AI Collaborator'}</span></div>
-            <h1 className="mt-8 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">{lang === 'fr' ? 'Hugo trouve et qualifie vos prochains prospects.' : 'Hugo finds and qualifies your next prospects.'}</h1>
+            <h1 className="mt-8 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">{lang === 'fr' ? <><span className="block">Hugo trouve et qualifie</span><span className="block text-[#D10E63]">vos prochains prospects.</span></> : <><span className="block">Hugo finds and qualifies</span><span className="block text-[#D10E63]">your next prospects.</span></>}</h1>
             <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{lang === 'fr' ? 'Donnez-lui vos critères. Il recherche les entreprises, prépare les fiches CRM et organise les relances. Votre équipe valide le premier contact.' : 'Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.'}</p>
             <Link href="/tarifs?profil=hugo#configurateur" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white shadow-[0_14px_34px_-20px_rgba(28,26,23,.7)] hover:bg-[#2A2622]">{t.createCommercial}</Link>
           </div>
