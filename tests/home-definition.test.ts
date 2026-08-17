@@ -12,7 +12,7 @@ describe('home visitor orientation', () => {
   })
 
   it('keeps one focused final conversion action', () => {
-    expect(source).toContain('Quel résultat votre équipe veut-elle obtenir ?')
+    expect(source).toContain('Quel travail allez-vous enfin confier ?')
     expect(source).toContain('Décrire mon besoin')
     expect(source).toContain('href="#alma-hero"')
   })
