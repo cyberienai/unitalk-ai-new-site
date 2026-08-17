@@ -17,7 +17,7 @@ const COPY = {
     anatomyKicker: 'Plus qu’un assistant IA',
     anatomyTitle: 'Votre Collaborateur IA a sa propre identité.',
     anatomyLead: 'Un Collaborateur IA n’est pas attaché à une conversation ou au compte individuel d’un salarié. Il possède sa propre identité, ses moyens de communication, son environnement de travail et une place définie dans votre organisation.',
-    anatomy: [['Identité', 'Prénom, visage et voix'], ['Communication', 'E-mail, calendrier et téléphone'], ['Exécution', 'Agent Hermes et serveur privé'], ['Organisation', 'Responsable, rattachement et droits']],
+    anatomy: [['Identité IA', 'Prénom, visage et voix'], ['Communication', 'E-mail, calendrier et téléphone'], ['Exécution', 'Agent Hermes et serveur privé'], ['Organisation', 'Responsable, rattachement et droits']],
     anatomyCta: 'Comprendre les Collaborateurs IA',
     anatomyLabel: 'Exemple de Collaboratrice IA',
     anatomyRole: 'Assistante de direction',

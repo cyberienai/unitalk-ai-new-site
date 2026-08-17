@@ -205,6 +205,12 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
     }
   }, [inView, reduce])
 
+  useEffect(() => {
+    if (reduce || !inView || decision) return
+    const id = window.setTimeout(() => selectScenario(scenarioIndex + 1), 7000)
+    return () => window.clearTimeout(id)
+  }, [decision, inView, reduce, scenarioIndex])
+
   const status = !decision
     ? { label: t.statusPending, color: '#D10E63', bg: 'rgba(209,14,99,0.1)' }
     : decision === 'validate'
@@ -240,16 +246,15 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
         </div>
 
         <div ref={ref}>
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <p className="text-xs font-bold text-[#625B50]">{lang === 'fr' ? 'Choisir un exemple' : 'Choose an example'}</p>
-            <div className="flex items-center gap-2">
-              <span className="min-w-10 text-center font-mono text-[10px] font-bold text-[#857C6E]">{scenarioIndex + 1}/{scenarios.length}</span>
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={lang === 'fr' ? 'Exemples de missions' : 'Mission examples'}>
+              {scenarios.map((item, index) => <button key={item.tab} type="button" role="tab" aria-selected={scenarioIndex === index} onClick={() => selectScenario(index)} className={`min-h-10 shrink-0 rounded-full border px-4 text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${scenarioIndex === index ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-[#FAF8F3] text-[#625B50] hover:border-[#D10E63]/40'}`}>{item.tab}</button>)}
+            </div>
+            <div className="flex shrink-0 items-center gap-1.5">
+              <span className="hidden min-w-9 text-center font-mono text-[10px] font-bold text-[#857C6E] sm:inline">{scenarioIndex + 1}/{scenarios.length}</span>
               <button type="button" onClick={() => selectScenario(scenarioIndex - 1)} aria-label={lang === 'fr' ? 'Exemple précédent' : 'Previous example'} className="flex size-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FAF8F3] outline-none hover:border-[#D10E63]/50 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><ChevronLeft className="size-4" /></button>
               <button type="button" onClick={() => selectScenario(scenarioIndex + 1)} aria-label={lang === 'fr' ? 'Exemple suivant' : 'Next example'} className="flex size-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FAF8F3] outline-none hover:border-[#D10E63]/50 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><ChevronRight className="size-4" /></button>
             </div>
-          </div>
-          <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={lang === 'fr' ? 'Exemples de missions' : 'Mission examples'}>
-            {scenarios.map((item, index) => <button key={item.tab} type="button" role="tab" aria-selected={scenarioIndex === index} onClick={() => selectScenario(index)} className={`min-h-10 shrink-0 rounded-full border px-4 text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${scenarioIndex === index ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-[#FAF8F3] text-[#625B50] hover:border-[#D10E63]/40'}`}>{item.tab}</button>)}
           </div>
           <motion.div
             key={scenario.missionId}
