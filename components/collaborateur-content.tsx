@@ -23,7 +23,7 @@ const COPY = {
     createCommercial: 'Créer mon Collaborateur IA commercial',
     proofs: [
       ['Identité IA', 'Choisissez son prénom, son visage et sa voix.'],
-      ['Rattachement dans l’entreprise', 'Rattachez-le à une personne, une équipe, un département ou à toute l’organisation.'],
+      ['Place dans votre organisation', 'Affectez-le à une personne, une équipe, un département ou à toute l’entreprise.'],
       ['Propriété de l’entreprise', 'Identité, mémoire et savoir-faire restent chez vous.'],
       ['Profils et compétences', 'Ajoutez-en sans recréer son identité.'],
     ],
@@ -253,7 +253,7 @@ function IdentityCard({ detail, lang, labels }: { detail: CollaboratorPage['deta
   const persona=PERSONAS[detail.slug as keyof typeof PERSONAS]??PERSONAS.hugo
   const rows=[
     [labels.owner,fr?'Votre entreprise':'Your organization'],
-    [fr?'Rattachement dans l’entreprise':'Organization assignment',fr?`Département ${detail.department.fr}`:`${detail.department.en} department`],
+    [fr?'Place dans l’organisation':'Place in the organization',fr?`Département ${detail.department.fr}`:`${detail.department.en} department`],
     [labels.supervisor,detail.manager.role[lang].replace(' ', '\n')],
     [fr?'Profils métier':'Job profiles',persona.profiles[lang].join(' · ')],
     [fr?'Compétences':'Skills',detail.skills.map(skill=>skill[lang]).join(' · ')],

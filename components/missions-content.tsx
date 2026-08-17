@@ -241,7 +241,7 @@ export function MissionsContent({
           </div>
 
           <div className="mt-6 flex items-center gap-3">
-             <p role="status" aria-live="polite" className="text-sm font-semibold text-[#4E483F]">{family === 'recommended' && !query && !requestedCategory ? t.recommended : t.count(visibleMissions.length, filteredMissions.length)}</p>
+             <p role="status" aria-live="polite" className="text-sm font-semibold text-[#4E483F]">{family === 'recommended' && !query && !requestedCategory ? t.recommended(filteredMissions.length) : t.count(visibleMissions.length, filteredMissions.length)}</p>
             <span aria-hidden className="h-px flex-1 bg-[#DED6C8]" />
           </div>
 
@@ -299,9 +299,9 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 const COPY = {
   fr: {
     eyebrow: 'Missions pour collaborateur IA',
-    title: 'Quelle mission voulez-vous confier ?',
-    heroA: 'Quelle mission', heroB: 'voulez-vous', heroC: 'confier ?',
-    lead: 'Décrivez le résultat attendu, le rythme et les contraintes. Alma transforme votre demande en mission prête à confier.', explore: 'Voir des missions déjà cadrées',
+    title: 'Quel travail doit avancer ?',
+    heroA: 'Quel travail', heroB: 'doit', heroC: 'avancer ?',
+    lead: 'Décrivez le résultat attendu. Alma prépare la mission et personnalise votre Collaborateur IA pour votre entreprise.', explore: 'Voir des missions déjà cadrées',
     almaRole: 'Coordinatrice de missions IA Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
     placeholder: 'Décrivez simplement le résultat attendu…',
     talk: 'Dicter ma mission', stop: 'Terminer', continue: 'Personnaliser mon Collaborateur IA',
@@ -313,7 +313,7 @@ const COPY = {
     catalogTitle: 'Ou partez d’une mission déjà cadrée',
     search: 'Rechercher',
     families: { recommended: 'Recommandées', all: 'Toutes', growth: 'Développer les ventes', customers: 'Servir les clients', company: 'Gérer l’entreprise', teams: 'Organiser les équipes', produce: 'Produire et analyser' },
-    recommended: '12 missions pour commencer',
+    recommended: (total: number) => `${total} mission${total > 1 ? 's' : ''} pour commencer`,
     count: (shown: number, total: number) => `${shown} mission${shown > 1 ? 's' : ''} affichée${shown > 1 ? 's' : ''} sur ${total}`,
     showMore: 'Afficher 12 missions supplémentaires',
     finalTitle: 'Vous savez ce qui doit être fait.',
@@ -322,9 +322,9 @@ const COPY = {
   },
   en: {
     eyebrow: 'Missions / AI Collaborators',
-    title: 'What mission would you like to assign?',
-    heroA: 'What mission', heroB: 'would you like', heroC: 'to assign?',
-    lead: 'Describe the expected outcome, pace and constraints. Alma turns your request into a mission ready to assign.', explore: 'View already scoped missions',
+    title: 'What work needs to move forward?',
+    heroA: 'What work', heroB: 'needs to', heroC: 'move forward?',
+    lead: 'Describe the expected outcome. Alma prepares the mission and customizes your AI Collaborator for your organization.', explore: 'View already scoped missions',
     almaRole: 'Unitalk AI mission coordinator', composerTitle: 'What work would you like to assign to your AI Collaborator?', composerBody: '',
     placeholder: 'Simply describe the expected outcome…',
     talk: 'Dictate my mission', stop: 'Finish', continue: 'Customize my AI Collaborator',
@@ -336,7 +336,7 @@ const COPY = {
     catalogTitle: 'Or start from an already scoped mission',
     search: 'Search',
     families: { recommended: 'Recommended', all: 'All', growth: 'Grow sales', customers: 'Serve customers', company: 'Run the company', teams: 'Organize teams', produce: 'Produce and analyze' },
-    recommended: '12 missions to get started',
+    recommended: (total: number) => `${total} mission${total > 1 ? 's' : ''} to get started`,
     count: (shown: number, total: number) => `${shown} of ${total} mission${total > 1 ? 's' : ''} shown`,
     showMore: 'Show 12 more missions',
     finalTitle: 'You know what needs to be done.',
