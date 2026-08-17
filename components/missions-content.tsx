@@ -226,7 +226,7 @@ export function MissionsContent({
           </div>
 
           <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <label className="relative block w-full max-w-xs">
+            <label className="relative block w-full max-w-[260px]">
               <span className="sr-only">{t.search}</span>
               <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
               <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
@@ -294,8 +294,8 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 const COPY = {
   fr: {
     eyebrow: 'Missions pour collaborateur IA',
-    title: 'Quel travail voulez-vous confier ?',
-    heroA: 'Quel travail', heroB: 'voulez-vous', heroC: 'confier ?',
+    title: 'Quelle mission voulez-vous confier ?',
+    heroA: 'Quelle mission', heroB: 'voulez-vous', heroC: 'confier ?',
     lead: 'Décrivez le résultat attendu. Alma personnalise votre Collaborateur IA pour accomplir la mission.', explore: 'Voir des missions déjà cadrées',
     almaRole: 'Coordinatrice de missions IA', composerTitle: 'Quel résultat voulez-vous obtenir ?', composerBody: 'Décrivez-le simplement. Alma prépare le Collaborateur IA adapté à la mission.',
     placeholder: 'Ex. Qualifier mes nouveaux prospects chaque matin…',
@@ -316,8 +316,8 @@ const COPY = {
   },
   en: {
     eyebrow: 'Missions / AI Collaborators',
-    title: 'What work would you like to assign?',
-    heroA: 'What work', heroB: 'would you like', heroC: 'to assign?',
+    title: 'What mission would you like to assign?',
+    heroA: 'What mission', heroB: 'would you like', heroC: 'to assign?',
     lead: 'Describe the expected outcome. Alma customizes your AI Collaborator to carry out the mission.', explore: 'View already scoped missions',
     almaRole: 'AI mission coordinator', composerTitle: 'What outcome do you want?', composerBody: 'Describe it simply. Alma prepares the right AI Collaborator for the mission.',
     placeholder: 'E.g. Qualify my new prospects every morning…',

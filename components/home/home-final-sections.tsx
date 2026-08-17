@@ -86,7 +86,7 @@ export function HomeCollaboratorAnatomy({ lang }: { lang: Lang }) {
 export function HomeEvolution({ lang }: { lang: Lang }) {
   const t = COPY[lang]
   const capabilitySets = lang === 'fr' ? [
-    { tab: 'Direction', profile: 'Assistante de direction', skills: ['Préparer une réunion', 'Organiser les rendez-vous', 'Résumer un dossier'], application: 'E-mail et calendrier', result: 'Direction mieux préparée' },
+    { tab: 'Direction', profile: 'Assistante de direction', skills: ['Préparer une réunion', 'Organiser les rendez-vous', 'Résumer un dossier'], application: 'E-mail et calendrier', result: 'Réunions et décisions mieux préparées' },
     { tab: 'Finance', profile: 'Finance', skills: ['Relancer une facture', 'Contrôler les éléments de facturation', 'Signaler les litiges'], application: 'Outil de facturation', result: 'Suivi financier renforcé' },
     { tab: 'Ventes', profile: 'Commercial', skills: ['Rechercher des prospects', 'Qualifier les opportunités', 'Préparer les relances'], application: 'CRM commercial', result: 'Prospection mieux suivie' },
     { tab: 'Clients', profile: 'Relation client', skills: ['Classer les demandes', 'Préparer les réponses', 'Détecter les cas sensibles'], application: 'Support et CRM', result: 'Demandes mieux traitées' },
