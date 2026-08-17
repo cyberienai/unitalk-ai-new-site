@@ -66,7 +66,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
     : { kind: 'empty', source }
 
   const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
-  const flowSteps: OnboardingStep[] = selectedMission ? ['entreprise', 'collaborateur'] : STEP_ORDER
+  const flowSteps: OnboardingStep[] = context.kind === 'mission' ? ['entreprise', 'collaborateur'] : STEP_ORDER
 
   useEffect(() => { if (!selectedMission?.title) return; setState(s => s.mission.title === selectedMission.title && s.missionDefined ? s : { ...s, mission: { ...s.mission, title: selectedMission.title }, missionDefined: true }) }, [selectedMission?.title])
 
@@ -119,7 +119,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
         {back && <button type="button" onClick={() => goTo(back)} className="mb-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#6E665A] hover:text-[#1C1A17] md:hidden"><ArrowLeft className="h-3.5 w-3.5" />{lang === 'fr' ? 'Précédent' : 'Back'}</button>}
         <AnimatePresence mode="wait">
           <motion.div key={step} {...anim}>
-            {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo(selectedMission ? 'collaborateur' : 'mission')} />}
+            {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo(context.kind === 'mission' ? 'collaborateur' : 'mission')} />}
             {step === 'mission' && <ScreenMission lang={lang} company={state.company} mission={state.mission} onDefine={m => setState(s => ({ ...s, mission: m, missionDefined: true }))} onContinue={() => goTo('collaborateur')} />}
             {step === 'collaborateur' && <ScreenCollaborateur lang={lang} company={state.company} mission={state.mission} profile={state.profile} name={state.collaboratorName} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} />}
           </motion.div>

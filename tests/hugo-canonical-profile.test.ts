@@ -27,8 +27,8 @@ describe('Hugo canonical public profile', () => {
     expect(handleRoute).not.toContain("slug === 'hugo' && page")
   })
 
-  it('removes the duplicate URL and keeps internal destinations canonical', () => {
-    expect(legacyRoute).toContain("if (slug === 'hugo') notFound()")
+  it('redirects legacy profile URLs and keeps internal destinations canonical', () => {
+    expect(legacyRoute).toContain('permanentRedirect(`/@${encodeURIComponent(slug)}`)')
     expect(sitemap).toContain('url: `${SITE_URL}/@${slug}`')
     expect(equipment).toContain('router.push(`/missions?composer=1&collaborateur=')
   })

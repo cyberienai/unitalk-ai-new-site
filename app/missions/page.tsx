@@ -55,7 +55,7 @@ const breadcrumbJsonLd = {
 export default async function MissionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ return?: string; categorie?: string; famille?: string; vue?: string; q?: string; composer?: string }>
+  searchParams: Promise<{ return?: string; categorie?: string; famille?: string; vue?: string; q?: string; composer?: string; collaborateur?: string }>
 }) {
   const query = await searchParams
   return (
@@ -76,6 +76,7 @@ export default async function MissionsPage({
           requestedFamily={query.famille}
           requestedView={query.vue}
           requestedQuery={query.q}
+          requestedCollaborator={query.collaborateur}
           composerRequested={query.composer === '1'}
         />
       </Suspense>

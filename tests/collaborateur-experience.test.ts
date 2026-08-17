@@ -4,47 +4,38 @@ import { describe, expect, it } from 'vitest'
 const source = readFileSync(new URL('../components/collaborateurs-ia/collaborateur-experience.tsx', import.meta.url), 'utf8')
 
 describe('CollaborateurExperience', () => {
-  it('uses accessible tabs for the five work formats', () => {
+  it('defines an AI Collaborator as a durable professional identity', () => {
+    for (const claim of ['Une identité professionnelle.', 'Équipée pour travailler.', 'Une identité durable', 'Une place dans l’entreprise', 'Un périmètre gouverné']) expect(source).toContain(claim)
+  })
+
+  it('explains default and additional job profiles with public examples', () => {
+    expect(source).toContain('Chaque Collaborateur IA possède un profil métier par défaut')
+    expect(source).toContain('Une même identité peut cumuler plusieurs profils')
+    for (const example of ['Hugo', 'Emma', 'Léa', 'Arthur']) expect(source).toContain(example)
     expect(source).toContain('role="tablist"')
     expect(source).toContain('role="tab"')
-    expect(source).toContain('aria-selected={active === key}')
-    expect(source).toContain('role="tabpanel"')
-    expect(source).toContain("['text', 'image', 'audio', 'video', 'code']")
   })
 
-  it('does not publish obsolete pricing and application claims', () => {
-    expect(source).not.toContain('1 million de tokens')
-    expect(source).not.toContain('98 €/mois')
-    expect(source).not.toContain('3 000 applications')
+  it('shows a concrete mission and explicit human control', () => {
+    for (const proof of ['Une mission entre. Un résultat vérifiable sort.', 'Mission en cours', 'Décision humaine requise', 'Autoriser l’action avant exécution ?']) expect(source).toContain(proof)
+  })
+
+  it('makes all six equipment layers directly accessible', () => {
+    for (const href of ['/marketplace#metiers', '/marketplace#competences', '/marketplace#applications', '/marketplace#modeles-ia', '/marketplace#serveurs-ia', '/workspace']) expect(source).toContain(`href:'${href}'`)
+  })
+
+  it('makes communication, applications, models and Hermes explicit', () => {
+    for (const claim of ['son propre email, son calendrier, son numéro de téléphone', '3 000+ apps', 'Le bon modèle pour la tâche', 'Propulsé par Hermes']) expect(source).toContain(claim)
+  })
+
+  it('states portability, migration and governed memory', () => {
+    for (const claim of ['Pas de verrou propriétaire', 'Migration accompagnée', 'consultables, exportables et portables', 'Accès explicites', 'Décisions humaines']) expect(source).toContain(claim)
+    expect(source).toContain('/documentation/licence-collaborateur-ia')
+  })
+
+  it('keeps one normalized mission-first conversion path', () => {
+    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
+    expect(source).toContain('Décrire une première mission')
     expect(source).not.toContain('Créer mon Collaborateur IA')
-    expect(source).not.toContain('Donnez-lui un prénom')
-  })
-
-  it('distinguishes Code from Terminal and starts with a mission', () => {
-    expect(source).toContain('Code est un format de production')
-    expect(source).toContain('le Terminal est un moyen d’exécution distinct')
-    expect(source).toContain('Une première mission, pas un projet informatique.')
-    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
-  })
-
-  it('uses the radical editorial system and a normalized conversion path', () => {
-    expect(source).toContain('text-[clamp(3rem,6.2vw,6.4rem)]')
-    expect(source).toContain('bg-[#181615]')
-    expect(source).toContain('bg-[#D10E63]')
-    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
-    expect(source).toContain('Son identité IA reste la même.')
-    expect(source).toContain('Voir le prix complet')
-  })
-
-  it('shows one concrete mission with explicit human control', () => {
-    for (const proof of ['3 nouveaux messages identifiés', 'Dossiers clients retrouvés', '3 réponses préparées', 'Validation humaine', '2 réponses prêtes à envoyer']) expect(source).toContain(proof)
-    expect(source).toContain('Démonstration fictive')
-    expect(source).toContain('Modifier les tarifs')
-    expect(source).toContain('Interdit')
-  })
-
-  it('keeps technical detail on dedicated pages', () => {
-    for (const href of ['/ai-gateway', '/architecture', '/collaborateurs-ia/applications', '/desktop']) expect(source).toContain(href)
-    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
   })
 })

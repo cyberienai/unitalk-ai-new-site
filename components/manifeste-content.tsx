@@ -162,7 +162,7 @@ export function ManifesteContent() {
             </div>
             <motion.div {...enter(0.48)} className="mt-8">
               <a
-                href="/emma"
+                href="/@emma"
                 className="inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63] transition-colors hover:text-[#A50B4E]"
               >
                 {t.emmaLink}

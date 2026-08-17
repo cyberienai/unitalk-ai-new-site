@@ -5,29 +5,30 @@ const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url)
 
 describe('Collaborateurs IA mega menu', () => {
   it('keeps the primary journey visible', () => {
-    for (const href of ['/missions', '/collaborateurs-ia', '/workspace', '/marketplace', '/tarifs']) expect(navbar).toContain(href)
+    for (const href of ['/missions', '/collaborateurs-ia', '/workspace', '/academy', '/tarifs']) expect(navbar).toContain(href)
     expect(navbar).toContain("label: { fr: 'Décrire mon besoin'")
   })
 
-  it('organizes product understanding into four paths', () => {
-    for (const href of ['/collaborateurs-ia/alma', '/collaborateurs-ia/profils-metier', '/collaborateurs-ia/comparatif']) expect(navbar).toContain(href)
-    expect(navbar).toContain("menuDiscover: 'Comprendre'")
+  it('offers one direct discovery entry', () => {
+    expect(navbar).toContain("fr: 'Découvrir les Collaborateurs IA'")
+    expect(navbar).toContain("fr: 'Le concept, Alma et le comparatif.'")
   })
 
-  it('organizes Collaborator equipment without duplicating Workspace navigation', () => {
-    for (const href of ['/collaborateurs-ia/competences', '/collaborateurs-ia/applications', '/collaborateurs-ia/serveurs', '/modeles-ia']) expect(navbar).toContain(href)
-    expect(navbar).toContain("menuDeploy: 'Équiper'")
+  it('links directly to the six Collaborator areas', () => {
+    for (const href of ['/collaborateurs-ia', '/marketplace#profils-metier', '/marketplace#competences', '/marketplace#applications', '/marketplace#modeles-ia', '/marketplace#serveurs-ia']) expect(navbar).toContain(`href: '${href}'`)
+    for (const label of ['Profils métier', 'Compétences', 'Applications', 'Modèles IA', 'Serveurs IA']) expect(navbar).toContain(label)
   })
 
-  it('uses a concise footer and explicit selection label', () => {
-    expect(navbar).not.toContain('Ouverte · Open source · Souveraine')
-    expect(navbar).toContain('Hermes open source')
-    expect(navbar).toContain('Explorer toute la Marketplace')
-    expect(navbar).not.toContain('<a href="/tarifs" onClick={() => setCollabOpen(false)}')
+  it('keeps support actions out of the Collaborators menu', () => {
+    expect(navbar).not.toContain('COLLAB_ACTIONS')
+    expect(navbar).not.toContain("fr: 'Trouver un expert'")
   })
 
-  it('keeps Missions visible and Partners out of the top navigation', () => {
+  it('keeps Missions and Academy visible and removes Marketplace from top navigation', () => {
     expect(navbar).toContain('<NavItem href="/missions"')
+    expect(navbar).toContain('<NavItem href="/academy"')
+    expect(navbar).not.toContain('<NavItem href="/marketplace"')
+    expect(navbar).not.toContain('{t.marketplace}')
     expect(navbar).not.toContain('<NavItem href="/partenaires"')
   })
 

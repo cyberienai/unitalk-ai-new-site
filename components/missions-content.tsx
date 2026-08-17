@@ -70,6 +70,7 @@ export function MissionsContent({
   requestedFamily,
   requestedView,
   requestedQuery,
+  requestedCollaborator,
   composerRequested = false,
 }: {
   returnSlug?: string
@@ -77,6 +78,7 @@ export function MissionsContent({
   requestedFamily?: string
   requestedView?: string
   requestedQuery?: string
+  requestedCollaborator?: string
   composerRequested?: boolean
 }) {
   const { lang } = useLanguage()
@@ -137,6 +139,7 @@ export function MissionsContent({
     const search = normalize(query.trim())
     const allowedCategories = family === 'recommended' || family === 'all' ? null : FAMILY_CATEGORIES[family]
     let pool = MISSIONS.filter((mission) => {
+      if (requestedCollaborator && mission.collaboratorSlug !== requestedCollaborator) return false
       if (requestedCategory && mission.category !== requestedCategory) return false
       return !allowedCategories || allowedCategories.includes(mission.category)
     })
@@ -155,7 +158,7 @@ export function MissionsContent({
     }
 
     return pool
-  }, [family, lang, query, requestedCategory])
+  }, [family, lang, query, requestedCategory, requestedCollaborator])
 
   const visibleMissions = filteredMissions.slice(0, visibleCount)
   const inputPreview = need.trim().length >= 20 ? getPreparedDemo(need.trim(), lang) : null

@@ -7,7 +7,7 @@ const flow = readFileSync(new URL('../components/discover/discover-flow.tsx', im
 describe('mission signup', () => {
   it('describes the real post-login sequence', () => {
     expect(source).toContain("missionAlmaTitle: 'Votre mission est conservée.'")
-    expect(source).toContain("missionAlmaBody: 'Après votre connexion, vérifiez les informations de votre entreprise et choisissez le prénom de votre Collaborateur IA.'")
+    expect(source).toContain("missionAlmaBody: 'Après votre connexion, vérifiez votre entreprise, complétez le cadrage de la mission puis choisissez le prénom de votre Collaborateur IA.'")
   })
 
   it('keeps the account step focused without a mission-change exit', () => {
@@ -36,8 +36,8 @@ describe('mission signup', () => {
     expect(flow).toContain('const domain = requestedDomain || sessionDomain')
   })
 
-  it('skips detailed mission editing when a mission is already known', () => {
-    expect(flow).toContain("const flowSteps: OnboardingStep[] = selectedMission ? ['entreprise', 'collaborateur'] : STEP_ORDER")
-    expect(flow).toContain("onContinue={() => goTo(selectedMission ? 'collaborateur' : 'mission')}")
+  it('skips detailed editing only for a structured catalog mission', () => {
+    expect(flow).toContain("const flowSteps: OnboardingStep[] = context.kind === 'mission' ? ['entreprise', 'collaborateur'] : STEP_ORDER")
+    expect(flow).toContain("onContinue={() => goTo(context.kind === 'mission' ? 'collaborateur' : 'mission')}")
   })
 })

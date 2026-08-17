@@ -6,14 +6,15 @@ const composer = readFileSync(new URL('../components/alma-mission-composer.tsx',
 const page = readFileSync(new URL('../app/marketplace/page.tsx', import.meta.url), 'utf8')
 
 describe('Marketplace IA hub', () => {
-  it('centralizes ten distinct discovery areas in three groups', () => {
+  it('centralizes the five Store departments on one page', () => {
     expect(page).toContain('UnitalkStoreHub')
-    for (const label of ['Collaborateurs IA','Missions','Métiers','Compétences','Connaissances','Mémoire et contexte','Applications','Modèles IA','Formations','Services']) expect(hub).toContain(label)
-    for (const group of ['Trouver un Collaborateur','Enrichir ses capacités','Se faire accompagner']) expect(hub).toContain(group)
+    for (const label of ['Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
+    expect(hub).toContain('STORE_CATEGORIES')
+    expect(hub).toContain('Anatomie d’un agent autonome')
   })
 
   it('states the community and knowledge-work positioning', () => {
-    expect(hub).toContain('créés par Unitalk et la communauté')
+    expect(hub).toContain('L’autonomie ne se télécharge pas')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
@@ -30,7 +31,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain("lg:grid-cols-[260px_minmax(0,1fr)]")
     expect(hub).toContain('lg:sticky lg:top-24')
     expect(hub).toContain('onClick={() => selectCategory(category.id)}')
-    expect(hub).toContain('Catégories de la Marketplace')
+    expect(hub).toContain('Catégories du Store')
     expect(hub).toContain('role="tooltip"')
   })
 
@@ -44,6 +45,6 @@ describe('Marketplace IA hub', () => {
   })
 
   it('keeps each category explanation on its reference route', () => {
-    for (const href of ['/collaborateurs-ia','/missions','/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/architecture#connaissance-entreprise','/architecture#memoire-et-contexte','/collaborateurs-ia/applications','/modeles-ia','/academy','/experts']) expect(hub).toContain(`href: '${href}'`)
+    for (const href of ['/collaborateurs-ia','/missions','/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/architecture#connaissance-entreprise','/architecture#memoire-et-contexte','/collaborateurs-ia/applications','/modeles-ia','/collaborateurs-ia/serveurs','/academy','/experts']) expect(hub).toContain(`href: '${href}'`)
   })
 })

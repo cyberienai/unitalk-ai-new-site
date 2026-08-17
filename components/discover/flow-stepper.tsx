@@ -39,7 +39,8 @@ export function FlowStepper({
               <button
                 type="button"
                 onClick={() => isDone && onStepClick(step)}
-                disabled={!isDone}
+                 disabled={!isDone}
+                 aria-label={label}
                 aria-current={state === 'active' ? 'step' : undefined}
                 className={[
                   'inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[12px] font-semibold transition-colors sm:px-3 sm:py-1.5 sm:text-[13px]',

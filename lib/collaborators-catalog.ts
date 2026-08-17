@@ -53,7 +53,7 @@ export const DEPARTMENTS: Department[] = [
     key: 'support',
     label: { fr: 'Relation client', en: 'Customer Relations' },
     roles: [
-      { name: 'Inès', title: { fr: 'Support Client', en: 'Customer Support' }, slug: 'ines' },
+      { name: 'Inès', title: { fr: 'Support client', en: 'Customer Support' }, slug: 'ines' },
       { name: 'Helpdesk', title: { fr: 'Assistance niveau 1', en: 'Helpdesk' } },
       { name: 'Technical Support', title: { fr: 'Support technique', en: 'Technical Support' } },
     ],
@@ -118,6 +118,7 @@ export type RoleDetail = {
   name: string
   avatar: string
   role: Bilingual
+  gender: 'female' | 'male'
   roleInline?: boolean // true => le nom du responsable se colle au rôle ("Assistante de <nom>")
   department: Bilingual
   description: Bilingual
@@ -278,8 +279,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     managerHandle: 'patrickchassany',
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
-    role: { fr: 'Assistante de', en: 'Assistant to' },
-    roleInline: true,
+    role: { fr: 'Assistante de direction', en: 'Executive Assistant' },
+    gender: 'female',
     department: { fr: 'Direction', en: 'Leadership' },
     description: {
       fr: "Emma gère l'agenda, les priorités et la logistique de la direction. Elle prépare les réunions, filtre les demandes et garde chaque dossier prêt au bon moment.",
@@ -340,6 +341,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
     role: { fr: 'Responsable éditoriale', en: 'Editorial Lead' },
+    gender: 'female',
     department: { fr: 'Marketing', en: 'Marketing' },
     description: {
       fr: "Léa construit la stratégie de contenu, planifie le calendrier éditorial et décline vos messages sur chaque canal. Elle rédige, adapte et mesure l'impact en continu.",
@@ -368,6 +370,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
     role: { fr: 'Développeur', en: 'Developer' },
+    gender: 'male',
     department: { fr: 'Développement', en: 'Engineering' },
     description: {
       fr: "Arthur écrit du code, relit les contributions et corrige les bugs. Il documente, teste et livre des fonctionnalités aux côtés de l'équipe technique.",
@@ -396,6 +399,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
     role: { fr: 'Commercial', en: 'Sales Rep' },
+    gender: 'male',
     department: { fr: 'Ventes', en: 'Sales' },
     description: {
       fr: "Hugo prospecte, qualifie les leads et suit le pipeline. Il relance au bon moment, tient le CRM à jour et prépare chaque rendez-vous commercial.",
@@ -424,6 +428,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
     role: { fr: 'Analyste Financière', en: 'Financial Analyst' },
+    gender: 'female',
     department: { fr: 'Finance', en: 'Finance' },
     description: {
       fr: "Nadia consolide les données financières, suit les indicateurs et prépare les prévisions. Elle transforme chaque chiffre en information utile pour décider.",
@@ -451,7 +456,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     managerHandle: 'marcdelacroix',
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
-    role: { fr: 'Support Client', en: 'Customer Support' },
+    role: { fr: 'Support client', en: 'Customer Support' },
+    gender: 'female',
     department: { fr: 'Relation client', en: 'Customer Relations' },
     description: {
       fr: "Inès répond aux clients en continu, résout les demandes courantes et escalade les cas complexes. Elle apprend de chaque échange pour s'améliorer.",

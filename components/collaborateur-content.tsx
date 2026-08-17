@@ -9,6 +9,7 @@ import { siGmail, siGooglecalendar, siHubspot } from 'simple-icons'
 import { ArrowRight, Building2, Check, Mail, Server, ShieldCheck, UserRound } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import type { CollaboratorPage } from '@/lib/collaborator-pages'
+import { STATUS_LABELS } from '@/lib/missions-catalog'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -37,8 +38,7 @@ const COPY = {
     identityCta: 'En savoir plus',
     identityCard: { header: 'Carte d’identité de votre Collaborateur IA', owner: 'Propriétaire', supervisor: 'Supervision humaine', communication: 'Canaux professionnels', memory: 'Mémoire propre', shared: 'Savoir de l’entreprise', execution: 'Environnement privé', governance: 'Accès et actions gouvernés par votre entreprise' },
     appsKicker: 'Applications autorisées',
-    appsTitle: 'Hugo travaille dans votre environnement commercial.',
-    appsBody: 'HubSpot, Salesforce, LinkedIn, Gmail, Outlook et vos agendas sont attribués selon vos droits. Plus de 3 000 connecteurs peuvent être disponibles selon la configuration.',
+    appsBody: 'Les applications utiles à ses missions sont attribuées selon vos droits. Plus de 3 000 connecteurs peuvent être disponibles selon la configuration.',
     modelsKicker: 'Unitalk AI Gateway',
     modelsTitle: 'Le modèle adapté à chaque tâche. Sous vos règles.',
     modelsBody: 'Hugo utilise uniquement les modèles autorisés par votre entreprise, dans les limites du budget défini.',
@@ -46,8 +46,6 @@ const COPY = {
     evolutionTitle: 'Ses compétences évoluent. Son savoir-faire reste.',
     evolutionBody: 'Hugo commence avec un profil commercial. Ajoutez ensuite de nouvelles méthodes, applications et responsabilités selon le travail confié.',
     evolutionItems: ['Profils métier supplémentaires', 'Compétences testées par la communauté', 'Méthodes propres à votre entreprise', 'Nouvelles missions sans repartir de zéro'],
-    missionsTitle: 'Missions commerciales prêtes à personnaliser',
-    allMissions: 'Voir toutes les missions Ventes',
     finalTitle: 'Quelle première mission allez-vous confier à votre Collaborateur IA commercial ?',
     finalCta: 'Commencer avec Alma', pricing: 'Voir les tarifs',
   },
@@ -75,8 +73,7 @@ const COPY = {
     identityCta: 'Learn more',
     identityCard: { header: 'Your AI Collaborator identity card', owner: 'Owning organization', supervisor: 'Human supervision', communication: 'Professional channels', memory: 'Own memory', shared: 'Organization knowledge', execution: 'Private environment', governance: 'Access and actions governed by your organization' },
     appsKicker: 'Authorized applications',
-    appsTitle: 'Hugo works in your sales environment.',
-    appsBody: 'HubSpot, Salesforce, LinkedIn, Gmail, Outlook and calendars are assigned under your permissions. More than 3,000 connectors may be available depending on setup.',
+    appsBody: 'Applications useful to each mission are assigned under your permissions. More than 3,000 connectors may be available depending on setup.',
     modelsKicker: 'Unitalk AI Gateway',
     modelsTitle: 'The right model for each task. Under your rules.',
     modelsBody: 'Hugo only uses models authorized by your organization, within the defined budget.',
@@ -84,8 +81,6 @@ const COPY = {
     evolutionTitle: 'His skills evolve. His know-how remains.',
     evolutionBody: 'Hugo starts with a sales profile. Add new methods, applications and responsibilities as you assign new work.',
     evolutionItems: ['Additional job profiles', 'Skills tested by the community', 'Methods specific to your organization', 'New missions without starting over'],
-    missionsTitle: 'Sales missions ready to customize',
-    allMissions: 'View all Sales missions',
     finalTitle: 'What first mission will you assign to your Sales AI Collaborator?',
     finalCta: 'Start with Alma', pricing: 'View pricing',
   },
@@ -183,7 +178,8 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
   const router = useRouter()
   const t = COPY[lang]
   const { detail, missions } = page
-  const persona = PERSONAS[detail.slug as keyof typeof PERSONAS] ?? PERSONAS.hugo
+  const persona = PERSONAS[detail.slug as keyof typeof PERSONAS]
+  const collaboratorLabel = lang === 'fr' && detail.gender === 'female' ? 'Collaboratrice IA' : lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator'
   const [missionRequest, setMissionRequest] = useState('')
   const [decision, setDecision] = useState<'approved' | 'modified' | 'declined' | null>(null)
   const outcome = decision === 'approved'
@@ -197,25 +193,22 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
   function submitMission() {
     const clean = missionRequest.trim()
     if (!clean) return
-    const missionText = detail.slug === 'hugo'
-      ? `${lang === 'fr' ? 'Trouver et qualifier vos prochains prospects' : 'Find and qualify your next prospects'} · ${clean}`
-      : clean
     const draftId = `draft_${crypto.randomUUID()}`
-    try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: missionText, collaborator: detail.slug, criteria: clean, createdAt: Date.now() })) } catch {}
+    try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, collaborator: detail.slug, createdAt: Date.now() })) } catch {}
     router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&collaborateur=${encodeURIComponent(detail.slug)}&source=profile-store`)
   }
 
   return <main className="overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-    <section className="relative min-h-[760px] pb-14 pt-28 sm:pt-36 lg:flex lg:items-center">
+    <section className="relative pb-14 pt-28 sm:pt-36 lg:flex lg:min-h-[760px] lg:items-center">
       <div aria-hidden className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"/>
       <div className="editorial-shell relative w-full">
         <div className="grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-14">
           <div>
-            <div className="inline-flex items-center gap-3"><Image src={detail.avatar} alt="" width={36} height={36} priority className="size-9 rounded-full border border-[#CFC5B5] object-cover"/><span className="text-sm font-bold text-[#4E483F]">{detail.name} · {detail.role[lang]} · {lang==='fr'?'Collaborateur IA':'AI Collaborator'}</span></div>
+            <div className="inline-flex items-center gap-3"><Image src={detail.avatar} alt="" width={36} height={36} priority className="size-9 rounded-full border border-[#CFC5B5] object-cover"/><span className="text-sm font-bold text-[#4E483F]">{detail.name} · {detail.role[lang]} · {collaboratorLabel}</span></div>
             <h1 className="mt-5 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">{highlightClaim(persona.claim[lang],persona.accent[lang])}</h1>
             <div aria-hidden className="mt-6 h-1 w-20 rounded-full bg-[#D10E63]"/>
             <p className="mt-5 max-w-2xl border-l-2 border-[#D10E63]/30 pl-5 text-[17px] leading-8 text-[#4E483F]">{persona.lead[lang]}</p>
-            <Link href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`} className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white shadow-[0_14px_34px_-20px_rgba(28,26,23,.7)] hover:bg-[#2A2622]">{lang==='fr'?`Créer mon Collaborateur IA ${detail.role.fr}`:`Create my ${detail.role.en} AI Collaborator`}</Link>
+            <Link href="#alma-profile" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white shadow-[0_14px_34px_-20px_rgba(28,26,23,.7)] hover:bg-[#2A2622]">{lang==='fr'?`Adapter le profil ${detail.role.fr} avec Alma`:`Tailor the ${detail.role.en} profile with Alma`}</Link>
           </div>
           <div id="alma-profile" className="scroll-mt-24"><AlmaMissionComposer value={missionRequest} onChange={setMissionRequest} onSubmit={submitMission} title={persona.composer[lang]} body="" role={t.composerRole} placeholder={persona.placeholder[lang]} submitLabel={lang==='fr'?`Confier cette mission à ${detail.name}`:`Assign this mission to ${detail.name}`} starters={persona.examples[lang]} listening={false} onToggleListening={() => {}} voiceSupported={false} voiceStartLabel="" voiceStopLabel="" compactMobile compactDesktop /><ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">{t.trialProofs.map(proof => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]"/>{proof}</li>)}</ul></div>
         </div>
@@ -231,17 +224,17 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
     </section>
 
     <section className="py-20 sm:py-24">
-      <div className="editorial-shell grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-center"><div><Kicker>{t.identityKicker}</Kicker><h2 className="mt-5 max-w-4xl text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[.94] tracking-[-.06em]">{lang==='fr'?`${detail.name} travaille avec sa propre identité et ses propres accès.`:`${detail.name} works with their own identity and access.`}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-[#4E483F]">{lang==='fr'?`${detail.name} appartient à votre entreprise, pas à la personne qui le supervise. Si cette personne quitte l’organisation, son identité, sa mémoire et son savoir-faire restent dans l’entreprise.`:`${detail.name} belongs to your organization, not to the person supervising them. If that person leaves, identity, memory and know-how remain within the organization.`}</p><Link href="/collaborateurs-ia" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.identityCta}<ArrowRight className="size-4"/></Link></div><IdentityCard detail={detail} lang={lang} labels={t.identityCard}/></div>
+      <div className="editorial-shell grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-center"><div><Kicker>{t.identityKicker}</Kicker><h2 className="mt-5 max-w-4xl text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[.94] tracking-[-.06em]">{lang==='fr'?`${detail.name} travaille avec sa propre identité et ses propres accès.`:`${detail.name} works with their own identity and access.`}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-[#4E483F]">{lang==='fr'?`${detail.name} appartient à votre entreprise, indépendamment de la personne chargée de sa supervision. Si cette personne quitte l’organisation, son identité, sa mémoire et son savoir-faire restent dans l’entreprise.`:`${detail.name} belongs to your organization, independently of the person supervising them. If that person leaves, identity, memory and know-how remain within the organization.`}</p><Link href="/collaborateurs-ia" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.identityCta}<ArrowRight className="size-4"/></Link></div><IdentityCard detail={detail} lang={lang} labels={t.identityCard}/></div>
     </section>
 
     <section className="bg-[#EAE3D4] py-20 sm:py-24"><div className="editorial-shell"><div className="grid gap-px overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2"><Link href="/collaborateurs-ia/applications" className="group bg-[#FAF8F3] p-7 sm:p-9"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.appsKicker}</p><h2 className="mt-5 text-[clamp(2rem,3vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]">{lang==='fr'?`${detail.name} travaille dans votre environnement métier.`:`${detail.name} works in your business environment.`}</h2><p className="mt-5 text-sm leading-7 text-[#625B50]">{t.appsBody}</p><ApplicationLogos apps={persona.apps}/><span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang==='fr'?'Voir les applications':'View applications'}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link><Link href="/ai-gateway" className="group bg-[#181615] p-7 text-white sm:p-9"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.modelsKicker}</p><h2 className="mt-5 text-[clamp(2rem,3vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.modelsTitle}</h2><p className="mt-5 text-sm leading-7 text-[#CFC6B8]">{lang==='fr'?`${detail.name} utilise uniquement les modèles autorisés par votre entreprise, dans les limites du budget défini.`:`${detail.name} only uses models authorized by your organization, within the defined budget.`}</p><ModelLogos/><span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">Unitalk AI Gateway<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link></div></div></section>
 
     <section className="py-20 sm:py-24"><div className="editorial-shell grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center"><div><Kicker>{t.evolutionKicker}</Kicker><h2 className="mt-5 text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[.94] tracking-[-.06em]">{lang==='fr'?<><span className="block">{detail.name} accomplit une mission.</span><span className="block text-[#D10E63]">Son expérience reste.</span></>:<><span className="block">{detail.name} completes a mission.</span><span className="block text-[#D10E63]">The experience remains.</span></>}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-[#4E483F]">{lang==='fr'?`${detail.name} commence avec un profil ${detail.role.fr.toLowerCase()}. Ajoutez ensuite de nouvelles méthodes, applications et responsabilités selon le travail confié.`:`${detail.name} starts with a ${detail.role.en.toLowerCase()} profile. Add new methods, applications and responsibilities as new work is assigned.`}</p><Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang==='fr'?'Explorer la Marketplace':'Explore the Marketplace'}<ArrowRight className="size-4"/></Link></div><article className="overflow-hidden rounded-[28px] bg-[#181615] p-7 text-white sm:p-9"><div className="flex items-center gap-4 border-b border-white/10 pb-6"><Image src={detail.avatar} alt="" width={58} height={58} className="size-[58px] rounded-full object-cover ring-2 ring-[#F2A4C5]/25"/><div><p className="text-xl font-semibold">{detail.name}</p><p className="mt-1 text-xs text-[#AFA397]">{lang==='fr'?'Même identité, nouvelles capacités':'Same identity, new capabilities'}</p></div></div><ul className="mt-6 grid gap-3 sm:grid-cols-2">{t.evolutionItems.map(item => <li key={item} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[.04] p-4 text-sm font-semibold"><Check className="mt-0.5 size-4 shrink-0 text-[#F2A4C5]"/>{item}</li>)}</ul></article></div></section>
 
-    {missions.length>0&&<section id="missions" className="scroll-mt-24 bg-[#FAF8F3] py-20 sm:py-24"><div className="editorial-shell"><h2 className="max-w-3xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]">{t.missionsTitle}</h2><div className="mt-10 grid gap-4 md:grid-cols-2">{missions.slice(0,4).map(mission => <Link key={mission.slug} href={`/missions/${mission.slug}`} className="group rounded-2xl border border-[#D8D0C2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#D10E63]/40"><h3 className="text-xl font-semibold">{mission.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{mission.objective[lang]}</p><span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang==='fr'?'Personnaliser':'Customize'}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link>)}</div><Link href={`/missions?categorie=${encodeURIComponent(detail.department.fr.toLowerCase())}`} className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.allMissions}<ArrowRight className="size-4"/></Link></div></section>}
+    {missions.length>0&&<section id="missions" className="scroll-mt-24 bg-[#FAF8F3] py-20 sm:py-24"><div className="editorial-shell"><h2 className="max-w-3xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]">{lang==='fr'?`Missions à explorer avec ${detail.name}`:`Missions to explore with ${detail.name}`}</h2><div className="mt-10 grid gap-4 md:grid-cols-2">{missions.slice(0,4).map(mission => <Link key={mission.slug} href={`/missions/${mission.slug}`} className="group rounded-2xl border border-[#D8D0C2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#D10E63]/40"><span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.08em] ${mission.status==='available'?'bg-[#267A48]/10 text-[#267A48]':mission.status==='on-setup'?'bg-[#D10E63]/10 text-[#B00C54]':'bg-[#EAE3D4] text-[#625B50]'}`}>{STATUS_LABELS[mission.status][lang]}</span><h3 className="mt-4 text-xl font-semibold">{mission.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{mission.objective[lang]}</p><span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang==='fr'?'Voir la mission':'View mission'}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link>)}</div><Link href={`/missions?collaborateur=${encodeURIComponent(detail.slug)}&vue=toutes`} className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang==='fr'?`Voir toutes les missions de ${detail.name}`:`View all ${detail.name} missions`}<ArrowRight className="size-4"/></Link></div></section>}
 
     <CollaboratorFaq lang={lang} detail={detail}/>
-    <section className="bg-[#D10E63] py-20 text-white"><div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end"><h2 className="max-w-4xl text-[clamp(2.8rem,6vw,6rem)] font-semibold leading-[.9] tracking-[-.07em]">{lang==='fr'?`Quelle première mission allez-vous confier à votre Collaborateur IA ${detail.role.fr.toLowerCase()} ?`:`What first mission will you assign to your ${detail.role.en} AI Collaborator?`}</h2><div className="flex min-w-60 flex-col gap-3"><a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a><Link href="/tarifs" className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4">{t.pricing}</Link></div></div></section>
+    <section className="bg-[#D10E63] py-20 text-white"><div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end"><h2 className="max-w-4xl text-[clamp(2.8rem,6vw,6rem)] font-semibold leading-[.9] tracking-[-.07em]">{lang==='fr'?`Quelle première mission allez-vous confier à votre profil ${detail.role.fr.toLowerCase()} ?`:`What first mission will you assign to your ${detail.role.en} profile?`}</h2><div className="flex min-w-60 flex-col gap-3"><a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a><Link href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`} className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4">{t.pricing}</Link></div></div></section>
   </main>
 }
 
@@ -250,11 +243,11 @@ function Decision({ children, primary=false, active=false, onClick }: { children
 
 function IdentityCard({ detail, lang, labels }: { detail: CollaboratorPage['detail']; lang:'fr'|'en'; labels: typeof COPY.fr.identityCard|typeof COPY.en.identityCard }) {
   const fr=lang==='fr'
-  const persona=PERSONAS[detail.slug as keyof typeof PERSONAS]??PERSONAS.hugo
+  const persona=PERSONAS[detail.slug as keyof typeof PERSONAS]
   const rows=[
     [labels.owner,fr?'Votre entreprise':'Your organization'],
     [fr?'Place dans l’organisation':'Place in the organization',fr?`Département ${detail.department.fr}`:`${detail.department.en} department`],
-    [labels.supervisor,detail.manager.role[lang].replace(' ', '\n')],
+    [labels.supervisor,detail.manager.role[lang]],
     [fr?'Profils métier':'Job profiles',persona.profiles[lang].join(' · ')],
     [fr?'Compétences':'Skills',detail.skills.map(skill=>skill[lang]).join(' · ')],
     [labels.memory,fr?'Historique, contexte utile et expérience validée':'History, useful context and approved experience'],
@@ -268,9 +261,10 @@ function IdentityFeature({ icon:Icon,title,body }:{icon:typeof UserRound;title:s
 function HeroProof({title,body}:{title:string;body:string}) { return <article className="min-h-28 border-b border-[#CFC5B5] py-5 sm:border-r sm:px-5 lg:border-b-0 lg:first:pl-0 lg:last:border-r-0"><h3 className="text-sm font-semibold">{title}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{body}</p></article> }
 
 function ApplicationLogos({apps}:{apps:readonly string[]}) {
+  const { lang } = useLanguage()
   const icons:Record<string,typeof siHubspot|null>={HubSpot:siHubspot,Gmail:siGmail,Agenda:siGooglecalendar}
   const visible=apps.slice(0,6).map(name => [name,icons[name]??null] as const)
-  return <ul aria-label="Applications compatibles" className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[#DED6C8] bg-[#DED6C8] sm:grid-cols-3">{visible.map(([name,icon]) => <li key={name} className="flex min-h-24 items-center gap-3 bg-white p-4">{icon?<svg aria-hidden viewBox="0 0 24 24" className="size-7 shrink-0" fill={`#${icon.hex}`}><path d={icon.path}/></svg>:<span aria-hidden className="flex size-7 items-center justify-center rounded-md bg-[#1C1A17] text-[10px] font-black text-white">{name.slice(0,2).toUpperCase()}</span>}<span><strong className="block text-xs">{name}</strong><small className="mt-1 block text-[9px] font-bold uppercase tracking-[.1em] text-[#857C6E]">Compatible</small></span></li>)}</ul>
+  return <ul aria-label={lang==='fr'?'Applications compatibles':'Compatible applications'} className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[#DED6C8] bg-[#DED6C8] sm:grid-cols-3">{visible.map(([name,icon]) => <li key={name} className="flex min-h-24 items-center gap-3 bg-white p-4">{icon?<svg aria-hidden viewBox="0 0 24 24" className="size-7 shrink-0" fill={`#${icon.hex}`}><path d={icon.path}/></svg>:<span aria-hidden className="flex size-7 items-center justify-center rounded-md bg-[#1C1A17] text-[10px] font-black text-white">{name.slice(0,2).toUpperCase()}</span>}<span><strong className="block text-xs">{name}</strong><small className="mt-1 block text-[9px] font-bold uppercase tracking-[.1em] text-[#857C6E]">{lang==='fr'?'Compatible':'Supported'}</small></span></li>)}</ul>
 }
 
 function ModelLogos() {

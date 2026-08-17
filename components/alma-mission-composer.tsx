@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useId } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Mic, Square } from 'lucide-react'
 
@@ -58,6 +59,7 @@ export function AlmaMissionComposer({
   compactDesktop = false,
 }: Props) {
   const reduce = useReducedMotion()
+  const titleId = useId()
   const clean = value.trim()
 
   return (
@@ -77,7 +79,7 @@ export function AlmaMissionComposer({
             <motion.div key="preview" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full">{preview}</motion.div>
           ) : (
             <motion.div key="prompt" initial={false} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <h2 className={`text-balance font-sf text-[24px] font-semibold tracking-[-0.025em] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:text-[21px]' : ''}`}>{title}</h2>
+              <h2 id={titleId} className={`text-balance font-sf text-[24px] font-semibold tracking-[-0.025em] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:text-[21px]' : ''}`}>{title}</h2>
               {body && <p className="mt-2 max-w-md text-[13px] leading-5 text-[#D6CABD]">{body}</p>}
             </motion.div>
           )}
@@ -97,7 +99,7 @@ export function AlmaMissionComposer({
           }}
           rows={compactDesktop ? 2 : 3}
           placeholder={placeholder}
-          aria-label={placeholder}
+          aria-labelledby={titleId}
           className={`w-full resize-none rounded-2xl border bg-white/[0.07] px-4 py-3 pr-16 text-[15px] leading-6 text-white outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] focus:bg-white/[0.09] ${attention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/15'}`}
         />
         {voiceSupported && (
@@ -110,14 +112,14 @@ export function AlmaMissionComposer({
       <div className="mt-3 min-h-7">
         {listening && listeningLabel ? <p className="text-xs font-medium text-[#F3B4CF]">{listeningLabel}</p> : !previewVisible && (
           <div className="flex flex-wrap gap-2">
-            {starters.map((starter) => <button key={starter} type="button" onClick={() => onChange(starter)} className={`rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] transition-colors hover:border-[#D10E63]/50 hover:text-white ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:px-2.5 [@media(min-width:1024px)_and_(max-height:850px)]:py-1 [@media(min-width:1024px)_and_(max-height:850px)]:text-[10px]' : ''}`}>{starter}</button>)}
+            {starters.map((starter) => <button key={starter} type="button" onClick={() => onChange(starter)} className={`min-h-10 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] outline-none transition-colors hover:border-[#D10E63]/50 hover:text-white focus-visible:ring-2 focus-visible:ring-[#F15B9B] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:px-2.5 [@media(min-width:1024px)_and_(max-height:850px)]:py-1 [@media(min-width:1024px)_and_(max-height:850px)]:text-[10px]' : ''}`}>{starter}</button>)}
           </div>
         )}
       </div>
 
       <AnimatePresence initial={false}>
         {clean && (
-          <motion.button type="button" onClick={onSubmit} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }} transition={{ duration: reduce ? 0 : 0.2 }} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#E51872] px-6 text-sm font-bold text-white shadow-[0_8px_24px_-12px_rgba(229,24,114,.8)] transition-colors hover:bg-[#F02A82]">
+          <motion.button type="button" onClick={onSubmit} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }} transition={{ duration: reduce ? 0 : 0.2 }} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#E51872] px-6 text-sm font-bold text-white outline-none shadow-[0_8px_24px_-12px_rgba(229,24,114,.8)] transition-colors hover:bg-[#F02A82] focus-visible:ring-2 focus-visible:ring-[#F8F1E7] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17130F]">
             {submitLabel}<ArrowRight className="size-4" />
           </motion.button>
         )}

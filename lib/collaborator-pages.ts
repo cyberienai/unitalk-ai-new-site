@@ -9,7 +9,7 @@
 
 import type { Bilingual, RoleDetail } from '@/lib/collaborators-catalog'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
-import { MISSIONS } from '@/lib/missions-catalog'
+import { MISSIONS, type MissionStatus } from '@/lib/missions-catalog'
 
 export type CollaboratorHeroCopy = {
   // Short, persona-specific one-liner shown under the title (the "claim").
@@ -89,6 +89,7 @@ export type CollaboratorMissionCard = {
   title: Bilingual
   objective: Bilingual
   category: string
+  status: MissionStatus
 }
 
 export type CollaboratorPage = {
@@ -106,7 +107,7 @@ export const COLLABORATOR_PAGE_SLUGS = Object.keys(HERO_COPY).filter(
 export function missionsForCollaborator(slug: string, count = 4): CollaboratorMissionCard[] {
   return MISSIONS.filter((m) => m.collaboratorSlug === slug)
     .slice(0, count)
-    .map((m) => ({ slug: m.slug, title: m.title, objective: m.objective, category: m.category }))
+    .map((m) => ({ slug: m.slug, title: m.title, objective: m.objective, category: m.category, status: m.status }))
 }
 
 // Everything the landing page needs for one persona, or null if unknown.
