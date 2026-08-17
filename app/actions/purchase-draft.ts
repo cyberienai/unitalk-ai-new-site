@@ -11,6 +11,7 @@ export async function persistOnboardingDraft(input: {
   mission: MissionInfo
   profile: { fr: string; en: string }
   collaboratorName: string
+  collaboratorTemplateSlug?: string
 }): Promise<PurchaseDraft> {
   const store = await cookies()
   if (!decodeSession(store.get(SESSION_COOKIE)?.value)) throw new Error('Authentication required')

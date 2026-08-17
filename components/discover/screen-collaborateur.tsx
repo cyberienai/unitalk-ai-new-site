@@ -14,6 +14,7 @@ export function ScreenCollaborateur({
   lang,
   mission,
   profile,
+  collaboratorTemplateSlug,
   company,
   name,
   onName,
@@ -22,6 +23,7 @@ export function ScreenCollaborateur({
   lang: Lang
   mission: MissionInfo
   profile: { fr: string; en: string }
+  collaboratorTemplateSlug?: string
   company: CompanyFact[]
   name: string
   onName: (name: string) => void
@@ -42,7 +44,7 @@ export function ScreenCollaborateur({
       return
     }
     setOpening(true)
-    await persistOnboardingDraft({ company, mission, profile, collaboratorName: displayName })
+    await persistOnboardingDraft({ company, mission, profile, collaboratorName: displayName, collaboratorTemplateSlug })
     router.push('/workspace')
   }
 

@@ -32,5 +32,8 @@ describe('Workspace landing', () => {
     expect(source).toContain('onboarding?.missionTitle')
     expect(source).toContain('onboarding?.collaboratorName')
     expect(source).toContain('Première mission · Prête à démarrer')
+    expect(page).toContain('collaboratorTemplateSlug: onboarding.collaboratorTemplateSlug')
+    expect(source).toContain('Démonstration générique du Workspace')
+    expect(source).toContain('indépendant de votre mission')
   })
 })

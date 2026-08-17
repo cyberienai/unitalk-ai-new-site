@@ -14,7 +14,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('states the community and knowledge-work positioning', () => {
-    expect(hub).toContain('L’autonomie ne se télécharge pas')
+    expect(hub).toContain('L’autonomie se compose')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
@@ -28,11 +28,11 @@ describe('Marketplace IA hub', () => {
   })
 
   it('uses a responsive category rail', () => {
-    expect(hub).toContain("lg:grid-cols-[260px_minmax(0,1fr)]")
+    expect(hub).toContain("lg:grid-cols-[300px_minmax(0,1fr)]")
     expect(hub).toContain('lg:sticky lg:top-24')
     expect(hub).toContain('onClick={() => selectCategory(category.id)}')
     expect(hub).toContain('Catégories du Store')
-    expect(hub).toContain('role="tooltip"')
+    expect(hub).toContain('overflow-x-auto lg:block')
   })
 
   it('centralizes real catalogs with search and featured cards', () => {
@@ -40,7 +40,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('itemsForCategory')
     expect(hub).toContain('MarketplaceItemCard')
     expect(hub).toContain('Rechercher dans cette catégorie')
-    expect(hub).toContain('featured={index === 0 && !catalogQuery}')
+    expect(hub).toContain('category={activeCategory}')
     expect(hub).toContain("window.location.hash.slice(1)")
   })
 

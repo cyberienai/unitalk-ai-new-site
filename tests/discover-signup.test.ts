@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 const source = readFileSync(new URL('../components/discover/screen-account.tsx', import.meta.url), 'utf8')
 const flow = readFileSync(new URL('../components/discover/discover-flow.tsx', import.meta.url), 'utf8')
+const stateBuilder = readFileSync(new URL('../lib/discover-onboarding-state.ts', import.meta.url), 'utf8')
 
 describe('mission signup', () => {
   it('describes the real post-login sequence', () => {
@@ -32,12 +33,18 @@ describe('mission signup', () => {
 
   it('keeps domain prefill in the unified discovery flow', () => {
     expect(flow).toContain("normalizeDomain(searchParams.get('domain'))")
-    expect(flow).toContain('isProfessionalEmail(initialSession.email)')
-    expect(flow).toContain('const domain = requestedDomain || sessionDomain')
+    expect(flow).toContain('buildInitialOnboardingState')
+    expect(stateBuilder).toContain('isProfessionalEmail(initialSession.email)')
+    expect(stateBuilder).toContain('requestedDomain || sessionDomain')
   })
 
   it('skips detailed editing only for a structured catalog mission', () => {
     expect(flow).toContain("const flowSteps: OnboardingStep[] = context.kind === 'mission' ? ['entreprise', 'collaborateur'] : STEP_ORDER")
     expect(flow).toContain("onContinue={() => goTo(context.kind === 'mission' ? 'collaborateur' : 'mission')}")
+  })
+
+  it('resets structured fields for a new free-text draft', () => {
+    expect(flow).toContain('emptyMission(selectedMission.title)')
+    expect(flow).toContain('missionDefined: false')
   })
 })

@@ -65,7 +65,7 @@ export function ScreenAccount({
               </div>
               <div className={`mt-10 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
                 <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#F2A4C5]">{t.almaRole}</p></div></div>
-                <div className="mt-5 border-l border-[#D10E63]/75 pl-5"><p className="font-sf text-[27px] font-semibold leading-tight text-white">{t.missionAlmaTitle}</p><p className="mt-3 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{t.missionAlmaBody}</p></div>
+                <div className="mt-5 border-l border-[#D10E63]/75 pl-5"><p className="font-sf text-[27px] font-semibold leading-tight text-white">{t.missionAlmaTitle}</p><p className="mt-3 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{isDraft?t.missionAlmaBody:t.catalogMissionAlmaBody}</p></div>
               </div>
             </>
           ) : (
@@ -119,6 +119,7 @@ const COPY = {
     almaRole: 'Collaboratrice IA · Coordinatrice de missions IA',
     missionAlmaTitle: 'Votre mission est conservée.',
     missionAlmaBody: 'Après votre connexion, vérifiez votre entreprise, complétez le cadrage de la mission puis choisissez le prénom de votre Collaborateur IA.',
+    catalogMissionAlmaBody: 'Après votre connexion, vérifiez votre entreprise puis choisissez le prénom de votre Collaborateur IA.',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',
     almaGenericTitle: 'Vous n\'avez pas encore choisi de mission.',
     almaGenericBody: 'Après votre inscription, je vous aiderai à personnaliser votre Collaborateur IA pour sa première mission.',
@@ -140,6 +141,7 @@ const COPY = {
     almaRole: 'AI Collaborator · Mission coordinator',
     missionAlmaTitle: 'Your mission is saved.',
     missionAlmaBody: 'After signing in, review your organization, complete the mission brief, then choose your AI Collaborator’s first name.',
+    catalogMissionAlmaBody: 'After signing in, review your organization, then choose your AI Collaborator’s first name.',
     newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.',
     almaGenericTitle: 'You have not selected a mission yet.',
     almaGenericBody: 'After signup, I will help you customize your AI Collaborator for the first mission.',

@@ -22,7 +22,6 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
-import { Kicker } from '@/components/home/section-kicker'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
@@ -53,6 +52,7 @@ type MarketplaceItem = {
   image?: string
   origin?: string
   pending?: boolean
+  status?: Bi
 }
 
 const PAGE_SIZE = 12
@@ -258,6 +258,14 @@ const GROUPS: { title: Bi; description: Bi; categories: Category[] }[] = [
 const CATEGORIES = GROUPS.flatMap((group) => group.categories)
 const STORE_CATEGORIES = CATEGORIES.filter((category) => category.store)
 
+const CATEGORY_NUMBERS: Record<string, string> = {
+  'profils-metier': '01',
+  competences: '02',
+  applications: '03',
+  'modeles-ia': '04',
+  'serveurs-ia': '05',
+}
+
 function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
   if (categoryId === 'collaborateurs-ia') {
     return Object.values(ROLE_DETAILS).map((item) => ({
@@ -291,6 +299,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       href: storeItemHref(item),
       meta: item.roleInOrg?.[lang] ?? item.facet,
       origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
+      status: item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Prêt à installer', en: 'Ready to install' },
     }))
   }
 
@@ -303,6 +312,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       meta: item.editor ?? (item.type === 'integration' ? (lang === 'fr' ? 'Intégration' : 'Integration') : item.facet),
       origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
       pending: item.commercialStatus === 'draft',
+      status: item.commercialStatus === 'draft' ? { fr: 'Bientôt disponible', en: 'Coming soon' } : item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Connectable', en: 'Connectable' },
     }))
   }
 
@@ -313,6 +323,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       description: lang === 'fr' ? `Famille de modèles ${item.maker}, disponible selon les droits, les clés et la configuration AI Gateway.` : `${item.maker} model family, available according to permissions, keys and AI Gateway configuration.`,
       meta: item.meta,
       origin: item.maker,
+      status: { fr: 'Selon votre fournisseur', en: 'Via your provider' },
     }))
   }
 
@@ -325,6 +336,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       meta: lang === 'fr' ? 'Infrastructure privée' : 'Private infrastructure',
       origin: 'Unitalk',
       pending: item.commercialStatus === 'draft',
+      status: item.commercialStatus === 'draft' ? { fr: 'Sur demande', en: 'On request' } : { fr: 'Provisionnable', en: 'Provisionable' },
     }))
   }
 
@@ -356,11 +368,11 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
 const COPY = {
   fr: {
     kicker: 'Registre ouvert · Édition 01',
-    title: 'L’autonomie ne se télécharge pas.',
-    lead: 'Elle se compose. Un métier pour répondre de son travail. Des compétences pour savoir faire. Des applications pour agir. Un modèle pour raisonner. Un serveur pour rester chez vous.',
+    title: 'L’autonomie se compose.',
+    lead: 'Choisissez les cinq pièces de votre Collaborateur IA : sa responsabilité, ses méthodes, ses outils, son intelligence et son environnement privé. Chaque pièce reste remplaçable. L’agent reste à vous.',
     placeholder: 'Décrivez votre besoin…',
     ask: 'Demander à Alma',
-    explore: 'Composer une autonomie',
+    explore: 'Voir les composants',
     almaKicker: 'Recherche assistée',
     almaTitle: 'Ne cherchez pas par catégorie. Décrivez le résultat.',
     almaBody: 'Alma traduit votre besoin en une combinaison de métier, mission, compétences, connaissances et outils.',
@@ -375,10 +387,10 @@ const COPY = {
     starters: ['Répondre à mes appels', 'Qualifier mes prospects', 'Traiter mes e-mails entrants'],
     handoff: 'Alma prépare une sélection. Vous gardez la décision finale.',
     categoriesKicker: 'Anatomie d’un agent autonome',
-    categoriesTitle: 'Cinq décisions. Aucun verrou.',
+    categoriesTitle: 'Cinq pièces. Un agent qui reste à vous.',
     categoriesLead: 'Chaque pièce reste identifiable, remplaçable et gouvernée par votre entreprise. Le Collaborateur IA demeure le vôtre, même lorsque son équipement change.',
     unitalkOrigin: 'Univers Unitalk',
-    understand: 'Lire le manifeste de cette pièce',
+    understand: 'Comprendre cette catégorie',
     search: 'Rechercher dans cette catégorie',
     noResults: 'Aucune création ne correspond à cette recherche.',
     showMore: 'Voir tout le catalogue',
@@ -386,17 +398,17 @@ const COPY = {
     emptyTitle: 'Catalogue en préparation',
     emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     items: 'disponibles',
-    contribute: 'Le prochain actif souverain peut venir de vous.',
+    contribute: 'Votre méthode peut devenir un actif IA.',
     contributeBody: 'Une méthode éprouvée n’a pas à disparaître dans un prompt privé. Structurez-la, testez-la, versionnez-la et publiez-la pour des Collaborateurs IA qui sauront l’appliquer.',
-    contributeCta: 'Ouvrir un atelier',
+    contributeCta: 'Publier un savoir-faire',
   },
   en: {
     kicker: 'Open registry · Edition 01',
-    title: 'Autonomy cannot be downloaded.',
-    lead: 'It is composed. A profession to own the work. Skills to know how. Applications to act. A model to reason. A server to remain yours.',
+    title: 'Autonomy is composed.',
+    lead: 'Choose the five parts of your AI Collaborator: accountability, methods, tools, intelligence and private environment. Every part remains replaceable. The agent remains yours.',
     placeholder: 'Describe your need…',
     ask: 'Ask Alma',
-    explore: 'Compose autonomy',
+    explore: 'View components',
     almaKicker: 'Assisted search',
     almaTitle: 'Do not search by category. Describe the outcome.',
     almaBody: 'Alma translates your need into a combination of profession, mission, skills, knowledge and tools.',
@@ -411,10 +423,10 @@ const COPY = {
     starters: ['Answer my calls', 'Qualify my prospects', 'Handle my incoming emails'],
     handoff: 'Alma prepares a selection. You retain the final decision.',
     categoriesKicker: 'Anatomy of an autonomous agent',
-    categoriesTitle: 'Five decisions. No lock-in.',
+    categoriesTitle: 'Five parts. One agent that remains yours.',
     categoriesLead: 'Every piece remains identifiable, replaceable and governed by your organization. The AI Collaborator remains yours, even as its equipment changes.',
     unitalkOrigin: 'Unitalk universe',
-    understand: 'Read this component manifesto',
+    understand: 'Understand this category',
     search: 'Search this category',
     noResults: 'No item matches this search.',
     showMore: 'View the full catalog',
@@ -422,9 +434,9 @@ const COPY = {
     emptyTitle: 'Catalog in preparation',
     emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
     items: 'available',
-    contribute: 'The next sovereign asset could come from you.',
+    contribute: 'Your method can become an AI asset.',
     contributeBody: 'A proven method should not disappear into a private prompt. Structure, test, version and publish it for AI Collaborators that can apply it.',
-    contributeCta: 'Open a workshop',
+    contributeCta: 'Publish know-how',
   },
 } as const
 
@@ -516,16 +528,16 @@ export function UnitalkStoreHub() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F0EBDD] font-sf text-[#151311]">
-      <section className="relative min-h-[100svh] overflow-hidden border-b border-[#151311] bg-[#D10E63] px-5 pb-10 pt-24 text-[#FFF8ED] sm:px-8 sm:pb-14 sm:pt-28 lg:flex lg:items-end lg:pb-12 lg:pt-32">
+      <section className="relative overflow-hidden border-b border-[#151311] bg-[#D10E63] px-5 pb-10 pt-24 text-[#FFF8ED] sm:px-8 sm:pb-12 sm:pt-28 lg:pb-14 lg:pt-32">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.12] [background-image:linear-gradient(rgba(255,248,237,.5)_1px,transparent_1px),linear-gradient(90deg,rgba(255,248,237,.5)_1px,transparent_1px)] [background-size:48px_48px]" />
-        <div aria-hidden className="pointer-events-none absolute -right-[7vw] -top-[11vw] font-mono text-[clamp(22rem,48vw,48rem)] font-black leading-none text-[#B40A53]">01</div>
+        <div aria-hidden className="pointer-events-none absolute -right-[4vw] -top-[8vw] font-mono text-[clamp(18rem,38vw,36rem)] font-black leading-none text-[#B40A53]">01</div>
         <div className="editorial-shell relative w-full">
           <div className="mb-8 flex items-center justify-between border-b border-[#FFF8ED]/50 pb-3 font-mono text-[9px] font-black uppercase tracking-[.2em] sm:text-[10px]">
             <span>{t.kicker}</span><span>Unitalk / Autonomous supply</span>
           </div>
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.42fr)_minmax(340px,.58fr)] lg:items-end lg:gap-14">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(360px,.7fr)] lg:items-end lg:gap-14">
             <header>
-              <h1 className="max-w-[980px] text-[clamp(4rem,14vw,10.5rem)] font-semibold leading-[.74] tracking-[-.085em]">{t.title}</h1>
+              <h1 className="max-w-[880px] text-[clamp(3.8rem,10vw,8.4rem)] font-semibold leading-[.79] tracking-[-.08em]">{t.title}</h1>
               <div className="mt-8 grid gap-6 border-t border-[#FFF8ED]/50 pt-5 sm:grid-cols-[1fr_auto] sm:items-end lg:max-w-4xl">
                 <p className="max-w-2xl text-[16px] font-medium leading-7 text-[#FFF8ED] sm:text-[19px] sm:leading-8">{t.lead}</p>
                 <a href="#categories" className="group inline-flex min-h-12 w-fit items-center gap-3 border border-[#FFF8ED] bg-[#FFF8ED] px-5 text-xs font-black uppercase tracking-[.12em] text-[#151311] transition-transform hover:-translate-y-1">{t.explore}<ArrowRight className="size-4 rotate-90" /></a>
@@ -536,13 +548,16 @@ export function UnitalkStoreHub() {
               <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={handNeedToAlma} title={lang === 'fr' ? 'Ne cherchez rien.' : 'Search for nothing.'} body={lang === 'fr' ? 'Décrivez le travail. Alma compose l’agent.' : 'Describe the work. Alma composes the agent.'} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} listening={listening} onToggleListening={toggleListening} voiceStartLabel={t.talk} voiceStopLabel={t.stop} error={voiceError} textareaRef={composerRef} />
             </div>
           </div>
+          <div className="mt-10 grid border-l border-t border-[#FFF8ED]/55 sm:grid-cols-5">
+            {STORE_CATEGORIES.map((category) => <a key={category.id} href={`#${category.id}`} onClick={(event) => { event.preventDefault(); selectCategory(category.id) }} className="group flex min-h-[88px] items-center gap-3 border-b border-r border-[#FFF8ED]/55 px-4 transition-colors hover:bg-[#FFF8ED] hover:text-[#151311]"><span className="font-mono text-[9px] font-black">{CATEGORY_NUMBERS[category.id]}</span><span><strong className="block text-sm">{category.title[lang]}</strong><span className="mt-1 block font-mono text-[8px] font-black uppercase tracking-[.12em] opacity-65">{category.short[lang]}</span></span></a>)}
+          </div>
         </div>
       </section>
 
       <section id="categories" className="scroll-mt-20 px-5 py-16 sm:px-8 sm:py-24 lg:py-28">
         <div className="editorial-shell">
           <div className="mb-12 grid gap-6 border-y border-[#151311] py-6 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
-            <div><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.categoriesKicker}</p><h2 className="mt-4 text-[clamp(3.4rem,8vw,7.5rem)] font-semibold leading-[.78] tracking-[-.075em]">{t.categoriesTitle}</h2></div>
+            <div><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.categoriesKicker}</p><h2 className="mt-4 text-[clamp(3rem,6.5vw,6rem)] font-semibold leading-[.84] tracking-[-.07em]">{t.categoriesTitle}</h2></div>
             <p className="max-w-2xl text-[16px] font-medium leading-8 text-[#4E483F] lg:pb-2">{t.categoriesLead}</p>
           </div>
           <div className="grid gap-10 lg:grid-cols-[300px_minmax(0,1fr)] lg:items-start xl:grid-cols-[340px_minmax(0,1fr)] xl:gap-16">
@@ -564,23 +579,23 @@ export function UnitalkStoreHub() {
             <div id="marketplace-results" className="min-w-0 scroll-mt-24">
               <div className="border-b-4 border-[#151311] pb-8">
                 <div className="flex items-start justify-between gap-5"><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{activeCategory.short[lang]} / {String(STORE_CATEGORIES.findIndex((category) => category.id === activeCategory.id) + 1).padStart(2, '0')}</p><p className="font-mono text-[9px] font-black uppercase tracking-[.15em] text-[#766D61]">{filteredItems.length} {t.items}</p></div>
-                <h2 className="mt-5 max-w-4xl text-[clamp(3.8rem,9vw,8.5rem)] font-semibold leading-[.76] tracking-[-.08em]">{activeCategory.title[lang]}</h2>
+                <h2 className="mt-5 max-w-4xl text-[clamp(3.4rem,7vw,6.8rem)] font-semibold leading-[.8] tracking-[-.075em]">{activeCategory.title[lang]}</h2>
                 <p className="mt-7 max-w-4xl text-[clamp(1.45rem,3vw,2.7rem)] font-semibold leading-[1.02] tracking-[-.045em] text-[#D10E63]">{activeCategory.statement[lang]}</p>
                 <div className="mt-8 flex flex-col gap-5 border-t border-[#151311] pt-5 sm:flex-row sm:items-start sm:justify-between"><p className="max-w-xl text-[15px] leading-7 text-[#4E483F]">{activeCategory.description[lang]}</p><Link href={activeCategory.href} className="group inline-flex min-h-11 shrink-0 items-center gap-2 border-b border-[#151311] text-xs font-black uppercase tracking-[.1em] hover:border-[#D10E63] hover:text-[#B00C54]">{t.understand}<ArrowUpRight className="size-4" /></Link></div>
                 </div>
               {categoryItems.length > 0 && <label className="relative mt-6 block"><span className="sr-only">{t.search}</span><Search aria-hidden="true" className="absolute left-0 top-1/2 size-5 -translate-y-1/2 text-[#151311]" /><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-14 w-full border-b border-[#151311] bg-transparent pl-8 pr-12 font-mono text-xs font-bold uppercase tracking-[.08em] outline-none transition placeholder:text-[#766D61] focus:border-b-4 focus:border-[#D10E63]" />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={lang === 'fr' ? 'Effacer la recherche' : 'Clear search'} className="absolute right-0 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center border border-[#151311] hover:bg-[#151311] hover:text-white"><X className="size-4" /></button>}</label>}
-              {visibleItems.length > 0 ? <div className="mt-8 grid auto-rows-fr border-l border-t border-[#151311] md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} index={index} />)}</div> : categoryItems.length > 0 ? <div className="mt-8 border border-dashed border-[#151311] p-10 text-center"><Search className="mx-auto size-6" /><h3 className="mt-5 text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{lang === 'fr' ? 'Effacer la recherche' : 'Clear search'}</button></div> : <div className="mt-8 border border-[#151311] bg-[#FFF8ED] p-8"><UnitalkLogo size={32} activeSegment={0} inactiveColor="#C9BFB0" /><h3 className="mt-6 text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
+              {visibleItems.length > 0 ? <div className="mt-8 grid auto-rows-fr border-l border-t border-[#151311] md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} index={index} category={activeCategory} />)}</div> : categoryItems.length > 0 ? <div className="mt-8 border border-dashed border-[#151311] p-10 text-center"><Search className="mx-auto size-6" /><h3 className="mt-5 text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{lang === 'fr' ? 'Effacer la recherche' : 'Clear search'}</button></div> : <div className="mt-8 border border-[#151311] bg-[#FFF8ED] p-8"><UnitalkLogo size={32} activeSegment={0} inactiveColor="#C9BFB0" /><h3 className="mt-6 text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
               {filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-[#151311] bg-[#C8FF36] px-5 py-16 text-[#151311] sm:px-8 sm:py-20">
+      <section className="border-y border-[#151311] bg-[#E6DED0] px-5 py-16 text-[#151311] sm:px-8 sm:py-20">
         <div className="editorial-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="font-mono text-[10px] font-black uppercase tracking-[.2em]">{lang === 'fr' ? 'Contre le savoir captif' : 'Against captive knowledge'}</p>
-            <h2 className="mt-5 max-w-5xl text-[clamp(3rem,7vw,7rem)] font-semibold leading-[.82] tracking-[-.07em]">{t.contribute}</h2>
+            <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{lang === 'fr' ? 'Catalogue ouvert' : 'Open catalog'}</p>
+            <h2 className="mt-5 max-w-5xl text-[clamp(3rem,6vw,6rem)] font-semibold leading-[.84] tracking-[-.07em]">{t.contribute}</h2>
             <p className="mt-7 max-w-3xl text-[16px] font-medium leading-8">{t.contributeBody}</p>
           </div>
           <Link href="/co-createur-ia" className="inline-flex min-h-14 items-center justify-center border-2 border-[#151311] bg-[#151311] px-6 text-xs font-black uppercase tracking-[.12em] text-white shadow-[8px_8px_0_#D10E63] transition-transform hover:-translate-y-1">{t.contributeCta}<ArrowRight className="ml-3 size-4" /></Link>
@@ -590,19 +605,19 @@ export function UnitalkStoreHub() {
   )
 }
 
-function MarketplaceItemCard({ item, lang, index }: { item: MarketplaceItem; lang: Lang; index: number }) {
+function MarketplaceItemCard({ item, lang, index, category }: { item: MarketplaceItem; lang: Lang; index: number; category: Category }) {
   const content = (
     <>
       <div className="flex items-start justify-between gap-4">
         {item.image ? <Image src={item.image} alt="" width={64} height={64} className="size-16 object-cover grayscale transition duration-300 group-hover:grayscale-0" /> : <span className="flex size-14 items-center justify-center border border-[#151311] bg-[#F0EBDD]"><UnitalkLogo size={28} activeSegment={index % 4} inactiveColor="#B8AE9D" /></span>}
         <span className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#766D61]">{String(index + 1).padStart(2, '0')} / {item.origin ?? 'Unitalk'}</span>
       </div>
-      <p className="mt-8 line-clamp-2 font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#B00C54]">{item.meta}</p>
+      <p className="mt-8 line-clamp-2 font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#B00C54]">{category.short[lang]} · {item.meta}</p>
       <h3 className="mt-3 text-2xl font-semibold leading-[1.02] tracking-[-.045em]">{item.title}</h3>
       <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#625B50]">{item.description}</p>
       <div className="mt-auto flex items-center justify-between pt-6">
-        {item.pending && <span className="border border-[#151311] px-2.5 py-1 font-mono text-[8px] font-black uppercase tracking-[.1em]">{lang === 'fr' ? 'En préparation' : 'In preparation'}</span>}
-        {item.href && <span className="ml-auto flex size-10 items-center justify-center border border-[#151311] bg-[#151311] text-white transition group-hover:bg-[#D10E63]"><ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" /></span>}
+        <span className="font-mono text-[8px] font-black uppercase tracking-[.1em] text-[#625B50]">{item.status?.[lang] ?? (item.pending ? (lang === 'fr' ? 'En préparation' : 'In preparation') : (lang === 'fr' ? 'Disponible' : 'Available'))}</span>
+        {item.href && <span className="ml-auto inline-flex min-h-10 items-center gap-2 border border-[#151311] bg-[#151311] px-3 text-[10px] font-black uppercase tracking-[.08em] text-white transition group-hover:bg-[#D10E63]">{lang === 'fr' ? 'Voir' : 'View'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></span>}
       </div>
     </>
   )

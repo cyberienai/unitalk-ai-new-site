@@ -55,6 +55,7 @@ export type OnboardingState = {
   profile: { fr: string; en: string }
   // The chosen first name of the first AI Collaborator ('' until named).
   collaboratorName: string
+  collaboratorTemplateSlug?: string
 }
 
 // The one example surfaced on the Mission step (concrete, not decorative).

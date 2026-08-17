@@ -24,6 +24,7 @@ export default async function WorkspacePage() {
     missionTitle: onboarding.mission.title,
     collaboratorName: onboarding.collaboratorName,
     profile: onboarding.profile,
+    collaboratorTemplateSlug: onboarding.collaboratorTemplateSlug,
   } : undefined
   return <><Navbar /><WorkspaceFinalContent onboarding={workspace} /><SiteFooter /></>
 }

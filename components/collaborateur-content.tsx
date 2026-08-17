@@ -24,7 +24,7 @@ const COPY = {
     createCommercial: 'Créer mon Collaborateur IA commercial',
     proofs: [
       ['Identité IA', 'Choisissez son prénom, son visage et sa voix.'],
-      ['Place dans votre organisation', 'Affectez-le à une personne, une équipe, un département ou à toute l’entreprise.'],
+      ['Place dans votre organisation', 'Affectez cette identité à une personne, une équipe, un département ou à toute l’entreprise.'],
       ['Propriété de l’entreprise', 'Identité, mémoire et savoir-faire restent chez vous.'],
       ['Profils et compétences', 'Ajoutez-en sans recréer son identité.'],
     ],
