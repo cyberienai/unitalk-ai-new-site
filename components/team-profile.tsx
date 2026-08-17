@@ -183,7 +183,7 @@ export function TeamProfile({ slug }: { slug: string }) {
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-[#6B6560]">{t.pageBody(detail.name)}</p>
                 <Link
-                  href={`/collaborateurs/${slug}`}
+                  href={`/@${slug}`}
                   className="mt-3 inline-flex items-center gap-1.5 text-sm font-bold text-[#D10E63] transition-[gap] hover:gap-2.5"
                 >
                   {t.pageCta(detail.name)}

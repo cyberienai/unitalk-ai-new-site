@@ -5,10 +5,13 @@ const flow = readFileSync(new URL('../components/collaborator-equipment-flow.tsx
 const model = readFileSync(new URL('../lib/collaborator-equipment.ts', import.meta.url), 'utf8')
 const profile = readFileSync(new URL('../components/collaborateur-content.tsx', import.meta.url), 'utf8')
 
-describe('collaborator equipment simulation', () => {
-  it('lets Alma propose all governed resource types', () => {
-    for (const label of ['Mission', 'Profil métier', 'Compétences', 'Applications compatibles', 'Validations privées']) expect(flow).toContain(label)
-    expect(flow).toContain('Vérifier et installer')
+describe('collaborator Alma personalization', () => {
+  it('starts from a real mission without simulating installation', () => {
+    expect(flow).toContain('Quelle mission voulez-vous confier à')
+    expect(flow).toContain('Préparer la mission')
+    expect(flow).toContain('/missions?composer=1&collaborateur=')
+    expect(flow).not.toContain('Vérifier et installer')
+    expect(flow).not.toContain('Brouillon installé')
   })
 
   it('keeps sensitive resources private by default', () => {
@@ -16,8 +19,7 @@ describe('collaborator equipment simulation', () => {
     expect(model).toContain("approvals: ['Validation humaine avant chaque premier envoi'")
   })
 
-  it('previews only resources explicitly marked public', () => {
-    expect(profile).toContain("filter((item) => item.visibility === 'public')")
-    expect(profile).toContain('les validations, la mémoire, les données et les accès restent privés')
+  it('explains governed identity, applications, models and continuity', () => {
+    for (const claim of ['Identité IA', 'Communication', 'Exécution privée', 'Droits propres', 'Plus de 3 000 connecteurs', 'AI Gateway', 'Supervision humaine réattribuable']) expect(profile).toContain(claim)
   })
 })

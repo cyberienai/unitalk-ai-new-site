@@ -1,360 +1,82 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { ArrowRight, ArrowUpRight, Layers, Sparkles, Wrench, Plug, Brain } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRight, Bot, Building2, Check, Mail, Plug, Server, ShieldCheck, UserRound } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
+import { useState } from 'react'
 import type { CollaboratorPage } from '@/lib/collaborator-pages'
 import { CollaboratorEquipmentFlow } from '@/components/collaborator-equipment-flow'
-import { loadEquipmentDraft, type CollaboratorEquipmentDraft } from '@/lib/collaborator-equipment'
+import { Kicker } from '@/components/home/section-kicker'
 
 const COPY = {
   fr: {
-    kicker: (name: string) => `Rencontrez ${name}`,
-    available: 'En poste',
-    recruit: (name: string) => `Recruter ${name}`,
-    seeProfile: 'Voir son profil',
-    equip: (name: string) => `Équiper ${name} avec Alma`,
-    // Missions section
-    missionsTitle: (name: string) => `Ce que ${name} prend en charge`,
-    missionsLead:
-      'Des missions concrètes, prêtes à confier. Choisissez-en une : Alma précise avec vous le résultat attendu.',
-    missionCta: 'Confier cette mission',
-    allMissions: 'Voir toutes les missions',
-    // Savoir-faire section
-    knowTitle: (name: string) => `Le savoir-faire de ${name}`,
-    knowLead:
-      'Un profil métier de départ, des compétences et des applications. Ce savoir-faire s’enrichit mission après mission, jamais figé.',
-    profileLabel: 'Profil métier',
-    skillsLabel: 'Compétences',
-    appsLabel: 'Applications connectées',
-    accrue:
-      'Chaque mission accomplie ajoute une compétence, un accès ou une connaissance. Alma prépare ces ajouts ; vous validez.',
-    // Team section
-    teamTitle: 'D’un Collaborateur à une équipe',
-    teamBody:
-      'Commencez avec un Collaborateur. Ajoutez-en d’autres quand le besoin le justifie. Ensemble, ils forment votre force de travail IA.',
-    ladder: ['Collaborateur IA', 'Équipe IA', 'Force de travail IA'],
-    pairLabel: (name: string) => `${name} travaille en binôme avec`,
-    teamCta: 'Construire mon entreprise',
+    publicProfile: 'Hugo · Collaborateur IA commercial',
+    missionCta: (name: string) => `Confier une mission à ${name}`,
+    customize: 'Personnaliser avec Alma',
+    proofKicker: 'Mission commerciale · Démonstration illustrative',
+    proofTitle: 'Hugo prépare la prospection. Votre équipe garde la décision.',
+    proofLead: 'Il recherche et qualifie selon vos critères, prépare le CRM et s’arrête avant le premier contact tant que votre équipe n’a pas validé.',
+    decision: 'Décision requise', approve: 'Approuver', modify: 'Modifier', decline: 'Refuser',
+    identityKicker: 'Une identité professionnelle', identityTitle: 'Hugo travaille avec sa propre identité et ses propres accès.',
+    organizationKicker: 'Une identité qui appartient à l’entreprise', organizationTitle: 'Le responsable peut changer. Le Collaborateur IA et le savoir-faire restent.',
+    organizationBody: 'Le Collaborateur IA personnalisé pour votre organisation appartient à votre entreprise, pas à la plateforme Unitalk ni au compte personnel de son responsable. Si ce responsable change de rôle ou quitte l’entreprise, celle-ci peut réattribuer sa supervision sans recréer son identité, ses compétences ni les méthodes validées.',
+    missionsTitle: 'Missions commerciales prêtes à personnaliser', allMissions: 'Voir toutes les missions Ventes',
+    appsTitle: 'Hugo travaille dans votre environnement commercial.', appsBody: 'HubSpot, Salesforce, LinkedIn, Gmail, Outlook et vos agendas sont attribués selon vos droits. Plus de 3 000 connecteurs peuvent être disponibles selon la configuration.',
+    modelsTitle: 'Le modèle adapté à chaque tâche, sous vos règles.', modelsBody: 'Hugo utilise uniquement les modèles autorisés par votre entreprise, dans les limites du budget défini.',
+    continuity: ['Identité appartenant à l’entreprise', 'Supervision humaine réattribuable', 'Méthodes et compétences conservées', 'Accès révocables séparément'],
+    finalTitle: 'Quelle première mission allez-vous confier à votre Collaborateur IA commercial ?', finalCta: 'Commencer avec Alma', pricing: 'Voir les tarifs',
   },
   en: {
-    kicker: (name: string) => `Meet ${name}`,
-    available: 'On the job',
-    recruit: (name: string) => `Recruit ${name}`,
-    seeProfile: 'See profile',
-    equip: (name: string) => `Equip ${name} with Alma`,
-    missionsTitle: (name: string) => `What ${name} takes on`,
-    missionsLead:
-      'Concrete missions, ready to hand over. Pick one: Alma clarifies the expected outcome with you.',
-    missionCta: 'Hand over this mission',
-    allMissions: 'See all missions',
-    knowTitle: (name: string) => `${name}’s know-how`,
-    knowLead:
-      'A starting job profile, skills and applications. This know-how grows mission after mission — never fixed.',
-    profileLabel: 'Job profile',
-    skillsLabel: 'Skills',
-    appsLabel: 'Connected apps',
-    accrue:
-      'Every completed mission adds a skill, an access or a piece of knowledge. Alma prepares these additions; you approve them.',
-    teamTitle: 'From one Collaborator to a team',
-    teamBody:
-      'Start with one Collaborator. Add more when the need justifies it. Together they form your AI workforce.',
-    ladder: ['AI Collaborator', 'AI Team', 'AI Workforce'],
-    pairLabel: (name: string) => `${name} pairs with`,
-    teamCta: 'Build my organization',
+    publicProfile: 'Hugo · Sales AI Collaborator',
+    missionCta: (name: string) => `Assign a mission to ${name}`,
+    customize: 'Customize with Alma',
+    proofKicker: 'Sales mission · Illustrative demonstration',
+    proofTitle: 'Hugo prepares prospecting. Your team keeps the decision.',
+    proofLead: 'He researches and qualifies under your criteria, prepares the CRM and stops before first contact until your team approves.',
+    decision: 'Decision required', approve: 'Approve', modify: 'Amend', decline: 'Decline',
+    identityKicker: 'A professional identity', identityTitle: 'Hugo works with his own identity and access.',
+    organizationKicker: 'An identity owned by the organization', organizationTitle: 'The supervisor can change. Hugo and the know-how remain.',
+    organizationBody: 'Hugo belongs to the organization that deploys him, never to Unitalk or to his supervisor’s personal account. If that supervisor changes roles or leaves, the organization can reassign supervision without recreating Hugo, his skills or approved methods.',
+    missionsTitle: 'Sales missions ready to customize', allMissions: 'View all Sales missions',
+    appsTitle: 'Hugo works in your sales environment.', appsBody: 'HubSpot, Salesforce, LinkedIn, Gmail, Outlook and calendars are assigned under your permissions. More than 3,000 connectors may be available depending on setup.',
+    modelsTitle: 'The right model for each task, under your rules.', modelsBody: 'Hugo only uses models authorized by your organization, within the defined budget.',
+    continuity: ['Identity owned by the organization', 'Human supervision can be reassigned', 'Methods and skills retained', 'Access revoked separately'],
+    finalTitle: 'What first mission will you assign to your Sales AI Collaborator?', finalCta: 'Start with Alma', pricing: 'View pricing',
   },
 } as const
 
-const enter = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-80px' },
-  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
-})
-
-export function CollaborateurContent({ page, equipmentId }: { page: CollaboratorPage; equipmentId?: string }) {
+export function CollaborateurContent({ page }: { page: CollaboratorPage; equipmentId?: string }) {
   const { lang } = useLanguage()
   const t = COPY[lang]
-  const { detail, copy, missions } = page
-  const { name, avatar, company } = detail
-  const [publicEquipment, setPublicEquipment] = useState<CollaboratorEquipmentDraft | null>(() => equipmentId ? loadEquipmentDraft(equipmentId) : null)
+  const { detail, missions } = page
+  const name = detail.name
+  const missionHref = `/missions?composer=1&collaborateur=${encodeURIComponent(detail.slug)}&source=collaborator-profile`
+  const [decision, setDecision] = useState<'approved' | 'modified' | 'declined' | null>(null)
+  const outcome = decision === 'approved' ? (lang === 'fr' ? 'Hugo prépare les premiers contacts autorisés.' : 'Hugo prepares the authorized first contacts.') : decision === 'modified' ? (lang === 'fr' ? 'Hugo reprend la sélection avec vos nouveaux critères.' : 'Hugo revises the selection under your new criteria.') : decision === 'declined' ? (lang === 'fr' ? 'Aucun contact n’est préparé. La sélection reste disponible.' : 'No contact is prepared. The selection remains available.') : null
 
-  useEffect(() => {
-    if (!equipmentId) return
-    const id = window.setTimeout(() => setPublicEquipment(loadEquipmentDraft(equipmentId)), 0)
-    return () => window.clearTimeout(id)
-  }, [equipmentId])
-
-  // Role label handles Emma's inline form ("Assistante de <manager>").
-  const roleLabel = detail.roleInline
-    ? `${detail.role[lang]} ${detail.manager.name}`
-    : detail.role[lang]
-
-  return (
-    <main className="bg-[#F3EFE6] text-[#1C1A17]">
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
-          <div>
-            <motion.p
-              {...enter(0)}
-              className="mb-5 font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D10E63]"
-            >
-              {t.kicker(name)}
-            </motion.p>
-            <motion.h1
-              {...enter(0.06)}
-              className="text-balance text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl"
-            >
-              {copy.claim[lang]}
-            </motion.h1>
-            <motion.p {...enter(0.12)} className="mt-4 text-base font-semibold text-[#D10E63] sm:text-lg">
-              {roleLabel} · {detail.department[lang]}
-            </motion.p>
-            <motion.p {...enter(0.18)} className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-[#4E483F] sm:text-lg">
-              {copy.body[lang]}
-            </motion.p>
-            <motion.div {...enter(0.24)} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href="#equiper"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
-              >
-                {t.equip(name)}
-                <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href={`/@${detail.slug}`}
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#D8D0C2] bg-[#FBF9F3] px-7 text-sm font-semibold text-[#1C1A17] transition-colors hover:border-[#B9AF9C]"
-              >
-                {t.seeProfile}
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Portrait card */}
-          <motion.div {...enter(0.2)} className="relative mx-auto w-full max-w-sm">
-            <div className="premium-shadow overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#FBF9F3]">
-              <div className="relative aspect-[4/5] w-full overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={avatar || '/placeholder.svg'}
-                  alt={lang === 'fr' ? `${name}, Collaborateur IA` : `${name}, AI Collaborator`}
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-[#FBF9F3]/90 px-3 py-1 text-[11px] font-semibold text-[#1C1A17] backdrop-blur">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#22A06B] opacity-70" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#22A06B]" />
-                  </span>
-                  {t.available}
-                </div>
-              </div>
-              <div className="flex items-center justify-between px-5 py-4">
-                <div>
-                  <p className="text-base font-bold text-[#1C1A17]">{name}</p>
-                  <p className="text-xs text-[#D10E63]">{detail.department[lang]}</p>
-                </div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9A9284]">{company}</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {publicEquipment && <PublicEquipmentPreview draft={publicEquipment} />}
-
-      <CollaboratorEquipmentFlow detail={detail} />
-
-      {/* Missions — the specialization made tangible */}
-      {missions.length > 0 && (
-        <section className="border-t border-[#E1DACB] bg-[#FBF9F3] py-20 sm:py-24">
-          <div className="mx-auto max-w-5xl px-5 sm:px-8">
-            <div className="max-w-2xl">
-              <motion.h2 {...enter(0)} className="text-balance text-3xl font-bold leading-tight sm:text-4xl">
-                {t.missionsTitle(name)}
-              </motion.h2>
-              <motion.p {...enter(0.08)} className="mt-4 text-pretty text-base leading-relaxed text-[#4E483F] sm:text-lg">
-                {t.missionsLead}
-              </motion.p>
-            </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              {missions.map((m, i) => (
-                <motion.a
-                  key={m.slug}
-                  {...enter(0.1 + i * 0.06)}
-                  href={`/missions?q=${encodeURIComponent(m.objective[lang])}`}
-                  className="group flex flex-col gap-3 rounded-2xl border border-[#D8D0C2] bg-[#F3EFE6] p-6 transition-colors hover:border-[#D10E63]/40"
-                >
-                  <h3 className="text-lg font-bold leading-snug text-[#1C1A17]">{m.title[lang]}</h3>
-                  <p className="text-sm leading-relaxed text-[#4E483F]">{m.objective[lang]}</p>
-                  <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-[#AD0C53]">
-                    {t.missionCta}
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </motion.a>
-              ))}
-            </div>
-            <motion.div {...enter(0.2)} className="mt-8">
-              <a
-                href="/missions"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1C1A17] underline decoration-[#D8D0C2] underline-offset-4 transition-colors hover:decoration-[#D10E63]"
-              >
-                {t.allMissions}
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
-      {/* Savoir-faire — profile + skills + apps, with the accumulation narrative */}
-      <section className="py-20 sm:py-24">
-        <div className="mx-auto max-w-5xl px-5 sm:px-8">
-          <div className="max-w-2xl">
-            <motion.h2 {...enter(0)} className="text-balance text-3xl font-bold leading-tight sm:text-4xl">
-              {t.knowTitle(name)}
-            </motion.h2>
-            <motion.p {...enter(0.08)} className="mt-4 text-pretty text-base leading-relaxed text-[#4E483F] sm:text-lg">
-              {t.knowLead}
-            </motion.p>
-          </div>
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-3">
-            {/* Profil métier */}
-            <motion.div {...enter(0.1)} className="rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#D10E63]/[0.08] text-[#D10E63]">
-                <Sparkles className="h-5 w-5" />
-              </span>
-              <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9A9284]">
-                {t.profileLabel}
-              </p>
-              <p className="mt-2 text-lg font-bold text-[#1C1A17]">{roleLabel}</p>
-              <p className="mt-2 text-sm leading-relaxed text-[#4E483F]">{detail.description[lang]}</p>
-            </motion.div>
-
-            {/* Compétences */}
-            <motion.div {...enter(0.16)} className="rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#D10E63]/[0.08] text-[#D10E63]">
-                <Wrench className="h-5 w-5" />
-              </span>
-              <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9A9284]">
-                {t.skillsLabel}
-              </p>
-              <ul className="mt-3 flex flex-col gap-2">
-                {detail.skills.map((s) => (
-                  <li key={s[lang]} className="flex items-start gap-2 text-sm leading-relaxed text-[#3B362F]">
-                    <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D10E63]" />
-                    {s[lang]}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Applications */}
-            <motion.div {...enter(0.22)} className="rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#D10E63]/[0.08] text-[#D10E63]">
-                <Plug className="h-5 w-5" />
-              </span>
-              <p className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9A9284]">
-                {t.appsLabel}
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {detail.tools.map((tool) => (
-                  <span
-                    key={tool}
-                    className="rounded-full border border-[#D8D0C2] bg-[#F3EFE6] px-3 py-1.5 text-sm font-medium text-[#1C1A17]"
-                  >
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          <motion.div
-            {...enter(0.28)}
-            className="mt-6 flex items-start gap-3 rounded-2xl border border-dashed border-[#D8D0C2] bg-[#FBF9F3] p-5"
-          >
-            <Brain className="mt-0.5 h-5 w-5 shrink-0 text-[#D10E63]" />
-            <p className="text-sm leading-relaxed text-[#4E483F]">{t.accrue}</p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* From one Collaborator to a team */}
-      <section className="border-t border-[#E1DACB] bg-[#1C1A17] py-20 text-[#FBF9F3] sm:py-24">
-        <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
-          <motion.h2 {...enter(0)} className="text-balance text-3xl font-bold leading-tight sm:text-4xl">
-            {t.teamTitle}
-          </motion.h2>
-          <motion.p {...enter(0.08)} className="mx-auto mt-4 max-w-xl text-pretty text-base leading-relaxed text-[#C9C3B8] sm:text-lg">
-            {t.teamBody}
-          </motion.p>
-
-          <div className="mx-auto mt-10 flex flex-col items-center gap-3">
-            {t.ladder.map((step, i) => (
-              <div key={step} className="flex flex-col items-center gap-3">
-                <motion.div
-                  {...enter(0.1 + i * 0.1)}
-                  className={`inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold ${
-                    i === t.ladder.length - 1
-                      ? 'bg-[#D10E63] text-[#FBF9F3]'
-                      : 'border border-[#3A3730] bg-[#26231E] text-[#FBF9F3]'
-                  }`}
-                >
-                  {i === t.ladder.length - 1 && <Layers className="h-4 w-4" />}
-                  {step}
-                </motion.div>
-                {i < t.ladder.length - 1 && (
-                  <motion.span {...enter(0.14 + i * 0.1)} className="text-[#6E665A]" aria-hidden="true">
-                    <svg width="18" height="22" viewBox="0 0 18 22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 2v18M3 14l6 6 6-6" />
-                    </svg>
-                  </motion.span>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Human pair bridge */}
-          <motion.p {...enter(0.34)} className="mt-10 text-sm text-[#C9C3B8]">
-            {t.pairLabel(name)}{' '}
-            <a
-              href={detail.managerHandle ? `/@${detail.managerHandle}` : '#'}
-              className="font-semibold text-[#FBF9F3] underline decoration-[#4E483F] underline-offset-4 transition-colors hover:decoration-[#D10E63]"
-            >
-              {detail.manager.name}
-            </a>{' '}
-            · {detail.manager.role[lang]}
-          </motion.p>
-
-          <motion.div {...enter(0.4)} className="mt-8">
-            <a
-              href="/decouvrir"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-8 text-sm font-bold text-[#FBF9F3] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1C1A17]"
-            >
-              {t.teamCta}
-              <ArrowRight className="h-4 w-4" />
-            </a>
-          </motion.div>
-        </div>
-      </section>
-    </main>
-  )
-}
-
-function PublicEquipmentPreview({ draft }: { draft: CollaboratorEquipmentDraft }) {
-  const publicItems = [draft.mission, draft.profile, ...draft.skills, ...draft.applications].filter((item) => item.visibility === 'public')
-  return (
-    <section id="equipement-public" className="scroll-mt-24 bg-[#181615] px-5 py-16 text-white sm:px-8 sm:py-20">
-      <div className="mx-auto max-w-5xl">
-        <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">Prévisualisation du profil public</p>
-        <div className="mt-5 grid gap-10 lg:grid-cols-[.72fr_1.28fr]">
-          <div><h2 className="font-sf text-[38px] font-semibold leading-[1.02] tracking-[-.05em]">Ce que les visiteurs peuvent voir.</h2><p className="mt-5 text-sm leading-7 text-[#CFC6B8]">Les applications réellement connectées, les validations, la mémoire, les données et les accès restent privés, même lorsqu’une compatibilité est publiée.</p></div>
-          <div className="grid gap-3 sm:grid-cols-2">{publicItems.map((item) => <article key={`${item.type}-${item.id}`} className="rounded-2xl border border-white/10 bg-white/[.04] p-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F2A4C5]">{item.type === 'mission' ? 'Mission' : item.type === 'profile' ? 'Profil métier' : item.type === 'skill' ? 'Compétence' : 'Application compatible'}</p><p className="mt-3 font-sf text-lg font-semibold">{item.label}</p></article>)}</div>
-        </div>
+  return <main className="bg-[#F3EFE6] text-[#1C1A17]">
+    <section className="relative overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-36">
+      <div aria-hidden className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"/>
+      <div className="editorial-shell relative grid gap-10 lg:grid-cols-[1fr_.72fr] lg:items-center">
+        <div><Kicker>{t.publicProfile}</Kicker><h1 className="mt-6 max-w-4xl text-[clamp(3.2rem,7vw,7rem)] font-semibold leading-[.88] tracking-[-.075em]">{name}</h1><p className="mt-4 text-xl font-semibold text-[#B00C54]">{detail.role[lang]}</p><h2 className="mt-7 max-w-3xl text-[clamp(1.8rem,3vw,2.8rem)] font-semibold leading-[1.05] tracking-[-.04em]">{lang === 'fr' ? 'Hugo trouve et qualifie vos prochains prospects.' : 'Hugo finds and qualifies your next prospects.'}</h2><p className="mt-5 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{lang === 'fr' ? 'Donnez-lui vos critères. Il recherche les entreprises, prépare les fiches CRM et organise les relances. Votre équipe valide le premier contact.' : 'Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.'}</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Link href={missionHref} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white">{t.missionCta(name)}<ArrowRight className="size-4"/></Link><a href="#equiper" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-7 text-sm font-bold">{lang === 'fr' ? 'Personnaliser Hugo avec Alma' : 'Customize Hugo with Alma'}</a></div><p className="mt-7 text-sm font-semibold text-[#625B50]">{lang === 'fr' ? 'Exemple public · Supervisé par votre directeur commercial' : 'Public example · Supervised by your sales director'}</p></div>
+        <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#FAF8F3] shadow-[0_30px_75px_-45px_rgba(28,26,23,.6)]"><div className="relative aspect-[4/5]"><Image src={detail.avatar} alt={`${name}, ${detail.role[lang]}`} fill priority sizes="(max-width:1024px) 90vw, 360px" className="object-cover"/></div><div className="flex items-center justify-between p-5"><div><p className="font-semibold">@{detail.slug}</p><p className="mt-1 text-xs text-[#625B50]">{lang === 'fr' ? 'Nature IA explicite' : 'Explicit AI identity'}</p></div><span className="rounded-full bg-[#D10E63]/10 px-3 py-1 text-xs font-bold text-[#B00C54]">{detail.department[lang]}</span></div></div>
       </div>
     </section>
-  )
+
+    <section id="mission-en-action" className="scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"><div className="editorial-shell grid gap-10 lg:grid-cols-[.78fr_1.22fr] lg:items-center"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.proofKicker}</p><h2 className="mt-5 text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]">{t.proofTitle}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-[#4E483F]">{t.proofLead}</p></div><article className="overflow-hidden rounded-[24px] border border-[#D8D0C2] bg-white"><div className="border-b border-[#E8E0D3] p-5"><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Mission VTE-018 · Exemple illustratif sur 34 entreprises' : 'Mission SLS-018 · Illustrative example using 34 companies'}</p><h3 className="mt-2 text-xl font-semibold">{lang === 'fr' ? 'Qualifier les nouveaux prospects' : 'Qualify new prospects'}</h3></div><ol className="space-y-4 p-5 text-sm"><Activity time="09:05">{lang === 'fr' ? '34 entreprises examinées selon les critères configurés.' : '34 companies reviewed under configured criteria.'}</Activity><Activity time="09:12">{lang === 'fr' ? '9 correspondent au segment cible.' : '9 match the target segment.'}</Activity><Activity time="09:18">{lang === 'fr' ? 'Fiches CRM et messages préparés. Aucun contact envoyé.' : 'CRM records and messages prepared. No contact sent.'}</Activity></ol><div className="m-5 mt-0 rounded-2xl border border-[#E0CFAE] bg-[#FFF7E6] p-4"><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#9A6B1E]">{t.decision}</p><p className="mt-2 text-sm font-semibold">{lang === 'fr' ? 'Autoriser la préparation du premier contact ?' : 'Authorize first-contact preparation?'}</p><div className="mt-4 flex flex-wrap gap-2"><Decision primary onClick={() => setDecision('approved')}>{t.approve}</Decision><Decision onClick={() => setDecision('modified')}>{t.modify}</Decision><Decision onClick={() => setDecision('declined')}>{t.decline}</Decision></div>{outcome && <p role="status" className="mt-4 rounded-xl bg-white p-3 text-sm font-semibold text-[#4E483F]">{outcome}</p>}</div></article></div></section>
+
+    <CollaboratorEquipmentFlow detail={detail}/>
+
+    <section className="py-16 sm:py-20"><div className="editorial-shell"><Kicker>{t.identityKicker}</Kicker><h2 className="mt-5 max-w-4xl text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]">{t.identityTitle}</h2><div className="mt-10 grid gap-px overflow-hidden rounded-[2rem] border border-[#D8D0C2] bg-[#D8D0C2] sm:grid-cols-2 lg:grid-cols-4"><Foundation icon={UserRound} title={lang === 'fr' ? 'Identité IA' : 'AI identity'} body={lang === 'fr' ? 'Prénom, avatar, nature IA explicite et profil public.' : 'Name, avatar, explicit AI nature and public profile.'}/><Foundation icon={Mail} title={lang === 'fr' ? 'Communication' : 'Communication'} body={lang === 'fr' ? 'E-mail, calendrier, messageries et téléphone si activé.' : 'Email, calendar, messaging and phone when enabled.'}/><Foundation icon={Server} title={lang === 'fr' ? 'Exécution privée' : 'Private execution'} body={lang === 'fr' ? 'Agent Hermes, mémoire propre, fichiers et environnement isolé.' : 'Hermes Agent, own memory, files and isolated environment.'}/><Foundation icon={ShieldCheck} title={lang === 'fr' ? 'Droits propres' : 'Own permissions'} body={lang === 'fr' ? 'Sources, actions, budgets et validations attribués séparément.' : 'Sources, actions, budgets and approvals assigned separately.'}/></div><div className="mt-5 grid gap-5 lg:grid-cols-2"><Link href="/collaborateurs-ia/applications" className="group rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6"><Plug className="size-5 text-[#D10E63]"/><h3 className="mt-7 text-2xl font-semibold">{t.appsTitle}</h3><p className="mt-4 text-sm leading-7 text-[#625B50]">{t.appsBody}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang === 'fr' ? 'Voir les applications' : 'View applications'}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link><Link href="/ai-gateway" className="group rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6"><Bot className="size-5 text-[#D10E63]"/><h3 className="mt-7 text-2xl font-semibold">{t.modelsTitle}</h3><p className="mt-4 text-sm leading-7 text-[#625B50]">{t.modelsBody}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">AI Gateway<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link></div></div></section>
+
+    <section className="bg-[#EAE3D4] py-16 sm:py-20"><div className="editorial-shell grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center"><div><Kicker>{t.organizationKicker}</Kicker><h2 className="mt-5 text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]">{t.organizationTitle}</h2><p className="mt-6 max-w-xl text-[16px] leading-8 text-[#4E483F]">{t.organizationBody}</p></div><article className="rounded-[28px] border border-[#CFC5B5] bg-[#FAF8F3] p-6 sm:p-8"><div className="flex items-center gap-4 border-b border-[#DED6C8] pb-6"><Building2 className="size-10 rounded-full bg-[#D10E63]/10 p-2.5 text-[#B00C54]"/><div><p className="text-lg font-semibold">{lang === 'fr' ? 'Votre entreprise' : 'Your organization'}</p><p className="text-sm text-[#625B50]">{lang === 'fr' ? 'Propriétaire de l’identité IA et du savoir-faire validé' : 'Owner of the AI identity and approved know-how'}</p></div></div><ul className="mt-6 grid gap-4 sm:grid-cols-2">{t.continuity.map(item => <li key={item} className="flex gap-3 text-sm font-semibold"><Check className="mt-0.5 size-4 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></article></div></section>
+
+    {missions.length > 0 && <section id="missions" className="scroll-mt-24 py-16 sm:py-20"><div className="editorial-shell"><h2 className="max-w-3xl text-[clamp(2.2rem,4vw,4rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.missionsTitle}</h2><div className="mt-8 grid gap-4 md:grid-cols-2">{missions.slice(0,4).map(mission => <Link key={mission.slug} href={`/missions/${mission.slug}`} className="group rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-5"><h3 className="text-lg font-semibold">{mission.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{mission.objective[lang]}</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang === 'fr' ? 'Personnaliser' : 'Customize'}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link>)}</div><Link href={`/missions?categorie=${encodeURIComponent(detail.department.fr.toLowerCase())}`} className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.allMissions}<ArrowRight className="size-4"/></Link></div></section>}
+    <section className="bg-[#D10E63] py-16 text-white sm:py-20"><div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end"><h2 className="max-w-4xl text-[clamp(2.6rem,5vw,5.2rem)] font-semibold leading-[.92] tracking-[-.065em]">{t.finalTitle}</h2><div className="flex min-w-60 flex-col gap-3"><a href="#equiper" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a><Link href="/tarifs" className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4">{t.pricing}</Link></div></div></section>
+  </main>
 }
+
+function Activity({ time, children }: { time: string; children: React.ReactNode }) { return <li className="flex gap-4"><span className="font-mono text-xs text-[#857C6E]">{time}</span><span>{children}</span></li> }
+function Decision({ children, primary = false, onClick }: { children: React.ReactNode; primary?: boolean; onClick: () => void }) { return <button type="button" onClick={onClick} className={`min-h-11 rounded-full px-5 text-xs font-bold ${primary ? 'bg-[#D10E63] text-white' : 'border border-[#D8D0C2] bg-white'}`}>{children}</button> }
+function Foundation({ icon: Icon, title, body }: { icon: typeof UserRound; title: string; body: string }) { return <article className="bg-[#FAF8F3] p-6"><Icon className="size-5 text-[#D10E63]"/><h3 className="mt-9 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{body}</p></article> }

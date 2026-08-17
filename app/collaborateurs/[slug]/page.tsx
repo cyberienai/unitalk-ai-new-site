@@ -8,7 +8,7 @@ import { getCollaboratorPage, COLLABORATOR_PAGE_SLUGS } from '@/lib/collaborator
 const SITE_URL = 'https://unitalk.ai'
 
 export function generateStaticParams() {
-  return COLLABORATOR_PAGE_SLUGS.map((slug) => ({ slug }))
+  return COLLABORATOR_PAGE_SLUGS.filter((slug) => slug !== 'hugo').map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({
@@ -17,6 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+  if (slug === 'hugo') return { title: 'Page introuvable', robots: { index: false, follow: false } }
   const page = getCollaboratorPage(slug)
   if (!page) return { title: 'Collaborateur IA' }
 
@@ -48,6 +49,7 @@ export default async function CollaborateurPage({
   searchParams: Promise<{ equipment?: string }>
 }) {
   const { slug } = await params
+  if (slug === 'hugo') notFound()
   const query = await searchParams
   const page = getCollaboratorPage(slug)
   if (!page) notFound()

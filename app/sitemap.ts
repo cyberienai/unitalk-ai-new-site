@@ -93,7 +93,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Incarnated Collaborateur IA landing pages (/collaborateurs/[slug]).
   const collaboratorEntries: MetadataRoute.Sitemap = COLLABORATOR_PAGE_SLUGS.map((slug) => ({
-    url: `${SITE_URL}/collaborateurs/${slug}`,
+    url: `${SITE_URL}/@${slug}`,
     lastModified: now,
     changeFrequency: 'monthly',
     priority: 0.7,

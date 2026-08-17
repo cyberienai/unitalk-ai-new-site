@@ -2,13 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, Search } from 'lucide-react'
+import { ArrowRight, Check, Search } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 import { useLanguage } from '@/lib/language-context'
 import { StoreCard } from '@/components/missions/store-card'
 import { AlmaFace } from '@/components/alma-face'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
 import { Kicker } from '@/components/home/section-kicker'
+import { getPreparedDemo } from '@/components/home/hero-hybrid'
 
 type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type SpeechRecognitionInstance = {
@@ -92,6 +93,7 @@ export function MissionsContent({
   const [query, setQuery] = useState(requestedQuery ?? '')
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [listening, setListening] = useState(false)
+  const [voiceSupported, setVoiceSupported] = useState(false)
   const [voiceError, setVoiceError] = useState('')
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const composerRef = useRef<HTMLTextAreaElement>(null)
@@ -99,6 +101,7 @@ export function MissionsContent({
   useEffect(() => {
     const SpeechRecognition = getSpeechRecognition()
     if (!SpeechRecognition) return
+    setVoiceSupported(true)
     const recognition = new SpeechRecognition()
     recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
     recognition.continuous = false
@@ -155,6 +158,7 @@ export function MissionsContent({
   }, [family, lang, query, requestedCategory])
 
   const visibleMissions = filteredMissions.slice(0, visibleCount)
+  const inputPreview = need.trim().length >= 20 ? getPreparedDemo(need.trim(), lang) : null
 
   function toggleListening() {
     const recognition = recognitionRef.current
@@ -213,7 +217,7 @@ export function MissionsContent({
               <a href="#mission-selection" className="group mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#D10E63] px-5 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.explore}<ArrowRight className="size-4 rotate-90 transition-transform group-hover:translate-y-0.5" /></a>
             </header>
 
-            <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} listening={listening} onToggleListening={toggleListening} voiceStartLabel={t.talk} voiceStopLabel={t.stop} error={voiceError} textareaRef={composerRef} />
+            <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceStartLabel={t.talk} voiceStopLabel={t.stop} error={voiceError} textareaRef={composerRef} previewVisible={Boolean(inputPreview)} compactMobile compactDesktop preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>} />
           </div>
 
         </div>
@@ -226,7 +230,7 @@ export function MissionsContent({
           </div>
 
           <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <label className="relative block w-full max-w-[260px]">
+            <label className="relative block w-full max-w-[220px]">
               <span className="sr-only">{t.search}</span>
               <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
               <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
@@ -296,13 +300,14 @@ const COPY = {
     eyebrow: 'Missions pour collaborateur IA',
     title: 'Quelle mission voulez-vous confier ?',
     heroA: 'Quelle mission', heroB: 'voulez-vous', heroC: 'confier ?',
-    lead: 'Décrivez le résultat attendu. Alma personnalise votre Collaborateur IA pour accomplir la mission.', explore: 'Voir des missions déjà cadrées',
-    almaRole: 'Coordinatrice de missions IA', composerTitle: 'Quel résultat voulez-vous obtenir ?', composerBody: 'Décrivez-le simplement. Alma prépare le Collaborateur IA adapté à la mission.',
-    placeholder: 'Ex. Qualifier mes nouveaux prospects chaque matin…',
+    lead: 'Décrivez le résultat attendu, le rythme et les contraintes. Alma transforme votre demande en mission prête à confier.', explore: 'Voir des missions déjà cadrées',
+    almaRole: 'Coordinatrice de missions IA Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
+    placeholder: 'Décrivez simplement le résultat attendu…',
     talk: 'Dicter ma mission', stop: 'Terminer', continue: 'Personnaliser mon Collaborateur IA',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
-    starters: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures'],
+    starters: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures', 'Construire mon calendrier éditorial', 'Organiser l’intégration d’un nouveau salarié'],
+    previewMission: 'Aperçu de mission', previewCollaborator: 'Exemple de profil adapté', previewReady: 'À confirmer avec vous',
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne. Votre description reste dans ce navigateur pendant la reprise.',
     catalogTitle: 'Ou partez d’une mission déjà cadrée',
     search: 'Rechercher dans les missions',
@@ -318,13 +323,14 @@ const COPY = {
     eyebrow: 'Missions / AI Collaborators',
     title: 'What mission would you like to assign?',
     heroA: 'What mission', heroB: 'would you like', heroC: 'to assign?',
-    lead: 'Describe the expected outcome. Alma customizes your AI Collaborator to carry out the mission.', explore: 'View already scoped missions',
-    almaRole: 'AI mission coordinator', composerTitle: 'What outcome do you want?', composerBody: 'Describe it simply. Alma prepares the right AI Collaborator for the mission.',
-    placeholder: 'E.g. Qualify my new prospects every morning…',
+    lead: 'Describe the expected outcome, pace and constraints. Alma turns your request into a mission ready to assign.', explore: 'View already scoped missions',
+    almaRole: 'Unitalk AI mission coordinator', composerTitle: 'What work would you like to assign to your AI Collaborator?', composerBody: '',
+    placeholder: 'Simply describe the expected outcome…',
     talk: 'Dictate my mission', stop: 'Finish', continue: 'Customize my AI Collaborator',
     voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
-    starters: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices'],
+    starters: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices', 'Build my editorial calendar', 'Organize a new employee’s onboarding'],
+    previewMission: 'Mission preview', previewCollaborator: 'Example suitable profile', previewReady: 'To be confirmed with you',
     handoff: 'Enter to continue · Shift + Enter for a new line. Your description remains in this browser while you resume.',
     catalogTitle: 'Or start from an already scoped mission',
     search: 'Search missions',

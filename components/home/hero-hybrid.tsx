@@ -225,7 +225,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   )
 }
 
-function getPreparedDemo(value: string, lang: Lang) {
+export function getPreparedDemo(value: string, lang: Lang) {
   const normalized = value.toLocaleLowerCase(lang)
 
   if (normalized.includes('factur') || normalized.includes('invoice')) {

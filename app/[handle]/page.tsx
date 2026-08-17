@@ -5,6 +5,10 @@ import { TeamProfile } from '@/components/team-profile'
 import { HumanProfile } from '@/components/human-profile'
 import { SiteFooter } from '@/components/site-footer'
 import { ROLE_DETAILS, DETAILED_SLUGS, TEAM_HUMANS, HUMAN_HANDLES } from '@/lib/collaborators-catalog'
+import { CollaborateurContent } from '@/components/collaborateur-content'
+import { getCollaboratorPage } from '@/lib/collaborator-pages'
+
+const SITE_URL = 'https://unitalk.ai'
 
 // Public handle route for Unitalk people and AI Collaborators: unitalk.ai/@emma, unitalk.ai/@patrickchassany
 export function generateStaticParams() {
@@ -38,18 +42,21 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const role = ROLE_DETAILS[slug]
   if (!role) return { title: 'Collaborateur IA · Unitalk' }
 
-  const title = `${role.name}, Collaborateur IA · ${role.company}`
+  const page = getCollaboratorPage(slug)
+  const title = page ? `${role.name} — ${role.role.fr}` : `${role.name}, Collaborateur IA · ${role.company}`
   const owner = role.dataOwner ?? role.company
-  const description = `${role.name}, Collaborateur IA chez ${role.company}. Responsable : ${role.manager.name} (${role.manager.role.fr}). Propriétaire des données : ${owner}.`
+  const description = page?.copy.body.fr ?? `${role.name}, Collaborateur IA chez ${role.company}. Responsable : ${role.manager.name} (${role.manager.role.fr}). Propriétaire des données : ${owner}.`
 
   return {
     title,
     description,
+    alternates: { canonical: `/@${slug}` },
     keywords: [role.name, 'Collaborateur IA', 'Unitalk', role.company, role.manager.name, owner],
     openGraph: {
       title,
       description,
       type: 'profile',
+      url: `${SITE_URL}/@${slug}`,
       images: [{ url: role.avatar }],
     },
     twitter: {
@@ -60,8 +67,9 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   }
 }
 
-export default async function HandleProfilePage({ params }: { params: Promise<{ handle: string }> }) {
+export default async function HandleProfilePage({ params, searchParams }: { params: Promise<{ handle: string }>; searchParams: Promise<{ equipment?: string }> }) {
   const { handle } = await params
+  const query = await searchParams
   const slug = slugFromHandle(handle)
   if (!slug) notFound()
 
@@ -75,11 +83,20 @@ export default async function HandleProfilePage({ params }: { params: Promise<{ 
     )
   }
 
-  if (ROLE_DETAILS[slug]) {
+  const detail = ROLE_DETAILS[slug]
+  if (detail) {
+    const page = getCollaboratorPage(slug)
+    const personJsonLd = page ? {
+      '@context': 'https://schema.org', '@type': 'Person', name: detail.name, jobTitle: detail.role.fr,
+      description: page.copy.body.fr, image: `${SITE_URL}${detail.avatar}`,
+      worksFor: { '@type': 'Organization', name: detail.company },
+      knowsAbout: detail.skills.map(skill => skill.fr), url: `${SITE_URL}/@${slug}`,
+    } : null
     return (
       <>
+        {personJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />}
         <Navbar />
-        <TeamProfile slug={slug} />
+        {slug === 'hugo' && page ? <CollaborateurContent page={page} equipmentId={query.equipment} /> : <TeamProfile slug={slug} />}
         <SiteFooter />
       </>
     )

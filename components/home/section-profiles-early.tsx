@@ -38,7 +38,7 @@ const COPY = {
       { name: 'Lucas', slug: 'lucas', role: 'Relation client', avatar: '/images/lucas-avatar.png', desc: 'Répond aux demandes entrantes, qualifie les leads et met à jour votre CRM.', tags: ['Support', 'Qualification', 'CRM'] },
       { name: 'Nadia', slug: 'nadia', role: 'Responsable marketing', avatar: '/images/nadia-avatar.png', desc: 'Prépare vos campagnes, coordonne vos contenus et suit leurs résultats.', tags: ['Campagnes', 'Contenus', 'Analyse'] },
       { name: 'Marcus', slug: 'marcus', role: 'Responsable CRM', avatar: '/images/marcus-avatar.png', desc: 'Structure vos données clients, vos segments et vos communications.', tags: ['CRM', 'Segments', 'Données'] },
-      { name: 'Hugo', slug: 'hugo', role: 'Coordinateur des opérations', avatar: '/images/hugo-avatar.png', desc: 'Suit vos processus, prépare les contrôles et coordonne les actions récurrentes.', tags: ['Processus', 'Contrôle', 'Coordination'] },
+      { name: 'Hugo', slug: 'hugo', role: 'Commercial', avatar: '/images/hugo-avatar.png', desc: 'Recherche vos prospects, qualifie les opportunités et maintient votre CRM à jour.', tags: ['Prospection', 'Qualification', 'CRM'] },
     ] satisfies Profile[],
   },
   en: {

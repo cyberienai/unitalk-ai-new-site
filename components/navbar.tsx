@@ -31,10 +31,10 @@ const COLLAB_DISCOVER: MenuEntry[] = [
 ]
 
 const COLLAB_WORK: MenuEntry[] = [
-  { title: { fr: 'Workspace', en: 'Workspace' }, desc: { fr: 'Missions, activité et validations.', en: 'Missions, activity and approvals.' }, href: '/workspace' },
-  { title: { fr: 'Unitalk Desktop', en: 'Unitalk Desktop' }, desc: { fr: 'Le travail depuis votre ordinateur.', en: 'Work from your computer.' }, href: '/desktop' },
-  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Plus de 3 000 connexions via OAuth et MCP.', en: 'More than 3,000 connections through OAuth and MCP.' }, href: '/collaborateurs-ia/applications' },
-  { title: { fr: 'AI Gateway', en: 'AI Gateway' }, desc: { fr: 'Modèles, clés et budgets gouvernés.', en: 'Governed models, keys and budgets.' }, href: '/ai-gateway' },
+  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Les méthodes qu’il peut réutiliser.', en: 'Methods it can reuse.' }, href: '/collaborateurs-ia/competences' },
+  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Les outils qu’il est autorisé à utiliser.', en: 'Tools it is authorized to use.' }, href: '/collaborateurs-ia/applications' },
+  { title: { fr: 'Serveurs privés', en: 'Private servers' }, desc: { fr: 'Son environnement de travail privé.', en: 'Its private working environment.' }, href: '/collaborateurs-ia/serveurs' },
+  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et capacités autorisés.', en: 'Authorized models and capacities.' }, href: '/modeles-ia' },
 ]
 
 const COLLAB_ACTIONS: MenuAction[] = [
@@ -57,7 +57,7 @@ const T = {
     closeMenu: 'Fermer le menu',
     collabMenu: 'Menu Collaborateurs IA',
     menuDiscover: 'Comprendre',
-    menuDeploy: 'Travailler et équiper',
+    menuDeploy: 'Équiper',
     menuStore: 'Explorer toute la Marketplace',
   },
   en: {
@@ -73,7 +73,7 @@ const T = {
     closeMenu: 'Close menu',
     collabMenu: 'AI Collaborators menu',
     menuDiscover: 'Understand',
-    menuDeploy: 'Work and equip',
+    menuDeploy: 'Equip',
     menuStore: 'Explore the full Marketplace',
   },
 }
@@ -321,9 +321,9 @@ export function Navbar(
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       style={{ transformOrigin: 'top left' }}
-                       className="fixed left-1/2 top-[76px] w-[900px] max-w-[calc(100vw-2rem)] -translate-x-1/2 pt-3"
+                       className="fixed left-1/2 top-[76px] w-[760px] max-w-[calc(100vw-2rem)] -translate-x-1/2 pt-3"
                        >
-                       <div className="max-h-[560px] overflow-hidden rounded-[24px] border border-[#DED6C8] bg-[#F3EFE6] text-[#1C1A17] shadow-[0_36px_90px_-26px_rgba(21,19,22,.35)]">
+                        <div className="max-h-[calc(100dvh-96px)] overflow-y-auto rounded-[20px] border border-[#DED6C8] bg-[#F3EFE6] text-[#1C1A17] shadow-[0_30px_70px_-26px_rgba(21,19,22,.32)]">
                           <div className="grid grid-cols-2">
                            <div className="border-r border-[#DED6C8] p-5">
                              <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.menuDiscover}</p>

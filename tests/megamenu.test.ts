@@ -14,9 +14,9 @@ describe('Collaborateurs IA mega menu', () => {
     expect(navbar).toContain("menuDiscover: 'Comprendre'")
   })
 
-  it('organizes work and equipment', () => {
-    for (const href of ['/workspace', '/desktop', '/collaborateurs-ia/applications', '/ai-gateway']) expect(navbar).toContain(href)
-    expect(navbar).toContain("menuDeploy: 'Travailler et équiper'")
+  it('organizes Collaborator equipment without duplicating Workspace navigation', () => {
+    for (const href of ['/collaborateurs-ia/competences', '/collaborateurs-ia/applications', '/collaborateurs-ia/serveurs', '/modeles-ia']) expect(navbar).toContain(href)
+    expect(navbar).toContain("menuDeploy: 'Équiper'")
   })
 
   it('uses a concise footer and explicit selection label', () => {
