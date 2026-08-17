@@ -54,6 +54,7 @@ export function StoreCard({
   const category = shortCategoryLabel(mission.category, lang)
   const categoryData = getMissionCategory(mission.category)
   const collaborator = ROLE_DETAILS[mission.collaboratorSlug]
+  const collaboratorTooltip = collaborator ? `${collaborator.name} · ${lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator'} · ${mission.profile[lang]}` : ''
   const personalize = lang === 'fr' ? 'Personnaliser' : 'Customize'
   return (
     <article
@@ -64,8 +65,8 @@ export function StoreCard({
       {collaborator && (
         <Link
           href={collaboratorHref(collaborator.slug)}
-          aria-label={`${collaborator.name}, ${lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator'}`}
-          title={collaborator.name}
+          aria-label={collaboratorTooltip}
+          title={collaboratorTooltip}
           className="mb-5 w-fit rounded-full outline-none transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
         >
           <Image src={collaborator.avatar} alt="" width={40} height={40} className="size-10 rounded-full border-2 border-[#FAF8F3] object-cover shadow-sm" />

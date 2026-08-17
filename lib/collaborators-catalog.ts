@@ -3,12 +3,8 @@
 
 export type Bilingual = { fr: string; en: string }
 
-// Collaborators with a dedicated campaign page (e.g. /emma).
-// Others fall back to their public profile at /@slug.
-const CAMPAIGN_SLUGS = new Set(['emma'])
-
 export function collaboratorHref(slug: string): string {
-  return CAMPAIGN_SLUGS.has(slug) ? `/${slug}` : `/@${slug}`
+  return `/@${slug}`
 }
 
 export type CatalogRole = {
@@ -37,7 +33,7 @@ export const DEPARTMENTS: Department[] = [
     key: 'marketing',
     label: { fr: 'Marketing', en: 'Marketing' },
     roles: [
-      { name: 'Léa', title: { fr: 'Content Strategist', en: 'Content Strategist' }, slug: 'lea' },
+      { name: 'Léa', title: { fr: 'Responsable éditoriale', en: 'Editorial Lead' }, slug: 'lea' },
       { name: 'Social Media Manager', title: { fr: 'Réseaux sociaux', en: 'Social Media Manager' } },
       { name: 'SEO Specialist', title: { fr: 'Référencement naturel', en: 'SEO Specialist' } },
       { name: 'Ads Specialist', title: { fr: 'Publicité en ligne', en: 'Ads Specialist' } },

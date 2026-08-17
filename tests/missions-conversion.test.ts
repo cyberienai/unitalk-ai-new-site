@@ -9,7 +9,7 @@ describe('missions conversion path', () => {
   it('separates mission creation from catalog search', () => {
     expect(page).toContain('Quel travail voulez-vous confier à votre Collaborateur IA ?')
     expect(page).toContain('Ou partez d’une mission déjà cadrée')
-    expect(page).toContain('Rechercher dans les missions')
+    expect(page).toContain("search: 'Rechercher'")
   })
 
   it('shows Alma with her avatar wherever she is named', () => {

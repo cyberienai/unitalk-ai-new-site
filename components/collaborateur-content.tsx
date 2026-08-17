@@ -23,7 +23,7 @@ const COPY = {
     createCommercial: 'Créer mon Collaborateur IA commercial',
     proofs: [
       ['Identité IA', 'Choisissez son prénom, son visage et sa voix.'],
-      ['Place dans l’organisation', 'Personne, équipe, département ou entreprise.'],
+      ['Rattachement dans l’entreprise', 'Rattachez-le à une personne, une équipe, un département ou à toute l’organisation.'],
       ['Propriété de l’entreprise', 'Identité, mémoire et savoir-faire restent chez vous.'],
       ['Profils et compétences', 'Ajoutez-en sans recréer son identité.'],
     ],
@@ -35,7 +35,7 @@ const COPY = {
     identityTitle: 'Une identité IA. Autonome pour travailler.',
     identityLead: 'Hugo appartient à votre entreprise, pas à la personne qui le supervise. Si cette personne quitte l’organisation, son identité, sa mémoire et son savoir-faire restent dans l’entreprise.',
     identityCta: 'En savoir plus',
-    identityCard: { header: 'Identité IA de votre Collaborateur', owner: 'Entreprise propriétaire', supervisor: 'Responsable humain', communication: 'Communication', memory: 'Mémoire propre', shared: 'Savoir partagé', execution: 'Environnement de travail', governance: 'Accès gouvernés par l’entreprise' },
+    identityCard: { header: 'Carte d’identité de votre Collaborateur IA', owner: 'Propriétaire', supervisor: 'Supervision humaine', communication: 'Canaux professionnels', memory: 'Mémoire propre', shared: 'Savoir de l’entreprise', execution: 'Environnement privé', governance: 'Accès et actions gouvernés par votre entreprise' },
     appsKicker: 'Applications autorisées',
     appsTitle: 'Hugo travaille dans votre environnement commercial.',
     appsBody: 'HubSpot, Salesforce, LinkedIn, Gmail, Outlook et vos agendas sont attribués selon vos droits. Plus de 3 000 connecteurs peuvent être disponibles selon la configuration.',
@@ -73,7 +73,7 @@ const COPY = {
     identityTitle: 'One AI identity. Autonomous at work.',
     identityLead: 'Hugo belongs to your organization, not to the person supervising him. If that person leaves, his identity, memory and know-how remain within the organization.',
     identityCta: 'Learn more',
-    identityCard: { header: 'Your Collaborator’s AI identity', owner: 'Owning organization', supervisor: 'Human supervisor', communication: 'Communication', memory: 'Own memory', shared: 'Shared knowledge', execution: 'Working environment', governance: 'Access governed by the organization' },
+    identityCard: { header: 'Your AI Collaborator identity card', owner: 'Owning organization', supervisor: 'Human supervision', communication: 'Professional channels', memory: 'Own memory', shared: 'Organization knowledge', execution: 'Private environment', governance: 'Access and actions governed by your organization' },
     appsKicker: 'Authorized applications',
     appsTitle: 'Hugo works in your sales environment.',
     appsBody: 'HubSpot, Salesforce, LinkedIn, Gmail, Outlook and calendars are assigned under your permissions. More than 3,000 connectors may be available depending on setup.',
@@ -94,6 +94,7 @@ const COPY = {
 const PERSONAS = {
   emma: {
     claim: { fr: 'Emma prépare vos réunions, vos priorités et vos décisions.', en: 'Emma prepares your meetings, priorities and decisions.' },
+    accent: { fr: 'vos décisions', en: 'priorities and decisions' },
     lead: { fr: 'Confiez-lui votre agenda, vos dossiers et le suivi des actions. Votre équipe garde les arbitrages qui engagent l’entreprise.', en: 'Entrust her with your calendar, files and action tracking. Your team keeps decisions that commit the organization.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Emma.', en: 'Describe the mission you want to assign to Emma.' },
     placeholder: { fr: 'Décrivez la réunion, les participants, les documents et le résultat attendu…', en: 'Describe the meeting, participants, documents and expected outcome…' },
@@ -107,6 +108,7 @@ const PERSONAS = {
   },
   lea: {
     claim: { fr: 'Léa transforme votre stratégie en contenus qui avancent.', en: 'Léa turns your strategy into content that moves forward.' },
+    accent: { fr: 'votre stratégie', en: 'your strategy' },
     lead: { fr: 'Donnez-lui vos objectifs, votre ton et vos canaux. Elle prépare le calendrier, les briefs et les contenus à valider.', en: 'Give her your goals, tone and channels. She prepares the calendar, briefs and content for approval.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Léa.', en: 'Describe the mission you want to assign to Léa.' },
     placeholder: { fr: 'Décrivez l’audience, les objectifs, les canaux et le ton de marque…', en: 'Describe the audience, goals, channels and brand tone…' },
@@ -120,6 +122,7 @@ const PERSONAS = {
   },
   arthur: {
     claim: { fr: 'Arthur écrit, teste et documente votre code.', en: 'Arthur writes, tests and documents your code.' },
+    accent: { fr: 'votre code', en: 'your code' },
     lead: { fr: 'Confiez-lui un ticket et le contexte autorisé. Il prépare le correctif, les tests et la documentation avant toute fusion.', en: 'Give him a ticket and authorized context. He prepares the fix, tests and documentation before any merge.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Arthur.', en: 'Describe the mission you want to assign to Arthur.' },
     placeholder: { fr: 'Décrivez le ticket, le comportement attendu, le dépôt et les contraintes techniques…', en: 'Describe the ticket, expected behavior, repository and technical constraints…' },
@@ -133,6 +136,7 @@ const PERSONAS = {
   },
   hugo: {
     claim: { fr: 'Hugo trouve et qualifie vos prochains prospects.', en: 'Hugo finds and qualifies your next prospects.' },
+    accent: { fr: 'vos prochains prospects', en: 'your next prospects' },
     lead: { fr: 'Donnez-lui vos critères. Il recherche les entreprises, prépare les fiches CRM et organise les relances. Votre équipe valide le premier contact.', en: 'Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Hugo.', en: 'Describe the mission you want to assign to Hugo.' },
     placeholder: { fr: 'Décrivez le type de prospect recherché…', en: 'Describe the type of prospect you are looking for…' },
@@ -146,6 +150,7 @@ const PERSONAS = {
   },
   nadia: {
     claim: { fr: 'Nadia éclaire vos décisions financières.', en: 'Nadia informs your financial decisions.' },
+    accent: { fr: 'vos décisions financières', en: 'your financial decisions' },
     lead: { fr: 'Donnez-lui vos sources et vos règles. Elle prépare le reporting, les prévisions et les écarts à faire valider.', en: 'Give her your sources and rules. She prepares reporting, forecasts and variances for approval.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Nadia.', en: 'Describe the mission you want to assign to Nadia.' },
     placeholder: { fr: 'Décrivez les données, la période, les indicateurs et les hypothèses à vérifier…', en: 'Describe the data, period, metrics and assumptions to review…' },
@@ -159,6 +164,7 @@ const PERSONAS = {
   },
   ines: {
     claim: { fr: 'Inès répond à vos clients et garde le ton juste.', en: 'Inès answers customers and keeps the right tone.' },
+    accent: { fr: 'à vos clients', en: 'your customers' },
     lead: { fr: 'Confiez-lui les demandes entrantes. Elle classe, prépare les réponses et soumet les gestes commerciaux ou cas sensibles.', en: 'Entrust her with inbound requests. She classifies, prepares replies and submits commercial gestures or sensitive cases.' },
     composer: { fr: 'Détaillez la mission que vous voulez confier à Inès.', en: 'Describe the mission you want to assign to Inès.' },
     placeholder: { fr: 'Décrivez les demandes, les règles de réponse et les cas à faire valider…', en: 'Describe the requests, response rules and cases requiring approval…' },
@@ -191,8 +197,11 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
   function submitMission() {
     const clean = missionRequest.trim()
     if (!clean) return
+    const missionText = detail.slug === 'hugo'
+      ? `${lang === 'fr' ? 'Trouver et qualifier vos prochains prospects' : 'Find and qualify your next prospects'} · ${clean}`
+      : clean
     const draftId = `draft_${crypto.randomUUID()}`
-    try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, collaborator: detail.slug, createdAt: Date.now() })) } catch {}
+    try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: missionText, collaborator: detail.slug, criteria: clean, createdAt: Date.now() })) } catch {}
     router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&collaborateur=${encodeURIComponent(detail.slug)}&source=profile-store`)
   }
 
@@ -203,8 +212,9 @@ export function CollaborateurContent({ page }: { page: CollaboratorPage; equipme
         <div className="grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-14">
           <div>
             <div className="inline-flex items-center gap-3"><Image src={detail.avatar} alt="" width={36} height={36} priority className="size-9 rounded-full border border-[#CFC5B5] object-cover"/><span className="text-sm font-bold text-[#4E483F]">{detail.name} · {detail.role[lang]} · {lang==='fr'?'Collaborateur IA':'AI Collaborator'}</span></div>
-            <h1 className="mt-5 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">{persona.claim[lang]}</h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-8 text-[#4E483F]">{persona.lead[lang]}</p>
+            <h1 className="mt-5 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">{highlightClaim(persona.claim[lang],persona.accent[lang])}</h1>
+            <div aria-hidden className="mt-6 h-1 w-20 rounded-full bg-[#D10E63]"/>
+            <p className="mt-5 max-w-2xl border-l-2 border-[#D10E63]/30 pl-5 text-[17px] leading-8 text-[#4E483F]">{persona.lead[lang]}</p>
             <Link href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`} className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white shadow-[0_14px_34px_-20px_rgba(28,26,23,.7)] hover:bg-[#2A2622]">{lang==='fr'?`Créer mon Collaborateur IA ${detail.role.fr}`:`Create my ${detail.role.en} AI Collaborator`}</Link>
           </div>
           <div id="alma-profile" className="scroll-mt-24"><AlmaMissionComposer value={missionRequest} onChange={setMissionRequest} onSubmit={submitMission} title={persona.composer[lang]} body="" role={t.composerRole} placeholder={persona.placeholder[lang]} submitLabel={lang==='fr'?`Confier cette mission à ${detail.name}`:`Assign this mission to ${detail.name}`} starters={persona.examples[lang]} listening={false} onToggleListening={() => {}} voiceSupported={false} voiceStartLabel="" voiceStopLabel="" compactMobile compactDesktop /><ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">{t.trialProofs.map(proof => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]"/>{proof}</li>)}</ul></div>
@@ -240,8 +250,18 @@ function Decision({ children, primary=false, active=false, onClick }: { children
 
 function IdentityCard({ detail, lang, labels }: { detail: CollaboratorPage['detail']; lang:'fr'|'en'; labels: typeof COPY.fr.identityCard|typeof COPY.en.identityCard }) {
   const fr=lang==='fr'
-  const rows=[[labels.owner,fr?'Votre entreprise':'Your organization'],[labels.supervisor,detail.manager.role[lang].replace(' ', '\n')],[fr?'Mémoire':'Memory',fr?'Propre + partagée selon droits':'Own + shared by permission']]
-  return <article className="overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_30px_75px_-48px_rgba(28,26,23,.55)]"><header className="border-b border-[#DED6C8] px-6 py-5 sm:px-8"><p className="font-mono text-[11px] font-black uppercase tracking-[.16em] text-[#B00C54]">{labels.header}</p></header><div className="grid gap-6 p-6 sm:grid-cols-[150px_1fr] sm:p-8"><div><Image src={detail.avatar} alt={detail.name} width={150} height={180} className="aspect-[4/5] w-full rounded-2xl object-cover"/><p className="mt-4 text-2xl font-semibold">{detail.name}</p><p className="mt-1 font-mono text-xs text-[#B00C54]">@{detail.slug}</p><p className="mt-2 text-sm font-semibold text-[#625B50]">{detail.role[lang]} · {fr?'Collaborateur IA':'AI Collaborator'}</p><span className="mt-4 inline-flex rounded-full bg-[#267A48]/10 px-3 py-1 text-[10px] font-bold text-[#267A48]">{fr?'SUPERVISÉ':'SUPERVISED'}</span></div><div className="min-w-0"><dl className="divide-y divide-[#DED6C8] border-y border-[#DED6C8]">{rows.map(([label,value]) => <div key={label} className="grid gap-1 py-3 sm:grid-cols-[130px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[.1em] text-[#857C6E]">{label}</dt><dd className="whitespace-pre-line text-sm font-semibold leading-5 text-[#3F3A33]">{value}</dd></div>)}</dl><div className="mt-5 grid gap-3 sm:grid-cols-2"><IdentityFeature icon={Mail} title={labels.communication} body={fr?'E-mail attribuable · Calendrier · Téléphone selon activation · Messageries autorisées':'Assignable email · Calendar · Phone when enabled · Authorized messaging'}/><IdentityFeature icon={UserRound} title={labels.memory} body={fr?`Historique, contexte utile et expérience validée de ${detail.name}.`:`${detail.name}’s history, useful context and approved experience.`}/><IdentityFeature icon={Building2} title={labels.shared} body={fr?'Méthodes, documents et connaissances accessibles selon ses droits.':'Methods, documents and knowledge available under permissions.'}/><IdentityFeature icon={Server} title={labels.execution} body={fr?'Agent Hermes · Fichiers · Navigateur · Code · Secrets propres':'Hermes Agent · Files · Browser · Code · Own secrets'}/></div></div></div><footer className="border-t border-[#DED6C8] bg-[#EAE3D4] px-6 py-4 sm:px-8"><div className="flex items-center gap-2 text-xs font-bold text-[#4E483F]"><ShieldCheck className="size-4 text-[#D10E63]"/>{labels.governance}</div><p className="mt-2 text-xs leading-5 text-[#625B50]">{fr?'Exemple de configuration : e-mail attribuable, téléphone selon activation, applications à autoriser et budget à définir.':'Configuration example: assignable email, phone when enabled, applications to authorize and budget to define.'}</p></footer></article>
+  const persona=PERSONAS[detail.slug as keyof typeof PERSONAS]??PERSONAS.hugo
+  const rows=[
+    [labels.owner,fr?'Votre entreprise':'Your organization'],
+    [fr?'Rattachement dans l’entreprise':'Organization assignment',fr?`Département ${detail.department.fr}`:`${detail.department.en} department`],
+    [labels.supervisor,detail.manager.role[lang].replace(' ', '\n')],
+    [fr?'Profils métier':'Job profiles',persona.profiles[lang].join(' · ')],
+    [fr?'Compétences':'Skills',detail.skills.map(skill=>skill[lang]).join(' · ')],
+    [labels.memory,fr?'Historique, contexte utile et expérience validée':'History, useful context and approved experience'],
+    [fr?'Applications':'Applications',fr?'Applications autorisées selon ses missions et ses droits':'Applications authorized under missions and permissions'],
+    [fr?'Modèles IA':'AI models',fr?'Un modèle pertinent par tâche, parmi ceux autorisés':'A relevant model for each task, among authorized models'],
+  ]
+  return <article className="relative overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_30px_75px_-48px_rgba(28,26,23,.55)]"><div aria-hidden className="absolute -right-24 -top-24 size-64 rounded-full bg-[#D10E63]/10 blur-3xl"/><header className="relative flex items-center justify-between gap-4 border-b border-[#DED6C8] px-6 py-5 sm:px-8"><div><p className="font-mono text-[11px] font-black uppercase tracking-[.16em] text-[#B00C54]">{labels.header}</p><p className="mt-1 text-xs text-[#857C6E]">{fr?'Exemple de configuration professionnelle':'Professional configuration example'}</p></div><span className="inline-flex items-center gap-1.5 rounded-full bg-[#267A48]/10 px-3 py-1.5 text-[10px] font-bold text-[#267A48]"><span className="size-1.5 rounded-full bg-[#267A48]"/>{fr?'SUPERVISÉ':'SUPERVISED'}</span></header><div className="relative grid gap-6 p-6 sm:grid-cols-[150px_1fr] sm:p-8"><div><Image src={detail.avatar} alt={detail.name} width={150} height={180} className="aspect-[4/5] w-full rounded-2xl border border-[#DED6C8] object-cover shadow-sm"/><p className="mt-4 text-2xl font-semibold">{detail.name}</p><p className="mt-1 font-mono text-xs text-[#B00C54]">@{detail.slug}</p><p className="mt-2 text-sm font-semibold text-[#625B50]">{detail.role[lang]} · {fr?'Collaborateur IA':'AI Collaborator'}</p></div><div className="min-w-0"><dl className="divide-y divide-[#DED6C8]">{rows.map(([label,value]) => <div key={label} className="grid gap-1 py-3 sm:grid-cols-[150px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[.1em] text-[#857C6E]">{label}</dt><dd className="whitespace-pre-line text-sm font-semibold leading-5 text-[#3F3A33]">{value}</dd></div>)}</dl><div className="mt-5 grid gap-3 sm:grid-cols-2"><IdentityFeature icon={Mail} title={labels.communication} body={fr?'E-mail · Calendrier · Téléphone · Messageries instantanées':'Email · Calendar · Phone · Instant messaging'}/><IdentityFeature icon={Server} title={labels.execution} body={fr?'Agent Hermes · Fichiers · Navigateur · Code · Secrets propres':'Hermes Agent · Files · Browser · Code · Own secrets'}/></div><div className="mt-3 rounded-2xl border border-[#DED6C8] bg-white p-4"><h3 className="flex items-center gap-2 text-sm font-semibold"><Building2 className="size-4 text-[#D10E63]"/>{labels.shared}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{fr?'Méthodes, documents et connaissances accessibles selon les droits attribués.':'Methods, documents and knowledge available under assigned permissions.'}</p></div></div></div><footer className="relative border-t border-[#DED6C8] bg-[#EAE3D4] px-6 py-4 sm:px-8"><div className="flex items-center gap-2 text-xs font-bold text-[#4E483F]"><ShieldCheck className="size-4 text-[#D10E63]"/>{labels.governance}</div></footer></article>
 }
 
 function IdentityFeature({ icon:Icon,title,body }:{icon:typeof UserRound;title:string;body:string}) { return <div className="rounded-2xl border border-[#DED6C8] bg-white p-4"><Icon className="size-4 text-[#D10E63]"/><h3 className="mt-3 text-sm font-semibold">{title}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{body}</p></div> }
@@ -255,7 +275,8 @@ function ApplicationLogos({apps}:{apps:readonly string[]}) {
 
 function ModelLogos() {
   const models=[[OpenAI,'OpenAI','GPT'],[Anthropic,'Anthropic','Claude'],[Gemini,'Google','Gemini'],[Mistral,'Mistral AI','Mistral']] as const
-  return <ul aria-label="Familles de modèles accessibles via Unitalk AI Gateway" className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">{models.map(([Icon,provider,model]) => <li key={provider} className="min-h-28 bg-[#211E1B] p-4"><span aria-hidden className="flex size-10 items-center justify-center rounded-full bg-[#F3EFE6] text-[#181615]"><Icon size={23}/></span><strong className="mt-4 block text-xs">{provider}</strong><span className="mt-1 block text-[10px] text-[#AFA397]">{model}</span></li>)}</ul>
+  const additionalModels=[['G','xAI','Grok'],['D','DeepSeek','DeepSeek'],['Q','Alibaba','Qwen'],['K','Moonshot AI','Kimi'],['M','MiniMax','MiniMax']] as const
+  return <ul aria-label="Familles de modèles accessibles via Unitalk AI Gateway" className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">{models.map(([Icon,provider,model]) => <li key={provider} className="min-h-28 bg-[#211E1B] p-4"><span aria-hidden className="flex size-10 items-center justify-center rounded-full bg-[#F3EFE6] text-[#181615]"><Icon size={23}/></span><strong className="mt-4 block text-xs">{provider}</strong><span className="mt-1 block text-[10px] text-[#AFA397]">{model}</span></li>)}{additionalModels.map(([mark,provider,model]) => <li key={model} className="min-h-28 bg-[#211E1B] p-4"><span aria-hidden className="flex size-10 items-center justify-center rounded-full bg-[#F3EFE6] font-sf text-base font-black text-[#181615]">{mark}</span><strong className="mt-4 block text-xs">{provider}</strong><span className="mt-1 block text-[10px] text-[#AFA397]">{model}</span></li>)}</ul>
 }
 
 function CollaboratorFaq({lang,detail}:{lang:'fr'|'en';detail:CollaboratorPage['detail']}) {
@@ -264,3 +285,9 @@ function CollaboratorFaq({lang,detail}:{lang:'fr'|'en';detail:CollaboratorPage['
 }
 
 function FaqItem({question,answer}:{question:string;answer:string}) { const [open,setOpen]=useState(false); const id=useId(); return <div className="border-b border-[#CFC5B5]"><button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen(v=>!v)} className="flex min-h-20 w-full items-center justify-between gap-5 text-left text-lg font-semibold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]"><span>{question}</span><span aria-hidden className="font-mono text-[#D10E63]">{open?'−':'+'}</span></button>{open&&<p id={id} className="max-w-2xl pb-7 pr-8 text-[15px] leading-7 text-[#4E483F]">{answer}</p>}</div> }
+
+function highlightClaim(claim:string,accent:string) {
+  const index=claim.indexOf(accent)
+  if(index<0)return claim
+  return <>{claim.slice(0,index)}<span className="text-[#D10E63]">{accent}</span>{claim.slice(index+accent.length)}</>
+}

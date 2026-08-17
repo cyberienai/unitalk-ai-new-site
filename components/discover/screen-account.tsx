@@ -90,8 +90,8 @@ export function ScreenAccount({
       <section className="relative order-1 flex min-w-0 items-center bg-[#F3EFE6] px-6 py-16 sm:px-10 lg:order-2 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)]">
         <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[460px]">
-          <h1 className="font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
-          <p className="mt-3 text-[17px] font-semibold leading-7 text-[#4E483F]">{isDraft ? t.draftLead : mission ? t.contextualLead : t.genericLead}</p>
+          <h1 className="max-w-md font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
+          <p className="mt-3 max-w-sm text-[15px] leading-6 text-[#625B50]">{isDraft ? t.draftLead : mission ? t.contextualLead : t.genericLead}</p>
           {mission && <p className="mt-3 text-sm text-[#6E665A]">{t.contextualReassurance}</p>}
 
           <div className="mt-7 flex flex-col gap-3">
@@ -124,15 +124,15 @@ const COPY = {
     almaGenericTitle: 'Vous n\'avez pas encore choisi de mission.',
     almaGenericBody: 'Après votre inscription, nous partons de votre entreprise et du travail que vous voulez accomplir. Je vous aide à choisir ou construire la première mission, puis à préparer le Collaborateur IA qui l\'accomplira.',
     genericSteps: ['Présenter votre entreprise', 'Définir une première mission', 'Préparer votre Collaborateur IA'],
-    genericTitle: 'Décrivez d’abord le travail à accomplir.',
-    genericLead: 'Choisissez une mission ou décrivez votre besoin avant de créer votre compte.',
+    genericTitle: 'Commencez avec Alma.',
+    genericLead: 'Confirmez votre entreprise, puis définissez votre première mission.',
     google: 'Continuer avec Google', microsoft: 'Continuer avec Microsoft', orEmail: 'ou par email',
     emailLabel: 'Adresse email professionnelle', emailPlaceholder: 'vous@entreprise.com',
     emailError: 'Saisissez une adresse email professionnelle valide.', personalEmailError: 'Utilisez votre adresse professionnelle, pas une adresse personnelle.', email: 'Continuer',
-    contextualTitle: 'Votre mission est choisie.',
-    contextualLead: 'Créez votre compte pour confirmer votre entreprise et choisir le prénom de votre Collaborateur IA.',
-    draftTitle: 'Votre demande est bien enregistrée.',
-    draftLead: 'Créez votre compte pour confirmer votre entreprise, puis choisissez le prénom du Collaborateur IA qui réalisera cette mission.',
+    contextualTitle: 'Continuez avec cette mission.',
+    contextualLead: 'Confirmez votre entreprise et votre Collaborateur IA.',
+    draftTitle: 'Votre demande est conservée.',
+    draftLead: 'Créez votre compte pour continuer avec Alma.',
     contextualReassurance: 'Première mission offerte · Sans carte bancaire',
     legalPrefix: 'En continuant, vous acceptez les', terms: 'Conditions d\'utilisation', legalAnd: 'et la', privacy: 'Politique de confidentialité',
   },
@@ -145,15 +145,15 @@ const COPY = {
     almaGenericTitle: 'You have not selected a mission yet.',
     almaGenericBody: 'After signup, we start from your company and the work you want to accomplish. I help select or build the first mission, then prepare the AI Collaborator that will carry it out.',
     genericSteps: ['Introduce your company', 'Define a first mission', 'Prepare your AI Collaborator'],
-    genericTitle: 'Describe the work first.',
-    genericLead: 'Choose a mission or describe your need before creating your account.',
+    genericTitle: 'Start with Alma.',
+    genericLead: 'Confirm your organization, then define your first mission.',
     google: 'Continue with Google', microsoft: 'Continue with Microsoft', orEmail: 'or by email',
     emailLabel: 'Work email address', emailPlaceholder: 'you@company.com',
     emailError: 'Enter a valid work email address.', personalEmailError: 'Use your work email address, not a personal address.', email: 'Continue',
-    contextualTitle: 'Your mission is selected.',
-    contextualLead: 'Create your account to confirm your company and choose your AI Collaborator’s first name.',
-    draftTitle: 'Your request is safely saved.',
-    draftLead: 'Create your account to confirm your company, then choose the first name of the AI Collaborator that will complete this mission.',
+    contextualTitle: 'Continue with this mission.',
+    contextualLead: 'Confirm your organization and your AI Collaborator.',
+    draftTitle: 'Your request is saved.',
+    draftLead: 'Create your account to continue with Alma.',
     contextualReassurance: 'First mission included · No credit card',
     legalPrefix: 'By continuing, you agree to the', terms: 'Terms of Use', legalAnd: 'and the', privacy: 'Privacy Policy',
   },

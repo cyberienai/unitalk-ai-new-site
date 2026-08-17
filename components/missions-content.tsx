@@ -230,7 +230,7 @@ export function MissionsContent({
           </div>
 
           <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <label className="relative block w-full max-w-[220px]">
+            <label className="relative block w-full max-w-[160px]">
               <span className="sr-only">{t.search}</span>
               <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
               <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
@@ -273,11 +273,12 @@ export function MissionsContent({
 function AlmaCatalogCard({ lang, onClick }: { lang: 'fr' | 'en'; onClick: () => void }) {
   const fr = lang === 'fr'
   return (
-    <article className="flex min-h-[250px] flex-col rounded-[18px] bg-[#211E1A] p-6 text-[#FAF8F3] shadow-[0_18px_42px_-28px_rgba(28,26,23,.65)]">
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2A4C5]">{withAlmaAvatar('Alma')}</p>
+    <article className="relative flex min-h-[250px] flex-col overflow-hidden rounded-[22px] border border-[#F2A4C5]/40 bg-[#211E1A] p-6 text-[#FAF8F3] shadow-[0_24px_55px_-28px_rgba(209,14,99,.55)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#D10E63]">
+      <div aria-hidden className="pointer-events-none absolute -right-16 -top-20 size-52 rounded-full bg-[#D10E63]/20 blur-3xl"/>
+      <p className="relative font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#F2A4C5]">{withAlmaAvatar('Alma')}</p>
       <h3 className="mt-4 font-sf text-xl font-semibold leading-snug">{fr ? 'Vous ne trouvez pas exactement votre mission ?' : 'Can’t find exactly the mission you need?'}</h3>
        <p className="mt-3 text-sm leading-6 text-[#CFC6B8]">{withAlmaAvatar(fr ? 'Décrivez le résultat attendu. Alma personnalise votre Collaborateur IA pour l’obtenir.' : 'Describe the expected outcome. Alma customizes your AI Collaborator to deliver it.')}</p>
-      <button type="button" onClick={onClick} className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#F2A4C5]">{fr ? 'Décrire ma mission' : 'Describe my mission'}<ArrowRight className="size-4" /></button>
+      <button type="button" onClick={onClick} className="relative mt-auto inline-flex min-h-11 w-fit items-center gap-2 rounded-full bg-[#D10E63] px-5 text-sm font-bold text-white hover:bg-[#E51872]">{fr ? 'Décrire ma mission' : 'Describe my mission'}<ArrowRight className="size-4" /></button>
     </article>
   )
 }
@@ -306,11 +307,11 @@ const COPY = {
     talk: 'Dicter ma mission', stop: 'Terminer', continue: 'Personnaliser mon Collaborateur IA',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
-    starters: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures', 'Construire mon calendrier éditorial', 'Organiser l’intégration d’un nouveau salarié'],
+    starters: ['Chaque lundi matin', 'À partir de mon CRM', 'Avant toute action sensible', 'Avec validation de mon équipe'],
     previewMission: 'Aperçu de mission', previewCollaborator: 'Exemple de profil adapté', previewReady: 'À confirmer avec vous',
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne. Votre description reste dans ce navigateur pendant la reprise.',
     catalogTitle: 'Ou partez d’une mission déjà cadrée',
-    search: 'Rechercher dans les missions',
+    search: 'Rechercher',
     families: { recommended: 'Recommandées', all: 'Toutes', growth: 'Développer les ventes', customers: 'Servir les clients', company: 'Gérer l’entreprise', teams: 'Organiser les équipes', produce: 'Produire et analyser' },
     recommended: '12 missions pour commencer',
     count: (shown: number, total: number) => `${shown} mission${shown > 1 ? 's' : ''} affichée${shown > 1 ? 's' : ''} sur ${total}`,
@@ -329,11 +330,11 @@ const COPY = {
     talk: 'Dictate my mission', stop: 'Finish', continue: 'Customize my AI Collaborator',
     voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
-    starters: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices', 'Build my editorial calendar', 'Organize a new employee’s onboarding'],
+    starters: ['Every Monday morning', 'From my CRM', 'Before any sensitive action', 'With team approval'],
     previewMission: 'Mission preview', previewCollaborator: 'Example suitable profile', previewReady: 'To be confirmed with you',
     handoff: 'Enter to continue · Shift + Enter for a new line. Your description remains in this browser while you resume.',
     catalogTitle: 'Or start from an already scoped mission',
-    search: 'Search missions',
+    search: 'Search',
     families: { recommended: 'Recommended', all: 'All', growth: 'Grow sales', customers: 'Serve customers', company: 'Run the company', teams: 'Organize teams', produce: 'Produce and analyze' },
     recommended: '12 missions to get started',
     count: (shown: number, total: number) => `${shown} of ${total} mission${total > 1 ? 's' : ''} shown`,
