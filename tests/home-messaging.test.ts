@@ -19,7 +19,7 @@ describe('home commercial messaging', () => {
 
   it('explains identity, organization and evolution without a separate comparison', () => {
     for (const copy of ['Identité', 'Communication', 'Agent Hermes et serveur privé', 'Responsable, rattachement et droits']) expect(sections).toContain(copy)
-    for (const copy of ['+ Profil Finance', '+ Compétence de relance', '+ Application de facturation', '= Nouvelles missions']) expect(sections).toContain(copy)
+    for (const copy of ["['Profil métier', 'Finance']", "['Compétence', 'Relancer une facture']", "['Application', 'Outil de facturation']", 'Nouvelles missions possibles']) expect(sections).toContain(copy)
     expect(home).not.toContain('SectionComparison')
     expect(home).not.toContain('SectionProfilesEarly')
   })

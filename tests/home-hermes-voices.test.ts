@@ -16,7 +16,7 @@ describe('home Hermes social proof', () => {
 
   it('turns every portrait into a visible proof entry', () => {
     expect(source).toContain('HERMES_CREATORS.slice(0, 10)')
-    expect(source).toContain('Voir son test →')
+    expect(source).toContain('Voir la vidéo →')
     expect(source).toContain('referrerPolicy="no-referrer"')
   })
 })

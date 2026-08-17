@@ -10,7 +10,7 @@ const SITE_URL = 'https://unitalk.ai'
 const SITE_NAME = 'Unitalk'
 const DEFAULT_TITLE = 'Unitalk : des Collaborateurs IA qui progressent avec votre entreprise'
 const DEFAULT_DESCRIPTION =
-  'Unitalk donne à votre entreprise son propre Collaborateur IA : une identité professionnelle qui accomplit des missions, travaille avec vos équipes et progresse à partir des méthodes que vous validez. Hébergé en France, conforme au RGPD.'
+  'Unitalk donne à votre entreprise son propre Collaborateur IA : une identité professionnelle qui accomplit des missions, travaille avec vos équipes et progresse à partir des méthodes que vous validez.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

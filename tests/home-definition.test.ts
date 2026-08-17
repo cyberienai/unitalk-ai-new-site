@@ -7,13 +7,14 @@ const home = readFileSync(new URL('../components/home-new.tsx', import.meta.url)
 describe('home visitor orientation', () => {
   it('offers four explicit intent doors', () => {
     for (const href of ['/missions', '/collaborateurs-ia', '/workspace', '/marketplace']) expect(source).toContain(href)
-    expect(source).toContain("aria-label={lang === 'fr' ? 'Choisir un parcours'")
+    expect(source).toContain('aria-labelledby="home-paths-title"')
+    expect(source).toContain('className="sr-only"')
   })
 
   it('keeps one focused final conversion action', () => {
     expect(source).toContain('Un Collaborateur IA sur lequel votre entreprise peut compter.')
     expect(source).toContain('Décrire mon besoin')
-    expect(source).toContain("new Event('open-home-alma')")
+    expect(source).toContain('href="#alma-hero"')
   })
 
   it('uses the agreed compact homepage order', () => {
