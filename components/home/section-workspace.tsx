@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { MissionSeal } from '@/components/home/signs'
 import { Kicker } from '@/components/home/section-kicker'
@@ -246,6 +246,9 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
         </div>
 
         <div ref={ref}>
+          <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={lang === 'fr' ? 'Exemples de missions' : 'Mission examples'}>
+            {scenarios.map((item, index) => <button key={item.tab} type="button" role="tab" aria-selected={scenarioIndex === index} onClick={() => selectScenario(index)} className={`min-h-10 shrink-0 rounded-full border px-4 text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${scenarioIndex === index ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-[#FAF8F3] text-[#625B50] hover:border-[#D10E63]/40'}`}>{item.tab}</button>)}
+          </div>
           <motion.div
             key={scenario.missionId}
             initial={reduce ? false : { opacity: 0, y: 12 }}
@@ -387,16 +390,6 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             </ol>
           </div>
           </motion.div>
-          <div className="mt-4 flex items-center gap-3">
-            <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={lang === 'fr' ? 'Exemples de missions' : 'Mission examples'}>
-              {scenarios.map((item, index) => <button key={item.tab} type="button" role="tab" aria-selected={scenarioIndex === index} onClick={() => selectScenario(index)} className={`min-h-10 shrink-0 rounded-full border px-4 text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${scenarioIndex === index ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-[#FAF8F3] text-[#625B50] hover:border-[#D10E63]/40'}`}>{item.tab}</button>)}
-            </div>
-            <div className="flex shrink-0 items-center gap-1.5">
-              <span className="hidden min-w-9 text-center font-mono text-[10px] font-bold text-[#857C6E] sm:inline">{scenarioIndex + 1}/{scenarios.length}</span>
-              <button type="button" onClick={() => selectScenario(scenarioIndex - 1)} aria-label={lang === 'fr' ? 'Exemple précédent' : 'Previous example'} className="flex size-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FAF8F3] outline-none hover:border-[#D10E63]/50 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><ChevronLeft className="size-4" /></button>
-              <button type="button" onClick={() => selectScenario(scenarioIndex + 1)} aria-label={lang === 'fr' ? 'Exemple suivant' : 'Next example'} className="flex size-10 items-center justify-center rounded-full border border-[#D8D0C2] bg-[#FAF8F3] outline-none hover:border-[#D10E63]/50 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><ChevronRight className="size-4" /></button>
-            </div>
-          </div>
         </div>
       </div>
     </section>

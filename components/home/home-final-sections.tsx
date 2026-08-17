@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { ArrowRight, Blocks, BriefcaseBusiness, Building2, CalendarDays, Mail, MonitorCheck, ScanSearch, Server } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from './section-kicker'
@@ -10,15 +11,15 @@ const COPY = {
   fr: {
     doors: [
       ['J’ai un travail à confier', 'Décrire un résultat ou choisir une mission déjà cadrée.', 'Explorer les missions', '/missions'],
-      ['Je veux comprendre le produit', 'Découvrir son identité, sa place et ses ressources.', 'Comprendre les Collaborateurs IA', '/collaborateurs-ia'],
-      ['Je veux voir comment il travaille', 'Suivre son activité et garder la main sur les décisions.', 'Découvrir Workspace', '/workspace'],
+      ['Je veux comprendre le produit', 'Découvrir son identité, sa place et ses ressources.', 'En savoir plus', '/collaborateurs-ia'],
+      ['Je veux voir comment travaille un Collaborateur IA', 'Suivre son activité et garder la main sur les décisions.', 'Découvrir le Workspace', '/workspace'],
       ['Je veux voir comment il évolue', 'Ajouter des capacités sans recréer son identité.', 'Explorer la Marketplace', '/marketplace'],
     ],
     anatomyKicker: 'Plus qu’un assistant IA',
     anatomyTitle: 'Votre Collaborateur IA a sa propre identité.',
-    anatomyLead: 'Un Collaborateur IA appartient à votre entreprise et est supervisé par un Collaborateur humain. Il possède sa propre identité, ses moyens de communication, son environnement de travail et une place définie dans votre organisation.',
+    anatomyLead: 'Un Collaborateur IA est supervisé par un humain et appartient à votre entreprise. Il possède sa propre identité, ses moyens de communication, son environnement de travail et une place définie dans votre organisation.',
     anatomy: [['Identité IA', 'Prénom, visage et voix'], ['Communication', 'E-mail, calendrier et téléphone'], ['Exécution', 'Agent Hermes et serveur privé'], ['Organisation', 'Responsable, rattachement et droits']],
-    anatomyCta: 'Comprendre les Collaborateurs IA',
+    anatomyCta: 'Découvrir le Collaborateur IA',
     anatomyLabel: 'Exemple de Collaboratrice IA',
     anatomyRole: 'Assistante de direction',
     evolutionKicker: 'Mission après mission',
@@ -33,7 +34,7 @@ const COPY = {
     governanceBody: 'Vos méthodes deviennent des compétences réutilisables. Vous choisissez qui peut les utiliser.',
     marketplaceCta: 'Explorer la Marketplace',
     finalKicker: 'Votre première mission',
-    finalTitle: 'Quel travail allez-vous enfin confier ?',
+    finalTitle: 'Quelle première mission allez-vous confier à votre Collaborateur IA ?',
     finalBody: 'Décrivez une mission réelle. Alma prépare le Collaborateur IA, les capacités nécessaires et les points à confirmer avec vous.',
     finalCta: 'Décrire mon besoin',
     finalProofs: ['Première mission offerte', 'Sans carte bancaire', 'Accompagnement humain si nécessaire', 'Sans engagement'],
@@ -47,9 +48,9 @@ const COPY = {
     ],
     anatomyKicker: 'More than an AI assistant',
     anatomyTitle: 'Your AI Collaborator has its own identity.',
-    anatomyLead: 'An AI Collaborator belongs to your organization and is supervised by a human collaborator. It has its own identity, communications, working environment and a defined place in your organization.',
+    anatomyLead: 'An AI Collaborator is supervised by a human and belongs to your organization. It has its own identity, communications, working environment and a defined place in your organization.',
     anatomy: [['Identity', 'Name, face and voice'], ['Communication', 'Email, calendar and phone'], ['Execution', 'Hermes Agent and private server'], ['Organization', 'Owner, assignment and permissions']],
-    anatomyCta: 'Understand AI Collaborators',
+    anatomyCta: 'Discover the AI Collaborator',
     anatomyLabel: 'AI Collaborator example',
     anatomyRole: 'Executive Assistant',
     evolutionKicker: 'Mission after mission',
@@ -64,7 +65,7 @@ const COPY = {
     governanceBody: 'Your methods become reusable skills. You choose who can use them.',
     marketplaceCta: 'Explore the Marketplace',
     finalKicker: 'Your first mission',
-    finalTitle: 'What work will you finally delegate?',
+    finalTitle: 'What first mission will you assign to your AI Collaborator?',
     finalBody: 'Describe a real mission. Alma prepares the AI Collaborator, the required capabilities and the points to confirm with you.',
     finalCta: 'Describe my need',
     finalProofs: ['First mission included', 'No credit card', 'Human support when needed', 'No commitment'],
@@ -84,13 +85,27 @@ export function HomeCollaboratorAnatomy({ lang }: { lang: Lang }) {
 
 export function HomeEvolution({ lang }: { lang: Lang }) {
   const t = COPY[lang]
-  const capabilities = lang === 'fr'
-    ? [['Profil métier', 'Finance'], ['Compétence', 'Relancer une facture'], ['Application', 'Outil de facturation']]
-    : [['Job profile', 'Finance'], ['Skill', 'Follow up an invoice'], ['Application', 'Billing tool']]
+  const capabilitySets = lang === 'fr' ? [
+    { tab: 'Direction', profile: 'Assistante de direction', skills: ['Préparer une réunion', 'Organiser les rendez-vous', 'Résumer un dossier'], application: 'E-mail et calendrier', result: 'Direction mieux préparée' },
+    { tab: 'Finance', profile: 'Finance', skills: ['Relancer une facture', 'Contrôler les éléments de facturation', 'Signaler les litiges'], application: 'Outil de facturation', result: 'Suivi financier renforcé' },
+    { tab: 'Ventes', profile: 'Commercial', skills: ['Rechercher des prospects', 'Qualifier les opportunités', 'Préparer les relances'], application: 'CRM commercial', result: 'Prospection mieux suivie' },
+    { tab: 'Clients', profile: 'Relation client', skills: ['Classer les demandes', 'Préparer les réponses', 'Détecter les cas sensibles'], application: 'Support et CRM', result: 'Demandes mieux traitées' },
+    { tab: 'Marketing', profile: 'Marketing', skills: ['Construire un calendrier éditorial', 'Préparer les briefs', 'Analyser les résultats'], application: 'Outils de contenu', result: 'Campagnes mieux coordonnées' },
+  ] : [
+    { tab: 'Leadership', profile: 'Executive Assistant', skills: ['Prepare a meeting', 'Organize appointments', 'Summarize a file'], application: 'Email and calendar', result: 'Better-prepared leadership' },
+    { tab: 'Finance', profile: 'Finance', skills: ['Follow up an invoice', 'Review billing inputs', 'Flag disputes'], application: 'Billing tool', result: 'Stronger financial follow-up' },
+    { tab: 'Sales', profile: 'Sales', skills: ['Research prospects', 'Qualify opportunities', 'Prepare follow-ups'], application: 'Sales CRM', result: 'Better-tracked prospecting' },
+    { tab: 'Customers', profile: 'Customer relations', skills: ['Classify requests', 'Prepare replies', 'Detect sensitive cases'], application: 'Support and CRM', result: 'Better-handled requests' },
+    { tab: 'Marketing', profile: 'Marketing', skills: ['Build an editorial calendar', 'Prepare briefs', 'Analyze results'], application: 'Content tools', result: 'Better-coordinated campaigns' },
+  ]
+  const [profileIndex, setProfileIndex] = useState(0)
+  const selected = capabilitySets[profileIndex]
   const identity = lang === 'fr' ? 'Collaboratrice IA' : 'AI Collaborator'
-  const role = lang === 'fr' ? 'Assistante de direction' : 'Executive Assistant'
-  const result = lang === 'fr' ? 'Nouvelles missions possibles' : 'New missions available'
-  return <section className="bg-[#F3EFE6] py-16 sm:py-20"><div className="editorial-shell"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center"><div><Kicker>{t.evolutionKicker}</Kicker><h2 className="mt-5 text-[clamp(2.25rem,4.5vw,4.25rem)] font-semibold leading-[.96] tracking-[-.055em]">{t.evolutionTitle}</h2><p className="mt-6 max-w-xl text-[17px] leading-8 text-[#4E483F]">{t.evolutionLead}</p><Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.marketplaceCta}<ArrowRight className="size-4" /></Link></div><article className="relative overflow-hidden rounded-[2rem] bg-[#181615] p-6 text-white sm:p-8"><div aria-hidden className="absolute -right-24 -top-24 size-72 rounded-full bg-[#D10E63]/20 blur-3xl"/><div className="relative flex items-center gap-4 border-b border-white/10 pb-6"><Image src="/images/emma-avatar.png" alt="Emma" width={72} height={72} className="size-[72px] rounded-full object-cover ring-2 ring-[#F2A4C5]/35"/><div><p className="font-mono text-[10px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{identity}</p><h3 className="mt-2 text-2xl font-semibold">Emma</h3><p className="mt-1 text-xs font-semibold text-[#7DDBA1]">{role}</p></div></div><div className="relative mt-6"><div aria-hidden className="absolute bottom-8 left-[17px] top-8 w-px bg-gradient-to-b from-[#F2A4C5] via-[#D10E63] to-[#D10E63]/20"/><ol className="space-y-3">{capabilities.map(([label, value]) => <li key={label} className="relative grid grid-cols-[36px_1fr] items-center gap-3"><span className="z-10 flex size-9 items-center justify-center rounded-full border border-[#F2A4C5]/25 bg-[#2A2226] font-mono text-[10px] font-black text-[#F2A4C5]">+</span><div className="rounded-2xl border border-white/10 bg-white/[.045] px-4 py-3"><span className="block font-mono text-[10px] font-bold uppercase tracking-[.12em] text-[#AFA397]">{label}</span><strong className="mt-1 block text-sm text-white">{value}</strong></div></li>)}</ol><div className="ml-12 mt-4 flex items-center justify-between gap-4 rounded-2xl bg-[#D10E63] px-5 py-4"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-white/70">{lang === 'fr' ? 'Résultat' : 'Result'}</p><p className="mt-1 text-sm font-bold">{result}</p></div><ArrowRight className="size-5 shrink-0" /></div></div><div className="relative mt-6 border-t border-white/10 pt-5"><p className="text-sm leading-7 text-[#CFC6B8]">{t.exampleBody}</p><p className="mt-4 text-xs font-semibold leading-6 text-[#F2A4C5]">{t.governanceBody}</p></div></article></div></div></section>
+  return <section className="bg-[#F3EFE6] py-16 sm:py-20"><div className="editorial-shell"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center"><div><Kicker>{t.evolutionKicker}</Kicker><h2 className="mt-5 text-[clamp(2.25rem,4.5vw,4.25rem)] font-semibold leading-[.96] tracking-[-.055em]">{t.evolutionTitle}</h2><p className="mt-6 max-w-xl text-[17px] leading-8 text-[#4E483F]">{t.evolutionLead}</p><Link href="/marketplace" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.marketplaceCta}<ArrowRight className="size-4" /></Link></div><div><div className="mb-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={lang === 'fr' ? 'Profils métier d’Emma' : 'Emma job profiles'}>{capabilitySets.map((item, index) => <button key={item.tab} type="button" role="tab" aria-selected={profileIndex === index} onClick={() => setProfileIndex(index)} className={`min-h-10 shrink-0 rounded-full border px-4 text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${profileIndex === index ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-[#FAF8F3] text-[#625B50]'}`}>{item.tab}</button>)}</div><article className="relative overflow-hidden rounded-[2rem] bg-[#181615] p-6 text-white sm:p-8"><div aria-hidden className="absolute -right-24 -top-24 size-72 rounded-full bg-[#D10E63]/20 blur-3xl"/><div className="relative flex items-center gap-4 border-b border-white/10 pb-6"><Image src="/images/emma-avatar.png" alt="Emma" width={72} height={72} className="size-[72px] rounded-full object-cover ring-2 ring-[#F2A4C5]/35"/><div><p className="font-mono text-[10px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{identity}</p><h3 className="mt-2 text-2xl font-semibold">Emma</h3><p className="mt-1 text-xs font-semibold text-[#7DDBA1]">{selected.profile}</p></div></div><div className="relative mt-6"><div aria-hidden className="absolute bottom-8 left-[17px] top-8 w-px bg-gradient-to-b from-[#F2A4C5] via-[#D10E63] to-[#D10E63]/20"/><ol className="space-y-3"><Capability label={lang === 'fr' ? 'Profil métier' : 'Job profile'} value={selected.profile}/><Capability label={lang === 'fr' ? 'Compétences' : 'Skills'} value={selected.skills.join(' · ')}/><Capability label={lang === 'fr' ? 'Application' : 'Application'} value={selected.application}/></ol><div className="ml-12 mt-4 flex items-center justify-between gap-4 rounded-2xl bg-[#D10E63] px-5 py-4"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-white/70">{lang === 'fr' ? 'Résultat' : 'Result'}</p><p className="mt-1 text-sm font-bold">{selected.result}</p></div><ArrowRight className="size-5 shrink-0" /></div></div><div className="relative mt-6 border-t border-white/10 pt-5"><p className="text-sm leading-7 text-[#CFC6B8]">{t.exampleBody}</p><p className="mt-4 text-xs font-semibold leading-6 text-[#F2A4C5]">{t.governanceBody}</p></div></article></div></div></div></section>
+}
+
+function Capability({ label, value }: { label: string; value: string }) {
+  return <li className="relative grid grid-cols-[36px_1fr] items-center gap-3"><span className="z-10 flex size-9 items-center justify-center rounded-full border border-[#F2A4C5]/25 bg-[#2A2226] font-mono text-[10px] font-black text-[#F2A4C5]">+</span><div className="rounded-2xl border border-white/10 bg-white/[.045] px-4 py-3"><span className="block font-mono text-[10px] font-bold uppercase tracking-[.12em] text-[#AFA397]">{label}</span><strong className="mt-1 block text-sm leading-6 text-white">{value}</strong></div></li>
 }
 
 export function HomeFinalCta({ lang }: { lang: Lang }) {
