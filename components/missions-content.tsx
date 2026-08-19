@@ -180,7 +180,7 @@ export function MissionsContent({
     } else if (requestedCollaborator === 'emma') {
       const bySlug = new Map(pool.map((mission) => [mission.slug, mission]))
       pool = EMMA_LEADERSHIP_MISSION_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => Boolean(mission))
-    } else if (family === 'recommended' && !requestedCategory) {
+    } else if (!requestedCollaborator && family === 'recommended' && !requestedCategory) {
       const bySlug = new Map(pool.map((mission) => [mission.slug, mission]))
       pool = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => Boolean(mission))
     }

@@ -56,7 +56,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain("featuredLast ? 'xl:col-start-2'")
     expect(hub).toContain('Puis à partir de 49 €/mois hors capacité IA')
     expect(hub).toContain('withAlmaAvatar(t.almaBody)')
-    expect(hub).toContain('/missions?composer=1&collaborateur=')
+    expect(hub).toContain('/decouvrir?q=${encodeURIComponent(detail.starterMission?.mission[lang] ?? detail.missions[0][lang])}&collaborateur=')
     expect(hub).toContain('min-h-[220px]')
     expect(hub).toContain("const visibleCategories = collaboratorsOnly ? STORE_CATEGORIES.slice(0, 1) : STORE_CATEGORIES")
     expect(hub).toContain("const navigationCategories = collaboratorsOnly ? STORE_CATEGORIES : visibleCategories")
