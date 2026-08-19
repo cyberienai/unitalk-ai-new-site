@@ -9,7 +9,7 @@ import { useLanguage } from '@/lib/language-context'
 import { useAlma } from '@/lib/alma-context'
 
 const COPY = {
-  fr: { close:'Fermer', tooltip:'Parler à Alma · Coordinatrice de missions IA', role:'Coordinatrice de missions IA Unitalk', title:'Quel travail voulez-vous confier à votre Collaborateur IA ?', placeholder:'Décrivez votre besoin en une phrase…', continue:'Continuer', signIn:'J’ai déjà un compte · Me connecter', note:'Votre demande est conservée pour continuer après connexion.' },
+  fr: { close:'Fermer', tooltip:'Parler à Alma', role:'Collaboratrice IA · Coordinatrice de missions chez Unitalk', title:'Quel travail voulez-vous confier à votre Collaborateur IA ?', placeholder:'Décrivez votre besoin en une phrase…', continue:'Continuer', signIn:'J’ai déjà un compte · Me connecter', note:'Votre demande est conservée pour continuer après connexion.' },
   en: { close:'Close', tooltip:'Talk to Alma · AI mission coordinator', role:'Unitalk AI mission coordinator', title:'What work would you like to assign to your AI Collaborator?', placeholder:'Describe your need in one sentence…', continue:'Continue', signIn:'I already have an account · Sign in', note:'Your request is saved so you can continue after sign-in.' },
 } as const
 

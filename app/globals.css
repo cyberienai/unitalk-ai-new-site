@@ -222,6 +222,7 @@
     justify-self:end;
   }
 }
+
 @media (max-width:640px) {
   .home-page-main > section:nth-child(2) h2,
   .home-page-main > section:nth-child(3) h2,
@@ -267,6 +268,99 @@
     width:100%;
     max-width:560px;
     justify-self:end;
+  }
+}
+
+.collaborator-identity-section article {
+  min-width:0;
+}
+.collaborator-identity-section article > header {
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.collaborator-identity-section article > div:last-child {
+  min-width:0;
+}
+@media (min-width:768px) and (max-width:1180px) {
+  .collaborator-identity-section article > div:last-child {
+    grid-template-columns:120px minmax(0,1fr);
+  }
+}
+
+/* Public collaborator profiles: readable on 13-inch screens without oversized headings. */
+.collaborator-profile-page h2 {
+  font-weight:700;
+}
+@media (min-width:1024px) and (max-width:1440px) {
+  .collaborator-profile-page > section:first-child > div > div:first-child {
+    grid-template-columns:minmax(0,1.22fr) minmax(400px,.78fr);
+    gap:3rem;
+  }
+  .collaborator-profile-page > section:first-child h1 {
+    max-width:760px;
+    font-size:clamp(3rem,4.35vw,4.35rem);
+    font-weight:700;
+    line-height:.94;
+    letter-spacing:-.055em;
+  }
+  .collaborator-profile-page > section:not(:first-child) h2 {
+    font-size:clamp(2.3rem,3.75vw,3.65rem);
+    line-height:.98;
+    letter-spacing:-.05em;
+  }
+  .collaborator-profile-page > section:nth-child(2) > div,
+  .collaborator-profile-page > section:nth-child(5) > div {
+    grid-template-columns:minmax(0,1.12fr) minmax(400px,.88fr);
+    gap:3rem;
+  }
+  .collaborator-profile-page > section:nth-child(2) > div {
+    grid-template-columns:minmax(0,1.24fr) minmax(370px,.76fr);
+  }
+  .collaborator-profile-page > section:first-child > div > div:first-child > :last-child,
+  .collaborator-profile-page > section:nth-child(2) > div > :last-child,
+  .collaborator-profile-page > section:nth-child(5) > div > :last-child {
+    width:100%;
+    max-width:570px;
+    justify-self:end;
+  }
+  .collaborator-profile-page > section:nth-child(2) > div > :last-child {
+    max-width:520px;
+  }
+  .collaborator-profile-page > section:nth-child(2) h2,
+  .collaborator-profile-page > section:nth-child(5) h2 {
+    max-width:720px;
+  }
+}
+
+@media (min-width:1024px) {
+  .collaborator-identity-section > div {
+    grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  }
+  .collaborator-identity-section > div > :last-child {
+    width:100%;
+    max-width:680px;
+    min-width:0;
+    justify-self:end;
+  }
+  .collaborator-identity-section h2 {
+    max-width:700px;
+    font-size:clamp(2.25rem,3.7vw,3.65rem);
+  }
+}
+@media (max-width:640px) {
+  .collaborator-profile-page > section:first-child h1 {
+    font-size:clamp(2.65rem,13vw,4rem);
+    font-weight:700;
+    line-height:.94;
+    letter-spacing:-.055em;
+  }
+  .collaborator-profile-page > section:not(:first-child) h2 {
+    font-size:clamp(2.2rem,11vw,3.1rem);
+    line-height:1;
+    letter-spacing:-.045em;
+  }
+  .collaborator-profile-page p {
+    font-size:max(15px,1em);
   }
 }
 

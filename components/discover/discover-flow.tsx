@@ -148,7 +148,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   // — Not authenticated —
   if (!state.authenticated) return (
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
-      <ScreenAccount lang={lang} context={context} languageToggle={<LanguageToggle />}
+      <ScreenAccount lang={lang} context={context} collaborator={selectedCollaboratorDetail} languageToggle={<LanguageToggle />}
         onAuthenticated={({ provider, email, firstName, lastName }) => {
           const domain = email && isProfessionalEmail(email) ? emailDomain(email) : undefined
           setState(s => ({ ...s, authenticated: true, missionDefined: context.kind === 'mission', firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '', company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company }))

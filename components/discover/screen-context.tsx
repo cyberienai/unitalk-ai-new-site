@@ -247,7 +247,7 @@ const COPY = {
     intro: 'Vérifiez les informations de votre entreprise.',
     confirmed: 'Parfait. Votre entreprise est prête. Passons au Collaborateur IA.',
     almaName: 'Alma',
-    almaRole: 'Coordinatrice de missions IA · Unitalk',
+    almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk',
     cardTitle: 'Votre fiche entreprise',
     toConfirm: 'À confirmer',
     save: 'Enregistrer',

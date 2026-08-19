@@ -38,6 +38,12 @@ describe('mission signup', () => {
     expect(stateBuilder).toContain('requestedDomain || sessionDomain')
   })
 
+  it('shows an explicitly selected collaborator during authentication', () => {
+    expect(flow).toContain('collaborator={selectedCollaboratorDetail}')
+    expect(source).toContain('collaboratorTitle(collaborator.name)')
+    expect(source).toContain("recommendedProfile: 'Profil recommandé'")
+  })
+
   it('keeps onboarding fast and moves detailed scoping to the Workspace', () => {
     expect(flow).toContain("const flowSteps: OnboardingStep[] = ['mission', 'entreprise', 'collaborateur', 'workspace']")
     expect(flow).toContain("lockedSteps={['mission']}")

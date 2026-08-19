@@ -10,6 +10,7 @@ import { GoogleIcon, MicrosoftIcon } from '@/components/auth/provider-icons'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import type { DiscoverSource } from '@/lib/discover-entry'
 import { isProfessionalEmail } from '@/lib/professional-email'
+import type { RoleDetail } from '@/lib/collaborators-catalog'
 
 export type SelectedMission = { slug?: string; title: string; description: string; category: string }
 
@@ -21,9 +22,10 @@ export type DiscoverContext =
   | { kind: 'new-mission'; source: DiscoverSource }
 
 export function ScreenAccount({
-  lang, context, languageToggle, onAuthenticated,
+  lang, context, collaborator, languageToggle, onAuthenticated,
 }: {
   lang: Lang; context: DiscoverContext; languageToggle: React.ReactNode
+  collaborator?: RoleDetail
   onAuthenticated: (i: { provider: AuthProvider; email?: string; firstName?: string; lastName?: string }) => void
 }) {
   const t = COPY[lang]
@@ -62,6 +64,7 @@ export function ScreenAccount({
               <div className={missionOpen ? 'block' : 'hidden lg:block'}>
                 <h2 className="mt-4 font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{mission.title}</h2>
                 {mission.description && <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{mission.description}</p>}
+                {collaborator && <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5"><img src={collaborator.avatar} alt="" className="size-11 rounded-full object-cover ring-1 ring-white/15"/><div><p className="text-[11px] font-bold uppercase tracking-[.12em] text-[#F2A4C5]">{t.recommendedProfile}</p><p className="mt-1 text-sm font-bold text-white">{collaborator.name} · {collaborator.role[lang]}</p></div></div>}
               </div>
               <div className={`mt-10 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
                 <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#F2A4C5]">{t.almaRole}</p></div></div>
@@ -88,7 +91,7 @@ export function ScreenAccount({
       <section className="relative order-1 flex min-w-0 items-center bg-[#F3EFE6] px-6 py-16 sm:px-10 lg:order-2 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)]">
         <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[460px]">
-          <h1 className="max-w-md font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
+          <h1 className="max-w-md font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{collaborator ? t.collaboratorTitle(collaborator.name) : isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
           {!mission && <p className="mt-3 max-w-sm text-[15px] leading-6 text-[#625B50]">{isDraft ? t.draftLead : t.genericLead}</p>}
           {mission && <p className="mt-3 text-sm text-[#6E665A]">{t.contextualReassurance}</p>}
 
@@ -115,7 +118,8 @@ function AuthButton({ children, onClick, pending, disabled }: { children: React.
 const COPY = {
   fr: {
     selected: 'Mission sélectionnée', request: 'Votre demande', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission',
-    almaRole: 'Collaboratrice IA · Coordinatrice de missions IA',
+    recommendedProfile: 'Profil recommandé', collaboratorTitle: (name: string) => `Continuez avec ${name}.`,
+    almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',
     almaGenericTitle: 'Vous n\'avez pas encore choisi de mission.',
     almaGenericBody: 'Après votre inscription, je vous aiderai à personnaliser votre Collaborateur IA pour sa première mission.',
@@ -134,6 +138,7 @@ const COPY = {
   },
   en: {
     selected: 'Selected mission', request: 'Your request', collapse: 'Collapse', expand: 'Show', change: 'Change mission',
+    recommendedProfile: 'Recommended profile', collaboratorTitle: (name: string) => `Continue with ${name}.`,
     almaRole: 'AI Collaborator · Mission coordinator',
     newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.',
     almaGenericTitle: 'You have not selected a mission yet.',
