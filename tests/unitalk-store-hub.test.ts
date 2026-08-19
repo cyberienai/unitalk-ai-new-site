@@ -9,26 +9,25 @@ describe('Marketplace IA hub', () => {
     expect(page).toContain('UnitalkStoreHub')
     for (const label of ['Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
-    expect(hub).toContain("categoriesKicker: 'Catalogue'")
+    expect(hub).toContain("heroTitle: 'Faites évoluer votre Collaborateur IA selon vos besoins.'")
   })
 
   it('states the catalog and knowledge-work positioning', () => {
-    expect(hub).toContain('Tout l’équipement de votre Collaborateur IA')
+    expect(hub).toContain('Faites évoluer votre Collaborateur IA selon vos besoins')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
   it('starts directly with the catalog', () => {
     expect(hub).not.toContain('AlmaMissionComposer')
     expect(hub).not.toContain('getSpeechRecognition')
-    expect(hub).toContain('pt-28 sm:px-8 sm:pt-32')
+    expect(hub).toContain('pt-24 sm:px-8 sm:pt-28')
   })
 
-  it('uses a responsive category rail', () => {
-    expect(hub).toContain("w-[220px] shrink-0")
-    expect(hub).toContain('sticky top-24')
+  it('uses one horizontal category navigation', () => {
+    expect(hub).not.toContain("w-[220px] shrink-0")
+    expect(hub).not.toContain('sticky top-24')
     expect(hub).toContain('onClick={() => selectCategory(category.id)}')
-    expect(hub).toContain('Catégories du Store')
-    expect(hub).toContain('lg:hidden')
+    expect(hub).toContain('md:grid-cols-5')
   })
 
   it('centralizes real catalogs with search and featured cards', () => {

@@ -1,148 +1,214 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { ArrowRight, Bot, Check, FileText, LockKeyhole, Server, ShieldCheck, Sparkles } from 'lucide-react'
-import { AlmaMissionComposer } from '@/components/alma-mission-composer'
-import { Kicker } from '@/components/home/section-kicker'
-import { useLanguage, type Lang } from '@/lib/language-context'
-import { collaboratorHref, ROLE_DETAILS } from '@/lib/collaborators-catalog'
-import { MISSIONS } from '@/lib/missions-catalog'
+import {
+  ArrowDown,
+  ArrowRight,
+  Braces,
+  Check,
+  ShieldCheck,
+} from 'lucide-react'
+import { ApplicationLogos, IdentityCard, ModelLogos } from '@/components/collaborateur-content'
+import { useLanguage } from '@/lib/language-context'
+import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 
-const ROSTER_SLUGS = ['emma', 'hugo', 'lea', 'ines', 'nadia', 'arthur'] as const
-const ROSTER = ROSTER_SLUGS.map((slug) => ({
-  detail: ROLE_DETAILS[slug],
-  mission: MISSIONS.find((item) => item.collaboratorSlug === slug)!,
-}))
-
-const STARTERS = {
-  fr: ['Qualifier mes prospects entrants', 'Préparer mon comité de direction', 'Traiter les demandes clients'],
-  en: ['Qualify inbound prospects', 'Prepare my leadership meeting', 'Handle customer requests'],
-} as const
+const LEA = ROLE_DETAILS.lea
+const LEA_APPLICATIONS = ['Notion', 'Canva', 'WordPress', 'LinkedIn', 'Analytics', 'Gmail'] as const
 
 export function CollaborateurExperience() {
   const { lang } = useLanguage()
-  const router = useRouter()
   const t = COPY[lang]
-  const [request, setRequest] = useState('')
-  const [decision, setDecision] = useState<'approved' | 'changed' | 'declined' | null>(null)
-  const [department, setDepartment] = useState('all')
-  const visibleRoster = department === 'all'
-    ? ROSTER
-    : ROSTER.filter(({ detail }) => detail.department.fr === department)
 
-  function submitMission() {
-    const text = request.trim()
-    if (!text) return
-    const draftId = `draft_${crypto.randomUUID()}`
-    try { localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text, createdAt: Date.now() })) } catch {}
-    router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&source=collaborateurs-ia`)
-  }
-
-  return <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
-    <section className="relative border-b border-[#CFC5B5] pb-16 pt-28 sm:pt-36 lg:pb-20">
-      <div aria-hidden className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
-      <div className="editorial-shell relative">
-        <div className="max-w-5xl">
-          <Kicker>{t.heroKicker}</Kicker>
-          <h1 className="mt-6 text-balance text-[clamp(3rem,7vw,7.2rem)] font-semibold leading-[.88] tracking-[-.075em]">{t.heroTitle}<span className="text-[#D10E63]"> {t.heroAccent}</span></h1>
-          <p className="mt-7 max-w-3xl text-[17px] leading-8 text-[#4E483F] sm:text-[19px]">{t.heroBody}</p>
+  return (
+    <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#191715]">
+      <section className="relative min-h-[92svh] border-b border-[#191715] pt-24 sm:pt-32">
+        <div aria-hidden className="absolute inset-0 opacity-[.055] [background-image:linear-gradient(#191715_1px,transparent_1px),linear-gradient(90deg,#191715_1px,transparent_1px)] [background-size:40px_40px]" />
+        <div className="editorial-shell relative flex min-h-[calc(92svh-6rem)] flex-col pb-8">
+          <div className="flex items-center justify-between border-b border-[#191715] pb-4 font-mono text-[10px] font-bold uppercase tracking-[.16em]">
+            <span>{t.eyebrow}</span>
+            <span>Hermes × Unitalk</span>
+          </div>
+          <h1 className="mt-8 max-w-[1060px] text-[clamp(3.7rem,9.5vw,9rem)] font-semibold leading-[.79] tracking-[-.085em]">
+            {t.heroLine1}<br />
+            <span className="text-[#D10E63]">{t.heroLine2}</span>
+          </h1>
+          <div className="mt-auto grid gap-8 pt-14 lg:grid-cols-[1fr_1fr] lg:items-end">
+            <div>
+              <p className="max-w-xl text-[clamp(1.15rem,2vw,1.65rem)] font-medium leading-[1.35] tracking-[-.025em]">{t.heroBody}</p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link href="/marketplace" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.marketCta}<ArrowRight className="size-4" /></Link>
+                <Link href="/missions?composer=1&source=collaborateurs-ia-hero" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#191715] px-6 text-sm font-bold outline-none hover:bg-[#191715] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.missionCta}<ArrowRight className="size-4" /></Link>
+              </div>
+            </div>
+            <div className="flex items-end justify-between border-l border-[#191715] pl-5 sm:pl-8">
+              <p className="max-w-sm text-sm leading-7 text-[#5B544B]">{t.heroNote}</p>
+              <a href="#anatomie" aria-label={t.discover} className="ml-5 grid size-12 shrink-0 place-items-center rounded-full bg-[#191715] text-white outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"><ArrowDown className="size-4" /></a>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-[1.02fr_.98fr] lg:items-stretch">
-          <div id="mission-composer" className="scroll-mt-28"><AlmaMissionComposer value={request} onChange={setRequest} onSubmit={submitMission} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.submit} starters={STARTERS[lang]} listening={false} onToggleListening={() => {}} voiceSupported={false} voiceStartLabel="" voiceStopLabel="" help={t.help} compactMobile /></div>
-          <MissionDossier lang={lang} request={request} />
+      <section aria-label={t.formulaLabel} className="border-b border-[#191715] bg-[#D10E63] py-5 text-white">
+        <div className="editorial-shell flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center font-mono text-xs font-bold uppercase tracking-[.12em] sm:text-sm">
+          <span>Hermes</span><span aria-hidden>+</span><span>Unitalk</span><span aria-hidden>=</span><span>{t.formulaResult}</span><span aria-hidden className="text-white/50">·</span><span className="text-white/75">{t.formulaMarket}</span>
         </div>
+      </section>
 
-        <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-xs font-semibold text-[#625B50]">{t.reassurance.map((item) => <li key={item} className="flex items-center gap-2"><Check className="size-3.5 text-[#D10E63]" />{item}</li>)}</ul>
-      </div>
-    </section>
+      <section id="anatomie" className="scroll-mt-20 bg-[#191715] py-20 text-white sm:py-28">
+        <div className="editorial-shell">
+          <div className="grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
+            <div>
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">01 · {t.hermesKicker}</p>
+              <h2 className="mt-6 text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[.82] tracking-[-.075em]">{t.hermesTitle}</h2>
+            </div>
+            <div className="border-l border-white/20 pl-6 sm:pl-9">
+              <p className="max-w-2xl text-[19px] leading-9 text-[#D8D0C5]">{t.hermesBody}</p>
+              <Link href="/documentation/licence-collaborateur-ia" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5] outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">{t.hermesLink}<ArrowRight className="size-4" /></Link>
+            </div>
+          </div>
 
-    <section id="equipe" className="scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24">
-      <div className="editorial-shell">
-        <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
-          <div><Kicker dark>{t.rosterKicker}</Kicker><h2 className="mt-5 text-[clamp(2.8rem,5vw,5.3rem)] font-semibold leading-[.9] tracking-[-.065em]">{t.rosterTitle}</h2></div>
-          <p className="max-w-2xl text-[16px] leading-8 text-[#CFC6B8]">{t.rosterBody}</p>
+          <div className="relative mt-16 border border-white/20 p-4 sm:p-8 lg:p-12">
+            <div aria-hidden className="absolute inset-0 opacity-[.07] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:18px_18px]" />
+            <div className="relative grid gap-3 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                <SystemNode number="01" title={t.nodes.mission[0]} body={t.nodes.mission[1]} />
+                <SystemNode number="02" title={t.nodes.context[0]} body={t.nodes.context[1]} />
+              </div>
+              <div className="relative mx-auto my-6 grid size-64 place-items-center rounded-full border border-[#F2A4C5]/40 bg-[#D10E63] text-center shadow-[0_0_100px_rgba(209,14,99,.28)] sm:size-72 lg:mx-10">
+                <div><Braces className="mx-auto size-8" /><p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[.2em] text-white/65">{t.coreLabel}</p><p className="mt-2 text-5xl font-semibold tracking-[-.06em]">Hermes</p><p className="mx-auto mt-3 max-w-40 text-xs leading-5 text-white/75">{t.core}</p></div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                <SystemNode number="03" title={t.nodes.plan[0]} body={t.nodes.plan[1]} />
+                <SystemNode number="04" title={t.nodes.action[0]} body={t.nodes.action[1]} />
+              </div>
+            </div>
+          </div>
+          <p className="mt-8 max-w-4xl text-[clamp(1.8rem,4vw,3.6rem)] font-semibold leading-[1.02] tracking-[-.05em]">{t.hermesConclusion}</p>
         </div>
-        <div className="mt-10 flex gap-2 overflow-x-auto pb-2" role="group" aria-label={t.filterLabel}>
-          {t.filters.map((filter) => <button key={filter.value} type="button" aria-pressed={department === filter.value} onClick={() => setDepartment(filter.value)} className={`shrink-0 rounded-full border px-4 py-2 text-xs font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F2A4C5] ${department === filter.value ? 'border-[#F2A4C5] bg-[#F2A4C5] text-[#181615]' : 'border-white/15 text-[#CFC6B8] hover:border-white/40 hover:text-white'}`}>{filter.label}</button>)}
+      </section>
+
+      <section className="border-b border-[#191715] py-20 sm:py-28">
+        <div className="editorial-shell">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
+            <div><p className="font-mono text-[11px] font-bold uppercase tracking-[.18em] text-[#B00C54]">02 · Unitalk</p><h2 className="mt-6 text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[.82] tracking-[-.075em]">{t.unitalkTitle}</h2></div>
+            <p className="max-w-xl border-l border-[#191715] pl-6 text-[18px] leading-8 text-[#514A42] sm:pl-9">{t.unitalkBody}</p>
+          </div>
+          <div className="mt-16 grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-center">
+            <div>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{t.identityExample}</p>
+              <h3 className="mt-5 text-[clamp(2.4rem,4.5vw,4.5rem)] font-semibold leading-[.92] tracking-[-.06em]">{t.identityTitle}</h3>
+              <p className="mt-6 max-w-lg text-[16px] leading-8 text-[#514A42]">{t.identityBody}</p>
+            </div>
+            <div className="min-w-0">
+              <IdentityCard detail={LEA} lang={lang} labels={t.identityCard} />
+            </div>
+          </div>
         </div>
-        <div className="mt-6 grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">
-          {visibleRoster.map(({ detail, mission }) => <Link key={detail.slug} href={collaboratorHref(detail.slug)} className="group flex min-h-[410px] flex-col bg-[#211E1B] p-6 outline-none transition-colors hover:bg-[#292521] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2A4C5] sm:p-7">
-            <div className="flex items-start justify-between gap-4"><div className="flex items-center gap-4"><Image src={detail.avatar} alt="" width={58} height={58} className="size-[58px] rounded-full object-cover ring-2 ring-white/10"/><div><h3 className="text-xl font-semibold">{detail.name}</h3><p className="mt-1 text-xs text-[#AFA397]">{detail.role[lang]}</p></div></div><span className="rounded-full border border-white/10 px-3 py-1 text-[10px] font-bold text-[#AFA397]">{detail.department[lang]}</span></div>
-            <p className="mt-7 text-sm leading-7 text-[#CFC6B8]">{detail.description[lang]}</p>
-            <div className="mt-7 border-t border-white/10 pt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F2A4C5]">{t.missionExample}</p><p className="mt-3 font-semibold leading-6">{mission.title[lang]}</p><p className="mt-2 text-xs leading-6 text-[#AFA397]">{mission.result[lang]}</p></div>
-            <span className="mt-auto inline-flex items-center gap-2 pt-7 text-sm font-bold text-[#F2A4C5]">{t.seeProfile}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span>
-          </Link>)}
+      </section>
+
+      <section className="bg-[#D10E63] py-20 text-white sm:py-28">
+        <div className="editorial-shell">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[.18em] text-white/60">03 · Workspace</p>
+          <h2 className="mt-6 max-w-5xl text-[clamp(3.4rem,7.5vw,7.5rem)] font-semibold leading-[.82] tracking-[-.08em]">{t.workspaceTitle}</h2>
+          <div className="mt-14 grid border border-white/35 lg:grid-cols-[1fr_1.25fr_1fr]">
+            <WorkspaceColumn label={t.humanLabel} title={t.humanTitle} body={t.humanBody} />
+            <div className="border-y border-white/35 bg-[#191715] p-7 lg:border-x lg:border-y-0 sm:p-10">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#F2A4C5]">{t.sharedWorkspace}</p>
+              <div className="mt-10 space-y-4">{t.workspaceItems.map((item) => <div key={item} className="flex items-center gap-3 border-b border-white/15 pb-4 text-sm font-semibold"><Check className="size-4 text-[#F2A4C5]" />{item}</div>)}</div>
+            </div>
+            <WorkspaceColumn label={t.aiLabel} title={t.aiTitle} body={t.aiBody} />
+          </div>
+          <p className="mt-10 max-w-4xl text-[clamp(1.6rem,3.2vw,3rem)] font-semibold leading-tight tracking-[-.04em]">{t.workspaceConclusion}</p>
         </div>
-        <p className="mt-6 text-xs leading-6 text-[#8F857A]">{t.rosterNote}</p>
-      </div>
-    </section>
+      </section>
 
-    <section className="py-20 sm:py-24">
-      <div className="editorial-shell grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:items-start">
-        <div className="lg:sticky lg:top-28"><Kicker>{t.anatomyKicker}</Kicker><h2 className="mt-5 text-[clamp(2.7rem,5vw,5rem)] font-semibold leading-[.92] tracking-[-.06em]">{t.anatomyTitle}</h2><p className="mt-6 text-[16px] leading-8 text-[#4E483F]">{t.anatomyBody}</p><Link href="/collaborateurs-ia/comparatif" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.compare}<ArrowRight className="size-4"/></Link></div>
-        <ol className="border-t border-[#CFC5B5]">{t.anatomy.map((item, index) => <li key={item.title} className="grid gap-4 border-b border-[#CFC5B5] py-7 sm:grid-cols-[64px_180px_1fr]"><span className="font-mono text-xs font-bold text-[#B00C54]">0{index + 1}</span><h3 className="text-xl font-semibold">{item.title}</h3><p className="text-sm leading-7 text-[#625B50]">{item.body}</p></li>)}</ol>
-      </div>
-    </section>
-
-    <section id="mission-en-action" className="border-y border-[#CFC5B5] bg-[#EAE3D4] py-20 sm:py-24">
-      <div className="editorial-shell">
-        <div className="grid gap-8 lg:grid-cols-[.75fr_1.25fr] lg:items-end"><div><Kicker>{t.proofKicker}</Kicker><h2 className="mt-5 text-[clamp(2.7rem,5vw,5rem)] font-semibold leading-[.92] tracking-[-.06em]">{t.proofTitle}</h2></div><p className="max-w-2xl text-[16px] leading-8 text-[#4E483F]">{t.proofBody}</p></div>
-        <div className="mt-12 grid overflow-hidden border border-[#CFC5B5] bg-[#FAF8F3] lg:grid-cols-[.9fr_1.1fr]">
-          <div className="border-b border-[#CFC5B5] p-6 lg:border-b-0 lg:border-r sm:p-8"><p className="font-mono text-[11px] font-bold uppercase tracking-[.15em] text-[#B00C54]">{t.demoLabel}</p><h3 className="mt-5 text-3xl font-semibold tracking-[-.04em]">{t.demoMission}</h3><dl className="mt-8 divide-y divide-[#D8D0C2] border-y border-[#D8D0C2]"><DossierRow label={t.expected} value={t.expectedValue}/><DossierRow label={t.owner} value="Hugo · Commercial"/><DossierRow label={t.access} value="CRM · Sources publiques · Email"/><DossierRow label={t.approval} value={t.approvalValue}/></dl></div>
-          <div><ol className="divide-y divide-[#D8D0C2]">{t.timeline.map(([time, title, body], index) => <li key={time} className="grid gap-3 p-6 sm:grid-cols-[60px_1fr]"><span className="font-mono text-xs font-bold text-[#B00C54]">{time}</span><div><h4 className="flex items-center gap-2 text-sm font-semibold"><span className={`size-2 rounded-full ${index === 3 ? 'bg-[#D10E63]' : 'bg-[#267A48]'}`}/>{title}</h4><p className="mt-2 text-sm leading-6 text-[#625B50]">{body}</p></div></li>)}</ol><div className="border-t border-[#D8D0C2] bg-[#181615] p-6 text-white"><p className="font-mono text-[11px] font-bold uppercase tracking-[.15em] text-[#F2A4C5]">{t.decision}</p><p className="mt-3 font-semibold">{t.decisionQuestion}</p><div className="mt-5 flex flex-wrap gap-2"><DecisionButton active={decision==='approved'} primary onClick={() => setDecision('approved')}>{t.approve}</DecisionButton><DecisionButton active={decision==='changed'} onClick={() => setDecision('changed')}>{t.change}</DecisionButton><DecisionButton active={decision==='declined'} onClick={() => setDecision('declined')}>{t.decline}</DecisionButton></div>{decision&&<p role="status" className="mt-5 border-l-2 border-[#F2A4C5] pl-4 text-sm leading-6 text-[#CFC6B8]">{t.outcomes[decision]}</p>}</div></div>
+      <section className="border-b border-[#191715] bg-[#E8E0D2] py-20 sm:py-28">
+        <div className="editorial-shell">
+          <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
+            <div><p className="font-mono text-[11px] font-bold uppercase tracking-[.18em] text-[#B00C54]">04 · Marketplace</p><h2 className="mt-6 text-[clamp(3.3rem,6.5vw,6.5rem)] font-semibold leading-[.84] tracking-[-.075em]">{t.marketTitle}</h2></div>
+            <p className="max-w-2xl text-[18px] leading-8 text-[#514A42]">{t.marketBody}</p>
+          </div>
+          <div className="mt-14 grid gap-px overflow-hidden rounded-[26px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2">
+            <Link href="/marketplace#applications" className="group bg-[#FAF8F3] p-6 outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#D10E63] sm:p-8">
+              <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.appsKicker}</p>
+              <h3 className="mt-5 text-[clamp(2.15rem,3.2vw,3.35rem)] font-bold leading-[.98] tracking-[-.045em]">{t.appsTitle}</h3>
+              <p className="mt-5 text-[15px] font-medium leading-7 text-[#625B50]">{t.appsBody}</p>
+              <ApplicationLogos apps={LEA_APPLICATIONS} />
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.exploreApps}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></span>
+            </Link>
+            <Link href="/marketplace#modeles-ia" className="group bg-[#181615] p-6 text-white outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#F2A4C5] sm:p-8">
+              <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">Unitalk AI Gateway</p>
+              <h3 className="mt-5 text-[clamp(2.15rem,3.2vw,3.35rem)] font-bold leading-[.98] tracking-[-.045em]">{t.modelsTitle}</h3>
+              <p className="mt-5 text-[15px] font-medium leading-7 text-[#CFC6B8]">{t.modelsBody}</p>
+              <ModelLogos />
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.exploreModels}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></span>
+            </Link>
+          </div>
+          <p className="mt-4 font-mono text-[10px] leading-5 text-[#6B6359]">{t.catalogNote}</p>
+          <p className="mt-10 max-w-5xl text-[clamp(2rem,4.5vw,4.5rem)] font-semibold leading-[.98] tracking-[-.055em]">{t.marketConclusion}</p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section className="py-20 sm:py-24">
-      <div className="editorial-shell"><div className="max-w-4xl"><Kicker>{t.continuityKicker}</Kicker><h2 className="mt-5 text-[clamp(2.8rem,5.5vw,5.6rem)] font-semibold leading-[.9] tracking-[-.065em]">{t.continuityTitle}</h2><p className="mt-6 max-w-2xl text-[16px] leading-8 text-[#4E483F]">{t.continuityBody}</p></div>
-        <div className="mt-12 grid gap-px overflow-hidden border border-[#CFC5B5] bg-[#CFC5B5] md:grid-cols-2 lg:grid-cols-3">{t.continuity.map((item, index) => <article key={item.title} className={`min-h-56 p-7 ${index===0?'bg-[#D10E63] text-white':'bg-[#FAF8F3]'}`}><p className={`font-mono text-[11px] font-bold ${index===0?'text-white/70':'text-[#B00C54]'}`}>0{index+1}</p><h3 className="mt-10 text-2xl font-semibold">{item.title}</h3><p className={`mt-4 text-sm leading-7 ${index===0?'text-white/80':'text-[#625B50]'}`}>{item.body}</p></article>)}</div>
-        <div className="mt-7 flex flex-wrap gap-4"><Link href="/collaborateurs-ia/profils-metier" className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#181615] px-6 text-sm font-bold text-white">{t.profiles}<ArrowRight className="size-4"/></Link><Link href="/collaborateurs-ia/competences" className="inline-flex min-h-12 items-center gap-2 rounded-full border border-[#BFB5A5] px-6 text-sm font-bold">{t.skills}<ArrowRight className="size-4"/></Link></div>
-      </div>
-    </section>
+      <section className="py-20 sm:py-28">
+        <div className="editorial-shell">
+          <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
+            <div><p className="font-mono text-[11px] font-bold uppercase tracking-[.18em] text-[#B00C54]">05 · {t.proofKicker}</p><h2 className="mt-6 text-[clamp(3rem,5.5vw,5.5rem)] font-semibold leading-[.88] tracking-[-.065em]">{t.proofTitle}</h2></div>
+            <p className="max-w-2xl text-[18px] leading-8 text-[#514A42]">{t.proofBody}</p>
+          </div>
+          <div className="mt-14 border border-[#191715]">
+            <div className="grid border-b border-[#191715] lg:grid-cols-[.7fr_1.3fr]">
+              <div className="bg-[#191715] p-7 text-white sm:p-9"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#F2A4C5]">{t.exampleLabel}</p><h3 className="mt-7 text-3xl font-semibold tracking-[-.045em]">{t.exampleMission}</h3><p className="mt-4 text-sm leading-7 text-[#BEB4A8]">{t.exampleRule}</p></div>
+              <ol className="grid sm:grid-cols-3">{t.proofSteps.map((step, index) => <li key={step[0]} className="border-b border-[#191715] p-6 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"><span className="font-mono text-[10px] font-bold text-[#B00C54]">0{index + 1} · {step[0]}</span><h4 className="mt-8 text-xl font-semibold">{step[1]}</h4><p className="mt-3 text-sm leading-6 text-[#5B544B]">{step[2]}</p></li>)}</ol>
+            </div>
+            <div className="grid lg:grid-cols-[.7fr_1.3fr]">
+              <div className="border-b border-[#191715] bg-[#D10E63] p-7 text-white lg:border-b-0 lg:border-r sm:p-9"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-white/65">{t.decisionLabel}</p><p className="mt-5 text-2xl font-semibold tracking-[-.035em]">{t.decisionQuestion}</p><span className="mt-6 inline-flex rounded-full bg-white px-4 py-2 text-xs font-bold text-[#B00C54]">{t.decisionStatus}</span></div>
+              <div className="grid sm:grid-cols-3">{t.guarantees.map((item) => <div key={item[0]} className="border-b border-[#191715] p-6 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"><ShieldCheck className="size-5 text-[#D10E63]"/><h4 className="mt-6 font-semibold">{item[0]}</h4><p className="mt-2 text-xs leading-5 text-[#5B544B]">{item[1]}</p></div>)}</div>
+            </div>
+          </div>
+          <p className="mt-6 text-xs leading-6 text-[#6B6359]">{t.demoNote}</p>
+        </div>
+      </section>
 
-    <section className="bg-[#181615] py-20 text-white sm:py-24">
-      <div className="editorial-shell"><div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:items-end"><div><Kicker dark>{t.differenceKicker}</Kicker><h2 className="mt-5 text-[clamp(2.8rem,5vw,5.2rem)] font-semibold leading-[.9] tracking-[-.06em]">{t.differenceTitle}</h2></div><p className="max-w-2xl text-[16px] leading-8 text-[#CFC6B8]">{t.differenceBody}</p></div>
-        <div className="mt-12 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-3"><ProofCard icon={Bot} title={t.identityTitle} body={t.identityBody}/><ProofCard icon={ShieldCheck} title={t.governanceTitle} body={t.governanceBody}/><ProofCard icon={Server} title={t.openTitle} body={t.openBody}/></div>
-        <div className="mt-8 flex flex-wrap gap-5 text-sm font-bold"><Link href="/documentation/licence-collaborateur-ia" className="inline-flex items-center gap-2 text-[#F2A4C5]">{t.documentation}<ArrowRight className="size-4"/></Link><Link href="/architecture" className="inline-flex items-center gap-2 text-[#F2A4C5]">{t.architecture}<ArrowRight className="size-4"/></Link><Link href="/ai-gateway" className="inline-flex items-center gap-2 text-[#F2A4C5]">AI Gateway<ArrowRight className="size-4"/></Link></div>
-      </div>
-    </section>
-
-    <section className="py-20 sm:py-24"><div className="editorial-shell grid gap-12 lg:grid-cols-[.72fr_1.28fr]"><div><Kicker>FAQ</Kicker><h2 className="mt-5 text-[clamp(2.7rem,5vw,4.8rem)] font-semibold leading-[.92] tracking-[-.06em]">{t.faqTitle}</h2><p className="mt-6 text-[16px] leading-8 text-[#4E483F]">{t.faqBody}</p></div><div className="border-t border-[#CFC5B5]">{t.faq.map((item) => <details key={item.question} className="group border-b border-[#CFC5B5]"><summary className="flex min-h-20 cursor-pointer list-none items-center justify-between gap-5 py-5 text-lg font-semibold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]"><span>{item.question}</span><span aria-hidden className="font-mono text-[#D10E63] group-open:rotate-45">+</span></summary><p className="max-w-2xl pb-7 pr-8 text-[15px] leading-7 text-[#4E483F]">{item.answer}</p></details>)}</div></div></section>
-
-    <section className="bg-[#D10E63] py-20 text-white sm:py-24"><div className="editorial-shell grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><p className="font-mono text-[11px] font-bold uppercase tracking-[.18em] text-white/70">{t.finalKicker}</p><h2 className="mt-5 max-w-5xl text-[clamp(3rem,6vw,6rem)] font-semibold leading-[.88] tracking-[-.07em]">{t.finalTitle}</h2><p className="mt-6 max-w-2xl text-[17px] leading-8 text-white/80">{t.finalBody}</p></div><div className="flex min-w-64 flex-col gap-3"><a href="#mission-composer" onClick={(event) => { event.preventDefault(); document.querySelector<HTMLTextAreaElement>('#mission-composer textarea')?.focus() }} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}<ArrowRight className="size-4"/></a><Link href="/tarifs" className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4">{t.pricing}</Link></div></div></section>
-  </main>
+      <section className="bg-[#191715] py-20 text-white sm:py-28">
+        <div className="editorial-shell">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[.18em] text-[#F2A4C5]">{t.finalKicker}</p>
+          <h2 className="mt-6 max-w-6xl text-[clamp(3.5rem,8vw,8rem)] font-semibold leading-[.8] tracking-[-.08em]">{t.finalTitle}</h2>
+          <p className="mt-8 max-w-2xl text-[18px] leading-8 text-[#C8BEB2]">{t.finalBody}</p>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Link href="/marketplace" className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#D10E63] px-7 text-sm font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">{t.marketCta}<ArrowRight className="size-4" /></Link>
+            <Link href="/missions?composer=1&source=collaborateurs-ia" className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-white/25 px-7 text-sm font-bold outline-none hover:border-white/60 focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">{t.missionCta}<ArrowRight className="size-4" /></Link>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
 }
 
-function MissionDossier({ lang, request }: { lang: Lang; request: string }) { const t=COPY[lang]; const text=request.trim(); return <article className="relative flex min-h-[390px] flex-col overflow-hidden border border-[#CFC5B5] bg-[#FAF8F3] shadow-[10px_10px_0_#E1D8C9]"><header className="flex items-center justify-between border-b border-[#D8D0C2] px-5 py-4"><p className="font-mono text-[11px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{t.dossier}</p><span className="rounded-full bg-[#EAE3D4] px-3 py-1 text-[10px] font-bold text-[#625B50]">{text?t.toFrame:t.waiting}</span></header><div className="flex-1 p-6 sm:p-7"><p className="font-mono text-[10px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.need}</p><h2 className={`mt-4 break-words text-3xl font-semibold leading-tight tracking-[-.045em] ${text?'text-[#1C1A17]':'text-[#9A9185]'}`}>{text||t.needPlaceholder}</h2><div className="mt-8 grid gap-px border border-[#D8D0C2] bg-[#D8D0C2] sm:grid-cols-2"><DossierCell icon={Sparkles} label={t.prepares} value={t.preparesValue}/><DossierCell icon={Bot} label={t.recommends} value={t.recommendsValue}/><DossierCell icon={LockKeyhole} label={t.governs} value={t.governsValue}/><DossierCell icon={FileText} label={t.delivers} value={t.deliversValue}/></div></div><footer className="border-t border-[#D8D0C2] bg-[#EAE3D4] px-6 py-4 text-xs font-semibold text-[#625B50]">{t.previewNote}</footer></article> }
-function DossierCell({icon:Icon,label,value}:{icon:typeof Bot;label:string;value:string}){return <div className="min-h-28 bg-[#FAF8F3] p-4"><Icon className="size-4 text-[#D10E63]"/><p className="mt-4 font-mono text-[9px] font-bold uppercase tracking-[.12em] text-[#857C6E]">{label}</p><p className="mt-2 text-xs font-semibold leading-5">{value}</p></div>}
-function DossierRow({label,value}:{label:string;value:string}){return <div className="grid gap-2 py-4 sm:grid-cols-[130px_1fr]"><dt className="font-mono text-[10px] font-bold uppercase tracking-[.1em] text-[#857C6E]">{label}</dt><dd className="text-sm font-semibold">{value}</dd></div>}
-function DecisionButton({children,onClick,active=false,primary=false}:{children:React.ReactNode;onClick:()=>void;active?:boolean;primary?:boolean}){return <button type="button" aria-pressed={active} onClick={onClick} className={`min-h-11 rounded-full px-5 text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5] ${active?'ring-2 ring-[#F2A4C5]':primary?'bg-[#D10E63] text-white':'border border-white/15 bg-white/[.04] text-white'}`}>{children}</button>}
-function ProofCard({icon:Icon,title,body}:{icon:typeof Bot;title:string;body:string}){return <article className="min-h-64 bg-[#211E1B] p-7"><Icon className="size-5 text-[#F2A4C5]"/><h3 className="mt-12 text-2xl font-semibold">{title}</h3><p className="mt-4 text-sm leading-7 text-[#AFA397]">{body}</p></article>}
+function SystemNode({ number, title, body }: { number: string; title: string; body: string }) {
+  return <div className="min-h-36 border border-white/15 bg-[#211E1B] p-5"><span className="font-mono text-[10px] font-bold text-[#F2A4C5]">{number}</span><h3 className="mt-5 font-semibold">{title}</h3><p className="mt-2 text-xs leading-5 text-[#AFA397]">{body}</p></div>
+}
+
+function WorkspaceColumn({ label, title, body }: { label: string; title: string; body: string }) {
+  return <div className="p-7 sm:p-10"><p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-white/60">{label}</p><h3 className="mt-10 text-3xl font-semibold tracking-[-.04em]">{title}</h3><p className="mt-5 text-sm leading-7 text-white/75">{body}</p></div>
+}
 
 const COPY = {
   fr: {
-    heroKicker:'Collaborateurs IA · Une mission d’abord', heroTitle:'Décrivez le travail à faire.', heroAccent:'Unitalk prépare qui peut l’accomplir.', heroBody:'Alma transforme votre besoin en mission cadrée, recommande un profil métier, prépare les accès utiles et place les décisions sensibles entre les mains de votre équipe.', composerTitle:'Quel travail voulez-vous faire avancer ?', composerBody:'Décrivez le résultat attendu, même simplement. Vous préciserez ensuite le cadre avec Alma.', almaRole:'Coordinatrice de missions IA', placeholder:'Ex. Qualifier les prospects entrants et préparer les fiches CRM avant tout premier contact…', submit:'Préparer cette mission', help:'Votre texte est conservé pour le cadrage. Aucune application n’est connectée à cette étape.', reassurance:['Première mission offerte','Sans carte bancaire','Cadrage revu avant activation','Décisions sensibles validées par votre équipe'], dossier:'Dossier de mission · Aperçu', toFrame:'À cadrer', waiting:'En attente du besoin', need:'Travail confié', needPlaceholder:'Votre besoin apparaîtra ici.', prepares:'Alma prépare', preparesValue:'Objectif, résultat et règles', recommends:'Profil recommandé', recommendsValue:'Responsabilité et compétences', governs:'Votre entreprise gouverne', governsValue:'Accès, budgets et validations', delivers:'Le Collaborateur livre', deliversValue:'Résultat, trace et sources', previewNote:'Aperçu indicatif · Le périmètre final est confirmé avec vous.',
-    rosterKicker:'L’équipe Unitalk', rosterTitle:'Rencontrez les Collaborateurs IA.', rosterBody:'Chacun possède un métier, des compétences et une identité qui reste la même d’une mission à l’autre. Parcourez l’équipe, puis ouvrez un profil pour voir précisément ce que vous pouvez lui confier.', filterLabel:'Filtrer les Collaborateurs IA par métier', filters:[{value:'all',label:'Tous les profils'},{value:'Direction',label:'Direction'},{value:'Ventes',label:'Ventes'},{value:'Marketing',label:'Marketing'},{value:'Relation client',label:'Relation client'},{value:'Finance',label:'Finance'},{value:'Développement',label:'Développement'}], missionExample:'Exemple de mission', seeProfile:'Découvrir son profil', rosterNote:'Ces profils montrent les Collaborateurs IA actuellement présentés par Unitalk. Le profil et le périmètre final sont configurés selon votre entreprise.',
-    anatomyKicker:'Anatomie d’une mission', anatomyTitle:'Le travail avant la technologie.', anatomyBody:'Un Collaborateur IA ne reçoit pas un accès général à votre entreprise. Chaque mission définit ce qui doit être produit, les ressources mobilisées et les décisions qui restent humaines.', compare:'Comparer assistants, agents et Collaborateurs IA', anatomy:[{title:'Résultat attendu',body:'Un livrable ou un état final observable, pas une simple conversation.'},{title:'Profil responsable',body:'Une responsabilité métier claire, portée par une identité professionnelle durable.'},{title:'Compétences',body:'Les méthodes testées que cette identité est autorisée à appliquer.'},{title:'Accès autorisés',body:'Uniquement les applications, sources et actions utiles à cette mission.'},{title:'Décisions humaines',body:'Les validations obligatoires, les actions interdites et les règles d’escalade.'}],
-    proofKicker:'Démonstration fictive · Aucune action réelle', proofTitle:'Voir le travail. Garder la décision.', proofBody:'Le Workspace conserve la mission, chaque étape et chaque demande de validation. Le Collaborateur IA prépare. Votre équipe arbitre ce qui engage l’entreprise.', demoLabel:'Mission SALES-014 · Exemple', demoMission:'Qualifier les prospects entrants', expected:'Résultat', expectedValue:'Fiches CRM qualifiées et messages préparés', owner:'Responsable', access:'Accès', approval:'Validation', approvalValue:'Obligatoire avant tout premier contact', timeline:[['09:05','Demandes analysées','34 entreprises sont examinées selon les critères définis.'],['09:12','Cible qualifiée','9 entreprises correspondent au segment attendu.'],['09:18','Livrables préparés','Les fiches CRM et les messages sont prêts.'],['09:21','Validation demandée','Le premier contact reste bloqué en attente de votre décision.']] as const, decision:'Décision humaine requise', decisionQuestion:'Autoriser la préparation du premier contact ?', approve:'Approuver', change:'Modifier', decline:'Refuser', outcomes:{approved:'Décision enregistrée. La mission peut continuer dans le périmètre validé.',changed:'Le travail reste bloqué. Les nouvelles consignes sont transmises.',declined:'Aucun premier contact ne sera préparé. Le travail reste consultable.'},
-    continuityKicker:'Mission après mission', continuityTitle:'Le résultat est livré. L’expérience reste gouvernée.', continuityBody:'Une mission ne recrée pas une nouvelle IA. Elle enrichit la même identité lorsque les méthodes, corrections et résultats ont été revus.', continuity:[{title:'Même identité',body:'Nom, responsable, historique et rattachement restent continus.'},{title:'Nouvelles capacités',body:'Ajoutez un profil métier ou une compétence sans repartir de zéro.'},{title:'Expérience validée',body:'Seuls les apprentissages revus enrichissent la mission suivante.'}], profiles:'Explorer les profils métier', skills:'Voir les compétences',
-    differenceKicker:'Pourquoi Unitalk', differenceTitle:'Une identité durable. Un travail gouverné. Une base ouverte.', differenceBody:'Unitalk réunit les éléments dispersés d’un agent IA dans un cadre professionnel administrable par votre entreprise.', identityTitle:'Identité durable', identityBody:'Un prénom, un responsable, une mémoire propre et une continuité lorsque les équipes changent.', governanceTitle:'Travail gouverné', governanceBody:'Applications, modèles, budgets, validations et traces sont administrés explicitement.', openTitle:'Infrastructure ouverte', openBody:'Hermes sous licence MIT, fournisseurs interchangeables et architecture documentée.', documentation:'Documentation de la licence', architecture:'Voir l’architecture',
-    faqTitle:'Avant de confier une première mission.', faqBody:'Les réponses essentielles sur le contrôle, les données et le démarrage.', faq:[{question:'Quelle différence avec un chatbot ?',answer:'Un chatbot répond à une demande. Un Collaborateur IA porte une identité, accomplit une mission dans un périmètre défini et laisse une trace de son travail.'},{question:'Peut-il agir seul dans mes applications ?',answer:'Seulement dans les limites autorisées. Les accès et actions sont attribués par mission, et les actions sensibles peuvent exiger une validation humaine.'},{question:'Que conserve-t-il après une mission ?',answer:'L’historique utile et l’expérience validée peuvent enrichir son contexte. Une correction ou une méthode n’est pas intégrée automatiquement.'},{question:'Puis-je choisir les modèles IA ?',answer:'Oui. AI Gateway applique les fournisseurs, modèles, clés et budgets autorisés par votre entreprise.'},{question:'Puis-je commencer avec une seule mission ?',answer:'Oui. Décrivez un travail réel, cadrez le résultat avec Alma puis confirmez le profil et les validations avant toute activation.'}],
-    finalKicker:'Commencez par le travail', finalTitle:'Quelle première mission voulez-vous faire avancer ?', finalBody:'Décrivez un besoin réel. Alma prépare le dossier, le profil recommandé et les validations avant toute activation.', finalCta:'Décrire ma mission', pricing:'Voir les tarifs',
+    eyebrow:'Manifeste · Collaborateurs IA', heroLine1:'Un agent sait agir.', heroLine2:'Un Collaborateur sait travailler avec vous.', heroBody:'Hermes transforme un objectif en actions. Unitalk en fait un travail partagé : une identité, un Workspace humain + IA, une mémoire commune et des règles claires.', heroNote:'Les modèles et les applications peuvent changer. Le Collaborateur, son histoire et sa relation avec votre équipe demeurent.', discover:'Découvrir son anatomie', formulaLabel:'Formule du Collaborateur IA', formulaResult:'Collaborateur IA', formulaMarket:'La Marketplace étend ses capacités',
+    hermesKicker:'Le cœur agentique', hermesTitle:'Hermes conduit le travail.', hermesBody:'Hermes est le moteur open source de chaque Collaborateur IA. Il reçoit un objectif, comprend le contexte, construit un plan, mobilise les ressources autorisées et avance jusqu’à un résultat vérifiable.', hermesLink:'Découvrir la licence et l’architecture', coreLabel:'Cœur agentique', core:'Raisonner · planifier · agir', nodes:{mission:['Mission','Un objectif et un résultat attendu.'],context:['Contexte','Les informations utiles et autorisées.'],plan:['Plan de travail','Les étapes sont construites et adaptées.'],action:['Actions','Les outils sont mobilisés dans le cadre défini.']}, hermesConclusion:'Hermes donne l’autonomie. Unitalk la rend collaborative.',
+    unitalkTitle:'Unitalk crée la relation.', unitalkBody:'Unitalk ne pose pas un avatar sur un agent. La plateforme lui donne une existence professionnelle et un cadre commun pour travailler avec les humains dans la durée.', identityExample:'Exemple · Léa', identityTitle:'Une identité propre. Des accès propres.', identityBody:'Léa illustre ce que reçoit chaque Collaborateur IA : une identité rattachée à votre entreprise, une supervision humaine, des canaux professionnels, une mémoire et un environnement privé.', identityCard:{header:'Carte d’identité de votre Collaborateur IA',owner:'Propriétaire',supervisor:'Supervision humaine',communication:'Canaux professionnels',memory:'Mémoire propre',shared:'Savoir de l’entreprise',execution:'Environnement privé',governance:'Accès et actions gouvernés par votre entreprise'},
+    workspaceTitle:'Le travail sort de la boîte de dialogue.', humanLabel:'Humains', humanTitle:'Décident et transmettent', humanBody:'Votre équipe confie le résultat attendu, partage le contexte, suit le travail et arbitre les décisions sensibles.', aiLabel:'Collaborateur IA', aiTitle:'Prépare et accomplit', aiBody:'Le Collaborateur organise la mission, produit les livrables, signale les blocages et demande les validations nécessaires.', sharedWorkspace:'Workspace partagé', workspaceItems:['Missions et résultats attendus','Contexte et mémoire commune','Travail visible et traçable','Demandes de validation','Livrables et décisions'], workspaceConclusion:'Même espace. Même contexte. Des responsabilités différentes.',
+    marketTitle:'Ses capacités se composent.', marketBody:'La Marketplace étend les capacités du Collaborateur sans toucher à son identité. Voici l’équipement de Léa : ses applications autorisées et les modèles accessibles sous les règles de l’entreprise.', appsKicker:'Applications autorisées', appsTitle:'Léa travaille dans votre environnement métier.', appsBody:'Connectez uniquement les outils utiles à sa mission, avec les droits que vous décidez.', exploreApps:'Voir les applications', modelsTitle:'Le bon modèle. Sous vos règles.', modelsBody:'Léa utilise uniquement les modèles autorisés par votre entreprise, dans les limites du budget défini.', exploreModels:'Voir les modèles IA', catalogNote:'Exemple de configuration. La disponibilité dépend du fournisseur, de votre offre, de vos droits et des connexions effectivement autorisées.', marketConclusion:'Ses ressources évoluent. Son identité demeure.',
+    proofKicker:'Une mission, concrètement', proofTitle:'Le travail avance. La décision reste humaine.', proofBody:'Un Collaborateur ne reçoit pas carte blanche. La mission relie un résultat attendu, des ressources autorisées et les décisions que votre équipe doit valider.', exampleLabel:'Démonstration fictive · Mission SALES-014', exampleMission:'Qualifier les prospects entrants', exampleRule:'Hugo peut analyser les demandes et préparer le CRM. Aucun premier contact ne part sans validation.', proofSteps:[['Observer','Demandes reçues','34 entreprises sont examinées selon vos critères.'],['Préparer','Résultat produit','9 fiches qualifiées et leurs messages sont prêts.'],['Signaler','Décision requise','Le travail s’arrête avant l’action engageante.']], decisionLabel:'Validation humaine', decisionQuestion:'Autoriser le premier contact pour ces 9 prospects ?', decisionStatus:'En attente de votre décision', guarantees:[['Périmètre','Un résultat et des limites explicites.'],['Accès','Seulement les ressources attribuées.'],['Trace','Sources, actions et décisions conservées.']], demoNote:'Cette démonstration illustre le fonctionnement du Workspace. Les actions disponibles dépendent de votre configuration et de vos droits.',
+    finalKicker:'Hermes sait accomplir le travail. Unitalk lui permet de travailler avec vous.', finalTitle:'Plus qu’un agent. Une place dans votre équipe.', finalBody:'Composez ses capacités dans la Marketplace ou partez d’un travail réel. Alma vous aide à cadrer la première mission et le Collaborateur adapté.', marketCta:'Explorer la Marketplace', missionCta:'Confier une première mission',
   },
   en: {
-    heroKicker:'AI Collaborators · Mission first', heroTitle:'Describe the work to be done.', heroAccent:'Unitalk prepares who can deliver it.', heroBody:'Alma turns your need into a scoped mission, recommends a job profile, prepares useful access and keeps sensitive decisions in your team’s hands.', composerTitle:'What work do you want to move forward?', composerBody:'Describe the expected result in simple terms. You will refine the scope with Alma next.', almaRole:'AI mission coordinator', placeholder:'e.g. Qualify inbound prospects and prepare CRM records before any first contact…', submit:'Prepare this mission', help:'Your text is saved for scoping. No application is connected at this stage.', reassurance:['First mission included','No credit card','Scope reviewed before activation','Sensitive decisions approved by your team'], dossier:'Mission file · Preview', toFrame:'To scope', waiting:'Waiting for your need', need:'Entrusted work', needPlaceholder:'Your need will appear here.', prepares:'Alma prepares', preparesValue:'Goal, outcome and rules', recommends:'Recommended profile', recommendsValue:'Responsibility and skills', governs:'Your organization governs', governsValue:'Access, budgets and approvals', delivers:'The Collaborator delivers', deliversValue:'Outcome, trace and sources', previewNote:'Indicative preview · The final scope is confirmed with you.',
-    rosterKicker:'The Unitalk team', rosterTitle:'Meet the AI Collaborators.', rosterBody:'Each has a profession, skills and an identity that remains consistent from one mission to the next. Browse the team, then open a profile to see exactly what you can entrust to them.', filterLabel:'Filter AI Collaborators by profession', filters:[{value:'all',label:'All profiles'},{value:'Direction',label:'Leadership'},{value:'Ventes',label:'Sales'},{value:'Marketing',label:'Marketing'},{value:'Relation client',label:'Customer relations'},{value:'Finance',label:'Finance'},{value:'Développement',label:'Engineering'}], missionExample:'Example mission', seeProfile:'Explore profile', rosterNote:'These profiles show the AI Collaborators currently presented by Unitalk. The final profile and scope are configured for your organization.',
-    anatomyKicker:'Mission anatomy', anatomyTitle:'Work before technology.', anatomyBody:'An AI Collaborator does not receive general access to your organization. Each mission defines what must be produced, which resources may be used and which decisions remain human.', compare:'Compare assistants, agents and AI Collaborators', anatomy:[{title:'Expected outcome',body:'An observable deliverable or end state, not merely a conversation.'},{title:'Responsible profile',body:'A clear job responsibility carried by a durable professional identity.'},{title:'Skills',body:'Tested methods that this identity is authorized to apply.'},{title:'Authorized access',body:'Only applications, sources and actions useful to this mission.'},{title:'Human decisions',body:'Required approvals, forbidden actions and escalation rules.'}],
-    proofKicker:'Fictional demonstration · No real action', proofTitle:'See the work. Keep the decision.', proofBody:'The Workspace retains the mission, every step and each approval request. The AI Collaborator prepares. Your team decides what commits the organization.', demoLabel:'Mission SALES-014 · Example', demoMission:'Qualify inbound prospects', expected:'Outcome', expectedValue:'Qualified CRM records and prepared messages', owner:'Owner', access:'Access', approval:'Approval', approvalValue:'Required before any first contact', timeline:[['09:05','Requests analyzed','34 companies are reviewed under the defined criteria.'],['09:12','Target qualified','9 companies match the expected segment.'],['09:18','Deliverables prepared','CRM records and messages are ready.'],['09:21','Approval requested','First contact remains blocked pending your decision.']] as const, decision:'Human decision required', decisionQuestion:'Authorize preparation of first contact?', approve:'Approve', change:'Change', decline:'Decline', outcomes:{approved:'Decision recorded. The mission may continue within the approved scope.',changed:'Work remains blocked. New instructions are passed on.',declined:'No first contact will be prepared. The work remains available.'},
-    continuityKicker:'Mission after mission', continuityTitle:'The outcome is delivered. Experience remains governed.', continuityBody:'A mission does not recreate a new AI. It enriches the same identity when methods, corrections and outcomes have been reviewed.', continuity:[{title:'Same identity',body:'Name, owner, history and reporting line remain continuous.'},{title:'New capabilities',body:'Add a job profile or skill without starting over.'},{title:'Approved experience',body:'Only reviewed learning enriches the next mission.'}], profiles:'Explore job profiles', skills:'View skills',
-    differenceKicker:'Why Unitalk', differenceTitle:'A durable identity. Governed work. An open foundation.', differenceBody:'Unitalk brings the scattered pieces of an AI agent into a professional framework administered by your organization.', identityTitle:'Durable identity', identityBody:'A name, owner, own memory and continuity when teams change.', governanceTitle:'Governed work', governanceBody:'Applications, models, budgets, approvals and traces are explicitly administered.', openTitle:'Open infrastructure', openBody:'MIT-licensed Hermes, interchangeable providers and documented architecture.', documentation:'License documentation', architecture:'View architecture',
-    faqTitle:'Before entrusting a first mission.', faqBody:'Essential answers about control, data and getting started.', faq:[{question:'How is this different from a chatbot?',answer:'A chatbot answers a request. An AI Collaborator carries an identity, completes a scoped mission and leaves a trace of the work.'},{question:'Can it act alone in my applications?',answer:'Only within authorized limits. Access and actions are assigned by mission, and sensitive actions may require human approval.'},{question:'What does it retain after a mission?',answer:'Useful history and approved experience may enrich its context. Corrections or methods are not integrated automatically.'},{question:'Can I choose the AI models?',answer:'Yes. AI Gateway applies the providers, models, keys and budgets authorized by your organization.'},{question:'Can I start with one mission?',answer:'Yes. Describe real work, scope the outcome with Alma, then confirm the profile and approvals before activation.'}],
-    finalKicker:'Start from the work', finalTitle:'What first mission do you want to move forward?', finalBody:'Describe a real need. Alma prepares the file, recommended profile and approvals before any activation.', finalCta:'Describe my mission', pricing:'View pricing',
+    eyebrow:'Manifesto · AI Collaborators', heroLine1:'An agent knows how to act.', heroLine2:'A Collaborator knows how to work with you.', heroBody:'Hermes turns an objective into action. Unitalk makes it shared work: an identity, a human + AI Workspace, common memory and clear rules.', heroNote:'Models and applications can change. The Collaborator, its history and its relationship with your team remain.', discover:'Discover its anatomy', formulaLabel:'AI Collaborator formula', formulaResult:'AI Collaborator', formulaMarket:'The Marketplace extends its capabilities',
+    hermesKicker:'The agentic core', hermesTitle:'Hermes drives the work.', hermesBody:'Hermes is the open-source engine inside every AI Collaborator. It receives an objective, understands context, builds a plan, uses authorized resources and advances toward a verifiable result.', hermesLink:'Explore the license and architecture', coreLabel:'Agentic core', core:'Reason · plan · act', nodes:{mission:['Mission','An objective and expected outcome.'],context:['Context','Useful, authorized information.'],plan:['Work plan','Steps are built and adapted.'],action:['Actions','Tools are used within the defined scope.']}, hermesConclusion:'Hermes provides autonomy. Unitalk makes it collaborative.',
+    unitalkTitle:'Unitalk creates the relationship.', unitalkBody:'Unitalk does not simply place an avatar on an agent. The platform gives it a professional existence and a shared framework for long-term work with people.', identityExample:'Example · Léa', identityTitle:'Its own identity. Its own access.', identityBody:'Léa illustrates what every AI Collaborator receives: an identity attached to your organization, human supervision, professional channels, memory and a private environment.', identityCard:{header:'Your AI Collaborator identity card',owner:'Owning organization',supervisor:'Human supervision',communication:'Professional channels',memory:'Own memory',shared:'Organization knowledge',execution:'Private environment',governance:'Access and actions governed by your organization'},
+    workspaceTitle:'Work moves beyond the chat box.', humanLabel:'People', humanTitle:'Decide and provide direction', humanBody:'Your team entrusts the expected outcome, shares context, follows the work and arbitrates sensitive decisions.', aiLabel:'AI Collaborator', aiTitle:'Prepare and deliver', aiBody:'The Collaborator organizes the mission, produces deliverables, flags blockers and requests the necessary approvals.', sharedWorkspace:'Shared Workspace', workspaceItems:['Missions and expected outcomes','Shared context and memory','Visible, traceable work','Approval requests','Deliverables and decisions'], workspaceConclusion:'Same space. Same context. Different responsibilities.',
+    marketTitle:'Its capabilities are composable.', marketBody:'The Marketplace extends the Collaborator’s capabilities without changing its identity. Here is Léa’s equipment: authorized applications and models available under organization rules.', appsKicker:'Authorized applications', appsTitle:'Léa works in your business environment.', appsBody:'Connect only the tools useful to the mission, with the permissions you decide.', exploreApps:'View applications', modelsTitle:'The right model. Under your rules.', modelsBody:'Léa only uses models authorized by your organization, within the defined budget.', exploreModels:'View AI models', catalogNote:'Example configuration. Availability depends on the provider, your plan, permissions and connections actually authorized.', marketConclusion:'Its resources evolve. Its identity remains.',
+    proofKicker:'A mission, in practice', proofTitle:'Work moves forward. The decision stays human.', proofBody:'A Collaborator is not given carte blanche. The mission connects an expected outcome, authorized resources and the decisions your team must approve.', exampleLabel:'Fictional demo · Mission SALES-014', exampleMission:'Qualify inbound prospects', exampleRule:'Hugo can analyze requests and prepare the CRM. No first contact is sent without approval.', proofSteps:[['Observe','Requests received','34 companies are reviewed against your criteria.'],['Prepare','Outcome produced','9 qualified records and their messages are ready.'],['Flag','Decision required','Work stops before the binding action.']], decisionLabel:'Human approval', decisionQuestion:'Authorize first contact for these 9 prospects?', decisionStatus:'Waiting for your decision', guarantees:[['Scope','An explicit outcome and limits.'],['Access','Only assigned resources.'],['Trace','Sources, actions and decisions retained.']], demoNote:'This demo illustrates how the Workspace operates. Available actions depend on your configuration and permissions.',
+    finalKicker:'Hermes knows how to do the work. Unitalk lets it work with you.', finalTitle:'More than an agent. A place on your team.', finalBody:'Compose its capabilities in the Marketplace or start from real work. Alma helps scope the first mission and the right Collaborator.', marketCta:'Explore the Marketplace', missionCta:'Entrust a first mission',
   },
 } as const

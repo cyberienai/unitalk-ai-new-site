@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import { CollaborateursContent } from '@/components/collaborateurs-ia/collaborateurs-content'
 
 export const metadata: Metadata = {
-  title: 'Collaborateurs IA : découvrez l’équipe et confiez une mission',
+  title: 'Collaborateurs IA : Hermes au cœur, Unitalk pour travailler ensemble',
   description:
-    'Découvrez Emma, Hugo, Léa, Inès, Nadia et Arthur, leurs métiers et leurs missions. Décrivez votre besoin et Alma prépare le bon Collaborateur IA.',
+    'Hermes donne à chaque Collaborateur IA la capacité d’agir. Unitalk ajoute une identité, un Workspace humain + IA, une mémoire partagée et un travail gouverné.',
   alternates: { canonical: 'https://unitalk.ai/collaborateurs-ia' },
   openGraph: {
-    title: 'Découvrez les Collaborateurs IA | Unitalk',
+    title: 'Plus qu’un agent. Une place dans votre équipe. | Unitalk',
     description:
-      'Une équipe de Collaborateurs IA avec un métier, des compétences et un périmètre gouverné. Découvrez leurs profils ou décrivez votre première mission.',
+      'Au cœur, un agent Hermes. Autour, Unitalk construit l’identité, la mémoire, les communications et le Workspace qui permettent de travailler avec votre équipe.',
     url: 'https://unitalk.ai/collaborateurs-ia',
   },
 }

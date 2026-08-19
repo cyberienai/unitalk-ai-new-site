@@ -80,7 +80,7 @@ const COPY = {
       "Transmettre votre méthode",
       "Confier une nouvelle mission",
     ],
-    finalTitle: "Confiez sa première mission à Hugo.",
+    finalTitle: "Prêt à confier votre prospection à Hugo ?",
     finalCta: "Confier la prospection à Hugo",
     pricing: "Voir les tarifs",
   },
@@ -395,14 +395,14 @@ const PERSONAS = {
     },
     activity: {
       fr: [
-        "34 entreprises examinées selon vos critères.",
+        "34 entreprises analysées.",
         "9 correspondent au segment cible.",
-        "Fiches CRM et messages préparés.",
+        "9 prospects qualifiés.",
       ],
       en: [
-        "34 companies reviewed under your criteria.",
+        "34 companies analyzed.",
         "9 match the target segment.",
-        "CRM records and messages prepared.",
+        "9 qualified prospects.",
       ],
     },
     decision: {
@@ -417,17 +417,17 @@ const PERSONAS = {
   },
   nadia: {
     claim: {
-      fr: "Nadia éclaire vos décisions financières.",
-      en: "Nadia informs your financial decisions.",
+      fr: "Nadia prépare et suit vos relances de factures.",
+      en: "Nadia prepares and tracks your invoice follow-ups.",
     },
-    accent: { fr: "vos décisions financières", en: "your financial decisions" },
+    accent: { fr: "vos relances de factures", en: "your invoice follow-ups" },
     lead: {
-      fr: "Donnez-lui vos sources et vos règles. Elle prépare le reporting, les prévisions et les écarts à faire valider.",
-      en: "Give her your sources and rules. She prepares reporting, forecasts and variances for approval.",
+      fr: "Commencez par vos factures impayées. Nadia vérifie les dossiers, prépare chaque relance et isole les litiges. Elle étend ensuite son périmètre au reporting, à la trésorerie et aux prévisions.",
+      en: "Start with overdue invoices. Nadia reviews each case, prepares follow-ups and isolates disputes. She can then extend her scope to reporting, cash flow and forecasting.",
     },
     composer: {
-      fr: "Quelle mission souhaitez-vous confier à Nadia ?",
-      en: "What mission would you like to assign to Nadia?",
+      fr: "Nadia vérifie vos factures impayées et prépare les relances.",
+      en: "Nadia reviews your overdue invoices and prepares the follow-ups.",
     },
     placeholder: {
       fr: "Décrivez les données, la période, les indicateurs et les hypothèses à vérifier…",
@@ -446,28 +446,28 @@ const PERSONAS = {
       ],
     },
     proofTitle: {
-      fr: "Nadia consolide. Votre direction financière valide.",
-      en: "Nadia consolidates. Your finance team approves.",
+      fr: "Nadia prépare. Votre équipe garde la décision.",
+      en: "Nadia prepares. Your team keeps the decision.",
     },
     proofMission: {
-      fr: "Préparer le reporting financier",
-      en: "Prepare financial reporting",
+      fr: "Relancer les factures impayées",
+      en: "Follow up on overdue invoices",
     },
     activity: {
       fr: [
-        "Données ERP et tableurs consolidées.",
-        "Écarts et hypothèses signalés.",
-        "Reporting et prévision préparés.",
+        "12 factures échues identifiées dans les sources autorisées.",
+        "2 dossiers litigieux isolés pour traitement humain.",
+        "10 relances contextualisées prêtes à envoyer.",
       ],
       en: [
-        "ERP and spreadsheet data consolidated.",
-        "Variances and assumptions flagged.",
-        "Report and forecast prepared.",
+        "12 overdue invoices identified in authorized sources.",
+        "2 disputed cases isolated for human review.",
+        "10 contextual follow-ups ready to send.",
       ],
     },
     decision: {
-      fr: "Valider les hypothèses avant diffusion ?",
-      en: "Approve assumptions before sharing?",
+      fr: "Autoriser l’envoi des 10 relances préparées ?",
+      en: "Authorize sending the 10 prepared follow-ups?",
     },
     apps: ["Pennylane", "Qonto", "Excel", "Google Sheets", "ERP", "Power BI"],
     profiles: {
@@ -551,18 +551,23 @@ export function CollaborateurContent({
   const isMissionLedProfile = detail.slug === "hugo" || detail.slug === "nadia";
   const primaryMission = detail.slug === "nadia"
     ? lang === "fr"
-      ? "Préparer mon reporting financier"
-      : "Prepare my financial reporting"
+      ? "Relancer mes factures impayées"
+      : "Follow up on my overdue invoices"
     : lang === "fr"
       ? "Trouver et qualifier mes prospects"
       : "Find and qualify my prospects";
   const primaryCta = detail.slug === "nadia"
     ? lang === "fr"
-      ? "Confier le reporting à Nadia"
-      : "Assign reporting to Nadia"
+      ? "Confier mes relances à Nadia"
+      : "Assign my follow-ups to Nadia"
     : t.finalCta;
-  const featuredMissions = detail.slug === "hugo"
-    ? missions.filter((mission) => mission.slug !== "trouver-de-nouveaux-clients")
+  const exampleMissionSlug = detail.slug === "hugo"
+    ? "trouver-de-nouveaux-clients"
+    : detail.slug === "nadia"
+      ? "relancer-les-factures-impayees"
+      : null;
+  const featuredMissions = exampleMissionSlug
+    ? missions.filter((mission) => mission.slug !== exampleMissionSlug)
     : missions;
   const [missionRequest, setMissionRequest] = useState("");
   const [decision, setDecision] = useState<
@@ -621,14 +626,14 @@ export function CollaborateurContent({
 
   return (
     <main className={`collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17] ${isMissionLedProfile ? "collaborator-profile-hugo flex flex-col" : ""}`}>
-      <section className="collaborator-hero order-1 relative pb-12 pt-24 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
+      <section className="collaborator-hero order-1 relative pb-8 pt-20 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
         <div
           aria-hidden
           className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
         />
         <div className="editorial-shell relative w-full">
-          <div className="grid gap-9 lg:grid-cols-[1.16fr_.84fr] lg:items-center lg:gap-12 xl:gap-16">
-            <div>
+          <div className="grid min-w-0 gap-7 sm:gap-9 lg:grid-cols-[1.16fr_.84fr] lg:items-center lg:gap-12 xl:gap-16">
+            <div className="min-w-0">
               <div className="inline-flex max-w-full items-center gap-3 rounded-full border border-[#D8D0C2] bg-[#FAF8F3]/85 py-1.5 pl-1.5 pr-4 shadow-sm backdrop-blur">
                 <Image
                   src={detail.avatar}
@@ -638,14 +643,14 @@ export function CollaborateurContent({
                   priority
                   className="size-9 rounded-full border border-[#CFC5B5] object-cover"
                 />
-                <span className="truncate text-[13px] font-bold text-[#4E483F] sm:text-sm">
+                <span className="min-w-0 truncate text-[13px] font-bold text-[#4E483F] sm:text-sm">
                   {detail.name} · {lang === "fr" ? `${detail.gender === "female" ? "Collaboratrice" : "Collaborateur"} IA · Profil ${detail.role.fr.toLowerCase()}` : `AI Collaborator · ${detail.role.en} profile`}
                 </span>
               </div>
-              <h1 className="mt-6 max-w-[780px] font-sf text-[clamp(2.8rem,5vw,5.1rem)] font-bold leading-[.92] tracking-[-.062em]">
+              <h1 className="mt-5 max-w-[780px] font-sf text-[clamp(2.55rem,5vw,5.1rem)] font-bold leading-[.92] tracking-[-.062em] sm:mt-6">
                 {highlightClaim(persona.claim[lang], persona.accent[lang])}
               </h1>
-              <p className="mt-7 max-w-[650px] text-[17px] font-medium leading-8 text-[#4E483F]">
+              <p className="mt-5 max-w-[650px] text-[16px] font-medium leading-7 text-[#4E483F] sm:mt-7 sm:text-[17px] sm:leading-8">
                 {persona.lead[lang]}
               </p>
               {!isMissionLedProfile && (
@@ -683,7 +688,7 @@ export function CollaborateurContent({
                       </p>
                     </div>
                   </div>
-                  <div className="py-8 sm:py-10">
+                  <div className="py-6 sm:py-10">
                     <h2 className="text-balance font-sf text-[clamp(1.75rem,3vw,2.5rem)] font-bold leading-[1.02] tracking-[-.04em]">
                       {persona.composer[lang]}
                     </h2>
@@ -730,6 +735,8 @@ export function CollaborateurContent({
         </div>
       </section>
 
+      <CollaboratorMissions lang={lang} detail={detail} missions={featuredMissions} />
+
       <section
         id="mission-en-action"
         className="collaborator-proof order-3 scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24"
@@ -744,18 +751,48 @@ export function CollaborateurContent({
               {persona.proofTitle[lang]}
             </h2>
             <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#CFC6B8]">
-              {persona.lead[lang]}
+              {detail.slug === "nadia"
+                ? lang === "fr"
+                  ? "Nadia consulte uniquement les factures autorisées, prépare les relances et soumet chaque envoi à votre validation."
+                  : "Nadia only reviews authorized invoices, prepares follow-ups and submits every send for your approval."
+                : persona.lead[lang]}
             </p>
+            {detail.slug === "nadia" && (
+              <dl className="mt-7 grid max-w-xl gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+                {(lang === "fr"
+                  ? [["Sources", "Factures et historique autorisés"], ["Action", "Relances préparées, jamais envoyées seules"], ["Escalade", "Litiges transmis à votre équipe"]]
+                  : [["Sources", "Authorized invoices and history"], ["Action", "Follow-ups prepared, never sent alone"], ["Escalation", "Disputes routed to your team"]]
+                ).map(([label, value]) => (
+                  <div key={label} className="bg-[#211E1A] p-4">
+                    <dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#F2A4C5]">{label}</dt>
+                    <dd className="mt-2 text-xs font-semibold leading-5 text-[#E7E0D5]">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </div>
           <article className="w-full overflow-hidden rounded-[26px] border border-white/10 bg-[#211E1A] lg:max-w-[580px] lg:justify-self-end">
             <div className="border-b border-white/10 p-5">
               <p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#8F877A]">
-                {lang === "fr" ? "Mission · Exemple" : "Mission · Example"}
+                {lang === "fr" ? "Mission · Démonstration" : "Mission · Demonstration"}
               </p>
               <h3 className="mt-2 text-xl font-semibold">
                 {persona.proofMission[lang]}
               </h3>
             </div>
+            {detail.slug === "nadia" && (
+              <div className="grid grid-cols-3 gap-px border-b border-white/10 bg-white/10">
+                {(lang === "fr"
+                  ? [["14 820 €", "À relancer"], ["10", "Relances prêtes"], ["2", "Litiges isolés"]]
+                  : [["€14,820", "Outstanding"], ["10", "Follow-ups ready"], ["2", "Disputes isolated"]]
+                ).map(([value, label]) => (
+                  <div key={label} className="bg-[#211E1A] p-4">
+                    <strong className="block text-xl font-bold text-white sm:text-2xl">{value}</strong>
+                    <span className="mt-1 block text-[10px] font-semibold leading-4 text-[#AFA397]">{label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
             <ol className="space-y-4 p-5 text-sm text-[#D8D0C2]">
               {persona.activity[lang].map((item, index) => (
                 <Activity key={item} time={["09:05", "09:12", "09:18"][index]}>
@@ -769,6 +806,9 @@ export function CollaborateurContent({
               </p>
               <p className="mt-2 text-sm font-semibold">
                 {persona.decision[lang]}
+              </p>
+              <p className="mt-2 text-xs leading-5 text-[#AFA397]">
+                {lang === "fr" ? "Interaction de démonstration : aucune relance réelle ne sera envoyée." : "Demonstration only: no real follow-up will be sent."}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Decision
@@ -935,9 +975,13 @@ export function CollaborateurContent({
               )}
             </h2>
             <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#4E483F]">
-              {lang === "fr"
-                ? `${detail.name} commence avec un profil ${detail.role.fr.toLowerCase()}. Ajoutez ensuite de nouvelles compétences, applications et profils métier selon le travail confié.`
-                : `${detail.name} starts with a ${detail.role.en.toLowerCase()} profile. Add new skills, applications and job profiles as new work is assigned.`}
+              {detail.slug === "nadia"
+                ? lang === "fr"
+                  ? "Chaque validation enrichit ses règles de travail : priorité de relance, ton adapté, traitement des litiges et suivi des engagements. L’historique reste gouverné par votre entreprise."
+                  : "Each approval enriches her working rules: follow-up priority, appropriate tone, dispute handling and promise tracking. The history remains governed by your organization."
+                : lang === "fr"
+                  ? `${detail.name} commence avec un profil ${detail.role.fr.toLowerCase()}. Ajoutez ensuite de nouvelles compétences, applications et profils métier selon le travail confié.`
+                  : `${detail.name} starts with a ${detail.role.en.toLowerCase()} profile. Add new skills, applications and job profiles as new work is assigned.`}
             </p>
             <Link
               href="/marketplace"
@@ -949,7 +993,7 @@ export function CollaborateurContent({
               <ArrowRight className="size-4" />
             </Link>
           </div>
-          <article className="w-full overflow-hidden rounded-[28px] bg-[#181615] p-6 text-white sm:p-8 lg:max-w-[560px] lg:justify-self-end">
+           <article className="w-full overflow-hidden rounded-[28px] bg-[#181615] p-6 text-white sm:p-8 lg:max-w-[560px] lg:justify-self-end">
             <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-6">
               <Image
                 src={detail.avatar}
@@ -967,15 +1011,34 @@ export function CollaborateurContent({
                 </p>
                </div>
             </div>
-             {isMissionLedProfile && <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl border border-white/10 bg-white/[.04] p-4"><strong className="text-2xl font-bold text-white">{detail.slug === "nadia" ? "3" : "34"}</strong><span className="mt-1 block text-xs font-semibold text-[#AFA397]">{detail.slug === "nadia" ? (lang === "fr" ? "sources consolidées" : "sources consolidated") : (lang === "fr" ? "entreprises analysées" : "companies reviewed")}</span></div><div className="rounded-2xl border border-[#F2A4C5]/20 bg-[#F2A4C5]/10 p-4"><strong className="text-2xl font-bold text-[#F2A4C5]">{detail.slug === "nadia" ? "6" : "9"}</strong><span className="mt-1 block text-xs font-semibold text-[#DCCBD3]">{detail.slug === "nadia" ? (lang === "fr" ? "écarts signalés" : "variances flagged") : (lang === "fr" ? "prospects qualifiés" : "qualified prospects")}</span></div></div>}
+             {detail.slug === "nadia" && (
+               <div className="mt-5 grid grid-cols-2 gap-3">
+                 <div className="rounded-2xl border border-white/10 bg-white/[.04] p-4">
+                   <strong className="text-2xl font-bold text-white">10</strong>
+                   <span className="mt-1 block text-xs font-semibold text-[#AFA397]">
+                     {lang === "fr" ? "relances validées" : "follow-ups approved"}
+                   </span>
+                 </div>
+                 <div className="rounded-2xl border border-[#F2A4C5]/20 bg-[#F2A4C5]/10 p-4">
+                   <strong className="text-2xl font-bold text-[#F2A4C5]">4</strong>
+                   <span className="mt-1 block text-xs font-semibold text-[#DCCBD3]">
+                     {lang === "fr" ? "règles réutilisables" : "reusable rules"}
+                   </span>
+                 </div>
+               </div>
+             )}
              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-              {t.evolutionItems.map((item) => (
+              {(detail.slug === "nadia"
+                ? lang === "fr"
+                  ? ["Ordre de priorité validé", "Ton de relance validé", "Litiges à escalader", "Promesses de paiement à suivre"]
+                  : ["Approved priority order", "Approved follow-up tone", "Disputes to escalate", "Payment promises to track"]
+                : t.evolutionItems).map((item) => (
                 <li
                   key={item}
                   className="flex gap-3 rounded-2xl border border-white/10 bg-white/[.04] p-4 text-sm font-semibold"
                 >
                   <Check className="mt-0.5 size-4 shrink-0 text-[#F2A4C5]" />
-                  {item}
+                  <span><span className="block">{item}</span>{detail.slug === "nadia" && <small className="mt-1 block text-[10px] font-bold uppercase tracking-[.1em] text-[#AFA397]">{lang === "fr" ? "Expérience conservée" : "Experience retained"}</small>}</span>
                 </li>
               ))}
             </ul>
@@ -983,57 +1046,17 @@ export function CollaborateurContent({
         </div>
       </section>
 
-      {featuredMissions.length > 0 && (
-        <section
-          id="missions"
-          className="collaborator-missions order-2 scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"
-        >
-          <div className="editorial-shell">
-            <h2 className="text-[clamp(2.2rem,4.2vw,4rem)] font-bold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">
-              {lang === "fr"
-                ? `Missions prêtes à l’emploi avec ${detail.name}`
-                : `Ready-to-use missions with ${detail.name}`}
-            </h2>
-            <div className="mt-10 grid gap-4 md:grid-cols-2">
-              {featuredMissions.slice(0, 4).map((mission) => (
-                <Link
-                  key={mission.slug}
-                  href={`/missions/${mission.slug}`}
-                  className="group flex min-h-[230px] flex-col rounded-2xl border border-[#D8D0C2] bg-white p-5 transition hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_18px_45px_-35px_rgba(28,26,23,.45)] sm:p-6"
-                >
-                  <h3 className="mt-4 text-xl font-semibold">
-                    {mission.title[lang]}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-[#625B50]">
-                    {mission.objective[lang]}
-                  </p>
-                  <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#B00C54]">
-                    {lang === "fr" ? "Voir la mission" : "View mission"}
-                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-            <Link
-              href={`/missions?collaborateur=${encodeURIComponent(detail.slug)}&vue=toutes`}
-              className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]"
-            >
-              {lang === "fr"
-                ? `Voir toutes les missions de ${detail.name}`
-                : `View all ${detail.name} missions`}
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-        </section>
-      )}
-
       <CollaboratorFaq lang={lang} detail={detail} compact={isMissionLedProfile} />
       <section className="collaborator-final order-6 bg-[#D10E63] py-16 text-white sm:py-20">
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
-            {lang === "fr"
-              ? <><span className="block">Quelle première mission</span><span className="block">allez-vous confier à {detail.name} ?</span></>
-              : <><span className="block">What first mission</span><span className="block">will you assign to {detail.name}?</span></>}
+            {detail.slug === "hugo" ? t.finalTitle : detail.slug === "nadia"
+              ? lang === "fr"
+                ? <><span className="block">Prêt à confier la gestion</span><span className="block">de vos relances à Nadia&nbsp;?</span></>
+                : <><span className="block">Ready to let Nadia manage</span><span className="block">your follow-ups?</span></>
+              : lang === "fr"
+                ? <><span className="block">Quelle première mission</span><span className="block">allez-vous confier à {detail.name} ?</span></>
+                : <><span className="block">What first mission</span><span className="block">will you assign to {detail.name}?</span></>}
           </h2>
           <div className="flex min-w-60 flex-col gap-3">
             {isMissionLedProfile ? <button type="button" onClick={startPrimaryMission} className="inline-flex min-h-12 w-full items-center justify-center whitespace-nowrap rounded-full bg-[#181615] px-6 text-sm font-bold sm:w-auto sm:px-7">{primaryCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
@@ -1048,6 +1071,11 @@ export function CollaborateurContent({
       </section>
     </main>
   );
+}
+
+function CollaboratorMissions({ lang, detail, missions }: { lang: "fr" | "en"; detail: CollaboratorPage["detail"]; missions: CollaboratorPage["missions"] }) {
+  if (!missions.length) return null;
+  return <section id="missions" className="collaborator-missions order-2 scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"><div className="editorial-shell"><h2 className="max-w-5xl text-[clamp(2.2rem,4.2vw,4rem)] font-bold leading-[.98] tracking-[-.05em]">{lang === "fr" ? `Missions prêtes à l’emploi avec ${detail.name}` : `Ready-to-use missions with ${detail.name}`}</h2><div className="mt-10 grid gap-4 md:grid-cols-2">{missions.slice(0,4).map(mission=><Link key={mission.slug} href={`/missions/${mission.slug}`} className="group flex min-h-[230px] flex-col rounded-2xl border border-[#D8D0C2] bg-white p-5 transition hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_18px_45px_-35px_rgba(28,26,23,.45)] sm:p-6"><h3 className="text-xl font-semibold">{mission.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{mission.objective[lang]}</p><span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#B00C54]">{lang === "fr" ? "Voir la mission" : "View mission"}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link>)}</div><Link href={`/missions?collaborateur=${encodeURIComponent(detail.slug)}&vue=toutes`} className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang === "fr" ? `Voir toutes les missions de ${detail.name}` : `View all ${detail.name} missions`}<ArrowRight className="size-4"/></Link></div></section>;
 }
 
 function Activity({
@@ -1087,7 +1115,7 @@ function Decision({
   );
 }
 
-function IdentityCard({
+export function IdentityCard({
   detail,
   lang,
   labels,
@@ -1249,7 +1277,7 @@ function IdentityFeature({
     </div>
   );
 }
-function ApplicationLogos({ apps }: { apps: readonly string[] }) {
+export function ApplicationLogos({ apps }: { apps: readonly string[] }) {
   const { lang } = useLanguage();
   const icons: Record<string, typeof siHubspot | null> = {
     HubSpot: siHubspot,
@@ -1300,7 +1328,7 @@ function ApplicationLogos({ apps }: { apps: readonly string[] }) {
   );
 }
 
-function ModelLogos() {
+export function ModelLogos() {
   const models = [
     [OpenAI, "OpenAI", "GPT"],
     [Anthropic, "Anthropic", "Claude"],
@@ -1359,8 +1387,10 @@ function CollaboratorFaq({
   const items =
     lang === "fr"
       ? [
+          ...(compact && detail.slug === "hugo" ? [["De quoi Hugo a-t-il besoin pour commencer ?", "De vos critères de prospection et des accès que vous autorisez. Alma prépare ensuite la mission et les validations nécessaires."]] : []),
+          ...(compact && detail.slug === "nadia" ? [["De quoi Nadia a-t-elle besoin pour commencer ?", "De vos sources financières autorisées, de la période à analyser et de vos règles de gestion. Alma prépare ensuite les accès et validations nécessaires."]] : []),
           [
-            `${detail.name} appartient-il à Unitalk ou à mon entreprise ?`,
+            `${detail.name} appartient-${detail.gender === "female" ? "elle" : "il"} à Unitalk ou à mon entreprise ?`,
             `${detail.name} illustre publiquement le profil ${detail.role.fr.toLowerCase()}. Le Collaborateur IA déployé pour votre organisation appartient à votre entreprise.`,
           ],
           [
@@ -1368,12 +1398,12 @@ function CollaboratorFaq({
             "Oui. Son identité IA est personnalisable avant son déploiement.",
           ],
           [
-            `${detail.name} peut-il utiliser mes applications ?`,
+            `${detail.name} peut-${detail.gender === "female" ? "elle" : "il"} utiliser mes applications ?`,
             "Oui, après autorisation. Votre entreprise définit séparément les comptes, données et actions accessibles.",
           ],
           [
-            "Quel modèle IA utilise-t-il ?",
-            "Il utilise uniquement les modèles autorisés. Unitalk AI Gateway sélectionne une route pertinente selon la tâche, vos règles et votre budget.",
+            `Quels modèles IA ${detail.name} peut-${detail.gender === "female" ? "elle" : "il"} utiliser ?`,
+            `${detail.gender === "female" ? "Elle" : "Il"} utilise uniquement les modèles autorisés. Unitalk AI Gateway sélectionne une route pertinente selon la tâche, vos règles et votre budget.`,
           ],
           [
             "Que se passe-t-il si son responsable quitte l’entreprise ?",
@@ -1385,6 +1415,8 @@ function CollaboratorFaq({
           ],
         ]
       : [
+          ...(compact && detail.slug === "hugo" ? [["What does Hugo need to get started?", "Your prospecting criteria and the access you authorize. Alma then prepares the mission and required approvals."]] : []),
+          ...(compact && detail.slug === "nadia" ? [["What does Nadia need to get started?", "Your authorized financial sources, the reporting period and your management rules. Alma then prepares the required access and approvals."]] : []),
           [
             `Does ${detail.name} belong to Unitalk or my organization?`,
             `${detail.name} publicly illustrates the ${detail.role.en.toLowerCase()} profile. The AI Collaborator deployed for your organization belongs to your organization.`,

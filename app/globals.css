@@ -283,9 +283,6 @@
 }
 
 /* Hugo conversion path: mission choice first, then proof and expandable capacity. */
-.collaborator-profile-hugo .collaborator-evolution-section > div {
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-}
 @media (min-width:1024px) {
   .collaborator-profile-hugo .collaborator-missions h2 {
     font-size:clamp(2.35rem,3.8vw,3.75rem);
@@ -389,10 +386,11 @@
   }
   .collaborator-profile-hugo .collaborator-hero {
     min-height:auto;
-    padding-bottom:2.5rem;
+    padding-bottom:2rem;
   }
   .collaborator-profile-page .collaborator-identity-section h2 span,
-  .collaborator-profile-page .collaborator-evolution-section h2 span {
+  .collaborator-profile-page .collaborator-evolution-section h2 span,
+  .collaborator-profile-hugo .collaborator-proof h2 span {
     white-space:normal;
   }
 }

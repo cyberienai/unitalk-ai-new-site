@@ -106,9 +106,14 @@ export const COLLABORATOR_PAGE_SLUGS = Object.keys(HERO_COPY).filter(
 // Real missions this persona takes on, pulled from the shared catalog.
 export function missionsForCollaborator(slug: string, count = 4): CollaboratorMissionCard[] {
   const missions = MISSIONS.filter((m) => m.collaboratorSlug === slug)
+  const featuredSlugs = slug === 'nadia'
+    ? ['relancer-les-factures-impayees', 'suivre-la-tresorerie', 'preparer-mon-reporting-financier', 'analyser-les-ecarts-budgetaires', 'preparer-les-previsions-budgetaires']
+    : []
   const ordered = slug === 'hugo'
     ? [...missions.filter((m) => m.slug !== 'trouver-de-nouveaux-clients'), ...missions.filter((m) => m.slug === 'trouver-de-nouveaux-clients')]
-    : missions
+    : featuredSlugs.length > 0
+      ? [...featuredSlugs.flatMap((featuredSlug) => missions.filter((mission) => mission.slug === featuredSlug)), ...missions.filter((mission) => !featuredSlugs.includes(mission.slug))]
+      : missions
   return ordered
     .slice(0, count)
     .map((m) => ({ slug: m.slug, title: m.title, objective: m.objective, category: m.category, status: m.status }))
@@ -119,5 +124,5 @@ export function getCollaboratorPage(slug: string): CollaboratorPage | null {
   const detail = ROLE_DETAILS[slug]
   const copy = HERO_COPY[slug]
   if (!detail || !copy) return null
-  return { detail, copy, missions: missionsForCollaborator(slug) }
+  return { detail, copy, missions: missionsForCollaborator(slug, slug === 'nadia' ? 5 : 4) }
 }
