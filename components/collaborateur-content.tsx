@@ -357,10 +357,10 @@ const PERSONAS = {
   },
   hugo: {
     claim: {
-      fr: "Hugo trouve et qualifie vos prochains prospects.",
+      fr: "Hugo est prêt à accomplir vos missions commerciales.",
       en: "Hugo finds and qualifies your next prospects.",
     },
-    accent: { fr: "vos prochains prospects", en: "your next prospects" },
+    accent: { fr: "vos missions commerciales", en: "your next prospects" },
     lead: {
       fr: "Donnez-lui vos critères. Il recherche les entreprises, prépare les fiches CRM et organise les relances. Votre équipe valide le premier contact.",
       en: "Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.",
@@ -695,8 +695,8 @@ export function CollaborateurContent({
                     </h2>
                     <p className="mt-4 max-w-md text-[15px] font-medium leading-7 text-[#D6CABD]">
                       {lang === "fr"
-                        ? "Profil commercial recommandé · Mission prête à personnaliser"
-                        : "Recommended sales profile · Mission ready to customize"}
+                        ? "Profil commercial recommandé · Mission prête à l’emploi"
+                        : "Recommended sales profile · Ready-to-use mission"}
                     </p>
                   </div>
                   <button
@@ -1059,8 +1059,8 @@ export function CollaborateurContent({
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.8rem,6vw,6rem)] font-semibold leading-[.9] tracking-[-.07em]">
             {lang === "fr"
-              ? `Quelle première mission allez-vous confier à votre profil ${detail.role.fr.toLowerCase()} ?`
-              : `What first mission will you assign to your ${detail.role.en} profile?`}
+              ? `Quelle première mission allez-vous confier à ${detail.name} ?`
+              : `What first mission will you assign to ${detail.name}?`}
           </h2>
           <div className="flex min-w-60 flex-col gap-3">
             <a
