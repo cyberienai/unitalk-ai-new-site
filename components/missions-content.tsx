@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, Check, Search } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
@@ -34,6 +35,12 @@ const FAMILY_CATEGORIES: Record<Exclude<NeedFamily, 'recommended' | 'all'>, stri
   teams: ['rh', 'reunions'],
   produce: ['documents', 'analyse', 'produit'],
 }
+
+const LEA_FEATURED_MISSION_SLUGS = [
+  'construire-un-calendrier-editorial',
+  'ameliorer-mon-referencement',
+  'decliner-un-contenu-multicanal',
+] as const
 
 const FEATURED_SLUGS = [
   'trouver-de-nouveaux-clients',
@@ -257,6 +264,21 @@ export function MissionsContent({
             <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} onStarterSelect={handDraftToAlma} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceStartLabel={t.talk} voiceStopLabel={t.stop} listeningLabel={t.listening} error={voiceError} textareaRef={composerRef} previewVisible={Boolean(inputPreview)} compactMobile compactDesktop titleInField preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>} />
           </div>
 
+        </div>
+      </section>}
+
+      {!requestedCollaboratorDetail && <section className="border-y border-[#DED6C8] bg-[#FAF8F3] px-5 py-14 sm:px-8 sm:py-16">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{lang === 'fr' ? 'Marketing et contenu' : 'Marketing and content'}</p>
+              <h2 className="mt-3 font-sf text-[clamp(2rem,3.5vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]">{lang === 'fr' ? 'Missions prêtes à l’emploi avec Léa' : 'Ready-to-use missions with Léa'}</h2>
+            </div>
+            <Link href="/missions?collaborateur=lea&vue=toutes" className="inline-flex w-fit items-center gap-2 text-sm font-bold text-[#B00C54]">{lang === 'fr' ? 'Voir toutes les missions de Léa' : 'View all Léa missions'}<ArrowRight className="size-4" /></Link>
+          </div>
+          <div className="mt-8 grid auto-rows-fr gap-4 md:grid-cols-3">
+            {LEA_FEATURED_MISSION_SLUGS.map((slug) => MISSIONS.find((mission) => mission.slug === slug)).filter((mission): mission is Mission => Boolean(mission)).map((mission) => <StoreCard key={mission.slug} mission={mission} lang={lang} onPersonalize={rememberCatalogState} />)}
+          </div>
         </div>
       </section>}
 

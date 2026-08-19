@@ -415,6 +415,66 @@ const PERSONAS = {
       en: ["Sales Representative", "Business Developer", "Account Manager"],
     },
   },
+  camille: {
+    claim: {
+      fr: "Camille transforme les signaux du marché en décisions mieux préparées.",
+      en: "Camille turns market signals into better-prepared decisions.",
+    },
+    accent: { fr: "en décisions mieux préparées", en: "into better-prepared decisions" },
+    lead: {
+      fr: "Donnez-lui votre marché, vos concurrents et vos critères. Camille recherche, recoupe les sources et prépare une note de veille. Votre équipe valide les conclusions avant leur diffusion.",
+      en: "Give her your market, competitors and criteria. Camille researches, cross-checks sources and prepares an intelligence brief. Your team reviews the conclusions before distribution.",
+    },
+    composer: {
+      fr: "Une veille concurrentielle sourcée, prête à être examinée.",
+      en: "Sourced competitive intelligence, ready for review.",
+    },
+    placeholder: {
+      fr: "Précisez le marché, les concurrents, la période et les signaux à surveiller…",
+      en: "Specify the market, competitors, period and signals to monitor…",
+    },
+    examples: {
+      fr: [
+        "Surveiller mes 5 principaux concurrents",
+        "Comparer leurs offres et leurs prix",
+        "Détecter les signaux faibles du marché",
+      ],
+      en: [
+        "Monitor my 5 main competitors",
+        "Compare their offers and pricing",
+        "Detect weak market signals",
+      ],
+    },
+    proofTitle: {
+      fr: "Camille recoupe les faits. Votre équipe décide de leur portée.",
+      en: "Camille cross-checks the facts. Your team decides what they mean.",
+    },
+    proofMission: {
+      fr: "Réaliser une veille concurrentielle",
+      en: "Run competitive monitoring",
+    },
+    activity: {
+      fr: [
+        "28 sources publiques consultées.",
+        "6 évolutions concurrentes recoupées.",
+        "3 signaux à fort impact isolés.",
+      ],
+      en: [
+        "28 public sources reviewed.",
+        "6 competitor changes cross-checked.",
+        "3 high-impact signals isolated.",
+      ],
+    },
+    decision: {
+      fr: "Valider les conséquences proposées pour la note de direction ?",
+      en: "Approve the proposed implications for the executive brief?",
+    },
+    apps: ["Web", "Notion", "Google Sheets", "Excel", "Power BI", "Drive"],
+    profiles: {
+      fr: ["Analyste stratégie", "Chargée de veille", "Analyste concurrentielle"],
+      en: ["Strategy Analyst", "Intelligence Analyst", "Competitive Analyst"],
+    },
+  },
   nadia: {
     claim: {
       fr: "Nadia éclaire vos décisions financières.",
@@ -667,6 +727,10 @@ export function CollaborateurContent({
       ? lang === "fr"
         ? "Trouver et qualifier mes prospects"
         : "Find and qualify my prospects"
+    : detail.slug === "camille"
+      ? lang === "fr"
+        ? "Réaliser ma veille concurrentielle"
+        : "Run my competitive monitoring"
       : detail.starterMission?.mission[lang] ?? detail.missions[0][lang];
   const primaryCta = detail.slug === "emma"
     ? lang === "fr"
@@ -706,11 +770,17 @@ export function CollaborateurContent({
         : "Prepare my review with Marcus"
     : detail.slug === "hugo"
       ? t.finalCta
+    : detail.slug === "camille"
+      ? lang === "fr"
+        ? "Lancer ma veille avec Camille"
+        : "Start monitoring with Camille"
       : lang === "fr"
         ? `Confier cette mission à ${detail.name}`
         : `Assign this mission to ${detail.name}`;
   const exampleMissionSlug = detail.slug === "hugo"
     ? "trouver-de-nouveaux-clients"
+    : detail.slug === "camille"
+      ? "realiser-une-veille-concurrentielle"
     : detail.slug === "nadia"
       ? "relancer-les-factures-impayees"
       : detail.slug === "emma"
@@ -913,17 +983,25 @@ export function CollaborateurContent({
                 ? lang === "fr"
                   ? "Nadia consulte uniquement les factures autorisées, prépare les relances et soumet chaque envoi à votre validation."
                   : "Nadia only reviews authorized invoices, prepares follow-ups and submits every send for your approval."
+                : detail.slug === "camille"
+                ? lang === "fr"
+                  ? "Camille consulte uniquement les sources autorisées, distingue les faits des hypothèses et conserve un lien vers chaque élément utilisé."
+                  : "Camille only reviews authorized sources, separates facts from assumptions and keeps a link to every item used."
                 : persona.lead[lang]}
             </p>
-            {["nadia", "emma"].includes(detail.slug) && (
+            {["nadia", "emma", "camille"].includes(detail.slug) && (
               <dl className="mt-7 grid max-w-xl gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
                 {(detail.slug === "emma"
                   ? lang === "fr"
                     ? [["Sources", "Documents et agendas autorisés"], ["Action", "Ordre du jour préparé, jamais diffusé seul"], ["Confidentialité", "Aucun enregistrement automatique"]]
                     : [["Sources", "Authorized documents and calendars"], ["Action", "Agenda prepared, never shared alone"], ["Privacy", "No automatic recording"]]
-                  : lang === "fr"
-                    ? [["Sources", "Factures et historique autorisés"], ["Action", "Relances préparées, jamais envoyées seules"], ["Escalade", "Litiges transmis à votre équipe"]]
-                    : [["Sources", "Authorized invoices and history"], ["Action", "Follow-ups prepared, never sent alone"], ["Escalation", "Disputes routed to your team"]]
+                  : detail.slug === "camille"
+                    ? lang === "fr"
+                      ? [["Sources", "Publiques ou bases autorisées"], ["Méthode", "Faits recoupés et datés"], ["Décision", "Conséquences soumises à validation"]]
+                      : [["Sources", "Public or authorized databases"], ["Method", "Cross-checked, dated facts"], ["Decision", "Implications submitted for review"]]
+                    : lang === "fr"
+                      ? [["Sources", "Factures et historique autorisés"], ["Action", "Relances préparées, jamais envoyées seules"], ["Escalade", "Litiges transmis à votre équipe"]]
+                      : [["Sources", "Authorized invoices and history"], ["Action", "Follow-ups prepared, never sent alone"], ["Escalation", "Disputes routed to your team"]]
                 ).map(([label, value]) => (
                   <div key={label} className="bg-[#211E1A] p-4">
                     <dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#F2A4C5]">{label}</dt>
@@ -942,15 +1020,19 @@ export function CollaborateurContent({
                 {persona.proofMission[lang]}
               </h3>
             </div>
-            {["nadia", "emma"].includes(detail.slug) && (
+            {["nadia", "emma", "camille"].includes(detail.slug) && (
               <div className="grid grid-cols-3 gap-px border-b border-white/10 bg-white/10">
                 {(detail.slug === "emma"
                   ? lang === "fr"
                     ? [["5", "Participants"], ["4", "Documents réunis"], ["3", "Actions à suivre"]]
                     : [["5", "Participants"], ["4", "Documents gathered"], ["3", "Actions to track"]]
-                  : lang === "fr"
-                    ? [["14 820 €", "À relancer"], ["10", "Relances prêtes"], ["2", "Litiges isolés"]]
-                    : [["€14,820", "Outstanding"], ["10", "Follow-ups ready"], ["2", "Disputes isolated"]]
+                  : detail.slug === "camille"
+                    ? lang === "fr"
+                      ? [["28", "Sources consultées"], ["6", "Faits recoupés"], ["3", "Signaux prioritaires"]]
+                      : [["28", "Sources reviewed"], ["6", "Facts cross-checked"], ["3", "Priority signals"]]
+                    : lang === "fr"
+                      ? [["14 820 €", "À relancer"], ["10", "Relances prêtes"], ["2", "Litiges isolés"]]
+                      : [["€14,820", "Outstanding"], ["10", "Follow-ups ready"], ["2", "Disputes isolated"]]
                 ).map(([value, label]) => (
                   <div key={label} className="bg-[#211E1A] p-4">
                     <strong className="block text-xl font-bold text-white sm:text-2xl">{value}</strong>
@@ -1000,6 +1082,8 @@ export function CollaborateurContent({
                   ? lang === "fr" ? "Interaction de démonstration : aucun ordre du jour réel ne sera envoyé." : "Demonstration only: no real agenda will be sent."
                   : detail.slug === "nadia"
                     ? lang === "fr" ? "Interaction de démonstration : aucune relance réelle ne sera envoyée." : "Demonstration only: no real follow-up will be sent."
+                    : detail.slug === "camille"
+                      ? lang === "fr" ? "Démonstration illustrative : les sources, signaux et conclusions sont fictifs." : "Illustrative demo: sources, signals and conclusions are fictional."
                     : lang === "fr" ? "Interaction de démonstration : aucune action réelle ne sera exécutée." : "Demonstration only: no real action will be performed."}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -1175,6 +1259,10 @@ export function CollaborateurContent({
                 ? lang === "fr"
                   ? "Chaque validation enrichit ses règles de travail : priorité de relance, ton adapté, traitement des litiges et suivi des engagements. L’historique reste gouverné par votre entreprise."
                   : "Each approval enriches her working rules: follow-up priority, appropriate tone, dispute handling and promise tracking. The history remains governed by your organization."
+                : detail.slug === "camille"
+                ? lang === "fr"
+                  ? "Chaque validation affine ses règles de veille : sources de référence, concurrents prioritaires, critères de comparaison et seuils d’alerte. Les analyses et leur historique restent gouvernés par votre entreprise."
+                  : "Each approval refines her monitoring rules: reference sources, priority competitors, comparison criteria and alert thresholds. Analyses and their history remain governed by your organization."
                 : lang === "fr"
                   ? `${detail.name} commence avec un profil ${detail.role.fr.toLowerCase()}. Ajoutez ensuite de nouvelles compétences, applications et profils métier selon le travail confié.`
                   : `${detail.name} starts with a ${detail.role.en.toLowerCase()} profile. Add new skills, applications and job profiles as new work is assigned.`}
@@ -1207,14 +1295,16 @@ export function CollaborateurContent({
                 </p>
                </div>
             </div>
-             {["nadia", "emma"].includes(detail.slug) && (
+             {["nadia", "emma", "camille"].includes(detail.slug) && (
                <div className="mt-5 grid grid-cols-2 gap-3">
                  <div className="rounded-2xl border border-white/10 bg-white/[.04] p-4">
-                   <strong className="text-2xl font-bold text-white">{detail.slug === "emma" ? "5" : "10"}</strong>
+                   <strong className="text-2xl font-bold text-white">{detail.slug === "emma" ? "5" : detail.slug === "camille" ? "6" : "10"}</strong>
                    <span className="mt-1 block text-xs font-semibold text-[#AFA397]">
-                     {detail.slug === "emma"
-                       ? lang === "fr" ? "actions suivies" : "actions tracked"
-                       : lang === "fr" ? "relances validées" : "follow-ups approved"}
+                      {detail.slug === "emma"
+                        ? lang === "fr" ? "actions suivies" : "actions tracked"
+                        : detail.slug === "camille"
+                        ? lang === "fr" ? "sources de référence" : "reference sources"
+                        : lang === "fr" ? "relances validées" : "follow-ups approved"}
                    </span>
                  </div>
                  <div className="rounded-2xl border border-[#F2A4C5]/20 bg-[#F2A4C5]/10 p-4">
@@ -1234,13 +1324,17 @@ export function CollaborateurContent({
                 ? lang === "fr"
                   ? ["Ordre de priorité validé", "Ton de relance validé", "Litiges à escalader", "Promesses de paiement à suivre"]
                   : ["Approved priority order", "Approved follow-up tone", "Disputes to escalate", "Payment promises to track"]
+                : detail.slug === "camille"
+                ? lang === "fr"
+                  ? ["Sources de référence", "Concurrents prioritaires", "Critères de comparaison", "Seuils d’alerte"]
+                  : ["Reference sources", "Priority competitors", "Comparison criteria", "Alert thresholds"]
                 : t.evolutionItems).map((item) => (
                 <li
                   key={item}
                   className="flex gap-3 rounded-2xl border border-white/10 bg-white/[.04] p-4 text-sm font-semibold"
                 >
                   <Check className="mt-0.5 size-4 shrink-0 text-[#F2A4C5]" />
-                  <span><span className="block">{item}</span>{["nadia", "emma"].includes(detail.slug) && <small className="mt-1 hidden text-[10px] font-bold uppercase tracking-[.1em] text-[#AFA397] sm:block">{lang === "fr" ? "Réutilisé à la prochaine mission" : "Reused on the next mission"}</small>}</span>
+                   <span><span className="block">{item}</span>{["nadia", "emma", "camille"].includes(detail.slug) && <small className="mt-1 hidden text-[10px] font-bold uppercase tracking-[.1em] text-[#AFA397] sm:block">{lang === "fr" ? "Réutilisé à la prochaine mission" : "Reused on the next mission"}</small>}</span>
                 </li>
               ))}
             </ul>
@@ -1252,7 +1346,7 @@ export function CollaborateurContent({
       <section className="collaborator-final order-6 bg-[#D10E63] py-16 text-white sm:py-20">
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
-            {detail.slug === "hugo" ? t.finalTitle : detail.slug === "emma"
+              {detail.slug === "hugo" ? t.finalTitle : detail.slug === "emma"
               ? lang === "fr"
                 ? <><span className="block">Prêt à confier la préparation</span><span className="block">et le suivi à Emma&nbsp;?</span></>
                 : <><span className="block">Ready to assign preparation</span><span className="block">and follow-up to Emma?</span></>
@@ -1260,6 +1354,10 @@ export function CollaborateurContent({
               ? lang === "fr"
                 ? <><span className="block">Prêt à confier la gestion</span><span className="block">de vos relances à Nadia&nbsp;?</span></>
                 : <><span className="block">Ready to let Nadia manage</span><span className="block">your follow-ups?</span></>
+              : detail.slug === "camille"
+              ? lang === "fr"
+                ? <><span className="block">Prêt à transformer votre veille</span><span className="block">en décisions avec Camille&nbsp;?</span></>
+                : <><span className="block">Ready to turn intelligence</span><span className="block">into decisions with Camille?</span></>
               : lang === "fr"
                 ? <><span className="block">Prêt à confier une première mission</span><span className="block">à {detail.name}&nbsp;?</span></>
                 : <><span className="block">Ready to assign a first mission</span><span className="block">to {detail.name}?</span></>}
@@ -1597,6 +1695,7 @@ function CollaboratorFaq({
     lang === "fr"
       ? [
           ...(compact && detail.slug === "hugo" ? [["De quoi Hugo a-t-il besoin pour commencer ?", "De vos critères de prospection et des accès que vous autorisez. Alma prépare ensuite la mission et les validations nécessaires."]] : []),
+          ...(compact && detail.slug === "camille" ? [["De quoi Camille a-t-elle besoin pour commencer ?", "Du marché à surveiller, des concurrents prioritaires, de la période et de vos critères d’analyse. Camille travaille à partir des sources que vous autorisez."]] : []),
           ...(compact && detail.slug === "nadia" ? [["De quoi Nadia a-t-elle besoin pour commencer ?", "De vos sources financières autorisées, de la période à analyser et de vos règles de gestion. Alma prépare ensuite les accès et validations nécessaires."]] : []),
           ...(compact && detail.slug === "emma" ? [["De quoi Emma a-t-elle besoin pour commencer ?", "De la date de la réunion, des participants et des documents autorisés. Alma prépare ensuite les accès et validations nécessaires."]] : []),
           [
@@ -1626,6 +1725,7 @@ function CollaboratorFaq({
         ]
       : [
           ...(compact && detail.slug === "hugo" ? [["What does Hugo need to get started?", "Your prospecting criteria and the access you authorize. Alma then prepares the mission and required approvals."]] : []),
+          ...(compact && detail.slug === "camille" ? [["What does Camille need to get started?", "The market to monitor, priority competitors, the period and your analysis criteria. Camille works from the sources you authorize."]] : []),
           ...(compact && detail.slug === "nadia" ? [["What does Nadia need to get started?", "Your authorized financial sources, the reporting period and your management rules. Alma then prepares the required access and approvals."]] : []),
           ...(compact && detail.slug === "emma" ? [["What does Emma need to get started?", "The meeting date, participants and authorized documents. Alma then prepares the required access and approvals."]] : []),
           [

@@ -8,7 +8,7 @@ const route = readFileSync(new URL('../app/missions/page.tsx', import.meta.url),
 describe('missions conversion path', () => {
   it('separates mission creation from catalog search', () => {
     expect(page).toContain('Quel travail voulez-vous confier à votre Collaborateur IA ?')
-    expect(page).toContain('Ou partez d’une mission déjà cadrée')
+    expect(page).toContain('Ou partez d’une mission prête à démarrer')
     expect(page).toContain("search: 'Rechercher'")
   })
 

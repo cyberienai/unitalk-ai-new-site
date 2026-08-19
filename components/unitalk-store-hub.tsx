@@ -349,11 +349,14 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#F3EFE6] font-sf text-[#1C1A17]">
-      <section id="marketplace-store-hero" className={`scroll-mt-[76px] bg-[#EAE3D4] px-5 sm:px-8 ${collaboratorsOnly ? 'pb-7 pt-20 sm:pb-9 sm:pt-24 [@media(min-width:1024px)_and_(max-height:850px)]:pb-7 [@media(min-width:1024px)_and_(max-height:850px)]:pt-20' : 'pb-9 pt-20 sm:pb-11 sm:pt-24 [@media(min-width:1024px)_and_(max-height:850px)]:pb-9 [@media(min-width:1024px)_and_(max-height:850px)]:pt-20'}`}>
-        <div className="mx-auto w-full max-w-6xl">
-           <h1 className="max-w-6xl text-[clamp(2.35rem,5.2vw,5.25rem)] font-semibold leading-[.9] tracking-[-.065em] text-balance [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(2.8rem,4.4vw,4rem)]">{activeCategory.heroTitle[lang].slice(0, -activeCategory.heroAccent[lang].length)}<span className="text-[#D10E63] lg:block">{activeCategory.heroAccent[lang]}</span></h1>
-            <p className="mt-5 max-w-6xl whitespace-pre-line text-[15px] leading-6 text-[#4E483F] text-pretty sm:mt-6 sm:text-[16px] sm:leading-7 lg:pr-8 [@media(min-width:1024px)_and_(max-height:850px)]:mt-4">{activeCategory.heroLead[lang]}</p>
-           {isCollaboratorsLanding && <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[12px] font-semibold text-[#625B50] sm:mt-6 sm:text-[13px] [@media(min-width:1024px)_and_(max-height:850px)]:mt-4">{t.heroProofs.map((proof) => <li key={proof} className="flex items-center gap-2"><span aria-hidden className="size-1.5 rounded-full bg-[#D10E63]"/>{proof}</li>)}</ul>}
+      <section id="marketplace-store-hero" className={`relative scroll-mt-[76px] overflow-hidden border-b border-[#D8CEBE] bg-[#EAE3D4] px-5 sm:px-8 ${collaboratorsOnly ? 'pb-11 pt-36 sm:pb-14 sm:pt-40 [@media(min-width:1024px)_and_(max-height:850px)]:pb-10 [@media(min-width:1024px)_and_(max-height:850px)]:pt-32' : 'pb-9 pt-20 sm:pb-11 sm:pt-24 [@media(min-width:1024px)_and_(max-height:850px)]:pb-9 [@media(min-width:1024px)_and_(max-height:850px)]:pt-20'}`}>
+        {isCollaboratorsLanding && <><div aria-hidden className="pointer-events-none absolute -right-24 top-10 size-72 rounded-full border border-[#D10E63]/15 sm:right-[8%] sm:size-96"/><div aria-hidden className="pointer-events-none absolute -right-8 top-24 size-40 rounded-full bg-[#D10E63]/[.045] blur-2xl sm:right-[16%] sm:size-56"/></>}
+        <div className="relative mx-auto w-full max-w-6xl">
+           <h1 className="max-w-6xl text-[clamp(2.55rem,5.4vw,5.6rem)] font-semibold leading-[.88] tracking-[-.068em] text-balance [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(2.8rem,4.4vw,4rem)]">{activeCategory.heroTitle[lang].slice(0, -activeCategory.heroAccent[lang].length)}<span className="text-[#D10E63] lg:block">{activeCategory.heroAccent[lang]}</span></h1>
+           <div className={isCollaboratorsLanding ? 'mt-7 grid gap-7 border-t border-[#CFC3B2] pt-6 sm:mt-9 sm:pt-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12' : ''}>
+             <p className={`${isCollaboratorsLanding ? 'max-w-3xl' : 'mt-5 max-w-6xl sm:mt-6 lg:pr-8'} whitespace-pre-line text-[15px] leading-6 text-[#4E483F] text-pretty sm:text-[16px] sm:leading-7 [@media(min-width:1024px)_and_(max-height:850px)]:mt-4`}>{activeCategory.heroLead[lang]}</p>
+             {isCollaboratorsLanding && <ul className="flex flex-wrap gap-2 text-[11px] font-bold text-[#4E483F] sm:text-[12px] lg:max-w-[28rem] lg:justify-end">{t.heroProofs.map((proof) => <li key={proof} className="flex min-h-9 items-center gap-2 rounded-full border border-[#CFC3B2] bg-[#F3EFE6]/70 px-3.5 backdrop-blur-sm"><span aria-hidden className="size-1.5 rounded-full bg-[#D10E63]"/>{proof}</li>)}</ul>}
+           </div>
         </div>
       </section>
 

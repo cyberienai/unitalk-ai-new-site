@@ -29,7 +29,9 @@ describe('Marketplace IA hub', () => {
   it('starts directly with the catalog', () => {
     expect(hub).not.toContain('AlmaMissionComposer')
     expect(hub).not.toContain('getSpeechRecognition')
-    expect(hub).toContain("collaboratorsOnly ? 'pb-7 pt-20 sm:pb-9 sm:pt-24")
+    expect(hub).toContain("collaboratorsOnly ? 'pb-11 pt-36 sm:pb-14 sm:pt-40")
+    expect(hub).not.toContain('Marketplace · Collaborateurs IA')
+    expect(hub).toContain('border-t border-[#CFC3B2]')
   })
 
   it('uses one horizontal category navigation', () => {
