@@ -161,10 +161,10 @@ const COPY = {
 const PERSONAS = {
   emma: {
     claim: {
-      fr: "Emma prépare vos réunions et suit chaque décision.",
-      en: "Emma prepares your meetings and tracks every decision.",
+      fr: "Emma orchestre vos priorités et libère du temps pour l’essentiel.",
+      en: "Emma orchestrates your priorities and frees up time for what matters most.",
     },
-    accent: { fr: "suit chaque décision", en: "tracks every decision" },
+    accent: { fr: "libère du temps pour l’essentiel", en: "frees up time for what matters most" },
     lead: {
       fr: "Commencez par votre prochaine réunion d’équipe. Emma réunit les informations utiles, prépare l’ordre du jour et organise le suivi des actions.",
       en: "Start with your next team meeting. Emma gathers useful information, prepares the agenda and organizes action tracking.",

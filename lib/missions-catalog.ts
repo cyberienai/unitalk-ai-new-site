@@ -387,6 +387,7 @@ type SeedOpts = {
   modality?: string
   regulated?: boolean
   dateAdded?: string
+  collaboratorSlug?: string
   article?: {
     href: string
     label: Bilingual
@@ -517,7 +518,7 @@ function buildMission(seed: Seed, index: number): Mission {
     skills: def.skills,
     tools: def.tools,
     profile: def.profile,
-    collaboratorSlug: def.collaboratorSlug,
+    collaboratorSlug: o.collaboratorSlug ?? def.collaboratorSlug,
     sectors: o.sectors ?? def.sectors,
     languages: o.languages ?? ['fr', 'en'],
     zones: o.zones ?? ['france', 'ue', 'international'],
@@ -670,15 +671,15 @@ const SEEDS: Seed[] = [
   m('documents', 'preparer-un-dossier-de-reference', 'Préparer un dossier de référence', 'Prepare a reference file', 'Les documents et informations essentiels sont réunis dans un espace structuré.', 'Essential documents and information are gathered in a structured space.'),
 
   // ---------------- ANALYSE, RECHERCHE & VEILLE ----------------
-  m('analyse', 'realiser-une-veille-concurrentielle', 'Réaliser une veille concurrentielle', 'Run competitive monitoring', 'Une synthèse régulière des mouvements, offres et communications concurrentes.', 'A regular summary of competitor moves, offers and communications.', { status: 'on-setup', collections: ['piloter-organisation', 'developper-activite'] }),
-  m('analyse', 'surveiller-un-marche', 'Surveiller un marché', 'Monitor a market', 'Les évolutions importantes, nouveaux acteurs et signaux faibles sont identifiés.', 'Key shifts, new entrants and weak signals are identified.'),
+  m('analyse', 'realiser-une-veille-concurrentielle', 'Réaliser une veille concurrentielle', 'Run competitive monitoring', 'Une synthèse régulière des mouvements, offres et communications concurrentes.', 'A regular summary of competitor moves, offers and communications.', { status: 'on-setup', collections: ['piloter-organisation', 'developper-activite'], collaboratorSlug: 'lea' }),
+  m('analyse', 'surveiller-un-marche', 'Surveiller un marché', 'Monitor a market', 'Les évolutions importantes, nouveaux acteurs et signaux faibles sont identifiés.', 'Key shifts, new entrants and weak signals are identified.', { collaboratorSlug: 'lea' }),
   m('analyse', 'comparer-les-offres-concurrentes', 'Comparer les offres concurrentes', 'Compare competitor offers', 'Une matrice comparable des fonctionnalités, prix et positionnements.', 'A comparable matrix of features, prices and positioning.', { status: 'on-setup' }),
   m('analyse', 'analyser-les-ventes', 'Analyser les ventes', 'Analyze sales', 'Les tendances, écarts et facteurs significatifs sont mis en évidence.', 'Trends, gaps and significant drivers are highlighted.', { modality: 'donnees' }),
-  m('analyse', 'analyser-les-retours-clients', 'Analyser les retours clients', 'Analyze customer feedback', 'Les thèmes, attentes et irritants sont regroupés et quantifiés.', 'Themes, expectations and pain points are grouped and quantified.', { modality: 'donnees' }),
+  m('analyse', 'analyser-les-retours-clients', 'Analyser les retours clients', 'Analyze customer feedback', 'Les thèmes, attentes et irritants sont regroupés et quantifiés.', 'Themes, expectations and pain points are grouped and quantified.', { modality: 'donnees', collaboratorSlug: 'lea' }),
   m('analyse', 'rechercher-des-informations-publiques', 'Rechercher des informations publiques', 'Research public information', 'Une recherche documentée avec sources, dates et niveau de confiance.', 'Documented research with sources, dates and confidence level.'),
   m('analyse', 'preparer-une-etude-de-marche', 'Préparer une étude de marché', 'Prepare a market study', 'Un dossier structuré sur le marché, les clients et les principaux acteurs.', 'A structured file on the market, customers and key players.'),
-  m('analyse', 'suivre-les-actualites-d-un-secteur', 'Suivre les actualités d’un secteur', 'Track industry news', 'Une sélection qualifiée des informations ayant un impact potentiel.', 'A qualified selection of news with potential impact.'),
-  m('analyse', 'detecter-les-tendances-emergentes', 'Détecter les tendances émergentes', 'Detect emerging trends', 'Des signaux regroupés par thème et accompagnés de leur source.', 'Signals grouped by theme and accompanied by their source.'),
+  m('analyse', 'suivre-les-actualites-d-un-secteur', 'Suivre les actualités d’un secteur', 'Track industry news', 'Une sélection qualifiée des informations ayant un impact potentiel.', 'A qualified selection of news with potential impact.', { collaboratorSlug: 'lea' }),
+  m('analyse', 'detecter-les-tendances-emergentes', 'Détecter les tendances émergentes', 'Detect emerging trends', 'Des signaux regroupés par thème et accompagnés de leur source.', 'Signals grouped by theme and accompanied by their source.', { collaboratorSlug: 'lea' }),
   m('analyse', 'analyser-un-ensemble-de-donnees', 'Analyser un ensemble de données', 'Analyze a dataset', 'Une synthèse des tendances et anomalies observées dans les données fournies.', 'A summary of trends and anomalies observed in the provided data.', { modality: 'donnees' }),
   m('analyse', 'preparer-un-benchmark', 'Préparer un benchmark', 'Prepare a benchmark', 'Une comparaison structurée selon les critères définis par l’équipe.', 'A structured comparison based on the criteria set by the team.'),
   m('analyse', 'produire-une-note-de-veille', 'Produire une note de veille', 'Produce a monitoring brief', 'Une note courte présentant les faits, conséquences possibles et sources.', 'A short brief with the facts, possible consequences and sources.', { status: 'on-setup', dateAdded: '2026-08-05' }),

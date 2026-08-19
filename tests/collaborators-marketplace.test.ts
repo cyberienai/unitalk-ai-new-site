@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { MARKETPLACE_COLLABORATOR_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { MISSIONS } from '@/lib/missions-catalog'
 
 const page = readFileSync(new URL('../app/marketplace/collaborateurs-ia/page.tsx', import.meta.url), 'utf8')
 const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.meta.url), 'utf8')
@@ -73,5 +74,12 @@ describe('Collaborateurs IA marketplace', () => {
     expect(missions).toContain("'preparer-une-note-de-decision'")
     expect(missions).toContain("requestedCollaborator === 'emma'")
     expect(missions).not.toContain("EMMA_LEADERSHIP_MISSION_SLUGS = [\n  'rediger-une-fiche-de-poste'")
+  })
+
+  it('gives Léa additional editorial monitoring and analysis missions', () => {
+    const leaMissions = new Set(MISSIONS.filter(mission => mission.collaboratorSlug === 'lea').map(mission => mission.slug))
+    for (const slug of ['realiser-une-veille-concurrentielle', 'surveiller-un-marche', 'analyser-les-retours-clients', 'suivre-les-actualites-d-un-secteur', 'detecter-les-tendances-emergentes']) {
+      expect(leaMissions.has(slug)).toBe(true)
+    }
   })
 })

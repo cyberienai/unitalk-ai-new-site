@@ -117,7 +117,7 @@ const STORE_CATEGORIES: Category[] = [
     description: { fr: 'Choisissez le Collaborateur IA qui correspond à votre entreprise, puis faites-le évoluer avec les profils métier et les compétences adaptés à ses missions.', en: 'Choose the AI Collaborator that fits your organization, then evolve it with the job profiles and skills suited to its missions.' },
     heroTitle: { fr: 'Choisissez un Collaborateur IA. Confiez-lui une mission concrète.', en: 'Choose an AI Collaborator. Give them a concrete mission.' },
     heroAccent: { fr: 'Confiez-lui une mission concrète.', en: 'Give them a concrete mission.' },
-    heroLead: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise. Ajoutez-lui, sans frais supplémentaires, les savoir-faire d’un métier et les compétences nécessaires à ses missions.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization. Give them the professional know-how and skills their missions require at no extra cost.' },
+    heroLead: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise.\nAjoutez-lui, sans frais supplémentaires, les savoir-faire d’un métier et les compétences nécessaires à ses missions.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization.\nGive them the professional know-how and skills their missions require at no extra cost.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comprendre le Collaborateur IA', en: 'Understand the AI Collaborator' },
     href: '/collaborateurs-ia', accent: '#D10E63',
   },
@@ -356,7 +356,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       <section id="marketplace-store-hero" className={`scroll-mt-[76px] bg-[#EAE3D4] px-5 sm:px-8 ${collaboratorsOnly ? 'pb-8 pt-20 sm:pb-10 sm:pt-24' : 'pb-9 pt-20 sm:pb-11 sm:pt-24 [@media(min-width:1024px)_and_(max-height:850px)]:pb-9 [@media(min-width:1024px)_and_(max-height:850px)]:pt-20'}`}>
         <div className="mx-auto w-full max-w-6xl">
           <h1 className="max-w-6xl text-[clamp(2.4rem,5.2vw,5.25rem)] font-semibold leading-[.9] tracking-[-.065em] text-balance [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(3rem,4.8vw,4.5rem)]">{activeCategory.heroTitle[lang].slice(0, -activeCategory.heroAccent[lang].length)}<span className="text-[#D10E63] lg:block">{activeCategory.heroAccent[lang]}</span></h1>
-          <p className="mt-5 max-w-6xl text-[15px] leading-6 text-[#4E483F] text-pretty sm:mt-6 sm:text-[16px] sm:leading-7 lg:pr-8">{activeCategory.heroLead[lang]}</p>
+           <p className="mt-5 max-w-6xl whitespace-pre-line text-[15px] leading-6 text-[#4E483F] text-pretty sm:mt-6 sm:text-[16px] sm:leading-7 lg:pr-8">{activeCategory.heroLead[lang]}</p>
           {isCollaboratorsLanding && <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[13px] font-semibold text-[#625B50]">{t.heroProofs.map((proof) => <li key={proof} className="flex items-center gap-2"><span aria-hidden className="size-1.5 rounded-full bg-[#D10E63]"/>{proof}</li>)}</ul>}
         </div>
       </section>
