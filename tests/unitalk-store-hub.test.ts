@@ -20,21 +20,22 @@ describe('Marketplace IA hub', () => {
   it('starts directly with the catalog', () => {
     expect(hub).not.toContain('AlmaMissionComposer')
     expect(hub).not.toContain('getSpeechRecognition')
-    expect(hub).toContain('pt-24 sm:px-8 sm:pt-28')
+    expect(hub).toContain('pt-24 sm:px-8 sm:pb-14 sm:pt-28')
   })
 
   it('uses one horizontal category navigation', () => {
     expect(hub).not.toContain("w-[220px] shrink-0")
     expect(hub).not.toContain('sticky top-24')
     expect(hub).toContain('onClick={() => selectCategory(category.id)}')
-    expect(hub).toContain('md:grid-cols-5')
+    expect(hub).toContain('role="tablist"')
+    expect(hub).toContain('overflow-x-auto scrollbar-hide')
   })
 
   it('centralizes real catalogs with search and featured cards', () => {
     expect(hub).toContain('STORE_ITEMS')
     expect(hub).toContain('itemsForCategory')
     expect(hub).toContain('MarketplaceItemCard')
-    expect(hub).toContain('Rechercher dans cette catégorie')
+    expect(hub).toContain('Rechercher un profil métier')
     expect(hub).toContain('category={activeCategory}')
     expect(hub).toContain("window.location.hash.slice(1)")
   })

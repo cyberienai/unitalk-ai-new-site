@@ -10,9 +10,9 @@ type Bi = { fr: string; en: string }
 type Category = {
   id: string
   title: Bi
-  short: Bi
   description: Bi
-  statement: Bi
+  search: Bi
+  action: Bi
   href: string
   accent: string
 }
@@ -41,33 +41,33 @@ const MODEL_ITEMS = [
 
 const STORE_CATEGORIES: Category[] = [
   {
-    id: 'profils-metier', title: { fr: 'Profils métier', en: 'Job profiles' }, short: { fr: 'Responsabilité', en: 'Accountability' },
+    id: 'profils-metier', title: { fr: 'Profils métier', en: 'Job profiles' },
     description: { fr: 'Un profil métier de référence pour chaque métier de la connaissance.', en: 'One reference job profile for every knowledge-work profession.' },
-    statement: { fr: 'Donnez-lui un métier. Donc des limites.', en: 'Give it a profession. Therefore, limits.' },
+    search: { fr: 'Rechercher un profil métier', en: 'Search job profiles' }, action: { fr: 'Voir le profil', en: 'View profile' },
     href: '/collaborateurs-ia/profils-metier', accent: '#C80B5B',
   },
   {
-    id: 'competences', title: { fr: 'Compétences', en: 'Skills' }, short: { fr: 'Savoir-faire', en: 'Know-how' },
+    id: 'competences', title: { fr: 'Compétences', en: 'Skills' },
     description: { fr: 'Des savoir-faire précis, testés, versionnés et réutilisables.', en: 'Precise, tested, versioned and reusable know-how.' },
-    statement: { fr: 'Installez des méthodes, pas des tours de magie.', en: 'Install methods, not magic tricks.' },
+    search: { fr: 'Rechercher une compétence', en: 'Search skills' }, action: { fr: 'Voir la compétence', en: 'View skill' },
     href: '/collaborateurs-ia/competences', accent: '#6246B5',
   },
   {
-    id: 'applications', title: { fr: 'Applications', en: 'Applications' }, short: { fr: 'Pouvoir d’agir', en: 'Agency' },
+    id: 'applications', title: { fr: 'Applications', en: 'Applications' },
     description: { fr: 'Les outils, connecteurs et applications métier autorisés.', en: 'Approved tools, connectors and business applications.' },
-    statement: { fr: 'Ouvrez des portes. Jamais toutes les portes.', en: 'Open doors. Never every door.' },
+    search: { fr: 'Rechercher une application', en: 'Search applications' }, action: { fr: 'Voir l’application', en: 'View application' },
     href: '/collaborateurs-ia/applications', accent: '#B7501E',
   },
   {
-    id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' }, short: { fr: 'Intelligence', en: 'Intelligence' },
+    id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' },
     description: { fr: 'Les moteurs autorisés pour raisonner, analyser, produire et agir.', en: 'Approved engines for reasoning, analysis, creation and action.' },
-    statement: { fr: 'Changez de moteur sans perdre votre agent.', en: 'Change engines without losing your agent.' },
+    search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' },
     href: '/modeles-ia', accent: '#1D6692',
   },
   {
-    id: 'serveurs-ia', title: { fr: 'Serveurs IA', en: 'AI servers' }, short: { fr: 'Souveraineté', en: 'Sovereignty' },
+    id: 'serveurs-ia', title: { fr: 'Serveurs IA', en: 'AI servers' },
     description: { fr: 'Des environnements privés dimensionnés pour vos Collaborateurs IA et leurs applications.', en: 'Private environments sized for your AI Collaborators and their applications.' },
-    statement: { fr: 'Son lieu de travail ne devrait appartenir à personne d’autre.', en: 'Its workplace should belong to no one else.' },
+    search: { fr: 'Rechercher un serveur IA', en: 'Search AI servers' }, action: { fr: 'Voir le serveur', en: 'View server' },
     href: '/collaborateurs-ia/serveurs', accent: '#216641',
   },
 ]
@@ -78,7 +78,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
     return STORE_ITEMS.filter((item) => item.type === storeType).map((item) => ({
       key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: storeItemHref(item),
       meta: item.roleInOrg?.[lang] ?? item.facet, origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
-      status: item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Prêt à installer', en: 'Ready to install' },
+      status: item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Inclus', en: 'Included' },
     }))
   }
   if (categoryId === 'applications') {
@@ -109,19 +109,17 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
 const COPY = {
   fr: {
     heroTitle: 'Faites évoluer votre Collaborateur IA selon vos besoins.',
-    heroLead: 'Ajoutez des profils métier et des compétences à tout moment, sans facturation supplémentaire.',
-    understand: 'Comprendre cette catégorie', search: 'Rechercher dans cette catégorie',
+    heroLead: 'Ajoutez à tout moment les profils métier et les compétences dont il a besoin. Leur ajout est inclus, sans facturation supplémentaire.',
     noResults: 'Aucune création ne correspond à cette recherche.', showMore: 'Voir tout le catalogue', showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
-    categories: 'Catégories', clear: 'Effacer la recherche', details: 'Voir la fiche', available: 'Disponible', preparation: 'Bientôt disponible',
+    clear: 'Effacer la recherche', available: 'Disponible', preparation: 'Bientôt disponible',
   },
   en: {
     heroTitle: 'Evolve your AI Collaborator as your needs change.',
-    heroLead: 'Add job profiles and skills at any time, at no additional cost.',
-    understand: 'Understand this category', search: 'Search this category',
+    heroLead: 'Add the job profiles and skills it needs at any time. They are included at no additional cost.',
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
     emptyTitle: 'Catalog in preparation', emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
-    categories: 'Categories', clear: 'Clear search', details: 'View details', available: 'Available', preparation: 'Coming soon',
+    clear: 'Clear search', available: 'Available', preparation: 'Coming soon',
   },
 } as const
 
@@ -171,35 +169,28 @@ export function UnitalkStoreHub() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
-      <section className="relative bg-[#EAE3D4] px-5 pb-0 pt-24 sm:px-8 sm:pt-28">
-        <div className="mx-auto w-full max-w-6xl border-x border-[#CFC5B5]">
-          <div>
-            <div className="border-b border-[#CFC5B5] px-5 pb-10 sm:px-10 sm:pb-12 lg:px-14">
-              <h1 className="max-w-4xl text-[clamp(3.2rem,7vw,6.4rem)] font-semibold leading-[.82] tracking-[-.075em]">{t.heroTitle}</h1>
-              <div className="mt-8">
-                <p className="max-w-xl text-[15px] leading-7 text-[#4E483F]">{t.heroLead}</p>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 border-b border-[#CFC5B5] md:grid-cols-5">
-            {STORE_CATEGORIES.map((category) => {
-              const active = activeCategory.id === category.id
-              return <button key={category.id} type="button" aria-pressed={active} onClick={() => selectCategory(category.id)} className={`group relative flex min-h-24 items-end border-r border-[#CFC5B5] p-4 text-left transition-colors last:border-r-0 sm:p-5 ${active ? 'bg-[#1C1A17] text-white' : 'hover:bg-[#1C1A17] hover:text-white'}`}><span className="block text-base font-semibold leading-tight tracking-[-.025em] sm:text-lg">{category.title[lang]}</span><span className={`absolute bottom-0 left-0 h-1 transition-[width] duration-300 ${active ? 'w-full' : 'w-0 group-hover:w-full'}`} style={{ backgroundColor: category.accent }} /></button>
-            })}
-          </div>
+      <section className="bg-[#EAE3D4] px-5 pb-12 pt-24 sm:px-8 sm:pb-14 sm:pt-28">
+        <div className="mx-auto w-full max-w-6xl">
+          <h1 className="max-w-5xl text-[clamp(2.8rem,6.4vw,5.8rem)] font-semibold leading-[.86] tracking-[-.07em] text-balance">{t.heroTitle}</h1>
+          <p className="mt-7 max-w-2xl text-[16px] leading-7 text-[#4E483F] sm:text-[17px]">{t.heroLead}</p>
         </div>
       </section>
 
-      <section id="categories" className="scroll-mt-20 px-5 pb-24 pt-20 sm:px-8 sm:pt-24 lg:pb-32">
-        <div className="mx-auto w-full max-w-6xl">
-          <div id="marketplace-results" className="scroll-mt-24">
-              <div className="overflow-hidden border-y border-[#CFC5B5] bg-[#FAF8F3]">
-                <div className="p-5 sm:p-7">
-                  {categoryItems.length > 0 && <label className="relative block border-b-2 border-[#1C1A17]"><span className="absolute left-0 top-1/2 -translate-y-1/2 font-mono text-[10px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Chercher' : 'Search'}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full bg-transparent pl-24 pr-12 text-sm outline-none placeholder:text-[#9B9284]" />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-0 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center font-mono text-lg text-[#625B50] hover:text-[#1C1A17]">×</button>}</label>}
-                </div>
-              </div>
+      <div className="sticky top-[76px] z-30 border-y border-[#CFC5B5] bg-[#F3EFE6]/95 px-5 backdrop-blur-md sm:px-8">
+        <div className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide" role="tablist" aria-label={lang === 'fr' ? 'Catégories de la marketplace' : 'Marketplace categories'}>
+            {STORE_CATEGORIES.map((category) => {
+              const active = activeCategory.id === category.id
+              return <button key={category.id} type="button" role="tab" aria-selected={active} aria-controls="marketplace-results" onClick={() => selectCategory(category.id)} className={`relative flex h-16 shrink-0 items-center px-4 text-sm font-semibold transition-colors first:pl-0 sm:h-[72px] sm:px-6 sm:text-[15px] ${active ? 'text-[#1C1A17]' : 'text-[#766D61] hover:text-[#1C1A17]'}`}><span>{category.title[lang]}</span><span className={`absolute inset-x-4 bottom-0 h-[3px] transition-transform first:left-0 ${active ? 'scale-x-100' : 'scale-x-0'}`} style={{ backgroundColor: category.accent }} /></button>
+            })}
+        </div>
+      </div>
 
-              {visibleItems.length > 0 ? <div className="mt-6 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} labels={{ details: t.details, available: t.available, preparation: t.preparation }} />)}</div> : categoryItems.length > 0 ? <div className="mt-4 border border-dashed border-[#CFC5B5] p-10 text-center"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div> : <div className="mt-4 border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
+      <section id="categories" className="scroll-mt-40 px-5 pb-24 pt-10 sm:px-8 sm:pt-12 lg:pb-32">
+        <div className="mx-auto w-full max-w-6xl">
+          <div id="marketplace-results" role="tabpanel" className="scroll-mt-[184px]">
+              {categoryItems.length > 0 && <label className="relative block max-w-xl"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] transition-colors hover:bg-[#EAE3D4] hover:text-[#1C1A17]">×</button>}</label>}
+
+              {visibleItems.length > 0 ? <div className="mt-7 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation }} />)}</div> : categoryItems.length > 0 ? <div className="mt-7 rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-10 text-center"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div> : <div className="mt-7 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
               {filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
           </div>
         </div>
@@ -212,19 +203,18 @@ function MarketplaceItemCard({ item, lang, category, labels }: { item: Marketpla
   const content = (
     <>
       <div>
-        <h3 className="line-clamp-2 text-[25px] font-semibold leading-[1.05] tracking-[-.045em] text-[#1C1A17]">{item.title}</h3>
-        <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#625B50]">{item.description}</p>
+        <h3 className="line-clamp-2 text-[23px] font-semibold leading-[1.08] tracking-[-.04em] text-[#1C1A17]">{item.title}</h3>
+        <p className="mt-4 line-clamp-3 text-[13px] leading-6 text-[#625B50]">{item.description}</p>
       </div>
-      <div className="mt-auto pt-7">
-        <div className="h-px bg-[#DED6C8] transition-colors group-hover:bg-[var(--profile-accent)]" />
-        <div className="flex items-center justify-between gap-3 pt-4">
-          <span className="flex items-center gap-2 text-[10px] font-semibold text-[#6E665A]"><span className={`size-1.5 rounded-full ${item.pending ? 'bg-[#D78A2D]' : 'bg-[#34865A]'}`} />{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>
-          {item.href && <span className="text-xs font-bold text-[#1C1A17] transition-colors group-hover:text-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">↗</span></span>}
+      <div className="mt-auto pt-8">
+        <div className="flex items-end justify-between gap-3 border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)]">
+          <span className="text-[10px] font-semibold text-[#766D61]">{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>
+          {item.href && <span className="text-xs font-bold text-[#1C1A17] transition-colors group-hover:text-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">→</span></span>}
         </div>
       </div>
     </>
   )
   const style = { '--profile-accent': category.accent } as CSSProperties
-  const className = 'group relative flex min-h-[250px] flex-col overflow-hidden rounded-[18px] border border-[#D8D0C2] bg-[#FBF9F4] p-6 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_24px_55px_-42px_rgba(28,26,23,.8)] sm:min-h-[270px]'
+  const className = 'group relative flex min-h-[240px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-6 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] sm:min-h-[255px]'
   return item.href ? <Link href={item.href} className={className} style={style}>{content}</Link> : <article className={className} style={style}>{content}</article>
 }
