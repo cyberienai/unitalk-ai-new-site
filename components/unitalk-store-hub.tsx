@@ -54,16 +54,16 @@ type MarketplaceItem = {
 const PAGE_SIZE = 12
 
 const COLLABORATOR_PROFILE_EXAMPLES: Record<string, Bi[]> = {
-  emma: [{ fr: 'Gestion administrative', en: 'Administration' }, { fr: 'Coordination de projets', en: 'Project coordination' }, { fr: 'Organisation de réunions', en: 'Meeting coordination' }],
-  lea: [{ fr: 'Médias sociaux', en: 'Social media' }, { fr: 'Référencement naturel', en: 'SEO' }, { fr: 'Acquisition', en: 'Growth' }],
-  hugo: [{ fr: 'Prospection', en: 'Prospecting' }, { fr: 'Gestion de comptes', en: 'Account management' }, { fr: 'Gestion CRM', en: 'CRM management' }],
-  ines: [{ fr: 'Réussite client', en: 'Customer success' }, { fr: 'Support technique', en: 'Technical support' }],
-  arthur: [{ fr: 'DevOps', en: 'DevOps' }, { fr: 'Analyse de données', en: 'Data analysis' }],
-  nadia: [{ fr: 'Facturation', en: 'Billing' }, { fr: 'Comptabilité', en: 'Accounting' }, { fr: 'Contrôle de gestion', en: 'Management control' }],
-  chloe: [{ fr: 'Opérations RH', en: 'People operations' }, { fr: 'Intégration', en: 'Onboarding' }, { fr: 'Formation', en: 'Training' }],
-  iris: [{ fr: 'Recherche utilisateur', en: 'User research' }, { fr: 'Assurance qualité', en: 'Quality assurance' }],
-  lucas: [{ fr: 'Gestion de projet', en: 'Project management' }, { fr: 'Achats', en: 'Procurement' }, { fr: 'Logistique', en: 'Logistics' }],
-  marcus: [{ fr: 'Gestion des contrats', en: 'Contract management' }, { fr: 'Conformité RGPD', en: 'GDPR compliance' }],
+  emma: [{ fr: 'Gestion administrative', en: 'Administration' }, { fr: 'Coordination de projets', en: 'Project coordination' }, { fr: 'Gestion documentaire', en: 'Document management' }, { fr: 'Organisation des déplacements', en: 'Travel coordination' }, { fr: 'Suivi des échéances', en: 'Deadline tracking' }],
+  lea: [{ fr: 'Référencement naturel', en: 'SEO' }, { fr: 'Animation des réseaux sociaux', en: 'Social media management' }, { fr: 'Analyse de performance', en: 'Performance analysis' }, { fr: 'Rédaction web', en: 'Web copywriting' }, { fr: 'Veille éditoriale', en: 'Editorial monitoring' }],
+  hugo: [{ fr: 'Préparation d’offres commerciales', en: 'Sales proposal preparation' }, { fr: 'Gestion de comptes', en: 'Account management' }, { fr: 'Suivi des performances commerciales', en: 'Sales performance tracking' }, { fr: 'Analyse concurrentielle', en: 'Competitive analysis' }, { fr: 'Prévision des ventes', en: 'Sales forecasting' }],
+  ines: [{ fr: 'Gestion de la base de connaissances', en: 'Knowledge base management' }, { fr: 'Analyse de la satisfaction client', en: 'Customer satisfaction analysis' }, { fr: 'Préparation des rapports de support', en: 'Support reporting' }, { fr: 'Détection des demandes récurrentes', en: 'Recurring request detection' }, { fr: 'Suivi des engagements de service', en: 'Service-level tracking' }],
+  arthur: [{ fr: 'DevOps', en: 'DevOps' }, { fr: 'Analyse de données', en: 'Data analysis' }, { fr: 'Documentation technique', en: 'Technical documentation' }, { fr: 'Revue de code', en: 'Code review' }, { fr: 'Surveillance applicative', en: 'Application monitoring' }],
+  nadia: [{ fr: 'Prévisions de trésorerie', en: 'Cash flow forecasting' }, { fr: 'Reporting financier', en: 'Financial reporting' }, { fr: 'Contrôle de gestion', en: 'Management control' }, { fr: 'Analyse des écarts budgétaires', en: 'Budget variance analysis' }, { fr: 'Suivi des indicateurs financiers', en: 'Financial KPI tracking' }],
+  chloe: [{ fr: 'Opérations RH', en: 'People operations' }, { fr: 'Intégration des salariés', en: 'Employee onboarding' }, { fr: 'Formation', en: 'Training' }, { fr: 'Gestion des entretiens annuels', en: 'Performance review management' }, { fr: 'Suivi des compétences internes', en: 'Workforce skills tracking' }],
+  iris: [{ fr: 'Recherche utilisateur', en: 'User research' }, { fr: 'Assurance qualité', en: 'Quality assurance' }, { fr: 'Analyse des retours produit', en: 'Product feedback analysis' }, { fr: 'Priorisation de la roadmap', en: 'Roadmap prioritization' }, { fr: 'Suivi des indicateurs produit', en: 'Product KPI tracking' }],
+  lucas: [{ fr: 'Achats', en: 'Procurement' }, { fr: 'Logistique', en: 'Logistics' }, { fr: 'Amélioration des processus', en: 'Process improvement' }, { fr: 'Gestion des fournisseurs', en: 'Supplier management' }, { fr: 'Suivi des coûts opérationnels', en: 'Operational cost tracking' }],
+  marcus: [{ fr: 'Conformité RGPD', en: 'GDPR compliance' }, { fr: 'Veille réglementaire', en: 'Regulatory monitoring' }, { fr: 'Gestion des politiques internes', en: 'Internal policy management' }, { fr: 'Cartographie des risques', en: 'Risk mapping' }, { fr: 'Préparation des audits', en: 'Audit preparation' }],
 }
 
 // Editorial demand order for French SMBs. Unknown future profiles stay at the end.
@@ -184,7 +184,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       origin: detail.department[lang],
       avatar: detail.avatar,
       keywords: [...detail.skills.map((skill) => skill[lang]), ...detail.tools, ...detail.missions.map((mission) => mission[lang])],
-      highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).slice(0, 2).map((profile) => profile[lang]),
+      highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).map((profile) => profile[lang]),
       highlightsLabel: lang === 'fr' ? 'Autres compétences possibles' : 'Other possible skills',
       starterMission: detail.starterMission?.mission[lang],
       exampleResult: detail.starterMission?.result[lang],
