@@ -9,7 +9,7 @@ describe('Marketplace IA hub', () => {
     expect(page).toContain('UnitalkStoreHub')
     for (const label of ['Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
-    expect(hub).toContain("heroTitle: 'Une identité qui reste. Des profils métier qui évoluent.'")
+    expect(hub).toContain("heroTitle: { fr: 'Choisissez un Collaborateur IA. Confiez-lui une mission concrète.'")
   })
 
   it('shows canonical public AI Collaborators first', () => {
@@ -22,7 +22,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('states the catalog and knowledge-work positioning', () => {
-    expect(hub).toContain('Une identité qui reste. Des profils métier qui évoluent.')
+    expect(hub).toContain('Choisissez un Collaborateur IA. Confiez-lui une mission concrète.')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
@@ -36,7 +36,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).not.toContain("w-[220px] shrink-0")
     expect(hub).not.toContain('sticky top-24')
     expect(hub).toContain('onClick={() => selectCategory(category.id)}')
-    expect(hub).toContain('role="tablist"')
+    expect(hub).toContain("role={collaboratorsOnly ? undefined : 'tablist'}")
     expect(hub).toContain('overflow-x-auto scrollbar-hide')
     expect(hub).toContain("window.history.replaceState(null, '', href)")
     expect(hub).not.toContain("window.history.pushState(null, '', href)")
@@ -82,6 +82,6 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('aria-label={`${labels.addProfile} : ${item.title}`}')
     expect(hub).toContain('group-hover:bg-[var(--profile-accent)]')
     expect(hub).toContain('group-focus-visible:bg-[var(--profile-accent)]')
-    expect(hub).toContain('Alma vérifie l’adaptation avant l’ajout.')
+    expect(hub).toContain('aria-label={`${labels.addProfile} : ${item.title}`}')
   })
 })

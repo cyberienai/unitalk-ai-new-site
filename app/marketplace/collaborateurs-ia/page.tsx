@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: `${SITE_URL}/marketplace/collaborateurs-ia`,
     title: 'Choisissez votre Collaborateur IA | Unitalk',
-    description: 'Découvrez dix Collaborateurs IA, leurs missions de départ et des exemples de résultats à valider avant toute action.',
+    description: 'Découvrez dix Collaborateurs IA, leur domaine, leur première mission possible et les compétences que vous pouvez leur ajouter.',
   },
 }
 

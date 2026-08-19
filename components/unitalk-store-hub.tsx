@@ -43,7 +43,6 @@ type MarketplaceItem = {
   highlightsLabel?: string
   score?: number
   starterMission?: string
-  exampleResult?: string
   facetKey?: string
   profileKeys?: string[]
   input?: string
@@ -114,10 +113,10 @@ const MODEL_ITEMS = [
 const STORE_CATEGORIES: Category[] = [
   {
     id: 'collaborateurs-ia', title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
-    description: { fr: 'Choisissez le Collaborateur IA dont vous avez besoin, puis faites-le évoluer avec les profils métier et les compétences adaptés à ses missions, sans frais supplémentaires.', en: 'Choose the AI Collaborator you need, then evolve it with the job profiles and skills suited to its missions, at no extra cost.' },
+    description: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization.' },
     heroTitle: { fr: 'Choisissez un Collaborateur IA. Confiez-lui une mission concrète.', en: 'Choose an AI Collaborator. Give them a concrete mission.' },
     heroAccent: { fr: 'Confiez-lui une mission concrète.', en: 'Give them a concrete mission.' },
-    heroLead: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization.' },
+    heroLead: { fr: 'Faites-le évoluer avec les profils métier et les compétences adaptés à ses missions, sans frais supplémentaires.', en: 'Evolve it with the job profiles and skills suited to its missions, at no extra cost.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comprendre le Collaborateur IA', en: 'Understand the AI Collaborator' },
     href: '/collaborateurs-ia', accent: '#D10E63',
   },
@@ -187,7 +186,6 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).map((profile) => profile[lang]),
       highlightsLabel: lang === 'fr' ? 'Autres compétences possibles' : 'Other possible skills',
       starterMission: detail.starterMission?.mission[lang],
-      exampleResult: detail.starterMission?.result[lang],
     }))
   }
 
@@ -239,15 +237,15 @@ const COPY = {
     noResults: 'Aucune création ne correspond à cette recherche.', showMore: 'Voir tout le catalogue', showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     clear: 'Effacer les filtres', available: 'Disponible', preparation: 'Bientôt disponible', addProfile: 'Ajouter à un Collaborateur IA',
-    allDepartments: 'Tous les départements', result: 'résultat', results: 'résultats', almaTitle: 'Vous ne savez pas qui choisir ?', almaBody: 'Décrivez simplement le travail attendu. Alma vous recommande un Collaborateur IA et cadre avec vous le résultat, les sources et les validations.', almaAction: 'Décrire ma première mission', finalTitle: 'Commencez par un résultat à obtenir, pas par une configuration.', finalBody: 'Alma cadre gratuitement votre première mission. Vous validez le résultat attendu, les accès nécessaires et les actions qui doivent rester sous contrôle humain.', finalProfiles: 'Décrire ma première mission',
-    heroProofs: ['7 jours gratuits', 'Sans carte bancaire', 'À partir de 49 €/mois ensuite'], starterMission: 'Première mission possible', exampleResult: 'Livrable à valider', ctaHelp: 'Alma vous aide d’abord à cadrer la mission.', compatibleProfiles: 'Voir les profils métier',
+    result: 'résultat', results: 'résultats', almaTitle: 'Vous ne savez pas qui choisir ?', almaBody: 'Décrivez simplement le travail attendu. Alma vous recommande un Collaborateur IA et cadre avec vous le résultat, les sources et les validations.', almaAction: 'Décrire ma première mission',
+    heroProofs: ['7 jours gratuits', 'Sans carte bancaire', 'À partir de 49 €/mois ensuite'],
   },
   en: {
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
     emptyTitle: 'Catalog in preparation', emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
     clear: 'Clear filters', available: 'Available', preparation: 'Coming soon', addProfile: 'Add to an AI Collaborator',
-    allDepartments: 'All departments', result: 'result', results: 'results', almaTitle: 'Not sure who to choose?', almaBody: 'Simply describe the work you need done. Alma recommends an AI Collaborator and scopes the outcome, sources and approvals with you.', almaAction: 'Describe my first mission', finalTitle: 'Start with an outcome, not a configuration.', finalBody: 'Alma scopes your first mission for free. You approve the expected result, required access and actions that must remain under human control.', finalProfiles: 'Describe my first mission',
-    heroProofs: ['7-day free trial', 'No credit card', 'From €49/month afterwards', 'Sensitive actions require approval'], starterMission: 'Possible first mission', exampleResult: 'Deliverable to approve', ctaHelp: 'Alma first helps you scope the mission.', compatibleProfiles: 'View compatible profiles',
+    result: 'result', results: 'results', almaTitle: 'Not sure who to choose?', almaBody: 'Simply describe the work you need done. Alma recommends an AI Collaborator and scopes the outcome, sources and approvals with you.', almaAction: 'Describe my first mission',
+    heroProofs: ['7-day free trial', 'No credit card', 'From €49/month afterwards'],
   },
 } as const
 
@@ -270,19 +268,17 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   const [activeCategoryId, setActiveCategoryId] = useState(initialCategory)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [catalogQuery, setCatalogQuery] = useState('')
-  const [departmentFilter, setDepartmentFilter] = useState({ lang, value: '' })
   const [skillCategory, setSkillCategory] = useState('')
   const [skillProfile, setSkillProfile] = useState('')
-  const department = departmentFilter.lang === lang ? departmentFilter.value : ''
-  const setDepartment = (value: string) => setDepartmentFilter({ lang, value })
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
+  const visibleCategories = collaboratorsOnly ? STORE_CATEGORIES.slice(0, 1) : STORE_CATEGORIES
+  const navigationCategories = collaboratorsOnly ? STORE_CATEGORIES : visibleCategories
   const activeCategory = STORE_CATEGORIES.find((category) => category.id === activeCategoryId) ?? STORE_CATEGORIES[0]
   const isCollaboratorsLanding = collaboratorsOnly && activeCategory.id === 'collaborateurs-ia'
   const categoryItems = useMemo(() => itemsForCategory(activeCategory.id, lang), [activeCategory.id, lang])
   const filteredItems = useMemo(() => {
     const query = normalizeSearch(catalogQuery.trim())
-    const departmentItems = department ? categoryItems.filter((item) => item.origin === department) : categoryItems
-    const scopedItems = activeCategory.id === 'competences' ? departmentItems.filter((item) => (!skillCategory || item.facetKey === skillCategory) && (!skillProfile || item.profileKeys?.includes(skillProfile))) : departmentItems
+    const scopedItems = activeCategory.id === 'competences' ? categoryItems.filter((item) => (!skillCategory || item.facetKey === skillCategory) && (!skillProfile || item.profileKeys?.includes(skillProfile))) : categoryItems
     if (!query) return scopedItems
     const tokens = query.split(/\s+/)
     const matches: MarketplaceItem[] = []
@@ -293,11 +289,10 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       matches.push({ ...item, score: Math.min(99, Math.round(points / tokens.length)) })
     }
     return matches.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-  }, [activeCategory.id, catalogQuery, categoryItems, department, skillCategory, skillProfile])
+  }, [activeCategory.id, catalogQuery, categoryItems, skillCategory, skillProfile])
   const visibleItems = filteredItems.slice(0, visibleCount)
   function clearFilters() {
     setCatalogQuery('')
-    setDepartment('')
     setSkillCategory('')
     setSkillProfile('')
     setVisibleCount(PAGE_SIZE)
@@ -305,12 +300,11 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
 
   useLayoutEffect(() => {
     const selectFromLocation = (scroll = false) => {
-      const categoryId = window.location.hash.slice(1) || initialCategoryId || (window.location.pathname === '/marketplace/collaborateurs-ia' ? 'collaborateurs-ia' : '')
+      const categoryId = collaboratorsOnly ? 'collaborateurs-ia' : window.location.hash.slice(1) || initialCategoryId || (window.location.pathname === '/marketplace/collaborateurs-ia' ? 'collaborateurs-ia' : '')
       if (STORE_CATEGORIES.some((category) => category.id === categoryId)) {
         setActiveCategoryId(categoryId)
         setVisibleCount(PAGE_SIZE)
         setCatalogQuery('')
-        setDepartmentFilter((current) => ({ ...current, value: '' }))
         setSkillCategory('')
         setSkillProfile('')
         requestAnimationFrame(() => {
@@ -327,13 +321,13 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       window.removeEventListener('hashchange', handleLocationChange)
       window.removeEventListener('popstate', handleLocationChange)
     }
-  }, [initialCategoryId])
+  }, [collaboratorsOnly, initialCategoryId])
 
   function selectCategory(categoryId: string, scroll = true) {
+    if (!visibleCategories.some((category) => category.id === categoryId)) return
     setActiveCategoryId(categoryId)
     setVisibleCount(PAGE_SIZE)
     setCatalogQuery('')
-    setDepartment('')
     setSkillCategory('')
     setSkillProfile('')
     const href = `/marketplace/${categoryId}`
@@ -343,11 +337,11 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   }
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    const last = STORE_CATEGORIES.length - 1
+    const last = visibleCategories.length - 1
     const next = event.key === 'ArrowRight' ? (index === last ? 0 : index + 1) : event.key === 'ArrowLeft' ? (index === 0 ? last : index - 1) : event.key === 'Home' ? 0 : event.key === 'End' ? last : null
     if (next === null) return
     event.preventDefault()
-    selectCategory(STORE_CATEGORIES[next].id, false)
+    selectCategory(visibleCategories[next].id, false)
     tabRefs.current[next]?.focus()
   }
 
@@ -362,19 +356,23 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       </section>
 
       <div id="marketplace-category-tabs" className="sticky top-[76px] z-30 scroll-mt-[76px] border-y border-white/10 bg-[#211E1B]/95 px-5 text-white shadow-[0_10px_30px_-24px_rgba(0,0,0,.8)] backdrop-blur-md sm:px-8">
-        <div className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide" role="tablist" aria-label={lang === 'fr' ? 'Catégories de la marketplace' : 'Marketplace categories'}>
-            {STORE_CATEGORIES.map((category, index) => {
+        <div className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide" role={collaboratorsOnly ? undefined : 'tablist'} aria-label={lang === 'fr' ? 'Catégories de la marketplace' : 'Marketplace categories'}>
+            {navigationCategories.map((category, index) => {
               const active = activeCategory.id === category.id
-               return <button ref={(node) => { tabRefs.current[index] = node }} key={category.id} id={`marketplace-tab-${category.id}`} type="button" role="tab" tabIndex={active ? 0 : -1} aria-selected={active} aria-controls="marketplace-results" onKeyDown={(event) => handleTabKeyDown(event, index)} onClick={() => selectCategory(category.id)} className={`relative flex h-14 shrink-0 items-center px-4 text-[13px] font-semibold outline-none transition-colors first:pl-0 focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:px-5 sm:text-sm ${active ? 'text-[#F15B9B]' : 'text-[#BEB4A8] hover:text-white'}`}><span>{category.title[lang]}</span><span className={`absolute inset-x-4 bottom-0 h-[3px] bg-[#D10E63] transition-transform first:left-0 ${active ? 'scale-x-100' : 'scale-x-0'}`} /></button>
-             })}
+               const className = `relative flex h-14 shrink-0 items-center px-4 text-[13px] font-semibold outline-none transition-colors first:pl-0 focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:px-5 sm:text-sm ${active ? 'text-[#F15B9B]' : 'text-[#BEB4A8] hover:text-white'}`
+               const label = <><span>{category.title[lang]}</span><span className={`absolute inset-x-4 bottom-0 h-[3px] bg-[#D10E63] transition-transform first:left-0 ${active ? 'scale-x-100' : 'scale-x-0'}`} /></>
+               return collaboratorsOnly
+                 ? <Link key={category.id} id={`marketplace-tab-${category.id}`} href={`/marketplace/${category.id}`} aria-current={active ? 'page' : undefined} className={className}>{label}</Link>
+                 : <button ref={(node) => { tabRefs.current[index] = node }} key={category.id} id={`marketplace-tab-${category.id}`} type="button" role="tab" tabIndex={active ? 0 : -1} aria-selected={active} aria-controls="marketplace-results" onKeyDown={(event) => handleTabKeyDown(event, index)} onClick={() => selectCategory(category.id)} className={className}>{label}</button>
+              })}
         </div>
       </div>
 
       <section id="categories" className={`scroll-mt-36 px-5 sm:px-8 ${collaboratorsOnly ? 'pb-20 pt-7 sm:pb-24 sm:pt-10 lg:pb-28' : 'pb-20 pt-7 sm:pt-9 lg:pb-24 [@media(min-width:1024px)_and_(max-height:850px)]:pt-7'}`}>
         <div className="mx-auto w-full max-w-6xl">
-            <div id="marketplace-results" role="tabpanel" aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
+            <div id="marketplace-results" role={collaboratorsOnly ? 'region' : 'tabpanel'} aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
                   {!isCollaboratorsLanding && <div className="mb-5 sm:mb-6"><h2 className="text-[28px] font-semibold tracking-[-.04em] sm:text-[34px]">{activeCategory.title[lang]}</h2><p className="mt-2 text-sm leading-6 text-[#625B50] xl:whitespace-nowrap">{activeCategory.description[lang]}</p></div>}
-                  {isCollaboratorsLanding && <div className="mb-6 flex flex-col gap-3 sm:mb-8 lg:flex-row lg:items-center lg:justify-between"><p className="max-w-4xl text-[15px] font-medium leading-7 text-[#4E483F] sm:text-base">{activeCategory.description[lang]}</p><Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>}
+                  {isCollaboratorsLanding && <div className="mb-6 flex flex-col gap-3 sm:mb-8 lg:flex-row lg:items-center lg:justify-between"><div><h2 className="sr-only">{activeCategory.title[lang]}</h2><p className="max-w-4xl text-[15px] font-medium leading-7 text-[#4E483F] sm:text-base">{activeCategory.description[lang]}</p></div><Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>}
                   {categoryItems.length > 0 && !isCollaboratorsLanding && <div className="flex flex-col gap-3"><div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">{activeCategory.id !== 'collaborateurs-ia' && <label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[#D10E63]">×</button>}</label>}<Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] lg:ml-auto">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>{activeCategory.id === 'competences' && <div className="grid gap-3 sm:grid-cols-2"><select aria-label={lang === 'fr' ? 'Domaine de compétence' : 'Skill domain'} value={skillCategory} onChange={(event) => { setSkillCategory(event.target.value); setVisibleCount(PAGE_SIZE) }} className="h-11 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#6246B5]"><option value="">{lang === 'fr' ? 'Tous les domaines' : 'All domains'}</option>{Object.entries(SKILL_CATEGORY_LABELS).map(([key, label]) => <option key={key} value={key}>{label[lang]}</option>)}</select><select aria-label={lang === 'fr' ? 'Profil compatible' : 'Compatible profile'} value={skillProfile} onChange={(event) => { setSkillProfile(event.target.value); setVisibleCount(PAGE_SIZE) }} className="h-11 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#6246B5]"><option value="">{lang === 'fr' ? 'Tous les profils compatibles' : 'All compatible profiles'}</option>{[...new Set(categoryItems.flatMap((item) => item.profileKeys ?? []))].map((slug) => <option key={slug} value={slug}>{PROFILE_NAMES.get(slug)?.[lang] ?? slug}</option>)}</select></div>}</div>}
                  <p className={activeCategory.id === 'competences' ? 'mt-4 text-xs font-semibold text-[#766D61]' : 'sr-only'} aria-live="polite">{filteredItems.length} {filteredItems.length === 1 ? t.result : t.results}</p>
 

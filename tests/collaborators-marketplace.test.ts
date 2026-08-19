@@ -39,7 +39,6 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('COLLABORATOR_PROFILE_EXAMPLES')
     expect(hub).toContain("highlightsLabel: lang === 'fr' ? 'Autres compétences possibles'")
     expect(hub).toContain("lang === 'fr' ? 'et plus encore' : 'and more'")
-    expect(hub).toContain('Commencez par un résultat à obtenir, pas par une configuration.')
     expect(hub).toContain('Confier une mission à ${item.title}')
     expect(hub).not.toContain('className="absolute inset-0 z-0')
     expect(hub).not.toContain("detail.availability === 'available'")
@@ -47,7 +46,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).not.toContain('item.score !== undefined')
     expect(hub).toContain('detail.starterMission?.mission[lang]')
     expect(hub).not.toContain('Aucune action sensible sans validation')
-    expect(hub).toContain('role="tabpanel"')
+    expect(hub).toContain("role={collaboratorsOnly ? 'region' : 'tabpanel'}")
     expect(hub).toContain('Catégories de la marketplace')
     expect(hub).toContain('7 jours gratuits')
     expect(hub).not.toContain('Quel travail voulez-vous faire avancer ?')
@@ -59,6 +58,10 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('withAlmaAvatar(t.almaBody)')
     expect(hub).toContain('/missions?composer=1&collaborateur=')
     expect(hub).toContain('min-h-[220px]')
+    expect(hub).toContain("const visibleCategories = collaboratorsOnly ? STORE_CATEGORIES.slice(0, 1) : STORE_CATEGORIES")
+    expect(hub).toContain("const navigationCategories = collaboratorsOnly ? STORE_CATEGORIES : visibleCategories")
+    expect(hub).toContain("href={`/marketplace/${category.id}`}")
+    expect(hub).toContain("const categoryId = collaboratorsOnly ? 'collaborateurs-ia'")
   })
 
   it('gives every identity the same mission-led public profile', () => {
