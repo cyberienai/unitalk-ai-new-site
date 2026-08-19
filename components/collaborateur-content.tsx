@@ -551,15 +551,13 @@ export function CollaborateurContent({
   const heroProofs: Array<[string, string, string?]> = detail.slug === "hugo"
     ? lang === "fr"
       ? [
-          ["Profil métier initial", "Commercial", "/missions?collaborateur=hugo&vue=toutes"],
-          ["Profils métier", "Ajoutables à la demande", "/marketplace#profils-metier"],
-          ["Compétences", "Ajoutables à la demande", "/marketplace#competences"],
+          ["Profil commercial", "Missions de prospection prêtes à l’emploi", "/missions?collaborateur=hugo&vue=toutes"],
+          ["Capacités à la demande", "Profils métier et compétences à ajouter", "/marketplace#profils-metier"],
           ["Personnalisation avec Alma", "Mission, règles et validations adaptées", "/alma"],
         ]
       : [
-          ["Initial job profile", "Sales", "/missions?collaborateur=hugo&vue=toutes"],
-          ["Other job profiles", "Add them as missions evolve", "/marketplace#profils-metier"],
-          ["Sales skills", "Add them as needed", "/marketplace#competences"],
+          ["Sales profile", "Ready-to-use prospecting missions", "/missions?collaborateur=hugo&vue=toutes"],
+          ["On-demand capabilities", "Add job profiles and skills", "/marketplace#profils-metier"],
           ["Customization with Alma", "Mission, rules and approvals tailored to you", "/alma"],
         ]
     : t.proofs.map(([title, body]) => [title, body]);
@@ -624,7 +622,7 @@ export function CollaborateurContent({
 
   return (
     <main className={`collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17] ${detail.slug === "hugo" ? "collaborator-profile-hugo flex flex-col" : ""}`}>
-      <section className="collaborator-hero relative pb-14 pt-24 sm:pb-16 sm:pt-32 lg:flex lg:min-h-[720px] lg:items-center lg:py-24">
+      <section className="collaborator-hero relative pb-12 pt-24 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
         <div
           aria-hidden
           className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
@@ -730,7 +728,7 @@ export function CollaborateurContent({
               {detail.slug !== "hugo" && <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 lg:max-w-[520px] lg:justify-self-end">{t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]" />{proof}</li>)}</ul>}
             </div>
           </div>
-          <div className="mt-12 grid overflow-hidden rounded-2xl border border-[#CFC5B5] bg-[#FAF8F3] sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid overflow-hidden rounded-2xl border border-[#CFC5B5] bg-[#FAF8F3] sm:grid-cols-3">
             {heroProofs.map(([title, body, href]) => (
               <HeroProof key={title} title={title} body={body} href={href} />
             ))}
@@ -1039,8 +1037,8 @@ export function CollaborateurContent({
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
             {lang === "fr"
-              ? `Quelle première mission allez-vous confier à ${detail.name} ?`
-              : `What first mission will you assign to ${detail.name}?`}
+              ? <><span className="block">Quelle première mission</span><span className="block">allez-vous confier à {detail.name} ?</span></>
+              : <><span className="block">What first mission</span><span className="block">will you assign to {detail.name}?</span></>}
           </h2>
           <div className="flex min-w-60 flex-col gap-3">
             {detail.slug === "hugo" ? <button type="button" onClick={personalizeHugo} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
@@ -1258,8 +1256,8 @@ function IdentityFeature({
 }
 function HeroProof({ title, body, href }: { title: string; body: string; href?: string }) {
   const alma = href === "/alma"
-  const content = <>{alma?<div className="flex items-center gap-2"><Image src="/alma-avatar.png" alt="" width={28} height={28} className="size-7 shrink-0 rounded-full object-cover ring-1 ring-[#D10E63]/25"/><h3 className="whitespace-nowrap text-[13px] font-bold min-[390px]:text-[14px] lg:text-[13px] xl:text-[15px]">{title}</h3></div>:<h3 className="text-[15px] font-bold">{title}</h3>}<p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>{href&&<span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#B00C54]">Explorer<ArrowRight className="size-3.5"/></span>}</>
-  return href ? <Link href={href} className="group min-h-28 border-b border-[#CFC5B5] p-5 transition-colors hover:bg-white sm:border-r lg:border-b-0 lg:last:border-r-0">{content}</Link> : (
+  const content = <>{alma?<div className="flex items-center gap-2"><Image src="/alma-avatar.png" alt="" width={28} height={28} className="size-7 shrink-0 rounded-full object-cover ring-1 ring-[#D10E63]/25"/><h3 className="text-[14px] font-bold sm:text-[15px]">{title}</h3></div>:<h3 className="text-[15px] font-bold">{title}</h3>}<p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>{href&&<ArrowRight className="mt-3 size-4 text-[#B00C54] transition-transform group-hover:translate-x-1"/>}</>
+  return href ? <Link href={href} aria-label={`${title} : ${body}`} className="group min-h-28 border-b border-[#CFC5B5] p-5 transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D10E63] sm:border-r sm:border-b-0 sm:last:border-r-0">{content}</Link> : (
     <article className="min-h-28 border-b border-[#CFC5B5] p-5 sm:border-r lg:border-b-0 lg:last:border-r-0">
       {content}
     </article>
