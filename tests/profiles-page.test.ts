@@ -1,9 +1,9 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { STORE_ITEMS } from '@/lib/store-catalog'
 
 const content = readFileSync(new URL('../components/collaborateurs-ia/profils/profiles-catalog-content.tsx', import.meta.url), 'utf8')
-const detail = readFileSync(new URL('../components/store/store-item-detail.tsx', import.meta.url), 'utf8')
+const detailRoute = new URL('../app/collaborateurs-ia/profils-metier/[slug]/page.tsx', import.meta.url)
 
 describe('profiles catalog', () => {
   it('publishes all profiles through twelve-item pagination', () => {
@@ -25,14 +25,15 @@ describe('profiles catalog', () => {
     for (const key of ['q', 'domaine', 'createur', 'tri', 'page']) expect(content).toContain(`params.get('${key}')`)
   })
 
-  it('labels free-text capabilities as know-how and resolves details by type', () => {
+  it('labels free-text capabilities as know-how and adds profiles directly', () => {
     expect(content).toContain("knowHowLabel: 'Savoir-faire'")
     expect(content).not.toContain('>Compétences<')
-    expect(detail).toContain('getStoreItem(typeSlug, slug)')
+    expect(content).toContain('Ajouter à un Collaborateur IA')
+    expect(content).toContain('href={`/decouvrir?store=${profile.slug}`}')
   })
 
-  it('identifies profiles as AI Collaborator profiles for Hermes', () => {
+  it('keeps the Hermes positioning without publishing detail pages', () => {
     expect(content).toContain('AI Collaborator profile for Hermes')
-    expect(detail).toContain('Profil Collaborateur IA pour Hermes')
+    expect(existsSync(detailRoute)).toBe(false)
   })
 })

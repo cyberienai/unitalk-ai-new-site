@@ -35,6 +35,7 @@ function creatorLabel(item: StoreItem, lang: Lang): string {
 export function StoreItemCard({ item, lang }: { item: StoreItem; lang: Lang }) {
   const isApp = item.type === 'application' || item.type === 'integration' || item.type === 'server'
   const initial = item.name[lang].replace(/[^A-Za-z0-9]/g, '').charAt(0).toUpperCase() || '·'
+  const href = item.type === 'profil' || item.type === 'competence' ? `/decouvrir?store=${item.slug}` : storeItemHref(item)
 
   return (
     <article
@@ -44,7 +45,7 @@ export function StoreItemCard({ item, lang }: { item: StoreItem; lang: Lang }) {
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = SHADOW_REST)}
     >
       <Link
-        href={storeItemHref(item)}
+        href={href}
         className="absolute inset-0 z-0 rounded-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]/50"
         aria-label={item.name[lang]}
       />

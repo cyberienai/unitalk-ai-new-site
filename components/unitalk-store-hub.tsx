@@ -26,6 +26,7 @@ type MarketplaceItem = {
   title: string
   description: string
   href?: string
+  addHref?: string
   meta: string
   origin?: string
   avatar?: string
@@ -68,7 +69,7 @@ const PROFILE_DEMAND_ORDER = [
   'coordinatrice-missions',
 ] as const
 
-const PROFILE_DEMAND_RANK = new Map(PROFILE_DEMAND_ORDER.map((slug, index) => [slug, index]))
+const PROFILE_DEMAND_RANK = new Map<string, number>(PROFILE_DEMAND_ORDER.map((slug, index) => [slug, index]))
 
 const MODEL_ITEMS = [
   { key: 'gpt', title: 'GPT', maker: 'OpenAI', meta: 'Texte · Vision · Code' },
@@ -89,14 +90,14 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'profils-metier', title: { fr: 'Profils métier', en: 'Job profiles' },
     description: { fr: 'Un profil métier de référence pour chaque métier de la connaissance.', en: 'One reference job profile for every knowledge-work profession.' },
-    search: { fr: 'Rechercher un profil métier', en: 'Search job profiles' }, action: { fr: 'Voir le profil', en: 'View profile' }, explain: { fr: 'Comprendre les profils métier', en: 'Understand job profiles' },
+    search: { fr: 'Rechercher un profil métier', en: 'Search job profiles' }, action: { fr: 'Découvrir ce profil', en: 'Explore this profile' }, explain: { fr: 'Comprendre les profils métier', en: 'Understand job profiles' },
     missing: { title: { fr: 'Le profil métier dont vous avez besoin manque ?', en: 'Can’t find the job profile you need?' }, body: { fr: 'Décrivez le rôle, les responsabilités et les limites attendues. Alma vous aide à préparer un profil adapté à votre entreprise.', en: 'Describe the expected role, responsibilities and boundaries. Alma helps you prepare a profile tailored to your organization.' }, action: { fr: 'Créer un profil métier', en: 'Create a job profile' }, href: '/decouvrir?source=marketplace&intention=nouveau-profil-metier' },
     href: '/collaborateurs-ia/profils-metier', accent: '#C80B5B',
   },
   {
     id: 'competences', title: { fr: 'Compétences', en: 'Skills' },
     description: { fr: 'Des savoir-faire précis, testés, versionnés et réutilisables.', en: 'Precise, tested, versioned and reusable know-how.' },
-    search: { fr: 'Rechercher une compétence', en: 'Search skills' }, action: { fr: 'Voir la compétence', en: 'View skill' }, explain: { fr: 'Comprendre les compétences', en: 'Understand skills' },
+    search: { fr: 'Rechercher une compétence', en: 'Search skills' }, action: { fr: 'Ajouter à un Collaborateur IA', en: 'Add to an AI Collaborator' }, explain: { fr: 'Comprendre les compétences', en: 'Understand skills' },
     missing: { title: { fr: 'Une compétence vous manque ?', en: 'Missing a skill?' }, body: { fr: 'Expliquez le savoir-faire attendu. Alma vous aide à le transformer en compétence claire, testable et réutilisable.', en: 'Describe the know-how you need. Alma helps turn it into a clear, testable and reusable skill.' }, action: { fr: 'Créer une compétence', en: 'Create a skill' }, href: '/decouvrir?source=marketplace&intention=nouvelle-competence' },
     href: '/collaborateurs-ia/competences', accent: '#6246B5',
   },
@@ -141,7 +142,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
     const items = STORE_ITEMS.filter((item) => item.type === storeType)
     if (storeType === 'profil') items.sort((a, b) => (PROFILE_DEMAND_RANK.get(a.slug) ?? Number.MAX_SAFE_INTEGER) - (PROFILE_DEMAND_RANK.get(b.slug) ?? Number.MAX_SAFE_INTEGER))
     return items.map((item) => ({
-      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: storeItemHref(item),
+      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], addHref: `/decouvrir?store=${item.slug}`,
       meta: item.roleInOrg?.[lang] ?? item.facet, origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
       status: item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Inclus', en: 'Included' },
     }))
@@ -178,7 +179,7 @@ const COPY = {
     heroLead: 'Ajoutez-leur des profils métier et des compétences sans coût supplémentaire. Connectez-les à plus de 3 000 applications. Pour chaque mission, Unitalk sélectionne automatiquement le modèle IA offrant le meilleur équilibre entre performance et coût. Vous restez libre d’en choisir un autre.',
     noResults: 'Aucune création ne correspond à cette recherche.', showMore: 'Voir tout le catalogue', showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
-    clear: 'Effacer la recherche', available: 'Disponible', preparation: 'Bientôt disponible',
+    clear: 'Effacer la recherche', available: 'Disponible', preparation: 'Bientôt disponible', addProfile: 'Ajouter à un Collaborateur IA',
   },
   en: {
     heroTitle: 'Your AI Collaborators evolve with your organization.',
@@ -186,7 +187,7 @@ const COPY = {
     heroLead: 'Add job profiles and skills at no additional cost. Connect them to more than 3,000 applications. For each mission, Unitalk automatically selects the AI model offering the best balance of performance and cost. You remain free to choose another.',
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
     emptyTitle: 'Catalog in preparation', emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
-    clear: 'Clear search', available: 'Available', preparation: 'Coming soon',
+    clear: 'Clear search', available: 'Available', preparation: 'Coming soon', addProfile: 'Add to an AI Collaborator',
   },
 } as const
 
@@ -245,7 +246,7 @@ export function UnitalkStoreHub() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
+    <main className="min-h-screen overflow-x-clip bg-[#F3EFE6] font-sf text-[#1C1A17]">
       <section className="bg-[#EAE3D4] px-5 pb-12 pt-24 sm:px-8 sm:pb-14 sm:pt-28">
         <div className="mx-auto w-full max-w-6xl">
           <h1 className="max-w-6xl text-[clamp(2.8rem,5.7vw,5.25rem)] font-semibold leading-[.88] tracking-[-.07em] text-balance">{t.heroTitle.slice(0, -t.heroAccent.length)}<span className="text-[#D10E63] lg:block">{t.heroAccent}</span></h1>
@@ -267,7 +268,7 @@ export function UnitalkStoreHub() {
           <div id="marketplace-results" role="tabpanel" className="scroll-mt-[184px]">
                {categoryItems.length > 0 && <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] transition-colors hover:bg-[#EAE3D4] hover:text-[#1C1A17]">×</button>}</label><Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>}
 
-              {visibleItems.length > 0 ? <div className="mt-7 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : categoryItems.length > 0 ? <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : <div className="mt-7 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
+              {visibleItems.length > 0 ? <div className="mt-7 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : categoryItems.length > 0 ? <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : <div className="mt-7 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
               {filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
           </div>
         </div>
@@ -287,23 +288,23 @@ function MissingItemCard({ content, lang, accent }: { content: NonNullable<Categ
   )
 }
 
-function MarketplaceItemCard({ item, lang, category, labels }: { item: MarketplaceItem; lang: Lang; category: Category; labels: { details: string; available: string; preparation: string } }) {
+function MarketplaceItemCard({ item, lang, category, labels }: { item: MarketplaceItem; lang: Lang; category: Category; labels: { details: string; available: string; preparation: string; addProfile: string } }) {
+  const hasDirectAdd = Boolean(item.addHref)
   const content = (
     <>
       <div>
         {item.avatar && <div className="mb-5 flex items-center gap-4"><Image src={item.avatar} alt="" width={56} height={56} className="size-14 rounded-full object-cover ring-1 ring-[#D8D0C2]" /><div className="min-w-0"><p className="text-xs font-bold text-[#1C1A17]">{item.meta}</p><p className="mt-1 text-[10px] font-semibold text-[#857C6E]">{item.origin}</p></div></div>}
-        <h3 className="line-clamp-2 text-[23px] font-semibold leading-[1.08] tracking-[-.04em] text-[#1C1A17]">{item.title}</h3>
+        <h3 className="line-clamp-2 text-[23px] font-semibold leading-[1.08] tracking-[-.04em] text-[#1C1A17]">{item.href ? <Link href={item.href} className="transition-colors hover:text-[var(--profile-accent)]">{item.title}</Link> : item.title}</h3>
         <p className="mt-4 line-clamp-3 text-[13px] leading-6 text-[#625B50]">{item.description}</p>
       </div>
       <div className="mt-auto pt-8">
-        <div className="flex items-end justify-between gap-3 border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)]">
-          <span className="text-[10px] font-semibold text-[#766D61]">{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>
-          {item.href && <span className="text-xs font-bold text-[#1C1A17] transition-colors group-hover:text-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">→</span></span>}
+        <div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)]">
+          {hasDirectAdd ? <Link href={item.addHref!} className="flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-xs font-bold text-white transition-colors hover:bg-[var(--profile-accent)]">{labels.addProfile}<span aria-hidden="true" className="ml-2">→</span></Link> : <div className="flex items-end justify-between gap-3"><span className="text-[10px] font-semibold text-[#766D61]">{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>{item.href && <Link href={item.href} className="text-xs font-bold text-[#1C1A17] transition-colors hover:text-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">→</span></Link>}</div>}
         </div>
       </div>
     </>
   )
   const style = { '--profile-accent': category.accent } as CSSProperties
   const className = 'group relative flex min-h-[240px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-6 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] sm:min-h-[255px]'
-  return item.href ? <Link href={item.href} className={className} style={style}>{content}</Link> : <article className={className} style={style}>{content}</article>
+  return <article className={className} style={style}>{content}</article>
 }

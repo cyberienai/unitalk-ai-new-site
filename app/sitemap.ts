@@ -84,7 +84,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   // Profils métier, compétences and applications detail pages under the hub.
-  const catalogEntries: MetadataRoute.Sitemap = STORE_ITEMS.map((item) => ({
+  const catalogEntries: MetadataRoute.Sitemap = STORE_ITEMS.filter((item) => item.type !== 'profil' && item.type !== 'competence').map((item) => ({
     url: `${SITE_URL}${storeItemHref(item)}`,
     lastModified: now,
     changeFrequency: 'monthly',

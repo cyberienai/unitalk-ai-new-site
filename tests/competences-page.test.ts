@@ -1,9 +1,10 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { STORE_ITEMS } from '@/lib/store-catalog'
 
 const page = readFileSync(new URL('../app/collaborateurs-ia/competences/page.tsx', import.meta.url), 'utf8')
 const content = readFileSync(new URL('../components/collaborateurs-ia/competences-content.tsx', import.meta.url), 'utf8')
+const detailRoute = new URL('../app/collaborateurs-ia/competences/[slug]/page.tsx', import.meta.url)
 
 describe('competences catalog', () => {
   it('keeps all 31 published skills accessible through pagination', () => {
@@ -35,5 +36,11 @@ describe('competences catalog', () => {
     expect(content).toContain('prépare sa mise à jour dans l’application autorisée')
     expect(content).toContain('Prépare et documente une relance selon le contexte et les droits accordés')
     expect(content).toContain('/inscription?source=competence-store&intention=nouvelle-competence')
+  })
+
+  it('adds a skill directly without publishing detail pages', () => {
+    expect(content).toContain('Ajouter à un Collaborateur IA')
+    expect(content).toContain('href={`/decouvrir?store=${item.slug}`}')
+    expect(existsSync(detailRoute)).toBe(false)
   })
 })

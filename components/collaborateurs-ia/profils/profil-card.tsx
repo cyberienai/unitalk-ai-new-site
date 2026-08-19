@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
-import { type StoreItem, storeItemHref, DOMAIN_LABELS } from '@/lib/store-catalog'
+import { type StoreItem, DOMAIN_LABELS } from '@/lib/store-catalog'
 
 /**
  * A single profil métier card. The WHOLE card is the link (one focus target),
@@ -15,11 +15,11 @@ export function ProfilCard({ item }: { item: StoreItem }) {
   const { lang } = useLanguage()
   const domain = DOMAIN_LABELS[item.facet]?.[lang]
   const responsibilities = (item.knowHow ?? []).slice(0, 3)
-  const cta = lang === 'fr' ? 'Découvrir ce profil' : 'Explore this profile'
+  const cta = lang === 'fr' ? 'Ajouter à un Collaborateur IA' : 'Add to an AI Collaborator'
 
   return (
     <Link
-      href={storeItemHref(item)}
+      href={`/decouvrir?store=${item.slug}`}
       className="group flex flex-col rounded-2xl border border-[#E1D9C9] bg-[#FBF9F3] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D10E63]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F4F1EA]"
     >
       {domain && (

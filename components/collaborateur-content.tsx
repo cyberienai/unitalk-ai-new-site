@@ -702,10 +702,10 @@ export function CollaborateurContent({
                     <h2 className="text-balance font-sf text-[clamp(1.75rem,3vw,2.5rem)] font-bold leading-[1.02] tracking-[-.04em]">
                       {persona.composer[lang]}
                     </h2>
-                     <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-bold text-[#D6CABD]">
-                       {t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2"><Check className="size-4 text-[#F2A4C5]" />{proof}</li>)}
-                     </ul>
-                  </div>
+                      <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-bold text-[#D6CABD]">
+                        {t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2"><Check className="size-4 text-[#F2A4C5]" />{proof}</li>)}
+                      </ul>
+                    </div>
                   <button
                     type="button"
                     onClick={startPrimaryMission}
@@ -775,8 +775,8 @@ export function CollaborateurContent({
               <dl className="mt-7 grid max-w-xl gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
                 {(detail.slug === "emma"
                   ? lang === "fr"
-                    ? [["Sources", "Documents et agendas autorisés"], ["Action", "Ordre du jour préparé, jamais diffusé seul"], ["Décisions", "Validées par votre équipe"]]
-                    : [["Sources", "Authorized documents and calendars"], ["Action", "Agenda prepared, never shared alone"], ["Decisions", "Approved by your team"]]
+                    ? [["Sources", "Documents et agendas autorisés"], ["Action", "Ordre du jour préparé, jamais diffusé seul"], ["Confidentialité", "Aucun enregistrement automatique"]]
+                    : [["Sources", "Authorized documents and calendars"], ["Action", "Agenda prepared, never shared alone"], ["Privacy", "No automatic recording"]]
                   : lang === "fr"
                     ? [["Sources", "Factures et historique autorisés"], ["Action", "Relances préparées, jamais envoyées seules"], ["Escalade", "Litiges transmis à votre équipe"]]
                     : [["Sources", "Authorized invoices and history"], ["Action", "Follow-ups prepared, never sent alone"], ["Escalation", "Disputes routed to your team"]]
@@ -830,6 +830,10 @@ export function CollaborateurContent({
                       <span className="text-right text-[#AFA397]">{owner} · {duration}</span>
                     </div>
                   ))}
+                </div>
+                <div className="mt-3 rounded-xl border border-white/10 bg-white/[.04] p-3 text-xs leading-5 text-[#CFC6B8]">
+                  <p className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#F2A4C5]">{lang === "fr" ? "Aperçu du message" : "Message preview"}</p>
+                  <p className="mt-2">{lang === "fr" ? "Bonjour, voici l’ordre du jour proposé pour notre réunion d’équipe. Merci de vérifier les sujets et les durées avant validation." : "Hello, here is the proposed agenda for our team meeting. Please review the topics and durations before approval."}</p>
                 </div>
               </div>
             )}

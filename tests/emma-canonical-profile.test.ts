@@ -22,6 +22,9 @@ describe('Emma canonical public profile', () => {
     expect(content).toContain('Format d’ordre du jour validé')
     expect(content).toContain('Priorités de la semaine')
     expect(content).toContain('Réutilisé à la prochaine mission')
+    expect(content).toContain('Aucun enregistrement automatique')
+    expect(content).toContain('Aperçu du message')
+    expect(content).not.toContain('meetingParticipants')
   })
 
   it('keeps the example out of the four ready-to-use missions', () => {

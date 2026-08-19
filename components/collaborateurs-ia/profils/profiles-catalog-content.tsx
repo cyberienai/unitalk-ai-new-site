@@ -12,7 +12,6 @@ import {
   CREATOR_LABELS,
   DOMAIN_LABELS,
   STORE_ITEMS,
-  storeItemHref,
   type StoreItem,
 } from '@/lib/store-catalog'
 
@@ -134,7 +133,7 @@ const COPY = {
     knowHowLabel: 'Savoir-faire',
     missionLabel: 'Exemple de mission',
     relatedSkills: 'compétences liées',
-    viewProfile: 'Voir ce profil',
+    addProfile: 'Ajouter à un Collaborateur IA',
     empty: 'Aucun profil métier ne correspond à votre recherche.',
     midTitle: 'Vous hésitez entre plusieurs profils ?',
     midBody: 'Décrivez simplement le travail attendu. Alma recherche le profil le plus proche et vous indique ce qui doit être adapté.',
@@ -208,7 +207,7 @@ const COPY = {
     knowHowLabel: 'Know-how',
     missionLabel: 'Mission example',
     relatedSkills: 'related skills',
-    viewProfile: 'View this profile',
+    addProfile: 'Add to an AI Collaborator',
     empty: 'No job profile matches your search.',
     midTitle: 'Unsure between several profiles?',
     midBody: 'Simply describe the expected work. Alma finds the closest profile and shows you what should be adapted.',
@@ -334,7 +333,7 @@ function ProfileCard({ profile, lang }: { profile: StoreItem; lang: Lang }) {
   const t = COPY[lang]
   const name = profileName(profile, lang)
   const relatedSkills = profile.relatedSkills?.length ?? 0
-  return <article className="group relative flex min-h-[300px] flex-col overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-6 transition-[transform,border-color,box-shadow] before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform hover:-translate-y-1 hover:border-[#D10E63]/35 hover:shadow-[0_18px_42px_-30px_rgba(28,26,23,.3)] hover:before:scale-x-100 focus-within:before:scale-x-100"><p className="font-mono text-[9px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{DOMAIN_LABELS[profile.facet]?.[lang] ?? profile.facet}</p><h3 className="mt-4 text-xl font-semibold leading-7">{name}</h3><p className="mt-3 line-clamp-3 text-sm leading-6 text-[#4E483F]">{profile.description[lang]}</p><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.knowHowLabel}</p><p className="mt-2 line-clamp-2 text-xs leading-5 text-[#6E665A]">{profile.knowHow?.slice(0, 3).map(item => item[lang]).join(' · ') || '—'}</p></div><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.missionLabel}</p><p className="mt-2 line-clamp-2 text-xs font-semibold leading-5">{profile.exampleMissions?.[0]?.[lang] ?? '—'}</p></div><div className="mt-auto flex items-center justify-between gap-3 border-t border-[#DED6C8] pt-4 text-xs text-[#6E665A]"><span>{CREATOR_LABELS[profile.creator][lang]}{relatedSkills ? ` · ${relatedSkills} ${t.relatedSkills}` : ''}</span><strong className="inline-flex items-center gap-1 text-[#B00C54]">{t.viewProfile}<ArrowRight className="size-4 shrink-0 transition-transform group-hover:translate-x-1"/></strong></div><Link href={storeItemHref(profile)} aria-label={`${t.kicker}: ${name}`} className="absolute inset-0 rounded-[18px] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"/></article>
+  return <article className="flex min-h-[300px] flex-col overflow-hidden rounded-[18px] border border-[#DED6C8] bg-[#FAF8F3] p-6"><p className="font-mono text-[9px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{DOMAIN_LABELS[profile.facet]?.[lang] ?? profile.facet}</p><h3 className="mt-4 text-xl font-semibold leading-7">{name}</h3><p className="mt-3 line-clamp-3 text-sm leading-6 text-[#4E483F]">{profile.description[lang]}</p><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.knowHowLabel}</p><p className="mt-2 line-clamp-2 text-xs leading-5 text-[#6E665A]">{profile.knowHow?.slice(0, 3).map(item => item[lang]).join(' · ') || '—'}</p></div><div className="mt-5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#857C6E]">{t.missionLabel}</p><p className="mt-2 line-clamp-2 text-xs font-semibold leading-5">{profile.exampleMissions?.[0]?.[lang] ?? '—'}</p></div><div className="mt-auto border-t border-[#DED6C8] pt-4"><p className="text-xs text-[#6E665A]">{CREATOR_LABELS[profile.creator][lang]}{relatedSkills ? ` · ${relatedSkills} ${t.relatedSkills}` : ''}</p><Link href={`/decouvrir?store=${profile.slug}`} className="mt-4 flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-xs font-bold text-white transition-colors hover:bg-[#B00C54]">{t.addProfile}<ArrowRight className="ml-2 size-4"/></Link></div></article>
 }
 
 function Filter({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) { return <button type="button" aria-pressed={active} onClick={onClick} className={`h-9 shrink-0 rounded-full border px-3.5 text-xs font-semibold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] ${active ? 'border-[#D10E63] bg-[#D10E63] text-white' : 'border-[#D8D0C2] bg-[#FFFDF9] text-[#4E483F]'}`}>{children}</button> }

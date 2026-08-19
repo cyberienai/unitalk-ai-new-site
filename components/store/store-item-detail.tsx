@@ -52,7 +52,7 @@ function RelatedChips({ title, slugs }: { title: string; slugs?: string[] }) {
         {items.map((it) => (
           <Link
             key={it.slug}
-            href={storeItemHref(it)}
+            href={it.type === 'profil' || it.type === 'competence' ? `/decouvrir?store=${it.slug}` : storeItemHref(it)}
             className="inline-flex items-center gap-1.5 rounded-full border border-[var(--store-line)] bg-[var(--store-surface)] px-3 py-1.5 text-[13px] font-medium text-[var(--store-text)] transition-colors hover:border-[#D10E63]/50 hover:text-[#AD0C53]"
           >
             {it.name[lang]}
@@ -75,7 +75,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
       lang === 'fr'
         ? `Retour aux ${TYPE_LABELS_PLURAL[item.type].fr.toLowerCase()}`
         : `Back to ${TYPE_LABELS_PLURAL[item.type].en.toLowerCase()}`,
-    add: item.type === 'profil' ? (lang === 'fr' ? 'Ajouter ce profil métier' : 'Add this job profile') : (lang === 'fr' ? 'Ajouter à un Collaborateur' : 'Add to a Collaborator'),
+    add: item.type === 'profil' ? (lang === 'fr' ? 'Ajouter à un Collaborateur IA' : 'Add to an AI Collaborator') : (lang === 'fr' ? 'Ajouter à un Collaborateur' : 'Add to a Collaborator'),
     compose: lang === 'fr' ? 'Préparer avec Alma' : 'Prepare with Alma',
     createdBy: lang === 'fr' ? 'Créé par' : 'Created by',
     editor: lang === 'fr' ? 'Éditeur' : 'Editor',
