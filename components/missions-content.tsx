@@ -10,6 +10,7 @@ import { AlmaFace } from '@/components/alma-face'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
 import { Kicker } from '@/components/home/section-kicker'
 import { getPreparedDemo } from '@/components/home/hero-hybrid'
+import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 
 type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
 type SpeechRecognitionInstance = {
@@ -162,6 +163,7 @@ export function MissionsContent({
 
   const visibleMissions = filteredMissions.slice(0, visibleCount)
   const inputPreview = need.trim().length >= 20 ? getPreparedDemo(need.trim(), lang) : null
+  const requestedCollaboratorDetail = requestedCollaborator ? ROLE_DETAILS[requestedCollaborator] : undefined
 
   function toggleListening() {
     const recognition = recognitionRef.current
@@ -212,7 +214,7 @@ export function MissionsContent({
 
   return (
     <main id="missions-top" className="min-h-screen overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-      <section className="relative overflow-hidden bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:flex lg:min-h-[760px] lg:items-center lg:py-28">
+      {!requestedCollaboratorDetail && <section className="relative overflow-hidden bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:flex lg:min-h-[760px] lg:items-center lg:py-28">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div aria-hidden className="pointer-events-none absolute -right-36 top-20 size-[32rem] rounded-full bg-[#D10E63]/[.055] blur-3xl" />
         <div className="editorial-shell relative w-full">
@@ -232,12 +234,12 @@ export function MissionsContent({
           </div>
 
         </div>
-      </section>
+      </section>}
 
-      <div className="mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8">
-        <section aria-labelledby="mission-selection-title" className="pt-16 sm:pt-20">
+      <div className={`mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8 ${requestedCollaboratorDetail ? 'pt-28 sm:pt-32' : ''}`}>
+        <section aria-labelledby="mission-selection-title" className={requestedCollaboratorDetail ? 'pt-8 sm:pt-10' : 'pt-16 sm:pt-20'}>
           <div id="mission-selection" className="scroll-mt-24">
-            <h2 id="mission-selection-title" className="font-sf text-[clamp(2rem,3.45vw,3.65rem)] font-semibold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">{t.catalogTitle}</h2>
+            <h2 id="mission-selection-title" className="font-sf text-[clamp(2rem,3.45vw,3.65rem)] font-semibold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">{requestedCollaboratorDetail ? (lang === 'fr' ? `Missions prêtes à l’emploi avec ${requestedCollaboratorDetail.name}` : `Ready-to-use missions with ${requestedCollaboratorDetail.name}`) : t.catalogTitle}</h2>
           </div>
 
           <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

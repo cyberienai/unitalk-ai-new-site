@@ -548,21 +548,21 @@ export function CollaborateurContent({
   const t = COPY[lang];
   const { detail, missions } = page;
   const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
-  const heroProofs = detail.slug === "hugo"
+  const heroProofs: Array<[string, string, string?]> = detail.slug === "hugo"
     ? lang === "fr"
       ? [
-          ["Profil métier initial", "Commercial"],
-          ["Autres profils métier", "À ajouter selon vos missions"],
-          ["Compétences commerciales", "À ajouter selon vos besoins"],
-          ["Contrôle humain", "Validation avant le premier contact"],
+          ["Profil métier initial", "Commercial", "/missions?collaborateur=hugo&vue=toutes"],
+          ["Profils métier", "Ajoutables à la demande", "/marketplace#profils-metier"],
+          ["Compétences", "Ajoutables à la demande", "/marketplace#competences"],
+          ["Personnalisation avec Alma", "Mission, règles et validations adaptées", "/alma"],
         ]
       : [
-          ["Initial job profile", "Sales"],
-          ["Other job profiles", "Add them as missions evolve"],
-          ["Sales skills", "Add them as needed"],
-          ["Human control", "Approval before first contact"],
+          ["Initial job profile", "Sales", "/missions?collaborateur=hugo&vue=toutes"],
+          ["Other job profiles", "Add them as missions evolve", "/marketplace#profils-metier"],
+          ["Sales skills", "Add them as needed", "/marketplace#competences"],
+          ["Customization with Alma", "Mission, rules and approvals tailored to you", "/alma"],
         ]
-    : t.proofs;
+    : t.proofs.map(([title, body]) => [title, body]);
   const [missionRequest, setMissionRequest] = useState("");
   const [decision, setDecision] = useState<
     "approved" | "modified" | "declined" | null
@@ -731,8 +731,8 @@ export function CollaborateurContent({
             </div>
           </div>
           <div className="mt-12 grid overflow-hidden rounded-2xl border border-[#CFC5B5] bg-[#FAF8F3] sm:grid-cols-2 lg:grid-cols-4">
-            {heroProofs.map(([title, body]) => (
-              <HeroProof key={title} title={title} body={body} />
+            {heroProofs.map(([title, body, href]) => (
+              <HeroProof key={title} title={title} body={body} href={href} />
             ))}
           </div>
         </div>
@@ -1261,11 +1261,11 @@ function IdentityFeature({
     </div>
   );
 }
-function HeroProof({ title, body }: { title: string; body: string }) {
-  return (
+function HeroProof({ title, body, href }: { title: string; body: string; href?: string }) {
+  const content = <><h3 className="text-[15px] font-bold">{title}</h3><p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>{href&&<span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#B00C54]">Explorer<ArrowRight className="size-3.5"/></span>}</>
+  return href ? <Link href={href} className="group min-h-28 border-b border-[#CFC5B5] p-5 transition-colors hover:bg-white sm:border-r lg:border-b-0 lg:last:border-r-0">{content}</Link> : (
     <article className="min-h-28 border-b border-[#CFC5B5] p-5 sm:border-r lg:border-b-0 lg:last:border-r-0">
-      <h3 className="text-[15px] font-bold">{title}</h3>
-      <p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>
+      {content}
     </article>
   );
 }
