@@ -347,6 +347,14 @@
     font-size:clamp(2.25rem,3.7vw,3.65rem);
   }
 }
+@media (min-width:1024px) and (max-width:1440px) {
+  .collaborator-identity-section > div {
+    grid-template-columns:minmax(340px,.82fr) minmax(0,1.18fr);
+  }
+  .collaborator-identity-section > div > :last-child {
+    max-width:700px;
+  }
+}
 @media (max-width:640px) {
   .collaborator-profile-page > section:first-child h1 {
     font-size:clamp(2.65rem,13vw,4rem);
@@ -361,6 +369,13 @@
   }
   .collaborator-profile-page p {
     font-size:max(15px,1em);
+  }
+  .collaborator-profile-page section {
+    scroll-margin-top:5rem;
+  }
+  .collaborator-profile-page .collaborator-identity-section h2 span,
+  .collaborator-profile-page .collaborator-evolution-section h2 span {
+    white-space:normal;
   }
 }
 

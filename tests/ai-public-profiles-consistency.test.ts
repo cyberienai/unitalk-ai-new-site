@@ -35,13 +35,13 @@ describe('AI public profile consistency', () => {
   })
 
   it('keeps profile wording and mission onboarding persona-neutral', () => {
-    expect(profile).toContain('Missions à explorer avec ${detail.name}')
+    expect(profile).toContain('Missions prêtes à l’emploi avec ${detail.name}')
     expect(profile).toContain('Voir toutes les missions de ${detail.name}')
     expect(profile).toContain('missions?collaborateur=${encodeURIComponent(detail.slug)}')
     expect(profile).toContain('STATUS_LABELS[mission.status][lang]')
-    expect(profile).not.toContain("detail.slug === 'hugo'")
-    expect(discoverFlow).toContain("context.kind === 'mission' ? ['entreprise', 'collaborateur'] : STEP_ORDER")
-    expect(discoverFlow).toContain("context.kind === 'mission' ? 'collaborateur' : 'mission'")
+    expect(profile).toContain('detail.slug === "hugo"')
+    expect(discoverFlow).toContain("const flowSteps: OnboardingStep[] = ['mission', 'entreprise', 'collaborateur', 'workspace']")
+    expect(discoverFlow).toContain("onContinue={() => goTo('collaborateur')}")
   })
 
   it('redirects every legacy profile to its canonical handle', () => {

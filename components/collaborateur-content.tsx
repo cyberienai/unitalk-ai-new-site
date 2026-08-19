@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import type { CollaboratorPage } from "@/lib/collaborator-pages";
-import { STATUS_LABELS } from "@/lib/missions-catalog";
 import { AlmaMissionComposer } from "@/components/alma-mission-composer";
 import { Kicker } from "@/components/home/section-kicker";
 
@@ -26,36 +25,25 @@ const COPY = {
     composerTitle: "Détaillez la mission que vous voulez confier à Hugo.",
     composerPlaceholder: "Décrivez le type de prospect recherché…",
     composerSubmit: "Confier cette mission à Hugo",
-    personalizeHugo: "Personnaliser avec Alma",
+    personalizeHugo: "Confier une mission à Hugo",
     composerRole: "Collaboratrice IA · Coordinatrice de missions chez Unitalk",
     composerExamples: [
       "PME de 20 à 200 salariés",
       "Secteur logiciels B2B",
       "France · Directeurs commerciaux",
     ],
-    trialProofs: [
-      "Première mission offerte",
-      "Sans carte bancaire",
-      "Sans engagement",
-      "Accompagnement humain si nécessaire",
-    ],
+    trialProofs: ["Première mission offerte", "Sans carte bancaire"],
     createCommercial: "Créer mon Collaborateur IA commercial",
     proofs: [
-      ["Identité IA", "Choisissez son prénom, son visage et sa voix."],
-      [
-        "Place dans votre organisation",
-        "Affectez cette identité à une personne, une équipe, un département ou à toute l’entreprise.",
-      ],
-      [
-        "Propriété de l’entreprise",
-        "Identité, mémoire et savoir-faire restent chez vous.",
-      ],
-      ["Profils et compétences", "Ajoutez-en sans recréer son identité."],
+      ["Profil métier", "Commercial"],
+      ["Mission", "Prête à l’emploi"],
+      ["Premier contact", "Soumis à validation"],
+      ["Évolution", "Compétences à la demande"],
     ],
     proofKicker: "Mission commerciale · Exemple",
-    proofTitle: "Hugo prospecte. Votre équipe décide.",
+    proofTitle: "Hugo prépare. Votre équipe décide.",
     proofLead:
-      "Il recherche et qualifie selon vos critères, prépare le CRM et s’arrête avant le premier contact tant que votre équipe n’a pas validé.",
+      "Il recherche, qualifie et prépare le CRM. Le premier contact reste bloqué jusqu’à votre validation.",
     decision: "Décision requise",
     approve: "Approuver",
     modify: "Modifier",
@@ -63,7 +51,7 @@ const COPY = {
     identityKicker: "Identité professionnelle",
     identityTitle: "Une identité IA. Autonome pour travailler.",
     identityLead:
-      "Hugo appartient à votre entreprise, pas à la personne qui le supervise. Si cette personne quitte l’organisation, son identité, sa mémoire et son savoir-faire restent dans l’entreprise.",
+      "Son identité, sa mémoire et ses compétences restent dans votre entreprise, même si son responsable change.",
     identityCta: "En savoir plus",
     identityCard: {
       header: "Carte d’identité de votre Collaborateur IA",
@@ -77,22 +65,22 @@ const COPY = {
     },
     appsKicker: "Applications autorisées",
     appsBody:
-      "Les applications utiles à ses missions sont attribuées selon vos droits. Plus de 3 000 connecteurs peuvent être disponibles selon la configuration.",
+      "Connectez uniquement les outils utiles à sa mission, avec les droits que vous décidez.",
     modelsKicker: "Unitalk AI Gateway",
-    modelsTitle: "Le modèle adapté à chaque tâche. Sous vos règles.",
+    modelsTitle: "Le bon modèle. Sous vos règles.",
     modelsBody:
-      "Hugo utilise uniquement les modèles autorisés par votre entreprise, dans les limites du budget défini.",
+      "Hugo utilise uniquement les modèles et budgets autorisés par votre entreprise.",
     evolutionKicker: "Mission après mission",
     evolutionTitle: "Ses compétences évoluent. Son savoir-faire reste.",
     evolutionBody:
       "Hugo commence avec un profil commercial. Ajoutez ensuite de nouvelles compétences, applications et profils métier selon le travail confié.",
     evolutionItems: [
-      "Profils métier supplémentaires",
-      "Compétences testées par la communauté",
-      "Méthodes propres à votre entreprise",
-      "Nouvelles missions sans repartir de zéro",
+      "Ajouter un profil métier",
+      "Installer une compétence",
+      "Transmettre votre méthode",
+      "Confier une nouvelle mission",
     ],
-    finalTitle: "Quelle première mission allez-vous confier à Hugo ?",
+    finalTitle: "Confiez sa première mission à Hugo.",
     finalCta: "Décrire mon besoin à Hugo",
     pricing: "Voir les tarifs",
   },
@@ -100,7 +88,7 @@ const COPY = {
     composerTitle: "Describe the mission you want to assign to Hugo.",
     composerPlaceholder: "Describe the type of prospect you are looking for…",
     composerSubmit: "Assign this mission to Hugo",
-    personalizeHugo: "Customize with Alma",
+    personalizeHugo: "Assign a mission to Hugo",
     composerRole: "Unitalk AI mission coordinator",
     composerExamples: [
       "Companies with 20–200 employees",
@@ -357,16 +345,16 @@ const PERSONAS = {
   },
   hugo: {
     claim: {
-      fr: "Hugo est prêt à accomplir vos missions commerciales.",
+      fr: "Hugo est prêt à trouver et qualifier vos prospects.",
       en: "Hugo finds and qualifies your next prospects.",
     },
-    accent: { fr: "vos missions commerciales", en: "your next prospects" },
+    accent: { fr: "trouver et qualifier vos prospects.", en: "your next prospects." },
     lead: {
-      fr: "Donnez-lui vos critères. Il recherche les entreprises, prépare les fiches CRM et organise les relances. Votre équipe valide le premier contact.",
+      fr: "Hugo recherche et qualifie vos prospects, prépare votre CRM et organise les relances. Votre équipe garde la main sur le premier contact.",
       en: "Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.",
     },
     composer: {
-      fr: "Hugo trouve et qualifie vos prospects.",
+      fr: "Des prospects qualifiés, prêts à être examinés.",
       en: "Hugo finds and qualifies your prospects.",
     },
     placeholder: {
@@ -560,12 +548,21 @@ export function CollaborateurContent({
   const t = COPY[lang];
   const { detail, missions } = page;
   const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
-  const collaboratorLabel =
-    lang === "fr" && detail.gender === "female"
-      ? "Collaboratrice IA"
-      : lang === "fr"
-        ? "Collaborateur IA"
-        : "AI Collaborator";
+  const heroProofs = detail.slug === "hugo"
+    ? lang === "fr"
+      ? [
+          ["Profil métier initial", "Commercial"],
+          ["Autres profils métier", "À ajouter selon vos missions"],
+          ["Compétences commerciales", "À ajouter selon vos besoins"],
+          ["Contrôle humain", "Validation avant le premier contact"],
+        ]
+      : [
+          ["Initial job profile", "Sales"],
+          ["Other job profiles", "Add them as missions evolve"],
+          ["Sales skills", "Add them as needed"],
+          ["Human control", "Approval before first contact"],
+        ]
+    : t.proofs;
   const [missionRequest, setMissionRequest] = useState("");
   const [decision, setDecision] = useState<
     "approved" | "modified" | "declined" | null
@@ -627,15 +624,15 @@ export function CollaborateurContent({
 
   return (
     <main className="collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-      <section className="relative pb-14 pt-28 sm:pt-36 lg:flex lg:min-h-[760px] lg:items-center">
+      <section className="relative pb-14 pt-24 sm:pb-16 sm:pt-32 lg:flex lg:min-h-[720px] lg:items-center lg:py-24">
         <div
           aria-hidden
           className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
         />
         <div className="editorial-shell relative w-full">
-          <div className="grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-14">
+          <div className="grid gap-9 lg:grid-cols-[1.16fr_.84fr] lg:items-center lg:gap-12 xl:gap-16">
             <div>
-              <div className="inline-flex items-center gap-3">
+              <div className="inline-flex max-w-full items-center gap-3 rounded-full border border-[#D8D0C2] bg-[#FAF8F3]/85 py-1.5 pl-1.5 pr-4 shadow-sm backdrop-blur">
                 <Image
                   src={detail.avatar}
                   alt=""
@@ -644,18 +641,14 @@ export function CollaborateurContent({
                   priority
                   className="size-9 rounded-full border border-[#CFC5B5] object-cover"
                 />
-                <span className="text-sm font-bold text-[#4E483F]">
-                  {detail.name} · {detail.role[lang]} · {collaboratorLabel}
+                <span className="truncate text-[13px] font-bold text-[#4E483F] sm:text-sm">
+                  {detail.name} · {lang === "fr" ? "Collaborateur IA · Profil commercial" : "AI Collaborator · Sales profile"}
                 </span>
               </div>
-              <h1 className="mt-5 max-w-4xl font-sf text-[clamp(2.9rem,5.6vw,5.9rem)] font-semibold leading-[.9] tracking-[-.07em]">
+              <h1 className="mt-6 max-w-[780px] font-sf text-[clamp(2.8rem,5vw,5.1rem)] font-bold leading-[.92] tracking-[-.062em]">
                 {highlightClaim(persona.claim[lang], persona.accent[lang])}
               </h1>
-              <div
-                aria-hidden
-                className="mt-6 h-1 w-20 rounded-full bg-[#D10E63]"
-              />
-              <p className="mt-5 max-w-2xl border-l-2 border-[#D10E63]/30 pl-5 text-[17px] leading-8 text-[#4E483F]">
+              <p className="mt-7 max-w-[650px] text-[17px] font-medium leading-8 text-[#4E483F]">
                 {persona.lead[lang]}
               </p>
               {detail.slug !== "hugo" && (
@@ -671,33 +664,35 @@ export function CollaborateurContent({
             </div>
             <div id="alma-profile" className="scroll-mt-24">
               {detail.slug === "hugo" ? (
-                <article className="relative overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] p-6 text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,.65)] sm:p-7">
+                <article className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#17130F] p-5 text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,.65)] sm:p-7 lg:max-w-[520px] lg:justify-self-end">
                   <div
                     aria-hidden
                     className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent"
                   />
                   <div className="flex items-center gap-3">
                     <Image
-                      src="/alma-avatar.png"
-                      alt="Alma"
-                      width={44}
-                      height={44}
-                      className="size-11 rounded-full object-cover ring-2 ring-[#D10E63]/35"
+                      src={detail.avatar}
+                      alt={detail.name}
+                      width={52}
+                      height={52}
+                      className="size-[52px] rounded-full object-cover ring-2 ring-[#D10E63]/35"
                     />
                     <div>
-                      <p className="font-sf font-semibold">Alma</p>
-                      <p className="text-xs text-[#D6CABD]">{t.composerRole}</p>
+                      <p className="font-sf text-lg font-bold">{detail.name}</p>
+                      <p className="text-xs font-semibold text-[#F2A4C5]">
+                        {lang === "fr"
+                          ? `Profil métier · ${detail.role.fr}`
+                          : `Job profile · ${detail.role.en}`}
+                      </p>
                     </div>
                   </div>
-                  <div className="py-10 sm:py-12">
+                  <div className="py-8 sm:py-10">
                     <h2 className="text-balance font-sf text-[clamp(1.75rem,3vw,2.5rem)] font-bold leading-[1.02] tracking-[-.04em]">
                       {persona.composer[lang]}
                     </h2>
-                    <p className="mt-4 max-w-md text-[15px] font-medium leading-7 text-[#D6CABD]">
-                      {lang === "fr"
-                        ? "Profil commercial recommandé · Mission prête à l’emploi"
-                        : "Recommended sales profile · Ready-to-use mission"}
-                    </p>
+                     <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-bold text-[#D6CABD]">
+                       {t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2"><Check className="size-4 text-[#F2A4C5]" />{proof}</li>)}
+                     </ul>
                   </div>
                   <button
                     type="button"
@@ -732,21 +727,11 @@ export function CollaborateurContent({
                   compactDesktop
                 />
               )}
-              <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-                {t.trialProofs.map((proof) => (
-                  <li
-                    key={proof}
-                    className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"
-                  >
-                    <Check className="size-3.5 text-[#D10E63]" />
-                    {proof}
-                  </li>
-                ))}
-              </ul>
+              {detail.slug !== "hugo" && <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 lg:max-w-[520px] lg:justify-self-end">{t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]" />{proof}</li>)}</ul>}
             </div>
           </div>
-          <div className="mt-12 grid border-y border-[#CFC5B5] sm:grid-cols-2 lg:grid-cols-4">
-            {t.proofs.map(([title, body]) => (
+          <div className="mt-12 grid overflow-hidden rounded-2xl border border-[#CFC5B5] bg-[#FAF8F3] sm:grid-cols-2 lg:grid-cols-4">
+            {heroProofs.map(([title, body]) => (
               <HeroProof key={title} title={title} body={body} />
             ))}
           </div>
@@ -757,20 +742,20 @@ export function CollaborateurContent({
         id="mission-en-action"
         className="scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24"
       >
-        <div className="editorial-shell grid gap-10 lg:grid-cols-[.78fr_1.22fr] lg:items-center">
+        <div className="editorial-shell grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-12 xl:gap-16">
           <div>
             <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">
               {detail.department[lang]} ·{" "}
               {lang === "fr" ? "Exemple" : "Example"}
             </p>
-            <h2 className="mt-5 text-[clamp(2.7rem,5vw,5.2rem)] font-semibold leading-[.92] tracking-[-.065em]">
+            <h2 className="mt-5 text-[clamp(2.35rem,4vw,4rem)] font-bold leading-[.98] tracking-[-.05em]">
               {persona.proofTitle[lang]}
             </h2>
-            <p className="mt-6 max-w-xl text-[16px] leading-8 text-[#CFC6B8]">
+            <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#CFC6B8]">
               {persona.lead[lang]}
             </p>
           </div>
-          <article className="overflow-hidden rounded-[26px] border border-white/10 bg-[#211E1A]">
+          <article className="w-full overflow-hidden rounded-[26px] border border-white/10 bg-[#211E1A] lg:max-w-[580px] lg:justify-self-end">
             <div className="border-b border-white/10 p-5">
               <p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#8F877A]">
                 {lang === "fr" ? "Mission · Exemple" : "Mission · Example"}
@@ -828,35 +813,35 @@ export function CollaborateurContent({
       </section>
 
       <section className="collaborator-identity-section py-20 sm:py-24">
-        <div className="editorial-shell grid gap-10 lg:grid-cols-[1.12fr_.88fr] lg:items-center lg:gap-12">
+        <div className="editorial-shell grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:gap-12">
           <div>
             <Kicker>{t.identityKicker}</Kicker>
-            <h2 className="mt-5 max-w-[760px] text-[clamp(2.35rem,4vw,4rem)] font-bold leading-[.98] tracking-[-.05em]">
+            <h2 className="mt-5 max-w-[700px] text-[clamp(2.25rem,3.7vw,3.65rem)] font-bold leading-[.98] tracking-[-.05em]">
               {lang === "fr" ? (
                 <>
-                  <span className="block whitespace-nowrap">
+                  <span className="block lg:whitespace-nowrap">
                     {detail.name} travaille avec
                   </span>
-                  <span className="block whitespace-nowrap">
+                  <span className="block lg:whitespace-nowrap">
                     sa propre identité
                   </span>
-                  <span className="block whitespace-nowrap">
+                  <span className="block lg:whitespace-nowrap">
                     et ses propres accès.
                   </span>
                 </>
               ) : (
                 <>
-                  <span className="block whitespace-nowrap">
+                  <span className="block lg:whitespace-nowrap">
                     {detail.name} works with
                   </span>
-                  <span className="block whitespace-nowrap">
+                  <span className="block lg:whitespace-nowrap">
                     their own identity
                   </span>
-                  <span className="block whitespace-nowrap">and access.</span>
+                  <span className="block lg:whitespace-nowrap">and access.</span>
                 </>
               )}
             </h2>
-            <p className="mt-6 max-w-xl text-[16px] leading-8 text-[#4E483F]">
+            <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#4E483F]">
               {lang === "fr"
                 ? `${detail.name} appartient à votre entreprise, indépendamment de la personne chargée de sa supervision. Si cette personne quitte l’organisation, son identité, sa mémoire et son savoir-faire restent dans l’entreprise.`
                 : `${detail.name} belongs to your organization, independently of the person supervising them. If that person leaves, identity, memory and know-how remain within the organization.`}
@@ -869,7 +854,7 @@ export function CollaborateurContent({
               <ArrowRight className="size-4" />
             </Link>
           </div>
-          <div className="w-full lg:max-w-[540px] lg:justify-self-end">
+          <div className="min-w-0 w-full lg:max-w-[680px] lg:justify-self-end">
             <IdentityCard detail={detail} lang={lang} labels={t.identityCard} />
           </div>
         </div>
@@ -877,20 +862,20 @@ export function CollaborateurContent({
 
       <section className="bg-[#EAE3D4] py-20 sm:py-24">
         <div className="editorial-shell">
-          <div className="grid gap-px overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2">
+          <div className="grid gap-px overflow-hidden rounded-[26px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2">
             <Link
               href="/collaborateurs-ia/applications"
-              className="group bg-[#FAF8F3] p-7 sm:p-9"
+              className="group bg-[#FAF8F3] p-6 sm:p-8"
             >
               <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">
                 {t.appsKicker}
               </p>
-              <h2 className="mt-5 text-[clamp(2rem,3vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]">
+              <h2 className="mt-5 text-[clamp(2.15rem,3.2vw,3.35rem)] font-bold leading-[.98] tracking-[-.045em]">
                 {lang === "fr"
                   ? `${detail.name} travaille dans votre environnement métier.`
                   : `${detail.name} works in your business environment.`}
               </h2>
-              <p className="mt-5 text-sm leading-7 text-[#625B50]">
+              <p className="mt-5 text-[15px] font-medium leading-7 text-[#625B50]">
                 {t.appsBody}
               </p>
               <ApplicationLogos apps={persona.apps} />
@@ -901,15 +886,15 @@ export function CollaborateurContent({
             </Link>
             <Link
               href="/ai-gateway"
-              className="group bg-[#181615] p-7 text-white sm:p-9"
+              className="group bg-[#181615] p-6 text-white sm:p-8"
             >
               <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">
                 {t.modelsKicker}
               </p>
-              <h2 className="mt-5 text-[clamp(2rem,3vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]">
+              <h2 className="mt-5 text-[clamp(2.15rem,3.2vw,3.35rem)] font-bold leading-[.98] tracking-[-.045em]">
                 {t.modelsTitle}
               </h2>
-              <p className="mt-5 text-sm leading-7 text-[#CFC6B8]">
+              <p className="mt-5 text-[15px] font-medium leading-7 text-[#CFC6B8]">
                 {lang === "fr"
                   ? `${detail.name} utilise uniquement les modèles autorisés par votre entreprise, dans les limites du budget défini.`
                   : `${detail.name} only uses models authorized by your organization, within the defined budget.`}
@@ -957,7 +942,7 @@ export function CollaborateurContent({
                 </>
               )}
             </h2>
-            <p className="mt-6 max-w-xl text-[16px] leading-8 text-[#4E483F]">
+            <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#4E483F]">
               {lang === "fr"
                 ? `${detail.name} commence avec un profil ${detail.role.fr.toLowerCase()}. Ajoutez ensuite de nouvelles compétences, applications et profils métier selon le travail confié.`
                 : `${detail.name} starts with a ${detail.role.en.toLowerCase()} profile. Add new skills, applications and job profiles as new work is assigned.`}
@@ -972,7 +957,7 @@ export function CollaborateurContent({
               <ArrowRight className="size-4" />
             </Link>
           </div>
-          <article className="w-full overflow-hidden rounded-[28px] bg-[#181615] p-7 text-white sm:p-9 lg:max-w-[560px] lg:justify-self-end">
+          <article className="w-full overflow-hidden rounded-[28px] bg-[#181615] p-6 text-white sm:p-8 lg:max-w-[560px] lg:justify-self-end">
             <div className="flex items-center gap-4 border-b border-white/10 pb-6">
               <Image
                 src={detail.avatar}
@@ -1021,20 +1006,15 @@ export function CollaborateurContent({
                 <Link
                   key={mission.slug}
                   href={`/missions/${mission.slug}`}
-                  className="group rounded-2xl border border-[#D8D0C2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#D10E63]/40"
+                  className="group flex min-h-[230px] flex-col rounded-2xl border border-[#D8D0C2] bg-white p-5 transition hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_18px_45px_-35px_rgba(28,26,23,.45)] sm:p-6"
                 >
-                  <span
-                    className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.08em] ${mission.status === "available" ? "bg-[#267A48]/10 text-[#267A48]" : mission.status === "on-setup" ? "bg-[#D10E63]/10 text-[#B00C54]" : "bg-[#EAE3D4] text-[#625B50]"}`}
-                  >
-                    {STATUS_LABELS[mission.status][lang]}
-                  </span>
                   <h3 className="mt-4 text-xl font-semibold">
                     {mission.title[lang]}
                   </h3>
                   <p className="mt-3 text-sm leading-6 text-[#625B50]">
                     {mission.objective[lang]}
                   </p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">
+                  <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#B00C54]">
                     {lang === "fr" ? "Voir la mission" : "View mission"}
                     <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                   </span>
@@ -1055,9 +1035,9 @@ export function CollaborateurContent({
       )}
 
       <CollaboratorFaq lang={lang} detail={detail} />
-      <section className="bg-[#D10E63] py-20 text-white">
+      <section className="bg-[#D10E63] py-16 text-white sm:py-20">
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-          <h2 className="max-w-4xl text-[clamp(2.8rem,6vw,6rem)] font-semibold leading-[.9] tracking-[-.07em]">
+          <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
             {lang === "fr"
               ? `Quelle première mission allez-vous confier à ${detail.name} ?`
               : `What first mission will you assign to ${detail.name}?`}
@@ -1167,12 +1147,12 @@ function IdentityCard({
     ],
   ];
   return (
-    <article className="relative overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_30px_75px_-48px_rgba(28,26,23,.55)]">
+    <article className="relative min-w-0 overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_30px_75px_-48px_rgba(28,26,23,.55)]">
       <div
         aria-hidden
         className="absolute -right-24 -top-24 size-64 rounded-full bg-[#D10E63]/10 blur-3xl"
       />
-      <header className="relative flex items-center justify-between gap-4 border-b border-[#DED6C8] px-6 py-5 sm:px-8">
+      <header className="relative flex flex-col items-start gap-3 border-b border-[#DED6C8] px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
         <div>
           <p className="font-mono text-[11px] font-black uppercase tracking-[.16em] text-[#B00C54]">
             {labels.header}
@@ -1188,14 +1168,14 @@ function IdentityCard({
           {fr ? "SUPERVISÉ" : "SUPERVISED"}
         </span>
       </header>
-      <div className="relative grid gap-6 p-6 sm:grid-cols-[150px_1fr] sm:p-8">
+      <div className="relative grid min-w-0 gap-6 p-6 md:grid-cols-[130px_minmax(0,1fr)] md:p-8">
         <div>
           <Image
             src={detail.avatar}
             alt={detail.name}
             width={150}
             height={180}
-            className="aspect-[4/5] w-full rounded-2xl border border-[#DED6C8] object-cover shadow-sm"
+            className="aspect-[4/5] w-full max-w-[150px] rounded-2xl border border-[#DED6C8] object-cover shadow-sm"
           />
           <p className="mt-4 text-2xl font-semibold">{detail.name}</p>
           <p className="mt-1 font-mono text-xs text-[#B00C54]">
@@ -1210,7 +1190,7 @@ function IdentityCard({
             {rows.map(([label, value]) => (
               <div
                 key={label}
-                className="grid gap-1 py-3 sm:grid-cols-[150px_1fr]"
+                className="grid gap-1 py-3 xl:grid-cols-[130px_minmax(0,1fr)] xl:gap-3"
               >
                 <dt className="font-mono text-[10px] font-bold uppercase tracking-[.1em] text-[#857C6E]">
                   {label}
@@ -1283,9 +1263,9 @@ function IdentityFeature({
 }
 function HeroProof({ title, body }: { title: string; body: string }) {
   return (
-    <article className="min-h-28 border-b border-[#CFC5B5] py-5 sm:border-r sm:px-5 lg:border-b-0 lg:first:pl-0 lg:last:border-r-0">
-      <h3 className="text-sm font-semibold">{title}</h3>
-      <p className="mt-2 text-xs leading-5 text-[#625B50]">{body}</p>
+    <article className="min-h-28 border-b border-[#CFC5B5] p-5 sm:border-r lg:border-b-0 lg:last:border-r-0">
+      <h3 className="text-[15px] font-bold">{title}</h3>
+      <p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>
     </article>
   );
 }

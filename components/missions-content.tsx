@@ -310,8 +310,8 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 const COPY = {
   fr: {
     eyebrow: 'Missions pour collaborateur IA',
-    title: 'Quelle mission voulez-vous faire avancer ?',
-    heroA: 'Quelle mission', heroB: 'voulez-vous', heroC: 'faire avancer ?',
+    title: 'Quel résultat voulez-vous obtenir ?',
+    heroA: 'Quel résultat', heroB: 'voulez-vous', heroC: 'obtenir ?',
     lead: 'Décrivez le résultat attendu. Alma prépare la mission et personnalise votre Collaborateur IA pour votre entreprise.', explore: 'Voir des missions prêtes à démarrer',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
     placeholder: 'Décrivez simplement le résultat attendu…',

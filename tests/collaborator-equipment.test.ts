@@ -20,6 +20,6 @@ describe('collaborator Alma personalization', () => {
   })
 
   it('explains governed identity, applications, models and continuity', () => {
-    for (const claim of ['Carte d’identité de votre Collaborateur IA', 'Canaux professionnels', 'Environnement privé', 'Accès et actions gouvernés par votre entreprise', 'Plus de 3 000 connecteurs', 'Unitalk AI Gateway', 'Compétences testées par la communauté', 'Questions fréquentes']) expect(profile).toContain(claim)
+    for (const claim of ['Carte d’identité de votre Collaborateur IA', 'Canaux professionnels', 'Environnement privé', 'Accès et actions gouvernés par votre entreprise', 'Connectez uniquement les outils utiles', 'Unitalk AI Gateway', 'Installer une compétence', 'Questions fréquentes']) expect(profile).toContain(claim)
   })
 })
