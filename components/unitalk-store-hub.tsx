@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
 import { collaboratorHref, MARKETPLACE_COLLABORATOR_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
-import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
+import { DOMAIN_LABELS, SKILL_CATEGORY_LABELS, STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -39,6 +39,11 @@ type MarketplaceItem = {
   score?: number
   starterMission?: string
   exampleResult?: string
+  facetKey?: string
+  profileKeys?: string[]
+  input?: string
+  result?: string
+  proof?: string
 }
 
 const PAGE_SIZE = 12
@@ -103,6 +108,7 @@ const PROFILE_DEMAND_ORDER = [
 ] as const
 
 const PROFILE_DEMAND_RANK = new Map<string, number>(PROFILE_DEMAND_ORDER.map((slug, index) => [slug, index]))
+const PROFILE_NAMES = new Map(STORE_ITEMS.filter((item) => item.type === 'profil').map((item) => [item.slug, item.name]))
 
 const MODEL_ITEMS = [
   { key: 'gpt', title: 'GPT', maker: 'OpenAI', meta: 'Texte · Vision · Code' },
@@ -181,8 +187,16 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
     if (storeType === 'profil') items.sort((a, b) => (PROFILE_DEMAND_RANK.get(a.slug) ?? Number.MAX_SAFE_INTEGER) - (PROFILE_DEMAND_RANK.get(b.slug) ?? Number.MAX_SAFE_INTEGER))
     return items.map((item) => ({
       key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], addHref: `/decouvrir?store=${item.slug}`,
-      meta: item.roleInOrg?.[lang] ?? item.facet, origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
-      status: item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Inclus', en: 'Included' },
+      meta: (storeType === 'profil' ? DOMAIN_LABELS[item.facet]?.[lang] : SKILL_CATEGORY_LABELS[item.facet]?.[lang]) ?? item.facet,
+      origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
+      highlights: (item.knowHow ?? item.enables ?? item.produces)?.slice(0, 2).map((value) => value[lang]),
+      highlightsLabel: storeType === 'profil' ? (lang === 'fr' ? 'Savoir-faire' : 'Know-how') : (lang === 'fr' ? 'Ce qu’elle permet' : 'What it enables'),
+      status: item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : storeType === 'competence' ? { fr: 'Conditions confirmées avant ajout', en: 'Terms confirmed before adding' } : { fr: 'Inclus selon votre offre', en: 'Included depending on your plan' },
+      facetKey: item.facet,
+      profileKeys: item.relatedProfiles,
+      input: storeType === 'competence' ? item.contexts?.[0]?.[lang] : undefined,
+      result: storeType === 'competence' ? item.produces?.[0]?.[lang] : undefined,
+      proof: storeType === 'competence' ? (item.version ? `Version ${item.version} · ${lang === 'fr' ? 'à valider sur votre cas' : 'validate on your use case'}` : lang === 'fr' ? 'Méthode à valider sur votre cas' : 'Method to validate on your use case') : undefined,
     }))
   }
   if (categoryId === 'applications') {
@@ -218,6 +232,7 @@ const COPY = {
     noResults: 'Aucune création ne correspond à cette recherche.', showMore: 'Voir tout le catalogue', showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     clear: 'Effacer les filtres', available: 'Disponible', preparation: 'Bientôt disponible', addProfile: 'Ajouter à un Collaborateur IA',
+    addReassurance: 'Alma vérifie l’adaptation avant l’ajout.',
     allDepartments: 'Tous les départements', result: 'résultat', results: 'résultats', almaTitle: 'Vous hésitez entre plusieurs Collaborateurs IA ?', almaBody: 'Décrivez la mission à Alma. Elle vous aide à choisir une identité de référence et à identifier les profils métier et compétences nécessaires.', almaAction: 'Décrire ma mission à Alma', finalTitle: 'Vous ne choisissez pas un métier définitif.', finalBody: 'Vous choisissez une identité qui conserve sa mémoire et évolue avec les profils métier et les compétences dont votre entreprise a besoin.', finalProfiles: 'Explorer les profils métier',
     heroProofs: ['Même identité', 'Mémoire conservée', 'Profils métier ajoutables', 'Droits gouvernés'], starterMission: 'Mission de départ', exampleResult: 'Exemple de résultat', ctaHelp: 'Alma vous aide d’abord à cadrer la mission.', compatibleProfiles: 'Voir les profils compatibles',
   },
@@ -228,6 +243,7 @@ const COPY = {
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
     emptyTitle: 'Catalog in preparation', emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
     clear: 'Clear filters', available: 'Available', preparation: 'Coming soon', addProfile: 'Add to an AI Collaborator',
+    addReassurance: 'Alma checks the fit before adding it.',
     allDepartments: 'All departments', result: 'result', results: 'results', almaTitle: 'Choosing between several AI Collaborators?', almaBody: 'Describe the mission to Alma. She helps you choose a reference identity and identify the required job profiles and skills.', almaAction: 'Describe my mission to Alma', finalTitle: 'You are not choosing one permanent job.', finalBody: 'You are choosing an identity that retains its memory and evolves with the job profiles and skills your organization needs.', finalProfiles: 'Explore job profiles',
     heroProofs: ['Same identity', 'Memory retained', 'Job profiles can be added', 'Governed permissions'], starterMission: 'Starter mission', exampleResult: 'Example result', ctaHelp: 'Alma first helps you scope the mission.', compatibleProfiles: 'View compatible profiles',
   },
@@ -251,6 +267,8 @@ export function UnitalkStoreHub({ collaboratorsOnly = false }: { collaboratorsOn
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [catalogQuery, setCatalogQuery] = useState('')
   const [departmentFilter, setDepartmentFilter] = useState({ lang, value: '' })
+  const [skillCategory, setSkillCategory] = useState('')
+  const [skillProfile, setSkillProfile] = useState('')
   const department = departmentFilter.lang === lang ? departmentFilter.value : ''
   const setDepartment = (value: string) => setDepartmentFilter({ lang, value })
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
@@ -259,25 +277,28 @@ export function UnitalkStoreHub({ collaboratorsOnly = false }: { collaboratorsOn
   const filteredItems = useMemo(() => {
     const query = normalizeSearch(catalogQuery.trim())
     const departmentItems = department ? categoryItems.filter((item) => item.origin === department) : categoryItems
-    if (!query) return departmentItems
+    const scopedItems = activeCategory.id === 'competences' ? departmentItems.filter((item) => (!skillCategory || item.facetKey === skillCategory) && (!skillProfile || item.profileKeys?.includes(skillProfile))) : departmentItems
+    if (!query) return scopedItems
     const tokens = query.split(/\s+/)
     const matches: MarketplaceItem[] = []
-    for (const item of departmentItems) {
+    for (const item of scopedItems) {
       const fields = [item.title, item.meta, item.origin ?? '', ...(item.keywords ?? []), ...(item.highlights ?? []), item.description].map(normalizeSearch)
       if (!tokens.every((token) => fields.some((field) => field.includes(token)))) continue
       const points = tokens.reduce((total, token) => total + (fields[0].includes(token) ? 40 : 0) + (fields[1].includes(token) ? 25 : 0) + (fields[2].includes(token) ? 15 : 0) + (fields.slice(3, -1).some((field) => field.includes(token)) ? 15 : 0) + (fields.at(-1)?.includes(token) ? 5 : 0), 0)
       matches.push({ ...item, score: Math.min(99, Math.round(points / tokens.length)) })
     }
     return matches.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-  }, [catalogQuery, categoryItems, department])
+  }, [activeCategory.id, catalogQuery, categoryItems, department, skillCategory, skillProfile])
   const visibleItems = filteredItems.slice(0, visibleCount)
   function clearFilters() {
     setCatalogQuery('')
     setDepartment('')
+    setSkillCategory('')
+    setSkillProfile('')
     setVisibleCount(PAGE_SIZE)
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const selectFromLocation = (scroll = false) => {
       const categoryId = window.location.hash.slice(1) || (window.location.pathname === '/marketplace/collaborateurs-ia' ? 'collaborateurs-ia' : '')
       if (STORE_CATEGORIES.some((category) => category.id === categoryId)) {
@@ -285,7 +306,12 @@ export function UnitalkStoreHub({ collaboratorsOnly = false }: { collaboratorsOn
         setVisibleCount(PAGE_SIZE)
         setCatalogQuery('')
         setDepartmentFilter((current) => ({ ...current, value: '' }))
-        if (scroll) scrollToCategoryTabs()
+        setSkillCategory('')
+        setSkillProfile('')
+        requestAnimationFrame(() => {
+          document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: scroll && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'auto', block: 'nearest', inline: 'center' })
+          if (scroll) scrollToCategoryTabs()
+        })
       }
     }
     selectFromLocation()
@@ -303,9 +329,12 @@ export function UnitalkStoreHub({ collaboratorsOnly = false }: { collaboratorsOn
     setVisibleCount(PAGE_SIZE)
     setCatalogQuery('')
     setDepartment('')
+    setSkillCategory('')
+    setSkillProfile('')
     const pathname = categoryId === 'collaborateurs-ia' ? '/marketplace/collaborateurs-ia' : '/marketplace'
     window.history.pushState(null, '', categoryId === 'collaborateurs-ia' ? pathname : `${pathname}#${categoryId}`)
     if (scroll) scrollToCategoryTabs()
+    requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }))
   }
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -338,12 +367,14 @@ export function UnitalkStoreHub({ collaboratorsOnly = false }: { collaboratorsOn
 
       <section id="categories" className="scroll-mt-40 px-5 pb-24 pt-10 sm:px-8 sm:pt-12 lg:pb-32">
         <div className="mx-auto w-full max-w-6xl">
-           <div id="marketplace-results" role="tabpanel" aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
+            <div id="marketplace-results" role={collaboratorsOnly ? undefined : 'tabpanel'} aria-labelledby={collaboratorsOnly ? undefined : `marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
+                 {collaboratorsOnly && <div className="mb-7"><h2 className="text-3xl font-semibold tracking-[-.04em] sm:text-4xl">{lang === 'fr' ? 'Les Collaborateurs IA de référence' : 'Reference AI Collaborators'}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-[#625B50]">{lang === 'fr' ? 'Choisissez une identité de départ. Alma vous aide à cadrer chaque mission avant toute action.' : 'Choose a starting identity. Alma helps you scope each mission before any action.'}</p></div>}
                 {!collaboratorsOnly && <div className="mb-7"><h2 className="text-3xl font-semibold tracking-[-.04em] sm:text-4xl">{activeCategory.title[lang]}</h2><p className="mt-3 text-[15px] leading-7 text-[#625B50] xl:whitespace-nowrap">{activeCategory.description[lang]}</p></div>}
                 {categoryItems.length > 0 && !collaboratorsOnly && <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">{activeCategory.id !== 'collaborateurs-ia' && <label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[#D10E63]">×</button>}</label>}<Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] lg:ml-auto">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>}
-                <p className="sr-only" aria-live="polite">{filteredItems.length} {filteredItems.length === 1 ? t.result : t.results}</p>
+                 <p className="sr-only" aria-live="polite">{filteredItems.length} {filteredItems.length === 1 ? t.result : t.results}</p>
+                 {(activeCategory.id === 'profils-metier' || activeCategory.id === 'competences') && <p className="mt-4 flex items-center gap-2 text-xs font-semibold text-[#766D61]"><span aria-hidden className="size-1.5 rounded-full bg-[var(--catalog-accent)]" style={{ '--catalog-accent': activeCategory.accent } as CSSProperties}/>{t.addReassurance}</p>}
 
-              {visibleItems.length > 0 ? <div className="mt-7 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : categoryItems.length > 0 ? <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : <div className="mt-7 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
+               {visibleItems.length > 0 ? <div className={`mt-7 grid auto-rows-fr gap-4 md:grid-cols-2 ${collaboratorsOnly ? '2xl:grid-cols-3' : 'xl:grid-cols-3'}`}>{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} featuredLast={collaboratorsOnly && visibleItems.length % 3 === 1 && index === visibleItems.length - 1} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : categoryItems.length > 0 ? <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : <div className="mt-7 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
                {activeCategory.id !== 'collaborateurs-ia' && filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
                {activeCategory.id === 'collaborateurs-ia' && <><aside className="mt-8 flex flex-col gap-4 border-l-4 border-[#D10E63] bg-[#EAE3D4] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"><div><h3 className="text-lg font-semibold">{t.almaTitle}</h3><p className="mt-1 max-w-2xl text-sm leading-6 text-[#625B50]">{t.almaBody}</p></div><Link href="/missions?composer=1&source=marketplace-advisor" className="shrink-0 rounded-full bg-[#D10E63] px-5 py-3 text-[13px] font-bold text-white outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.almaAction}<span aria-hidden className="ml-2">→</span></Link></aside><section className="mt-10 rounded-[24px] bg-[#181615] p-7 text-white sm:p-9 lg:flex lg:items-end lg:justify-between lg:gap-10"><div><h3 className="max-w-3xl text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.finalTitle}</h3><p className="mt-5 max-w-2xl text-[15px] leading-7 text-[#CFC6B8]">{t.finalBody}</p></div><Link href="/marketplace#profils-metier" className="mt-7 inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#F3EFE6] px-6 text-[13px] font-bold text-[#181615] lg:mt-0">{t.finalProfiles}<span aria-hidden className="ml-2">→</span></Link></section></>}
           </div>
@@ -364,8 +395,28 @@ function MissingItemCard({ content, lang, accent }: { content: NonNullable<Categ
   )
 }
 
-function MarketplaceItemCard({ item, lang, category, labels }: { item: MarketplaceItem; lang: Lang; category: Category; labels: { details: string; available: string; preparation: string; addProfile: string } }) {
+function MarketplaceItemCard({ item, lang, category, labels, featuredLast = false }: { item: MarketplaceItem; lang: Lang; category: Category; labels: { details: string; available: string; preparation: string; addProfile: string }; featuredLast?: boolean }) {
   const hasDirectAdd = Boolean(item.addHref)
+  const style = { '--profile-accent': category.accent } as CSSProperties
+  if (hasDirectAdd) {
+    return (
+      <Link href={item.addHref!} aria-label={`${labels.addProfile} : ${item.title}`} className="group relative flex min-h-[260px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-6 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)] focus-visible:ring-offset-2" style={style}>
+        <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[var(--profile-accent)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+        <p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[var(--profile-accent)]">{item.meta}</p>
+        <h3 className="mt-4 line-clamp-2 text-[23px] font-semibold leading-[1.08] tracking-[-.04em] text-[#1C1A17]">{item.title}</h3>
+        <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-[#625B50]">{item.description}</p>
+        {item.highlights && item.highlights.length > 0 && <div className="mt-5"><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{item.highlightsLabel}</p><ul className="mt-2 space-y-1.5">{item.highlights.map((highlight) => <li key={highlight} className="flex gap-2 text-xs font-semibold leading-5 text-[#4E483F]"><span aria-hidden className="mt-2 size-1 shrink-0 rounded-full bg-[var(--profile-accent)]"/>{highlight}</li>)}</ul></div>}
+        <div className="mt-auto pt-6">
+          <div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)] group-focus-visible:border-[var(--profile-accent)]">
+            <p className="text-[10px] font-semibold text-[#857C6E]">{item.origin} · {item.status?.[lang]}</p>
+            <span className="mt-3 flex min-h-10 items-center justify-between rounded-full border border-[#CFC5B5] px-4 text-xs font-bold text-[#1C1A17] transition-[color,background-color,border-color] group-hover:border-[var(--profile-accent)] group-hover:bg-[var(--profile-accent)] group-hover:text-white group-focus-visible:border-[var(--profile-accent)] group-focus-visible:bg-[var(--profile-accent)] group-focus-visible:text-white sm:border-transparent sm:px-0 sm:group-hover:px-4 sm:group-focus-visible:px-4">
+              {labels.addProfile}<span aria-hidden className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span>
+            </span>
+          </div>
+        </div>
+      </Link>
+    )
+  }
   const content = (
     <>
       <div>
@@ -373,16 +424,16 @@ function MarketplaceItemCard({ item, lang, category, labels }: { item: Marketpla
         <h3 className="line-clamp-2 text-[26px] font-semibold leading-[1.04] tracking-[-.045em] text-[#1C1A17] transition-colors group-hover:text-[var(--profile-accent)]">{item.href ? <Link href={item.href}>{item.title}</Link> : item.title}</h3>
         <p className="mt-4 line-clamp-2 text-sm leading-6 text-[#625B50]">{item.description}</p>
         {item.starterMission && <dl className="mt-5 grid gap-2 rounded-xl bg-[#F0EBE1] p-3"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{lang === 'fr' ? 'Mission de départ' : 'Starter mission'}</dt><dd className="mt-1 text-[13px] font-semibold leading-5 text-[#322E29]">{item.starterMission}</dd></div><div className="border-t border-[#D8D0C2] pt-2"><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{lang === 'fr' ? 'Exemple de résultat' : 'Example result'}</dt><dd className="mt-1 text-xs leading-5 text-[#625B50]">{item.exampleResult}</dd></div></dl>}
-        {item.highlights && <div className="mt-4"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#766D61]">{item.highlightsLabel}</p><div className="mt-2 flex flex-wrap gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}</div><Link href="/marketplace#profils-metier" className="relative z-10 mt-3 inline-flex text-xs font-bold text-[#B00C54] underline decoration-[#D10E63]/25 underline-offset-4">{lang === 'fr' ? 'Voir les profils compatibles' : 'View compatible profiles'}</Link></div>}
+        {item.highlights && <details className="mt-4 sm:hidden"><summary className="cursor-pointer text-xs font-bold text-[#B00C54]">{item.highlightsLabel}</summary><div className="mt-2 flex flex-wrap gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}</div><Link href="/marketplace#profils-metier" className="mt-3 inline-flex text-xs font-bold text-[#B00C54] underline decoration-[#D10E63]/25 underline-offset-4">{lang === 'fr' ? 'Voir les profils compatibles' : 'View compatible profiles'}</Link></details>}
+        {item.highlights && <div className="mt-4 hidden sm:block"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#766D61]">{item.highlightsLabel}</p><div className="mt-2 flex flex-wrap gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}</div><Link href="/marketplace#profils-metier" className="relative z-10 mt-3 inline-flex text-xs font-bold text-[#B00C54] underline decoration-[#D10E63]/25 underline-offset-4">{lang === 'fr' ? 'Voir les profils compatibles' : 'View compatible profiles'}</Link></div>}
       </div>
       <div className="mt-auto pt-8">
         <div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)]">
-           {hasDirectAdd ? <Link href={item.addHref!} className="relative z-10 flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.addProfile}<span aria-hidden="true" className="ml-2">→</span></Link> : item.missionHref ? <div className="relative z-10"><Link href={item.missionHref} className="flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{lang === 'fr' ? `Confier une mission à ${item.title}` : `Assign a mission to ${item.title}`}<span aria-hidden="true" className="ml-2">→</span></Link><p className="mt-2 text-center text-[11px] leading-4 text-[#766D61]">{lang === 'fr' ? 'Alma vous aide d’abord à cadrer la mission.' : 'Alma first helps you scope the mission.'}</p>{item.href && <Link href={item.href} className="mt-2 block text-center text-[13px] font-bold text-[#625B50] underline decoration-[#CFC5B5] underline-offset-4 outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}</Link>}</div> : <div className="flex items-end justify-between gap-3"><span className="text-xs font-semibold text-[#625B50]">{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>{item.href && <Link href={item.href} className="relative z-10 text-xs font-bold text-[#1C1A17] outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">→</span></Link>}</div>}
+           {hasDirectAdd ? <Link href={item.addHref!} className="relative z-10 flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.addProfile}<span aria-hidden="true" className="ml-2">→</span></Link> : item.missionHref ? <div className="relative z-10"><Link href={item.missionHref} className="flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{lang === 'fr' ? `Confier une mission à ${item.title}` : `Assign a mission to ${item.title}`}<span aria-hidden="true" className="ml-2">→</span></Link>{item.href && <Link href={item.href} className="mt-2 block text-center text-[13px] font-bold text-[#625B50] underline decoration-[#CFC5B5] underline-offset-4 outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}</Link>}</div> : <div className="flex items-end justify-between gap-3"><span className="text-xs font-semibold text-[#625B50]">{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>{item.href && <Link href={item.href} className="relative z-10 text-xs font-bold text-[#1C1A17] outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">→</span></Link>}</div>}
         </div>
       </div>
     </>
   )
-  const style = { '--profile-accent': category.accent } as CSSProperties
-  const className = 'group relative flex min-h-[240px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-6 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] sm:min-h-[255px]'
+  const className = `group relative flex min-h-[240px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-6 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] sm:min-h-[255px] ${featuredLast ? '2xl:col-start-2' : ''}`
   return <article className={className} style={style}><div className="relative flex min-h-full flex-1 flex-col">{content}</div></article>
 }

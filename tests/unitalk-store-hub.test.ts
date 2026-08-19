@@ -29,7 +29,7 @@ describe('Marketplace IA hub', () => {
   it('starts directly with the catalog', () => {
     expect(hub).not.toContain('AlmaMissionComposer')
     expect(hub).not.toContain('getSpeechRecognition')
-    expect(hub).toContain('pt-24 sm:px-8 sm:pb-14 sm:pt-28')
+    expect(hub).toContain("collaboratorsOnly ? 'pb-8 pt-20 sm:pb-10 sm:pt-24'")
   })
 
   it('uses one horizontal category navigation', () => {
@@ -65,5 +65,12 @@ describe('Marketplace IA hub', () => {
 
   it('keeps each category explanation on its reference route', () => {
     for (const href of ['/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/applications','/modeles-ia','/collaborateurs-ia/serveurs']) expect(hub).toContain(`href: '${href}'`)
+  })
+
+  it('uses fully clickable profile and skill cards with a progressive add action', () => {
+    expect(hub).toContain('aria-label={`${labels.addProfile} : ${item.title}`}')
+    expect(hub).toContain('group-hover:bg-[var(--profile-accent)]')
+    expect(hub).toContain('group-focus-visible:bg-[var(--profile-accent)]')
+    expect(hub).toContain('Alma vérifie l’adaptation avant l’ajout.')
   })
 })

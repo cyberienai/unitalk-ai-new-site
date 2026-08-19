@@ -42,7 +42,11 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).not.toContain('tabIndex={-1}')
     expect(hub).not.toContain('item.score !== undefined')
     expect(hub).toContain('COLLABORATOR_PROOFS')
-    expect(hub).toContain('Alma vous aide d’abord à cadrer la mission.')
+    expect(hub).toContain('Alma vous aide à cadrer chaque mission avant toute action.')
+    expect(hub).toContain("role={collaboratorsOnly ? undefined : 'tabpanel'}")
+    expect(hub).toContain('Les Collaborateurs IA de référence')
+    expect(hub).toContain('<details className="mt-4 sm:hidden">')
+    expect(hub).toContain("featuredLast ? '2xl:col-start-2'")
   })
 
   it('gives every identity the same mission-led public profile', () => {
