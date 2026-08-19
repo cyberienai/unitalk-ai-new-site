@@ -225,10 +225,10 @@ const PERSONAS = {
   },
   lea: {
     claim: {
-      fr: "Léa transforme votre stratégie en contenus qui avancent.",
-      en: "Léa turns your strategy into content that moves forward.",
+      fr: "Léa fait vivre votre marque sur tous vos canaux.",
+      en: "Léa brings your brand to life across every channel.",
     },
-    accent: { fr: "votre stratégie", en: "your strategy" },
+    accent: { fr: "sur tous vos canaux", en: "across every channel" },
     lead: {
       fr: "Donnez-lui vos objectifs, votre ton et vos canaux. Elle prépare le calendrier, les briefs et les contenus à valider.",
       en: "Give her your goals, tone and channels. She prepares the calendar, briefs and content for approval.",
@@ -289,10 +289,10 @@ const PERSONAS = {
   },
   arthur: {
     claim: {
-      fr: "Arthur écrit, teste et documente votre code.",
-      en: "Arthur writes, tests and documents your code.",
+      fr: "Arthur fait avancer vos produits et votre technologie.",
+      en: "Arthur moves your products and technology forward.",
     },
-    accent: { fr: "votre code", en: "your code" },
+    accent: { fr: "vos produits et votre technologie", en: "your products and technology" },
     lead: {
       fr: "Confiez-lui un ticket et le contexte autorisé. Il prépare le correctif, les tests et la documentation avant toute fusion.",
       en: "Give him a ticket and authorized context. He prepares the fix, tests and documentation before any merge.",
@@ -345,10 +345,10 @@ const PERSONAS = {
   },
   hugo: {
     claim: {
-      fr: "Hugo est prêt à trouver et qualifier vos prospects.",
-      en: "Hugo finds and qualifies your next prospects.",
+      fr: "Hugo développe vos opportunités commerciales.",
+      en: "Hugo develops your sales opportunities.",
     },
-    accent: { fr: "trouver et qualifier vos prospects.", en: "your next prospects." },
+    accent: { fr: "vos opportunités commerciales", en: "your sales opportunities" },
     lead: {
       fr: "Hugo recherche et qualifie vos prospects, prépare votre CRM et organise les relances. Votre équipe garde la main sur le premier contact.",
       en: "Give him your criteria. He researches companies, prepares CRM records and organizes follow-ups. Your team approves the first contact.",
@@ -417,10 +417,10 @@ const PERSONAS = {
   },
   nadia: {
     claim: {
-      fr: "Nadia prépare et suit vos relances de factures.",
-      en: "Nadia prepares and tracks your invoice follow-ups.",
+      fr: "Nadia éclaire vos décisions financières.",
+      en: "Nadia brings clarity to your financial decisions.",
     },
-    accent: { fr: "vos relances de factures", en: "your invoice follow-ups" },
+    accent: { fr: "vos décisions financières", en: "your financial decisions" },
     lead: {
       fr: "Commencez par vos factures impayées. Nadia vérifie les dossiers, prépare chaque relance et isole les litiges. Elle étend ensuite son périmètre au reporting, à la trésorerie et aux prévisions.",
       en: "Start with overdue invoices. Nadia reviews each case, prepares follow-ups and isolates disputes. She can then extend her scope to reporting, cash flow and forecasting.",
@@ -481,10 +481,10 @@ const PERSONAS = {
   },
   ines: {
     claim: {
-      fr: "Inès répond à vos clients et garde le ton juste.",
-      en: "Inès answers customers and keeps the right tone.",
+      fr: "Inès fluidifie chaque étape de votre relation client.",
+      en: "Inès streamlines every step of your customer relationship.",
     },
-    accent: { fr: "à vos clients", en: "your customers" },
+    accent: { fr: "votre relation client", en: "your customer relationship" },
     lead: {
       fr: "Confiez-lui les demandes entrantes. Elle classe, prépare les réponses et soumet les gestes commerciaux ou cas sensibles.",
       en: "Entrust her with inbound requests. She classifies, prepares replies and submits commercial gestures or sensitive cases.",
@@ -539,6 +539,24 @@ const PERSONAS = {
 
 function genericPersona(detail: CollaboratorPage["detail"]) {
   const firstMissions = detail.missions.slice(0, 3);
+  const domainClaim = {
+    chloe: {
+      claim: { fr: "Chloé développe vos équipes.", en: "Chloé grows your teams." },
+      accent: { fr: "développe vos équipes", en: "grows your teams" },
+    },
+    iris: {
+      claim: { fr: "Iris transforme les besoins utilisateurs en produits mieux conçus.", en: "Iris turns user needs into better-designed products." },
+      accent: { fr: "en produits mieux conçus", en: "into better-designed products" },
+    },
+    lucas: {
+      claim: { fr: "Lucas fluidifie vos opérations et garde vos projets sur la bonne trajectoire.", en: "Lucas streamlines operations and keeps projects on track." },
+      accent: { fr: "vos projets sur la bonne trajectoire", en: "projects on track" },
+    },
+    marcus: {
+      claim: { fr: "Marcus sécurise vos contrats et votre conformité.", en: "Marcus safeguards your contracts and compliance." },
+      accent: { fr: "vos contrats et votre conformité", en: "your contracts and compliance" },
+    },
+  }[detail.slug];
   const concreteComposer = detail.slug === "chloe"
     ? {
         fr: "Chloé présélectionne les candidatures pour votre prochain recrutement.",
@@ -564,8 +582,8 @@ function genericPersona(detail: CollaboratorPage["detail"]) {
           en: `What first mission would you like to assign to ${detail.name}?`,
         };
   return {
-    claim: detail.promise,
-    accent: detail.role,
+    claim: domainClaim?.claim ?? detail.promise,
+    accent: domainClaim?.accent ?? detail.role,
     lead: detail.description,
     composer: concreteComposer,
     placeholder: {

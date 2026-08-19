@@ -185,7 +185,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       avatar: detail.avatar,
       keywords: [...detail.skills.map((skill) => skill[lang]), ...detail.tools, ...detail.missions.map((mission) => mission[lang])],
       highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).map((profile) => profile[lang]),
-      highlightsLabel: lang === 'fr' ? 'Autres compétences possibles, et plus encore' : 'Other possible skills, and more',
+      highlightsLabel: lang === 'fr' ? 'Autres compétences possibles' : 'Other possible skills',
       starterMission: detail.starterMission?.mission[lang],
       exampleResult: detail.starterMission?.result[lang],
     }))
@@ -433,8 +433,8 @@ function MarketplaceItemCard({ item, lang, category, labels, featuredLast = fals
         <h3 className="line-clamp-2 text-[24px] font-semibold leading-[1.04] tracking-[-.045em] text-[#1C1A17] sm:text-[26px]">{item.title}</h3>
         <p className="mt-3 line-clamp-2 text-[13px] leading-5 text-[#625B50] sm:mt-4 sm:text-sm sm:leading-6">{item.description}</p>
         {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3 sm:mt-5"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{lang === 'fr' ? 'Première mission possible' : 'Possible first mission'}</dt><dd className="mt-1 text-[12px] font-semibold leading-5 text-[#322E29] sm:text-[13px]">{item.starterMission}</dd></div></dl>}
-        {item.highlights && <details className="mt-4 sm:hidden"><summary className="cursor-pointer text-xs font-bold text-[#B00C54]">{item.highlightsLabel}</summary><div className="mt-2 flex flex-wrap gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}</div></details>}
-        {item.highlights && <div className="mt-4 hidden sm:block"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#766D61]">{item.highlightsLabel}</p><div className="mt-2 flex flex-wrap gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}</div></div>}
+         {item.highlights && <details className="mt-4 sm:hidden"><summary className="cursor-pointer text-xs font-bold text-[#B00C54]">{item.highlightsLabel}</summary><div className="mt-2 flex flex-wrap items-center gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}<span className="px-1 text-[11px] font-bold text-[#766D61]">{lang === 'fr' ? 'et plus encore' : 'and more'}</span></div></details>}
+         {item.highlights && <div className="mt-4 hidden sm:block"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#766D61]">{item.highlightsLabel}</p><div className="mt-2 flex flex-wrap items-center gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}<span className="px-1 text-[11px] font-bold text-[#766D61]">{lang === 'fr' ? 'et plus encore' : 'and more'}</span></div></div>}
       </div>
       <div className="mt-auto pt-5 sm:pt-8">
         <div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)]">
