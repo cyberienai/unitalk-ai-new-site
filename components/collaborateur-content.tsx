@@ -562,8 +562,8 @@ export function CollaborateurContent({
       : "Find and qualify my prospects";
   const primaryCta = detail.slug === "emma"
     ? lang === "fr"
-      ? "Confier ma prochaine réunion à Emma"
-      : "Assign my next team meeting to Emma"
+      ? "Confier la préparation et le suivi à Emma"
+      : "Assign preparation and follow-up to Emma"
     : detail.slug === "nadia"
     ? lang === "fr"
       ? "Confier mes relances à Nadia"
@@ -833,7 +833,7 @@ export function CollaborateurContent({
                 </div>
               </div>
             )}
-            <ol className="space-y-4 p-5 text-sm text-[#D8D0C2]">
+            <ol className={`space-y-4 p-5 text-sm text-[#D8D0C2] ${detail.slug === "emma" ? "hidden" : ""}`}>
               {persona.activity[lang].map((item, index) => (
                 <Activity key={item} time={["09:05", "09:12", "09:18"][index]}>
                   {item}

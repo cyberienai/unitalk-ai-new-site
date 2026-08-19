@@ -173,17 +173,17 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
 
 const COPY = {
   fr: {
-    heroTitle: 'Faites évoluer votre Collaborateur IA, au rythme de vos besoins.',
-    heroAccent: 'au rythme de vos besoins.',
-    heroLead: 'Ajoutez de nouveaux profils métier et de nouvelles compétences selon vos besoins. Connectez votre Collaborateur IA à plus de 3 000 applications. Pour chaque usage, Unitalk sélectionne par défaut le modèle IA offrant le meilleur équilibre entre performance et coût. Vous restez libre d’en choisir un autre.',
+    heroTitle: 'Vos Collaborateurs IA évoluent avec votre entreprise.',
+    heroAccent: 'évoluent avec votre entreprise.',
+    heroLead: 'Ajoutez-leur des profils métier et des compétences sans coût supplémentaire. Connectez-les à plus de 3 000 applications. Pour chaque mission, Unitalk sélectionne automatiquement le modèle IA offrant le meilleur équilibre entre performance et coût. Vous restez libre d’en choisir un autre.',
     noResults: 'Aucune création ne correspond à cette recherche.', showMore: 'Voir tout le catalogue', showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     clear: 'Effacer la recherche', available: 'Disponible', preparation: 'Bientôt disponible',
   },
   en: {
-    heroTitle: 'Evolve your AI Collaborator as your needs change.',
-    heroAccent: 'as your needs change.',
-    heroLead: 'Add new job profiles and skills as your needs evolve. Connect your AI Collaborator to more than 3,000 applications. For each use case, Unitalk selects the AI model offering the best balance of performance and cost by default. You remain free to choose another.',
+    heroTitle: 'Your AI Collaborators evolve with your organization.',
+    heroAccent: 'evolve with your organization.',
+    heroLead: 'Add job profiles and skills at no additional cost. Connect them to more than 3,000 applications. For each mission, Unitalk automatically selects the AI model offering the best balance of performance and cost. You remain free to choose another.',
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
     emptyTitle: 'Catalog in preparation', emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
     clear: 'Clear search', available: 'Available', preparation: 'Coming soon',
@@ -192,6 +192,13 @@ const COPY = {
 
 function normalizeSearch(value: string) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+}
+
+function scrollToCategoryTabs() {
+  requestAnimationFrame(() => document.getElementById('marketplace-category-tabs')?.scrollIntoView({
+    block: 'start',
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+  }))
 }
 
 export function UnitalkStoreHub() {
@@ -220,7 +227,7 @@ export function UnitalkStoreHub() {
         setActiveCategoryId(categoryId)
         setVisibleCount(PAGE_SIZE)
         setCatalogQuery('')
-        if (scroll) requestAnimationFrame(() => document.getElementById('marketplace-results')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }))
+        if (scroll) scrollToCategoryTabs()
       }
     }
     selectFromHash()
@@ -234,19 +241,19 @@ export function UnitalkStoreHub() {
     setVisibleCount(PAGE_SIZE)
     setCatalogQuery('')
     window.history.replaceState(null, '', `${window.location.pathname}#${categoryId}`)
-    if (scroll) requestAnimationFrame(() => document.getElementById('marketplace-results')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }))
+    if (scroll) scrollToCategoryTabs()
   }
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
       <section className="bg-[#EAE3D4] px-5 pb-12 pt-24 sm:px-8 sm:pb-14 sm:pt-28">
         <div className="mx-auto w-full max-w-6xl">
-          <h1 className="max-w-5xl text-[clamp(2.8rem,6.4vw,5.8rem)] font-semibold leading-[.86] tracking-[-.07em] text-balance">{t.heroTitle.slice(0, -t.heroAccent.length)}<span className="text-[#D10E63]">{t.heroAccent}</span></h1>
-          <p className="mt-7 max-w-2xl text-[16px] leading-7 text-[#4E483F] sm:text-[17px]">{t.heroLead}</p>
+          <h1 className="max-w-6xl text-[clamp(2.8rem,5.7vw,5.25rem)] font-semibold leading-[.88] tracking-[-.07em] text-balance">{t.heroTitle.slice(0, -t.heroAccent.length)}<span className="text-[#D10E63] lg:block">{t.heroAccent}</span></h1>
+          <p className="mt-7 max-w-6xl text-[16px] leading-7 text-[#4E483F] text-pretty lg:pr-8">{t.heroLead}</p>
         </div>
       </section>
 
-      <div className="sticky top-[76px] z-30 border-y border-[#CFC5B5] bg-[#F3EFE6]/95 px-5 backdrop-blur-md sm:px-8">
+      <div id="marketplace-category-tabs" className="sticky top-[76px] z-30 scroll-mt-[76px] border-y border-[#CFC5B5] bg-[#F3EFE6]/95 px-5 backdrop-blur-md sm:px-8">
         <div className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide" role="tablist" aria-label={lang === 'fr' ? 'Catégories de la marketplace' : 'Marketplace categories'}>
             {STORE_CATEGORIES.map((category) => {
               const active = activeCategory.id === category.id
