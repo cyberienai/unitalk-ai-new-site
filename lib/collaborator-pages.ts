@@ -52,6 +52,16 @@ const HERO_COPY: Record<string, CollaboratorHeroCopy> = {
       en: 'Camille turns scattered intelligence into sourced facts, clear comparisons and implications to review. She starts with your competitors, then deepens her analysis mission after mission.',
     },
   },
+  gabriel: {
+    claim: {
+      fr: 'Il compare les fournisseurs, leurs conditions et leurs risques avant votre décision.',
+      en: 'He compares suppliers, their terms and risks before your decision.',
+    },
+    body: {
+      fr: 'Gabriel rassemble les offres, normalise les critères et signale les écarts qui comptent. Il commence par une comparaison fournisseurs puis enrichit votre méthode achats mission après mission.',
+      en: 'Gabriel gathers offers, normalizes criteria and flags the gaps that matter. He starts with a supplier comparison, then strengthens your procurement method mission after mission.',
+    },
+  },
   lea: {
     claim: {
       fr: 'Elle construit votre stratégie de contenu et la décline sur chaque canal.',
@@ -120,6 +130,8 @@ export function missionsForCollaborator(slug: string, count = 4): CollaboratorMi
       ? ['preparer-et-suivre-mes-reunions', 'trier-la-boite-de-reception', 'organiser-les-rendez-vous', 'participer-a-vos-reunions', 'suivre-les-actions-decidees']
       : slug === 'camille'
         ? ['realiser-une-veille-concurrentielle', 'surveiller-un-marche', 'comparer-les-offres-concurrentes', 'preparer-un-benchmark']
+      : slug === 'gabriel'
+        ? ['comparer-les-offres-fournisseurs', 'suivre-les-renouvellements', 'suivre-les-engagements-fournisseurs']
       : []
   const ordered = slug === 'hugo'
     ? [...missions.filter((m) => m.slug !== 'trouver-de-nouveaux-clients'), ...missions.filter((m) => m.slug === 'trouver-de-nouveaux-clients')]

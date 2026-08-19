@@ -9,7 +9,7 @@ describe('Marketplace IA hub', () => {
     expect(page).toContain('UnitalkStoreHub')
     for (const label of ['Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
-    expect(hub).toContain("heroTitle: { fr: 'Choisissez un Collaborateur IA. Confiez-lui une mission concrète.'")
+    expect(hub).toContain("heroTitle: { fr: 'Choisissez votre Collaborateur IA. Confiez-lui une première mission.'")
   })
 
   it('shows canonical public AI Collaborators first', () => {
@@ -22,14 +22,15 @@ describe('Marketplace IA hub', () => {
   })
 
   it('states the catalog and knowledge-work positioning', () => {
-    expect(hub).toContain('Choisissez un Collaborateur IA. Confiez-lui une mission concrète.')
+    expect(hub).toContain('Choisissez votre Collaborateur IA. Confiez-lui une première mission.')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
   it('starts directly with the catalog', () => {
     expect(hub).not.toContain('AlmaMissionComposer')
     expect(hub).not.toContain('getSpeechRecognition')
-    expect(hub).toContain("collaboratorsOnly ? 'pb-11 pt-36 sm:pb-14 sm:pt-40")
+    expect(hub).toContain('px-5 pt-36 sm:px-8 sm:pt-40')
+    expect(hub).not.toContain("'pb-9 pt-20 sm:pb-11 sm:pt-24")
     expect(hub).not.toContain('Marketplace · Collaborateurs IA')
     expect(hub).toContain('border-t border-[#CFC3B2]')
   })
@@ -78,6 +79,13 @@ describe('Marketplace IA hub', () => {
 
   it('keeps each category explanation on its reference route', () => {
     for (const href of ['/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/applications','/modeles-ia','/collaborateurs-ia/serveurs']) expect(hub).toContain(`href: '${href}'`)
+  })
+
+  it('frames models as access and servers as scalable execution infrastructure', () => {
+    expect(hub).toContain('Les modèles IA auxquels vos Collaborateurs ont accès.')
+    expect(hub).toContain('Unitalk sélectionne automatiquement le modèle le plus pertinent pour chaque mission.')
+    expect(hub).toContain('Où votre Collaborateur travaille. Une infrastructure qui évolue.')
+    expect(hub).toContain('Augmentez ses ressources lorsque le travail l’exige.')
   })
 
   it('uses fully clickable profile and skill cards with a progressive add action', () => {

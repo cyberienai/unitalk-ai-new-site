@@ -10,10 +10,10 @@ const models = [
 
 export const metadata: Metadata = {
   title: 'Modèles IA pour Collaborateurs IA | Store Unitalk',
-  description: 'Comparez GPT, Claude, Gemini, Mistral, DeepSeek et Llama. Attribuez à chaque Collaborateur IA le modèle adapté à sa mission, ses droits et votre fournisseur.',
+  description: 'Découvrez les modèles IA auxquels vos Collaborateurs ont accès. Unitalk sélectionne automatiquement le modèle adapté à chaque mission selon vos règles.',
   keywords: ['modèles IA', 'GPT Claude Gemini Mistral', 'modèle pour agent IA', 'AI Gateway entreprise'],
   alternates: { canonical: '/marketplace/modeles-ia' },
-  openGraph: { type: 'website', url: `${SITE_URL}/marketplace/modeles-ia`, title: 'Modèles pour Collaborateurs IA | Unitalk', description: 'Choisissez et changez le modèle IA selon la mission.', images: [{ url: '/opengraph-image', width: 1200, height: 630 }] },
+  openGraph: { type: 'website', url: `${SITE_URL}/marketplace/modeles-ia`, title: 'Modèles accessibles aux Collaborateurs IA | Unitalk', description: 'Voyez et contrôlez les modèles disponibles. Unitalk route chaque tâche vers une intelligence adaptée.', images: [{ url: '/opengraph-image', width: 1200, height: 630 }] },
   twitter: { card: 'summary_large_image', title: 'Modèles IA | Store Unitalk', description: 'Comparez les familles de modèles disponibles pour vos Collaborateurs IA.', images: ['/opengraph-image'] },
 }
 

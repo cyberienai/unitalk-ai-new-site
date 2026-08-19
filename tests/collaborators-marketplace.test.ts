@@ -37,7 +37,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).not.toContain('Vous cherchez un autre rôle ?')
     expect(hub).toContain("activeCategory.id !== 'collaborateurs-ia'")
     expect(hub).toContain('COLLABORATOR_PROFILE_EXAMPLES')
-    expect(hub).toContain("highlightsLabel: lang === 'fr' ? 'Autres compétences possibles'")
+    expect(hub).toContain("highlightsLabel: lang === 'fr' ? 'Profils métier à ajouter'")
     expect(hub).toContain("lang === 'fr' ? 'et plus encore' : 'and more'")
     expect(hub).toContain('Confier une mission à ${item.title}')
     expect(hub).not.toContain('className="absolute inset-0 z-0')
@@ -62,6 +62,13 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain("const navigationCategories = collaboratorsOnly ? STORE_CATEGORIES : visibleCategories")
     expect(hub).toContain("href={`/marketplace/${category.id}`}")
     expect(hub).toContain("const categoryId = collaboratorsOnly ? 'collaborateurs-ia'")
+    expect(hub).toContain('Un Collaborateur. Plusieurs métiers. Des compétences illimitées.')
+    expect(hub).toContain("detail.gender === 'female' ? 'Collaboratrice IA' : 'Collaborateur IA'")
+    expect(hub).toContain('Un Collaborateur IA n’est pas simplement un agent.')
+    expect(hub).toContain('Hermes conduit le travail.')
+    expect(hub).toContain('Unitalk garde la continuité.')
+    expect(hub).toContain('Vous n’avez pas à choisir le modèle.')
+    expect(hub).toContain('Voir les options d’infrastructure')
   })
 
   it('gives every identity the same mission-led public profile', () => {

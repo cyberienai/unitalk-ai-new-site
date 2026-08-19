@@ -8,11 +8,11 @@ const SITE_URL = 'https://unitalk.ai'
 const servers = STORE_ITEMS.filter((item) => item.type === 'server')
 
 export const metadata: Metadata = {
-  title: 'Serveurs IA privés pour Collaborateurs IA | Unitalk',
-  description: `Découvrez ${servers.length} configurations de serveurs IA privés pour héberger les fichiers, applications et environnements d’exécution de vos Collaborateurs IA.`,
+  title: 'Infrastructure d’exécution pour Collaborateurs IA | Unitalk',
+  description: `Découvrez ${servers.length} options d’infrastructure évolutives selon vos exigences de puissance, de confidentialité et de souveraineté.`,
   keywords: ['serveur IA privé', 'hébergement agent IA', 'infrastructure IA entreprise', 'serveur Collaborateur IA'],
   alternates: { canonical: '/marketplace/serveurs-ia' },
-  openGraph: { type: 'website', url: `${SITE_URL}/marketplace/serveurs-ia`, title: 'Serveurs privés pour Collaborateurs IA | Unitalk', description: 'Choisissez un environnement privé dimensionné pour le travail de vos Collaborateurs IA.', images: [{ url: '/opengraph-image', width: 1200, height: 630 }] },
+  openGraph: { type: 'website', url: `${SITE_URL}/marketplace/serveurs-ia`, title: 'Où votre Collaborateur IA travaille | Unitalk', description: 'Faites évoluer son infrastructure d’exécution selon la charge, la confidentialité et la souveraineté attendues.', images: [{ url: '/opengraph-image', width: 1200, height: 630 }] },
   twitter: { card: 'summary_large_image', title: 'Serveurs IA | Store Unitalk', description: 'Des environnements privés pour les applications et ressources de vos Collaborateurs IA.', images: ['/opengraph-image'] },
 }
 

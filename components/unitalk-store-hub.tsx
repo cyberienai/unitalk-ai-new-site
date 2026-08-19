@@ -43,6 +43,7 @@ type MarketplaceItem = {
   highlightsLabel?: string
   score?: number
   starterMission?: string
+  identityLabel?: string
   facetKey?: string
   profileKeys?: string[]
   input?: string
@@ -116,9 +117,9 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'collaborateurs-ia', title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
     description: { fr: 'Personnalisez son identité, puis rattachez votre Collaborateur IA à une personne, une équipe, un département ou toute l’entreprise.', en: 'Personalize their identity, then assign your AI Collaborator to one person, a team, a department or your entire company.' },
-    heroTitle: { fr: 'Choisissez un Collaborateur IA. Confiez-lui une mission concrète.', en: 'Choose an AI Collaborator. Give them a concrete mission.' },
-    heroAccent: { fr: 'Confiez-lui une mission concrète.', en: 'Give them a concrete mission.' },
-    heroLead: { fr: 'Faites-le évoluer avec les profils métier et les compétences adaptés à ses missions, sans frais supplémentaires.', en: 'Evolve it with the job profiles and skills suited to its missions, at no extra cost.' },
+    heroTitle: { fr: 'Choisissez votre Collaborateur IA. Confiez-lui une première mission.', en: 'Choose your AI Collaborator. Give them a first mission.' },
+    heroAccent: { fr: 'Confiez-lui une première mission.', en: 'Give them a first mission.' },
+    heroLead: { fr: 'Donnez-lui une identité, puis faites-le évoluer avec les profils métier et compétences dont votre entreprise a besoin, sans recréer un agent à chaque nouveau besoin.', en: 'Give them an identity, then evolve them with the job profiles and skills your organization needs, without recreating an agent for every new need.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comprendre le Collaborateur IA', en: 'Understand the AI Collaborator' },
     href: '/collaborateurs-ia', accent: '#D10E63',
   },
@@ -154,20 +155,20 @@ const STORE_CATEGORIES: Category[] = [
   },
   {
     id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' },
-    description: { fr: 'Les modèles IA autorisés pour raisonner, analyser, produire et agir.', en: 'Approved AI models for reasoning, analysis, creation and action.' },
-    heroTitle: { fr: 'Choisissez le modèle adapté. Changez-le selon la mission.', en: 'Choose the right model. Change it for each mission.' },
-    heroAccent: { fr: 'Changez-le selon la mission.', en: 'Change it for each mission.' },
-    heroLead: { fr: 'Comparez les familles de modèles et attribuez à chaque Collaborateur IA la capacité adaptée au travail demandé.', en: 'Compare model families and give each AI Collaborator the capacity suited to the work at hand.' },
+    description: { fr: 'Les intelligences auxquelles vos Collaborateurs IA peuvent accéder selon leurs droits et leurs missions.', en: 'The intelligences your AI Collaborators can access according to their permissions and missions.' },
+    heroTitle: { fr: 'Les modèles IA auxquels vos Collaborateurs ont accès.', en: 'The AI models your Collaborators can access.' },
+    heroAccent: { fr: 'vos Collaborateurs ont accès.', en: 'your Collaborators can access.' },
+    heroLead: { fr: 'Unitalk sélectionne automatiquement le modèle le plus pertinent pour chaque mission. Vous pouvez voir et contrôler les modèles disponibles pour votre entreprise.', en: 'Unitalk automatically selects the most relevant model for each mission. You can view and control the models available to your company.' },
     search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' }, explain: { fr: 'Comprendre les modèles IA', en: 'Understand AI models' },
     missing: { title: { fr: 'Vous souhaitez utiliser un autre modèle IA ?', en: 'Want to use another AI model?' }, body: { fr: 'Partagez le modèle ou le fournisseur souhaité. Nous étudions sa compatibilité, son coût et ses conditions d’accès.', en: 'Share the model or provider you want. We assess compatibility, cost and access requirements.' }, action: { fr: 'Proposer un modèle', en: 'Suggest a model' }, href: '/decouvrir?source=marketplace&intention=nouveau-modele-ia' },
     href: '/modeles-ia', accent: '#1D6692',
   },
   {
     id: 'serveurs-ia', title: { fr: 'Serveurs IA', en: 'AI servers' },
-    description: { fr: 'Des environnements privés dimensionnés pour vos Collaborateurs IA et leurs applications.', en: 'Private environments sized for your AI Collaborators and their applications.' },
-    heroTitle: { fr: 'Donnez-leur un environnement privé. Dimensionné pour leur travail.', en: 'Give them a private environment. Sized for their work.' },
-    heroAccent: { fr: 'Dimensionné pour leur travail.', en: 'Sized for their work.' },
-    heroLead: { fr: 'Choisissez l’infrastructure qui héberge les fichiers, applications et ressources d’exécution de vos Collaborateurs IA.', en: 'Choose the infrastructure hosting your AI Collaborators’ files, applications and execution resources.' },
+    description: { fr: 'L’infrastructure d’exécution de vos Collaborateurs IA, évolutive selon la charge, la confidentialité et la souveraineté attendues.', en: 'Your AI Collaborators’ execution infrastructure, scalable to your workload, privacy and sovereignty requirements.' },
+    heroTitle: { fr: 'Où votre Collaborateur travaille. Une infrastructure qui évolue.', en: 'Where your Collaborator works. Infrastructure that scales.' },
+    heroAccent: { fr: 'Une infrastructure qui évolue.', en: 'Infrastructure that scales.' },
+    heroLead: { fr: 'Choisissez l’infrastructure qui correspond à vos exigences de puissance, de confidentialité et de souveraineté. Augmentez ses ressources lorsque le travail l’exige.', en: 'Choose infrastructure that matches your performance, privacy and sovereignty requirements. Increase its resources when the work demands it.' },
     search: { fr: 'Rechercher un serveur IA', en: 'Search AI servers' }, action: { fr: 'Voir le serveur', en: 'View server' }, explain: { fr: 'Comprendre les serveurs IA', en: 'Understand AI servers' },
     href: '/collaborateurs-ia/serveurs', accent: '#216641',
   },
@@ -186,8 +187,9 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       avatar: detail.avatar,
       keywords: [...detail.skills.map((skill) => skill[lang]), ...detail.tools, ...detail.missions.map((mission) => mission[lang])],
       highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).map((profile) => profile[lang]),
-      highlightsLabel: lang === 'fr' ? 'Autres compétences possibles' : 'Other possible skills',
+      highlightsLabel: lang === 'fr' ? 'Profils métier à ajouter' : 'Job profiles to add',
       starterMission: detail.starterMission?.mission[lang],
+      identityLabel: lang === 'fr' ? (detail.gender === 'female' ? 'Collaboratrice IA' : 'Collaborateur IA') : 'AI Collaborator',
     }))
   }
 
@@ -349,7 +351,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#F3EFE6] font-sf text-[#1C1A17]">
-      <section id="marketplace-store-hero" className={`relative scroll-mt-[76px] overflow-hidden border-b border-[#D8CEBE] bg-[#EAE3D4] px-5 sm:px-8 ${collaboratorsOnly ? 'pb-11 pt-36 sm:pb-14 sm:pt-40 [@media(min-width:1024px)_and_(max-height:850px)]:pb-10 [@media(min-width:1024px)_and_(max-height:850px)]:pt-32' : 'pb-9 pt-20 sm:pb-11 sm:pt-24 [@media(min-width:1024px)_and_(max-height:850px)]:pb-9 [@media(min-width:1024px)_and_(max-height:850px)]:pt-20'}`}>
+      <section id="marketplace-store-hero" className={`relative scroll-mt-[76px] overflow-hidden border-b border-[#D8CEBE] bg-[#EAE3D4] px-5 pt-36 sm:px-8 sm:pt-40 [@media(min-width:1024px)_and_(max-height:850px)]:pt-32 ${collaboratorsOnly ? 'pb-11 sm:pb-14 [@media(min-width:1024px)_and_(max-height:850px)]:pb-10' : 'pb-9 sm:pb-11 [@media(min-width:1024px)_and_(max-height:850px)]:pb-9'}`}>
         {isCollaboratorsLanding && <><div aria-hidden className="pointer-events-none absolute -right-24 top-10 size-72 rounded-full border border-[#D10E63]/15 sm:right-[8%] sm:size-96"/><div aria-hidden className="pointer-events-none absolute -right-8 top-24 size-40 rounded-full bg-[#D10E63]/[.045] blur-2xl sm:right-[16%] sm:size-56"/></>}
         <div className="relative mx-auto w-full max-w-6xl">
            <h1 className="max-w-6xl text-[clamp(2.55rem,5.4vw,5.6rem)] font-semibold leading-[.88] tracking-[-.068em] text-balance [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(2.8rem,4.4vw,4rem)]">{activeCategory.heroTitle[lang].slice(0, -activeCategory.heroAccent[lang].length)}<span className="text-[#D10E63] lg:block">{activeCategory.heroAccent[lang]}</span></h1>
@@ -376,12 +378,13 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       <section id="categories" className={`scroll-mt-36 px-5 sm:px-8 ${collaboratorsOnly ? 'pb-20 pt-6 sm:pb-24 sm:pt-8 lg:pb-28 [@media(min-width:1024px)_and_(max-height:850px)]:pt-6' : 'pb-20 pt-7 sm:pt-9 lg:pb-24 [@media(min-width:1024px)_and_(max-height:850px)]:pt-7'}`}>
         <div className="mx-auto w-full max-w-6xl">
             <div id="marketplace-results" role={collaboratorsOnly ? 'region' : 'tabpanel'} aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
-                  {!isCollaboratorsLanding && <div className="mb-5 sm:mb-6"><h2 className="text-[28px] font-semibold tracking-[-.04em] sm:text-[34px]">{activeCategory.title[lang]}</h2><p className="mt-2 text-sm leading-6 text-[#625B50] xl:whitespace-nowrap">{activeCategory.description[lang]}</p></div>}
-                   {isCollaboratorsLanding && <div className="mb-5 flex flex-col gap-3 sm:mb-7 lg:flex-row lg:items-end lg:justify-between"><div><h2 className="text-[26px] font-semibold leading-tight tracking-[-.04em] sm:text-[30px]">{lang === 'fr' ? 'Choisissez une identité de départ.' : 'Choose a starting identity.'}</h2><p className="mt-2 max-w-4xl text-[14px] font-medium leading-6 text-[#4E483F] sm:text-[15px] sm:leading-7">{activeCategory.description[lang]}</p></div><Link href={activeCategory.href} className="inline-flex min-h-11 w-fit shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>}
+                   {!isCollaboratorsLanding && <div className="mb-5 sm:mb-6"><h2 className="text-[28px] font-semibold tracking-[-.04em] sm:text-[34px]">{activeCategory.title[lang]}</h2><p className="mt-2 max-w-4xl text-sm leading-6 text-[#625B50]">{activeCategory.description[lang]}</p>{activeCategory.id === 'modeles-ia' && <div className="mt-5 max-w-4xl border-l-2 border-[#1D6692] bg-[#E7EDF0] px-5 py-4"><p className="text-sm font-bold text-[#1C1A17]">{lang === 'fr' ? 'Vous n’avez pas à choisir le modèle.' : 'You do not have to choose the model.'}</p><p className="mt-1 text-[13px] leading-6 text-[#4E483F]">{lang === 'fr' ? 'Votre Collaborateur utilise automatiquement l’intelligence la plus adaptée à la tâche, parmi les modèles autorisés par votre entreprise.' : 'Your Collaborator automatically uses the intelligence best suited to the task, among the models authorized by your company.'}</p></div>}{activeCategory.id === 'serveurs-ia' && <Link href="/collaborateurs-ia/serveurs" className="mt-5 inline-flex min-h-10 items-center border-b border-[#216641] text-xs font-bold text-[#216641]">{lang === 'fr' ? 'Voir les options d’infrastructure' : 'View infrastructure options'}<span aria-hidden className="ml-2">→</span></Link>}</div>}
+                   {isCollaboratorsLanding && <div className="mb-5 flex flex-col gap-3 sm:mb-7 lg:flex-row lg:items-end lg:justify-between"><div><h2 className="text-[26px] font-semibold leading-tight tracking-[-.04em] sm:text-[30px]">{lang === 'fr' ? 'Choisissez votre Collaborateur IA.' : 'Choose your AI Collaborator.'}</h2><p className="mt-2 max-w-4xl text-[14px] font-medium leading-6 text-[#4E483F] sm:text-[15px] sm:leading-7">{lang === 'fr' ? 'Personnalisez son identité, puis rattachez-le à une personne, une équipe, un département ou toute votre entreprise.' : 'Personalize their identity, then assign them to a person, team, department or your entire organization.'}</p></div><Link href={activeCategory.href} className="inline-flex min-h-11 w-fit shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>}
                   {categoryItems.length > 0 && !isCollaboratorsLanding && <div className="flex flex-col gap-3"><div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">{activeCategory.id !== 'collaborateurs-ia' && <label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[#D10E63]">×</button>}</label>}<Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] lg:ml-auto">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>{activeCategory.id === 'competences' && <div className="grid gap-3 sm:grid-cols-2"><select aria-label={lang === 'fr' ? 'Domaine de compétence' : 'Skill domain'} value={skillCategory} onChange={(event) => { setSkillCategory(event.target.value); setVisibleCount(PAGE_SIZE) }} className="h-11 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#6246B5]"><option value="">{lang === 'fr' ? 'Tous les domaines' : 'All domains'}</option>{Object.entries(SKILL_CATEGORY_LABELS).map(([key, label]) => <option key={key} value={key}>{label[lang]}</option>)}</select><select aria-label={lang === 'fr' ? 'Profil compatible' : 'Compatible profile'} value={skillProfile} onChange={(event) => { setSkillProfile(event.target.value); setVisibleCount(PAGE_SIZE) }} className="h-11 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#6246B5]"><option value="">{lang === 'fr' ? 'Tous les profils compatibles' : 'All compatible profiles'}</option>{[...new Set(categoryItems.flatMap((item) => item.profileKeys ?? []))].map((slug) => <option key={slug} value={slug}>{PROFILE_NAMES.get(slug)?.[lang] ?? slug}</option>)}</select></div>}</div>}
                  <p className={activeCategory.id === 'competences' ? 'mt-4 text-xs font-semibold text-[#766D61]' : 'sr-only'} aria-live="polite">{filteredItems.length} {filteredItems.length === 1 ? t.result : t.results}</p>
 
                {visibleItems.length > 0 ? <div className="mt-4 grid auto-rows-fr gap-3 sm:mt-5 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} featuredLast={isCollaboratorsLanding && visibleItems.length % 3 === 1 && index === visibleItems.length - 1} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : categoryItems.length > 0 ? <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : <div className="mt-5 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
+               {isCollaboratorsLanding && <><CollaboratorEvolution lang={lang} /><CollaboratorArchitecture lang={lang} /></>}
                {activeCategory.id !== 'collaborateurs-ia' && filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
                  {activeCategory.id === 'collaborateurs-ia' && <section className="mt-10 rounded-[24px] bg-[#181615] p-7 text-white sm:p-9 lg:flex lg:items-end lg:justify-between lg:gap-10"><div><h3 className="max-w-3xl text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.almaTitle}</h3><p className="mt-5 max-w-2xl text-[15px] leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.almaBody)}</p><p className="mt-4 text-xs font-semibold text-[#F2A4C5]">{lang === 'fr' ? '7 jours gratuits · Sans carte bancaire · Puis à partir de 49 €/mois hors capacité IA' : '7 days free · No credit card · Then from €49/month excluding AI capacity'}</p></div><Link href="/missions?composer=1&source=marketplace-collaborators-final" className="mt-7 inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#F3EFE6] px-6 text-[13px] font-bold text-[#181615] lg:mt-0">{t.almaAction}<span aria-hidden className="ml-2">→</span></Link></section>}
           </div>
@@ -393,6 +396,71 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
 
 function withAlmaAvatar(value: string) {
   return value.split('Alma').map((part, index) => <span key={`${part}-${index}`}>{index > 0 && <><AlmaInline className="mr-1" />Alma</>}{part}</span>)
+}
+
+function CollaboratorEvolution({ lang }: { lang: Lang }) {
+  const profiles = lang === 'fr' ? ['Assistante de direction', 'Office manager', 'Ressources humaines'] : ['Executive Assistant', 'Office Manager', 'Human Resources']
+  const skills = lang === 'fr' ? ['Organisation', 'Comptes rendus', 'Recrutement', 'Reporting'] : ['Organization', 'Meeting notes', 'Recruiting', 'Reporting']
+  const missions = lang === 'fr' ? ['Préparer une réunion', 'Organiser un recrutement', 'Produire un reporting'] : ['Prepare a meeting', 'Organize recruiting', 'Produce a report']
+  return (
+    <section className="mt-12 overflow-hidden rounded-[24px] border border-[#D8D0C2] bg-[#EAE3D4] sm:mt-16">
+      <div className="border-b border-[#D8D0C2] px-6 py-8 sm:px-9 sm:py-10 lg:flex lg:items-end lg:justify-between lg:gap-10">
+        <div>
+          <p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{lang === 'fr' ? 'Une identité durable' : 'One lasting identity'}</p>
+          <h2 className="mt-4 max-w-4xl text-[clamp(2rem,4vw,3.8rem)] font-semibold leading-[.95] tracking-[-.055em] text-balance">{lang === 'fr' ? 'Un Collaborateur. Plusieurs métiers. Des compétences illimitées.' : 'One Collaborator. Multiple roles. Unlimited skills.'}</h2>
+        </div>
+        <p className="mt-5 max-w-xl text-[14px] font-medium leading-6 text-[#4E483F] lg:mt-0 lg:text-[15px] lg:leading-7">{lang === 'fr' ? 'Ajoutez-lui des profils métier, puis les compétences nécessaires à chaque mission. Son identité, sa mémoire et son expérience restent les mêmes.' : 'Add job profiles, then the skills needed for each mission. Their identity, memory and experience remain the same.'}</p>
+      </div>
+      <div className="grid lg:grid-cols-[.85fr_1.15fr]">
+        <div className="flex items-center gap-4 border-b border-[#D8D0C2] p-6 sm:p-9 lg:border-b-0 lg:border-r">
+          <Image src="/images/emma-avatar.png" alt="" width={72} height={72} className="size-16 rounded-full object-cover ring-1 ring-[#CFC5B5] sm:size-[72px]" />
+          <div><h3 className="text-2xl font-semibold tracking-[-.04em]">Emma</h3><p className="mt-1 font-mono text-[10px] font-black uppercase tracking-[.14em] text-[#B00C54]">{lang === 'fr' ? 'Collaboratrice IA' : 'AI Collaborator'}</p></div>
+        </div>
+        <div className="grid sm:grid-cols-3">
+          {[
+            [lang === 'fr' ? 'Profils métier' : 'Job profiles', profiles],
+            [lang === 'fr' ? 'Compétences' : 'Skills', skills],
+            [lang === 'fr' ? 'Missions' : 'Missions', missions],
+          ].map(([title, values], index) => <div key={title as string} className={`p-6 sm:p-7 ${index > 0 ? 'border-t border-[#D8D0C2] sm:border-l sm:border-t-0' : ''}`}><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#766D61]">{title as string}</p><ul className="mt-4 space-y-2.5">{(values as string[]).map((value) => <li key={value} className="flex gap-2 text-[12px] font-semibold leading-5 text-[#322E29]"><span aria-hidden className="mt-2 size-1 shrink-0 rounded-full bg-[#D10E63]"/>{value}</li>)}</ul>{index === 0 && <Link href="/marketplace/profils-metier" className="mt-5 inline-flex text-[11px] font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">+ {lang === 'fr' ? 'Ajouter un profil métier' : 'Add a job profile'}</Link>}</div>)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function CollaboratorArchitecture({ lang }: { lang: Lang }) {
+  const blocks = lang === 'fr'
+    ? [
+        ['Identité', 'Son compte, son nom, ses droits et son appartenance à l’entreprise.'],
+        ['Mémoire', 'Ce qu’il apprend et conserve pour votre entreprise.'],
+        ['Profils métier', 'Autant de rôles que nécessaire, sans recréer son identité.'],
+        ['Compétences', 'Des savoir-faire documentés que vous pouvez lui ajouter.'],
+        ['Applications', 'Les outils et services autorisés auxquels il peut se connecter.'],
+        ['Modèles IA', 'L’intelligence la plus pertinente parmi les modèles autorisés.'],
+      ]
+    : [
+        ['Identity', 'Their account, name, permissions and place in your company.'],
+        ['Memory', 'What they learn and retain for your company.'],
+        ['Job profiles', 'As many roles as needed, without recreating their identity.'],
+        ['Skills', 'Documented know-how you can add over time.'],
+        ['Applications', 'The authorized tools and services they can connect to.'],
+        ['AI models', 'The most relevant intelligence among authorized models.'],
+      ]
+  return (
+    <section className="mt-12 overflow-hidden rounded-[24px] bg-[#181615] text-white sm:mt-16">
+      <div className="grid gap-8 border-b border-white/10 px-6 py-9 sm:px-9 sm:py-11 lg:grid-cols-[1fr_.8fr] lg:items-end">
+        <h2 className="max-w-4xl text-[clamp(2.2rem,4.5vw,4.5rem)] font-semibold leading-[.94] tracking-[-.06em]">{lang === 'fr' ? 'Un Collaborateur IA n’est pas simplement un agent.' : 'An AI Collaborator is more than an agent.'}</h2>
+        <p className="text-[15px] leading-7 text-[#CFC6B8]">{lang === 'fr' ? 'C’est une identité numérique permanente, membre de votre entreprise, avec sa mémoire, ses profils métier, ses compétences, ses outils et ses accès aux meilleurs modèles IA.' : 'It is a permanent digital identity in your company, with memory, job profiles, skills, tools and access to leading AI models.'}</p>
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3">
+        {blocks.map(([title, body], index) => <article key={title} className={`min-h-44 p-6 sm:p-7 ${index > 0 ? 'border-t border-white/10 sm:[&:nth-child(2)]:border-t-0' : ''} ${index % 2 === 1 ? 'sm:border-l' : ''} ${index >= 2 ? 'lg:border-t' : ''} ${index % 3 !== 0 ? 'lg:border-l' : 'lg:border-l-0'}`}><span className="font-mono text-[9px] font-black text-[#F2A4C5]">0{index + 1}</span><h3 className="mt-8 text-xl font-semibold tracking-[-.03em]">{title}</h3><p className="mt-3 text-[13px] leading-6 text-[#AFA397]">{body}</p></article>)}
+      </div>
+      <div className="grid border-t border-white/10 bg-[#211E1B] lg:grid-cols-2">
+        <div className="p-6 sm:p-8 lg:border-r lg:border-white/10"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">Hermes</p><h3 className="mt-3 text-2xl font-semibold">{lang === 'fr' ? 'Hermes conduit le travail.' : 'Hermes drives the work.'}</h3><p className="mt-3 text-sm leading-7 text-[#AFA397]">{lang === 'fr' ? 'Le runtime open source lui permet de raisonner, d’agir et d’exécuter ses missions dans le cadre autorisé.' : 'The open-source runtime enables reasoning, action and mission execution within the authorized scope.'}</p></div>
+        <div className="border-t border-white/10 p-6 sm:p-8 lg:border-t-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">Unitalk</p><h3 className="mt-3 text-2xl font-semibold">{lang === 'fr' ? 'Unitalk garde la continuité.' : 'Unitalk preserves continuity.'}</h3><p className="mt-3 text-sm leading-7 text-[#AFA397]">{lang === 'fr' ? 'L’identité, la mémoire et les méthodes validées restent dans votre entreprise, même lorsque les outils ou modèles changent.' : 'Identity, memory and approved methods remain in your company, even when tools or models change.'}</p></div>
+      </div>
+    </section>
+  )
 }
 
 function MissingItemCard({ content, lang, accent }: { content: NonNullable<Category['missing']>; lang: Lang; accent: string }) {
@@ -433,12 +501,13 @@ function MarketplaceItemCard({ item, lang, category, labels, featuredLast = fals
   const content = (
     <>
       <div>
-        {item.avatar && <div className="mb-4 flex items-center gap-3 sm:mb-5 sm:gap-4"><Image src={item.avatar} alt="" width={56} height={56} className="size-12 rounded-full object-cover ring-1 ring-[#D8D0C2] sm:size-14" /><div className="min-w-0"><p className="font-mono text-[10px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{lang === 'fr' ? 'Département' : 'Department'} · {item.origin}</p><p className="mt-1 text-[12px] font-semibold text-[#625B50] sm:mt-1.5 sm:text-[13px]">{item.meta}</p></div></div>}
+        {item.avatar && <div className="mb-4 flex items-center gap-3 sm:mb-5 sm:gap-4"><Image src={item.avatar} alt="" width={56} height={56} className="size-12 rounded-full object-cover ring-1 ring-[#D8D0C2] sm:size-14" /><div className="min-w-0"><p className="font-mono text-[10px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{item.identityLabel}</p><p className="mt-1 text-[12px] font-semibold text-[#625B50] sm:mt-1.5 sm:text-[13px]">{lang === 'fr' ? 'Profil métier' : 'Job profile'} · {item.origin}</p></div></div>}
         <h3 className="line-clamp-2 text-[24px] font-semibold leading-[1.04] tracking-[-.045em] text-[#1C1A17] sm:text-[26px]">{item.title}</h3>
+        {item.avatar && <p className="mt-1.5 text-[13px] font-bold text-[#322E29]">{item.meta}</p>}
         <p className="mt-3 line-clamp-2 text-[13px] leading-5 text-[#625B50] sm:mt-4 sm:text-sm sm:leading-6">{item.description}</p>
         {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3 sm:mt-5"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{lang === 'fr' ? 'Première mission possible' : 'Possible first mission'}</dt><dd className="mt-1 text-[12px] font-semibold leading-5 text-[#322E29] sm:text-[13px]">{item.starterMission}</dd></div></dl>}
          {item.highlights && <details className="mt-4 sm:hidden"><summary className="cursor-pointer text-xs font-bold text-[#B00C54]">{item.highlightsLabel}</summary><div className="mt-2 flex flex-wrap items-center gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}<span className="px-1 text-[11px] font-bold text-[#766D61]">{lang === 'fr' ? 'et plus encore' : 'and more'}</span></div></details>}
-         {item.highlights && <div className="mt-4 hidden sm:block"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#766D61]">{item.highlightsLabel}</p><div className="mt-2 flex flex-wrap items-center gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}<span className="px-1 text-[11px] font-bold text-[#766D61]">{lang === 'fr' ? 'et plus encore' : 'and more'}</span></div></div>}
+          {item.highlights && <div className="mt-4 hidden sm:block"><p className="font-mono text-[10px] font-black uppercase tracking-[.12em] text-[#766D61]">{item.highlightsLabel}</p><div className="mt-2 flex flex-wrap items-center gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#FAF8F3] px-2.5 py-1 text-[11px] font-semibold text-[#4E483F]">{highlight}</span>)}<span className="px-1 text-[11px] font-bold text-[#766D61]">{lang === 'fr' ? 'et plus encore' : 'and more'}</span></div><p className="mt-3 text-[11px] font-bold text-[#B00C54]">+ {lang === 'fr' ? 'Ajouter des profils métier' : 'Add job profiles'}</p></div>}
       </div>
       <div className="mt-auto pt-5 sm:pt-8">
         <div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)]">

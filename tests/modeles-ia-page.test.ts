@@ -21,4 +21,10 @@ describe('AI models page', () => {
     expect(page).toContain('withAlmaAvatar(t.finalB)')
     expect(page).toContain('withAlmaAvatar(t.finalBody)')
   })
+
+  it('presents models as governed access with automatic selection', () => {
+    expect(page).toContain('Les modèles IA auxquels')
+    expect(page).toContain('Unitalk sélectionne automatiquement le modèle le plus pertinent pour chaque mission')
+    expect(page).toContain('Vous n’avez pas à choisir le modèle')
+  })
 })
