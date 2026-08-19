@@ -234,8 +234,8 @@ const PERSONAS = {
       en: "Give her your goals, tone and channels. She prepares the calendar, briefs and content for approval.",
     },
     composer: {
-      fr: "Quelle mission souhaitez-vous confier à Léa ?",
-      en: "What mission would you like to assign to Léa?",
+      fr: "Léa prépare votre prochain calendrier éditorial.",
+      en: "Léa prepares your next editorial calendar.",
     },
     placeholder: {
       fr: "Décrivez l’audience, les objectifs, les canaux et le ton de marque…",
@@ -298,8 +298,8 @@ const PERSONAS = {
       en: "Give him a ticket and authorized context. He prepares the fix, tests and documentation before any merge.",
     },
     composer: {
-      fr: "Quelle mission souhaitez-vous confier à Arthur ?",
-      en: "What mission would you like to assign to Arthur?",
+      fr: "Arthur prépare le correctif de votre prochain bug prioritaire.",
+      en: "Arthur prepares the fix for your next priority bug.",
     },
     placeholder: {
       fr: "Décrivez le ticket, le comportement attendu, le dépôt et les contraintes techniques…",
@@ -490,8 +490,8 @@ const PERSONAS = {
       en: "Entrust her with inbound requests. She classifies, prepares replies and submits commercial gestures or sensitive cases.",
     },
     composer: {
-      fr: "Quelle mission souhaitez-vous confier à Inès ?",
-      en: "What mission would you like to assign to Inès?",
+      fr: "Inès prépare les réponses à vos demandes clients.",
+      en: "Inès prepares replies to your customer requests.",
     },
     placeholder: {
       fr: "Décrivez les demandes, les règles de réponse et les cas à faire valider…",
@@ -539,14 +539,35 @@ const PERSONAS = {
 
 function genericPersona(detail: CollaboratorPage["detail"]) {
   const firstMissions = detail.missions.slice(0, 3);
+  const concreteComposer = detail.slug === "chloe"
+    ? {
+        fr: "Chloé présélectionne les candidatures pour votre prochain recrutement.",
+        en: "Chloé screens applicants for your next hire.",
+      }
+    : detail.slug === "iris"
+      ? {
+          fr: "Iris prépare la spécification de votre prochaine évolution produit.",
+          en: "Iris prepares the specification for your next product update.",
+        }
+      : detail.slug === "lucas"
+        ? {
+            fr: "Lucas met à jour le suivi de votre prochain projet transverse.",
+            en: "Lucas updates the tracking for your next cross-functional project.",
+          }
+      : detail.slug === "marcus"
+        ? {
+            fr: "Marcus prépare la revue de votre prochain contrat.",
+            en: "Marcus prepares the review of your next contract.",
+          }
+      : {
+          fr: `Quelle première mission souhaitez-vous confier à ${detail.name} ?`,
+          en: `What first mission would you like to assign to ${detail.name}?`,
+        };
   return {
     claim: detail.promise,
     accent: detail.role,
     lead: detail.description,
-    composer: {
-      fr: `Quelle première mission souhaitez-vous confier à ${detail.name} ?`,
-      en: `What first mission would you like to assign to ${detail.name}?`,
-    },
+    composer: concreteComposer,
     placeholder: {
       fr: "Décrivez le contexte, le résultat attendu, les sources autorisées et les validations nécessaires…",
       en: "Describe the context, expected result, authorized sources and required approvals…",
@@ -596,19 +617,75 @@ export function CollaborateurContent({
     ? lang === "fr"
       ? "Relancer mes factures impayées"
       : "Follow up on my overdue invoices"
+    : detail.slug === "lea"
+      ? lang === "fr"
+        ? "Construire mon calendrier éditorial"
+        : "Build my editorial calendar"
+    : detail.slug === "arthur"
+      ? lang === "fr"
+        ? "Corriger mon bug prioritaire"
+        : "Fix my priority bug"
+    : detail.slug === "ines"
+      ? lang === "fr"
+        ? "Traiter mes demandes clients"
+        : "Handle my customer requests"
+    : detail.slug === "chloe"
+      ? lang === "fr"
+        ? "Présélectionner mes candidatures"
+        : "Screen my job applications"
+    : detail.slug === "iris"
+      ? lang === "fr"
+        ? "Préparer ma spécification produit"
+        : "Prepare my product specification"
+    : detail.slug === "lucas"
+      ? lang === "fr"
+        ? "Suivre mon projet transverse"
+        : "Track my cross-functional project"
+    : detail.slug === "marcus"
+      ? lang === "fr"
+        ? "Préparer ma revue de contrat"
+        : "Prepare my contract review"
     : detail.slug === "hugo"
       ? lang === "fr"
         ? "Trouver et qualifier mes prospects"
         : "Find and qualify my prospects"
-      : detail.missions[0][lang];
+      : detail.starterMission?.mission[lang] ?? detail.missions[0][lang];
   const primaryCta = detail.slug === "emma"
     ? lang === "fr"
-      ? "Confier la préparation et le suivi à Emma"
-      : "Assign preparation and follow-up to Emma"
+      ? "Confier une première mission à Emma"
+      : "Assign a first mission to Emma"
     : detail.slug === "nadia"
     ? lang === "fr"
       ? "Confier mes relances à Nadia"
       : "Assign my follow-ups to Nadia"
+    : detail.slug === "lea"
+      ? lang === "fr"
+        ? "Construire mon calendrier avec Léa"
+        : "Build my calendar with Léa"
+    : detail.slug === "arthur"
+      ? lang === "fr"
+        ? "Préparer le correctif avec Arthur"
+        : "Prepare the fix with Arthur"
+    : detail.slug === "ines"
+      ? lang === "fr"
+        ? "Traiter mes demandes avec Inès"
+        : "Handle my requests with Inès"
+    : detail.slug === "chloe"
+      ? lang === "fr"
+        ? "Présélectionner mes candidatures avec Chloé"
+        : "Screen my applicants with Chloé"
+    : detail.slug === "iris"
+      ? lang === "fr"
+        ? "Préparer ma spécification avec Iris"
+        : "Prepare my specification with Iris"
+    : detail.slug === "lucas"
+      ? lang === "fr"
+        ? "Suivre mon projet avec Lucas"
+        : "Track my project with Lucas"
+    : detail.slug === "marcus"
+      ? lang === "fr"
+        ? "Préparer ma revue avec Marcus"
+        : "Prepare my review with Marcus"
     : detail.slug === "hugo"
       ? t.finalCta
       : lang === "fr"
@@ -1170,7 +1247,7 @@ export function CollaborateurContent({
                 : <><span className="block">Ready to assign a first mission</span><span className="block">to {detail.name}?</span></>}
           </h2>
           <div className="flex min-w-60 flex-col gap-3">
-            {isMissionLedProfile ? <button type="button" onClick={startPrimaryMission} className="inline-flex min-h-12 w-full items-center justify-center whitespace-nowrap rounded-full bg-[#181615] px-6 text-sm font-bold sm:w-auto sm:px-7">{primaryCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
+            {isMissionLedProfile ? <button type="button" onClick={startPrimaryMission} className="inline-flex min-h-12 w-full max-w-full items-center justify-center rounded-full bg-[#181615] px-5 py-3 text-center text-sm font-bold leading-5 sm:w-auto sm:px-7">{primaryCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
             <Link
               href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`}
               className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4"
@@ -1612,11 +1689,13 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 function highlightClaim(claim: string, accent: string) {
   const index = claim.indexOf(accent);
   if (index < 0) return claim;
+  const accentEnd = index + accent.length;
+  const punctuation = claim[accentEnd] === "." ? "." : "";
   return (
     <>
       {claim.slice(0, index)}
-      <span className="text-[#D10E63]">{accent}</span>
-      {claim.slice(index + accent.length)}
+      <span className="text-[#D10E63]">{accent}{punctuation}</span>
+      {claim.slice(accentEnd + punctuation.length)}
     </>
   );
 }

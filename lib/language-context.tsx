@@ -13,20 +13,23 @@ const LanguageContext = createContext<LanguageContextValue | undefined>(undefine
 
 const STORAGE_KEY = 'unitalk-lang'
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('fr')
+export function LanguageProvider({ children, initialLang = 'fr', loadStoredLanguage = true }: { children: ReactNode; initialLang?: Lang; loadStoredLanguage?: boolean }) {
+  const [lang, setLangState] = useState<Lang>(initialLang)
 
   // Load persisted language on mount
   useEffect(() => {
+    if (!loadStoredLanguage) return
+    let frame = 0
     try {
       const stored = localStorage.getItem(STORAGE_KEY) as Lang | null
       if (stored === 'fr' || stored === 'en') {
-        setLangState(stored)
+        frame = requestAnimationFrame(() => setLangState(stored))
       }
     } catch {
       // ignore
     }
-  }, [])
+    return () => cancelAnimationFrame(frame)
+  }, [loadStoredLanguage])
 
   // Keep <html lang> in sync
   useEffect(() => {

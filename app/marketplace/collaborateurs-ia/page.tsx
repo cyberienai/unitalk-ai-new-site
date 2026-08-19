@@ -9,7 +9,7 @@ const SITE_URL = 'https://unitalk.ai'
 export const metadata: Metadata = {
   title: 'Collaborateurs IA pour les équipes et PME | Unitalk',
   description: 'Choisissez un Collaborateur IA pour une première mission concrète, puis faites évoluer ses profils métier, ses compétences et sa mémoire.',
-  alternates: { canonical: '/marketplace/collaborateurs-ia' },
+  alternates: { canonical: '/marketplace/collaborateurs-ia', languages: { 'fr-FR': '/marketplace/collaborateurs-ia', 'en-US': '/en/marketplace/ai-collaborators', 'x-default': '/marketplace/collaborateurs-ia' } },
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/marketplace/collaborateurs-ia`,

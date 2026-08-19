@@ -126,6 +126,7 @@ export type RoleDetail = {
   skills: Bilingual[]
   tools: string[]
   missions: Bilingual[]
+  starterMission?: { mission: Bilingual; result: Bilingual }
   // Liste publique optionnelle « Ce que vous pouvez lui demander » : quand elle
   // est présente, elle remplace la section « Missions types » sur le profil.
   askList?: Bilingual[]
@@ -301,6 +302,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Réserver et confirmer un déplacement complet', en: 'Book and confirm a full business trip' },
       { fr: 'Préparer un dossier de décision avant réunion', en: 'Prepare a decision brief before a meeting' },
     ],
+    starterMission: { mission: { fr: 'Préparer et suivre une réunion', en: 'Prepare and follow up a meeting' }, result: { fr: 'Ordre du jour et actions à valider', en: 'Agenda and actions ready for approval' } },
     askList: [
       { fr: 'préparer une réunion', en: 'prepare a meeting' },
       { fr: 'participer à une visioconférence', en: 'join a video call' },
@@ -364,6 +366,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Rédiger une série d’articles de blog', en: 'Write a series of blog posts' },
       { fr: "Analyser l'engagement des campagnes", en: 'Analyze campaign engagement' },
     ],
+    starterMission: { mission: { fr: 'Construire un calendrier éditorial', en: 'Build an editorial calendar' }, result: { fr: 'Sujets, briefs et planning à valider', en: 'Topics, briefs and schedule ready for approval' } },
   },
   arthur: {
     slug: 'arthur',
@@ -395,6 +398,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Corriger un lot de bugs prioritaires', en: 'Fix a batch of priority bugs' },
       { fr: 'Documenter une API', en: 'Document an API' },
     ],
+    starterMission: { mission: { fr: 'Corriger un bug prioritaire', en: 'Fix a priority bug' }, result: { fr: 'Correctif, tests et documentation prêts', en: 'Fix, tests and documentation ready' } },
   },
   hugo: {
     slug: 'hugo',
@@ -426,6 +430,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Relancer les opportunités dormantes', en: 'Re-engage dormant opportunities' },
       { fr: 'Préparer un rendez-vous de closing', en: 'Prepare a closing meeting' },
     ],
+    starterMission: { mission: { fr: 'Qualifier de nouveaux prospects', en: 'Qualify new prospects' }, result: { fr: 'Fiches CRM et relances préparées', en: 'CRM records and follow-ups prepared' } },
   },
   nadia: {
     slug: 'nadia',
@@ -457,6 +462,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Mettre à jour les prévisions de trésorerie', en: 'Update cash flow forecasts' },
       { fr: 'Analyser les écarts budgétaires', en: 'Analyze budget variances' },
     ],
+    starterMission: { mission: { fr: 'Relancer les factures impayées', en: 'Follow up overdue invoices' }, result: { fr: 'Relances préparées et litiges isolés', en: 'Follow-ups prepared and disputes isolated' } },
   },
   ines: {
     slug: 'ines',
@@ -488,6 +494,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Répondre à une réclamation sensible', en: 'Handle a sensitive complaint' },
       { fr: 'Mettre à jour la FAQ produit', en: 'Update the product FAQ' },
     ],
+    starterMission: { mission: { fr: 'Traiter les demandes clients', en: 'Handle customer requests' }, result: { fr: 'Réponses préparées et cas sensibles isolés', en: 'Replies prepared and sensitive cases isolated' } },
   },
   chloe: {
     slug: 'chloe', name: 'Chloé', avatar: '/images/chloe-avatar.png',
@@ -498,6 +505,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     skills: [{ fr: 'Rédaction d’offres', en: 'Job post writing' }, { fr: 'Sourcing de candidats', en: 'Candidate sourcing' }, { fr: 'Présélection', en: 'Screening' }, { fr: 'Préparation d’entretiens', en: 'Interview preparation' }],
     tools: ['ATS', 'LinkedIn', 'Email', 'Calendrier', 'Notion'],
     missions: [{ fr: 'Préparer une campagne de recrutement', en: 'Prepare a recruiting campaign' }, { fr: 'Présélectionner les candidatures', en: 'Screen applicants' }, { fr: 'Organiser un onboarding', en: 'Organize onboarding' }],
+    starterMission: { mission: { fr: 'Présélectionner des candidatures', en: 'Screen job applications' }, result: { fr: 'Candidatures qualifiées et entretiens préparés', en: 'Qualified applicants and interviews prepared' } },
   },
   lucas: {
     slug: 'lucas', name: 'Lucas', avatar: '/images/lucas-avatar.png',
@@ -508,6 +516,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     skills: [{ fr: 'Coordination de projet', en: 'Project coordination' }, { fr: 'Suivi des échéances', en: 'Deadline tracking' }, { fr: 'Comptes rendus', en: 'Progress reports' }, { fr: 'Gestion des risques', en: 'Risk management' }],
     tools: ['Notion', 'Asana', 'Trello', 'Slack', 'Calendrier'],
     missions: [{ fr: 'Mettre à jour un plan de projet', en: 'Update a project plan' }, { fr: 'Préparer le comité de suivi', en: 'Prepare the steering meeting' }, { fr: 'Relancer les actions en retard', en: 'Follow up on overdue actions' }],
+    starterMission: { mission: { fr: 'Suivre un projet transverse', en: 'Track a cross-functional project' }, result: { fr: 'Échéances, responsables et risques à jour', en: 'Deadlines, owners and risks up to date' } },
   },
   sophia: {
     slug: 'sophia', name: 'Sophia', avatar: '/images/sophia-avatar.png',
@@ -548,6 +557,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     skills: [{ fr: 'Analyse des retours utilisateurs', en: 'User feedback analysis' }, { fr: 'Rédaction de spécifications', en: 'Specification writing' }, { fr: 'Priorisation produit', en: 'Product prioritization' }, { fr: 'Plans de recette', en: 'Test planning' }],
     tools: ['Linear', 'Jira', 'Figma', 'Notion', 'Analytics'],
     missions: [{ fr: 'Préparer une spécification produit', en: 'Prepare a product specification' }, { fr: 'Prioriser un backlog', en: 'Prioritize a backlog' }, { fr: 'Construire un plan de recette', en: 'Build a test plan' }],
+    starterMission: { mission: { fr: 'Préparer une spécification produit', en: 'Prepare a product specification' }, result: { fr: 'Besoin, critères et recette structurés', en: 'Need, criteria and test plan structured' } },
   },
   marcus: {
     slug: 'marcus', name: 'Marcus', avatar: '/images/marcus-avatar.png',
@@ -558,6 +568,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     skills: [{ fr: 'Inventaire contractuel', en: 'Contract inventory' }, { fr: 'Repérage de clauses', en: 'Clause identification' }, { fr: 'Suivi des échéances', en: 'Deadline tracking' }, { fr: 'Documentation RGPD', en: 'GDPR documentation' }],
     tools: ['Drive', 'Microsoft 365', 'Notion', 'Docusign', 'Registre RGPD'],
     missions: [{ fr: 'Cartographier les contrats actifs', en: 'Map active contracts' }, { fr: 'Préparer une revue de clauses', en: 'Prepare a clause review' }, { fr: 'Mettre à jour le registre RGPD', en: 'Update the GDPR register' }],
+    starterMission: { mission: { fr: 'Préparer une revue de contrat', en: 'Prepare a contract review' }, result: { fr: 'Clauses, échéances et points à valider', en: 'Clauses, deadlines and review points ready' } },
   },
   amelia: {
     slug: 'amelia', name: 'Amelia', avatar: '/assistant-avatar.png',
