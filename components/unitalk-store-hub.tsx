@@ -185,7 +185,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       avatar: detail.avatar,
       keywords: [...detail.skills.map((skill) => skill[lang]), ...detail.tools, ...detail.missions.map((mission) => mission[lang])],
       highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).map((profile) => profile[lang]),
-      highlightsLabel: lang === 'fr' ? 'Autres compétences possibles' : 'Other possible skills',
+      highlightsLabel: lang === 'fr' ? 'Autres compétences possibles, et plus encore' : 'Other possible skills, and more',
       starterMission: detail.starterMission?.mission[lang],
       exampleResult: detail.starterMission?.result[lang],
     }))
