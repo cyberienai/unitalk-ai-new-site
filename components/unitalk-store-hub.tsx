@@ -117,7 +117,7 @@ const STORE_CATEGORIES: Category[] = [
     description: { fr: 'Choisissez le Collaborateur IA qui correspond à votre entreprise, puis faites-le évoluer avec les profils métier et les compétences adaptés à ses missions.', en: 'Choose the AI Collaborator that fits your organization, then evolve it with the job profiles and skills suited to its missions.' },
     heroTitle: { fr: 'Choisissez un Collaborateur IA. Confiez-lui une mission concrète.', en: 'Choose an AI Collaborator. Give them a concrete mission.' },
     heroAccent: { fr: 'Confiez-lui une mission concrète.', en: 'Give them a concrete mission.' },
-    heroLead: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization.' },
+    heroLead: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise. Ajoutez-lui les savoir-faire d’un métier et les compétences nécessaires à ses missions.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization. Give them the professional know-how and skills their missions require.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comprendre le Collaborateur IA', en: 'Understand the AI Collaborator' },
     href: '/collaborateurs-ia', accent: '#D10E63',
   },
@@ -185,7 +185,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       avatar: detail.avatar,
       keywords: [...detail.skills.map((skill) => skill[lang]), ...detail.tools, ...detail.missions.map((mission) => mission[lang])],
       highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).slice(0, 2).map((profile) => profile[lang]),
-      highlightsLabel: lang === 'fr' ? 'Exemples d’évolution' : 'Examples of growth',
+      highlightsLabel: lang === 'fr' ? 'Autres compétences possibles' : 'Other possible skills',
       starterMission: detail.starterMission?.mission[lang],
       exampleResult: detail.starterMission?.result[lang],
     }))
@@ -240,7 +240,7 @@ const COPY = {
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     clear: 'Effacer les filtres', available: 'Disponible', preparation: 'Bientôt disponible', addProfile: 'Ajouter à un Collaborateur IA',
     allDepartments: 'Tous les départements', result: 'résultat', results: 'résultats', almaTitle: 'Vous ne savez pas qui choisir ?', almaBody: 'Décrivez simplement le travail attendu. Alma vous recommande un Collaborateur IA et cadre avec vous le résultat, les sources et les validations.', almaAction: 'Décrire ma première mission', finalTitle: 'Commencez par un résultat à obtenir, pas par une configuration.', finalBody: 'Alma cadre gratuitement votre première mission. Vous validez le résultat attendu, les accès nécessaires et les actions qui doivent rester sous contrôle humain.', finalProfiles: 'Décrire ma première mission',
-    heroProofs: ['7 jours gratuits', 'Sans carte bancaire', 'À partir de 49 €/mois ensuite', 'Aucune action sensible sans validation'], starterMission: 'Première mission possible', exampleResult: 'Livrable à valider', ctaHelp: 'Alma vous aide d’abord à cadrer la mission.', compatibleProfiles: 'Voir les profils métier',
+    heroProofs: ['7 jours gratuits', 'Sans carte bancaire', 'À partir de 49 €/mois ensuite'], starterMission: 'Première mission possible', exampleResult: 'Livrable à valider', ctaHelp: 'Alma vous aide d’abord à cadrer la mission.', compatibleProfiles: 'Voir les profils métier',
   },
   en: {
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',

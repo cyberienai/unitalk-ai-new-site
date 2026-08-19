@@ -23,6 +23,7 @@ import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { buildInitialOnboardingState, collaboratorFromDraft, missionFromDraft } from '@/lib/discover-onboarding-state'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
 import { AlmaHead } from './context-column'
+import { getStoreItemBySlug } from '@/lib/store-catalog'
 
 function normalizeDomain(v: string | null) { return v?.trim().replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase() ?? '' }
 
@@ -57,6 +58,11 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   const draftId = searchParams.get('draft')
   const requestedCollaborator = searchParams.get('collaborateur')
   const requestedCollaboratorDetail = requestedCollaborator ? ROLE_DETAILS[requestedCollaborator] : undefined
+  const requestedStoreItem = useMemo(() => {
+    const slug = searchParams.get('store')
+    const item = slug ? getStoreItemBySlug(slug) : undefined
+    return item?.type === 'profil' ? item : undefined
+  }, [searchParams])
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
   const source = parseDiscoverSource(searchParams.get('source'))
   const chooseMissionAfterAuth = searchParams.get('next') === 'missions'
@@ -73,8 +79,9 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
       initialPurchaseDraft,
       requestedDomain,
       requestedCollaborator: selectedCollaboratorDetail,
+      requestedProfile: requestedStoreItem,
       catalogMission,
-      hasExplicitDraft: Boolean(draftId || legacyQuery),
+      hasExplicitDraft: Boolean(draftId || legacyQuery || requestedStoreItem),
     })
   })
   const [step, setStep] = useState<OnboardingStep>('entreprise')
@@ -83,7 +90,9 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
 
   useEffect(() => { if (!draftId) return; try { const raw = localStorage.getItem(`unitalk_mission_${draftId}`); if (raw) { const text = (JSON.parse(raw) as { text?: string }).text?.trim() ?? ''; window.setTimeout(() => setDraftText(text), 0) } } catch {} }, [draftId])
 
-  const context: DiscoverContext = source === 'paul-graham'
+  const context: DiscoverContext = requestedStoreItem
+    ? { kind: 'profile', profile: requestedStoreItem, source }
+    : source === 'paul-graham'
     ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: '', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
     : missionSlug && !catalogMission ? { kind: 'invalid', requestedSlug: missionSlug, source }
     : catalogMission ? { kind: 'mission', mission: { slug: catalogMission.slug, title: catalogMission.title[lang], description: actionDescription(catalogMission, lang), category: shortCategoryLabel(catalogMission.category, lang) }, source }
@@ -148,13 +157,14 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   // — Not authenticated —
   if (!state.authenticated) return (
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
-      <ScreenAccount lang={lang} context={context} collaborator={selectedCollaboratorDetail} languageToggle={<LanguageToggle />}
+      <ScreenAccount lang={lang} context={context} collaborator={selectedCollaboratorDetail} profile={requestedStoreItem} languageToggle={<LanguageToggle />}
         onAuthenticated={({ provider, email, firstName, lastName }) => {
           const domain = email && isProfessionalEmail(email) ? emailDomain(email) : undefined
           setState(s => ({ ...s, authenticated: true, missionDefined: context.kind === 'mission', firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '', company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company }))
           const collaboratorQuery = requestedCollaborator ? `&collaborateur=${encodeURIComponent(requestedCollaborator)}` : ''
           const sourceQuery = `&source=${encodeURIComponent(source)}`
-          if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}${collaboratorQuery}${sourceQuery}`)
+           if (requestedStoreItem) router.replace(`/decouvrir?store=${encodeURIComponent(requestedStoreItem.slug)}${sourceQuery}`)
+           else if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}${collaboratorQuery}${sourceQuery}`)
           else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}${collaboratorQuery}${sourceQuery}`)
         }}
       />

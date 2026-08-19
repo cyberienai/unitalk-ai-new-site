@@ -3,6 +3,7 @@ import { buildInitialOnboardingState, collaboratorFromDraft, missionFromDraft } 
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { MISSIONS } from '@/lib/missions-catalog'
 import type { PurchaseDraft } from '@/lib/purchase-draft'
+import { getStoreItemBySlug } from '@/lib/store-catalog'
 
 const persisted: PurchaseDraft = {
   id: 'old-draft',
@@ -39,6 +40,15 @@ describe('explicit discovery intent', () => {
     expect(state.collaboratorTemplateSlug).toBe('arthur')
     expect(state.organizationalPlacement).toBe('team')
     expect(state.mission).toEqual({ title: '', target: '', criteria: '', sources: '', exclusions: '', result: '', rule: '', validation: '' })
+  })
+
+  it('keeps a Store job profile selected through onboarding', () => {
+    const requestedProfile = getStoreItemBySlug('commercial')!
+    const state = buildInitialOnboardingState({ lang: 'fr', initialPurchaseDraft: persisted, requestedDomain: '', requestedProfile, hasExplicitDraft: true })
+    expect(state.profile).toEqual(requestedProfile.name)
+    expect(state.mission.title).toBe(requestedProfile.exampleMissions?.[0]?.fr)
+    expect(state.mission.result).toContain(requestedProfile.name.fr)
+    expect(state.missionDefined).toBe(true)
   })
 
   it('creates a fresh structured mission for a new catalog entry', () => {

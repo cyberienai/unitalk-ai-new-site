@@ -11,6 +11,7 @@ import { UnitalkLogo } from '@/components/unitalk-logo'
 import type { DiscoverSource } from '@/lib/discover-entry'
 import { isProfessionalEmail } from '@/lib/professional-email'
 import type { RoleDetail } from '@/lib/collaborators-catalog'
+import type { StoreItem } from '@/lib/store-catalog'
 
 export type SelectedMission = { slug?: string; title: string; description: string; category: string }
 
@@ -20,12 +21,14 @@ export type DiscoverContext =
   | { kind: 'empty'; source: DiscoverSource }
   | { kind: 'invalid'; requestedSlug: string; source: DiscoverSource }
   | { kind: 'new-mission'; source: DiscoverSource }
+  | { kind: 'profile'; profile: StoreItem; source: DiscoverSource }
 
 export function ScreenAccount({
-  lang, context, collaborator, languageToggle, onAuthenticated,
+  lang, context, collaborator, profile, languageToggle, onAuthenticated,
 }: {
   lang: Lang; context: DiscoverContext; languageToggle: React.ReactNode
   collaborator?: RoleDetail
+  profile?: StoreItem
   onAuthenticated: (i: { provider: AuthProvider; email?: string; firstName?: string; lastName?: string }) => void
 }) {
   const t = COPY[lang]
@@ -55,7 +58,17 @@ export function ScreenAccount({
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#FAF8F3_1px,transparent_1px),linear-gradient(90deg,#FAF8F3_1px,transparent_1px)] [background-size:64px_64px]" />
         <a href="/" className="relative flex w-fit items-center gap-2.5 text-white transition-opacity hover:opacity-80" aria-label="Accueil Unitalk"><UnitalkLogo size={22} color="#F15B9B" inactiveColor="#F15B9B" /><span className="text-sm font-semibold tracking-[-.02em]">Unitalk</span></a>
         <div className="relative mx-auto my-auto w-full max-w-md">
-          {mission ? (
+          {profile ? (
+            <>
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E05A93]">{t.selectedProfile}</p>
+              <h2 className="mt-4 font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{profile.name[lang]}</h2>
+              <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{profile.description[lang]}</p>
+              <div className="mt-8 border-t border-white/10 pt-6">
+                <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#F2A4C5]">{t.almaRole}</p></div></div>
+                <p className="mt-4 text-sm leading-6 text-[#C9C1B8]">{t.profileHelp}</p>
+              </div>
+            </>
+          ) : mission ? (
             <>
               <div className="flex items-center justify-between">
                 <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#E05A93]">{isDraft ? t.request : t.selected}</p>
@@ -91,9 +104,9 @@ export function ScreenAccount({
       <section className="relative order-1 flex min-w-0 items-center bg-[#F3EFE6] px-6 py-16 sm:px-10 lg:order-2 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)]">
         <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[460px]">
-          <h1 className="max-w-md font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{collaborator ? t.collaboratorTitle(collaborator.name) : isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
+          <h1 className="max-w-md font-sf text-[34px] font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] sm:text-[42px]">{profile ? t.profileTitle : collaborator ? t.collaboratorTitle(collaborator.name) : isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
           {!mission && <p className="mt-3 max-w-sm text-[15px] leading-6 text-[#625B50]">{isDraft ? t.draftLead : t.genericLead}</p>}
-          {mission && <p className="mt-3 text-sm text-[#6E665A]">{t.contextualReassurance}</p>}
+          {(mission || profile) && <p className="mt-3 text-sm text-[#6E665A]">{t.contextualReassurance}</p>}
 
           <div className="mt-7 flex flex-col gap-3">
             <AuthButton onClick={() => go('google')} pending={pending === 'google'} disabled={!!pending}><GoogleIcon className="h-[18px] w-[18px]" />{t.google}</AuthButton>
@@ -119,6 +132,7 @@ const COPY = {
   fr: {
     selected: 'Mission sélectionnée', request: 'Votre demande', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission',
     recommendedProfile: 'Profil recommandé', collaboratorTitle: (name: string) => `Continuez avec ${name}.`,
+    selectedProfile: 'Profil métier sélectionné', profileTitle: 'Ajoutez ce profil métier.', profileHelp: 'Après votre connexion, Alma vous aide à l’attribuer à un Collaborateur IA et à vérifier son adaptation à votre entreprise.',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',
     almaGenericTitle: 'Vous n\'avez pas encore choisi de mission.',
@@ -139,6 +153,7 @@ const COPY = {
   en: {
     selected: 'Selected mission', request: 'Your request', collapse: 'Collapse', expand: 'Show', change: 'Change mission',
     recommendedProfile: 'Recommended profile', collaboratorTitle: (name: string) => `Continue with ${name}.`,
+    selectedProfile: 'Selected job profile', profileTitle: 'Add this job profile.', profileHelp: 'After sign-in, Alma helps you assign it to an AI Collaborator and check its fit for your organization.',
     almaRole: 'AI Collaborator · Mission coordinator',
     newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.',
     almaGenericTitle: 'You have not selected a mission yet.',
