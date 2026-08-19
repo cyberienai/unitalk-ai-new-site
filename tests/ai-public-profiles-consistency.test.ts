@@ -10,7 +10,7 @@ const discoverFlow = readFileSync(new URL('../components/discover/discover-flow.
 
 describe('AI public profile consistency', () => {
   it('has a complete public page for every detailed AI identity', () => {
-    expect(DETAILED_SLUGS).toEqual(expect.arrayContaining(['emma', 'hugo', 'ines', 'nadia', 'lea', 'arthur', 'lucas', 'sophia', 'otto', 'chloe', 'alex', 'iris', 'marcus', 'amelia', 'maya', 'noah', 'victor', 'sarah', 'gabriel', 'zoe']))
+    expect(DETAILED_SLUGS).toEqual(expect.arrayContaining(['emma', 'camille', 'hugo', 'ines', 'nadia', 'lea', 'arthur', 'lucas', 'sophia', 'otto', 'chloe', 'alex', 'iris', 'marcus', 'amelia', 'maya', 'noah', 'victor', 'sarah', 'gabriel', 'zoe']))
     for (const slug of DETAILED_SLUGS) {
       expect(ROLE_DETAILS[slug]).toBeTruthy()
       expect(getCollaboratorPage(slug)).toBeTruthy()

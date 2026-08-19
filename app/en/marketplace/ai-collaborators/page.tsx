@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     type: 'website', locale: 'en_US', alternateLocale: ['fr_FR'],
     url: `${SITE_URL}/en/marketplace/ai-collaborators`,
     title: 'Choose your AI Collaborator | Unitalk',
-    description: 'Explore ten AI Collaborators, their domain, possible first mission and the skills you can add to them.',
+    description: 'Explore twelve AI Collaborators, their domain, possible first mission and the skills you can add to them.',
   },
 }
 

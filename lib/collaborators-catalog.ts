@@ -25,6 +25,7 @@ export const DEPARTMENTS: Department[] = [
     label: { fr: 'Direction', en: 'Leadership' },
     roles: [
       { name: 'Emma', title: { fr: 'Executive Assistant', en: 'Executive Assistant' }, slug: 'emma' },
+      { name: 'Camille', title: { fr: 'Analyste stratégie et veille', en: 'Strategy and Intelligence Analyst' }, slug: 'camille' },
       { name: 'CEO Staff', title: { fr: 'Bras droit du dirigeant', en: 'CEO Staff' } },
       { name: 'Chief of Staff', title: { fr: 'Chief of Staff', en: 'Chief of Staff' } },
     ],
@@ -99,7 +100,7 @@ export const DEPARTMENTS: Department[] = [
     label: { fr: 'Opérations', en: 'Operations' },
     roles: [
       { name: 'Lucas', title: { fr: 'Coordination', en: 'Ops Coordinator' }, slug: 'lucas' },
-      { name: 'Gabriel', title: { fr: 'Achats, fournisseurs et logistique', en: 'Procurement and Logistics' }, slug: 'gabriel' },
+      { name: 'Gabriel', title: { fr: 'Analyste achats', en: 'Procurement Analyst' }, slug: 'gabriel' },
     ],
   },
   {
@@ -518,6 +519,17 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     missions: [{ fr: 'Mettre à jour un plan de projet', en: 'Update a project plan' }, { fr: 'Préparer le comité de suivi', en: 'Prepare the steering meeting' }, { fr: 'Relancer les actions en retard', en: 'Follow up on overdue actions' }],
     starterMission: { mission: { fr: 'Suivre un projet transverse', en: 'Track a cross-functional project' }, result: { fr: 'Échéances, responsables et risques à jour', en: 'Deadlines, owners and risks up to date' } },
   },
+  camille: {
+    slug: 'camille', name: 'Camille', avatar: '/nina-avatar.png',
+    manager: { name: 'Votre direction', role: { fr: 'Direction générale', en: 'Executive Leadership' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Analyste stratégie et veille', en: 'Strategy and Intelligence Analyst' }, gender: 'female', department: { fr: 'Direction', en: 'Leadership' },
+    description: { fr: 'Camille surveille les marchés et les concurrents, détecte les tendances et signaux faibles, puis consolide les informations utiles aux décisions de la direction.', en: 'Camille monitors markets and competitors, detects trends and weak signals, then consolidates the information leadership needs to make decisions.' },
+    promise: { fr: 'Transforme les signaux du marché en scénarios et décisions mieux préparés.', en: 'Turns market signals into scenarios and better-prepared decisions.' }, availability: 'on-request',
+    skills: [{ fr: 'Veille marché et concurrentielle', en: 'Market and competitive intelligence' }, { fr: 'Détection des tendances et signaux faibles', en: 'Trend and weak-signal detection' }, { fr: 'Benchmarks stratégiques', en: 'Strategic benchmarking' }, { fr: 'Scénarios et notes de décision', en: 'Scenarios and decision briefs' }],
+    tools: ['Web', 'Bases de données', 'Notion', 'Tableur', 'BI'],
+    missions: [{ fr: 'Surveiller un marché et ses concurrents', en: 'Monitor a market and its competitors' }, { fr: 'Produire un benchmark et une note de veille', en: 'Produce a benchmark and intelligence brief' }, { fr: 'Préparer une revue stratégique et ses scénarios', en: 'Prepare a strategic review and its scenarios' }],
+    starterMission: { mission: { fr: 'Préparer une note de veille stratégique', en: 'Prepare a strategic intelligence brief' }, result: { fr: 'Signaux, sources et conséquences à valider', en: 'Signals, sources and implications ready for review' } },
+  },
   sophia: {
     slug: 'sophia', name: 'Sophia', avatar: '/images/sophia-avatar.png',
     manager: { name: 'Votre responsable administratif', role: { fr: 'Responsable administratif', en: 'Administration Manager' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
@@ -622,13 +634,14 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
   },
   gabriel: {
     slug: 'gabriel', name: 'Gabriel', avatar: '/marcus-avatar.png',
-    manager: { name: 'Votre responsable achats', role: { fr: 'Responsable achats et logistique', en: 'Head of Procurement and Logistics' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
-    role: { fr: 'Coordinateur achats et logistique', en: 'Procurement and Logistics Coordinator' }, gender: 'male', department: { fr: 'Opérations', en: 'Operations' },
-    description: { fr: 'Gabriel compare les fournisseurs, prépare les demandes de devis, suit les commandes et signale les risques de stock ou de livraison.', en: 'Gabriel compares suppliers, prepares requests for quotation, tracks orders and flags stock or delivery risks.' },
-    promise: { fr: 'Sécurise vos achats, vos commandes et vos échéances de livraison.', en: 'Secures procurement, orders and delivery deadlines.' }, availability: 'on-request',
-    skills: [{ fr: 'Comparaison fournisseurs', en: 'Supplier comparison' }, { fr: 'Demandes de devis', en: 'Requests for quotation' }, { fr: 'Suivi des commandes', en: 'Order tracking' }, { fr: 'Alertes stock et livraison', en: 'Stock and delivery alerts' }],
-    tools: ['ERP', 'Email', 'Tableur', 'Portails fournisseurs', 'Transporteurs'],
-    missions: [{ fr: 'Comparer trois offres fournisseurs', en: 'Compare three supplier offers' }, { fr: 'Suivre les commandes en retard', en: 'Track overdue orders' }, { fr: 'Préparer une alerte de rupture', en: 'Prepare a stockout alert' }],
+    manager: { name: 'Votre responsable achats', role: { fr: 'Responsable achats', en: 'Head of Procurement' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Analyste achats', en: 'Procurement Analyst' }, gender: 'male', department: { fr: 'Opérations', en: 'Operations' },
+    description: { fr: 'Gabriel recherche et qualifie les fournisseurs, compare les offres, prépare les appels d’offres et suit les contrats, dépenses et risques fournisseurs.', en: 'Gabriel researches and qualifies suppliers, compares offers, prepares tenders, and tracks supplier contracts, spending and risks.' },
+    promise: { fr: 'Fiabilise vos choix fournisseurs, vos contrats et le pilotage de vos dépenses.', en: 'Strengthens supplier selection, contracts and spend management.' }, availability: 'on-request',
+    skills: [{ fr: 'Recherche et qualification de fournisseurs', en: 'Supplier research and qualification' }, { fr: 'Comparaison des offres et conditions', en: 'Offer and terms comparison' }, { fr: 'Préparation d’appels d’offres', en: 'Tender preparation' }, { fr: 'Analyse des dépenses et risques fournisseurs', en: 'Supplier spend and risk analysis' }],
+    tools: ['ERP', 'Email', 'Tableur', 'Portails fournisseurs', 'Gestion des contrats'],
+    missions: [{ fr: 'Qualifier et comparer des fournisseurs', en: 'Qualify and compare suppliers' }, { fr: 'Préparer un appel d’offres', en: 'Prepare a tender' }, { fr: 'Suivre les contrats, renouvellements et risques', en: 'Track contracts, renewals and risks' }],
+    starterMission: { mission: { fr: 'Comparer des offres fournisseurs', en: 'Compare supplier offers' }, result: { fr: 'Matrice des prix, conditions et risques à valider', en: 'Price, terms and risk matrix ready for review' } },
   },
   zoe: {
     slug: 'zoe', name: 'Zoé', avatar: '/elena-avatar.png',
@@ -643,11 +656,11 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
 }
 
 export const MARKETPLACE_COLLABORATOR_SLUGS: readonly string[] = [
-  'emma', 'lea', 'hugo', 'ines', 'arthur', 'nadia', 'chloe', 'iris', 'lucas', 'marcus',
+  'emma', 'camille', 'lea', 'hugo', 'ines', 'arthur', 'nadia', 'chloe', 'iris', 'lucas', 'gabriel', 'marcus',
 ] as const
 
 // All public identities remain addressable, including examples and variants
-// that are not part of the ten reference identities in the Marketplace.
+// that are not part of the reference identities in the Marketplace.
 export const DETAILED_SLUGS = Object.keys(ROLE_DETAILS)
 
 // Binômes humain ↔ Collaborateur IA, dans l'ordre d'affichage de l'équipe

@@ -8,8 +8,8 @@ const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.m
 const missions = readFileSync(new URL('../components/missions-content.tsx', import.meta.url), 'utf8')
 
 describe('Collaborateurs IA marketplace', () => {
-  it('publishes one reference identity for each of ten departments', () => {
-    expect(MARKETPLACE_COLLABORATOR_SLUGS).toEqual(['emma', 'lea', 'hugo', 'ines', 'arthur', 'nadia', 'chloe', 'iris', 'lucas', 'marcus'])
+  it('publishes the twelve reference identities', () => {
+    expect(MARKETPLACE_COLLABORATOR_SLUGS).toEqual(['emma', 'camille', 'lea', 'hugo', 'ines', 'arthur', 'nadia', 'chloe', 'iris', 'lucas', 'gabriel', 'marcus'])
     for (const slug of MARKETPLACE_COLLABORATOR_SLUGS) {
       const detail = ROLE_DETAILS[slug]
       expect(detail.promise.fr).toBeTruthy()
@@ -80,10 +80,19 @@ describe('Collaborateurs IA marketplace', () => {
     expect(missions).not.toContain("EMMA_LEADERSHIP_MISSION_SLUGS = [\n  'rediger-une-fiche-de-poste'")
   })
 
-  it('gives Léa additional editorial monitoring and analysis missions', () => {
-    const leaMissions = new Set(MISSIONS.filter(mission => mission.collaboratorSlug === 'lea').map(mission => mission.slug))
-    for (const slug of ['realiser-une-veille-concurrentielle', 'surveiller-un-marche', 'analyser-les-retours-clients', 'suivre-les-actualites-d-un-secteur', 'detecter-les-tendances-emergentes', 'comparer-les-offres-concurrentes', 'preparer-une-etude-de-marche', 'preparer-un-benchmark', 'produire-une-note-de-veille']) {
-      expect(leaMissions.has(slug)).toBe(true)
+  it('separates strategic intelligence from editorial analysis', () => {
+    const camilleMissions = new Set(MISSIONS.filter(mission => mission.collaboratorSlug === 'camille').map(mission => mission.slug))
+    for (const slug of ['realiser-une-veille-concurrentielle', 'surveiller-un-marche', 'suivre-les-actualites-d-un-secteur', 'detecter-les-tendances-emergentes', 'comparer-les-offres-concurrentes', 'preparer-une-etude-de-marche', 'preparer-un-benchmark', 'produire-une-note-de-veille', 'rechercher-des-informations-publiques', 'preparer-une-revue-strategique']) {
+      expect(camilleMissions.has(slug)).toBe(true)
     }
+    expect(MISSIONS.find(mission => mission.slug === 'analyser-les-retours-clients')?.collaboratorSlug).toBe('lea')
+  })
+
+  it('assigns supplier analysis to Gabriel rather than Lucas', () => {
+    const gabrielMissions = new Set(MISSIONS.filter(mission => mission.collaboratorSlug === 'gabriel').map(mission => mission.slug))
+    for (const slug of ['comparer-les-offres-fournisseurs', 'suivre-les-renouvellements', 'suivre-les-engagements-fournisseurs']) {
+      expect(gabrielMissions.has(slug)).toBe(true)
+    }
+    expect(ROLE_DETAILS.lucas.role.fr).toBe('Coordinateur des opérations')
   })
 })
