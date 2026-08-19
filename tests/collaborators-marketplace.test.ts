@@ -82,7 +82,7 @@ describe('Collaborateurs IA marketplace', () => {
 
   it('gives Léa additional editorial monitoring and analysis missions', () => {
     const leaMissions = new Set(MISSIONS.filter(mission => mission.collaboratorSlug === 'lea').map(mission => mission.slug))
-    for (const slug of ['realiser-une-veille-concurrentielle', 'surveiller-un-marche', 'analyser-les-retours-clients', 'suivre-les-actualites-d-un-secteur', 'detecter-les-tendances-emergentes']) {
+    for (const slug of ['realiser-une-veille-concurrentielle', 'surveiller-un-marche', 'analyser-les-retours-clients', 'suivre-les-actualites-d-un-secteur', 'detecter-les-tendances-emergentes', 'comparer-les-offres-concurrentes', 'preparer-une-etude-de-marche', 'preparer-un-benchmark', 'produire-une-note-de-veille']) {
       expect(leaMissions.has(slug)).toBe(true)
     }
   })
