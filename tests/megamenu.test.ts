@@ -15,7 +15,7 @@ describe('Collaborateurs IA mega menu', () => {
   })
 
   it('links directly to the six Collaborator areas', () => {
-    for (const href of ['/marketplace/collaborateurs-ia', '/marketplace#profils-metier', '/marketplace#competences', '/marketplace#applications', '/marketplace#modeles-ia', '/marketplace#serveurs-ia']) expect(navbar).toContain(`href: '${href}'`)
+    for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia']) expect(navbar).toContain(`href: '${href}'`)
     for (const label of ['Collaborateurs IA', 'Profils métier', 'Compétences', 'Applications', 'Modèles IA', 'Serveurs IA']) expect(navbar).toContain(label)
   })
 

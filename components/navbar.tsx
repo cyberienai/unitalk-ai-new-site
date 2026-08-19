@@ -23,11 +23,11 @@ type MenuEntry = { title: Bi; desc: Bi; href: string }
 
 const COLLAB_MENU: MenuEntry[] = [
   { title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' }, desc: { fr: 'Les identités IA prêtes à rejoindre votre entreprise.', en: 'AI identities ready to join your organization.' }, href: '/marketplace/collaborateurs-ia' },
-  { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Son profil par défaut et ceux que vous pouvez ajouter.', en: 'Its default profile and the ones you can add.' }, href: '/marketplace#profils-metier' },
-  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Les méthodes qu’il peut réutiliser.', en: 'Methods it can reuse.' }, href: '/marketplace#competences' },
-  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Les outils qu’il est autorisé à utiliser.', en: 'Tools it is authorized to use.' }, href: '/marketplace#applications' },
-  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et capacités autorisés.', en: 'Authorized models and capacities.' }, href: '/marketplace#modeles-ia' },
-  { title: { fr: 'Serveurs IA', en: 'AI servers' }, desc: { fr: 'Son environnement de travail privé.', en: 'Its private working environment.' }, href: '/marketplace#serveurs-ia' },
+  { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Son profil par défaut et ceux que vous pouvez ajouter.', en: 'Its default profile and the ones you can add.' }, href: '/marketplace/profils-metier' },
+  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Les méthodes qu’il peut réutiliser.', en: 'Methods it can reuse.' }, href: '/marketplace/competences' },
+  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Les outils qu’il est autorisé à utiliser.', en: 'Tools it is authorized to use.' }, href: '/marketplace/applications' },
+  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et capacités autorisés.', en: 'Authorized models and capacities.' }, href: '/marketplace/modeles-ia' },
+  { title: { fr: 'Serveurs IA', en: 'AI servers' }, desc: { fr: 'Son environnement de travail privé.', en: 'Its private working environment.' }, href: '/marketplace/serveurs-ia' },
 ]
 
 const T = {
@@ -169,7 +169,8 @@ export function Navbar(
   // Missions has its own top-level navigation item, so it must not also mark
   // the Collaborateurs IA trigger as the current page.
   const marketplacePrefixes = ['/collaborateurs-ia', '/marketplace', '/desktop', '/ai-gateway', '/modeles-ia']
-  const isCollabActive = marketplacePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))
+  const isCollaboratorProfile = /^\/@[^/]+$/.test(pathname) && !pathname.includes('@unitalk')
+  const isCollabActive = isCollaboratorProfile || marketplacePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')
   const isAcademyActive = pathname === '/academy' || pathname.startsWith('/academy/')
   const isPricingActive = pathname === '/tarifs'
@@ -256,8 +257,8 @@ export function Navbar(
               <div
                 ref={collabRef}
                 className="relative"
-                onMouseEnter={openCollabHover}
-                onMouseLeave={closeCollabHover}
+                onPointerEnter={openCollabHover}
+                onPointerLeave={closeCollabHover}
               >
                 <button
                   ref={collabButtonRef}
