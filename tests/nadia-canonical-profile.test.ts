@@ -14,7 +14,7 @@ describe('Nadia canonical public profile', () => {
   })
 
   it('uses the mission-led experience with finance-specific content', () => {
-    expect(content).toContain('detail.slug === "hugo" || detail.slug === "nadia"')
+    expect(content).toContain('["hugo", "nadia", "emma"].includes(detail.slug)')
     expect(content).toContain('Relancer mes factures impayées')
     expect(content).toContain('Confier mes relances à Nadia')
     expect(content).toContain('Nadia vérifie vos factures impayées et prépare les relances.')

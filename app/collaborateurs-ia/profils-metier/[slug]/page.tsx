@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Navbar } from '@/components/navbar'
 import { StoreItemDetail } from '@/components/store/store-item-detail'
+import { AdoptionAdvisorProfile } from '@/components/collaborateurs-ia/profils/adoption-advisor-profile'
 import { SiteFooter } from '@/components/site-footer'
 import { getStoreItem, STORE_ITEMS, TYPE_LABELS, TYPE_LABELS_PLURAL } from '@/lib/store-catalog'
 
@@ -54,7 +55,7 @@ export default async function ProfilMetierDetailPage({ params }: { params: Promi
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Navbar />
-      <StoreItemDetail typeSlug={TYPE_SLUG} slug={slug} />
+      {slug === 'conseillere-adoption-ia' ? <AdoptionAdvisorProfile item={item} /> : <StoreItemDetail typeSlug={TYPE_SLUG} slug={slug} />}
       <SiteFooter />
     </>
   )

@@ -108,7 +108,9 @@ export function missionsForCollaborator(slug: string, count = 4): CollaboratorMi
   const missions = MISSIONS.filter((m) => m.collaboratorSlug === slug)
   const featuredSlugs = slug === 'nadia'
     ? ['relancer-les-factures-impayees', 'suivre-la-tresorerie', 'preparer-mon-reporting-financier', 'analyser-les-ecarts-budgetaires', 'preparer-les-previsions-budgetaires']
-    : []
+    : slug === 'emma'
+      ? ['preparer-un-comite-de-direction', 'participer-a-vos-reunions', 'preparer-et-suivre-mes-reunions', 'extraire-les-decisions', 'suivre-les-actions-decidees']
+      : []
   const ordered = slug === 'hugo'
     ? [...missions.filter((m) => m.slug !== 'trouver-de-nouveaux-clients'), ...missions.filter((m) => m.slug === 'trouver-de-nouveaux-clients')]
     : featuredSlugs.length > 0
@@ -124,5 +126,5 @@ export function getCollaboratorPage(slug: string): CollaboratorPage | null {
   const detail = ROLE_DETAILS[slug]
   const copy = HERO_COPY[slug]
   if (!detail || !copy) return null
-  return { detail, copy, missions: missionsForCollaborator(slug, slug === 'nadia' ? 5 : 4) }
+  return { detail, copy, missions: missionsForCollaborator(slug, ['nadia', 'emma'].includes(slug) ? 5 : 4) }
 }

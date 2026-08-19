@@ -161,17 +161,17 @@ const COPY = {
 const PERSONAS = {
   emma: {
     claim: {
-      fr: "Emma prépare vos réunions, vos priorités et vos décisions.",
-      en: "Emma prepares your meetings, priorities and decisions.",
+      fr: "Emma prépare vos réunions et suit chaque décision.",
+      en: "Emma prepares your meetings and tracks every decision.",
     },
-    accent: { fr: "vos décisions", en: "priorities and decisions" },
+    accent: { fr: "suit chaque décision", en: "tracks every decision" },
     lead: {
-      fr: "Confiez-lui votre agenda, vos dossiers et le suivi des actions. Votre équipe garde les arbitrages qui engagent l’entreprise.",
-      en: "Entrust her with your calendar, files and action tracking. Your team keeps decisions that commit the organization.",
+      fr: "Commencez par votre prochain comité de direction. Emma réunit les documents, prépare l’ordre du jour et organise le suivi. Votre équipe garde les arbitrages.",
+      en: "Start with your next leadership meeting. Emma gathers documents, prepares the agenda and organizes follow-up. Your team retains the decisions.",
     },
     composer: {
-      fr: "Quelle mission souhaitez-vous confier à Emma ?",
-      en: "What mission would you like to assign to Emma?",
+      fr: "Emma prépare votre prochain comité de direction.",
+      en: "Emma prepares your next leadership meeting.",
     },
     placeholder: {
       fr: "Décrivez la réunion, les participants, les documents et le résultat attendu…",
@@ -190,7 +190,7 @@ const PERSONAS = {
       ],
     },
     proofTitle: {
-      fr: "Emma prépare. Votre direction décide.",
+      fr: "Emma prépare. Votre direction arbitre.",
       en: "Emma prepares. Your leadership decides.",
     },
     proofMission: {
@@ -199,9 +199,9 @@ const PERSONAS = {
     },
     activity: {
       fr: [
-        "Documents et participants réunis.",
-        "5 points ouverts identifiés.",
-        "Ordre du jour et synthèse préparés.",
+        "6 documents et 8 participants réunis.",
+        "5 points à arbitrer identifiés.",
+        "Ordre du jour et dossier de séance prêts à valider.",
       ],
       en: [
         "Documents and participants gathered.",
@@ -210,8 +210,8 @@ const PERSONAS = {
       ],
     },
     decision: {
-      fr: "Valider l’ordre du jour avant diffusion ?",
-      en: "Approve the agenda before sharing?",
+      fr: "Valider l’ordre du jour avant de l’envoyer aux participants ?",
+      en: "Approve the agenda before sending it to participants?",
     },
     apps: ["Gmail", "Outlook", "Agenda", "Notion", "Slack", "Teams"],
     profiles: {
@@ -548,15 +548,23 @@ export function CollaborateurContent({
   const t = COPY[lang];
   const { detail, missions } = page;
   const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
-  const isMissionLedProfile = detail.slug === "hugo" || detail.slug === "nadia";
-  const primaryMission = detail.slug === "nadia"
+  const isMissionLedProfile = ["hugo", "nadia", "emma"].includes(detail.slug);
+  const primaryMission = detail.slug === "emma"
+    ? lang === "fr"
+      ? "Préparer mon prochain comité de direction"
+      : "Prepare my next leadership meeting"
+    : detail.slug === "nadia"
     ? lang === "fr"
       ? "Relancer mes factures impayées"
       : "Follow up on my overdue invoices"
     : lang === "fr"
       ? "Trouver et qualifier mes prospects"
       : "Find and qualify my prospects";
-  const primaryCta = detail.slug === "nadia"
+  const primaryCta = detail.slug === "emma"
+    ? lang === "fr"
+      ? "Confier mon prochain comité à Emma"
+      : "Assign my next meeting to Emma"
+    : detail.slug === "nadia"
     ? lang === "fr"
       ? "Confier mes relances à Nadia"
       : "Assign my follow-ups to Nadia"
@@ -565,6 +573,8 @@ export function CollaborateurContent({
     ? "trouver-de-nouveaux-clients"
     : detail.slug === "nadia"
       ? "relancer-les-factures-impayees"
+      : detail.slug === "emma"
+        ? "preparer-un-comite-de-direction"
       : null;
   const featuredMissions = exampleMissionSlug
     ? missions.filter((mission) => mission.slug !== exampleMissionSlug)
@@ -751,17 +761,25 @@ export function CollaborateurContent({
               {persona.proofTitle[lang]}
             </h2>
             <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#CFC6B8]">
-              {detail.slug === "nadia"
+              {detail.slug === "emma"
+                ? lang === "fr"
+                  ? "Emma consulte uniquement les documents autorisés, prépare l’ordre du jour et soumet toute diffusion à votre validation."
+                  : "Emma only reviews authorized documents, prepares the agenda and submits any distribution for your approval."
+                : detail.slug === "nadia"
                 ? lang === "fr"
                   ? "Nadia consulte uniquement les factures autorisées, prépare les relances et soumet chaque envoi à votre validation."
                   : "Nadia only reviews authorized invoices, prepares follow-ups and submits every send for your approval."
                 : persona.lead[lang]}
             </p>
-            {detail.slug === "nadia" && (
+            {["nadia", "emma"].includes(detail.slug) && (
               <dl className="mt-7 grid max-w-xl gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
-                {(lang === "fr"
-                  ? [["Sources", "Factures et historique autorisés"], ["Action", "Relances préparées, jamais envoyées seules"], ["Escalade", "Litiges transmis à votre équipe"]]
-                  : [["Sources", "Authorized invoices and history"], ["Action", "Follow-ups prepared, never sent alone"], ["Escalation", "Disputes routed to your team"]]
+                {(detail.slug === "emma"
+                  ? lang === "fr"
+                    ? [["Sources", "Documents et agendas autorisés"], ["Action", "Ordre du jour préparé, jamais diffusé seul"], ["Arbitrage", "Décisions laissées à votre direction"]]
+                    : [["Sources", "Authorized documents and calendars"], ["Action", "Agenda prepared, never shared alone"], ["Decision", "Decisions left to your leadership"]]
+                  : lang === "fr"
+                    ? [["Sources", "Factures et historique autorisés"], ["Action", "Relances préparées, jamais envoyées seules"], ["Escalade", "Litiges transmis à votre équipe"]]
+                    : [["Sources", "Authorized invoices and history"], ["Action", "Follow-ups prepared, never sent alone"], ["Escalation", "Disputes routed to your team"]]
                 ).map(([label, value]) => (
                   <div key={label} className="bg-[#211E1A] p-4">
                     <dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#F2A4C5]">{label}</dt>
@@ -780,11 +798,15 @@ export function CollaborateurContent({
                 {persona.proofMission[lang]}
               </h3>
             </div>
-            {detail.slug === "nadia" && (
+            {["nadia", "emma"].includes(detail.slug) && (
               <div className="grid grid-cols-3 gap-px border-b border-white/10 bg-white/10">
-                {(lang === "fr"
-                  ? [["14 820 €", "À relancer"], ["10", "Relances prêtes"], ["2", "Litiges isolés"]]
-                  : [["€14,820", "Outstanding"], ["10", "Follow-ups ready"], ["2", "Disputes isolated"]]
+                {(detail.slug === "emma"
+                  ? lang === "fr"
+                    ? [["8", "Participants"], ["6", "Documents réunis"], ["5", "Arbitrages attendus"]]
+                    : [["8", "Participants"], ["6", "Documents gathered"], ["5", "Decisions expected"]]
+                  : lang === "fr"
+                    ? [["14 820 €", "À relancer"], ["10", "Relances prêtes"], ["2", "Litiges isolés"]]
+                    : [["€14,820", "Outstanding"], ["10", "Follow-ups ready"], ["2", "Disputes isolated"]]
                 ).map(([value, label]) => (
                   <div key={label} className="bg-[#211E1A] p-4">
                     <strong className="block text-xl font-bold text-white sm:text-2xl">{value}</strong>
@@ -808,7 +830,11 @@ export function CollaborateurContent({
                 {persona.decision[lang]}
               </p>
               <p className="mt-2 text-xs leading-5 text-[#AFA397]">
-                {lang === "fr" ? "Interaction de démonstration : aucune relance réelle ne sera envoyée." : "Demonstration only: no real follow-up will be sent."}
+                {detail.slug === "emma"
+                  ? lang === "fr" ? "Interaction de démonstration : aucun ordre du jour réel ne sera envoyé." : "Demonstration only: no real agenda will be sent."
+                  : detail.slug === "nadia"
+                    ? lang === "fr" ? "Interaction de démonstration : aucune relance réelle ne sera envoyée." : "Demonstration only: no real follow-up will be sent."
+                    : lang === "fr" ? "Interaction de démonstration : aucune action réelle ne sera exécutée." : "Demonstration only: no real action will be performed."}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Decision
@@ -975,7 +1001,11 @@ export function CollaborateurContent({
               )}
             </h2>
             <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#4E483F]">
-              {detail.slug === "nadia"
+              {detail.slug === "emma"
+                ? lang === "fr"
+                  ? "Chaque validation enrichit ses règles de travail : format d’ordre du jour, documents attendus, participants à informer et actions à suivre. L’historique reste gouverné par votre entreprise."
+                  : "Each approval enriches her working rules: agenda format, expected documents, participants to inform and actions to track. The history remains governed by your organization."
+                : detail.slug === "nadia"
                 ? lang === "fr"
                   ? "Chaque validation enrichit ses règles de travail : priorité de relance, ton adapté, traitement des litiges et suivi des engagements. L’historique reste gouverné par votre entreprise."
                   : "Each approval enriches her working rules: follow-up priority, appropriate tone, dispute handling and promise tracking. The history remains governed by your organization."
@@ -1011,12 +1041,14 @@ export function CollaborateurContent({
                 </p>
                </div>
             </div>
-             {detail.slug === "nadia" && (
+             {["nadia", "emma"].includes(detail.slug) && (
                <div className="mt-5 grid grid-cols-2 gap-3">
                  <div className="rounded-2xl border border-white/10 bg-white/[.04] p-4">
-                   <strong className="text-2xl font-bold text-white">10</strong>
+                   <strong className="text-2xl font-bold text-white">{detail.slug === "emma" ? "5" : "10"}</strong>
                    <span className="mt-1 block text-xs font-semibold text-[#AFA397]">
-                     {lang === "fr" ? "relances validées" : "follow-ups approved"}
+                     {detail.slug === "emma"
+                       ? lang === "fr" ? "arbitrages suivis" : "decisions tracked"
+                       : lang === "fr" ? "relances validées" : "follow-ups approved"}
                    </span>
                  </div>
                  <div className="rounded-2xl border border-[#F2A4C5]/20 bg-[#F2A4C5]/10 p-4">
@@ -1028,7 +1060,11 @@ export function CollaborateurContent({
                </div>
              )}
              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-              {(detail.slug === "nadia"
+              {(detail.slug === "emma"
+                ? lang === "fr"
+                  ? ["Format d’ordre du jour validé", "Documents attendus", "Participants à informer", "Actions à suivre"]
+                  : ["Approved agenda format", "Expected documents", "Participants to inform", "Actions to track"]
+                : detail.slug === "nadia"
                 ? lang === "fr"
                   ? ["Ordre de priorité validé", "Ton de relance validé", "Litiges à escalader", "Promesses de paiement à suivre"]
                   : ["Approved priority order", "Approved follow-up tone", "Disputes to escalate", "Payment promises to track"]
@@ -1038,7 +1074,7 @@ export function CollaborateurContent({
                   className="flex gap-3 rounded-2xl border border-white/10 bg-white/[.04] p-4 text-sm font-semibold"
                 >
                   <Check className="mt-0.5 size-4 shrink-0 text-[#F2A4C5]" />
-                  <span><span className="block">{item}</span>{detail.slug === "nadia" && <small className="mt-1 block text-[10px] font-bold uppercase tracking-[.1em] text-[#AFA397]">{lang === "fr" ? "Expérience conservée" : "Experience retained"}</small>}</span>
+                  <span><span className="block">{item}</span>{["nadia", "emma"].includes(detail.slug) && <small className="mt-1 block text-[10px] font-bold uppercase tracking-[.1em] text-[#AFA397]">{lang === "fr" ? "Expérience conservée" : "Experience retained"}</small>}</span>
                 </li>
               ))}
             </ul>
@@ -1050,7 +1086,11 @@ export function CollaborateurContent({
       <section className="collaborator-final order-6 bg-[#D10E63] py-16 text-white sm:py-20">
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
-            {detail.slug === "hugo" ? t.finalTitle : detail.slug === "nadia"
+            {detail.slug === "hugo" ? t.finalTitle : detail.slug === "emma"
+              ? lang === "fr"
+                ? <><span className="block">Prêt à confier votre prochain</span><span className="block text-[.86em]">comité de direction à Emma&nbsp;?</span></>
+                : <><span className="block">Ready to assign your next</span><span className="block text-[.86em]">leadership meeting to Emma?</span></>
+              : detail.slug === "nadia"
               ? lang === "fr"
                 ? <><span className="block">Prêt à confier la gestion</span><span className="block">de vos relances à Nadia&nbsp;?</span></>
                 : <><span className="block">Ready to let Nadia manage</span><span className="block">your follow-ups?</span></>
@@ -1119,10 +1159,12 @@ export function IdentityCard({
   detail,
   lang,
   labels,
+  compact = false,
 }: {
   detail: CollaboratorPage["detail"];
   lang: "fr" | "en";
   labels: typeof COPY.fr.identityCard | typeof COPY.en.identityCard;
+  compact?: boolean;
 }) {
   const fr = lang === "fr";
   const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
@@ -1162,6 +1204,7 @@ export function IdentityCard({
         : "A relevant model for each task, among authorized models",
     ],
   ];
+  const visibleRows = compact ? rows.filter((_, index) => [0, 2, 5, 6, 7].includes(index)) : rows;
   return (
     <article className="relative min-w-0 overflow-hidden rounded-[30px] border border-[#CFC5B5] bg-[#FAF8F3] shadow-[0_30px_75px_-48px_rgba(28,26,23,.55)]">
       <div
@@ -1203,7 +1246,7 @@ export function IdentityCard({
         </div>
         <div className="min-w-0">
           <dl className="divide-y divide-[#DED6C8]">
-            {rows.map(([label, value]) => (
+            {visibleRows.map(([label, value]) => (
               <div
                 key={label}
                 className="grid gap-1 py-3 xl:grid-cols-[130px_minmax(0,1fr)] xl:gap-3"
@@ -1217,7 +1260,7 @@ export function IdentityCard({
               </div>
             ))}
           </dl>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          {!compact && <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <IdentityFeature
               icon={Mail}
               title={labels.communication}
@@ -1236,8 +1279,8 @@ export function IdentityCard({
                   : "Hermes Agent · Files · Browser · Code · Own secrets"
               }
             />
-          </div>
-          <div className="mt-3 rounded-2xl border border-[#DED6C8] bg-white p-4">
+          </div>}
+          {!compact && <div className="mt-3 rounded-2xl border border-[#DED6C8] bg-white p-4">
             <h3 className="flex items-center gap-2 text-sm font-semibold">
               <Building2 className="size-4 text-[#D10E63]" />
               {labels.shared}
@@ -1247,7 +1290,7 @@ export function IdentityCard({
                 ? "Méthodes, documents et connaissances accessibles selon les droits attribués."
                 : "Methods, documents and knowledge available under assigned permissions."}
             </p>
-          </div>
+          </div>}
         </div>
       </div>
       <footer className="relative border-t border-[#DED6C8] bg-[#EAE3D4] px-6 py-4 sm:px-8">
@@ -1277,7 +1320,7 @@ function IdentityFeature({
     </div>
   );
 }
-export function ApplicationLogos({ apps }: { apps: readonly string[] }) {
+export function ApplicationLogos({ apps, limit = 6 }: { apps: readonly string[]; limit?: number }) {
   const { lang } = useLanguage();
   const icons: Record<string, typeof siHubspot | null> = {
     HubSpot: siHubspot,
@@ -1285,7 +1328,7 @@ export function ApplicationLogos({ apps }: { apps: readonly string[] }) {
     Agenda: siGooglecalendar,
   };
   const visible = apps
-    .slice(0, 6)
+    .slice(0, limit)
     .map((name) => [name, icons[name] ?? null] as const);
   return (
     <ul
@@ -1328,7 +1371,7 @@ export function ApplicationLogos({ apps }: { apps: readonly string[] }) {
   );
 }
 
-export function ModelLogos() {
+export function ModelLogos({ limit = 9 }: { limit?: number } = {}) {
   const models = [
     [OpenAI, "OpenAI", "GPT"],
     [Anthropic, "Anthropic", "Claude"],
@@ -1347,7 +1390,7 @@ export function ModelLogos() {
       aria-label="Familles de modèles accessibles via Unitalk AI Gateway"
       className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3"
     >
-      {models.map(([Icon, provider, model]) => (
+      {models.slice(0, limit).map(([Icon, provider, model]) => (
         <li key={provider} className="min-h-28 bg-[#211E1B] p-4">
           <span
             aria-hidden
@@ -1359,7 +1402,7 @@ export function ModelLogos() {
           <span className="mt-1 block text-[10px] text-[#AFA397]">{model}</span>
         </li>
       ))}
-      {additionalModels.map(([mark, provider, model]) => (
+      {additionalModels.slice(0, Math.max(0, limit - models.length)).map(([mark, provider, model]) => (
         <li key={model} className="min-h-28 bg-[#211E1B] p-4">
           <span
             aria-hidden
@@ -1389,6 +1432,7 @@ function CollaboratorFaq({
       ? [
           ...(compact && detail.slug === "hugo" ? [["De quoi Hugo a-t-il besoin pour commencer ?", "De vos critères de prospection et des accès que vous autorisez. Alma prépare ensuite la mission et les validations nécessaires."]] : []),
           ...(compact && detail.slug === "nadia" ? [["De quoi Nadia a-t-elle besoin pour commencer ?", "De vos sources financières autorisées, de la période à analyser et de vos règles de gestion. Alma prépare ensuite les accès et validations nécessaires."]] : []),
+          ...(compact && detail.slug === "emma" ? [["De quoi Emma a-t-elle besoin pour commencer ?", "De la date de la réunion, des participants et des documents autorisés. Alma prépare ensuite les accès et validations nécessaires."]] : []),
           [
             `${detail.name} appartient-${detail.gender === "female" ? "elle" : "il"} à Unitalk ou à mon entreprise ?`,
             `${detail.name} illustre publiquement le profil ${detail.role.fr.toLowerCase()}. Le Collaborateur IA déployé pour votre organisation appartient à votre entreprise.`,
@@ -1417,6 +1461,7 @@ function CollaboratorFaq({
       : [
           ...(compact && detail.slug === "hugo" ? [["What does Hugo need to get started?", "Your prospecting criteria and the access you authorize. Alma then prepares the mission and required approvals."]] : []),
           ...(compact && detail.slug === "nadia" ? [["What does Nadia need to get started?", "Your authorized financial sources, the reporting period and your management rules. Alma then prepares the required access and approvals."]] : []),
+          ...(compact && detail.slug === "emma" ? [["What does Emma need to get started?", "The meeting date, participants and authorized documents. Alma then prepares the required access and approvals."]] : []),
           [
             `Does ${detail.name} belong to Unitalk or my organization?`,
             `${detail.name} publicly illustrates the ${detail.role.en.toLowerCase()} profile. The AI Collaborator deployed for your organization belongs to your organization.`,
