@@ -548,6 +548,22 @@ export function CollaborateurContent({
   const t = COPY[lang];
   const { detail, missions } = page;
   const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
+  const isMissionLedProfile = detail.slug === "hugo" || detail.slug === "nadia";
+  const primaryMission = detail.slug === "nadia"
+    ? lang === "fr"
+      ? "Préparer mon reporting financier"
+      : "Prepare my financial reporting"
+    : lang === "fr"
+      ? "Trouver et qualifier mes prospects"
+      : "Find and qualify my prospects";
+  const primaryCta = detail.slug === "nadia"
+    ? lang === "fr"
+      ? "Confier le reporting à Nadia"
+      : "Assign reporting to Nadia"
+    : t.finalCta;
+  const featuredMissions = detail.slug === "hugo"
+    ? missions.filter((mission) => mission.slug !== "trouver-de-nouveaux-clients")
+    : missions;
   const [missionRequest, setMissionRequest] = useState("");
   const [decision, setDecision] = useState<
     "approved" | "modified" | "declined" | null
@@ -586,17 +602,13 @@ export function CollaborateurContent({
     );
   }
 
-  function personalizeHugo() {
-    const text =
-      lang === "fr"
-        ? "Trouver et qualifier mes prospects"
-        : "Find and qualify my prospects";
+  function startPrimaryMission() {
     const draftId = `draft_${crypto.randomUUID()}`;
     try {
       localStorage.setItem(
         `unitalk_mission_${draftId}`,
         JSON.stringify({
-          text,
+          text: primaryMission,
           collaborator: detail.slug,
           createdAt: Date.now(),
         }),
@@ -608,7 +620,7 @@ export function CollaborateurContent({
   }
 
   return (
-    <main className={`collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17] ${detail.slug === "hugo" ? "collaborator-profile-hugo flex flex-col" : ""}`}>
+    <main className={`collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17] ${isMissionLedProfile ? "collaborator-profile-hugo flex flex-col" : ""}`}>
       <section className="collaborator-hero order-1 relative pb-12 pt-24 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
         <div
           aria-hidden
@@ -627,7 +639,7 @@ export function CollaborateurContent({
                   className="size-9 rounded-full border border-[#CFC5B5] object-cover"
                 />
                 <span className="truncate text-[13px] font-bold text-[#4E483F] sm:text-sm">
-                  {detail.name} · {lang === "fr" ? "Collaborateur IA · Profil commercial" : "AI Collaborator · Sales profile"}
+                  {detail.name} · {lang === "fr" ? `${detail.gender === "female" ? "Collaboratrice" : "Collaborateur"} IA · Profil ${detail.role.fr.toLowerCase()}` : `AI Collaborator · ${detail.role.en} profile`}
                 </span>
               </div>
               <h1 className="mt-6 max-w-[780px] font-sf text-[clamp(2.8rem,5vw,5.1rem)] font-bold leading-[.92] tracking-[-.062em]">
@@ -636,7 +648,7 @@ export function CollaborateurContent({
               <p className="mt-7 max-w-[650px] text-[17px] font-medium leading-8 text-[#4E483F]">
                 {persona.lead[lang]}
               </p>
-              {detail.slug !== "hugo" && (
+              {!isMissionLedProfile && (
                 <Link
                   href="#alma-profile"
                   className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white shadow-[0_14px_34px_-20px_rgba(28,26,23,.7)] hover:bg-[#2A2622]"
@@ -648,7 +660,7 @@ export function CollaborateurContent({
               )}
             </div>
             <div id="alma-profile" className="scroll-mt-24">
-              {detail.slug === "hugo" ? (
+              {isMissionLedProfile ? (
                 <article className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#17130F] p-5 text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,.65)] sm:p-7 lg:max-w-[520px] lg:justify-self-end">
                   <div
                     aria-hidden
@@ -681,10 +693,10 @@ export function CollaborateurContent({
                   </div>
                   <button
                     type="button"
-                    onClick={personalizeHugo}
+                    onClick={startPrimaryMission}
                     className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#E51872] px-6 text-sm font-bold text-white transition-colors hover:bg-[#F02A82]"
                   >
-                    {t.personalizeHugo}
+                    {primaryCta}
                     <ArrowRight className="size-4" />
                   </button>
                 </article>
@@ -712,7 +724,7 @@ export function CollaborateurContent({
                   compactDesktop
                 />
               )}
-              {detail.slug !== "hugo" && <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 lg:max-w-[520px] lg:justify-self-end">{t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]" />{proof}</li>)}</ul>}
+              {!isMissionLedProfile && <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 lg:max-w-[520px] lg:justify-self-end">{t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]" />{proof}</li>)}</ul>}
             </div>
           </div>
         </div>
@@ -792,7 +804,7 @@ export function CollaborateurContent({
         </div>
       </section>
 
-      {detail.slug !== "hugo" && <section className="collaborator-identity-section py-20 sm:py-24">
+      {!isMissionLedProfile && <section className="collaborator-identity-section py-20 sm:py-24">
         <div className="editorial-shell grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:gap-12">
           <div>
             <Kicker>{t.identityKicker}</Kicker>
@@ -840,7 +852,7 @@ export function CollaborateurContent({
         </div>
       </section>}
 
-      {detail.slug !== "hugo" && <section className="collaborator-equipment-section bg-[#EAE3D4] py-20 sm:py-24">
+      {!isMissionLedProfile && <section className="collaborator-equipment-section bg-[#EAE3D4] py-20 sm:py-24">
         <div className="editorial-shell">
           <div className="grid gap-px overflow-hidden rounded-[26px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2">
             <Link
@@ -955,7 +967,7 @@ export function CollaborateurContent({
                 </p>
                </div>
             </div>
-             {detail.slug === "hugo" && <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl border border-white/10 bg-white/[.04] p-4"><strong className="text-2xl font-bold text-white">34</strong><span className="mt-1 block text-xs font-semibold text-[#AFA397]">entreprises analysées</span></div><div className="rounded-2xl border border-[#F2A4C5]/20 bg-[#F2A4C5]/10 p-4"><strong className="text-2xl font-bold text-[#F2A4C5]">9</strong><span className="mt-1 block text-xs font-semibold text-[#DCCBD3]">prospects qualifiés</span></div></div>}
+             {isMissionLedProfile && <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl border border-white/10 bg-white/[.04] p-4"><strong className="text-2xl font-bold text-white">{detail.slug === "nadia" ? "3" : "34"}</strong><span className="mt-1 block text-xs font-semibold text-[#AFA397]">{detail.slug === "nadia" ? (lang === "fr" ? "sources consolidées" : "sources consolidated") : (lang === "fr" ? "entreprises analysées" : "companies reviewed")}</span></div><div className="rounded-2xl border border-[#F2A4C5]/20 bg-[#F2A4C5]/10 p-4"><strong className="text-2xl font-bold text-[#F2A4C5]">{detail.slug === "nadia" ? "6" : "9"}</strong><span className="mt-1 block text-xs font-semibold text-[#DCCBD3]">{detail.slug === "nadia" ? (lang === "fr" ? "écarts signalés" : "variances flagged") : (lang === "fr" ? "prospects qualifiés" : "qualified prospects")}</span></div></div>}
              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {t.evolutionItems.map((item) => (
                 <li
@@ -971,7 +983,7 @@ export function CollaborateurContent({
         </div>
       </section>
 
-      {missions.length > 0 && (
+      {featuredMissions.length > 0 && (
         <section
           id="missions"
           className="collaborator-missions order-2 scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"
@@ -983,7 +995,7 @@ export function CollaborateurContent({
                 : `Ready-to-use missions with ${detail.name}`}
             </h2>
             <div className="mt-10 grid gap-4 md:grid-cols-2">
-              {missions.slice(0, 4).map((mission) => (
+              {featuredMissions.slice(0, 4).map((mission) => (
                 <Link
                   key={mission.slug}
                   href={`/missions/${mission.slug}`}
@@ -1015,7 +1027,7 @@ export function CollaborateurContent({
         </section>
       )}
 
-      <CollaboratorFaq lang={lang} detail={detail} compact={detail.slug === "hugo"} />
+      <CollaboratorFaq lang={lang} detail={detail} compact={isMissionLedProfile} />
       <section className="collaborator-final order-6 bg-[#D10E63] py-16 text-white sm:py-20">
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
@@ -1024,7 +1036,7 @@ export function CollaborateurContent({
               : <><span className="block">What first mission</span><span className="block">will you assign to {detail.name}?</span></>}
           </h2>
           <div className="flex min-w-60 flex-col gap-3">
-            {detail.slug === "hugo" ? <button type="button" onClick={personalizeHugo} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
+            {isMissionLedProfile ? <button type="button" onClick={startPrimaryMission} className="inline-flex min-h-12 w-full items-center justify-center whitespace-nowrap rounded-full bg-[#181615] px-6 text-sm font-bold sm:w-auto sm:px-7">{primaryCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
             <Link
               href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`}
               className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4"
@@ -1237,16 +1249,6 @@ function IdentityFeature({
     </div>
   );
 }
-function HeroProof({ title, body, href }: { title: string; body: string; href?: string }) {
-  const alma = href === "/alma"
-  const content = <>{alma?<div className="flex items-center gap-2"><Image src="/alma-avatar.png" alt="" width={28} height={28} className="size-7 shrink-0 rounded-full object-cover ring-1 ring-[#D10E63]/25"/><h3 className="text-[14px] font-bold sm:text-[15px]">{title}</h3></div>:<h3 className="text-[15px] font-bold">{title}</h3>}<p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>{href&&<ArrowRight className="mt-3 size-4 text-[#B00C54] transition-transform group-hover:translate-x-1"/>}</>
-  return href ? <Link href={href} aria-label={`${title} : ${body}`} className="group min-h-28 border-b border-[#CFC5B5] p-5 transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D10E63] sm:border-r sm:border-b-0 sm:last:border-r-0">{content}</Link> : (
-    <article className="min-h-28 border-b border-[#CFC5B5] p-5 sm:border-r lg:border-b-0 lg:last:border-r-0">
-      {content}
-    </article>
-  );
-}
-
 function ApplicationLogos({ apps }: { apps: readonly string[] }) {
   const { lang } = useLanguage();
   const icons: Record<string, typeof siHubspot | null> = {

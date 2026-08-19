@@ -105,7 +105,11 @@ export const COLLABORATOR_PAGE_SLUGS = Object.keys(HERO_COPY).filter(
 
 // Real missions this persona takes on, pulled from the shared catalog.
 export function missionsForCollaborator(slug: string, count = 4): CollaboratorMissionCard[] {
-  return MISSIONS.filter((m) => m.collaboratorSlug === slug)
+  const missions = MISSIONS.filter((m) => m.collaboratorSlug === slug)
+  const ordered = slug === 'hugo'
+    ? [...missions.filter((m) => m.slug !== 'trouver-de-nouveaux-clients'), ...missions.filter((m) => m.slug === 'trouver-de-nouveaux-clients')]
+    : missions
+  return ordered
     .slice(0, count)
     .map((m) => ({ slug: m.slug, title: m.title, objective: m.objective, category: m.category, status: m.status }))
 }

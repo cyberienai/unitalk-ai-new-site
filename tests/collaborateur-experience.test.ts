@@ -12,12 +12,13 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('source=collaborateurs-ia')
   })
 
-  it('uses canonical collaborator and mission catalogs', () => {
-    expect(source).toContain("const EXAMPLE_SLUGS = ['hugo', 'emma', 'ines']")
+  it('presents the full team from canonical collaborator and mission catalogs', () => {
+    expect(source).toContain("const ROSTER_SLUGS = ['emma', 'hugo', 'lea', 'ines', 'nadia', 'arthur']")
     expect(source).toContain('ROLE_DETAILS[slug]')
     expect(source).toContain('MISSIONS.find')
     expect(source).toContain('collaboratorHref(detail.slug)')
-    expect(source).toContain('STATUS_LABELS[mission.status][lang]')
+    expect(source).toContain('Rencontrez les Collaborateurs IA.')
+    expect(source).toContain('Découvrir son profil')
   })
 
   it('explains the mission before infrastructure', () => {
