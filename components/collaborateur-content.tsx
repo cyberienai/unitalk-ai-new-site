@@ -93,7 +93,7 @@ const COPY = {
       "Nouvelles missions sans repartir de zéro",
     ],
     finalTitle: "Quelle première mission allez-vous confier à Hugo ?",
-    finalCta: "Commencer avec Alma",
+    finalCta: "Décrire mon besoin à Hugo",
     pricing: "Voir les tarifs",
   },
   en: {
