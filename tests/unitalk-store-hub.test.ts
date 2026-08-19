@@ -29,7 +29,7 @@ describe('Marketplace IA hub', () => {
   it('starts directly with the catalog', () => {
     expect(hub).not.toContain('AlmaMissionComposer')
     expect(hub).not.toContain('getSpeechRecognition')
-    expect(hub).toContain('px-5 pt-36 sm:px-8 sm:pt-40')
+    expect(hub).toContain('px-5 pt-28 sm:px-8 sm:pt-40')
     expect(hub).not.toContain("'pb-9 pt-20 sm:pb-11 sm:pt-24")
     expect(hub).not.toContain('Marketplace · Collaborateurs IA')
     expect(hub).toContain('border-t border-[#CFC3B2]')
