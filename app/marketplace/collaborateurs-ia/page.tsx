@@ -8,13 +8,13 @@ const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
   title: 'Collaborateurs IA pour les équipes et PME | Unitalk',
-  description: 'Découvrez dix identités IA de référence, une par département, puis ajoutez les profils métier dont votre entreprise a besoin.',
+  description: 'Choisissez un Collaborateur IA pour une première mission concrète, puis faites évoluer ses profils métier, ses compétences et sa mémoire.',
   alternates: { canonical: '/marketplace/collaborateurs-ia' },
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/marketplace/collaborateurs-ia`,
     title: 'Choisissez votre Collaborateur IA | Unitalk',
-    description: 'Choisissez une identité de référence par département, puis faites-la évoluer avec des profils métier, des compétences et des applications.',
+    description: 'Découvrez dix Collaborateurs IA, leurs missions de départ et des exemples de résultats à valider avant toute action.',
   },
 }
 
@@ -35,10 +35,20 @@ export default function CollaboratorsMarketplacePage() {
       }
     }),
   }
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Unitalk', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Marketplace', item: `${SITE_URL}/marketplace` },
+      { '@type': 'ListItem', position: 3, name: 'Collaborateurs IA', item: `${SITE_URL}/marketplace/collaborateurs-ia` },
+    ],
+  }
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <Navbar />
       <UnitalkStoreHub collaboratorsOnly />
       <SiteFooter />

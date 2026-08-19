@@ -43,7 +43,7 @@ export const DEPARTMENTS: Department[] = [
     key: 'sales',
     label: { fr: 'Ventes', en: 'Sales' },
     roles: [
-      { name: 'Hugo', title: { fr: 'Commercial', en: 'Sales Rep' }, slug: 'hugo' },
+      { name: 'Hugo', title: { fr: 'Commercial', en: 'Sales Representative' }, slug: 'hugo' },
       { name: 'SDR', title: { fr: 'Prospection', en: 'Sales Development Rep' } },
       { name: 'Account Executive', title: { fr: 'Closing', en: 'Account Executive' } },
       { name: 'Amelia', title: { fr: 'Fidélisation', en: 'Customer Success' }, slug: 'amelia' },
@@ -71,7 +71,7 @@ export const DEPARTMENTS: Department[] = [
     key: 'finance',
     label: { fr: 'Finance', en: 'Finance' },
     roles: [
-      { name: 'Nadia', title: { fr: 'Analyste Financière', en: 'Financial Analyst' }, slug: 'nadia' },
+      { name: 'Nadia', title: { fr: 'Analyste financière', en: 'Financial Analyst' }, slug: 'nadia' },
       { name: 'Comptabilité', title: { fr: 'Comptabilité', en: 'Accounting' } },
       { name: 'Otto', title: { fr: 'Facturation', en: 'Billing' }, slug: 'otto' },
     ],
@@ -405,7 +405,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     managerHandle: 'clairedubois',
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
-    role: { fr: 'Commercial', en: 'Sales Rep' },
+    role: { fr: 'Commercial', en: 'Sales Representative' },
     gender: 'male',
     department: { fr: 'Ventes', en: 'Sales' },
     description: {
@@ -436,7 +436,7 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
     managerHandle: 'juliemartin',
     company: 'Unitalk',
     dataOwner: 'Unitalk AI',
-    role: { fr: 'Analyste Financière', en: 'Financial Analyst' },
+    role: { fr: 'Analyste financière', en: 'Financial Analyst' },
     gender: 'female',
     department: { fr: 'Finance', en: 'Finance' },
     description: {

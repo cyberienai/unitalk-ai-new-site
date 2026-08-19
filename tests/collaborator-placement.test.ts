@@ -11,9 +11,9 @@ describe('Collaborator organizational placement', () => {
     expect(profile).toContain('Personne · Équipe · Département · Entreprise')
   })
 
-  it('asks and persists placement during onboarding', () => {
-    expect(onboarding).toContain('Où ce Collaborateur IA travaillera-t-il ?')
-    for (const value of ['person', 'team', 'department', 'organization']) expect(onboarding).toContain(`value: '${value}'`)
+  it('persists the default placement without asking during onboarding', () => {
+    expect(onboarding).not.toContain('Où ce Collaborateur IA travaillera-t-il ?')
+    expect(onboarding).not.toContain('organizational-placement')
     expect(onboarding).toContain('organizationalPlacement: placement')
     expect(action).toContain('organizationalPlacement: OrganizationalPlacement')
   })

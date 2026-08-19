@@ -7,7 +7,7 @@ const content = readFileSync(new URL('../components/collaborateur-content.tsx', 
 
 describe('Nadia canonical public profile', () => {
   it('uses Nadia as the shared finance identity', () => {
-    expect(ROLE_DETAILS.nadia.role.fr).toBe('Analyste Financière')
+    expect(ROLE_DETAILS.nadia.role.fr).toBe('Analyste financière')
     expect(ROLE_DETAILS.nadia.department.fr).toBe('Finance')
     expect(getCollaboratorPage('nadia')).toBeTruthy()
     expect(collaboratorHref('nadia')).toBe('/@nadia')

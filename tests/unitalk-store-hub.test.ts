@@ -53,9 +53,10 @@ describe('Marketplace IA hub', () => {
   })
 
   it('makes skills concrete and filterable', () => {
-    for (const text of ['Tous les domaines', 'Tous les profils compatibles', 'Contexte d’entrée', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
+    for (const text of ['Tous les domaines', 'Tous les profils compatibles', 'Contexte d’application', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
     expect(hub).toContain('Réutilisable mission après mission.')
     expect(hub).toContain('Conditions confirmées avant ajout')
+    expect(hub).toContain('méthodes précises, documentées et réutilisables')
   })
 
   it('orders job profiles by broad SMB demand', () => {
