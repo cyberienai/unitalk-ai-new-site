@@ -117,7 +117,7 @@ const STORE_CATEGORIES: Category[] = [
     description: { fr: 'Choisissez le Collaborateur IA qui correspond à votre entreprise, puis faites-le évoluer avec les profils métier et les compétences adaptés à ses missions.', en: 'Choose the AI Collaborator that fits your organization, then evolve it with the job profiles and skills suited to its missions.' },
     heroTitle: { fr: 'Choisissez un Collaborateur IA. Confiez-lui une mission concrète.', en: 'Choose an AI Collaborator. Give them a concrete mission.' },
     heroAccent: { fr: 'Confiez-lui une mission concrète.', en: 'Give them a concrete mission.' },
-    heroLead: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise. Ajoutez-lui les savoir-faire d’un métier et les compétences nécessaires à ses missions.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization. Give them the professional know-how and skills their missions require.' },
+    heroLead: { fr: 'Votre Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise. Ajoutez-lui, sans frais supplémentaires, les savoir-faire d’un métier et les compétences nécessaires à ses missions.', en: 'Your AI Collaborator can work with one person, a team, a department or your entire organization. Give them the professional know-how and skills their missions require at no extra cost.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comprendre le Collaborateur IA', en: 'Understand the AI Collaborator' },
     href: '/collaborateurs-ia', accent: '#D10E63',
   },

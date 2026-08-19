@@ -215,7 +215,11 @@ export function MissionsContent({
   function selectFamily(next: NeedFamily) {
     setFamily(next)
     setVisibleCount(PAGE_SIZE)
-    const href = next === 'recommended' ? '/missions' : next === 'all' ? '/missions?vue=toutes' : `/missions?famille=${encodeURIComponent(next)}`
+    const params = new URLSearchParams()
+    if (requestedCollaborator) params.set('collaborateur', requestedCollaborator)
+    if (next === 'all') params.set('vue', 'toutes')
+    else if (next !== 'recommended') params.set('famille', next)
+    const href = params.size ? `/missions?${params}` : '/missions'
     router.replace(href, { scroll: false })
   }
 
@@ -262,7 +266,7 @@ export function MissionsContent({
             <h2 id="mission-selection-title" className="font-sf text-[clamp(2rem,3.45vw,3.65rem)] font-semibold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">{requestedCollaboratorDetail ? (lang === 'fr' ? `Missions prêtes à l’emploi avec ${requestedCollaboratorDetail.name}` : `Ready-to-use missions with ${requestedCollaboratorDetail.name}`) : t.catalogTitle}</h2>
           </div>
 
-          <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          {!requestedCollaboratorDetail && <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <label className="relative block w-full max-w-[160px]">
               <span className="sr-only">{t.search}</span>
               <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
@@ -271,7 +275,7 @@ export function MissionsContent({
             <div className="flex max-w-full gap-2 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                {(Object.keys(t.families) as NeedFamily[]).map((key) => <CategoryPill key={key} active={!requestedCategory && family === key} onClick={() => selectFamily(key)}>{t.families[key]}</CategoryPill>)}
             </div>
-          </div>
+          </div>}
 
           <div className="mt-6 flex items-center gap-3">
              <p role="status" aria-live="polite" className="text-sm font-semibold text-[#4E483F]">{family === 'recommended' && !query && !requestedCategory ? t.recommended(filteredMissions.length) : t.count(visibleMissions.length, filteredMissions.length)}</p>
