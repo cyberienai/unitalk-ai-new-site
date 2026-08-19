@@ -38,6 +38,8 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('onClick={() => selectCategory(category.id)}')
     expect(hub).toContain('role="tablist"')
     expect(hub).toContain('overflow-x-auto scrollbar-hide')
+    expect(hub).toContain("window.history.replaceState(null, '', href)")
+    expect(hub).not.toContain("window.history.pushState(null, '', href)")
   })
 
   it('centralizes real catalogs with search and featured cards', () => {
