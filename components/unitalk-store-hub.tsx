@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
+import { collaboratorHref, DETAILED_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
 
 type Lang = 'fr' | 'en'
@@ -26,11 +28,47 @@ type MarketplaceItem = {
   href?: string
   meta: string
   origin?: string
+  avatar?: string
   pending?: boolean
   status?: Bi
 }
 
 const PAGE_SIZE = 12
+
+// Editorial demand order for French SMBs. Unknown future profiles stay at the end.
+const PROFILE_DEMAND_ORDER = [
+  'commercial',
+  'gestionnaire-administratif',
+  'assistante-de-direction',
+  'support-client',
+  'analyste-financier',
+  'charge-prospection',
+  'responsable-relation-client',
+  'responsable-marketing',
+  'responsable-projet',
+  'responsable-crm',
+  'integrateur-no-code-automatisation',
+  'coordinateur-operations',
+  'content-strategist',
+  'responsable-seo',
+  'redacteur-web',
+  'community-manager',
+  'chef-projet-digital',
+  'responsable-editorial',
+  'gestionnaire-campagnes-publicitaires',
+  'responsable-acquisition',
+  'webmaster',
+  'analyste-web',
+  'charge-de-recrutement',
+  'consultant-strategie-digitale',
+  'charge-formation',
+  'developpeur',
+  'conseillere-adoption-ia',
+  'conseiller-transformation-ia',
+  'coordinatrice-missions',
+] as const
+
+const PROFILE_DEMAND_RANK = new Map(PROFILE_DEMAND_ORDER.map((slug, index) => [slug, index]))
 
 const MODEL_ITEMS = [
   { key: 'gpt', title: 'GPT', maker: 'OpenAI', meta: 'Texte · Vision · Code' },
@@ -42,6 +80,12 @@ const MODEL_ITEMS = [
 ] as const
 
 const STORE_CATEGORIES: Category[] = [
+  {
+    id: 'collaborateurs-ia', title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
+    description: { fr: 'Des identités IA incarnées, prêtes à rejoindre votre entreprise et à évoluer avec elle.', en: 'Embodied AI identities ready to join your organization and evolve with it.' },
+    search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comprendre le Collaborateur IA', en: 'Understand the AI Collaborator' },
+    href: '/collaborateurs-ia', accent: '#D10E63',
+  },
   {
     id: 'profils-metier', title: { fr: 'Profils métier', en: 'Job profiles' },
     description: { fr: 'Un profil métier de référence pour chaque métier de la connaissance.', en: 'One reference job profile for every knowledge-work profession.' },
@@ -79,9 +123,24 @@ const STORE_CATEGORIES: Category[] = [
 ]
 
 function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
+  if (categoryId === 'collaborateurs-ia') {
+    return DETAILED_SLUGS.map((slug) => ROLE_DETAILS[slug]).map((detail) => ({
+      key: `collaborateur-${detail.slug}`,
+      title: detail.name,
+      description: detail.description[lang],
+      href: collaboratorHref(detail.slug),
+      meta: detail.role[lang],
+      origin: detail.department[lang],
+      avatar: detail.avatar,
+      status: { fr: 'Profil public', en: 'Public profile' },
+    }))
+  }
+
   const storeType = categoryId === 'profils-metier' ? 'profil' : categoryId === 'competences' ? 'competence' : null
   if (storeType) {
-    return STORE_ITEMS.filter((item) => item.type === storeType).map((item) => ({
+    const items = STORE_ITEMS.filter((item) => item.type === storeType)
+    if (storeType === 'profil') items.sort((a, b) => (PROFILE_DEMAND_RANK.get(a.slug) ?? Number.MAX_SAFE_INTEGER) - (PROFILE_DEMAND_RANK.get(b.slug) ?? Number.MAX_SAFE_INTEGER))
+    return items.map((item) => ({
       key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: storeItemHref(item),
       meta: item.roleInOrg?.[lang] ?? item.facet, origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community',
       status: item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Inclus', en: 'Included' },
@@ -155,16 +214,19 @@ export function UnitalkStoreHub() {
   const visibleItems = filteredItems.slice(0, visibleCount)
 
   useEffect(() => {
-    const selectFromHash = () => {
+    const selectFromHash = (scroll = false) => {
       const categoryId = window.location.hash.slice(1)
       if (STORE_CATEGORIES.some((category) => category.id === categoryId)) {
         setActiveCategoryId(categoryId)
         setVisibleCount(PAGE_SIZE)
+        setCatalogQuery('')
+        if (scroll) requestAnimationFrame(() => document.getElementById('marketplace-results')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }))
       }
     }
     selectFromHash()
-    window.addEventListener('hashchange', selectFromHash)
-    return () => window.removeEventListener('hashchange', selectFromHash)
+    const handleHashChange = () => selectFromHash(true)
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
   function selectCategory(categoryId: string, scroll = true) {
@@ -222,6 +284,7 @@ function MarketplaceItemCard({ item, lang, category, labels }: { item: Marketpla
   const content = (
     <>
       <div>
+        {item.avatar && <div className="mb-5 flex items-center gap-4"><Image src={item.avatar} alt="" width={56} height={56} className="size-14 rounded-full object-cover ring-1 ring-[#D8D0C2]" /><div className="min-w-0"><p className="text-xs font-bold text-[#1C1A17]">{item.meta}</p><p className="mt-1 text-[10px] font-semibold text-[#857C6E]">{item.origin}</p></div></div>}
         <h3 className="line-clamp-2 text-[23px] font-semibold leading-[1.08] tracking-[-.04em] text-[#1C1A17]">{item.title}</h3>
         <p className="mt-4 line-clamp-3 text-[13px] leading-6 text-[#625B50]">{item.description}</p>
       </div>

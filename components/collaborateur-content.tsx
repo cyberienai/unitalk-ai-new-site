@@ -166,12 +166,12 @@ const PERSONAS = {
     },
     accent: { fr: "suit chaque décision", en: "tracks every decision" },
     lead: {
-      fr: "Commencez par votre prochain comité de direction. Emma réunit les documents, prépare l’ordre du jour et organise le suivi. Votre équipe garde les arbitrages.",
-      en: "Start with your next leadership meeting. Emma gathers documents, prepares the agenda and organizes follow-up. Your team retains the decisions.",
+      fr: "Commencez par votre prochaine réunion d’équipe. Emma réunit les informations utiles, prépare l’ordre du jour et organise le suivi des actions.",
+      en: "Start with your next team meeting. Emma gathers useful information, prepares the agenda and organizes action tracking.",
     },
     composer: {
-      fr: "Emma prépare votre prochain comité de direction.",
-      en: "Emma prepares your next leadership meeting.",
+      fr: "Emma prépare et suit votre prochaine réunion d’équipe.",
+      en: "Emma prepares and follows up your next team meeting.",
     },
     placeholder: {
       fr: "Décrivez la réunion, les participants, les documents et le résultat attendu…",
@@ -179,29 +179,29 @@ const PERSONAS = {
     },
     examples: {
       fr: [
-        "Préparer mon comité de direction",
-        "Organiser mes rendez-vous",
-        "Suivre les décisions prises",
+        "Préparer ma réunion d’équipe",
+        "Organiser mes rendez-vous de la semaine",
+        "Suivre les actions décidées",
       ],
       en: [
-        "Prepare my leadership meeting",
-        "Organize my appointments",
-        "Track agreed decisions",
+        "Prepare my team meeting",
+        "Organize this week’s appointments",
+        "Track agreed actions",
       ],
     },
     proofTitle: {
-      fr: "Emma prépare. Votre direction arbitre.",
-      en: "Emma prepares. Your leadership decides.",
+      fr: "Emma prépare. Votre équipe décide.",
+      en: "Emma prepares. Your team decides.",
     },
     proofMission: {
-      fr: "Préparer le comité de direction",
-      en: "Prepare the leadership meeting",
+      fr: "Préparer la réunion d’équipe hebdomadaire",
+      en: "Prepare the weekly team meeting",
     },
     activity: {
       fr: [
-        "6 documents et 8 participants réunis.",
-        "5 points à arbitrer identifiés.",
-        "Ordre du jour et dossier de séance prêts à valider.",
+        "4 documents et 5 participants réunis.",
+        "3 décisions en attente de suivi identifiées.",
+        "Ordre du jour et liste d’actions prêts à valider.",
       ],
       en: [
         "Documents and participants gathered.",
@@ -210,8 +210,8 @@ const PERSONAS = {
       ],
     },
     decision: {
-      fr: "Valider l’ordre du jour avant de l’envoyer aux participants ?",
-      en: "Approve the agenda before sending it to participants?",
+      fr: "Valider l’ordre du jour avant de l’envoyer à l’équipe ?",
+      en: "Approve the agenda before sending it to the team?",
     },
     apps: ["Gmail", "Outlook", "Agenda", "Notion", "Slack", "Teams"],
     profiles: {
@@ -551,8 +551,8 @@ export function CollaborateurContent({
   const isMissionLedProfile = ["hugo", "nadia", "emma"].includes(detail.slug);
   const primaryMission = detail.slug === "emma"
     ? lang === "fr"
-      ? "Préparer mon prochain comité de direction"
-      : "Prepare my next leadership meeting"
+      ? "Préparer et suivre ma prochaine réunion d’équipe"
+      : "Prepare and follow up my next team meeting"
     : detail.slug === "nadia"
     ? lang === "fr"
       ? "Relancer mes factures impayées"
@@ -562,8 +562,8 @@ export function CollaborateurContent({
       : "Find and qualify my prospects";
   const primaryCta = detail.slug === "emma"
     ? lang === "fr"
-      ? "Confier mon prochain comité à Emma"
-      : "Assign my next meeting to Emma"
+      ? "Confier ma prochaine réunion à Emma"
+      : "Assign my next team meeting to Emma"
     : detail.slug === "nadia"
     ? lang === "fr"
       ? "Confier mes relances à Nadia"
@@ -574,7 +574,7 @@ export function CollaborateurContent({
     : detail.slug === "nadia"
       ? "relancer-les-factures-impayees"
       : detail.slug === "emma"
-        ? "preparer-un-comite-de-direction"
+        ? "preparer-et-suivre-mes-reunions"
       : null;
   const featuredMissions = exampleMissionSlug
     ? missions.filter((mission) => mission.slug !== exampleMissionSlug)
@@ -775,8 +775,8 @@ export function CollaborateurContent({
               <dl className="mt-7 grid max-w-xl gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
                 {(detail.slug === "emma"
                   ? lang === "fr"
-                    ? [["Sources", "Documents et agendas autorisés"], ["Action", "Ordre du jour préparé, jamais diffusé seul"], ["Arbitrage", "Décisions laissées à votre direction"]]
-                    : [["Sources", "Authorized documents and calendars"], ["Action", "Agenda prepared, never shared alone"], ["Decision", "Decisions left to your leadership"]]
+                    ? [["Sources", "Documents et agendas autorisés"], ["Action", "Ordre du jour préparé, jamais diffusé seul"], ["Décisions", "Validées par votre équipe"]]
+                    : [["Sources", "Authorized documents and calendars"], ["Action", "Agenda prepared, never shared alone"], ["Decisions", "Approved by your team"]]
                   : lang === "fr"
                     ? [["Sources", "Factures et historique autorisés"], ["Action", "Relances préparées, jamais envoyées seules"], ["Escalade", "Litiges transmis à votre équipe"]]
                     : [["Sources", "Authorized invoices and history"], ["Action", "Follow-ups prepared, never sent alone"], ["Escalation", "Disputes routed to your team"]]
@@ -802,8 +802,8 @@ export function CollaborateurContent({
               <div className="grid grid-cols-3 gap-px border-b border-white/10 bg-white/10">
                 {(detail.slug === "emma"
                   ? lang === "fr"
-                    ? [["8", "Participants"], ["6", "Documents réunis"], ["5", "Arbitrages attendus"]]
-                    : [["8", "Participants"], ["6", "Documents gathered"], ["5", "Decisions expected"]]
+                    ? [["5", "Participants"], ["4", "Documents réunis"], ["3", "Actions à suivre"]]
+                    : [["5", "Participants"], ["4", "Documents gathered"], ["3", "Actions to track"]]
                   : lang === "fr"
                     ? [["14 820 €", "À relancer"], ["10", "Relances prêtes"], ["2", "Litiges isolés"]]
                     : [["€14,820", "Outstanding"], ["10", "Follow-ups ready"], ["2", "Disputes isolated"]]
@@ -813,6 +813,24 @@ export function CollaborateurContent({
                     <span className="mt-1 block text-[10px] font-semibold leading-4 text-[#AFA397]">{label}</span>
                   </div>
                 ))}
+              </div>
+            )}
+            {detail.slug === "emma" && (
+              <div className="border-b border-white/10 p-5">
+                <p className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#8F877A]">
+                  {lang === "fr" ? "Ordre du jour préparé" : "Prepared agenda"}
+                </p>
+                <div className="mt-3 overflow-hidden rounded-xl border border-white/10">
+                  {(lang === "fr"
+                    ? [["Priorités de la semaine", "Sophie", "10 min"], ["Devis en attente", "Marc", "8 min"], ["Planning client", "Équipe", "12 min"]]
+                    : [["Weekly priorities", "Sophie", "10 min"], ["Pending quotes", "Marc", "8 min"], ["Client schedule", "Team", "12 min"]]
+                  ).map(([topic, owner, duration], index) => (
+                    <div key={topic} className={`grid grid-cols-[1fr_auto] gap-3 bg-[#1B1815] px-3 py-2.5 text-xs ${index > 0 ? "border-t border-white/10" : ""}`}>
+                      <span className="font-semibold text-[#E7E0D5]">{topic}</span>
+                      <span className="text-right text-[#AFA397]">{owner} · {duration}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
             <ol className="space-y-4 p-5 text-sm text-[#D8D0C2]">
@@ -1003,7 +1021,7 @@ export function CollaborateurContent({
             <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#4E483F]">
               {detail.slug === "emma"
                 ? lang === "fr"
-                  ? "Chaque validation enrichit ses règles de travail : format d’ordre du jour, documents attendus, participants à informer et actions à suivre. L’historique reste gouverné par votre entreprise."
+                  ? "Chaque validation enrichit ses règles de travail : format d’ordre du jour, documents utiles, personnes à informer et actions à suivre. L’historique reste gouverné par votre entreprise."
                   : "Each approval enriches her working rules: agenda format, expected documents, participants to inform and actions to track. The history remains governed by your organization."
                 : detail.slug === "nadia"
                 ? lang === "fr"
@@ -1047,7 +1065,7 @@ export function CollaborateurContent({
                    <strong className="text-2xl font-bold text-white">{detail.slug === "emma" ? "5" : "10"}</strong>
                    <span className="mt-1 block text-xs font-semibold text-[#AFA397]">
                      {detail.slug === "emma"
-                       ? lang === "fr" ? "arbitrages suivis" : "decisions tracked"
+                       ? lang === "fr" ? "actions suivies" : "actions tracked"
                        : lang === "fr" ? "relances validées" : "follow-ups approved"}
                    </span>
                  </div>
@@ -1062,7 +1080,7 @@ export function CollaborateurContent({
              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {(detail.slug === "emma"
                 ? lang === "fr"
-                  ? ["Format d’ordre du jour validé", "Documents attendus", "Participants à informer", "Actions à suivre"]
+                  ? ["Format d’ordre du jour validé", "Documents utiles", "Personnes à informer", "Actions à suivre"]
                   : ["Approved agenda format", "Expected documents", "Participants to inform", "Actions to track"]
                 : detail.slug === "nadia"
                 ? lang === "fr"
@@ -1074,7 +1092,7 @@ export function CollaborateurContent({
                   className="flex gap-3 rounded-2xl border border-white/10 bg-white/[.04] p-4 text-sm font-semibold"
                 >
                   <Check className="mt-0.5 size-4 shrink-0 text-[#F2A4C5]" />
-                  <span><span className="block">{item}</span>{["nadia", "emma"].includes(detail.slug) && <small className="mt-1 block text-[10px] font-bold uppercase tracking-[.1em] text-[#AFA397]">{lang === "fr" ? "Expérience conservée" : "Experience retained"}</small>}</span>
+                  <span><span className="block">{item}</span>{["nadia", "emma"].includes(detail.slug) && <small className="mt-1 hidden text-[10px] font-bold uppercase tracking-[.1em] text-[#AFA397] sm:block">{lang === "fr" ? "Réutilisé à la prochaine mission" : "Reused on the next mission"}</small>}</span>
                 </li>
               ))}
             </ul>
@@ -1088,8 +1106,8 @@ export function CollaborateurContent({
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
             {detail.slug === "hugo" ? t.finalTitle : detail.slug === "emma"
               ? lang === "fr"
-                ? <><span className="block">Prêt à confier votre prochain</span><span className="block text-[.86em]">comité de direction à Emma&nbsp;?</span></>
-                : <><span className="block">Ready to assign your next</span><span className="block text-[.86em]">leadership meeting to Emma?</span></>
+                ? <><span className="block">Prêt à confier la préparation</span><span className="block">et le suivi à Emma&nbsp;?</span></>
+                : <><span className="block">Ready to assign preparation</span><span className="block">and follow-up to Emma?</span></>
               : detail.slug === "nadia"
               ? lang === "fr"
                 ? <><span className="block">Prêt à confier la gestion</span><span className="block">de vos relances à Nadia&nbsp;?</span></>

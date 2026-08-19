@@ -13,23 +13,26 @@ describe('Emma canonical public profile', () => {
     expect(collaboratorHref('emma')).toBe('/@emma')
   })
 
-  it('uses a mission-led leadership meeting experience', () => {
+  it('uses a mission-led team meeting experience for small businesses', () => {
     expect(content).toContain('["hugo", "nadia", "emma"].includes(detail.slug)')
-    expect(content).toContain('Emma prépare votre prochain comité de direction.')
-    expect(content).toContain('Confier mon prochain comité à Emma')
-    expect(content).toContain('8", "Participants')
+    expect(content).toContain('Emma prépare et suit votre prochaine réunion d’équipe.')
+    expect(content).toContain('Confier la préparation et le suivi à Emma')
+    expect(content).toContain('5", "Participants')
     expect(content).toContain('aucun ordre du jour réel ne sera envoyé')
     expect(content).toContain('Format d’ordre du jour validé')
+    expect(content).toContain('Priorités de la semaine')
+    expect(content).toContain('Réutilisé à la prochaine mission')
   })
 
   it('keeps the example out of the four ready-to-use missions', () => {
     expect(getCollaboratorPage('emma')?.missions.map((mission) => mission.slug)).toEqual([
-      'preparer-un-comite-de-direction',
-      'participer-a-vos-reunions',
       'preparer-et-suivre-mes-reunions',
-      'extraire-les-decisions',
+      'trier-la-boite-de-reception',
+      'organiser-les-rendez-vous',
+      'participer-a-vos-reunions',
       'suivre-les-actions-decidees',
     ])
-    expect(content).toContain('? "preparer-un-comite-de-direction"')
+    expect(content).toContain('? "preparer-et-suivre-mes-reunions"')
+    expect(content).not.toContain('Emma prépare votre prochain comité de direction.')
   })
 })

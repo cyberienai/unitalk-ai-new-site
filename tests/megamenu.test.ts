@@ -9,14 +9,14 @@ describe('Collaborateurs IA mega menu', () => {
     expect(navbar).toContain("label: { fr: 'Décrire mon besoin'")
   })
 
-  it('offers one direct discovery entry', () => {
-    expect(navbar).toContain("fr: 'Découvrir les Collaborateurs IA'")
-    expect(navbar).toContain("fr: 'Le concept, Alma et le comparatif.'")
+  it('opens the AI Collaborators Marketplace category first', () => {
+    expect(navbar).toContain("fr: 'Collaborateurs IA'")
+    expect(navbar).toContain("fr: 'Les identités IA prêtes à rejoindre votre entreprise.'")
   })
 
   it('links directly to the six Collaborator areas', () => {
-    for (const href of ['/collaborateurs-ia', '/marketplace#profils-metier', '/marketplace#competences', '/marketplace#applications', '/marketplace#modeles-ia', '/marketplace#serveurs-ia']) expect(navbar).toContain(`href: '${href}'`)
-    for (const label of ['Profils métier', 'Compétences', 'Applications', 'Modèles IA', 'Serveurs IA']) expect(navbar).toContain(label)
+    for (const href of ['/marketplace#collaborateurs-ia', '/marketplace#profils-metier', '/marketplace#competences', '/marketplace#applications', '/marketplace#modeles-ia', '/marketplace#serveurs-ia']) expect(navbar).toContain(`href: '${href}'`)
+    for (const label of ['Collaborateurs IA', 'Profils métier', 'Compétences', 'Applications', 'Modèles IA', 'Serveurs IA']) expect(navbar).toContain(label)
   })
 
   it('keeps support actions out of the Collaborators menu', () => {

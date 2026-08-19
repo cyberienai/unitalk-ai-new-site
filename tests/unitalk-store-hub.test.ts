@@ -5,11 +5,20 @@ const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.m
 const page = readFileSync(new URL('../app/marketplace/page.tsx', import.meta.url), 'utf8')
 
 describe('Marketplace IA hub', () => {
-  it('centralizes the five Store departments on one page', () => {
+  it('centralizes AI Collaborators and the five equipment categories', () => {
     expect(page).toContain('UnitalkStoreHub')
-    for (const label of ['Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
+    for (const label of ['Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
     expect(hub).toContain("heroTitle: 'Faites évoluer votre Collaborateur IA, au rythme de vos besoins.'")
+  })
+
+  it('shows canonical public AI Collaborators first', () => {
+    expect(hub.indexOf("id: 'collaborateurs-ia'")).toBeLessThan(hub.indexOf("id: 'profils-metier'"))
+    expect(hub).toContain('DETAILED_SLUGS')
+    expect(hub).toContain('ROLE_DETAILS[slug]')
+    expect(hub).toContain('collaboratorHref(detail.slug)')
+    expect(hub).toContain('detail.avatar')
+    expect(hub).toContain("explain: { fr: 'Comprendre le Collaborateur IA'")
   })
 
   it('states the catalog and knowledge-work positioning', () => {
@@ -38,6 +47,19 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('Rechercher un profil métier')
     expect(hub).toContain('category={activeCategory}')
     expect(hub).toContain("window.location.hash.slice(1)")
+  })
+
+  it('orders job profiles by broad SMB demand', () => {
+    expect(hub).toContain('PROFILE_DEMAND_ORDER')
+    const commercial = hub.indexOf("'commercial'")
+    const administrative = hub.indexOf("'gestionnaire-administratif'")
+    const executive = hub.indexOf("'assistante-de-direction'")
+    const transformation = hub.indexOf("'conseiller-transformation-ia'")
+    expect(commercial).toBeGreaterThan(-1)
+    expect(commercial).toBeLessThan(administrative)
+    expect(administrative).toBeLessThan(executive)
+    expect(executive).toBeLessThan(transformation)
+    expect(hub).toContain("PROFILE_DEMAND_RANK.get(a.slug)")
   })
 
   it('keeps each category explanation on its reference route', () => {

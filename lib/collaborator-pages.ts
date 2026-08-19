@@ -109,7 +109,7 @@ export function missionsForCollaborator(slug: string, count = 4): CollaboratorMi
   const featuredSlugs = slug === 'nadia'
     ? ['relancer-les-factures-impayees', 'suivre-la-tresorerie', 'preparer-mon-reporting-financier', 'analyser-les-ecarts-budgetaires', 'preparer-les-previsions-budgetaires']
     : slug === 'emma'
-      ? ['preparer-un-comite-de-direction', 'participer-a-vos-reunions', 'preparer-et-suivre-mes-reunions', 'extraire-les-decisions', 'suivre-les-actions-decidees']
+      ? ['preparer-et-suivre-mes-reunions', 'trier-la-boite-de-reception', 'organiser-les-rendez-vous', 'participer-a-vos-reunions', 'suivre-les-actions-decidees']
       : []
   const ordered = slug === 'hugo'
     ? [...missions.filter((m) => m.slug !== 'trouver-de-nouveaux-clients'), ...missions.filter((m) => m.slug === 'trouver-de-nouveaux-clients')]

@@ -27,7 +27,7 @@ describe('Nadia canonical public profile', () => {
     expect(content).toContain('Relances préparées, jamais envoyées seules')
     expect(content).toContain('relances validées')
     expect(content).toContain('règles réutilisables')
-    expect(content).toContain('Expérience conservée')
+    expect(content).toContain('Réutilisé à la prochaine mission')
     expect(content).toContain('14 820 €')
     expect(content).not.toContain('Données fictives')
     expect(content).toContain('aucune relance réelle ne sera envoyée')
