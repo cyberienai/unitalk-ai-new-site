@@ -50,6 +50,22 @@ const FEATURED_SLUGS = [
   'organiser-les-rendez-vous',
 ] as const
 
+const EMMA_LEADERSHIP_MISSION_SLUGS = [
+  'preparer-le-dossier-de-comite',
+  'preparer-une-revue-strategique',
+  'preparer-une-note-de-decision',
+  'produire-une-synthese-executive',
+  'suivre-les-objectifs',
+  'consolider-les-indicateurs-cles',
+  'suivre-les-decisions-de-direction',
+  'preparer-un-comite-de-direction',
+  'produire-une-synthese-hebdomadaire',
+  'suivre-les-actions-decidees',
+  'organiser-les-rendez-vous',
+  'trier-la-boite-de-reception',
+  'preparer-les-deplacements',
+] as const
+
 const PAGE_SIZE = 12
 
 function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
@@ -141,6 +157,7 @@ export function MissionsContent({
     const allowedCategories = family === 'recommended' || family === 'all' ? null : FAMILY_CATEGORIES[family]
     let pool = MISSIONS.filter((mission) => {
       if (requestedCollaborator && mission.collaboratorSlug !== requestedCollaborator) return false
+      if (requestedCollaborator === 'emma' && !EMMA_LEADERSHIP_MISSION_SLUGS.includes(mission.slug as typeof EMMA_LEADERSHIP_MISSION_SLUGS[number])) return false
       if (requestedCategory && mission.category !== requestedCategory) return false
       return !allowedCategories || allowedCategories.includes(mission.category)
     })
@@ -153,6 +170,9 @@ export function MissionsContent({
         mission.category,
         ...mission.keywords,
       ].join(' ')).includes(search))
+    } else if (requestedCollaborator === 'emma') {
+      const bySlug = new Map(pool.map((mission) => [mission.slug, mission]))
+      pool = EMMA_LEADERSHIP_MISSION_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => Boolean(mission))
     } else if (family === 'recommended' && !requestedCategory) {
       const bySlug = new Map(pool.map((mission) => [mission.slug, mission]))
       pool = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => Boolean(mission))

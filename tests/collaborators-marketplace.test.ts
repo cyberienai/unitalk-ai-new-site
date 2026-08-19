@@ -4,6 +4,7 @@ import { MARKETPLACE_COLLABORATOR_SLUGS, ROLE_DETAILS } from '@/lib/collaborator
 
 const page = readFileSync(new URL('../app/marketplace/collaborateurs-ia/page.tsx', import.meta.url), 'utf8')
 const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.meta.url), 'utf8')
+const missions = readFileSync(new URL('../components/missions-content.tsx', import.meta.url), 'utf8')
 
 describe('Collaborateurs IA marketplace', () => {
   it('publishes one reference identity for each of ten departments', () => {
@@ -35,7 +36,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).not.toContain('Vous cherchez un autre rôle ?')
     expect(hub).toContain("activeCategory.id !== 'collaborateurs-ia'")
     expect(hub).toContain('COLLABORATOR_PROFILE_EXAMPLES')
-    expect(hub).toContain("highlightsLabel: lang === 'fr' ? 'Exemples d’évolution'")
+    expect(hub).toContain("highlightsLabel: lang === 'fr' ? 'Autres compétences possibles'")
     expect(hub).toContain('Commencez par un résultat à obtenir, pas par une configuration.')
     expect(hub).toContain('Confier une mission à ${item.title}')
     expect(hub).not.toContain('className="absolute inset-0 z-0')
@@ -43,7 +44,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).not.toContain('tabIndex={-1}')
     expect(hub).not.toContain('item.score !== undefined')
     expect(hub).toContain('detail.starterMission?.mission[lang]')
-    expect(hub).toContain('Aucune action sensible sans validation')
+    expect(hub).not.toContain('Aucune action sensible sans validation')
     expect(hub).toContain('role="tabpanel"')
     expect(hub).toContain('Catégories de la marketplace')
     expect(hub).toContain('7 jours gratuits')
@@ -64,5 +65,13 @@ describe('Collaborateurs IA marketplace', () => {
     expect(profile).toContain('detail.missions[0][lang]')
     expect(profile).toContain('collaborator-profile-mission-led')
     expect(profile).not.toContain('collaborator-profile-hugo')
+  })
+
+  it('keeps Emma focused on leadership support rather than HR', () => {
+    expect(missions).toContain('EMMA_LEADERSHIP_MISSION_SLUGS')
+    expect(missions).toContain("'preparer-une-revue-strategique'")
+    expect(missions).toContain("'preparer-une-note-de-decision'")
+    expect(missions).toContain("requestedCollaborator === 'emma'")
+    expect(missions).not.toContain("EMMA_LEADERSHIP_MISSION_SLUGS = [\n  'rediger-une-fiche-de-poste'")
   })
 })
