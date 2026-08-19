@@ -39,7 +39,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('COLLABORATOR_PROFILE_EXAMPLES')
     expect(hub).toContain("highlightsLabel: lang === 'fr' ? 'Profils métier à ajouter'")
     expect(hub).toContain("lang === 'fr' ? 'et plus encore' : 'and more'")
-    expect(hub).toContain('Confier une mission à ${item.title}')
+    expect(hub).toContain("lang === 'fr' ? 'Confier cette mission' : 'Assign this mission'")
     expect(hub).not.toContain('className="absolute inset-0 z-0')
     expect(hub).not.toContain("detail.availability === 'available'")
     expect(hub).not.toContain('tabIndex={-1}')
