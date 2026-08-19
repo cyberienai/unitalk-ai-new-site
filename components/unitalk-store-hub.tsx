@@ -13,6 +13,7 @@ type Category = {
   description: Bi
   search: Bi
   action: Bi
+  explain: Bi
   href: string
   accent: string
 }
@@ -43,31 +44,31 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'profils-metier', title: { fr: 'Profils métier', en: 'Job profiles' },
     description: { fr: 'Un profil métier de référence pour chaque métier de la connaissance.', en: 'One reference job profile for every knowledge-work profession.' },
-    search: { fr: 'Rechercher un profil métier', en: 'Search job profiles' }, action: { fr: 'Voir le profil', en: 'View profile' },
+    search: { fr: 'Rechercher un profil métier', en: 'Search job profiles' }, action: { fr: 'Voir le profil', en: 'View profile' }, explain: { fr: 'Comprendre les profils métier', en: 'Understand job profiles' },
     href: '/collaborateurs-ia/profils-metier', accent: '#C80B5B',
   },
   {
     id: 'competences', title: { fr: 'Compétences', en: 'Skills' },
     description: { fr: 'Des savoir-faire précis, testés, versionnés et réutilisables.', en: 'Precise, tested, versioned and reusable know-how.' },
-    search: { fr: 'Rechercher une compétence', en: 'Search skills' }, action: { fr: 'Voir la compétence', en: 'View skill' },
+    search: { fr: 'Rechercher une compétence', en: 'Search skills' }, action: { fr: 'Voir la compétence', en: 'View skill' }, explain: { fr: 'Comprendre les compétences', en: 'Understand skills' },
     href: '/collaborateurs-ia/competences', accent: '#6246B5',
   },
   {
     id: 'applications', title: { fr: 'Applications', en: 'Applications' },
     description: { fr: 'Les outils, connecteurs et applications métier autorisés.', en: 'Approved tools, connectors and business applications.' },
-    search: { fr: 'Rechercher une application', en: 'Search applications' }, action: { fr: 'Voir l’application', en: 'View application' },
+    search: { fr: 'Rechercher une application', en: 'Search applications' }, action: { fr: 'Voir l’application', en: 'View application' }, explain: { fr: 'Comprendre les applications', en: 'Understand applications' },
     href: '/collaborateurs-ia/applications', accent: '#B7501E',
   },
   {
     id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' },
     description: { fr: 'Les moteurs autorisés pour raisonner, analyser, produire et agir.', en: 'Approved engines for reasoning, analysis, creation and action.' },
-    search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' },
+    search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' }, explain: { fr: 'Comprendre les modèles IA', en: 'Understand AI models' },
     href: '/modeles-ia', accent: '#1D6692',
   },
   {
     id: 'serveurs-ia', title: { fr: 'Serveurs IA', en: 'AI servers' },
     description: { fr: 'Des environnements privés dimensionnés pour vos Collaborateurs IA et leurs applications.', en: 'Private environments sized for your AI Collaborators and their applications.' },
-    search: { fr: 'Rechercher un serveur IA', en: 'Search AI servers' }, action: { fr: 'Voir le serveur', en: 'View server' },
+    search: { fr: 'Rechercher un serveur IA', en: 'Search AI servers' }, action: { fr: 'Voir le serveur', en: 'View server' }, explain: { fr: 'Comprendre les serveurs IA', en: 'Understand AI servers' },
     href: '/collaborateurs-ia/serveurs', accent: '#216641',
   },
 ]
@@ -108,15 +109,17 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
 
 const COPY = {
   fr: {
-    heroTitle: 'Faites évoluer votre Collaborateur IA selon vos besoins.',
-    heroLead: 'Ajoutez à tout moment les profils métier et les compétences dont il a besoin. Leur ajout est inclus, sans facturation supplémentaire.',
+    heroTitle: 'Faites évoluer votre Collaborateur IA, au rythme de vos besoins.',
+    heroAccent: 'au rythme de vos besoins.',
+    heroLead: 'Ajoutez de nouveaux profils métier et de nouvelles compétences dès que vos besoins évoluent. Leur ajout est inclus, sans coût supplémentaire.',
     noResults: 'Aucune création ne correspond à cette recherche.', showMore: 'Voir tout le catalogue', showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     clear: 'Effacer la recherche', available: 'Disponible', preparation: 'Bientôt disponible',
   },
   en: {
     heroTitle: 'Evolve your AI Collaborator as your needs change.',
-    heroLead: 'Add the job profiles and skills it needs at any time. They are included at no additional cost.',
+    heroAccent: 'as your needs change.',
+    heroLead: 'Add new job profiles and skills whenever your needs evolve. They are included at no additional cost.',
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
     emptyTitle: 'Catalog in preparation', emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
     clear: 'Clear search', available: 'Available', preparation: 'Coming soon',
@@ -171,7 +174,7 @@ export function UnitalkStoreHub() {
     <main className="min-h-screen overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
       <section className="bg-[#EAE3D4] px-5 pb-12 pt-24 sm:px-8 sm:pb-14 sm:pt-28">
         <div className="mx-auto w-full max-w-6xl">
-          <h1 className="max-w-5xl text-[clamp(2.8rem,6.4vw,5.8rem)] font-semibold leading-[.86] tracking-[-.07em] text-balance">{t.heroTitle}</h1>
+          <h1 className="max-w-5xl text-[clamp(2.8rem,6.4vw,5.8rem)] font-semibold leading-[.86] tracking-[-.07em] text-balance">{t.heroTitle.slice(0, -t.heroAccent.length)}<span className="text-[#D10E63]">{t.heroAccent}</span></h1>
           <p className="mt-7 max-w-2xl text-[16px] leading-7 text-[#4E483F] sm:text-[17px]">{t.heroLead}</p>
         </div>
       </section>
@@ -188,7 +191,7 @@ export function UnitalkStoreHub() {
       <section id="categories" className="scroll-mt-40 px-5 pb-24 pt-10 sm:px-8 sm:pt-12 lg:pb-32">
         <div className="mx-auto w-full max-w-6xl">
           <div id="marketplace-results" role="tabpanel" className="scroll-mt-[184px]">
-              {categoryItems.length > 0 && <label className="relative block max-w-xl"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] transition-colors hover:bg-[#EAE3D4] hover:text-[#1C1A17]">×</button>}</label>}
+               {categoryItems.length > 0 && <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] transition-colors hover:bg-[#EAE3D4] hover:text-[#1C1A17]">×</button>}</label><Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17]">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div>}
 
               {visibleItems.length > 0 ? <div className="mt-7 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation }} />)}</div> : categoryItems.length > 0 ? <div className="mt-7 rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-10 text-center"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={() => setCatalogQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div> : <div className="mt-7 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>}
               {filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
