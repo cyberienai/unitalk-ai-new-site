@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
@@ -156,7 +157,7 @@ export function Navbar(
     collabHoverTimeout.current = setTimeout(() => setCollabOpen(false), 120)
   }
   const { lang, setLang } = useLanguage()
-  const { openAlma, setLauncherSuppressed } = useAlma()
+  const { setLauncherSuppressed } = useAlma()
   const t = T[lang]
   const pathname = usePathname() || '/'
 
@@ -341,9 +342,8 @@ export function Navbar(
             <UserMenuDesktop
               overDark={overDark}
               anonymousAction={
-                <button
-                  type="button"
-                  onClick={openAlma}
+                <Link
+                  href="/decouvrir?source=nav&next=missions"
                   className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
                     overDark
                       ? 'bg-[#FBF9F3] text-[#1C1A17] hover:bg-[#EAE3D4] focus-visible:ring-[#FBF9F3]/60 focus-visible:ring-offset-transparent'
@@ -351,7 +351,7 @@ export function Navbar(
                   }`}
                 >
                   {ALMA_CTA.label[lang]}
-                </button>
+                </Link>
               }
             />
 
@@ -531,13 +531,13 @@ export function Navbar(
               {/* Sticky CTA footer — always visible above the fold */}
               <AnonymousOnly>
                 <div className="shrink-0 border-t border-[#DcD4C4] bg-[#F3EFE6] px-6 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
-                  <button
-                    type="button"
-                    onClick={() => { setIsMenuOpen(false); openAlma() }}
-                    className="flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 py-3 text-[15px] font-bold text-[#FBF9F3] shadow-[0_8px_24px_-8px_rgba(209,14,99,0.5)] transition-colors hover:bg-[#B10B53]"
-                  >
-                    {ALMA_CTA.label[lang]}
-                  </button>
+                   <Link
+                     href="/decouvrir?source=nav&next=missions"
+                     onClick={() => setIsMenuOpen(false)}
+                     className="flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 py-3 text-[15px] font-bold text-[#FBF9F3] shadow-[0_8px_24px_-8px_rgba(209,14,99,0.5)] transition-colors hover:bg-[#B10B53]"
+                   >
+                     {ALMA_CTA.label[lang]}
+                   </Link>
                 </div>
               </AnonymousOnly>
             </motion.div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, Check, Search } from 'lucide-react'
 import { MISSIONS, type Mission } from '@/lib/missions-catalog'
@@ -202,25 +202,32 @@ export function MissionsContent({
     composerRef.current?.focus({ preventScroll: true })
   }
 
+  useLayoutEffect(() => {
+    if (!window.matchMedia('(min-width: 1024px)').matches) return
+    const field = composerRef.current
+    if (!field) return
+    field.focus({ preventScroll: true })
+    field.setSelectionRange(field.value.length, field.value.length)
+  }, [])
+
   return (
     <main id="missions-top" className="min-h-screen overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
       <section className="relative overflow-hidden bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:flex lg:min-h-[760px] lg:items-center lg:py-28">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div aria-hidden className="pointer-events-none absolute -right-36 top-20 size-[32rem] rounded-full bg-[#D10E63]/[.055] blur-3xl" />
         <div className="editorial-shell relative w-full">
-          <div className="grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-14">
+          <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1.14fr_0.86fr] lg:items-center lg:gap-10">
             <header>
               <Kicker>{t.eyebrow}</Kicker>
               <h1 className="mt-4 max-w-[720px] text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] lg:text-[clamp(3.1rem,4.8vw,5rem)]">
                 <span className="block">{t.heroA}</span>
-                <span className="block">{t.heroB}</span>
-                <span className="block text-[#D10E63]">{t.heroC}</span>
+                <span className="block">{t.heroB} <span className="text-[#D10E63]">{t.heroC}</span></span>
               </h1>
               <p className="mt-5 max-w-xl text-[17px] leading-8 text-[#4E483F]">{withAlmaAvatar(t.lead)}</p>
               <a href="#mission-selection" className="group mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#D10E63] px-5 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.explore}<ArrowRight className="size-4 rotate-90 transition-transform group-hover:translate-y-0.5" /></a>
             </header>
 
-            <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceStartLabel={t.talk} voiceStopLabel={t.stop} error={voiceError} textareaRef={composerRef} previewVisible={Boolean(inputPreview)} compactMobile compactDesktop preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>} />
+            <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} onStarterSelect={handDraftToAlma} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceStartLabel={t.talk} voiceStopLabel={t.stop} listeningLabel={t.listening} error={voiceError} textareaRef={composerRef} previewVisible={Boolean(inputPreview)} compactMobile compactDesktop titleInField preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>} />
           </div>
 
         </div>
@@ -229,7 +236,7 @@ export function MissionsContent({
       <div className="mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8">
         <section aria-labelledby="mission-selection-title" className="pt-16 sm:pt-20">
           <div id="mission-selection" className="scroll-mt-24">
-            <h2 id="mission-selection-title" className="max-w-2xl font-sf text-[clamp(2.3rem,4.4vw,4.7rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.catalogTitle}</h2>
+            <h2 id="mission-selection-title" className="font-sf text-[clamp(2rem,3.45vw,3.65rem)] font-semibold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">{t.catalogTitle}</h2>
           </div>
 
           <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -302,18 +309,18 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 const COPY = {
   fr: {
     eyebrow: 'Missions pour collaborateur IA',
-    title: 'Quel travail doit avancer ?',
-    heroA: 'Quel travail', heroB: 'doit', heroC: 'avancer ?',
-    lead: 'Décrivez le résultat attendu. Alma prépare la mission et personnalise votre Collaborateur IA pour votre entreprise.', explore: 'Voir des missions déjà cadrées',
-    almaRole: 'Coordinatrice de missions IA Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
+    title: 'Quel résultat voulez-vous obtenir ?',
+    heroA: 'Quel résultat', heroB: 'voulez-vous', heroC: 'obtenir ?',
+    lead: 'Décrivez le résultat attendu. Alma prépare la mission et personnalise votre Collaborateur IA pour votre entreprise.', explore: 'Voir des missions prêtes à démarrer',
+    almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
     placeholder: 'Décrivez simplement le résultat attendu…',
-    talk: 'Dicter ma mission', stop: 'Terminer', continue: 'Personnaliser mon Collaborateur IA',
+    talk: 'Commencer à parler', stop: 'Terminer', listening: 'Alma vous écoute…', continue: 'Personnaliser mon Collaborateur IA',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
-    starters: ['Chaque lundi matin', 'À partir de mon CRM', 'Avant toute action sensible', 'Avec validation de mon équipe'],
+    starters: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures', 'Construire mon calendrier éditorial', 'Organiser l’intégration d’un nouveau salarié'],
     previewMission: 'Aperçu de mission', previewCollaborator: 'Exemple de profil adapté', previewReady: 'À confirmer avec vous',
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne. Votre description reste dans ce navigateur pendant la reprise.',
-    catalogTitle: 'Ou partez d’une mission déjà cadrée',
+    catalogTitle: 'Ou partez d’une mission prête à démarrer',
     search: 'Rechercher',
     families: { recommended: 'Recommandées', all: 'Toutes', growth: 'Développer les ventes', customers: 'Servir les clients', company: 'Gérer l’entreprise', teams: 'Organiser les équipes', produce: 'Produire et analyser' },
     recommended: (total: number) => `${total} mission${total > 1 ? 's' : ''} pour commencer`,
@@ -330,10 +337,10 @@ const COPY = {
     lead: 'Describe the expected outcome. Alma prepares the mission and customizes your AI Collaborator for your organization.', explore: 'View already scoped missions',
     almaRole: 'Unitalk AI mission coordinator', composerTitle: 'What work would you like to assign to your AI Collaborator?', composerBody: '',
     placeholder: 'Simply describe the expected outcome…',
-    talk: 'Dictate my mission', stop: 'Finish', continue: 'Customize my AI Collaborator',
+    talk: 'Start talking', stop: 'Finish', listening: 'Alma is listening…', continue: 'Customize my AI Collaborator',
     voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
-    starters: ['Every Monday morning', 'From my CRM', 'Before any sensitive action', 'With team approval'],
+    starters: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices', 'Build my editorial calendar', 'Organize a new employee’s onboarding'],
     previewMission: 'Mission preview', previewCollaborator: 'Example suitable profile', previewReady: 'To be confirmed with you',
     handoff: 'Enter to continue · Shift + Enter for a new line. Your description remains in this browser while you resume.',
     catalogTitle: 'Or start from an already scoped mission',

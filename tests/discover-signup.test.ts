@@ -6,14 +6,14 @@ const flow = readFileSync(new URL('../components/discover/discover-flow.tsx', im
 const stateBuilder = readFileSync(new URL('../lib/discover-onboarding-state.ts', import.meta.url), 'utf8')
 
 describe('mission signup', () => {
-  it('describes the real post-login sequence', () => {
-    expect(source).toContain("missionAlmaTitle: 'Votre mission est conservée.'")
-    expect(source).toContain("missionAlmaBody: 'Après votre connexion, vérifiez votre entreprise, complétez le cadrage de la mission puis choisissez le prénom de votre Collaborateur IA.'")
+  it('keeps the selected mission visible without redundant reassurance', () => {
+    expect(source).toContain("selected: 'Mission sélectionnée'")
+    expect(source).not.toContain('Votre mission est conservée.')
   })
 
   it('keeps the account step focused without a mission-change exit', () => {
     expect(source).not.toContain('← {t.change}')
-    expect(source).toContain('Votre mission est conservée.')
+    expect(source).not.toContain('Votre mission est conservée.')
   })
 
   it('publishes transparent trial and legal wording', () => {
@@ -38,13 +38,22 @@ describe('mission signup', () => {
     expect(stateBuilder).toContain('requestedDomain || sessionDomain')
   })
 
-  it('skips detailed editing only for a structured catalog mission', () => {
-    expect(flow).toContain("const flowSteps: OnboardingStep[] = context.kind === 'mission' ? ['entreprise', 'collaborateur'] : STEP_ORDER")
-    expect(flow).toContain("onContinue={() => goTo(context.kind === 'mission' ? 'collaborateur' : 'mission')}")
+  it('keeps onboarding fast and moves detailed scoping to the Workspace', () => {
+    expect(flow).toContain("const flowSteps: OnboardingStep[] = ['mission', 'entreprise', 'collaborateur', 'workspace']")
+    expect(flow).toContain("lockedSteps={['mission']}")
+    expect(flow).toContain("onContinue={() => goTo('collaborateur')}")
+    expect(flow).not.toContain('<ScreenMission')
+  })
+
+  it('asks for a mission before authentication from the navigation CTA', () => {
+    expect(flow).toContain("searchParams.get('next') === 'missions'")
+    expect(flow).toContain("<MissionChoice lang={lang}")
+    expect(flow).toContain('onStarterSelect={onChoose}')
+    expect(flow).toContain('source=nav`')
   })
 
   it('resets structured fields for a new free-text draft', () => {
-    expect(flow).toContain('emptyMission(selectedMission.title)')
+    expect(flow).toContain('missionFromDraft(selectedMission.title, lang)')
     expect(flow).toContain('missionDefined: false')
   })
 })

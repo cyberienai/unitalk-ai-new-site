@@ -14,6 +14,11 @@ describe('shared Alma mission composer', () => {
     expect(composer).toContain('{clean && (')
   })
 
+  it('lets the homepage submit a suggested mission immediately', () => {
+    expect(composer).toContain('onStarterSelect?: (starter: string) => void')
+    expect(hero).toContain('onStarterSelect={handoffNeed}')
+  })
+
   it('is used by home, Missions and Marketplace', () => {
     for (const source of [hero, missions, marketplace]) expect(source).toContain('<AlmaMissionComposer')
   })

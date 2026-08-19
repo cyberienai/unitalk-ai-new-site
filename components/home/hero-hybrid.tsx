@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useEffectEvent, useRef, useState } from 'react'
+import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
@@ -42,7 +43,7 @@ const T = {
     subtitle: 'Alma personnalise son identité, son rôle et ses outils selon vos règles. Chaque mission validée enrichit ses compétences.',
     proofs: ['Première mission offerte', 'Sans carte bancaire', 'Sans engagement', 'Accompagnement humain si nécessaire'],
     cta: 'Décrire mon besoin',
-    voiceKicker: 'Coordinatrice de missions IA Unitalk',
+    voiceKicker: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk',
     voiceTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?',
     voiceBody: '',
     voiceStart: 'Commencer à parler',
@@ -51,6 +52,7 @@ const T = {
     voicePlaceholder: 'Décrivez simplement le résultat attendu…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
     voiceSubmit: 'Personnaliser mon Collaborateur IA',
+    explore: 'Explorer les missions',
     examples: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures', 'Construire mon calendrier éditorial', 'Organiser l’intégration d’un nouveau salarié'],
     previewMission: 'Aperçu de mission',
     previewCollaborator: 'Exemple de profil adapté',
@@ -74,6 +76,7 @@ const T = {
     voicePlaceholder: 'Simply describe the expected outcome…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
     voiceSubmit: 'Customize my AI Collaborator',
+    explore: 'Explore missions',
     examples: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices', 'Build my editorial calendar', 'Organize a new employee’s onboarding'],
     previewMission: 'Mission preview',
     previewCollaborator: 'Example suitable profile',
@@ -135,6 +138,14 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     return () => window.removeEventListener('open-home-alma', open)
   })
 
+  useLayoutEffect(() => {
+    if (!window.matchMedia('(min-width: 1024px)').matches) return
+    const field = textareaRef.current
+    if (!field) return
+    field.focus({ preventScroll: true })
+    field.setSelectionRange(field.value.length, field.value.length)
+  }, [])
+
   const enter = (delay: number) => ({
     initial: reduce ? false : { opacity: 0, y: 16 },
     animate: { opacity: 1, y: 0 },
@@ -158,8 +169,8 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     }
   }
 
-  function submitVoiceNeed() {
-    const clean = transcript.trim()
+  function handoffNeed(value: string) {
+    const clean = value.trim()
     if (!clean) return
     const draftId = `draft_${crypto.randomUUID()}`
     try {
@@ -169,17 +180,21 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&source=mission-store`)
   }
 
+  function submitVoiceNeed() {
+    handoffNeed(transcript)
+  }
+
   return (
     <section className="relative overflow-hidden bg-[#F3EFE6] pb-10 pt-24 sm:pb-12 sm:pt-28 lg:flex lg:min-h-[100svh] lg:items-center lg:pb-5 lg:pt-[88px] [@media(min-width:1024px)_and_(max-height:800px)]:pb-3 [@media(min-width:1024px)_and_(max-height:800px)]:pt-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full bg-[#D10E63]/[0.08] blur-3xl" />
       <div className="editorial-shell relative w-full">
-        <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12 [@media(min-width:1024px)_and_(max-height:800px)]:gap-9">
+        <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-[1.14fr_0.86fr] lg:gap-10 [@media(min-width:1024px)_and_(max-height:800px)]:gap-8">
           <div className="max-w-[720px] text-left">
           <motion.div {...enter(0)} className="mb-4 flex lg:mb-4"><Kicker>{t.eyebrow}</Kicker></motion.div>
           <motion.h1 {...enter(0.08)} className="text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] text-[#1C1A17] lg:text-[clamp(3.1rem,4.8vw,5rem)] [@media(min-width:1024px)_and_(max-height:800px)]:text-[clamp(3rem,4.5vw,4.5rem)]">
             <span className="block">{t.headlineA}</span>
-            <span className="block">{t.headlineB}</span>
+            <span className="block lg:whitespace-nowrap">{t.headlineB}</span>
             <span className="block text-[#D10E63]">{t.headlineC}</span>
           </motion.h1>
            <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7"><AlmaInline className="mr-1" />{t.subtitle}</motion.p>
@@ -197,6 +212,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 placeholder={t.voicePlaceholder}
                 submitLabel={t.voiceSubmit}
                 starters={t.examples}
+                onStarterSelect={handoffNeed}
                 listening={listening}
                 onToggleListening={toggleListening}
                 voiceSupported={voiceSupported}
@@ -208,8 +224,10 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 attention={promptAttention}
                 compactMobile
                 compactDesktop
+                titleInField
                 preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>}
               />
+              <div className="mt-4 text-center"><Link href="/missions" className="inline-flex items-center gap-2 text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4 hover:decoration-[#D10E63]">{t.explore}</Link></div>
             </motion.div>
           </motion.div>
         </div>
@@ -261,6 +279,24 @@ export function getPreparedDemo(value: string, lang: Lang) {
           rule: 'Flag sensitive requests and approve their reply before sending.',
           name: 'Emma', role: 'AI Collaborator · Executive Assistant', avatar: '/images/emma-avatar.png',
           skills: ['Outlook', 'Prioritization', 'Microsoft Teams'],
+        }
+  }
+
+  if ((normalized.includes('prospect') || normalized.includes('lead')) && normalized.includes('qualif')) {
+    return lang === 'fr'
+      ? {
+          title: 'Qualifier mes prospects',
+          objective: 'Enrichir, évaluer et prioriser chaque prospect selon vos critères commerciaux.',
+          rule: 'Validation humaine avant toute prise de contact ou modification sensible du CRM.',
+          name: 'Hugo', role: 'Collaborateur IA · Commercial', avatar: '/images/hugo-avatar.png',
+          skills: ['CRM', 'Qualification', 'Prospection'],
+        }
+      : {
+          title: 'Qualify my prospects',
+          objective: 'Enrich, assess and prioritize each prospect using your sales criteria.',
+          rule: 'Human approval before outreach or any sensitive CRM update.',
+          name: 'Hugo', role: 'AI Collaborator · Sales', avatar: '/images/hugo-avatar.png',
+          skills: ['CRM', 'Qualification', 'Prospecting'],
         }
   }
 

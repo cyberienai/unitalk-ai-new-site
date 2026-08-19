@@ -4,7 +4,8 @@ import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { STEP_LABELS, STEP_ORDER, type OnboardingStep } from './types'
 
-// A quiet horizontal stepper: Entreprise → Mission → Collaborateur IA → Workspace.
+// A quiet horizontal stepper. Steps completed before entering the flow can be
+// displayed without becoming clickable screens.
 // Completed steps are clickable and marked with a check; the active step uses
 // magenta; future steps stay discreet and non-interactive.
 export function FlowStepper({
@@ -12,11 +13,13 @@ export function FlowStepper({
   lang,
   onStepClick,
   steps = STEP_ORDER,
+  lockedSteps = [],
 }: {
   current: OnboardingStep
   lang: Lang
   onStepClick: (step: OnboardingStep) => void
   steps?: OnboardingStep[]
+  lockedSteps?: OnboardingStep[]
 }) {
   const currentIndex = steps.indexOf(current)
 
@@ -38,14 +41,15 @@ export function FlowStepper({
               )}
               <button
                 type="button"
-                onClick={() => isDone && onStepClick(step)}
-                 disabled={!isDone}
+                onClick={() => isDone && !lockedSteps.includes(step) && onStepClick(step)}
+                 disabled={!isDone || lockedSteps.includes(step)}
                  aria-label={label}
                 aria-current={state === 'active' ? 'step' : undefined}
                 className={[
                   'inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[12px] font-semibold transition-colors sm:px-3 sm:py-1.5 sm:text-[13px]',
                   state === 'active' ? 'bg-[#D10E63]/10 text-[#B00C54]' : '',
-                  state === 'done' ? 'cursor-pointer text-[#6E665A] hover:bg-[#EFE8DA]/70 hover:text-[#1C1A17]' : '',
+                   state === 'done' && !lockedSteps.includes(step) ? 'cursor-pointer text-[#6E665A] hover:bg-[#EFE8DA]/70 hover:text-[#1C1A17]' : '',
+                   state === 'done' && lockedSteps.includes(step) ? 'text-[#6E665A]' : '',
                   state === 'todo' ? 'text-[#B4AC9E]' : '',
                 ]
                   .filter(Boolean)

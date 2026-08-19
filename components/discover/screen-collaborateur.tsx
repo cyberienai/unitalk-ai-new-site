@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, ArrowRight, Check, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { AlmaHead } from './context-column'
@@ -17,8 +17,10 @@ export function ScreenCollaborateur({
   collaboratorTemplateSlug,
   company,
   name,
+  confirming,
   onName,
   onCreated,
+  onConfirmationChange,
 }: {
   lang: Lang
   mission: MissionInfo
@@ -26,13 +28,14 @@ export function ScreenCollaborateur({
   collaboratorTemplateSlug?: string
   company: CompanyFact[]
   name: string
+  confirming: boolean
   onName: (name: string) => void
   onCreated: (name: string) => void
+  onConfirmationChange: (confirming: boolean) => void
 }) {
   const t = COPY[lang]
   const router = useRouter()
   const [opening, setOpening] = useState(false)
-  const [confirming, setConfirming] = useState(false)
   const displayName = capitalizeName(name)
   const initial = displayName.charAt(0)
 
@@ -40,7 +43,7 @@ export function ScreenCollaborateur({
     if (!displayName || opening) return
     if (!confirming) {
       onCreated(displayName)
-      setConfirming(true)
+      onConfirmationChange(true)
       return
     }
     setOpening(true)
@@ -61,19 +64,8 @@ export function ScreenCollaborateur({
             </div>
           </div>
 
-          <p className="mt-8 text-pretty font-sf text-xl font-medium leading-relaxed text-[#F4EFE8]">“{confirming ? t.almaConfirm : t.alma}”</p>
+          <p className="mt-8 text-pretty font-sf text-xl font-medium leading-relaxed text-[#F4EFE8]">{confirming ? t.almaConfirm : t.alma}</p>
 
-          <div className="mt-8 border-t border-white/10 pt-5">
-            <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#E38AB4]">{t.mission}</p>
-            <p className="mt-2 line-clamp-3 font-sf text-[16px] font-semibold leading-relaxed text-white">{mission.title}</p>
-          </div>
-
-          <div className="mt-auto pt-7">
-            <span className="inline-flex items-center gap-2 text-[11px] font-semibold text-[#E9E2D9]">
-              <Check className="h-3.5 w-3.5 text-[#E38AB4]" strokeWidth={3} />
-              {t.previousStepsDone}
-            </span>
-          </div>
         </div>
       </aside>
 
@@ -120,7 +112,7 @@ export function ScreenCollaborateur({
             {displayName ? `${t.continueWith} ${displayName}` : t.createEmpty}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-enabled:group-hover:translate-x-0.5" />
           </button>
-          </> : <TrialConfirmation name={displayName} mission={mission.title} profile={profile[lang]} opening={opening} onBack={() => setConfirming(false)} onOpen={createCollaborator} t={t} />}
+          </> : <TrialConfirmation name={displayName} mission={mission.title} profile={profile[lang]} opening={opening} onOpen={createCollaborator} t={t} />}
         </div>
       </section>
     </div>
@@ -136,8 +128,7 @@ const COPY = {
   fr: {
     alma: 'Donnez-lui un prénom.',
     almaRole: 'Coordinatrice de missions IA · Unitalk',
-    mission: 'Mission',
-    previousStepsDone: 'Entreprise confirmée · Mission conservée',
+    mission: 'Mission', profile: 'Profil métier recommandé',
     firstName: 'Prénom',
     namePlaceholder: 'Ex. Lucas',
     nameHint: 'Un prénom rend la collaboration plus naturelle au quotidien.',
@@ -145,18 +136,14 @@ const COPY = {
     createEmpty: 'Choisissez un prénom pour continuer',
     opening: 'Enregistrement…',
     almaConfirm: 'Tout est prêt. Vérifiez avant de créer votre Workspace gratuit.',
-    readyTitle: (name: string) => `${name} est prêt pour sa première mission.`,
+    readyTitle: (name: string) => <>{name} est prêt<br/>pour sa première mission.</>,
     freeMission: 'Première mission offerte', noCard: 'Sans carte bancaire',
-    apps: 'Applications', appsValue: 'À connecter dans le Workspace avec votre accord',
-    approvals: 'Validations humaines', approvalsValue: 'Activées pour les actions sensibles',
-    open: 'Créer mon Workspace gratuit', back: 'Modifier le prénom',
-    consent: 'Aucun abonnement payant n’est activé automatiquement. Aucune application n’est connectée sans votre accord.',
+    open: 'Créer mon Workspace gratuit',
   },
   en: {
     alma: 'Give them a first name.',
     almaRole: 'AI mission coordinator · Unitalk',
-    mission: 'Mission',
-    previousStepsDone: 'Company confirmed · Mission saved',
+    mission: 'Mission', profile: 'Recommended job profile',
     firstName: 'First name',
     namePlaceholder: 'e.g. Lucas',
     nameHint: 'A first name makes day-to-day collaboration feel more natural.',
@@ -164,17 +151,14 @@ const COPY = {
     createEmpty: 'Choose a first name to continue',
     opening: 'Saving…',
     almaConfirm: 'Everything is ready. Review it before creating your free Workspace.',
-    readyTitle: (name: string) => `${name} is ready for the first mission.`,
+    readyTitle: (name: string) => <>{name} is ready<br/>for the first mission.</>,
     freeMission: 'First mission included', noCard: 'No credit card',
-    apps: 'Applications', appsValue: 'Connect them in the Workspace with your approval',
-    approvals: 'Human approvals', approvalsValue: 'Enabled for sensitive actions',
-    open: 'Create my free Workspace', back: 'Change first name',
-    consent: 'No paid subscription is activated automatically. No application is connected without your approval.',
+    open: 'Create my free Workspace',
   },
 } as const
 
-function TrialConfirmation({ name, mission, profile, opening, onBack, onOpen, t }: { name: string; mission: string; profile: string; opening: boolean; onBack: () => void; onOpen: () => void; t: typeof COPY.fr | typeof COPY.en }) {
-  return <div><div className="flex justify-center"><span className="flex size-16 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]"><Check className="size-8" strokeWidth={2.5}/></span></div><h2 className="mt-5 text-center font-sf text-[28px] font-semibold leading-tight tracking-[-.04em]">{t.readyTitle(name)}</h2><div className="mt-6 divide-y divide-[#E7E0D2] border-y border-[#E7E0D2]"><Summary label={t.mission} value={mission}/><Summary label={typeof t.firstName === 'string' ? t.firstName : 'Prénom'} value={`${name} · ${profile}`}/><Summary label={t.apps} value={t.appsValue}/><Summary label={t.approvals} value={t.approvalsValue}/></div><div className="mt-5 flex flex-wrap justify-center gap-2">{[t.freeMission,t.noCard].map(item=><span key={item} className="rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#4E483F]">{item}</span>)}</div><p className="mt-5 flex gap-2 text-[12px] leading-5 text-[#625B50]"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#B00C54]"/>{t.consent}</p><button type="button" onClick={onOpen} disabled={opening} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 text-sm font-bold text-white disabled:opacity-70">{opening?t.opening:t.open}<ArrowRight className="size-4"/></button><button type="button" onClick={onBack} disabled={opening} className="mt-3 inline-flex w-full items-center justify-center gap-1.5 py-2 text-xs font-bold text-[#625B50]"><ArrowLeft className="size-3.5"/>{t.back}</button></div>
+function TrialConfirmation({ name, mission, profile, opening, onOpen, t }: { name: string; mission: string; profile: string; opening: boolean; onOpen: () => void; t: typeof COPY.fr | typeof COPY.en }) {
+  return <div><div className="flex justify-center"><span className="flex size-16 items-center justify-center rounded-full bg-[#D10E63]/10 text-[#B00C54]"><Check className="size-8" strokeWidth={2.5}/></span></div><h2 className="mt-5 text-center font-sf text-[28px] font-semibold leading-tight tracking-[-.04em]">{t.readyTitle(name)}</h2><div className="mt-6 divide-y divide-[#E7E0D2] border-y border-[#E7E0D2]"><Summary label={t.mission} value={mission}/><Summary label={typeof t.firstName === 'string' ? t.firstName : 'Prénom'} value={name}/><Summary label={t.profile} value={profile}/></div><button type="button" onClick={onOpen} disabled={opening} className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#D10E63] px-5 text-sm font-bold text-white disabled:opacity-70">{opening?t.opening:t.open}<ArrowRight className="size-4"/></button><div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-[11px] font-bold text-[#625B50]">{[t.freeMission,t.noCard].map(item=><span key={item} className="inline-flex items-center gap-1.5"><Check className="size-3.5 text-[#B00C54]"/>{item}</span>)}</div></div>
 }
 
 function Summary({label,value}:{label:string;value:string}){return <div className="grid gap-1 py-3 sm:grid-cols-[7rem_1fr]"><p className="font-mono text-[9px] font-bold uppercase tracking-[.12em] text-[#8A8175]">{label}</p><p className="text-[13px] font-semibold leading-5 text-[#2D2924]">{value}</p></div>}

@@ -15,7 +15,7 @@ export function HomeNew() {
     <AlmaProvider>
       <div className="min-h-screen bg-[#F4F1EA] text-[#1C1A17]">
         <Navbar />
-        <main>
+        <main className="home-page-main">
           <HeroHybrid lang={lang} />
           <SectionWorkspace lang={lang} />
           <HomeCollaboratorAnatomy lang={lang} />

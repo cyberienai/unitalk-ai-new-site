@@ -15,6 +15,7 @@ type Props = {
   placeholder: string
   submitLabel: string
   starters: readonly string[]
+  onStarterSelect?: (starter: string) => void
   listening: boolean
   onToggleListening: () => void
   voiceSupported?: boolean
@@ -30,6 +31,7 @@ type Props = {
   attention?: boolean
   compactMobile?: boolean
   compactDesktop?: boolean
+  titleInField?: boolean
 }
 
 export function AlmaMissionComposer({
@@ -42,6 +44,7 @@ export function AlmaMissionComposer({
   placeholder,
   submitLabel,
   starters,
+  onStarterSelect,
   listening,
   onToggleListening,
   voiceSupported = true,
@@ -57,13 +60,14 @@ export function AlmaMissionComposer({
   attention = false,
   compactMobile = false,
   compactDesktop = false,
+  titleInField = false,
 }: Props) {
   const reduce = useReducedMotion()
   const titleId = useId()
   const clean = value.trim()
 
   return (
-    <div className={`relative flex flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:min-h-[480px] sm:p-7 lg:min-h-0 lg:p-5 ${compactMobile ? 'min-h-[390px] p-4' : 'min-h-[430px] p-5'} ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:p-4' : ''}`}>
+    <div className={`relative flex flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:min-h-[480px] sm:p-7 lg:min-h-0 lg:p-5 ${compactMobile ? 'min-h-[390px] p-4' : 'min-h-[430px] p-5'} ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:p-4' : ''} ${titleInField ? 'min-h-[360px] p-5 sm:min-h-[380px] sm:p-6 lg:min-h-[395px] lg:p-6' : ''}`}>
       <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -73,7 +77,7 @@ export function AlmaMissionComposer({
         {status && <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-[#F3B4CF]"><span className="size-1.5 rounded-full bg-[#45C578]" />{status}</span>}
       </div>
 
-      <div className={`flex min-h-[94px] items-center py-4 ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:min-h-[72px] [@media(min-width:1024px)_and_(max-height:850px)]:py-2' : ''}`}>
+      <div className={titleInField && !previewVisible ? 'sr-only' : `flex min-h-[94px] items-center py-4 ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:min-h-[72px] [@media(min-width:1024px)_and_(max-height:850px)]:py-2' : ''}`}>
         <AnimatePresence mode="wait" initial={false}>
           {previewVisible && preview ? (
             <motion.div key="preview" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full">{preview}</motion.div>
@@ -86,7 +90,7 @@ export function AlmaMissionComposer({
         </AnimatePresence>
       </div>
 
-      <div className="relative">
+      <div className={titleInField ? 'relative mt-6 sm:mt-7' : 'relative'}>
         <textarea
           ref={textareaRef}
           value={value}
@@ -97,10 +101,10 @@ export function AlmaMissionComposer({
               onSubmit()
             }
           }}
-          rows={compactDesktop ? 2 : 3}
-          placeholder={placeholder}
+          rows={titleInField ? 4 : compactDesktop ? 2 : 3}
+          placeholder={titleInField ? title : placeholder}
           aria-labelledby={titleId}
-          className={`w-full resize-none rounded-2xl border bg-white/[0.07] px-4 py-3 pr-16 text-[15px] leading-6 text-white outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] focus:bg-white/[0.09] ${attention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/15'}`}
+          className={`w-full resize-none rounded-2xl border bg-white/[0.07] px-4 py-3 pr-16 text-[15px] leading-6 text-white outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] focus:bg-white/[0.09] ${titleInField ? 'min-h-[125px] px-5 py-4 text-[16px] leading-7 sm:min-h-[135px]' : ''} ${attention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/15'}`}
         />
         {voiceSupported && (
           <button type="button" onClick={onToggleListening} aria-pressed={listening} aria-label={listening ? voiceStopLabel : voiceStartLabel} className={`absolute bottom-3 right-3 flex size-10 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] ${listening ? 'bg-[#D10E63] text-white' : 'bg-white/10 text-[#F15B9B] hover:bg-white/15'}`}>
@@ -112,7 +116,7 @@ export function AlmaMissionComposer({
       <div className="mt-3 min-h-7">
         {listening && listeningLabel ? <p className="text-xs font-medium text-[#F3B4CF]">{listeningLabel}</p> : !previewVisible && (
           <div className="flex flex-wrap gap-2">
-            {starters.map((starter) => <button key={starter} type="button" onClick={() => onChange(starter)} className={`min-h-10 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] outline-none transition-colors hover:border-[#D10E63]/50 hover:text-white focus-visible:ring-2 focus-visible:ring-[#F15B9B] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:px-2.5 [@media(min-width:1024px)_and_(max-height:850px)]:py-1 [@media(min-width:1024px)_and_(max-height:850px)]:text-[10px]' : ''}`}>{starter}</button>)}
+            {starters.map((starter) => <button key={starter} type="button" onClick={() => onStarterSelect ? onStarterSelect(starter) : onChange(starter)} className={`min-h-10 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] outline-none transition-colors hover:border-[#D10E63]/50 hover:text-white focus-visible:ring-2 focus-visible:ring-[#F15B9B] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:px-2.5 [@media(min-width:1024px)_and_(max-height:850px)]:py-1 [@media(min-width:1024px)_and_(max-height:850px)]:text-[10px]' : ''}`}>{starter}</button>)}
           </div>
         )}
       </div>

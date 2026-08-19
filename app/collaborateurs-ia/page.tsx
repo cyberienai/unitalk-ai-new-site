@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import { CollaborateursContent } from '@/components/collaborateurs-ia/collaborateurs-content'
 
 export const metadata: Metadata = {
-  title: 'Collaborateur IA : une identité professionnelle pour votre entreprise',
+  title: 'Collaborateurs IA : confiez une mission, gardez les décisions',
   description:
-    'Découvrez le Collaborateur IA : une identité professionnelle avec un profil métier par défaut, des accès gouvernés, une mémoire durable et une supervision humaine.',
+    'Décrivez un travail réel. Alma prépare la mission, le profil métier, les accès et les validations de votre Collaborateur IA.',
   alternates: { canonical: 'https://unitalk.ai/collaborateurs-ia' },
   openGraph: {
-    title: 'Collaborateur IA : une identité professionnelle | Unitalk',
+    title: 'Collaborateurs IA : une mission d’abord | Unitalk',
     description:
-      'Une identité professionnelle avec un profil métier par défaut, des accès gouvernés, une mémoire durable et une supervision humaine.',
+      'Décrivez le travail à faire. Unitalk prépare le Collaborateur IA, ses accès et les validations humaines.',
     url: 'https://unitalk.ai/collaborateurs-ia',
   },
 }

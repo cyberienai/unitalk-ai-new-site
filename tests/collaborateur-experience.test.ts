@@ -4,40 +4,48 @@ import { describe, expect, it } from 'vitest'
 const source = readFileSync(new URL('../components/collaborateurs-ia/collaborateur-experience.tsx', import.meta.url), 'utf8')
 
 describe('CollaborateurExperience', () => {
-  it('leads with responsibility and a concrete definition', () => {
-    expect(source).toContain('Donnez une responsabilité')
-    expect(source).toContain('à une intelligence artificielle.')
-    expect(source).toContain('une identité professionnelle, ses propres canaux et un profil métier')
+  it('starts with a directly actionable mission composer', () => {
+    expect(source).toContain('Décrivez le travail à faire.')
+    expect(source).toContain('<AlmaMissionComposer')
+    expect(source).toContain('Préparer cette mission')
+    expect(source).toContain('/decouvrir?draft=')
+    expect(source).toContain('source=collaborateurs-ia')
   })
 
-  it('introduces Alma as an employee in context', () => {
-    for (const claim of ['Alma travaille chez Unitalk', 'Relation client', 'Supervisée par Patrick Chassany', 'Email · Agenda · Téléphone']) expect(source).toContain(claim)
+  it('uses canonical collaborator and mission catalogs', () => {
+    expect(source).toContain("const EXAMPLE_SLUGS = ['hugo', 'emma', 'ines']")
+    expect(source).toContain('ROLE_DETAILS[slug]')
+    expect(source).toContain('MISSIONS.find')
+    expect(source).toContain('collaboratorHref(detail.slug)')
+    expect(source).toContain('STATUS_LABELS[mission.status][lang]')
   })
 
-  it('proves work through one mission and one human decision', () => {
-    for (const claim of ['Préparer l’arrivée d’un Collaborateur IA commercial', 'Profil, compétences et validations prêts à activer', 'Décision humaine requise', 'AI Gateway et Hermes']) expect(source).toContain(claim)
-    expect(source).toContain("useState<'approved' | 'changed' | null>")
+  it('explains the mission before infrastructure', () => {
+    for (const claim of ['Résultat attendu', 'Profil responsable', 'Accès autorisés', 'Décisions humaines']) expect(source).toContain(claim)
+    expect(source).toContain('/collaborateurs-ia/comparatif')
   })
 
-  it('shows progression without changing identity', () => {
-    for (const claim of ['La mission se termine. L’expérience reste.', 'Nouveau profil · Conseillère en adoption IA', 'Nouvelle compétence · Animer un bilan d’adoption', 'Alma reste Alma']) expect(source).toContain(claim)
+  it('proves work through a clearly fictional interactive mission', () => {
+    for (const claim of ['Démonstration fictive · Aucune action réelle', 'Qualifier les prospects entrants', 'Décision humaine requise']) expect(source).toContain(claim)
+    expect(source).toContain("useState<'approved' | 'changed' | 'declined' | null>")
+    expect(source).toContain('role="status"')
   })
 
-  it('makes core infrastructure and portability explicit', () => {
-    for (const claim of ['Hermes open source', 'Modèles interchangeables', 'Export et migration', 'Droits explicites', '3 000+']) expect(source).toContain(claim)
-    expect(source).toContain('/documentation/licence-collaborateur-ia')
-    expect(source).toContain('/ai-gateway')
+  it('connects continuity to profiles and skills', () => {
+    expect(source).toContain('Le résultat est livré. L’expérience reste gouvernée.')
+    expect(source).toContain('/collaborateurs-ia/profils-metier')
+    expect(source).toContain('/collaborateurs-ia/competences')
   })
 
-  it('separates the public sales profile from the private record', () => {
-    expect(source).toContain('/unitalk/@alma')
-    expect(source).toContain('Son profil public peut vendre. Son dossier interne reste privé.')
-    expect(source).toContain('sans exposer sa mémoire ni ses droits')
+  it('keeps architecture claims linked to documentation', () => {
+    for (const href of ['/documentation/licence-collaborateur-ia', '/architecture', '/ai-gateway']) expect(source).toContain(href)
+    expect(source).toContain('Hermes sous licence MIT')
   })
 
-  it('keeps a mission-first conversion path', () => {
-    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
-    expect(source).toContain('Décrire une première mission')
+  it('provides an accessible FAQ and final mission-first CTA', () => {
+    expect(source).toContain('<details')
+    expect(source).toContain('<summary')
+    expect(source).toContain('Décrire ma mission')
     expect(source).not.toContain('IntersectionObserver')
   })
 })

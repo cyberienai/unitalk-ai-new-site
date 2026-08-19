@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildInitialOnboardingState } from '@/lib/discover-onboarding-state'
+import { buildInitialOnboardingState, collaboratorFromDraft, missionFromDraft } from '@/lib/discover-onboarding-state'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { MISSIONS } from '@/lib/missions-catalog'
 import type { PurchaseDraft } from '@/lib/purchase-draft'
@@ -21,6 +21,17 @@ const persisted: PurchaseDraft = {
 }
 
 describe('explicit discovery intent', () => {
+  it('prepares prospect qualification from the homepage wording', () => {
+    const mission = missionFromDraft('Qualifier mes prospects', 'fr')
+    expect(mission.title).toBe('Qualifier mes prospects')
+    expect(mission.target).toContain('prospects entrants')
+    expect(mission.criteria).toBe('')
+    expect(mission.result).toContain('priorisé')
+    expect(mission.validation).toContain('Validation humaine')
+    expect(collaboratorFromDraft('Qualifier mes prospects')?.slug).toBe('hugo')
+    expect(collaboratorFromDraft('Qualifier mes prospects')?.role.fr).toBe('Commercial')
+  })
+
   it('lets an explicit profile override the previous onboarding cookie', () => {
     const state = buildInitialOnboardingState({ lang: 'fr', initialPurchaseDraft: persisted, requestedDomain: '', requestedCollaborator: ROLE_DETAILS.arthur, hasExplicitDraft: true })
     expect(state.profile).toEqual(ROLE_DETAILS.arthur.role)

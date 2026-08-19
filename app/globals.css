@@ -190,6 +190,86 @@
   .academy-home-final { padding:105px 0 115px; }.academy-home-final h2 { font-size:3.7rem; }.academy-home-final a { width:calc(100% - 12px); justify-content:space-between; padding-inline:20px; }
 }
 
+/* Home section rhythm: one title scale, stronger reading weight, compact 13-inch illustrations. */
+.home-page-main > section:nth-child(2) h2,
+.home-page-main > section:nth-child(3) h2,
+.home-page-main > section:nth-child(4) h2,
+.home-page-main > section:nth-child(5) h2 {
+  font-size:clamp(2.35rem,4.2vw,4rem);
+  font-weight:700;
+  line-height:.98;
+  letter-spacing:-.05em;
+}
+.home-page-main > section:nth-child(2) h2 + p,
+.home-page-main > section:nth-child(3) h2 + p,
+.home-page-main > section:nth-child(4) h2 + p {
+  font-size:17px;
+  font-weight:500;
+  line-height:1.85;
+}
+@media (min-width:1024px) and (max-width:1440px) {
+  .home-page-main > section:nth-child(2) > div,
+  .home-page-main > section:nth-child(3) > div,
+  .home-page-main > section:nth-child(4) > div > div {
+    grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+    gap:3rem;
+  }
+  .home-page-main > section:nth-child(2) > div > :last-child,
+  .home-page-main > section:nth-child(3) > div > :last-child,
+  .home-page-main > section:nth-child(4) > div > div > :last-child {
+    width:100%;
+    max-width:660px;
+    justify-self:end;
+  }
+}
+@media (max-width:640px) {
+  .home-page-main > section:nth-child(2) h2,
+  .home-page-main > section:nth-child(3) h2,
+  .home-page-main > section:nth-child(4) h2,
+  .home-page-main > section:nth-child(5) h2 {
+    font-size:clamp(2.25rem,11vw,3.15rem);
+    line-height:1;
+    letter-spacing:-.045em;
+  }
+  .home-page-main > section:nth-child(2) h2 + p,
+  .home-page-main > section:nth-child(3) h2 + p,
+  .home-page-main > section:nth-child(4) h2 + p {
+    font-size:16px;
+    font-weight:500;
+    line-height:1.75;
+  }
+}
+
+/* Home anatomy: preserve a two-line headline and keep the profile card secondary. */
+@media (min-width:1024px) {
+  .home-page-main > section:nth-child(3) > div {
+    grid-template-columns:minmax(0,1.12fr) minmax(420px,.88fr);
+    gap:3rem;
+  }
+  .home-page-main > section:nth-child(3) h2 {
+    max-width:680px;
+    text-wrap:initial;
+  }
+  .home-page-main > section:nth-child(3) > div > article {
+    width:100%;
+    max-width:560px;
+    justify-self:end;
+  }
+  .home-page-main > section:nth-child(4) > div > div {
+    grid-template-columns:minmax(0,1.12fr) minmax(420px,.88fr);
+    gap:3rem;
+  }
+  .home-page-main > section:nth-child(4) h2 {
+    max-width:680px;
+    text-wrap:initial;
+  }
+  .home-page-main > section:nth-child(4) > div > div > :last-child {
+    width:100%;
+    max-width:560px;
+    justify-self:end;
+  }
+}
+
 /* Paul Graham landing: Unitalk's editorial, work-first product manifesto. */
 .graham-root { --g-ink:#181715; --g-paper:#f3efe6; --g-cream:#fffdf8; --g-pink:#d10e63; --g-yellow:#ffd84d; --g-blue:#3159e8; min-height:100vh; overflow:hidden; background:var(--g-paper); color:var(--g-ink); }
 .graham-shell { width:min(1240px,calc(100% - 48px)); margin-inline:auto; }

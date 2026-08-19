@@ -154,7 +154,7 @@ export function ScreenContext({
         </div>
 
         <dl className="mt-5 flex-1 divide-y divide-[#EBE4D6] border-y border-[#EBE4D6]">
-          {company.filter((fact) => fact.key !== 'clients').map((fact) => {
+          {company.filter((fact) => fact.key !== 'clients' && fact.key !== 'offer').map((fact) => {
             const isEditing = editingKey === fact.key
             const showToConfirm = fact.uncertain && !fact.value
             return (
@@ -244,7 +244,7 @@ const COPY = {
   fr: {
     hello: 'Bonjour',
     welcome: 'Bienvenue.',
-    intro: 'Vérifiez les informations préparées à partir de votre adresse professionnelle.',
+    intro: 'Vérifiez les informations de votre entreprise.',
     confirmed: 'Parfait. Votre entreprise est prête. Passons au Collaborateur IA.',
     almaName: 'Alma',
     almaRole: 'Coordinatrice de missions IA · Unitalk',

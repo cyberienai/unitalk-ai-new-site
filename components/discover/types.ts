@@ -12,7 +12,7 @@ import { MISSIONS, type Mission } from '@/lib/missions-catalog'
 // is coherent and persistent across screens.                                 //
 // -------------------------------------------------------------------------- //
 
-export type OnboardingStep = 'entreprise' | 'mission' | 'collaborateur'
+export type OnboardingStep = 'entreprise' | 'mission' | 'collaborateur' | 'workspace'
 
 export const STEP_ORDER: OnboardingStep[] = ['entreprise', 'mission', 'collaborateur']
 
@@ -20,6 +20,7 @@ export const STEP_LABELS: Record<OnboardingStep, { fr: string; en: string }> = {
   entreprise: { fr: 'Entreprise', en: 'Company' },
   mission: { fr: 'Mission', en: 'Mission' },
   collaborateur: { fr: 'Collaborateur IA', en: 'AI Collaborator' },
+  workspace: { fr: 'Accès Workspace', en: 'Workspace access' },
 }
 
 // A single company fact. `uncertain` renders as "À confirmer" — Alma never
@@ -118,7 +119,7 @@ export function initialOnboardingState(): OnboardingState {
     ],
     mission: { title: '', target: '', criteria: '', sources: '', exclusions: '', result: '', rule: '', validation: '' },
     missionDefined: false,
-    profile: { fr: 'Finance', en: 'Finance' },
+    profile: { fr: 'À définir selon la mission', en: 'To be defined from the mission' },
     collaboratorName: '',
   }
 }

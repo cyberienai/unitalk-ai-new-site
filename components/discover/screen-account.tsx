@@ -51,7 +51,7 @@ export function ScreenAccount({
       {/* Left: dark panel */}
       <aside className="relative order-2 overflow-hidden bg-[#151310] px-6 py-8 sm:px-10 lg:order-1 lg:flex lg:min-h-screen lg:flex-col lg:px-[clamp(3rem,5vw,5rem)] lg:py-6">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#FAF8F3_1px,transparent_1px),linear-gradient(90deg,#FAF8F3_1px,transparent_1px)] [background-size:64px_64px]" />
-        <a href="/" className="flex items-center gap-2.5" aria-label="Unitalk"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
+        <a href="/" className="relative flex w-fit items-center gap-2.5 text-white transition-opacity hover:opacity-80" aria-label="Accueil Unitalk"><UnitalkLogo size={22} color="#F15B9B" inactiveColor="#F15B9B" /><span className="text-sm font-semibold tracking-[-.02em]">Unitalk</span></a>
         <div className="relative mx-auto my-auto w-full max-w-md">
           {mission ? (
             <>
@@ -61,11 +61,10 @@ export function ScreenAccount({
               </div>
               <div className={missionOpen ? 'block' : 'hidden lg:block'}>
                 <h2 className="mt-4 font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{mission.title}</h2>
-                <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{mission.description}</p>
+                {mission.description && <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{mission.description}</p>}
               </div>
               <div className={`mt-10 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
                 <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="h-12 w-12 rounded-full object-cover" /><div><p className="font-sf text-[18px] font-semibold text-white">Alma</p><p className="text-[12px] text-[#F2A4C5]">{t.almaRole}</p></div></div>
-                <div className="mt-5 border-l border-[#D10E63]/75 pl-5"><p className="font-sf text-[27px] font-semibold leading-tight text-white">{t.missionAlmaTitle}</p><p className="mt-3 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{isDraft?t.missionAlmaBody:t.catalogMissionAlmaBody}</p></div>
               </div>
             </>
           ) : (
@@ -117,9 +116,6 @@ const COPY = {
   fr: {
     selected: 'Mission sélectionnée', request: 'Votre demande', collapse: 'Réduire', expand: 'Afficher', change: 'Changer de mission',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions IA',
-    missionAlmaTitle: 'Votre mission est conservée.',
-    missionAlmaBody: 'Après votre connexion, vérifiez votre entreprise, complétez le cadrage de la mission puis choisissez le prénom de votre Collaborateur IA.',
-    catalogMissionAlmaBody: 'Après votre connexion, vérifiez votre entreprise puis choisissez le prénom de votre Collaborateur IA.',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',
     almaGenericTitle: 'Vous n\'avez pas encore choisi de mission.',
     almaGenericBody: 'Après votre inscription, je vous aiderai à personnaliser votre Collaborateur IA pour sa première mission.',
@@ -131,17 +127,14 @@ const COPY = {
     emailError: 'Saisissez une adresse email professionnelle valide.', personalEmailError: 'Utilisez votre adresse professionnelle, pas une adresse personnelle.', email: 'Continuer',
     contextualTitle: 'Continuez avec cette mission.',
     contextualLead: 'Confirmez votre entreprise et votre Collaborateur IA.',
-    draftTitle: 'Votre demande est conservée.',
-    draftLead: 'Créez votre compte pour continuer avec Alma.',
+    draftTitle: 'Continuons avec cette mission.',
+    draftLead: 'Connectez-vous pour créer votre Collaborateur IA. Vous préciserez la mission dans le Workspace.',
     contextualReassurance: 'Première mission offerte · Sans carte bancaire',
     legalPrefix: 'En continuant, vous acceptez les', terms: 'Conditions d\'utilisation', legalAnd: 'et la', privacy: 'Politique de confidentialité',
   },
   en: {
     selected: 'Selected mission', request: 'Your request', collapse: 'Collapse', expand: 'Show', change: 'Change mission',
     almaRole: 'AI Collaborator · Mission coordinator',
-    missionAlmaTitle: 'Your mission is saved.',
-    missionAlmaBody: 'After signing in, review your organization, complete the mission brief, then choose your AI Collaborator’s first name.',
-    catalogMissionAlmaBody: 'After signing in, review your organization, then choose your AI Collaborator’s first name.',
     newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.',
     almaGenericTitle: 'You have not selected a mission yet.',
     almaGenericBody: 'After signup, I will help you customize your AI Collaborator for the first mission.',
