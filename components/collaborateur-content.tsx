@@ -622,7 +622,7 @@ export function CollaborateurContent({
 
   return (
     <main className={`collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17] ${detail.slug === "hugo" ? "collaborator-profile-hugo flex flex-col" : ""}`}>
-      <section className="collaborator-hero relative pb-12 pt-24 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
+      <section className="collaborator-hero order-1 relative pb-12 pt-24 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
         <div
           aria-hidden
           className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
@@ -738,7 +738,7 @@ export function CollaborateurContent({
 
       <section
         id="mission-en-action"
-        className="collaborator-proof scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24"
+        className="collaborator-proof order-3 scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24"
       >
         <div className="editorial-shell grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-12 xl:gap-16">
           <div>
@@ -907,7 +907,7 @@ export function CollaborateurContent({
         </div>
       </section>}
 
-      <section className="collaborator-evolution-section py-16 sm:py-20">
+      <section className="collaborator-evolution-section order-4 py-16 sm:py-20">
         <div className="editorial-shell grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:gap-12">
           <div>
             <Kicker>{t.evolutionKicker}</Kicker>
@@ -991,7 +991,7 @@ export function CollaborateurContent({
       {missions.length > 0 && (
         <section
           id="missions"
-          className="collaborator-missions scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"
+          className="collaborator-missions order-2 scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"
         >
           <div className="editorial-shell">
             <h2 className="text-[clamp(2.2rem,4.2vw,4rem)] font-bold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">
@@ -1033,7 +1033,7 @@ export function CollaborateurContent({
       )}
 
       <CollaboratorFaq lang={lang} detail={detail} compact={detail.slug === "hugo"} />
-      <section className="collaborator-final bg-[#D10E63] py-16 text-white sm:py-20">
+      <section className="collaborator-final order-6 bg-[#D10E63] py-16 text-white sm:py-20">
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
             {lang === "fr"
@@ -1427,7 +1427,7 @@ function CollaboratorFaq({
         ];
    const visibleItems = compact ? items.slice(0, 3) : items;
    return (
-     <section className="collaborator-faq bg-[#F3EFE6] py-16 sm:py-20">
+     <section className="collaborator-faq order-5 bg-[#F3EFE6] py-16 sm:py-20">
       <div className="editorial-shell grid gap-10 lg:grid-cols-[.72fr_1.28fr]">
         <div>
           <Kicker>FAQ</Kicker>
