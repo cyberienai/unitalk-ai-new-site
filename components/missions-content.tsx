@@ -283,18 +283,17 @@ export function MissionsContent({
           </div>
 
           <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {visibleMissions.map((mission, index) => (
+            {visibleMissions.map((mission) => (
               <div key={mission.slug} className="contents">
                 <StoreCard mission={mission} lang={lang} onPersonalize={rememberCatalogState} />
-                {index === 5 && <AlmaCatalogCard lang={lang} onClick={focusComposer} />}
               </div>
             ))}
+            <AlmaCatalogCard lang={lang} onClick={focusComposer} />
           </div>
 
           {visibleCount < filteredMissions.length && (
             <div className="mt-8 text-center"><button type="button" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)} className="inline-flex min-h-11 items-center rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#B00C54] hover:bg-[#D10E63] hover:text-white">{t.showMore}</button></div>
           )}
-          {filteredMissions.length === 0 && <div className="mt-8"><AlmaCatalogCard lang={lang} onClick={focusComposer} /></div>}
         </section>
 
         <section className="relative mt-20 overflow-hidden rounded-[32px] bg-[#D10E63] px-6 py-12 text-white sm:px-10 sm:py-16">
