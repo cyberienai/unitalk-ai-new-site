@@ -1263,7 +1263,7 @@ function IdentityFeature({
 }
 function HeroProof({ title, body, href }: { title: string; body: string; href?: string }) {
   const alma = href === "/alma"
-  const content = <>{alma?<div className="flex items-center gap-2.5"><Image src="/alma-avatar.png" alt="" width={28} height={28} className="size-7 rounded-full object-cover ring-1 ring-[#D10E63]/25"/><h3 className="text-[15px] font-bold">{title}</h3></div>:<h3 className="text-[15px] font-bold">{title}</h3>}<p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>{href&&<span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#B00C54]">Explorer<ArrowRight className="size-3.5"/></span>}</>
+  const content = <>{alma?<div className="flex items-center gap-2"><Image src="/alma-avatar.png" alt="" width={28} height={28} className="size-7 shrink-0 rounded-full object-cover ring-1 ring-[#D10E63]/25"/><h3 className="whitespace-nowrap text-[13px] font-bold min-[390px]:text-[14px] lg:text-[13px] xl:text-[15px]">{title}</h3></div>:<h3 className="text-[15px] font-bold">{title}</h3>}<p className="mt-2 text-[13px] font-medium leading-5 text-[#625B50]">{body}</p>{href&&<span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#B00C54]">Explorer<ArrowRight className="size-3.5"/></span>}</>
   return href ? <Link href={href} className="group min-h-28 border-b border-[#CFC5B5] p-5 transition-colors hover:bg-white sm:border-r lg:border-b-0 lg:last:border-r-0">{content}</Link> : (
     <article className="min-h-28 border-b border-[#CFC5B5] p-5 sm:border-r lg:border-b-0 lg:last:border-r-0">
       {content}
