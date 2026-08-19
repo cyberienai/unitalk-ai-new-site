@@ -623,8 +623,8 @@ export function CollaborateurContent({
   }
 
   return (
-    <main className="collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-      <section className="relative pb-14 pt-24 sm:pb-16 sm:pt-32 lg:flex lg:min-h-[720px] lg:items-center lg:py-24">
+    <main className={`collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17] ${detail.slug === "hugo" ? "collaborator-profile-hugo flex flex-col" : ""}`}>
+      <section className="collaborator-hero relative pb-14 pt-24 sm:pb-16 sm:pt-32 lg:flex lg:min-h-[720px] lg:items-center lg:py-24">
         <div
           aria-hidden
           className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
@@ -740,7 +740,7 @@ export function CollaborateurContent({
 
       <section
         id="mission-en-action"
-        className="scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24"
+        className="collaborator-proof scroll-mt-24 bg-[#181615] py-20 text-white sm:py-24"
       >
         <div className="editorial-shell grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-center lg:gap-12 xl:gap-16">
           <div>
@@ -812,7 +812,7 @@ export function CollaborateurContent({
         </div>
       </section>
 
-      <section className="collaborator-identity-section py-20 sm:py-24">
+      {detail.slug !== "hugo" && <section className="collaborator-identity-section py-20 sm:py-24">
         <div className="editorial-shell grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:gap-12">
           <div>
             <Kicker>{t.identityKicker}</Kicker>
@@ -858,9 +858,9 @@ export function CollaborateurContent({
             <IdentityCard detail={detail} lang={lang} labels={t.identityCard} />
           </div>
         </div>
-      </section>
+      </section>}
 
-      <section className="bg-[#EAE3D4] py-20 sm:py-24">
+      {detail.slug !== "hugo" && <section className="collaborator-equipment-section bg-[#EAE3D4] py-20 sm:py-24">
         <div className="editorial-shell">
           <div className="grid gap-px overflow-hidden rounded-[26px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2">
             <Link
@@ -907,9 +907,9 @@ export function CollaborateurContent({
             </Link>
           </div>
         </div>
-      </section>
+      </section>}
 
-      <section className="collaborator-evolution-section py-20 sm:py-24">
+      <section className="collaborator-evolution-section py-16 sm:py-20">
         <div className="editorial-shell grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:gap-12">
           <div>
             <Kicker>{t.evolutionKicker}</Kicker>
@@ -993,7 +993,7 @@ export function CollaborateurContent({
       {missions.length > 0 && (
         <section
           id="missions"
-          className="scroll-mt-24 bg-[#FAF8F3] py-20 sm:py-24"
+          className="collaborator-missions scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"
         >
           <div className="editorial-shell">
             <h2 className="text-[clamp(2.2rem,4.2vw,4rem)] font-bold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">
@@ -1034,8 +1034,8 @@ export function CollaborateurContent({
         </section>
       )}
 
-      <CollaboratorFaq lang={lang} detail={detail} />
-      <section className="bg-[#D10E63] py-16 text-white sm:py-20">
+      <CollaboratorFaq lang={lang} detail={detail} compact={detail.slug === "hugo"} />
+      <section className="collaborator-final bg-[#D10E63] py-16 text-white sm:py-20">
         <div className="editorial-shell flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <h2 className="max-w-4xl text-[clamp(2.5rem,5vw,4.75rem)] font-bold leading-[.95] tracking-[-.055em]">
             {lang === "fr"
@@ -1043,12 +1043,7 @@ export function CollaborateurContent({
               : `What first mission will you assign to ${detail.name}?`}
           </h2>
           <div className="flex min-w-60 flex-col gap-3">
-            <a
-              href="#alma-profile"
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold"
-            >
-              {t.finalCta}
-            </a>
+            {detail.slug === "hugo" ? <button type="button" onClick={personalizeHugo} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
             <Link
               href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`}
               className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4"
@@ -1372,9 +1367,11 @@ function ModelLogos() {
 function CollaboratorFaq({
   lang,
   detail,
+  compact = false,
 }: {
   lang: "fr" | "en";
   detail: CollaboratorPage["detail"];
+  compact?: boolean;
 }) {
   const items =
     lang === "fr"
@@ -1430,8 +1427,9 @@ function CollaboratorFaq({
             "Yes. Add job profiles and skills without recreating the identity.",
           ],
         ];
-  return (
-    <section className="bg-[#F3EFE6] py-20">
+   const visibleItems = compact ? items.slice(0, 3) : items;
+   return (
+     <section className="collaborator-faq bg-[#F3EFE6] py-16 sm:py-20">
       <div className="editorial-shell grid gap-10 lg:grid-cols-[.72fr_1.28fr]">
         <div>
           <Kicker>FAQ</Kicker>
@@ -1442,7 +1440,7 @@ function CollaboratorFaq({
           </h2>
         </div>
         <div className="border-t border-[#CFC5B5]">
-          {items.map(([question, answer]) => (
+           {visibleItems.map(([question, answer]) => (
             <FaqItem key={question} question={question} answer={answer} />
           ))}
         </div>

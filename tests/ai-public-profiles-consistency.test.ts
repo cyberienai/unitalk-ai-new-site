@@ -38,7 +38,7 @@ describe('AI public profile consistency', () => {
     expect(profile).toContain('Missions prêtes à l’emploi avec ${detail.name}')
     expect(profile).toContain('Voir toutes les missions de ${detail.name}')
     expect(profile).toContain('missions?collaborateur=${encodeURIComponent(detail.slug)}')
-    expect(profile).toContain('STATUS_LABELS[mission.status][lang]')
+    expect(profile).not.toContain('STATUS_LABELS[mission.status][lang]')
     expect(profile).toContain('detail.slug === "hugo"')
     expect(discoverFlow).toContain("const flowSteps: OnboardingStep[] = ['mission', 'entreprise', 'collaborateur', 'workspace']")
     expect(discoverFlow).toContain("onContinue={() => goTo('collaborateur')}")
