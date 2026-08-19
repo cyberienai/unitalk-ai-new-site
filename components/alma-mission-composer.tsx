@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useId } from 'react'
+import { useEffect, useId } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Mic, Square } from 'lucide-react'
 
@@ -66,6 +66,17 @@ export function AlmaMissionComposer({
   const titleId = useId()
   const clean = value.trim()
 
+  useEffect(() => {
+    if (!titleInField || !window.matchMedia('(min-width: 1024px)').matches) return
+    const id = window.setTimeout(() => {
+      const field = document.getElementById(titleId) as HTMLTextAreaElement | null
+      if (!field) return
+      field.focus({ preventScroll: true })
+      field.setSelectionRange(field.value.length, field.value.length)
+    }, 400)
+    return () => window.clearTimeout(id)
+  }, [titleId, titleInField])
+
   return (
     <div className={`relative flex flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:min-h-[480px] sm:p-7 lg:min-h-0 lg:p-5 ${compactMobile ? 'min-h-[390px] p-4' : 'min-h-[430px] p-5'} ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:p-4' : ''} ${titleInField ? 'min-h-[360px] p-5 sm:min-h-[380px] sm:p-6 lg:min-h-[395px] lg:p-6' : ''}`}>
       <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
@@ -92,6 +103,7 @@ export function AlmaMissionComposer({
 
       <div className={titleInField ? 'relative mt-6 sm:mt-7' : 'relative'}>
         <textarea
+          id={titleId}
           ref={textareaRef}
           value={value}
           onChange={(event) => onChange(event.target.value)}

@@ -220,8 +220,9 @@ export function MissionsContent({
             <header>
               <Kicker>{t.eyebrow}</Kicker>
               <h1 className="mt-4 max-w-[720px] text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] lg:text-[clamp(3.1rem,4.8vw,5rem)]">
-                <span className="block">{t.heroA}</span>
-                <span className="block">{t.heroB} <span className="text-[#D10E63]">{t.heroC}</span></span>
+                <span className="block whitespace-nowrap">{t.heroA}</span>
+                <span className="block whitespace-nowrap">{t.heroB}</span>
+                <span className="block whitespace-nowrap text-[#D10E63]">{t.heroC}</span>
               </h1>
               <p className="mt-5 max-w-xl text-[17px] leading-8 text-[#4E483F]">{withAlmaAvatar(t.lead)}</p>
               <a href="#mission-selection" className="group mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#D10E63] px-5 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.explore}<ArrowRight className="size-4 rotate-90 transition-transform group-hover:translate-y-0.5" /></a>
