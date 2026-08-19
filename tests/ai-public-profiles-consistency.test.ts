@@ -45,6 +45,11 @@ describe('AI public profile consistency', () => {
     expect(discoverFlow).toContain("onContinue={() => goTo('collaborateur')}")
   })
 
+  it('keeps four secondary missions visible on Gabriel’s profile', () => {
+    expect(getCollaboratorPage('gabriel')?.missions).toHaveLength(5)
+    expect(profile).toContain('missions.slice(0,4)')
+  })
+
   it('redirects every legacy profile to its canonical handle', () => {
     expect(legacyRoute).toContain('COLLABORATOR_PAGE_SLUGS.map')
     expect(legacyRoute).toContain('permanentRedirect(`/@${encodeURIComponent(slug)}`)')

@@ -916,7 +916,7 @@ export function CollaborateurContent({
 
   return (
     <main className={`collaborator-profile-page collaborator-profile-mission-led flex flex-col overflow-hidden bg-[#F3EFE6] text-[#1C1A17]`}>
-      <section className="collaborator-hero order-1 relative pb-8 pt-20 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
+      <section className="collaborator-hero order-1 relative pb-8 pt-28 sm:pb-14 sm:pt-40 lg:flex lg:min-h-[720px] lg:items-center lg:pb-20 lg:pt-32">
         <div
           aria-hidden
           className="absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
@@ -937,7 +937,7 @@ export function CollaborateurContent({
                   {detail.name} · {lang === "fr" ? `${detail.gender === "female" ? "Collaboratrice" : "Collaborateur"} IA · Profil ${detail.role.fr.toLowerCase()}` : `AI Collaborator · ${detail.role.en} profile`}
                 </span>
               </div>
-              <h1 className="mt-5 max-w-[780px] font-sf text-[clamp(2.55rem,5vw,5.1rem)] font-bold leading-[.92] tracking-[-.062em] sm:mt-6">
+              <h1 className={`mt-5 max-w-[780px] font-sf font-bold leading-[.92] tracking-[-.062em] sm:mt-6 ${detail.slug === "gabriel" ? "text-[clamp(2.45rem,4.35vw,4.55rem)]" : "text-[clamp(2.55rem,5vw,5.1rem)]"}`}>
                 {highlightClaim(persona.claim[lang], persona.accent[lang])}
               </h1>
               <p className="mt-5 max-w-[650px] text-[16px] font-medium leading-7 text-[#4E483F] sm:mt-7 sm:text-[17px] sm:leading-8">
