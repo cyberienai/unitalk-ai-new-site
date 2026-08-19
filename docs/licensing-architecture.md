@@ -6,7 +6,7 @@
 
 ## Distinctions essentielles
 
-- **Alma Organisation** configure et gouverne
+- **Alma Entreprise** configure et gouverne
 - **Workspace & Desktop** permettent de travailler
 - **La Licence Collaborateur IA** crée une identité capable d'agir
 - **La Capacité IA** finance l'usage des modèles
@@ -17,9 +17,9 @@
 ## Architecture Recommandée
 
 ```
-Licence Alma Organisation
+Licence Alma Entreprise
 ├── Alma, Coordinatrice de missions
-├── Organisation
+├── Entreprise
 │   ├── Membres humains
 │   ├── Équipes et rôles
 │   ├── Responsables
@@ -34,7 +34,7 @@ Licence Alma Organisation
 │   ├── Mémoire partagée
 │   ├── Documents et procédures
 │   ├── Méthodes validées
-│   └── Contexte organisationnel
+│   └── Contexte d’entreprise
 ├── Stores Unitalk
 │   ├── Profils métier
 │   ├── Compétences
@@ -49,7 +49,7 @@ Licence Alma Organisation
 ├── Unitalk AI Gateway
 │   ├── Modèles autorisés
 │   ├── Fournisseurs de modèles
-│   ├── Clés API de l'organisation
+│   ├── Clés API de l’entreprise
 │   ├── Clés virtuelles
 │   ├── Routage et fallback
 │   ├── Budgets et quotas
@@ -101,7 +101,7 @@ Licence Unitalk Workspace & Desktop
     └── Messageries compatibles
 ```
 
-> **Unitalk Workspace & Desktop : inclus avec Alma Organisation**
+> **Unitalk Workspace & Desktop : inclus avec Alma Entreprise**
 
 ## Licence Collaborateur IA
 
@@ -111,7 +111,7 @@ Licence Collaborateur IA
 │   ├── Nom
 │   ├── Avatar
 │   ├── Nature IA explicite
-│   ├── Rattachement à l'organisation
+│   ├── Rattachement à l’entreprise
 │   ├── Responsable humain
 │   └── Profil public
 ├── Profil Collaborateur IA pour Hermes
@@ -179,25 +179,25 @@ Capacité IA par Collaborateur
 
 ## Placement des Éléments
 
-| Élément | Gestion au niveau Organisation | Attribution au Collaborateur |
+| Élément | Gestion au niveau Entreprise | Attribution au Collaborateur |
 | --- | --- | --- |
 | Profils métier | Catalogue et règles | Profils installés |
 | Compétences | Bibliothèque et versions | Compétences attribuées |
 | Applications | Connexions disponibles | Applications autorisées |
 | MCP | Serveurs enregistrés | Outils MCP autorisés |
 | Modèles IA | Fournisseurs et modèles autorisés | Modèles utilisables |
-| Clés API | Coffre de l'organisation | Accès indirect selon les droits |
+| Clés API | Coffre de l’entreprise | Accès indirect selon les droits |
 | Serveurs IA | Inventaire et politique | Environnement d'exécution affecté |
 | Identité IA | Gouvernance et rattachement | Identité propre |
 | Email et agenda | Domaines et politiques | Coordonnées propres |
 | Téléphone | Fournisseur et budget | Ligne attribuée |
-| Mémoire partagée | Organisation | Lecture selon les droits |
+| Mémoire partagée | Entreprise | Lecture selon les droits |
 | Mémoire privée | Politique de conservation | Mémoire propre du Collaborateur |
 
 ## Présentation Tarifaire
 
 ```
-Alma Organisation
+Alma Entreprise
 Contrôle, connaissance, Stores, Gateway et infrastructure       50 €/mois
 
 Unitalk Workspace & Desktop
@@ -213,4 +213,4 @@ Co-créateur IA
 Création, versionnage et publication                            50 €/mois
 ```
 
-> **Alma Organisation gouverne les ressources disponibles. Chaque Collaborateur IA reçoit ensuite une identité, des compétences, des applications, des canaux de communication et une capacité adaptés à ses missions.**
+> **Alma Entreprise gouverne les ressources disponibles. Chaque Collaborateur IA reçoit ensuite une identité, des compétences, des applications, des canaux de communication et une capacité adaptés à ses missions.**

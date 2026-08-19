@@ -48,7 +48,7 @@ export const BecomeExpert = forwardRef<HTMLElement, { lang: Lang }>(function Bec
       : 'Design their missions, develop their job profiles, integrate their applications and support their teams.',
     secondary: fr ? 'Découvrir le programme partenaires' : 'Discover the partner program',
     economy: fr
-      ? 'Unitalk fournit le socle. Les experts conçoivent, déploient et améliorent l’organisation du travail.'
+      ? 'Unitalk fournit le socle. Les experts conçoivent, déploient et améliorent le fonctionnement de l’entreprise.'
       : 'Unitalk provides the foundation. Experts design, deploy and improve the organization of work.',
     // form
     formTitle: fr ? 'Devenir expert Unitalk' : 'Become a Unitalk expert',

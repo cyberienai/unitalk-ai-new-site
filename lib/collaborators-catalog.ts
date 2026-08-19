@@ -34,8 +34,8 @@ export const DEPARTMENTS: Department[] = [
     label: { fr: 'Marketing', en: 'Marketing' },
     roles: [
       { name: 'Léa', title: { fr: 'Responsable éditoriale', en: 'Editorial Lead' }, slug: 'lea' },
-      { name: 'Social Media Manager', title: { fr: 'Réseaux sociaux', en: 'Social Media Manager' } },
-      { name: 'SEO Specialist', title: { fr: 'Référencement naturel', en: 'SEO Specialist' } },
+      { name: 'Maya', title: { fr: 'Réseaux sociaux', en: 'Social Media Manager' }, slug: 'maya' },
+      { name: 'Alex', title: { fr: 'Acquisition et SEO', en: 'Growth and SEO' }, slug: 'alex' },
       { name: 'Ads Specialist', title: { fr: 'Publicité en ligne', en: 'Ads Specialist' } },
     ],
   },
@@ -46,7 +46,7 @@ export const DEPARTMENTS: Department[] = [
       { name: 'Hugo', title: { fr: 'Commercial', en: 'Sales Rep' }, slug: 'hugo' },
       { name: 'SDR', title: { fr: 'Prospection', en: 'Sales Development Rep' } },
       { name: 'Account Executive', title: { fr: 'Closing', en: 'Account Executive' } },
-      { name: 'Customer Success', title: { fr: 'Fidélisation', en: 'Customer Success' } },
+      { name: 'Amelia', title: { fr: 'Fidélisation', en: 'Customer Success' }, slug: 'amelia' },
     ],
   },
   {
@@ -55,7 +55,7 @@ export const DEPARTMENTS: Department[] = [
     roles: [
       { name: 'Inès', title: { fr: 'Support client', en: 'Customer Support' }, slug: 'ines' },
       { name: 'Helpdesk', title: { fr: 'Assistance niveau 1', en: 'Helpdesk' } },
-      { name: 'Technical Support', title: { fr: 'Support technique', en: 'Technical Support' } },
+      { name: 'Sarah', title: { fr: 'Support technique', en: 'Technical Support' }, slug: 'sarah' },
     ],
   },
   {
@@ -63,8 +63,8 @@ export const DEPARTMENTS: Department[] = [
     label: { fr: 'Développement', en: 'Engineering' },
     roles: [
       { name: 'Arthur', title: { fr: 'Développeur', en: 'Developer' }, slug: 'arthur' },
-      { name: 'DevOps', title: { fr: 'Infrastructure', en: 'DevOps' } },
-      { name: 'Data Analyst', title: { fr: 'Analyse de données', en: 'Data Analyst' } },
+      { name: 'Victor', title: { fr: 'Infrastructure', en: 'DevOps' }, slug: 'victor' },
+      { name: 'Noah', title: { fr: 'Analyse de données', en: 'Data Analyst' }, slug: 'noah' },
     ],
   },
   {
@@ -73,23 +73,23 @@ export const DEPARTMENTS: Department[] = [
     roles: [
       { name: 'Nadia', title: { fr: 'Analyste Financière', en: 'Financial Analyst' }, slug: 'nadia' },
       { name: 'Comptabilité', title: { fr: 'Comptabilité', en: 'Accounting' } },
-      { name: 'Facturation', title: { fr: 'Facturation', en: 'Billing' } },
+      { name: 'Otto', title: { fr: 'Facturation', en: 'Billing' }, slug: 'otto' },
     ],
   },
   {
     key: 'rh',
     label: { fr: 'Ressources Humaines', en: 'Human Resources' },
     roles: [
-      { name: 'Recrutement', title: { fr: 'Sourcing & entretiens', en: 'Recruiting' } },
+      { name: 'Chloé', title: { fr: 'Sourcing & entretiens', en: 'Recruiting' }, slug: 'chloe' },
       { name: 'Onboarding', title: { fr: 'Intégration', en: 'Onboarding' } },
-      { name: 'People Ops', title: { fr: 'Vie des équipes', en: 'People Ops' } },
+      { name: 'Zoé', title: { fr: 'Vie des équipes et onboarding', en: 'People Ops and Onboarding' }, slug: 'zoe' },
     ],
   },
   {
     key: 'produit',
     label: { fr: 'Produit', en: 'Product' },
     roles: [
-      { name: 'Product Manager', title: { fr: 'Roadmap & specs', en: 'Product Manager' } },
+      { name: 'Iris', title: { fr: 'Roadmap, specs et qualité', en: 'Product and QA' }, slug: 'iris' },
       { name: 'User Research', title: { fr: 'Recherche utilisateur', en: 'User Research' } },
       { name: 'QA', title: { fr: 'Qualité', en: 'Quality Assurance' } },
     ],
@@ -98,16 +98,15 @@ export const DEPARTMENTS: Department[] = [
     key: 'operations',
     label: { fr: 'Opérations', en: 'Operations' },
     roles: [
-      { name: 'Ops Manager', title: { fr: 'Coordination', en: 'Ops Manager' } },
-      { name: 'Achats', title: { fr: 'Achats & fournisseurs', en: 'Procurement' } },
-      { name: 'Logistique', title: { fr: 'Logistique', en: 'Logistics' } },
+      { name: 'Lucas', title: { fr: 'Coordination', en: 'Ops Coordinator' }, slug: 'lucas' },
+      { name: 'Gabriel', title: { fr: 'Achats, fournisseurs et logistique', en: 'Procurement and Logistics' }, slug: 'gabriel' },
     ],
   },
   {
     key: 'juridique',
     label: { fr: 'Juridique', en: 'Legal' },
     roles: [
-      { name: 'Contrats', title: { fr: 'Gestion des contrats', en: 'Contracts' } },
+      { name: 'Marcus', title: { fr: 'Contrats et conformité', en: 'Contracts and Compliance' }, slug: 'marcus' },
       { name: 'Conformité', title: { fr: 'Conformité & RGPD', en: 'Compliance' } },
     ],
   },
@@ -122,6 +121,8 @@ export type RoleDetail = {
   roleInline?: boolean // true => le nom du responsable se colle au rôle ("Assistante de <nom>")
   department: Bilingual
   description: Bilingual
+  promise: Bilingual
+  availability: 'available' | 'beta' | 'on-request'
   skills: Bilingual[]
   tools: string[]
   missions: Bilingual[]
@@ -286,6 +287,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       fr: "Emma gère l'agenda, les priorités et la logistique de la direction. Elle prépare les réunions, filtre les demandes et garde chaque dossier prêt au bon moment.",
       en: "Emma manages the leadership's calendar, priorities and logistics. She prepares meetings, filters requests and keeps every file ready at the right time.",
     },
+    promise: { fr: 'Prépare vos réunions, organise vos priorités et suit chaque décision.', en: 'Prepares meetings, organizes priorities and tracks every decision.' },
+    availability: 'available',
     skills: [
       { fr: "Gestion d'agenda et priorisation", en: 'Calendar management and prioritization' },
       { fr: 'Préparation de réunions et comptes-rendus', en: 'Meeting prep and minutes' },
@@ -347,6 +350,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       fr: "Léa construit la stratégie de contenu, planifie le calendrier éditorial et décline vos messages sur chaque canal. Elle rédige, adapte et mesure l'impact en continu.",
       en: 'Léa builds the content strategy, plans the editorial calendar and adapts your messages across every channel. She writes, tailors and measures impact continuously.',
     },
+    promise: { fr: 'Transforme votre stratégie en contenus prêts à publier et à mesurer.', en: 'Turns your strategy into content ready to publish and measure.' },
+    availability: 'available',
     skills: [
       { fr: 'Stratégie de contenu', en: 'Content strategy' },
       { fr: 'Calendrier éditorial', en: 'Editorial calendar' },
@@ -376,6 +381,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       fr: "Arthur écrit du code, relit les contributions et corrige les bugs. Il documente, teste et livre des fonctionnalités aux côtés de l'équipe technique.",
       en: 'Arthur writes code, reviews contributions and fixes bugs. He documents, tests and ships features alongside the engineering team.',
     },
+    promise: { fr: 'Prépare le code, les tests et la documentation avant validation.', en: 'Prepares code, tests and documentation before approval.' },
+    availability: 'available',
     skills: [
       { fr: 'Écriture de code', en: 'Code writing' },
       { fr: 'Revue de code', en: 'Code review' },
@@ -405,6 +412,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       fr: "Hugo prospecte, qualifie les leads et suit le pipeline. Il relance au bon moment, tient le CRM à jour et prépare chaque rendez-vous commercial.",
       en: 'Hugo prospects, qualifies leads and tracks the pipeline. He follows up at the right time, keeps the CRM up to date and preps every sales meeting.',
     },
+    promise: { fr: 'Qualifie vos prospects, tient le CRM à jour et prépare les relances.', en: 'Qualifies prospects, updates the CRM and prepares follow-ups.' },
+    availability: 'available',
     skills: [
       { fr: 'Prospection et qualification', en: 'Prospecting and qualification' },
       { fr: 'Suivi du pipeline', en: 'Pipeline tracking' },
@@ -434,6 +443,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       fr: "Nadia consolide les données financières, suit les indicateurs et prépare les prévisions. Elle transforme chaque chiffre en information utile pour décider.",
       en: 'Nadia consolidates financial data, tracks key metrics and prepares forecasts. She turns every number into useful insight for decision-making.',
     },
+    promise: { fr: 'Fiabilise vos chiffres, vos prévisions et vos décisions financières.', en: 'Strengthens your numbers, forecasts and financial decisions.' },
+    availability: 'available',
     skills: [
       { fr: 'Analyse financière', en: 'Financial analysis' },
       { fr: 'Prévisions et budgets', en: 'Forecasting and budgeting' },
@@ -463,6 +474,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       fr: "Inès répond aux clients en continu, résout les demandes courantes et escalade les cas complexes. Elle apprend de chaque échange pour s'améliorer.",
       en: 'Inès answers customers around the clock, resolves common requests and escalates complex cases. She learns from every exchange to improve.',
     },
+    promise: { fr: 'Répond aux clients, résout les demandes et escalade les cas sensibles.', en: 'Answers customers, resolves requests and escalates sensitive cases.' },
+    availability: 'available',
     skills: [
       { fr: 'Réponses aux demandes clients', en: 'Handling customer requests' },
       { fr: 'Résolution de tickets', en: 'Ticket resolution' },
@@ -476,8 +489,154 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
       { fr: 'Mettre à jour la FAQ produit', en: 'Update the product FAQ' },
     ],
   },
+  chloe: {
+    slug: 'chloe', name: 'Chloé', avatar: '/images/chloe-avatar.png',
+    manager: { name: 'Votre responsable RH', role: { fr: 'Responsable RH', en: 'HR Manager' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Chargée de recrutement', en: 'Recruiter' }, gender: 'female', department: { fr: 'Ressources humaines', en: 'Human Resources' },
+    description: { fr: 'Chloé rédige les offres, source et présélectionne les candidatures, prépare les entretiens et organise chaque onboarding sous contrôle de votre équipe.', en: 'Chloé writes job posts, sources and screens applicants, prepares interviews and organizes onboarding under your team’s control.' },
+    promise: { fr: 'Transforme vos besoins de recrutement en candidatures qualifiées.', en: 'Turns hiring needs into qualified applicants.' }, availability: 'beta',
+    skills: [{ fr: 'Rédaction d’offres', en: 'Job post writing' }, { fr: 'Sourcing de candidats', en: 'Candidate sourcing' }, { fr: 'Présélection', en: 'Screening' }, { fr: 'Préparation d’entretiens', en: 'Interview preparation' }],
+    tools: ['ATS', 'LinkedIn', 'Email', 'Calendrier', 'Notion'],
+    missions: [{ fr: 'Préparer une campagne de recrutement', en: 'Prepare a recruiting campaign' }, { fr: 'Présélectionner les candidatures', en: 'Screen applicants' }, { fr: 'Organiser un onboarding', en: 'Organize onboarding' }],
+  },
+  lucas: {
+    slug: 'lucas', name: 'Lucas', avatar: '/images/lucas-avatar.png',
+    manager: { name: 'Votre responsable des opérations', role: { fr: 'Responsable des opérations', en: 'Head of Operations' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Coordinateur des opérations', en: 'Operations Coordinator' }, gender: 'male', department: { fr: 'Opérations', en: 'Operations' },
+    description: { fr: 'Lucas coordonne les projets, suit les échéances, prépare les comptes rendus et relance les responsables pour que chaque action avance.', en: 'Lucas coordinates projects, tracks deadlines, prepares reports and follows up with owners so every action moves forward.' },
+    promise: { fr: 'Garde vos projets, échéances et responsables parfaitement alignés.', en: 'Keeps projects, deadlines and owners perfectly aligned.' }, availability: 'available',
+    skills: [{ fr: 'Coordination de projet', en: 'Project coordination' }, { fr: 'Suivi des échéances', en: 'Deadline tracking' }, { fr: 'Comptes rendus', en: 'Progress reports' }, { fr: 'Gestion des risques', en: 'Risk management' }],
+    tools: ['Notion', 'Asana', 'Trello', 'Slack', 'Calendrier'],
+    missions: [{ fr: 'Mettre à jour un plan de projet', en: 'Update a project plan' }, { fr: 'Préparer le comité de suivi', en: 'Prepare the steering meeting' }, { fr: 'Relancer les actions en retard', en: 'Follow up on overdue actions' }],
+  },
+  sophia: {
+    slug: 'sophia', name: 'Sophia', avatar: '/images/sophia-avatar.png',
+    manager: { name: 'Votre responsable administratif', role: { fr: 'Responsable administratif', en: 'Administration Manager' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Gestionnaire administrative', en: 'Administrative Coordinator' }, gender: 'female', department: { fr: 'Administration', en: 'Administration' },
+    description: { fr: 'Sophia classe les demandes, prépare les dossiers, contrôle les pièces et tient les échéances administratives à jour.', en: 'Sophia sorts requests, prepares files, checks documents and keeps administrative deadlines up to date.' },
+    promise: { fr: 'Prépare des dossiers complets et maintient vos échéances administratives.', en: 'Prepares complete files and maintains administrative deadlines.' }, availability: 'available',
+    skills: [{ fr: 'Gestion documentaire', en: 'Document management' }, { fr: 'Contrôle de pièces', en: 'Document checks' }, { fr: 'Suivi administratif', en: 'Administrative tracking' }, { fr: 'Rédaction de courriers', en: 'Business correspondence' }],
+    tools: ['Email', 'Drive', 'Microsoft 365', 'Notion', 'ERP'],
+    missions: [{ fr: 'Préparer un dossier administratif', en: 'Prepare an administrative file' }, { fr: 'Contrôler les pièces manquantes', en: 'Check missing documents' }, { fr: 'Suivre les échéances', en: 'Track deadlines' }],
+  },
+  otto: {
+    slug: 'otto', name: 'Otto', avatar: '/images/otto-avatar.png',
+    manager: { name: 'Votre responsable comptable', role: { fr: 'Responsable comptable', en: 'Accounting Manager' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Gestionnaire facturation', en: 'Billing Coordinator' }, gender: 'male', department: { fr: 'Finance', en: 'Finance' },
+    description: { fr: 'Otto collecte les justificatifs, prépare les factures, rapproche les paiements et organise les relances avant validation comptable.', en: 'Otto collects receipts, prepares invoices, reconciles payments and organizes reminders before accounting approval.' },
+    promise: { fr: 'Prépare vos factures et relances sans perdre un justificatif.', en: 'Prepares invoices and reminders without losing a receipt.' }, availability: 'beta',
+    skills: [{ fr: 'Préparation de factures', en: 'Invoice preparation' }, { fr: 'Collecte de justificatifs', en: 'Receipt collection' }, { fr: 'Rapprochement des paiements', en: 'Payment reconciliation' }, { fr: 'Relances clients', en: 'Customer reminders' }],
+    tools: ['Pennylane', 'Qonto', 'ERP', 'Email', 'Tableur'],
+    missions: [{ fr: 'Préparer la facturation mensuelle', en: 'Prepare monthly billing' }, { fr: 'Collecter les justificatifs manquants', en: 'Collect missing receipts' }, { fr: 'Préparer les relances', en: 'Prepare payment reminders' }],
+  },
+  alex: {
+    slug: 'alex', name: 'Alex', avatar: '/images/alex-avatar.png',
+    manager: { name: 'Votre responsable acquisition', role: { fr: 'Responsable acquisition', en: 'Head of Growth' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Responsable acquisition et SEO', en: 'Growth and SEO Manager' }, gender: 'male', department: { fr: 'Marketing', en: 'Marketing' },
+    description: { fr: 'Alex analyse la demande, construit les plans SEO et publicitaires, prépare les campagnes et mesure les conversions.', en: 'Alex analyzes demand, builds SEO and paid plans, prepares campaigns and measures conversions.' },
+    promise: { fr: 'Transforme vos objectifs de croissance en campagnes mesurables.', en: 'Turns growth goals into measurable campaigns.' }, availability: 'beta',
+    skills: [{ fr: 'Audit SEO', en: 'SEO audit' }, { fr: 'Recherche de mots-clés', en: 'Keyword research' }, { fr: 'Campagnes publicitaires', en: 'Paid campaigns' }, { fr: 'Analyse de conversion', en: 'Conversion analysis' }],
+    tools: ['Search Console', 'Analytics', 'Google Ads', 'CRM', 'Tableur'],
+    missions: [{ fr: 'Préparer un plan d’acquisition', en: 'Prepare an acquisition plan' }, { fr: 'Auditer le référencement', en: 'Audit search visibility' }, { fr: 'Analyser une campagne', en: 'Analyze a campaign' }],
+  },
+  iris: {
+    slug: 'iris', name: 'Iris', avatar: '/images/iris-avatar.png',
+    manager: { name: 'Votre responsable produit', role: { fr: 'Responsable produit', en: 'Head of Product' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Responsable produit', en: 'Product Manager' }, gender: 'female', department: { fr: 'Produit', en: 'Product' },
+    description: { fr: 'Iris transforme les retours utilisateurs en spécifications, priorise la roadmap et prépare les plans de recette avant livraison.', en: 'Iris turns user feedback into specifications, prioritizes the roadmap and prepares test plans before release.' },
+    promise: { fr: 'Relie les besoins utilisateurs, la roadmap et la qualité des livraisons.', en: 'Connects user needs, roadmap and release quality.' }, availability: 'beta',
+    skills: [{ fr: 'Analyse des retours utilisateurs', en: 'User feedback analysis' }, { fr: 'Rédaction de spécifications', en: 'Specification writing' }, { fr: 'Priorisation produit', en: 'Product prioritization' }, { fr: 'Plans de recette', en: 'Test planning' }],
+    tools: ['Linear', 'Jira', 'Figma', 'Notion', 'Analytics'],
+    missions: [{ fr: 'Préparer une spécification produit', en: 'Prepare a product specification' }, { fr: 'Prioriser un backlog', en: 'Prioritize a backlog' }, { fr: 'Construire un plan de recette', en: 'Build a test plan' }],
+  },
+  marcus: {
+    slug: 'marcus', name: 'Marcus', avatar: '/images/marcus-avatar.png',
+    manager: { name: 'Votre responsable juridique', role: { fr: 'Responsable juridique', en: 'Legal Manager' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Assistant juridique', en: 'Legal Assistant' }, gender: 'male', department: { fr: 'Juridique', en: 'Legal' },
+    description: { fr: 'Marcus inventorie les contrats, repère les échéances, prépare les revues de clauses et documente la conformité RGPD pour validation juridique.', en: 'Marcus inventories contracts, identifies deadlines, prepares clause reviews and documents GDPR compliance for legal approval.' },
+    promise: { fr: 'Rend vos contrats, échéances et preuves de conformité pilotables.', en: 'Makes contracts, deadlines and compliance evidence manageable.' }, availability: 'on-request',
+    skills: [{ fr: 'Inventaire contractuel', en: 'Contract inventory' }, { fr: 'Repérage de clauses', en: 'Clause identification' }, { fr: 'Suivi des échéances', en: 'Deadline tracking' }, { fr: 'Documentation RGPD', en: 'GDPR documentation' }],
+    tools: ['Drive', 'Microsoft 365', 'Notion', 'Docusign', 'Registre RGPD'],
+    missions: [{ fr: 'Cartographier les contrats actifs', en: 'Map active contracts' }, { fr: 'Préparer une revue de clauses', en: 'Prepare a clause review' }, { fr: 'Mettre à jour le registre RGPD', en: 'Update the GDPR register' }],
+  },
+  amelia: {
+    slug: 'amelia', name: 'Amelia', avatar: '/assistant-avatar.png',
+    manager: { name: 'Votre responsable Customer Success', role: { fr: 'Responsable Customer Success', en: 'Head of Customer Success' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Customer Success Manager', en: 'Customer Success Manager' }, gender: 'female', department: { fr: 'Relation client', en: 'Customer Relations' },
+    description: { fr: 'Amelia suit l’adoption, détecte les comptes à risque, prépare les bilans clients et coordonne les plans d’action de fidélisation.', en: 'Amelia tracks adoption, detects at-risk accounts, prepares customer reviews and coordinates retention action plans.' },
+    promise: { fr: 'Détecte les risques plus tôt et prépare chaque action de fidélisation.', en: 'Detects risks earlier and prepares every retention action.' }, availability: 'on-request',
+    skills: [{ fr: 'Suivi de l’adoption', en: 'Adoption tracking' }, { fr: 'Détection des risques', en: 'Risk detection' }, { fr: 'Bilans clients', en: 'Customer reviews' }, { fr: 'Plans de fidélisation', en: 'Retention plans' }],
+    tools: ['CRM', 'Helpdesk', 'Analytics', 'Email', 'Calendrier'],
+    missions: [{ fr: 'Préparer une revue de compte', en: 'Prepare an account review' }, { fr: 'Identifier les comptes à risque', en: 'Identify at-risk accounts' }, { fr: 'Construire un plan d’adoption', en: 'Build an adoption plan' }],
+  },
+  maya: {
+    slug: 'maya', name: 'Maya', avatar: '/nina-avatar.png',
+    manager: { name: 'Votre responsable social media', role: { fr: 'Responsable social media', en: 'Head of Social Media' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Social Media Manager', en: 'Social Media Manager' }, gender: 'female', department: { fr: 'Marketing', en: 'Marketing' },
+    description: { fr: 'Maya adapte vos messages à chaque réseau, prépare le calendrier, programme les publications et qualifie les conversations qui nécessitent une réponse humaine.', en: 'Maya adapts messages to each network, prepares the calendar, schedules posts and flags conversations that require a human response.' },
+    promise: { fr: 'Anime vos réseaux avec un calendrier cohérent et des réponses maîtrisées.', en: 'Runs your social channels with a consistent calendar and controlled replies.' }, availability: 'beta',
+    skills: [{ fr: 'Stratégie social media', en: 'Social media strategy' }, { fr: 'Calendrier de publication', en: 'Publishing calendar' }, { fr: 'Adaptation multicanale', en: 'Cross-channel adaptation' }, { fr: 'Modération et veille', en: 'Moderation and monitoring' }],
+    tools: ['LinkedIn', 'Instagram', 'Facebook', 'Canva', 'Buffer'],
+    missions: [{ fr: 'Préparer un mois de publications', en: 'Prepare a month of posts' }, { fr: 'Adapter une campagne à chaque réseau', en: 'Adapt a campaign to each network' }, { fr: 'Trier les commentaires à traiter', en: 'Sort comments requiring attention' }],
+  },
+  noah: {
+    slug: 'noah', name: 'Noah', avatar: '/thomas-avatar.png',
+    manager: { name: 'Votre responsable data', role: { fr: 'Responsable data', en: 'Head of Data' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Data Analyst', en: 'Data Analyst' }, gender: 'male', department: { fr: 'Données', en: 'Data' },
+    description: { fr: 'Noah consolide les sources autorisées, contrôle la qualité des données, produit les tableaux de bord et explique les variations importantes.', en: 'Noah consolidates authorized sources, checks data quality, produces dashboards and explains significant changes.' },
+    promise: { fr: 'Transforme vos données dispersées en indicateurs fiables et compréhensibles.', en: 'Turns scattered data into reliable, understandable metrics.' }, availability: 'beta',
+    skills: [{ fr: 'Préparation de données', en: 'Data preparation' }, { fr: 'Contrôle qualité', en: 'Quality control' }, { fr: 'Tableaux de bord', en: 'Dashboards' }, { fr: 'Analyse des tendances', en: 'Trend analysis' }],
+    tools: ['SQL', 'Excel', 'Google Sheets', 'Power BI', 'Looker Studio'],
+    missions: [{ fr: 'Construire un tableau de bord', en: 'Build a dashboard' }, { fr: 'Expliquer une variation de KPI', en: 'Explain a KPI change' }, { fr: 'Contrôler la qualité d’un export', en: 'Check the quality of an export' }],
+  },
+  victor: {
+    slug: 'victor', name: 'Victor', avatar: '/automation-avatar.png',
+    manager: { name: 'Votre responsable infrastructure', role: { fr: 'Responsable infrastructure', en: 'Head of Infrastructure' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Ingénieur DevOps', en: 'DevOps Engineer' }, gender: 'male', department: { fr: 'Développement', en: 'Engineering' },
+    description: { fr: 'Victor surveille les environnements, prépare les déploiements, analyse les incidents et propose les changements d’infrastructure avant validation.', en: 'Victor monitors environments, prepares deployments, analyzes incidents and proposes infrastructure changes before approval.' },
+    promise: { fr: 'Prépare des déploiements fiables et rend les incidents plus rapides à résoudre.', en: 'Prepares reliable deployments and makes incidents faster to resolve.' }, availability: 'on-request',
+    skills: [{ fr: 'Pipelines CI/CD', en: 'CI/CD pipelines' }, { fr: 'Supervision', en: 'Monitoring' }, { fr: 'Analyse d’incidents', en: 'Incident analysis' }, { fr: 'Infrastructure as Code', en: 'Infrastructure as Code' }],
+    tools: ['GitHub Actions', 'Docker', 'Kubernetes', 'Terraform', 'Grafana'],
+    missions: [{ fr: 'Préparer un déploiement', en: 'Prepare a deployment' }, { fr: 'Analyser un incident de production', en: 'Analyze a production incident' }, { fr: 'Vérifier une configuration Terraform', en: 'Review a Terraform configuration' }],
+  },
+  sarah: {
+    slug: 'sarah', name: 'Sarah', avatar: '/sofia-avatar.png',
+    manager: { name: 'Votre responsable support technique', role: { fr: 'Responsable support technique', en: 'Head of Technical Support' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Support technique', en: 'Technical Support Specialist' }, gender: 'female', department: { fr: 'Relation client', en: 'Customer Relations' },
+    description: { fr: 'Sarah reproduit les incidents, rassemble les journaux utiles, prépare les diagnostics et transmet aux équipes techniques un dossier exploitable.', en: 'Sarah reproduces incidents, gathers useful logs, prepares diagnostics and hands engineering an actionable case.' },
+    promise: { fr: 'Transforme chaque incident client en diagnostic clair et actionnable.', en: 'Turns every customer incident into a clear, actionable diagnosis.' }, availability: 'beta',
+    skills: [{ fr: 'Qualification d’incidents', en: 'Incident qualification' }, { fr: 'Reproduction de bugs', en: 'Bug reproduction' }, { fr: 'Collecte de journaux', en: 'Log collection' }, { fr: 'Escalade technique', en: 'Technical escalation' }],
+    tools: ['Zendesk', 'Jira', 'Sentry', 'Postman', 'Base de connaissances'],
+    missions: [{ fr: 'Qualifier un incident client', en: 'Qualify a customer incident' }, { fr: 'Reproduire un bug signalé', en: 'Reproduce a reported bug' }, { fr: 'Préparer une escalade technique', en: 'Prepare a technical escalation' }],
+  },
+  gabriel: {
+    slug: 'gabriel', name: 'Gabriel', avatar: '/marcus-avatar.png',
+    manager: { name: 'Votre responsable achats', role: { fr: 'Responsable achats et logistique', en: 'Head of Procurement and Logistics' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'Coordinateur achats et logistique', en: 'Procurement and Logistics Coordinator' }, gender: 'male', department: { fr: 'Opérations', en: 'Operations' },
+    description: { fr: 'Gabriel compare les fournisseurs, prépare les demandes de devis, suit les commandes et signale les risques de stock ou de livraison.', en: 'Gabriel compares suppliers, prepares requests for quotation, tracks orders and flags stock or delivery risks.' },
+    promise: { fr: 'Sécurise vos achats, vos commandes et vos échéances de livraison.', en: 'Secures procurement, orders and delivery deadlines.' }, availability: 'on-request',
+    skills: [{ fr: 'Comparaison fournisseurs', en: 'Supplier comparison' }, { fr: 'Demandes de devis', en: 'Requests for quotation' }, { fr: 'Suivi des commandes', en: 'Order tracking' }, { fr: 'Alertes stock et livraison', en: 'Stock and delivery alerts' }],
+    tools: ['ERP', 'Email', 'Tableur', 'Portails fournisseurs', 'Transporteurs'],
+    missions: [{ fr: 'Comparer trois offres fournisseurs', en: 'Compare three supplier offers' }, { fr: 'Suivre les commandes en retard', en: 'Track overdue orders' }, { fr: 'Préparer une alerte de rupture', en: 'Prepare a stockout alert' }],
+  },
+  zoe: {
+    slug: 'zoe', name: 'Zoé', avatar: '/elena-avatar.png',
+    manager: { name: 'Votre responsable People Ops', role: { fr: 'Responsable People Ops', en: 'Head of People Ops' } }, company: 'Unitalk', dataOwner: 'Votre entreprise',
+    role: { fr: 'People Ops et onboarding', en: 'People Ops and Onboarding' }, gender: 'female', department: { fr: 'Ressources humaines', en: 'Human Resources' },
+    description: { fr: 'Zoé prépare les parcours d’intégration, coordonne les démarches internes, suit les échéances RH et consolide les retours des équipes.', en: 'Zoé prepares onboarding journeys, coordinates internal steps, tracks HR deadlines and consolidates team feedback.' },
+    promise: { fr: 'Rend chaque arrivée plus fluide et chaque échéance RH plus visible.', en: 'Makes every arrival smoother and every HR deadline more visible.' }, availability: 'beta',
+    skills: [{ fr: 'Parcours d’onboarding', en: 'Onboarding journeys' }, { fr: 'Coordination RH', en: 'HR coordination' }, { fr: 'Suivi des échéances', en: 'Deadline tracking' }, { fr: 'Enquêtes internes', en: 'Internal surveys' }],
+    tools: ['SIRH', 'Notion', 'Slack', 'Calendrier', 'Formulaires'],
+    missions: [{ fr: 'Préparer l’arrivée d’un salarié', en: 'Prepare a new employee’s arrival' }, { fr: 'Suivre les étapes d’onboarding', en: 'Track onboarding steps' }, { fr: 'Synthétiser une enquête interne', en: 'Summarize an internal survey' }],
+  },
 }
 
+export const MARKETPLACE_COLLABORATOR_SLUGS: readonly string[] = [
+  'emma', 'lea', 'hugo', 'ines', 'arthur', 'nadia', 'chloe', 'iris', 'lucas', 'marcus',
+] as const
+
+// All public identities remain addressable, including examples and variants
+// that are not part of the ten reference identities in the Marketplace.
 export const DETAILED_SLUGS = Object.keys(ROLE_DETAILS)
 
 // Binômes humain ↔ Collaborateur IA, dans l'ordre d'affichage de l'équipe

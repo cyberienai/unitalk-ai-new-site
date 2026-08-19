@@ -537,6 +537,45 @@ const PERSONAS = {
   },
 } as const;
 
+function genericPersona(detail: CollaboratorPage["detail"]) {
+  const firstMissions = detail.missions.slice(0, 3);
+  return {
+    claim: detail.promise,
+    accent: detail.role,
+    lead: detail.description,
+    composer: {
+      fr: `Quelle première mission souhaitez-vous confier à ${detail.name} ?`,
+      en: `What first mission would you like to assign to ${detail.name}?`,
+    },
+    placeholder: {
+      fr: "Décrivez le contexte, le résultat attendu, les sources autorisées et les validations nécessaires…",
+      en: "Describe the context, expected result, authorized sources and required approvals…",
+    },
+    examples: {
+      fr: firstMissions.map((mission) => mission.fr),
+      en: firstMissions.map((mission) => mission.en),
+    },
+    proofTitle: {
+      fr: `${detail.name} prépare. Votre équipe décide.`,
+      en: `${detail.name} prepares. Your team decides.`,
+    },
+    proofMission: firstMissions[0] ?? detail.promise,
+    activity: {
+      fr: ["Contexte autorisé analysé.", "Livrable préparé selon vos règles.", "Décision humaine demandée avant toute action engageante."],
+      en: ["Authorized context analyzed.", "Deliverable prepared under your rules.", "Human decision requested before any binding action."],
+    },
+    decision: {
+      fr: "Autoriser la prochaine action préparée ?",
+      en: "Authorize the next prepared action?",
+    },
+    apps: detail.tools,
+    profiles: {
+      fr: [detail.role.fr, ...detail.skills.slice(0, 2).map((skill) => skill.fr)],
+      en: [detail.role.en, ...detail.skills.slice(0, 2).map((skill) => skill.en)],
+    },
+  };
+}
+
 export function CollaborateurContent({
   page,
 }: {
@@ -547,8 +586,8 @@ export function CollaborateurContent({
   const router = useRouter();
   const t = COPY[lang];
   const { detail, missions } = page;
-  const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
-  const isMissionLedProfile = ["hugo", "nadia", "emma"].includes(detail.slug);
+  const persona = PERSONAS[detail.slug as keyof typeof PERSONAS] ?? genericPersona(detail);
+  const isMissionLedProfile = true;
   const primaryMission = detail.slug === "emma"
     ? lang === "fr"
       ? "Préparer et suivre ma prochaine réunion d’équipe"
@@ -557,9 +596,11 @@ export function CollaborateurContent({
     ? lang === "fr"
       ? "Relancer mes factures impayées"
       : "Follow up on my overdue invoices"
-    : lang === "fr"
-      ? "Trouver et qualifier mes prospects"
-      : "Find and qualify my prospects";
+    : detail.slug === "hugo"
+      ? lang === "fr"
+        ? "Trouver et qualifier mes prospects"
+        : "Find and qualify my prospects"
+      : detail.missions[0][lang];
   const primaryCta = detail.slug === "emma"
     ? lang === "fr"
       ? "Confier la préparation et le suivi à Emma"
@@ -568,7 +609,11 @@ export function CollaborateurContent({
     ? lang === "fr"
       ? "Confier mes relances à Nadia"
       : "Assign my follow-ups to Nadia"
-    : t.finalCta;
+    : detail.slug === "hugo"
+      ? t.finalCta
+      : lang === "fr"
+        ? `Confier cette mission à ${detail.name}`
+        : `Assign this mission to ${detail.name}`;
   const exampleMissionSlug = detail.slug === "hugo"
     ? "trouver-de-nouveaux-clients"
     : detail.slug === "nadia"
@@ -635,7 +680,7 @@ export function CollaborateurContent({
   }
 
   return (
-    <main className={`collaborator-profile-page overflow-hidden bg-[#F3EFE6] text-[#1C1A17] ${isMissionLedProfile ? "collaborator-profile-hugo flex flex-col" : ""}`}>
+    <main className={`collaborator-profile-page collaborator-profile-mission-led flex flex-col overflow-hidden bg-[#F3EFE6] text-[#1C1A17]`}>
       <section className="collaborator-hero order-1 relative pb-8 pt-20 sm:pb-14 sm:pt-32 lg:flex lg:min-h-[680px] lg:items-center lg:py-20">
         <div
           aria-hidden
@@ -698,6 +743,10 @@ export function CollaborateurContent({
                       </p>
                     </div>
                   </div>
+                  <dl className="mt-5 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2">
+                    <div className="bg-[#211E1A] p-4"><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#F2A4C5]">{lang === "fr" ? "Département de référence" : "Reference department"}</dt><dd className="mt-2 text-xs font-semibold text-[#E7E0D5]">{detail.department[lang]}</dd></div>
+                    <div className="bg-[#211E1A] p-4"><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#F2A4C5]">{lang === "fr" ? "Rattachement possible" : "Possible placement"}</dt><dd className="mt-2 text-xs font-semibold leading-5 text-[#E7E0D5]">{lang === "fr" ? "Personne · Équipe · Département · Entreprise" : "Person · Team · Department · Organization"}</dd></div>
+                  </dl>
                   <div className="py-6 sm:py-10">
                     <h2 className="text-balance font-sf text-[clamp(1.75rem,3vw,2.5rem)] font-bold leading-[1.02] tracking-[-.04em]">
                       {persona.composer[lang]}
@@ -923,7 +972,7 @@ export function CollaborateurContent({
             </h2>
             <p className="mt-6 max-w-xl text-[16px] font-medium leading-8 text-[#4E483F]">
               {lang === "fr"
-                ? `${detail.name} appartient à votre entreprise, indépendamment de la personne chargée de sa supervision. Si cette personne quitte l’organisation, son identité, sa mémoire et son savoir-faire restent dans l’entreprise.`
+                ? `${detail.name} appartient à votre entreprise, indépendamment de la personne chargée de sa supervision. Si cette personne quitte l’entreprise, son identité, sa mémoire et son savoir-faire y restent.`
                 : `${detail.name} belongs to your organization, independently of the person supervising them. If that person leaves, identity, memory and know-how remain within the organization.`}
             </p>
             <Link
@@ -1117,8 +1166,8 @@ export function CollaborateurContent({
                 ? <><span className="block">Prêt à confier la gestion</span><span className="block">de vos relances à Nadia&nbsp;?</span></>
                 : <><span className="block">Ready to let Nadia manage</span><span className="block">your follow-ups?</span></>
               : lang === "fr"
-                ? <><span className="block">Quelle première mission</span><span className="block">allez-vous confier à {detail.name} ?</span></>
-                : <><span className="block">What first mission</span><span className="block">will you assign to {detail.name}?</span></>}
+                ? <><span className="block">Prêt à confier une première mission</span><span className="block">à {detail.name}&nbsp;?</span></>
+                : <><span className="block">Ready to assign a first mission</span><span className="block">to {detail.name}?</span></>}
           </h2>
           <div className="flex min-w-60 flex-col gap-3">
             {isMissionLedProfile ? <button type="button" onClick={startPrimaryMission} className="inline-flex min-h-12 w-full items-center justify-center whitespace-nowrap rounded-full bg-[#181615] px-6 text-sm font-bold sm:w-auto sm:px-7">{primaryCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
@@ -1189,11 +1238,11 @@ export function IdentityCard({
   compact?: boolean;
 }) {
   const fr = lang === "fr";
-  const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
+  const persona = PERSONAS[detail.slug as keyof typeof PERSONAS] ?? genericPersona(detail);
   const rows = [
     [labels.owner, fr ? "Votre entreprise" : "Your organization"],
     [
-      fr ? "Place dans l’organisation" : "Place in the organization",
+      fr ? "Place dans l’entreprise" : "Place in the organization",
       fr
         ? `Département ${detail.department.fr}`
         : `${detail.department.en} department`,
@@ -1457,7 +1506,7 @@ function CollaboratorFaq({
           ...(compact && detail.slug === "emma" ? [["De quoi Emma a-t-elle besoin pour commencer ?", "De la date de la réunion, des participants et des documents autorisés. Alma prépare ensuite les accès et validations nécessaires."]] : []),
           [
             `${detail.name} appartient-${detail.gender === "female" ? "elle" : "il"} à Unitalk ou à mon entreprise ?`,
-            `${detail.name} illustre publiquement le profil ${detail.role.fr.toLowerCase()}. Le Collaborateur IA déployé pour votre organisation appartient à votre entreprise.`,
+            `${detail.name} illustre publiquement le profil ${detail.role.fr.toLowerCase()}. Le Collaborateur IA déployé pour votre entreprise lui appartient.`,
           ],
           [
             "Puis-je choisir son prénom, son visage et sa voix ?",

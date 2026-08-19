@@ -18,6 +18,7 @@ const STATIC_ROUTES = [
   '/collaborateurs-ia/profils-metier/publier',
   '/collaborateurs-ia/competences',
   '/marketplace',
+  '/marketplace/collaborateurs-ia',
   '/blog/hermes-agent-youtube',
   '/collaborateurs-ia/integrations',
   '/collaborateurs-ia/applications',

@@ -44,6 +44,8 @@ export type MissionInfo = {
   validation: string
 }
 
+export type OrganizationalPlacement = 'person' | 'team' | 'department' | 'organization'
+
 export type OnboardingState = {
   authenticated: boolean
   firstName: string
@@ -57,6 +59,7 @@ export type OnboardingState = {
   // The chosen first name of the first AI Collaborator ('' until named).
   collaboratorName: string
   collaboratorTemplateSlug?: string
+  organizationalPlacement: OrganizationalPlacement
 }
 
 // The one example surfaced on the Mission step (concrete, not decorative).
@@ -121,6 +124,7 @@ export function initialOnboardingState(): OnboardingState {
     missionDefined: false,
     profile: { fr: 'À définir selon la mission', en: 'To be defined from the mission' },
     collaboratorName: '',
+    organizationalPlacement: 'team',
   }
 }
 

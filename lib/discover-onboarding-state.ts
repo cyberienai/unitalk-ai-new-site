@@ -114,5 +114,6 @@ export function buildInitialOnboardingState({
     profile: selectedCollaborator?.role ?? persisted?.profile ?? init.profile,
     collaboratorName: selectedCollaborator?.name ?? persisted?.collaboratorName ?? init.collaboratorName,
     collaboratorTemplateSlug: selectedCollaborator?.slug ?? persisted?.collaboratorTemplateSlug,
+    organizationalPlacement: persisted?.organizationalPlacement ?? init.organizationalPlacement,
   }
 }

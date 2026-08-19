@@ -30,6 +30,13 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('/marketplace#modeles-ia')
   })
 
+  it('explains the four organizational placements separately from permissions', () => {
+    expect(source).toContain('Une place claire dans votre entreprise')
+    for (const label of ['Une personne', 'Une équipe', 'Un département', 'Toute l’entreprise']) expect(source).toContain(label)
+    expect(source).toContain('Rattaché pour travailler. Détenu et gouverné par votre entreprise.')
+    expect(source).toContain('Les droits déterminent séparément les données, applications et actions accessibles.')
+  })
+
   it('clearly introduces Hugo as another concrete example', () => {
     expect(source).toContain('Autre exemple · Hugo')
     expect(source).toContain('Qualifier les prospects entrants')

@@ -37,6 +37,7 @@ describe('explicit discovery intent', () => {
     expect(state.profile).toEqual(ROLE_DETAILS.arthur.role)
     expect(state.collaboratorName).toBe('Arthur')
     expect(state.collaboratorTemplateSlug).toBe('arthur')
+    expect(state.organizationalPlacement).toBe('team')
     expect(state.mission).toEqual({ title: '', target: '', criteria: '', sources: '', exclusions: '', result: '', rule: '', validation: '' })
   })
 

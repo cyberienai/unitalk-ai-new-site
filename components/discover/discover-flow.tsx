@@ -175,7 +175,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
         <AnimatePresence mode="wait">
           <motion.div key={step} {...anim}>
             {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo('collaborateur')} />}
-            {step === 'collaborateur' && <ScreenCollaborateur lang={lang} company={state.company} mission={state.mission} profile={state.profile} collaboratorTemplateSlug={state.collaboratorTemplateSlug} name={state.collaboratorName} confirming={workspaceConfirmation} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} onConfirmationChange={confirming => { setWorkspaceConfirmation(confirming); setVisualStep(confirming ? 'workspace' : 'collaborateur') }} />}
+            {step === 'collaborateur' && <ScreenCollaborateur lang={lang} company={state.company} mission={state.mission} profile={state.profile} collaboratorTemplateSlug={state.collaboratorTemplateSlug} name={state.collaboratorName} placement={state.organizationalPlacement} confirming={workspaceConfirmation} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onPlacement={organizationalPlacement => setState(s => ({ ...s, organizationalPlacement }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} onConfirmationChange={confirming => { setWorkspaceConfirmation(confirming); setVisualStep(confirming ? 'workspace' : 'collaborateur') }} />}
           </motion.div>
         </AnimatePresence>
       </div>

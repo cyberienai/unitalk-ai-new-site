@@ -10,7 +10,7 @@ const discoverFlow = readFileSync(new URL('../components/discover/discover-flow.
 
 describe('AI public profile consistency', () => {
   it('has a complete public page for every detailed AI identity', () => {
-    expect(DETAILED_SLUGS).toEqual(expect.arrayContaining(['emma', 'lea', 'arthur', 'hugo', 'nadia', 'ines']))
+    expect(DETAILED_SLUGS).toEqual(expect.arrayContaining(['emma', 'hugo', 'ines', 'nadia', 'lea', 'arthur', 'lucas', 'sophia', 'otto', 'chloe', 'alex', 'iris', 'marcus', 'amelia', 'maya', 'noah', 'victor', 'sarah', 'gabriel', 'zoe']))
     for (const slug of DETAILED_SLUGS) {
       expect(ROLE_DETAILS[slug]).toBeTruthy()
       expect(getCollaboratorPage(slug)).toBeTruthy()
@@ -39,7 +39,8 @@ describe('AI public profile consistency', () => {
     expect(profile).toContain('Voir toutes les missions de ${detail.name}')
     expect(profile).toContain('missions?collaborateur=${encodeURIComponent(detail.slug)}')
     expect(profile).not.toContain('STATUS_LABELS[mission.status][lang]')
-    expect(profile).toContain('detail.slug === "hugo"')
+    expect(profile).toContain('collaborator-profile-mission-led')
+    expect(profile).toContain('detail.missions[0][lang]')
     expect(discoverFlow).toContain("const flowSteps: OnboardingStep[] = ['mission', 'entreprise', 'collaborateur', 'workspace']")
     expect(discoverFlow).toContain("onContinue={() => goTo('collaborateur')}")
   })

@@ -1,5 +1,5 @@
 import type { PricingDraft } from '@/lib/unitalk-pricing'
-import type { CompanyFact, MissionInfo } from '@/components/discover/types'
+import type { CompanyFact, MissionInfo, OrganizationalPlacement } from '@/components/discover/types'
 
 export const PURCHASE_DRAFT_COOKIE = 'unitalk_purchase_draft'
 
@@ -12,6 +12,7 @@ export type PurchaseDraft = {
     profile: { fr: string; en: string }
     collaboratorName: string
     collaboratorTemplateSlug?: string
+    organizationalPlacement?: OrganizationalPlacement
     confirmedAt: string
   }
   updatedAt: string

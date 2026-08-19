@@ -131,7 +131,7 @@ export const JOURNEY_STEPS: { title: Bi; body: Bi }[] = [
 
 /** Expert types — categories, never named consultants (brief §9). */
 export const EXPERT_TYPES: Bi[] = [
-  { fr: 'Architecte d’organisation augmentée', en: 'Augmented-organization architect' },
+  { fr: 'Architecte d’entreprise augmentée', en: 'Augmented-organization architect' },
   { fr: 'Consultant en processus', en: 'Process consultant' },
   { fr: 'Intégrateur d’applications', en: 'Application integrator' },
   { fr: 'Spécialiste gouvernance et sécurité', en: 'Governance and security specialist' },
@@ -143,7 +143,7 @@ export const EXPERT_TYPES: Bi[] = [
 
 /** Expertise domains offered in the "become an expert" form (brief §11). */
 export const BECOME_EXPERT_DOMAINS: Bi[] = [
-  { fr: 'Conception d’organisation', en: 'Organization design' },
+  { fr: 'Conception d’entreprise', en: 'Organization design' },
   { fr: 'Intégration d’applications', en: 'Application integration' },
   { fr: 'Gouvernance et sécurité', en: 'Governance and security' },
   { fr: 'Formation des équipes', en: 'Team training' },

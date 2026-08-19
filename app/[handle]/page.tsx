@@ -86,10 +86,11 @@ export default async function HandleProfilePage({ params }: { params: Promise<{ 
   if (detail) {
     const page = getCollaboratorPage(slug)
     const personJsonLd = page ? {
-      '@context': 'https://schema.org', '@type': 'Person', name: detail.name, jobTitle: detail.role.fr,
+      '@context': 'https://schema.org', '@type': 'SoftwareApplication', applicationCategory: 'BusinessApplication', name: `${detail.name}, Collaborateur IA`,
+      alternateName: detail.name, operatingSystem: 'Web',
       description: page.copy.body.fr, image: `${SITE_URL}${detail.avatar}`,
-      worksFor: { '@type': 'Organization', name: detail.company },
-      knowsAbout: detail.skills.map(skill => skill.fr), url: `${SITE_URL}/@${slug}`,
+      provider: { '@type': 'Organization', name: detail.company },
+      featureList: detail.skills.map(skill => skill.fr), url: `${SITE_URL}/@${slug}`,
     } : null
     return (
       <>

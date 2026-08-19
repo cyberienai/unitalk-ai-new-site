@@ -4,7 +4,7 @@ import { CollaborateursContent } from '@/components/collaborateurs-ia/collaborat
 export const metadata: Metadata = {
   title: 'Collaborateurs IA : Hermes au cœur, Unitalk pour travailler ensemble',
   description:
-    'Hermes donne à chaque Collaborateur IA la capacité d’agir. Unitalk ajoute une identité, un Workspace humain + IA, une mémoire partagée et un travail gouverné.',
+    'Un Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise, avec une identité et des droits gouvernés.',
   alternates: { canonical: 'https://unitalk.ai/collaborateurs-ia' },
   openGraph: {
     title: 'Plus qu’un agent. Une place dans votre équipe. | Unitalk',

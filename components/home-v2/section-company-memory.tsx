@@ -30,7 +30,7 @@ const T = {
     files: [
       { id: 'soul' as FileId, name: 'soul.md', human: 'Identité & valeurs' },
       { id: 'user' as FileId, name: 'user.md', human: 'Vos préférences' },
-      { id: 'org' as FileId, name: 'organisation.md', human: 'Mémoire d’entreprise' },
+      { id: 'org' as FileId, name: 'entreprise.md', human: 'Mémoire d’entreprise' },
     ],
     content: {
       soul: [

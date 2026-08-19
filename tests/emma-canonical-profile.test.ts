@@ -14,7 +14,7 @@ describe('Emma canonical public profile', () => {
   })
 
   it('uses a mission-led team meeting experience for small businesses', () => {
-    expect(content).toContain('["hugo", "nadia", "emma"].includes(detail.slug)')
+    expect(content).toContain('const isMissionLedProfile = true')
     expect(content).toContain('Emma prépare et suit votre prochaine réunion d’équipe.')
     expect(content).toContain('Confier la préparation et le suivi à Emma')
     expect(content).toContain('5", "Participants')

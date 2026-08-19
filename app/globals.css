@@ -282,12 +282,12 @@
   min-width:0;
 }
 
-/* Hugo conversion path: mission choice first, then proof and expandable capacity. */
+/* Mission-led public profile: mission choice first, then proof and expandable capacity. */
 @media (min-width:1024px) {
-  .collaborator-profile-hugo .collaborator-missions h2 {
+  .collaborator-profile-mission-led .collaborator-missions h2 {
     font-size:clamp(2.35rem,3.8vw,3.75rem);
   }
-  .collaborator-profile-hugo .collaborator-evolution-section > div > :last-child {
+  .collaborator-profile-mission-led .collaborator-evolution-section > div > :last-child {
     max-width:560px;
     justify-self:end;
   }
@@ -384,13 +384,13 @@
   .collaborator-profile-page section {
     scroll-margin-top:5rem;
   }
-  .collaborator-profile-hugo .collaborator-hero {
+  .collaborator-profile-mission-led .collaborator-hero {
     min-height:auto;
     padding-bottom:2rem;
   }
   .collaborator-profile-page .collaborator-identity-section h2 span,
   .collaborator-profile-page .collaborator-evolution-section h2 span,
-  .collaborator-profile-hugo .collaborator-proof h2 span {
+  .collaborator-profile-mission-led .collaborator-proof h2 span {
     white-space:normal;
   }
 }

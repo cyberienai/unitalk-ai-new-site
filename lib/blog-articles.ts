@@ -46,7 +46,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         { type: 'p', text: 'L’avantage d’une petite équipe n’est pas de posséder davantage de ressources. C’est de pouvoir apprendre et changer plus vite.' },
         { type: 'h2', text: 'Sam Altman : l’intelligence devient une infrastructure' },
         { type: 'p', text: 'Sam Altman décrit une économie dans laquelle l’intelligence artificielle devient progressivement moins chère, plus capable et disponible dans un nombre croissant d’outils. Ce mouvement réduit le capital nécessaire pour accomplir certains travaux intellectuels.' },
-        { type: 'p', text: 'Une petite équipe peut rechercher un marché, prototyper un logiciel, préparer une campagne, analyser des données et servir des clients avec une capacité autrefois réservée à une organisation beaucoup plus grande.' },
+        { type: 'p', text: 'Une petite équipe peut rechercher un marché, prototyper un logiciel, préparer une campagne, analyser des données et servir des clients avec une capacité autrefois réservée à une entreprise beaucoup plus grande.' },
         { type: 'p', text: 'Cette capacité ne supprime pas le travail du fondateur. Elle déplace sa valeur vers le choix du problème, la qualité du jugement, la relation avec les clients et la vitesse d’apprentissage.' },
         { type: 'h2', text: 'Pourquoi les deux idées se renforcent' },
         { type: 'p', text: 'L’IA rend la construction moins coûteuse. La méthode de Paul Graham rappelle quoi construire. Sans compréhension du client, une capacité technique plus grande produit seulement davantage de choses inutiles.' },

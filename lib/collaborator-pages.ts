@@ -8,7 +8,7 @@
 // Only the persona-specific hero copy lives here.
 
 import type { Bilingual, RoleDetail } from '@/lib/collaborators-catalog'
-import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { DETAILED_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { MISSIONS, type MissionStatus } from '@/lib/missions-catalog'
 
 export type CollaboratorHeroCopy = {
@@ -99,9 +99,7 @@ export type CollaboratorPage = {
 }
 
 // Slugs that have a full incarnated page (identity + hero copy).
-export const COLLABORATOR_PAGE_SLUGS = Object.keys(HERO_COPY).filter(
-  (slug) => slug in ROLE_DETAILS,
-)
+export const COLLABORATOR_PAGE_SLUGS = DETAILED_SLUGS.filter((slug) => slug in ROLE_DETAILS)
 
 // Real missions this persona takes on, pulled from the shared catalog.
 export function missionsForCollaborator(slug: string, count = 4): CollaboratorMissionCard[] {
@@ -124,7 +122,10 @@ export function missionsForCollaborator(slug: string, count = 4): CollaboratorMi
 // Everything the landing page needs for one persona, or null if unknown.
 export function getCollaboratorPage(slug: string): CollaboratorPage | null {
   const detail = ROLE_DETAILS[slug]
-  const copy = HERO_COPY[slug]
-  if (!detail || !copy) return null
+  if (!detail) return null
+  const copy = HERO_COPY[slug] ?? {
+    claim: detail.promise,
+    body: detail.description,
+  }
   return { detail, copy, missions: missionsForCollaborator(slug, ['nadia', 'emma'].includes(slug) ? 5 : 4) }
 }

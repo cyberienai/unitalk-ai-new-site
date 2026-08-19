@@ -9,12 +9,12 @@ describe('Marketplace IA hub', () => {
     expect(page).toContain('UnitalkStoreHub')
     for (const label of ['Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
-    expect(hub).toContain("heroTitle: 'Vos Collaborateurs IA évoluent avec votre entreprise.'")
+    expect(hub).toContain("heroTitle: 'Une identité qui reste. Des profils métier qui évoluent.'")
   })
 
   it('shows canonical public AI Collaborators first', () => {
     expect(hub.indexOf("id: 'collaborateurs-ia'")).toBeLessThan(hub.indexOf("id: 'profils-metier'"))
-    expect(hub).toContain('DETAILED_SLUGS')
+    expect(hub).toContain('MARKETPLACE_COLLABORATOR_SLUGS')
     expect(hub).toContain('ROLE_DETAILS[slug]')
     expect(hub).toContain('collaboratorHref(detail.slug)')
     expect(hub).toContain('detail.avatar')
@@ -22,7 +22,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('states the catalog and knowledge-work positioning', () => {
-    expect(hub).toContain('Vos Collaborateurs IA évoluent avec votre entreprise')
+    expect(hub).toContain('Une identité qui reste. Des profils métier qui évoluent.')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
@@ -47,6 +47,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('Rechercher un profil métier')
     expect(hub).toContain('category={activeCategory}')
     expect(hub).toContain("window.location.hash.slice(1)")
+    expect(hub).toContain("window.addEventListener('popstate'")
   })
 
   it('orders job profiles by broad SMB demand', () => {

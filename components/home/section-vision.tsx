@@ -12,7 +12,7 @@ const COPY = {
   fr: {
     kicker: 'Mission après mission',
     title: 'Votre Collaborateur IA progresse avec votre entreprise.',
-    lead: 'Mission après mission, il réutilise les méthodes et consignes validées par votre entreprise. L’expérience acquise reste dans votre organisation.',
+    lead: 'Mission après mission, il réutilise les méthodes et consignes validées par votre entreprise. L’expérience acquise reste dans votre entreprise.',
     closing: 'Prêt à confier une première mission ?',
     cta: 'Décrire mon besoin',
     ctaNote: 'Alma conserve votre demande et vous accompagne après la connexion.',
