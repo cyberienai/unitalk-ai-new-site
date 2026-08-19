@@ -81,7 +81,7 @@ const COPY = {
       "Confier une nouvelle mission",
     ],
     finalTitle: "Confiez sa première mission à Hugo.",
-    finalCta: "Décrire mon besoin à Hugo",
+    finalCta: "Confier la prospection à Hugo",
     pricing: "Voir les tarifs",
   },
   en: {
@@ -548,19 +548,6 @@ export function CollaborateurContent({
   const t = COPY[lang];
   const { detail, missions } = page;
   const persona = PERSONAS[detail.slug as keyof typeof PERSONAS];
-  const heroProofs: Array<[string, string, string?]> = detail.slug === "hugo"
-    ? lang === "fr"
-      ? [
-          ["Profil commercial", "Missions de prospection prêtes à l’emploi", "/missions?collaborateur=hugo&vue=toutes"],
-          ["Capacités à la demande", "Profils métier et compétences à ajouter", "/marketplace#profils-metier"],
-          ["Personnalisation avec Alma", "Mission, règles et validations adaptées", "/alma"],
-        ]
-      : [
-          ["Sales profile", "Ready-to-use prospecting missions", "/missions?collaborateur=hugo&vue=toutes"],
-          ["On-demand capabilities", "Add job profiles and skills", "/marketplace#profils-metier"],
-          ["Customization with Alma", "Mission, rules and approvals tailored to you", "/alma"],
-        ]
-    : t.proofs.map(([title, body]) => [title, body]);
   const [missionRequest, setMissionRequest] = useState("");
   const [decision, setDecision] = useState<
     "approved" | "modified" | "declined" | null
@@ -727,11 +714,6 @@ export function CollaborateurContent({
               )}
               {detail.slug !== "hugo" && <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 lg:max-w-[520px] lg:justify-self-end">{t.trialProofs.map((proof) => <li key={proof} className="flex items-center gap-2 text-xs font-semibold text-[#625B50]"><Check className="size-3.5 text-[#D10E63]" />{proof}</li>)}</ul>}
             </div>
-          </div>
-          <div className="mt-10 grid overflow-hidden rounded-2xl border border-[#CFC5B5] bg-[#FAF8F3] sm:grid-cols-3">
-            {heroProofs.map(([title, body, href]) => (
-              <HeroProof key={title} title={title} body={body} href={href} />
-            ))}
           </div>
         </div>
       </section>
@@ -956,7 +938,7 @@ export function CollaborateurContent({
             </Link>
           </div>
           <article className="w-full overflow-hidden rounded-[28px] bg-[#181615] p-6 text-white sm:p-8 lg:max-w-[560px] lg:justify-self-end">
-            <div className="flex items-center gap-4 border-b border-white/10 pb-6">
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-6">
               <Image
                 src={detail.avatar}
                 alt=""
@@ -964,16 +946,17 @@ export function CollaborateurContent({
                 height={58}
                 className="size-[58px] rounded-full object-cover ring-2 ring-[#F2A4C5]/25"
               />
-              <div>
+               <div className="mr-auto">
                 <p className="text-xl font-semibold">{detail.name}</p>
                 <p className="mt-1 text-xs text-[#AFA397]">
                   {lang === "fr"
                     ? "Même identité, nouvelles capacités"
                     : "Same identity, new capabilities"}
                 </p>
-              </div>
+               </div>
             </div>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+             {detail.slug === "hugo" && <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl border border-white/10 bg-white/[.04] p-4"><strong className="text-2xl font-bold text-white">34</strong><span className="mt-1 block text-xs font-semibold text-[#AFA397]">entreprises analysées</span></div><div className="rounded-2xl border border-[#F2A4C5]/20 bg-[#F2A4C5]/10 p-4"><strong className="text-2xl font-bold text-[#F2A4C5]">9</strong><span className="mt-1 block text-xs font-semibold text-[#DCCBD3]">prospects qualifiés</span></div></div>}
+             <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {t.evolutionItems.map((item) => (
                 <li
                   key={item}
