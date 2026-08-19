@@ -48,6 +48,14 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('category={activeCategory}')
     expect(hub).toContain("window.location.hash.slice(1)")
     expect(hub).toContain("window.addEventListener('popstate'")
+    expect(hub).toContain('useLayoutEffect')
+    expect(hub).toContain("scrollIntoView({ behavior:")
+  })
+
+  it('makes skills concrete and filterable', () => {
+    for (const text of ['Tous les domaines', 'Tous les profils compatibles', 'Contexte d’entrée', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
+    expect(hub).toContain('Réutilisable mission après mission.')
+    expect(hub).toContain('Conditions confirmées avant ajout')
   })
 
   it('orders job profiles by broad SMB demand', () => {

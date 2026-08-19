@@ -29,7 +29,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain("activeCategory.id !== 'collaborateurs-ia' && <label")
     expect(hub).toContain('score: Math.min(99')
     expect(hub).toContain("event.key === 'ArrowRight'")
-    expect(hub).toContain('aria-labelledby={`marketplace-tab-${activeCategory.id}`}')
+    expect(hub).toContain('aria-labelledby={collaboratorsOnly ? undefined : `marketplace-tab-${activeCategory.id}`}')
     expect(hub).toContain('aria-live="polite"')
     expect(hub).not.toContain('Vous cherchez un autre rôle ?')
     expect(hub).toContain("activeCategory.id !== 'collaborateurs-ia'")
