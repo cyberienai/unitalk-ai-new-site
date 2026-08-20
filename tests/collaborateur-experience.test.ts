@@ -5,9 +5,9 @@ const source = readFileSync(new URL('../components/collaborateurs-ia/collaborate
 
 describe('CollaborateurExperience', () => {
   it('opens with a durable business identity and direct onboarding', () => {
-    expect(source).toContain('Une nouvelle capacité pour votre équipe')
-    expect(source).toContain('Un Collaborateur IA rejoint votre entreprise.')
-    expect(source).toContain('Il progresse à chaque mission.')
+    expect(source).toContain('Un nouveau membre dans votre équipe')
+    expect(source).toContain('Votre Collaborateur IA travaille.')
+    expect(source).toContain('Il apprend. Il reste.')
     expect(source).toContain('Profils · Compétences')
     expect(source).toContain('Meilleurs modèles d’IA')
     expect(source).toContain('Voir les Collaborateurs IA')
