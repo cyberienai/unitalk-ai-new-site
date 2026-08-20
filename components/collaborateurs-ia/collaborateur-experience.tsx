@@ -39,11 +39,11 @@ export function CollaborateurExperience() {
         <div className="editorial-shell relative grid items-center gap-9 sm:gap-12 lg:grid-cols-[1.02fr_.98fr] lg:gap-16 [@media(min-width:1024px)_and_(max-height:850px)]:gap-10">
             <div className="max-w-[640px] lg:pr-4">
               <div className="mb-5 flex justify-center sm:mb-6 sm:justify-start"><Kicker>{t.eyebrow}</Kicker></div>
-              <h1 id="collaborateurs-ia-title" className="text-balance text-center font-sf text-[clamp(2.35rem,5vw,4.35rem)] font-semibold leading-[.94] tracking-[-.06em] text-[#1C1A17] sm:text-left [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(2.2rem,3.6vw,3.35rem)]"><span className="block">{t.heroTitle}</span><span className="mt-1 block text-[#D10E63]">{t.heroAccent}</span></h1>
+              <h1 id="collaborateurs-ia-title" className="text-balance text-center font-sf text-[clamp(2.35rem,5vw,4.35rem)] font-semibold leading-[.94] tracking-[-.06em] text-[#1C1A17] sm:text-left [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(2.2rem,3.6vw,3.35rem)]"><span className="block">{t.heroTitlePrefix} <span className="whitespace-nowrap">{t.heroTitleSubject}</span></span><span className="mt-1 block text-[#D10E63]">{t.heroAccent}</span></h1>
               <p className="mx-auto mt-6 max-w-xl text-balance text-center text-base font-medium leading-7 text-[#4E483F] sm:mx-0 sm:text-left md:text-lg md:leading-8">{t.heroLead}</p>
-              <div className="mt-7 grid grid-cols-2 gap-2 sm:flex sm:gap-3 [@media(min-width:1024px)_and_(max-height:850px)]:mt-6">
-                <Link href="/decouvrir?source=collaborateurs-ia-hero" className="inline-flex min-h-13 items-center justify-center whitespace-nowrap rounded-full bg-[#D10E63] px-3 text-center text-[11px] font-bold text-white shadow-[0_16px_36px_-22px_rgba(209,14,99,.8)] outline-none transition hover:-translate-y-0.5 hover:bg-[#B90C58] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 sm:px-6 sm:text-sm">{t.start}</Link>
-                <Link href="/marketplace/collaborateurs-ia" className="inline-flex min-h-13 items-center justify-center whitespace-nowrap rounded-full border border-[#BFB4A4] bg-[#FAF8F3]/75 px-3 text-center text-[11px] font-bold outline-none transition hover:border-[#191715] hover:bg-[#191715] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:px-6 sm:text-sm">{t.explore}</Link>
+              <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-start [@media(min-width:1024px)_and_(max-height:850px)]:mt-6">
+                <Link href="/decouvrir?source=collaborateurs-ia-hero" className="inline-flex min-h-13 items-center justify-center rounded-full bg-[#D10E63] px-6 text-center text-sm font-bold text-white shadow-[0_16px_36px_-22px_rgba(209,14,99,.8)] outline-none transition hover:-translate-y-0.5 hover:bg-[#B90C58] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.start}</Link>
+                <Link href="/marketplace/collaborateurs-ia" className="inline-flex min-h-13 items-center justify-center rounded-full border border-[#BFB4A4] bg-[#FAF8F3]/75 px-6 text-center text-sm font-bold outline-none transition hover:border-[#191715] hover:bg-[#191715] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63]">{t.explore}</Link>
               </div>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-medium text-[#6B6560] sm:justify-start">{t.reassurance.map(item => <span key={item} className="inline-flex items-center gap-1.5"><Check className="size-3.5 text-[#D10E63]" strokeWidth={2.5}/>{item}</span>)}<span className="inline-flex items-center gap-1.5 whitespace-nowrap"><AlmaInline />{t.almaGuidance}</span></div>
             </div>
@@ -71,7 +71,7 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section id="fonctionnement" className="scroll-mt-20 bg-[#191715] py-16 text-white sm:py-24">
+      <section id="fonctionnement" aria-labelledby="hermes-unitalk-title" className="scroll-mt-20 bg-[#191715] py-16 text-white sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div className="editorial-shell">
           <div className="grid gap-10 lg:grid-cols-[.62fr_1.38fr] lg:items-center">
             <div className="flex items-center gap-4 lg:flex-col lg:items-start">
@@ -81,7 +81,7 @@ export function CollaborateurExperience() {
             </div>
             <div>
               <Kicker dark>{t.foundationKicker}</Kicker>
-              <h2 className="mt-5 max-w-4xl text-balance text-[clamp(2.2rem,4.4vw,4.4rem)] font-semibold leading-[.92] tracking-[-.06em]">{t.foundationTitle}</h2>
+              <h2 id="hermes-unitalk-title" className="mt-5 max-w-4xl text-balance text-[clamp(2.1rem,4.4vw,4.4rem)] font-semibold leading-[.92] tracking-[-.06em]">{t.foundationTitle}</h2>
               <p className="mt-6 max-w-3xl text-[16px] leading-8 text-[#CFC6B8]">{t.foundationBody}</p>
               <Link href="/hermes" className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full border border-white/20 px-6 text-sm font-bold transition hover:border-[#F2A4C5] hover:text-[#F2A4C5]">{t.foundationCta}<ArrowRight className="size-4" /></Link>
             </div>
@@ -89,14 +89,14 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section className="border-b border-[#CFC5B5] bg-[#FAF8F3] py-16 sm:py-24">
+      <section aria-labelledby="rattachement-title" className="border-b border-[#CFC5B5] bg-[#FAF8F3] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div className="editorial-shell">
-          <SectionHeading kicker={t.placeKicker} title={t.placeTitle} body={t.placeBody} />
+          <SectionHeading id="rattachement-title" kicker={t.placeKicker} title={t.placeTitle} body={t.placeBody} />
           <div className="relative mt-10 grid gap-px overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#CFC5B5] sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 lg:before:absolute lg:before:left-[12.5%] lg:before:right-[12.5%] lg:before:top-[3.05rem] lg:before:h-px lg:before:bg-[#D10E63]/25">
             {t.placements.map((label, index) => <div key={label} className="group relative bg-[#F3EFE6] p-6 transition-colors hover:bg-white sm:p-7"><span className="relative z-10 block size-3 rounded-full border-[3px] border-[#F3EFE6] bg-[#D10E63] ring-1 ring-[#D10E63]/30 transition-transform group-hover:scale-125"/><h3 className="mt-7 text-xl font-semibold tracking-[-.03em]">{label}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{t.placementDescriptions[index]}</p></div>)}
           </div>
           <div className="mt-6 overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#EAE3D4]">
-            <div className="grid gap-5 border-b border-[#CFC5B5] p-7 sm:p-9 lg:grid-cols-[auto_1fr_auto] lg:items-center"><span className="flex size-12 items-center justify-center rounded-full bg-[#D10E63] text-white"><ShieldCheck className="size-6" /></span><p className="text-[clamp(1.35rem,2.3vw,2.1rem)] font-semibold leading-tight tracking-[-.04em]">{t.placementRule}</p><span className="font-mono text-[9px] font-black uppercase tracking-[.15em] text-[#B00C54]">{t.placementRuleLabel}</span></div>
+            <div className="grid gap-5 border-b border-[#CFC5B5] p-6 sm:p-8 lg:grid-cols-[auto_1fr_auto] lg:items-center"><span className="flex size-11 items-center justify-center rounded-full bg-[#D10E63] text-white"><ShieldCheck className="size-5" /></span><p className="text-[clamp(1.25rem,2.2vw,2rem)] font-semibold leading-tight tracking-[-.04em]">{t.placementRule}</p><span className="font-mono text-[9px] font-black uppercase tracking-[.15em] text-[#B00C54]">{t.placementRuleLabel}</span></div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4">
               <ResourceFact icon={LockKeyhole} title={t.privateMemory} body={t.privateMemoryBody} />
               <ResourceFact icon={Database} title={t.sharedKnowledge} body={t.sharedKnowledgeBody} border />
@@ -107,22 +107,22 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section className="bg-[#E8E0D2] py-16 sm:py-24">
+      <section aria-labelledby="marketplace-title" className="bg-[#E8E0D2] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div className="editorial-shell">
-          <SectionHeading kicker={t.marketKicker} title={t.marketTitle} body={t.marketBody} />
+          <SectionHeading id="marketplace-title" kicker={t.marketKicker} title={t.marketTitle} body={t.marketBody} />
           <div className="mt-10 overflow-hidden rounded-[28px] border border-[#BFB4A4] bg-[#FAF8F3] sm:mt-12">
             {MARKETPLACE_LINKS.map(({ href, key }, index) => {
               const item = t.marketItems[key]
-              return <Link key={key} href={href} className={`group grid min-h-36 gap-5 border-b border-[#CFC5B5] p-6 outline-none transition-colors last:border-b-0 hover:bg-white focus-visible:bg-white sm:grid-cols-[4rem_minmax(10rem,.65fr)_1fr_auto] sm:items-center sm:gap-7 sm:p-7 ${index === 3 ? 'bg-[#F6E5EC]' : ''}`}><span className="font-mono text-[10px] font-black text-[#B00C54]">0{index + 1}</span><div><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#857C6E]">{item.eyebrow}</p><h3 className="mt-2 text-[clamp(1.35rem,2.5vw,2rem)] font-semibold tracking-[-.04em]">{item.title}</h3></div><p className="max-w-xl text-[13px] leading-6 text-[#625B50]">{item.body}</p><span className="flex size-10 items-center justify-center rounded-full border border-[#BFB4A4] text-[#B00C54] transition-all group-hover:border-[#D10E63] group-hover:bg-[#D10E63] group-hover:text-white"><ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5"/></span></Link>
+              return <Link key={key} href={href} className={`group grid min-h-32 grid-cols-[1fr_auto] gap-x-4 gap-y-3 border-b border-[#CFC5B5] p-5 outline-none transition-colors last:border-b-0 hover:bg-white focus-visible:bg-white sm:min-h-36 sm:grid-cols-[4rem_minmax(10rem,.65fr)_1fr_auto] sm:items-center sm:gap-7 sm:p-7 ${index === 3 ? 'bg-[#F6E5EC]' : ''}`}><span className="hidden font-mono text-[10px] font-black text-[#B00C54] sm:block">0{index + 1}</span><div><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#857C6E]">{item.eyebrow}</p><h3 className="mt-2 text-[clamp(1.35rem,2.5vw,2rem)] font-semibold tracking-[-.04em]">{item.title}</h3></div><p className="col-span-2 max-w-xl text-[13px] leading-6 text-[#625B50] sm:col-span-1">{item.body}</p><span className="row-start-1 flex size-10 items-center justify-center rounded-full border border-[#BFB4A4] text-[#B00C54] transition-all group-hover:border-[#D10E63] group-hover:bg-[#D10E63] group-hover:text-white sm:row-auto"><ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5"/></span></Link>
             })}
           </div>
           <div className="mt-7 flex max-w-4xl items-start gap-4 border-l-2 border-[#B00C54] pl-5"><span className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.marketNote}</span><p className="text-sm font-semibold leading-7 text-[#4E483F]">{t.marketConclusion}</p></div>
         </div>
       </section>
 
-      <section className="border-y border-[#191715] bg-[#F3EFE6] py-16 sm:py-24">
+      <section aria-labelledby="capital-title" className="border-y border-[#191715] bg-[#F3EFE6] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div className="editorial-shell">
-          <SectionHeading kicker={t.assetKicker} title={t.assetTitle} body={t.assetBody} />
+          <SectionHeading id="capital-title" kicker={t.assetKicker} title={t.assetTitle} body={t.assetBody} />
           <div className="mt-10 grid overflow-hidden rounded-[28px] border border-[#191715] sm:mt-12 lg:grid-cols-[.9fr_1.1fr]">
             <div className="relative flex flex-col bg-[#191715] p-7 text-white sm:p-10">
               <div className="flex items-center justify-between"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.assetCardKicker}</p><span className="rounded-full border border-[#64C98D]/25 bg-[#64C98D]/10 px-3 py-1.5 text-[10px] font-bold text-[#86D9A7]">{t.assetStatus}</span></div>
@@ -137,13 +137,13 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#D10E63] py-16 text-white sm:py-24">
+      <section aria-labelledby="alma-title" className="relative overflow-hidden bg-[#D10E63] py-16 text-white sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div aria-hidden className="absolute -right-24 -top-32 size-[32rem] rounded-full border border-white/15" />
         <div aria-hidden className="absolute -right-8 -top-12 size-64 rounded-full border border-white/10" />
         <div className="editorial-shell relative grid gap-12 lg:grid-cols-[1.02fr_.98fr] lg:items-center">
           <div>
             <div className="flex items-center gap-4"><Image src="/alma-avatar.png" alt="" width={56} height={56} className="size-14 rounded-full object-cover ring-2 ring-white/30"/><div><p className="text-lg font-bold">Alma</p><p className="text-xs font-semibold text-white/70">{t.almaRole}</p></div></div>
-            <h2 className="mt-8 max-w-4xl text-balance text-[clamp(2.25rem,4.5vw,4.4rem)] font-semibold leading-[.94] tracking-[-.055em]">{t.almaTitle}</h2>
+            <h2 id="alma-title" className="mt-8 max-w-4xl text-balance text-[clamp(2.25rem,4.5vw,4.4rem)] font-semibold leading-[.94] tracking-[-.055em]">{t.almaTitle}</h2>
             <p className="mt-7 max-w-2xl text-[17px] leading-8 text-white/80">{t.almaBody}</p>
           </div>
           <div className="overflow-hidden rounded-[28px] border border-white/15 bg-[#191715] shadow-[0_34px_80px_-38px_rgba(25,23,21,.75)]">
@@ -157,8 +157,8 @@ export function CollaborateurExperience() {
   )
 }
 
-function SectionHeading({ kicker, title, body, dark = false }: { kicker: string; title: string; body: string; dark?: boolean }) {
-  return <div className="grid gap-6 lg:grid-cols-[1.08fr_.92fr] lg:items-end lg:gap-12"><div><Kicker dark={dark}>{kicker}</Kicker><h2 className="mt-5 max-w-3xl text-balance text-[clamp(2.1rem,4.2vw,4.1rem)] font-semibold leading-[.94] tracking-[-.055em]">{title}</h2></div><p className={`max-w-xl text-[16px] leading-8 ${dark ? 'text-[#CFC6B8]' : 'text-[#514A42]'}`}>{body}</p></div>
+function SectionHeading({ id, kicker, title, body, dark = false }: { id?: string; kicker: string; title: string; body: string; dark?: boolean }) {
+  return <div className="grid gap-6 lg:grid-cols-[1.08fr_.92fr] lg:items-end lg:gap-12"><div><Kicker dark={dark}>{kicker}</Kicker><h2 id={id} className="mt-5 max-w-3xl text-balance text-[clamp(2.1rem,4.2vw,4.1rem)] font-semibold leading-[.94] tracking-[-.055em]">{title}</h2></div><p className={`max-w-xl text-[16px] leading-8 ${dark ? 'text-[#CFC6B8]' : 'text-[#514A42]'}`}>{body}</p></div>
 }
 
 function ResourceFact({ icon: Icon, title, body, border = false }: { icon: LucideIcon; title: string; body: string; border?: boolean }) {
@@ -167,8 +167,8 @@ function ResourceFact({ icon: Icon, title, body, border = false }: { icon: Lucid
 
 const COPY = {
   fr: {
-    eyebrow: 'Un nouveau membre dans votre équipe', heroTitle: 'Votre Collaborateur IA travaille.', heroAccent: 'Il apprend. Il reste.', heroLead: 'Une identité, une mémoire et des responsabilités sous votre contrôle. Il travaille avec vos équipes, dans vos outils, et progresse à chaque mission.',
-    heroGroups: [{ label: 'Une place dans l’entreprise', value: 'Identité définie\nMémoire sous votre contrôle' }, { label: 'Les moyens de travailler', value: 'Profils\nCompétences\nPlus de 3 000 apps' }, { label: 'Une infrastructure propre', value: 'Meilleurs modèles d’IA\nServeur privé dédié' }], heroCardLabel: 'Emma, Camille et Nadia illustrent les Collaborateurs que vous pouvez intégrer.', heroCardRule: 'Vous contrôlez ses accès et les décisions qui restent humaines.', start: 'Confier une première mission', explore: 'Voir les Collaborateurs IA', reassurance: ['Première mission gratuite', 'Sans carte bancaire'], almaGuidance: 'Personnalisation guidée par Alma',
+    eyebrow: 'Un nouveau membre dans votre équipe', heroTitlePrefix: 'Votre', heroTitleSubject: 'Collaborateur IA travaille.', heroAccent: 'Il apprend. Il reste.', heroLead: 'Une identité, une mémoire et des responsabilités sous votre contrôle. Il travaille avec vos équipes, dans vos outils, et progresse à chaque mission.',
+    heroGroups: [{ label: 'Dans votre organisation', value: 'Identité définie\nMémoire sous votre contrôle' }, { label: 'Équipé pour travailler', value: 'Profils\nCompétences\nPlus de 3 000 apps' }, { label: 'Ses ressources dédiées', value: 'Meilleurs modèles d’IA\nServeur privé dédié' }], heroCardLabel: 'Choisissez l’identité adaptée à votre première mission.', heroCardRule: 'Vous contrôlez ses accès et les décisions qui restent humaines.', start: 'Confier une première mission', explore: 'Voir les Collaborateurs IA', reassurance: ['Première mission gratuite', 'Sans carte bancaire'], almaGuidance: 'Personnalisation guidée par Alma',
     foundationKicker: 'Infrastructure Hermes', foundationTitle: 'Propulsé par Hermes. Opéré par Unitalk.', foundationBody: 'Chaque Collaborateur IA repose sur une instance dédiée Hermes, l’agent autonome open source. Unitalk l’héberge, le maintient et lui apporte l’identité, la mémoire, les connexions et l’espace de travail collaboratif nécessaires pour travailler avec vos équipes.', foundationCta: 'Découvrir l’infrastructure Hermes de Unitalk',
     placeKicker: 'Une place claire dans l’organisation', placeTitle: 'Choisissez avec qui il travaille.', placeBody: 'Rattachez chaque Collaborateur IA au bon niveau de l’entreprise. Ce choix organise sa collaboration sans lui ouvrir automatiquement l’accès aux données ou aux outils.', placements: ['Une personne', 'Une équipe', 'Un département', 'Toute l’entreprise'], placementDescriptions: ['Un responsable direct lui confie et suit ses missions.','Il collabore avec les membres d’un même collectif.','Il intervient au service d’une fonction de l’entreprise.','Il contribue à des missions transverses selon ses droits.'], placementRuleLabel: 'Deux choix séparés', placementRule: 'Le rattachement définit avec qui il travaille. Les autorisations définissent ce qu’il peut voir et faire.', privateMemory: 'Sa mémoire propre', privateMemoryBody: 'Méthodes, expérience et corrections validées restent disponibles entre ses missions.', sharedKnowledge: 'Les savoirs partagés', sharedKnowledgeBody: 'Il consulte uniquement les documents et informations que l’entreprise lui ouvre.', communication: 'Ses moyens de communication', communicationBody: 'Email, calendrier, messagerie et espace Unitalk selon les canaux autorisés.', sovereignty: 'Son serveur IA', sovereigntyBody: 'Chaque instance Hermes dispose de son propre serveur dans Unitalk AI Cloud.',
     marketKicker: 'Un Store ouvert à la communauté', marketTitle: 'Tout ce dont il a besoin, au même endroit.', marketBody: 'Ajoutez simplement des profils métier, des compétences et des applications créés par Unitalk ou proposés par la communauté, sans recréer son identité.',
@@ -190,8 +190,8 @@ const COPY = {
     almaRole: 'Coordinatrice de missions IA', almaTitle: 'Partez d’une mission. Alma prépare le Collaborateur adapté.', almaBody: 'Décrivez le résultat que vous attendez. Alma transforme ce besoin en un cadre de travail clair et prépare le Collaborateur qui rejoindra votre équipe.', almaCardKicker: 'Préparation guidée', almaCardTitle: 'Alma prépare avec vous', almaPrepares: ['Sa place et ses responsabilités dans l’organisation', 'Les connaissances, compétences et applications utiles', 'Les accès et les décisions qui restent sous contrôle humain', 'Le serveur et l’hébergement adaptés à vos exigences'], almaRule: 'Alma prépare et coordonne. Le Collaborateur accomplit la mission. Votre équipe garde la décision.', almaCta: 'Décrire ma première mission', marketCta: 'Explorer la Marketplace',
   },
   en: {
-    eyebrow: 'A new member of your team', heroTitle: 'Your AI Collaborator works.', heroAccent: 'It learns. It stays.', heroLead: 'An identity, memory and responsibilities under your control. It works with your teams, in your tools, and improves with every mission.',
-    heroGroups: [{ label: 'A place in the organization', value: 'Defined identity\nMemory under your control' }, { label: 'The means to work', value: 'Profiles\nSkills\n3,000+ apps' }, { label: 'Its own infrastructure', value: 'Leading AI models\nDedicated private server' }], heroCardLabel: 'Emma, Camille and Nadia illustrate the Collaborators you can bring into your organization.', heroCardRule: 'You control its access and the decisions that remain human.', start: 'Entrust a first mission', explore: 'View AI Collaborators', reassurance: ['First mission free', 'No card'], almaGuidance: 'Personalized with Alma',
+    eyebrow: 'A new member of your team', heroTitlePrefix: 'Your', heroTitleSubject: 'AI Collaborator works.', heroAccent: 'It learns. It stays.', heroLead: 'An identity, memory and responsibilities under your control. It works with your teams, in your tools, and improves with every mission.',
+    heroGroups: [{ label: 'In your organization', value: 'Defined identity\nMemory under your control' }, { label: 'Equipped to work', value: 'Profiles\nSkills\n3,000+ apps' }, { label: 'Its dedicated resources', value: 'Leading AI models\nDedicated private server' }], heroCardLabel: 'Choose the identity suited to your first mission.', heroCardRule: 'You control its access and the decisions that remain human.', start: 'Entrust a first mission', explore: 'View AI Collaborators', reassurance: ['First mission free', 'No card'], almaGuidance: 'Personalized with Alma',
     foundationKicker: 'Hermes infrastructure', foundationTitle: 'Powered by Hermes. Operated by Unitalk.', foundationBody: 'Every AI Collaborator runs on a dedicated Hermes instance, the open-source autonomous agent. Unitalk hosts and maintains it, then adds the identity, memory, connections and workspace it needs to work with your teams.', foundationCta: 'Discover Unitalk’s Hermes infrastructure',
     placeKicker: 'A clear place in the organization', placeTitle: 'Choose who it works with.', placeBody: 'Place each AI Collaborator at the right level of the organization. This organizes collaboration without automatically granting access to data or tools.', placements: ['One person', 'A team', 'A department', 'The whole organization'], placementDescriptions: ['A direct manager assigns and follows its missions.','It collaborates with the members of one team.','It supports a business function across the organization.','It contributes to cross-functional missions under its permissions.'], placementRuleLabel: 'Two separate choices', placementRule: 'Placement defines who it works with. Permissions define what it can see and do.', privateMemory: 'Its own memory', privateMemoryBody: 'Methods, experience and approved corrections remain available across missions.', sharedKnowledge: 'Shared knowledge', sharedKnowledgeBody: 'It only accesses documents and information the organization opens to it.', communication: 'Its communication tools', communicationBody: 'Email, calendar, messaging and Unitalk workspace through approved channels.', sovereignty: 'Its AI server', sovereigntyBody: 'Each Hermes instance has its own server in Unitalk AI Cloud.',
     marketKicker: 'A Store open to the community', marketTitle: 'Everything it needs, in one place.', marketBody: 'Simply add job profiles, skills and applications created by Unitalk or contributed by the community, without recreating its identity.',

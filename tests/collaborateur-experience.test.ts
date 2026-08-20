@@ -6,15 +6,18 @@ const source = readFileSync(new URL('../components/collaborateurs-ia/collaborate
 describe('CollaborateurExperience', () => {
   it('opens with a durable business identity and direct onboarding', () => {
     expect(source).toContain('Un nouveau membre dans votre équipe')
-    expect(source).toContain('Votre Collaborateur IA travaille.')
+    expect(source).toContain("heroTitlePrefix: 'Votre'")
+    expect(source).toContain("heroTitleSubject: 'Collaborateur IA travaille.'")
     expect(source).toContain('Il apprend. Il reste.')
-    expect(source).toContain('Profils · Compétences')
+    expect(source).toContain("value: 'Profils\\nCompétences\\nPlus de 3 000 apps'")
     expect(source).toContain('Meilleurs modèles d’IA')
     expect(source).toContain('Voir les Collaborateurs IA')
+    expect(source).toContain('Choisissez l’identité adaptée à votre première mission.')
+    expect(source).toContain('Ses ressources dédiées')
     expect(source).toContain("reassurance: ['Première mission gratuite', 'Sans carte bancaire']")
     expect(source).toContain('/decouvrir?source=collaborateurs-ia-hero')
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
-    expect(source).toContain('text-[clamp(2.35rem,5vw,4.35rem)]')
+    expect(source).toContain('text-[clamp(2.2rem,5vw,4.35rem)]')
     expect(source).toContain('lg:grid-cols-[1.02fr_.98fr]')
   })
 
