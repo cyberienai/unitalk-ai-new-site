@@ -8,7 +8,7 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Un nouveau membre dans votre équipe')
     expect(source).toContain("heroTitlePrefix: 'Votre'")
     expect(source).toContain("heroTitleRole: 'Collaborateur IA'")
-    expect(source).toContain('Il apprend. Il reste.')
+    expect(source).toContain('Il progresse. Il reste.')
     expect(source).toContain("value: 'Profils\\nCompétences\\nPlus de 3 000 apps'")
     expect(source).toContain('Meilleurs modèles d’IA')
     expect(source).toContain('Voir les Collaborateurs IA')
@@ -21,17 +21,19 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('lg:grid-cols-[1.02fr_.98fr]')
   })
 
-  it('introduces Hermes in plain language and explains Unitalk', () => {
-    expect(source).toContain('Hermes, l’agent autonome open source.')
-    expect(source).toContain('Propulsé par Hermes. Opéré par Unitalk.')
+  it('introduces Hermes compactly after the marketplace', () => {
+    expect(source).toContain('Hermes exécute. Unitalk organise le travail.')
+    expect(source).toContain('Hermes fournit le moteur agentique open source.')
     expect(source).toContain('href="/hermes"')
+    expect(source.indexOf('id="fonctionnement"')).toBeGreaterThan(source.indexOf('aria-labelledby="marketplace-title"'))
     expect(source).not.toContain('Mises à jour maîtrisées')
   })
 
   it('explains organizational placement separately from permissions', () => {
     for (const label of ['Une personne', 'Une équipe', 'Un département', 'Toute l’entreprise']) expect(source).toContain(label)
-    expect(source).toContain('Un espace privé ou partagé, au bon niveau.')
-    expect(source).toContain('Son identité, sa mémoire et ses ressources lui restent propres.')
+    expect(source).toContain('Un Collaborateur IA privé ou partagé.')
+    expect(source).not.toContain('Quel que soit son rattachement')
+    expect(source).not.toContain('Son identité, sa mémoire et ses ressources lui restent propres.')
   })
 
   it('covers memory, communication and data sovereignty', () => {
@@ -55,7 +57,7 @@ describe('CollaborateurExperience', () => {
 
   it('gives Alma a clear coordinating role', () => {
     expect(source).toContain('Partez d’une mission. Alma prépare le Collaborateur adapté.')
-    expect(source).toContain('Alma prépare et coordonne. Le Collaborateur accomplit la mission. Votre équipe garde la décision.')
+    expect(source).toContain('Le Collaborateur accomplit la mission. Votre équipe garde la décision.')
     expect(source).toContain('/decouvrir?source=collaborateurs-ia')
     expect(source).toContain('Explorer la Marketplace')
   })

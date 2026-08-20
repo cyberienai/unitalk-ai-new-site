@@ -146,7 +146,7 @@ const STORE_CATEGORIES: Category[] = [
     description: { fr: 'Personnalisez son identité, puis rattachez votre Collaborateur IA à une personne, une équipe, un département ou toute l’entreprise.', en: 'Personalize their identity, then assign your AI Collaborator to one person, a team, a department or your entire company.' },
     heroTitle: { fr: 'Choisissez votre Collaborateur IA. Confiez-lui une première mission.', en: 'Choose your AI Collaborator. Give them a first mission.' },
     heroAccent: { fr: 'Confiez-lui une première mission.', en: 'Give them a first mission.' },
-    heroLead: { fr: 'Donnez-lui une identité, puis faites-le évoluer avec les profils métier et compétences dont votre entreprise a besoin, sans recréer un agent à chaque nouveau besoin.', en: 'Give them an identity, then evolve them with the job profiles and skills your organization needs, without recreating an agent for every new need.' },
+    heroLead: { fr: 'Puis faites-le évoluer avec les profils métier et compétences dont votre entreprise a besoin.', en: 'Then evolve them with the job profiles and skills your organization needs.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comment fonctionne un Collaborateur IA ?', en: 'How does an AI Collaborator work?' },
     href: '/collaborateurs-ia', accent: '#D10E63',
   },
