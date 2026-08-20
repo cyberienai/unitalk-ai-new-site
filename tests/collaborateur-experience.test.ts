@@ -19,6 +19,8 @@ describe('CollaborateurExperience', () => {
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
     expect(source).toContain('text-[clamp(2.15rem,5vw,4.35rem)]')
     expect(source).toContain('lg:grid-cols-[1.02fr_.98fr]')
+    expect(source).toContain('max-[389px]:py-3')
+    expect(source).toContain('min-[390px]:block')
   })
 
   it('introduces Hermes compactly after the marketplace', () => {
@@ -41,15 +43,24 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Chaque instance Hermes dispose de son propre serveur dans Unitalk AI Cloud.')
   })
 
+  it('shows one concise mission proof before the marketplace', () => {
+    expect(source).toContain('Une mission, de bout en bout')
+    expect(source).toContain('Il prépare. Votre équipe décide.')
+    expect(source).toContain('Les actions sensibles restent en attente jusqu’à votre validation.')
+    expect(source.indexOf('id="mission-proof-title"')).toBeLessThan(source.indexOf('aria-labelledby="marketplace-title"'))
+  })
+
   it('links every product resource to its marketplace section', () => {
     for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia']) expect(source).toContain(href)
     expect(source).toContain('Plus de 3 000 apps')
     expect(source).toContain('Un Store ouvert à la communauté')
+    expect(source).toContain('sm:min-h-0')
+    expect(source).toContain('sm:px-6 sm:py-4')
   })
 
   it('presents continuity as a lasting operational asset', () => {
     expect(source).toContain('Un capital opérationnel durable')
-    expect(source).toContain('Votre Collaborateur reste. Son expérience aussi.')
+    expect(source).toContain('Son responsable peut changer. Son expérience reste dans l’entreprise.')
     expect(source).toContain('Réattribuez sa supervision')
     expect(source).not.toContain('Plusieurs Collaborateurs. Un résultat commun.')
     expect(source).not.toContain('Profils importables')
