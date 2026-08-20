@@ -45,6 +45,7 @@ type MarketplaceItem = {
   starterMission?: string
   identityLabel?: string
   facetKey?: string
+  facetKeys?: string[]
   profileKeys?: string[]
   input?: string
   result?: string
@@ -119,13 +120,25 @@ const PROFILE_DEMAND_RANK = new Map<string, number>(PROFILE_DEMAND_ORDER.map((sl
 const PROFILE_NAMES = new Map(STORE_ITEMS.filter((item) => item.type === 'profil').map((item) => [item.slug, item.name]))
 
 const MODEL_ITEMS = [
-  { key: 'gpt', title: 'GPT', maker: 'OpenAI', meta: 'Texte · Vision · Code' },
-  { key: 'claude', title: 'Claude', maker: 'Anthropic', meta: 'Texte · Analyse · Code' },
-  { key: 'gemini', title: 'Gemini', maker: 'Google', meta: 'Texte · Vision · Multimodal' },
-  { key: 'mistral', title: 'Mistral', maker: 'Mistral AI', meta: 'Texte · Code · Europe' },
-  { key: 'deepseek', title: 'DeepSeek', maker: 'DeepSeek', meta: 'Raisonnement · Code' },
-  { key: 'llama', title: 'Llama', maker: 'Meta', meta: 'Open weights · Texte' },
+  { key: 'gpt', title: 'GPT', maker: 'OpenAI', meta: 'Texte · Vision · Code', modalities: ['texte', 'raisonnement', 'image', 'audio', 'multimodal'] },
+  { key: 'claude', title: 'Claude', maker: 'Anthropic', meta: 'Texte · Analyse · Code', modalities: ['texte', 'raisonnement', 'multimodal'] },
+  { key: 'gemini', title: 'Gemini', maker: 'Google', meta: 'Texte · Vision · Multimodal', modalities: ['texte', 'raisonnement', 'image', 'audio', 'video', 'multimodal'] },
+  { key: 'mistral', title: 'Mistral', maker: 'Mistral AI', meta: 'Texte · Code · Europe', modalities: ['texte', 'raisonnement', 'open-source'] },
+  { key: 'deepseek', title: 'DeepSeek', maker: 'DeepSeek', meta: 'Raisonnement · Code', modalities: ['texte', 'raisonnement', 'open-source'] },
+  { key: 'llama', title: 'Llama', maker: 'Meta', meta: 'Open weights · Texte', modalities: ['texte', 'open-source'] },
 ] as const
+
+const MODEL_MODALITY_LABELS: Record<string, Bi> = {
+  texte: { fr: 'Texte', en: 'Text' },
+  raisonnement: { fr: 'Raisonnement', en: 'Reasoning' },
+  image: { fr: 'Image', en: 'Image' },
+  audio: { fr: 'Audio', en: 'Audio' },
+  video: { fr: 'Vidéo', en: 'Video' },
+  multimodal: { fr: 'Multimodal', en: 'Multimodal' },
+  'open-source': { fr: 'Open source', en: 'Open source' },
+}
+
+const MODEL_MODALITY_ORDER = ['texte', 'raisonnement', 'multimodal', 'image', 'audio', 'video', 'open-source'] as const
 
 const STORE_CATEGORIES: Category[] = [
   {
@@ -238,7 +251,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
     return MODEL_ITEMS.map((item) => ({
       key: item.key, title: item.title,
       description: lang === 'fr' ? `Famille de modèles ${item.maker}, disponible selon les droits, les clés et la configuration AI Gateway.` : `${item.maker} model family, available according to permissions, keys and AI Gateway configuration.`,
-      href: '/modeles-ia', meta: item.meta, origin: item.maker, facetKey: item.maker, status: { fr: 'Selon votre fournisseur', en: 'Via your provider' },
+      href: '/modeles-ia', meta: item.meta, origin: item.maker, facetKeys: [...item.modalities], status: { fr: 'Selon votre fournisseur', en: 'Via your provider' },
     }))
   }
   if (categoryId === 'serveurs-ia') {
@@ -264,7 +277,7 @@ const COPY = {
     modelHeroProofs: ['Sélection automatique', 'Fournisseurs contrôlés', 'Modèles interchangeables'],
     showAllCollaborators: 'Voir les 12 Collaborateurs IA',
     departments: 'Départements', allDepartments: 'Tous les profils', profileCount: 'profils prêts à adapter', profileResult: 'profil', profileResults: 'profils', firstMission: 'Exemple de mission',
-    skillCategories: 'Domaines', applicationCategories: 'Usages', modelCategories: 'Fournisseurs', allItems: 'Tout le catalogue',
+    skillCategories: 'Domaines', applicationCategories: 'Usages', modelCategories: 'Modalités', allItems: 'Tout le catalogue',
   },
   en: {
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
@@ -278,7 +291,7 @@ const COPY = {
     modelHeroProofs: ['Automatic selection', 'Controlled providers', 'Interchangeable models'],
     showAllCollaborators: 'View all 12 AI Collaborators',
     departments: 'Departments', allDepartments: 'All profiles', profileCount: 'profiles ready to adapt', profileResult: 'profile', profileResults: 'profiles', firstMission: 'Mission example',
-    skillCategories: 'Domains', applicationCategories: 'Uses', modelCategories: 'Providers', allItems: 'Full catalog',
+    skillCategories: 'Domains', applicationCategories: 'Uses', modelCategories: 'Modalities', allItems: 'Full catalog',
   },
 } as const
 
@@ -336,7 +349,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       : isProfilesCategory && department
         ? categoryItems.filter((item) => item.facetKey && (department.facets as readonly string[]).includes(item.facetKey))
         : usesCatalogSidebar && catalogFacet
-          ? categoryItems.filter((item) => item.facetKey === catalogFacet)
+          ? categoryItems.filter((item) => item.facetKey === catalogFacet || item.facetKeys?.includes(catalogFacet))
         : categoryItems
     if (!query) return scopedItems
     const tokens = query.split(/\s+/)
@@ -474,13 +487,15 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, quer
   category: Category
   labels: { clear: string; allItems: string; skillCategories: string; applicationCategories: string; modelCategories: string; result: string; results: string; available: string; preparation: string; addProfile: string }
 }) {
-  const labelsByFacet = category.id === 'competences' ? SKILL_CATEGORY_LABELS : category.id === 'applications' ? APP_CATEGORY_LABELS : null
+  const labelsByFacet = category.id === 'competences' ? SKILL_CATEGORY_LABELS : category.id === 'applications' ? APP_CATEGORY_LABELS : category.id === 'modeles-ia' ? MODEL_MODALITY_LABELS : null
   const facetTitle = category.id === 'competences' ? labels.skillCategories : category.id === 'applications' ? labels.applicationCategories : labels.modelCategories
-  const facets = [...new Set(allItems.map((item) => item.facetKey).filter((facet): facet is string => Boolean(facet)))].map((facet) => ({
+  const facets = [...new Set(allItems.flatMap((item) => item.facetKeys ?? (item.facetKey ? [item.facetKey] : [])))].map((facet) => ({
     id: facet,
     label: labelsByFacet?.[facet]?.[lang] ?? facet,
-    count: allItems.filter((item) => item.facetKey === facet).length,
-  })).sort((a, b) => a.label.localeCompare(b.label, lang))
+    count: allItems.filter((item) => item.facetKey === facet || item.facetKeys?.includes(facet)).length,
+  })).sort((a, b) => category.id === 'modeles-ia'
+    ? MODEL_MODALITY_ORDER.indexOf(a.id as typeof MODEL_MODALITY_ORDER[number]) - MODEL_MODALITY_ORDER.indexOf(b.id as typeof MODEL_MODALITY_ORDER[number])
+    : a.label.localeCompare(b.label, lang))
 
   return (
     <div>

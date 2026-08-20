@@ -7,8 +7,10 @@ describe('CollaborateurExperience', () => {
   it('opens with a durable business identity and direct onboarding', () => {
     expect(source).toContain('Un Collaborateur IA rejoint votre équipe.')
     expect(source).toContain('Ses capacités évoluent avec votre entreprise.')
-    expect(source).toContain('Profils métier et compétences')
-    expect(source).toContain('Accès aux modèles d’IA')
+    expect(source).toContain('Profils métier · Compétences')
+    expect(source).toContain('Accès aux meilleurs modèles d’IA')
+    expect(source).toContain('Comprendre le Collaborateur IA')
+    expect(source).toContain("reassurance: ['Première mission gratuite', 'Sans carte bancaire']")
     expect(source).toContain('/decouvrir?source=collaborateurs-ia-hero')
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
     expect(source).toContain('text-[clamp(1.9rem,4.2vw,3.5rem)]')
@@ -34,7 +36,7 @@ describe('CollaborateurExperience', () => {
 
   it('links every product resource to its marketplace section', () => {
     for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia']) expect(source).toContain(href)
-    expect(source).toContain('Plus de 3 000 applications')
+    expect(source).toContain('Connexion à plus de 3 000 apps')
     expect(source).toContain('Un Store ouvert à la communauté')
   })
 

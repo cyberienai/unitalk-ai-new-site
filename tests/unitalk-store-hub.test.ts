@@ -72,7 +72,8 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('featuredHeroProofs.map((proof)')
     expect(hub).toContain('<MarketplaceSidebarCatalog')
     expect(hub).toContain("category.id === 'competences' ? SKILL_CATEGORY_LABELS : category.id === 'applications' ? APP_CATEGORY_LABELS")
-    expect(hub).toContain("skillCategories: 'Domaines', applicationCategories: 'Usages', modelCategories: 'Fournisseurs'")
+    expect(hub).toContain("skillCategories: 'Domaines', applicationCategories: 'Usages', modelCategories: 'Modalités'")
+    expect(hub).toContain("MODEL_MODALITY_ORDER = ['texte', 'raisonnement', 'multimodal', 'image', 'audio', 'video', 'open-source']")
   })
 
   it('orders job profiles by broad SMB demand', () => {

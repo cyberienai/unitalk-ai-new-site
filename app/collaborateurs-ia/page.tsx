@@ -2,18 +2,27 @@ import type { Metadata } from 'next'
 import { CollaborateursContent } from '@/components/collaborateurs-ia/collaborateurs-content'
 
 export const metadata: Metadata = {
-  title: 'Collaborateurs IA : Hermes au cœur, Unitalk pour travailler ensemble',
+  title: 'Collaborateurs IA pour l’entreprise',
   description:
-    'Un Collaborateur IA peut être rattaché à une personne, une équipe, un département ou toute l’entreprise, avec une identité et des droits gouvernés.',
+    'Déployez un Collaborateur IA avec une identité, une mémoire, des profils métier, plus de 3 000 applications, les meilleurs modèles d’IA et un serveur privé.',
   alternates: { canonical: 'https://unitalk.ai/collaborateurs-ia' },
   openGraph: {
-    title: 'Plus qu’un agent. Une place dans votre équipe. | Unitalk',
+    title: 'Un Collaborateur IA rejoint votre équipe | Unitalk',
     description:
-      'Au cœur, un agent Hermes. Autour, Unitalk construit l’identité, la mémoire, les communications et le Workspace qui permettent de travailler avec votre équipe.',
+      'Une identité et une mémoire sous votre contrôle, des profils métier, plus de 3 000 applications et un serveur privé pour travailler avec vos équipes.',
     url: 'https://unitalk.ai/collaborateurs-ia',
   },
 }
 
 export default function CollaborateursIaPage() {
-  return <CollaborateursContent />
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Collaborateurs IA pour l’entreprise',
+    description: 'Des Collaborateurs IA avec une identité, une mémoire, des responsabilités et des ressources contrôlées par l’entreprise.',
+    url: 'https://unitalk.ai/collaborateurs-ia',
+    isPartOf: { '@type': 'WebSite', name: 'Unitalk', url: 'https://unitalk.ai' },
+    about: { '@type': 'SoftwareApplication', name: 'Unitalk AI', applicationCategory: 'BusinessApplication' },
+  }
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} /><CollaborateursContent /></>
 }
