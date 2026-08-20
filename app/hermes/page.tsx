@@ -4,10 +4,10 @@ import { HermesContent } from '@/components/hermes-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Infrastructure Hermes opérée pour l’entreprise',
-  description: 'Une instance Hermes et un serveur par Collaborateur IA, avec hébergement, mises à jour, sauvegardes, sécurité, supervision et services Unitalk.',
+  title: 'Hermes opéré pour vos Collaborateurs IA | Unitalk',
+  description: 'Unitalk déploie, sécurise et maintient l’environnement Hermes de vos Collaborateurs IA, selon l’hébergement et le niveau de service choisis.',
   alternates: { canonical: '/hermes' },
-  openGraph: { type: 'website', url: 'https://unitalk.ai/hermes', title: 'Hermes pour l’entreprise | Unitalk', description: 'Déployez Hermes avec une infrastructure opérée et les services nécessaires au travail en entreprise.' },
+  openGraph: { type: 'website', url: 'https://unitalk.ai/hermes', title: 'Hermes fonctionne. Votre équipe travaille. | Unitalk', description: 'Déployez Hermes avec une exploitation suivie et gardez le contrôle des données, accès, modèles et actions.' },
 }
 
 export default function HermesPage() {

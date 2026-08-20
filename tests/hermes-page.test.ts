@@ -14,13 +14,18 @@ describe('Hermes infrastructure page', () => {
   })
 
   it('explains the operated infrastructure', () => {
-    for (const claim of ['Une instance Hermes et un serveur dédiés', 'Mises à jour maîtrisées', 'Sauvegardes et restauration', 'Disponibilité et SLA', 'Sécurité et surveillance']) expect(content).toContain(claim)
+    for (const claim of ['Hermes fonctionne.', 'Unitalk gère', 'Votre entreprise contrôle', 'Sauvegarde et reprise', 'Sécurité et isolation']) expect(content).toContain(claim)
   })
 
   it('covers hosting choice and complementary services', () => {
-    expect(content).toContain('Unitalk AI Cloud ou le fournisseur de votre choix.')
-    expect(content).toContain('Plus de 3 000 applications')
-    expect(content).toContain('Plusieurs agents peuvent contribuer à une même mission.')
-    expect(content).toContain('Importez ou exportez les profils métier et les compétences compatibles.')
+    expect(content).toContain('Unitalk AI Cloud ou un fournisseur compatible.')
+    expect(content).toContain('Le serveur héberge. Hermes exécute. Unitalk organise.')
+    expect(content).toContain('Profils métier et compétences compatibles')
+    expect(content).toContain('Tout n’est pas interchangeable.')
+  })
+
+  it('shows an operational console without making universal SLA claims', () => {
+    for (const claim of ['Dernière sauvegarde', 'Version Hermes', 'Région', 'État du service', 'Supervision']) expect(content).toContain(claim)
+    expect(content).toContain('selon l’offre et l’hébergement choisis')
   })
 })

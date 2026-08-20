@@ -70,6 +70,6 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Partez d’une mission. Alma prépare le Collaborateur adapté.')
     expect(source).toContain('Le Collaborateur accomplit la mission. Votre équipe garde la décision.')
     expect(source).toContain('/decouvrir?source=collaborateurs-ia')
-    expect(source).toContain('Explorer la Marketplace')
+    expect(source).not.toContain("marketCta: 'Explorer la Marketplace'")
   })
 })
