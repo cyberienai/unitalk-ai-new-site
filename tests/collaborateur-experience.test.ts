@@ -5,15 +5,16 @@ const source = readFileSync(new URL('../components/collaborateurs-ia/collaborate
 
 describe('CollaborateurExperience', () => {
   it('opens with a durable business identity and direct onboarding', () => {
-    expect(source).toContain('Ajoutez un Collaborateur IA à votre équipe.')
-    expect(source).toContain('Confiez-lui une première mission.')
-    expect(source).toContain('Profils métier · Compétences')
+    expect(source).toContain('Une nouvelle capacité pour votre équipe')
+    expect(source).toContain('Un Collaborateur IA rejoint votre entreprise.')
+    expect(source).toContain('Il progresse à chaque mission.')
+    expect(source).toContain('Profils · Compétences')
     expect(source).toContain('Meilleurs modèles d’IA')
-    expect(source).toContain('Comprendre le Collaborateur IA')
+    expect(source).toContain('Voir les Collaborateurs IA')
     expect(source).toContain("reassurance: ['Première mission gratuite', 'Sans carte bancaire']")
     expect(source).toContain('/decouvrir?source=collaborateurs-ia-hero')
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
-    expect(source).toContain('text-[clamp(1.9rem,4.2vw,3.5rem)]')
+    expect(source).toContain('text-[clamp(2.35rem,5vw,4.35rem)]')
     expect(source).toContain('lg:grid-cols-[1.02fr_.98fr]')
   })
 
@@ -36,7 +37,7 @@ describe('CollaborateurExperience', () => {
 
   it('links every product resource to its marketplace section', () => {
     for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia']) expect(source).toContain(href)
-    expect(source).toContain('Connexion à plus de 3 000 apps')
+    expect(source).toContain('Plus de 3 000 apps')
     expect(source).toContain('Un Store ouvert à la communauté')
   })
 
