@@ -5,6 +5,8 @@ import { ArrowDown, ArrowRight, Braces, Building2, MessagesSquare, ShieldCheck, 
 import { ApplicationLogos, IdentityCard, ModelLogos } from '@/components/collaborateur-content'
 import { useLanguage } from '@/lib/language-context'
 import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { CollaboratorArchitecture } from './collaborator-architecture'
+import { CollaboratorEvolution } from './collaborator-evolution'
 
 const LEA = ROLE_DETAILS.lea
 const LEA_APPLICATIONS = ['Notion', 'Canva', 'WordPress', 'LinkedIn', 'Analytics', 'Gmail'] as const
@@ -43,6 +45,8 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
+      <CollaboratorArchitecture lang={lang} />
+
       <section className="border-b border-[#191715] py-20 sm:py-24">
         <div className="editorial-shell grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-center">
           <div>
@@ -53,6 +57,8 @@ export function CollaborateurExperience() {
           <div className="min-w-0"><IdentityCard detail={LEA} lang={lang} labels={t.identityCard} compact /></div>
         </div>
       </section>
+
+      <CollaboratorEvolution lang={lang} />
 
       <section className="border-b border-[#191715] bg-[#FAF8F3] py-20 sm:py-24">
         <div className="editorial-shell">

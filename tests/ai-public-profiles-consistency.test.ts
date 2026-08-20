@@ -50,6 +50,10 @@ describe('AI public profile consistency', () => {
     expect(profile).toContain('missions.slice(0,4)')
   })
 
+  it('keeps four secondary missions visible on Camille’s profile', () => {
+    expect(getCollaboratorPage('camille')?.missions).toHaveLength(5)
+  })
+
   it('redirects every legacy profile to its canonical handle', () => {
     expect(legacyRoute).toContain('COLLABORATOR_PAGE_SLUGS.map')
     expect(legacyRoute).toContain('permanentRedirect(`/@${encodeURIComponent(slug)}`)')

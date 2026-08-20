@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const source = readFileSync(new URL('../components/collaborateurs-ia/collaborateur-experience.tsx', import.meta.url), 'utf8')
+const architecture = readFileSync(new URL('../components/collaborateurs-ia/collaborator-architecture.tsx', import.meta.url), 'utf8')
+const evolution = readFileSync(new URL('../components/collaborateurs-ia/collaborator-evolution.tsx', import.meta.url), 'utf8')
 
 describe('CollaborateurExperience', () => {
   it('opens with one clear promise and a mission-first CTA', () => {
@@ -14,6 +16,18 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Trois couches, un Collaborateur')
     for (const title of ['Hermes', 'Unitalk', 'Workspace']) expect(source).toContain(`title="${title}"`)
     expect(source).toContain('Hermes donne l’autonomie. Unitalk la rend collaborative.')
+  })
+
+  it('places the detailed architecture on the understanding page', () => {
+    expect(source).toContain('<CollaboratorArchitecture lang={lang} />')
+    expect(architecture).toContain('Un Collaborateur IA n’est pas simplement un agent.')
+    expect(architecture).toContain('Hermes conduit le travail.')
+    expect(architecture).toContain('Unitalk garde la continuité.')
+  })
+
+  it('places the lasting identity example on the understanding page', () => {
+    expect(source).toContain('<CollaboratorEvolution lang={lang} />')
+    expect(evolution).toContain('Un Collaborateur. Plusieurs métiers. Des compétences illimitées.')
   })
 
   it('uses a compact identity example based on Lea', () => {

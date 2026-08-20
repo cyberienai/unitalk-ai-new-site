@@ -6,6 +6,8 @@ import { MISSIONS } from '@/lib/missions-catalog'
 const page = readFileSync(new URL('../app/marketplace/collaborateurs-ia/page.tsx', import.meta.url), 'utf8')
 const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.meta.url), 'utf8')
 const missions = readFileSync(new URL('../components/missions-content.tsx', import.meta.url), 'utf8')
+const architecture = readFileSync(new URL('../components/collaborateurs-ia/collaborator-architecture.tsx', import.meta.url), 'utf8')
+const evolution = readFileSync(new URL('../components/collaborateurs-ia/collaborator-evolution.tsx', import.meta.url), 'utf8')
 
 describe('Collaborateurs IA marketplace', () => {
   it('publishes the twelve reference identities', () => {
@@ -62,13 +64,12 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain("const navigationCategories = collaboratorsOnly ? STORE_CATEGORIES : visibleCategories")
     expect(hub).toContain("href={`/marketplace/${category.id}`}")
     expect(hub).toContain("const categoryId = collaboratorsOnly ? 'collaborateurs-ia'")
-    expect(hub).toContain('Un Collaborateur. Plusieurs métiers. Des compétences illimitées.')
-    expect(hub).toContain("lang === 'fr' ? 'Ajouter une compétence' : 'Add a skill'")
-    expect(hub).toContain('href="/marketplace/competences"')
+    expect(hub).not.toContain('Un Collaborateur. Plusieurs métiers. Des compétences illimitées.')
+    expect(evolution).toContain('Un Collaborateur. Plusieurs métiers. Des compétences illimitées.')
+    expect(evolution).toContain("lang === 'fr' ? 'Ajouter une compétence' : 'Add a skill'")
     expect(hub).toContain("detail.gender === 'female' ? 'Collaboratrice IA' : 'Collaborateur IA'")
-    expect(hub).toContain('Un Collaborateur IA n’est pas simplement un agent.')
-    expect(hub).toContain('Hermes conduit le travail.')
-    expect(hub).toContain('Unitalk garde la continuité.')
+    expect(hub).not.toContain('Un Collaborateur IA n’est pas simplement un agent.')
+    expect(architecture).toContain('Un Collaborateur IA n’est pas simplement un agent.')
     expect(hub).toContain('Vous n’avez pas à choisir le modèle.')
     expect(hub).toContain('Voir les options d’infrastructure')
     expect(hub).toContain('Trouvez le bon renfort pour votre équipe.')

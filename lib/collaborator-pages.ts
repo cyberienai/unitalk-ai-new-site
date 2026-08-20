@@ -151,5 +151,5 @@ export function getCollaboratorPage(slug: string): CollaboratorPage | null {
     claim: detail.promise,
     body: detail.description,
   }
-  return { detail, copy, missions: missionsForCollaborator(slug, ['nadia', 'emma', 'gabriel'].includes(slug) ? 5 : 4) }
+  return { detail, copy, missions: missionsForCollaborator(slug, ['nadia', 'emma', 'camille', 'gabriel'].includes(slug) ? 5 : 4) }
 }
