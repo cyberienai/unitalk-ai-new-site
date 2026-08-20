@@ -14,6 +14,7 @@ const STATIC_ROUTES = [
   '',
   '/missions',
   '/collaborateurs-ia',
+  '/hermes',
   '/collaborateurs-ia/profils-metier',
   '/collaborateurs-ia/profils-metier/publier',
   '/collaborateurs-ia/competences',

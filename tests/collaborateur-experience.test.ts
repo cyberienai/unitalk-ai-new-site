@@ -2,66 +2,54 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const source = readFileSync(new URL('../components/collaborateurs-ia/collaborateur-experience.tsx', import.meta.url), 'utf8')
-const architecture = readFileSync(new URL('../components/collaborateurs-ia/collaborator-architecture.tsx', import.meta.url), 'utf8')
-const evolution = readFileSync(new URL('../components/collaborateurs-ia/collaborator-evolution.tsx', import.meta.url), 'utf8')
 
 describe('CollaborateurExperience', () => {
-  it('opens with one clear promise and a mission-first CTA', () => {
-    expect(source).toContain('Un agent sait agir.')
-    expect(source).toContain('Un Collaborateur sait travailler avec vous.')
-    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia-hero')
+  it('opens with a durable business identity and direct onboarding', () => {
+    expect(source).toContain('Un Collaborateur IA rejoint votre équipe.')
+    expect(source).toContain('Ses capacités évoluent avec votre entreprise.')
+    expect(source).toContain('Profils métier et compétences')
+    expect(source).toContain('Accès aux modèles d’IA')
+    expect(source).toContain('/decouvrir?source=collaborateurs-ia-hero')
+    expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
+    expect(source).toContain('text-[clamp(1.9rem,4.2vw,3.5rem)]')
+    expect(source).toContain('lg:grid-cols-[1.02fr_.98fr]')
   })
 
-  it('reduces the product anatomy to three layers', () => {
-    expect(source).toContain('Trois couches, un Collaborateur')
-    for (const title of ['Hermes', 'Unitalk', 'Workspace']) expect(source).toContain(`title="${title}"`)
-    expect(source).toContain('Hermes donne l’autonomie. Unitalk la rend collaborative.')
+  it('introduces Hermes in plain language and explains Unitalk', () => {
+    expect(source).toContain('Hermes, l’agent autonome open source.')
+    expect(source).toContain('Propulsé par Hermes. Opéré par Unitalk.')
+    expect(source).toContain('href="/hermes"')
+    expect(source).not.toContain('Mises à jour maîtrisées')
   })
 
-  it('places the detailed architecture on the understanding page', () => {
-    expect(source).toContain('<CollaboratorArchitecture lang={lang} />')
-    expect(architecture).toContain('Un Collaborateur IA n’est pas simplement un agent.')
-    expect(architecture).toContain('Hermes conduit le travail.')
-    expect(architecture).toContain('Unitalk garde la continuité.')
-  })
-
-  it('places the lasting identity example on the understanding page', () => {
-    expect(source).toContain('<CollaboratorEvolution lang={lang} />')
-    expect(evolution).toContain('Un Collaborateur. Plusieurs métiers. Des compétences illimitées.')
-  })
-
-  it('uses a compact identity example based on Lea', () => {
-    expect(source).toContain('ROLE_DETAILS.lea')
-    expect(source).toContain('<IdentityCard')
-    expect(source).toContain('compact />')
-    expect(source).toContain('Exemple · Léa')
-  })
-
-  it('shows a limited preview of Lea applications and models', () => {
-    expect(source).toContain('<ApplicationLogos apps={LEA_APPLICATIONS} limit={4} />')
-    expect(source).toContain('<ModelLogos limit={4} />')
-    expect(source).toContain('/marketplace#applications')
-    expect(source).toContain('/marketplace#modeles-ia')
-  })
-
-  it('explains the four organizational placements separately from permissions', () => {
-    expect(source).toContain('Une place claire dans votre entreprise')
+  it('explains organizational placement separately from permissions', () => {
     for (const label of ['Une personne', 'Une équipe', 'Un département', 'Toute l’entreprise']) expect(source).toContain(label)
-    expect(source).toContain('Rattaché pour travailler. Détenu et gouverné par votre entreprise.')
-    expect(source).toContain('Les droits déterminent séparément les données, applications et actions accessibles.')
+    expect(source).toContain('Le rattachement définit avec qui il travaille. Les autorisations définissent ce qu’il peut voir et faire.')
   })
 
-  it('clearly introduces Hugo as another concrete example', () => {
-    expect(source).toContain('Autre exemple · Hugo')
-    expect(source).toContain('Qualifier les prospects entrants')
-    expect(source).toContain('Autoriser le premier contact pour ces 9 prospects ?')
-    expect(source).toContain('Démonstration fictive · Hugo')
+  it('covers memory, communication and data sovereignty', () => {
+    for (const claim of ['Sa mémoire propre', 'Les savoirs partagés', 'Ses moyens de communication', 'Son serveur IA']) expect(source).toContain(claim)
+    expect(source).toContain('Chaque instance Hermes dispose de son propre serveur dans Unitalk AI Cloud.')
   })
 
-  it('keeps the primary conversion mission-first', () => {
-    expect(source).toContain('/missions?composer=1&source=collaborateurs-ia')
-    expect(source).toContain('Confier une première mission')
+  it('links every product resource to its marketplace section', () => {
+    for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia']) expect(source).toContain(href)
+    expect(source).toContain('Plus de 3 000 applications')
+    expect(source).toContain('Un Store ouvert à la communauté')
+  })
+
+  it('presents continuity as a lasting operational asset', () => {
+    expect(source).toContain('Un capital opérationnel durable')
+    expect(source).toContain('Votre Collaborateur reste. Son expérience aussi.')
+    expect(source).toContain('Réattribuez sa supervision')
+    expect(source).not.toContain('Plusieurs Collaborateurs. Un résultat commun.')
+    expect(source).not.toContain('Profils importables')
+  })
+
+  it('gives Alma a clear coordinating role', () => {
+    expect(source).toContain('Partez d’une mission. Alma prépare le Collaborateur adapté.')
+    expect(source).toContain('Alma prépare et coordonne. Le Collaborateur accomplit la mission. Votre équipe garde la décision.')
+    expect(source).toContain('/decouvrir?source=collaborateurs-ia')
     expect(source).toContain('Explorer la Marketplace')
-    expect(source).not.toContain('AlmaMissionComposer')
   })
 })

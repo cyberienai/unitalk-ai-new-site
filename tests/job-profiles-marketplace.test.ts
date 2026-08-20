@@ -19,4 +19,18 @@ describe('Profils métier marketplace SEO', () => {
     expect(page).toContain('STORE_ITEMS.filter')
     expect(hub).toContain('initialCategoryId?: string')
   })
+
+  it('uses a department-led catalog with decision-ready profile cards', () => {
+    expect(hub).toContain('const PROFILE_DEPARTMENTS = [')
+    for (const department of ['Direction', 'Administration', 'Ventes', 'Marketing', 'Relation client', 'Finance', 'Ressources humaines', 'Opérations', 'Produit & Tech', 'Transformation']) expect(hub).toContain(department)
+    expect(hub).toContain("heroTitle: { fr: 'Le bon profil pour le travail à accomplir.'")
+    expect(hub).toContain("profileHeroProofs: ['Profils prêts à personnaliser', 'Plusieurs profils par Collaborateur', 'Validation humaine configurable']")
+    expect(hub).toContain("const usesFeaturedHero = isCollaboratorsLanding || ['profils-metier', 'competences', 'applications', 'modeles-ia'].includes(activeCategory.id)")
+    expect(hub).toContain('<ProfilesMarketplaceCatalog')
+    expect(hub).toContain('sticky top-[164px]')
+    expect(hub).toContain('id="profile-department"')
+    expect(hub).toContain('<ProfileMarketplaceCard')
+    expect(hub).toContain("starterMission: storeType === 'profil' ? item.exampleMissions?.[0]?.[lang]")
+    expect(hub).toContain("href=\"/co-createur-ia\"")
+  })
 })

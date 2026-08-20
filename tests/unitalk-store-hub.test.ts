@@ -18,7 +18,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('ROLE_DETAILS[slug]')
     expect(hub).toContain('collaboratorHref(detail.slug)')
     expect(hub).toContain('detail.avatar')
-    expect(hub).toContain("explain: { fr: 'Comprendre le Collaborateur IA'")
+    expect(hub).toContain("explain: { fr: 'Comment fonctionne un Collaborateur IA ?'")
   })
 
   it('states the catalog and knowledge-work positioning', () => {
@@ -58,10 +58,21 @@ describe('Marketplace IA hub', () => {
   })
 
   it('makes skills concrete and filterable', () => {
-    for (const text of ['Tous les domaines', 'Tous les profils compatibles', 'Contexte d’application', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
+    for (const text of ["skillCategories: 'Domaines'", 'Contexte d’application', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
     expect(hub).toContain('Réutilisable mission après mission.')
     expect(hub).toContain('Conditions confirmées avant ajout')
     expect(hub).toContain('méthodes précises, documentées et réutilisables')
+    expect(hub).toContain("skillHeroProofs: ['Méthodes documentées', 'Réutilisables par mission', 'Résultats à valider']")
+  })
+
+  it('uses the shared featured hero for profiles, skills, applications and models', () => {
+    expect(hub).toContain("['profils-metier', 'competences', 'applications', 'modeles-ia'].includes(activeCategory.id)")
+    expect(hub).toContain("applicationHeroProofs: ['Accès gouvernés', 'Actions configurables', 'Connexions selon vos droits']")
+    expect(hub).toContain("modelHeroProofs: ['Sélection automatique', 'Fournisseurs contrôlés', 'Modèles interchangeables']")
+    expect(hub).toContain('featuredHeroProofs.map((proof)')
+    expect(hub).toContain('<MarketplaceSidebarCatalog')
+    expect(hub).toContain("category.id === 'competences' ? SKILL_CATEGORY_LABELS : category.id === 'applications' ? APP_CATEGORY_LABELS")
+    expect(hub).toContain("skillCategories: 'Domaines', applicationCategories: 'Usages', modelCategories: 'Fournisseurs'")
   })
 
   it('orders job profiles by broad SMB demand', () => {
