@@ -7,7 +7,7 @@ describe('CollaborateurExperience', () => {
   it('opens with a durable business identity and direct onboarding', () => {
     expect(source).toContain('Un nouveau membre dans votre équipe')
     expect(source).toContain("heroTitlePrefix: 'Votre'")
-    expect(source).toContain("heroTitleSubject: 'Collaborateur IA travaille.'")
+    expect(source).toContain("heroTitleRole: 'Collaborateur IA'")
     expect(source).toContain('Il apprend. Il reste.')
     expect(source).toContain("value: 'Profils\\nCompétences\\nPlus de 3 000 apps'")
     expect(source).toContain('Meilleurs modèles d’IA')
@@ -17,7 +17,7 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain("reassurance: ['Première mission gratuite', 'Sans carte bancaire']")
     expect(source).toContain('/decouvrir?source=collaborateurs-ia-hero')
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
-    expect(source).toContain('text-[clamp(2.2rem,5vw,4.35rem)]')
+    expect(source).toContain('text-[clamp(2.15rem,5vw,4.35rem)]')
     expect(source).toContain('lg:grid-cols-[1.02fr_.98fr]')
   })
 
@@ -30,11 +30,12 @@ describe('CollaborateurExperience', () => {
 
   it('explains organizational placement separately from permissions', () => {
     for (const label of ['Une personne', 'Une équipe', 'Un département', 'Toute l’entreprise']) expect(source).toContain(label)
-    expect(source).toContain('Le rattachement définit avec qui il travaille. Les autorisations définissent ce qu’il peut voir et faire.')
+    expect(source).toContain('Un espace privé ou partagé, au bon niveau.')
+    expect(source).toContain('Son identité, sa mémoire et ses ressources lui restent propres.')
   })
 
   it('covers memory, communication and data sovereignty', () => {
-    for (const claim of ['Sa mémoire propre', 'Les savoirs partagés', 'Ses moyens de communication', 'Son serveur IA']) expect(source).toContain(claim)
+    for (const claim of ['Sa propre mémoire', 'Les savoirs partagés', 'Ses moyens de communication', 'Son serveur IA']) expect(source).toContain(claim)
     expect(source).toContain('Chaque instance Hermes dispose de son propre serveur dans Unitalk AI Cloud.')
   })
 
