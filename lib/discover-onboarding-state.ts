@@ -135,7 +135,8 @@ export function buildInitialOnboardingState({
   const selectedCollaborator = requestedCollaborator
   const sessionDomain = initialSession && isProfessionalEmail(initialSession.email) ? emailDomain(initialSession.email) : ''
   const isProfileCreation = requestedIntention === 'nouveau-profil-metier'
-  const explicitMission = Boolean(catalogMission || requestedStoreItem || requestedModel || isProfileCreation || hasExplicitDraft)
+  const isSkillCreation = requestedIntention === 'nouvelle-competence'
+  const explicitMission = Boolean(catalogMission || requestedStoreItem || requestedModel || isProfileCreation || isSkillCreation || hasExplicitDraft)
   const mission = catalogMission
     ? missionFromCatalog(catalogMission, lang)
     : requestedStoreItem
@@ -151,6 +152,15 @@ export function buildInitialOnboardingState({
           rule: '',
           validation: lang === 'fr' ? 'Validation humaine avant attribution au Collaborateur IA.' : 'Human approval before assignment to the AI Collaborator.',
         }
+    : isSkillCreation
+      ? {
+          title: lang === 'fr' ? 'Créer une compétence sur mesure' : 'Create a custom skill',
+          target: lang === 'fr' ? 'Contexte et résultat attendu à définir avec Alma' : 'Context and expected outcome to define with Alma',
+          criteria: '', sources: '', exclusions: '',
+          result: lang === 'fr' ? 'Une compétence claire, testable et réutilisable.' : 'A clear, testable and reusable skill.',
+          rule: '',
+          validation: lang === 'fr' ? 'Validation humaine avant ajout au Collaborateur IA.' : 'Human approval before adding it to the AI Collaborator.',
+        }
     : hasExplicitDraft
       ? emptyMission()
       : persisted?.mission ?? init.mission
@@ -162,9 +172,11 @@ export function buildInitialOnboardingState({
     lastName: initialSession?.lastName?.trim() ?? '',
     company: withDomain(persisted?.company ?? init.company, requestedDomain || sessionDomain, Boolean(requestedDomain)),
     mission,
-    missionDefined: catalogMission || requestedStoreItem || requestedModel || isProfileCreation ? true : explicitMission ? false : Boolean(persisted?.mission.title),
+    missionDefined: catalogMission || requestedStoreItem || requestedModel || isProfileCreation || isSkillCreation ? true : explicitMission ? false : Boolean(persisted?.mission.title),
     profile: isProfileCreation
       ? { fr: 'Profil métier à définir', en: 'Job profile to define' }
+      : isSkillCreation
+        ? { fr: 'Profil métier à choisir', en: 'Job profile to choose' }
       : requestedStoreItem?.type === 'profil' ? requestedStoreItem.name : selectedCollaborator?.role ?? persisted?.profile ?? init.profile,
     collaboratorName: selectedCollaborator?.name ?? persisted?.collaboratorName ?? init.collaboratorName,
     collaboratorTemplateSlug: selectedCollaborator?.slug ?? persisted?.collaboratorTemplateSlug,

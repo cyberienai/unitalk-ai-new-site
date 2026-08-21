@@ -73,6 +73,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   const requestedDomain = normalizeDomain(searchParams.get('domain'))
   const requestedIntention = searchParams.get('intention')
   const createProfileIntent = requestedIntention === 'nouveau-profil-metier'
+  const createSkillIntent = requestedIntention === 'nouvelle-competence'
   const catalogMission = useMemo(() => MISSIONS.find(m => m.slug === missionSlug), [missionSlug])
   const selectedCollaboratorDetail = requestedCollaboratorDetail ?? (catalogMission ? ROLE_DETAILS[catalogMission.collaboratorSlug] : undefined)
   const [draftText, setDraftText] = useState('')
@@ -89,7 +90,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
       requestedModel,
       catalogMission,
       requestedIntention,
-      hasExplicitDraft: Boolean(draftId || legacyQuery || requestedStoreItem || requestedModel || createProfileIntent),
+      hasExplicitDraft: Boolean(draftId || legacyQuery || requestedStoreItem || requestedModel || createProfileIntent || createSkillIntent),
     })
   })
   const [step, setStep] = useState<OnboardingStep>('entreprise')
@@ -104,6 +105,8 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
     ? { kind: 'model', model: requestedModel, source }
     : createProfileIntent
     ? { kind: 'profile-creation', query: legacyQuery || undefined, source }
+    : createSkillIntent
+    ? { kind: 'skill-creation', query: legacyQuery || undefined, source }
     : source === 'paul-graham'
     ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: '', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
     : missionSlug && !catalogMission ? { kind: 'invalid', requestedSlug: missionSlug, source }
@@ -168,7 +171,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
 
   // — Not authenticated —
   if (!state.authenticated) return (
-    <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
+    <main className={`flex flex-col bg-[#F3EFE6] text-[#1C1A17] ${context.kind === 'profile-creation' || context.kind === 'skill-creation' || context.kind === 'store-item' || context.kind === 'model' ? 'fixed inset-0 overflow-hidden' : 'min-h-screen'}`}>
       <ScreenAccount lang={lang} context={context} collaborator={selectedCollaboratorDetail} languageToggle={<LanguageToggle />}
         onAuthenticated={({ provider, email, firstName, lastName }) => {
           const domain = email && isProfessionalEmail(email) ? emailDomain(email) : undefined
@@ -178,6 +181,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
            if (requestedStoreItem) router.replace(`/decouvrir?store=${encodeURIComponent(requestedStoreItem.slug)}${sourceQuery}`)
            else if (requestedModel) router.replace(`/decouvrir?model=${encodeURIComponent(requestedModel.key)}${sourceQuery}`)
            else if (createProfileIntent) router.replace(`/decouvrir?intention=nouveau-profil-metier${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
+           else if (createSkillIntent) router.replace(`/decouvrir?intention=nouvelle-competence${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
            else if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}${collaboratorQuery}${sourceQuery}`)
           else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}${collaboratorQuery}${sourceQuery}`)
         }}

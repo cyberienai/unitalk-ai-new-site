@@ -23,6 +23,7 @@ export type DiscoverContext =
   | { kind: 'invalid'; requestedSlug: string; source: DiscoverSource }
   | { kind: 'new-mission'; source: DiscoverSource }
   | { kind: 'profile-creation'; query?: string; source: DiscoverSource }
+  | { kind: 'skill-creation'; query?: string; source: DiscoverSource }
   | { kind: 'store-item'; item: StoreItem; source: DiscoverSource }
   | { kind: 'model'; model: AiModel; source: DiscoverSource }
 
@@ -44,6 +45,7 @@ export function ScreenAccount({
   const mission = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : context.kind === 'new-mission' ? { title: t.newMissionTitle, description: t.newMissionDescription, category: 'Assistance' } : null
   const isDraft = context.kind === 'draft'
   const isProfileCreation = context.kind === 'profile-creation'
+  const isSkillCreation = context.kind === 'skill-creation'
   const storeItem = context.kind === 'store-item' ? context.item : undefined
   const model = context.kind === 'model' ? context.model : undefined
   const selectedKind = storeItem?.type === 'profil' ? 'profile' : storeItem?.type === 'competence' ? 'skill' : storeItem?.type === 'application' || storeItem?.type === 'integration' ? 'application' : model ? 'model' : collaborator ? 'collaborator' : undefined
@@ -58,7 +60,7 @@ export function ScreenAccount({
         : model
           ? model.modalities.map(modality => t.modelModalities[modality] ?? modality)
           : collaborator?.missions.map(item => item[lang])
-  const hasSelection = Boolean(selectedKind) || isProfileCreation
+  const hasSelection = Boolean(selectedKind) || isProfileCreation || isSkillCreation
 
   async function go(provider: AuthProvider) {
     if (pending || (provider === 'email' && !emailValid)) return
@@ -76,15 +78,15 @@ export function ScreenAccount({
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#FAF8F3_1px,transparent_1px),linear-gradient(90deg,#FAF8F3_1px,transparent_1px)] [background-size:64px_64px]" />
         <a href="/" className="relative flex w-fit items-center gap-2.5 text-white transition-opacity hover:opacity-80" aria-label="Accueil Unitalk"><UnitalkLogo size={22} color="#F15B9B" inactiveColor="#F15B9B" /><span className="text-sm font-semibold tracking-[-.02em]">Unitalk</span></a>
         <div className={`relative mx-auto w-full max-w-md ${hasSelection ? 'mt-3 lg:my-auto' : 'my-auto'}`}>
-          {isProfileCreation ? (
+          {isProfileCreation || isSkillCreation ? (
             <>
-              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#E05A93] sm:text-[11px]">{t.profileCreationLabel}</p>
-              <h2 className="mt-1.5 font-sf text-[27px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:mt-4 sm:text-[44px]">{context.query || t.profileCreationName}</h2>
-              <p className="mt-2 max-w-md text-[12px] leading-[1.1rem] text-[#C9C1B8] sm:mt-4 sm:text-[15px] sm:leading-7">{t.profileCreationDescription}</p>
-              <div className="mt-4 hidden border-l border-[#D10E63]/75 pl-5 sm:block sm:mt-7"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#F2A4C5]">{t.profileCreationStepsLabel}</p><ul className="mt-3 space-y-2.5 text-sm text-[#E4DDD4]">{t.profileCreationSteps.map(item => <li key={item} className="flex gap-3"><span aria-hidden className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#E05A93]" />{item}</li>)}</ul></div>
+              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#E05A93] sm:text-[11px]">{isSkillCreation ? t.skillCreationLabel : t.profileCreationLabel}</p>
+              <h2 className="mt-1.5 font-sf text-[27px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:mt-4 sm:text-[44px]">{context.query || (isSkillCreation ? t.skillCreationName : t.profileCreationName)}</h2>
+              <p className="mt-2 max-w-md text-[12px] leading-[1.1rem] text-[#C9C1B8] sm:mt-4 sm:text-[15px] sm:leading-7">{isSkillCreation ? t.skillCreationDescription : t.profileCreationDescription}</p>
+              <div className="mt-4 hidden border-l border-[#D10E63]/75 pl-5 sm:block sm:mt-7"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#F2A4C5]">{t.profileCreationStepsLabel}</p><ul className="mt-3 space-y-2.5 text-sm text-[#E4DDD4]">{(isSkillCreation ? t.skillCreationSteps : t.profileCreationSteps).map(item => <li key={item} className="flex gap-3"><span aria-hidden className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#E05A93]" />{item}</li>)}</ul></div>
               <div className="mt-3 hidden border-t border-white/10 pt-3 sm:mt-8 sm:block sm:pt-6">
                 <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="size-9 rounded-full object-cover sm:size-12" /><div><p className="font-sf text-[16px] font-semibold text-white sm:text-[18px]">Alma</p><p className="hidden text-[12px] text-[#F2A4C5] sm:block">{t.almaRole}</p></div></div>
-                <p className="mt-2 text-[12px] leading-5 text-[#C9C1B8] sm:mt-4 sm:text-sm sm:leading-6">{t.profileCreationHelp}</p>
+                <p className="mt-2 text-[12px] leading-5 text-[#C9C1B8] sm:mt-4 sm:text-sm sm:leading-6">{isSkillCreation ? t.skillCreationHelp : t.profileCreationHelp}</p>
               </div>
             </>
           ) : selectedKind ? (
@@ -136,12 +138,12 @@ export function ScreenAccount({
       <section className={`relative flex min-h-0 min-w-0 items-center bg-[#F3EFE6] px-6 sm:px-10 lg:order-2 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)] ${hasSelection ? 'order-2 py-3' : 'order-1 py-16'}`}>
         <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[460px]">
-          <h1 className={`max-w-md font-sf font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] ${hasSelection ? 'text-[22px] sm:text-[34px] lg:text-[42px]' : 'text-[34px] sm:text-[42px]'}`}>{isProfileCreation ? t.profileCreationTitle : selectedKind && selectedName ? t.selectionTitles[selectedKind](selectedName) : isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
+          <h1 className={`max-w-md font-sf font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] ${hasSelection ? 'text-[22px] sm:text-[34px] lg:text-[42px]' : 'text-[34px] sm:text-[42px]'}`}>{isSkillCreation ? t.skillCreationTitle : isProfileCreation ? t.profileCreationTitle : selectedKind && selectedName ? t.selectionTitles[selectedKind](selectedName) : isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
           {!hasSelection && !mission && <p className="mt-3 max-w-sm text-[15px] leading-6 text-[#625B50]">{isDraft ? t.draftLead : t.genericLead}</p>}
-          {(mission || hasSelection) && <p className={`${hasSelection ? 'mt-1.5 text-xs' : 'mt-3 text-sm'} text-[#6E665A]`}>{isProfileCreation ? t.profileCreationReassurance : selectedKind ? t.selectionReassurance[selectedKind] : t.contextualReassurance}</p>}
+          {(mission || hasSelection) && <p className={`${hasSelection ? 'mt-1.5 text-xs' : 'mt-3 text-sm'} text-[#6E665A]`}>{isSkillCreation ? t.skillCreationReassurance : isProfileCreation ? t.profileCreationReassurance : selectedKind ? t.selectionReassurance[selectedKind] : t.contextualReassurance}</p>}
 
           <div className={`${hasSelection ? 'mt-3 gap-1.5 sm:mt-4 sm:gap-2' : 'mt-7 gap-3'} flex flex-col`}>
-            {hasSelection && <p className="hidden text-xs font-semibold text-[#4E483F] sm:mb-1 sm:block sm:text-sm">{isProfileCreation ? t.profileCreationContinue : t.createSpace}</p>}
+            {hasSelection && <p className="hidden text-xs font-semibold text-[#4E483F] sm:mb-1 sm:block sm:text-sm">{isSkillCreation ? t.skillCreationContinue : isProfileCreation ? t.profileCreationContinue : t.createSpace}</p>}
             <AuthButton onClick={() => go('google')} pending={pending === 'google'} disabled={!!pending}><GoogleIcon className="h-[18px] w-[18px]" />{t.google}</AuthButton>
             <AuthButton onClick={() => go('microsoft')} pending={pending === 'microsoft'} disabled={!!pending}><MicrosoftIcon className="h-[18px] w-[18px]" />{t.microsoft}</AuthButton>
             <div className="my-1 flex items-center gap-3"><span className="h-px flex-1 bg-[#D8D0C2]" /><span className="text-[11px] text-[#8A8175]">{t.orEmail}</span><span className="h-px flex-1 bg-[#D8D0C2]" /></div>
@@ -171,6 +173,7 @@ const COPY = {
     selectionHelp: { profile: 'Après votre connexion, je vous aide à préparer sa première mission selon vos méthodes de travail.', skill: 'Après votre connexion, je vous aide à l’ajouter au bon Collaborateur IA et à la tester sur une mission réelle.', application: 'Après votre connexion, je vous aide à définir les accès et les actions strictement nécessaires à chaque mission.', model: 'Après votre connexion, je vous aide à l’autoriser pour les missions adaptées, selon les règles de votre entreprise.', collaborator: 'Après votre connexion, je vous aide à préparer sa première mission et à l’adapter à votre entreprise.' },
     selectionReassurance: { profile: 'Profil gratuit · Sans carte bancaire', skill: 'Compétence gratuite · Sans carte bancaire', application: 'Connexion sécurisée · Accès sous votre contrôle', model: 'Sélection contrôlée · Fournisseurs sous votre contrôle', collaborator: 'Première mission offerte · Sans carte bancaire' },
     profileCreationLabel: 'Profil métier sur mesure', profileCreationName: 'Votre nouveau profil métier', profileCreationDescription: 'Partez des responsabilités réelles à couvrir dans votre entreprise, sans devoir formaliser seul une fiche métier complète.', profileCreationStepsLabel: 'Alma vous aide à', profileCreationSteps: ['Définir le rôle et ses responsabilités', 'Formaliser les méthodes de travail', 'Préciser les limites et validations humaines'], profileCreationHelp: 'Après votre connexion, je vous guide pour construire un profil clair, testable et réutilisable.', profileCreationTitle: 'Créez votre profil métier avec Alma.', profileCreationReassurance: 'Création guidée · Sans carte bancaire', profileCreationContinue: 'Créez votre espace pour commencer',
+    skillCreationLabel: 'Compétence sur mesure', skillCreationName: 'Votre nouvelle compétence', skillCreationDescription: 'Partez d’un résultat attendu pour transformer votre savoir-faire en méthode utilisable par vos Collaborateurs IA.', skillCreationSteps: ['Définir le contexte et le résultat attendu', 'Formaliser une méthode claire et testable', 'Préciser les données et validations nécessaires'], skillCreationHelp: 'Après votre connexion, je vous guide pour construire et tester une compétence réutilisable dans vos missions.', skillCreationTitle: 'Créez votre compétence avec Alma.', skillCreationReassurance: 'Création guidée · Sans carte bancaire', skillCreationContinue: 'Créez votre espace pour commencer',
     modelModalities: { texte: 'Texte', image: 'Image', embeddings: 'Recherche sémantique', audio: 'Audio', video: 'Vidéo', rerank: 'Classement des résultats', speech: 'Voix', transcription: 'Transcription' } as Record<string, string>, createSpace: 'Créez votre espace pour continuer',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',
@@ -198,6 +201,7 @@ const COPY = {
     selectionHelp: { profile: 'After you sign in, I will help you prepare its first mission around your ways of working.', skill: 'After you sign in, I will help you add it to the right AI Collaborator and test it on a real mission.', application: 'After you sign in, I will help you define the access and actions strictly required for each mission.', model: 'After you sign in, I will help you authorize it for suitable missions under your organization’s rules.', collaborator: 'After you sign in, I will help you prepare the first mission and adapt this Collaborator to your organization.' },
     selectionReassurance: { profile: 'Free profile · No credit card', skill: 'Free skill · No credit card', application: 'Secure connection · Access under your control', model: 'Controlled selection · Providers under your control', collaborator: 'First mission included · No credit card' },
     profileCreationLabel: 'Custom job profile', profileCreationName: 'Your new job profile', profileCreationDescription: 'Start from the actual responsibilities your organization needs covered, without having to formalize a complete role profile alone.', profileCreationStepsLabel: 'Alma helps you', profileCreationSteps: ['Define the role and its responsibilities', 'Formalize working methods', 'Set boundaries and human approvals'], profileCreationHelp: 'After you sign in, I will guide you in building a clear, testable and reusable profile.', profileCreationTitle: 'Create your job profile with Alma.', profileCreationReassurance: 'Guided creation · No credit card', profileCreationContinue: 'Create your space to get started',
+    skillCreationLabel: 'Custom skill', skillCreationName: 'Your new skill', skillCreationDescription: 'Start from an expected outcome and turn your know-how into a method your AI Collaborators can use.', skillCreationSteps: ['Define the context and expected outcome', 'Formalize a clear, testable method', 'Specify required data and approvals'], skillCreationHelp: 'After you sign in, I will guide you in building and testing a reusable skill for your missions.', skillCreationTitle: 'Create your skill with Alma.', skillCreationReassurance: 'Guided creation · No credit card', skillCreationContinue: 'Create your space to get started',
     modelModalities: { texte: 'Text', image: 'Image', embeddings: 'Semantic search', audio: 'Audio', video: 'Video', rerank: 'Result ranking', speech: 'Voice', transcription: 'Transcription' } as Record<string, string>, createSpace: 'Create your space to continue',
     almaRole: 'AI Collaborator · Mission coordinator',
     newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.',
