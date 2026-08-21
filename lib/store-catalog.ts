@@ -15,6 +15,7 @@
 
 import type { Bilingual } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
+import { CANONICAL_JOB_PROFILES } from '@/lib/canonical-job-profiles'
 import { DIGITAL_AGENCY_PROFILES } from '@/lib/digital-agency-profiles'
 import { MUSTAD_SKILLS } from '@/lib/mustad-skills'
 
@@ -538,20 +539,9 @@ const PROFILS: StoreItem[] = [
     keywords: ['operations', 'coordination', 'projet', 'suivi', 'ops'],
   },
   ...[
-    ['decouverte-profil-client-ideal', 'Découverte du profil client idéal', 'Identifie et documente les profils clients idéaux à partir des données, entretiens et signaux disponibles.', 'ventes', ['Définition des critères ICP', 'Analyse des segments', 'Recherche de signaux', 'Documentation des hypothèses'], ['Définir un ICP prioritaire', 'Comparer les segments les plus prometteurs']],
-    ['enrichissement-donnees', 'Enrichissement des données', 'Complète et vérifie les données des prospects et des comptes à partir des sources autorisées.', 'ventes', ['Enrichissement de données', 'Vérification des sources', 'Déduplication', 'Mise à jour CRM'], ['Enrichir une liste de prospects', 'Contrôler la qualité des données CRM']],
-    ['production-contenu', 'Production de contenu', 'Produit des contenus adaptés à la marque, à l’audience, au canal et à l’objectif de chaque campagne.', 'contenu-social', ['Recherche documentaire', 'Rédaction multicanale', 'Adaptation éditoriale', 'Contrôle qualité'], ['Produire une série de contenus', 'Décliner un message sur plusieurs canaux']],
-    ['redaction-messages-prospection', 'Rédaction de messages de prospection', 'Prépare des messages de prospection personnalisés selon le profil, le contexte et les règles de contact.', 'ventes', ['Personnalisation des messages', 'Séquences de prospection', 'Recherche de contexte', 'Préparation des relances'], ['Rédiger une séquence de prospection', 'Préparer des variantes de messages']],
-    ['tri-routage-reponses', 'Tri et routage des réponses', 'Classe les réponses reçues, détecte leur intention et les oriente vers la bonne personne ou la bonne action.', 'relation-client', ['Classification des réponses', 'Détection d’intention', 'Routage', 'Escalade humaine'], ['Trier les réponses d’une campagne', 'Router les demandes prioritaires']],
-    ['preparation-reunions-synthese-appels', 'Préparation de réunions et synthèse d’appels', 'Prépare les rendez-vous et transforme les échanges en synthèses, décisions et actions de suivi.', 'ventes', ['Préparation de rendez-vous', 'Synthèse d’appels', 'Extraction des décisions', 'Suivi des actions'], ['Préparer un rendez-vous commercial', 'Résumer un appel et ses prochaines étapes']],
-    ['copilote-equipes-terrain', 'Copilote des équipes terrain', 'Accompagne les équipes terrain avec le contexte, les priorités et les informations utiles avant et après chaque visite.', 'ventes', ['Préparation de visite', 'Accès au contexte client', 'Compte-rendu terrain', 'Priorisation des suivis'], ['Préparer une tournée terrain', 'Formaliser les suites d’une visite']],
     ['analyste-etudes-qualitatives', 'Analyste en études qualitatives', 'Analyse des entretiens, verbatims et retours qualitatifs pour en extraire les thèmes, signaux, divergences et recommandations.', 'data-mesure', ['Codification qualitative', 'Analyse thématique', 'Synthèse multi-source', 'Formulation de recommandations'], ['Synthétiser des entretiens clients', 'Analyser des retours utilisateurs']],
-    ['reporting-synthese-hebdomadaire', 'Reporting et synthèse hebdomadaire', 'Consolide les faits marquants, indicateurs, risques et prochaines actions dans un rapport hebdomadaire.', 'data-mesure', ['Consolidation des indicateurs', 'Synthèse hebdomadaire', 'Détection des écarts', 'Mise en évidence des priorités'], ['Préparer la synthèse hebdomadaire', 'Produire un reporting d’activité']],
     ['charge-relations-presse', 'Chargé de relations presse', 'Développe les relations avec les médias, prépare les angles et communiqués, puis suit les contacts et les retombées.', 'marketing', ['Veille média', 'Préparation de pitchs', 'Suivi des contacts presse', 'Analyse des retombées'], ['Préparer une campagne de relations presse', 'Suivre les retombées médiatiques']],
-    ['previsions-propositions-commerciales', 'Prévisions et propositions commerciales', 'Prépare les prévisions commerciales et assemble des propositions cohérentes avec le besoin et le contexte client.', 'ventes', ['Prévision commerciale', 'Analyse du pipeline', 'Préparation de propositions', 'Documentation des hypothèses'], ['Préparer une prévision de ventes', 'Construire une proposition commerciale']],
     ['responsable-influence', 'Responsable influence', 'Identifie les créateurs pertinents et pilote les partenariats, validations, livrables et résultats des campagnes d’influence.', 'marketing', ['Recherche d’influenceurs', 'Qualification des partenariats', 'Suivi des livrables', 'Analyse de campagne'], ['Préparer une campagne d’influence', 'Suivre les partenariats en cours']],
-    ['test-creations-publicitaires', 'Test de créations publicitaires', 'Conçoit et suit des tests de créations publicitaires afin d’identifier les messages et formats performants.', 'acquisition', ['Conception de variantes', 'Plan de test', 'Suivi des performances', 'Synthèse des apprentissages'], ['Préparer un test de créations publicitaires', 'Comparer les résultats des variantes']],
-    ['cycle-vie-fidelisation', 'Cycle de vie et fidélisation', 'Coordonne les communications du cycle de vie pour favoriser l’activation, l’engagement et la fidélisation.', 'crm-cycle-vie', ['Segmentation client', 'Scénarios de cycle de vie', 'Analyse de rétention', 'Optimisation des campagnes'], ['Construire un parcours de rétention', 'Analyser les signaux de désengagement']],
   ].map(([slug, name, description, facet, skills, missions], index) => ({
     type: 'profil' as const,
     slug: slug as string,
@@ -1236,7 +1226,7 @@ const SERVERS: StoreItem[] = [
   { type: 'server', slug: 'xxl', name: { fr: 'Infrastructure souveraine', en: 'Sovereign infrastructure' }, description: { fr: 'Un déploiement sur mesure pour les volumes élevés et les exigences de confidentialité et de souveraineté les plus fortes.', en: 'A tailored deployment for high volumes and the strictest privacy and sovereignty requirements.' }, creator: 'unitalk', facet: 'infrastructure', enables: [{ fr: 'Concevoir une infrastructure privée et souveraine sur mesure', en: 'Design tailored private sovereign infrastructure' }], contexts: [{ fr: 'Sur demande pour déploiement critique ou à grande échelle', en: 'On request for critical or large-scale deployments' }], permissions: [{ fr: 'Architecture, hébergement et conditions définis sur étude', en: 'Architecture, hosting and terms defined after assessment' }], order: 3, dateAdded: '2026-08-16', keywords: ['infrastructure souveraine','confidentialité','privé','sur mesure'], commercialStatus: 'draft' },
 ]
 
-export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...MUSTAD_SKILLS, ...INTEGRATIONS, ...APPLICATIONS, ...SERVERS]
+export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...CANONICAL_JOB_PROFILES, ...COMPETENCES, ...MUSTAD_SKILLS, ...INTEGRATIONS, ...APPLICATIONS, ...SERVERS]
 
 // Fast lookup by type-slug + item-slug (used by fiche pages).
 export function getStoreItem(typeSlug: string, slug: string): StoreItem | undefined {
