@@ -52,22 +52,24 @@ type MarketplaceItem = {
   input?: string
   result?: string
   proof?: string
+  profileSlug?: string
 }
 
 const PAGE_SIZE = 12
 const MOBILE_COLLABORATOR_PREVIEW_SIZE = 6
 
 const PROFILE_DEPARTMENTS = [
-  { id: 'direction', label: { fr: 'Direction', en: 'Leadership' }, facets: ['direction', 'conseil-projet'] },
-  { id: 'administration', label: { fr: 'Administration', en: 'Administration' }, facets: ['administration'] },
-  { id: 'ventes', label: { fr: 'Ventes', en: 'Sales' }, facets: ['ventes', 'crm-cycle-vie'] },
-  { id: 'marketing', label: { fr: 'Marketing', en: 'Marketing' }, facets: ['marketing', 'acquisition', 'contenu-social', 'web-ecommerce', 'data-mesure', 'design-creation'] },
-  { id: 'relation-client', label: { fr: 'Relation client', en: 'Customer relations' }, facets: ['relation-client'] },
-  { id: 'finance', label: { fr: 'Finance', en: 'Finance' }, facets: ['finance'] },
-  { id: 'rh', label: { fr: 'Ressources humaines', en: 'Human resources' }, facets: ['rh'] },
-  { id: 'operations', label: { fr: 'Opérations', en: 'Operations' }, facets: ['operations', 'qualite-exploitation'] },
-  { id: 'tech', label: { fr: 'Produit & Tech', en: 'Product & Tech' }, facets: ['developpement-integration'] },
-  { id: 'transformation', label: { fr: 'Transformation', en: 'Transformation' }, facets: ['transformation'] },
+  { id: 'direction-strategie', label: { fr: 'Direction et stratégie', en: 'Leadership & strategy' }, profiles: ['coordinatrice-missions', 'conseiller-transformation-ia', 'assistante-de-direction', 'responsable-projet', 'chef-projet-digital', 'directeur-general', 'responsable-strategie-veille', 'directeur-commercial'] },
+  { id: 'administration', label: { fr: 'Administration', en: 'Administration' }, profiles: ['gestionnaire-administratif', 'responsable-services-generaux', 'gestionnaire-documentaire', 'charge-appels-offres'] },
+  { id: 'ventes-avant-vente', label: { fr: 'Ventes et avant-vente', en: 'Sales & pre-sales' }, profiles: ['commercial', 'charge-prospection', 'responsable-comptes-cles', 'ingenieur-affaires', 'responsable-administration-ventes', 'consultant-avant-vente', 'commercial-terrain'] },
+  { id: 'relation-reussite-client', label: { fr: 'Relation et réussite client', en: 'Customer relations & success' }, profiles: ['support-client', 'agent-telephonique', 'responsable-relation-client', 'responsable-reussite-client', 'gestionnaire-reclamations', 'responsable-experience-client'] },
+  { id: 'marketing-communication', label: { fr: 'Marketing et communication', en: 'Marketing & communications' }, profiles: ['content-strategist', 'responsable-marketing', 'analyste-etudes-qualitatives', 'charge-relations-presse', 'responsable-influence', 'consultant-strategie-digitale', 'responsable-seo', 'gestionnaire-campagnes-publicitaires', 'responsable-acquisition', 'responsable-editorial', 'redacteur-web', 'community-manager', 'responsable-crm', 'analyste-etudes-marche', 'chef-produit-marketing', 'charge-communication'] },
+  { id: 'finance-comptabilite', label: { fr: 'Finance et comptabilité', en: 'Finance & accounting' }, profiles: ['analyste-financier', 'directeur-administratif-financier', 'comptable', 'controleur-gestion', 'tresorier-entreprise', 'gestionnaire-facturation-recouvrement', 'auditeur-interne'] },
+  { id: 'ressources-humaines', label: { fr: 'Ressources humaines', en: 'Human resources' }, profiles: ['charge-de-recrutement', 'responsable-ressources-humaines', 'gestionnaire-administration-personnel', 'responsable-developpement-rh', 'charge-relations-sociales', 'responsable-qualite-vie-travail'] },
+  { id: 'juridique-conformite', label: { fr: 'Juridique et conformité', en: 'Legal & compliance' }, profiles: ['juriste-contrats', 'responsable-conformite', 'delegue-protection-donnees', 'charge-veille-reglementaire', 'responsable-responsabilite-societale'] },
+  { id: 'achats-logistique-qualite', label: { fr: 'Achats, logistique et qualité', en: 'Procurement, logistics & quality' }, profiles: ['coordinateur-operations', 'responsable-achats', 'acheteur', 'approvisionneur', 'responsable-logistique', 'responsable-qualite'] },
+  { id: 'produit-donnees-cybersecurite', label: { fr: 'Produit, données et cybersécurité', en: 'Product, data & cybersecurity' }, profiles: ['developpeur', 'webmaster', 'analyste-web', 'integrateur-no-code-automatisation', 'responsable-produit', 'concepteur-experience-utilisateur', 'analyste-donnees', 'responsable-informatique-decisionnelle', 'responsable-cybersecurite', 'ingenieur-qualite-logicielle'] },
+  { id: 'formation-transformation', label: { fr: 'Formation et transformation', en: 'Training & transformation' }, profiles: ['conseillere-adoption-ia', 'charge-formation', 'formateur-entreprise', 'responsable-conduite-changement', 'responsable-amelioration-processus'] },
 ] as const
 
 const COLLABORATOR_PROFILE_EXAMPLES: Record<string, Bi[]> = {
@@ -89,14 +91,33 @@ const COLLABORATOR_PROFILE_EXAMPLES: Record<string, Bi[]> = {
 const PROFILE_DEMAND_ORDER = [
   'charge-prospection',
   'commercial',
+  'directeur-commercial',
+  'responsable-comptes-cles',
+  'commercial-terrain',
+  'ingenieur-affaires',
+  'consultant-avant-vente',
+  'responsable-administration-ventes',
   'gestionnaire-administratif',
   'assistante-de-direction',
+  'directeur-general',
+  'responsable-strategie-veille',
   'support-client',
+  'agent-telephonique',
+  'responsable-reussite-client',
+  'gestionnaire-reclamations',
+  'responsable-experience-client',
   'analyste-financier',
+  'directeur-administratif-financier',
+  'comptable',
+  'controleur-gestion',
+  'tresorier-entreprise',
+  'gestionnaire-facturation-recouvrement',
   'responsable-relation-client',
   'responsable-marketing',
   'charge-relations-presse',
   'responsable-influence',
+  'chef-produit-marketing',
+  'charge-communication',
   'responsable-projet',
   'responsable-crm',
   'integrateur-no-code-automatisation',
@@ -112,10 +133,39 @@ const PROFILE_DEMAND_ORDER = [
   'webmaster',
   'analyste-web',
   'analyste-etudes-qualitatives',
+  'analyste-etudes-marche',
+  'analyste-donnees',
   'charge-de-recrutement',
+  'responsable-ressources-humaines',
+  'gestionnaire-administration-personnel',
+  'responsable-developpement-rh',
+  'charge-relations-sociales',
+  'responsable-qualite-vie-travail',
   'consultant-strategie-digitale',
+  'responsable-produit',
+  'concepteur-experience-utilisateur',
   'charge-formation',
+  'formateur-entreprise',
   'developpeur',
+  'responsable-cybersecurite',
+  'ingenieur-qualite-logicielle',
+  'responsable-informatique-decisionnelle',
+  'responsable-achats',
+  'acheteur',
+  'approvisionneur',
+  'responsable-logistique',
+  'responsable-qualite',
+  'responsable-services-generaux',
+  'gestionnaire-documentaire',
+  'charge-appels-offres',
+  'juriste-contrats',
+  'responsable-conformite',
+  'delegue-protection-donnees',
+  'charge-veille-reglementaire',
+  'responsable-responsabilite-societale',
+  'auditeur-interne',
+  'responsable-conduite-changement',
+  'responsable-amelioration-processus',
   'conseillere-adoption-ia',
   'conseiller-transformation-ia',
   'coordinatrice-missions',
@@ -243,6 +293,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       input: storeType === 'competence' ? item.contexts?.[0]?.[lang] : undefined,
       result: storeType === 'competence' ? item.produces?.[0]?.[lang] : undefined,
       proof: storeType === 'competence' ? (item.version ? `Version ${item.version} · ${lang === 'fr' ? 'à valider sur votre cas' : 'validate on your use case'}` : lang === 'fr' ? 'Méthode à valider sur votre cas' : 'Method to validate on your use case') : undefined,
+      profileSlug: storeType === 'profil' ? item.slug : undefined,
     }))
   }
   if (categoryId === 'applications') {
@@ -345,7 +396,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   const categoryItems = useMemo(() => itemsForCategory(activeCategory.id, lang), [activeCategory.id, lang])
   const profileDepartments = useMemo(() => PROFILE_DEPARTMENTS.map((department) => ({
     ...department,
-    count: categoryItems.filter((item) => item.facetKey && (department.facets as readonly string[]).includes(item.facetKey)).length,
+    count: categoryItems.filter((item) => item.profileSlug && (department.profiles as readonly string[]).includes(item.profileSlug)).length,
   })).filter((department) => department.count > 0), [categoryItems])
   const filteredItems = useMemo(() => {
     const query = normalizeSearch(catalogQuery.trim())
@@ -353,7 +404,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     const scopedItems = activeCategory.id === 'competences'
       ? categoryItems.filter((item) => (!catalogFacet || item.facetKey === catalogFacet) && (!skillCategory || item.facetKey === skillCategory) && (!skillProfile || item.profileKeys?.includes(skillProfile)))
       : isProfilesCategory && department
-        ? categoryItems.filter((item) => item.facetKey && (department.facets as readonly string[]).includes(item.facetKey))
+        ? categoryItems.filter((item) => item.profileSlug && (department.profiles as readonly string[]).includes(item.profileSlug))
         : usesCatalogSidebar && catalogFacet
           ? categoryItems.filter((item) => item.facetKey === catalogFacet || item.facetKeys?.includes(catalogFacet))
         : categoryItems

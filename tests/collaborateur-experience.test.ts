@@ -18,10 +18,16 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain("reassurance: ['Première mission gratuite', 'Sans carte bancaire']")
     expect(source).toContain('/decouvrir?source=collaborateurs-ia-hero')
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
-    expect(source).toContain('text-[clamp(2.15rem,5vw,4.35rem)]')
-    expect(source).toContain('lg:grid-cols-[1.02fr_.98fr]')
+    expect(source).toContain('text-[clamp(2.35rem,5vw,5rem)]')
+    expect(source).toContain('lg:grid-cols-[minmax(0,1fr)_minmax(340px,.72fr)]')
     expect(source).toContain('max-[389px]:py-3')
     expect(source).toContain('min-[390px]:block')
+  })
+
+  it('uses the marketplace visual language and section navigation', () => {
+    expect(source).toContain("pageNavLabel: 'Comprendre le Collaborateur IA'")
+    for (const id of ['organisation', 'missions', 'evolution', 'continuite', 'commencer']) expect(source).toContain(`id="${id}"`)
+    expect(source).toContain('rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4]')
   })
 
   it('introduces Hermes compactly after the marketplace', () => {

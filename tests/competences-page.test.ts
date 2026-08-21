@@ -60,5 +60,8 @@ describe('competences catalog', () => {
     for (const skill of mustadSkills) {
       for (const profile of skill.relatedProfiles ?? []) expect(profileSlugs.has(profile)).toBe(true)
     }
+    for (const obsolete of ['decouverte-profil-client-ideal', 'enrichissement-donnees', 'production-contenu', 'redaction-messages-prospection', 'tri-routage-reponses', 'preparation-reunions-synthese-appels', 'copilote-equipes-terrain', 'reporting-synthese-hebdomadaire', 'previsions-propositions-commerciales', 'test-creations-publicitaires', 'cycle-vie-fidelisation']) {
+      expect(mustadSkills.some(item => item.relatedProfiles?.includes(obsolete))).toBe(false)
+    }
   })
 })

@@ -39,35 +39,41 @@ export function CollaborateurExperience() {
 
   return (
     <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#191715]">
-      <section aria-labelledby="collaborateurs-ia-title" className="relative flex min-h-[100svh] items-center overflow-hidden border-b border-[#CFC5B5] bg-[#F3EFE6] pb-12 pt-24 min-[390px]:pb-14 sm:pt-28 lg:min-h-[calc(100svh-1rem)] [@media(min-width:1024px)_and_(max-height:850px)]:pb-8 [@media(min-width:1024px)_and_(max-height:850px)]:pt-24">
+      <section aria-labelledby="collaborateurs-ia-title" className="relative overflow-hidden border-b border-[#D8CEBE] bg-[#EAE3D4] px-5 pb-12 pt-28 sm:px-8 sm:pb-16 sm:pt-40 [@media(min-width:1024px)_and_(max-height:850px)]:pb-12 [@media(min-width:1024px)_and_(max-height:850px)]:pt-32">
         <div aria-hidden className="absolute inset-0 opacity-[.045] [background-image:linear-gradient(#191715_1px,transparent_1px),linear-gradient(90deg,#191715_1px,transparent_1px)] [background-size:56px_56px]" />
         <div aria-hidden className="absolute -right-40 top-12 size-[38rem] rounded-full bg-[#D10E63]/[.08] blur-3xl" />
-        <div className="editorial-shell relative grid min-w-0 items-center gap-8 min-[390px]:gap-9 sm:gap-12 lg:grid-cols-[1.02fr_.98fr] lg:gap-16 [@media(min-width:1024px)_and_(max-height:850px)]:gap-8">
-            <div className="max-w-[640px] lg:pr-4">
-              <div className="mb-4 flex justify-center min-[390px]:mb-5 sm:mb-6 sm:justify-start"><Kicker>{t.eyebrow}</Kicker></div>
-              <h1 id="collaborateurs-ia-title" className="text-balance text-center font-sf text-[clamp(2.15rem,5vw,4.35rem)] font-semibold leading-[.94] tracking-[-.06em] text-[#1C1A17] sm:text-left [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(2.1rem,3.5vw,3.25rem)]"><span className="block">{t.heroTitlePrefix} <span className="whitespace-nowrap">{t.heroTitleRole}</span> {t.heroTitleEnd}</span><span className="mt-1 block text-[#D10E63]">{t.heroAccent}</span></h1>
-              <p className="mx-auto mt-5 max-w-xl text-balance text-center text-[15px] font-medium leading-6 text-[#4E483F] min-[390px]:text-base min-[390px]:leading-7 sm:mx-0 sm:text-left md:text-lg md:leading-8">{t.heroLead}</p>
-              <div className="mt-6 flex flex-col items-stretch gap-2.5 min-[390px]:gap-3 sm:flex-row sm:items-start [@media(min-width:1024px)_and_(max-height:850px)]:mt-5">
-                <Link href="/decouvrir?source=collaborateurs-ia-hero" className="inline-flex min-h-13 items-center justify-center rounded-full bg-[#D10E63] px-6 text-center text-sm font-bold text-white shadow-[0_16px_36px_-22px_rgba(209,14,99,.8)] outline-none transition hover:-translate-y-0.5 hover:bg-[#B90C58] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{t.start}</Link>
-                <Link href="/marketplace/collaborateurs-ia" className="inline-flex min-h-13 items-center justify-center rounded-full border border-[#BFB4A4] bg-[#FAF8F3]/75 px-6 text-center text-sm font-bold outline-none transition hover:border-[#191715] hover:bg-[#191715] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63]">{t.explore}</Link>
+        <div className="editorial-shell relative min-w-0">
+          <Kicker>{t.eyebrow}</Kicker>
+          <h1 id="collaborateurs-ia-title" className="mt-6 max-w-6xl text-balance font-sf text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[.9] tracking-[-.064em] text-[#1C1A17] [@media(min-width:1024px)_and_(max-height:850px)]:text-[clamp(2.8rem,4.4vw,4rem)]"><span>{t.heroTitlePrefix} <span className="whitespace-nowrap">{t.heroTitleRole}</span> {t.heroTitleEnd}</span><span className="mt-1 block text-[#D10E63]">{t.heroAccent}</span></h1>
+          <div className="mt-7 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(340px,.72fr)] lg:items-end lg:gap-14">
+            <div>
+              <p className="max-w-3xl text-pretty text-[15px] font-medium leading-7 text-[#322E29] sm:text-[17px] sm:font-normal sm:leading-8">{t.heroLead}</p>
+              <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-start">
+                <Link href="/decouvrir?source=collaborateurs-ia-hero" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-center text-sm font-bold text-white outline-none transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EAE3D4]">{t.start}<ArrowRight className="size-4" /></Link>
+                <Link href="/marketplace/collaborateurs-ia" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#BEB2A1] bg-[#FAF8F3] px-7 text-center text-sm font-bold outline-none transition-colors hover:border-[#191715] hover:bg-white focus-visible:ring-2 focus-visible:ring-[#D10E63]">{t.explore}</Link>
               </div>
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] font-medium text-[#6B6560] min-[390px]:text-xs sm:justify-start">{t.reassurance.map(item => <span key={item} className="inline-flex items-center gap-1.5"><Check className="size-3.5 text-[#D10E63]" strokeWidth={2.5}/>{item}</span>)}<span className="inline-flex items-center gap-1.5 whitespace-nowrap"><AlmaInline />{t.almaGuidance}</span></div>
+              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-xs font-semibold text-[#625B50]">{t.reassurance.map(item => <span key={item} className="inline-flex items-center gap-1.5"><Check className="size-3.5 text-[#D10E63]" strokeWidth={2.5}/>{item}</span>)}<span className="inline-flex items-center gap-1.5 whitespace-nowrap"><AlmaInline />{t.almaGuidance}</span></div>
             </div>
             <IdentityCarousel lang={lang} labels={t.identityCarousel} />
+          </div>
         </div>
       </section>
 
-      <section aria-labelledby="rattachement-title" className="border-b border-[#CFC5B5] bg-[#FAF8F3] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
+      <nav aria-label={t.pageNavLabel} className="sticky top-[76px] z-30 border-y border-white/10 bg-[#211E1B]/95 px-5 text-white shadow-[0_10px_30px_-24px_rgba(0,0,0,.8)] backdrop-blur-md sm:px-8">
+        <div className="editorial-shell flex h-14 items-center gap-6 overflow-x-auto text-[13px] font-semibold scrollbar-hide sm:h-16 sm:gap-8 sm:text-sm">
+          {t.pageNav.map(item => <a key={item.href} href={item.href} className="shrink-0 text-[#BEB4A8] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#F2A4C5]">{item.label}</a>)}
+        </div>
+      </nav>
+
+      <section id="organisation" aria-labelledby="rattachement-title" className="scroll-mt-36 border-b border-[#CFC5B5] bg-[#FAF8F3] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div className="editorial-shell">
           <SectionHeading id="rattachement-title" kicker={t.placeKicker} title={t.placeTitle} body={t.placeBody} />
-          <div className="mt-10 overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] sm:mt-12">
-            <div className="grid border-b border-[#CFC5B5] px-6 py-4 sm:grid-cols-[1fr_auto] sm:items-center sm:px-7"><p className="text-sm font-bold">{t.placementChoiceTitle}</p><p className="mt-1 text-xs text-[#766D61] sm:mt-0">{t.placementChoiceBody}</p></div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4">
-              {t.placements.map((label, index) => <div key={label} className={`group border-[#CFC5B5] p-6 transition-colors hover:bg-white sm:p-7 ${index > 0 ? 'border-t sm:[&:nth-child(2)]:border-t-0' : ''} ${index % 2 === 1 ? 'sm:border-l' : ''} ${index >= 2 ? 'lg:border-t-0' : ''} ${index > 0 ? 'lg:border-l' : ''}`}><span className="block h-0.5 w-8 bg-[#D10E63] transition-all group-hover:w-14"/><h3 className="mt-6 text-xl font-semibold tracking-[-.03em]">{label}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{t.placementDescriptions[index]}</p></div>)}
-            </div>
+          <div className="mt-10 flex flex-col gap-1 border-l-[3px] border-[#D10E63] py-2 pl-4 sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:gap-8"><p className="text-sm font-bold">{t.placementChoiceTitle}</p><p className="text-xs text-[#766D61]">{t.placementChoiceBody}</p></div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {t.placements.map((label, index) => <article key={label} className="group flex min-h-56 flex-col rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-6 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#D10E63] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)]"><span className="font-mono text-[9px] font-black text-[#B00C54]">0{index + 1}</span><h3 className="mt-7 text-xl font-semibold tracking-[-.03em]">{label}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{t.placementDescriptions[index]}</p></article>)}
           </div>
-          <div className="mt-6 overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#EAE3D4]">
-            <div className="grid gap-px bg-[#CFC5B5] sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <ResourceFact icon={LockKeyhole} title={t.privateMemory} body={t.privateMemoryBody} />
               <ResourceFact icon={Database} title={t.sharedKnowledge} body={t.sharedKnowledgeBody} />
               <ResourceFact icon={Mail} title={t.communication} body={t.communicationBody} />
@@ -77,19 +83,19 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section aria-labelledby="mission-proof-title" className="border-b border-[#CFC5B5] bg-[#191715] py-14 text-white sm:py-18 [@media(min-width:1024px)_and_(max-height:850px)]:py-12">
+      <section id="missions" aria-labelledby="mission-proof-title" className="scroll-mt-36 border-b border-[#CFC5B5] bg-[#191715] py-14 text-white sm:py-18 [@media(min-width:1024px)_and_(max-height:850px)]:py-12">
         <div className="editorial-shell">
           <div className="grid gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
             <div><Kicker dark>{t.proofKicker}</Kicker><h2 id="mission-proof-title" className="mt-5 max-w-2xl text-balance text-[clamp(2rem,3.8vw,3.6rem)] font-semibold leading-[.95] tracking-[-.055em]">{t.proofTitle}</h2></div>
             <p className="max-w-xl text-sm leading-7 text-[#CFC6B8] sm:text-[15px]">{t.proofBody}</p>
           </div>
-          <ol className="mt-9 grid overflow-hidden rounded-[22px] border border-white/10 bg-white/10 md:grid-cols-3">
-            {t.proofSteps.map((step, index) => <li key={step.title} className={`bg-[#211E1B] p-6 sm:p-7 ${index > 0 ? 'border-t border-white/10 md:border-l md:border-t-0' : ''}`}><span className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{step.label}</span><h3 className="mt-5 text-xl font-semibold tracking-[-.03em]">{step.title}</h3><p className="mt-3 text-sm leading-6 text-[#AFA397]">{step.body}</p></li>)}
+          <ol className="mt-9 grid gap-3 md:grid-cols-3">
+            {t.proofSteps.map((step, index) => <li key={step.title} className="group rounded-[16px] border border-white/10 bg-[#211E1B] p-6 transition-[transform,border-color] duration-300 hover:-translate-y-0.5 hover:border-[#D10E63]/60 sm:p-7"><div className="flex items-center justify-between"><span className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{step.label}</span><span className="font-mono text-[9px] font-bold text-white/25">0{index + 1}</span></div><h3 className="mt-5 text-xl font-semibold tracking-[-.03em]">{step.title}</h3><p className="mt-3 text-sm leading-6 text-[#AFA397]">{step.body}</p></li>)}
           </ol>
         </div>
       </section>
 
-      <section aria-labelledby="marketplace-title" className="bg-[#E8E0D2] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
+      <section id="evolution" aria-labelledby="marketplace-title" className="scroll-mt-36 bg-[#E8E0D2] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div className="editorial-shell">
           <SectionHeading id="marketplace-title" kicker={t.marketKicker} title={t.marketTitle} body={t.marketBody} />
           <div className="mt-10 overflow-hidden rounded-[24px] border border-[#BFB4A4] bg-[#FAF8F3] sm:mt-12">
@@ -129,7 +135,7 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section aria-labelledby="capital-title" className="border-y border-[#191715] bg-[#F3EFE6] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
+      <section id="continuite" aria-labelledby="capital-title" className="scroll-mt-36 border-y border-[#191715] bg-[#F3EFE6] py-16 sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div className="editorial-shell">
           <SectionHeading id="capital-title" kicker={t.assetKicker} title={t.assetTitle} body={t.assetBody} compactTitle />
           <div className="mt-10 grid overflow-hidden rounded-[28px] border border-[#191715] sm:mt-12 lg:grid-cols-[.9fr_1.1fr]">
@@ -146,7 +152,7 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
-      <section aria-labelledby="alma-title" className="relative overflow-hidden bg-[#D10E63] py-16 text-white sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
+      <section id="commencer" aria-labelledby="alma-title" className="relative overflow-hidden bg-[#D10E63] py-16 text-white sm:py-24 [@media(min-width:1024px)_and_(max-height:850px)]:py-16">
         <div aria-hidden className="absolute -right-24 -top-32 size-[32rem] rounded-full border border-white/15" />
         <div aria-hidden className="absolute -right-8 -top-12 size-64 rounded-full border border-white/10" />
         <div className="editorial-shell relative grid gap-12 lg:grid-cols-[1.02fr_.98fr] lg:items-center">
@@ -159,7 +165,7 @@ export function CollaborateurExperience() {
             <h3 className="text-2xl font-semibold tracking-[-.04em]"><AlmaInline className="mr-2 size-8 align-[-.35em] ring-white/30" />{t.almaCardTitle}</h3>
             <ul className="mt-6 space-y-3 border-y border-white/10 py-5">{t.almaPrepares.map(item=><li key={item} className="flex gap-3 text-sm font-semibold leading-6 text-[#E7E0D5]"><span aria-hidden className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[#F15B9B]"/>{item}</li>)}</ul>
             <p className="mt-5 text-sm font-bold leading-6">{t.almaRule}</p>
-            <Link href="/decouvrir?source=collaborateurs-ia" className="mt-6 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#F3EFE6] px-7 text-sm font-bold text-[#191715] transition hover:bg-white">{t.almaCta}</Link>
+            <Link href="/decouvrir?source=collaborateurs-ia" className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white outline-none ring-1 ring-white/25 transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-white">{t.almaCta}<ArrowRight className="size-4" /></Link>
             <p className="mt-4 text-center text-xs font-semibold text-white/60">{t.reassurance.join(' · ')}</p>
           </div>
         </div>
@@ -173,7 +179,7 @@ function SectionHeading({ id, kicker, title, body, dark = false, compactTitle = 
 }
 
 function ResourceFact({ icon: Icon, title, body }: { icon: LucideIcon; title: string; body: string }) {
-  return <div className="bg-[#EAE3D4] p-6 sm:p-7"><Icon className="size-5 text-[#B00C54]"/><h3 className="mt-5 font-semibold">{title}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{body}</p></div>
+  return <article className="group rounded-[16px] border border-[#D8D0C2] bg-[#EAE3D4] p-6 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#D10E63] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] sm:p-7"><Icon className="size-5 text-[#B00C54]"/><h3 className="mt-5 font-semibold">{title}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{body}</p></article>
 }
 
 type IdentityCarouselLabels = {
@@ -252,6 +258,7 @@ function IdentityCarousel({ lang, labels }: { lang: 'fr' | 'en'; labels: Identit
 
 const COPY = {
   fr: {
+    pageNavLabel: 'Comprendre le Collaborateur IA', pageNav: [{ label: 'Dans l’entreprise', href: '#organisation' }, { label: 'Une mission', href: '#missions' }, { label: 'Évolution', href: '#evolution' }, { label: 'Continuité', href: '#continuite' }, { label: 'Commencer', href: '#commencer' }],
     eyebrow: 'Un nouveau membre dans votre équipe', heroTitlePrefix: 'Votre', heroTitleRole: 'Collaborateur IA', heroTitleEnd: 'travaille et progresse.', heroAccent: 'Il reste dans votre entreprise.', heroLead: 'Une identité, une mémoire et des compétences sous votre contrôle. À chaque mission, il retient les méthodes et corrections que vous validez.',
     heroGroups: [{ label: 'Dans votre organisation', value: 'Identité définie\nMémoire sous votre contrôle' }, { label: 'Équipé pour travailler', value: 'Profils\nCompétences\nPlus de 3 000 apps' }, { label: 'Ses ressources dédiées', value: 'Meilleurs modèles d’IA\nServeur privé dédié' }], heroCardLabel: 'Choisissez l’identité adaptée à votre première mission.', heroCardRule: 'Vous contrôlez ses accès et les décisions qui restent humaines.', identityCarousel: { ariaLabel: 'Identités de Collaborateurs IA', eyebrow: 'Choisissez une identité', previous: 'Identité précédente', next: 'Identité suivante', profile: 'Voir le profil', email: 'Email', calendar: 'Agenda', phone: 'Téléphone', rule: 'Vous contrôlez ses accès et les décisions qui restent humaines.' }, start: 'Confier une première mission', explore: 'Voir les Collaborateurs IA', reassurance: ['Première mission gratuite', 'Sans carte bancaire'], almaGuidance: 'Personnalisation guidée par Alma',
     foundationTitle: 'Hermes exécute. Unitalk organise le travail.', foundationBody: 'Hermes fournit le moteur agentique open source. Unitalk ajoute l’identité professionnelle, la mémoire, les applications, les droits et l’espace de collaboration.', foundationCta: 'Découvrir Hermes',
@@ -276,6 +283,7 @@ const COPY = {
     almaRole: 'Collaboratrice IA Unitalk · Coordinatrice de missions IA', almaTitle: 'Partez d’une mission. Alma prépare le Collaborateur adapté.', almaBody: 'Décrivez simplement le résultat attendu. Alma cadre la mission, les ressources nécessaires et les décisions qui resteront sous votre contrôle.', almaCardTitle: 'Alma prépare avec vous', almaPrepares: ['Sa place dans l’organisation', 'Ses compétences et ses applications', 'Ses accès et ses validations', 'Son serveur privé'], almaRule: 'Le Collaborateur accomplit la mission. Votre équipe garde la décision.', almaCta: 'Décrire ma première mission',
   },
   en: {
+    pageNavLabel: 'Understand the AI Collaborator', pageNav: [{ label: 'In the organization', href: '#organisation' }, { label: 'A mission', href: '#missions' }, { label: 'Evolution', href: '#evolution' }, { label: 'Continuity', href: '#continuite' }, { label: 'Get started', href: '#commencer' }],
     eyebrow: 'A new member of your team', heroTitlePrefix: 'Your', heroTitleRole: 'AI Collaborator', heroTitleEnd: 'works and improves.', heroAccent: 'It stays in your organization.', heroLead: 'An identity, memory and skills under your control. With each mission, it retains the methods and corrections you approve.',
     heroGroups: [{ label: 'In your organization', value: 'Defined identity\nMemory under your control' }, { label: 'Equipped to work', value: 'Profiles\nSkills\n3,000+ apps' }, { label: 'Its dedicated resources', value: 'Leading AI models\nDedicated private server' }], heroCardLabel: 'Choose the identity suited to your first mission.', heroCardRule: 'You control its access and the decisions that remain human.', identityCarousel: { ariaLabel: 'AI Collaborator identities', eyebrow: 'Choose an identity', previous: 'Previous identity', next: 'Next identity', profile: 'View profile', email: 'Email', calendar: 'Calendar', phone: 'Phone', rule: 'You control its access and the decisions that remain human.' }, start: 'Entrust a first mission', explore: 'View AI Collaborators', reassurance: ['First mission free', 'No card'], almaGuidance: 'Personalized with Alma',
     foundationTitle: 'Hermes executes. Unitalk organizes the work.', foundationBody: 'Hermes provides the open-source agentic engine. Unitalk adds the professional identity, memory, applications, permissions and collaboration space.', foundationCta: 'Discover Hermes',
