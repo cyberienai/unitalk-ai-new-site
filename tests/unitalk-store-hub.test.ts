@@ -41,8 +41,12 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('onClick={() => selectCategory(category.id)}')
     expect(hub).toContain("role={collaboratorsOnly ? undefined : 'tablist'}")
     expect(hub).toContain('overflow-x-auto scrollbar-hide')
-    expect(hub).toContain("window.history.replaceState(null, '', href)")
-    expect(hub).not.toContain("window.history.pushState(null, '', href)")
+    expect(hub).toContain("router.push(href, { scroll: false })")
+    expect(hub).toContain('const pathname = usePathname()')
+    expect(hub).toContain("pathname.split('/').filter(Boolean).at(-1)")
+    expect(hub).toContain("collaboratorsOnly\n      ? 'collaborateurs-ia'")
+    expect(hub).toContain('}, [collaboratorsOnly, initialCategory, pathname])')
+    expect(hub).not.toContain("router.replace(href, { scroll: false })")
   })
 
   it('centralizes real catalogs with search and featured cards', () => {
@@ -51,8 +55,6 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('MarketplaceItemCard')
     expect(hub).toContain('Rechercher un profil métier')
     expect(hub).toContain('category={activeCategory}')
-    expect(hub).toContain("window.location.hash.slice(1)")
-    expect(hub).toContain("window.addEventListener('popstate'")
     expect(hub).toContain('useLayoutEffect')
     expect(hub).toContain("scrollIntoView({ behavior:")
   })
@@ -105,7 +107,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('frames models as access and servers as scalable execution infrastructure', () => {
-    expect(hub).toContain('Autorisez les modèles IA adaptés à chaque mission.')
+    expect(hub).toContain('Une interface unique pour tous vos modèles d’IA.')
     expect(hub).toContain('Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.')
     expect(hub).toContain('Où votre Collaborateur travaille. Une infrastructure qui évolue.')
     expect(hub).toContain('Augmentez ses ressources lorsque le travail l’exige.')

@@ -3,7 +3,7 @@
 import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { AppWindow, ArrowRight, Cpu, Server } from 'lucide-react'
 import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage } from '@/lib/language-context'
@@ -267,7 +267,7 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' },
     description: { fr: 'Les intelligences auxquelles vos Collaborateurs IA peuvent accéder selon leurs droits et leurs missions.', en: 'The intelligences your AI Collaborators can access according to their permissions and missions.' },
-    heroTitle: { fr: 'Autorisez les modèles IA adaptés à chaque mission.', en: 'Authorize the AI models suited to each mission.' },
+    heroTitle: { fr: 'Une interface unique pour tous vos modèles d’IA.', en: 'One unified interface for all your AI models.' },
     heroAccent: { fr: 'adaptés à chaque mission.', en: 'suited to each mission.' },
     heroLead: { fr: 'Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.', en: 'Unitalk automatically selects the right model among those authorized by your organization.' },
     search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' }, explain: { fr: 'Comprendre les modèles IA', en: 'Understand AI models' },
@@ -331,7 +331,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: `/decouvrir?store=${item.slug}&source=marketplace-applications`, logoId: APPLICATION_LOGOS[item.slug],
       meta: item.editor ?? (item.type === 'integration' ? (lang === 'fr' ? 'Intégration' : 'Integration') : item.facet),
       origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community', pending: item.commercialStatus === 'draft',
-      status: item.commercialStatus === 'draft' ? { fr: 'Bientôt disponible', en: 'Coming soon' } : item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Connectable', en: 'Connectable' }, facetKey: APPLICATION_CATEGORY_OVERRIDES[item.slug] ?? item.facet, input: item.uses?.[0]?.[lang] ?? item.contexts?.[0]?.[lang], result: item.actions?.[0]?.[lang] ?? item.produces?.[0]?.[lang],
+      status: item.commercialStatus === 'draft' ? { fr: 'Bientôt disponible', en: 'Coming soon' } : item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : undefined, facetKey: APPLICATION_CATEGORY_OVERRIDES[item.slug] ?? item.facet, input: item.uses?.[0]?.[lang] ?? item.contexts?.[0]?.[lang], result: item.actions?.[0]?.[lang] ?? item.produces?.[0]?.[lang],
     }))
   }
   if (categoryId === 'modeles-ia') {
@@ -401,6 +401,7 @@ function scrollToStoreHero() {
 }
 
 export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialCategoryId }: { collaboratorsOnly?: boolean; fixedLang?: SiteLang; initialCategoryId?: string }) {
+  const pathname = usePathname()
   const router = useRouter()
   const { lang: selectedLang } = useLanguage()
   const lang = fixedLang ?? selectedLang
@@ -478,32 +479,22 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   }
 
   useLayoutEffect(() => {
-    const selectFromLocation = (scroll = false) => {
-      const categoryId = collaboratorsOnly ? 'collaborateurs-ia' : window.location.hash.slice(1) || initialCategoryId || (window.location.pathname === '/marketplace/collaborateurs-ia' ? 'collaborateurs-ia' : '')
-      if (STORE_CATEGORIES.some((category) => category.id === categoryId)) {
-        setActiveCategoryId(categoryId)
-        setVisibleCount(PAGE_SIZE)
-        setCatalogQuery('')
-        setSkillCategory('')
-        setSkillProfile('')
-        setProfileDepartment('')
-        setProfileCreator('')
-        setCatalogFacet('')
-        requestAnimationFrame(() => {
-          document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: scroll && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'auto', block: 'nearest', inline: 'center' })
-          if (scroll) scrollToStoreHero()
-        })
-      }
-    }
-    selectFromLocation()
-    const handleLocationChange = () => selectFromLocation(true)
-    window.addEventListener('hashchange', handleLocationChange)
-    window.addEventListener('popstate', handleLocationChange)
-    return () => {
-      window.removeEventListener('hashchange', handleLocationChange)
-      window.removeEventListener('popstate', handleLocationChange)
-    }
-  }, [collaboratorsOnly, initialCategoryId])
+    const pathCategory = pathname.split('/').filter(Boolean).at(-1)
+    const categoryId = collaboratorsOnly
+      ? 'collaborateurs-ia'
+      : STORE_CATEGORIES.some((category) => category.id === pathCategory)
+        ? pathCategory!
+        : initialCategory
+    setActiveCategoryId(categoryId)
+    setVisibleCount(PAGE_SIZE)
+    setCatalogQuery('')
+    setSkillCategory('')
+    setSkillProfile('')
+    setProfileDepartment('')
+    setProfileCreator('')
+    setCatalogFacet('')
+    requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' }))
+  }, [collaboratorsOnly, initialCategory, pathname])
 
   function selectCategory(categoryId: string, scroll = true) {
     if (!visibleCategories.some((category) => category.id === categoryId)) return
@@ -516,7 +507,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     setProfileCreator('')
     setCatalogFacet('')
     const href = `/marketplace/${categoryId}`
-    router.replace(href, { scroll: false })
+    router.push(href, { scroll: false })
     if (scroll) scrollToStoreHero()
     requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }))
   }
@@ -633,7 +624,7 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, quer
             <div className="my-2 border-t border-[#CFC5B5]" />
             {facets.map((facet) => <button key={facet.id} type="button" aria-pressed={activeFacet === facet.id} onClick={() => onFacet(facet.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${activeFacet === facet.id ? 'bg-[var(--facet-accent)] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{facet.label}</span><span className={activeFacet === facet.id ? 'text-white/70' : 'text-[#857C6E]'}>{facet.count}</span></button>)}
           </aside>
-          {category.id === 'applications' && <p className="px-3 pt-4 text-xs font-semibold leading-5 text-[#625B50]">{lang === 'fr' ? 'Connectez en toute sécurité plus de 3 000 applications via Pipedream.' : 'Securely connect more than 3,000 applications via Pipedream.'}</p>}
+          {category.id === 'applications' && <p className="px-3 pt-4 text-xs font-semibold leading-5 text-[#625B50]">{lang === 'fr' ? <>Connectez en toute sécurité plus de <span className="whitespace-nowrap">3 000</span> applications via Pipedream.</> : 'Securely connect more than 3,000 applications via Pipedream.'}</p>}
         </div>
 
         <div className="min-w-0">
