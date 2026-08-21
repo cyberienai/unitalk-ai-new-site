@@ -81,7 +81,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('Voir les options d’infrastructure')
     expect(hub).not.toContain('Choisissez l’identité adaptée à votre première mission.')
     expect(hub).not.toContain('Ces identités sont des points de départ.')
-    expect(hub).toContain('Découvrez nos Collaborateurs IA.')
+    expect(hub).toContain('Découvrez votre futur Collaborateur IA.')
     expect(hub).not.toContain('Personnalisez le vôtre.')
     expect(hub).not.toContain('Ils ne se contentent pas d’automatiser des tâches isolées.')
     expect(hub).not.toContain('Disponibles selon vos besoins')
