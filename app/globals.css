@@ -208,15 +208,15 @@
   line-height:1.85;
 }
 @media (min-width:1024px) and (max-width:1440px) {
-  .home-page-main > section:nth-child(2) > div,
+  .home-page-main > section:nth-child(2) > div > div,
   .home-page-main > section:nth-child(3) > div,
-  .home-page-main > section:nth-child(4) > div > div {
+  .home-page-main > section:nth-child(4) > div {
     grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
     gap:3rem;
   }
-  .home-page-main > section:nth-child(2) > div > :last-child,
+  .home-page-main > section:nth-child(2) > div > div > :last-child,
   .home-page-main > section:nth-child(3) > div > :last-child,
-  .home-page-main > section:nth-child(4) > div > div > :last-child {
+  .home-page-main > section:nth-child(4) > div > :last-child {
     width:100%;
     max-width:660px;
     justify-self:end;
@@ -243,20 +243,7 @@
 
 /* Home anatomy: preserve a two-line headline and keep the profile card secondary. */
 @media (min-width:1024px) {
-  .home-page-main > section:nth-child(3) > div {
-    grid-template-columns:minmax(0,1.12fr) minmax(420px,.88fr);
-    gap:3rem;
-  }
-  .home-page-main > section:nth-child(3) h2 {
-    max-width:680px;
-    text-wrap:initial;
-  }
-  .home-page-main > section:nth-child(3) > div > article {
-    width:100%;
-    max-width:560px;
-    justify-self:end;
-  }
-  .home-page-main > section:nth-child(4) > div > div {
+  .home-page-main > section:nth-child(4) > div {
     grid-template-columns:minmax(0,1.12fr) minmax(420px,.88fr);
     gap:3rem;
   }
@@ -264,7 +251,20 @@
     max-width:680px;
     text-wrap:initial;
   }
-  .home-page-main > section:nth-child(4) > div > div > :last-child {
+  .home-page-main > section:nth-child(4) > div > article {
+    width:100%;
+    max-width:560px;
+    justify-self:end;
+  }
+  .home-page-main > section:nth-child(2) > div > div {
+    grid-template-columns:minmax(0,1.12fr) minmax(420px,.88fr);
+    gap:3rem;
+  }
+  .home-page-main > section:nth-child(2) h2 {
+    max-width:680px;
+    text-wrap:initial;
+  }
+  .home-page-main > section:nth-child(2) > div > div > :last-child {
     width:100%;
     max-width:560px;
     justify-self:end;
