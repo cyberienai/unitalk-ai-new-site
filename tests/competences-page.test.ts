@@ -7,10 +7,10 @@ const content = readFileSync(new URL('../components/collaborateurs-ia/competence
 const detailRoute = new URL('../app/collaborateurs-ia/competences/[slug]/page.tsx', import.meta.url)
 
 describe('competences catalog', () => {
-  it('keeps all 31 published skills accessible through pagination', () => {
+  it('keeps all 105 published skills accessible through pagination', () => {
     const skills = STORE_ITEMS.filter(item => item.type === 'competence')
-    expect(skills).toHaveLength(31)
-    expect(Math.ceil(skills.length / 12)).toBe(3)
+    expect(skills).toHaveLength(105)
+    expect(Math.ceil(skills.length / 12)).toBe(9)
     expect(content).toContain('const PAGE_SIZE = 12')
     expect(content).toContain("searchParams.get('page')")
   })
@@ -42,5 +42,19 @@ describe('competences catalog', () => {
     expect(content).toContain('Ajouter à un Collaborateur IA')
     expect(content).toContain('href={`/decouvrir?store=${item.slug}`}')
     expect(existsSync(detailRoute)).toBe(false)
+  })
+
+  it('publishes the 14 shared and 60 profile-specific Mustad skills in French', () => {
+    const mustadSkills = STORE_ITEMS.filter(item => item.type === 'competence' && item.slug.startsWith('mustad-'))
+    expect(mustadSkills).toHaveLength(74)
+    expect(new Set(mustadSkills.map(item => item.slug)).size).toBe(74)
+    for (const skill of mustadSkills) {
+      expect(skill.name.fr).toBeTruthy()
+      expect(skill.description.fr).toBeTruthy()
+      expect(skill.facet).toBeTruthy()
+      expect(skill.name.fr).not.toMatch(/^mustad-/)
+    }
+    expect(mustadSkills.find(item => item.slug === 'mustad-brand-voice')?.name.fr).toBe('Appliquer la voix de marque')
+    expect(mustadSkills.find(item => item.slug === 'mustad-ad-daily-workflow')?.name.fr).toBe('Organiser le suivi publicitaire quotidien')
   })
 })

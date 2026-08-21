@@ -12,16 +12,16 @@ import { PRICING_DRAFT_COOKIE, normalizePricingDraft, parsePricingDraftEnvelope,
 export const metadata: Metadata = {
   title: 'Tarifs Collaborateur IA et entreprise IA | Unitalk',
   description:
-    'Configurez votre entreprise IA : Licence Entreprise IA, Licences Collaborateur IA dès 49 €/mois et capacité modèles IA avec Vos Clés API ou jusqu’à 20 millions de tokens.',
+    'Un compte entreprise à 50 €/mois, chaque Collaborateur IA à 49 €/mois et une utilisation des modèles IA ajustable de 0 à 100 €/mois.',
   alternates: { canonical: '/tarifs' },
   openGraph: {
     type: 'website',
     url: 'https://unitalk.ai/tarifs',
     title: 'Tarifs Collaborateur IA et entreprise IA | Unitalk',
-    description: 'Un compte central, des Collaborateurs IA à 49 €/mois, Hermes gratuit sous licence MIT et une capacité modèles IA ajustable.',
+    description: 'Trois éléments composent votre prix : l’entreprise, les Collaborateurs IA et leur utilisation des modèles.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
-  twitter: { card: 'summary_large_image', title: 'Tarifs Collaborateur IA | Unitalk', description: 'Configurez votre entreprise IA et calculez immédiatement votre prix mensuel.', images: ['/opengraph-image'] },
+  twitter: { card: 'summary_large_image', title: 'Tarifs Collaborateur IA | Unitalk', description: '50 € par entreprise, 49 € par Collaborateur IA et une utilisation des modèles ajustable.', images: ['/opengraph-image'] },
 }
 
 const pricingFaqItems=[['Comment est calculé le prix de Unitalk ?','Le total comprend une Licence Entreprise IA, les Licences Collaborateur IA et leur capacité modèles IA.'],['Que comprend une Licence Collaborateur IA ?','Une identité IA, des moyens de communication, une mémoire, des applications, des fichiers, des ressources privées et un environnement isolé.'],['Hermes est-il payant ?','Non. Hermes est gratuit et open source sous licence MIT.'],['Puis-je utiliser mes propres Clés API ?','Oui. Unitalk ne facture alors aucun quota de modèles ; vos fournisseurs facturent directement leur consommation.'],['Puis-je modifier ma configuration ?','Oui. Le nombre de Collaborateurs IA et leur capacité restent ajustables.']]

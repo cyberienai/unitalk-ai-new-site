@@ -9,14 +9,11 @@ describe('pricing simplification', () => {
   it('separates the paid AI Collaborator from free MIT-licensed Hermes', () => {
     expect(configurator).toContain('Chaque licence comprend une identité IA, une voix, un email, un calendrier, un numéro de téléphone, une mémoire, des applications autorisées et un environnement privé.')
     expect(configurator).toContain("lineCollab: 'Licence Collaborateur IA'")
-    expect(sections).toContain("name: 'Licence Collaborateur IA'")
-    expect(sections).toContain("name: 'Hermes open source'")
-    expect(sections).toContain("price: 'Gratuit'")
-    expect(sections).toContain("period: ' · Licence MIT'")
-    expect(sections).toContain('Profils métier et compétences')
-    expect(sections).toContain('Applications et modèles IA autorisés')
-    expect(sections).toContain('Email, calendrier et numéro de téléphone')
-    expect(sections).toContain('Le compte central de votre entreprise pour administrer les humains, les Collaborateurs IA, leurs accès, leurs budgets et leur facturation.')
+    expect(sections).toContain("label: 'Chaque Collaborateur IA'")
+    expect(sections).toContain('Hermes, Workspace et Desktop sont inclus.')
+    expect(sections).toContain("'Hermes open source'")
+    expect(sections).toContain('Son identité, sa mémoire, ses communications, ses applications et son serveur privé.')
+    expect(sections).toContain('Un seul compte pour vos équipes, vos Collaborateurs IA, leurs accès et leur facturation.')
     expect(configurator).not.toContain('profil Hermes')
   })
 
@@ -27,21 +24,21 @@ describe('pricing simplification', () => {
   })
 
   it('uses plain-language pricing hierarchy', () => {
-    expect(sections).toContain('Des tarifs clairs pour toute votre entreprise IA.')
-    expect(sections).toContain("heroAccent: 'Composables. Sans surprise.'")
-    expect(sections).not.toContain("heroAccent: 'Clairs. Composables. Sans surprise.'")
-    expect(sections).toContain('Ce que vous payez. Ce qui reste gratuit.')
-    expect(sections).toContain('Une seule Licence Entreprise IA est nécessaire par entreprise')
-    expect(configurator).toContain("lineOrg: 'Licence Entreprise IA'")
+    expect(sections).toContain('Un prix simple pour commencer.')
+    expect(sections).toContain('Une configuration qui évolue avec vous.')
+    expect(sections).toContain("label: 'Votre entreprise'")
+    expect(configurator).toContain("lineOrg: 'Votre entreprise'")
     expect(configurator).toContain("lineOrgDetail: 'Administration centralisée, Alma, Workspace et Desktop'")
     expect(configurator).toContain("lineHermes: 'Hermes open source'")
     expect(configurator).toContain("lineHermesDetail: 'Profils métier et compétences · Licence MIT'")
     expect(configurator).toContain("cardAfterTrial: 'Total mensuel'")
+    expect(configurator).toContain("heading: 'Configurez votre prix'")
+    expect(configurator).toContain("planTitle: '2. Quel volume de travail ?'")
   })
 
   it('writes API keys and token capacities in full', () => {
     expect(configurator).toContain("name: 'Vos Clés API'")
-    for (const [name, volume] of [['Quart-temps', '5 millions de tokens par mois'], ['Mi-temps', '10 millions de tokens par mois'], ['Temps plein', '20 millions de tokens par mois']]) {
+    for (const [name, volume] of [['Usage régulier', '5 millions de tokens par mois'], ['Usage soutenu', '10 millions de tokens par mois'], ['Usage intensif', '20 millions de tokens par mois']]) {
       expect(configurator).toContain(`name: '${name}'`)
       expect(configurator).toContain(`tokens: '${volume}'`)
     }

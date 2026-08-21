@@ -16,6 +16,7 @@
 import type { Bilingual } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
 import { DIGITAL_AGENCY_PROFILES } from '@/lib/digital-agency-profiles'
+import { MUSTAD_SKILLS } from '@/lib/mustad-skills'
 
 export type StoreType = 'profil' | 'competence' | 'integration' | 'application' | 'server'
 export type ApplicationKind = 'connector' | 'native-open-source' | 'private-app' | 'app-template'
@@ -352,12 +353,20 @@ const PROFILS: StoreItem[] = [
     relatedSkills:['organiser-les-priorites','preparer-un-reporting'], possibleApps:['notion','slack'], order:10, dateAdded:'2026-08-13', keywords:['projet','coordination','planning','risque'],
   },
   {
-    type: 'profil', slug: 'charge-prospection', name:{fr:'Chargé de prospection',en:'Prospecting specialist'},
+    type: 'profil', slug: 'charge-prospection', name:{fr:'Commercial SDR',en:'Sales Development Representative'},
     description:{fr:'Recherche les entreprises pertinentes et prépare des prises de contact personnalisées.',en:'Finds relevant companies and prepares personalized outreach.'}, creator:'unitalk', facet:'ventes',
     roleInOrg:{fr:'Responsabilité de ciblage, enrichissement et préparation des relances.',en:'Responsibility for targeting, enrichment and follow-up preparation.'},
     knowHow:[{fr:'Ciblage',en:'Targeting'},{fr:'Enrichissement',en:'Enrichment'},{fr:'Personnalisation',en:'Personalization'},{fr:'Relance',en:'Follow-up'}],
     exampleMissions:[{fr:'Créer une liste qualifiée',en:'Build a qualified list'},{fr:'Préparer les messages',en:'Prepare messages'},{fr:'Planifier les relances',en:'Plan follow-ups'}],
-    relatedSkills:['qualifier-un-prospect','relancer-une-opportunite'],possibleApps:['hubspot','salesforce','linkedin'],order:11,dateAdded:'2026-08-13',keywords:['prospection','ciblage','lead','relance'],
+    relatedSkills:['qualifier-un-prospect','relancer-une-opportunite'],possibleApps:['hubspot','salesforce','linkedin'],order:11,dateAdded:'2026-08-13',keywords:['commercial','sdr','sales development representative','prospection','ciblage','lead','relance'],
+  },
+  {
+    type: 'profil', slug: 'agent-telephonique', name: { fr: 'Agent téléphonique', en: 'Phone agent' },
+    description: { fr: 'Prend en charge les appels entrants, qualifie les demandes et les transmet selon les règles de votre entreprise.', en: 'Handles inbound calls, qualifies requests and routes them according to your organization’s rules.' }, creator: 'unitalk', facet: 'relation-client',
+    roleInOrg: { fr: 'Premier point de contact téléphonique pour l’accueil, la qualification et l’orientation des appelants.', en: 'First telephone point of contact for greeting, qualifying and routing callers.' },
+    knowHow: [{ fr: 'Accueil téléphonique', en: 'Call handling' }, { fr: 'Qualification des demandes', en: 'Request qualification' }, { fr: 'Prise de rendez-vous', en: 'Appointment booking' }, { fr: 'Routage et escalade', en: 'Routing and escalation' }],
+    exampleMissions: [{ fr: 'Répondre aux appels des clients', en: 'Answer customer calls' }, { fr: 'Qualifier et transmettre une demande', en: 'Qualify and route a request' }],
+    relatedSkills: ['repondre-aux-appels', 'qualifier-une-demande'], possibleApps: ['zendesk', 'google-agenda'], order: 12, dateAdded: '2026-08-21', keywords: ['agent téléphonique','accueil téléphonique','appel','téléphone','standard','prise de rendez-vous','phone agent'], version: '1.0.0', commercialStatus: 'included', usageRights: { fr: 'Utilisation dans l’entreprise selon les droits accordés.', en: 'Use within the organization according to granted rights.' },
   },
   {
     type:'profil',slug:'responsable-marketing',name:{fr:'Responsable marketing',en:'Marketing manager'},
@@ -528,6 +537,40 @@ const PROFILS: StoreItem[] = [
     dateAdded: '2024-12-15',
     keywords: ['operations', 'coordination', 'projet', 'suivi', 'ops'],
   },
+  ...[
+    ['decouverte-profil-client-ideal', 'Découverte du profil client idéal', 'Identifie et documente les profils clients idéaux à partir des données, entretiens et signaux disponibles.', 'ventes', ['Définition des critères ICP', 'Analyse des segments', 'Recherche de signaux', 'Documentation des hypothèses'], ['Définir un ICP prioritaire', 'Comparer les segments les plus prometteurs']],
+    ['enrichissement-donnees', 'Enrichissement des données', 'Complète et vérifie les données des prospects et des comptes à partir des sources autorisées.', 'ventes', ['Enrichissement de données', 'Vérification des sources', 'Déduplication', 'Mise à jour CRM'], ['Enrichir une liste de prospects', 'Contrôler la qualité des données CRM']],
+    ['production-contenu', 'Production de contenu', 'Produit des contenus adaptés à la marque, à l’audience, au canal et à l’objectif de chaque campagne.', 'contenu-social', ['Recherche documentaire', 'Rédaction multicanale', 'Adaptation éditoriale', 'Contrôle qualité'], ['Produire une série de contenus', 'Décliner un message sur plusieurs canaux']],
+    ['redaction-messages-prospection', 'Rédaction de messages de prospection', 'Prépare des messages de prospection personnalisés selon le profil, le contexte et les règles de contact.', 'ventes', ['Personnalisation des messages', 'Séquences de prospection', 'Recherche de contexte', 'Préparation des relances'], ['Rédiger une séquence de prospection', 'Préparer des variantes de messages']],
+    ['tri-routage-reponses', 'Tri et routage des réponses', 'Classe les réponses reçues, détecte leur intention et les oriente vers la bonne personne ou la bonne action.', 'relation-client', ['Classification des réponses', 'Détection d’intention', 'Routage', 'Escalade humaine'], ['Trier les réponses d’une campagne', 'Router les demandes prioritaires']],
+    ['preparation-reunions-synthese-appels', 'Préparation de réunions et synthèse d’appels', 'Prépare les rendez-vous et transforme les échanges en synthèses, décisions et actions de suivi.', 'ventes', ['Préparation de rendez-vous', 'Synthèse d’appels', 'Extraction des décisions', 'Suivi des actions'], ['Préparer un rendez-vous commercial', 'Résumer un appel et ses prochaines étapes']],
+    ['copilote-equipes-terrain', 'Copilote des équipes terrain', 'Accompagne les équipes terrain avec le contexte, les priorités et les informations utiles avant et après chaque visite.', 'ventes', ['Préparation de visite', 'Accès au contexte client', 'Compte-rendu terrain', 'Priorisation des suivis'], ['Préparer une tournée terrain', 'Formaliser les suites d’une visite']],
+    ['synthese-qualitative', 'Synthèse qualitative', 'Analyse des retours qualitatifs et en extrait les thèmes, signaux, divergences et recommandations.', 'data-mesure', ['Codification qualitative', 'Analyse thématique', 'Synthèse multi-source', 'Formulation de recommandations'], ['Synthétiser des entretiens clients', 'Analyser des retours utilisateurs']],
+    ['reporting-synthese-hebdomadaire', 'Reporting et synthèse hebdomadaire', 'Consolide les faits marquants, indicateurs, risques et prochaines actions dans un rapport hebdomadaire.', 'data-mesure', ['Consolidation des indicateurs', 'Synthèse hebdomadaire', 'Détection des écarts', 'Mise en évidence des priorités'], ['Préparer la synthèse hebdomadaire', 'Produire un reporting d’activité']],
+    ['operations-relations-presse', 'Opérations de relations presse', 'Structure les opérations de relations presse, de la préparation des angles au suivi des contacts et retombées.', 'marketing', ['Veille média', 'Préparation de pitchs', 'Suivi des contacts presse', 'Analyse des retombées'], ['Préparer une campagne de relations presse', 'Suivre les retombées médiatiques']],
+    ['previsions-propositions-commerciales', 'Prévisions et propositions commerciales', 'Prépare les prévisions commerciales et assemble des propositions cohérentes avec le besoin et le contexte client.', 'ventes', ['Prévision commerciale', 'Analyse du pipeline', 'Préparation de propositions', 'Documentation des hypothèses'], ['Préparer une prévision de ventes', 'Construire une proposition commerciale']],
+    ['operations-influence', 'Opérations d’influence', 'Identifie les partenaires pertinents et coordonne les campagnes, validations, livrables et résultats.', 'marketing', ['Recherche d’influenceurs', 'Qualification des partenariats', 'Suivi des livrables', 'Analyse de campagne'], ['Préparer une campagne d’influence', 'Suivre les partenariats en cours']],
+    ['test-creations-publicitaires', 'Test de créations publicitaires', 'Conçoit et suit des tests de créations publicitaires afin d’identifier les messages et formats performants.', 'acquisition', ['Conception de variantes', 'Plan de test', 'Suivi des performances', 'Synthèse des apprentissages'], ['Préparer un test de créations publicitaires', 'Comparer les résultats des variantes']],
+    ['cycle-vie-fidelisation', 'Cycle de vie et fidélisation', 'Coordonne les communications du cycle de vie pour favoriser l’activation, l’engagement et la fidélisation.', 'crm-cycle-vie', ['Segmentation client', 'Scénarios de cycle de vie', 'Analyse de rétention', 'Optimisation des campagnes'], ['Construire un parcours de rétention', 'Analyser les signaux de désengagement']],
+  ].map(([slug, name, description, facet, skills, missions], index) => ({
+    type: 'profil' as const,
+    slug: slug as string,
+    name: { fr: name as string, en: name as string },
+    description: { fr: description as string, en: description as string },
+    creator: 'unitalk' as const,
+    facet: facet as string,
+    roleInOrg: { fr: description as string, en: description as string },
+    knowHow: (skills as string[]).map((skill) => ({ fr: skill, en: skill })),
+    exampleMissions: (missions as string[]).map((mission) => ({ fr: mission, en: mission })),
+    relatedSkills: [],
+    possibleApps: [],
+    order: 300 + index,
+    dateAdded: '2026-08-21',
+    keywords: [slug as string, name as string, ...(skills as string[]), ...(missions as string[])],
+    version: '1.0.0',
+    commercialStatus: 'included' as const,
+    usageRights: { fr: 'Utilisation dans l’entreprise selon les droits accordés.', en: 'Use within the organization according to granted rights.' },
+  })),
 ]
 
 // --- Compétences -----------------------------------------------------------
@@ -1193,7 +1236,7 @@ const SERVERS: StoreItem[] = [
   { type: 'server', slug: 'xxl', name: { fr: 'Infrastructure souveraine', en: 'Sovereign infrastructure' }, description: { fr: 'Un déploiement sur mesure pour les volumes élevés et les exigences de confidentialité et de souveraineté les plus fortes.', en: 'A tailored deployment for high volumes and the strictest privacy and sovereignty requirements.' }, creator: 'unitalk', facet: 'infrastructure', enables: [{ fr: 'Concevoir une infrastructure privée et souveraine sur mesure', en: 'Design tailored private sovereign infrastructure' }], contexts: [{ fr: 'Sur demande pour déploiement critique ou à grande échelle', en: 'On request for critical or large-scale deployments' }], permissions: [{ fr: 'Architecture, hébergement et conditions définis sur étude', en: 'Architecture, hosting and terms defined after assessment' }], order: 3, dateAdded: '2026-08-16', keywords: ['infrastructure souveraine','confidentialité','privé','sur mesure'], commercialStatus: 'draft' },
 ]
 
-export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...INTEGRATIONS, ...APPLICATIONS, ...SERVERS]
+export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...COMPETENCES, ...MUSTAD_SKILLS, ...INTEGRATIONS, ...APPLICATIONS, ...SERVERS]
 
 // Fast lookup by type-slug + item-slug (used by fiche pages).
 export function getStoreItem(typeSlug: string, slug: string): StoreItem | undefined {

@@ -3,91 +3,42 @@
 import { Check } from 'lucide-react'
 import { PricingConfigurator } from './pricing-configurator'
 import { useLanguage } from '@/lib/language-context'
+import { Kicker } from '@/components/home/section-kicker'
 
 const T = {
   fr: {
-    eyebrow: 'Tarifs · Entreprise IA',
-    heroAccent: 'Composables. Sans surprise.',
-    title: 'Des tarifs clairs pour toute votre entreprise IA.',
-    subtitle:
-      'Réunissez vos équipes humaines et vos Collaborateurs IA dans un compte unique. Choisissez le nombre de Collaborateurs, leurs ressources et leur capacité d’utilisation des modèles IA. Le total est calculé immédiatement.',
-    trial: '7 jours gratuits · Sans carte bancaire',
-    proofs: ['Prix calculé immédiatement', 'Hermes gratuit · Licence MIT', 'Configuration ajustable'],
-    plansTitle: 'Ce que vous payez. Ce qui reste gratuit.',
-    plansLead:
-      "Une seule Licence Entreprise IA est nécessaire par entreprise. Elle est facturée 50 €/mois hors promotion. Chaque Licence Collaborateur IA ajoute une identité et des ressources privées. La capacité IA finance l’utilisation des modèles. Hermes reste gratuit sous licence MIT.",
-    plans: [
-      {
-        name: 'Licence Entreprise IA',
-        price: '50€',
-        period: ' / entreprise',
-        desc: 'Le compte central de votre entreprise pour administrer les humains, les Collaborateurs IA, leurs accès, leurs budgets et leur facturation.',
-        features: ['Alma pour préparer les missions', 'Espace commun pour suivre le travail et valider les décisions', 'Catalogues de profils, compétences et applications', 'Modèles IA, budgets et facturation centralisés', 'Membres humains illimités'],
-      },
-      {
-        name: 'Licence Collaborateur IA',
-        price: '49€',
-        period: ' / Collaborateur',
-        desc: "Une identité IA professionnelle et son environnement privé de travail dans votre entreprise.",
-        features: ['Identité IA : prénom, avatar et voix', 'Email, calendrier et numéro de téléphone', 'Mémoire IA et historique', 'Applications et modèles IA autorisés', 'Ressources IA, fichiers et serveur IA isolé'],
-      },
-      {
-        name: 'Capacité modèles IA',
-        price: '0–100€',
-        period: ' / Collaborateur',
-        desc: 'Utilisez vos Clés API ou attribuez 5, 10 ou 20 millions de tokens par mois à chaque Collaborateur IA.',
-        features: ['Apportez vos propres clés APIs à 0 €', 'Ajoutez des crédits prépayés', 'Ajustable à tout moment'],
-      },
-      {
-        name: 'Hermes open source',
-        price: 'Gratuit',
-        period: ' · Licence MIT',
-        desc: 'Le moteur agentique open source qui permet de planifier, apprendre des savoir-faire et exécuter le travail.',
-        features: ['Profils métier et compétences', 'Navigateur, terminal et planification', 'Code source ouvert · Licence MIT', 'Aucun prix de licence Hermes'],
-      },
+    kicker: 'Tarifs Unitalk',
+    title: 'Un prix simple pour commencer.',
+    accent: 'Une configuration qui évolue avec vous.',
+    lead: 'Votre prix repose sur trois éléments. Choisissez le nombre de Collaborateurs et leur volume de travail. Le total se calcule immédiatement.',
+    trial: ['Première mission gratuite', 'Sans carte bancaire', 'Aucune activation payante automatique'],
+    components: [
+      { label: 'Votre entreprise', price: '50 €', period: '/mois', body: 'Un seul compte pour vos équipes, vos Collaborateurs IA, leurs accès et leur facturation.' },
+      { label: 'Chaque Collaborateur IA', price: '49 €', period: '/mois', body: 'Son identité, sa mémoire, ses communications, ses applications et son serveur privé.' },
+      { label: 'Utilisation des modèles IA', price: '0 à 100 €', period: '/mois', body: 'Vos propres clés API ou une capacité adaptée au volume de travail confié.' },
     ],
+    promo: 'Les remises de lancement applicables sont calculées automatiquement dans votre estimation.',
+    includedKicker: 'Inclus sans coût supplémentaire',
+    includedTitle: 'Hermes, Workspace et Desktop sont inclus.',
+    includedBody: 'Hermes reste gratuit sous licence MIT. Workspace et Desktop accompagnent chaque configuration Unitalk.',
+    included: ['Hermes open source', 'Workspace collaboratif', 'Application Desktop', 'Membres humains illimités'],
   },
   en: {
-    eyebrow: 'Pricing · AI Company',
-    heroAccent: 'Composable. No surprises.',
-    title: 'Clear pricing for your entire AI company.',
-    subtitle:
-      'Bring your human teams and AI Collaborators together under one account. Choose the number of Collaborators, their resources and their AI model capacity. Your total is calculated instantly.',
-    trial: '7 days free. No credit card.',
-    proofs: ['Instant price calculation', 'Hermes free · MIT License', 'Adjustable configuration'],
-    plansTitle: 'What you pay for. What stays free.',
-    plansLead:
-      'The AI Company account is billed once. Each AI Collaborator License adds a private identity and resources. AI capacity funds model usage. Hermes remains free under the MIT License.',
-    plans: [
-      {
-        name: 'AI Company License',
-        price: '€50',
-        period: ' / company',
-        desc: 'Your company’s central account for administering people, AI Collaborators, access, budgets and billing.',
-        features: ['Alma to prepare missions', 'Shared space to follow work and approve decisions', 'Catalogs of profiles, skills and applications', 'AI models, budgets and centralized billing', 'Unlimited human members'],
-      },
-      {
-        name: 'AI Collaborator License',
-        price: '€49',
-        period: ' / Collaborator',
-        desc: 'A professional AI identity and its private working environment in your company.',
-        features: ['AI identity: first name, avatar and voice', 'Email, calendar and phone number', 'AI memory and history', 'Authorized applications and AI models', 'AI resources, files and isolated AI server'],
-      },
-      {
-        name: 'AI Model Capacity',
-        price: '€0–100',
-        period: ' / Collaborator',
-        desc: 'Use your API Keys or assign 5, 10 or 20 million tokens per month to each AI Collaborator.',
-        features: ['Bring your own API keys at €0', 'Add prepaid credits', 'Adjust anytime'],
-      },
-      {
-        name: 'Open-source Hermes',
-        price: 'Free',
-        period: ' · MIT License',
-        desc: 'The open-source agentic engine that plans, learns know-how and executes work.',
-        features: ['Job profiles and skills', 'Browser, terminal and scheduling', 'Open source code · MIT License', 'No Hermes license fee'],
-      },
+    kicker: 'Unitalk pricing',
+    title: 'A simple price to get started.',
+    accent: 'A setup that evolves with you.',
+    lead: 'Your price has three components. Choose the number of Collaborators and their workload. The total updates instantly.',
+    trial: ['First mission free', 'No credit card', 'No automatic paid activation'],
+    components: [
+      { label: 'Your organization', price: '€50', period: '/month', body: 'One account for your teams, AI Collaborators, access and billing.' },
+      { label: 'Each AI Collaborator', price: '€49', period: '/month', body: 'Identity, memory, communications, applications and private server.' },
+      { label: 'AI model usage', price: '€0 to €100', period: '/month', body: 'Your own API keys or capacity suited to the assigned workload.' },
     ],
+    promo: 'Applicable launch discounts are calculated automatically in your estimate.',
+    includedKicker: 'Included at no extra cost',
+    includedTitle: 'Hermes, Workspace and Desktop are included.',
+    includedBody: 'Hermes remains free under the MIT License. Workspace and Desktop accompany every Unitalk setup.',
+    included: ['Open-source Hermes', 'Collaborative Workspace', 'Desktop application', 'Unlimited human members'],
   },
 } as const
 
@@ -97,27 +48,21 @@ export function PricingHero() {
 
   return (
     <section className="relative overflow-hidden border-b border-[#D8D0C2] px-5 pb-16 pt-28 sm:px-8 sm:pt-32">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"
-      />
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
       <div className="editorial-shell relative">
-        <p className="font-mono text-[10px] font-black uppercase tracking-[.22em] text-[#B00C54]">{t.eyebrow}</p>
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
-          <h1 className="max-w-[900px] text-balance font-sf text-[clamp(2.7rem,5.8vw,5.8rem)] font-semibold leading-[.9] tracking-[-.065em]">
-            {t.title}<span className="mt-2 block text-[#D10E63]">{t.heroAccent}</span>
-          </h1>
-          <div className="lg:pb-3">
-            <p className="text-[17px] leading-8 text-[#4E483F]">{t.subtitle}</p>
-            <p className="mt-4 text-sm font-bold text-[#B00C54]">{t.trial}</p>
-          </div>
+        <Kicker>{t.kicker}</Kicker>
+        <div className="mt-6 grid gap-7 lg:grid-cols-[1.08fr_.92fr] lg:items-end">
+          <h1 className="max-w-4xl text-balance font-sf text-[clamp(2.5rem,5.2vw,5.2rem)] font-semibold leading-[.92] tracking-[-.06em]">{t.title}<span className="mt-2 block text-[#D10E63]">{t.accent}</span></h1>
+          <p className="max-w-xl text-[16px] leading-8 text-[#4E483F] lg:pb-2">{t.lead}</p>
         </div>
-        <div className="mt-10 grid border-y border-[#CFC5B5] sm:grid-cols-3">
-          {t.proofs.map((proof, index) => <p key={proof} className="flex min-h-16 items-center gap-4 border-b border-[#CFC5B5] py-3 text-sm font-bold last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"><span className="font-mono text-[9px] text-[#B00C54]">0{index + 1}</span>{proof}</p>)}
+
+        <div className="mt-10 grid overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#CFC5B5] md:grid-cols-3">
+          {t.components.map((item, index) => <article key={item.label} className={`bg-[#FAF8F3] p-6 sm:p-7 ${index > 0 ? 'border-t border-[#CFC5B5] md:border-l md:border-t-0' : ''}`}><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]">{item.label}</p><p className="mt-4 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-none tracking-[-.06em]">{item.price}<span className="ml-1 text-xs font-semibold tracking-normal text-[#766D61]">{item.period}</span></p><p className="mt-4 text-sm leading-6 text-[#625B50]">{item.body}</p></article>)}
         </div>
-        <div className="mt-10 scroll-mt-24">
-          <PricingConfigurator />
-        </div>
+        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#625B50]">{t.trial.map(item=><span key={item} className="inline-flex items-center gap-1.5"><Check className="size-3.5 text-[#D10E63]"/>{item}</span>)}</div>
+        <p className="mt-3 text-xs text-[#857C6E]">{t.promo}</p>
+
+        <div className="mt-10 scroll-mt-24"><PricingConfigurator /></div>
       </div>
     </section>
   )
@@ -126,42 +71,5 @@ export function PricingHero() {
 export function PricingCollaboration() {
   const { lang } = useLanguage()
   const t = T[lang]
-
-  return (
-    <section className="border-y border-[#DED6C8] bg-[#EAE3D4] px-5 py-20 sm:px-8 sm:py-28">
-      <div className="editorial-shell">
-        <p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{lang === 'fr' ? 'Architecture du prix' : 'Pricing architecture'}</p>
-        <h2 className="mt-6 max-w-5xl text-[clamp(2.7rem,6vw,6rem)] font-semibold leading-[.92] tracking-[-.065em]">
-          {t.plansTitle}
-        </h2>
-        <p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{t.plansLead}</p>
-
-        <div className="mt-14 grid gap-px overflow-hidden rounded-[2rem] border border-[#CFC5B5] bg-[#CFC5B5] md:grid-cols-2 xl:grid-cols-4">
-          {t.plans.map((plan, index) => (
-            <article
-              key={plan.name}
-              className={`flex min-h-[440px] flex-col p-7 ${index === 3 ? 'bg-[#181615] text-white' : index === 1 ? 'bg-[#D10E63] text-white' : 'bg-[#FAF8F3] text-[#1C1A17]'}`}
-            >
-              <div>
-                <p className={`font-mono text-[9px] font-black uppercase tracking-[.18em] ${index === 1 || index === 3 ? 'text-white/65' : 'text-[#B00C54]'}`}>0{index + 1}</p>
-                <h3 className="mt-8 text-2xl font-semibold tracking-[-.035em]">{plan.name}</h3>
-                <p className={`mt-5 text-[clamp(2.5rem,4vw,4.5rem)] font-semibold leading-none tracking-[-.07em] ${index === 1 || index === 3 ? 'text-white' : 'text-[#D10E63]'}`}>
-                  {plan.price}
-                  <span className={`block pt-3 text-xs font-semibold tracking-normal ${index === 1 || index === 3 ? 'text-white/65' : 'text-[#6B6560]'}`}>{plan.period}</span>
-                </p>
-                <p className={`mt-7 text-sm leading-7 ${index === 1 || index === 3 ? 'text-white/75' : 'text-[#5A5348]'}`}>{plan.desc}</p>
-              </div>
-              <ul className={`mt-auto space-y-3 border-t pt-6 text-xs font-semibold ${index === 1 || index === 3 ? 'border-white/20 text-white/85' : 'border-[#DED6C8] text-[#3F3A33]'}`}>
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex gap-2">
-                    <Check className={`size-4 shrink-0 ${index === 1 || index === 3 ? 'text-[#F2A4C5]' : 'text-[#D10E63]'}`} /> {feature}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+  return <section className="border-y border-[#DED6C8] bg-[#EAE3D4] px-5 py-14 sm:px-8 sm:py-18"><div className="editorial-shell grid gap-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center"><div><Kicker>{t.includedKicker}</Kicker><h2 className="mt-5 max-w-3xl text-balance text-[clamp(2rem,4vw,3.7rem)] font-semibold leading-[.96] tracking-[-.055em]">{t.includedTitle}</h2><p className="mt-5 max-w-xl text-sm leading-7 text-[#4E483F]">{t.includedBody}</p></div><ul className="grid gap-px overflow-hidden rounded-[20px] border border-[#CFC5B5] bg-[#CFC5B5] sm:grid-cols-2">{t.included.map(item=><li key={item} className="flex min-h-20 items-center gap-3 bg-[#FAF8F3] p-5 text-sm font-bold"><Check className="size-4 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></div></section>
 }

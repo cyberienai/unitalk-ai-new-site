@@ -16,7 +16,6 @@ import {
   Server,
   ShieldCheck,
   UserRound,
-  Volume2,
   type LucideIcon,
 } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'

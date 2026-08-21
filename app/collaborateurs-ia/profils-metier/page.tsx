@@ -6,7 +6,7 @@ const SITE_URL = 'https://unitalk.ai'
 export const metadata: Metadata = {
   title: 'Profils métier IA : trouvez le bon Collaborateur IA',
   description:
-    'Explorez 29 profils métier IA prêts à adapter : commercial, support client, direction, marketing, finance, RH et opérations. Alma vous aide à choisir.',
+    'Explorez 44 profils métier IA prêts à adapter : commercial, support client, direction, marketing, finance, RH et opérations. Alma vous aide à choisir.',
   keywords: [
     'profil métier IA',
     'Collaborateur IA par métier',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: `${SITE_URL}/collaborateurs-ia/profils-metier`,
-    title: '29 profils métier pour Collaborateurs IA | Unitalk',
+    title: '44 profils métier pour Collaborateurs IA | Unitalk',
     description:
       'Trouvez une responsabilité prête à adapter et confiez une première mission au bon Collaborateur IA.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],

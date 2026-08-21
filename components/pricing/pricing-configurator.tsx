@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { startTransition, useState } from 'react'
-import { ChevronDown, Minus, Plus, Users, ArrowRight, Coins } from 'lucide-react'
+import { ChevronDown, Minus, Plus, ArrowRight, Coins } from 'lucide-react'
 import { persistPricingDraft } from '@/app/actions/pricing'
 import {
   configurationBreakdownAt,
@@ -28,52 +28,52 @@ const PERIODS_EN = [
 const PLAN_INFO = {
   fr: {
     byok: {
-      name: 'Vos Clés API',
-      slogan: 'BYOK · Aucun quota Unitalk',
+      name: 'Vos propres clés',
+      slogan: 'Vous payez directement vos fournisseurs',
       tokens: 'Consommation facturée par vos fournisseurs',
       desc: 'Connectez les clés API que votre entreprise utilise déjà chez OpenAI, Anthropic, Google ou un autre fournisseur compatible.',
     },
     quarterTime: {
-      name: 'Quart-temps',
-      slogan: 'Pour commencer',
+      name: 'Usage régulier',
+      slogan: 'Missions légères ou récurrentes',
       tokens: '5 millions de tokens par mois',
       desc: 'Pour les missions légères ou récurrentes : veille, mise à jour du CRM et tâches simples.',
     },
     halfTime: {
-      name: 'Mi-temps',
-      slogan: 'Pour un usage quotidien',
+      name: 'Usage soutenu',
+      slogan: 'Travail quotidien',
       tokens: '10 millions de tokens par mois',
       desc: 'Pour une activité quotidienne : traitement des emails, qualification de prospects et gestion du calendrier.',
     },
     fullTime: {
-      name: 'Temps plein',
-      slogan: 'Pour les volumes importants',
+      name: 'Usage intensif',
+      slogan: 'Volumes importants et processus complexes',
       tokens: '20 millions de tokens par mois',
       desc: 'Pour les processus complexes, les volumes soutenus et le travail continu dans plusieurs applications.',
     },
   },
   en: {
     byok: {
-      name: 'Your API Keys',
-      slogan: 'BYOK · No Unitalk allowance',
+      name: 'Your own keys',
+      slogan: 'You pay your providers directly',
       tokens: 'Usage billed by your providers',
       desc: 'Connect the API keys your company already uses with OpenAI, Anthropic, Google or another compatible provider.',
     },
     quarterTime: {
-      name: 'Quarter-time',
-      slogan: 'To get started',
+      name: 'Regular use',
+      slogan: 'Light or recurring missions',
       tokens: '5 million tokens / month',
       desc: 'For light or recurring missions: monitoring, CRM updates and simple tasks.',
     },
     halfTime: {
-      name: 'Half-time',
-      slogan: 'For daily use',
+      name: 'Sustained use',
+      slogan: 'Daily work',
       tokens: '10 million tokens / month',
       desc: 'For daily activity: handling emails, qualifying prospects and managing the calendar.',
     },
     fullTime: {
-      name: 'Full-time',
-      slogan: 'For high volumes',
+      name: 'Intensive use',
+      slogan: 'High volumes and complex processes',
       tokens: '20 million tokens / month',
       desc: 'For complex processes, sustained volumes and continuous work across multiple applications.',
     },
@@ -82,23 +82,23 @@ const PLAN_INFO = {
 
 const T = {
   fr: {
-    eyebrow: 'Votre personnalisation',
-    heading: 'Personnalisez votre équipe IA',
-    collabTitle: 'Collaborateurs IA',
-    collabDesc: 'Chaque licence comprend une identité IA, une voix, un email, un calendrier, un numéro de téléphone, une mémoire, des applications autorisées et un environnement privé. Hermes fournit les profils et compétences sous licence MIT.',
-    planTitle: 'Quelle capacité IA pour chaque Collaborateur ?',
-    planDesc: 'Choisissez vos Clés API ou un volume mensuel de modèles IA.',
-    cocreatorTitle: 'Co-créateurs IA',
+    eyebrow: 'Votre prix en trois choix',
+    heading: 'Configurez votre prix',
+    collabTitle: '1. Combien de Collaborateurs IA ?',
+    collabDesc: 'Chaque Collaborateur coûte 49 €/mois et comprend son identité, sa mémoire, ses communications, ses applications et son serveur privé.',
+    planTitle: '2. Quel volume de travail ?',
+    planDesc: 'Choisissez un usage. Les volumes de tokens restent visibles pour la transparence.',
+    cocreatorTitle: '3. Ajouter des Co-créateurs IA',
     cocreatorDesc: 'Personnes autorisées à créer, tester, versionner et publier des actifs Unitalk.',
     
     // Right card
-    cardKicker: 'Estimation mensuelle',
-    cardTitle: 'Votre équipe IA',
+    cardKicker: 'Votre total',
+    cardTitle: 'Estimation mensuelle',
     cardEstimationBadge: 'Calcul en direct',
-    lineOrg: 'Licence Entreprise IA',
+    lineOrg: 'Votre entreprise',
     lineOrgDetail: 'Administration centralisée, Alma, Workspace et Desktop',
     lineLaunchPromo: 'Offre de lancement',
-    lineCollab: 'Licence Collaborateur IA',
+    lineCollab: 'Collaborateurs IA',
     lineCollabDetail: 'Identité, mémoire, communications, applications et serveur IA',
     lineForfait: 'Capacité IA',
     lineHermes: 'Hermes open source',
@@ -110,10 +110,10 @@ const T = {
     cardAfterTrial: 'Total mensuel',
     cardSovereignBadge: 'Prix après l’essai et promotions applicables',
     cardToday: 'À payer aujourd’hui',
-    cardTrialIncluded: '7 jours d’essai et 1 million de tokens inclus',
+    cardTrialIncluded: 'Première mission gratuite',
     cardTrialFree: '0 €',
-    cardCta: 'Commencer gratuitement',
-    cardNoCardNeeded: '7 jours gratuits · Sans carte bancaire',
+    cardCta: 'Démarrer ma première mission',
+    cardNoCardNeeded: 'Sans carte bancaire · Aucune activation payante automatique',
     cardAccordion: 'Voir l’évolution du prix après les promotions',
     cardCurrency: '€',
     remove: 'Retirer',
@@ -121,23 +121,23 @@ const T = {
     selectedProfile: 'Profil de départ',
   },
   en: {
-    eyebrow: 'Your personalization',
-    heading: 'Personalize your AI team',
-    collabTitle: 'AI Collaborators',
-    collabDesc: 'Each license includes an AI identity, voice, email, calendar, phone number, memory, authorized applications and a private environment. Hermes provides profiles and skills under the MIT License.',
-    planTitle: 'Which AI capacity for each Collaborator?',
-    planDesc: 'Choose your API keys or a monthly AI model allowance.',
-    cocreatorTitle: 'AI Co-creators',
+    eyebrow: 'Your price in three choices',
+    heading: 'Configure your price',
+    collabTitle: '1. How many AI Collaborators?',
+    collabDesc: 'Each Collaborator costs €49/month and includes identity, memory, communications, applications and a private server.',
+    planTitle: '2. What workload?',
+    planDesc: 'Choose a usage level. Token volumes remain visible for transparency.',
+    cocreatorTitle: '3. Add AI Co-creators',
     cocreatorDesc: 'People allowed to create, test, version and publish Unitalk assets.',
     
     // Right card
-    cardKicker: 'Monthly estimate',
-    cardTitle: 'Your AI team',
+    cardKicker: 'Your total',
+    cardTitle: 'Monthly estimate',
     cardEstimationBadge: 'Calculated live',
-    lineOrg: 'AI Company License',
+    lineOrg: 'Your organization',
     lineOrgDetail: 'Central administration, Alma, Workspace and Desktop',
     lineLaunchPromo: 'Launch Offer (Alma)',
-    lineCollab: 'AI Collaborator License',
+    lineCollab: 'AI Collaborators',
     lineCollabDetail: 'Identity, memory, communications, applications and AI server',
     lineForfait: 'AI Capacity',
     lineHermes: 'Open-source Hermes',
@@ -149,10 +149,10 @@ const T = {
     cardAfterTrial: 'Monthly total',
     cardSovereignBadge: 'Price after trial and applicable promotions',
     cardToday: 'Due today',
-    cardTrialIncluded: '7-day trial and 1 million tokens included',
+    cardTrialIncluded: 'First mission free',
     cardTrialFree: '0 €',
-    cardCta: 'Start free',
-    cardNoCardNeeded: '7 days free · No credit card',
+    cardCta: 'Start my first mission',
+    cardNoCardNeeded: 'No credit card · No automatic paid activation',
     cardAccordion: 'See how pricing changes after promotions',
     cardCurrency: '€',
     remove: 'Remove',
@@ -191,10 +191,7 @@ export function PricingConfigurator() {
         {/* Counter Collaborators */}
         <div className="flex flex-col justify-between gap-4 border-t border-[#DED6C8]/60 pt-5 sm:flex-row sm:items-center">
           <div>
-            <h3 className="text-base font-bold text-[#1C1A17] flex items-center gap-2">
-              <Users className="h-4.5 w-4.5 text-[#D10E63]" />
-              {t.collabTitle}
-            </h3>
+            <h3 className="text-lg font-bold tracking-[-.02em] text-[#1C1A17]">{t.collabTitle}</h3>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[#6E665A]">
               {t.collabDesc}
             </p>
@@ -264,7 +261,7 @@ export function PricingConfigurator() {
       </div>
 
       {/* Right Column — RADICAL Estimate Card (Sombre & Ultra Premium) */}
-      <aside aria-label={t.cardTitle} className="relative flex min-h-full flex-col justify-between overflow-hidden border-t border-white/10 bg-[#17130F] p-6 text-[#F8F1E7] sm:p-9 lg:border-l lg:border-t-0 lg:p-10">
+      <aside aria-label={t.cardTitle} className="relative flex min-h-full flex-col justify-between overflow-hidden border-t border-white/10 bg-[#17130F] p-6 text-[#F8F1E7] sm:p-9 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto lg:border-l lg:border-t-0 lg:p-10">
         <div>
           <div className="flex items-start justify-between border-b border-white/10 pb-4">
             <div>

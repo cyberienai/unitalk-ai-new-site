@@ -27,4 +27,9 @@ describe('pricing page publication requirements', () => {
     expect(page).toContain("images: [{ url: '/opengraph-image'")
     expect(page).not.toContain("'@type':'Offer'")
   })
+
+  it('makes the free first mission and paid activation explicit', () => {
+    expect(configurator).toContain("cardTrialIncluded: 'Première mission gratuite'")
+    expect(configurator).toContain('Aucune activation payante automatique')
+  })
 })
