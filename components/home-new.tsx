@@ -17,9 +17,9 @@ export function HomeNew() {
         <Navbar />
         <main className="home-page-main">
           <HeroHybrid lang={lang} />
+          <HomeEvolution lang={lang} />
           <SectionWorkspace lang={lang} />
           <HomeCollaboratorAnatomy lang={lang} />
-          <HomeEvolution lang={lang} />
           <HomeFinalCta lang={lang} />
           <HomeIntentDoors lang={lang} />
         </main>

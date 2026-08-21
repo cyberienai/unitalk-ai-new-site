@@ -26,7 +26,7 @@ describe('Profils métier marketplace SEO', () => {
 
   it('uses a department-led catalog with decision-ready profile cards', () => {
     expect(hub).toContain('const PROFILE_DEPARTMENTS = [')
-    for (const department of ['Direction et stratégie', 'Administration', 'Ventes et avant-vente', 'Relation et réussite client', 'Marketing et communication', 'Finance et comptabilité', 'Ressources humaines', 'Juridique et conformité', 'Achats, logistique et qualité', 'Produit', 'Données', 'Informatique et développement', 'Cybersécurité et qualité logicielle', 'Formation et transformation']) expect(hub).toContain(department)
+    for (const department of ['Direction et stratégie', 'Administration', 'Ventes et avant-vente', 'Relation et réussite client', 'Marketing et communication', 'Finance et comptabilité', 'Ressources humaines', 'Juridique et conformité', 'Achats, logistique et qualité', 'Produit', 'Analyse de données', 'Informatique et développement', 'Cybersécurité et DevOps', 'Formation et transformation']) expect(hub).toContain(department)
     expect(hub).toContain("heroTitle: { fr: 'Ajoutez gratuitement les profils métier dont votre Collaborateur IA a besoin.'")
     expect(hub).toContain("profileHeroProofs: ['Profils métier gratuits', 'Plusieurs profils par Collaborateur']")
     expect(hub).toContain("const usesFeaturedHero = isCollaboratorsLanding || ['profils-metier', 'competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(activeCategory.id)")
@@ -78,7 +78,7 @@ describe('Profils métier marketplace SEO', () => {
   })
 
   it('uses explicit domains for product, data, development and cybersecurity profiles', () => {
-    for (const domain of ['Produit', 'Données', 'Informatique et développement', 'Cybersécurité et qualité logicielle']) expect(catalog).toContain(domain)
+    for (const domain of ['Produit', 'Analyse de données', 'Informatique et développement', 'Cybersécurité et DevOps']) expect(catalog).toContain(domain)
     const profiles = new Map(STORE_ITEMS.filter(item => item.type === 'profil').map(item => [item.slug, item.facet]))
     expect(profiles.get('responsable-produit')).toBe('produit')
     expect(profiles.get('concepteur-experience-utilisateur')).toBe('produit')
