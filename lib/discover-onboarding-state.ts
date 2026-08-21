@@ -115,6 +115,7 @@ export function buildInitialOnboardingState({
   requestedCollaborator,
   requestedStoreItem,
   requestedModel,
+  requestedIntention,
   catalogMission,
   hasExplicitDraft,
 }: {
@@ -125,6 +126,7 @@ export function buildInitialOnboardingState({
   requestedCollaborator?: RoleDetail
   requestedStoreItem?: StoreItem
   requestedModel?: AiModel
+  requestedIntention?: string | null
   catalogMission?: Mission
   hasExplicitDraft: boolean
 }): OnboardingState {
@@ -132,13 +134,23 @@ export function buildInitialOnboardingState({
   const persisted = initialPurchaseDraft?.onboarding
   const selectedCollaborator = requestedCollaborator
   const sessionDomain = initialSession && isProfessionalEmail(initialSession.email) ? emailDomain(initialSession.email) : ''
-  const explicitMission = Boolean(catalogMission || requestedStoreItem || requestedModel || hasExplicitDraft)
+  const isProfileCreation = requestedIntention === 'nouveau-profil-metier'
+  const explicitMission = Boolean(catalogMission || requestedStoreItem || requestedModel || isProfileCreation || hasExplicitDraft)
   const mission = catalogMission
     ? missionFromCatalog(catalogMission, lang)
     : requestedStoreItem
       ? missionFromStoreItem(requestedStoreItem, lang)
     : requestedModel
       ? missionFromModel(requestedModel, lang)
+    : isProfileCreation
+      ? {
+          title: lang === 'fr' ? 'Créer un profil métier sur mesure' : 'Create a custom job profile',
+          target: lang === 'fr' ? 'Responsabilités et périmètre à définir avec Alma' : 'Responsibilities and scope to define with Alma',
+          criteria: '', sources: '', exclusions: '',
+          result: lang === 'fr' ? 'Un profil métier clair, testable et réutilisable.' : 'A clear, testable and reusable job profile.',
+          rule: '',
+          validation: lang === 'fr' ? 'Validation humaine avant attribution au Collaborateur IA.' : 'Human approval before assignment to the AI Collaborator.',
+        }
     : hasExplicitDraft
       ? emptyMission()
       : persisted?.mission ?? init.mission
@@ -150,8 +162,10 @@ export function buildInitialOnboardingState({
     lastName: initialSession?.lastName?.trim() ?? '',
     company: withDomain(persisted?.company ?? init.company, requestedDomain || sessionDomain, Boolean(requestedDomain)),
     mission,
-    missionDefined: catalogMission || requestedStoreItem || requestedModel ? true : explicitMission ? false : Boolean(persisted?.mission.title),
-    profile: requestedStoreItem?.type === 'profil' ? requestedStoreItem.name : selectedCollaborator?.role ?? persisted?.profile ?? init.profile,
+    missionDefined: catalogMission || requestedStoreItem || requestedModel || isProfileCreation ? true : explicitMission ? false : Boolean(persisted?.mission.title),
+    profile: isProfileCreation
+      ? { fr: 'Profil métier à définir', en: 'Job profile to define' }
+      : requestedStoreItem?.type === 'profil' ? requestedStoreItem.name : selectedCollaborator?.role ?? persisted?.profile ?? init.profile,
     collaboratorName: selectedCollaborator?.name ?? persisted?.collaboratorName ?? init.collaboratorName,
     collaboratorTemplateSlug: selectedCollaborator?.slug ?? persisted?.collaboratorTemplateSlug,
     organizationalPlacement: persisted?.organizationalPlacement ?? init.organizationalPlacement,

@@ -102,6 +102,14 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain("PROFILE_DEMAND_RANK.get(a.slug)")
   })
 
+  it('offers a clear path for a missing job profile', () => {
+    expect(hub).toContain('Vous ne trouvez pas le profil métier adapté ?')
+    expect(hub).toContain('adapter un profil existant ou à préparer un nouveau profil métier')
+    expect(hub).toContain('Créer mon profil métier')
+    expect(hub).toContain('Proposer un profil à la Marketplace')
+    expect(hub).not.toContain("lang === 'fr' ? 'Profil sur mesure'")
+  })
+
   it('keeps each category explanation on its reference route', () => {
     for (const href of ['/collaborateurs-ia/profils-metier','/marketplace/competences','/marketplace/applications','/modeles-ia','/collaborateurs-ia/serveurs']) expect(hub).toContain(`href: '${href}'`)
   })
@@ -130,6 +138,10 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('aria-label={`${labels.addProfile} : ${item.title}`}')
     expect(hub).not.toContain('>Profil métier</p>')
     expect(hub).not.toContain("lang === 'fr' ? 'Compétence' : 'Skill'")
+  })
+
+  it('keeps desktop filter sidebars independently scrollable', () => {
+    expect(hub.match(/max-h-\[calc\(100dvh-180px\)\] overflow-y-auto/g)).toHaveLength(2)
   })
 
   it('uses the same structured cards for skills, applications, models and servers', () => {

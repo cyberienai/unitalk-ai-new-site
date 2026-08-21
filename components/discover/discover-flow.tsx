@@ -71,6 +71,8 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   const source = parseDiscoverSource(searchParams.get('source'))
   const chooseMissionAfterAuth = searchParams.get('next') === 'missions'
   const requestedDomain = normalizeDomain(searchParams.get('domain'))
+  const requestedIntention = searchParams.get('intention')
+  const createProfileIntent = requestedIntention === 'nouveau-profil-metier'
   const catalogMission = useMemo(() => MISSIONS.find(m => m.slug === missionSlug), [missionSlug])
   const selectedCollaboratorDetail = requestedCollaboratorDetail ?? (catalogMission ? ROLE_DETAILS[catalogMission.collaboratorSlug] : undefined)
   const [draftText, setDraftText] = useState('')
@@ -86,7 +88,8 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
       requestedStoreItem,
       requestedModel,
       catalogMission,
-      hasExplicitDraft: Boolean(draftId || legacyQuery || requestedStoreItem || requestedModel),
+      requestedIntention,
+      hasExplicitDraft: Boolean(draftId || legacyQuery || requestedStoreItem || requestedModel || createProfileIntent),
     })
   })
   const [step, setStep] = useState<OnboardingStep>('entreprise')
@@ -99,6 +102,8 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
     ? { kind: 'store-item', item: requestedStoreItem, source }
     : requestedModel
     ? { kind: 'model', model: requestedModel, source }
+    : createProfileIntent
+    ? { kind: 'profile-creation', query: legacyQuery || undefined, source }
     : source === 'paul-graham'
     ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: '', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
     : missionSlug && !catalogMission ? { kind: 'invalid', requestedSlug: missionSlug, source }
@@ -172,6 +177,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
           const sourceQuery = `&source=${encodeURIComponent(source)}`
            if (requestedStoreItem) router.replace(`/decouvrir?store=${encodeURIComponent(requestedStoreItem.slug)}${sourceQuery}`)
            else if (requestedModel) router.replace(`/decouvrir?model=${encodeURIComponent(requestedModel.key)}${sourceQuery}`)
+           else if (createProfileIntent) router.replace(`/decouvrir?intention=nouveau-profil-metier${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
            else if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}${collaboratorQuery}${sourceQuery}`)
           else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}${collaboratorQuery}${sourceQuery}`)
         }}
