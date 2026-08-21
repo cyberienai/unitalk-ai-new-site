@@ -56,5 +56,9 @@ describe('competences catalog', () => {
     }
     expect(mustadSkills.find(item => item.slug === 'mustad-brand-voice')?.name.fr).toBe('Appliquer la voix de marque')
     expect(mustadSkills.find(item => item.slug === 'mustad-ad-daily-workflow')?.name.fr).toBe('Organiser le suivi publicitaire quotidien')
+    const profileSlugs = new Set(STORE_ITEMS.filter(item => item.type === 'profil').map(item => item.slug))
+    for (const skill of mustadSkills) {
+      for (const profile of skill.relatedProfiles ?? []) expect(profileSlugs.has(profile)).toBe(true)
+    }
   })
 })

@@ -51,6 +51,9 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain("role={collaboratorsOnly ? 'region' : 'tabpanel'}")
     expect(hub).toContain('Catégories de la marketplace')
     expect(hub).toContain('Première mission gratuite')
+    expect(hub).toContain('À partir de 49 €/mois')
+    expect(hub).toContain('Sans engagement')
+    expect(hub).not.toContain('À partir de 49 €/mois ensuite')
     expect(hub).not.toContain('Quel travail voulez-vous faire avancer ?')
     expect(hub).not.toContain('COLLABORATOR_NEEDS')
     expect(hub).not.toContain('Filtrer par besoin métier')
@@ -83,6 +86,8 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('Aucune activation payante automatique')
     expect(hub).toContain('/tarifs#configurateur')
     expect(hub).toContain('Voir les 12 Collaborateurs IA')
+    expect(hub).toContain('focus-visible:ring-[#D10E63] sm:hidden')
+    expect(hub).toContain('Comment fonctionne un Collaborateur IA ?')
   })
 
   it('gives every identity the same mission-led public profile', () => {

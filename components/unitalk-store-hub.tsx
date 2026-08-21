@@ -94,6 +94,8 @@ const PROFILE_DEMAND_ORDER = [
   'analyste-financier',
   'responsable-relation-client',
   'responsable-marketing',
+  'charge-relations-presse',
+  'responsable-influence',
   'responsable-projet',
   'responsable-crm',
   'integrateur-no-code-automatisation',
@@ -108,6 +110,7 @@ const PROFILE_DEMAND_ORDER = [
   'responsable-acquisition',
   'webmaster',
   'analyste-web',
+  'analyste-etudes-qualitatives',
   'charge-de-recrutement',
   'consultant-strategie-digitale',
   'charge-formation',
@@ -147,7 +150,7 @@ const STORE_CATEGORIES: Category[] = [
     description: { fr: 'Personnalisez son identité, puis rattachez votre Collaborateur IA à une personne, une équipe, un département ou toute l’entreprise.', en: 'Personalize their identity, then assign your AI Collaborator to one person, a team, a department or your entire company.' },
     heroTitle: { fr: 'Choisissez qui rejoint votre équipe. Confiez-lui une première mission.', en: 'Choose who joins your team. Give them a first mission.' },
     heroAccent: { fr: 'Confiez-lui une première mission.', en: 'Give them a first mission.' },
-    heroLead: { fr: 'Personnalisez son identité, puis faites évoluer ses responsabilités et ses compétences mission après mission.', en: 'Personalize their identity, then evolve their responsibilities and skills from one mission to the next.' },
+    heroLead: { fr: 'Personnalisez son identité, puis faites évoluer ses responsabilités et ses compétences au fil des missions.', en: 'Personalize their identity, then evolve their responsibilities and skills over the course of their missions.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comment fonctionne un Collaborateur IA ?', en: 'How does an AI Collaborator work?' },
     href: '/collaborateurs-ia', accent: '#D10E63',
   },
@@ -272,7 +275,7 @@ const COPY = {
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     clear: 'Effacer les filtres', available: 'Disponible', preparation: 'Bientôt disponible', addProfile: 'Ajouter à un Collaborateur IA',
     result: 'résultat', results: 'résultats', almaTitle: 'Partez du travail à accomplir.', almaBody: 'Décrivez le résultat attendu. Alma vous oriente vers le Collaborateur IA adapté et prépare avec vous les sources autorisées, les règles et les validations humaines.', almaAction: 'Décrire ma première mission',
-    heroProofs: ['Première mission gratuite', 'Sans carte bancaire', 'À partir de 49 €/mois ensuite'],
+    heroProofs: ['Première mission gratuite', 'Sans carte bancaire', 'À partir de 49 €/mois', 'Sans engagement'],
     profileHeroProofs: ['Profils prêts à personnaliser', 'Plusieurs profils par Collaborateur', 'Validation humaine configurable'],
     skillHeroProofs: ['Méthodes documentées', 'Réutilisables par mission', 'Résultats à valider'],
     applicationHeroProofs: ['Accès gouvernés', 'Actions configurables', 'Connexions selon vos droits'],
@@ -286,7 +289,7 @@ const COPY = {
     emptyTitle: 'Catalog in preparation', emptyBody: 'This category is defined in the Unitalk architecture. Its first publishable creations will be added here.',
     clear: 'Clear filters', available: 'Available', preparation: 'Coming soon', addProfile: 'Add to an AI Collaborator',
     result: 'result', results: 'results', almaTitle: 'Start from the work to be done.', almaBody: 'Describe the expected outcome. Alma guides you to the right AI Collaborator and prepares the authorized sources, rules and human approvals with you.', almaAction: 'Describe my first mission',
-    heroProofs: ['First mission free', 'No credit card', 'From €49/month afterwards'],
+    heroProofs: ['First mission free', 'No credit card', 'From €49/month', 'No commitment'],
     profileHeroProofs: ['Profiles ready to customize', 'Multiple profiles per Collaborator', 'Configurable human approval'],
     skillHeroProofs: ['Documented methods', 'Reusable across missions', 'Results to approve'],
     applicationHeroProofs: ['Governed access', 'Configurable actions', 'Connections based on permissions'],
@@ -464,8 +467,9 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
                   {!isProfilesCategory && !usesCatalogSidebar && <p className="sr-only" aria-live="polite">{filteredItems.length} {filteredItems.length === 1 ? t.result : t.results}</p>}
 
                 {!isProfilesCategory && !usesCatalogSidebar && (visibleItems.length > 0 ? <div className="mt-4 grid auto-rows-fr gap-3 sm:mt-5 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} mobileHidden={isCollaboratorsLanding && !showAllCollaborators && index >= MOBILE_COLLABORATOR_PREVIEW_SIZE} featuredLast={isCollaboratorsLanding && visibleItems.length % 3 === 1 && index === visibleItems.length - 1} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : categoryItems.length > 0 ? <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : <div className="mt-5 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>)}
-                {isCollaboratorsLanding && !showAllCollaborators && <button type="button" onClick={() => setShowAllCollaborators(true)} className="mx-auto mt-6 flex min-h-12 w-full max-w-sm items-center justify-center rounded-full border border-[#1C1A17] px-5 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63]">{t.showAllCollaborators}<span aria-hidden className="ml-2">↓</span></button>}
-               {activeCategory.id !== 'collaborateurs-ia' && !isProfilesCategory && filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
+                 {isCollaboratorsLanding && !showAllCollaborators && <button type="button" onClick={() => setShowAllCollaborators(true)} className="mx-auto mt-6 flex min-h-12 w-full max-w-sm items-center justify-center rounded-full border border-[#1C1A17] px-5 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:hidden">{t.showAllCollaborators}<span aria-hidden className="ml-2">↓</span></button>}
+                 {isCollaboratorsLanding && <div className="mt-8 text-center"><Link href={activeCategory.href} className="inline-flex min-h-10 items-center border-b border-[#B00C54] text-sm font-bold text-[#B00C54] outline-none transition-colors hover:border-[#1C1A17] hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-4">{lang === 'fr' ? 'Comment fonctionne un Collaborateur IA ?' : 'How does an AI Collaborator work?'}<span aria-hidden className="ml-2">→</span></Link></div>}
+                {activeCategory.id !== 'collaborateurs-ia' && !isProfilesCategory && filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
                      {activeCategory.id === 'collaborateurs-ia' && <section className="mt-10 rounded-[24px] bg-[#181615] p-7 text-white sm:p-9 lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-10"><div><h3 className="max-w-3xl text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.almaTitle}</h3><p className="mt-5 max-w-2xl text-[15px] leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.almaBody)}</p><div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-[#F2A4C5]"><span>{lang === 'fr' ? 'Première mission gratuite' : 'First mission free'}</span><span>{lang === 'fr' ? 'Sans carte bancaire' : 'No credit card'}</span><span>{lang === 'fr' ? 'Aucune activation payante automatique' : 'No automatic paid activation'}</span></div><p className="mt-3 text-xs leading-5 text-[#AFA397]">{lang === 'fr' ? 'Puis à partir de 49 €/mois par Collaborateur IA.' : 'Then from €49/month per AI Collaborator.'} <Link href="/tarifs#configurateur" className="font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{lang === 'fr' ? 'Capacité IA facturée séparément' : 'AI capacity billed separately'}</Link>.</p></div><Link href="/decouvrir?source=marketplace-collaborators-final" className="mt-7 inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#F3EFE6] px-6 text-[13px] font-bold text-[#181615] lg:mt-0">{t.almaAction}</Link></section>}
           </div>
         </div>

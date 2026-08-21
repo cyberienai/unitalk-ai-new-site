@@ -5,6 +5,7 @@ const page = readFileSync(new URL('../app/marketplace/profils-metier/page.tsx', 
 const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.meta.url), 'utf8')
 const sitemap = readFileSync(new URL('../app/sitemap.ts', import.meta.url), 'utf8')
 const catalog = readFileSync(new URL('../lib/store-catalog.ts', import.meta.url), 'utf8')
+const skillsCatalog = readFileSync(new URL('../lib/mustad-skills.ts', import.meta.url), 'utf8')
 
 describe('Profils métier marketplace SEO', () => {
   it('publishes an indexable canonical Store category', () => {
@@ -37,10 +38,14 @@ describe('Profils métier marketplace SEO', () => {
   })
 
   it('includes the requested job profiles in French without internal codes', () => {
-    for (const profile of ['Découverte du profil client idéal', 'Enrichissement des données', 'Production de contenu', 'Rédaction de messages de prospection', 'Tri et routage des réponses', 'Préparation de réunions et synthèse d’appels', 'Copilote des équipes terrain', 'Synthèse qualitative', 'Reporting et synthèse hebdomadaire', 'Opérations de relations presse', 'Prévisions et propositions commerciales', 'Opérations d’influence', 'Test de créations publicitaires', 'Cycle de vie et fidélisation']) expect(catalog).toContain(profile)
+    for (const profile of ['Découverte du profil client idéal', 'Enrichissement des données', 'Production de contenu', 'Rédaction de messages de prospection', 'Tri et routage des réponses', 'Préparation de réunions et synthèse d’appels', 'Copilote des équipes terrain', 'Analyste en études qualitatives', 'Reporting et synthèse hebdomadaire', 'Chargé de relations presse', 'Prévisions et propositions commerciales', 'Responsable influence', 'Test de créations publicitaires', 'Cycle de vie et fidélisation']) expect(catalog).toContain(profile)
     expect(catalog).not.toMatch(/'A\d+ · /)
     expect(catalog).not.toContain('Hans Mustad')
     expect(catalog).toContain("name:{fr:'Commercial SDR',en:'Sales Development Representative'}")
     expect(catalog).toContain("name: { fr: 'Agent téléphonique', en: 'Phone agent' }")
+    expect(catalog).toContain("['charge-relations-presse', 'Chargé de relations presse'")
+    expect(catalog).toContain("['responsable-influence', 'Responsable influence'")
+    expect(catalog).toContain("['analyste-etudes-qualitatives', 'Analyste en études qualitatives'")
+    expect(skillsCatalog).not.toMatch(/'operations-relations-presse'|'operations-influence'|'synthese-qualitative'/)
   })
 })
