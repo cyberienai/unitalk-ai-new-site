@@ -60,7 +60,7 @@ describe('Marketplace IA hub', () => {
   it('makes skills concrete and filterable', () => {
     for (const text of ["skillCategories: 'Catégories de compétences'", 'Contexte d’application', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
     expect(hub).toContain('Ajoutez gratuitement les compétences nécessaires à chaque mission.')
-    expect(hub).toContain('Chaque compétence décrit une méthode, un contexte d’application et un résultat attendu.')
+    expect(hub).toContain('Chaque compétence est adaptée à votre entreprise.')
     expect(hub).toContain("storeType === 'competence' ? { fr: 'Gratuite', en: 'Free' }")
     expect(hub).toContain("skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission']")
     expect(hub).toContain('<SkillMarketplaceCard')
@@ -116,7 +116,8 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain("['competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(category.id)")
     expect(hub).not.toContain('Bibliothèque de savoir-faire')
     expect(hub).not.toContain('Choisissez une compétence prête à ajouter.')
-    expect(hub).toContain('Connectez uniquement les applications utiles.')
+    expect(hub).not.toContain('Outils de travail')
+    expect(hub).not.toContain('Connectez uniquement les applications utiles.')
     expect(hub).toContain('Le bon modèle est sélectionné pour chaque travail.')
     expect(hub).toContain('Dimensionnez un environnement adapté au travail.')
     expect(hub).toContain("category.id === 'applications' ? (lang === 'fr' ? 'Usage principal'")
