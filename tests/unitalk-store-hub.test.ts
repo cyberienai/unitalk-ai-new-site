@@ -58,21 +58,22 @@ describe('Marketplace IA hub', () => {
   })
 
   it('makes skills concrete and filterable', () => {
-    for (const text of ["skillCategories: 'Domaines'", 'Contexte d’application', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
-    expect(hub).toContain('Réutilisable mission après mission.')
-    expect(hub).toContain('Conditions confirmées avant ajout')
-    expect(hub).toContain('méthodes précises, documentées et réutilisables')
-    expect(hub).toContain("skillHeroProofs: ['Méthodes documentées', 'Réutilisables par mission', 'Résultats à valider']")
+    for (const text of ["skillCategories: 'Catégories de compétences'", 'Contexte d’application', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
+    expect(hub).toContain('Ajoutez gratuitement les compétences nécessaires à chaque mission.')
+    expect(hub).toContain('Chaque compétence décrit une méthode, un contexte d’application et un résultat attendu.')
+    expect(hub).toContain("storeType === 'competence' ? { fr: 'Gratuite', en: 'Free' }")
+    expect(hub).toContain("skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission']")
   })
 
   it('uses the shared featured hero for profiles, skills, applications and models', () => {
-    expect(hub).toContain("['profils-metier', 'competences', 'applications', 'modeles-ia'].includes(activeCategory.id)")
+    expect(hub).toContain("['profils-metier', 'competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(activeCategory.id)")
     expect(hub).toContain("applicationHeroProofs: ['Accès gouvernés', 'Actions configurables', 'Connexions selon vos droits']")
     expect(hub).toContain("modelHeroProofs: ['Sélection automatique', 'Fournisseurs contrôlés', 'Modèles interchangeables']")
+    expect(hub).toContain("serverHeroProofs: ['Infrastructure privée', 'Capacité évolutive', 'Déploiement gouverné']")
     expect(hub).toContain('featuredHeroProofs.map((proof)')
     expect(hub).toContain('<MarketplaceSidebarCatalog')
     expect(hub).toContain("category.id === 'competences' ? SKILL_CATEGORY_LABELS : category.id === 'applications' ? APP_CATEGORY_LABELS")
-    expect(hub).toContain("skillCategories: 'Domaines', applicationCategories: 'Usages', modelCategories: 'Modalités'")
+    expect(hub).toContain("skillCategories: 'Catégories de compétences', applicationCategories: 'Catégories d’applications', modelCategories: 'Modalités des modèles', serverCategories: 'Types d’infrastructure'")
     expect(hub).toContain("MODEL_MODALITY_ORDER = ['texte', 'raisonnement', 'multimodal', 'image', 'audio', 'video', 'open-source']")
   })
 
@@ -106,5 +107,17 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('group-hover:bg-[var(--profile-accent)]')
     expect(hub).toContain('group-focus-visible:bg-[var(--profile-accent)]')
     expect(hub).toContain('aria-label={`${labels.addProfile} : ${item.title}`}')
+  })
+
+  it('uses the same structured cards for skills, applications, models and servers', () => {
+    expect(hub).toContain("['competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(category.id)")
+    expect(hub).toContain('Choisissez une compétence prête à ajouter.')
+    expect(hub).toContain('Connectez uniquement les applications utiles.')
+    expect(hub).toContain('Le bon modèle est sélectionné pour chaque travail.')
+    expect(hub).toContain('Dimensionnez un environnement adapté au travail.')
+    expect(hub).toContain("category.id === 'applications' ? (lang === 'fr' ? 'Usage principal'")
+    expect(hub).toContain("category.id === 'modeles-ia' ? (lang === 'fr' ? 'Sélection'")
+    expect(hub).toContain("lang === 'fr' ? 'Contexte conseillé' : 'Recommended context'")
+    expect(hub).toContain("lang === 'fr' ? 'Gratuite' : 'Free'")
   })
 })
