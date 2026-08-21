@@ -9,7 +9,7 @@ const missions = readFileSync(new URL('../components/missions-content.tsx', impo
 
 describe('Collaborateurs IA marketplace', () => {
   it('publishes the twelve reference identities', () => {
-    expect(MARKETPLACE_COLLABORATOR_SLUGS).toEqual(['emma', 'camille', 'lea', 'hugo', 'ines', 'arthur', 'nadia', 'chloe', 'iris', 'lucas', 'gabriel', 'marcus'])
+    expect(MARKETPLACE_COLLABORATOR_SLUGS).toEqual(['emma', 'hugo', 'ines', 'lea', 'nadia', 'camille', 'arthur', 'lucas', 'chloe', 'iris', 'gabriel', 'marcus'])
     for (const slug of MARKETPLACE_COLLABORATOR_SLUGS) {
       const detail = ROLE_DETAILS[slug]
       expect(detail.promise.fr).toBeTruthy()
@@ -74,7 +74,9 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('Le nom, le visage et la voix de votre Collaborateur IA restent personnalisables avant son déploiement.')
     expect(hub).not.toContain('Choisissez votre Collaborateur IA.</h2>')
     expect(hub).toContain('const MOBILE_COLLABORATOR_PREVIEW_SIZE = 6')
-    expect(hub).toContain("mobileHidden ? 'hidden md:flex' : 'flex'")
+    expect(hub).toContain("mobileHidden ? 'hidden' : 'flex'")
+    expect(hub).toContain('Aucune activation payante automatique')
+    expect(hub).toContain('/tarifs#configurateur')
     expect(hub).toContain('Voir les 12 Collaborateurs IA')
   })
 

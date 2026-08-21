@@ -656,7 +656,8 @@ export const ROLE_DETAILS: Record<string, RoleDetail> = {
 }
 
 export const MARKETPLACE_COLLABORATOR_SLUGS: readonly string[] = [
-  'emma', 'camille', 'lea', 'hugo', 'ines', 'arthur', 'nadia', 'chloe', 'iris', 'lucas', 'gabriel', 'marcus',
+  // Editorial popularity order for common SMB needs.
+  'emma', 'hugo', 'ines', 'lea', 'nadia', 'camille', 'arthur', 'lucas', 'chloe', 'iris', 'gabriel', 'marcus',
 ] as const
 
 // All public identities remain addressable, including examples and variants
