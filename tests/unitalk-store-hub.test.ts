@@ -124,7 +124,7 @@ describe('Marketplace IA hub', () => {
   it('shows popular proprietary and open-weight models with focused cards', () => {
     for (const model of ['GPT-5.6 Luna', 'GPT-5.6 Sol', 'Claude Opus 5', 'Claude Sonnet 5', 'Gemini 3.6 Flash', 'DeepSeek V4 Flash 0731', 'Hy3', 'MiMo-V2.5', 'GLM 5.2', 'Nemotron 3 Ultra', 'DeepSeek V4 Pro 0423']) expect(hub).toContain(model)
     expect(hub).toContain("fr: 'Modèle propriétaire'")
-    expect(hub).toContain("fr: 'Modèle ouvert'")
+    expect(hub).toContain("fr: 'Modèle open source'")
     expect(hub).toContain('<ModelMarketplaceCard')
     expect(hub).toContain('item.modelModalities?.map')
     expect(hub).toContain('min-h-[76px] flex-wrap content-center')
@@ -147,9 +147,15 @@ describe('Marketplace IA hub', () => {
 
   it('uses the compact progressive action treatment for application cards', () => {
     expect(hub).toContain("category.id === 'applications' && href")
-    expect(hub).toContain('aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[245px]')
+    expect(hub).toContain('aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[210px]')
     expect(hub).toContain('bg-[#C80B5B] px-4 text-xs font-bold text-white opacity-0')
     expect(hub).toContain('<h3 className="min-w-0 line-clamp-2 text-[22px]')
+  })
+
+  it('uses the compact progressive action treatment for server cards', () => {
+    expect(hub).toContain("category.id === 'serveurs-ia' && href")
+    expect(hub).toContain('bg-[#216641]/10 text-[#216641]')
+    expect(hub).not.toContain('Infrastructure d’exécution')
   })
 
   it('uses the same structured cards for skills, applications, models and servers', () => {
@@ -161,7 +167,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).not.toContain('Le bon modèle est sélectionné pour chaque travail.')
     expect(hub).not.toContain('Intelligences disponibles')
     expect(hub).not.toContain('familles de modèles`')
-    expect(hub).toContain('Dimensionnez un environnement adapté au travail.')
+    expect(hub).not.toContain('Dimensionnez un environnement adapté au travail.')
     expect(hub).toContain("category.id === 'applications' ? (lang === 'fr' ? 'Usage principal'")
     expect(hub).toContain("category.id === 'modeles-ia' ? (lang === 'fr' ? 'Sélection'")
     expect(hub).toContain("lang === 'fr' ? 'Contexte conseillé' : 'Recommended context'")
