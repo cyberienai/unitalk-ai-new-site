@@ -43,6 +43,7 @@ type MarketplaceItem = {
   highlightsLabel?: string
   score?: number
   starterMission?: string
+  starterResult?: string
   identityLabel?: string
   facetKey?: string
   facetKeys?: string[]
@@ -216,6 +217,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       highlights: (COLLABORATOR_PROFILE_EXAMPLES[detail.slug] ?? []).map((profile) => profile[lang]),
       highlightsLabel: lang === 'fr' ? 'Profils métier à ajouter' : 'Job profiles to add',
       starterMission: detail.starterMission?.mission[lang],
+      starterResult: detail.starterMission?.result[lang],
       identityLabel: lang === 'fr' ? (detail.gender === 'female' ? 'Collaboratrice IA' : 'Collaborateur IA') : 'AI Collaborator',
     }))
   }
@@ -637,8 +639,8 @@ function MarketplaceItemCard({ item, lang, category, labels, featuredLast = fals
                <p className="mt-1.5 truncate text-[12px] font-bold text-[#4E483F]">{item.meta}</p>
              </div>
            </div>
-            <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#4E483F] sm:mt-5 sm:line-clamp-3 sm:text-[14px] sm:leading-6">{item.description}</p>
-            {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5 sm:mt-5 sm:p-4"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Première mission' : 'First mission'}</dt><dd className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-5 text-[#322E29]">{item.starterMission}</dd></div></dl>}
+             <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#4E483F] sm:line-clamp-2 sm:text-[14px] sm:leading-6">{item.description}</p>
+             {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Première mission' : 'First mission'}</dt><dd className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-5 text-[#322E29]">{item.starterMission}</dd>{item.starterResult && <dd className="mt-2 line-clamp-1 border-t border-[#D8D0C2] pt-2 text-[11px] font-semibold leading-4 text-[#625B50]"><span className="font-bold text-[#B00C54]">{lang === 'fr' ? 'Résultat :' : 'Outcome:'}</span> {item.starterResult}</dd>}</div></dl>}
          </> : <>
            <h3 className="line-clamp-2 text-[24px] font-semibold leading-[1.04] tracking-[-.045em] text-[#1C1A17] sm:text-[26px]">{item.title}</h3>
            <p className="mt-3 line-clamp-2 text-[13px] leading-5 text-[#625B50] sm:mt-4 sm:text-sm sm:leading-6">{item.description}</p>
@@ -648,11 +650,11 @@ function MarketplaceItemCard({ item, lang, category, labels, featuredLast = fals
       </div>
       <div className="mt-auto pt-5 sm:pt-8">
         <div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)]">
-             {hasDirectAdd ? <Link href={item.addHref!} className="relative z-10 flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.addProfile}<span aria-hidden="true" className="ml-2">→</span></Link> : item.missionHref ? <div className="relative z-10"><Link href={item.missionHref} className="flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors group-hover:bg-[var(--profile-accent)] hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{lang === 'fr' ? 'Confier cette mission' : 'Assign this mission'}<span aria-hidden="true" className="ml-2">→</span></Link>{item.href && <Link href={item.href} className="mt-2 block text-center text-[13px] font-bold text-[#625B50] underline decoration-[#CFC5B5] underline-offset-4 outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}</Link>}</div> : <div className="flex items-end justify-between gap-3"><span className="text-xs font-semibold text-[#625B50]">{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>{item.href && <Link href={item.href} className="relative z-10 text-xs font-bold text-[#1C1A17] outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">→</span></Link>}</div>}
+              {hasDirectAdd ? <Link href={item.addHref!} className="relative z-10 flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.addProfile}<span aria-hidden="true" className="ml-2">→</span></Link> : item.missionHref ? <div className="relative z-10"><Link href={item.missionHref} className="flex min-h-11 w-full items-center justify-center rounded-full bg-[#1C1A17] px-4 text-center text-[13px] font-bold text-white outline-none transition-colors group-hover:bg-[var(--profile-accent)] hover:bg-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{lang === 'fr' ? `Confier cette mission à ${item.title}` : `Assign this mission to ${item.title}`}<span aria-hidden="true" className="ml-2">→</span></Link>{item.href && <Link href={item.href} className="mt-2 block text-center text-[13px] font-bold text-[#625B50] underline decoration-[#CFC5B5] underline-offset-4 outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}</Link>}</div> : <div className="flex items-end justify-between gap-3"><span className="text-xs font-semibold text-[#625B50]">{item.status?.[lang] ?? (item.pending ? labels.preparation : labels.available)}</span>{item.href && <Link href={item.href} className="relative z-10 text-xs font-bold text-[#1C1A17] outline-none transition-colors hover:text-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)]">{labels.details}<span aria-hidden="true" className="ml-2">→</span></Link>}</div>}
         </div>
       </div>
     </>
   )
-   const className = `group relative flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] sm:p-6 [@media(min-width:1024px)_and_(max-height:850px)]:p-5 ${mobileHidden ? 'hidden md:flex' : 'flex'} ${item.avatar ? 'min-h-[300px] sm:min-h-[350px]' : 'min-h-[220px] sm:min-h-[255px]'} ${featuredLast ? 'xl:col-start-2' : ''}`
+   const className = `group relative flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] sm:p-6 [@media(min-width:1024px)_and_(max-height:850px)]:p-5 ${mobileHidden ? 'hidden md:flex' : 'flex'} ${item.avatar ? 'min-h-[300px] sm:min-h-[330px]' : 'min-h-[220px] sm:min-h-[255px]'} ${featuredLast ? 'xl:col-start-2' : ''}`
   return <article className={className} style={style}><div className="relative flex min-h-full flex-1 flex-col">{content}</div></article>
 }

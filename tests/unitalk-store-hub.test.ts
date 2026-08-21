@@ -9,7 +9,7 @@ describe('Marketplace IA hub', () => {
     expect(page).toContain('UnitalkStoreHub')
     for (const label of ['Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
-    expect(hub).toContain("heroTitle: { fr: 'Choisissez votre Collaborateur IA. Confiez-lui une première mission.'")
+    expect(hub).toContain("heroTitle: { fr: 'Choisissez qui rejoint votre équipe. Confiez-lui une première mission.'")
   })
 
   it('shows canonical public AI Collaborators first', () => {
@@ -22,7 +22,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('states the catalog and knowledge-work positioning', () => {
-    expect(hub).toContain('Choisissez votre Collaborateur IA. Confiez-lui une première mission.')
+    expect(hub).toContain('Choisissez qui rejoint votre équipe. Confiez-lui une première mission.')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
@@ -32,7 +32,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('px-5 pt-28 sm:px-8 sm:pt-40')
     expect(hub).not.toContain("'pb-9 pt-20 sm:pb-11 sm:pt-24")
     expect(hub).not.toContain('Marketplace · Collaborateurs IA')
-    expect(hub).toContain('border-t border-[#CFC3B2]')
+    expect(hub).not.toContain('border-t border-[#CFC3B2]')
   })
 
   it('uses one horizontal category navigation', () => {
