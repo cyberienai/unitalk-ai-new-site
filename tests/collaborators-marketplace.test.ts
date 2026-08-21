@@ -51,9 +51,11 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain("role={collaboratorsOnly ? 'region' : 'tabpanel'}")
     expect(hub).toContain('Catégories de la marketplace')
     expect(hub).toContain('Première mission gratuite')
+    expect(hub).toContain('/decouvrir?source=marketplace-collaborators-hero')
     expect(hub).toContain('Sans engagement')
     expect(hub).not.toContain('À partir de 49 €/mois ensuite')
-    expect(hub).toContain('Dès 49 €/mois')
+    expect(hub).toContain('Dès 49 €/mois par Collaborateur IA')
+    expect(hub).toContain('Consommation des modèles d’IA facturée séparément')
     expect(hub).not.toContain('Quel travail voulez-vous faire avancer ?')
     expect(hub).not.toContain('COLLABORATOR_NEEDS')
     expect(hub).not.toContain('Filtrer par besoin métier')
@@ -89,7 +91,9 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('/tarifs#configurateur')
     expect(hub).toContain('Voir les 12 Collaborateurs IA')
     expect(hub).toContain('focus-visible:ring-[#D10E63] sm:hidden')
-    expect(hub).toContain('Comment fonctionne un Collaborateur IA ?')
+    expect(hub).toContain('Vous souhaitez comprendre son identité, sa mémoire et ses droits ?')
+    expect(hub).toContain('Découvrir le fonctionnement d’un Collaborateur IA')
+    expect(hub).toContain('Préparer mon Collaborateur avec Alma')
   })
 
   it('gives every identity the same mission-led public profile', () => {
