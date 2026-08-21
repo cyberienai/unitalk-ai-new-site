@@ -92,7 +92,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain("mobileHidden ? 'hidden sm:flex' : 'flex'")
     expect(hub).toContain('Première mission gratuite · Sans carte bancaire · Sans engagement')
     expect(hub).toContain('/tarifs#configurateur')
-    expect(hub).toContain('Voir les 12 Collaborateurs IA')
+    expect(hub).toContain('Voir les Collaborateurs IA')
     expect(hub).toContain('focus-visible:ring-[#D10E63] sm:hidden')
     expect(hub).toContain('Vous souhaitez comprendre son identité, sa mémoire et ses droits ?')
     expect(hub).toContain('Découvrir le fonctionnement d’un Collaborateur IA')
