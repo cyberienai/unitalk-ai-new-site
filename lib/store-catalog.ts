@@ -1263,7 +1263,7 @@ const GENERATED_PROFILE_SKILLS: StoreItem[] = PROFILE_ITEMS
 const SKILL_ITEMS = [...DECLARED_SKILLS, ...GENERATED_PROFILE_SKILLS].map((skill) => ({
   ...skill,
   relatedProfiles: [...new Set([
-    ...(skill.relatedProfiles ?? []),
+    ...(['human-approval-policy', 'audit-and-action-log'].includes(skill.slug) ? PROFILE_ITEMS.map((profile) => profile.slug) : (skill.relatedProfiles ?? [])),
     ...PROFILE_ITEMS.filter((profile) => profile.relatedSkills?.includes(skill.slug)).map((profile) => profile.slug),
   ])],
 }))

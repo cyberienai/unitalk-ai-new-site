@@ -208,9 +208,9 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'profils-metier', title: { fr: 'Profils métier', en: 'Job profiles' },
     description: { fr: 'Un profil métier de référence pour chaque métier de la connaissance.', en: 'One reference job profile for every knowledge-work profession.' },
-    heroTitle: { fr: 'Ajoutez le bon profil métier à votre Collaborateur IA.', en: 'Add the right job profile to your AI Collaborator.' },
-    heroAccent: { fr: 'à votre Collaborateur IA.', en: 'to your AI Collaborator.' },
-    heroLead: { fr: 'Choisissez gratuitement une responsabilité métier, ajoutez-la à votre Collaborateur IA, puis adaptez ses méthodes, ses droits et ses validations à votre entreprise.', en: 'Choose a job responsibility for free, add it to your AI Collaborator, then adapt its methods, permissions and approvals to your organization.' },
+    heroTitle: { fr: 'Ajoutez gratuitement les profils métier dont votre Collaborateur IA a besoin.', en: 'Add the job profiles your AI Collaborator needs for free.' },
+    heroAccent: { fr: 'dont votre Collaborateur IA a besoin.', en: 'your AI Collaborator needs for free.' },
+    heroLead: { fr: 'Chacun peut être personnalisé pour votre entreprise.', en: 'Each can be customized for your organization.' },
     search: { fr: 'Rechercher un profil métier', en: 'Search job profiles' }, action: { fr: 'Découvrir ce profil', en: 'Explore this profile' }, explain: { fr: 'Comprendre les profils métier', en: 'Understand job profiles' },
     missing: { title: { fr: 'Le profil métier dont vous avez besoin manque ?', en: 'Can’t find the job profile you need?' }, body: { fr: 'Décrivez le rôle, les responsabilités et les limites attendues. Alma vous aide à préparer un profil adapté à votre entreprise.', en: 'Describe the expected role, responsibilities and boundaries. Alma helps you prepare a profile tailored to your organization.' }, action: { fr: 'Créer un profil métier', en: 'Create a job profile' }, href: '/decouvrir?source=marketplace&intention=nouveau-profil-metier' },
     href: '/collaborateurs-ia/profils-metier', accent: '#C80B5B',

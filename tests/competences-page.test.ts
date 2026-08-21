@@ -75,5 +75,13 @@ describe('competences catalog', () => {
     for (const skill of skills) {
       for (const profile of skill.relatedProfiles ?? []) expect(profileMap.get(profile)?.relatedSkills).toContain(skill.slug)
     }
+    expect(skillMap.get('human-approval-policy')?.relatedProfiles).toHaveLength(profiles.length)
+    expect(skillMap.get('audit-and-action-log')?.relatedProfiles).toHaveLength(profiles.length)
+  })
+
+  it('uses unique public skill identifiers without a client prefix', () => {
+    const skills = STORE_ITEMS.filter(item => item.type === 'competence')
+    expect(new Set(skills.map(item => item.slug)).size).toBe(skills.length)
+    expect(skills.some(item => item.slug.startsWith('mustad-'))).toBe(false)
   })
 })

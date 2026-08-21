@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState, type TouchEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -16,6 +16,7 @@ import {
   Server,
   ShieldCheck,
   UserRound,
+  Volume2,
   type LucideIcon,
 } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
@@ -25,12 +26,9 @@ import { UnitalkLogo } from '@/components/unitalk-logo'
 import { AlmaInline } from '@/components/alma-inline'
 
 const MARKETPLACE_LINKS = [
-  { href: '/marketplace/collaborateurs-ia', key: 'collaborators' },
   { href: '/marketplace/profils-metier', key: 'profiles' },
   { href: '/marketplace/competences', key: 'skills' },
   { href: '/marketplace/applications', key: 'apps' },
-  { href: '/marketplace/modeles-ia', key: 'models' },
-  { href: '/marketplace/serveurs-ia', key: 'servers' },
 ] as const
 
 export function CollaborateurExperience() {
@@ -86,6 +84,10 @@ export function CollaborateurExperience() {
           <ol className="mt-8 grid overflow-hidden rounded-[20px] border border-white/10 bg-white/10 md:grid-cols-3">
             {t.proofSteps.map((step, index) => <li key={step.title} className={`bg-[#211E1B] p-5 sm:p-6 ${index > 0 ? 'border-t border-white/10 md:border-l md:border-t-0' : ''}`}><span className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{step.label}</span><h3 className="mt-4 text-xl font-semibold tracking-[-.03em]">{step.title}</h3><p className="mt-2.5 text-sm leading-6 text-[#AFA397]">{step.body}</p></li>)}
           </ol>
+          <div className="mt-4 grid overflow-hidden rounded-[20px] border border-white/10 lg:grid-cols-[1fr_.8fr]">
+            <div className="bg-[#F3EFE6] p-6 text-[#191715] sm:p-7"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.proofDeliverableLabel}</p><h3 className="mt-3 text-2xl font-semibold tracking-[-.04em]">{t.proofDeliverable}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{t.proofDeliverableBody}</p></div>
+            <div className="bg-[#D10E63] p-6 sm:p-7"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-white/65">{t.proofApprovalLabel}</p><p className="mt-3 text-lg font-semibold leading-7">{t.proofApproval}</p><span className="mt-5 inline-flex rounded-full bg-white px-4 py-2 text-xs font-bold text-[#B00C54]">{t.proofWaiting}</span></div>
+          </div>
         </div>
       </section>
 
@@ -95,9 +97,10 @@ export function CollaborateurExperience() {
           <div className="mt-8 overflow-hidden rounded-[20px] border border-[#BFB4A4] bg-[#FAF8F3] sm:mt-10">
             {MARKETPLACE_LINKS.map(({ href, key }, index) => {
               const item = t.marketItems[key]
-              return <Link key={key} href={href} className={`group grid min-h-28 grid-cols-[1fr_auto] gap-x-4 gap-y-2 border-b border-[#CFC5B5] p-4 outline-none transition-colors last:border-b-0 hover:bg-white focus-visible:bg-white sm:min-h-0 sm:grid-cols-[2.5rem_minmax(9rem,.58fr)_1fr_auto] sm:items-center sm:gap-5 sm:px-6 sm:py-3.5 lg:grid-cols-[3rem_minmax(10rem,.58fr)_1fr_auto] lg:px-7 ${index === 3 ? 'bg-[#F6E5EC]' : ''}`}><span className="hidden font-mono text-[9px] font-black text-[#B00C54] sm:block">0{index + 1}</span><div><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#857C6E]">{item.eyebrow}</p><h3 className="mt-1 text-[clamp(1.2rem,2vw,1.65rem)] font-semibold tracking-[-.04em]">{item.title}</h3></div><p className="col-span-2 max-w-xl text-[13px] leading-5 text-[#625B50] sm:col-span-1">{item.body}</p><span className="row-start-1 flex size-9 items-center justify-center rounded-full border border-[#BFB4A4] text-[#B00C54] transition-all group-hover:border-[#D10E63] group-hover:bg-[#D10E63] group-hover:text-white sm:row-auto"><ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5"/></span></Link>
+              return <Link key={key} href={href} className="group grid min-h-28 grid-cols-[1fr_auto] gap-x-4 gap-y-2 border-b border-[#CFC5B5] p-4 outline-none transition-colors last:border-b-0 hover:bg-white focus-visible:bg-white sm:min-h-0 sm:grid-cols-[2.5rem_minmax(9rem,.58fr)_1fr_auto] sm:items-center sm:gap-5 sm:px-6 sm:py-4 lg:grid-cols-[3rem_minmax(10rem,.58fr)_1fr_auto] lg:px-7"><span className="hidden font-mono text-[9px] font-black text-[#B00C54] sm:block">0{index + 1}</span><div><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#857C6E]">{item.eyebrow}</p><h3 className="mt-1 text-[clamp(1.2rem,2vw,1.65rem)] font-semibold tracking-[-.04em]">{item.title}</h3></div><p className="col-span-2 max-w-xl text-[13px] leading-5 text-[#625B50] sm:col-span-1">{item.body}</p><span className="row-start-1 flex size-9 items-center justify-center rounded-full border border-[#BFB4A4] text-[#B00C54] transition-all group-hover:border-[#D10E63] group-hover:bg-[#D10E63] group-hover:text-white sm:row-auto"><ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5"/></span></Link>
             })}
           </div>
+          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-bold text-[#625B50]"><Link href="/marketplace/modeles-ia" className="underline decoration-[#B00C54]/30 underline-offset-4 hover:text-[#B00C54]">{t.modelsCta}</Link><Link href="/marketplace/serveurs-ia" className="underline decoration-[#B00C54]/30 underline-offset-4 hover:text-[#B00C54]">{t.serversCta}</Link><Link href="/marketplace" className="underline decoration-[#B00C54]/30 underline-offset-4 hover:text-[#B00C54]">{t.marketplaceCta}</Link></div>
           <div className="relative mt-7 overflow-hidden rounded-[24px] border border-[#191715] bg-[#191715] text-white">
             <div aria-hidden className="absolute -right-16 -top-20 size-56 rounded-full border border-[#D10E63]/25" />
             <div aria-hidden className="absolute -right-5 -top-8 size-32 rounded-full bg-[#D10E63]/10 blur-2xl" />
@@ -185,28 +188,44 @@ type IdentityCarouselLabels = {
   email: string
   calendar: string
   phone: string
+  voice: string
+  provided: string
+  connected: string
+  configurable: string
+  mission: string
+  result: string
   rule: string
 }
 
 function IdentityCarousel({ lang, labels }: { lang: 'fr' | 'en'; labels: IdentityCarouselLabels }) {
   const identities = MARKETPLACE_COLLABORATOR_SLUGS.map(slug => ROLE_DETAILS[slug])
   const [activeIndex, setActiveIndex] = useState(0)
+  const touchStartX = useRef<number | null>(null)
   const activeIdentity = identities[activeIndex]
 
   const selectPrevious = () => setActiveIndex(index => (index - 1 + identities.length) % identities.length)
   const selectNext = () => setActiveIndex(index => (index + 1) % identities.length)
+  const handleTouchStart = (event: TouchEvent<HTMLElement>) => { touchStartX.current = event.touches[0]?.clientX ?? null }
+  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    if (touchStartX.current === null) return
+    const distance = (event.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current
+    touchStartX.current = null
+    if (Math.abs(distance) < 45) return
+    if (distance > 0) selectPrevious()
+    else selectNext()
+  }
 
   return (
-    <aside aria-label={labels.ariaLabel} className="group relative mx-auto w-full min-w-0 max-w-[400px]">
+    <aside aria-label={labels.ariaLabel} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className="group relative mx-auto w-full min-w-0 max-w-[420px] touch-pan-y">
       <div aria-hidden className="pointer-events-none absolute -inset-16 -z-10"><div className="absolute left-[42%] top-[46%] h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D10E63]/30 blur-[90px]"/><div className="absolute right-[8%] top-[8%] h-[52%] w-[52%] rounded-full bg-[#F2A65A]/20 blur-[80px]"/></div>
       <div className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#17130F] text-white shadow-[0_30px_80px_-20px_rgba(0,0,0,.65)] transition-transform duration-500 group-hover:-translate-y-1.5 sm:rounded-[1.75rem]">
         <div className="p-5 max-[389px]:p-4 sm:p-6 [@media(min-width:1024px)_and_(max-height:850px)]:p-5">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{labels.eyebrow}</p>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-3"><span className="font-mono text-[9px] font-bold text-white/45">{String(activeIndex + 1).padStart(2, '0')} / {String(identities.length).padStart(2, '0')}</span><div className="flex gap-2">
               <button type="button" onClick={selectPrevious} aria-label={labels.previous} className="flex size-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-white/35 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><ChevronLeft className="size-4"/></button>
               <button type="button" onClick={selectNext} aria-label={labels.next} className="flex size-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-white/35 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><ChevronRight className="size-4"/></button>
-            </div>
+            </div></div>
           </div>
 
           <div className="pt-5">
@@ -221,21 +240,15 @@ function IdentityCarousel({ lang, labels }: { lang: 'fr' | 'en'; labels: Identit
               </div>
             </div>
 
-            <p className="mt-5 min-h-12 text-sm leading-6 text-[#D8D0C5]">{activeIdentity.promise[lang]}</p>
-
-            <div className="mt-4 grid grid-cols-3 overflow-hidden rounded-xl border border-white/10 bg-[#211E1B]">
-              {[[Mail, labels.email], [CalendarDays, labels.calendar], [Phone, labels.phone]].map(([Icon, label], index) => {
-                const ChannelIcon = Icon as LucideIcon
-                return <div key={label as string} className={`flex flex-col items-center gap-2 px-2 py-3 max-[389px]:py-3 ${index > 0 ? 'border-l border-white/10' : ''}`}><ChannelIcon className="size-4 text-[#F2A4C5]"/><span className="hidden text-[10px] font-semibold text-[#CFC6B8] min-[390px]:block">{label as string}</span></div>
-              })}
+            <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-xl border border-white/10 bg-[#211E1B]">
+              {[[Mail, labels.email, labels.provided], [CalendarDays, labels.calendar, labels.connected], [Phone, labels.phone, labels.configurable], [Volume2, labels.voice, labels.configurable]].map(([Icon, label, status], index) => { const ChannelIcon = Icon as LucideIcon; return <div key={label as string} className={`flex items-center gap-3 p-3 ${index >= 2 ? 'border-t border-white/10' : ''} ${index % 2 === 1 ? 'border-l border-white/10' : ''}`}><ChannelIcon className="size-4 shrink-0 text-[#F2A4C5]"/><div className="min-w-0"><p className="truncate text-[11px] font-bold text-[#E7E0D5]">{label as string}</p><p className="mt-0.5 truncate text-[9px] text-[#91877A]">{status as string}</p></div></div> })}
             </div>
+
+            <dl className="mt-3 grid overflow-hidden rounded-xl border border-white/10 sm:grid-cols-2"><div className="p-3.5"><dt className="font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{labels.mission}</dt><dd className="mt-1.5 text-[11px] font-semibold leading-5 text-[#E7E0D5]">{activeIdentity.starterMission?.mission[lang] ?? activeIdentity.missions[0][lang]}</dd></div><div className="border-t border-white/10 p-3.5 sm:border-l sm:border-t-0"><dt className="font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{labels.result}</dt><dd className="mt-1.5 text-[11px] font-semibold leading-5 text-[#E7E0D5]">{activeIdentity.starterMission?.result[lang] ?? activeIdentity.promise[lang]}</dd></div></dl>
 
             <div className="mt-3 flex items-start gap-3 rounded-xl border border-[#D10E63]/25 bg-[#D10E63]/10 px-4 py-2.5"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#F2A4C5]"/><p className="text-xs font-semibold leading-5 text-[#E7E0D5]">{labels.rule}</p></div>
 
-            <div className="mt-5 flex items-center justify-between gap-4">
-              <div aria-hidden className="flex gap-1.5">{identities.map((identity, index) => <span key={identity.slug} className={`h-1.5 rounded-full transition-all ${index === activeIndex ? 'w-5 bg-[#F2A4C5]' : 'w-1.5 bg-white/20'}`}/>)}</div>
-              <Link href={collaboratorHref(activeIdentity.slug)} className="inline-flex shrink-0 items-center gap-2 text-xs font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{labels.profile}<ArrowRight className="size-3.5"/></Link>
-            </div>
+            <div className="mt-5 flex justify-end"><Link href={collaboratorHref(activeIdentity.slug)} className="inline-flex shrink-0 items-center gap-2 text-xs font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{labels.profile}<ArrowRight className="size-3.5"/></Link></div>
           </div>
         </div>
       </div>
@@ -245,22 +258,20 @@ function IdentityCarousel({ lang, labels }: { lang: 'fr' | 'en'; labels: Identit
 
 const COPY = {
   fr: {
-    eyebrow: 'Un nouveau membre dans votre équipe', heroTitlePrefix: 'Votre', heroTitleRole: 'Collaborateur IA', heroTitleEnd: 'travaille et progresse.', heroAccent: 'Il reste dans votre entreprise.', heroLead: 'Une identité, une mémoire et des compétences sous votre contrôle. À chaque mission, il retient les méthodes et corrections que vous validez.',
-    heroGroups: [{ label: 'Dans votre organisation', value: 'Identité définie\nMémoire sous votre contrôle' }, { label: 'Équipé pour travailler', value: 'Profils\nCompétences\nPlus de 3 000 apps' }, { label: 'Ses ressources dédiées', value: 'Meilleurs modèles d’IA\nServeur privé dédié' }], heroCardLabel: 'Choisissez l’identité adaptée à votre première mission.', heroCardRule: 'Vous contrôlez ses accès et les décisions qui restent humaines.', identityCarousel: { ariaLabel: 'Identités de Collaborateurs IA', eyebrow: 'Choisissez une identité', previous: 'Identité précédente', next: 'Identité suivante', profile: 'Voir le profil', email: 'Email', calendar: 'Agenda', phone: 'Téléphone', rule: 'Vous contrôlez ses accès et les décisions qui restent humaines.' }, start: 'Confier une première mission', explore: 'Voir les Collaborateurs IA', reassurance: ['Première mission gratuite', 'Sans carte bancaire'], almaGuidance: 'Personnalisation guidée par Alma',
+    eyebrow: 'Un nouveau membre dans votre équipe', heroTitlePrefix: 'Votre', heroTitleRole: 'Collaborateur IA', heroTitleEnd: 'travaille avec votre équipe.', heroAccent: 'Son expérience reste dans votre entreprise.', heroLead: 'Choisissez son identité et sa première mission. Il dispose de son propre e-mail, de son calendrier, de son téléphone, de sa voix et d’un serveur privé, puis se connecte aux outils que vous autorisez.',
+    identityCarousel: { ariaLabel: 'Identités de Collaborateurs IA', eyebrow: 'Carte professionnelle', previous: 'Identité précédente', next: 'Identité suivante', profile: 'Voir le profil', email: 'E-mail professionnel', calendar: 'Calendrier', phone: 'Téléphone', voice: 'Voix', provided: 'Fourni par Unitalk', connected: 'Fourni ou connecté', configurable: 'Selon configuration', mission: 'Première mission', result: 'Résultat attendu', rule: 'Rattaché à votre organisation. Accès et décisions sous votre contrôle.' }, start: 'Confier une première mission', explore: 'Voir les 12 Collaborateurs IA', reassurance: ['Première mission gratuite', 'Sans carte bancaire'], almaGuidance: 'Personnalisation guidée par Alma',
     foundationTitle: 'Hermes exécute. Unitalk organise le travail.', foundationBody: 'Hermes fournit le moteur agentique open source. Unitalk ajoute l’identité professionnelle, la mémoire, les applications, les droits et l’espace de collaboration.', foundationCta: 'Découvrir Hermes',
     placeKicker: 'Rattachement à l’entreprise', placeTitle: 'Un Collaborateur IA privé ou partagé.', placeBody: 'Privé pour une personne, ou partagé avec une équipe, un département ou toute l’entreprise. Les membres autorisés le retrouvent dans leur espace de travail.', placementChoiceTitle: 'Choisissez son périmètre de collaboration', placementChoiceBody: 'Vous pourrez le faire évoluer avec votre organisation.', placements: ['Une personne', 'Une équipe', 'Un département', 'Toute l’entreprise'], placementDescriptions: ['Un responsable direct lui confie et suit ses missions.','Il collabore avec tous les membres autorisés d’une équipe.','Il est accessible aux membres autorisés du département.','Il est accessible à tous les membres autorisés de l’entreprise.'], privateMemory: 'Sa propre mémoire', privateMemoryBody: 'Méthodes, expérience et historique des conversations restent disponibles entre ses missions.', sharedKnowledge: 'Les savoirs partagés', sharedKnowledgeBody: 'Il consulte uniquement les documents et informations que l’entreprise lui ouvre.', communication: 'Ses moyens de communication', communicationBody: 'Email, calendrier, messagerie et espace Unitalk selon les canaux autorisés.', sovereignty: 'Son serveur IA', sovereigntyBody: 'Chaque instance Hermes dispose de son propre serveur dans Unitalk AI Cloud.',
-    proofKicker: 'Une mission, de bout en bout', proofTitle: 'Il prépare. Votre équipe décide.', proofBody: 'Le Collaborateur reçoit un résultat attendu, travaille avec les ressources autorisées et s’arrête lorsqu’une validation humaine est nécessaire.', proofSteps: [{label:'Mission confiée',title:'Vous définissez le résultat.',body:'L’objectif, le contexte et les limites sont réunis dans un même espace.'},{label:'Travail visible',title:'Il prépare le livrable.',body:'Votre équipe suit les étapes, les sources utilisées et le résultat produit.'},{label:'Contrôle humain',title:'Vous gardez la décision.',body:'Les actions sensibles restent en attente jusqu’à votre validation.'}],
+    proofKicker: 'Une mission, de bout en bout', proofTitle: 'Il prépare. Votre équipe décide.', proofBody: 'Le Collaborateur reçoit un résultat attendu, travaille avec les ressources autorisées et s’arrête lorsqu’une validation humaine est nécessaire.', proofSteps: [{label:'Mission confiée',title:'Vous définissez le résultat.',body:'L’objectif, le contexte et les limites sont réunis dans un même espace.'},{label:'Travail visible',title:'Il prépare le livrable.',body:'Votre équipe suit les étapes, les sources utilisées et le résultat produit.'},{label:'Contrôle humain',title:'Vous gardez la décision.',body:'Les actions sensibles restent en attente jusqu’à votre validation.'}], proofDeliverableLabel:'Livrable préparé par Emma', proofDeliverable:'Comité de direction prêt.', proofDeliverableBody:'Ordre du jour, synthèse de trois dossiers et six actions attribuées.', proofApprovalLabel:'Validation humaine', proofApproval:'Autoriser l’envoi de l’ordre du jour aux participants ?', proofWaiting:'En attente de votre décision',
     marketKicker: 'Un Store ouvert à la communauté', marketTitle: 'Choisissez-le, puis faites-le évoluer.', marketBody: 'Sélectionnez une identité, puis ajoutez simplement des profils métier, des compétences, des applications, des modèles et des ressources sans recréer votre Collaborateur.',
     marketItems: {
       collaborators: { eyebrow: 'Identités', title: 'Collaborateurs IA', body: 'Choisissez le Collaborateur qui rejoindra votre organisation.' },
       profiles: { eyebrow: 'Responsabilités', title: 'Profils métier', body: 'Ajoutez les rôles dont votre entreprise a besoin.' },
       skills: { eyebrow: 'Savoir-faire', title: 'Compétences', body: 'Attribuez des méthodes précises et réutilisables.' },
-      apps: { eyebrow: '3 000+ connexions', title: 'Applications', body: 'Reliez-le aux outils dans lesquels vos équipes travaillent déjà.' },
-      models: { eyebrow: 'Selon la mission', title: 'Modèles d’IA', body: 'Donnez-lui accès aux principaux modèles autorisés par votre entreprise.' },
-      servers: { eyebrow: 'Ressources dédiées', title: 'Serveurs IA', body: 'Un serveur privé qui peut évoluer selon vos besoins.' },
+      apps: { eyebrow: 'Outils autorisés', title: 'Applications', body: 'Reliez-le aux applications et connecteurs disponibles selon vos droits et licences.' },
     },
-    marketNote: 'Le principe', marketContrast: 'Vous ne choisissez pas un outil d’intelligence artificielle individuel et isolé.', marketPromise: 'Vous équipez un Collaborateur qui appartient à votre entreprise pour accomplir ses missions.',
-    assetKicker: 'Un capital opérationnel durable', assetTitle: 'Son responsable peut changer. Son expérience reste dans l’entreprise.', assetBody: 'Le Collaborateur appartient à l’entreprise, pas à la personne qui le supervise. Son identité, ses compétences et sa mémoire restent disponibles lorsque les équipes évoluent.', assetCardKicker: 'Propriété de votre entreprise', assetStatus: 'Continuité préservée', assetRole: 'Collaboratrice IA · Votre entreprise', assetKeeps: [['Identité professionnelle','Conservée'],['Mémoire autorisée','Conservée'],['Méthodes validées','Conservées']], handoverLabel: 'Changement de responsable', handoverBody: 'Supervision transférée, continuité préservée',
+    modelsCta:'Configurer les modèles IA', serversCta:'Choisir son serveur privé', marketplaceCta:'Voir toute la Marketplace', marketNote: 'Le principe', marketContrast: 'Vous ne choisissez pas un outil d’intelligence artificielle individuel et isolé.', marketPromise: 'Vous équipez un Collaborateur durablement rattaché et gouverné par votre entreprise pour accomplir ses missions.',
+    assetKicker: 'Une continuité opérationnelle durable', assetTitle: 'Son responsable peut changer. Son expérience reste dans l’entreprise.', assetBody: 'Son identité professionnelle, les méthodes validées et la mémoire autorisée restent rattachées à votre organisation lorsque les équipes évoluent.', assetCardKicker: 'Rattaché à votre organisation', assetStatus: 'Continuité préservée', assetRole: 'Collaboratrice IA · Votre entreprise', assetKeeps: [['Identité professionnelle','Conservée'],['Mémoire autorisée','Conservée'],['Méthodes validées','Conservées']], handoverLabel: 'Changement de responsable', handoverBody: 'Supervision transférée, continuité préservée',
     assetPoints: [
       { title: 'Réattribuez sa supervision', body: 'Lorsqu’une personne quitte l’entreprise, ses accès sont supprimés et un nouveau responsable prend le relais.' },
       { title: 'Conservez ce qui a été appris', body: 'Les méthodes validées, l’historique utile et la mémoire choisie par l’entreprise restent attachés au Collaborateur.' },
@@ -269,22 +280,20 @@ const COPY = {
     almaRole: 'Collaboratrice IA Unitalk · Coordinatrice de missions IA', almaTitle: 'Décrivez une mission. Alma prépare le Collaborateur adapté.', almaBody: 'Alma cadre le résultat, les ressources nécessaires et les décisions qui restent sous votre contrôle.', almaCardTitle: 'Alma prépare avec vous', almaPrepares: ['Sa place dans l’organisation', 'Ses compétences et ses applications', 'Ses accès et ses validations', 'Son serveur privé'], almaRule: 'Le Collaborateur accomplit la mission. Votre équipe garde la décision.', almaCta: 'Décrire ma première mission',
   },
   en: {
-    eyebrow: 'A new member of your team', heroTitlePrefix: 'Your', heroTitleRole: 'AI Collaborator', heroTitleEnd: 'works and improves.', heroAccent: 'It stays in your organization.', heroLead: 'An identity, memory and skills under your control. With each mission, it retains the methods and corrections you approve.',
-    heroGroups: [{ label: 'In your organization', value: 'Defined identity\nMemory under your control' }, { label: 'Equipped to work', value: 'Profiles\nSkills\n3,000+ apps' }, { label: 'Its dedicated resources', value: 'Leading AI models\nDedicated private server' }], heroCardLabel: 'Choose the identity suited to your first mission.', heroCardRule: 'You control its access and the decisions that remain human.', identityCarousel: { ariaLabel: 'AI Collaborator identities', eyebrow: 'Choose an identity', previous: 'Previous identity', next: 'Next identity', profile: 'View profile', email: 'Email', calendar: 'Calendar', phone: 'Phone', rule: 'You control its access and the decisions that remain human.' }, start: 'Entrust a first mission', explore: 'View AI Collaborators', reassurance: ['First mission free', 'No card'], almaGuidance: 'Personalized with Alma',
+    eyebrow: 'A new member of your team', heroTitlePrefix: 'Your', heroTitleRole: 'AI Collaborator', heroTitleEnd: 'works with your team.', heroAccent: 'Its experience stays in your organization.', heroLead: 'Choose its identity and first mission. It gets its own email, calendar, phone, voice and private server, then connects to the tools you authorize.',
+    identityCarousel: { ariaLabel: 'AI Collaborator identities', eyebrow: 'Professional identity card', previous: 'Previous identity', next: 'Next identity', profile: 'View profile', email: 'Professional email', calendar: 'Calendar', phone: 'Phone', voice: 'Voice', provided: 'Provided by Unitalk', connected: 'Provided or connected', configurable: 'Based on configuration', mission: 'First mission', result: 'Expected outcome', rule: 'Attached to your organization. Access and decisions under your control.' }, start: 'Entrust a first mission', explore: 'View the 12 AI Collaborators', reassurance: ['First mission free', 'No card'], almaGuidance: 'Personalized with Alma',
     foundationTitle: 'Hermes executes. Unitalk organizes the work.', foundationBody: 'Hermes provides the open-source agentic engine. Unitalk adds the professional identity, memory, applications, permissions and collaboration space.', foundationCta: 'Discover Hermes',
     placeKicker: 'Organizational placement', placeTitle: 'A private or shared AI Collaborator.', placeBody: 'Private for one person, or shared with a team, department or the whole organization. Authorized members can access it from their workspace.', placementChoiceTitle: 'Choose its collaboration scope', placementChoiceBody: 'You can evolve it as your organization changes.', placements: ['One person', 'A team', 'A department', 'The whole organization'], placementDescriptions: ['A direct manager assigns and follows its missions.','It collaborates with every authorized member of a team.','It is accessible to authorized department members.','It is accessible to every authorized member of the organization.'], privateMemory: 'Its own memory', privateMemoryBody: 'Methods, experience and conversation history remain available across missions.', sharedKnowledge: 'Shared knowledge', sharedKnowledgeBody: 'It only accesses documents and information the organization opens to it.', communication: 'Its communication tools', communicationBody: 'Email, calendar, messaging and Unitalk workspace through approved channels.', sovereignty: 'Its AI server', sovereigntyBody: 'Each Hermes instance has its own server in Unitalk AI Cloud.',
-    proofKicker: 'One mission, end to end', proofTitle: 'It prepares. Your team decides.', proofBody: 'The Collaborator receives an expected outcome, works with authorized resources and stops whenever human approval is required.', proofSteps: [{label:'Mission assigned',title:'You define the outcome.',body:'The objective, context and boundaries are gathered in one shared space.'},{label:'Visible work',title:'It prepares the deliverable.',body:'Your team follows the steps, sources used and the result produced.'},{label:'Human control',title:'You keep the decision.',body:'Sensitive actions remain pending until you approve them.'}],
+    proofKicker: 'One mission, end to end', proofTitle: 'It prepares. Your team decides.', proofBody: 'The Collaborator receives an expected outcome, works with authorized resources and stops whenever human approval is required.', proofSteps: [{label:'Mission assigned',title:'You define the outcome.',body:'The objective, context and boundaries are gathered in one shared space.'},{label:'Visible work',title:'It prepares the deliverable.',body:'Your team follows the steps, sources used and the result produced.'},{label:'Human control',title:'You keep the decision.',body:'Sensitive actions remain pending until you approve them.'}], proofDeliverableLabel:'Deliverable prepared by Emma', proofDeliverable:'Leadership meeting ready.', proofDeliverableBody:'Agenda, three-file summary and six assigned actions.', proofApprovalLabel:'Human approval', proofApproval:'Authorize sending the agenda to participants?', proofWaiting:'Waiting for your decision',
     marketKicker: 'A Store open to the community', marketTitle: 'Choose it, then evolve it.', marketBody: 'Select an identity, then add job profiles, skills, applications, models and resources without recreating your Collaborator.',
     marketItems: {
       collaborators: { eyebrow: 'Identities', title: 'AI Collaborators', body: 'Choose the Collaborator that will join your organization.' },
       profiles: { eyebrow: 'Responsibilities', title: 'Job profiles', body: 'Add the roles your organization needs.' },
       skills: { eyebrow: 'Know-how', title: 'Skills', body: 'Assign precise, reusable methods.' },
-      apps: { eyebrow: '3,000+ connections', title: 'Applications', body: 'Connect it to the tools your teams already use.' },
-      models: { eyebrow: 'For each mission', title: 'AI models', body: 'Give it access to leading models approved by your organization.' },
-      servers: { eyebrow: 'Dedicated resources', title: 'AI servers', body: 'A private server that can scale with your needs.' },
+      apps: { eyebrow: 'Authorized tools', title: 'Applications', body: 'Connect it to applications and connectors available under your rights and licenses.' },
     },
-    marketNote: 'The principle', marketContrast: 'You are not choosing an individual, isolated artificial intelligence tool.', marketPromise: 'You equip a Collaborator that belongs to your organization to carry out its missions.',
-    assetKicker: 'Lasting operational capital', assetTitle: 'Its manager can change. Its experience stays in the organization.', assetBody: 'The Collaborator belongs to the organization, not the person supervising it. Its identity, skills and memory remain available as teams evolve.', assetCardKicker: 'Owned by your organization', assetStatus: 'Continuity preserved', assetRole: 'AI Collaborator · Your organization', assetKeeps: [['Professional identity','Retained'],['Authorized memory','Retained'],['Approved methods','Retained']], handoverLabel: 'Manager change', handoverBody: 'Supervision transferred, continuity preserved',
+    modelsCta:'Configure AI models', serversCta:'Choose its private server', marketplaceCta:'View the full Marketplace', marketNote: 'The principle', marketContrast: 'You are not choosing an individual, isolated artificial intelligence tool.', marketPromise: 'You equip a Collaborator durably attached to and governed by your organization to carry out its missions.',
+    assetKicker: 'Lasting operational continuity', assetTitle: 'Its manager can change. Its experience stays in the organization.', assetBody: 'Its professional identity, approved methods and authorized memory remain attached to your organization as teams evolve.', assetCardKicker: 'Attached to your organization', assetStatus: 'Continuity preserved', assetRole: 'AI Collaborator · Your organization', assetKeeps: [['Professional identity','Retained'],['Authorized memory','Retained'],['Approved methods','Retained']], handoverLabel: 'Manager change', handoverBody: 'Supervision transferred, continuity preserved',
     assetPoints: [
       { title: 'Reassign its supervision', body: 'When someone leaves the organization, their access is removed and a new manager takes over.' },
       { title: 'Retain what has been learned', body: 'Approved methods, useful history and organization-selected memory stay attached to the Collaborator.' },

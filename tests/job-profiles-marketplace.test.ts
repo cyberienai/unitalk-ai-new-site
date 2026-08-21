@@ -82,4 +82,11 @@ describe('Profils métier marketplace SEO', () => {
     expect(profiles.get('responsable-cybersecurite')).toBe('cybersecurite-qualite-logicielle')
     expect(profiles.get('ingenieur-qualite-logicielle')).toBe('cybersecurite-qualite-logicielle')
   })
+
+  it('keeps the requested established job titles', () => {
+    const profiles = new Map(STORE_ITEMS.filter(item => item.type === 'profil').map(item => [item.slug, item.name.fr]))
+    expect(profiles.get('charge-prospection')).toBe('Commercial SDR')
+    expect(profiles.get('community-manager')).toBe('Community manager')
+    expect(profiles.get('webmaster')).toBe('Webmaster')
+  })
 })

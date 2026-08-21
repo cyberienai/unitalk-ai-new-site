@@ -105,16 +105,320 @@ const PROFILE_SKILLS: SkillDefinition[] = [
   ['mustad-ad-daily-workflow', 'Organiser le suivi publicitaire quotidien', 'Analyse chaque jour les campagnes actives, prépare des recommandations et consigne les résultats.', 'marketing', ['gestionnaire-campagnes-publicitaires']],
 ]
 
+type SkillTranslation = { name: string; description: string }
+
+const ENGLISH_TRANSLATIONS: Record<string, SkillTranslation> = {
+  'mustad-brand-voice': {
+    name: 'Apply the brand voice',
+    description: 'Applies the brand-approved tone, vocabulary, audience language, and communication style.',
+  },
+  'mustad-approved-claims': {
+    name: 'Check approved claims',
+    description: 'Checks that product, commercial, and performance claims are approved, substantiated, and never fabricated.',
+  },
+  'mustad-evidence-provenance': {
+    name: 'Document evidence provenance',
+    description: 'Associates results from external data with their source, date, supporting link, and confidence level.',
+  },
+  'mustad-icp-scoring': {
+    name: 'Score an ideal customer profile',
+    description: 'Scores prospects using validated criteria, weightings, thresholds, and segmentation rules.',
+  },
+  'mustad-deduplication': {
+    name: 'Detect CRM duplicates',
+    description: 'Detects contacts and companies that may be duplicates before they are created or enriched.',
+  },
+  'mustad-data-quality': {
+    name: 'Check data quality',
+    description: 'Classifies records as verified, partial, incomplete, or conflicting and flags missing required data.',
+  },
+  'mustad-data-conflict-policy': {
+    name: 'Manage data conflicts',
+    description: 'Protects manually entered CRM data and defines how conflicting sources are compared, retained, and escalated.',
+  },
+  'mustad-consent-policy': {
+    name: 'Verify communication consent',
+    description: 'Checks opt-outs, do-not-contact restrictions, and email or SMS permissions before any external action.',
+  },
+  'mustad-human-approval-policy': {
+    name: 'Apply human approval rules',
+    description: 'Applies shared approval rules, including the owner, stage, recorded decision, and expiration date.',
+  },
+  'mustad-territory-and-ownership-policy': {
+    name: 'Apply sales territory and ownership rules',
+    description: 'Determines the sales owner, territory routing, eligibility, and access scope for field teams.',
+  },
+  'mustad-meeting-brief': {
+    name: 'Prepare a meeting brief',
+    description: 'Produces a concise, factual preparation brief from CRM records, enriched data, and sales context.',
+  },
+  'mustad-data-privacy-policy': {
+    name: 'Apply the data privacy policy',
+    description: 'Applies rules for sensitive data, transcripts, feedback, retention periods, anonymization, and access rights.',
+  },
+  'mustad-approved-template-policy': {
+    name: 'Use approved templates only',
+    description: 'Ensures that only approved templates for messages, responses, content, press relations, and campaigns are used automatically.',
+  },
+  'mustad-audit-and-action-log': {
+    name: 'Log actions and decisions',
+    description: 'Creates structured records of inputs, results, evidence, approvals, actions, failures, and retries.',
+  },
+  'mustad-prospect-research': {
+    name: 'Research prospects with evidence',
+    description: 'Researches prospects in authorized public sources and extracts structured information with supporting evidence.',
+  },
+  'mustad-prospect-segmentation': {
+    name: 'Segment prospects',
+    description: 'Determines a prospect’s segment, whether the prospect should be excluded, or whether human review is needed.',
+  },
+  'mustad-prospect-review-queue': {
+    name: 'Prepare a prospect review queue',
+    description: 'Prepares the score, rationale, evidence, segment, and recommended next action for human review.',
+  },
+  'mustad-source-licence-check': {
+    name: 'Check source licenses',
+    description: 'Prevents the use of unapproved, prohibited, or noncompliant sources.',
+  },
+  'mustad-enrichment-policy': {
+    name: 'Apply an enrichment policy',
+    description: 'Defines the data required for basic or comprehensive enrichment for each segment.',
+  },
+  'mustad-enrichment-normalisation': {
+    name: 'Normalize enriched data',
+    description: 'Standardizes names, addresses, phone numbers, domains, job titles, and company information.',
+  },
+  'mustad-enrichment-provenance': {
+    name: 'Track enrichment provenance',
+    description: 'Records the source, date, verification method, and confidence level of each enriched data point.',
+  },
+  'mustad-enrichment-review-workflow': {
+    name: 'Organize enrichment reviews',
+    description: 'Routes proposed updates, conflicts, and incomplete records for human review.',
+  },
+  'mustad-segment-messaging': {
+    name: 'Tailor messages to each segment',
+    description: 'Tailors the value proposition, tone, objections, and call to action to each segment.',
+  },
+  'mustad-factual-personalisation': {
+    name: 'Personalize using verified facts',
+    description: 'Personalizes messages using verified data only and blocks unsupported statements.',
+  },
+  'mustad-three-touch-cadence': {
+    name: 'Prepare a three-touch sequence',
+    description: 'Creates approved three-touch sequences with the correct timing, channels, and stopping rules.',
+  },
+  'mustad-outreach-tier-policy': {
+    name: 'Apply outreach tier rules',
+    description: 'Applies the approval, sending, volume cap, and exception rules for each outreach tier.',
+  },
+  'mustad-sequence-enrolment': {
+    name: 'Enroll a contact in a sequence',
+    description: 'Prepares approved sequences and enrolls eligible contacts only when the rules allow it.',
+  },
+  'mustad-reply-classification': {
+    name: 'Classify incoming replies',
+    description: 'Classifies replies by intent: interested, later, wrong contact, objection, opt-out, sensitive, or ambiguous.',
+  },
+  'mustad-hot-reply-policy': {
+    name: 'Detect priority replies',
+    description: 'Identifies urgent replies and determines the immediate action to take.',
+  },
+  'mustad-low-tier-reply-handler': {
+    name: 'Prepare permitted automated replies',
+    description: 'Selects an approved reply for simple cases where automation is explicitly permitted.',
+  },
+  'mustad-reply-routing': {
+    name: 'Route a sales reply',
+    description: 'Assigns the reply to the right person or team based on territory, segment, ownership, and availability.',
+  },
+  'mustad-sla-monitoring': {
+    name: 'Monitor response times',
+    description: 'Tracks routing time, acknowledgment of receipt, and escalation deadlines.',
+  },
+  'mustad-call-summary': {
+    name: 'Structure a call summary',
+    description: 'Produces a summary that clearly distinguishes facts, commitments, challenges, and next steps.',
+  },
+  'mustad-next-step-extraction': {
+    name: 'Extract next steps',
+    description: 'Extracts next steps, owners, dates, and commitments from calls.',
+  },
+  'mustad-call-consent-policy': {
+    name: 'Verify recording consent',
+    description: 'Determines whether a meeting may be recorded or processed under the applicable consent rules.',
+  },
+  'mustad-followup-draft': {
+    name: 'Draft a post-meeting follow-up',
+    description: 'Prepares a factual post-meeting follow-up message for review by the sales representative.',
+  },
+  'mustad-meeting-profile-orchestration': {
+    name: 'Orchestrate meeting processing',
+    description: 'Coordinates the event, authorized capture, transcript availability, and transcript processing.',
+  },
+  'mustad-visit-note-structuring': {
+    name: 'Structure visit notes',
+    description: 'Transforms free-form or voice notes into a structured visit report for the CRM.',
+  },
+  'mustad-field-voice-validation': {
+    name: 'Validate a field transcript',
+    description: 'Asks the field representative to review and approve the transcript before any CRM update.',
+  },
+  'mustad-field-access-policy': {
+    name: 'Control field team access',
+    description: 'Applies role and territory rules to determine what information each field user may access.',
+  },
+  'mustad-visit-suggestion': {
+    name: 'Suggest relevant visits',
+    description: 'Suggests relevant prospects based on the authorized schedule, territory, and location.',
+  },
+  'mustad-mobile-brief-delivery': {
+    name: 'Deliver a mobile visit brief',
+    description: 'Delivers a concise preparation brief through the approved mobile channel.',
+  },
+  'mustad-deal-health': {
+    name: 'Assess deal health',
+    description: 'Identifies risks, missing information, and recommended next actions for a sales opportunity.',
+  },
+  'mustad-proposal-draft': {
+    name: 'Prepare a sales proposal',
+    description: 'Creates a controlled proposal from approved templates and the opportunity context.',
+  },
+  'mustad-pricing-policy': {
+    name: 'Control pricing and discounts',
+    description: 'Ensures that only authorized prices, discounts, and commercial terms are used.',
+  },
+  'mustad-reference-matching': {
+    name: 'Select customer references',
+    description: 'Selects the most relevant approved customer references for an opportunity.',
+  },
+  'mustad-onboarding-handoff': {
+    name: 'Prepare the customer onboarding handoff',
+    description: 'Prepares and initiates the approved handoff after the contract is signed.',
+  },
+  'mustad-content-pipeline': {
+    name: 'Orchestrate the content production pipeline',
+    description: 'Coordinates the brief, long-form content, social, advertising, and email derivatives, and their approvals.',
+  },
+  'mustad-content-derivatives': {
+    name: 'Repurpose approved content',
+    description: 'Creates social, advertising, and email derivatives from approved long-form content.',
+  },
+  'mustad-content-fact-check': {
+    name: 'Fact-check content',
+    description: 'Checks product statements against approved claims and reference sources.',
+  },
+  'mustad-pr-media-research': {
+    name: 'Research media outlets and journalists',
+    description: 'Identifies relevant media outlets and journalists based on the editorial angle and campaign objective.',
+  },
+  'mustad-pr-pitch-writing': {
+    name: 'Write a media pitch',
+    description: 'Writes factual, personalized pitches for journalists.',
+  },
+  'mustad-pr-coverage-report': {
+    name: 'Prepare a press coverage report',
+    description: 'Produces a sourced press coverage report with links, dates, and sentiment analysis.',
+  },
+  'mustad-creator-discovery': {
+    name: 'Discover content creators',
+    description: 'Identifies creators who match the campaign’s criteria, platforms, regions, and objectives.',
+  },
+  'mustad-creator-vetting': {
+    name: 'Evaluate a content creator',
+    description: 'Evaluates authenticity, audience relevance, brand safety, and associated risks.',
+  },
+  'mustad-creator-brief': {
+    name: 'Prepare a creator brief',
+    description: 'Writes a brief specifying objectives, deliverables, permitted claims, and brand guidelines.',
+  },
+  'mustad-deliverable-compliance': {
+    name: 'Check influencer deliverables',
+    description: 'Compares contracted deliverables with published content and disclosure requirements.',
+  },
+  'mustad-creator-workflow': {
+    name: 'Track the creator lifecycle',
+    description: 'Creates or updates creator records, approval stages, and campaign statuses.',
+  },
+  'mustad-lifecycle-definitions': {
+    name: 'Apply customer lifecycle stages',
+    description: 'Applies validated definitions for activated, active, retained, at-risk, or lost customers.',
+  },
+  'mustad-cohort-analysis': {
+    name: 'Analyze customer cohorts',
+    description: 'Calculates activation, retention, and churn metrics by cohort.',
+  },
+  'mustad-dropoff-detection': {
+    name: 'Detect disengagement risks',
+    description: 'Detects behaviors associated with declining engagement or customer risk.',
+  },
+  'mustad-winback-copy': {
+    name: 'Write a win-back message',
+    description: 'Prepares approved win-back messages and offers for each customer segment.',
+  },
+  'mustad-lifecycle-workflow': {
+    name: 'Prepare a customer retention workflow',
+    description: 'Prepares retention segments and approved changes to CRM workflows.',
+  },
+  'mustad-theme-extraction': {
+    name: 'Extract themes from feedback',
+    description: 'Extracts recurring themes, pain points, requests, and opportunities from feedback.',
+  },
+  'mustad-quote-clustering': {
+    name: 'Group quotes by theme',
+    description: 'Groups quotes by theme and distinguishes frequency from severity.',
+  },
+  'mustad-feedback-anonymisation': {
+    name: 'Anonymize customer feedback',
+    description: 'Removes or protects personally identifiable data in customer quotes and feedback.',
+  },
+  'mustad-kpi-narrative': {
+    name: 'Write a narrative KPI summary',
+    description: 'Writes a one-page executive summary based on validated metrics.',
+  },
+  'mustad-kpi-reconciliation': {
+    name: 'Reconcile metrics',
+    description: 'Checks metric values, sources, reporting periods, and changes over time.',
+  },
+  'mustad-weekly-digest-workflow': {
+    name: 'Orchestrate the weekly digest',
+    description: 'Collects scheduled data and prepares a weekly digest for review.',
+  },
+  'mustad-ad-copy-variants': {
+    name: 'Create ad copy variants',
+    description: 'Generates approved copy and call-to-action variants based on the audience and campaign objective.',
+  },
+  'mustad-ad-performance-analysis': {
+    name: 'Analyze advertising performance',
+    description: 'Analyzes campaign performance against defined objectives and benchmarks.',
+  },
+  'mustad-ad-pause-policy': {
+    name: 'Evaluate whether to pause an ad',
+    description: 'Determines whether an ad may be paused under approved performance rules.',
+  },
+  'mustad-budget-recommendations': {
+    name: 'Recommend advertising budget reallocation',
+    description: 'Recommends an authorized budget reallocation based on campaign performance.',
+  },
+  'mustad-ad-daily-workflow': {
+    name: 'Organize daily advertising monitoring',
+    description: 'Analyzes active campaigns each day, prepares recommendations, and records the results.',
+  },
+}
+
 function toStoreItem([slug, name, description, facet, profiles]: SkillDefinition, index: number): StoreItem {
   const publicSlug = slug.replace(/^mustad-/, '')
+  const translation = ENGLISH_TRANSLATIONS[slug]
+  if (!translation) throw new Error(`Missing English translation for Mustad skill: ${slug}`)
+
   return {
     type: 'competence',
     slug: publicSlug,
-    name: { fr: name, en: name },
-    description: { fr: description, en: description },
+    name: { fr: name, en: translation.name },
+    description: { fr: description, en: translation.description },
     creator: 'unitalk',
     facet,
-    enables: [{ fr: description, en: description }],
+    enables: [{ fr: description, en: translation.description }],
     produces: [{ fr: 'Un résultat structuré soumis aux règles et validations configurées.', en: 'A structured result subject to configured rules and approvals.' }],
     contexts: [{ fr: 'Processus commercial, marketing ou opérationnel configuré pour l’entreprise.', en: 'Sales, marketing or operational process configured for the organization.' }],
     relatedProfiles: profiles,
