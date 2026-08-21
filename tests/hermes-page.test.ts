@@ -25,7 +25,15 @@ describe('Hermes infrastructure page', () => {
   })
 
   it('shows an operational console without making universal SLA claims', () => {
-    for (const claim of ['Dernière sauvegarde', 'Version Hermes', 'Région', 'État du service', 'Supervision']) expect(content).toContain(claim)
+    for (const claim of ['Aperçu illustratif', 'Sauvegarde', 'Version Hermes', 'Région', 'État du service', 'Supervision']) expect(content).toContain(claim)
     expect(content).toContain('selon l’offre et l’hébergement choisis')
+    expect(content).not.toContain('Aujourd’hui · 03:14')
+    expect(content).toContain('Exploitation et engagements')
+  })
+
+  it('links evidence and publishes Service structured data', () => {
+    for (const href of ['/architecture', '/confidentialite', '/conditions']) expect(content).toContain(`href="${href}"`)
+    expect(page).toContain("'@type': 'Service'")
+    expect(page).toContain("serviceType: 'Déploiement et exploitation d’infrastructure agentique Hermes'")
   })
 })

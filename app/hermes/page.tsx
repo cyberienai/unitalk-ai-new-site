@@ -11,5 +11,15 @@ export const metadata: Metadata = {
 }
 
 export default function HermesPage() {
-  return <><Navbar/><HermesContent/><SiteFooter/></>
+  const service = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Exploitation Hermes par Unitalk',
+    description: 'Service de déploiement, sécurisation, maintenance et supervision de l’environnement Hermes des Collaborateurs IA, selon l’offre et l’hébergement choisis.',
+    url: 'https://unitalk.ai/hermes',
+    provider: { '@type': 'Organization', name: 'Unitalk', url: 'https://unitalk.ai' },
+    serviceType: 'Déploiement et exploitation d’infrastructure agentique Hermes',
+    areaServed: 'FR',
+  }
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}/><Navbar/><HermesContent/><SiteFooter/></>
 }
