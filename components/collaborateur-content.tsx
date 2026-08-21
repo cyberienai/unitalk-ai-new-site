@@ -1256,7 +1256,7 @@ export function CollaborateurContent({
         <div className="editorial-shell">
           <div className="grid gap-px overflow-hidden rounded-[26px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2">
             <Link
-              href="/collaborateurs-ia/applications"
+              href="/marketplace/applications"
               className="group bg-[#FAF8F3] p-6 sm:p-8"
             >
               <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">

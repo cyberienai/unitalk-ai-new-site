@@ -20,7 +20,7 @@ export function FloatingAlmaWidget() {
   const router = useRouter()
   const t = COPY[lang]
   const [need,setNeed] = useState('')
-  const hidden = pathname === '/' || pathname === '/accueil-2' || pathname === '/decouvrir' || pathname === '/missions' || pathname === '/tarifs' || pathname === '/alma' || pathname === '/unitalk/@alma' || pathname === '/collaborateurs-ia/profils-metier' || pathname === '/collaborateurs-ia/competences' || pathname.startsWith('/team/') || /^\/@[^/]+$/.test(pathname) || launcherSuppressed
+  const hidden = pathname === '/' || pathname === '/accueil-2' || pathname === '/decouvrir' || pathname === '/missions' || pathname === '/tarifs' || pathname === '/alma' || pathname === '/unitalk/@alma' || pathname === '/collaborateurs-ia/profils-metier' || pathname.startsWith('/team/') || /^\/@[^/]+$/.test(pathname) || launcherSuppressed
   const missionDetail = pathname.startsWith('/missions/')
 
   function continueFlow() {

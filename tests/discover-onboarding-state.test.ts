@@ -44,7 +44,7 @@ describe('explicit discovery intent', () => {
 
   it('keeps a Store job profile selected through onboarding', () => {
     const requestedProfile = getStoreItemBySlug('commercial')!
-    const state = buildInitialOnboardingState({ lang: 'fr', initialPurchaseDraft: persisted, requestedDomain: '', requestedProfile, hasExplicitDraft: true })
+    const state = buildInitialOnboardingState({ lang: 'fr', initialPurchaseDraft: persisted, requestedDomain: '', requestedStoreItem: requestedProfile, hasExplicitDraft: true })
     expect(state.profile).toEqual(requestedProfile.name)
     expect(state.mission.title).toBe(requestedProfile.exampleMissions?.[0]?.fr)
     expect(state.mission.result).toContain(requestedProfile.name.fr)

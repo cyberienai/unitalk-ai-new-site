@@ -3,12 +3,14 @@
 import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { AppWindow, ArrowRight, BriefcaseBusiness, Cpu, Server, Wrench } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { AppWindow, ArrowRight, Cpu, Server } from 'lucide-react'
 import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage } from '@/lib/language-context'
 import type { Lang as SiteLang } from '@/lib/language-context'
 import { collaboratorHref, MARKETPLACE_COLLABORATOR_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { APP_CATEGORY_LABELS, DOMAIN_LABELS, STORE_ITEMS, storeItemHref } from '@/lib/store-catalog'
+import { AI_MODELS } from '@/lib/ai-models-catalog'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -38,6 +40,7 @@ type MarketplaceItem = {
   origin?: string
   creator?: 'unitalk' | 'community'
   avatar?: string
+  logoId?: string
   pending?: boolean
   status?: Bi
   keywords?: string[]
@@ -54,6 +57,8 @@ type MarketplaceItem = {
   result?: string
   proof?: string
   profileSlug?: string
+  modelModalities?: Bi[]
+  modelType?: Bi
 }
 
 const PAGE_SIZE = 12
@@ -182,26 +187,42 @@ const PROFILE_DEMAND_ORDER = [
 const PROFILE_DEMAND_RANK = new Map<string, number>(PROFILE_DEMAND_ORDER.map((slug, index) => [slug, index]))
 const PROFILE_NAMES = new Map(STORE_ITEMS.filter((item) => item.type === 'profil').map((item) => [item.slug, item.name]))
 
-const MODEL_ITEMS = [
-  { key: 'gpt', title: 'GPT', maker: 'OpenAI', meta: 'Texte · Vision · Code', modalities: ['texte', 'raisonnement', 'image', 'audio', 'multimodal'] },
-  { key: 'claude', title: 'Claude', maker: 'Anthropic', meta: 'Texte · Analyse · Code', modalities: ['texte', 'raisonnement', 'multimodal'] },
-  { key: 'gemini', title: 'Gemini', maker: 'Google', meta: 'Texte · Vision · Multimodal', modalities: ['texte', 'raisonnement', 'image', 'audio', 'video', 'multimodal'] },
-  { key: 'mistral', title: 'Mistral', maker: 'Mistral AI', meta: 'Texte · Code · Europe', modalities: ['texte', 'raisonnement', 'open-source'] },
-  { key: 'deepseek', title: 'DeepSeek', maker: 'DeepSeek', meta: 'Raisonnement · Code', modalities: ['texte', 'raisonnement', 'open-source'] },
-  { key: 'llama', title: 'Llama', maker: 'Meta', meta: 'Open weights · Texte', modalities: ['texte', 'open-source'] },
-] as const
+const MODEL_ITEMS = AI_MODELS
 
 const MODEL_MODALITY_LABELS: Record<string, Bi> = {
   texte: { fr: 'Texte', en: 'Text' },
-  raisonnement: { fr: 'Raisonnement', en: 'Reasoning' },
   image: { fr: 'Image', en: 'Image' },
+  embeddings: { fr: 'Embeddings', en: 'Embeddings' },
   audio: { fr: 'Audio', en: 'Audio' },
   video: { fr: 'Vidéo', en: 'Video' },
-  multimodal: { fr: 'Multimodal', en: 'Multimodal' },
-  'open-source': { fr: 'Open source', en: 'Open source' },
+  rerank: { fr: 'Rerank', en: 'Rerank' },
+  speech: { fr: 'Speech', en: 'Speech' },
+  transcription: { fr: 'Transcription', en: 'Transcription' },
 }
 
-const MODEL_MODALITY_ORDER = ['texte', 'raisonnement', 'multimodal', 'image', 'audio', 'video', 'open-source'] as const
+const MODEL_MODALITY_ORDER = ['texte', 'image', 'embeddings', 'audio', 'video', 'rerank', 'speech', 'transcription'] as const
+const MODEL_MODALITY_DISPLAY: Record<string, Bi> = {
+  texte: { fr: 'Texte', en: 'Text' },
+  image: { fr: 'Image', en: 'Image' },
+  embeddings: { fr: 'Embeddings', en: 'Embeddings' },
+  audio: { fr: 'Audio', en: 'Audio' },
+  video: { fr: 'Vidéo', en: 'Video' },
+  rerank: { fr: 'Rerank', en: 'Rerank' },
+  speech: { fr: 'Speech', en: 'Speech' },
+  transcription: { fr: 'Transcription', en: 'Transcription' },
+}
+
+const APPLICATION_LOGOS: Record<string, string> = {
+  notion: 'app_X7Lhxr', 'google-sheets': 'app_168hvn', slack: 'app_M0hv7G', linear: 'app_X7Lh0L', gmail: 'app_OQYhq7', 'google-drive': 'app_1lxhk1', 'google-agenda': 'app_13Gh2V', supabase: 'app_1dBhP3', mysql: 'app_1YMhwo', postgresql: 'app_1M0hNB', aws: 'app_Xe3hD1', 'twilio-sendgrid': 'app_XKvh3O', 'amazon-ses': 'app_m5ghj5', klaviyo: 'app_X2Rhjl', zendesk: 'app_1pbhGX', 'microsoft-teams': 'app_1M0hlk', salesforce: 'app_OrZhD7', hubspot: 'app_OkrhlP',
+}
+
+const APPLICATION_CATEGORY_ORDER = ['communication', 'messagerie', 'collaboration', 'crm', 'helpdesk-support', 'marketing', 'productivite', 'documents', 'file-storage', 'databases', 'infrastructure-cloud', 'finance', 'rh', 'metier'] as const
+
+const PIPEDREAM_APPLICATION_ORDER = ['notion', 'google-sheets', 'slack', 'linear', 'gmail', 'google-drive', 'google-agenda', 'supabase', 'mysql', 'postgresql', 'aws', 'twilio-sendgrid', 'amazon-ses', 'klaviyo', 'zendesk', 'microsoft-teams', 'salesforce', 'hubspot'] as const
+const PIPEDREAM_APPLICATION_RANK = new Map<string, number>(PIPEDREAM_APPLICATION_ORDER.map((slug, index) => [slug, index]))
+const APPLICATION_CATEGORY_OVERRIDES: Record<string, string> = {
+  notion: 'productivite', 'google-sheets': 'productivite', slack: 'communication', linear: 'productivite', gmail: 'communication', 'google-drive': 'file-storage', 'google-agenda': 'productivite', supabase: 'databases', mysql: 'databases', postgresql: 'databases', aws: 'infrastructure-cloud', 'twilio-sendgrid': 'marketing', 'amazon-ses': 'communication', klaviyo: 'marketing', zendesk: 'helpdesk-support', 'microsoft-teams': 'communication', salesforce: 'crm', hubspot: 'crm', sharepoint: 'file-storage', outlook: 'communication', github: 'productivite', linkedin: 'marketing', canva: 'marketing', excel: 'productivite', csv: 'productivite',
+}
 
 const STORE_CATEGORIES: Category[] = [
   {
@@ -231,24 +252,24 @@ const STORE_CATEGORIES: Category[] = [
     heroLead: { fr: 'Chaque compétence est adaptée au profil et aux missions de votre Collaborateur.', en: 'Each skill is tailored to your Collaborator’s profile and missions.' },
     search: { fr: 'Rechercher une compétence', en: 'Search skills' }, action: { fr: 'Ajouter à un Collaborateur IA', en: 'Add to an AI Collaborator' }, explain: { fr: 'Comprendre les compétences', en: 'Understand skills' },
     missing: { title: { fr: 'Une compétence vous manque ?', en: 'Missing a skill?' }, body: { fr: 'Expliquez le savoir-faire attendu. Alma vous aide à le transformer en compétence claire, testable et réutilisable.', en: 'Describe the know-how you need. Alma helps turn it into a clear, testable and reusable skill.' }, action: { fr: 'Créer une compétence', en: 'Create a skill' }, href: '/decouvrir?source=marketplace&intention=nouvelle-competence' },
-    href: '/collaborateurs-ia/competences', accent: '#C80B5B',
+    href: '/marketplace/competences', accent: '#C80B5B',
   },
   {
     id: 'applications', title: { fr: 'Applications', en: 'Applications' },
     description: { fr: 'Les outils, connecteurs et applications métier autorisés.', en: 'Approved tools, connectors and business applications.' },
-    heroTitle: { fr: 'Connectez les outils du travail. Choisissez ce qu’il peut y faire.', en: 'Connect the tools for the job. Choose what they can do.' },
-    heroAccent: { fr: 'Choisissez ce qu’il peut y faire.', en: 'Choose what they can do.' },
-    heroLead: { fr: 'Messagerie, CRM, gestion de projet ou création : attribuez uniquement les applications nécessaires à chaque Collaborateur IA.', en: 'Email, CRM, project management or creation: assign only the applications each AI Collaborator needs.' },
-    search: { fr: 'Rechercher une application', en: 'Search applications' }, action: { fr: 'Voir l’application', en: 'View application' }, explain: { fr: 'Comprendre les applications', en: 'Understand applications' },
+    heroTitle: { fr: 'Connectez uniquement les applications nécessaires à chaque mission.', en: 'Connect only the applications each mission needs.' },
+    heroAccent: { fr: 'nécessaires à chaque mission.', en: 'each mission needs.' },
+    heroLead: { fr: 'Votre Collaborateur IA utilise les applications pour réaliser les actions que vous lui autorisez.', en: 'Your AI Collaborator uses applications to perform the actions you authorize.' },
+    search: { fr: 'Rechercher une application', en: 'Search applications' }, action: { fr: 'Connecter à mon Collaborateur IA', en: 'Connect to my AI Collaborator' }, explain: { fr: 'Comprendre les applications', en: 'Understand applications' },
     missing: { title: { fr: 'Votre application n’est pas encore proposée ?', en: 'Is your application not listed yet?' }, body: { fr: 'Indiquez l’outil à connecter et l’usage visé. Nous vérifions les accès, les actions disponibles et les conditions d’intégration.', en: 'Tell us which tool to connect and the intended use. We review access, available actions and integration requirements.' }, action: { fr: 'Demander une intégration', en: 'Request an integration' }, href: '/decouvrir?source=marketplace&intention=nouvelle-application' },
-    href: '/collaborateurs-ia/applications', accent: '#B7501E',
+    href: '/marketplace/applications', accent: '#B7501E',
   },
   {
     id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' },
     description: { fr: 'Les intelligences auxquelles vos Collaborateurs IA peuvent accéder selon leurs droits et leurs missions.', en: 'The intelligences your AI Collaborators can access according to their permissions and missions.' },
-    heroTitle: { fr: 'Les modèles IA auxquels vos Collaborateurs ont accès.', en: 'The AI models your Collaborators can access.' },
-    heroAccent: { fr: 'vos Collaborateurs ont accès.', en: 'your Collaborators can access.' },
-    heroLead: { fr: 'Unitalk sélectionne automatiquement le modèle le plus pertinent pour chaque mission. Vous pouvez voir et contrôler les modèles disponibles pour votre entreprise.', en: 'Unitalk automatically selects the most relevant model for each mission. You can view and control the models available to your company.' },
+    heroTitle: { fr: 'Autorisez les modèles IA adaptés à chaque mission.', en: 'Authorize the AI models suited to each mission.' },
+    heroAccent: { fr: 'adaptés à chaque mission.', en: 'suited to each mission.' },
+    heroLead: { fr: 'Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.', en: 'Unitalk automatically selects the right model among those authorized by your organization.' },
     search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' }, explain: { fr: 'Comprendre les modèles IA', en: 'Understand AI models' },
     missing: { title: { fr: 'Vous souhaitez utiliser un autre modèle IA ?', en: 'Want to use another AI model?' }, body: { fr: 'Partagez le modèle ou le fournisseur souhaité. Nous étudions sa compatibilité, son coût et ses conditions d’accès.', en: 'Share the model or provider you want. We assess compatibility, cost and access requirements.' }, action: { fr: 'Proposer un modèle', en: 'Suggest a model' }, href: '/decouvrir?source=marketplace&intention=nouveau-modele-ia' },
     href: '/modeles-ia', accent: '#1D6692',
@@ -306,18 +327,19 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
     }))
   }
   if (categoryId === 'applications') {
-    return STORE_ITEMS.filter((item) => item.type === 'application' || item.type === 'integration').map((item) => ({
-      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: storeItemHref(item),
+    return STORE_ITEMS.filter((item) => item.type === 'application' || item.type === 'integration').sort((a, b) => (PIPEDREAM_APPLICATION_RANK.get(a.slug) ?? Number.MAX_SAFE_INTEGER) - (PIPEDREAM_APPLICATION_RANK.get(b.slug) ?? Number.MAX_SAFE_INTEGER) || a.order - b.order).map((item) => ({
+      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: `/decouvrir?store=${item.slug}&source=marketplace-applications`, logoId: APPLICATION_LOGOS[item.slug],
       meta: item.editor ?? (item.type === 'integration' ? (lang === 'fr' ? 'Intégration' : 'Integration') : item.facet),
       origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community', pending: item.commercialStatus === 'draft',
-      status: item.commercialStatus === 'draft' ? { fr: 'Bientôt disponible', en: 'Coming soon' } : item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Connectable', en: 'Connectable' }, facetKey: item.facet, input: item.uses?.[0]?.[lang] ?? item.contexts?.[0]?.[lang], result: item.actions?.[0]?.[lang] ?? item.produces?.[0]?.[lang],
+      status: item.commercialStatus === 'draft' ? { fr: 'Bientôt disponible', en: 'Coming soon' } : item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : { fr: 'Connectable', en: 'Connectable' }, facetKey: APPLICATION_CATEGORY_OVERRIDES[item.slug] ?? item.facet, input: item.uses?.[0]?.[lang] ?? item.contexts?.[0]?.[lang], result: item.actions?.[0]?.[lang] ?? item.produces?.[0]?.[lang],
     }))
   }
   if (categoryId === 'modeles-ia') {
     return MODEL_ITEMS.map((item) => ({
-      key: item.key, title: item.title,
-      description: lang === 'fr' ? `Famille de modèles ${item.maker}, disponible selon les droits, les clés et la configuration AI Gateway.` : `${item.maker} model family, available according to permissions, keys and AI Gateway configuration.`,
-      href: '/modeles-ia', meta: item.meta, origin: item.maker, facetKeys: [...item.modalities], status: { fr: 'Selon votre fournisseur', en: 'Via your provider' }, input: lang === 'fr' ? 'Sélection automatique selon la mission' : 'Automatic selection for each mission', result: lang === 'fr' ? 'Accès contrôlé par votre entreprise' : 'Access controlled by your organization',
+      key: item.key, title: item.title, href: `/decouvrir?model=${item.key}&source=marketplace-models`,
+      description: item.description[lang], meta: item.maker, origin: item.maker, facetKeys: [...item.modalities],
+      modelModalities: item.modalities.map((modality) => MODEL_MODALITY_DISPLAY[modality]),
+      modelType: item.type === 'proprietaire' ? { fr: 'Modèle propriétaire', en: 'Proprietary model' } : { fr: 'Modèle ouvert', en: 'Open model' },
     }))
   }
   if (categoryId === 'serveurs-ia') {
@@ -339,14 +361,14 @@ const COPY = {
     heroProofs: ['Première mission gratuite', 'Sans carte bancaire'],
     profileHeroProofs: ['Profils métier gratuits', 'Plusieurs profils par Collaborateur'],
     skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission'],
-    applicationHeroProofs: ['Accès gouvernés', 'Actions configurables', 'Connexions selon vos droits'],
-    modelHeroProofs: ['Sélection automatique', 'Fournisseurs contrôlés', 'Modèles interchangeables'],
+    applicationHeroProofs: ['Accès définis par votre entreprise', 'Actions autorisées'],
+    modelHeroProofs: ['Sélection automatique', 'Fournisseurs sous votre contrôle'],
     serverHeroProofs: ['Infrastructure privée', 'Capacité évolutive', 'Déploiement gouverné'],
     showAllCollaborators: 'Voir les Collaborateurs IA',
     showMoreProfiles: 'Afficher 12 profils supplémentaires',
     creators: 'Créateur', allCreators: 'Tous', community: 'Communauté',
     departments: 'Départements', allDepartments: 'Tous les profils', profileCount: 'profils prêts à adapter', profileResult: 'profil', profileResults: 'profils', firstMission: 'Exemple de mission',
-    skillCategories: 'Catégories de compétences', applicationCategories: 'Catégories d’applications', modelCategories: 'Modalités des modèles', serverCategories: 'Types d’infrastructure', allItems: 'Tout le catalogue',
+    skillCategories: 'Catégories de compétences', applicationCategories: 'Catégories d’applications', serverCategories: 'Types d’infrastructure', allItems: 'Tout le catalogue',
   },
   en: {
     noResults: 'No item matches this search.', showMore: 'View the full catalog', showLess: 'Back to the selection',
@@ -356,14 +378,14 @@ const COPY = {
     heroProofs: ['First mission free', 'No credit card'],
     profileHeroProofs: ['Free job profiles', 'Multiple profiles per Collaborator', 'Customizable methods and permissions'],
     skillHeroProofs: ['Free skills', 'Documented methods', 'Reusable across missions'],
-    applicationHeroProofs: ['Governed access', 'Configurable actions', 'Connections based on permissions'],
-    modelHeroProofs: ['Automatic selection', 'Controlled providers', 'Interchangeable models'],
+    applicationHeroProofs: ['Access defined by your organization', 'Authorized actions'],
+    modelHeroProofs: ['Automatic selection', 'Providers under your control'],
     serverHeroProofs: ['Private infrastructure', 'Scalable capacity', 'Governed deployment'],
     showAllCollaborators: 'View AI Collaborators',
     showMoreProfiles: 'Show 12 more profiles',
     creators: 'Creator', allCreators: 'All', community: 'Community',
     departments: 'Departments', allDepartments: 'All profiles', profileCount: 'profiles ready to adapt', profileResult: 'profile', profileResults: 'profiles', firstMission: 'Mission example',
-    skillCategories: 'Skill categories', applicationCategories: 'Application categories', modelCategories: 'Model modalities', serverCategories: 'Infrastructure types', allItems: 'Full catalog',
+    skillCategories: 'Skill categories', applicationCategories: 'Application categories', serverCategories: 'Infrastructure types', allItems: 'Full catalog',
   },
 } as const
 
@@ -379,6 +401,7 @@ function scrollToStoreHero() {
 }
 
 export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialCategoryId }: { collaboratorsOnly?: boolean; fixedLang?: SiteLang; initialCategoryId?: string }) {
+  const router = useRouter()
   const { lang: selectedLang } = useLanguage()
   const lang = fixedLang ?? selectedLang
   const t = COPY[lang]
@@ -441,9 +464,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     return matches.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
   }, [activeCategory.id, catalogFacet, catalogQuery, categoryItems, isProfilesCategory, profileCreator, profileDepartment, skillCategory, skillProfile, usesCatalogSidebar])
   const visibleItems = filteredItems.slice(0, visibleCount)
-  const catalogIntro = activeCategory.id === 'modeles-ia'
-        ? { eyebrow: lang === 'fr' ? 'Intelligences disponibles' : 'Available intelligence', title: lang === 'fr' ? 'Le bon modèle est sélectionné pour chaque travail.' : 'The right model is selected for each task.', body: lang === 'fr' ? 'Comparez les familles disponibles. Votre entreprise contrôle les fournisseurs autorisés, les clés, les budgets et les modalités accessibles.' : 'Compare available model families. Your organization controls approved providers, keys, budgets and modalities.', note: lang === 'fr' ? `${categoryItems.length} familles de modèles` : `${categoryItems.length} model families` }
-        : activeCategory.id === 'serveurs-ia'
+  const catalogIntro = activeCategory.id === 'serveurs-ia'
           ? { eyebrow: lang === 'fr' ? 'Infrastructure d’exécution' : 'Execution infrastructure', title: lang === 'fr' ? 'Dimensionnez un environnement adapté au travail.' : 'Size an environment for the work ahead.', body: lang === 'fr' ? 'Comparez les niveaux de capacité, de confidentialité et de souveraineté avant de choisir votre infrastructure.' : 'Compare capacity, privacy and sovereignty levels before choosing your infrastructure.', note: lang === 'fr' ? `${categoryItems.length} options d’infrastructure` : `${categoryItems.length} infrastructure options` }
           : null
   function clearFilters() {
@@ -495,7 +516,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     setProfileCreator('')
     setCatalogFacet('')
     const href = `/marketplace/${categoryId}`
-    window.history.replaceState(null, '', href)
+    router.replace(href, { scroll: false })
     if (scroll) scrollToStoreHero()
     requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }))
   }
@@ -541,7 +562,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
         <div className="mx-auto w-full max-w-6xl">
              <div id="marketplace-results" role={collaboratorsOnly ? 'region' : 'tabpanel'} aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
                      {isProfilesCategory && <ProfilesMarketplaceCatalog items={filteredItems} categoryTotal={profileCategoryTotal} creatorCounts={{ unitalk: categoryItems.filter(item => item.creator === 'unitalk').length, community: categoryItems.filter(item => item.creator === 'community').length }} departments={profileDepartments} activeDepartment={profileDepartment} onDepartment={(department) => { setProfileDepartment(department); setVisibleCount(PAGE_SIZE) }} activeCreator={profileCreator} onCreator={(creator) => { setProfileCreator(creator); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} labels={{ departments: t.departments, allDepartments: t.allDepartments, profileResult: t.profileResult, profileResults: t.profileResults, firstMission: t.firstMission, addProfile: t.addProfile, clear: t.clear, showMore: t.showMoreProfiles, creators: t.creators, allCreators: t.allCreators, community: t.community }} />}
-                     {usesCatalogSidebar && <>{catalogIntro && <section className="mb-7 grid gap-5 border-b border-[#D8D0C2] pb-7 sm:mb-9 sm:pb-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end"><div><p className="font-mono text-[9px] font-black uppercase tracking-[.16em]" style={{ color: activeCategory.accent }}>{catalogIntro.eyebrow}</p><h2 className="mt-3 max-w-3xl text-[clamp(1.8rem,3vw,2.8rem)] font-semibold leading-[1.02] tracking-[-.045em]">{catalogIntro.title}</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#625B50]">{catalogIntro.body}</p></div><p className="w-fit rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 py-2 text-xs font-bold text-[#3F3A33]">{catalogIntro.note}</p></section>}<MarketplaceSidebarCatalog items={filteredItems} allItems={categoryItems} activeFacet={catalogFacet} onFacet={(facet) => { setCatalogFacet(facet); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} labels={{ clear: t.clear, allItems: t.allItems, skillCategories: t.skillCategories, applicationCategories: t.applicationCategories, modelCategories: t.modelCategories, serverCategories: t.serverCategories, result: t.result, results: t.results, available: t.available, preparation: t.preparation, addProfile: t.addProfile, showMore: t.showMore }} /></>}
+                     {usesCatalogSidebar && <>{catalogIntro && <section className="mb-7 grid gap-5 border-b border-[#D8D0C2] pb-7 sm:mb-9 sm:pb-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end"><div><p className="font-mono text-[9px] font-black uppercase tracking-[.16em]" style={{ color: activeCategory.accent }}>{catalogIntro.eyebrow}</p><h2 className="mt-3 max-w-3xl text-[clamp(1.8rem,3vw,2.8rem)] font-semibold leading-[1.02] tracking-[-.045em]">{catalogIntro.title}</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#625B50]">{catalogIntro.body}</p></div><p className="w-fit rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 py-2 text-xs font-bold text-[#3F3A33]">{catalogIntro.note}</p></section>}<MarketplaceSidebarCatalog items={filteredItems} allItems={categoryItems} activeFacet={catalogFacet} onFacet={(facet) => { setCatalogFacet(facet); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} labels={{ clear: t.clear, allItems: t.allItems, skillCategories: t.skillCategories, applicationCategories: t.applicationCategories, serverCategories: t.serverCategories, result: t.result, results: t.results, available: t.available, preparation: t.preparation, addProfile: t.addProfile, showMore: t.showMore }} /></>}
                     {!isCollaboratorsLanding && !isProfilesCategory && !usesCatalogSidebar && <div className="mb-5 sm:mb-6"><h2 className="text-[28px] font-semibold tracking-[-.04em] sm:text-[34px]">{activeCategory.title[lang]}</h2><p className="mt-2 max-w-4xl text-sm leading-6 text-[#625B50]">{activeCategory.description[lang]}</p>{activeCategory.id === 'serveurs-ia' && <Link href="/collaborateurs-ia/serveurs" className="mt-5 inline-flex min-h-10 items-center border-b border-[#216641] text-xs font-bold text-[#216641]">{lang === 'fr' ? 'Voir les options d’infrastructure' : 'View infrastructure options'}<span aria-hidden className="ml-2">→</span></Link>}</div>}
                        {isCollaboratorsLanding && <div className="mb-6 grid gap-5 border-b border-[#D8D0C2] pb-6 sm:mb-8 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-8"><h2 className="text-[clamp(1.8rem,2.3vw,2.05rem)] font-semibold leading-[1.02] tracking-[-.045em] xl:whitespace-nowrap">{lang === 'fr' ? 'Découvrez votre futur Collaborateur IA.' : 'Discover your future AI Collaborator.'}</h2><div className="w-fit border-l-2 border-[#D10E63] py-1 pl-4 lg:text-right"><p className="text-sm font-bold text-[#1C1A17]">{lang === 'fr' ? 'Dès 49 €/mois par Collaborateur IA' : 'From €49/month per AI Collaborator'}</p><p className="mt-1 text-[10px] font-semibold text-[#766D61]">{lang === 'fr' ? 'Sans engagement · Consommation des modèles d’IA facturée séparément' : 'No commitment · AI model usage billed separately'}</p></div></div>}
                    {categoryItems.length > 0 && !isCollaboratorsLanding && !isProfilesCategory && !usesCatalogSidebar && <div className="flex flex-col gap-3"><div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">{activeCategory.id !== 'collaborateurs-ia' && <label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[#D10E63]">×</button>}</label>}<Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] lg:ml-auto">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div></div>}
@@ -574,17 +595,19 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, quer
   onShowMore: () => void
   lang: Lang
   category: Category
-  labels: { clear: string; allItems: string; skillCategories: string; applicationCategories: string; modelCategories: string; serverCategories: string; result: string; results: string; available: string; preparation: string; addProfile: string; showMore: string }
+  labels: { clear: string; allItems: string; skillCategories: string; applicationCategories: string; serverCategories: string; result: string; results: string; available: string; preparation: string; addProfile: string; showMore: string }
 }) {
   const labelsByFacet = category.id === 'competences' ? Object.fromEntries(PROFILE_DEPARTMENTS.map((department) => [department.id, department.label])) : category.id === 'applications' ? APP_CATEGORY_LABELS : category.id === 'modeles-ia' ? MODEL_MODALITY_LABELS : null
-  const facetTitle = category.id === 'competences' ? labels.skillCategories : category.id === 'applications' ? labels.applicationCategories : category.id === 'modeles-ia' ? labels.modelCategories : labels.serverCategories
-  const hideFacetTitle = category.id === 'competences' || category.id === 'applications'
+  const facetTitle = category.id === 'competences' ? labels.skillCategories : category.id === 'applications' ? labels.applicationCategories : category.id === 'serveurs-ia' ? labels.serverCategories : labels.allItems
+  const hideFacetTitle = category.id !== 'serveurs-ia'
   const facets = [...new Set(allItems.flatMap((item) => item.facetKeys ?? (item.facetKey ? [item.facetKey] : [])))].map((facet) => ({
     id: facet,
     label: labelsByFacet?.[facet]?.[lang] ?? facet,
     count: allItems.filter((item) => item.facetKey === facet || item.facetKeys?.includes(facet)).length,
   })).sort((a, b) => category.id === 'competences'
     ? PROFILE_DEPARTMENTS.findIndex((department) => department.id === a.id) - PROFILE_DEPARTMENTS.findIndex((department) => department.id === b.id)
+    : category.id === 'applications'
+      ? APPLICATION_CATEGORY_ORDER.indexOf(a.id as typeof APPLICATION_CATEGORY_ORDER[number]) - APPLICATION_CATEGORY_ORDER.indexOf(b.id as typeof APPLICATION_CATEGORY_ORDER[number])
     : category.id === 'modeles-ia'
       ? MODEL_MODALITY_ORDER.indexOf(a.id as typeof MODEL_MODALITY_ORDER[number]) - MODEL_MODALITY_ORDER.indexOf(b.id as typeof MODEL_MODALITY_ORDER[number])
       : a.label.localeCompare(b.label, lang))
@@ -602,18 +625,20 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, quer
       </div>
 
       <div className="grid gap-7 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start xl:grid-cols-[240px_minmax(0,1fr)]">
-        <aside className="sticky top-[164px] hidden rounded-[18px] border border-[#D8D0C2] bg-[#EAE3D4] p-3 lg:block">
-          {!hideFacetTitle && <p className="px-3 pb-3 pt-2 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#766D61]">{facetTitle}</p>}
-          <label className="relative mb-3 block w-full"><span className="sr-only">{category.search[lang]}</span><input type="search" value={query} onChange={(event) => onQuery(event.target.value)} placeholder={category.search[lang]} className="h-10 w-full rounded-xl border border-[#CFC5B5] bg-[#FAF8F3] px-3 pr-9 text-xs outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--facet-accent)] focus:bg-white focus:ring-2 focus:ring-[#1C1A17]/10" style={{ '--facet-accent': category.accent } as CSSProperties} />{query && <button type="button" onClick={() => onQuery('')} aria-label={labels.clear} className="absolute right-1 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-base text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]">×</button>}</label>
-          <button type="button" aria-pressed={!activeFacet} onClick={() => onFacet('')} className={`flex min-h-11 w-full items-center justify-between rounded-xl px-3 text-left text-[13px] font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${!activeFacet ? 'bg-[#181615] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{labels.allItems}</span><span className={!activeFacet ? 'text-[#F2A4C5]' : 'text-[#857C6E]'}>{allItems.length}</span></button>
-          <div className="my-2 border-t border-[#CFC5B5]" />
-          {facets.map((facet) => <button key={facet.id} type="button" aria-pressed={activeFacet === facet.id} onClick={() => onFacet(facet.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${activeFacet === facet.id ? 'bg-[var(--facet-accent)] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{facet.label}</span><span className={activeFacet === facet.id ? 'text-white/70' : 'text-[#857C6E]'}>{facet.count}</span></button>)}
-        </aside>
+        <div className="sticky top-[164px] hidden lg:block">
+          <aside className="rounded-[18px] border border-[#D8D0C2] bg-[#EAE3D4] p-3">
+            {!hideFacetTitle && <p className="px-3 pb-3 pt-2 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#766D61]">{facetTitle}</p>}
+            <label className="relative mb-3 block w-full"><span className="sr-only">{category.search[lang]}</span><input type="search" value={query} onChange={(event) => onQuery(event.target.value)} placeholder={category.search[lang]} className="h-10 w-full rounded-xl border border-[#CFC5B5] bg-[#FAF8F3] px-3 pr-9 text-xs outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--facet-accent)] focus:bg-white focus:ring-2 focus:ring-[#1C1A17]/10" style={{ '--facet-accent': category.accent } as CSSProperties} />{query && <button type="button" onClick={() => onQuery('')} aria-label={labels.clear} className="absolute right-1 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-base text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]">×</button>}</label>
+            <button type="button" aria-pressed={!activeFacet} onClick={() => onFacet('')} className={`flex min-h-11 w-full items-center justify-between rounded-xl px-3 text-left text-[13px] font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${!activeFacet ? 'bg-[#181615] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{labels.allItems}</span><span className={!activeFacet ? 'text-[#F2A4C5]' : 'text-[#857C6E]'}>{allItems.length}</span></button>
+            <div className="my-2 border-t border-[#CFC5B5]" />
+            {facets.map((facet) => <button key={facet.id} type="button" aria-pressed={activeFacet === facet.id} onClick={() => onFacet(facet.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${activeFacet === facet.id ? 'bg-[var(--facet-accent)] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{facet.label}</span><span className={activeFacet === facet.id ? 'text-white/70' : 'text-[#857C6E]'}>{facet.count}</span></button>)}
+          </aside>
+          {category.id === 'applications' && <p className="px-3 pt-4 text-xs font-semibold leading-5 text-[#625B50]">{lang === 'fr' ? 'Connectez en toute sécurité plus de 3 000 applications via Pipedream.' : 'Securely connect more than 3,000 applications via Pipedream.'}</p>}
+        </div>
 
         <div className="min-w-0">
-          <div className="flex items-center justify-end gap-4">{!['competences', 'applications'].includes(category.id) && <p className="mr-auto text-xs font-semibold text-[#766D61]" aria-live="polite">{items.length} {items.length === 1 ? labels.result : labels.results}{!activeFacet && !query ? ` · ${facets.length} ${lang === 'fr' ? 'catégories' : 'categories'}` : ''}</p>}<Link href={category.href} className="hidden min-h-10 shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] sm:inline-flex" style={{ '--facet-accent': category.accent } as CSSProperties}>{category.explain[lang]}<span aria-hidden className="ml-3">↗</span></Link></div>
-          {category.id === 'modeles-ia' && <div className="mt-4 border-l-2 border-[#1D6692] bg-[#E7EDF0] px-5 py-4"><p className="text-sm font-bold">{lang === 'fr' ? 'Vous n’avez pas à choisir le modèle.' : 'You do not have to choose the model.'}</p><p className="mt-1 text-[13px] leading-6 text-[#4E483F]">{lang === 'fr' ? 'Unitalk sélectionne l’intelligence adaptée parmi les modèles autorisés par votre entreprise.' : 'Unitalk selects the right intelligence among the models authorized by your organization.'}</p></div>}
-          {items.length > 0 ? <><div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2">{visibleCatalogItems.map((item) => category.id === 'competences' ? <SkillMarketplaceCard key={item.key} item={item} lang={lang} category={category} addLabel={labels.addProfile} /> : <CatalogItemCard key={item.key} item={item} lang={lang} category={category} labels={{ details: category.action[lang], add: labels.addProfile }} />)}{category.missing && visibleCatalogItems.length === items.length && <MissingItemCard content={category.missing} lang={lang} accent={category.accent} />}</div>{visibleCatalogItems.length < items.length && <button type="button" onClick={onShowMore} className="mx-auto mt-8 flex min-h-12 items-center justify-center rounded-full border border-[#1C1A17] px-7 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]" style={{ '--facet-accent': category.accent } as CSSProperties}>{labels.showMore}<span aria-hidden className="ml-2">↓</span></button>}</> : <div className="mt-5 rounded-[18px] border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8"><h3 className="text-xl font-semibold">{lang === 'fr' ? 'Aucun résultat dans cette catégorie.' : 'No results in this category.'}</h3><button type="button" onClick={() => onQuery('')} className="mt-4 text-sm font-bold underline underline-offset-4" style={{ color: category.accent }}>{labels.clear}</button></div>}
+          <div className="flex items-center justify-end gap-4">{!['competences', 'applications', 'modeles-ia'].includes(category.id) && <p className="mr-auto text-xs font-semibold text-[#766D61]" aria-live="polite">{items.length} {items.length === 1 ? labels.result : labels.results}{!activeFacet && !query ? ` · ${facets.length} ${lang === 'fr' ? 'catégories' : 'categories'}` : ''}</p>}{!['competences', 'applications'].includes(category.id) && <Link href={category.href} className="hidden min-h-10 shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] sm:inline-flex" style={{ '--facet-accent': category.accent } as CSSProperties}>{category.explain[lang]}<span aria-hidden className="ml-3">↗</span></Link>}</div>
+          {items.length > 0 ? <><div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2">{visibleCatalogItems.map((item) => category.id === 'competences' ? <SkillMarketplaceCard key={item.key} item={item} lang={lang} category={category} addLabel={labels.addProfile} /> : category.id === 'modeles-ia' ? <ModelMarketplaceCard key={item.key} item={item} lang={lang} /> : <CatalogItemCard key={item.key} item={item} lang={lang} category={category} labels={{ details: category.action[lang], add: labels.addProfile }} />)}{category.missing && visibleCatalogItems.length === items.length && <MissingItemCard content={category.missing} lang={lang} accent={category.accent} />}</div>{visibleCatalogItems.length < items.length && <button type="button" onClick={onShowMore} className="mx-auto mt-8 flex min-h-12 items-center justify-center rounded-full border border-[#1C1A17] px-7 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]" style={{ '--facet-accent': category.accent } as CSSProperties}>{labels.showMore}<span aria-hidden className="ml-2">↓</span></button>}</> : <div className="mt-5 rounded-[18px] border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8"><h3 className="text-xl font-semibold">{lang === 'fr' ? 'Aucun résultat dans cette catégorie.' : 'No results in this category.'}</h3><button type="button" onClick={() => onQuery('')} className="mt-4 text-sm font-bold underline underline-offset-4" style={{ color: category.accent }}>{labels.clear}</button></div>}
         </div>
       </div>
     </div>
@@ -680,41 +705,51 @@ function ProfilesMarketplaceCatalog({ items, categoryTotal, creatorCounts, depar
 
 function ProfileMarketplaceCard({ item, labels }: { item: MarketplaceItem; labels: { firstMission: string; addProfile: string } }) {
   return (
-    <Link id={item.key.replace('profil-', '')} href={item.addHref!} aria-label={`${labels.addProfile} : ${item.title}`} className="group relative flex min-h-[290px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#C80B5B] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[#C80B5B] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2 sm:min-h-[310px]">
+    <Link id={item.key.replace('profil-', '')} href={item.addHref!} aria-label={`${labels.addProfile} : ${item.title}`} className="group relative flex min-h-[245px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 pb-14 outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#C80B5B] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[#C80B5B] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2 sm:min-h-[265px] sm:pb-5">
       <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[#C80B5B] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-      <div className="flex items-center gap-3.5">
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#C80B5B]/10 text-[#B00C54] ring-1 ring-[#C80B5B]/20"><BriefcaseBusiness className="size-5" /></span>
-        <div className="min-w-0">
-          <p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[#B00C54]">Profil métier</p>
-          <h3 className="mt-1 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3>
-          <p className="mt-1.5 truncate text-[12px] font-bold text-[#4E483F]">{item.meta}</p>
-        </div>
+      <div className="min-w-0">
+        <p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[#B00C54]">{item.meta}</p>
+        <h3 className="mt-2 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3>
       </div>
       <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#3F3A33] sm:text-[14px] sm:leading-6 sm:text-[#4E483F]">{item.description}</p>
-      {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{labels.firstMission}</dt><dd className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-5 text-[#322E29]">{item.starterMission}</dd></dl>}
-      <div className="mt-auto pt-4"><div className="border-t border-[#DED6C8] pt-3 transition-colors group-hover:border-[#C80B5B] group-focus-visible:border-[#C80B5B]"><span className="flex min-h-10 items-center justify-between rounded-full border border-[#CFC5B5] px-4 text-[11px] font-bold text-[#1C1A17] transition-[color,background-color,border-color] group-hover:border-[#C80B5B] group-hover:bg-[#C80B5B] group-hover:text-white group-focus-visible:border-[#C80B5B] group-focus-visible:bg-[#C80B5B] group-focus-visible:text-white sm:border-transparent sm:px-0 sm:text-xs sm:group-hover:px-4 sm:group-focus-visible:px-4">{labels.addProfile}<span aria-hidden className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span></div></div>
+      {item.starterMission && <div className="relative mt-4 overflow-hidden rounded-xl bg-[#F0EBE1]"><dl className="p-3.5 transition-[opacity,transform] duration-200 sm:group-hover:-translate-y-1 sm:group-hover:opacity-0 sm:group-focus-visible:-translate-y-1 sm:group-focus-visible:opacity-0"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{labels.firstMission}</dt><dd className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-5 text-[#322E29]">{item.starterMission}</dd></dl><span aria-hidden className="absolute inset-0 hidden translate-y-2 items-center justify-between bg-[#C80B5B] px-4 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:flex">{labels.addProfile}<span className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span></div>}
+      <span aria-hidden className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-[#C80B5B] text-sm font-bold text-white sm:hidden">→</span>
     </Link>
   )
 }
 
 function SkillMarketplaceCard({ item, lang, category, addLabel }: { item: MarketplaceItem; lang: Lang; category: Category; addLabel: string }) {
   return (
-    <Link href={item.addHref!} aria-label={`${addLabel} : ${item.title}`} className="group relative flex min-h-[290px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)] focus-visible:ring-offset-2 sm:min-h-[310px]" style={{ '--profile-accent': category.accent } as CSSProperties}>
+    <Link href={item.addHref!} aria-label={`${addLabel} : ${item.title}`} className="group relative flex min-h-[245px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 pb-14 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)] focus-visible:ring-offset-2 sm:min-h-[265px] sm:pb-5" style={{ '--profile-accent': category.accent } as CSSProperties}>
       <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[var(--profile-accent)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-      <div className="flex items-center gap-3.5">
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--profile-accent)_10%,transparent)] text-[var(--profile-accent)] ring-1 ring-[color-mix(in_srgb,var(--profile-accent)_22%,transparent)]"><Wrench className="size-5" /></span>
-        <div className="min-w-0"><div className="flex items-center gap-2"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{lang === 'fr' ? 'Compétence' : 'Skill'}</p><span className="rounded-full bg-[#E4F3E8] px-2 py-0.5 font-mono text-[8px] font-black uppercase tracking-[.12em] text-[#216641]">{lang === 'fr' ? 'Gratuite' : 'Free'}</span></div><h3 className="mt-1 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3><p className="mt-1.5 truncate text-[12px] font-bold text-[#4E483F]">{item.meta}</p></div>
-      </div>
+      <div className="min-w-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{item.meta}</p><h3 className="mt-2 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div>
       <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#3F3A33] sm:text-[14px] sm:leading-6 sm:text-[#4E483F]">{item.description}</p>
-      <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Contexte → résultat' : 'Context → outcome'}</dt><dd className="mt-1.5 line-clamp-2 text-[12px] font-semibold leading-5 text-[#322E29]">{item.input ?? (lang === 'fr' ? 'Contexte défini avec Alma' : 'Context scoped with Alma')} → {item.result ?? (lang === 'fr' ? 'Résultat documenté à valider' : 'Documented result ready for approval')}</dd></dl>
-      <div className="mt-auto pt-4"><div className="border-t border-[#DED6C8] pt-3 transition-colors group-hover:border-[var(--profile-accent)] group-focus-visible:border-[var(--profile-accent)]"><span className="flex min-h-10 items-center justify-between rounded-full border border-[#CFC5B5] px-4 text-[11px] font-bold text-[#1C1A17] transition-[color,background-color,border-color] group-hover:border-[var(--profile-accent)] group-hover:bg-[var(--profile-accent)] group-hover:text-white group-focus-visible:border-[var(--profile-accent)] group-focus-visible:bg-[var(--profile-accent)] group-focus-visible:text-white sm:border-transparent sm:px-0 sm:text-xs sm:group-hover:px-4 sm:group-focus-visible:px-4">{addLabel}<span aria-hidden className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span></div></div>
+      <div className="relative mt-4 overflow-hidden rounded-xl bg-[#F0EBE1]">
+        <dl className="p-3.5 transition-[opacity,transform] duration-200 sm:group-hover:-translate-y-1 sm:group-hover:opacity-0 sm:group-focus-visible:-translate-y-1 sm:group-focus-visible:opacity-0"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Contexte → résultat' : 'Context → outcome'}</dt><dd className="mt-1.5 line-clamp-2 text-[12px] font-semibold leading-5 text-[#322E29]">{item.input ?? (lang === 'fr' ? 'Contexte défini avec Alma' : 'Context scoped with Alma')} → {item.result ?? (lang === 'fr' ? 'Résultat documenté à valider' : 'Documented result ready for approval')}</dd></dl>
+        <span aria-hidden className="absolute inset-0 hidden translate-y-2 items-center justify-between bg-[var(--profile-accent)] px-4 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:flex">{addLabel}<span className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span>
+      </div>
+      <span aria-hidden className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-[var(--profile-accent)] text-sm font-bold text-white sm:hidden">→</span>
+    </Link>
+  )
+}
+
+function ModelMarketplaceCard({ item, lang }: { item: MarketplaceItem; lang: Lang }) {
+  return (
+    <Link href={item.href!} className="flex min-h-[240px] flex-col rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 outline-none transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-[#1D6692] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:ring-2 focus-visible:ring-[#1D6692] sm:p-6">
+      <p className="font-mono text-[10px] font-black uppercase tracking-[.14em] text-[#1D6692]">{item.origin}</p>
+      <h3 className="mt-3 text-[24px] font-semibold leading-[1.04] tracking-[-.04em] text-[#1C1A17]">{item.title}</h3>
+      <p className="mt-4 text-[14px] leading-6 text-[#625B50]">{item.description}</p>
+      <div className="mt-auto flex flex-wrap items-center gap-2 pt-6">
+        {item.modelModalities?.map((modality) => <span key={modality.fr} className="rounded-full border border-[#CFC5B5] bg-[#F3EFE6] px-3 py-1.5 text-[11px] font-semibold text-[#4E483F]">{modality[lang]}</span>)}
+        {item.modelType && <span className="rounded-full bg-[#1C1A17] px-3 py-1.5 text-[11px] font-bold text-white">{item.modelType[lang]}</span>}
+      </div>
     </Link>
   )
 }
 
 function CatalogItemCard({ item, lang, category, labels }: { item: MarketplaceItem; lang: Lang; category: Category; labels: { details: string; add: string } }) {
   const href = item.addHref ?? item.href
-  const Icon = category.id === 'competences' ? Wrench : category.id === 'applications' ? AppWindow : category.id === 'modeles-ia' ? Cpu : Server
+  const Icon = category.id === 'applications' ? AppWindow : category.id === 'modeles-ia' ? Cpu : Server
   const firstLabel = category.id === 'competences'
     ? (lang === 'fr' ? 'Contexte d’application' : 'Application context')
     : category.id === 'applications'
@@ -730,7 +765,7 @@ function CatalogItemCard({ item, lang, category, labels }: { item: MarketplaceIt
         ? (lang === 'fr' ? 'Gouvernance' : 'Governance')
         : (lang === 'fr' ? 'Capacité apportée' : 'Provided capacity')
   const action = category.id === 'competences' ? labels.add : labels.details
-  const content = <><div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[var(--profile-accent)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100"/><div className="flex items-center gap-3.5"><span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--profile-accent)_10%,transparent)] text-[var(--profile-accent)] ring-1 ring-[color-mix(in_srgb,var(--profile-accent)_22%,transparent)]"><Icon className="size-5"/></span><div className="min-w-0"><div className="flex items-center gap-2"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{item.meta}</p>{category.id === 'competences' && <span className="rounded-full bg-[#E4F3E8] px-2 py-0.5 font-mono text-[8px] font-black uppercase tracking-[.12em] text-[#216641]">{lang === 'fr' ? 'Gratuite' : 'Free'}</span>}</div><h3 className="mt-1 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div></div><p className="mt-4 line-clamp-3 text-[13px] font-medium leading-[1.35rem] text-[#4E483F] sm:text-[14px] sm:leading-6">{item.description}</p><dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{firstLabel}</dt><dd className="mt-1 line-clamp-2 text-[12px] font-semibold leading-5 text-[#322E29]">{item.input ?? (lang === 'fr' ? 'Configuration précisée avec Alma' : 'Configuration scoped with Alma')}</dd></div><div className="mt-2 border-t border-[#D8D0C2] pt-2"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{secondLabel}</dt><dd className="mt-1 line-clamp-2 text-[12px] font-semibold leading-5 text-[#322E29]">{item.result ?? (lang === 'fr' ? 'Résultat documenté à valider' : 'Documented result ready for approval')}</dd></div></dl>{category.id === 'competences' && item.profileKeys && item.profileKeys.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{item.profileKeys.slice(0, 2).map((slug) => <span key={slug} className="rounded-full border border-[#D8D0C2] px-2.5 py-1 text-[10px] font-semibold text-[#4E483F]">{PROFILE_NAMES.get(slug)?.[lang] ?? slug}</span>)}</div>}<div className="mt-auto pt-4"><div className="border-t border-[#DED6C8] pt-3 transition-colors group-hover:border-[var(--profile-accent)] group-focus-visible:border-[var(--profile-accent)]"><div className="flex items-center justify-between gap-3"><p className="text-[10px] font-semibold text-[#857C6E]">{item.origin} · {item.status?.[lang]}</p><span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#181615] text-white transition-colors group-hover:bg-[var(--profile-accent)]">→</span></div><p className="mt-2 text-xs font-bold text-[#1C1A17] transition-colors group-hover:text-[var(--profile-accent)]">{action}</p></div></div></>
+  const content = <><div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[var(--profile-accent)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100"/><div className="flex items-center gap-3.5"><span className={`flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full text-[var(--profile-accent)] ${category.id === 'applications' ? '' : 'bg-[color-mix(in_srgb,var(--profile-accent)_10%,transparent)] ring-1 ring-[color-mix(in_srgb,var(--profile-accent)_22%,transparent)]'}`}>{category.id === 'applications' && item.logoId ? <Image src={`https://assets.pipedream.net/s.v0/${item.logoId}/logo/96`} alt="" width={48} height={48} className="size-full object-contain" /> : <Icon className="size-5"/>}</span><div className="min-w-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{item.meta}</p><h3 className="mt-1 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div></div><p className="mt-4 line-clamp-3 text-[13px] font-medium leading-[1.35rem] text-[#4E483F] sm:text-[14px] sm:leading-6">{item.description}</p><dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{firstLabel}</dt><dd className="mt-1 line-clamp-2 text-[12px] font-semibold leading-5 text-[#322E29]">{item.input ?? (lang === 'fr' ? 'Configuration précisée avec Alma' : 'Configuration scoped with Alma')}</dd></div><div className="mt-2 border-t border-[#D8D0C2] pt-2"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{secondLabel}</dt><dd className="mt-1 line-clamp-2 text-[12px] font-semibold leading-5 text-[#322E29]">{item.result ?? (lang === 'fr' ? 'Résultat documenté à valider' : 'Documented result ready for approval')}</dd></div></dl>{category.id === 'competences' && item.profileKeys && item.profileKeys.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{item.profileKeys.slice(0, 2).map((slug) => <span key={slug} className="rounded-full border border-[#D8D0C2] px-2.5 py-1 text-[10px] font-semibold text-[#4E483F]">{PROFILE_NAMES.get(slug)?.[lang] ?? slug}</span>)}</div>}<div className="mt-auto pt-4"><div className="border-t border-[#DED6C8] pt-3 transition-colors group-hover:border-[var(--profile-accent)] group-focus-visible:border-[var(--profile-accent)]"><div className="flex items-center justify-between gap-3"><p className="text-[10px] font-semibold text-[#857C6E]">{item.origin} · {item.status?.[lang]}</p><span aria-hidden className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#181615] text-white transition-colors group-hover:bg-[var(--profile-accent)]">→</span></div><p className="mt-2 text-xs font-bold text-[#1C1A17] transition-colors group-hover:text-[var(--profile-accent)]">{action}</p></div></div></>
   const className = "group relative flex min-h-[290px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)] focus-visible:ring-offset-2 sm:min-h-[310px]"
   const style = { '--profile-accent': category.accent } as CSSProperties
   return href ? <Link href={href} aria-label={`${action} : ${item.title}`} className={className} style={style}>{content}</Link> : <article className={className} style={style}>{content}</article>
@@ -754,7 +789,7 @@ function MarketplaceItemCard({ item, lang, category, labels, featuredLast = fals
     return (
       <Link href={item.addHref!} aria-label={`${labels.addProfile} : ${item.title}`} className="group relative flex min-h-[238px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)] focus-visible:ring-offset-2 sm:min-h-[248px] sm:p-6 [@media(min-width:1024px)_and_(max-height:850px)]:min-h-[230px] [@media(min-width:1024px)_and_(max-height:850px)]:p-5" style={style}>
         <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[var(--profile-accent)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-        <div className="flex items-start justify-between gap-3"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[var(--profile-accent)]">{item.meta}</p>{category.id === 'competences' && <span className="rounded-full bg-[#E4F3E8] px-2.5 py-1 font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#216641]">{lang === 'fr' ? 'Gratuite' : 'Free'}</span>}</div>
+        <p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[var(--profile-accent)]">{item.meta}</p>
         <h3 className="mt-3 line-clamp-2 text-[21px] font-semibold leading-[1.08] tracking-[-.04em] text-[#1C1A17] sm:mt-4 sm:text-[23px]">{item.title}</h3>
         <p className="mt-2.5 line-clamp-3 text-[13px] leading-[1.4rem] text-[#625B50] sm:mt-3 sm:leading-6">{item.description}</p>
         {['competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(category.id) && <div className="mt-3 grid gap-3 sm:mt-4 sm:grid-cols-[1fr_auto] sm:items-end"><dl className="grid gap-1.5 rounded-xl bg-[#F0EBE1] p-2.5 text-xs sm:gap-2 sm:p-3"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{category.id === 'competences' ? (lang === 'fr' ? 'Contexte d’application' : 'Application context') : category.id === 'applications' ? (lang === 'fr' ? 'Usage principal' : 'Primary use') : category.id === 'modeles-ia' ? (lang === 'fr' ? 'Sélection' : 'Selection') : (lang === 'fr' ? 'Contexte conseillé' : 'Recommended context')}</dt><dd className="mt-0.5 line-clamp-2 font-semibold leading-5 text-[#3F3A33]">{item.input ?? (lang === 'fr' ? 'Configuration précisée avec Alma' : 'Configuration scoped with Alma')}</dd></div><div className="border-t border-[#D8D0C2] pt-1.5 sm:pt-2"><dt className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{category.id === 'competences' ? (lang === 'fr' ? 'Résultat produit' : 'Produced result') : category.id === 'applications' ? (lang === 'fr' ? 'Action autorisée' : 'Authorized action') : category.id === 'modeles-ia' ? (lang === 'fr' ? 'Gouvernance' : 'Governance') : (lang === 'fr' ? 'Capacité apportée' : 'Provided capacity')}</dt><dd className="mt-0.5 line-clamp-2 font-semibold leading-5 text-[#3F3A33]">{item.result ?? (lang === 'fr' ? 'Résultat documenté à valider' : 'Documented result to approve')}</dd></div></dl>{category.id === 'competences' && item.profileKeys && item.profileKeys.length > 0 && <div className="hidden sm:block [@media(min-width:1024px)_and_(max-height:850px)]:hidden"><p className="font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{lang === 'fr' ? 'Profils compatibles' : 'Compatible profiles'}</p><div className="mt-2 flex flex-wrap gap-1.5">{item.profileKeys.slice(0, 2).map((slug) => <span key={slug} className="rounded-full border border-[#D8D0C2] px-2.5 py-1 text-[10px] font-semibold text-[#4E483F]">{PROFILE_NAMES.get(slug)?.[lang] ?? slug}</span>)}</div></div>}</div>}
@@ -762,7 +797,7 @@ function MarketplaceItemCard({ item, lang, category, labels, featuredLast = fals
         {category.id !== 'competences' && item.highlights && item.highlights.length > 0 && <div className="mt-4"><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{item.highlightsLabel}</p><ul className="mt-1.5 space-y-1">{item.highlights.map((highlight, index) => <li key={highlight} className={`gap-2 text-xs font-semibold leading-[1.15rem] text-[#4E483F] ${index > 0 ? 'hidden sm:flex' : 'flex'}`}><span aria-hidden className="mt-[7px] size-1 shrink-0 rounded-full bg-[var(--profile-accent)]"/>{highlight}</li>)}</ul></div>}
         <div className="mt-auto pt-5 sm:pt-6">
           <div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[var(--profile-accent)] group-focus-visible:border-[var(--profile-accent)]">
-            <p className="text-[10px] font-semibold text-[#857C6E]">{item.origin} · {item.status?.[lang]}</p>
+            {category.id !== 'applications' && <p className="text-[10px] font-semibold text-[#857C6E]">{item.origin} · {item.status?.[lang]}</p>}
             <span className="mt-2.5 flex min-h-11 items-center justify-between rounded-full border border-[#CFC5B5] px-4 text-[11px] font-bold text-[#1C1A17] transition-[color,background-color,border-color] group-hover:border-[var(--profile-accent)] group-hover:bg-[var(--profile-accent)] group-hover:text-white group-focus-visible:border-[var(--profile-accent)] group-focus-visible:bg-[var(--profile-accent)] group-focus-visible:text-white sm:min-h-10 sm:border-transparent sm:px-0 sm:text-xs sm:group-hover:px-4 sm:group-focus-visible:px-4">
               {labels.addProfile}<span aria-hidden className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span>
             </span>

@@ -5,6 +5,7 @@ import { ROLE_DETAILS, type RoleDetail } from '@/lib/collaborators-catalog'
 import { emailDomain, isProfessionalEmail } from '@/lib/professional-email'
 import { initialOnboardingState, type CompanyFact, type MissionInfo, type OnboardingState } from '@/components/discover/types'
 import type { StoreItem } from '@/lib/store-catalog'
+import type { AiModel } from '@/lib/ai-models-catalog'
 
 export function emptyMission(title = ''): MissionInfo {
   return { title, target: '', criteria: '', sources: '', exclusions: '', result: '', rule: '', validation: '' }
@@ -66,17 +67,33 @@ export function missionFromCatalog(mission: Mission, lang: 'fr' | 'en'): Mission
   }
 }
 
-function missionFromProfile(profile: StoreItem, lang: 'fr' | 'en'): MissionInfo {
-  const profileName = profile.name[lang]
+function missionFromStoreItem(item: StoreItem, lang: 'fr' | 'en'): MissionInfo {
+  const itemName = item.name[lang]
+  const isProfile = item.type === 'profil'
   return {
-    title: profile.exampleMissions?.[0]?.[lang] ?? (lang === 'fr' ? `Ajouter le profil ${profileName}` : `Add the ${profileName} profile`),
-    target: profile.roleInOrg?.[lang] ?? profile.description[lang],
+    title: item.exampleMissions?.[0]?.[lang] ?? item.uses?.[0]?.[lang] ?? item.contexts?.[0]?.[lang] ?? (lang === 'fr' ? `Ajouter ${itemName}` : `Add ${itemName}`),
+    target: item.roleInOrg?.[lang] ?? item.description[lang],
     criteria: '',
     sources: '',
     exclusions: '',
-    result: lang === 'fr' ? `Le profil ${profileName} est adapté puis attribué au Collaborateur IA choisi.` : `The ${profileName} profile is adapted and assigned to the selected AI Collaborator.`,
+    result: isProfile
+      ? (lang === 'fr' ? `Le profil ${itemName} est adapté puis attribué au Collaborateur IA choisi.` : `The ${itemName} profile is adapted and assigned to the selected AI Collaborator.`)
+      : item.produces?.[0]?.[lang] ?? item.actions?.[0]?.[lang] ?? item.enables?.[0]?.[lang] ?? item.description[lang],
     rule: '',
-    validation: lang === 'fr' ? 'Validation humaine avant l’attribution du profil et de ses accès.' : 'Human approval before assigning the profile and its access.',
+    validation: lang === 'fr' ? 'Validation humaine avant toute activation ou action sensible.' : 'Human approval before any activation or sensitive action.',
+  }
+}
+
+function missionFromModel(model: AiModel, lang: 'fr' | 'en'): MissionInfo {
+  return {
+    title: lang === 'fr' ? `Autoriser ${model.title}` : `Authorize ${model.title}`,
+    target: model.description[lang],
+    criteria: '',
+    sources: model.maker,
+    exclusions: '',
+    result: lang === 'fr' ? `${model.title} est disponible pour les missions autorisées.` : `${model.title} is available for authorized missions.`,
+    rule: lang === 'fr' ? 'Utiliser ce modèle uniquement pour les missions et données autorisées.' : 'Use this model only for authorized missions and data.',
+    validation: lang === 'fr' ? 'Validation humaine avant l’activation du modèle.' : 'Human approval before enabling the model.',
   }
 }
 
@@ -96,7 +113,8 @@ export function buildInitialOnboardingState({
   initialPurchaseDraft,
   requestedDomain,
   requestedCollaborator,
-  requestedProfile,
+  requestedStoreItem,
+  requestedModel,
   catalogMission,
   hasExplicitDraft,
 }: {
@@ -105,7 +123,8 @@ export function buildInitialOnboardingState({
   initialPurchaseDraft?: PurchaseDraft | null
   requestedDomain: string
   requestedCollaborator?: RoleDetail
-  requestedProfile?: StoreItem
+  requestedStoreItem?: StoreItem
+  requestedModel?: AiModel
   catalogMission?: Mission
   hasExplicitDraft: boolean
 }): OnboardingState {
@@ -113,11 +132,13 @@ export function buildInitialOnboardingState({
   const persisted = initialPurchaseDraft?.onboarding
   const selectedCollaborator = requestedCollaborator
   const sessionDomain = initialSession && isProfessionalEmail(initialSession.email) ? emailDomain(initialSession.email) : ''
-  const explicitMission = Boolean(catalogMission || requestedProfile || hasExplicitDraft)
+  const explicitMission = Boolean(catalogMission || requestedStoreItem || requestedModel || hasExplicitDraft)
   const mission = catalogMission
     ? missionFromCatalog(catalogMission, lang)
-    : requestedProfile
-      ? missionFromProfile(requestedProfile, lang)
+    : requestedStoreItem
+      ? missionFromStoreItem(requestedStoreItem, lang)
+    : requestedModel
+      ? missionFromModel(requestedModel, lang)
     : hasExplicitDraft
       ? emptyMission()
       : persisted?.mission ?? init.mission
@@ -129,8 +150,8 @@ export function buildInitialOnboardingState({
     lastName: initialSession?.lastName?.trim() ?? '',
     company: withDomain(persisted?.company ?? init.company, requestedDomain || sessionDomain, Boolean(requestedDomain)),
     mission,
-    missionDefined: catalogMission || requestedProfile ? true : explicitMission ? false : Boolean(persisted?.mission.title),
-    profile: requestedProfile?.name ?? selectedCollaborator?.role ?? persisted?.profile ?? init.profile,
+    missionDefined: catalogMission || requestedStoreItem || requestedModel ? true : explicitMission ? false : Boolean(persisted?.mission.title),
+    profile: requestedStoreItem?.type === 'profil' ? requestedStoreItem.name : selectedCollaborator?.role ?? persisted?.profile ?? init.profile,
     collaboratorName: selectedCollaborator?.name ?? persisted?.collaboratorName ?? init.collaboratorName,
     collaboratorTemplateSlug: selectedCollaborator?.slug ?? persisted?.collaboratorTemplateSlug,
     organizationalPlacement: persisted?.organizationalPlacement ?? init.organizationalPlacement,

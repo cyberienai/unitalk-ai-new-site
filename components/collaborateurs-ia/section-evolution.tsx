@@ -33,8 +33,8 @@ const COPY = {
     catalogsTitle: 'Faites-le évoluer',
     catalogs: [
       { title: 'Donnez-lui de nouvelles responsabilités.', body: 'Les rôles durables qu’il peut exercer dans votre entreprise.', cta: 'Explorer les profils métier', href: '/collaborateurs-ia/profils-metier' },
-      { title: 'Transmettez-lui de nouveaux savoir-faire.', body: 'Les méthodes qu’il peut appliquer, tester, versionner et améliorer.', cta: 'Découvrir les compétences', href: '/collaborateurs-ia/competences' },
-      { title: 'Donnez-lui de nouveaux moyens d’action.', body: 'Les outils et les données dans lesquels il peut agir, selon vos règles.', cta: 'Voir les applications', href: '/collaborateurs-ia/applications' },
+      { title: 'Transmettez-lui de nouveaux savoir-faire.', body: 'Les méthodes qu’il peut appliquer, tester, versionner et améliorer.', cta: 'Découvrir les compétences', href: '/marketplace/competences' },
+      { title: 'Donnez-lui de nouveaux moyens d’action.', body: 'Les outils et les données dans lesquels il peut agir, selon vos règles.', cta: 'Voir les applications', href: '/marketplace/applications' },
     ],
   },
   en: {
@@ -63,8 +63,8 @@ const COPY = {
     catalogsTitle: 'Help him evolve',
     catalogs: [
       { title: 'Give him new responsibilities.', body: 'The durable roles he can hold in your company.', cta: 'Explore job profiles', href: '/collaborateurs-ia/profils-metier' },
-      { title: 'Pass on new know-how.', body: 'The methods he can apply, test, version and improve.', cta: 'Discover skills', href: '/collaborateurs-ia/competences' },
-      { title: 'Give him new means of action.', body: 'The tools and data he can act in, under your rules.', cta: 'See applications', href: '/collaborateurs-ia/applications' },
+      { title: 'Pass on new know-how.', body: 'The methods he can apply, test, version and improve.', cta: 'Discover skills', href: '/marketplace/competences' },
+      { title: 'Give him new means of action.', body: 'The tools and data he can act in, under your rules.', cta: 'See applications', href: '/marketplace/applications' },
     ],
   },
 } as const

@@ -11,13 +11,13 @@ const COPY = {
         title: 'Développez ce qu’il sait faire.',
         lead: 'Ajoutez les méthodes précises nécessaires à ses missions.',
         cta: 'Découvrir les compétences',
-        href: '/collaborateurs-ia/competences',
+        href: '/marketplace/competences',
       },
       {
         title: 'Donnez-lui les moyens d’agir.',
         lead: 'Connectez les outils et les données nécessaires, avec des droits précis.',
         cta: 'Voir les applications',
-        href: '/collaborateurs-ia/applications',
+        href: '/marketplace/applications',
       },
       {
         title: 'Confiez-lui un travail concret.',
@@ -33,13 +33,13 @@ const COPY = {
         title: 'Grow what it can do.',
         lead: 'Add the precise methods its missions require.',
         cta: 'Explore skills',
-        href: '/collaborateurs-ia/competences',
+        href: '/marketplace/competences',
       },
       {
         title: 'Give it the means to act.',
         lead: 'Connect the tools and data it needs, with precise rights.',
         cta: 'See applications',
-        href: '/collaborateurs-ia/applications',
+        href: '/marketplace/applications',
       },
       {
         title: 'Give it concrete work.',

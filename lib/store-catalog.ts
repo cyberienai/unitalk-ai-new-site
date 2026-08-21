@@ -162,7 +162,13 @@ export const APP_CATEGORY_LABELS: Record<string, Bilingual> = {
   communication: { fr: 'Communication', en: 'Communication' },
   messagerie: { fr: 'Messagerie', en: 'Email' },
   collaboration: { fr: 'Collaboration', en: 'Collaboration' },
+  crm: { fr: 'CRM', en: 'CRM' },
+  databases: { fr: 'Bases de données', en: 'Databases' },
   documents: { fr: 'Gestion documentaire', en: 'Document management' },
+  'file-storage': { fr: 'Stockage de fichiers', en: 'File storage' },
+  'helpdesk-support': { fr: 'Support client', en: 'Help desk & support' },
+  'infrastructure-cloud': { fr: 'Infrastructure et cloud', en: 'Infrastructure & cloud' },
+  marketing: { fr: 'Marketing', en: 'Marketing' },
   'relation-client': { fr: 'Relation client', en: 'Customer relations' },
   ventes: { fr: 'Ventes', en: 'Sales' },
   finance: { fr: 'Finance', en: 'Finance' },
@@ -1200,6 +1206,30 @@ const INTEGRATION_SOURCES: StoreItem[] = [
     dateAdded: '2024-11-22',
     keywords: ['canva', 'visuel', 'design', 'contenu', 'graphique'],
   },
+  {
+    type: 'application', slug: 'linear', name: { fr: 'Linear', en: 'Linear' }, description: { fr: 'Centralise les projets logiciels, cycles, tâches et anomalies suivis par les équipes produit et développement.', en: 'Centralizes software projects, cycles, tasks and issues tracked by product and engineering teams.' }, creator: 'unitalk', editor: 'Linear', facet: 'productivite', uses: [{ fr: 'Suivre les projets et tickets produit', en: 'Track product projects and issues' }], actions: [{ fr: 'Lire, créer et mettre à jour des tickets', en: 'Read, create and update issues' }], dataAccessed: [{ fr: 'Espaces et projets autorisés', en: 'Approved workspaces and projects' }], permissions: [{ fr: 'Accès aux équipes Linear accordées', en: 'Access to approved Linear teams' }], order: 18, dateAdded: '2026-08-21', keywords: ['linear', 'projet', 'ticket', 'produit', 'developpement'], commercialStatus: 'included',
+  },
+  {
+    type: 'application', slug: 'supabase', name: { fr: 'Supabase', en: 'Supabase' }, description: { fr: 'Plateforme backend open source réunissant base de données, authentification, stockage et fonctions serveur.', en: 'Open-source backend platform combining database, authentication, storage and server functions.' }, creator: 'unitalk', editor: 'Supabase', facet: 'databases', uses: [{ fr: 'Interroger les données et services d’une application', en: 'Query application data and services' }], actions: [{ fr: 'Lire et modifier les ressources autorisées', en: 'Read and modify approved resources' }], dataAccessed: [{ fr: 'Projets et tables explicitement autorisés', en: 'Explicitly approved projects and tables' }], permissions: [{ fr: 'Clés et politiques d’accès configurées par l’entreprise', en: 'Keys and access policies configured by the organization' }], order: 19, dateAdded: '2026-08-21', keywords: ['supabase', 'database', 'postgres', 'backend', 'auth'], commercialStatus: 'included',
+  },
+  {
+    type: 'application', slug: 'mysql', name: { fr: 'MySQL', en: 'MySQL' }, description: { fr: 'Base de données relationnelle pour consulter et mettre à jour des données structurées selon des droits précis.', en: 'Relational database for querying and updating structured data under precise permissions.' }, creator: 'unitalk', editor: 'Oracle', facet: 'databases', uses: [{ fr: 'Interroger des données métier structurées', en: 'Query structured business data' }], actions: [{ fr: 'Exécuter les requêtes explicitement autorisées', en: 'Run explicitly approved queries' }], dataAccessed: [{ fr: 'Bases et tables autorisées', en: 'Approved databases and tables' }], permissions: [{ fr: 'Compte technique à privilèges limités', en: 'Limited-privilege service account' }], order: 20, dateAdded: '2026-08-21', keywords: ['mysql', 'sql', 'database', 'base de donnees'], commercialStatus: 'included',
+  },
+  {
+    type: 'application', slug: 'postgresql', name: { fr: 'PostgreSQL', en: 'PostgreSQL' }, description: { fr: 'Base de données relationnelle open source pour exploiter des données structurées avec des accès contrôlés.', en: 'Open-source relational database for working with structured data through controlled access.' }, creator: 'unitalk', editor: 'PostgreSQL', facet: 'databases', uses: [{ fr: 'Interroger des données métier structurées', en: 'Query structured business data' }], actions: [{ fr: 'Exécuter les requêtes explicitement autorisées', en: 'Run explicitly approved queries' }], dataAccessed: [{ fr: 'Bases et tables autorisées', en: 'Approved databases and tables' }], permissions: [{ fr: 'Compte technique à privilèges limités', en: 'Limited-privilege service account' }], order: 21, dateAdded: '2026-08-21', keywords: ['postgresql', 'postgres', 'sql', 'database'], commercialStatus: 'included',
+  },
+  {
+    type: 'application', slug: 'aws', name: { fr: 'Amazon Web Services', en: 'Amazon Web Services' }, description: { fr: 'Services cloud pour héberger, stocker, traiter et distribuer les ressources nécessaires aux applications.', en: 'Cloud services for hosting, storing, processing and delivering application resources.' }, creator: 'unitalk', editor: 'Amazon Web Services', facet: 'infrastructure-cloud', uses: [{ fr: 'Piloter des ressources cloud autorisées', en: 'Operate approved cloud resources' }], actions: [{ fr: 'Déclencher les opérations prévues par la mission', en: 'Trigger operations defined by the mission' }], dataAccessed: [{ fr: 'Comptes et services AWS autorisés', en: 'Approved AWS accounts and services' }], permissions: [{ fr: 'Rôles IAM à privilèges minimaux', en: 'Least-privilege IAM roles' }], order: 22, dateAdded: '2026-08-21', keywords: ['aws', 'amazon', 'cloud', 'infrastructure'], commercialStatus: 'included',
+  },
+  {
+    type: 'application', slug: 'twilio-sendgrid', name: { fr: 'Twilio SendGrid', en: 'Twilio SendGrid' }, description: { fr: 'Infrastructure d’envoi d’emails transactionnels et marketing, pilotée selon les domaines et modèles autorisés.', en: 'Transactional and marketing email delivery infrastructure governed by approved domains and templates.' }, creator: 'unitalk', editor: 'Twilio', facet: 'marketing', uses: [{ fr: 'Envoyer des emails transactionnels ou de campagne', en: 'Send transactional or campaign emails' }], actions: [{ fr: 'Préparer et envoyer des messages autorisés', en: 'Prepare and send approved messages' }], dataAccessed: [{ fr: 'Listes, modèles et statistiques autorisés', en: 'Approved lists, templates and statistics' }], permissions: [{ fr: 'Domaines et volumes définis par l’entreprise', en: 'Domains and volumes defined by the organization' }], order: 23, dateAdded: '2026-08-21', keywords: ['sendgrid', 'twilio', 'email', 'marketing'], commercialStatus: 'included',
+  },
+  {
+    type: 'application', slug: 'amazon-ses', name: { fr: 'Amazon SES', en: 'Amazon SES' }, description: { fr: 'Service cloud d’envoi automatisé d’emails transactionnels ou en volume depuis des domaines vérifiés.', en: 'Cloud service for automated transactional or bulk email from verified domains.' }, creator: 'unitalk', editor: 'Amazon Web Services', facet: 'communication', uses: [{ fr: 'Envoyer des notifications et emails transactionnels', en: 'Send notifications and transactional email' }], actions: [{ fr: 'Envoyer des messages depuis les identités vérifiées', en: 'Send messages from verified identities' }], dataAccessed: [{ fr: 'Destinataires et contenus autorisés', en: 'Approved recipients and content' }], permissions: [{ fr: 'Identités, régions et quotas contrôlés', en: 'Controlled identities, regions and quotas' }], order: 24, dateAdded: '2026-08-21', keywords: ['amazon ses', 'aws', 'email', 'transactionnel'], commercialStatus: 'included',
+  },
+  {
+    type: 'application', slug: 'klaviyo', name: { fr: 'Klaviyo', en: 'Klaviyo' }, description: { fr: 'Plateforme marketing multicanale pour orchestrer emails, SMS et parcours clients à partir de données autorisées.', en: 'Multichannel marketing platform for orchestrating email, SMS and customer journeys from approved data.' }, creator: 'unitalk', editor: 'Klaviyo', facet: 'marketing', uses: [{ fr: 'Préparer des campagnes et parcours automatisés', en: 'Prepare campaigns and automated journeys' }], actions: [{ fr: 'Créer et mettre à jour les campagnes autorisées', en: 'Create and update approved campaigns' }], dataAccessed: [{ fr: 'Profils, segments et événements autorisés', en: 'Approved profiles, segments and events' }], permissions: [{ fr: 'Accès limité aux listes et actions nécessaires', en: 'Access limited to required lists and actions' }], order: 25, dateAdded: '2026-08-21', keywords: ['klaviyo', 'marketing', 'email', 'sms', 'ecommerce'], commercialStatus: 'included',
+  },
 ]
 
 const INTEGRATIONS: StoreItem[] = INTEGRATION_SOURCES.map((integration) => ({
@@ -1286,6 +1316,7 @@ export function getStoreItemBySlug(slug: string): StoreItem | undefined {
 }
 
 export function storeItemHref(item: StoreItem): string {
+  if (item.type === 'application' || item.type === 'integration') return `/marketplace/applications#${item.slug}`
   return `/collaborateurs-ia/${TYPE_SLUGS[item.type]}/${item.slug}`
 }
 

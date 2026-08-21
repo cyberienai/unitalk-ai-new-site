@@ -64,20 +64,26 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain("storeType === 'competence' ? { fr: 'Gratuite', en: 'Free' }")
     expect(hub).toContain("skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission']")
     expect(hub).toContain('<SkillMarketplaceCard')
-    expect(hub).toContain("lang === 'fr' ? 'Compétence' : 'Skill'")
+    expect(hub).toContain('min-h-[245px]')
+    expect(hub).toContain('sm:min-h-[265px]')
+    expect(hub).toContain('group-hover:opacity-100')
+    expect(hub).toContain('absolute inset-0 hidden translate-y-2')
+    expect(hub).not.toContain("lang === 'fr' ? 'Compétence' : 'Skill'")
   })
 
   it('uses the shared featured hero for profiles, skills, applications and models', () => {
     expect(hub).toContain("['profils-metier', 'competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(activeCategory.id)")
-    expect(hub).toContain("applicationHeroProofs: ['Accès gouvernés', 'Actions configurables', 'Connexions selon vos droits']")
-    expect(hub).toContain("modelHeroProofs: ['Sélection automatique', 'Fournisseurs contrôlés', 'Modèles interchangeables']")
+    expect(hub).toContain('Connectez uniquement les applications nécessaires à chaque mission.')
+    expect(hub).toContain('Votre Collaborateur IA utilise les applications pour réaliser les actions que vous lui autorisez.')
+    expect(hub).toContain("applicationHeroProofs: ['Accès définis par votre entreprise', 'Actions autorisées']")
+    expect(hub).toContain("modelHeroProofs: ['Sélection automatique', 'Fournisseurs sous votre contrôle']")
     expect(hub).toContain("serverHeroProofs: ['Infrastructure privée', 'Capacité évolutive', 'Déploiement gouverné']")
     expect(hub).toContain('featuredHeroProofs.map((proof)')
     expect(hub).toContain('<MarketplaceSidebarCatalog')
     expect(hub).toContain("category.id === 'competences' ? Object.fromEntries(PROFILE_DEPARTMENTS.map")
     expect(hub).toContain("facetKeys: storeType === 'competence' ? profileDomainsFor(item.relatedProfiles)")
-    expect(hub).toContain("skillCategories: 'Catégories de compétences', applicationCategories: 'Catégories d’applications', modelCategories: 'Modalités des modèles', serverCategories: 'Types d’infrastructure'")
-    expect(hub).toContain("MODEL_MODALITY_ORDER = ['texte', 'raisonnement', 'multimodal', 'image', 'audio', 'video', 'open-source']")
+    expect(hub).toContain("skillCategories: 'Catégories de compétences', applicationCategories: 'Catégories d’applications', serverCategories: 'Types d’infrastructure'")
+    expect(hub).toContain("MODEL_MODALITY_ORDER = ['texte', 'image', 'embeddings', 'audio', 'video', 'rerank', 'speech', 'transcription']")
   })
 
   it('orders job profiles by broad SMB demand', () => {
@@ -95,21 +101,33 @@ describe('Marketplace IA hub', () => {
   })
 
   it('keeps each category explanation on its reference route', () => {
-    for (const href of ['/collaborateurs-ia/profils-metier','/collaborateurs-ia/competences','/collaborateurs-ia/applications','/modeles-ia','/collaborateurs-ia/serveurs']) expect(hub).toContain(`href: '${href}'`)
+    for (const href of ['/collaborateurs-ia/profils-metier','/marketplace/competences','/marketplace/applications','/modeles-ia','/collaborateurs-ia/serveurs']) expect(hub).toContain(`href: '${href}'`)
   })
 
   it('frames models as access and servers as scalable execution infrastructure', () => {
-    expect(hub).toContain('Les modèles IA auxquels vos Collaborateurs ont accès.')
-    expect(hub).toContain('Unitalk sélectionne automatiquement le modèle le plus pertinent pour chaque mission.')
+    expect(hub).toContain('Autorisez les modèles IA adaptés à chaque mission.')
+    expect(hub).toContain('Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.')
     expect(hub).toContain('Où votre Collaborateur travaille. Une infrastructure qui évolue.')
     expect(hub).toContain('Augmentez ses ressources lorsque le travail l’exige.')
+  })
+
+  it('shows popular proprietary and open-weight models with focused cards', () => {
+    for (const model of ['GPT-5.6 Luna', 'GPT-5.6 Sol', 'Claude Opus 5', 'Claude Sonnet 5', 'Gemini 3.6 Flash', 'DeepSeek V4 Flash 0731', 'Hy3', 'MiMo-V2.5', 'GLM 5.2', 'Nemotron 3 Ultra', 'DeepSeek V4 Pro 0423']) expect(hub).toContain(model)
+    expect(hub).toContain("fr: 'Modèle propriétaire'")
+    expect(hub).toContain("fr: 'Modèle ouvert'")
+    expect(hub).toContain('<ModelMarketplaceCard')
+    expect(hub).toContain('item.modelModalities?.map')
   })
 
   it('uses fully clickable profile and skill cards with a progressive add action', () => {
     expect(hub).toContain('aria-label={`${labels.addProfile} : ${item.title}`}')
     expect(hub).toContain('group-hover:bg-[var(--profile-accent)]')
     expect(hub).toContain('group-focus-visible:bg-[var(--profile-accent)]')
+    expect(hub).toContain('sm:group-hover:opacity-0')
+    expect(hub).toContain('absolute inset-0 hidden translate-y-2')
     expect(hub).toContain('aria-label={`${labels.addProfile} : ${item.title}`}')
+    expect(hub).not.toContain('>Profil métier</p>')
+    expect(hub).not.toContain("lang === 'fr' ? 'Compétence' : 'Skill'")
   })
 
   it('uses the same structured cards for skills, applications, models and servers', () => {
@@ -118,11 +136,13 @@ describe('Marketplace IA hub', () => {
     expect(hub).not.toContain('Choisissez une compétence prête à ajouter.')
     expect(hub).not.toContain('Outils de travail')
     expect(hub).not.toContain('Connectez uniquement les applications utiles.')
-    expect(hub).toContain('Le bon modèle est sélectionné pour chaque travail.')
+    expect(hub).not.toContain('Le bon modèle est sélectionné pour chaque travail.')
+    expect(hub).not.toContain('Intelligences disponibles')
+    expect(hub).not.toContain('familles de modèles`')
     expect(hub).toContain('Dimensionnez un environnement adapté au travail.')
     expect(hub).toContain("category.id === 'applications' ? (lang === 'fr' ? 'Usage principal'")
     expect(hub).toContain("category.id === 'modeles-ia' ? (lang === 'fr' ? 'Sélection'")
     expect(hub).toContain("lang === 'fr' ? 'Contexte conseillé' : 'Recommended context'")
-    expect(hub).toContain("lang === 'fr' ? 'Gratuite' : 'Free'")
+    expect(hub).not.toContain("lang === 'fr' ? 'Gratuite' : 'Free'")
   })
 })

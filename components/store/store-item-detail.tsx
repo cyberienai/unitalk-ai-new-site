@@ -106,7 +106,7 @@ export function StoreItemDetail({ typeSlug, slug }: { typeSlug: string; slug: st
     <main className="min-h-screen bg-[var(--store-page)]">
       <div className="mx-auto max-w-[820px] px-6 pb-36 pt-28 sm:pt-[124px] lg:pt-[136px]">
         <Link
-          href={`/collaborateurs-ia/${TYPE_SLUGS[item.type]}`}
+          href={item.type === 'application' || item.type === 'integration' ? '/marketplace/applications' : `/collaborateurs-ia/${TYPE_SLUGS[item.type]}`}
           className="inline-flex items-center gap-2 text-sm font-medium text-[var(--store-muted)] transition-colors hover:text-[#AD0C53]"
         >
           <ArrowLeft className="h-4 w-4" />

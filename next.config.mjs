@@ -28,10 +28,15 @@ const nextConfig = {
       { source: '/store', destination: '/collaborateurs-ia', permanent: true },
       { source: '/store/profils-metier', destination: '/collaborateurs-ia/profils-metier', permanent: true },
       { source: '/store/competences', destination: '/collaborateurs-ia/competences', permanent: true },
-      { source: '/store/applications', destination: '/collaborateurs-ia/applications', permanent: true },
+      { source: '/store/applications', destination: '/marketplace/applications', permanent: true },
       { source: '/store/profils-metier/:slug', destination: '/collaborateurs-ia/profils-metier/:slug', permanent: true },
       { source: '/store/competences/:slug', destination: '/collaborateurs-ia/competences/:slug', permanent: true },
-      { source: '/store/applications/:slug', destination: '/collaborateurs-ia/applications/:slug', permanent: true },
+      { source: '/store/applications/:slug', destination: '/marketplace/applications', permanent: true },
+      { source: '/collaborateurs-ia/integrations', destination: '/marketplace/applications', permanent: true },
+      { source: '/collaborateurs-ia/integrations/:slug', destination: '/marketplace/applications', permanent: true },
+      { source: '/collaborateurs-ia/applications', destination: '/marketplace/applications', permanent: true },
+      { source: '/collaborateurs-ia/applications/catalogue', destination: '/marketplace/applications', permanent: true },
+      { source: '/collaborateurs-ia/applications/:slug', destination: '/marketplace/applications', permanent: true },
     ]
   },
 }
