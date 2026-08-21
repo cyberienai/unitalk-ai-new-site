@@ -148,7 +148,8 @@ describe('Marketplace IA hub', () => {
   it('uses the compact progressive action treatment for application cards', () => {
     expect(hub).toContain("category.id === 'applications' && href")
     expect(hub).toContain('aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[245px]')
-    expect(hub).toContain('bg-[var(--profile-accent)] px-4 text-xs font-bold text-white opacity-0')
+    expect(hub).toContain('bg-[#C80B5B] px-4 text-xs font-bold text-white opacity-0')
+    expect(hub).toContain('<h3 className="min-w-0 line-clamp-2 text-[22px]')
   })
 
   it('uses the same structured cards for skills, applications, models and servers', () => {
