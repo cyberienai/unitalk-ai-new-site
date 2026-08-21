@@ -60,7 +60,7 @@ describe('Marketplace IA hub', () => {
   it('makes skills concrete and filterable', () => {
     for (const text of ["skillCategories: 'Catégories de compétences'", 'Contexte d’application', 'Résultat produit', 'Profils compatibles', 'Méthode à valider sur votre cas']) expect(hub).toContain(text)
     expect(hub).toContain('Ajoutez gratuitement les compétences nécessaires à chaque mission.')
-    expect(hub).toContain('Chaque compétence est adaptée à votre entreprise.')
+    expect(hub).toContain('Chaque compétence est adaptée au profil et aux missions de votre Collaborateur.')
     expect(hub).toContain("storeType === 'competence' ? { fr: 'Gratuite', en: 'Free' }")
     expect(hub).toContain("skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission']")
     expect(hub).toContain('<SkillMarketplaceCard')

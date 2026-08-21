@@ -228,7 +228,7 @@ const STORE_CATEGORIES: Category[] = [
     description: { fr: 'Des méthodes précises, documentées, gratuites et réutilisables par vos Collaborateurs IA.', en: 'Precise, documented, free methods that your AI Collaborators can reuse.' },
     heroTitle: { fr: 'Ajoutez gratuitement les compétences nécessaires à chaque mission.', en: 'Add the skills each mission needs for free.' },
     heroAccent: { fr: 'nécessaires à chaque mission.', en: 'each mission needs for free.' },
-    heroLead: { fr: 'Chaque compétence est adaptée à votre entreprise.', en: 'Each skill is tailored to your organization.' },
+    heroLead: { fr: 'Chaque compétence est adaptée au profil et aux missions de votre Collaborateur.', en: 'Each skill is tailored to your Collaborator’s profile and missions.' },
     search: { fr: 'Rechercher une compétence', en: 'Search skills' }, action: { fr: 'Ajouter à un Collaborateur IA', en: 'Add to an AI Collaborator' }, explain: { fr: 'Comprendre les compétences', en: 'Understand skills' },
     missing: { title: { fr: 'Une compétence vous manque ?', en: 'Missing a skill?' }, body: { fr: 'Expliquez le savoir-faire attendu. Alma vous aide à le transformer en compétence claire, testable et réutilisable.', en: 'Describe the know-how you need. Alma helps turn it into a clear, testable and reusable skill.' }, action: { fr: 'Créer une compétence', en: 'Create a skill' }, href: '/decouvrir?source=marketplace&intention=nouvelle-competence' },
     href: '/collaborateurs-ia/competences', accent: '#C80B5B',
