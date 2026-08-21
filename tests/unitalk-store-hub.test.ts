@@ -144,6 +144,12 @@ describe('Marketplace IA hub', () => {
     expect(hub.match(/max-h-\[calc\(100dvh-180px\)\] overflow-y-auto/g)).toHaveLength(2)
   })
 
+  it('uses the compact progressive action treatment for application cards', () => {
+    expect(hub).toContain("category.id === 'applications' && href")
+    expect(hub).toContain('aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[245px]')
+    expect(hub).toContain('bg-[var(--profile-accent)] px-4 text-xs font-bold text-white opacity-0')
+  })
+
   it('uses the same structured cards for skills, applications, models and servers', () => {
     expect(hub).toContain("['competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(category.id)")
     expect(hub).not.toContain('Bibliothèque de savoir-faire')
