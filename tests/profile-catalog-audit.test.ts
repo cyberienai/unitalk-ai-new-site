@@ -11,7 +11,10 @@ const departments = [
   ['Ressources humaines', ['charge-de-recrutement', 'responsable-ressources-humaines', 'gestionnaire-administration-personnel', 'responsable-developpement-rh', 'charge-relations-sociales', 'responsable-qualite-vie-travail']],
   ['Juridique et conformité', ['juriste-contrats', 'responsable-conformite', 'delegue-protection-donnees', 'charge-veille-reglementaire', 'responsable-responsabilite-societale']],
   ['Achats, logistique et qualité', ['coordinateur-operations', 'responsable-achats', 'acheteur', 'approvisionneur', 'responsable-logistique', 'responsable-qualite']],
-  ['Produit, données et cybersécurité', ['developpeur', 'webmaster', 'analyste-web', 'integrateur-no-code-automatisation', 'responsable-produit', 'concepteur-experience-utilisateur', 'analyste-donnees', 'responsable-informatique-decisionnelle', 'responsable-cybersecurite', 'ingenieur-qualite-logicielle']],
+  ['Produit', ['responsable-produit', 'concepteur-experience-utilisateur']],
+  ['Données', ['analyste-donnees', 'responsable-informatique-decisionnelle', 'analyste-web']],
+  ['Informatique et développement', ['developpeur', 'integrateur-no-code-automatisation', 'webmaster']],
+  ['Cybersécurité et qualité logicielle', ['responsable-cybersecurite', 'ingenieur-qualite-logicielle']],
   ['Formation et transformation', ['conseillere-adoption-ia', 'charge-formation', 'formateur-entreprise', 'responsable-conduite-changement', 'responsable-amelioration-processus']],
 ] as const
 

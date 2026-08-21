@@ -26,7 +26,7 @@ describe('Profils métier marketplace SEO', () => {
 
   it('uses a department-led catalog with decision-ready profile cards', () => {
     expect(hub).toContain('const PROFILE_DEPARTMENTS = [')
-    for (const department of ['Direction et stratégie', 'Administration', 'Ventes et avant-vente', 'Relation et réussite client', 'Marketing et communication', 'Finance et comptabilité', 'Ressources humaines', 'Juridique et conformité', 'Achats, logistique et qualité', 'Produit, données et cybersécurité', 'Formation et transformation']) expect(hub).toContain(department)
+    for (const department of ['Direction et stratégie', 'Administration', 'Ventes et avant-vente', 'Relation et réussite client', 'Marketing et communication', 'Finance et comptabilité', 'Ressources humaines', 'Juridique et conformité', 'Achats, logistique et qualité', 'Produit', 'Données', 'Informatique et développement', 'Cybersécurité et qualité logicielle', 'Formation et transformation']) expect(hub).toContain(department)
     expect(hub).toContain("heroTitle: { fr: 'Ajoutez gratuitement les profils métier dont votre Collaborateur IA a besoin.'")
     expect(hub).toContain("profileHeroProofs: ['Profils métier gratuits', 'Plusieurs profils par Collaborateur']")
     expect(hub).toContain("const usesFeaturedHero = isCollaboratorsLanding || ['profils-metier', 'competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(activeCategory.id)")
@@ -71,7 +71,10 @@ describe('Profils métier marketplace SEO', () => {
     for (const profile of STORE_ITEMS.filter(item => item.type === 'profil')) {
       expect(departmentBlock.split(`'${profile.slug}'`).length - 1).toBe(1)
     }
-    expect(departmentBlock).toContain("profiles: ['developpeur', 'webmaster', 'analyste-web', 'integrateur-no-code-automatisation', 'responsable-produit', 'concepteur-experience-utilisateur', 'analyste-donnees', 'responsable-informatique-decisionnelle', 'responsable-cybersecurite', 'ingenieur-qualite-logicielle']")
+    expect(departmentBlock).toContain("profiles: ['responsable-produit', 'concepteur-experience-utilisateur']")
+    expect(departmentBlock).toContain("profiles: ['analyste-donnees', 'responsable-informatique-decisionnelle', 'analyste-web']")
+    expect(departmentBlock).toContain("profiles: ['developpeur', 'integrateur-no-code-automatisation', 'webmaster']")
+    expect(departmentBlock).toContain("profiles: ['responsable-cybersecurite', 'ingenieur-qualite-logicielle']")
   })
 
   it('uses explicit domains for product, data, development and cybersecurity profiles', () => {

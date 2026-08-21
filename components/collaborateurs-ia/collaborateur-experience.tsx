@@ -117,6 +117,16 @@ export function CollaborateurExperience() {
         </div>
       </section>
 
+      <section aria-labelledby="competences-title" className="border-y border-[#CFC5B5] bg-[#FAF8F3] py-14 sm:py-20 [@media(min-width:1024px)_and_(max-height:850px)]:py-14">
+        <div className="editorial-shell">
+          <div className="grid gap-6 lg:grid-cols-[1.08fr_.92fr] lg:items-end lg:gap-12"><div><Kicker>{t.skillsKicker}</Kicker><h2 id="competences-title" className="mt-5 max-w-2xl font-semibold leading-[.96] tracking-[-.05em] text-balance text-[clamp(2.1rem,4.2vw,4.1rem)]">{t.skillsTitle}</h2></div><p className="max-w-xl text-[16px] leading-8 text-[#514A42]">{t.skillsBody}</p></div>
+          <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-3">
+            {t.skillsExamples.map((skill) => <div key={skill.name} className="rounded-[20px] border border-[#CFC5B5] bg-[#F3EFE6] p-6"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.skillsKicker}</p><h3 className="mt-4 text-xl font-semibold tracking-[-.03em]">{skill.name}</h3><dl className="mt-5 space-y-3">{[['Méthode', skill.method], ['Contexte', skill.context], ['Résultat', skill.result]].map(([label, value]) => <div key={label as string}><dt className="font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#857C6E]">{label as string}</dt><dd className="mt-1 text-sm font-semibold leading-6 text-[#514A42]">{value as string}</dd></div>)}</dl></div>)}
+          </div>
+          <div className="mt-8"><Link href="/marketplace/competences" className="inline-flex min-h-12 items-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition hover:bg-[#B90C58]">{t.skillsCta}<ArrowRight className="ml-2 size-4" /></Link></div>
+        </div>
+      </section>
+
       <section id="fonctionnement" aria-labelledby="hermes-unitalk-title" className="scroll-mt-20 bg-[#E0D6C6] py-10 text-[#191715] sm:py-12">
         <div className="editorial-shell grid gap-7 sm:grid-cols-[auto_1fr] sm:items-center lg:grid-cols-[auto_1fr_auto] lg:gap-10">
           <div className="flex items-center gap-3">
@@ -278,6 +288,15 @@ const COPY = {
       { title: 'Faites évoluer ses responsabilités', body: 'Ajoutez de nouveaux profils, compétences et outils sans recréer son identité ni perdre son expérience.' },
     ],
     almaRole: 'Collaboratrice IA Unitalk · Coordinatrice de missions IA', almaTitle: 'Décrivez une mission. Alma prépare le Collaborateur adapté.', almaBody: 'Alma cadre le résultat, les ressources nécessaires et les décisions qui restent sous votre contrôle.', almaCardTitle: 'Alma prépare avec vous', almaPrepares: ['Sa place dans l’organisation', 'Ses compétences et ses applications', 'Ses accès et ses validations', 'Son serveur privé'], almaRule: 'Le Collaborateur accomplit la mission. Votre équipe garde la décision.', almaCta: 'Décrire ma première mission',
+    skillsKicker: 'Compétences',
+    skillsTitle: 'Ajoutez gratuitement les compétences nécessaires à chaque mission.',
+    skillsBody: 'Chaque compétence décrit une méthode, un contexte d’application et un résultat attendu. Ajoutez-la gratuitement, puis adaptez ses règles et validations à votre entreprise.',
+    skillsCta: 'Explorer les compétences',
+    skillsExamples: [
+      { name: 'Qualifier un prospect', method: 'Évaluer selon les critères validés', context: 'Fiche dans le CRM autorisé', result: 'Qualification expliquée' },
+      { name: 'Préparer une réunion', method: 'Structurer l’ordre du jour', context: 'Contexte et sujets', result: 'Ordre du jour prêt' },
+      { name: 'Rédiger un article', method: 'Structurer un contenu éditorial', context: 'Sujet et sources', result: 'Contenu structuré' },
+    ],
   },
   en: {
     eyebrow: 'A new member of your team', heroTitlePrefix: 'Your', heroTitleRole: 'AI Collaborator', heroTitleEnd: 'works with your team.', heroAccent: 'Its experience stays in your organization.', heroLead: 'Choose its identity and first mission. It gets its own email, calendar, phone, voice and private server, then connects to the tools you authorize.',
@@ -300,5 +319,14 @@ const COPY = {
       { title: 'Evolve its responsibilities', body: 'Add new profiles, skills and tools without recreating its identity or losing its experience.' },
     ],
     almaRole: 'Unitalk AI Collaborator · AI mission coordinator', almaTitle: 'Describe a mission. Alma prepares the right Collaborator.', almaBody: 'Alma scopes the outcome, the required resources and the decisions that remain under your control.', almaCardTitle: 'Alma prepares it with you', almaPrepares: ['Its place in the organization', 'Its skills and applications', 'Its access and approvals', 'Its private server'], almaRule: 'The Collaborator carries out the mission. Your team keeps the decision.', almaCta: 'Describe my first mission',
+    skillsKicker: 'Skills',
+    skillsTitle: 'Add the skills each mission needs, for free.',
+    skillsBody: 'Each skill describes a method, an application context and an expected outcome. Add it for free, then adapt its rules and approvals to your organization.',
+    skillsCta: 'Browse skills',
+    skillsExamples: [
+      { name: 'Qualify a lead', method: 'Score against validated criteria', context: 'Record in the authorized CRM', result: 'Explained qualification' },
+      { name: 'Prepare a meeting', method: 'Structure the agenda', context: 'Context and topics', result: 'Ready-to-send agenda' },
+      { name: 'Write an article', method: 'Structure editorial content', context: 'Topic and sources', result: 'Structured content' },
+    ],
   },
 } as const

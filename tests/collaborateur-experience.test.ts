@@ -82,4 +82,12 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('/decouvrir?source=collaborateurs-ia')
     expect(source).not.toContain("marketCta: 'Explorer la Marketplace'")
   })
+
+  it('presents skills as free competences with method, context and result', () => {
+    expect(source).toContain('Ajoutez gratuitement les compétences nécessaires à chaque mission.')
+    expect(source).toContain('Chaque compétence décrit une méthode')
+    expect(source).toContain('aria-labelledby="competences-title"')
+    expect(source).toContain('href="/marketplace/competences"')
+    for (const name of ['Qualifier un prospect', 'Préparer une réunion', 'Rédiger un article']) expect(source).toContain(name)
+  })
 })

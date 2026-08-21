@@ -63,6 +63,8 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('Chaque compétence décrit une méthode, un contexte d’application et un résultat attendu.')
     expect(hub).toContain("storeType === 'competence' ? { fr: 'Gratuite', en: 'Free' }")
     expect(hub).toContain("skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission']")
+    expect(hub).toContain('<SkillMarketplaceCard')
+    expect(hub).toContain("lang === 'fr' ? 'Compétence' : 'Skill'")
   })
 
   it('uses the shared featured hero for profiles, skills, applications and models', () => {
@@ -72,7 +74,8 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain("serverHeroProofs: ['Infrastructure privée', 'Capacité évolutive', 'Déploiement gouverné']")
     expect(hub).toContain('featuredHeroProofs.map((proof)')
     expect(hub).toContain('<MarketplaceSidebarCatalog')
-    expect(hub).toContain("category.id === 'competences' ? SKILL_CATEGORY_LABELS : category.id === 'applications' ? APP_CATEGORY_LABELS")
+    expect(hub).toContain("category.id === 'competences' ? Object.fromEntries(PROFILE_DEPARTMENTS.map")
+    expect(hub).toContain("facetKeys: storeType === 'competence' ? profileDomainsFor(item.relatedProfiles)")
     expect(hub).toContain("skillCategories: 'Catégories de compétences', applicationCategories: 'Catégories d’applications', modelCategories: 'Modalités des modèles', serverCategories: 'Types d’infrastructure'")
     expect(hub).toContain("MODEL_MODALITY_ORDER = ['texte', 'raisonnement', 'multimodal', 'image', 'audio', 'video', 'open-source']")
   })
@@ -111,7 +114,8 @@ describe('Marketplace IA hub', () => {
 
   it('uses the same structured cards for skills, applications, models and servers', () => {
     expect(hub).toContain("['competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(category.id)")
-    expect(hub).toContain('Choisissez une compétence prête à ajouter.')
+    expect(hub).not.toContain('Bibliothèque de savoir-faire')
+    expect(hub).not.toContain('Choisissez une compétence prête à ajouter.')
     expect(hub).toContain('Connectez uniquement les applications utiles.')
     expect(hub).toContain('Le bon modèle est sélectionné pour chaque travail.')
     expect(hub).toContain('Dimensionnez un environnement adapté au travail.')
