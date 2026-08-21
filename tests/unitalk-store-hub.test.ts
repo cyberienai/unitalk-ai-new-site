@@ -127,6 +127,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain("fr: 'Modèle ouvert'")
     expect(hub).toContain('<ModelMarketplaceCard')
     expect(hub).toContain('item.modelModalities?.map')
+    expect(hub).toContain('min-h-[76px] flex-wrap content-center')
   })
 
   it('uses fully clickable profile and skill cards with a progressive add action', () => {

@@ -730,19 +730,21 @@ function SkillMarketplaceCard({ item, lang, category, addLabel }: { item: Market
 
 function ModelMarketplaceCard({ item, lang, category, action }: { item: MarketplaceItem; lang: Lang; category: Category; action: string }) {
   return (
-    <Link href={item.href!} aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[290px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)] focus-visible:ring-offset-2 sm:min-h-[310px]" style={{ '--profile-accent': category.accent } as CSSProperties}>
+    <Link href={item.href!} aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[245px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 pb-14 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--profile-accent)] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[var(--profile-accent)] focus-visible:ring-2 focus-visible:ring-[var(--profile-accent)] focus-visible:ring-offset-2 sm:min-h-[265px] sm:pb-5" style={{ '--profile-accent': category.accent } as CSSProperties}>
       <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[var(--profile-accent)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
       <div className="flex items-center gap-3.5">
         <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--profile-accent)_10%,transparent)] text-[var(--profile-accent)] ring-1 ring-[color-mix(in_srgb,var(--profile-accent)_22%,transparent)]"><Cpu className="size-5" /></span>
         <div className="min-w-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{item.origin}</p><h3 className="mt-1 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div>
       </div>
-      <p className="mt-4 line-clamp-3 text-[13px] font-medium leading-[1.35rem] text-[#4E483F] sm:text-[14px] sm:leading-6">{item.description}</p>
-      <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-[#F0EBE1] p-3.5">
-        {item.modelModalities?.map((modality) => <span key={modality.fr} className="rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-3 py-1.5 text-[11px] font-semibold text-[#4E483F]">{modality[lang]}</span>)}
-        {item.modelType && <span className="rounded-full bg-[#1C1A17] px-3 py-1.5 text-[11px] font-bold text-white">{item.modelType[lang]}</span>}
+      <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#3F3A33] sm:text-[14px] sm:leading-6 sm:text-[#4E483F]">{item.description}</p>
+      <div className="relative mt-4 overflow-hidden rounded-xl bg-[#F0EBE1]">
+        <div className="flex min-h-[76px] flex-wrap content-center items-center gap-2 p-3.5 transition-[opacity,transform] duration-200 sm:group-hover:-translate-y-1 sm:group-hover:opacity-0 sm:group-focus-visible:-translate-y-1 sm:group-focus-visible:opacity-0">
+          {item.modelModalities?.map((modality) => <span key={modality.fr} className="rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-3 py-1.5 text-[11px] font-semibold text-[#4E483F]">{modality[lang]}</span>)}
+          {item.modelType && <span className="rounded-full bg-[#1C1A17] px-3 py-1.5 text-[11px] font-bold text-white">{item.modelType[lang]}</span>}
+        </div>
+        <span aria-hidden className="absolute inset-0 hidden translate-y-2 items-center justify-between bg-[var(--profile-accent)] px-4 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:flex">{action}<span className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span>
       </div>
-      <div className="mt-auto pt-4"><div className="border-t border-[#DED6C8] pt-3 transition-colors group-hover:border-[var(--profile-accent)] group-focus-visible:border-[var(--profile-accent)]"><span className="flex min-h-10 items-center justify-between rounded-full border border-transparent text-xs font-bold text-[#1C1A17] transition-[color,background-color,border-color,padding] group-hover:border-[var(--profile-accent)] group-hover:bg-[var(--profile-accent)] group-hover:px-4 group-hover:text-white group-focus-visible:border-[var(--profile-accent)] group-focus-visible:bg-[var(--profile-accent)] group-focus-visible:px-4 group-focus-visible:text-white">{action}<span aria-hidden className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span></div>
-      </div>
+      <span aria-hidden className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-[var(--profile-accent)] text-sm font-bold text-white sm:hidden">→</span>
     </Link>
   )
 }
