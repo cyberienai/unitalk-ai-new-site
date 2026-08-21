@@ -1,19 +1,26 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
   ArrowRight,
+  CalendarDays,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Database,
   LockKeyhole,
   Mail,
+  Phone,
   Server,
   ShieldCheck,
   UserRound,
+  Volume2,
   type LucideIcon,
 } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
+import { collaboratorHref, MARKETPLACE_COLLABORATOR_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { Kicker } from '@/components/home/section-kicker'
 import { UnitalkLogo } from '@/components/unitalk-logo'
 import { AlmaInline } from '@/components/alma-inline'
@@ -47,27 +54,7 @@ export function CollaborateurExperience() {
               </div>
               <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] font-medium text-[#6B6560] min-[390px]:text-xs sm:justify-start">{t.reassurance.map(item => <span key={item} className="inline-flex items-center gap-1.5"><Check className="size-3.5 text-[#D10E63]" strokeWidth={2.5}/>{item}</span>)}<span className="inline-flex items-center gap-1.5 whitespace-nowrap"><AlmaInline />{t.almaGuidance}</span></div>
             </div>
-            <aside aria-label={t.heroCardLabel} className="group relative mx-auto w-full min-w-0 max-w-md">
-              <div aria-hidden className="pointer-events-none absolute -inset-16 -z-10"><div className="absolute left-[42%] top-[46%] h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D10E63]/30 blur-[90px]"/><div className="absolute right-[8%] top-[8%] h-[52%] w-[52%] rounded-full bg-[#F2A65A]/20 blur-[80px]"/></div>
-              <div className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#17130F] text-white shadow-[0_30px_80px_-20px_rgba(0,0,0,.65)] transition-transform duration-500 group-hover:-translate-y-1.5 sm:rounded-[1.75rem]">
-                <div className="p-5 max-[389px]:p-4 sm:p-7 [@media(min-width:1024px)_and_(max-height:850px)]:p-5">
-                  <div className="flex min-w-0 items-start gap-4 border-b border-white/10 pb-5 max-[389px]:gap-3 max-[389px]:pb-4">
-                    <div className="flex shrink-0 items-center">
-                    {[
-                      ['/images/emma-avatar.png', 'Emma'],
-                      ['/nina-avatar.png', 'Camille'],
-                      ['/images/nadia-avatar.png', 'Nadia'],
-                    ].map(([src, name], index) => <div key={name} className={`relative size-12 shrink-0 overflow-hidden rounded-full border-[3px] border-[#191715] sm:size-16 [@media(min-width:1024px)_and_(max-height:850px)]:size-12 ${index > 0 ? '-ml-3' : ''}`}><Image src={src} alt={name} fill sizes="64px" className="object-cover" /></div>)}
-                    </div>
-                    <p className="min-w-0 pt-1 text-sm font-semibold leading-6 text-[#CFC6B8]">{t.heroCardLabel}</p>
-                  </div>
-                  <dl className="mt-5 overflow-hidden rounded-2xl border border-white/10 bg-[#211E1B] max-[389px]:mt-4 [@media(min-width:1024px)_and_(max-height:850px)]:mt-4">
-                    {t.heroGroups.map((group, index) => <div key={group.label} className={`grid gap-2 p-4 max-[389px]:px-3.5 max-[389px]:py-3 sm:grid-cols-[8.5rem_1fr] sm:items-start sm:gap-3 [@media(min-width:1024px)_and_(max-height:850px)]:py-3 ${index > 0 ? 'border-t border-white/10' : ''}`}><dt className="font-mono text-[9px] font-black uppercase tracking-[.15em] text-[#F2A4C5]">{group.label}</dt><dd className="hidden whitespace-pre-line text-[12px] font-semibold leading-5 text-[#E7E0D5] min-[390px]:block">{group.value}</dd></div>)}
-                  </dl>
-                  <div className="mt-5 flex items-center gap-3 rounded-xl border border-[#D10E63]/25 bg-[#D10E63]/10 px-4 py-3 max-[389px]:mt-4 max-[389px]:px-3.5 max-[389px]:py-2.5 [@media(min-width:1024px)_and_(max-height:850px)]:mt-4"><ShieldCheck className="size-5 shrink-0 text-[#F2A4C5] max-[389px]:size-4"/><p className="text-xs font-semibold leading-5 text-[#E7E0D5]">{t.heroCardRule}</p></div>
-                </div>
-              </div>
-            </aside>
+            <IdentityCarousel lang={lang} labels={t.identityCarousel} />
         </div>
       </section>
 
@@ -190,10 +177,84 @@ function ResourceFact({ icon: Icon, title, body }: { icon: LucideIcon; title: st
   return <div className="bg-[#EAE3D4] p-6 sm:p-7"><Icon className="size-5 text-[#B00C54]"/><h3 className="mt-5 font-semibold">{title}</h3><p className="mt-2 text-xs leading-5 text-[#625B50]">{body}</p></div>
 }
 
+type IdentityCarouselLabels = {
+  ariaLabel: string
+  eyebrow: string
+  previous: string
+  next: string
+  profile: string
+  email: string
+  calendar: string
+  phone: string
+  rule: string
+}
+
+function IdentityCarousel({ lang, labels }: { lang: 'fr' | 'en'; labels: IdentityCarouselLabels }) {
+  const identities = MARKETPLACE_COLLABORATOR_SLUGS.map(slug => ROLE_DETAILS[slug])
+  const [activeIndex, setActiveIndex] = useState(0)
+  const activeIdentity = identities[activeIndex]
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveIndex(index => (index + 1) % identities.length)
+    }, 6000)
+    return () => window.clearInterval(interval)
+  }, [identities.length])
+
+  const selectPrevious = () => setActiveIndex(index => (index - 1 + identities.length) % identities.length)
+  const selectNext = () => setActiveIndex(index => (index + 1) % identities.length)
+
+  return (
+    <aside aria-label={labels.ariaLabel} className="group relative mx-auto w-full min-w-0 max-w-md">
+      <div aria-hidden className="pointer-events-none absolute -inset-16 -z-10"><div className="absolute left-[42%] top-[46%] h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D10E63]/30 blur-[90px]"/><div className="absolute right-[8%] top-[8%] h-[52%] w-[52%] rounded-full bg-[#F2A65A]/20 blur-[80px]"/></div>
+      <div className="relative w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#17130F] text-white shadow-[0_30px_80px_-20px_rgba(0,0,0,.65)] transition-transform duration-500 group-hover:-translate-y-1.5 sm:rounded-[1.75rem]">
+        <div className="p-5 max-[389px]:p-4 sm:p-7 [@media(min-width:1024px)_and_(max-height:850px)]:p-5">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4">
+            <p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{labels.eyebrow}</p>
+            <div className="flex gap-2">
+              <button type="button" onClick={selectPrevious} aria-label={labels.previous} className="flex size-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-white/35 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><ChevronLeft className="size-4"/></button>
+              <button type="button" onClick={selectNext} aria-label={labels.next} className="flex size-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:border-white/35 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A4C5]"><ChevronRight className="size-4"/></button>
+            </div>
+          </div>
+
+          <div aria-live="polite" className="pt-5">
+            <div className="flex items-center gap-4">
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-full border-2 border-[#F2A4C5]/35 sm:size-20">
+                <Image src={activeIdentity.avatar} alt="" fill sizes="80px" className="object-cover" />
+              </div>
+              <div className="min-w-0">
+                <h2 className="truncate text-2xl font-semibold tracking-[-.04em]">{activeIdentity.name}</h2>
+                <p className="mt-1 text-sm font-semibold text-[#CFC6B8]">{activeIdentity.role[lang]}</p>
+                <p className="mt-1 text-xs text-[#91877A]">{activeIdentity.department[lang]}</p>
+              </div>
+            </div>
+
+            <p className="mt-5 min-h-12 text-sm leading-6 text-[#D8D0C5]">{activeIdentity.promise[lang]}</p>
+
+            <div className="mt-5 grid grid-cols-3 overflow-hidden rounded-xl border border-white/10 bg-[#211E1B]">
+              {[[Mail, labels.email], [CalendarDays, labels.calendar], [Phone, labels.phone]].map(([Icon, label], index) => {
+                const ChannelIcon = Icon as LucideIcon
+                return <div key={label as string} className={`flex flex-col items-center gap-2 px-2 py-3 max-[389px]:py-3 ${index > 0 ? 'border-l border-white/10' : ''}`}><ChannelIcon className="size-4 text-[#F2A4C5]"/><span className="hidden text-[10px] font-semibold text-[#CFC6B8] min-[390px]:block">{label as string}</span></div>
+              })}
+            </div>
+
+            <div className="mt-4 flex items-start gap-3 rounded-xl border border-[#D10E63]/25 bg-[#D10E63]/10 px-4 py-3"><ShieldCheck className="mt-0.5 size-4 shrink-0 text-[#F2A4C5]"/><p className="text-xs font-semibold leading-5 text-[#E7E0D5]">{labels.rule}</p></div>
+
+            <div className="mt-5 flex items-center justify-between gap-4">
+              <div aria-hidden className="flex gap-1.5">{identities.map((identity, index) => <span key={identity.slug} className={`h-1.5 rounded-full transition-all ${index === activeIndex ? 'w-5 bg-[#F2A4C5]' : 'w-1.5 bg-white/20'}`}/>)}</div>
+              <Link href={collaboratorHref(activeIdentity.slug)} className="inline-flex shrink-0 items-center gap-2 text-xs font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{labels.profile}<ArrowRight className="size-3.5"/></Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  )
+}
+
 const COPY = {
   fr: {
     eyebrow: 'Un nouveau membre dans votre équipe', heroTitlePrefix: 'Votre', heroTitleRole: 'Collaborateur IA', heroTitleEnd: 'travaille et progresse.', heroAccent: 'Il reste dans votre entreprise.', heroLead: 'Une identité, une mémoire et des compétences sous votre contrôle. À chaque mission, il retient les méthodes et corrections que vous validez.',
-    heroGroups: [{ label: 'Dans votre organisation', value: 'Identité définie\nMémoire sous votre contrôle' }, { label: 'Équipé pour travailler', value: 'Profils\nCompétences\nPlus de 3 000 apps' }, { label: 'Ses ressources dédiées', value: 'Meilleurs modèles d’IA\nServeur privé dédié' }], heroCardLabel: 'Choisissez l’identité adaptée à votre première mission.', heroCardRule: 'Vous contrôlez ses accès et les décisions qui restent humaines.', start: 'Confier une première mission', explore: 'Voir les Collaborateurs IA', reassurance: ['Première mission gratuite', 'Sans carte bancaire'], almaGuidance: 'Personnalisation guidée par Alma',
+    heroGroups: [{ label: 'Dans votre organisation', value: 'Identité définie\nMémoire sous votre contrôle' }, { label: 'Équipé pour travailler', value: 'Profils\nCompétences\nPlus de 3 000 apps' }, { label: 'Ses ressources dédiées', value: 'Meilleurs modèles d’IA\nServeur privé dédié' }], heroCardLabel: 'Choisissez l’identité adaptée à votre première mission.', heroCardRule: 'Vous contrôlez ses accès et les décisions qui restent humaines.', identityCarousel: { ariaLabel: 'Identités de Collaborateurs IA', eyebrow: 'Choisissez une identité', previous: 'Identité précédente', next: 'Identité suivante', profile: 'Voir le profil', email: 'Email', calendar: 'Agenda', phone: 'Téléphone', rule: 'Vous contrôlez ses accès et les décisions qui restent humaines.' }, start: 'Confier une première mission', explore: 'Voir les Collaborateurs IA', reassurance: ['Première mission gratuite', 'Sans carte bancaire'], almaGuidance: 'Personnalisation guidée par Alma',
     foundationTitle: 'Hermes exécute. Unitalk organise le travail.', foundationBody: 'Hermes fournit le moteur agentique open source. Unitalk ajoute l’identité professionnelle, la mémoire, les applications, les droits et l’espace de collaboration.', foundationCta: 'Découvrir Hermes',
     placeKicker: 'Rattachement à l’entreprise', placeTitle: 'Un Collaborateur IA privé ou partagé.', placeBody: 'Privé pour une personne, ou partagé avec une équipe, un département ou toute l’entreprise. Les membres autorisés le retrouvent dans leur espace de travail.', placementChoiceTitle: 'Choisissez son périmètre de collaboration', placementChoiceBody: 'Vous pourrez le faire évoluer avec votre organisation.', placements: ['Une personne', 'Une équipe', 'Un département', 'Toute l’entreprise'], placementDescriptions: ['Un responsable direct lui confie et suit ses missions.','Il collabore avec tous les membres autorisés d’une équipe.','Il est accessible aux membres autorisés du département.','Il est accessible à tous les membres autorisés de l’entreprise.'], privateMemory: 'Sa propre mémoire', privateMemoryBody: 'Méthodes, expérience et historique des conversations restent disponibles entre ses missions.', sharedKnowledge: 'Les savoirs partagés', sharedKnowledgeBody: 'Il consulte uniquement les documents et informations que l’entreprise lui ouvre.', communication: 'Ses moyens de communication', communicationBody: 'Email, calendrier, messagerie et espace Unitalk selon les canaux autorisés.', sovereignty: 'Son serveur IA', sovereigntyBody: 'Chaque instance Hermes dispose de son propre serveur dans Unitalk AI Cloud.',
     proofKicker: 'Une mission, de bout en bout', proofTitle: 'Il prépare. Votre équipe décide.', proofBody: 'Le Collaborateur reçoit un résultat attendu, travaille avec les ressources autorisées et s’arrête lorsqu’une validation humaine est nécessaire.', proofSteps: [{label:'Mission confiée',title:'Vous définissez le résultat.',body:'L’objectif, le contexte et les limites sont réunis dans un même espace.'},{label:'Travail visible',title:'Il prépare le livrable.',body:'Votre équipe suit les étapes, les sources utilisées et le résultat produit.'},{label:'Contrôle humain',title:'Vous gardez la décision.',body:'Les actions sensibles restent en attente jusqu’à votre validation.'}],
@@ -217,7 +278,7 @@ const COPY = {
   },
   en: {
     eyebrow: 'A new member of your team', heroTitlePrefix: 'Your', heroTitleRole: 'AI Collaborator', heroTitleEnd: 'works and improves.', heroAccent: 'It stays in your organization.', heroLead: 'An identity, memory and skills under your control. With each mission, it retains the methods and corrections you approve.',
-    heroGroups: [{ label: 'In your organization', value: 'Defined identity\nMemory under your control' }, { label: 'Equipped to work', value: 'Profiles\nSkills\n3,000+ apps' }, { label: 'Its dedicated resources', value: 'Leading AI models\nDedicated private server' }], heroCardLabel: 'Choose the identity suited to your first mission.', heroCardRule: 'You control its access and the decisions that remain human.', start: 'Entrust a first mission', explore: 'View AI Collaborators', reassurance: ['First mission free', 'No card'], almaGuidance: 'Personalized with Alma',
+    heroGroups: [{ label: 'In your organization', value: 'Defined identity\nMemory under your control' }, { label: 'Equipped to work', value: 'Profiles\nSkills\n3,000+ apps' }, { label: 'Its dedicated resources', value: 'Leading AI models\nDedicated private server' }], heroCardLabel: 'Choose the identity suited to your first mission.', heroCardRule: 'You control its access and the decisions that remain human.', identityCarousel: { ariaLabel: 'AI Collaborator identities', eyebrow: 'Choose an identity', previous: 'Previous identity', next: 'Next identity', profile: 'View profile', email: 'Email', calendar: 'Calendar', phone: 'Phone', rule: 'You control its access and the decisions that remain human.' }, start: 'Entrust a first mission', explore: 'View AI Collaborators', reassurance: ['First mission free', 'No card'], almaGuidance: 'Personalized with Alma',
     foundationTitle: 'Hermes executes. Unitalk organizes the work.', foundationBody: 'Hermes provides the open-source agentic engine. Unitalk adds the professional identity, memory, applications, permissions and collaboration space.', foundationCta: 'Discover Hermes',
     placeKicker: 'Organizational placement', placeTitle: 'A private or shared AI Collaborator.', placeBody: 'Private for one person, or shared with a team, department or the whole organization. Authorized members can access it from their workspace.', placementChoiceTitle: 'Choose its collaboration scope', placementChoiceBody: 'You can evolve it as your organization changes.', placements: ['One person', 'A team', 'A department', 'The whole organization'], placementDescriptions: ['A direct manager assigns and follows its missions.','It collaborates with every authorized member of a team.','It is accessible to authorized department members.','It is accessible to every authorized member of the organization.'], privateMemory: 'Its own memory', privateMemoryBody: 'Methods, experience and conversation history remain available across missions.', sharedKnowledge: 'Shared knowledge', sharedKnowledgeBody: 'It only accesses documents and information the organization opens to it.', communication: 'Its communication tools', communicationBody: 'Email, calendar, messaging and Unitalk workspace through approved channels.', sovereignty: 'Its AI server', sovereigntyBody: 'Each Hermes instance has its own server in Unitalk AI Cloud.',
     proofKicker: 'One mission, end to end', proofTitle: 'It prepares. Your team decides.', proofBody: 'The Collaborator receives an expected outcome, works with authorized resources and stops whenever human approval is required.', proofSteps: [{label:'Mission assigned',title:'You define the outcome.',body:'The objective, context and boundaries are gathered in one shared space.'},{label:'Visible work',title:'It prepares the deliverable.',body:'Your team follows the steps, sources used and the result produced.'},{label:'Human control',title:'You keep the decision.',body:'Sensitive actions remain pending until you approve them.'}],
