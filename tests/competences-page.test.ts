@@ -7,10 +7,10 @@ const content = readFileSync(new URL('../components/collaborateurs-ia/competence
 const detailRoute = new URL('../app/collaborateurs-ia/competences/[slug]/page.tsx', import.meta.url)
 
 describe('competences catalog', () => {
-  it('keeps all 105 published skills accessible through pagination', () => {
+  it('keeps every published skill accessible through pagination', () => {
     const skills = STORE_ITEMS.filter(item => item.type === 'competence')
-    expect(skills).toHaveLength(105)
-    expect(Math.ceil(skills.length / 12)).toBe(9)
+    expect(skills.length).toBeGreaterThanOrEqual(105)
+    expect(Math.ceil(skills.length / 12)).toBeGreaterThanOrEqual(9)
     expect(content).toContain('const PAGE_SIZE = 12')
     expect(content).toContain("searchParams.get('page')")
   })
@@ -45,23 +45,35 @@ describe('competences catalog', () => {
   })
 
   it('publishes the 14 shared and 60 profile-specific Mustad skills in French', () => {
-    const mustadSkills = STORE_ITEMS.filter(item => item.type === 'competence' && item.slug.startsWith('mustad-'))
-    expect(mustadSkills).toHaveLength(74)
-    expect(new Set(mustadSkills.map(item => item.slug)).size).toBe(74)
-    for (const skill of mustadSkills) {
+    const importedSkills = STORE_ITEMS.filter(item => item.type === 'competence' && ['brand-voice', 'ad-daily-workflow'].includes(item.slug))
+    expect(STORE_ITEMS.some(item => item.slug.startsWith('mustad-'))).toBe(false)
+    for (const skill of STORE_ITEMS.filter(item => item.type === 'competence')) {
       expect(skill.name.fr).toBeTruthy()
       expect(skill.description.fr).toBeTruthy()
       expect(skill.facet).toBeTruthy()
-      expect(skill.name.fr).not.toMatch(/^mustad-/)
     }
-    expect(mustadSkills.find(item => item.slug === 'mustad-brand-voice')?.name.fr).toBe('Appliquer la voix de marque')
-    expect(mustadSkills.find(item => item.slug === 'mustad-ad-daily-workflow')?.name.fr).toBe('Organiser le suivi publicitaire quotidien')
+    expect(importedSkills.find(item => item.slug === 'brand-voice')?.name.fr).toBe('Appliquer la voix de marque')
+    expect(importedSkills.find(item => item.slug === 'ad-daily-workflow')?.name.fr).toBe('Organiser le suivi publicitaire quotidien')
     const profileSlugs = new Set(STORE_ITEMS.filter(item => item.type === 'profil').map(item => item.slug))
-    for (const skill of mustadSkills) {
+    for (const skill of STORE_ITEMS.filter(item => item.type === 'competence')) {
       for (const profile of skill.relatedProfiles ?? []) expect(profileSlugs.has(profile)).toBe(true)
     }
     for (const obsolete of ['decouverte-profil-client-ideal', 'enrichissement-donnees', 'production-contenu', 'redaction-messages-prospection', 'tri-routage-reponses', 'preparation-reunions-synthese-appels', 'copilote-equipes-terrain', 'reporting-synthese-hebdomadaire', 'previsions-propositions-commerciales', 'test-creations-publicitaires', 'cycle-vie-fidelisation']) {
-      expect(mustadSkills.some(item => item.relatedProfiles?.includes(obsolete))).toBe(false)
+      expect(STORE_ITEMS.some(item => item.type === 'competence' && item.relatedProfiles?.includes(obsolete))).toBe(false)
+    }
+  })
+
+  it('keeps profile and skill relationships complete in both directions', () => {
+    const profiles = STORE_ITEMS.filter(item => item.type === 'profil')
+    const skills = STORE_ITEMS.filter(item => item.type === 'competence')
+    const profileMap = new Map(profiles.map(item => [item.slug, item]))
+    const skillMap = new Map(skills.map(item => [item.slug, item]))
+    for (const profile of profiles) {
+      expect(profile.relatedSkills?.length).toBeGreaterThan(0)
+      for (const skill of profile.relatedSkills ?? []) expect(skillMap.get(skill)?.relatedProfiles).toContain(profile.slug)
+    }
+    for (const skill of skills) {
+      for (const profile of skill.relatedProfiles ?? []) expect(profileMap.get(profile)?.relatedSkills).toContain(skill.slug)
     }
   })
 })

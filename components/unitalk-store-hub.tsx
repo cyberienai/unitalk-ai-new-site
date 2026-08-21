@@ -3,7 +3,7 @@
 import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, BriefcaseBusiness } from 'lucide-react'
 import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage } from '@/lib/language-context'
 import type { Lang as SiteLang } from '@/lib/language-context'
@@ -199,8 +199,8 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'collaborateurs-ia', title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' },
     description: { fr: 'Personnalisez son identité, puis rattachez votre Collaborateur IA à une personne, une équipe, un département ou toute l’entreprise.', en: 'Personalize their identity, then assign your AI Collaborator to one person, a team, a department or your entire company.' },
-    heroTitle: { fr: 'Choisissez qui rejoint votre équipe. Confiez-lui une première mission.', en: 'Choose who joins your team. Give them a first mission.' },
-    heroAccent: { fr: 'Confiez-lui une première mission.', en: 'Give them a first mission.' },
+    heroTitle: { fr: 'Choisissez le Collaborateur IA qui rejoindra votre équipe.', en: 'Choose the AI Collaborator who will join your team.' },
+    heroAccent: { fr: 'qui rejoindra votre équipe.', en: 'who will join your team.' },
     heroLead: { fr: 'Personnalisez son identité, puis faites évoluer ses responsabilités et ses compétences au fil des missions.', en: 'Personalize their identity, then evolve their responsibilities and skills over the course of their missions.' },
     search: { fr: 'Rechercher un Collaborateur IA', en: 'Search AI Collaborators' }, action: { fr: 'Voir son profil', en: 'View profile' }, explain: { fr: 'Comment fonctionne un Collaborateur IA ?', en: 'How does an AI Collaborator work?' },
     href: '/collaborateurs-ia', accent: '#D10E63',
@@ -208,9 +208,9 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'profils-metier', title: { fr: 'Profils métier', en: 'Job profiles' },
     description: { fr: 'Un profil métier de référence pour chaque métier de la connaissance.', en: 'One reference job profile for every knowledge-work profession.' },
-    heroTitle: { fr: 'Le bon profil pour le travail à accomplir.', en: 'The right profile for the work ahead.' },
-    heroAccent: { fr: 'travail à accomplir.', en: 'work ahead.' },
-    heroLead: { fr: 'Choisissez une responsabilité prête à l’emploi. Ajoutez-la à un Collaborateur IA, puis adaptez ses méthodes et ses droits à votre entreprise.', en: 'Choose a ready-to-use responsibility. Add it to an AI Collaborator, then adapt its methods and permissions to your organization.' },
+    heroTitle: { fr: 'Ajoutez le bon profil métier à votre Collaborateur IA.', en: 'Add the right job profile to your AI Collaborator.' },
+    heroAccent: { fr: 'à votre Collaborateur IA.', en: 'to your AI Collaborator.' },
+    heroLead: { fr: 'Choisissez gratuitement une responsabilité métier, ajoutez-la à votre Collaborateur IA, puis adaptez ses méthodes, ses droits et ses validations à votre entreprise.', en: 'Choose a job responsibility for free, add it to your AI Collaborator, then adapt its methods, permissions and approvals to your organization.' },
     search: { fr: 'Rechercher un profil métier', en: 'Search job profiles' }, action: { fr: 'Découvrir ce profil', en: 'Explore this profile' }, explain: { fr: 'Comprendre les profils métier', en: 'Understand job profiles' },
     missing: { title: { fr: 'Le profil métier dont vous avez besoin manque ?', en: 'Can’t find the job profile you need?' }, body: { fr: 'Décrivez le rôle, les responsabilités et les limites attendues. Alma vous aide à préparer un profil adapté à votre entreprise.', en: 'Describe the expected role, responsibilities and boundaries. Alma helps you prepare a profile tailored to your organization.' }, action: { fr: 'Créer un profil métier', en: 'Create a job profile' }, href: '/decouvrir?source=marketplace&intention=nouveau-profil-metier' },
     href: '/collaborateurs-ia/profils-metier', accent: '#C80B5B',
@@ -326,9 +326,9 @@ const COPY = {
     noResults: 'Aucune création ne correspond à cette recherche.', showMore: 'Voir tout le catalogue', showLess: 'Revenir à la sélection',
     emptyTitle: 'Catalogue en préparation', emptyBody: 'Cette catégorie est définie dans l’architecture Unitalk. Ses premières créations publiables seront ajoutées ici.',
     clear: 'Effacer les filtres', available: 'Disponible', preparation: 'Bientôt disponible', addProfile: 'Ajouter à un Collaborateur IA',
-    result: 'résultat', results: 'résultats', almaTitle: 'Une mission en tête ? Alma prépare le bon Collaborateur.', almaBody: 'Décrivez le résultat attendu. Alma vous aide à choisir l’identité, les compétences, les sources autorisées et les validations humaines nécessaires.', almaAction: 'Décrire ma première mission', almaFinalAction: 'Préparer mon Collaborateur avec Alma',
+    result: 'résultat', results: 'résultats', almaTitle: 'Une mission en tête ? Alma prépare le bon Collaborateur.', almaBody: 'Décrivez le résultat attendu. Alma vous aide à choisir l’identité, les compétences, les sources autorisées et les validations humaines nécessaires.', almaAction: 'Confier une première mission', almaFinalAction: 'Préparer mon Collaborateur avec Alma',
     heroProofs: ['Première mission gratuite', 'Sans carte bancaire'],
-    profileHeroProofs: ['Profils prêts à personnaliser', 'Plusieurs profils par Collaborateur', 'Validation humaine configurable'],
+    profileHeroProofs: ['Profils métier gratuits', 'Plusieurs profils par Collaborateur'],
     skillHeroProofs: ['Méthodes documentées', 'Réutilisables par mission', 'Résultats à valider'],
     applicationHeroProofs: ['Accès gouvernés', 'Actions configurables', 'Connexions selon vos droits'],
     modelHeroProofs: ['Sélection automatique', 'Fournisseurs contrôlés', 'Modèles interchangeables'],
@@ -342,7 +342,7 @@ const COPY = {
     clear: 'Clear filters', available: 'Available', preparation: 'Coming soon', addProfile: 'Add to an AI Collaborator',
     result: 'result', results: 'results', almaTitle: 'A mission in mind? Alma prepares the right Collaborator.', almaBody: 'Describe the expected outcome. Alma helps you choose the identity, skills, authorized sources and required human approvals.', almaAction: 'Describe my first mission', almaFinalAction: 'Prepare my Collaborator with Alma',
     heroProofs: ['First mission free', 'No credit card'],
-    profileHeroProofs: ['Profiles ready to customize', 'Multiple profiles per Collaborator', 'Configurable human approval'],
+    profileHeroProofs: ['Free job profiles', 'Multiple profiles per Collaborator', 'Customizable methods and permissions'],
     skillHeroProofs: ['Documented methods', 'Reusable across missions', 'Results to approve'],
     applicationHeroProofs: ['Governed access', 'Configurable actions', 'Connections based on permissions'],
     modelHeroProofs: ['Automatic selection', 'Controlled providers', 'Interchangeable models'],
@@ -622,7 +622,7 @@ function ProfilesMarketplaceCatalog({ items, allItems, departments, activeDepart
         <div className="min-w-0">
           <label className="relative block w-full"><span className="sr-only">{category.search[lang]}</span><input type="search" value={query} onChange={(event) => onQuery(event.target.value)} placeholder={category.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[#C80B5B] focus:bg-white focus:ring-4 focus:ring-[#C80B5B]/[.08]" />{query && <button type="button" onClick={() => onQuery('')} aria-label={labels.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[#C80B5B]">×</button>}</label>
 
-          {items.length > 0 ? <div className="mt-5 grid auto-rows-fr gap-4 md:grid-cols-2">{items.map((item, index) => <ProfileMarketplaceCard key={item.key} item={item} index={index} labels={labels} />)}</div> : <div className="mt-5 rounded-[18px] border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8"><h3 className="text-xl font-semibold">{lang === 'fr' ? 'Aucun profil ne correspond à votre recherche.' : 'No profile matches your search.'}</h3><button type="button" onClick={() => onQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{labels.clear}</button></div>}
+          {items.length > 0 ? <div className="mt-5 grid auto-rows-fr gap-4 md:grid-cols-2">{items.map((item) => <ProfileMarketplaceCard key={item.key} item={item} labels={labels} />)}</div> : <div className="mt-5 rounded-[18px] border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8"><h3 className="text-xl font-semibold">{lang === 'fr' ? 'Aucun profil ne correspond à votre recherche.' : 'No profile matches your search.'}</h3><button type="button" onClick={() => onQuery('')} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{labels.clear}</button></div>}
         </div>
       </div>
 
@@ -634,16 +634,21 @@ function ProfilesMarketplaceCatalog({ items, allItems, departments, activeDepart
   )
 }
 
-function ProfileMarketplaceCard({ item, index, labels }: { item: MarketplaceItem; index: number; labels: { firstMission: string; addProfile: string } }) {
+function ProfileMarketplaceCard({ item, labels }: { item: MarketplaceItem; labels: { firstMission: string; addProfile: string } }) {
   return (
-    <Link id={item.key.replace('profil-', '')} href={item.addHref!} aria-label={`${labels.addProfile} : ${item.title}`} className="group relative flex min-h-[310px] flex-col overflow-hidden rounded-[18px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 outline-none transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#C80B5B] hover:shadow-[0_22px_55px_-38px_rgba(28,26,23,.75)] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2 sm:min-h-[330px] sm:p-6">
-      <div aria-hidden className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-[#C80B5B] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-      <div className="flex items-start justify-between gap-4"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]">{item.meta}</p><span className="font-mono text-[9px] font-bold text-[#A79D8F]">{String(index + 1).padStart(2, '0')}</span></div>
-      <h3 className="mt-5 text-[25px] font-semibold leading-[1.04] tracking-[-.045em] text-[#1C1A17]">{item.title}</h3>
-      <p className="mt-3 line-clamp-2 text-[13px] leading-6 text-[#625B50]">{item.description}</p>
-      {item.highlights && item.highlights.length > 0 && <div className="mt-5"><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{item.highlightsLabel}</p><div className="mt-2 flex flex-wrap gap-1.5">{item.highlights.map((highlight) => <span key={highlight} className="rounded-full border border-[#D8D0C2] bg-[#F3EFE6] px-2.5 py-1 text-[10px] font-semibold text-[#4E483F]">{highlight}</span>)}</div></div>}
-      {item.starterMission && <div className="mt-5 border-l-2 border-[#C80B5B] pl-3"><p className="font-mono text-[8px] font-black uppercase tracking-[.14em] text-[#857C6E]">{labels.firstMission}</p><p className="mt-1 line-clamp-2 text-[12px] font-semibold leading-5 text-[#322E29]">{item.starterMission}</p></div>}
-      <div className="mt-auto pt-5"><div className="flex min-h-11 items-center justify-between border-t border-[#DED6C8] pt-4 text-[12px] font-bold text-[#1C1A17] transition-colors group-hover:border-[#C80B5B] group-hover:text-[#B00C54]"><span>{labels.addProfile}</span><span aria-hidden className="flex size-8 items-center justify-center rounded-full bg-[#181615] text-white transition-colors group-hover:bg-[#C80B5B]">→</span></div></div>
+    <Link id={item.key.replace('profil-', '')} href={item.addHref!} aria-label={`${labels.addProfile} : ${item.title}`} className="group relative flex min-h-[300px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#C80B5B] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[#C80B5B] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2 sm:min-h-[330px] sm:p-6">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[#C80B5B] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+      <div className="flex items-center gap-3.5">
+        <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[#C80B5B]/10 text-[#B00C54] ring-1 ring-[#C80B5B]/20"><BriefcaseBusiness className="size-6" /></span>
+        <div className="min-w-0">
+          <p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[#B00C54]">Profil métier</p>
+          <h3 className="mt-1 line-clamp-2 text-[24px] font-semibold leading-none tracking-[-.045em] text-[#1C1A17]">{item.title}</h3>
+          <p className="mt-1.5 truncate text-[12px] font-bold text-[#4E483F]">{item.meta}</p>
+        </div>
+      </div>
+      <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#3F3A33] sm:text-[14px] sm:leading-6 sm:text-[#4E483F]">{item.description}</p>
+      {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{labels.firstMission}</dt><dd className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-5 text-[#322E29]">{item.starterMission}</dd></dl>}
+      <div className="mt-auto pt-5 sm:pt-6"><div className="border-t border-[#DED6C8] pt-4 transition-colors group-hover:border-[#C80B5B] group-focus-visible:border-[#C80B5B]"><span className="flex min-h-11 items-center justify-between rounded-full border border-[#CFC5B5] px-4 text-[11px] font-bold text-[#1C1A17] transition-[color,background-color,border-color] group-hover:border-[#C80B5B] group-hover:bg-[#C80B5B] group-hover:text-white group-focus-visible:border-[#C80B5B] group-focus-visible:bg-[#C80B5B] group-focus-visible:text-white sm:min-h-10 sm:border-transparent sm:px-0 sm:text-xs sm:group-hover:px-4 sm:group-focus-visible:px-4">{labels.addProfile}<span aria-hidden className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span></div></div>
     </Link>
   )
 }

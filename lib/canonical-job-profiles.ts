@@ -2,6 +2,13 @@ import type { StoreItem } from '@/lib/store-catalog'
 
 type ProfileDefinition = [slug: string, name: string, description: string, facet: string, skills: string[], missions: string[]]
 
+type EnglishProfileDefinition = {
+  name: string
+  description: string
+  skills: string[]
+  missions: string[]
+}
+
 const definitions: ProfileDefinition[] = [
   ['directeur-general', 'Directeur général', 'Définit les priorités de l’entreprise et arbitre l’allocation de ses ressources.', 'direction', ['Définition stratégique', 'Arbitrage', 'Analyse de performance', 'Communication de direction'], ['Préparer le plan annuel', 'Arbitrer un portefeuille d’initiatives']],
   ['responsable-strategie-veille', 'Responsable stratégie et veille', 'Analyse l’environnement de l’entreprise et prépare les choix stratégiques de la direction.', 'direction', ['Veille concurrentielle', 'Analyse sectorielle', 'Construction de scénarios', 'Préparation de recommandations'], ['Produire une note stratégique', 'Comparer des scénarios de développement']],
@@ -52,16 +59,69 @@ const definitions: ProfileDefinition[] = [
   ['responsable-amelioration-processus', 'Responsable de l’amélioration des processus', 'Analyse les méthodes de travail et coordonne leur simplification avec les équipes.', 'transformation', ['Cartographie de processus', 'Analyse des causes', 'Conception d’améliorations', 'Mesure des résultats'], ['Simplifier un processus transverse', 'Suivre les gains d’une nouvelle organisation']],
 ]
 
-export const CANONICAL_JOB_PROFILES: StoreItem[] = definitions.map(([slug, name, description, facet, skills, missions], index) => ({
+const englishDefinitions: Record<string, EnglishProfileDefinition> = {
+  'directeur-general': { name: 'Chief Executive Officer', description: 'Sets the company’s priorities and decides how its resources are allocated.', skills: ['Strategic planning', 'Executive decision-making', 'Performance analysis', 'Executive communication'], missions: ['Prepare the annual plan', 'Prioritize a portfolio of initiatives'] },
+  'responsable-strategie-veille': { name: 'Strategy and Competitive Intelligence Manager', description: 'Analyzes the company’s environment and prepares strategic options for senior management.', skills: ['Competitive intelligence', 'Industry analysis', 'Scenario planning', 'Recommendation development'], missions: ['Produce a strategic briefing', 'Compare growth scenarios'] },
+  'directeur-commercial': { name: 'Sales Director', description: 'Defines the sales strategy, sets targets, and oversees sales performance.', skills: ['Sales strategy', 'Target setting', 'Forecast management', 'Team coaching'], missions: ['Prepare the annual sales plan', 'Analyze monthly results'] },
+  'responsable-services-generaux': { name: 'Facilities Manager', description: 'Organizes the facilities and services required for teams to operate effectively.', skills: ['Facilities management', 'Vendor management', 'Cost control', 'Incident prevention'], missions: ['Renew a service contract', 'Organize an internal office move'] },
+  'gestionnaire-documentaire': { name: 'Document Controller', description: 'Organizes, preserves, and provides access to the company’s reference documents.', skills: ['Document organization', 'Version control', 'Access rights management', 'Retention policy'], missions: ['Reorganize a document repository', 'Prepare a records retention plan'] },
+  'charge-appels-offres': { name: 'Bid Coordinator', description: 'Coordinates tender responses and ensures that submission packages are complete.', skills: ['Requirements analysis', 'Contributor coordination', 'Compliance checks', 'Deadline management'], missions: ['Prepare a tender response', 'Review a submission package before filing'] },
+  'responsable-comptes-cles': { name: 'Key Account Manager', description: 'Develops relationships with strategic customers and coordinates account plans.', skills: ['Account analysis', 'Stakeholder mapping', 'Complex negotiation', 'Customer value development'], missions: ['Build an account plan', 'Prepare a customer business review'] },
+  'ingenieur-affaires': { name: 'Business Development Manager', description: 'Builds and negotiates complex commercial solutions with technical and finance teams.', skills: ['Needs discovery', 'Proposal development', 'Pricing', 'Contract negotiation'], missions: ['Build a complex proposal', 'Prepare a sales presentation'] },
+  'responsable-administration-ventes': { name: 'Sales Administration Manager', description: 'Ensures the reliable processing of orders, contracts, and commercial terms.', skills: ['Order management', 'Sales terms review', 'Billing coordination', 'Dispute management'], missions: ['Review the order book', 'Resolve a billing issue'] },
+  'consultant-avant-vente': { name: 'Pre-Sales Consultant', description: 'Translates prospect needs into solutions that can be demonstrated and priced.', skills: ['Functional analysis', 'Solution design', 'Demo preparation', 'Proposal writing'], missions: ['Prepare a tailored demonstration', 'Write the technical section of a proposal'] },
+  'commercial-terrain': { name: 'Field Sales Representative', description: 'Develops a geographic territory through visits, demonstrations, and regular follow-up.', skills: ['Territory planning', 'Visit preparation', 'Sales conversations', 'Visit reporting'], missions: ['Prepare a sales route plan', 'Document follow-up actions after a visit'] },
+  'responsable-reussite-client': { name: 'Customer Success Manager', description: 'Supports customers after the sale to drive adoption, satisfaction, and renewal.', skills: ['Customer onboarding', 'Usage monitoring', 'Churn prevention', 'Renewal preparation'], missions: ['Build a customer success plan', 'Prepare a renewal review'] },
+  'gestionnaire-reclamations': { name: 'Customer Complaints Manager', description: 'Investigates complaints, coordinates responses, and tracks corrective actions.', skills: ['Fact finding', 'Severity assessment', 'Mediation', 'Corrective action tracking'], missions: ['Investigate a complex complaint', 'Summarize recurring root causes'] },
+  'responsable-experience-client': { name: 'Customer Experience Manager', description: 'Analyzes customer journeys and coordinates improvements across departments.', skills: ['Journey mapping', 'Pain point analysis', 'User research', 'Improvement management'], missions: ['Map a customer journey', 'Prioritize pain points to address'] },
+  'analyste-etudes-marche': { name: 'Market Research Analyst', description: 'Studies markets, customers, and competitors to inform commercial decisions.', skills: ['Desk research', 'Quantitative analysis', 'Market segmentation', 'Decision-oriented reporting'], missions: ['Assess a market segment', 'Compare competitors’ positioning'] },
+  'chef-produit-marketing': { name: 'Product Marketing Manager', description: 'Defines positioning, offerings, and go-to-market activities for a product or service.', skills: ['Market analysis', 'Positioning', 'Offer development', 'Launch planning'], missions: ['Prepare an offer launch', 'Revise a product’s positioning'] },
+  'charge-communication': { name: 'Communications Officer', description: 'Prepares internal and external communications in line with the company’s identity.', skills: ['Communication planning', 'Corporate writing', 'Collateral coordination', 'Publication tracking'], missions: ['Prepare a corporate campaign', 'Write an internal communication'] },
+  'directeur-administratif-financier': { name: 'Chief Financial Officer', description: 'Oversees finance, budgets, cash flow, and financial risk management.', skills: ['Financial planning', 'Budget development', 'Internal control', 'Decision support'], missions: ['Build the annual budget', 'Prepare a financing proposal'] },
+  'comptable': { name: 'Accountant', description: 'Records and reviews accounting transactions through to the preparation of period-end closes.', skills: ['Bookkeeping', 'Bank reconciliation', 'Supporting document review', 'Close preparation'], missions: ['Perform a bank reconciliation', 'Prepare the monthly close'] },
+  'controleur-gestion': { name: 'Management Controller', description: 'Compares results against targets and explains variances to operational managers.', skills: ['Budget development', 'Cost accounting', 'Variance analysis', 'Dashboard design'], missions: ['Analyze the profitability of a business activity', 'Prepare a budget review'] },
+  'tresorier-entreprise': { name: 'Corporate Treasurer', description: 'Monitors liquidity, anticipates funding needs, and secures financial flows.', skills: ['Cash forecasting', 'Banking relationship management', 'Payment management', 'Financial risk analysis'], missions: ['Prepare a cash flow plan', 'Analyze a financing need'] },
+  'gestionnaire-facturation-recouvrement': { name: 'Billing and Collections Specialist', description: 'Issues invoices, monitors payments, and handles overdue accounts.', skills: ['Invoice preparation', 'Contract compliance review', 'Due date tracking', 'Debt collection'], missions: ['Prepare monthly billing', 'Handle overdue receivables'] },
+  'auditeur-interne': { name: 'Internal Auditor', description: 'Assesses processes, controls, and risks to recommend improvements.', skills: ['Risk mapping', 'Control planning', 'Interviewing', 'Recommendation writing'], missions: ['Audit an expenditure process', 'Monitor a corrective action plan'] },
+  'responsable-ressources-humaines': { name: 'Human Resources Manager', description: 'Implements people policies and supports managers in leading their teams.', skills: ['Manager advisory', 'Employee relations policy', 'Employee case management', 'Workforce planning'], missions: ['Prepare the annual human resources plan', 'Support a team reorganization'] },
+  'gestionnaire-administration-personnel': { name: 'HR Administration Specialist', description: 'Maintains employee records and ensures employment-related administrative processes are compliant.', skills: ['Contract administration', 'Absence tracking', 'Record management', 'Payroll input preparation'], missions: ['Prepare for a new employee’s arrival', 'Review employee records'] },
+  'responsable-developpement-rh': { name: 'Talent Development Manager', description: 'Organizes skills development, career paths, and talent reviews.', skills: ['Skills management', 'Career development reviews', 'Internal mobility', 'Development planning'], missions: ['Prepare a skills review', 'Build a career path'] },
+  'charge-relations-sociales': { name: 'Employee Relations Specialist', description: 'Prepares social dialogue and ensures obligations toward employee representatives are met.', skills: ['Employment law', 'Consultation preparation', 'Employee relations documentation', 'Collective agreement monitoring'], missions: ['Prepare a works council meeting', 'Monitor the implementation of a collective agreement'] },
+  'responsable-qualite-vie-travail': { name: 'Workplace Well-Being Manager', description: 'Prevents people-related risks and coordinates initiatives to improve working conditions.', skills: ['Psychosocial risk analysis', 'Employee surveys', 'Prevention', 'Action plan facilitation'], missions: ['Analyze a working conditions survey', 'Prepare a prevention plan'] },
+  'juriste-contrats': { name: 'Contracts Lawyer', description: 'Drafts, reviews, and negotiates the company’s contracts.', skills: ['Contract analysis', 'Clause drafting', 'Negotiation', 'Obligation tracking'], missions: ['Review a supplier contract', 'Prepare a customer contract template'] },
+  'responsable-conformite': { name: 'Compliance Manager', description: 'Defines controls to ensure compliance with laws, standards, and internal policies.', skills: ['Regulatory analysis', 'Risk mapping', 'Control design', 'Incident monitoring'], missions: ['Establish a compliance program', 'Investigate an internal report'] },
+  'delegue-protection-donnees': { name: 'Data Protection Officer', description: 'Advises the company and monitors compliance with personal data protection rules.', skills: ['Records of processing activities', 'Data protection impact assessments', 'Data subject rights management', 'Data protection advisory'], missions: ['Conduct a data protection impact assessment', 'Handle a data access request'] },
+  'charge-veille-reglementaire': { name: 'Regulatory Intelligence Officer', description: 'Monitors regulatory developments and assesses their impact on the company.', skills: ['Legal research', 'Regulatory classification', 'Impact analysis', 'Alert distribution'], missions: ['Produce a regulatory update', 'Prepare a compliance implementation plan'] },
+  'responsable-responsabilite-societale': { name: 'Corporate Social Responsibility Manager', description: 'Structures social and environmental commitments and prepares their monitoring.', skills: ['Materiality analysis', 'Indicator definition', 'Contributor coordination', 'Sustainability reporting'], missions: ['Build a corporate responsibility roadmap', 'Prepare a progress report on commitments'] },
+  'responsable-achats': { name: 'Procurement Manager', description: 'Defines procurement policy and oversees spending, risk, and strategic suppliers.', skills: ['Procurement strategy', 'Spend analysis', 'Negotiation', 'Supplier risk management'], missions: ['Build an annual procurement plan', 'Prepare a strategic negotiation'] },
+  'acheteur': { name: 'Buyer', description: 'Sources suppliers, compares bids, and negotiates purchasing terms.', skills: ['Supplier sourcing', 'Bid analysis', 'Negotiation', 'Contracting'], missions: ['Launch a supplier tender', 'Prepare a bid comparison table'] },
+  'approvisionneur': { name: 'Supply Planner', description: 'Plans orders and prevents shortages based on requirements and lead times.', skills: ['Requirements planning', 'Order tracking', 'Inventory analysis', 'Delay management'], missions: ['Prepare a supply plan', 'Address a shortage risk'] },
+  'responsable-logistique': { name: 'Logistics Manager', description: 'Organizes the flow of goods, inventory, and delivery operations.', skills: ['Flow planning', 'Inventory management', 'Carrier coordination', 'Cost monitoring'], missions: ['Optimize a delivery plan', 'Analyze inventory discrepancies'] },
+  'responsable-qualite': { name: 'Quality Manager', description: 'Defines control methods and coordinates the handling of nonconformities.', skills: ['Standards management', 'Audit preparation', 'Root cause analysis', 'Corrective action tracking'], missions: ['Investigate a nonconformity', 'Prepare a quality audit'] },
+  'responsable-produit': { name: 'Product Manager', description: 'Defines a product’s vision and prioritizes changes according to value and feasibility.', skills: ['Needs discovery', 'Product strategy', 'Prioritization', 'Value measurement'], missions: ['Build a product roadmap', 'Prioritize changes for the quarter'] },
+  'concepteur-experience-utilisateur': { name: 'User Experience Designer', description: 'Designs intuitive journeys based on observed user needs and behaviors.', skills: ['User research', 'Information architecture', 'Prototyping', 'Usability evaluation'], missions: ['Design a user journey', 'Test a prototype with users'] },
+  'analyste-donnees': { name: 'Data Analyst', description: 'Turns company data into reliable, understandable insights.', skills: ['Data preparation', 'Statistical analysis', 'Data visualization', 'Result interpretation'], missions: ['Analyze the causes of a trend', 'Build an operational dashboard'] },
+  'responsable-informatique-decisionnelle': { name: 'Business Intelligence Manager', description: 'Organizes metrics, data models, and decision-support tools.', skills: ['Data modeling', 'Metric definition', 'Dashboard design', 'Access governance'], missions: ['Build a metric framework', 'Standardize executive dashboards'] },
+  'responsable-cybersecurite': { name: 'Cybersecurity Manager', description: 'Defines security measures and coordinates incident prevention and response.', skills: ['Risk analysis', 'Security policies', 'Incident management', 'Security awareness'], missions: ['Prepare an incident response plan', 'Conduct an information security risk review'] },
+  'ingenieur-qualite-logicielle': { name: 'Software Quality Engineer', description: 'Designs controls that ensure software quality before release.', skills: ['Test strategy', 'Test case writing', 'Test automation', 'Defect analysis'], missions: ['Prepare a test plan', 'Qualify a release before delivery'] },
+  'formateur-entreprise': { name: 'Corporate Trainer', description: 'Delivers training tailored to professional objectives and participant skill levels.', skills: ['Training delivery', 'Content adaptation', 'Practical exercises', 'Learning assessment'], missions: ['Deliver job-specific training', 'Assess acquired skills'] },
+  'responsable-conduite-changement': { name: 'Change Management Manager', description: 'Prepares organizational transformations and supports the people affected by them.', skills: ['Stakeholder analysis', 'Impact assessment', 'Change communication', 'Adoption monitoring'], missions: ['Build a change support plan', 'Measure adoption of a new process'] },
+  'responsable-amelioration-processus': { name: 'Process Improvement Manager', description: 'Analyzes working methods and coordinates their simplification with teams.', skills: ['Process mapping', 'Root cause analysis', 'Improvement design', 'Outcome measurement'], missions: ['Simplify a cross-functional process', 'Track the benefits of a new operating model'] },
+}
+
+export const CANONICAL_JOB_PROFILES: StoreItem[] = definitions.map(([slug, name, description, facet, skills, missions], index) => {
+  const english = englishDefinitions[slug]
+
+  return {
   type: 'profil',
   slug,
-  name: { fr: name, en: name },
-  description: { fr: description, en: description },
+  name: { fr: name, en: english.name },
+  description: { fr: description, en: english.description },
   creator: 'unitalk',
   facet,
-  roleInOrg: { fr: description, en: description },
-  knowHow: skills.map((skill) => ({ fr: skill, en: skill })),
-  exampleMissions: missions.map((mission) => ({ fr: mission, en: mission })),
+  roleInOrg: { fr: description, en: english.description },
+  knowHow: skills.map((skill, skillIndex) => ({ fr: skill, en: english.skills[skillIndex] })),
+  exampleMissions: missions.map((mission, missionIndex) => ({ fr: mission, en: english.missions[missionIndex] })),
   relatedSkills: [],
   possibleApps: [],
   order: 400 + index,
@@ -70,4 +130,5 @@ export const CANONICAL_JOB_PROFILES: StoreItem[] = definitions.map(([slug, name,
   version: '1.0.0',
   commercialStatus: 'included',
   usageRights: { fr: 'Utilisation dans l’entreprise selon les droits accordés.', en: 'Use within the organization according to granted rights.' },
-}))
+  }
+})

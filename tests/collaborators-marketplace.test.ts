@@ -52,6 +52,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('Catégories de la marketplace')
     expect(hub).toContain('Première mission gratuite')
     expect(hub).toContain('/decouvrir?source=marketplace-collaborators-hero')
+    expect(hub).toContain("almaAction: 'Confier une première mission'")
     expect(hub).toContain('Sans engagement')
     expect(hub).not.toContain('À partir de 49 €/mois ensuite')
     expect(hub).toContain('Dès 49 €/mois par Collaborateur IA')

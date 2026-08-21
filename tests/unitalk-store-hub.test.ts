@@ -9,7 +9,7 @@ describe('Marketplace IA hub', () => {
     expect(page).toContain('UnitalkStoreHub')
     for (const label of ['Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
-    expect(hub).toContain("heroTitle: { fr: 'Choisissez qui rejoint votre équipe. Confiez-lui une première mission.'")
+    expect(hub).toContain("heroTitle: { fr: 'Choisissez le Collaborateur IA qui rejoindra votre équipe.'")
   })
 
   it('shows canonical public AI Collaborators first', () => {
@@ -22,7 +22,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('states the catalog and knowledge-work positioning', () => {
-    expect(hub).toContain('Choisissez qui rejoint votre équipe. Confiez-lui une première mission.')
+    expect(hub).toContain('Choisissez le Collaborateur IA qui rejoindra votre équipe.')
     expect(hub).toContain('Un profil métier de référence pour chaque métier de la connaissance')
   })
 
@@ -78,10 +78,11 @@ describe('Marketplace IA hub', () => {
 
   it('orders job profiles by broad SMB demand', () => {
     expect(hub).toContain('PROFILE_DEMAND_ORDER')
-    const commercial = hub.indexOf("'commercial'")
-    const administrative = hub.indexOf("'gestionnaire-administratif'")
-    const executive = hub.indexOf("'assistante-de-direction'")
-    const transformation = hub.indexOf("'conseiller-transformation-ia'")
+    const demandOrder = hub.slice(hub.indexOf('const PROFILE_DEMAND_ORDER = ['), hub.indexOf('const PROFILE_DEMAND_RANK'))
+    const commercial = demandOrder.indexOf("'commercial'")
+    const administrative = demandOrder.indexOf("'gestionnaire-administratif'")
+    const executive = demandOrder.indexOf("'assistante-de-direction'")
+    const transformation = demandOrder.indexOf("'conseiller-transformation-ia'")
     expect(commercial).toBeGreaterThan(-1)
     expect(commercial).toBeLessThan(administrative)
     expect(administrative).toBeLessThan(executive)

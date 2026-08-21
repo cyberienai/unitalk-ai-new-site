@@ -1230,7 +1230,49 @@ const SERVERS: StoreItem[] = [
   { type: 'server', slug: 'xxl', name: { fr: 'Infrastructure souveraine', en: 'Sovereign infrastructure' }, description: { fr: 'Un déploiement sur mesure pour les volumes élevés et les exigences de confidentialité et de souveraineté les plus fortes.', en: 'A tailored deployment for high volumes and the strictest privacy and sovereignty requirements.' }, creator: 'unitalk', facet: 'infrastructure', enables: [{ fr: 'Concevoir une infrastructure privée et souveraine sur mesure', en: 'Design tailored private sovereign infrastructure' }], contexts: [{ fr: 'Sur demande pour déploiement critique ou à grande échelle', en: 'On request for critical or large-scale deployments' }], permissions: [{ fr: 'Architecture, hébergement et conditions définis sur étude', en: 'Architecture, hosting and terms defined after assessment' }], order: 3, dateAdded: '2026-08-16', keywords: ['infrastructure souveraine','confidentialité','privé','sur mesure'], commercialStatus: 'draft' },
 ]
 
-export const STORE_ITEMS: StoreItem[] = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...CANONICAL_JOB_PROFILES, ...COMPETENCES, ...MUSTAD_SKILLS, ...INTEGRATIONS, ...APPLICATIONS, ...SERVERS]
+const PROFILE_ITEMS = [...PROFILS, ...DIGITAL_AGENCY_PROFILES, ...CANONICAL_JOB_PROFILES]
+const DECLARED_SKILLS = [...COMPETENCES, ...MUSTAD_SKILLS]
+const profilesWithSkills = new Set([
+  ...DECLARED_SKILLS.flatMap((skill) => skill.relatedProfiles ?? []),
+  ...PROFILE_ITEMS.filter((profile) => profile.relatedSkills?.length).map((profile) => profile.slug),
+])
+const GENERATED_PROFILE_SKILLS: StoreItem[] = PROFILE_ITEMS
+  .filter((profile) => !profilesWithSkills.has(profile.slug))
+  .flatMap((profile, profileIndex) => (profile.knowHow ?? []).map((knowHow, skillIndex) => ({
+    type: 'competence' as const,
+    slug: `${profile.slug}-${skillIndex + 1}`,
+    name: knowHow,
+    description: {
+      fr: `${knowHow.fr} dans le cadre du métier ${profile.name.fr}, selon les méthodes, les droits et les validations de l’entreprise.`,
+      en: `${knowHow.en} as part of the ${profile.name.en} role, following the organization’s methods, permissions and approval rules.`,
+    },
+    creator: 'unitalk' as const,
+    facet: profile.facet === 'finance' ? 'finance' : profile.facet === 'rh' ? 'rh' : profile.facet === 'relation-client' ? 'relation-client' : profile.facet === 'administration' ? 'administration' : profile.facet === 'marketing' || profile.facet === 'acquisition' || profile.facet === 'contenu-social' ? 'marketing' : 'operations',
+    enables: [{ fr: `Mettre en œuvre ce savoir-faire dans un cadre défini.`, en: 'Apply this skill within a defined scope.' }],
+    produces: [{ fr: 'Un résultat documenté à faire valider.', en: 'A documented result ready for approval.' }],
+    contexts: [{ fr: profile.name.fr, en: profile.name.en }],
+    relatedProfiles: [profile.slug],
+    neededApps: [],
+    order: 700 + profileIndex * 10 + skillIndex,
+    dateAdded: '2026-08-21',
+    keywords: [knowHow.fr, knowHow.en, profile.name.fr, profile.name.en],
+    version: '1.0.0',
+    commercialStatus: 'included' as const,
+    usageRights: { fr: 'Compétence gratuite, utilisable selon les droits accordés.', en: 'Free skill, available according to granted permissions.' },
+  })))
+const SKILL_ITEMS = [...DECLARED_SKILLS, ...GENERATED_PROFILE_SKILLS].map((skill) => ({
+  ...skill,
+  relatedProfiles: [...new Set([
+    ...(skill.relatedProfiles ?? []),
+    ...PROFILE_ITEMS.filter((profile) => profile.relatedSkills?.includes(skill.slug)).map((profile) => profile.slug),
+  ])],
+}))
+const LINKED_PROFILE_ITEMS = PROFILE_ITEMS.map((profile) => ({
+  ...profile,
+  relatedSkills: SKILL_ITEMS.filter((skill) => skill.relatedProfiles?.includes(profile.slug)).map((skill) => skill.slug),
+}))
+
+export const STORE_ITEMS: StoreItem[] = [...LINKED_PROFILE_ITEMS, ...SKILL_ITEMS, ...INTEGRATIONS, ...APPLICATIONS, ...SERVERS]
 
 // Fast lookup by type-slug + item-slug (used by fiche pages).
 export function getStoreItem(typeSlug: string, slug: string): StoreItem | undefined {

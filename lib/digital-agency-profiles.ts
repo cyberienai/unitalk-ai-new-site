@@ -10,6 +10,14 @@ type ProfileDef = {
   specializations?: string[]
 }
 
+type EnglishProfileDef = {
+  name: string
+  description: string
+  skills: string[]
+  missions: string[]
+  specializations?: string[]
+}
+
 const defs: ProfileDef[] = [
   { slug:'consultant-strategie-digitale',family:'conseil-projet',name:'Consultant en stratégie digitale',description:'Analyse les objectifs de l’entreprise, structure sa stratégie digitale et relie les initiatives aux résultats attendus.',skills:['Conduire un entretien de découverte','Auditer une présence digitale','Analyser un modèle économique','Construire une feuille de route'],missions:['Réaliser un audit de présence digitale','Construire une stratégie digitale','Préparer une feuille de route à douze mois'] },
   { slug:'chef-projet-digital',family:'conseil-projet',name:'Chef de projet digital',description:'Organise les projets digitaux, coordonne les contributeurs et prépare les décisions nécessaires à leur avancement.',skills:['Transformer un besoin en brief','Découper un projet en étapes','Planifier des livrables','Suivre les dépendances'],missions:['Préparer un brief de projet digital','Construire un planning de production','Préparer un point d’avancement client'] },
@@ -25,8 +33,27 @@ const defs: ProfileDef[] = [
   { slug:'integrateur-no-code-automatisation',family:'informatique-developpement',name:'Intégrateur no-code et automatisation',description:'Relie les applications autorisées et maintient les automatisations nécessaires aux processus de l’entreprise.',skills:['Cartographier un processus','Concevoir un workflow','Connecter une API','Gérer des erreurs'],missions:['Automatiser un processus interne','Connecter deux applications','Construire un workflow n8n'],specializations:['n8n','Make','Zapier','Airtable','Outils internes'] },
 ]
 
-export const DIGITAL_AGENCY_PROFILES: StoreItem[] = defs.map((def, index) => ({
-  type:'profil', slug:def.slug, name:{fr:def.name,en:def.name}, description:{fr:def.description,en:def.description}, creator:'unitalk', facet:def.family,
-  roleInOrg:{fr:def.description,en:def.description}, knowHow:def.skills.map(x=>({fr:x,en:x})), exampleMissions:def.missions.map(x=>({fr:x,en:x})), relatedSkills:[], possibleApps:[],
-  order:200+index,dateAdded:'2026-08-13',keywords:[def.name,...def.skills,...def.missions],version:'1.0.0',commercialStatus:'included',usageRights:{fr:'Utilisation dans l’entreprise selon les droits accordés.',en:'Use within the organization according to granted rights.'},specializations:def.specializations?.map(x=>({fr:x,en:x})),
-}))
+const englishDefs: Record<string, EnglishProfileDef> = {
+  'consultant-strategie-digitale': { name: 'Digital Strategy Consultant', description: 'Analyzes the company’s objectives, structures its digital strategy, and links initiatives to expected outcomes.', skills: ['Conduct a discovery interview', 'Audit a digital presence', 'Analyze a business model', 'Build a roadmap'], missions: ['Conduct a digital presence audit', 'Build a digital strategy', 'Prepare a twelve-month roadmap'] },
+  'chef-projet-digital': { name: 'Digital Project Manager', description: 'Organizes digital projects, coordinates contributors, and prepares the decisions required to keep them moving forward.', skills: ['Turn a requirement into a brief', 'Break a project into stages', 'Schedule deliverables', 'Track dependencies'], missions: ['Prepare a digital project brief', 'Build a production schedule', 'Prepare a client status update'] },
+  'responsable-seo': { name: 'SEO Manager', description: 'Improves a website’s organic visibility by coordinating technical work, content, authority, and performance measurement.', skills: ['Audit organic visibility', 'Conduct keyword research', 'Analyze search intent', 'Prepare an SEO brief'], missions: ['Conduct an SEO audit', 'Build a keyword plan', 'Prepare an SEO content plan'], specializations: ['Technical search optimization', 'SEO content strategy', 'Local search optimization', 'Online retail SEO', 'Global SEO strategy'] },
+  'gestionnaire-campagnes-publicitaires': { name: 'Paid Media Campaign Manager', description: 'Prepares, monitors, and improves advertising campaigns according to objectives, budgets, and approval rules.', skills: ['Structure a campaign', 'Build a targeting plan', 'Prepare ad copy', 'Monitor spend'], missions: ['Prepare an advertising campaign', 'Build a targeting plan', 'Prepare ad variants'], specializations: ['Search engines', 'Social media', 'Programmatic advertising', 'E-commerce', 'Lead generation'] },
+  'responsable-acquisition': { name: 'Acquisition Manager', description: 'Coordinates acquisition channels and improves the conversion of audiences into leads or customers.', skills: ['Analyze an acquisition funnel', 'Compare channels', 'Build an experimentation plan', 'Measure customer acquisition cost'], missions: ['Diagnose an acquisition funnel', 'Build an experimentation plan', 'Compare channel performance'] },
+  'responsable-editorial': { name: 'Editorial Manager', description: 'Defines the editorial direction, organizes production, and ensures consistency across published content.', skills: ['Define an editorial direction', 'Build an editorial calendar', 'Prepare a content brief', 'Edit against a style guide'], missions: ['Build an editorial calendar', 'Document an editorial direction', 'Prepare a content brief'] },
+  'redacteur-web': { name: 'Web Content Writer', description: 'Creates and improves content suited to its audience, channel, and objective.', skills: ['Research and verify sources', 'Develop an angle', 'Write to a style guide', 'Improve readability'], missions: ['Write a blog post', 'Write a service page', 'Turn an interview into an article'], specializations: ['SEO writing', 'B2B writing', 'E-commerce writing', 'Documentation', 'Conversion copywriting'] },
+  'community-manager': { name: 'Community Manager', description: 'Engages communities, prepares responses, and flags situations that require human intervention.', skills: ['Prepare a social media post', 'Adapt a message to a social network', 'Assess a reaction', 'Identify a sensitive situation'], missions: ['Prepare the week’s social media posts', 'Respond to incoming messages', 'Moderate according to community guidelines'] },
+  'responsable-crm': { name: 'CRM Manager', description: 'Structures customer knowledge and coordinates communications across lifecycle stages.', skills: ['Segment a database', 'Check data quality', 'Define lifecycle rules', 'Prepare a CRM campaign'], missions: ['Segment a customer database', 'Check CRM data quality', 'Build a customer communication plan'] },
+  'webmaster': { name: 'Website Manager', description: 'Maintains website content, functional quality, and operational availability.', skills: ['Publish content', 'Review a web page', 'Identify a broken link', 'Document an intervention'], missions: ['Update a web page', 'Publish a new page', 'Check for broken links'] },
+  'analyste-web': { name: 'Web Analyst', description: 'Turns usage and performance data into findings, explanations, and decision-ready insights.', skills: ['Define a metric', 'Validate data', 'Analyze a trend', 'Explain a variance'], missions: ['Prepare a marketing dashboard', 'Analyze website performance', 'Explain a drop in conversion'] },
+  'integrateur-no-code-automatisation': { name: 'No-Code and Automation Integrator', description: 'Connects approved applications and maintains the automations required by company processes.', skills: ['Map a process', 'Design a workflow', 'Connect an API', 'Handle errors'], missions: ['Automate an internal process', 'Connect two applications', 'Build an n8n workflow'], specializations: ['n8n automation', 'Make scenarios', 'Zapier workflows', 'Airtable solutions', 'In-house tools'] },
+}
+
+export const DIGITAL_AGENCY_PROFILES: StoreItem[] = defs.map((def, index) => {
+  const english = englishDefs[def.slug]
+
+  return {
+    type:'profil', slug:def.slug, name:{fr:def.name,en:english.name}, description:{fr:def.description,en:english.description}, creator:'unitalk', facet:def.family,
+    roleInOrg:{fr:def.description,en:english.description}, knowHow:def.skills.map((x, skillIndex)=>({fr:x,en:english.skills[skillIndex]})), exampleMissions:def.missions.map((x, missionIndex)=>({fr:x,en:english.missions[missionIndex]})), relatedSkills:[], possibleApps:[],
+    order:200+index,dateAdded:'2026-08-13',keywords:[def.name,...def.skills,...def.missions],version:'1.0.0',commercialStatus:'included',usageRights:{fr:'Utilisation dans l’entreprise selon les droits accordés.',en:'Use within the organization according to granted rights.'},specializations:def.specializations?.map((x, specializationIndex)=>({fr:x,en:english.specializations![specializationIndex]})),
+  }
+})

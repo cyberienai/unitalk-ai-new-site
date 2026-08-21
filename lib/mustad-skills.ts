@@ -106,9 +106,10 @@ const PROFILE_SKILLS: SkillDefinition[] = [
 ]
 
 function toStoreItem([slug, name, description, facet, profiles]: SkillDefinition, index: number): StoreItem {
+  const publicSlug = slug.replace(/^mustad-/, '')
   return {
     type: 'competence',
-    slug,
+    slug: publicSlug,
     name: { fr: name, en: name },
     description: { fr: description, en: description },
     creator: 'unitalk',
@@ -120,7 +121,7 @@ function toStoreItem([slug, name, description, facet, profiles]: SkillDefinition
     neededApps: [],
     order: 500 + index,
     dateAdded: '2026-08-21',
-    keywords: [slug, name, ...profiles],
+    keywords: [name, ...profiles],
     version: '1.0.0',
     commercialStatus: 'included',
     usageRights: { fr: 'Utilisation dans l’entreprise selon les droits accordés.', en: 'Use within the organization according to granted rights.' },

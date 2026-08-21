@@ -77,7 +77,7 @@ const COPY = {
     title: 'Trouvez le profil métier prêt à prendre le relais.',
     lead: 'Commercial, support client, assistante de direction, marketing ou opérations : partez d’une responsabilité concrète et adaptez-la à votre entreprise avec Alma.',
     support: 'Vous ne recréez pas un agent à chaque besoin. Le même Collaborateur IA peut recevoir plusieurs profils métier, conserver son identité et progresser avec votre entreprise.',
-    benefits: ['80 profils prêts à adapter', 'Profils métier illimités', 'Méthodes et droits personnalisables', 'Validation humaine configurable'],
+    benefits: ['80 profils prêts à adapter', 'Profils métier illimités', 'Validation humaine configurable'],
     explore: 'Trouver le bon profil',
     create: 'Décrire mon besoin à Alma',
     trial: '7 jours gratuits · Sans carte bancaire · Profils métier inclus',
