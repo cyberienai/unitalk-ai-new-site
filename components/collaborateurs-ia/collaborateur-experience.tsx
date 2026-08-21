@@ -101,34 +101,34 @@ export function CollaborateurExperience() {
             })}
           </div>
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-bold text-[#625B50]"><Link href="/marketplace/modeles-ia" className="underline decoration-[#B00C54]/30 underline-offset-4 hover:text-[#B00C54]">{t.modelsCta}</Link><Link href="/marketplace/serveurs-ia" className="underline decoration-[#B00C54]/30 underline-offset-4 hover:text-[#B00C54]">{t.serversCta}</Link><Link href="/marketplace" className="underline decoration-[#B00C54]/30 underline-offset-4 hover:text-[#B00C54]">{t.marketplaceCta}</Link></div>
-          <div className="relative mt-7 overflow-hidden rounded-[24px] border border-[#191715] bg-[#191715] text-white">
+          <div className="relative mt-7 overflow-hidden rounded-[24px] border border-[#D10E63]/30 bg-[#F6E5EC] text-[#191715]">
             <div aria-hidden className="absolute -right-16 -top-20 size-56 rounded-full border border-[#D10E63]/25" />
             <div aria-hidden className="absolute -right-5 -top-8 size-32 rounded-full bg-[#D10E63]/10 blur-2xl" />
             <div className="relative grid lg:grid-cols-[11rem_1fr]">
-              <div className="border-b border-white/10 px-6 py-5 lg:border-b-0 lg:border-r lg:px-7 lg:py-8">
-                <div className="flex items-center gap-3"><span className="h-px w-8 bg-[#D10E63]"/><span className="font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.marketNote}</span></div>
+              <div className="border-b border-[#D10E63]/20 px-6 py-5 lg:border-b-0 lg:border-r lg:px-7 lg:py-8">
+                <div className="flex items-center gap-3"><span className="h-px w-8 bg-[#D10E63]"/><span className="font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#B00C54]">{t.marketNote}</span></div>
               </div>
               <div className="max-w-4xl px-6 py-7 sm:px-8 sm:py-9">
-                <p className="max-w-3xl text-[15px] font-medium leading-7 text-[#AFA397]">{t.marketContrast}</p>
-                <p className="mt-3 max-w-[38ch] text-pretty text-[clamp(1.55rem,3vw,2.65rem)] font-semibold leading-[1.08] tracking-[-.045em] text-[#FAF8F3]">{t.marketPromise}</p>
+                <p className="max-w-3xl text-[15px] font-medium leading-7 text-[#625B50]">{t.marketContrast}</p>
+                <p className="mt-3 max-w-[38ch] text-pretty text-[clamp(1.55rem,3vw,2.65rem)] font-semibold leading-[1.08] tracking-[-.045em] text-[#191715]">{t.marketPromise}</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="fonctionnement" aria-labelledby="hermes-unitalk-title" className="scroll-mt-20 bg-[#191715] py-10 text-white sm:py-12">
+      <section id="fonctionnement" aria-labelledby="hermes-unitalk-title" className="scroll-mt-20 bg-[#E0D6C6] py-10 text-[#191715] sm:py-12">
         <div className="editorial-shell grid gap-7 sm:grid-cols-[auto_1fr] sm:items-center lg:grid-cols-[auto_1fr_auto] lg:gap-10">
           <div className="flex items-center gap-3">
-            <Image src="/images/hermes-agent-logo.webp" alt="Logo Hermes Agent" width={64} height={64} className="size-14 rounded-xl object-cover sm:size-16" />
-            <span className="font-mono text-sm text-white/30">×</span>
+            <span className="flex size-14 items-center justify-center rounded-xl bg-[#191715] p-2 sm:size-16"><Image src="/images/hermes-agent-logo.webp" alt="Logo Hermes Agent" width={48} height={48} className="size-full object-contain" /></span>
+            <span className="font-mono text-sm text-[#857C6E]">×</span>
             <span className="flex size-14 items-center justify-center rounded-xl bg-[#F3EFE6] sm:size-16"><UnitalkLogo size={38} /></span>
           </div>
           <div>
             <h2 id="hermes-unitalk-title" className="text-balance text-[clamp(1.7rem,3vw,2.7rem)] font-semibold leading-[1.02] tracking-[-.045em]">{t.foundationTitle}</h2>
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-[#CFC6B8]">{t.foundationBody}</p>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-[#514A42]">{t.foundationBody}</p>
           </div>
-          <Link href="/hermes" className="inline-flex w-fit items-center gap-2 text-xs font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{t.foundationCta}<ArrowRight className="size-3.5" /></Link>
+          <Link href="/hermes" className="inline-flex w-fit items-center gap-2 text-xs font-bold text-[#B00C54] underline decoration-[#B00C54]/30 underline-offset-4">{t.foundationCta}<ArrowRight className="size-3.5" /></Link>
         </div>
       </section>
 
@@ -136,11 +136,11 @@ export function CollaborateurExperience() {
         <div className="editorial-shell">
           <SectionHeading id="capital-title" kicker={t.assetKicker} title={t.assetTitle} body={t.assetBody} compactTitle />
           <div className="mt-8 grid overflow-hidden rounded-[24px] border border-[#191715] sm:mt-10 lg:grid-cols-[.9fr_1.1fr]">
-            <div className="relative flex flex-col bg-[#191715] p-7 text-white sm:p-8">
-              <div className="flex items-center justify-between"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.assetCardKicker}</p><span className="rounded-full border border-[#64C98D]/25 bg-[#64C98D]/10 px-3 py-1.5 text-[10px] font-bold text-[#86D9A7]">{t.assetStatus}</span></div>
-              <div className="mt-8 flex items-center gap-4"><div className="relative size-20 overflow-hidden rounded-full ring-2 ring-[#F2A4C5]/30"><Image src="/images/emma-avatar.png" alt="Emma" fill sizes="80px" className="object-cover"/></div><div><h3 className="text-3xl font-semibold tracking-[-.04em]">Emma</h3><p className="mt-1 text-sm text-[#BEB4A8]">{t.assetRole}</p></div></div>
-              <dl className="mt-9 divide-y divide-white/10 border-y border-white/10">{t.assetKeeps.map(([label,value])=><div key={label} className="grid grid-cols-[1fr_auto] gap-4 py-4"><dt className="text-xs text-[#AFA397]">{label}</dt><dd className="text-xs font-bold text-white">{value}</dd></div>)}</dl>
-              <div className="mt-auto pt-8"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.handoverLabel}</p><div className="mt-4 flex items-center gap-3"><span className="flex size-10 items-center justify-center rounded-full border border-white/15"><UserRound className="size-5 text-[#AFA397]"/></span><ArrowRight className="size-4 text-[#F2A4C5]"/><span className="flex size-10 items-center justify-center rounded-full bg-[#D10E63]"><UserRound className="size-5"/></span><p className="ml-2 text-xs font-semibold text-[#D8D0C5]">{t.handoverBody}</p></div></div>
+            <div className="relative flex flex-col bg-[#EAE3D4] p-7 text-[#191715] sm:p-8">
+              <div className="flex items-center justify-between"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.assetCardKicker}</p><span className="rounded-full border border-[#1F7A4D]/25 bg-[#1F7A4D]/10 px-3 py-1.5 text-[10px] font-bold text-[#1F7A4D]">{t.assetStatus}</span></div>
+              <div className="mt-8 flex items-center gap-4"><div className="relative size-20 overflow-hidden rounded-full ring-2 ring-[#D10E63]/30"><Image src="/images/emma-avatar.png" alt="Emma" fill sizes="80px" className="object-cover"/></div><div><h3 className="text-3xl font-semibold tracking-[-.04em]">Emma</h3><p className="mt-1 text-sm text-[#625B50]">{t.assetRole}</p></div></div>
+              <dl className="mt-9 divide-y divide-[#CFC5B5] border-y border-[#CFC5B5]">{t.assetKeeps.map(([label,value])=><div key={label} className="grid grid-cols-[1fr_auto] gap-4 py-4"><dt className="text-xs text-[#625B50]">{label}</dt><dd className="text-xs font-bold text-[#191715]">{value}</dd></div>)}</dl>
+              <div className="mt-auto pt-8"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.handoverLabel}</p><div className="mt-4 flex items-center gap-3"><span className="flex size-10 items-center justify-center rounded-full border border-[#CFC5B5]"><UserRound className="size-5 text-[#625B50]"/></span><ArrowRight className="size-4 text-[#D10E63]"/><span className="flex size-10 items-center justify-center rounded-full bg-[#D10E63]"><UserRound className="size-5"/></span><p className="ml-2 text-xs font-semibold text-[#514A42]">{t.handoverBody}</p></div></div>
             </div>
             <div className="bg-[#FAF8F3]">
               {t.assetPoints.map((point, index) => <div key={point.title} className={`grid gap-3 p-5 sm:grid-cols-[2.5rem_1fr] sm:p-6 ${index > 0 ? 'border-t border-[#CFC5B5]' : ''}`}><span className="font-mono text-[10px] font-black text-[#B00C54]">0{index + 1}</span><div><h3 className="text-xl font-semibold tracking-[-.03em]">{point.title}</h3><p className="mt-2 text-sm leading-6 text-[#625B50]">{point.body}</p></div></div>)}
@@ -158,12 +158,12 @@ export function CollaborateurExperience() {
             <h2 id="alma-title" className="mt-7 max-w-4xl text-balance text-[clamp(2.15rem,4vw,3.7rem)] font-semibold leading-[.94] tracking-[-.055em]">{t.almaTitle}</h2>
             <p className="mt-5 max-w-2xl text-[16px] leading-7 text-white/80">{t.almaBody}</p>
           </div>
-          <div className="overflow-hidden rounded-[24px] border border-white/15 bg-[#191715] p-6 shadow-[0_34px_80px_-38px_rgba(25,23,21,.75)] sm:p-8">
-            <h3 className="text-2xl font-semibold tracking-[-.04em]"><AlmaInline className="mr-2 size-8 align-[-.35em] ring-white/30" />{t.almaCardTitle}</h3>
-            <ul className="mt-6 space-y-3 border-y border-white/10 py-5">{t.almaPrepares.map(item=><li key={item} className="flex gap-3 text-sm font-semibold leading-6 text-[#E7E0D5]"><span aria-hidden className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[#F15B9B]"/>{item}</li>)}</ul>
-            <p className="mt-5 text-sm font-bold leading-6">{t.almaRule}</p>
-            <Link href="/decouvrir?source=collaborateurs-ia" className="mt-6 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#F3EFE6] px-7 text-sm font-bold text-[#191715] transition hover:bg-white">{t.almaCta}</Link>
-            <p className="mt-4 text-center text-xs font-semibold text-white/60">{t.reassurance.join(' · ')}</p>
+          <div className="overflow-hidden rounded-[24px] border border-[#D8CEBE] bg-[#FAF8F3] p-6 text-[#191715] shadow-[0_34px_80px_-38px_rgba(25,23,21,.45)] sm:p-8">
+            <h3 className="text-2xl font-semibold tracking-[-.04em]"><AlmaInline className="mr-2 size-8 align-[-.35em] ring-[#D10E63]/30" />{t.almaCardTitle}</h3>
+            <ul className="mt-6 space-y-3 border-y border-[#CFC5B5] py-5">{t.almaPrepares.map(item=><li key={item} className="flex gap-3 text-sm font-semibold leading-6 text-[#514A42]"><span aria-hidden className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[#F15B9B]"/>{item}</li>)}</ul>
+            <p className="mt-5 text-sm font-bold leading-6 text-[#191715]">{t.almaRule}</p>
+            <Link href="/decouvrir?source=collaborateurs-ia" className="mt-6 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white transition hover:bg-[#B90C58]">{t.almaCta}</Link>
+            <p className="mt-4 text-center text-xs font-semibold text-[#857C6E]">{t.reassurance.join(' · ')}</p>
           </div>
         </div>
       </section>
