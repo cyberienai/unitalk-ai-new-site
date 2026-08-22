@@ -93,11 +93,11 @@ describe('annual calculation — 2 months free', () => {
 })
 
 describe('credit budgets', () => {
-  it('exposes 10/50/100/250/500 ascending', () => {
-    expect(enabledCreditBudgets()).toEqual([10, 50, 100, 250, 500])
+  it('exposes 25/50/100/250/500 ascending', () => {
+    expect(enabledCreditBudgets()).toEqual([25, 50, 100, 250, 500])
   })
-  it('minimum budget is 10', () => {
-    expect(minimumCreditBudget()).toBe(10)
+  it('minimum budget is 25', () => {
+    expect(minimumCreditBudget()).toBe(25)
   })
 })
 
@@ -107,7 +107,7 @@ describe('monthly credit budget by usage mode', () => {
     expect(calculateMonthlyCreditBudget('byok', null)).toBe(0)
   })
   it('credits / hybrid use the selected budget', () => {
-    expect(calculateMonthlyCreditBudget('unitalk_credits', 10)).toBe(10)
+    expect(calculateMonthlyCreditBudget('unitalk_credits', 25)).toBe(25)
     expect(calculateMonthlyCreditBudget('hybrid', 250)).toBe(250)
   })
   it('null budget contributes 0', () => {
@@ -117,7 +117,7 @@ describe('monthly credit budget by usage mode', () => {
 
 describe('estimated monthly total — 7 collaborators with credit budgets', () => {
   const cases: [number, number][] = [
-    [10, 353],
+    [25, 368],
     [50, 393],
     [100, 443],
     [250, 593],

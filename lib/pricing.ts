@@ -69,8 +69,8 @@ export const CONSUMPTION_MODES: ConsumptionMode[] = [
       fr: 'Un pack de crédits que vous consommez à l’usage, sans engagement mensuel.',
       en: 'A pack of credits you spend as you go, with no monthly commitment.',
     },
-    monthlyAddon: 20, // EXEMPLE: pack de départ
-    priceLabel: { fr: 'dès 20€ / pack', en: 'from €20 / pack' },
+    monthlyAddon: 25,
+    priceLabel: { fr: 'dès 25 € / pack', en: 'from €25 / pack' },
   },
   {
     id: 'byok',

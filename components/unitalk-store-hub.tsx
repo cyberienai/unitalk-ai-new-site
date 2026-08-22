@@ -3,7 +3,7 @@
 import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { AppWindow, ArrowRight, Cpu, Server } from 'lucide-react'
 import { Anthropic, DeepSeek, Flux, Gemini, Kimi, Minimax, Mistral, Nvidia, OpenAI, Qwen, Tencent, XiaomiMiMo, Zhipu } from '@lobehub/icons'
 import { AlmaInline } from '@/components/alma-inline'
@@ -428,7 +428,6 @@ function scrollToStoreHero() {
 
 export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialCategoryId }: { collaboratorsOnly?: boolean; fixedLang?: SiteLang; initialCategoryId?: string }) {
   const pathname = usePathname()
-  const router = useRouter()
   const { lang: selectedLang } = useLanguage()
   const lang = fixedLang ?? selectedLang
   const t = COPY[lang]
@@ -444,8 +443,8 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   const [modelType, setModelType] = useState('')
   const [showAllCollaborators, setShowAllCollaborators] = useState(false)
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
-  const visibleCategories = collaboratorsOnly ? STORE_CATEGORIES.slice(0, 1) : STORE_CATEGORIES
-  const navigationCategories = collaboratorsOnly ? STORE_CATEGORIES : visibleCategories
+  const visibleCategories = STORE_CATEGORIES
+  const navigationCategories = STORE_CATEGORIES
   const activeCategory = STORE_CATEGORIES.find((category) => category.id === activeCategoryId) ?? STORE_CATEGORIES[0]
   const isCollaboratorsLanding = collaboratorsOnly && activeCategory.id === 'collaborateurs-ia'
   const isProfilesCategory = activeCategory.id === 'profils-metier'
@@ -505,11 +504,9 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
 
   useLayoutEffect(() => {
     const pathCategory = pathname.split('/').filter(Boolean).at(-1)
-    const categoryId = collaboratorsOnly
-      ? 'collaborateurs-ia'
-      : STORE_CATEGORIES.some((category) => category.id === pathCategory)
-        ? pathCategory!
-        : initialCategory
+    const categoryId = STORE_CATEGORIES.some((category) => category.id === pathCategory)
+      ? pathCategory!
+      : initialCategory
     setActiveCategoryId(categoryId)
     setVisibleCount(PAGE_SIZE)
     setCatalogQuery('')
@@ -520,6 +517,12 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     setCatalogFacet('')
     setModelType('')
     requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' }))
+    const handlePopState = () => {
+      const nextCategory = window.location.pathname.split('/').filter(Boolean).at(-1)
+      if (STORE_CATEGORIES.some((category) => category.id === nextCategory)) setActiveCategoryId(nextCategory!)
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
   }, [collaboratorsOnly, initialCategory, pathname])
 
   function selectCategory(categoryId: string, scroll = true) {
@@ -534,7 +537,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     setCatalogFacet('')
     setModelType('')
     const href = `/marketplace/${categoryId}`
-    router.push(href, { scroll: false })
+    window.history.pushState(null, '', href)
     if (scroll) scrollToStoreHero()
     requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }))
   }
@@ -564,21 +567,19 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
        </section>
 
       <div id="marketplace-category-tabs" className="sticky top-[76px] z-30 scroll-mt-[76px] border-y border-white/10 bg-[#211E1B]/95 px-5 text-white shadow-[0_10px_30px_-24px_rgba(0,0,0,.8)] backdrop-blur-md sm:px-8">
-        <div className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide" role={collaboratorsOnly ? undefined : 'tablist'} aria-label={lang === 'fr' ? 'Catégories de la marketplace' : 'Marketplace categories'}>
+         <div className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide" role="tablist" aria-label={lang === 'fr' ? 'Catégories de la marketplace' : 'Marketplace categories'}>
             {navigationCategories.map((category, index) => {
               const active = activeCategory.id === category.id
                const className = `relative flex h-14 shrink-0 items-center px-4 text-[13px] font-semibold outline-none transition-colors first:pl-0 focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:px-5 sm:text-sm ${active ? 'text-[#F15B9B]' : 'text-[#BEB4A8] hover:text-white'}`
                const label = <><span>{category.title[lang]}</span><span className={`absolute inset-x-4 bottom-0 h-[3px] bg-[#D10E63] transition-transform first:left-0 ${active ? 'scale-x-100' : 'scale-x-0'}`} /></>
-               return collaboratorsOnly
-                 ? <Link key={category.id} id={`marketplace-tab-${category.id}`} href={`/marketplace/${category.id}`} aria-current={active ? 'page' : undefined} className={className}>{label}</Link>
-                 : <button ref={(node) => { tabRefs.current[index] = node }} key={category.id} id={`marketplace-tab-${category.id}`} type="button" role="tab" tabIndex={active ? 0 : -1} aria-selected={active} aria-controls="marketplace-results" onKeyDown={(event) => handleTabKeyDown(event, index)} onClick={() => selectCategory(category.id)} className={className}>{label}</button>
+                return <button ref={(node) => { tabRefs.current[index] = node }} key={category.id} id={`marketplace-tab-${category.id}`} type="button" role="tab" tabIndex={active ? 0 : -1} aria-selected={active} aria-controls="marketplace-results" onKeyDown={(event) => handleTabKeyDown(event, index)} onClick={() => selectCategory(category.id)} className={className}>{label}</button>
               })}
         </div>
       </div>
 
       <section id="categories" className={`scroll-mt-36 px-5 sm:px-8 ${collaboratorsOnly ? 'pb-20 pt-6 sm:pb-24 sm:pt-8 lg:pb-28 [@media(min-width:1024px)_and_(max-height:850px)]:pt-6' : 'pb-20 pt-7 sm:pt-9 lg:pb-24 [@media(min-width:1024px)_and_(max-height:850px)]:pt-7'}`}>
         <div className="mx-auto w-full max-w-6xl">
-             <div id="marketplace-results" role={collaboratorsOnly ? 'region' : 'tabpanel'} aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
+              <div id="marketplace-results" role="tabpanel" aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
                      {isProfilesCategory && <ProfilesMarketplaceCatalog items={filteredItems} categoryTotal={profileCategoryTotal} creatorCounts={{ unitalk: categoryItems.filter(item => item.creator === 'unitalk').length, community: categoryItems.filter(item => item.creator === 'community').length }} departments={profileDepartments} activeDepartment={profileDepartment} onDepartment={(department) => { setProfileDepartment(department); setVisibleCount(PAGE_SIZE) }} activeCreator={profileCreator} onCreator={(creator) => { setProfileCreator(creator); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} labels={{ departments: t.departments, allDepartments: t.allDepartments, profileResult: t.profileResult, profileResults: t.profileResults, firstMission: t.firstMission, addProfile: t.addProfile, clear: t.clear, showMore: t.showMoreProfiles, creators: t.creators, allCreators: t.allCreators, community: t.community }} />}
                      {usesCatalogSidebar && <MarketplaceSidebarCatalog items={filteredItems} allItems={categoryItems} activeFacet={catalogFacet} onFacet={(facet) => { setCatalogFacet(facet); setVisibleCount(PAGE_SIZE) }} modelType={modelType} onModelType={(type) => { setModelType(type); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} labels={{ clear: t.clear, allItems: t.allItems, skillCategories: t.skillCategories, applicationCategories: t.applicationCategories, serverCategories: t.serverCategories, result: t.result, results: t.results, available: t.available, preparation: t.preparation, addProfile: t.addProfile, showMore: t.showMore }} />}
                      {!isCollaboratorsLanding && !isProfilesCategory && !usesCatalogSidebar && <div className="mb-5 sm:mb-6"><h2 className="text-[28px] font-semibold tracking-[-.04em] sm:text-[34px]">{activeCategory.title[lang]}</h2><p className="mt-2 max-w-4xl text-sm leading-6 text-[#625B50]">{activeCategory.description[lang]}</p></div>}

@@ -1,83 +1,104 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Check } from 'lucide-react'
+import { startTransition, useState } from 'react'
+import { ArrowRight, Check, Minus, Plus } from 'lucide-react'
+import { persistPricingDraft } from '@/app/actions/pricing'
+import { AlmaInline } from '@/components/alma-inline'
+import { Kicker } from '@/components/home/section-kicker'
 import { useLanguage } from '@/lib/language-context'
+import { organizationMonthlyPrice, unitalkPricing, type OrganizationTierId } from '@/lib/unitalk-pricing'
 
 const COPY = {
   fr: {
-    kicker: 'Tarifs Unitalk',
-    title: 'Confiez-lui une première mission.',
-    accent: 'Nous vous l’offrons.',
-    lead: 'Testez un Collaborateur IA sur un travail réel pendant 7 jours maximum, avec 1 million de tokens inclus. Sans carte bancaire, sans rendez-vous commercial et sans activation payante automatique.',
-    primary: 'Lancer ma première mission',
-    secondary: 'Voir le détail',
-    reassurance: ['7 jours maximum', '1 million de tokens', 'Sans carte bancaire'],
+    kicker: 'Première mission offerte',
+    title: 'Confiez une première mission',
+    accent: 'à votre Collaborateur IA.',
+    lead: 'Choisissez un Collaborateur IA ou partez d’une mission. Alma vous aide à définir son rôle, ses compétences et les accès nécessaires.',
+    primary: 'Choisir un Collaborateur IA',
+    secondary: 'Explorer les missions',
+    reassurance: ['Première mission offerte', 'Sans carte bancaire', 'Sans engagement', 'Accompagnement humain si nécessaire'],
     trialKicker: 'Première mission offerte',
     trialTitle: 'Un vrai Collaborateur IA. Une vraie mission. 0 €.',
     trialBody: 'Accédez aux fonctions nécessaires pour cadrer, lancer et évaluer une première mission avant de choisir votre configuration.',
-    trialIncludes: ['1 Collaborateur IA', 'Toutes les fonctionnalités nécessaires à la mission', 'Arrêt automatique à la première limite atteinte'],
-    trialLimit: '7 jours ou 1 million de tokens maximum',
-    companyKicker: '1. Licence entreprise',
-    companyTitle: 'Une seule licence. Toute votre entreprise.',
-    companyBody: 'Vos membres accèdent au Workspace et créent autant d’Assistants IA privés ou partagés que nécessaire. Vous payez un forfait par entreprise, jamais par siège.',
+    pricingTitle: 'Un forfait pour votre entreprise, 49 € par Collaborateur IA et des crédits inclus pour les mettre au travail.',
+    companyTitle: '2. Workspace Unitalk',
+    companyPrice: 'Un forfait pour toute l’entreprise',
+    companyBody: 'Un espace de travail partagé avec des Assistants IA privés ou partagés, les modèles autorisés, les intégrations et la gouvernance.',
+    companyNote: 'Un seul forfait pour toute l’entreprise. Aucun prix par siège.',
     tiers: [
-      { name: 'Solo', users: '1 utilisateur', price: '0 €', note: 'Pour découvrir Unitalk', featured: false },
-      { name: 'Équipe', users: 'Jusqu’à 10 utilisateurs', price: '49 €', note: 'par entreprise / mois', featured: true },
-      { name: 'Entreprise', users: 'Jusqu’à 100 utilisateurs', price: '299 €', note: 'par entreprise / mois', featured: false },
+      { id: 'solo', name: 'Solo', users: '1 utilisateur', price: 'Gratuit', note: 'Pour découvrir Unitalk', credits: 'Première mission offerte' },
+      { id: 'team', name: 'Équipe', users: '2 à 10 utilisateurs', price: '49 €', note: 'par entreprise / mois', credits: '2 500 crédits IA / mois inclus' },
+      { id: 'business', name: 'Entreprise', users: '11 à 100 utilisateurs', price: '299 €', note: 'par entreprise / mois', credits: '20 000 crédits IA / mois inclus' },
     ],
-    companyIncludes: ['Assistants IA privés ou partagés illimités', 'Intégrations sécurisées avec plus de 3 000 applications', 'Accès unifié aux modèles multimodaux autorisés', 'Texte, image, vidéo, audio et code', 'Workspace partagé', 'Administration, droits et validations'],
+    companyIncludes: ['Assistants IA privés ou partagés illimités', '3 000+ applications via Pipedream', 'Accès unifié aux modèles multimodaux autorisés', 'Texte, image, vidéo, audio et code', 'Workspace partagé', 'Administration, droits et validations'],
     distinction: 'Un Assistant IA vous aide dans une conversation. Un Collaborateur IA prend en charge des missions.',
-    collaboratorKicker: '2. Collaborateur IA',
-    collaboratorTitle: '49 € par mois, par Collaborateur IA.',
-    collaboratorBody: 'Chaque Collaborateur dispose de ses propres ressources et d’une instance dédiée de l’agent Hermes.',
+    collaboratorTitle: '1. Collaborateurs IA',
+    collaboratorPrice: '49 €/mois par Collaborateur',
+    collaboratorBody: '49 € par mois pour chaque identité avec ses ressources et son instance Hermes dédiée.',
+    totalKicker: 'Votre prix',
+    totalTitle: 'Total mensuel',
+    totalNote: 'Hors consommation supplémentaire. Première mission offerte.',
+    continue: 'Continuer avec cette configuration',
     collaboratorIncludes: ['Identité et mémoire', 'Email, calendrier et téléphone', 'Instance Hermes dédiée', '1 million de tokens inclus', '60 minutes de téléphone incluses'],
     usageKicker: '3. Consommation',
-    usageTitle: 'Choisissez comment financer les usages.',
-    usageBody: 'Les crédits couvrent les modèles IA, les API externes et les minutes de téléphone supplémentaires.',
+    usageTitle: 'Tout fonctionne avec des crédits',
+    usagePrice: 'Inclus avec votre licence',
+    usageBody: 'Les crédits financent les modèles IA, les API externes et les minutes de téléphone supplémentaires. Vous pouvez recharger votre solde à partir de 25 €.',
     creditsLink: 'Consulter le coût détaillé des crédits',
-    usageOptions: [
-      { name: 'Crédits Unitalk', price: 'Dès 25 €', body: 'Prépayés, sans dépassement imprévu.' },
-      { name: 'BYOK', price: '0 € chez Unitalk', body: 'Utilisez vos propres clés API et payez directement vos fournisseurs.' },
-      { name: 'Hybride', price: 'À la carte', body: 'Combinez vos clés API et des crédits Unitalk.' },
-    ],
+    creditUses: ['Modèles IA et recherche', 'Images, vidéo, audio et transcription', 'API externes et téléphone'],
+    subscription: 'Abonnement mensuel',
+    selectedCredits: 'Crédits inclus',
+    includedDetail: 'Voir le détail des ressources incluses',
+    companyCredits: 'Crédits IA partagés avec la licence',
+    collaboratorTokens: 'Tokens inclus avec les Collaborateurs IA',
+    collaboratorMinutes: 'Minutes de téléphone incluses',
+    creditNote: 'Les crédits inclus sont consommés à l’usage. Aucun dépassement ou rechargement automatique.',
   },
   en: {
-    kicker: 'Unitalk pricing',
-    title: 'Give it a first mission.',
-    accent: 'It is on us.',
-    lead: 'Try an AI Collaborator on real work for up to 7 days, with 1 million tokens included. No credit card, no sales call and no automatic paid activation.',
-    primary: 'Launch my first mission',
-    secondary: 'See the details',
-    reassurance: ['Up to 7 days', '1 million tokens', 'No credit card'],
+    kicker: 'First mission free',
+    title: 'Assign a first mission',
+    accent: 'to your AI Collaborator.',
+    lead: 'Choose an AI Collaborator or start from a mission. Alma helps define its role, skills and required access.',
+    primary: 'Choose an AI Collaborator',
+    secondary: 'Explore missions',
+    reassurance: ['First mission free', 'No credit card', 'No commitment', 'Human support when needed'],
     trialKicker: 'First mission free',
     trialTitle: 'A real AI Collaborator. A real mission. €0.',
     trialBody: 'Access the features needed to scope, launch and evaluate a first mission before choosing your setup.',
-    trialIncludes: ['1 AI Collaborator', 'Every feature needed for the mission', 'Automatic stop when the first limit is reached'],
-    trialLimit: 'Up to 7 days or 1 million tokens',
-    companyKicker: '1. Organization license',
-    companyTitle: 'One license. Your whole organization.',
-    companyBody: 'Members access the Workspace and create as many private or shared AI Assistants as needed. You pay a flat fee per organization, never per seat.',
+    pricingTitle: 'One plan for your organization, €49 per AI Collaborator and credits included to put them to work.',
+    companyTitle: '2. Unitalk Workspace',
+    companyPrice: 'One plan for the whole organization',
+    companyBody: 'A shared workspace with private or shared AI Assistants, authorized models, integrations and governance.',
+    companyNote: 'One plan for the whole organization. No per-seat pricing.',
     tiers: [
-      { name: 'Solo', users: '1 user', price: '€0', note: 'To discover Unitalk', featured: false },
-      { name: 'Team', users: 'Up to 10 users', price: '€49', note: 'per organization / month', featured: true },
-      { name: 'Organization', users: 'Up to 100 users', price: '€299', note: 'per organization / month', featured: false },
+      { id: 'solo', name: 'Solo', users: '1 user', price: '€0', note: 'To discover Unitalk', credits: 'First mission free' },
+      { id: 'team', name: 'Team', users: '2 to 10 users', price: '€49', note: 'per organization / month', credits: '2,500 AI credits / month included' },
+      { id: 'business', name: 'Organization', users: '11 to 100 users', price: '€299', note: 'per organization / month', credits: '20,000 AI credits / month included' },
     ],
-    companyIncludes: ['Unlimited private or shared AI Assistants', 'Secure integrations with more than 3,000 applications', 'Unified access to authorized multimodal models', 'Text, image, video, audio and code', 'Shared Workspace', 'Administration, permissions and approvals'],
+    companyIncludes: ['Unlimited private or shared AI Assistants', '3,000+ applications via Pipedream', 'Unified access to authorized multimodal models', 'Text, image, video, audio and code', 'Shared Workspace', 'Administration, permissions and approvals'],
     distinction: 'An AI Assistant helps in a conversation. An AI Collaborator takes ownership of missions.',
-    collaboratorKicker: '2. AI Collaborator',
-    collaboratorTitle: '€49 per month, per AI Collaborator.',
-    collaboratorBody: 'Each Collaborator has dedicated resources and its own Hermes agent instance.',
+    collaboratorTitle: '1. AI Collaborators',
+    collaboratorPrice: '€49/month per Collaborator',
+    collaboratorBody: '€49 per month for each identity with dedicated resources and its own Hermes instance.',
+    totalKicker: 'Your price',
+    totalTitle: 'Monthly total',
+    totalNote: 'Excludes additional usage. First mission free.',
+    continue: 'Continue with this configuration',
     collaboratorIncludes: ['Identity and memory', 'Email, calendar and phone', 'Dedicated Hermes instance', '1 million tokens included', '60 phone minutes included'],
     usageKicker: '3. Usage',
-    usageTitle: 'Choose how to fund usage.',
-    usageBody: 'Credits cover AI models, external APIs and additional phone minutes.',
+    usageTitle: 'Everything runs on credits',
+    usagePrice: 'Included with your license',
+    usageBody: 'Credits fund AI models, external APIs and additional phone minutes. Top up your balance from €25.',
     creditsLink: 'See detailed credit costs',
-    usageOptions: [
-      { name: 'Unitalk credits', price: 'From €25', body: 'Prepaid, with no unexpected overage.' },
-      { name: 'BYOK', price: '€0 from Unitalk', body: 'Use your own API keys and pay providers directly.' },
-      { name: 'Hybrid', price: 'Flexible', body: 'Combine your API keys with Unitalk credits.' },
-    ],
+    creditUses: ['AI models and search', 'Images, video, audio and transcription', 'External APIs and phone'],
+    subscription: 'Monthly subscription',
+    selectedCredits: 'Included credits',
+    includedDetail: 'View included resource details',
+    companyCredits: 'Shared AI credits included with the license',
+    collaboratorTokens: 'Tokens included with AI Collaborators',
+    collaboratorMinutes: 'Included phone minutes',
+    creditNote: 'Included credits are consumed as used. No automatic overage or top-up.',
   },
 } as const
 
@@ -85,18 +106,31 @@ export function PricingHero() {
   const { lang } = useLanguage()
   const t = COPY[lang]
 
-  return <section className="border-b border-[#D8D0C2] px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-36"><div className="editorial-shell"><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.kicker}</p><div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end"><div><h1 className="max-w-4xl text-balance font-sf text-[clamp(3rem,6vw,6.5rem)] font-semibold leading-[.9] tracking-[-.07em]">{t.title}<span className="block text-[#D10E63]">{t.accent}</span></h1></div><div className="lg:pb-2"><p className="max-w-xl text-[17px] leading-8 text-[#4E483F]">{t.lead}</p><div className="mt-7 flex flex-wrap gap-3"><Link href="/decouvrir?source=tarifs" className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white">{t.primary}<ArrowRight className="ml-2 size-4"/></Link><a href="#detail-tarifs" className="inline-flex min-h-12 items-center rounded-full border border-[#CFC5B5] px-6 text-sm font-bold">{t.secondary}</a></div></div></div><div className="mt-9 flex flex-wrap gap-x-6 gap-y-2 border-t border-[#D8D0C2] pt-5 text-xs font-semibold text-[#625B50]">{t.reassurance.map(item => <span key={item} className="inline-flex items-center gap-2"><Check className="size-3.5 text-[#D10E63]"/>{item}</span>)}</div><div className="mt-10 overflow-hidden rounded-[24px] bg-[#181615] text-white sm:grid sm:grid-cols-[1fr_auto] sm:items-stretch"><div className="p-6 sm:p-8"><p className="font-mono text-[9px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.trialKicker}</p><h2 className="mt-4 max-w-3xl text-[clamp(1.8rem,3vw,3rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.trialTitle}</h2><p className="mt-4 max-w-2xl text-sm leading-7 text-[#CFC6B8]">{t.trialBody}</p><ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#F3EFE6]">{t.trialIncludes.map(item => <li key={item} className="inline-flex items-center gap-2"><Check className="size-3.5 text-[#F2A4C5]"/>{item}</li>)}</ul></div><div className="flex min-w-[240px] flex-col justify-center border-t border-white/10 bg-white/[.04] p-6 sm:border-l sm:border-t-0 sm:p-8"><p className="text-4xl font-semibold tracking-[-.06em]">0 €</p><p className="mt-3 max-w-[220px] text-sm font-bold leading-6 text-[#F2A4C5]">{t.trialLimit}</p></div></div></div></section>
+  const [leadStart, leadEnd = ''] = t.lead.split('Alma')
+  return <section className="relative scroll-mt-[76px] overflow-hidden border-b border-[#D8CEBE] bg-[#EAE3D4] px-5 pb-7 pt-28 sm:px-8 sm:pb-10 sm:pt-40"><div aria-hidden className="pointer-events-none absolute -right-24 top-10 size-72 rounded-full border border-[#D10E63]/15 sm:right-[8%] sm:size-96"/><div aria-hidden className="pointer-events-none absolute -right-8 top-24 size-40 rounded-full bg-[#D10E63]/[.045] blur-2xl sm:right-[16%] sm:size-56"/><div className="relative mx-auto w-full max-w-6xl"><Kicker>{t.kicker}</Kicker><h1 className="mt-6 max-w-6xl text-balance font-sf text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[.9] tracking-[-.064em]">{t.title}<span className="text-[#D10E63] lg:block"> {t.accent}</span></h1><div className="mt-5 grid gap-5 sm:mt-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-10"><div><p className="max-w-3xl text-pretty text-[15px] font-medium leading-6 text-[#322E29] sm:text-[16px] sm:font-normal sm:leading-7 sm:text-[#4E483F]">{leadStart}{leadEnd && <><AlmaInline className="mx-1 align-[-.18em]"/>Alma{leadEnd}</>}</p><div className="mt-6 flex flex-wrap gap-3"><Link href="/marketplace/collaborateurs-ia" className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-6 text-sm font-bold text-white">{t.primary}<ArrowRight className="ml-2 size-4"/></Link><Link href="/missions" className="inline-flex min-h-12 items-center rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-6 text-sm font-bold">{t.secondary}</Link></div></div><ul className="flex gap-2 overflow-x-auto pb-1 text-[11px] font-bold text-[#322E29] sm:flex-wrap sm:pb-0 sm:text-[12px] sm:text-[#4E483F] lg:max-w-[32rem] lg:justify-end">{t.reassurance.map(item => <li key={item} className="flex min-h-9 shrink-0 items-center gap-2 rounded-full border border-[#BEB2A1] bg-[#FAF8F3] px-3 shadow-[0_1px_0_rgba(28,26,23,.04)] sm:min-h-8 sm:border-[#CFC3B2] sm:bg-[#F3EFE6]/70"><span aria-hidden className="size-1.5 rounded-full bg-[#D10E63]"/>{item}</li>)}</ul></div></div></section>
 }
 
 export function PricingCollaboration() {
   const { lang } = useLanguage()
   const t = COPY[lang]
+  const [organizationTier, setOrganizationTier] = useState<OrganizationTierId>('solo')
+  const [collaborators, setCollaborators] = useState(1)
+  const [pending, setPending] = useState(false)
+  const organizationPrice = organizationMonthlyPrice(organizationTier)
+  const subscriptionTotal = organizationPrice + collaborators * unitalkPricing.aiCollaborator.monthlyPrice
+  const includedCredits = unitalkPricing.organization[organizationTier].includedCredits
+  const includedTokens = collaborators * unitalkPricing.aiCollaborator.includedTokens
+  const includedPhoneMinutes = collaborators * unitalkPricing.aiCollaborator.includedPhoneMinutes
+  function submit() {
+    setPending(true)
+    startTransition(() => persistPricingDraft({ organizationTier, collaborators, usageMode: 'credits', creditBudget: 0 }).catch(() => setPending(false)))
+  }
 
   return <div id="detail-tarifs" className="scroll-mt-24">
-    <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="editorial-shell"><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.companyKicker}</p><div className="mt-5 grid gap-5 lg:grid-cols-[1fr_.8fr] lg:items-end"><h2 className="max-w-4xl text-balance text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.companyTitle}</h2><p className="text-[15px] leading-7 text-[#625B50]">{t.companyBody}</p></div><div className="mt-10 grid overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#CFC5B5] md:grid-cols-3">{t.tiers.map((tier, index) => <article key={tier.name} className={`relative bg-[#FAF8F3] p-6 sm:p-8 ${index > 0 ? 'border-t border-[#CFC5B5] md:border-l md:border-t-0' : ''}`}>{tier.featured && <span className="absolute right-5 top-5 rounded-full bg-[#FCE6EF] px-3 py-1 font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#B00C54]">{lang === 'fr' ? 'Le plus choisi' : 'Most popular'}</span>}<p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#766D61]">{tier.name}</p><p className="mt-8 text-[clamp(2.7rem,5vw,4.5rem)] font-semibold leading-none tracking-[-.07em]">{tier.price}</p><p className="mt-3 text-sm font-bold text-[#1C1A17]">{tier.users}</p><p className="mt-1 text-xs text-[#766D61]">{tier.note}</p></article>)}</div><ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{t.companyIncludes.map(item => <li key={item} className="flex items-center gap-2 text-sm font-semibold text-[#4E483F]"><Check className="size-4 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></div></section>
-
-    <section className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 py-16 sm:px-8 sm:py-24"><div className="editorial-shell"><p className="mb-12 border-l-2 border-[#D10E63] pl-5 text-lg font-semibold leading-8 text-[#322E29] sm:text-xl">{t.distinction}</p><div className="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.collaboratorKicker}</p><h2 className="mt-5 max-w-3xl text-balance text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[.93] tracking-[-.06em]">{t.collaboratorTitle}</h2><p className="mt-5 max-w-xl text-[15px] leading-7 text-[#625B50]">{t.collaboratorBody}</p></div><ul className="overflow-hidden rounded-[22px] border border-[#CFC5B5] bg-[#FAF8F3]">{t.collaboratorIncludes.map((item, index) => <li key={item} className={`flex min-h-16 items-center gap-3 px-6 text-sm font-bold ${index > 0 ? 'border-t border-[#DED6C8]' : ''}`}><Check className="size-4 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></div></div></section>
-
-    <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="editorial-shell"><p className="font-mono text-[10px] font-black uppercase tracking-[.2em] text-[#B00C54]">{t.usageKicker}</p><div className="mt-5 grid gap-5 lg:grid-cols-[1fr_.8fr] lg:items-end"><h2 className="max-w-4xl text-balance text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.usageTitle}</h2><div><p className="text-[15px] leading-7 text-[#625B50]">{t.usageBody}</p><Link href="/credits" className="mt-4 inline-flex items-center text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.creditsLink}<ArrowRight className="ml-2 size-4"/></Link></div></div><div className="mt-10 grid gap-4 md:grid-cols-3">{t.usageOptions.map(option => <article key={option.name} className="rounded-[22px] border border-[#D8D0C2] bg-[#FAF8F3] p-6 sm:p-7"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{option.name}</p><p className="mt-6 text-3xl font-semibold tracking-[-.05em]">{option.price}</p><p className="mt-4 text-sm leading-6 text-[#625B50]">{option.body}</p></article>)}</div></div></section>
+    <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="editorial-shell"><h2 className="max-w-5xl text-balance text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.pricingTitle}</h2><div className="mt-10 grid gap-4 lg:grid-cols-3">
+      <section className="flex flex-col rounded-[24px] border border-[#D8D0C2] bg-[#FAF8F3] p-6 sm:p-7"><h3 className="text-2xl font-semibold tracking-[-.04em]">{t.collaboratorTitle}</h3><p className="mt-3 text-base font-bold text-[#B00C54]">{t.collaboratorPrice}</p><p className="mt-3 text-sm leading-6 text-[#625B50]">{t.collaboratorBody}</p><ul className="mt-6 space-y-2 text-xs font-semibold text-[#4E483F]">{t.collaboratorIncludes.map(item => <li key={item} className="flex gap-2"><Check className="size-3.5 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul><div className="mt-auto pt-7"><div className="inline-flex items-center rounded-full border border-[#CFC5B5] bg-white p-1"><button type="button" aria-label={lang === 'fr' ? 'Retirer un Collaborateur IA' : 'Remove an AI Collaborator'} disabled={collaborators === 0} onClick={() => setCollaborators(count => Math.max(0, count - 1))} className="flex size-10 items-center justify-center rounded-full hover:bg-[#F3EFE6] disabled:opacity-30"><Minus className="size-4"/></button><output aria-live="polite" className="min-w-14 text-center text-sm font-black">{collaborators}</output><button type="button" aria-label={lang === 'fr' ? 'Ajouter un Collaborateur IA' : 'Add an AI Collaborator'} onClick={() => setCollaborators(count => Math.min(100, count + 1))} className="flex size-10 items-center justify-center rounded-full hover:bg-[#F3EFE6]"><Plus className="size-4"/></button></div></div></section>
+      <section className="flex flex-col rounded-[24px] border border-[#D8D0C2] bg-[#FAF8F3] p-6 sm:p-7"><h3 className="text-2xl font-semibold tracking-[-.04em]">{t.companyTitle}</h3><p className="mt-3 text-base font-bold text-[#B00C54]">{t.companyPrice}</p><p className="mt-3 text-sm leading-6 text-[#625B50]">{t.companyBody}</p><p className="mt-3 text-xs font-bold text-[#B00C54]">{t.companyNote}</p><ul className="mt-6 space-y-2 text-xs font-semibold text-[#4E483F]">{t.companyIncludes.map(item => <li key={item} className="flex gap-2"><Check className="size-3.5 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul><label className="mt-auto block pt-7"><span className="sr-only">{t.companyTitle}</span><select value={organizationTier} onChange={(event) => setOrganizationTier(event.target.value as OrganizationTierId)} className="h-12 w-full rounded-xl border border-[#CFC5B5] bg-white px-4 text-sm font-bold outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15">{t.tiers.map((tier) => <option key={tier.id} value={tier.id}>{tier.users} · {tier.price}{tier.id !== 'solo' ? (lang === 'fr' ? '/mois' : '/month') : ''}</option>)}</select></label></section>
+      <section className="flex flex-col rounded-[24px] border border-[#D8D0C2] bg-[#FAF8F3] p-6 sm:p-7"><h3 className="text-2xl font-semibold tracking-[-.04em]">{t.usageTitle}</h3><p className="mt-3 text-base font-bold text-[#B00C54]">{t.usagePrice}</p><p className="mt-3 text-sm leading-6 text-[#625B50]">{t.usageBody}</p><details className="group mt-6 rounded-xl border border-[#D8D0C2] bg-[#F0EBE1]"><summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 text-sm font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]"><span>{t.tiers.find(tier => tier.id === organizationTier)?.credits}</span><span aria-hidden className="text-[#B00C54] transition-transform group-open:rotate-45">+</span></summary><dl className="border-t border-[#D8D0C2] px-4 py-3 text-xs"><div className="flex justify-between gap-4 py-2"><dt className="text-[#625B50]">{t.companyCredits}</dt><dd className="shrink-0 font-bold">{includedCredits.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US')}</dd></div><div className="flex justify-between gap-4 border-t border-[#D8D0C2] py-2"><dt className="text-[#625B50]">{t.collaboratorTokens}</dt><dd className="shrink-0 font-bold">{includedTokens.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US')}</dd></div><div className="flex justify-between gap-4 border-t border-[#D8D0C2] py-2"><dt className="text-[#625B50]">{t.collaboratorMinutes}</dt><dd className="shrink-0 font-bold">{includedPhoneMinutes} min</dd></div></dl></details><p className="mt-2 text-[10px] text-[#857C6E]">{t.includedDetail}</p><ul className="mt-5 space-y-2 text-xs font-semibold text-[#4E483F]">{t.creditUses.map(item => <li key={item} className="flex gap-2"><Check className="size-3.5 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul><Link href="/credits" className="mt-auto inline-flex items-center pt-6 text-xs font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.creditsLink}<ArrowRight className="ml-2 size-3.5"/></Link></section>
+    </div><section className="mt-4 overflow-hidden rounded-[24px] bg-[#181615] p-6 text-white sm:p-8"><div className="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-end"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.totalKicker}</p><h3 className="mt-3 text-2xl font-semibold">{t.totalTitle}</h3><dl className="mt-6 grid max-w-2xl gap-3 text-sm sm:grid-cols-3"><div><dt className="text-[#AFA397]">{lang === 'fr' ? 'Collaborateurs IA' : 'AI Collaborators'}</dt><dd className="mt-1 font-bold">{collaborators} × 49 €</dd></div><div><dt className="text-[#AFA397]">{lang === 'fr' ? 'Licence Workspace Unitalk' : 'Unitalk Workspace license'}</dt><dd className="mt-1 font-bold">{t.tiers.find(tier => tier.id === organizationTier)?.users} · {organizationPrice} €/{lang === 'fr' ? 'mois' : 'month'}</dd></div><div><dt className="text-[#AFA397]">{t.selectedCredits}</dt><dd className="mt-1 font-bold">{includedCredits.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US')}</dd></div></dl></div><div className="lg:text-right"><p className="text-xs font-bold text-[#AFA397]">{t.subscription}</p><p className="mt-1 text-[clamp(3rem,6vw,5rem)] font-semibold leading-none tracking-[-.07em]" aria-live="polite">{subscriptionTotal} €<span className="ml-1 text-xs font-normal tracking-normal text-[#AFA397]">/{lang === 'fr' ? 'mois' : 'month'}</span></p><button type="button" onClick={submit} disabled={pending} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white disabled:opacity-60">{pending ? (lang === 'fr' ? 'Préparation…' : 'Preparing...') : t.continue}<ArrowRight className="ml-2 size-4"/></button></div></div><p className="mt-6 border-t border-white/10 pt-4 text-xs text-[#CFC6B8]">{t.creditNote}</p></section></div></section>
   </div>
 }

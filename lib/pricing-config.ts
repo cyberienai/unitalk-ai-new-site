@@ -35,11 +35,11 @@ export const pricingConfig = {
   ] as QuantityTier[],
   /**
    * Prepaid monthly credit budgets, shared across all of a company's
-   * Collaborateurs IA. 10 € is the minimum; 500 € is the maximum configurable
+   * Collaborateurs IA. 25 € is the minimum; 500 € is the maximum configurable
    * directly on this page. Budgets above 500 € are arranged with Unitalk.
    */
   creditBudgets: [
-    { amount: 10, enabled: true },
+    { amount: 25, enabled: true },
     { amount: 50, enabled: true },
     { amount: 100, enabled: true },
     { amount: 250, enabled: true },
