@@ -55,7 +55,7 @@ export function StoreCard({
   const categoryData = getMissionCategory(mission.category)
   const collaborator = ROLE_DETAILS[mission.collaboratorSlug]
   const collaboratorTooltip = collaborator ? `${collaborator.name} · ${lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator'} · ${mission.profile[lang]}` : ''
-  const personalize = lang === 'fr' ? 'Personnaliser' : 'Customize'
+  const personalize = lang === 'fr' ? 'Confier cette mission' : 'Assign this mission'
   return (
     <article
       data-mission-card={mission.slug}
@@ -67,22 +67,23 @@ export function StoreCard({
           href={collaboratorHref(collaborator.slug)}
           aria-label={collaboratorTooltip}
           title={collaboratorTooltip}
-          className="mb-5 w-fit rounded-full outline-none transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
+          className="relative z-20 mb-5 flex w-fit items-center gap-2.5 rounded-full outline-none transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
         >
           <Image src={collaborator.avatar} alt="" width={40} height={40} className="size-10 rounded-full border-2 border-[#FAF8F3] object-cover shadow-sm" />
+          <span><span className="block text-[13px] font-bold leading-4 text-[#1C1A17]">{collaborator.name}</span><span className="block text-[10px] font-semibold leading-4 text-[#857C6E]">{mission.profile[lang]}</span></span>
         </Link>
       )}
-      <Link href={`/missions/${mission.slug}`} className="relative z-10 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">
-        <h3 className="line-clamp-2 font-sf text-[21px] font-semibold leading-[1.18] tracking-[-0.03em] text-[#1C1A17]">{mission.title[lang]}</h3>
+      {categoryData ? <Link href={getMissionCategoryHref(categoryData)} className="absolute right-5 top-5 z-20 rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#6E665A] outline-none transition-colors hover:bg-[#D10E63] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{category}</Link> : <span className="absolute right-5 top-5 z-20 rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#6E665A]">{category}</span>}
+      <Link href={`/missions/${mission.slug}`} className="rounded-sm outline-none after:absolute after:inset-0 after:z-10 focus-visible:ring-2 focus-visible:ring-[#D10E63]">
+        <h3 className="relative line-clamp-2 font-sf text-[21px] font-semibold leading-[1.18] tracking-[-0.03em] text-[#1C1A17]">{mission.title[lang]}</h3>
       </Link>
-      <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#4E483F]">{mission.result[lang]}</p>
-      <footer className="mt-auto flex flex-col items-start justify-between gap-3 border-t border-[#DED6C8] pt-4 sm:flex-row sm:items-center">
+      <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#4E483F]">{actionDescription(mission, lang)}</p>
+      <footer className="relative z-20 mt-auto flex flex-col items-start justify-between gap-3 border-t border-[#DED6C8] pt-4 sm:flex-row sm:items-center">
         <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold">
-          {categoryData ? <Link href={getMissionCategoryHref(categoryData)} className="rounded-full bg-[#EDE7DA] px-2.5 py-1 text-[#6E665A] outline-none hover:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{category}</Link> : <span className="text-[#6E665A]">{category}</span>}
           <Link href={getMissionGuideHref(mission)} className="inline-flex items-center gap-1.5 text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 hover:text-[#B00C54]"><PlayCircle aria-hidden="true" className="size-3.5 text-[#D10E63]" />{lang === 'fr' ? 'Guide' : 'Guide'}</Link>
         </div>
         <Link onClick={onPersonalize} href={`/decouvrir?mission=${mission.slug}&source=mission-store`} className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-[13px] font-bold text-white hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 sm:w-auto">
-          {personalize}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+          {collaborator ? (lang === 'fr' ? `Confier à ${collaborator.name}` : `Assign to ${collaborator.name}`) : personalize}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
         </Link>
       </footer>
     </article>

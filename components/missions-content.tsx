@@ -26,36 +26,59 @@ type SpeechRecognitionInstance = {
   abort: () => void
 }
 
-type NeedFamily = 'recommended' | 'all' | 'growth' | 'customers' | 'company' | 'teams' | 'produce'
+type NeedFamily = 'all' | 'sales' | 'customers' | 'marketing' | 'operations' | 'finance' | 'hr' | 'product' | 'tech'
 
-const FAMILY_CATEGORIES: Record<Exclude<NeedFamily, 'recommended' | 'all'>, string[]> = {
-  growth: ['ventes', 'marketing'],
+const FAMILY_CATEGORIES: Record<Exclude<NeedFamily, 'all' | 'tech'>, string[]> = {
+  sales: ['ventes'],
   customers: ['relation-client'],
-  company: ['finance', 'direction', 'administration', 'operations'],
-  teams: ['rh', 'reunions'],
-  produce: ['documents', 'analyse', 'produit'],
+  marketing: ['marketing'],
+  operations: ['reunions', 'administration', 'direction', 'documents', 'operations'],
+  finance: ['finance'],
+  hr: ['rh'],
+  product: ['analyse', 'produit'],
+}
+const NEED_FAMILIES: NeedFamily[] = ['all', 'sales', 'customers', 'marketing', 'operations', 'finance', 'hr', 'product', 'tech']
+
+const POPULAR_MISSIONS_BY_FAMILY: Record<NeedFamily, readonly string[]> = {
+  all: [
+    'trouver-de-nouveaux-clients',
+    'repondre-aux-appels-clients',
+    'construire-un-calendrier-editorial',
+    'automatiser-mes-operations',
+    'preparer-les-elements-de-facturation',
+    'chloe-sourcer-des-candidats',
+    'realiser-une-veille-concurrentielle',
+    'participer-a-vos-reunions',
+    'mettre-a-jour-le-crm',
+    'suivre-les-reclamations',
+    'preparer-mon-reporting-financier',
+    'preparer-une-feuille-de-route-produit',
+  ],
+  sales: ['trouver-de-nouveaux-clients', 'qualifier-les-demandes-entrantes', 'mettre-a-jour-le-crm', 'relancer-les-opportunites', 'analyser-le-pipeline-commercial', 'preparer-les-rendez-vous-commerciaux'],
+  customers: ['repondre-aux-appels-clients', 'trier-et-orienter-les-demandes', 'suivre-les-reclamations', 'informer-les-clients-de-l-avancement', 'suivre-la-satisfaction-client', 'detecter-les-clients-a-risque'],
+  marketing: ['construire-un-calendrier-editorial', 'preparer-une-campagne-emailing', 'surveiller-l-image-de-marque', 'creer-mes-contenus', 'produire-des-fiches-produits', 'decliner-un-contenu-multicanal'],
+  operations: ['automatiser-mes-operations', 'participer-a-vos-reunions', 'controler-l-execution-d-un-processus', 'synchroniser-les-donnees', 'coordonner-les-agendas', 'suivre-les-actions-decidees'],
+  finance: ['preparer-les-elements-de-facturation', 'relancer-les-factures-impayees', 'suivre-la-tresorerie', 'preparer-mon-reporting-financier', 'controler-les-notes-de-frais', 'consolider-les-indicateurs-de-gestion'],
+  hr: ['chloe-sourcer-des-candidats', 'preselectionner-les-candidatures', 'organiser-les-entretiens', 'preparer-l-arrivee-d-un-collaborateur', 'suivre-les-formations', 'analyser-les-retours-des-collaborateurs'],
+  product: ['realiser-une-veille-concurrentielle', 'synthetiser-les-retours-utilisateurs', 'preparer-une-feuille-de-route-produit', 'analyser-une-interface', 'analyser-une-anomalie-technique', 'preparer-les-tests-d-une-fonctionnalite'],
+  tech: ['automatiser-mes-operations', 'synchroniser-les-donnees', 'mettre-a-jour-le-crm-automatiquement', 'controler-l-execution-d-un-processus', 'analyser-une-anomalie-technique', 'preparer-les-tests-d-une-fonctionnalite'],
 }
 
-const LEA_FEATURED_MISSION_SLUGS = [
-  'construire-un-calendrier-editorial',
-  'ameliorer-mon-referencement',
-  'decliner-un-contenu-multicanal',
-] as const
+const OPERATIONAL_MISSION_PATTERN = /appel|agenda|alerte|anomal|approbation|automatis|candidat|crm|donn[eé]e|dossier|factur|indicateur|march[eé]|prospect|rendez-vous|r[eé]clamation|r[eé]union|renouvellement|reporting|satisfaction|suivi|synchronis|tr[eé]sorerie|veille|workflow/
 
-const FEATURED_SLUGS = [
-  'trouver-de-nouveaux-clients',
-  'preparer-les-elements-de-facturation',
-  'controler-l-execution-d-un-processus',
-  'qualifier-les-demandes-entrantes',
-  'construire-un-calendrier-editorial',
-  'participer-a-vos-reunions',
-  'repondre-a-mes-clients',
-  'preparer-une-feuille-de-route-produit',
-  'rediger-une-fiche-de-poste',
-  'preparer-l-ordre-du-jour',
-  'resumer-un-dossier',
-  'organiser-les-rendez-vous',
-] as const
+function isBeyondGenericChat(mission: Mission): boolean {
+  if (mission.modalities.some(modality => ['audio', 'automatisation', 'code', 'donnees', 'email', 'reunion', 'telephone', 'video'].includes(modality))) return true
+  if (mission.tools.length > 0) return true
+  return OPERATIONAL_MISSION_PATTERN.test(normalize([mission.slug, mission.title.fr, ...mission.keywords].join(' ')))
+}
+
+function popularityRank(mission: Mission, family: NeedFamily): number {
+  const editorialRank = POPULAR_MISSIONS_BY_FAMILY[family].indexOf(mission.slug)
+  if (editorialRank >= 0) return editorialRank
+  const operationalBoost = mission.modalities.some(modality => ['automatisation', 'telephone', 'reunion', 'audio', 'code', 'donnees'].includes(modality)) ? 0 : 100
+  const readinessBoost = mission.status === 'available' ? 0 : mission.status === 'on-setup' ? 10 : 20
+  return 1_000 + operationalBoost + readinessBoost + mission.order
+}
 
 const EMMA_LEADERSHIP_MISSION_SLUGS = [
   'preparer-le-dossier-de-comite',
@@ -110,9 +133,9 @@ export function MissionsContent({
   const t = COPY[lang]
   const initialFamily = useMemo<NeedFamily>(() => {
     if (requestedCategory) return 'all'
-    if (requestedFamily && requestedFamily in FAMILY_CATEGORIES) return requestedFamily as NeedFamily
+    if (requestedFamily && NEED_FAMILIES.includes(requestedFamily as NeedFamily)) return requestedFamily as NeedFamily
     if (requestedView === 'toutes') return 'all'
-    return 'recommended'
+    return 'all'
   }, [requestedCategory, requestedFamily, requestedView])
   const [need, setNeed] = useState('')
   const [family, setFamily] = useState<NeedFamily>(initialFamily)
@@ -161,11 +184,13 @@ export function MissionsContent({
 
   const filteredMissions = useMemo(() => {
     const search = normalize(query.trim())
-    const allowedCategories = family === 'recommended' || family === 'all' ? null : FAMILY_CATEGORIES[family]
+    const allowedCategories = family === 'all' || family === 'tech' ? null : FAMILY_CATEGORIES[family]
     let pool = MISSIONS.filter((mission) => {
       if (requestedCollaborator && mission.collaboratorSlug !== requestedCollaborator) return false
       if (requestedCollaborator === 'emma' && !EMMA_LEADERSHIP_MISSION_SLUGS.includes(mission.slug as typeof EMMA_LEADERSHIP_MISSION_SLUGS[number])) return false
       if (requestedCategory && mission.category !== requestedCategory) return false
+      if (!requestedCollaborator && !isBeyondGenericChat(mission)) return false
+      if (family === 'tech') return mission.modalities.includes('code') || mission.modalities.includes('automatisation') || mission.keywords.some(keyword => /automatis|workflow|prototype|fonctionnalit|connect/.test(normalize(keyword)))
       return !allowedCategories || allowedCategories.includes(mission.category)
     })
 
@@ -180,9 +205,8 @@ export function MissionsContent({
     } else if (requestedCollaborator === 'emma') {
       const bySlug = new Map(pool.map((mission) => [mission.slug, mission]))
       pool = EMMA_LEADERSHIP_MISSION_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => Boolean(mission))
-    } else if (!requestedCollaborator && family === 'recommended' && !requestedCategory) {
-      const bySlug = new Map(pool.map((mission) => [mission.slug, mission]))
-      pool = FEATURED_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => Boolean(mission))
+    } else {
+      pool.sort((a, b) => popularityRank(a, family) - popularityRank(b, family))
     }
 
     return pool
@@ -225,7 +249,7 @@ export function MissionsContent({
     const params = new URLSearchParams()
     if (requestedCollaborator) params.set('collaborateur', requestedCollaborator)
     if (next === 'all') params.set('vue', 'toutes')
-    else if (next !== 'recommended') params.set('famille', next)
+    else params.set('famille', next)
     const href = params.size ? `/missions?${params}` : '/missions'
     router.replace(href, { scroll: false })
   }
@@ -252,13 +276,10 @@ export function MissionsContent({
           <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1.14fr_0.86fr] lg:items-center lg:gap-10">
             <header>
               <Kicker>{t.eyebrow}</Kicker>
-              <h1 className="mt-4 max-w-[720px] text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] lg:text-[clamp(3.1rem,4.8vw,5rem)]">
-                <span className="block whitespace-nowrap">{t.heroA}</span>
-                <span className="block whitespace-nowrap">{t.heroB}</span>
-                <span className="block whitespace-nowrap text-[#D10E63]">{t.heroC}</span>
-              </h1>
-              <p className="mt-5 max-w-xl text-[17px] leading-8 text-[#4E483F]">{withAlmaAvatar(t.lead)}</p>
-              <a href="#mission-selection" className="group mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-[#D10E63] px-5 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.explore}<ArrowRight className="size-4 rotate-90 transition-transform group-hover:translate-y-0.5" /></a>
+              <h1 className="mt-4 max-w-[760px] text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.92] tracking-[-.065em] lg:text-[clamp(3.1rem,4.8vw,5rem)]">{t.title}</h1>
+              <p className="mt-5 max-w-xl text-[19px] font-medium leading-8 text-[#4E483F]">{t.lead}</p>
+              <div className="mt-7 flex flex-wrap items-center gap-4"><button type="button" onClick={focusComposer} className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition-colors hover:bg-[#B00C54]">{withAlmaAvatar(t.heroCta)}<ArrowRight className="size-4" /></button><a href="#mission-selection" className="text-sm font-bold text-[#625B50] underline decoration-[#B00C54]/30 underline-offset-4 hover:text-[#B00C54]">{t.explore}</a></div>
+              <p className="mt-4 text-xs font-semibold text-[#766D61]">{t.heroProof}</p>
             </header>
 
             <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} onStarterSelect={handDraftToAlma} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceStartLabel={t.talk} voiceStopLabel={t.stop} listeningLabel={t.listening} error={voiceError} textareaRef={composerRef} previewVisible={Boolean(inputPreview)} compactMobile compactDesktop titleInField preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>} />
@@ -267,25 +288,11 @@ export function MissionsContent({
         </div>
       </section>}
 
-      {!requestedCollaboratorDetail && <section className="border-y border-[#DED6C8] bg-[#FAF8F3] px-5 py-14 sm:px-8 sm:py-16">
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#B00C54]">{lang === 'fr' ? 'Marketing et contenu' : 'Marketing and content'}</p>
-              <h2 className="mt-3 font-sf text-[clamp(2rem,3.5vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]">{lang === 'fr' ? 'Missions prêtes à l’emploi avec Léa' : 'Ready-to-use missions with Léa'}</h2>
-            </div>
-            <Link href="/missions?collaborateur=lea&vue=toutes" className="inline-flex w-fit items-center gap-2 text-sm font-bold text-[#B00C54]">{lang === 'fr' ? 'Voir toutes les missions de Léa' : 'View all Léa missions'}<ArrowRight className="size-4" /></Link>
-          </div>
-          <div className="mt-8 grid auto-rows-fr gap-4 md:grid-cols-3">
-            {LEA_FEATURED_MISSION_SLUGS.map((slug) => MISSIONS.find((mission) => mission.slug === slug)).filter((mission): mission is Mission => Boolean(mission)).map((mission) => <StoreCard key={mission.slug} mission={mission} lang={lang} onPersonalize={rememberCatalogState} />)}
-          </div>
-        </div>
-      </section>}
-
       <div className={`mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8 ${requestedCollaboratorDetail ? 'pt-28 sm:pt-32' : ''}`}>
         <section aria-labelledby="mission-selection-title" className={requestedCollaboratorDetail ? 'pt-8 sm:pt-10' : 'pt-16 sm:pt-20'}>
-          <div id="mission-selection" className="scroll-mt-24">
-            <h2 id="mission-selection-title" className="font-sf text-[clamp(2rem,3.45vw,3.65rem)] font-semibold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">{requestedCollaboratorDetail ? (lang === 'fr' ? `Missions prêtes à l’emploi avec ${requestedCollaboratorDetail.name}` : `Ready-to-use missions with ${requestedCollaboratorDetail.name}`) : t.catalogTitle}</h2>
+           <div id="mission-selection" className="scroll-mt-24">
+             <h2 id="mission-selection-title" className="font-sf text-[clamp(2rem,3.45vw,3.65rem)] font-semibold leading-[.98] tracking-[-.05em] lg:whitespace-nowrap">{requestedCollaboratorDetail ? (lang === 'fr' ? `Missions prêtes à l’emploi avec ${requestedCollaboratorDetail.name}` : `Ready-to-use missions with ${requestedCollaboratorDetail.name}`) : t.catalogTitle}</h2>
+             {!requestedCollaboratorDetail && <p className="mt-4 max-w-3xl text-[15px] leading-7 text-[#625B50]">{t.catalogLead}</p>}
           </div>
 
           {!requestedCollaboratorDetail && <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -294,13 +301,13 @@ export function MissionsContent({
               <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
               <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
             </label>
-            <div className="flex max-w-full gap-2 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex max-w-full gap-2 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:none] lg:flex-wrap lg:justify-end [&::-webkit-scrollbar]:hidden">
                {(Object.keys(t.families) as NeedFamily[]).map((key) => <CategoryPill key={key} active={!requestedCategory && family === key} onClick={() => selectFamily(key)}>{t.families[key]}</CategoryPill>)}
             </div>
           </div>}
 
           <div className="mt-6 flex items-center gap-3">
-             <p role="status" aria-live="polite" className="text-sm font-semibold text-[#4E483F]">{family === 'recommended' && !query && !requestedCategory ? t.recommended(filteredMissions.length) : t.count(visibleMissions.length, filteredMissions.length)}</p>
+             <p role="status" aria-live="polite" className="text-sm font-semibold text-[#4E483F]">{t.count(visibleMissions.length, filteredMissions.length)}</p>
             <span aria-hidden className="h-px flex-1 bg-[#DED6C8]" />
           </div>
 
@@ -356,10 +363,9 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 
 const COPY = {
   fr: {
-    eyebrow: 'Missions pour collaborateur IA',
-    title: 'Quel résultat voulez-vous obtenir ?',
-    heroA: 'Quel résultat', heroB: 'voulez-vous', heroC: 'obtenir ?',
-    lead: 'Décrivez le résultat attendu. Alma prépare la mission et personnalise votre Collaborateur IA pour votre entreprise.', explore: 'Voir des missions prêtes à démarrer',
+    eyebrow: 'Missions pour Collaborateurs IA',
+    title: 'Une mission à faire avancer ?',
+    lead: 'Vendre plus. Mieux servir vos clients. Produire. Innover.', heroCta: 'Décrire ma mission à Alma', heroProof: 'Première mission offerte · Sans carte bancaire', explore: 'Explorer les missions prêtes à démarrer ↓',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
     placeholder: 'Décrivez simplement le résultat attendu…',
     talk: 'Commencer à parler', stop: 'Terminer', listening: 'Alma vous écoute…', continue: 'Personnaliser mon Collaborateur IA',
@@ -368,10 +374,10 @@ const COPY = {
     starters: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures', 'Construire mon calendrier éditorial', 'Organiser l’intégration d’un nouveau salarié'],
     previewMission: 'Aperçu de mission', previewCollaborator: 'Exemple de profil adapté', previewReady: 'À confirmer avec vous',
     handoff: 'Entrée pour continuer · Maj + Entrée pour une nouvelle ligne. Votre description reste dans ce navigateur pendant la reprise.',
-    catalogTitle: 'Ou partez d’une mission prête à démarrer',
+    catalogTitle: 'Que voulez-vous faire avancer ?',
+    catalogLead: 'Des missions qui mobilisent vos applications, vos données et vos processus, au-delà d’une simple conversation avec une IA.',
     search: 'Rechercher',
-    families: { recommended: 'Recommandées', all: 'Toutes', growth: 'Développer les ventes', customers: 'Servir les clients', company: 'Gérer l’entreprise', teams: 'Organiser les équipes', produce: 'Produire et analyser' },
-    recommended: (total: number) => `${total} mission${total > 1 ? 's' : ''} pour commencer`,
+    families: { all: 'Toutes', sales: 'Ventes', customers: 'Clients', marketing: 'Marketing', operations: 'Opérations', finance: 'Finance', hr: 'RH', product: 'Produit', tech: 'Tech' },
     count: (shown: number, total: number) => `${shown} mission${shown > 1 ? 's' : ''} affichée${shown > 1 ? 's' : ''} sur ${total}`,
     showMore: 'Afficher 12 missions supplémentaires',
     finalTitle: 'Vous savez ce qui doit être fait.',
@@ -379,10 +385,9 @@ const COPY = {
     finalCta: 'Décrire ma mission',
   },
   en: {
-    eyebrow: 'Missions / AI Collaborators',
-    title: 'What work needs to move forward?',
-    heroA: 'What work', heroB: 'needs to', heroC: 'move forward?',
-    lead: 'Describe the expected outcome. Alma prepares the mission and customizes your AI Collaborator for your organization.', explore: 'View already scoped missions',
+    eyebrow: 'Missions for AI Collaborators',
+    title: 'A mission to move forward?',
+    lead: 'Sell more. Serve your customers better. Produce. Innovate.', heroCta: 'Describe my mission to Alma', heroProof: 'First mission included · No credit card', explore: 'Explore ready-to-start missions ↓',
     almaRole: 'Unitalk AI mission coordinator', composerTitle: 'What work would you like to assign to your AI Collaborator?', composerBody: '',
     placeholder: 'Simply describe the expected outcome…',
     talk: 'Start talking', stop: 'Finish', listening: 'Alma is listening…', continue: 'Customize my AI Collaborator',
@@ -391,10 +396,10 @@ const COPY = {
     starters: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices', 'Build my editorial calendar', 'Organize a new employee’s onboarding'],
     previewMission: 'Mission preview', previewCollaborator: 'Example suitable profile', previewReady: 'To be confirmed with you',
     handoff: 'Enter to continue · Shift + Enter for a new line. Your description remains in this browser while you resume.',
-    catalogTitle: 'Or start from an already scoped mission',
+    catalogTitle: 'What do you want to move forward?',
+    catalogLead: 'Missions that work with your applications, data and processes, beyond a simple AI chat.',
     search: 'Search',
-    families: { recommended: 'Recommended', all: 'All', growth: 'Grow sales', customers: 'Serve customers', company: 'Run the company', teams: 'Organize teams', produce: 'Produce and analyze' },
-    recommended: (total: number) => `${total} mission${total > 1 ? 's' : ''} to get started`,
+    families: { all: 'All', sales: 'Sales', customers: 'Customers', marketing: 'Marketing', operations: 'Operations', finance: 'Finance', hr: 'HR', product: 'Product', tech: 'Tech' },
     count: (shown: number, total: number) => `${shown} of ${total} mission${total > 1 ? 's' : ''} shown`,
     showMore: 'Show 12 more missions',
     finalTitle: 'You know what needs to be done.',

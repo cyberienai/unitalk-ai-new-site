@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest'
 
 const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.meta.url), 'utf8')
 const page = readFileSync(new URL('../app/marketplace/page.tsx', import.meta.url), 'utf8')
+const models = readFileSync(new URL('../lib/ai-models-catalog.ts', import.meta.url), 'utf8')
+const catalog = readFileSync(new URL('../lib/store-catalog.ts', import.meta.url), 'utf8')
 
 describe('Marketplace IA hub', () => {
   it('centralizes AI Collaborators and the five equipment categories', () => {
@@ -111,7 +113,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('keeps each category explanation on its reference route', () => {
-    for (const href of ['/collaborateurs-ia/profils-metier','/marketplace/competences','/marketplace/applications','/modeles-ia','/collaborateurs-ia/serveurs']) expect(hub).toContain(`href: '${href}'`)
+    for (const href of ['/collaborateurs-ia/profils-metier','/marketplace/competences','/marketplace/applications','/modeles-ia','/marketplace/serveurs-ia']) expect(hub).toContain(`href: '${href}'`)
   })
 
   it('frames models as access and servers as scalable execution infrastructure', () => {
@@ -119,18 +121,40 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.')
     expect(hub).toContain('Où votre Collaborateur travaille. Une infrastructure qui évolue.')
     expect(hub).toContain('Augmentez ses ressources lorsque le travail l’exige.')
+    expect(hub).toContain("'unitalk-ai-cloud': { fr: 'Unitalk AI Cloud'")
+    expect(hub).toContain("hebergeurs: { fr: 'Hébergeurs'")
+    expect(hub).toContain("facetKey: 'unitalk-ai-cloud'")
+    expect(hub).toContain("facetKey: 'hebergeurs'")
+    expect(hub).toContain("href: '/hebergeurs'")
+    for (const size of ["name: { fr: 'Small'", "name: { fr: 'Medium'", "name: { fr: 'Large'", "name: { fr: 'XL'", "name: { fr: 'XXL'"]) expect(catalog).toContain(size)
+    for (const capacity of ['1 CPU · 4 Go de RAM', '2 CPU', '4 GPU', '8 GPU', '16 GPU']) expect(catalog).toContain(capacity)
+    for (const host of ['OVHcloud', 'Scaleway', 'OUTSCALE', 'Hostinger', 'Hébergeurs nationaux souverains européens', 'Hyperscalers']) expect(hub).toContain(host)
+    expect(catalog).toContain("if (item.type === 'server') return `/decouvrir?store=${item.slug}&source=marketplace-servers`")
+    expect(hub).not.toContain('/collaborateurs-ia/serveurs')
   })
 
   it('shows popular proprietary and open-weight models with focused cards', () => {
-    for (const model of ['GPT-5.6 Luna', 'GPT-5.6 Sol', 'Claude Opus 5', 'Claude Sonnet 5', 'Gemini 3.6 Flash', 'DeepSeek V4 Flash 0731', 'Hy3', 'MiMo-V2.5', 'GLM 5.2', 'Nemotron 3 Ultra', 'DeepSeek V4 Pro 0423']) expect(hub).toContain(model)
+    for (const model of ['GPT-5.6 Luna', 'GPT-5.6 Sol', 'Claude Opus 5', 'Claude Sonnet 5', 'Gemini 3.6 Flash', 'DeepSeek V4 Flash', 'Hy3', 'GLM 5.3', 'DeepSeek V4 Pro 0423']) expect(hub).toContain(model)
+    expect(models).toContain("title: 'Kimi K3'")
+    expect(models).toContain("title: 'GPT-5 mini'")
+    expect(models).toContain("title: 'GPT-5 nano'")
+    expect(models).toContain("title: 'Mistral Large 3'")
+    expect(models).toContain("title: 'MiniMax M3'")
     expect(hub).toContain("fr: 'Modèle propriétaire'")
     expect(hub).toContain("fr: 'Modèle open source'")
+    expect(hub).toContain("item.modelTypeKey === 'open-source' ? 'Open source'")
+    expect(hub).toContain("lang === 'fr' ? 'Propriétaire' : 'Proprietary'")
     expect(hub).toContain('<ModelMarketplaceCard')
     expect(hub).toContain('item.modelModalities?.map')
     expect(hub).toContain('min-h-[76px] flex-wrap content-center')
-    expect(hub).toContain("proprietaire: { fr: 'Propriétaire', en: 'Proprietary' }")
-    expect(hub).toContain("'open-source': { fr: 'Open source', en: 'Open source' }")
-    expect(hub).toContain("facetKeys: [item.type === 'proprietaire' ? 'proprietaire' : 'open-source', ...item.modalities]")
+    expect(hub).toContain('<ModelProviderLogo maker={item.origin} />')
+    for (const provider of ['OpenAI', 'Anthropic', 'Gemini', 'DeepSeek', 'Tencent', 'XiaomiMiMo', 'Zhipu', 'Nvidia', 'Flux', 'Qwen', 'Mistral']) expect(hub).toContain(`<${provider}`)
+    expect(hub).toContain("modelTypeKey: item.type === 'proprietaire' ? 'proprietaire' : 'open-source'")
+    expect(hub).toContain("multimodal: { fr: 'Multimodal', en: 'Multimodal' }")
+    expect(models).toContain("modalities: ['texte', 'multimodal']")
+    expect(hub).toContain("lang === 'fr' ? 'Type de modèle' : 'Model type'")
+    expect(hub).toContain("lang === 'fr' ? 'Tous les modèles IA' : 'All AI models'")
+    expect(hub).toContain("modelType === type.id ? '' : type.id")
   })
 
   it('uses fully clickable profile and skill cards with a progressive add action', () => {

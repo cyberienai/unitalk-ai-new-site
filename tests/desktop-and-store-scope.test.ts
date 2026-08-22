@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest'
 const sitemap = readFileSync(new URL('../app/sitemap.ts', import.meta.url), 'utf8')
 const marketplace = readFileSync(new URL('../app/marketplace/page.tsx', import.meta.url), 'utf8')
 const config = readFileSync(new URL('../next.config.mjs', import.meta.url), 'utf8')
-const servers = readFileSync(new URL('../app/collaborateurs-ia/serveurs/page.tsx', import.meta.url), 'utf8')
 const store = readFileSync(new URL('../components/store-content.tsx', import.meta.url), 'utf8')
 
 describe('Desktop discovery and Store scopes', () => {
@@ -17,7 +16,6 @@ describe('Desktop discovery and Store scopes', () => {
     expect(config).toContain("source: '/collaborateurs-ia/applications'")
     expect(config).toContain("source: '/collaborateurs-ia/integrations'")
     expect(config).toContain("destination: '/marketplace/applications'")
-    expect(servers).toContain('<StoreContent initialType="server"/>')
     expect(store).toContain('if (initialType) return')
     expect(store).toContain('showType={!initialType}')
     expect(store).toContain("if (initialType) builtParams.delete('type')")

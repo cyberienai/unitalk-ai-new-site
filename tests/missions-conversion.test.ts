@@ -8,12 +8,12 @@ const route = readFileSync(new URL('../app/missions/page.tsx', import.meta.url),
 describe('missions conversion path', () => {
   it('separates mission creation from catalog search', () => {
     expect(page).toContain('Quel travail voulez-vous confier à votre Collaborateur IA ?')
-    expect(page).toContain('Ou partez d’une mission prête à démarrer')
+    expect(page).toContain('Que voulez-vous faire avancer ?')
     expect(page).toContain("search: 'Rechercher'")
   })
 
   it('shows Alma with her avatar wherever she is named', () => {
-    expect(page).toContain('withAlmaAvatar(t.lead)')
+    expect(page).toContain('withAlmaAvatar(t.heroCta)')
     expect(page).toContain("withAlmaAvatar('Alma')")
     expect(page).toContain('withAlmaAvatar(t.finalCta)')
   })
@@ -26,7 +26,7 @@ describe('missions conversion path', () => {
   })
 
   it('uses explicit, accessible card actions', () => {
-    expect(card).toContain("'Personnaliser'")
+    expect(card).toContain("'Confier cette mission'")
     expect(card).toContain('href={`/missions/${mission.slug}`}')
     expect(card).not.toContain('className="absolute inset-0 z-0')
     expect(card).not.toContain('Crédits Mission')

@@ -11,20 +11,22 @@ describe('AI models page', () => {
   })
 
   it('offers prepaid credits from 25 euros', () => {
-    expect(page).toContain("prepaidTitle: 'Crédits prépayés'")
-    expect(page).toContain("prepaidPrice: 'Dès 25 €'")
+    expect(page).toContain("title: 'Crédits prépayés'")
+    expect(page).toContain("price: 'Dès 25 €'")
     expect(page).toContain('Sans engagement')
   })
 
   it('uses AI Collaborator wording and gives Alma a face', () => {
     expect(page).not.toMatch(/\bagent(s)?\b/i)
-    expect(page).toContain('withAlmaAvatar(t.finalB)')
     expect(page).toContain('withAlmaAvatar(t.finalBody)')
   })
 
-  it('presents models as governed access with automatic selection', () => {
-    expect(page).toContain('Les modèles IA auxquels')
-    expect(page).toContain('Unitalk sélectionne automatiquement le modèle le plus pertinent pour chaque mission')
-    expect(page).toContain('Vous n’avez pas à choisir le modèle')
+  it('keeps catalog and routing outside the capacity page', () => {
+    expect(page).toContain("models: 'Explorer les modèles disponibles'")
+    expect(page).toContain("gateway: 'Comprendre le routage AI Gateway'")
+    expect(page).toContain('href="/marketplace/modeles-ia"')
+    expect(page).toContain('href="/ai-gateway"')
+    expect(page).not.toContain('MODEL_FAMILIES')
+    expect(page).not.toContain('Routage intelligent')
   })
 })

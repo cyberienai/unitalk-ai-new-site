@@ -26,7 +26,6 @@ const STATIC_ROUTES = [
   '/marketplace/serveurs-ia',
   '/en/marketplace/ai-collaborators',
   '/blog/hermes-agent-youtube',
-  '/collaborateurs-ia/serveurs',
   '/collaborateurs-ia/pourquoi-unitalk',
   '/experts',
   '/workspace',
@@ -88,7 +87,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   // Profils métier, compétences and applications detail pages under the hub.
-  const catalogEntries: MetadataRoute.Sitemap = STORE_ITEMS.filter((item) => item.type === 'server').map((item) => ({
+  const catalogEntries: MetadataRoute.Sitemap = STORE_ITEMS.filter((item) => item.type !== 'server').map((item) => ({
     url: `${SITE_URL}${storeItemHref(item)}`,
     lastModified: now,
     changeFrequency: 'monthly',

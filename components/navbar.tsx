@@ -26,7 +26,7 @@ const COLLAB_MENU: MenuEntry[] = [
   { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Son profil par défaut et ceux que vous pouvez ajouter.', en: 'Its default profile and the ones you can add.' }, href: '/marketplace/profils-metier' },
   { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Les méthodes qu’il peut réutiliser.', en: 'Methods it can reuse.' }, href: '/marketplace/competences' },
   { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Les outils qu’il est autorisé à utiliser.', en: 'Tools it is authorized to use.' }, href: '/marketplace/applications' },
-  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Les modèles et capacités autorisés.', en: 'Authorized models and capacities.' }, href: '/marketplace/modeles-ia' },
+  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Le catalogue des modèles autorisables.', en: 'The catalog of models you can authorize.' }, href: '/marketplace/modeles-ia' },
   { title: { fr: 'Serveurs IA', en: 'AI servers' }, desc: { fr: 'Son environnement de travail privé.', en: 'Its private working environment.' }, href: '/marketplace/serveurs-ia' },
 ]
 

@@ -4,13 +4,13 @@ import { ModelesIaContent } from '@/components/modeles-ia-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Modèles IA : capacité, BYOK et crédits prépayés',
+  title: 'Capacité IA : mensuelle, prépayée ou BYOK | Unitalk',
   description:
-    'Accédez aux modèles d’IA autorisés avec une capacité mensuelle, vos propres clés BYOK ou des crédits prépayés dès 25 €.',
+    'Dimensionnez la capacité IA de chaque Collaborateur : forfait mensuel, crédits prépayés ou clés fournisseur BYOK dès 25 €.',
   alternates: { canonical: '/modeles-ia' },
   openGraph: {
-    title: 'Modèles IA : le bon modèle, sous vos règles | Unitalk',
-    description: 'Capacité mensuelle, BYOK ou crédits prépayés dès 25 € pour vos Collaborateurs IA.',
+    title: 'Capacité IA pour vos Collaborateurs | Unitalk',
+    description: 'Choisissez un volume de travail et un mode de paiement sans gérer le routage technique des modèles.',
     url: 'https://unitalk.ai/modeles-ia',
     type: 'website',
   },

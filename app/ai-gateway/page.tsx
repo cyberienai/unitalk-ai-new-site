@@ -4,13 +4,13 @@ import { AiGatewayContent } from '@/components/ai-gateway-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'AI Gateway : modèles IA, routage et gouvernance',
+  title: 'AI Gateway : routage, clés et gouvernance | Unitalk',
   description:
-    'Accédez à plusieurs fournisseurs d’IA via une interface commune, avec routage, repli, clés virtuelles, budgets, limites, observabilité et règles par entreprise.',
+    'Gouvernez les fournisseurs d’IA avec une API commune, le routage, le repli, les clés virtuelles, les budgets, les limites et l’observabilité.',
   alternates: { canonical: '/ai-gateway' },
   openGraph: {
-    title: 'AI Gateway : plusieurs modèles, une seule politique | Unitalk',
-    description: 'GPT, Claude, Gemini, Mistral et autres familles de modèles derrière un accès gouverné par votre entreprise.',
+    title: 'AI Gateway : une politique pour tous vos accès IA | Unitalk',
+    description: 'Appliquez vos règles de routage, de sécurité et de budget à chaque mission et chaque Collaborateur IA.',
     url: 'https://unitalk.ai/ai-gateway',
     type: 'website',
   },

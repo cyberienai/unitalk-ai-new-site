@@ -8,7 +8,7 @@ describe('Unitalk AI Gateway publication', () => {
   it('publishes the gateway instead of a coming-soon page', () => {
     expect(page).toContain('AiGatewayContent')
     expect(page).not.toContain('ComingSoonContent')
-    expect(gateway).toContain('Un seul accès gouverné à vos modèles d’IA.')
+    expect(gateway).toContain('Un accès gouverné à tous les modèles autorisés.')
   })
 
   it('documents gateway control and access modes', () => {
@@ -16,20 +16,20 @@ describe('Unitalk AI Gateway publication', () => {
     expect(gateway).toContain('Repli automatique')
     expect(gateway).toContain('Clés virtuelles')
     expect(gateway).toContain('Observabilité')
-    for (const mode of ['Crédits Unitalk', 'BYOK', 'Hybride']) expect(gateway).toContain(mode)
+    expect(gateway).toContain('Budgets et limites')
   })
 
-  it('lets users browse image, audio and video model families', () => {
-    expect(gateway).toContain("image: 'Image'")
-    expect(gateway).toContain("audio: 'Audio'")
-    expect(gateway).toContain("video: 'Vidéo'")
-    for (const family of ['FLUX', 'ElevenLabs', 'Kling', 'Runway']) expect(gateway).toContain(family)
+  it('links to the model catalog and capacity without duplicating them', () => {
+    expect(gateway).toContain('href="/marketplace/modeles-ia"')
+    expect(gateway).toContain('href="/modeles-ia"')
+    expect(gateway).not.toContain('const MODELS')
+    expect(gateway).not.toContain('Crédits Unitalk')
+    expect(gateway).not.toContain('BYOK')
   })
 
-  it('explains centralized administration and billing', () => {
-    expect(gateway).toContain('Facturation centralisée')
-    expect(gateway).toContain('Collaborateurs IA et humains, administrés au même endroit.')
-    expect(gateway).toContain('membres humains, les Collaborateurs IA, leurs rôles, leurs droits, leurs budgets et leurs moyens de paiement')
-    expect(gateway).toContain('abonnements, capacités IA, crédits prépayés et consommation')
+  it('explains centralized policy and technical responsibility', () => {
+    expect(gateway).toContain('Une politique commune à toute l’entreprise.')
+    expect(gateway).toContain('Gérez les fournisseurs autorisés, les clés, les routes, les budgets et les limites')
+    expect(gateway).toContain('Une passerelle, pas un verrou.')
   })
 })
