@@ -17,9 +17,9 @@ const COPY = {
     companyTitle: 'Une seule licence. Toute votre entreprise.',
     companyBody: 'Vous payez un forfait selon la taille de votre équipe, jamais un prix multiplié par le nombre de sièges.',
     tiers: [
-      { name: 'Solo', users: '1 utilisateur', price: '0 €', note: 'Pour découvrir Unitalk' },
+      { name: 'Solo', users: '1 utilisateur', price: '0 €', note: 'Pour découvrir Unitalk', featured: false },
       { name: 'Équipe', users: 'Jusqu’à 10 utilisateurs', price: '49 €', note: 'par entreprise / mois', featured: true },
-      { name: 'Entreprise', users: 'Jusqu’à 100 utilisateurs', price: '299 €', note: 'par entreprise / mois' },
+      { name: 'Entreprise', users: 'Jusqu’à 100 utilisateurs', price: '299 €', note: 'par entreprise / mois', featured: false },
     ],
     companyIncludes: ['Workspace partagé', 'Accès aux modèles autorisés', 'Administration et droits', 'Applications et validations'],
     collaboratorKicker: '2. Collaborateur IA',
@@ -47,9 +47,9 @@ const COPY = {
     companyTitle: 'One license. Your whole organization.',
     companyBody: 'You pay a flat fee based on team size, never a price multiplied by the number of seats.',
     tiers: [
-      { name: 'Solo', users: '1 user', price: '€0', note: 'To discover Unitalk' },
+      { name: 'Solo', users: '1 user', price: '€0', note: 'To discover Unitalk', featured: false },
       { name: 'Team', users: 'Up to 10 users', price: '€49', note: 'per organization / month', featured: true },
-      { name: 'Organization', users: 'Up to 100 users', price: '€299', note: 'per organization / month' },
+      { name: 'Organization', users: 'Up to 100 users', price: '€299', note: 'per organization / month', featured: false },
     ],
     companyIncludes: ['Shared Workspace', 'Access to authorized models', 'Administration and permissions', 'Applications and approvals'],
     collaboratorKicker: '2. AI Collaborator',
