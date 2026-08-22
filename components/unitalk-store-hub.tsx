@@ -190,6 +190,8 @@ const PROFILE_NAMES = new Map(STORE_ITEMS.filter((item) => item.type === 'profil
 const MODEL_ITEMS = AI_MODELS
 
 const MODEL_MODALITY_LABELS: Record<string, Bi> = {
+  proprietaire: { fr: 'Propriétaire', en: 'Proprietary' },
+  'open-source': { fr: 'Open source', en: 'Open source' },
   texte: { fr: 'Texte', en: 'Text' },
   image: { fr: 'Image', en: 'Image' },
   embeddings: { fr: 'Embeddings', en: 'Embeddings' },
@@ -200,7 +202,7 @@ const MODEL_MODALITY_LABELS: Record<string, Bi> = {
   transcription: { fr: 'Transcription', en: 'Transcription' },
 }
 
-const MODEL_MODALITY_ORDER = ['texte', 'image', 'embeddings', 'audio', 'video', 'rerank', 'speech', 'transcription'] as const
+const MODEL_MODALITY_ORDER = ['proprietaire', 'open-source', 'texte', 'image', 'embeddings', 'audio', 'video', 'rerank', 'speech', 'transcription'] as const
 const MODEL_MODALITY_DISPLAY: Record<string, Bi> = {
   texte: { fr: 'Texte', en: 'Text' },
   image: { fr: 'Image', en: 'Image' },
@@ -267,7 +269,7 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' },
     description: { fr: 'Les intelligences auxquelles vos Collaborateurs IA peuvent accéder selon leurs droits et leurs missions.', en: 'The intelligences your AI Collaborators can access according to their permissions and missions.' },
-    heroTitle: { fr: 'Une interface unique pour tous vos modèles d’IA.', en: 'One unified interface for all your AI models.' },
+    heroTitle: { fr: 'Une interface unique pour tous vos modèles d’IA adaptés à chaque mission.', en: 'One unified interface for all your AI models suited to each mission.' },
     heroAccent: { fr: 'adaptés à chaque mission.', en: 'suited to each mission.' },
     heroLead: { fr: 'Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.', en: 'Unitalk automatically selects the right model among those authorized by your organization.' },
     search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' }, explain: { fr: 'Comprendre les modèles IA', en: 'Understand AI models' },
@@ -337,7 +339,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
   if (categoryId === 'modeles-ia') {
     return MODEL_ITEMS.map((item) => ({
       key: item.key, title: item.title, href: `/decouvrir?model=${item.key}&source=marketplace-models`,
-      description: item.description[lang], meta: item.maker, origin: item.maker, facetKeys: [...item.modalities],
+      description: item.description[lang], meta: item.maker, origin: item.maker, facetKeys: [item.type === 'proprietaire' ? 'proprietaire' : 'open-source', ...item.modalities],
       modelModalities: item.modalities.map((modality) => MODEL_MODALITY_DISPLAY[modality]),
       modelType: item.type === 'proprietaire' ? { fr: 'Modèle propriétaire', en: 'Proprietary model' } : { fr: 'Modèle open source', en: 'Open-source model' },
     }))
@@ -625,7 +627,7 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, quer
         </div>
 
         <div className="min-w-0">
-          <div className="flex items-center justify-end gap-4">{!['competences', 'applications', 'modeles-ia'].includes(category.id) && <p className="mr-auto text-xs font-semibold text-[#766D61]" aria-live="polite">{items.length} {items.length === 1 ? labels.result : labels.results}{!activeFacet && !query ? ` · ${facets.length} ${lang === 'fr' ? 'catégories' : 'categories'}` : ''}</p>}{!['competences', 'applications'].includes(category.id) && <Link href={category.href} className="hidden min-h-10 shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] sm:inline-flex" style={{ '--facet-accent': category.accent } as CSSProperties}>{category.explain[lang]}<span aria-hidden className="ml-3">↗</span></Link>}</div>
+          <div className="flex items-center justify-end gap-4"><p className="sr-only" aria-live="polite">{items.length} {items.length === 1 ? labels.result : labels.results}</p>{!['competences', 'applications'].includes(category.id) && <Link href={category.href} className="hidden min-h-10 shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] sm:inline-flex" style={{ '--facet-accent': category.accent } as CSSProperties}>{category.explain[lang]}<span aria-hidden className="ml-3">↗</span></Link>}</div>
           {items.length > 0 ? <><div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2">{visibleCatalogItems.map((item) => category.id === 'competences' ? <SkillMarketplaceCard key={item.key} item={item} lang={lang} category={category} addLabel={labels.addProfile} /> : category.id === 'modeles-ia' ? <ModelMarketplaceCard key={item.key} item={item} lang={lang} category={category} action={category.action[lang]} /> : <CatalogItemCard key={item.key} item={item} lang={lang} category={category} labels={{ details: category.action[lang], add: labels.addProfile }} />)}{category.id !== 'competences' && category.missing && visibleCatalogItems.length === items.length && <MissingItemCard content={category.missing} lang={lang} accent={category.accent} />}</div>{visibleCatalogItems.length < items.length && <button type="button" onClick={onShowMore} className="mx-auto mt-8 flex min-h-12 items-center justify-center rounded-full border border-[#1C1A17] px-7 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]" style={{ '--facet-accent': category.accent } as CSSProperties}>{labels.showMore}<span aria-hidden className="ml-2">↓</span></button>}</> : <div className="mt-5 rounded-[18px] border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8"><h3 className="text-xl font-semibold">{lang === 'fr' ? 'Aucun résultat dans cette catégorie.' : 'No results in this category.'}</h3><button type="button" onClick={() => onQuery('')} className="mt-4 text-sm font-bold underline underline-offset-4" style={{ color: category.accent }}>{labels.clear}</button></div>}
         </div>
       </div>

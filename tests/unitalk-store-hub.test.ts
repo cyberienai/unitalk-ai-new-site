@@ -115,7 +115,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('frames models as access and servers as scalable execution infrastructure', () => {
-    expect(hub).toContain('Une interface unique pour tous vos modèles d’IA.')
+    expect(hub).toContain('Une interface unique pour tous vos modèles d’IA adaptés à chaque mission.')
     expect(hub).toContain('Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.')
     expect(hub).toContain('Où votre Collaborateur travaille. Une infrastructure qui évolue.')
     expect(hub).toContain('Augmentez ses ressources lorsque le travail l’exige.')
@@ -128,6 +128,9 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('<ModelMarketplaceCard')
     expect(hub).toContain('item.modelModalities?.map')
     expect(hub).toContain('min-h-[76px] flex-wrap content-center')
+    expect(hub).toContain("proprietaire: { fr: 'Propriétaire', en: 'Proprietary' }")
+    expect(hub).toContain("'open-source': { fr: 'Open source', en: 'Open source' }")
+    expect(hub).toContain("facetKeys: [item.type === 'proprietaire' ? 'proprietaire' : 'open-source', ...item.modalities]")
   })
 
   it('uses fully clickable profile and skill cards with a progressive add action', () => {
