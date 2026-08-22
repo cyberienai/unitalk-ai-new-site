@@ -1,7 +1,7 @@
 // Store taxonomy + semantic search for the Missions marketplace.
 // Maps the 144-mission catalog onto the marketplace navigation: 12 categories
 // (single-select), 7 editorial collections (single-select) and multi-select
-// facet filters (secteur, zone, langue, modalité) plus a disponibilité filter.
+// facet filters (secteur, zone, langue and modalité).
 
 import {
   MISSIONS,
@@ -11,11 +11,9 @@ import {
   ZONE_LABELS,
   LANGUAGE_LABELS,
   MODALITY_LABELS,
-  STATUS_LABELS,
   ORIGIN_LABELS,
   SEARCH_SYNONYMS,
   type Mission,
-  type MissionStatus,
   type MissionOrigin,
 } from '@/lib/missions-catalog'
 import type { Bilingual } from '@/lib/collaborators-catalog'
@@ -36,11 +34,6 @@ export const SECTORS: Facet[] = facetsPresent((m) => m.sectors, SECTOR_LABELS)
 export const ZONES: Facet[] = facetsPresent((m) => m.zones, ZONE_LABELS)
 export const LANGUAGES: Facet[] = facetsPresent((m) => m.languages, LANGUAGE_LABELS)
 export const MODALITIES: Facet[] = facetsPresent((m) => m.modalities, MODALITY_LABELS)
-export const AVAILABILITIES: Facet[] = (['available', 'on-setup', 'coming-soon'] as MissionStatus[]).map((k) => ({
-  key: k,
-  label: STATUS_LABELS[k],
-}))
-
 export const CATEGORY_FACETS: Facet[] = MISSION_CATEGORIES.map((c) => ({ key: c.key, label: c.label }))
 export const COLLECTION_FACETS: Facet[] = MISSION_COLLECTIONS.map((c) => ({ key: c.key, label: c.label }))
 
@@ -59,7 +52,6 @@ export type StoreFilters = {
   zone: string[]
   langue: string[]
   modalite: string[]
-  disponibilite: string | 'all'
 }
 
 export const EMPTY_FILTERS: StoreFilters = {
@@ -70,7 +62,6 @@ export const EMPTY_FILTERS: StoreFilters = {
   zone: [],
   langue: [],
   modalite: [],
-  disponibilite: 'all',
 }
 
 // Count used for the "Effacer les filtres" affordance and active chips.
@@ -82,14 +73,13 @@ export function activeFilterCount(f: StoreFilters): number {
     f.secteur.length +
     f.zone.length +
     f.langue.length +
-    f.modalite.length +
-    (f.disponibilite !== 'all' ? 1 : 0)
+    f.modalite.length
   )
 }
 
 // Count for the mobile "Filtres" button: only the advanced facet groups.
 export function advancedFilterCount(f: StoreFilters): number {
-  return f.secteur.length + f.zone.length + f.langue.length + f.modalite.length + (f.disponibilite !== 'all' ? 1 : 0)
+  return f.secteur.length + f.zone.length + f.langue.length + f.modalite.length
 }
 
 export function toggleValue(list: string[], value: string): string[] {
@@ -105,7 +95,6 @@ export function matchesFilters(m: Mission, f: StoreFilters): boolean {
   if (f.zone.length && !f.zone.some((z) => m.zones.includes(z))) return false
   if (f.langue.length && !f.langue.some((l) => m.languages.includes(l))) return false
   if (f.modalite.length && !f.modalite.some((mo) => m.modalities.includes(mo))) return false
-  if (f.disponibilite !== 'all' && m.status !== f.disponibilite) return false
   return true
 }
 
@@ -168,7 +157,6 @@ export function filtersFromParams(params: URLSearchParams): StoreFilters {
     zone: multi(params, 'zone'),
     langue: multi(params, 'langue'),
     modalite: multi(params, 'modalite'),
-    disponibilite: params.get('disponibilite') || 'all',
   }
 }
 
@@ -188,7 +176,6 @@ export function buildParams(query: string, filters: StoreFilters, sort: SortKey)
   if (filters.zone.length) p.set('zone', filters.zone.join(','))
   if (filters.langue.length) p.set('langue', filters.langue.join(','))
   if (filters.modalite.length) p.set('modalite', filters.modalite.join(','))
-  if (filters.disponibilite !== 'all') p.set('disponibilite', filters.disponibilite)
   if (sort !== DEFAULT_SORT) p.set('tri', sort)
   return p.toString()
 }

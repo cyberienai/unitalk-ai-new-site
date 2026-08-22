@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest'
 const page = readFileSync(new URL('../components/missions-content.tsx', import.meta.url), 'utf8')
 const card = readFileSync(new URL('../components/missions/store-card.tsx', import.meta.url), 'utf8')
 const route = readFileSync(new URL('../app/missions/page.tsx', import.meta.url), 'utf8')
+const catalog = readFileSync(new URL('../lib/missions-catalog.ts', import.meta.url), 'utf8')
+const store = readFileSync(new URL('../lib/missions-store.ts', import.meta.url), 'utf8')
 
 describe('missions conversion path', () => {
   it('separates mission creation from catalog search', () => {
@@ -45,5 +47,13 @@ describe('missions conversion path', () => {
 
   it('keeps a single canonical for filtered variants', () => {
     expect(route).toContain("alternates: { canonical: '/missions' }")
+  })
+
+  it('makes every mission accessible without availability statuses', () => {
+    expect(catalog).not.toContain('MissionStatus')
+    expect(catalog).not.toContain('availabilityReason')
+    expect(catalog).not.toMatch(/status: '(available|on-setup|coming-soon)'/)
+    expect(store).not.toContain('AVAILABILITIES')
+    expect(store).not.toContain('disponibilite')
   })
 })

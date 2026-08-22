@@ -13,9 +13,6 @@ import { UNITALK_MISSIONS } from '@/lib/unitalk-missions'
 export type MissionCategory = { key: string; label: Bilingual }
 export type MissionCollection = { key: string; label: Bilingual }
 
-// Availability status. Nothing is "available" until it has been tested for real.
-export type MissionStatus = 'available' | 'on-setup' | 'coming-soon'
-
 // Origin of a mission: authored and maintained by Unitalk, or contributed by the
 // community. Every catalog mission is currently native; external is future-facing.
 export type MissionOrigin = 'native' | 'external'
@@ -55,9 +52,7 @@ export type Mission = {
   languages: string[]
   zones: string[]
   modalities: string[]
-  status: MissionStatus
   origin: MissionOrigin
-  availabilityReason: Bilingual
   regulated: boolean
   dateAdded: string
   order: number
@@ -96,12 +91,6 @@ export const VOLUME_TBD: Bilingual = {
 export const CADENCE_DEFAULT: Bilingual = {
   fr: 'Ponctuel ou récurrent',
   en: 'One-off or recurring',
-}
-
-export const STATUS_LABELS: Record<MissionStatus, Bilingual> = {
-  available: { fr: 'Disponible', en: 'Available' },
-  'on-setup': { fr: 'Préparée par Alma', en: 'Prepared by Alma' },
-  'coming-soon': { fr: 'Bientôt disponible', en: 'Coming soon' },
 }
 
 // --- Taxonomy: 12 stable business categories -------------------------------
@@ -377,7 +366,6 @@ const CATEGORY_DEFAULTS: Record<string, CategoryDefault> = {
 
 // --- Seed authoring ---------------------------------------------------------
 type SeedOpts = {
-  status?: MissionStatus
   origin?: MissionOrigin
   collections?: string[]
   sectors?: string[]
@@ -424,25 +412,6 @@ function fallbackDate(index: number): string {
   return d.toISOString().slice(0, 10)
 }
 
-function availabilityReason(status: MissionStatus): Bilingual {
-  if (status === 'available') {
-    return {
-      fr: 'Cette mission a été testée de bout en bout et peut démarrer rapidement.',
-      en: 'This mission has been tested end to end and can start quickly.',
-    }
-  }
-  if (status === 'on-setup') {
-    return {
-      fr: "Alma peut préparer aujourd'hui le profil métier, les compétences et le cadre de validation nécessaires.",
-      en: 'Alma can prepare the job profile, skills and validation framework needed today.',
-    }
-  }
-  return {
-    fr: "Cette mission n'est pas encore ouverte. Décrivez votre besoin et Alma vous prévient dès qu'elle est prête.",
-    en: 'This mission is not open yet. Describe your need and Alma will let you know as soon as it is ready.',
-  }
-}
-
 function deriveSteps(): Bilingual[] {
   return [
     {
@@ -477,7 +446,6 @@ function tokenize(s: string): string[] {
 function buildMission(seed: Seed, index: number): Mission {
   const def = CATEGORY_DEFAULTS[seed.category]
   const o = seed.opts ?? {}
-  const status: MissionStatus = o.status ?? 'coming-soon'
   const regulated = o.regulated ?? def.regulated
   const title = bi(seed.titleFr, seed.titleEn)
   const result = bi(seed.resultFr, seed.resultEn)
@@ -522,9 +490,7 @@ function buildMission(seed: Seed, index: number): Mission {
     languages: o.languages ?? ['fr', 'en'],
     zones: o.zones ?? ['france', 'ue', 'international'],
     modalities: [o.modality ?? def.modality],
-    status,
     origin: o.origin ?? 'native',
-    availabilityReason: availabilityReason(status),
     regulated,
     dateAdded: o.dateAdded ?? fallbackDate(index),
     order: index,
@@ -537,34 +503,33 @@ function buildMission(seed: Seed, index: number): Mission {
 const SEEDS: Seed[] = [
   // ---------------- VENTES & DÉVELOPPEMENT COMMERCIAL ----------------
   m('ventes', 'trouver-de-nouveaux-clients', 'Trouver des prospects qualifiés', 'Find qualified prospects', 'Une liste de prospects correspondant à vos critères, prête à être examinée.', 'A list of prospects matching your criteria, ready to review.', {
-    status: 'available',
     dateAdded: '2026-05-12',
     article: {
       href: '/blog/trouver-prospects-qualifies-ia',
       label: { fr: 'Guide pratique', en: 'Practical guide' },
     },
   }),
-  m('ventes', 'qualifier-les-demandes-entrantes', 'Qualifier les demandes entrantes', 'Qualify inbound requests', 'Des opportunités enrichies, classées et orientées vers la bonne personne.', 'Enriched opportunities, sorted and routed to the right person.', { status: 'on-setup' }),
+  m('ventes', 'qualifier-les-demandes-entrantes', 'Qualifier les demandes entrantes', 'Qualify inbound requests', 'Des opportunités enrichies, classées et orientées vers la bonne personne.', 'Enriched opportunities, sorted and routed to the right person.'),
   m('ventes', 'preparer-une-campagne-de-prospection', 'Préparer une campagne de prospection', 'Prepare an outreach campaign', 'Une cible, une séquence de contact et des messages prêts à valider.', 'A target, a contact sequence and messages ready to approve.'),
-  m('ventes', 'personnaliser-les-messages-de-prospection', 'Personnaliser les messages de prospection', 'Personalize outreach messages', 'Des messages adaptés au contexte de chaque prospect.', 'Messages tailored to each prospect’s context.', { status: 'on-setup' }),
+  m('ventes', 'personnaliser-les-messages-de-prospection', 'Personnaliser les messages de prospection', 'Personalize outreach messages', 'Des messages adaptés au contexte de chaque prospect.', 'Messages tailored to each prospect’s context.'),
   m('ventes', 'preparer-les-rendez-vous-commerciaux', 'Préparer les rendez-vous commerciaux', 'Prepare sales meetings', 'Un dossier synthétique avec le contexte, les enjeux et les points à aborder.', 'A concise brief with context, stakes and talking points.'),
   m('ventes', 'rediger-les-comptes-rendus-commerciaux', 'Rédiger les comptes rendus commerciaux', 'Write sales call summaries', 'Une synthèse structurée avec les besoins, objections et prochaines actions.', 'A structured summary with needs, objections and next actions.'),
-  m('ventes', 'relancer-les-opportunites', 'Relancer les opportunités en attente', 'Follow up on pending opportunities', 'Des relances contextualisées, prêtes à être validées et envoyées.', 'Contextual follow-ups, ready to approve and send.', { status: 'on-setup' }),
+  m('ventes', 'relancer-les-opportunites', 'Relancer les opportunités en attente', 'Follow up on pending opportunities', 'Des relances contextualisées, prêtes à être validées et envoyées.', 'Contextual follow-ups, ready to approve and send.'),
   m('ventes', 'preparer-les-devis', 'Préparer les devis', 'Prepare quotes', 'Des devis complets, construits selon vos offres et prêts à valider.', 'Complete quotes built from your offers and ready to approve.'),
-  m('ventes', 'mettre-a-jour-le-crm', 'Mettre à jour le CRM', 'Update the CRM', 'Des fiches, étapes et prochaines actions tenues à jour après chaque échange.', 'Records, stages and next actions kept up to date after each exchange.', { status: 'on-setup', modality: 'automatisation' }),
+  m('ventes', 'mettre-a-jour-le-crm', 'Mettre à jour le CRM', 'Update the CRM', 'Des fiches, étapes et prochaines actions tenues à jour après chaque échange.', 'Records, stages and next actions kept up to date after each exchange.', { modality: 'automatisation' }),
   m('ventes', 'analyser-le-pipeline-commercial', 'Analyser le pipeline commercial', 'Analyze the sales pipeline', 'Une vue claire des opportunités, des risques et des priorités.', 'A clear view of opportunities, risks and priorities.', { collections: ['developper-activite', 'piloter-organisation'], modality: 'donnees' }),
   m('ventes', 'preparer-une-revue-commerciale', 'Préparer une revue commerciale', 'Prepare a sales review', 'Un rapport synthétique sur le pipeline, les résultats et les actions attendues.', 'A concise report on pipeline, results and expected actions.', { collections: ['developper-activite', 'piloter-organisation'] }),
   m('ventes', 'identifier-les-opportunites-de-vente-additionnelle', 'Identifier les opportunités de vente additionnelle', 'Spot upsell opportunities', 'Une sélection de clients et d’offres complémentaires pertinentes à examiner.', 'A shortlist of customers and relevant add-on offers to review.'),
 
   // ---------------- RELATION CLIENT & SUPPORT ----------------
-  m('relation-client', 'repondre-a-mes-clients', 'Répondre aux demandes reçues par email', 'Answer requests received by email', 'Des réponses contextualisées et une file claire des cas à valider.', 'Contextual replies and a clear queue of cases to approve.', { status: 'available', dateAdded: '2026-05-20', languages: ['fr', 'en', 'es', 'multi'], article: { href: '/blog/repondre-demandes-email-ia', label: { fr: 'Lire le guide', en: 'Read the guide' } } }),
+  m('relation-client', 'repondre-a-mes-clients', 'Répondre aux demandes reçues par email', 'Answer requests received by email', 'Des réponses contextualisées et une file claire des cas à valider.', 'Contextual replies and a clear queue of cases to approve.', { dateAdded: '2026-05-20', languages: ['fr', 'en', 'es', 'multi'], article: { href: '/blog/repondre-demandes-email-ia', label: { fr: 'Lire le guide', en: 'Read the guide' } } }),
   m('relation-client', 'repondre-aux-appels-clients', 'Répondre aux appels des clients', 'Answer customer calls', 'Des appels pris en charge, qualifiés et transmis selon vos règles.', 'Calls handled, qualified and routed according to your rules.', { modality: 'telephone', languages: ['fr', 'en', 'es', 'multi'] }),
-  m('relation-client', 'trier-et-orienter-les-demandes', 'Trier et orienter les demandes', 'Sort and route requests', 'Chaque demande est classée, priorisée et dirigée vers le bon interlocuteur.', 'Each request is sorted, prioritized and routed to the right person.', { status: 'on-setup' }),
+  m('relation-client', 'trier-et-orienter-les-demandes', 'Trier et orienter les demandes', 'Sort and route requests', 'Chaque demande est classée, priorisée et dirigée vers le bon interlocuteur.', 'Each request is sorted, prioritized and routed to the right person.'),
   m('relation-client', 'suivre-les-reclamations', 'Suivre les réclamations', 'Track complaints', 'Un suivi structuré avec historique, prochaine action et délai attendu.', 'Structured tracking with history, next action and expected timeline.'),
-  m('relation-client', 'preparer-les-reponses-aux-avis', 'Préparer les réponses aux avis en ligne', 'Draft responses to online reviews', 'Des réponses adaptées, prêtes à être vérifiées et publiées.', 'Tailored responses, ready to check and publish.', { status: 'on-setup' }),
-  m('relation-client', 'construire-ma-faq', 'Construire une FAQ', 'Build a FAQ', 'Une base de réponses claire, organisée à partir des demandes récurrentes.', 'A clear answer base, organized from recurring requests.', { status: 'available', dateAdded: '2026-05-02', modality: 'documents' }),
+  m('relation-client', 'preparer-les-reponses-aux-avis', 'Préparer les réponses aux avis en ligne', 'Draft responses to online reviews', 'Des réponses adaptées, prêtes à être vérifiées et publiées.', 'Tailored responses, ready to check and publish.'),
+  m('relation-client', 'construire-ma-faq', 'Construire une FAQ', 'Build a FAQ', 'Une base de réponses claire, organisée à partir des demandes récurrentes.', 'A clear answer base, organized from recurring requests.', { dateAdded: '2026-05-02', modality: 'documents' }),
   m('relation-client', 'enrichir-la-base-de-connaissances', 'Enrichir la base de connaissances', 'Enrich the knowledge base', 'Des articles actualisés à partir des nouveaux cas résolus.', 'Articles updated from newly resolved cases.', { modality: 'documents' }),
-  m('relation-client', 'informer-les-clients-de-l-avancement', 'Informer les clients de l’avancement', 'Keep customers informed of progress', 'Des messages de suivi envoyés aux étapes importantes de chaque dossier.', 'Follow-up messages sent at the key milestones of each case.', { status: 'on-setup' }),
+  m('relation-client', 'informer-les-clients-de-l-avancement', 'Informer les clients de l’avancement', 'Keep customers informed of progress', 'Des messages de suivi envoyés aux étapes importantes de chaque dossier.', 'Follow-up messages sent at the key milestones of each case.'),
   m('relation-client', 'suivre-la-satisfaction-client', 'Suivre la satisfaction client', 'Track customer satisfaction', 'Une synthèse des retours, des irritants et des situations à traiter.', 'A summary of feedback, pain points and situations to address.', { modality: 'donnees' }),
   m('relation-client', 'preparer-les-revues-de-comptes-clients', 'Préparer les revues de comptes clients', 'Prepare customer account reviews', 'Un dossier complet sur l’usage, les demandes et les prochaines priorités.', 'A complete file on usage, requests and next priorities.'),
   m('relation-client', 'detecter-les-clients-a-risque', 'Détecter les clients à risque', 'Detect at-risk customers', 'Une liste de situations sensibles accompagnée des signaux observés.', 'A list of sensitive situations with the observed signals.', { modality: 'donnees' }),
@@ -572,40 +537,40 @@ const SEEDS: Seed[] = [
 
   // ---------------- MARKETING & COMMUNICATION ----------------
   m('marketing', 'construire-un-calendrier-editorial', 'Construire un calendrier éditorial', 'Build an editorial calendar', 'Un programme de publications aligné sur vos objectifs et vos temps forts.', 'A publishing plan aligned with your goals and key moments.'),
-  m('marketing', 'animer-mes-reseaux-sociaux', 'Rédiger des publications pour les réseaux sociaux', 'Write social media posts', 'Des publications adaptées à chaque réseau, prêtes à relire et programmer.', 'Posts tailored to each network, ready to review and schedule.', { status: 'on-setup', languages: ['fr', 'en', 'es', 'multi'] }),
-  m('marketing', 'preparer-une-newsletter', 'Préparer une newsletter', 'Prepare a newsletter', 'Une newsletter structurée, rédigée et prête à valider.', 'A structured newsletter, written and ready to approve.', { status: 'on-setup' }),
-  m('marketing', 'ameliorer-mon-referencement', 'Rédiger un article optimisé pour le référencement', 'Write an SEO-optimized article', 'Un article documenté et structuré autour de la recherche ciblée.', 'A researched article structured around the targeted search.', { status: 'on-setup' }),
+  m('marketing', 'animer-mes-reseaux-sociaux', 'Rédiger des publications pour les réseaux sociaux', 'Write social media posts', 'Des publications adaptées à chaque réseau, prêtes à relire et programmer.', 'Posts tailored to each network, ready to review and schedule.', { languages: ['fr', 'en', 'es', 'multi'] }),
+  m('marketing', 'preparer-une-newsletter', 'Préparer une newsletter', 'Prepare a newsletter', 'Une newsletter structurée, rédigée et prête à valider.', 'A structured newsletter, written and ready to approve.'),
+  m('marketing', 'ameliorer-mon-referencement', 'Rédiger un article optimisé pour le référencement', 'Write an SEO-optimized article', 'Un article documenté et structuré autour de la recherche ciblée.', 'A researched article structured around the targeted search.'),
   m('marketing', 'preparer-une-campagne-emailing', 'Préparer une campagne emailing', 'Prepare an email campaign', 'Une séquence complète avec objets, messages et appels à l’action.', 'A complete sequence with subject lines, messages and calls to action.', { modality: 'email' }),
   m('marketing', 'decliner-un-contenu-multicanal', 'Décliner un contenu sur plusieurs canaux', 'Repurpose content across channels', 'Plusieurs formats cohérents produits à partir d’un contenu source.', 'Several consistent formats produced from a single source content.'),
   m('marketing', 'rediger-une-page-de-vente', 'Rédiger une page de vente', 'Write a sales page', 'Une page structurée autour de l’offre, des bénéfices et de l’action attendue.', 'A page structured around the offer, benefits and expected action.'),
-  m('marketing', 'produire-des-fiches-produits', 'Produire des fiches produits', 'Produce product sheets', 'Des fiches homogènes, complètes et prêtes à publier.', 'Consistent, complete product sheets ready to publish.', { status: 'on-setup', sectors: ['commerce', 'immobilier', 'industrie', 'hospitality'] }),
+  m('marketing', 'produire-des-fiches-produits', 'Produire des fiches produits', 'Produce product sheets', 'Des fiches homogènes, complètes et prêtes à publier.', 'Consistent, complete product sheets ready to publish.', { sectors: ['commerce', 'immobilier', 'industrie', 'hospitality'] }),
   m('marketing', 'preparer-un-communique-de-presse', 'Préparer un communiqué de presse', 'Prepare a press release', 'Un communiqué clair accompagné des informations utiles aux journalistes.', 'A clear release with the information journalists need.'),
   m('marketing', 'creer-mes-contenus', 'Analyser les performances des contenus', 'Analyze content performance', 'Une synthèse des résultats et des recommandations pour la prochaine période.', 'A summary of results and recommendations for the next period.', { modality: 'donnees' }),
   m('marketing', 'surveiller-l-image-de-marque', 'Surveiller l’image de marque', 'Monitor brand image', 'Une veille des mentions, thèmes émergents et situations à traiter.', 'Monitoring of mentions, emerging themes and situations to address.', { modality: 'donnees' }),
   m('marketing', 'preparer-une-campagne-de-communication', 'Préparer une campagne de communication', 'Prepare a communication campaign', 'Un plan de campagne avec messages, formats, calendrier et validations.', 'A campaign plan with messages, formats, schedule and approvals.'),
 
   // ---------------- RÉUNIONS & COORDINATION ----------------
-  m('reunions', 'participer-a-vos-reunions', 'Participer à vos réunions', 'Join your meetings', 'Rejoignez Google Meet, Zoom, Slack ou Microsoft Teams pour suivre les échanges, préparer le compte rendu et organiser les actions à venir.', 'Join Google Meet, Zoom, Slack or Microsoft Teams to follow discussions, prepare minutes and organize next actions.', { status: 'available', dateAdded: '2026-08-13', modality: 'audio' }),
+  m('reunions', 'participer-a-vos-reunions', 'Participer à vos réunions', 'Join your meetings', 'Rejoignez Google Meet, Zoom, Slack ou Microsoft Teams pour suivre les échanges, préparer le compte rendu et organiser les actions à venir.', 'Join Google Meet, Zoom, Slack or Microsoft Teams to follow discussions, prepare minutes and organize next actions.', { dateAdded: '2026-08-13', modality: 'audio' }),
   m('reunions', 'preparer-l-ordre-du-jour', 'Préparer l’ordre du jour d’une réunion', 'Prepare a meeting agenda', 'Un ordre du jour structuré à partir des sujets et documents disponibles.', 'A structured agenda built from the available topics and documents.'),
   m('reunions', 'preparer-les-participants', 'Préparer les participants', 'Brief the participants', 'Chaque participant reçoit le contexte et les documents utiles avant la réunion.', 'Each participant gets the context and useful documents before the meeting.'),
-  m('reunions', 'transcrire-une-reunion', 'Transcrire une réunion', 'Transcribe a meeting', 'Une transcription fidèle, horodatée et consultable.', 'A faithful, timestamped and searchable transcription.', { status: 'on-setup', modality: 'audio' }),
-  m('reunions', 'preparer-et-suivre-mes-reunions', 'Rédiger le compte rendu', 'Write the minutes', 'Une synthèse claire des échanges, décisions et prochaines actions.', 'A clear summary of the discussion, decisions and next actions.', { status: 'available', dateAdded: '2026-05-08' }),
-  m('reunions', 'extraire-les-decisions', 'Extraire les décisions', 'Extract the decisions', 'Une liste des décisions avec leur contexte et leur responsable.', 'A list of decisions with their context and owner.', { status: 'on-setup' }),
+  m('reunions', 'transcrire-une-reunion', 'Transcrire une réunion', 'Transcribe a meeting', 'Une transcription fidèle, horodatée et consultable.', 'A faithful, timestamped and searchable transcription.', { modality: 'audio' }),
+  m('reunions', 'preparer-et-suivre-mes-reunions', 'Rédiger le compte rendu', 'Write the minutes', 'Une synthèse claire des échanges, décisions et prochaines actions.', 'A clear summary of the discussion, decisions and next actions.', { dateAdded: '2026-05-08' }),
+  m('reunions', 'extraire-les-decisions', 'Extraire les décisions', 'Extract the decisions', 'Une liste des décisions avec leur contexte et leur responsable.', 'A list of decisions with their context and owner.'),
   m('reunions', 'suivre-les-actions-decidees', 'Suivre les actions décidées', 'Track agreed actions', 'Un suivi actualisé des actions, responsables, échéances et blocages.', 'An up-to-date tracker of actions, owners, deadlines and blockers.'),
   m('reunions', 'coordonner-les-agendas', 'Coordonner les agendas', 'Coordinate calendars', 'Des créneaux proposés et confirmés sans multiplication des échanges.', 'Slots proposed and confirmed without endless back-and-forth.', { modality: 'automatisation' }),
-  m('reunions', 'preparer-un-comite-de-direction', 'Préparer un comité de direction', 'Prepare an executive committee', 'Un dossier complet avec indicateurs, ordre du jour et documents de séance.', 'A complete pack with metrics, agenda and session documents.', { status: 'available', dateAdded: '2026-06-01', collections: ['piloter-organisation'] }),
+  m('reunions', 'preparer-un-comite-de-direction', 'Préparer un comité de direction', 'Prepare an executive committee', 'Un dossier complet avec indicateurs, ordre du jour et documents de séance.', 'A complete pack with metrics, agenda and session documents.', { dateAdded: '2026-06-01', collections: ['piloter-organisation'] }),
   m('reunions', 'preparer-une-reunion-commerciale', 'Préparer une réunion commerciale', 'Prepare a sales meeting', 'Un dossier client avec objectifs, historique et sujets à traiter.', 'A client brief with objectives, history and topics to cover.', { collections: ['piloter-organisation', 'developper-activite'] }),
   m('reunions', 'organiser-un-evenement-interne', 'Organiser un événement interne', 'Organize an internal event', 'Un planning, des invitations et un suivi logistique prêts à être validés.', 'A schedule, invitations and logistics tracking ready to approve.'),
-  m('reunions', 'produire-une-synthese-hebdomadaire', 'Produire une synthèse hebdomadaire', 'Produce a weekly summary', 'Une vue consolidée des réunions, décisions et actions de la semaine.', 'A consolidated view of the week’s meetings, decisions and actions.', { status: 'on-setup' }),
+  m('reunions', 'produire-une-synthese-hebdomadaire', 'Produire une synthèse hebdomadaire', 'Produce a weekly summary', 'Une vue consolidée des réunions, décisions et actions de la semaine.', 'A consolidated view of the week’s meetings, decisions and actions.'),
   m('reunions', 'relancer-les-responsables-d-actions', 'Relancer les responsables d’actions', 'Follow up with action owners', 'Des rappels contextualisés envoyés selon les échéances définies.', 'Contextual reminders sent according to the set deadlines.', { modality: 'automatisation' }),
 
   // ---------------- ADMINISTRATION & ORGANISATION ----------------
   m('administration', 'organiser-les-rendez-vous', 'Organiser les rendez-vous', 'Organize appointments', 'Des rendez-vous planifiés selon les disponibilités et les priorités.', 'Appointments scheduled by availability and priority.', { modality: 'automatisation' }),
-  m('administration', 'trier-la-boite-de-reception', 'Trier la boîte de réception', 'Sort the inbox', 'Des messages classés, priorisés et orientés vers la bonne action.', 'Messages sorted, prioritized and routed to the right action.', { status: 'on-setup', modality: 'email' }),
-  m('administration', 'preparer-les-courriers-recurrents', 'Préparer les courriers récurrents', 'Prepare recurring letters', 'Des courriers personnalisés, conformes aux modèles et prêts à valider.', 'Personalized letters, matching your templates and ready to approve.', { status: 'on-setup' }),
+  m('administration', 'trier-la-boite-de-reception', 'Trier la boîte de réception', 'Sort the inbox', 'Des messages classés, priorisés et orientés vers la bonne action.', 'Messages sorted, prioritized and routed to the right action.', { modality: 'email' }),
+  m('administration', 'preparer-les-courriers-recurrents', 'Préparer les courriers récurrents', 'Prepare recurring letters', 'Des courriers personnalisés, conformes aux modèles et prêts à valider.', 'Personalized letters, matching your templates and ready to approve.'),
   m('administration', 'suivre-les-dossiers-administratifs', 'Suivre les dossiers administratifs', 'Track administrative files', 'Une vue à jour des pièces, échéances et prochaines actions.', 'An up-to-date view of documents, deadlines and next actions.'),
   m('administration', 'controler-la-completude-des-dossiers', 'Contrôler la complétude des dossiers', 'Check file completeness', 'Les documents manquants et les anomalies sont clairement identifiés.', 'Missing documents and anomalies are clearly identified.'),
-  m('administration', 'classer-les-documents', 'Classer les documents', 'File documents', 'Des documents nommés, organisés et rangés selon vos règles.', 'Documents named, organized and filed according to your rules.', { status: 'on-setup' }),
+  m('administration', 'classer-les-documents', 'Classer les documents', 'File documents', 'Des documents nommés, organisés et rangés selon vos règles.', 'Documents named, organized and filed according to your rules.'),
   m('administration', 'preparer-les-deplacements', 'Préparer les déplacements professionnels', 'Prepare business travel', 'Un itinéraire, des réservations proposées et un dossier de voyage complet.', 'An itinerary, proposed bookings and a complete travel file.'),
   m('administration', 'gerer-les-demandes-internes', 'Gérer les demandes internes', 'Handle internal requests', 'Des demandes enregistrées, orientées et suivies jusqu’à leur résolution.', 'Requests logged, routed and tracked through to resolution.'),
   m('administration', 'preparer-un-dossier-de-signature', 'Préparer un dossier de signature', 'Prepare a signature package', 'Un dossier complet avec les documents, signataires et échéances.', 'A complete package with documents, signatories and deadlines.'),
@@ -615,25 +580,25 @@ const SEEDS: Seed[] = [
 
   // ---------------- FINANCE & GESTION (regulated) ----------------
   m('finance', 'preparer-les-elements-de-facturation', 'Préparer les éléments de facturation', 'Prepare billing items', 'Les prestations et montants à facturer sont rassemblés et contrôlés.', 'The services and amounts to bill are gathered and checked.'),
-  m('finance', 'preparer-les-factures', 'Préparer les factures', 'Prepare invoices', 'Des factures conformes aux données disponibles, prêtes à valider.', 'Invoices consistent with the available data, ready to approve.', { status: 'on-setup' }),
-  m('finance', 'relancer-les-factures-impayees', 'Relancer les factures impayées', 'Follow up on unpaid invoices', 'Des relances adaptées à chaque situation et un suivi actualisé.', 'Follow-ups tailored to each situation and an updated tracker.', { status: 'on-setup', modality: 'email' }),
+  m('finance', 'preparer-les-factures', 'Préparer les factures', 'Prepare invoices', 'Des factures conformes aux données disponibles, prêtes à valider.', 'Invoices consistent with the available data, ready to approve.'),
+  m('finance', 'relancer-les-factures-impayees', 'Relancer les factures impayées', 'Follow up on unpaid invoices', 'Des relances adaptées à chaque situation et un suivi actualisé.', 'Follow-ups tailored to each situation and an updated tracker.', { modality: 'email' }),
   m('finance', 'suivre-la-tresorerie', 'Suivre la trésorerie', 'Track cash flow', 'Une position de trésorerie claire et une liste des mouvements attendus.', 'A clear cash position and a list of expected movements.', { modality: 'donnees' }),
-  m('finance', 'preparer-mon-reporting-financier', 'Préparer le reporting financier mensuel', 'Prepare the monthly financial report', 'Un reporting structuré avec les évolutions et écarts importants.', 'A structured report with key trends and variances.', { status: 'on-setup', modality: 'donnees' }),
+  m('finance', 'preparer-mon-reporting-financier', 'Préparer le reporting financier mensuel', 'Prepare the monthly financial report', 'Un reporting structuré avec les évolutions et écarts importants.', 'A structured report with key trends and variances.', { modality: 'donnees' }),
   m('finance', 'analyser-les-ecarts-budgetaires', 'Analyser les écarts budgétaires', 'Analyze budget variances', 'Les principaux écarts sont identifiés, expliqués et documentés.', 'The main variances are identified, explained and documented.', { modality: 'donnees' }),
   m('finance', 'preparer-les-previsions-budgetaires', 'Préparer les prévisions budgétaires', 'Prepare budget forecasts', 'Une projection construite à partir des hypothèses validées.', 'A projection built from validated assumptions.', { modality: 'donnees' }),
-  m('finance', 'controler-les-notes-de-frais', 'Contrôler les notes de frais', 'Check expense reports', 'Les pièces manquantes, doublons et anomalies sont signalés avant validation.', 'Missing receipts, duplicates and anomalies are flagged before approval.', { status: 'on-setup' }),
+  m('finance', 'controler-les-notes-de-frais', 'Contrôler les notes de frais', 'Check expense reports', 'Les pièces manquantes, doublons et anomalies sont signalés avant validation.', 'Missing receipts, duplicates and anomalies are flagged before approval.'),
   m('finance', 'comparer-les-offres-fournisseurs', 'Comparer les offres fournisseurs', 'Compare supplier offers', 'Une comparaison structurée des prix, conditions et engagements.', 'A structured comparison of prices, terms and commitments.', { collaboratorSlug: 'gabriel' }),
   m('finance', 'suivre-les-renouvellements', 'Suivre les renouvellements', 'Track renewals', 'Les contrats et abonnements à renouveler sont identifiés avant échéance.', 'Contracts and subscriptions to renew are identified before the deadline.', { collaboratorSlug: 'gabriel' }),
   m('finance', 'preparer-une-revue-des-couts', 'Préparer une revue des coûts', 'Prepare a cost review', 'Une synthèse des dépenses et des pistes d’optimisation à examiner.', 'A summary of spending and optimization avenues to review.', { modality: 'donnees' }),
   m('finance', 'consolider-les-indicateurs-de-gestion', 'Consolider les indicateurs de gestion', 'Consolidate management KPIs', 'Un tableau de suivi actualisé à partir des différentes sources autorisées.', 'An updated dashboard built from the various authorized sources.', { dateAdded: '2026-08-02', modality: 'donnees' }),
 
   // ---------------- RH & RECRUTEMENT (regulated) ----------------
-  m('rh', 'rediger-une-fiche-de-poste', 'Rédiger une fiche de poste', 'Write a job description', 'Une fiche claire décrivant la mission, les responsabilités et les compétences attendues.', 'A clear description of the role, responsibilities and expected skills.', { status: 'on-setup' }),
+  m('rh', 'rediger-une-fiche-de-poste', 'Rédiger une fiche de poste', 'Write a job description', 'Une fiche claire décrivant la mission, les responsabilités et les compétences attendues.', 'A clear description of the role, responsibilities and expected skills.'),
   m('rh', 'preselectionner-les-candidatures', 'Présélectionner les candidatures', 'Shortlist applications', 'Une sélection argumentée selon les critères validés par l’équipe RH.', 'A justified shortlist based on the criteria approved by HR.'),
-  m('rh', 'analyser-les-cv', 'Analyser les CV', 'Analyze resumes', 'Une synthèse comparable des expériences et compétences déclarées.', 'A comparable summary of declared experience and skills.', { status: 'on-setup' }),
+  m('rh', 'analyser-les-cv', 'Analyser les CV', 'Analyze resumes', 'Une synthèse comparable des expériences et compétences déclarées.', 'A comparable summary of declared experience and skills.'),
   m('rh', 'preparer-les-entretiens', 'Préparer les entretiens', 'Prepare interviews', 'Un dossier candidat et une trame d’entretien adaptés au poste.', 'A candidate brief and an interview guide tailored to the role.'),
   m('rh', 'organiser-les-entretiens', 'Organiser les entretiens', 'Schedule interviews', 'Des créneaux coordonnés et des confirmations envoyées aux participants.', 'Coordinated slots and confirmations sent to participants.', { modality: 'automatisation' }),
-  m('rh', 'rediger-les-comptes-rendus-d-entretien', 'Rédiger les comptes rendus d’entretien', 'Write interview notes', 'Une synthèse structurée des éléments observés pendant l’entretien.', 'A structured summary of what was observed during the interview.', { status: 'on-setup' }),
+  m('rh', 'rediger-les-comptes-rendus-d-entretien', 'Rédiger les comptes rendus d’entretien', 'Write interview notes', 'Une synthèse structurée des éléments observés pendant l’entretien.', 'A structured summary of what was observed during the interview.'),
   m('rh', 'preparer-l-arrivee-d-un-collaborateur', 'Préparer l’arrivée d’un collaborateur', 'Prepare an employee’s onboarding', 'Un parcours d’intégration avec documents, rendez-vous et responsabilités.', 'An onboarding path with documents, meetings and responsibilities.'),
   m('rh', 'repondre-aux-questions-rh', 'Répondre aux questions RH internes', 'Answer internal HR questions', 'Des réponses fondées sur les politiques internes et les sources autorisées.', 'Answers grounded in internal policies and authorized sources.', { modality: 'chat' }),
   m('rh', 'preparer-un-plan-de-formation', 'Préparer un plan de formation', 'Prepare a training plan', 'Un programme adapté aux besoins, priorités et disponibilités.', 'A program tailored to needs, priorities and availability.', { dateAdded: '2026-07-30' }),
@@ -643,25 +608,25 @@ const SEEDS: Seed[] = [
 
   // ---------------- DIRECTION & PILOTAGE ----------------
   m('direction', 'preparer-le-dossier-de-comite', 'Préparer le dossier de comité de direction', 'Prepare the board committee pack', 'Un dossier consolidé avec indicateurs, décisions attendues et documents utiles.', 'A consolidated pack with metrics, expected decisions and useful documents.'),
-  m('direction', 'produire-un-rapport-d-activite', 'Produire un rapport d’activité', 'Produce an activity report', 'Une synthèse structurée des réalisations, résultats et priorités.', 'A structured summary of achievements, results and priorities.', { status: 'on-setup' }),
+  m('direction', 'produire-un-rapport-d-activite', 'Produire un rapport d’activité', 'Produce an activity report', 'Une synthèse structurée des réalisations, résultats et priorités.', 'A structured summary of achievements, results and priorities.'),
   m('direction', 'suivre-les-objectifs', 'Suivre les objectifs de l’entreprise', 'Track organizational objectives', 'Une vue actualisée des objectifs, progrès, risques et responsables.', 'An updated view of objectives, progress, risks and owners.', { modality: 'donnees' }),
   m('direction', 'preparer-une-revue-strategique', 'Préparer une revue stratégique', 'Prepare a strategic review', 'Un dossier mettant en évidence les évolutions, scénarios et arbitrages.', 'A file highlighting changes, scenarios and trade-offs.', { collaboratorSlug: 'camille' }),
   m('direction', 'suivre-les-decisions-de-direction', 'Suivre les décisions de direction', 'Track leadership decisions', 'Un registre des décisions, responsables, échéances et états d’avancement.', 'A register of decisions, owners, deadlines and progress.'),
   m('direction', 'consolider-les-indicateurs-cles', 'Consolider les indicateurs clés', 'Consolidate key metrics', 'Un tableau cohérent à partir des sources validées par l’entreprise.', 'A consistent dashboard from the sources validated by the organization.', { modality: 'donnees' }),
   m('direction', 'preparer-une-note-de-decision', 'Préparer une note de décision', 'Prepare a decision memo', 'Une synthèse des options, conséquences et éléments à arbitrer.', 'A summary of options, consequences and points to arbitrate.'),
-  m('direction', 'produire-une-synthese-executive', 'Produire une synthèse exécutive', 'Produce an executive summary', 'Une lecture courte des faits importants et des actions attendues.', 'A short read of the key facts and expected actions.', { status: 'on-setup' }),
+  m('direction', 'produire-une-synthese-executive', 'Produire une synthèse exécutive', 'Produce an executive summary', 'Une lecture courte des faits importants et des actions attendues.', 'A short read of the key facts and expected actions.'),
   m('direction', 'suivre-les-risques-operationnels', 'Suivre les risques opérationnels', 'Track operational risks', 'Une cartographie actualisée des risques, signaux et mesures prévues.', 'An updated map of risks, signals and planned measures.'),
-  m('direction', 'preparer-une-communication-interne', 'Préparer une communication interne', 'Prepare internal communication', 'Un message structuré expliquant une décision ou une évolution importante.', 'A structured message explaining an important decision or change.', { status: 'on-setup' }),
+  m('direction', 'preparer-une-communication-interne', 'Préparer une communication interne', 'Prepare internal communication', 'Un message structuré expliquant une décision ou une évolution importante.', 'A structured message explaining an important decision or change.'),
   m('direction', 'coordonner-un-projet-transversal', 'Coordonner un projet transversal', 'Coordinate a cross-functional project', 'Un suivi partagé des actions, dépendances, responsables et blocages.', 'A shared tracker of actions, dependencies, owners and blockers.', { dateAdded: '2026-07-28' }),
   m('direction', 'preparer-une-revue-de-performance', 'Préparer une revue de performance', 'Prepare a performance review', 'Une synthèse des résultats, écarts et priorités de la prochaine période.', 'A summary of results, gaps and priorities for the next period.', { modality: 'donnees' }),
 
   // ---------------- DOCUMENTS & CONNAISSANCES ----------------
-  m('documents', 'resumer-un-dossier', 'Résumer un dossier', 'Summarize a file', 'Une synthèse fidèle mettant en évidence les faits et points de décision.', 'A faithful summary highlighting the facts and decision points.', { status: 'on-setup' }),
+  m('documents', 'resumer-un-dossier', 'Résumer un dossier', 'Summarize a file', 'Une synthèse fidèle mettant en évidence les faits et points de décision.', 'A faithful summary highlighting the facts and decision points.'),
   m('documents', 'comparer-plusieurs-documents', 'Analyser plusieurs documents', 'Analyze multiple documents', 'Les différences, convergences et contradictions sont clairement présentées.', 'Differences, overlaps and contradictions are clearly presented.'),
-  m('documents', 'extraire-les-informations-cles', 'Extraire les informations clés', 'Extract key information', 'Les données recherchées sont structurées avec leur source.', 'The requested data is structured with its source.', { status: 'on-setup' }),
+  m('documents', 'extraire-les-informations-cles', 'Extraire les informations clés', 'Extract key information', 'Les données recherchées sont structurées avec leur source.', 'The requested data is structured with its source.'),
   m('documents', 'construire-une-base-de-connaissances', 'Construire une base de connaissances', 'Build a knowledge base', 'Des contenus organisés, reliés et faciles à retrouver.', 'Content organized, linked and easy to find.', { collections: ['produire-communiquer', 'piloter-organisation'] }),
   m('documents', 'mettre-a-jour-une-base-documentaire', 'Mettre à jour une base documentaire', 'Update a document base', 'Les contenus obsolètes et les informations nouvelles sont identifiés.', 'Outdated content and new information are identified.'),
-  m('documents', 'rediger-une-procedure', 'Rédiger une procédure', 'Write a procedure', 'Une procédure claire, structurée et directement applicable.', 'A clear, structured and directly applicable procedure.', { status: 'on-setup' }),
+  m('documents', 'rediger-une-procedure', 'Rédiger une procédure', 'Write a procedure', 'Une procédure claire, structurée et directement applicable.', 'A clear, structured and directly applicable procedure.'),
   m('documents', 'transformer-des-notes-en-document', 'Transformer des notes en document', 'Turn notes into a document', 'Un document cohérent produit à partir de notes dispersées.', 'A coherent document produced from scattered notes.'),
   m('documents', 'preparer-une-presentation', 'Préparer une présentation', 'Prepare a presentation', 'Une présentation structurée avec messages, données et déroulé.', 'A structured presentation with messages, data and flow.'),
   m('documents', 'classer-un-fonds-documentaire', 'Classer un fonds documentaire', 'Organize a document collection', 'Des documents catégorisés selon une nomenclature cohérente.', 'Documents categorized with a consistent taxonomy.'),
@@ -670,9 +635,9 @@ const SEEDS: Seed[] = [
   m('documents', 'preparer-un-dossier-de-reference', 'Préparer un dossier de référence', 'Prepare a reference file', 'Les documents et informations essentiels sont réunis dans un espace structuré.', 'Essential documents and information are gathered in a structured space.'),
 
   // ---------------- ANALYSE, RECHERCHE & VEILLE ----------------
-  m('analyse', 'realiser-une-veille-concurrentielle', 'Réaliser une veille concurrentielle', 'Run competitive monitoring', 'Une synthèse régulière des mouvements, offres et communications concurrentes.', 'A regular summary of competitor moves, offers and communications.', { status: 'on-setup', collections: ['piloter-organisation', 'developper-activite'], collaboratorSlug: 'camille' }),
+  m('analyse', 'realiser-une-veille-concurrentielle', 'Réaliser une veille concurrentielle', 'Run competitive monitoring', 'Une synthèse régulière des mouvements, offres et communications concurrentes.', 'A regular summary of competitor moves, offers and communications.', { collections: ['piloter-organisation', 'developper-activite'], collaboratorSlug: 'camille' }),
   m('analyse', 'surveiller-un-marche', 'Surveiller un marché', 'Monitor a market', 'Les évolutions importantes, nouveaux acteurs et signaux faibles sont identifiés.', 'Key shifts, new entrants and weak signals are identified.', { collaboratorSlug: 'camille' }),
-  m('analyse', 'comparer-les-offres-concurrentes', 'Comparer les offres concurrentes', 'Compare competitor offers', 'Une matrice comparable des fonctionnalités, prix et positionnements.', 'A comparable matrix of features, prices and positioning.', { status: 'on-setup', collaboratorSlug: 'camille' }),
+  m('analyse', 'comparer-les-offres-concurrentes', 'Comparer les offres concurrentes', 'Compare competitor offers', 'Une matrice comparable des fonctionnalités, prix et positionnements.', 'A comparable matrix of features, prices and positioning.', { collaboratorSlug: 'camille' }),
   m('analyse', 'analyser-les-ventes', 'Analyser les ventes', 'Analyze sales', 'Les tendances, écarts et facteurs significatifs sont mis en évidence.', 'Trends, gaps and significant drivers are highlighted.', { modality: 'donnees' }),
   m('analyse', 'analyser-les-retours-clients', 'Analyser les retours clients', 'Analyze customer feedback', 'Les thèmes, attentes et irritants sont regroupés et quantifiés.', 'Themes, expectations and pain points are grouped and quantified.', { modality: 'donnees', collaboratorSlug: 'lea' }),
   m('analyse', 'rechercher-des-informations-publiques', 'Rechercher des informations publiques', 'Research public information', 'Une recherche documentée avec sources, dates et niveau de confiance.', 'Documented research with sources, dates and confidence level.', { collaboratorSlug: 'camille' }),
@@ -681,10 +646,10 @@ const SEEDS: Seed[] = [
   m('analyse', 'detecter-les-tendances-emergentes', 'Détecter les tendances émergentes', 'Detect emerging trends', 'Des signaux regroupés par thème et accompagnés de leur source.', 'Signals grouped by theme and accompanied by their source.', { collaboratorSlug: 'camille' }),
   m('analyse', 'analyser-un-ensemble-de-donnees', 'Analyser un ensemble de données', 'Analyze a dataset', 'Une synthèse des tendances et anomalies observées dans les données fournies.', 'A summary of trends and anomalies observed in the provided data.', { modality: 'donnees' }),
   m('analyse', 'preparer-un-benchmark', 'Préparer un benchmark', 'Prepare a benchmark', 'Une comparaison structurée selon les critères définis par l’équipe.', 'A structured comparison based on the criteria set by the team.', { collaboratorSlug: 'camille' }),
-  m('analyse', 'produire-une-note-de-veille', 'Produire une note de veille', 'Produce a monitoring brief', 'Une note courte présentant les faits, conséquences possibles et sources.', 'A short brief with the facts, possible consequences and sources.', { status: 'on-setup', dateAdded: '2026-08-05', collaboratorSlug: 'camille' }),
+  m('analyse', 'produire-une-note-de-veille', 'Produire une note de veille', 'Produce a monitoring brief', 'Une note courte présentant les faits, conséquences possibles et sources.', 'A short brief with the facts, possible consequences and sources.', { dateAdded: '2026-08-05', collaboratorSlug: 'camille' }),
 
   // ---------------- OPÉRATIONS & AUTOMATISATION ----------------
-  m('operations', 'automatiser-mes-operations', 'Automatiser une tâche répétitive', 'Automate a repetitive task', 'Un processus documenté, contrôlé et surveillé après validation.', 'A process documented, controlled and monitored after approval.', { status: 'available', dateAdded: '2026-06-10' }),
+  m('operations', 'automatiser-mes-operations', 'Automatiser une tâche répétitive', 'Automate a repetitive task', 'Un processus documenté, contrôlé et surveillé après validation.', 'A process documented, controlled and monitored after approval.', { dateAdded: '2026-06-10' }),
   m('operations', 'synchroniser-les-donnees', 'Synchroniser les données entre applications', 'Sync data across applications', 'Des informations cohérentes et mises à jour entre les services autorisés.', 'Consistent, up-to-date information across the authorized services.'),
   m('operations', 'mettre-a-jour-le-crm-automatiquement', 'Mettre à jour le CRM automatiquement', 'Update the CRM automatically', 'Les fiches et activités sont actualisées à partir des événements validés.', 'Records and activities are updated from the validated events.'),
   m('operations', 'controler-l-execution-d-un-processus', 'Contrôler l’exécution d’un processus', 'Monitor a process execution', 'Les étapes, retards et anomalies sont suivis dans une vue unique.', 'Steps, delays and anomalies are tracked in a single view.'),
@@ -692,15 +657,15 @@ const SEEDS: Seed[] = [
   m('operations', 'preparer-les-alertes-metier', 'Préparer les alertes métier', 'Set up business alerts', 'Des alertes pertinentes sont générées selon les seuils définis.', 'Relevant alerts are generated based on the defined thresholds.'),
   m('operations', 'traiter-les-demandes-recurrentes', 'Traiter les demandes récurrentes', 'Handle recurring requests', 'Les demandes standard sont exécutées selon un processus validé.', 'Standard requests are executed following an approved process.'),
   m('operations', 'coordonner-un-processus-d-approbation', 'Coordonner un processus d’approbation', 'Coordinate an approval process', 'Chaque validation est adressée à la bonne personne et suivie jusqu’à décision.', 'Each approval is routed to the right person and tracked to a decision.'),
-  m('operations', 'controler-la-qualite-des-donnees', 'Contrôler la qualité des données', 'Check data quality', 'Les doublons, valeurs manquantes et incohérences sont identifiés.', 'Duplicates, missing values and inconsistencies are identified.', { status: 'on-setup', modality: 'donnees' }),
+  m('operations', 'controler-la-qualite-des-donnees', 'Contrôler la qualité des données', 'Check data quality', 'Les doublons, valeurs manquantes et incohérences sont identifiés.', 'Duplicates, missing values and inconsistencies are identified.', { modality: 'donnees' }),
   m('operations', 'preparer-un-rapport-d-exploitation', 'Préparer un rapport d’exploitation', 'Prepare an operations report', 'Une synthèse des volumes, incidents, délais et actions importantes.', 'A summary of volumes, incidents, delays and key actions.', { modality: 'donnees' }),
   m('operations', 'suivre-les-engagements-fournisseurs', 'Suivre les engagements fournisseurs', 'Track supplier commitments', 'Les échéances, niveaux de service et écarts sont consolidés.', 'Deadlines, service levels and gaps are consolidated.', { collaboratorSlug: 'gabriel' }),
-  m('operations', 'documenter-un-processus-automatise', 'Documenter un processus automatisé', 'Document an automated process', 'Une documentation claire décrit les déclencheurs, étapes, contrôles et limites.', 'Clear documentation describes triggers, steps, controls and limits.', { status: 'on-setup', dateAdded: '2026-07-25' }),
+  m('operations', 'documenter-un-processus-automatise', 'Documenter un processus automatisé', 'Document an automated process', 'Une documentation claire décrit les déclencheurs, étapes, contrôles et limites.', 'Clear documentation describes triggers, steps, controls and limits.', { dateAdded: '2026-07-25' }),
 
   // ---------------- PRODUIT, DESIGN & TECHNOLOGIE ----------------
-  m('produit', 'synthetiser-les-retours-utilisateurs', 'Synthétiser les retours utilisateurs', 'Synthesize user feedback', 'Les besoins, irritants et demandes sont regroupés par thème et priorité.', 'Needs, pain points and requests are grouped by theme and priority.', { status: 'on-setup', modality: 'donnees' }),
+  m('produit', 'synthetiser-les-retours-utilisateurs', 'Synthétiser les retours utilisateurs', 'Synthesize user feedback', 'Les besoins, irritants et demandes sont regroupés par thème et priorité.', 'Needs, pain points and requests are grouped by theme and priority.', { modality: 'donnees' }),
   m('produit', 'preparer-une-specification-fonctionnelle', 'Préparer une spécification fonctionnelle', 'Prepare a functional spec', 'Une spécification claire avec besoins, comportements et critères d’acceptation.', 'A clear spec with needs, behaviors and acceptance criteria.'),
-  m('produit', 'rediger-des-recits-utilisateurs', 'Rédiger des récits utilisateurs', 'Write user stories', 'Des récits structurés accompagnés de critères de validation.', 'Structured stories with validation criteria.', { status: 'on-setup' }),
+  m('produit', 'rediger-des-recits-utilisateurs', 'Rédiger des récits utilisateurs', 'Write user stories', 'Des récits structurés accompagnés de critères de validation.', 'Structured stories with validation criteria.'),
   m('produit', 'preparer-une-feuille-de-route-produit', 'Préparer une feuille de route produit', 'Prepare a product roadmap', 'Une proposition de priorités reliée aux objectifs et dépendances.', 'A proposed set of priorities tied to objectives and dependencies.'),
   m('produit', 'analyser-une-interface', 'Analyser une interface', 'Analyze an interface', 'Les problèmes de compréhension, d’accessibilité et de conversion sont documentés.', 'Comprehension, accessibility and conversion issues are documented.'),
   m('produit', 'preparer-une-maquette-fonctionnelle', 'Préparer une maquette fonctionnelle', 'Prepare a functional mockup', 'Une proposition d’interface structurée autour du parcours attendu.', 'An interface proposal structured around the expected journey.', { modality: 'image' }),
@@ -709,7 +674,7 @@ const SEEDS: Seed[] = [
   m('produit', 'analyser-une-anomalie-technique', 'Analyser une anomalie technique', 'Analyze a technical bug', 'Une hypothèse de cause, des preuves et un plan de correction sont documentés.', 'A root-cause hypothesis, evidence and a fix plan are documented.', { modality: 'code' }),
   m('produit', 'preparer-les-tests-d-une-fonctionnalite', 'Préparer les tests d’une fonctionnalité', 'Prepare feature tests', 'Des scénarios de test couvrent les comportements attendus et les cas limites.', 'Test scenarios cover the expected behaviors and edge cases.', { modality: 'code' }),
   m('produit', 'reviser-une-modification-de-code', 'Réviser une modification de code', 'Review a code change', 'Les risques, défauts et améliorations sont présentés de manière argumentée.', 'Risks, defects and improvements are presented with clear reasoning.', { modality: 'code' }),
-  m('produit', 'rediger-la-documentation-technique', 'Rédiger la documentation technique', 'Write technical documentation', 'Une documentation claire décrit l’installation, l’utilisation et les limites.', 'Clear documentation describes installation, usage and limits.', { status: 'on-setup', dateAdded: '2026-08-04', modality: 'code' }),
+  m('produit', 'rediger-la-documentation-technique', 'Rédiger la documentation technique', 'Write technical documentation', 'Une documentation claire décrit l’installation, l’utilisation et les limites.', 'Clear documentation describes installation, usage and limits.', { dateAdded: '2026-08-04', modality: 'code' }),
 
   // ---------------- MISSIONS PAR COLLABORATEUR ----------------
   // Chloé · Recrutement
@@ -799,7 +764,6 @@ export function missionFacets(mi: Mission) {
     languages: mi.languages,
     modalities: mi.modalities,
     modality: mi.modalities[0],
-    status: mi.status,
   }
 }
 

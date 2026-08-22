@@ -26,18 +26,22 @@ type SpeechRecognitionInstance = {
   abort: () => void
 }
 
-type NeedFamily = 'all' | 'sales' | 'customers' | 'marketing' | 'operations' | 'finance' | 'hr' | 'product' | 'tech'
+type NeedFamily = 'all' | 'sales' | 'customers' | 'marketing' | 'operations' | 'administration' | 'finance' | 'hr' | 'direction' | 'documents' | 'analysis' | 'product' | 'tech'
 
 const FAMILY_CATEGORIES: Record<Exclude<NeedFamily, 'all' | 'tech'>, string[]> = {
   sales: ['ventes'],
   customers: ['relation-client'],
   marketing: ['marketing'],
-  operations: ['reunions', 'administration', 'direction', 'documents', 'operations'],
+  operations: ['reunions', 'operations'],
+  administration: ['administration'],
   finance: ['finance'],
   hr: ['rh'],
-  product: ['analyse', 'produit'],
+  direction: ['direction'],
+  documents: ['documents'],
+  analysis: ['analyse'],
+  product: ['produit'],
 }
-const NEED_FAMILIES: NeedFamily[] = ['all', 'sales', 'customers', 'marketing', 'operations', 'finance', 'hr', 'product', 'tech']
+const NEED_FAMILIES: NeedFamily[] = ['all', 'sales', 'customers', 'marketing', 'operations', 'administration', 'finance', 'hr', 'direction', 'documents', 'analysis', 'product', 'tech']
 
 const POPULAR_MISSIONS_BY_FAMILY: Record<NeedFamily, readonly string[]> = {
   all: [
@@ -58,17 +62,20 @@ const POPULAR_MISSIONS_BY_FAMILY: Record<NeedFamily, readonly string[]> = {
   customers: ['repondre-aux-appels-clients', 'trier-et-orienter-les-demandes', 'suivre-les-reclamations', 'informer-les-clients-de-l-avancement', 'suivre-la-satisfaction-client', 'detecter-les-clients-a-risque'],
   marketing: ['construire-un-calendrier-editorial', 'preparer-une-campagne-emailing', 'surveiller-l-image-de-marque', 'creer-mes-contenus', 'produire-des-fiches-produits', 'decliner-un-contenu-multicanal'],
   operations: ['automatiser-mes-operations', 'participer-a-vos-reunions', 'controler-l-execution-d-un-processus', 'synchroniser-les-donnees', 'coordonner-les-agendas', 'suivre-les-actions-decidees'],
+  administration: ['organiser-les-rendez-vous', 'trier-la-boite-de-reception', 'suivre-les-dossiers-administratifs', 'controler-la-completude-des-dossiers', 'classer-les-documents', 'preparer-les-deplacements'],
   finance: ['preparer-les-elements-de-facturation', 'relancer-les-factures-impayees', 'suivre-la-tresorerie', 'preparer-mon-reporting-financier', 'controler-les-notes-de-frais', 'consolider-les-indicateurs-de-gestion'],
   hr: ['chloe-sourcer-des-candidats', 'preselectionner-les-candidatures', 'organiser-les-entretiens', 'preparer-l-arrivee-d-un-collaborateur', 'suivre-les-formations', 'analyser-les-retours-des-collaborateurs'],
+  direction: ['preparer-le-dossier-de-comite', 'preparer-une-revue-strategique', 'preparer-une-note-de-decision', 'produire-une-synthese-executive', 'suivre-les-objectifs', 'consolider-les-indicateurs-cles'],
+  documents: ['resumer-un-dossier', 'comparer-plusieurs-documents', 'extraire-les-informations-cles', 'construire-une-base-de-connaissances', 'rediger-une-procedure', 'preparer-une-presentation'],
+  analysis: ['realiser-une-veille-concurrentielle', 'surveiller-un-marche', 'comparer-les-offres-concurrentes', 'analyser-les-ventes', 'rechercher-des-informations-publiques', 'preparer-un-benchmark'],
   product: ['realiser-une-veille-concurrentielle', 'synthetiser-les-retours-utilisateurs', 'preparer-une-feuille-de-route-produit', 'analyser-une-interface', 'analyser-une-anomalie-technique', 'preparer-les-tests-d-une-fonctionnalite'],
   tech: ['automatiser-mes-operations', 'synchroniser-les-donnees', 'mettre-a-jour-le-crm-automatiquement', 'controler-l-execution-d-un-processus', 'analyser-une-anomalie-technique', 'preparer-les-tests-d-une-fonctionnalite'],
 }
 
-const OPERATIONAL_MISSION_PATTERN = /appel|agenda|alerte|anomal|approbation|automatis|candidat|crm|donn[eé]e|dossier|factur|indicateur|march[eé]|prospect|rendez-vous|r[eé]clamation|r[eé]union|renouvellement|reporting|satisfaction|suivi|synchronis|tr[eé]sorerie|veille|workflow/
+const OPERATIONAL_MISSION_PATTERN = /appel|agenda|alerte|anomal|approbation|automatis|candidat|campagne|crm|donn[eé]e|dossier|factur|indicateur|march[eé]|multicanal|newsletter|performance|prospect|publication|rendez-vous|r[eé]clamation|r[eé]seau|renouvellement|reporting|satisfaction|suivi|synchronis|tr[eé]sorerie|veille|workflow/
 
 function isBeyondGenericChat(mission: Mission): boolean {
   if (mission.modalities.some(modality => ['audio', 'automatisation', 'code', 'donnees', 'email', 'reunion', 'telephone', 'video'].includes(modality))) return true
-  if (mission.tools.length > 0) return true
   return OPERATIONAL_MISSION_PATTERN.test(normalize([mission.slug, mission.title.fr, ...mission.keywords].join(' ')))
 }
 
@@ -76,8 +83,7 @@ function popularityRank(mission: Mission, family: NeedFamily): number {
   const editorialRank = POPULAR_MISSIONS_BY_FAMILY[family].indexOf(mission.slug)
   if (editorialRank >= 0) return editorialRank
   const operationalBoost = mission.modalities.some(modality => ['automatisation', 'telephone', 'reunion', 'audio', 'code', 'donnees'].includes(modality)) ? 0 : 100
-  const readinessBoost = mission.status === 'available' ? 0 : mission.status === 'on-setup' ? 10 : 20
-  return 1_000 + operationalBoost + readinessBoost + mission.order
+  return 1_000 + operationalBoost + mission.order
 }
 
 const EMMA_LEADERSHIP_MISSION_SLUGS = [
@@ -96,6 +102,7 @@ const EMMA_LEADERSHIP_MISSION_SLUGS = [
   'preparer-les-deplacements',
 ] as const
 
+const INITIAL_VISIBLE_COUNT = 6
 const PAGE_SIZE = 12
 
 function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
@@ -140,7 +147,7 @@ export function MissionsContent({
   const [need, setNeed] = useState('')
   const [family, setFamily] = useState<NeedFamily>(initialFamily)
   const [query, setQuery] = useState(requestedQuery ?? '')
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT)
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
   const [voiceError, setVoiceError] = useState('')
@@ -182,6 +189,12 @@ export function MissionsContent({
     requestAnimationFrame(() => document.querySelector<HTMLElement>(`[data-mission-card="${CSS.escape(returnSlug)}"]`)?.scrollIntoView({ block: 'center' }))
   }, [returnSlug])
 
+  useEffect(() => {
+    setFamily(initialFamily)
+    setQuery(requestedQuery ?? '')
+    setVisibleCount(INITIAL_VISIBLE_COUNT)
+  }, [initialFamily, requestedQuery])
+
   const filteredMissions = useMemo(() => {
     const search = normalize(query.trim())
     const allowedCategories = family === 'all' || family === 'tech' ? null : FAMILY_CATEGORIES[family]
@@ -195,13 +208,17 @@ export function MissionsContent({
     })
 
     if (search) {
-      pool = pool.filter((mission) => normalize([
-        mission.title[lang],
-        mission.description[lang],
-        mission.result[lang],
-        mission.category,
-        ...mission.keywords,
-      ].join(' ')).includes(search))
+      const tokens = search.split(/\s+/).filter(Boolean)
+      pool = pool.filter((mission) => {
+        const searchable = normalize([
+          mission.title[lang],
+          mission.description[lang],
+          mission.result[lang],
+          mission.category,
+          ...mission.keywords,
+        ].join(' '))
+        return tokens.every((token) => searchable.includes(token))
+      })
     } else if (requestedCollaborator === 'emma') {
       const bySlug = new Map(pool.map((mission) => [mission.slug, mission]))
       pool = EMMA_LEADERSHIP_MISSION_SLUGS.map((slug) => bySlug.get(slug)).filter((mission): mission is Mission => Boolean(mission))
@@ -245,7 +262,7 @@ export function MissionsContent({
 
   function selectFamily(next: NeedFamily) {
     setFamily(next)
-    setVisibleCount(PAGE_SIZE)
+    setVisibleCount(INITIAL_VISIBLE_COUNT)
     const params = new URLSearchParams()
     if (requestedCollaborator) params.set('collaborateur', requestedCollaborator)
     if (next === 'all') params.set('vue', 'toutes')
@@ -260,16 +277,16 @@ export function MissionsContent({
   }
 
   useLayoutEffect(() => {
-    if (!window.matchMedia('(min-width: 1024px)').matches) return
+    if (!composerRequested || !window.matchMedia('(min-width: 1024px)').matches) return
     const field = composerRef.current
     if (!field) return
     field.focus({ preventScroll: true })
     field.setSelectionRange(field.value.length, field.value.length)
-  }, [])
+  }, [composerRequested])
 
   return (
     <main id="missions-top" className="min-h-screen overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-      {!requestedCollaboratorDetail && <section className="relative overflow-hidden bg-[#F3EFE6] px-5 pb-14 pt-24 sm:px-8 sm:pb-16 sm:pt-28 lg:flex lg:min-h-[760px] lg:items-center lg:py-28">
+      {!requestedCollaboratorDetail && <section className="relative overflow-hidden bg-[#F3EFE6] px-5 pb-12 pt-24 sm:px-8 sm:pb-14 sm:pt-28 lg:flex lg:min-h-[620px] lg:items-center lg:py-20">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.045] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div aria-hidden className="pointer-events-none absolute -right-36 top-20 size-[32rem] rounded-full bg-[#D10E63]/[.055] blur-3xl" />
         <div className="editorial-shell relative w-full">
@@ -296,19 +313,19 @@ export function MissionsContent({
           </div>
 
           {!requestedCollaboratorDetail && <div className="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <label className="relative block w-full max-w-[160px]">
+            <label className="relative block w-full lg:max-w-[320px]">
               <span className="sr-only">{t.search}</span>
               <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 z-10 size-4 -translate-y-1/2 text-[#6E665A]" />
-              <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
+              <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setVisibleCount(INITIAL_VISIBLE_COUNT) }} placeholder={t.search} className="h-12 w-full rounded-full border border-[#D8D0C2] bg-[#FFFDF9] pl-11 pr-4 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15" />
             </label>
-            <div className="flex max-w-full gap-2 overflow-x-auto pb-1 pt-0.5 [scrollbar-width:none] lg:flex-wrap lg:justify-end [&::-webkit-scrollbar]:hidden">
+            <div className="flex max-w-full gap-2 overflow-x-auto pb-2 pr-8 pt-0.5 [mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)] [scrollbar-width:none] lg:flex-wrap lg:justify-end lg:pr-0 lg:[mask-image:none] [&::-webkit-scrollbar]:hidden" aria-label={lang === 'fr' ? 'Filtrer les missions par domaine' : 'Filter missions by area'}>
                {(Object.keys(t.families) as NeedFamily[]).map((key) => <CategoryPill key={key} active={!requestedCategory && family === key} onClick={() => selectFamily(key)}>{t.families[key]}</CategoryPill>)}
             </div>
           </div>}
 
-          <div className="mt-6 flex items-center gap-3">
-             <p role="status" aria-live="polite" className="text-sm font-semibold text-[#4E483F]">{t.count(visibleMissions.length, filteredMissions.length)}</p>
-            <span aria-hidden className="h-px flex-1 bg-[#DED6C8]" />
+           <div className="mt-6 flex items-center gap-3">
+              <p role="status" aria-live="polite" className="text-sm font-semibold text-[#4E483F]">{t.count(visibleMissions.length, filteredMissions.length)}</p>
+             <span aria-hidden className="h-px flex-1 bg-[#DED6C8]" />
           </div>
 
           <div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -317,12 +334,11 @@ export function MissionsContent({
                 <StoreCard mission={mission} lang={lang} onPersonalize={rememberCatalogState} />
               </div>
             ))}
-            <AlmaCatalogCard lang={lang} onClick={focusComposer} />
-          </div>
+              {(filteredMissions.length === 0 || visibleCount >= filteredMissions.length) && <AlmaCatalogCard lang={lang} onClick={focusComposer} />}
+           </div>
 
-          {visibleCount < filteredMissions.length && (
-            <div className="mt-8 text-center"><button type="button" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)} className="inline-flex min-h-11 items-center rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#B00C54] hover:bg-[#D10E63] hover:text-white">{t.showMore}</button></div>
-          )}
+          {visibleCount < filteredMissions.length && <div className="mt-8 text-center"><button type="button" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)} className="inline-flex min-h-11 items-center rounded-full border border-[#D10E63] px-6 text-sm font-bold text-[#B00C54] transition-colors hover:bg-[#D10E63] hover:text-white">{t.showMore}<span aria-hidden className="ml-2">↓</span></button></div>}
+
         </section>
 
         <section className="relative mt-20 overflow-hidden rounded-[32px] bg-[#D10E63] px-6 py-12 text-white sm:px-10 sm:py-16">
@@ -377,7 +393,7 @@ const COPY = {
     catalogTitle: 'Que voulez-vous faire avancer ?',
     catalogLead: 'Des missions qui mobilisent vos applications, vos données et vos processus, au-delà d’une simple conversation avec une IA.',
     search: 'Rechercher',
-    families: { all: 'Toutes', sales: 'Ventes', customers: 'Clients', marketing: 'Marketing', operations: 'Opérations', finance: 'Finance', hr: 'RH', product: 'Produit', tech: 'Tech' },
+    families: { all: 'Toutes', sales: 'Ventes', customers: 'Clients', marketing: 'Marketing', operations: 'Opérations', administration: 'Administration', finance: 'Finance', hr: 'RH', direction: 'Direction', documents: 'Documents', analysis: 'Analyse', product: 'Produit', tech: 'Tech' },
     count: (shown: number, total: number) => `${shown} mission${shown > 1 ? 's' : ''} affichée${shown > 1 ? 's' : ''} sur ${total}`,
     showMore: 'Afficher 12 missions supplémentaires',
     finalTitle: 'Vous savez ce qui doit être fait.',
@@ -399,7 +415,7 @@ const COPY = {
     catalogTitle: 'What do you want to move forward?',
     catalogLead: 'Missions that work with your applications, data and processes, beyond a simple AI chat.',
     search: 'Search',
-    families: { all: 'All', sales: 'Sales', customers: 'Customers', marketing: 'Marketing', operations: 'Operations', finance: 'Finance', hr: 'HR', product: 'Product', tech: 'Tech' },
+    families: { all: 'All', sales: 'Sales', customers: 'Customers', marketing: 'Marketing', operations: 'Operations', administration: 'Administration', finance: 'Finance', hr: 'HR', direction: 'Leadership', documents: 'Documents', analysis: 'Analysis', product: 'Product', tech: 'Tech' },
     count: (shown: number, total: number) => `${shown} of ${total} mission${total > 1 ? 's' : ''} shown`,
     showMore: 'Show 12 more missions',
     finalTitle: 'You know what needs to be done.',

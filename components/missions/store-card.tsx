@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, PlayCircle, Sparkles } from 'lucide-react'
-import { MISSION_CATEGORIES, ORIGIN_LABELS, STATUS_LABELS, getMissionCategory, getMissionCategoryHref, getMissionGuideHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import { MISSION_CATEGORIES, ORIGIN_LABELS, getMissionCategory, getMissionCategoryHref, getMissionGuideHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
 import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
 
@@ -17,12 +17,9 @@ function categoryLabel(cats: MissionCategory[], key: string, lang: Lang): string
 }
 
 // Discreet, secondary metadata shown at the bottom of every card: category,
-// creator and — only when it is worth flagging (coming soon) — availability.
-// The default available/on-setup states are kept out to avoid visual noise.
+// creator.
 function metaParts(mission: Mission, cats: MissionCategory[], lang: Lang): string[] {
-  const parts = [categoryLabel(cats, mission.category, lang), ORIGIN_LABELS[mission.origin][lang]]
-  if (mission.status === 'coming-soon') parts.push(STATUS_LABELS[mission.status][lang])
-  return parts
+  return [categoryLabel(cats, mission.category, lang), ORIGIN_LABELS[mission.origin][lang]]
 }
 
 // Small dot-separated meta row, reused by all card variants.

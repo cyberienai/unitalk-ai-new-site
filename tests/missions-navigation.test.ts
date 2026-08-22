@@ -19,11 +19,29 @@ describe('missions navigation', () => {
     expect(content).toContain("customers: 'Clients'")
     expect(content).toContain("marketing: 'Marketing'")
     expect(content).toContain("tech: 'Tech'")
+    expect(content).toContain("administration: 'Administration'")
+    expect(content).toContain("direction: 'Direction'")
+    expect(content).toContain("documents: 'Documents'")
+    expect(content).toContain("analysis: 'Analyse'")
+    expect(content).toContain('[mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)]')
   })
 
   it('prioritizes operational missions instead of generic chat tasks', () => {
     expect(content).toContain('POPULAR_MISSIONS_BY_FAMILY')
     expect(content).toContain('isBeyondGenericChat')
     expect(content).toContain('popularityRank(a, family)')
+  })
+
+  it('keeps URL state synchronized and supports multi-term search', () => {
+    expect(content).toContain('setFamily(initialFamily)')
+    expect(content).toContain("const tokens = search.split(/\\s+/).filter(Boolean)")
+    expect(content).toContain('tokens.every((token) => searchable.includes(token))')
+  })
+
+  it('keeps the catalog visible and avoids forcing the composer', () => {
+    expect(content).toContain('lg:min-h-[620px]')
+    expect(content).toContain('lg:max-w-[320px]')
+    expect(content).toContain("if (!composerRequested || !window.matchMedia('(min-width: 1024px)').matches) return")
+    expect(content).toContain('(filteredMissions.length === 0 || visibleCount >= filteredMissions.length) && <AlmaCatalogCard')
   })
 })

@@ -9,7 +9,6 @@ import {
   ZONES,
   LANGUAGES,
   MODALITIES,
-  AVAILABILITIES,
   type Facet,
   type StoreFilters,
 } from '@/lib/missions-store'
@@ -27,7 +26,6 @@ export function FilterSheet({
   filters,
   lang,
   onToggleFacet,
-  onDisponibilite,
   onClear,
   onClose,
 }: {
@@ -35,7 +33,6 @@ export function FilterSheet({
   filters: StoreFilters
   lang: Lang
   onToggleFacet: (group: MultiKey, value: string) => void
-  onDisponibilite: (value: string) => void
   onClear: () => void
   onClose: () => void
 }) {
@@ -107,26 +104,6 @@ export function FilterSheet({
                 </div>
               ))}
 
-              <div>
-                <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--store-muted)]">
-                  {lang === 'fr' ? 'Disponibilité' : 'Availability'}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <Chip
-                    label={lang === 'fr' ? 'Toutes' : 'All'}
-                    active={filters.disponibilite === 'all'}
-                    onClick={() => onDisponibilite('all')}
-                  />
-                  {AVAILABILITIES.map((a) => (
-                    <Chip
-                      key={a.key}
-                      label={a.label[lang]}
-                      active={filters.disponibilite === a.key}
-                      onClick={() => onDisponibilite(a.key)}
-                    />
-                  ))}
-                </div>
-              </div>
             </div>
 
             <div className="sticky bottom-0 -mx-5 mt-6 flex gap-3 border-t border-[var(--store-line)] bg-[var(--store-page)] px-5 pb-1 pt-3">
