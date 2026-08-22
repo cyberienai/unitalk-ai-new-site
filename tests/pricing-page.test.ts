@@ -21,10 +21,12 @@ describe('pricing page publication requirements', () => {
     expect(sections).toContain("useState<OrganizationTierId>('solo')")
     expect(sections).toContain('useState(1)')
     expect(sections).toContain("users: '1 utilisateur', price: 'Gratuit'")
+    expect(sections).toContain("organizationTier === 'solo' ? t.workspaceIncludes.filter(item => item !== t.workspaceServer)")
   })
 
   it('answers trial, usage, plan change and credit rollover questions', () => {
     for (const question of ['L’essai gratuit est-il vraiment gratuit ?', 'Que puis-je faire avec 1 million de tokens ?', 'Puis-je changer d’offre à tout moment ?', 'Les crédits inutilisés sont-ils reportés ?']) expect(faq).toContain(question)
-    expect(faq).toContain('Les crédits mensuels inclus dans une offre ne sont pas reportés au mois suivant.')
+    expect(faq).toContain('Tous les crédits Workspace inutilisés sont reportés')
+    expect(faq).toContain('Les tokens couvrent l’utilisation des modèles par chaque Collaborateur IA.')
   })
 })
