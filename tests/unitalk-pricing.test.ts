@@ -19,6 +19,7 @@ describe('Unitalk pricing', () => {
     expect(unitalkPricing.aiCollaborator.includedTokens).toBe(1_000_000)
     expect(unitalkPricing.aiCollaborator.includedPhoneMinutes).toBe(60)
     expect(unitalkPricing.credits.minimumTopUp).toBe(25)
+    expect(unitalkPricing.organization.solo.includedCredits).toBe(1_000)
     expect(unitalkPricing.organization.team.includedCredits).toBe(2_500)
     expect(unitalkPricing.organization.business.includedCredits).toBe(20_000)
   })
@@ -28,7 +29,7 @@ describe('Unitalk pricing', () => {
       source: 'tarifs', organizationTier: 'team', collaborators: 100, usageMode: 'byok', creditBudget: 0, capacity: 'byok', coCreators: 0, priceVersion: unitalkPricing.version,
     })
     expect(normalizePricingDraft({})).toEqual({
-      source: 'tarifs', organizationTier: 'solo', collaborators: 0, usageMode: 'credits', creditBudget: 25, capacity: 'quarterTime', coCreators: 0, priceVersion: unitalkPricing.version,
+      source: 'tarifs', organizationTier: 'solo', collaborators: 1, usageMode: 'credits', creditBudget: 25, capacity: 'quarterTime', coCreators: 0, priceVersion: unitalkPricing.version,
     })
   })
 })

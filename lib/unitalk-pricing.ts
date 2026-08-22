@@ -8,9 +8,9 @@ export const unitalkPricing = {
   version: '2026-08-22',
   trial: { days: 7, tokens: 1_000_000 },
   organization: {
-    solo: { label: 'Solo', users: '1 utilisateur', monthlyPrice: 0, includedCredits: 0 },
-    team: { label: 'Équipe', users: 'Jusqu’à 10 utilisateurs', monthlyPrice: 49, includedCredits: 2_500 },
-    business: { label: 'Entreprise', users: 'Jusqu’à 100 utilisateurs', monthlyPrice: 299, includedCredits: 20_000 },
+    solo: { label: 'Solo', users: '1 utilisateur', monthlyPrice: 0, includedCredits: 1_000, creditFrequency: 'once' },
+    team: { label: 'Équipe', users: 'Jusqu’à 10 utilisateurs', monthlyPrice: 49, includedCredits: 2_500, creditFrequency: 'monthly' },
+    business: { label: 'Entreprise', users: 'Jusqu’à 100 utilisateurs', monthlyPrice: 299, includedCredits: 20_000, creditFrequency: 'monthly' },
   },
   aiCollaborator: { monthlyPrice: 49, includedTokens: 1_000_000, includedPhoneMinutes: 60, min: 0, max: 100 },
   aiCocreator: { monthlyPrice: 50, min: 0, max: 20 },
@@ -43,7 +43,7 @@ const CAPACITIES: AiCapacityId[] = ['byok', 'quarterTime', 'halfTime', 'fullTime
 export function normalizePricingDraft(input: Partial<PricingDraft> & { capacity?: string; coCreators?: number }): PricingDraft {
   const collaborators = Number.isFinite(input.collaborators)
     ? Math.min(unitalkPricing.aiCollaborator.max, Math.max(unitalkPricing.aiCollaborator.min, Math.floor(input.collaborators!)))
-    : 0
+    : 1
   const usageMode = USAGE_MODES.includes(input.usageMode as UsageModeId)
     ? input.usageMode as UsageModeId
     : input.capacity === 'byok' ? 'byok' : 'credits'
