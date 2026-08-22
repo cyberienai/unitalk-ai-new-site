@@ -30,7 +30,7 @@ const STATIC_ROUTES = [
   '/experts',
   '/workspace',
   '/blog',
-  '/modeles-ia',
+  '/capacite-ia',
   '/architecture',
   '/ai-server',
   '/hebergeurs',

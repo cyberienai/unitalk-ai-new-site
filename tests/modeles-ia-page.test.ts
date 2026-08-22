@@ -2,8 +2,13 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const page = readFileSync(new URL('../components/modeles-ia-content.tsx', import.meta.url), 'utf8')
+const route = readFileSync(new URL('../app/capacite-ia/page.tsx', import.meta.url), 'utf8')
 
 describe('AI models page', () => {
+  it('publishes the capacity page on its explicit canonical route', () => {
+    expect(route).toContain("canonical: '/capacite-ia'")
+    expect(route).toContain('CapaciteIaPage')
+  })
   it('shows every AI capacity attached to an AI Collaborator', () => {
     for (const capacity of ['BYOK', 'Quart-temps', 'Mi-temps', 'Temps plein']) expect(page).toContain(capacity)
     for (const price of ["price: '25 €'", "price: '50 €'", "price: '100 €'"]) expect(page).toContain(price)

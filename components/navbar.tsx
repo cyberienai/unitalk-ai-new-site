@@ -168,7 +168,7 @@ export function Navbar(
 
   // Missions has its own top-level navigation item, so it must not also mark
   // the Collaborateurs IA trigger as the current page.
-  const marketplacePrefixes = ['/collaborateurs-ia', '/hermes', '/marketplace', '/desktop', '/ai-gateway', '/modeles-ia']
+  const marketplacePrefixes = ['/collaborateurs-ia', '/hermes', '/marketplace', '/desktop', '/ai-gateway', '/capacite-ia']
   const isCollaboratorProfile = /^\/@[^/]+$/.test(pathname) && !pathname.includes('@unitalk')
   const isCollabActive = isCollaboratorProfile || marketplacePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))
   const isWorkspaceActive = pathname === '/workspace' || pathname.startsWith('/workspace/')

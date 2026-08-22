@@ -113,7 +113,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('keeps each category explanation on its reference route', () => {
-    for (const href of ['/collaborateurs-ia/profils-metier','/marketplace/competences','/marketplace/applications','/modeles-ia','/marketplace/serveurs-ia']) expect(hub).toContain(`href: '${href}'`)
+    for (const href of ['/collaborateurs-ia/profils-metier','/marketplace/competences','/marketplace/applications','/capacite-ia','/marketplace/serveurs-ia']) expect(hub).toContain(`href: '${href}'`)
   })
 
   it('frames models as access and servers as scalable execution infrastructure', () => {

@@ -37,6 +37,7 @@ const nextConfig = {
       { source: '/collaborateurs-ia/applications', destination: '/marketplace/applications', permanent: true },
       { source: '/collaborateurs-ia/applications/catalogue', destination: '/marketplace/applications', permanent: true },
       { source: '/collaborateurs-ia/applications/:slug', destination: '/marketplace/applications', permanent: true },
+      { source: '/modeles-ia', destination: '/capacite-ia', permanent: true },
     ]
   },
 }

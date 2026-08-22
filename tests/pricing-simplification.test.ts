@@ -7,7 +7,10 @@ const faq = readFileSync(new URL('../components/pricing/pricing-faq-final.tsx', 
 
 describe('pricing simplification', () => {
   it('presents the organization license as a flat fee rather than per-seat pricing', () => {
-    expect(sections).toContain('Aucun prix par siège.')
+    expect(sections).toContain('jamais par siège.')
+    expect(sections).toContain('Assistants IA privés ou partagés illimités')
+    expect(sections).toContain('Intégrations sécurisées avec plus de 3 000 applications')
+    expect(sections).toContain('Accès unifié aux modèles multimodaux autorisés')
     expect(sections).toContain("users: '1 utilisateur', price: '0 €'")
     expect(sections).toContain("users: 'Jusqu’à 10 utilisateurs', price: '49 €'")
     expect(sections).toContain("users: 'Jusqu’à 100 utilisateurs', price: '299 €'")
@@ -24,6 +27,7 @@ describe('pricing simplification', () => {
     expect(sections).toContain("name: 'BYOK', price: '0 € chez Unitalk'")
     expect(sections).toContain("name: 'Hybride', price: 'À la carte'")
     expect(sections).toContain('Les crédits couvrent les modèles IA, les API externes et les minutes de téléphone supplémentaires.')
+    expect(sections).toContain('href="/credits"')
   })
 
   it('keeps the page focused and removes the configurator', () => {
@@ -31,5 +35,12 @@ describe('pricing simplification', () => {
     expect(page).toContain('<PricingCollaboration />')
     expect(page).not.toContain('PricingConfigurator')
     expect(faq).toContain('L’essentiel, sans astérisque.')
+  })
+
+  it('makes the free first mission limits explicit', () => {
+    expect(sections).toContain('7 jours maximum')
+    expect(sections).toContain('1 million de tokens')
+    expect(sections).toContain("trialTitle: 'Un vrai Collaborateur IA. Une vraie mission. 0 €.'")
+    expect(faq).toContain('selon la première limite atteinte')
   })
 })

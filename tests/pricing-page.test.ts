@@ -12,7 +12,7 @@ describe('pricing page publication requirements', () => {
   })
 
   it('makes the free first mission and paid activation explicit', () => {
-    expect(sections).toContain("primary: 'Commencer gratuitement'")
-    expect(sections).toContain('Aucun paiement automatique')
+    expect(sections).toContain("primary: 'Lancer ma première mission'")
+    expect(sections).toContain('sans activation payante automatique')
   })
 })

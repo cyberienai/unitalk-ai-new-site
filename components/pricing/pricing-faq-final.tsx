@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/language-context'
 
 const ITEMS = {
   fr: [
+    ['La première mission est-elle vraiment gratuite ?', 'Oui. Vous disposez d’un Collaborateur IA pour une première mission, sans carte bancaire. L’essai prend fin dès que la mission est terminée, après 7 jours ou après 1 million de tokens, selon la première limite atteinte.'],
     ['Facturez-vous chaque membre de l’équipe ?', 'Non. La licence est un forfait mensuel par entreprise : 0 € pour 1 utilisateur, 49 € jusqu’à 10 utilisateurs et 299 € jusqu’à 100 utilisateurs.'],
     ['Que comprend la licence entreprise ?', 'L’espace de travail partagé, l’accès aux modèles autorisés, l’administration, les droits, les applications et les validations.'],
     ['Que comprend un Collaborateur IA à 49 € par mois ?', 'Son identité, sa mémoire, ses outils de communication, une instance dédiée de l’agent Hermes, 1 million de tokens et 60 minutes de téléphone.'],
@@ -12,6 +13,7 @@ const ITEMS = {
     ['Puis-je utiliser mes propres clés API ?', 'Oui. Le mode BYOK vous permet d’utiliser vos clés et de payer directement vos fournisseurs. Le mode hybride combine vos clés et les crédits Unitalk.'],
   ],
   en: [
+    ['Is the first mission really free?', 'Yes. You get an AI Collaborator for one first mission with no credit card. The trial ends when the mission is complete, after 7 days or after 1 million tokens, whichever comes first.'],
     ['Do you charge for every team member?', 'No. The license is a monthly flat fee per organization: €0 for 1 user, €49 for up to 10 users and €299 for up to 100 users.'],
     ['What does the organization license include?', 'The shared workspace, access to authorized models, administration, permissions, applications and approvals.'],
     ['What is included with a €49/month AI Collaborator?', 'Identity, memory, communication tools, a dedicated Hermes agent instance, 1 million tokens and 60 phone minutes.'],

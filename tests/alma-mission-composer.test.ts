@@ -12,6 +12,10 @@ describe('shared Alma mission composer', () => {
     expect(composer).toContain("event.key === 'Enter'")
     expect(composer).toContain('aria-pressed={listening}')
     expect(composer).toContain('{clean && (')
+    expect(composer).toContain('const fieldId = useId()')
+    expect(composer).toContain('const field = fieldRef.current')
+    expect(composer).toContain('id={fieldId}')
+    expect(composer).toContain('aria-labelledby={titleId}')
   })
 
   it('lets the homepage submit a suggested mission immediately', () => {

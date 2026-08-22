@@ -290,7 +290,7 @@ const STORE_CATEGORIES: Category[] = [
     heroLead: { fr: 'Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.', en: 'Unitalk automatically selects the right model among those authorized by your organization.' },
     search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' }, explain: { fr: 'Comprendre les modèles IA', en: 'Understand AI models' },
     missing: { title: { fr: 'Vous souhaitez utiliser un autre modèle IA ?', en: 'Want to use another AI model?' }, body: { fr: 'Partagez le modèle ou le fournisseur souhaité. Nous étudions sa compatibilité, son coût et ses conditions d’accès.', en: 'Share the model or provider you want. We assess compatibility, cost and access requirements.' }, action: { fr: 'Proposer un modèle', en: 'Suggest a model' }, href: '/decouvrir?source=marketplace&intention=nouveau-modele-ia' },
-    href: '/modeles-ia', accent: '#1D6692',
+    href: '/capacite-ia', accent: '#1D6692',
   },
   {
     id: 'serveurs-ia', title: { fr: 'Serveurs IA', en: 'AI servers' },

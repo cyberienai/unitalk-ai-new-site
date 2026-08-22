@@ -21,7 +21,7 @@ describe('Unitalk AI Gateway publication', () => {
 
   it('links to the model catalog and capacity without duplicating them', () => {
     expect(gateway).toContain('href="/marketplace/modeles-ia"')
-    expect(gateway).toContain('href="/modeles-ia"')
+    expect(gateway).toContain('href="/capacite-ia"')
     expect(gateway).not.toContain('const MODELS')
     expect(gateway).not.toContain('Crédits Unitalk')
     expect(gateway).not.toContain('BYOK')
