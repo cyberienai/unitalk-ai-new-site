@@ -61,7 +61,7 @@ type MarketplaceItem = {
   modelModalities?: Bi[]
   modelCapabilities?: Bi[]
   modelType?: Bi
-  modelTypeKey?: 'proprietaire' | 'open-source'
+  modelTypeKey?: 'proprietaire' | 'poids-ouverts' | 'open-source'
 }
 
 const PAGE_SIZE = 12
@@ -310,7 +310,7 @@ const STORE_CATEGORIES: Category[] = [
   {
     id: 'modeles-ia', title: { fr: 'Modèles IA', en: 'AI models' },
     description: { fr: 'Les intelligences auxquelles vos Collaborateurs IA peuvent accéder selon leurs droits et leurs missions.', en: 'The intelligences your AI Collaborators can access according to their permissions and missions.' },
-    heroTitle: { fr: 'Une interface unique pour tous vos modèles d’IA adaptés à chaque mission.', en: 'One unified interface for all your AI models suited to each mission.' },
+    heroTitle: { fr: 'Une interface unique pour accéder aux meilleurs modèles d’IA adaptés à chaque mission.', en: 'One unified interface for all your AI models suited to each mission.' },
     heroAccent: { fr: 'adaptés à chaque mission.', en: 'suited to each mission.' },
     heroLead: { fr: 'Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.', en: 'Unitalk automatically selects the right model among those authorized by your organization.' },
     search: { fr: 'Rechercher un modèle IA', en: 'Search AI models' }, action: { fr: 'Découvrir le modèle', en: 'Explore model' }, explain: { fr: 'Comprendre les modèles IA', en: 'Understand AI models' },
@@ -382,10 +382,10 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       const capabilities = [...(item.capabilities ?? []), ...(item.modalities.includes('image') ? ['generation-image'] : []), ...(item.modalities.includes('video') ? ['generation-video'] : [])]
       return {
         key: item.key, title: item.title, href: `/decouvrir?model=${item.key}&source=marketplace-models`,
-        description: item.description[lang], meta: item.maker, origin: item.maker, facetKeys: [...item.modalities, ...capabilities], modelTypeKey: item.type === 'proprietaire' ? 'proprietaire' : 'open-source',
+        description: item.description[lang], meta: item.maker, origin: item.maker, facetKeys: [...item.modalities, ...capabilities], modelTypeKey: item.type,
         modelModalities: item.modalities.map((modality) => MODEL_MODALITY_DISPLAY[modality]),
         modelCapabilities: capabilities.map((capability) => MODEL_CAPABILITY_LABELS[capability]),
-        modelType: item.type === 'proprietaire' ? { fr: 'Modèle propriétaire', en: 'Proprietary model' } : { fr: 'Modèle open source', en: 'Open-source model' },
+        modelType: item.type === 'proprietaire' ? { fr: 'Modèle propriétaire', en: 'Proprietary model' } : item.type === 'open-source' ? { fr: 'Modèle open source', en: 'Open-source model' } : { fr: 'Poids ouverts', en: 'Open weights' },
       }
     })
   }
@@ -673,6 +673,7 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, mode
   const visibleCatalogItems = items.slice(0, visibleCount)
   const modelTypes = [
     { id: 'proprietaire', label: lang === 'fr' ? 'Propriétaire' : 'Proprietary' },
+    { id: 'poids-ouverts', label: lang === 'fr' ? 'Poids ouverts' : 'Open weights' },
     { id: 'open-source', label: 'Open source' },
   ].map((type) => ({ ...type, count: allItems.filter((item) => item.modelTypeKey === type.id).length }))
 
@@ -814,7 +815,7 @@ function ModelMarketplaceCard({ item, lang }: { item: MarketplaceItem; lang: Lan
           {item.modelModalities?.map((modality) => <span key={modality.fr} className="rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-2.5 py-1 text-[10px] font-semibold text-[#4E483F]">{modality[lang]}</span>)}
           {item.modelCapabilities?.map((capability) => <span key={capability.fr} className="rounded-full border border-[#1D6692]/25 bg-[#E8F2F8] px-2.5 py-1 text-[10px] font-semibold text-[#174F70]">{capability[lang]}</span>)}
        </div>
-       {item.modelTypeKey && <span className="absolute right-4 top-4 rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-3 py-1.5 text-[9px] font-black uppercase tracking-[.1em] text-[#4E483F]">{item.modelTypeKey === 'open-source' ? 'Open source' : lang === 'fr' ? 'Propriétaire' : 'Proprietary'}</span>}
+       {item.modelTypeKey && <span className="absolute right-4 top-4 rounded-full border border-[#B8AFA1] bg-transparent px-3 py-1.5 text-[9px] font-black uppercase tracking-[.1em] text-[#4E483F]">{item.modelTypeKey === 'open-source' ? 'Open source' : item.modelTypeKey === 'poids-ouverts' ? (lang === 'fr' ? 'Poids ouverts' : 'Open weights') : (lang === 'fr' ? 'Propriétaire' : 'Proprietary')}</span>}
     </article>
   )
 }

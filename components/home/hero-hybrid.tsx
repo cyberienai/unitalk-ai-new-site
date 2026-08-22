@@ -231,7 +231,7 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
             </motion.div>
           </motion.div>
         </div>
-        <motion.div {...enter(0.32)} className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-[#CFC5B5] pt-4 sm:mt-8 lg:mt-6">
+        <motion.div {...enter(0.32)} className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-[#CFC5B5] pb-4 sm:mt-8 lg:mt-6">
           {t.proofs.map((proof) => (
             <span key={proof} className="inline-flex items-center gap-2 text-[12px] font-semibold text-[#6E665A]">
               <Check aria-hidden="true" className="size-3.5 shrink-0 text-[#D10E63]" />{proof}

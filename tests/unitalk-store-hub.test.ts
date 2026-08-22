@@ -121,7 +121,7 @@ describe('Marketplace IA hub', () => {
   })
 
   it('frames models as access and servers as scalable execution infrastructure', () => {
-    expect(hub).toContain('Une interface unique pour tous vos modèles d’IA adaptés à chaque mission.')
+    expect(hub).toContain('Une interface unique pour accéder aux meilleurs modèles d’IA adaptés à chaque mission.')
     expect(hub).toContain('Unitalk sélectionne automatiquement le modèle pertinent parmi ceux autorisés par votre entreprise.')
     expect(hub).toContain('Où votre Collaborateur travaille. Une infrastructure qui évolue.')
     expect(hub).toContain('Augmentez ses ressources lorsque le travail l’exige.')
@@ -168,6 +168,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain("fr: 'Modèle propriétaire'")
     expect(hub).toContain("fr: 'Modèle open source'")
     expect(hub).toContain("item.modelTypeKey === 'open-source' ? 'Open source'")
+    expect(hub).toContain("item.modelTypeKey === 'poids-ouverts'")
     expect(hub).toContain("lang === 'fr' ? 'Propriétaire' : 'Proprietary'")
     expect(hub).toContain('<ModelMarketplaceCard')
     expect(hub).toContain('item.modelModalities?.map')
@@ -183,7 +184,8 @@ describe('Marketplace IA hub', () => {
     for (const logo of ['kling.svg', 'bytedance.svg', 'alibaba.svg', 'ideogram.svg', 'grok.svg', 'deepgram.svg']) expect(hub).toContain(`/logos/${logo}`)
     expect(hub).toContain('className="size-6 object-contain brightness-0"')
     for (const provider of ['OpenAI', 'Anthropic', 'Gemini', 'DeepSeek', 'Tencent', 'XiaomiMiMo', 'Zhipu', 'Nvidia', 'Flux', 'Qwen', 'Mistral']) expect(hub).toContain(`<${provider}`)
-    expect(hub).toContain("modelTypeKey: item.type === 'proprietaire' ? 'proprietaire' : 'open-source'")
+    expect(hub).toContain('modelTypeKey: item.type')
+    expect(hub).not.toContain('border-[#216641]/30 bg-[#E4F3E8]')
     expect(hub).toContain("multimodal: { fr: 'Multimodal', en: 'Multimodal' }")
     expect(hub).toContain("speech: { fr: 'Synthèse vocale', en: 'Speech synthesis' }")
     expect(hub).toContain("transcription: { fr: 'Transcription', en: 'Transcription' }")
