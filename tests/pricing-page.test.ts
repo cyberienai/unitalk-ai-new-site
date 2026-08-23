@@ -14,8 +14,8 @@ describe('pricing page publication requirements', () => {
   })
 
   it('makes the free first mission and paid activation explicit', () => {
-    expect(sections).toContain("primary: 'Configurer mon tarif'")
-    expect(sections).toContain("title: 'Composez votre équipe.', accent: 'Maîtrisez son coût.'")
+    expect(sections).toContain("primary: 'Démarrer avec Alma'")
+    expect(sections).toContain("title: 'Votre première mission.', accent: 'Offerte.'")
     expect(sections).toContain('Workspace Solo gratuit. Chaque Collaborateur IA : 49 € HT/mois.')
     expect(sections).toContain('La configuration payante n’est activée qu’après votre confirmation explicite.')
     expect(sections).toContain("continue: 'Enregistrer et continuer'")
@@ -31,7 +31,7 @@ describe('pricing page publication requirements', () => {
     expect(sections).toContain('useState<OrganizationTierId>(initialDraft.organizationTier)')
     expect(sections).toContain('useState(initialDraft.collaborators)')
     expect(sections).toContain("name: 'Solo', users: '1 humain inclus · Gratuit', option: 'Solo · 1 humain inclus', price: ''")
-    expect(sections).toContain("tokensLine: 'DeepSeek V4 Flash hébergé en Europe'")
+    expect(sections).toContain("tokensLine: 'DeepSeek V4, hébergé en Europe chez Microsoft Azure'")
   })
 
   it('answers trial, included usage and plan change questions', () => {

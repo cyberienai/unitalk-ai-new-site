@@ -117,7 +117,7 @@ export const DOCUMENTATION: Record<DocumentationSlug, DocumentationPage> = {
     summary: 'Chaque Collaborateur IA possède une capacité incluse. Les usages supplémentaires peuvent être réglés avec des crédits IA ou les propres clés API de l’entreprise.',
     principle: 'Les tokens inclus, les crédits IA et les clés fournisseur sont des modes de consommation ; ils ne remplacent ni l’identité, ni la licence Workspace, ni les applications.',
     sections: [
-      { title: 'Capacité incluse', items: ['5 millions de tokens par mois et par Collaborateur IA', 'DeepSeek V4 Flash', 'Hébergement européen sur Microsoft Azure', 'Usage visible dans le Workspace'] },
+      { title: 'Capacité incluse', items: ['5 millions de tokens par Collaborateur IA', 'DeepSeek V4', 'Hébergement européen chez Microsoft Azure', 'Usage visible dans le Workspace'] },
       { title: 'Crédits IA', items: ['Recharge à partir de 25 €', 'Modèles et usages multimodaux', 'API externes et téléphone', 'Aucun dépassement sans validation'] },
       { title: 'Clés API propres', items: ['Fournisseurs choisis par l’entreprise', 'Facturation directe', 'Clés conservées dans un coffre', 'Routage par Unitalk AI Gateway'] },
     ],
