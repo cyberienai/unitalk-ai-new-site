@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { AnonymousOnly, UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
-import { localizedHref, switchLocaleHref } from '@/lib/i18n-routing'
+import { localizePublicHref, localizedHref, switchLocaleHref } from '@/lib/i18n-routing'
 
 type Bi = { fr: string; en: string }
 const ALMA_CTA = {
@@ -223,66 +223,9 @@ export function Navbar(
               <NavItem href={localizedHref('missions', lang)} active={pathname === '/missions' || pathname.startsWith('/missions/') || pathname === '/en/missions' || pathname.startsWith('/en/missions/')} overDark={overDark}>
                 {t.missions}
               </NavItem>
-              {/* Marketplace IA — every way to find, equip or contribute a Collaborateur IA */}
-              <div
-                ref={collabRef}
-                className="relative"
-                onPointerEnter={openCollabHover}
-                onPointerLeave={closeCollabHover}
-              >
-                <button
-                  ref={collabButtonRef}
-                  type="button"
-                  id="collab-trigger"
-                  onClick={() => setCollabOpen((open) => !open)}
-                  aria-expanded={collabOpen}
-                  aria-haspopup="true"
-                  aria-controls="collab-menu"
-                  aria-current={isCollabActive ? 'page' : undefined}
-                  className={`relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${
-                    isCollabActive || collabOpen
-                      ? overDark
-                        ? 'text-[#F5679D]'
-                        : 'text-[#D10E63]'
-                      : overDark
-                        ? 'text-[#D7D0C4] hover:text-[#FBF9F3]'
-                        : 'text-[#857C6E] hover:text-[#1C1A17]'
-                  }`}
-                >
-                  {t.collaborators}
-                  <ChevronDown
-                    className={`h-3.5 w-3.5 transition-transform duration-200 ${collabOpen ? 'rotate-180' : ''}`}
-                    aria-hidden="true"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px rounded-full transition-opacity duration-200 ${
-                      overDark ? 'bg-[#F5679D]' : 'bg-[#D10E63]'
-                    } ${isCollabActive ? 'opacity-100' : 'opacity-0'}`}
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {collabOpen && (
-                    <motion.div
-                      id="collab-menu"
-                      aria-labelledby="collab-trigger"
-                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                      style={{ transformOrigin: 'top left' }}
-                       className="fixed left-1/2 top-[76px] w-[680px] max-w-[calc(100vw-2rem)] -translate-x-1/2 pt-2"
-                       >
-                         <div className="max-h-[calc(100dvh-96px)] overflow-y-auto rounded-[20px] border border-[#DED6C8] bg-[#F3EFE6] text-[#1C1A17] shadow-[0_30px_70px_-26px_rgba(21,19,22,.32)]">
-                           <div className="grid grid-cols-2 gap-x-2 p-4">
-                            {COLLAB_MENU.map((entry) => <DeploymentMenuLink key={entry.href} entry={entry} lang={lang} onSelect={() => setCollabOpen(false)} />)}
-                           </div>
-                        </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <NavItem href={localizePublicHref('/marketplace/collaborateurs-ia', lang)} active={isCollabActive} overDark={overDark}>
+                {t.collaborators}
+              </NavItem>
 
               <NavItem href={localizedHref('workspace', lang)} active={isWorkspaceActive} overDark={overDark}>
                 {t.workspace}
@@ -331,10 +274,7 @@ export function Navbar(
             {/* Mobile burger */}
             <button
               ref={mobileMenuButtonRef}
-              onClick={() => {
-                if (isMenuOpen) setMobileCollabOpen(false)
-                setIsMenuOpen((v) => !v)
-              }}
+              onClick={() => setIsMenuOpen((v) => !v)}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#DcD4C4] bg-[#FBF9F3] text-[#1C1A17] transition-colors hover:bg-[#EAE3D4] lg:hidden"
               aria-label={isMenuOpen ? t.closeMenu : t.openMenu}
               aria-expanded={isMenuOpen}
@@ -414,41 +354,8 @@ export function Navbar(
               <nav className="scrollbar-hide flex-1 overflow-y-auto overflow-x-hidden px-6 py-2">
                 {/* Primary links — same structure as desktop */}
                  <div className="divide-y divide-[#E4DDCE]">
-                   {/* Collaborateurs IA — collapsible so the menu stays short */}
                    <Link href={localizedHref('missions', lang)} onClick={() => setIsMenuOpen(false)} className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]">{t.missions}</Link>
-                   <div className="py-1">
-                    <button
-                      type="button"
-                      onClick={() => setMobileCollabOpen((v) => !v)}
-                      aria-expanded={mobileCollabOpen}
-                      aria-controls="mobile-collab-sub"
-                      className="flex min-h-11 w-full items-center justify-between text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                    >
-                      {t.collaborators}
-                      <ChevronDown
-                        aria-hidden="true"
-                        className={`h-4 w-4 text-[#6B6252] transition-transform duration-200 ${mobileCollabOpen ? 'rotate-180' : ''}`}
-                      />
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {mobileCollabOpen && (
-                        <motion.div
-                          id="mobile-collab-sub"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                          className="overflow-hidden"
-                        >
-                           <div className="ml-1 flex flex-col border-l border-[#DcD4C4] pb-2 pl-4">
-                               <div className="grid grid-cols-1 gap-x-4 pt-2 sm:grid-cols-2">
-                                 {COLLAB_MENU.map((entry, index) => <MobileMarketplaceLink key={entry.href} entry={entry} index={index} lang={lang} onSelect={() => setIsMenuOpen(false)} />)}
-                               </div>
-                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                   <Link href={localizePublicHref('/marketplace/collaborateurs-ia', lang)} onClick={() => setIsMenuOpen(false)} className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]">{t.collaborators}</Link>
 
                   <Link
                     href={localizedHref('workspace', lang)}

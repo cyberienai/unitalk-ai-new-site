@@ -9,6 +9,7 @@ describe('site footer', () => {
     expect(footer).toContain('/marketplace/collaborateurs-ia')
     expect(footer).not.toContain("['Marketplace', '/marketplace']")
     expect(footer).toContain('/missions')
+    expect(footer).toContain("['Unitalk Desktop', '/desktop']")
     expect(footer).toContain('/blog')
     expect(footer).toContain('/changelog')
     expect(footer).toContain('/documentation')
