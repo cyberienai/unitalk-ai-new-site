@@ -21,9 +21,9 @@ describe('Unitalk pricing', () => {
     expect(unitalkPricing.aiCollaborator.includedTokens).toBe(5_000_000)
     expect(unitalkPricing.aiCollaborator.includedPhoneMinutes).toBe(60)
     expect(unitalkPricing.credits.minimumTopUp).toBe(25)
-    expect(unitalkPricing.organization.solo.includedCredits).toBe(0)
-    expect(unitalkPricing.organization.team.includedCredits).toBe(0)
-    expect(unitalkPricing.organization.business.includedCredits).toBe(0)
+    expect(unitalkPricing.organization.solo.includedCredits).toBe(1_000)
+    expect(unitalkPricing.organization.team.includedCredits).toBe(2_500)
+    expect(unitalkPricing.organization.business.includedCredits).toBe(20_000)
   })
 
   it('normalizes the checkout draft', () => {

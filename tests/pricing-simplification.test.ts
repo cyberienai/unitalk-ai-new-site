@@ -10,9 +10,9 @@ const faqData = readFileSync(new URL('../lib/pricing-faq.ts', import.meta.url), 
 
 describe('pricing simplification', () => {
   it('presents organization-wide pricing and the full package', () => {
-    for (const value of ['Pas de facturation par utilisateur.', 'Assistants d’équipe illimités', 'Workspace Web et Desktop', 'Fonctionne avec plus de 3 200 applications']) expect(sections).toContain(value)
-    for (const value of ['Missions prises en charge', 'Mémoire privée et partagée', 'Email, calendrier et téléphone', 'Instance Hermes dédiée']) expect(sections).toContain(value)
-    expect(sections).toContain('Accès au Store de modèles IA : texte, image, vidéo et audio')
+    for (const value of ['sans facturation par utilisateur.', 'Assistants d’équipe illimités', 'Applications Web et Desktop incluses', 'Fonctionne avec plus de 3 200 applications']) expect(sections).toContain(value)
+    for (const value of ['Missions prises en charge', 'Applications Web et Desktop incluses', 'Mémoire privée et partagée', 'Email, calendrier et téléphone', 'Instance Hermes dédiée']) expect(sections).toContain(value)
+    expect(sections).toContain('Accès aux modèles IA : texte, image, vidéo et audio')
   })
 
   it('persists exactly the configuration shown to the user', () => {

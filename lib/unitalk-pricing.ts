@@ -10,9 +10,9 @@ export const unitalkPricing = {
   annualMonthsCharged: 10,
   trial: { days: 7, tokens: 1_000_000 },
   organization: {
-    solo: { label: 'Solo', users: '1 utilisateur', monthlyPrice: 0, includedCredits: 0, creditFrequency: 'none' },
-    team: { label: 'Équipe', users: 'Jusqu’à 10 utilisateurs', monthlyPrice: 49, includedCredits: 0, creditFrequency: 'none' },
-    business: { label: 'Entreprise', users: 'Jusqu’à 100 utilisateurs', monthlyPrice: 299, includedCredits: 0, creditFrequency: 'none' },
+    solo: { label: 'Solo', users: '1 utilisateur', monthlyPrice: 0, includedCredits: 1_000, creditFrequency: 'monthly' },
+    team: { label: 'Équipe', users: 'Jusqu’à 10 utilisateurs', monthlyPrice: 49, includedCredits: 2_500, creditFrequency: 'monthly' },
+    business: { label: 'Entreprise', users: 'Jusqu’à 100 utilisateurs', monthlyPrice: 299, includedCredits: 20_000, creditFrequency: 'monthly' },
   },
   aiCollaborator: { monthlyPrice: 49, includedTokens: 5_000_000, includedPhoneMinutes: 60, min: 0, max: 100 },
   aiCocreator: { monthlyPrice: 50, min: 0, max: 20 },
