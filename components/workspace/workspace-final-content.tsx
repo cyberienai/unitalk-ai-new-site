@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ArrowRight, Check, Clock3, Laptop, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check, Clock3, ShieldCheck } from 'lucide-react'
 import { LocalizedLink as Link } from '@/components/localized-link'
 import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage, type Lang } from '@/lib/language-context'
@@ -25,7 +25,7 @@ export function WorkspaceFinalContent({ onboarding }: { onboarding?: WorkspaceOn
   const t = COPY[lang]
 
   return (
-    <main className="overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
+    <main id="main-content" className="overflow-hidden bg-[#F3EFE6] font-sf text-[#1C1A17]">
       <section className="relative border-b border-[#D8D0C2] px-5 pb-14 pt-28 sm:px-8 sm:pb-20 sm:pt-36">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.035] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div aria-hidden className="pointer-events-none absolute -right-40 top-16 size-[34rem] rounded-full bg-[#D10E63]/10 blur-3xl" />
@@ -37,7 +37,7 @@ export function WorkspaceFinalContent({ onboarding }: { onboarding?: WorkspaceOn
           <div className="pb-1">
             <p className="max-w-xl text-[17px] leading-8 text-[#4E483F]">{onboarding ? (lang === 'fr' ? `Votre Workspace ${onboarding.companyName} conserve la mission « ${onboarding.missionTitle} ». Alma prépare les accès et soumet les actions sensibles à votre validation.` : `Your ${onboarding.companyName} Workspace keeps the “${onboarding.missionTitle}” mission. Alma prepares access and submits sensitive actions for your approval.`) : t.heroLead}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <CtaButton href={onboarding ? '#workspace-demo' : localizedHref('missions', lang)}>{onboarding ? t.openMission : t.heroCta}<ArrowRight className="size-4" /></CtaButton>
+              <CtaButton href={onboarding ? '#mission-example' : localizedHref('missions', lang)}>{onboarding ? t.openMission : t.heroCta}<ArrowRight className="size-4" /></CtaButton>
               <a href="#workspace-demo" className="inline-flex min-h-11 items-center justify-center px-3 text-sm font-bold text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-4">{t.demoCta}</a>
             </div>
             <p className="mt-5 text-xs font-semibold text-[#6E665A]">{onboarding ? t.onboardingNote : t.availability}</p>
@@ -73,7 +73,6 @@ export function WorkspaceFinalContent({ onboarding }: { onboarding?: WorkspaceOn
           <div className="mt-12 grid border-l border-t border-[#D8D0C2] sm:grid-cols-2 lg:grid-cols-3">
             {t.capabilities.map((item, index) => <article key={item.title} className="min-h-64 border-b border-r border-[#D8D0C2] p-6 sm:p-7"><span className="font-mono text-[10px] font-black tracking-[.16em] text-[#B00C54]">0{index + 1}</span><h3 className="mt-10 text-2xl font-semibold tracking-[-.04em]">{item.title}</h3><p className="mt-4 text-sm leading-7 text-[#625B50]">{item.body}</p></article>)}
           </div>
-          <WorkspaceMissionPreview lang={lang} onboarding={onboarding} />
         </div>
       </section>
 
@@ -87,7 +86,8 @@ export function WorkspaceFinalContent({ onboarding }: { onboarding?: WorkspaceOn
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="editorial-shell">
           <div className="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end"><div><Kicker>{t.spacesKicker}</Kicker><h2 className="mt-5 text-balance text-[clamp(2.4rem,4.5vw,4.5rem)] font-semibold leading-[.95] tracking-[-.06em]"><span className="block">{t.spacesTitle}</span><span className="block text-[#D10E63]">{t.spacesAccent}</span></h2></div><p className="max-w-2xl text-[15px] leading-7 text-[#625B50]">{t.spacesLead}</p></div>
-          <div className="mt-10 grid gap-px overflow-hidden rounded-[28px] border border-[#D8D0C2] bg-[#D8D0C2] lg:grid-cols-3">{t.spaces.map(([title,body,items])=><article key={title} className="bg-[#FAF8F3] p-6 sm:p-7"><h3 className="text-2xl font-semibold tracking-[-.04em]">{title}</h3><p className="mt-4 text-sm leading-7 text-[#625B50]">{body}</p><ul className="mt-6 space-y-3 border-t border-[#DED6C8] pt-5">{items.map(item=><li key={item} className="flex gap-2 text-xs font-semibold leading-5"><Check className="mt-0.5 size-3.5 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></article>)}</div>
+           <div className="mt-10 grid gap-px overflow-hidden rounded-[28px] border border-[#D8D0C2] bg-[#D8D0C2] lg:grid-cols-3">{t.spaces.map(([title,body,items])=><article key={title} className="bg-[#FAF8F3] p-6 sm:p-7"><h3 className="text-2xl font-semibold tracking-[-.04em]">{title}</h3><p className="mt-4 text-sm leading-7 text-[#625B50]">{body}</p><ul className="mt-6 space-y-3 border-t border-[#DED6C8] pt-5">{items.map(item=><li key={item} className="flex gap-2 text-xs font-semibold leading-5"><Check className="mt-0.5 size-3.5 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></article>)}</div>
+           <WorkspaceMissionPreview lang={lang} onboarding={onboarding} />
           <div className="mt-5 grid gap-5 lg:grid-cols-2">
             <article className="rounded-[26px] border border-[#D8D0C2] bg-[#EAE3D4] p-6 sm:p-8"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.memoryKicker}</p><h3 className="mt-4 text-2xl font-semibold tracking-[-.04em]">{t.memoryTitle}</h3><p className="mt-4 text-sm leading-7 text-[#625B50]">{t.memoryBody}</p><Link href="/documentation/memoire-gouvernee" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{t.learnMemory}<ArrowRight className="size-4"/></Link></article>
             <article className="rounded-[26px] border border-[#292521] bg-[#211E1A] p-6 text-white sm:p-8"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.communicationKicker}</p><h3 className="mt-4 text-2xl font-semibold tracking-[-.04em]">{t.communicationTitle}</h3><p className="mt-4 text-sm leading-7 text-[#CFC6B8]">{t.communicationBody}</p><Link href="/documentation/communications" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#F2A4C5]">{t.learnCommunications}<ArrowRight className="size-4"/></Link></article>
@@ -138,7 +138,7 @@ export function WorkspaceFinalContent({ onboarding }: { onboarding?: WorkspaceOn
 
 function WorkspaceMissionPreview({ lang, onboarding }: { lang: Lang; onboarding?: WorkspaceOnboarding }) {
   const t = COPY[lang]
-  return <section className="mt-14 grid overflow-hidden rounded-[24px] border border-[#D8D0C2] bg-[#FFFDF9] lg:grid-cols-[.7fr_1.3fr]"><div className="border-b border-[#D8D0C2] p-6 lg:border-b-0 lg:border-r lg:p-8"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.unitalkPreviewKicker}</p><h3 className="mt-4 text-2xl font-semibold tracking-[-.04em]">{onboarding?.missionTitle ?? t.missionTitle}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{onboarding ? `${onboarding.collaboratorName} · ${onboarding.profile[lang]}` : t.unitalkPreviewBody}</p></div><div className="p-6 lg:p-8"><ol className="grid gap-5 sm:grid-cols-3">{t.previewActivity.map(([time, body], index) => <li key={time}><span className="flex items-center gap-2 font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{index === t.previewActivity.length - 1 ? <ShieldCheck className="size-4 text-[#D10E63]" /> : index === 0 ? <Clock3 className="size-4 text-[#B00C54]" /> : <Check className="size-4 text-[#257A43]" />}{time}</span><p className="mt-2 text-sm font-semibold leading-6 text-[#4E483F]">{body}</p></li>)}</ol><div className="mt-6 flex items-center justify-between gap-4 rounded-xl bg-[#211E1A] p-4 text-white"><div><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{t.decisionRequired}</p><p className="mt-1 text-sm font-semibold">{t.previewQuestion}</p></div><span className="shrink-0 rounded-full bg-[#D10E63] px-3 py-1.5 text-[10px] font-bold">{t.toApprove}</span></div></div></section>
+  return <section id="mission-example" className="mt-14 grid scroll-mt-24 overflow-hidden rounded-[24px] border border-[#D8D0C2] bg-[#FFFDF9] lg:grid-cols-[.7fr_1.3fr]"><div className="border-b border-[#D8D0C2] p-6 lg:border-b-0 lg:border-r lg:p-8"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{t.unitalkPreviewKicker}</p><h3 className="mt-4 text-2xl font-semibold tracking-[-.04em]">{onboarding?.missionTitle ?? t.missionTitle}</h3><div className="mt-4 flex items-center gap-3">{!onboarding && <Image src="/images/nadia-avatar.png" alt="" width={40} height={40} className="size-10 rounded-full object-cover"/>}<p className="text-sm leading-6 text-[#625B50]">{onboarding ? `${onboarding.collaboratorName} · ${onboarding.profile[lang]}` : t.unitalkPreviewBody}</p></div></div><div className="p-6 lg:p-8"><ol className="grid gap-5 sm:grid-cols-3">{t.previewActivity.map(([time, body], index) => <li key={time}><span className="flex items-center gap-2 font-mono text-[9px] font-black uppercase tracking-[.12em] text-[#857C6E]">{index === t.previewActivity.length - 1 ? <ShieldCheck className="size-4 text-[#D10E63]" /> : index === 0 ? <Clock3 className="size-4 text-[#B00C54]" /> : <Check className="size-4 text-[#257A43]" />}{time}</span><p className="mt-2 text-sm font-semibold leading-6 text-[#4E483F]">{body}</p></li>)}</ol><div className="mt-6 flex items-center justify-between gap-4 rounded-xl bg-[#211E1A] p-4 text-white"><div><p className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#F2A4C5]">{t.decisionRequired}</p><p className="mt-1 text-sm font-semibold">{t.previewQuestion}</p></div><span className="shrink-0 rounded-full bg-[#D10E63] px-3 py-1.5 text-[10px] font-bold">{t.toApprove}</span></div></div></section>
 }
 
 function Actor({ image, title, body }: { image: string; title: string; body: string }) {
@@ -152,21 +152,21 @@ function withAlmaAvatar(value: string) {
 const COPY = {
   fr: {
     heroTitle: 'Un espace de travail\noù humains et IA collaborent.',
-    heroLead: 'Confiez une mission, suivez le travail et gardez la décision. Le Workspace Unitalk transforme le moteur agentique open source Hermes en environnement de travail gouverné pour votre entreprise.',
-    heroCta: 'Explorer les missions', openMission: 'Ouvrir la mission', demoCta: 'Voir la démonstration',
+    heroLead: 'Confiez une mission, suivez le travail et gardez la décision. Le Workspace Unitalk transforme un moteur agentique open source en environnement de travail gouverné pour votre entreprise.',
+    heroCta: 'Explorer les missions', openMission: 'Voir un exemple de mission', demoCta: 'Voir la démonstration',
     availability: 'Web et Desktop · Mémoire · Outils · Validations humaines',
     onboardingNote: 'Première mission offerte · Applications connectées uniquement avec votre accord',
     previewMission: 'Mission en cours', readyMission: 'Première mission · Prête à démarrer', setupRequired: 'Configuration requise', previewStatus: 'Validation requise', missionTitle: 'Relancer les factures impayées',
-    previewActivity: [['10:14', 'Emma identifie 12 factures échues.'], ['10:16', 'Deux dossiers comportent un litige ouvert.'], ['10:18', 'Dix relances attendent votre validation.']] as const,
+    previewActivity: [['10:14', 'Nadia identifie 12 factures échues.'], ['10:16', 'Deux dossiers comportent un litige ouvert.'], ['10:18', 'Dix relances attendent votre validation.']] as const,
     decisionRequired: 'Décision requise', previewQuestion: 'Autoriser l’envoi des dix relances préparées ?',
-    genericDemo: 'Démonstration générique du Workspace', demoKicker: 'Le moteur agentique en action', demoTitle: 'Voyez comment un agent travaille.',
-    demoLead: 'Hermes exécute. Unitalk orchestre. Ensemble, ils déploient la collaboration à l’échelle de l’entreprise.',
-    demoNote: 'Hermes est le moteur agentique open source au cœur de la distribution Unitalk AI. Unitalk ajoute le Workspace partagé, les missions, les profils, les droits, les validations humaines et l’administration.',
+    genericDemo: 'Démonstration générique du Workspace', demoKicker: 'Démonstration vidéo', demoTitle: 'Le moteur open source utilisé par Unitalk',
+    demoLead: 'Le moteur exécute. Unitalk orchestre le travail et les décisions à l’échelle de l’entreprise.',
+    demoNote: 'Unitalk ajoute au moteur open source le Workspace partagé, les missions, les profils, les droits, les validations humaines et l’administration.',
     videoLabel: 'Démonstration vidéo du projet Hermes Desktop', videoCaption: 'Démonstration officielle du projet open source Hermes Desktop par Nous Research. Unitalk Desktop en est une distribution enrichie. Ce n’est pas une capture du Workspace Unitalk.', videoSource: 'Voir la source officielle',
     freeKicker: 'Commencez gratuitement', freeTitle: 'Votre Workspace Solo est gratuit. Votre première mission aussi.', freeBody: 'Alma configure l’accès aux modèles IA, prépare la synchronisation avec Unitalk AI Cloud et vous accompagne jusqu’à la première mission de votre Collaborateur IA.', freeCta: 'Créer mon Workspace Solo',
-    capabilitiesKicker: 'Les capacités de Hermes', capabilitiesTitle: 'Six capacités agentiques. Un cadre Unitalk.', capabilitiesLead: 'Hermes apporte le moteur open source. Unitalk l’intègre au Workspace, aux missions et aux règles de votre entreprise.',
+    capabilitiesKicker: 'Les capacités du moteur', capabilitiesTitle: 'Six capacités agentiques. Un cadre Unitalk.', capabilitiesLead: 'Le moteur open source apporte les capacités d’exécution. Unitalk les intègre aux missions et aux règles de votre entreprise.',
     capabilities: [
-      { title: 'Disponible partout', body: 'Hermes fonctionne depuis son interface Desktop, le terminal et des canaux comme Slack, Discord ou Telegram.' },
+      { title: 'Disponible partout', body: 'Le moteur fonctionne depuis une interface Desktop, le terminal et des canaux comme Slack, Discord ou Telegram.' },
       { title: 'Mémoire persistante', body: 'Il conserve le contexte utile, apprend les méthodes de travail et réutilise ses compétences.' },
       { title: 'Automatisation ciblée', body: 'Planifiez en langage naturel des rapports, sauvegardes, briefings et autres tâches récurrentes.' },
       { title: 'Tâches multipliées', body: 'Déléguez des travaux parallèles à des sous-agents isolés avec leurs propres conversations et outils.' },
@@ -179,9 +179,9 @@ const COPY = {
       ['Partagé', 'Un espace d’équipe pour travailler sur les mêmes missions et connaissances autorisées.', ['Assistants IA d’équipe', 'Missions, fichiers et commentaires communs', 'Validations visibles par les membres autorisés']],
       ['Entreprise', 'Le niveau d’administration des humains, des IA et des ressources communes.', ['Membres, équipes et rattachements', 'Applications, modèles et politiques', 'Budgets, activité et mémoire partagée']],
     ] as const,
-    memoryKicker: 'Mémoire gouvernée', memoryTitle: 'Propre, partagée ou Entreprise.', memoryBody: 'Chaque Collaborateur IA conserve le contexte autorisé entre ses missions. Honcho contribue à personnaliser la relation avec l’utilisateur ; Unitalk contrôle la portée et le partage des informations.', learnMemory: 'Comprendre la mémoire',
-    communicationKicker: 'Canaux professionnels', communicationTitle: 'Présent là où votre équipe travaille.', communicationBody: 'Email et calendrier via Stalwart, téléphone via Telnyx, puis Slack, Teams, Telegram ou WhatsApp selon la configuration et les droits accordés.', learnCommunications: 'Voir les communications',
-    unitalkPreviewKicker: 'Aperçu Unitalk', unitalkPreviewBody: 'Emma · Collaboratrice IA Finance', toApprove: 'À valider',
+    memoryKicker: 'Mémoire gouvernée', memoryTitle: 'Propre, partagée ou Entreprise.', memoryBody: 'Chaque Collaborateur IA conserve le contexte autorisé entre ses missions. Unitalk contrôle la portée, les droits et le partage des informations.', learnMemory: 'Comprendre la mémoire',
+    communicationKicker: 'Canaux professionnels', communicationTitle: 'Présent là où votre équipe travaille.', communicationBody: 'Email, calendrier, téléphone, Slack, Teams, Telegram ou WhatsApp sont disponibles selon la configuration et les droits accordés.', learnCommunications: 'Voir les communications',
+    unitalkPreviewKicker: 'Aperçu Unitalk', unitalkPreviewBody: 'Nadia · Collaboratrice IA Finance', toApprove: 'À valider',
     downloadKicker: 'Unitalk Desktop', downloadTitle: 'Unitalk Desktop relie l’exécution au travail collectif.', downloadLead: 'Unitalk Desktop est la distribution Unitalk du projet open source Hermes Desktop. Elle intègre Unitalk AI Gateway et la synchronisation avec Unitalk AI Cloud afin de réunir l’exécution locale et les services de collaboration de l’entreprise.',
     desktopLayers: [['Gestion des missions avec Alma', 'Alma cadre les résultats, prépare le bon Collaborateur IA et orchestre les autorisations, le suivi et les validations.'], ['AI Gateway', 'Les modèles, fournisseurs, clés, routes, budgets et limites restent gouvernés par l’entreprise.'], ['Synchronisation avec Unitalk AI Cloud', 'Le Desktop synchronise les missions, l’activité et les ressources autorisées avec les services Unitalk.'], ['Workspace collaboratif', 'Identités, mémoire gouvernée, outils de communication et Assistants IA partagés restent accessibles dans le même environnement.']] as const,
     discoverDesktop: 'Découvrir Unitalk Desktop',
@@ -192,21 +192,21 @@ const COPY = {
   },
   en: {
     heroTitle: 'A workspace\nwhere humans and AI collaborate.',
-    heroLead: 'Assign a mission, follow the work and keep the final say. Unitalk Workspace turns the open-source Hermes agent engine into a governed work environment for your organization.',
-    heroCta: 'Explore missions', openMission: 'Open mission', demoCta: 'Watch the demo',
+    heroLead: 'Assign a mission, follow the work and keep the final say. Unitalk Workspace turns an open-source agent engine into a governed work environment for your organization.',
+    heroCta: 'Explore missions', openMission: 'View a mission example', demoCta: 'Watch the demo',
     availability: 'Web and Desktop · Memory · Tools · Human approvals',
     onboardingNote: 'First mission included · Applications connect only with your approval',
     previewMission: 'Mission in progress', readyMission: 'First mission · Ready to start', setupRequired: 'Setup required', previewStatus: 'Approval required', missionTitle: 'Follow up unpaid invoices',
-    previewActivity: [['10:14', 'Emma identifies 12 overdue invoices.'], ['10:16', 'Two files have an open dispute.'], ['10:18', 'Ten reminders await your approval.']] as const,
+    previewActivity: [['10:14', 'Nadia identifies 12 overdue invoices.'], ['10:16', 'Two files have an open dispute.'], ['10:18', 'Ten reminders await your approval.']] as const,
     decisionRequired: 'Decision required', previewQuestion: 'Approve sending the ten prepared reminders?',
-    genericDemo: 'Generic Workspace demonstration', demoKicker: 'The agent engine in action', demoTitle: 'See how an agent works.',
-    demoLead: 'Hermes executes. Unitalk orchestrates. Together, they enable collaboration across the organization.',
-    demoNote: 'Hermes is the open-source agent engine at the heart of the Unitalk AI distribution. Unitalk adds the shared Workspace, missions, profiles, permissions, human approvals and administration.',
+    genericDemo: 'Generic Workspace demonstration', demoKicker: 'Video demonstration', demoTitle: 'The open-source engine used by Unitalk',
+    demoLead: 'The engine executes. Unitalk orchestrates work and decisions across the organization.',
+    demoNote: 'Unitalk adds the shared Workspace, missions, profiles, permissions, human approvals and administration to the open-source engine.',
     videoLabel: 'Hermes Desktop project video demonstration', videoCaption: 'Official demonstration of the open-source Hermes Desktop project by Nous Research. Unitalk Desktop is an enriched distribution of it; this is not a capture of Unitalk Workspace.', videoSource: 'View the official source',
     freeKicker: 'Start for free', freeTitle: 'Your Solo Workspace is free. So is your first mission.', freeBody: 'Alma configures access to AI models, prepares synchronization with Unitalk AI Cloud and supports you through your AI Collaborator’s first mission.', freeCta: 'Create my Solo Workspace',
-    capabilitiesKicker: 'Hermes capabilities', capabilitiesTitle: 'Six agent capabilities. One Unitalk framework.', capabilitiesLead: 'Hermes provides the open-source engine. Unitalk connects it to the Workspace, missions and your organization’s rules.',
+    capabilitiesKicker: 'Engine capabilities', capabilitiesTitle: 'Six agent capabilities. One Unitalk framework.', capabilitiesLead: 'The open-source engine provides execution capabilities. Unitalk connects them to missions and your organization’s rules.',
     capabilities: [
-      { title: 'Lives everywhere', body: 'Hermes works through its Desktop interface, the terminal and channels such as Slack, Discord or Telegram.' },
+      { title: 'Lives everywhere', body: 'The engine works through a Desktop interface, the terminal and channels such as Slack, Discord or Telegram.' },
       { title: 'Persistent memory', body: 'It retains useful context, learns working methods and reuses its skills.' },
       { title: 'Focused automation', body: 'Schedule reports, backups, briefings and other recurring tasks in natural language.' },
       { title: 'Tasks multiplied', body: 'Delegate parallel work to isolated subagents with their own conversations and tools.' },
@@ -219,9 +219,9 @@ const COPY = {
       ['Shared', 'A team space for working on the same missions and authorized knowledge.', ['Team AI Assistants', 'Shared missions, files and comments', 'Approvals visible to authorized members']],
       ['Organization', 'The administration layer for humans, AI identities and shared resources.', ['Members, teams and assignments', 'Applications, models and policies', 'Budgets, activity and shared memory']],
     ] as const,
-    memoryKicker: 'Governed memory', memoryTitle: 'Private, shared or organization-wide.', memoryBody: 'Each AI Collaborator retains authorized context across missions. Honcho helps personalize the user relationship; Unitalk controls the scope and sharing of information.', learnMemory: 'Understand memory',
-    communicationKicker: 'Professional channels', communicationTitle: 'Present where your team works.', communicationBody: 'Email and calendar through Stalwart, phone through Telnyx, plus Slack, Teams, Telegram or WhatsApp according to configuration and permissions.', learnCommunications: 'View communications',
-    unitalkPreviewKicker: 'Unitalk preview', unitalkPreviewBody: 'Emma · Finance AI Collaborator', toApprove: 'To approve',
+    memoryKicker: 'Governed memory', memoryTitle: 'Private, shared or organization-wide.', memoryBody: 'Each AI Collaborator retains authorized context across missions. Unitalk controls the scope, permissions and sharing of information.', learnMemory: 'Understand memory',
+    communicationKicker: 'Professional channels', communicationTitle: 'Present where your team works.', communicationBody: 'Email, calendar, phone, Slack, Teams, Telegram and WhatsApp are available according to configuration and permissions.', learnCommunications: 'View communications',
+    unitalkPreviewKicker: 'Unitalk preview', unitalkPreviewBody: 'Nadia · Finance AI Collaborator', toApprove: 'To approve',
     downloadKicker: 'Unitalk Desktop', downloadTitle: 'Unitalk Desktop connects execution to collaborative work.', downloadLead: 'Unitalk Desktop is Unitalk’s distribution of the open-source Hermes Desktop project. It integrates Unitalk AI Gateway and synchronization with Unitalk AI Cloud, combining local execution with organization-wide collaboration services.',
     desktopLayers: [['Mission management with Alma', 'Alma scopes outcomes, prepares the right AI Collaborator and orchestrates permissions, tracking and approvals.'], ['AI Gateway', 'Models, providers, keys, routes, budgets and limits remain governed by the organization.'], ['Synchronization with Unitalk AI Cloud', 'Desktop synchronizes missions, activity and authorized resources with Unitalk services.'], ['Collaborative Workspace', 'Identities, governed memory, communication tools and shared AI Assistants remain available in one environment.']] as const,
     discoverDesktop: 'Discover Unitalk Desktop',

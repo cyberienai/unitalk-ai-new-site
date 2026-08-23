@@ -50,11 +50,11 @@ type Copy = {
   optionalScope: string
   prospectCta: string
   prospectMobileCta: string
-  prospectBenefit: string
+  prospectBenefit: (collaborator: string) => string
   methodTitle: string
-  methodBody: string
+  methodBody: (collaborator: string) => string
   prospectDecisionTitle: string
-  prospectDecisionBody: string
+  prospectDecisionBody: (collaborator: string) => string
 }
 
 const T: Record<Lang, Copy> = {
@@ -80,7 +80,7 @@ const T: Record<Lang, Copy> = {
     personalize: 'Personnaliser avec Alma',
     relatedWord: 'Missions liées',
     seeAll: 'Voir toutes les missions',
-    decisionTitle: 'Préparer cette mission', reassurance: 'Première mission offerte · Sans carte bancaire', mobileCta: 'Préparer avec Alma', proofLabel: 'Exemple illustratif', previewTitle: 'Aperçu d’une liste qualifiée', faqTitle: 'Questions fréquentes', guideLabel: 'Lire le guide complet de qualification', trialLimit: 'L’essai prend fin avec la mission, après 7 jours ou 1 million de tokens, selon la première limite atteinte.', targetLabel: 'Cible', targetPlaceholder: 'Ex. PME industrielles', zoneLabel: 'Zone', volumeLabel: 'Volume', optionalScope: '3 repères facultatifs pour ne pas repartir de zéro', prospectCta: 'Préparer ma première liste de prospects', prospectMobileCta: 'Préparer ma liste', prospectBenefit: 'Hugo prend en charge la recherche et la première qualification. Votre équipe se concentre sur la vérification et la prise de contact.', methodTitle: 'Comment la qualification est établie', methodBody: 'Hugo vérifie l’adéquation avec votre cible, les signaux détectés, vos exclusions et la fraîcheur des sources. La qualification aide à prioriser la vérification ; elle ne déclenche jamais automatiquement une prise de contact.', prospectDecisionTitle: 'Votre première liste', prospectDecisionBody: 'Donnez trois repères à Alma. Elle prépare Hugo et vous aide à préciser le reste.',
+    decisionTitle: 'Préparer cette mission', reassurance: 'Première mission offerte · Sans carte bancaire', mobileCta: 'Préparer avec Alma', proofLabel: 'Exemple illustratif', previewTitle: 'Aperçu d’une liste qualifiée', faqTitle: 'Questions fréquentes', guideLabel: 'Lire le guide complet de qualification', trialLimit: 'L’essai prend fin avec la mission, après 7 jours ou 1 million de tokens, selon la première limite atteinte.', targetLabel: 'Cible', targetPlaceholder: 'Ex. PME industrielles', zoneLabel: 'Zone', volumeLabel: 'Volume', optionalScope: '3 repères facultatifs pour ne pas repartir de zéro', prospectCta: 'Préparer ma première liste de prospects', prospectMobileCta: 'Préparer ma liste', prospectBenefit: (collaborator) => `${collaborator} prend en charge la recherche et la première qualification. Votre équipe se concentre sur la vérification et la prise de contact.`, methodTitle: 'Comment la qualification est établie', methodBody: (collaborator) => `${collaborator} vérifie l’adéquation avec votre cible, les signaux détectés, vos exclusions et la fraîcheur des sources. La qualification aide à prioriser la vérification ; elle ne déclenche jamais automatiquement une prise de contact.`, prospectDecisionTitle: 'Votre première liste', prospectDecisionBody: (collaborator) => `Donnez trois repères à Alma. Elle prépare ${collaborator} et vous aide à préciser le reste.`,
   },
   en: {
     back: 'All missions',
@@ -104,7 +104,7 @@ const T: Record<Lang, Copy> = {
     personalize: 'Customize with Alma',
     relatedWord: 'Related missions',
     seeAll: 'See all missions',
-    decisionTitle: 'Prepare this mission', reassurance: 'First mission included · No credit card', mobileCta: 'Prepare with Alma', proofLabel: 'Illustrative example', previewTitle: 'Qualified list preview', faqTitle: 'Frequently asked questions', guideLabel: 'Read the full qualification guide', trialLimit: 'The trial ends with the mission, after 7 days or 1 million tokens, whichever comes first.', targetLabel: 'Target', targetPlaceholder: 'e.g. industrial SMBs', zoneLabel: 'Region', volumeLabel: 'Volume', optionalScope: '3 optional pointers so you do not start over', prospectCta: 'Prepare my first prospect list', prospectMobileCta: 'Prepare my list', prospectBenefit: 'Hugo handles research and initial qualification. Your team can focus on review and outreach.', methodTitle: 'How qualification is determined', methodBody: 'Hugo checks fit with your target, detected signals, exclusions and source freshness. Qualification helps prioritize review; it never triggers outreach automatically.', prospectDecisionTitle: 'Your first list', prospectDecisionBody: 'Give Alma three pointers. She prepares Hugo and helps you define the rest.',
+    decisionTitle: 'Prepare this mission', reassurance: 'First mission included · No credit card', mobileCta: 'Prepare with Alma', proofLabel: 'Illustrative example', previewTitle: 'Qualified list preview', faqTitle: 'Frequently asked questions', guideLabel: 'Read the full qualification guide', trialLimit: 'The trial ends with the mission, after 7 days or 1 million tokens, whichever comes first.', targetLabel: 'Target', targetPlaceholder: 'e.g. industrial SMBs', zoneLabel: 'Region', volumeLabel: 'Volume', optionalScope: '3 optional pointers so you do not start over', prospectCta: 'Prepare my first prospect list', prospectMobileCta: 'Prepare my list', prospectBenefit: (collaborator) => `${collaborator} handles research and initial qualification. Your team can focus on review and outreach.`, methodTitle: 'How qualification is determined', methodBody: (collaborator) => `${collaborator} checks fit with your target, detected signals, exclusions and source freshness. Qualification helps prioritize review; it never triggers outreach automatically.`, prospectDecisionTitle: 'Your first list', prospectDecisionBody: (collaborator) => `Give Alma three pointers. She prepares ${collaborator} and helps you define the rest.`,
   },
 }
 
@@ -112,19 +112,20 @@ export function MissionDetailContent({ slug }: { slug: string }) {
   const { lang } = useLanguage()
   const t = T[lang]
   const mission = getMission(slug)
+  const [target, setTarget] = useState('')
+  const [zone, setZone] = useState('France')
+  const [volume, setVolume] = useState('50')
 
   if (!mission) return null
 
   const collab = ROLE_DETAILS[mission.collaboratorSlug]
+  const collaboratorName = collab?.name ?? (lang === 'fr' ? 'le Collaborateur IA' : 'the AI Collaborator')
   const category = MISSION_CATEGORIES.find((c) => c.key === mission.category)
   const related = relatedMissions(mission)
   const conversion = missionConversionCopy(mission.slug, lang)
   const conversionHref = `${localizedHref('discover', lang)}?mission=${mission.slug}&source=mission-detail`
   const faq = missionFaq(mission.slug, lang)
   const isProspectingMission = mission.slug === 'trouver-de-nouveaux-clients'
-  const [target, setTarget] = useState('')
-  const [zone, setZone] = useState('France')
-  const [volume, setVolume] = useState('50')
   const scopedConversionHref = isProspectingMission
     ? `${conversionHref}&${new URLSearchParams({ ...(target.trim() ? { cible: target.trim() } : {}), zone, volume }).toString()}`
     : conversionHref
@@ -139,7 +140,7 @@ export function MissionDetailContent({ slug }: { slug: string }) {
             {mission.title[lang]}
           </h1>
           <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-[#5F594F] md:text-lg">{mission.description[lang]}</p>
-          {isProspectingMission && collab && <Link href={collaboratorProfileHref(mission.collaboratorSlug, lang)} className="mt-6 flex w-fit max-w-2xl items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-3 pr-5 outline-none transition-colors hover:border-[#D10E63]/40 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><Image src={collab.avatar || '/placeholder.svg'} alt="" width={44} height={44} className="size-11 rounded-full object-cover"/><span><span className="block text-sm font-bold text-[#1C1A17]">Hugo · {lang === 'fr' ? 'Collaborateur IA commercial' : 'Sales AI Collaborator'}</span><span className="mt-0.5 block text-xs leading-5 text-[#625B50]">{t.prospectBenefit}</span></span><ArrowRight className="size-4 shrink-0 text-[#B00C54]" /></Link>}
+           {isProspectingMission && collab && <Link href={collaboratorProfileHref(mission.collaboratorSlug, lang)} className="mt-6 flex w-fit max-w-2xl items-center gap-3 rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3] p-3 pr-5 outline-none transition-colors hover:border-[#D10E63]/40 focus-visible:ring-2 focus-visible:ring-[#D10E63]"><Image src={collab.avatar || '/placeholder.svg'} alt="" width={44} height={44} className="size-11 rounded-full object-cover"/><span><span className="block text-sm font-bold text-[#1C1A17]">{collab.name} · {mission.profile[lang]}</span><span className="mt-0.5 block text-xs leading-5 text-[#625B50]">{t.prospectBenefit(collab.name)}</span></span><ArrowRight className="size-4 shrink-0 text-[#B00C54]" /></Link>}
           {isProspectingMission && <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-xs font-bold text-[#4E483F]"><li className="flex items-center gap-2"><Check className="size-4 text-[#D10E63]" />{lang === 'fr' ? 'Liste sourcée' : 'Sourced shortlist'}</li><li className="flex items-center gap-2"><ShieldCheck className="size-4 text-[#D10E63]" />{lang === 'fr' ? 'Validation avant contact' : 'Approval before outreach'}</li></ul>}
         </div>
       </section>
@@ -179,8 +180,8 @@ export function MissionDetailContent({ slug }: { slug: string }) {
                 </span>
                 <p className="text-pretty text-sm leading-relaxed text-[#1C1A17]">{mission.deliverable[lang]}</p>
               </div>
-              {isProspectingMission && <ProspectDeliverablePreview lang={lang} proofLabel={t.proofLabel} title={t.previewTitle} />}
-              <Link href="/blog/trouver-prospects-qualifies-ia" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.guideLabel}<ArrowRight className="size-4" /></Link>
+              {isProspectingMission && <ProspectDeliverablePreview lang={lang} proofLabel={t.proofLabel} title={t.previewTitle} collaboratorName={collaboratorName} />}
+              {mission.article && <Link href={mission.article.href} className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{isProspectingMission ? t.guideLabel : mission.article.label[lang]}<ArrowRight className="size-4" /></Link>}
             </section>
 
             {/* Produces */}
@@ -224,12 +225,13 @@ export function MissionDetailContent({ slug }: { slug: string }) {
           {/* Right column: a decision card focused on the mission outcome. */}
           <aside aria-labelledby="mission-decision-title" className="lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-3xl border border-[#D8D0C2] bg-[#FBF9F3] p-6 shadow-[0_24px_60px_-48px_rgba(28,26,23,.5)]">
-              <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{isProspectingMission ? 'Alma + Hugo' : t.recommendedWord}</p><h2 id="mission-decision-title" className="mt-2 font-sf text-2xl font-bold tracking-[-.035em] text-[#1C1A17]">{isProspectingMission ? t.prospectDecisionTitle : t.decisionTitle}</h2><p className="mt-2 text-sm leading-6 text-[#625B50]">{isProspectingMission ? t.prospectDecisionBody : conversion.summary}</p></div>
+              <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#B00C54]">{isProspectingMission ? `Alma + ${collaboratorName}` : t.recommendedWord}</p><h2 id="mission-decision-title" className="mt-2 font-sf text-2xl font-bold tracking-[-.035em] text-[#1C1A17]">{isProspectingMission ? t.prospectDecisionTitle : t.decisionTitle}</h2><p className="mt-2 text-sm leading-6 text-[#625B50]">{isProspectingMission ? t.prospectDecisionBody(collaboratorName) : conversion.summary}</p></div>
               <div className="mt-5 border-t border-[#E4DDCE] pt-5">
                 {isProspectingMission && <fieldset><legend className="sr-only">{t.optionalScope}</legend><label className="block"><span className="text-xs font-bold text-[#4E483F]">{t.targetLabel}</span><input value={target} onChange={event => setTarget(event.target.value)} placeholder={t.targetPlaceholder} className="mt-1.5 h-11 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-sm outline-none focus:border-[#D10E63] focus:ring-2 focus:ring-[#D10E63]/15"/></label><div className="mt-3 grid grid-cols-2 gap-3"><label><span className="text-xs font-bold text-[#4E483F]">{t.zoneLabel}</span><select value={zone} onChange={event => setZone(event.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-sm outline-none focus:border-[#D10E63]"><option>France</option><option>Europe</option><option>International</option></select></label><label><span className="text-xs font-bold text-[#4E483F]">{t.volumeLabel}</span><select value={volume} onChange={event => setVolume(event.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-[#D8D0C2] bg-white px-3 text-sm outline-none focus:border-[#D10E63]"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100+">100+</option></select></label></div></fieldset>}
                 {collab && !isProspectingMission && <Link href={collaboratorProfileHref(mission.collaboratorSlug, lang)} className="mt-4 flex min-h-14 items-center gap-3 border-t border-[#E4DDCE] pt-4 outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]"><span className="relative size-10 shrink-0"><span className="relative block size-full overflow-hidden rounded-full"><Image src={collab.avatar || '/placeholder.svg'} alt="" fill className="object-cover" sizes="40px" /></span><span className="absolute -bottom-1 -right-1 rounded-full border-2 border-[#FBF9F3] bg-[#1C1A17] px-1.5 py-px text-[9px] font-bold text-white">{t.aiBadge}</span></span><div className="min-w-0"><p className="text-[11px] font-bold uppercase tracking-wide text-[#766D61]">{t.collaboratorWord} {lang === 'fr' ? 'recommandé' : 'recommended'}</p><p className="font-sf text-sm font-bold">{collab.name} · {mission.profile[lang]}</p></div><ArrowRight className="ml-auto size-4 shrink-0 text-[#857C6E]" /></Link>}
                 <Link href={scopedConversionHref} className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D10E63] px-5 text-center text-sm font-bold text-white outline-none transition-colors hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{isProspectingMission ? t.prospectCta : (lang === 'fr' ? 'Continuer avec Alma' : 'Continue with Alma')}<ArrowRight className="size-4 shrink-0" /></Link>
                 <p className="mt-3 text-center text-[11px] font-semibold text-[#625B50]">{t.reassurance}</p>
+                <p className="mt-1.5 text-center text-[10px] leading-4 text-[#857C6E]">{t.trialLimit}</p>
               </div>
             </div>
           </aside>
@@ -270,13 +272,13 @@ export function MissionDetailContent({ slug }: { slug: string }) {
         </section>
       )}
       {faq.length > 0 && <section className="border-t border-[#E4DDCE] bg-[#FBF9F3] px-5 py-14 sm:px-8 sm:py-16"><div className="editorial-shell"><h2 className="font-sf text-3xl font-bold tracking-[-.035em]">{t.faqTitle}</h2><div className="mt-7 grid gap-3 lg:grid-cols-2">{faq.map(item => <details key={item.question} className="rounded-2xl border border-[#D8D0C2] bg-white p-5"><summary className="cursor-pointer text-sm font-bold text-[#1C1A17]">{item.question}</summary><p className="mt-3 text-sm leading-7 text-[#5F594F]">{item.answer}</p></details>)}</div></div></section>}
-      <section className="border-t border-[#DED6C8] px-5 py-10 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-5 sm:flex-row sm:items-center"><div className="flex items-center gap-4"><Image src="/alma-avatar.png" alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover"/><div><p className="font-semibold"><AlmaInline /> Alma · {lang === 'fr' ? 'Coordinatrice de missions IA' : 'AI mission coordinator'}</p><p className="text-sm text-[#6E665A]">{lang === 'fr' ? 'Alma adapte la mission et prépare Hugo selon vos critères.' : 'Alma adapts the mission and prepares Hugo against your criteria.'}</p></div></div><Link href={scopedConversionHref} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 text-center text-sm font-bold text-white">{isProspectingMission ? t.prospectCta : t.mobileCta}<ArrowRight className="ml-2 size-4 shrink-0" /></Link></div></section>
+      <section className="border-t border-[#DED6C8] px-5 py-10 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-5 sm:flex-row sm:items-center"><div className="flex items-center gap-4"><Image src="/alma-avatar.png" alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover"/><div><p className="font-semibold"><AlmaInline /> Alma · {lang === 'fr' ? 'Coordinatrice de missions IA' : 'AI mission coordinator'}</p><p className="text-sm text-[#6E665A]">{lang === 'fr' ? `Alma adapte la mission et prépare ${collaboratorName} selon vos critères.` : `Alma adapts the mission and prepares ${collaboratorName} according to your criteria.`}</p></div></div><Link href={scopedConversionHref} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 text-center text-sm font-bold text-white">{isProspectingMission ? t.prospectCta : t.mobileCta}<ArrowRight className="ml-2 size-4 shrink-0" /></Link></div></section>
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#D8D0C2] bg-[#FBF9F3]/95 px-4 pb-[calc(.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur lg:hidden"><div className="mx-auto flex max-w-lg items-center gap-3"><p className="min-w-0 flex-1 truncate text-xs font-bold text-[#1C1A17]">{mission.title[lang]}</p><Link href={scopedConversionHref} className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-[#D10E63] px-4 text-xs font-bold text-white">{isProspectingMission ? t.prospectMobileCta : t.mobileCta}</Link></div></div>
     </main>
   )
 }
 
-function ProspectDeliverablePreview({ lang, proofLabel, title }: { lang: Lang; proofLabel: string; title: string }) {
+function ProspectDeliverablePreview({ lang, proofLabel, title, collaboratorName }: { lang: Lang; proofLabel: string; title: string; collaboratorName: string }) {
   const t = T[lang]
   const rows = lang === 'fr'
     ? [
@@ -291,5 +293,5 @@ function ProspectDeliverablePreview({ lang, proofLabel, title }: { lang: Lang; p
       ]
   const headings = lang === 'fr' ? ['Entreprise', 'Profil', 'Signal sourcé', 'Qualification'] : ['Company', 'Profile', 'Sourced signal', 'Qualification']
 
-  return <div className="mt-5 overflow-hidden rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3]"><div className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] px-4 py-3"><div><p className="font-mono text-[10px] font-bold uppercase tracking-[.14em] text-[#B00C54]">{proofLabel}</p><h3 className="mt-1 text-sm font-bold">{title}</h3></div><span className="rounded-full bg-[#E6F3EA] px-2.5 py-1 text-[10px] font-bold text-[#257A43]">{lang === 'fr' ? 'À valider' : 'To review'}</span></div><div className="overflow-x-auto"><table className="min-w-[660px] w-full text-left"><thead className="bg-[#F0EBE1] text-[10px] uppercase tracking-[.08em] text-[#6E665A]"><tr>{headings.map(heading => <th key={heading} scope="col" className="px-4 py-2.5">{heading}</th>)}</tr></thead><tbody>{rows.map(row => <tr key={row[0]} className="border-t border-[#E4DDCE] text-xs"><th scope="row" className="px-4 py-3 font-bold">{row[0]}</th><td className="px-4 py-3 text-[#5F594F]">{row[1]}</td><td className="px-4 py-3 text-[#5F594F]">{row[2]}</td><td className="px-4 py-3 font-bold text-[#B00C54]">{row[3]}</td></tr>)}</tbody></table></div><div className="border-t border-[#E4DDCE] px-4 py-3"><p className="text-xs font-bold text-[#1C1A17]">{t.methodTitle}</p><p className="mt-1 text-[11px] leading-5 text-[#6E665A]">{t.methodBody}</p><p className="mt-2 text-[10px] leading-4 text-[#857C6E]">{lang === 'fr' ? 'Exemple fictif présenté uniquement pour illustrer le format du livrable.' : 'Fictional example shown only to illustrate the deliverable format.'}</p></div></div>
+  return <div className="mt-5 overflow-hidden rounded-2xl border border-[#D8D0C2] bg-[#FBF9F3]"><div className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] px-4 py-3"><div><p className="font-mono text-[10px] font-bold uppercase tracking-[.14em] text-[#B00C54]">{proofLabel}</p><h3 className="mt-1 text-sm font-bold">{title}</h3></div><span className="rounded-full bg-[#E6F3EA] px-2.5 py-1 text-[10px] font-bold text-[#257A43]">{lang === 'fr' ? 'À valider' : 'To review'}</span></div><div className="overflow-x-auto"><table className="min-w-[660px] w-full text-left"><thead className="bg-[#F0EBE1] text-[10px] uppercase tracking-[.08em] text-[#6E665A]"><tr>{headings.map(heading => <th key={heading} scope="col" className="px-4 py-2.5">{heading}</th>)}</tr></thead><tbody>{rows.map(row => <tr key={row[0]} className="border-t border-[#E4DDCE] text-xs"><th scope="row" className="px-4 py-3 font-bold">{row[0]}</th><td className="px-4 py-3 text-[#5F594F]">{row[1]}</td><td className="px-4 py-3 text-[#5F594F]">{row[2]}</td><td className="px-4 py-3 font-bold text-[#B00C54]">{row[3]}</td></tr>)}</tbody></table></div><div className="border-t border-[#E4DDCE] px-4 py-3"><p className="text-xs font-bold text-[#1C1A17]">{t.methodTitle}</p><p className="mt-1 text-[11px] leading-5 text-[#6E665A]">{t.methodBody(collaboratorName)}</p><p className="mt-2 text-[10px] leading-4 text-[#857C6E]">{lang === 'fr' ? 'Exemple fictif présenté uniquement pour illustrer le format du livrable.' : 'Fictional example shown only to illustrate the deliverable format.'}</p></div></div>
 }

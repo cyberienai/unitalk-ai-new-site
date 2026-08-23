@@ -6,117 +6,97 @@ import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
 const HERMES_SECURITY_DOCS = 'https://hermes-agent.nousresearch.com/docs/user-guide/security'
+const REVIEW_URL = 'https://cal.com/patrickchassany/30min'
+
+type Status = 'available' | 'configuration' | 'request' | 'confirm'
+type TrustItem = { title: string; status: Status; body: string }
+
+const STATUS = {
+  fr: { available: 'Disponible', configuration: 'Selon configuration', request: 'Sur demande', confirm: 'À documenter / À confirmer' },
+  en: { available: 'Available', configuration: 'Depending on configuration', request: 'On request', confirm: 'To document / To confirm' },
+} as const
 
 const COPY = {
   fr: {
-    kicker: 'Sécurité et contrôle',
-    title: 'Vos données. Vos accès. Vos décisions.',
-    lead: 'Unitalk associe les protections techniques du moteur agentique open source Hermes à une gouvernance conçue pour le travail en entreprise.',
-    principles: ['Refus par défaut', 'Accès explicites', 'Validation humaine', 'Environnements isolés', 'Actions traçables'],
-    layersKicker: 'Défense en profondeur',
-    layersTitle: 'Une action traverse plusieurs contrôles.',
-    layersLead: 'La sécurité ne repose pas sur une seule barrière. Identité, permissions, environnement d’exécution et validation humaine se complètent.',
-    layers: [
-      { icon: UserCheck, title: 'Utilisateurs autorisés', body: 'Seules les personnes autorisées peuvent interagir avec le Collaborateur IA. Les accès peuvent être limités ou révoqués.' },
-      { icon: Fingerprint, title: 'Permissions explicites', body: 'Applications, données et outils sont accessibles selon le rôle, la mission et les droits définis par votre organisation.' },
-      { icon: ShieldCheck, title: 'Validation des actions sensibles', body: 'Les actions engageantes peuvent être suspendues jusqu’à la décision d’une personne autorisée.' },
-      { icon: Server, title: 'Exécution isolée', body: 'Les environnements isolés réduisent l’exposition du système hôte et séparent les contextes d’exécution.' },
-      { icon: FileKey, title: 'Secrets filtrés', body: 'Les identifiants et variables sensibles ne sont transmis aux outils que lorsqu’ils sont nécessaires et explicitement configurés.' },
-      { icon: History, title: 'Traçabilité', body: 'Le Workspace rattache les étapes, résultats, validations et décisions à la mission concernée.' },
+    kicker: 'Centre de confiance', title: 'Sécurité documentée. Inconnues assumées.', lead: 'Cette page distingue les protections documentées, les choix de configuration et les informations qui restent à confirmer avant un engagement contractuel.',
+    updated: 'Mise à jour : 23 août 2026', scope: 'Portée : site Unitalk, Workspace et environnements Hermes décrits par le code public. Les conditions contractuelles et la configuration retenue prévalent.',
+    review: 'Planifier une revue sécurité', mission: 'Décrire ma mission', navLabel: 'Navigation du centre de confiance',
+    nav: [['Contrôles', '#controles'], ['Données', '#donnees'], ['Résilience', '#resilience'], ['Assurance', '#assurance'], ['Responsabilités', '#responsabilites']],
+    sections: [
+      { id: 'controles', kicker: 'Identité et accès', title: 'Contrôles d’accès', intro: 'État des fonctions d’identité, d’autorisation et de séparation.', items: [
+        { title: 'SSO / SAML', status: 'confirm', body: 'Aucune prise en charge SAML ni politique SSO d’entreprise n’est documentée dans le périmètre examiné.' },
+        { title: 'MFA', status: 'confirm', body: 'Les facteurs, méthodes d’enrôlement et règles d’obligation MFA restent à confirmer.' },
+        { title: 'Rôles et permissions', status: 'available', body: 'Applications, données et outils sont accordés selon le rôle, la mission et les droits définis par l’entreprise. Les accès peuvent être limités ou révoqués.' },
+        { title: 'Séparation des entreprises', status: 'configuration', body: 'Des environnements isolés et des contextes d’exécution séparés sont prévus. L’architecture d’isolation applicable est confirmée pour chaque déploiement.' },
+      ] satisfies TrustItem[] },
+      { id: 'donnees', kicker: 'Données et IA', title: 'Cycle de vie des données', intro: 'Localisation, flux vers les modèles et maîtrise des données confiées.', items: [
+        { title: 'Régions d’hébergement', status: 'available', body: 'La politique de confidentialité indique un hébergement des données Unitalk en France. La région d’un environnement ou fournisseur choisi est confirmée avant déploiement.' },
+        { title: 'Chiffrement', status: 'available', body: 'Les données sont annoncées comme chiffrées en transit et au repos.' },
+        { title: 'Flux vers les modèles', status: 'configuration', body: 'L’entreprise choisit les modèles et fournisseurs autorisés. Les contenus de mission ne servent pas à entraîner des modèles tiers sans accord explicite.' },
+        { title: 'Suppression des données', status: 'request', body: 'Les droits d’effacement peuvent être exercés auprès de hello@unitalk.ai. Le processus opérationnel et les délais précis restent à documenter.' },
+        { title: 'Sous-traitants', status: 'confirm', body: 'La politique de confidentialité indique que la liste des sous-traitants et prestataires techniques est à compléter.' },
+      ] satisfies TrustItem[] },
+      { id: 'resilience', kicker: 'Continuité', title: 'Résilience et exploitation', intro: 'Les objectifs précis dépendent de l’offre et ne sont pas présumés.', items: [
+        { title: 'Sauvegardes', status: 'configuration', body: 'Les données couvertes par la politique retenue peuvent être sauvegardées et restaurées. Fréquence, périmètre et tests dépendent de l’offre.' },
+        { title: 'RPO / RTO', status: 'confirm', body: 'Aucun objectif chiffré de perte de données ou de délai de reprise n’est publié.' },
+        { title: 'Rétention des logs', status: 'confirm', body: 'Des journaux de connexion et une traçabilité de mission sont mentionnés, mais leurs durées de conservation précises restent à documenter.' },
+        { title: 'Gestion des incidents', status: 'configuration', body: 'Le suivi des incidents et le support dépendent du niveau de service souscrit. Le processus, les contacts et délais d’escalade sont confirmés dans l’offre.' },
+      ] satisfies TrustItem[] },
+      { id: 'assurance', kicker: 'Vérification', title: 'Assurance et conformité', intro: 'Aucune preuve absente n’est présentée comme acquise.', items: [
+        { title: 'Tests d’intrusion', status: 'confirm', body: 'La fréquence, le périmètre, le prestataire et la disponibilité d’un rapport ne sont pas documentés.' },
+        { title: 'Certifications', status: 'confirm', body: 'Aucune certification de sécurité Unitalk vérifiable n’est publiée dans le périmètre examiné.' },
+        { title: 'DPA', status: 'request', body: 'Un accord de traitement peut être demandé afin de préciser responsabilités, protections et conditions applicables aux sous-traitants.' },
+        { title: 'Documentation Hermes', status: 'available', body: 'La documentation officielle décrit les contrôles de commandes, fichiers, sessions, conteneurs, secrets et réseau du moteur open source.' },
+      ] satisfies TrustItem[] },
     ],
-    boundaryKicker: 'Responsabilités claires',
-    boundaryTitle: 'Hermes protège le moteur. Unitalk gouverne son usage.',
-    boundaryLead: 'La sécurité dépend à la fois des protections du runtime, de la configuration Unitalk et des règles choisies par votre entreprise.',
-    boundaries: [
-      ['Hermes', 'Protège l’exécution agentique avec des contrôles de commandes, de fichiers, de sessions, de secrets et de réseau.'],
-      ['Unitalk', 'Configure les missions, les profils, les accès, les validations et la traçabilité dans un Workspace partagé.'],
-      ['Votre entreprise', 'Choisit les utilisateurs, connecte les applications et décide des permissions ainsi que des actions soumises à validation.'],
-    ],
-    decisionKicker: 'Contrôle humain',
-    decisionTitle: 'Autorisé ne veut pas dire automatique.',
-    decisionBody: 'Un Collaborateur IA peut disposer de l’accès nécessaire à une mission sans être autorisé à prendre seul toutes les décisions. Vous définissez les étapes qui exigent une validation.',
-    decisionFlow: [['Droit', 'Peut-il accéder à cette ressource ?'], ['Action', 'Peut-il préparer ou exécuter cette opération ?'], ['Validation', 'Une personne doit-elle approuver avant de poursuivre ?'], ['Trace', 'Que faut-il conserver dans le fil de mission ?']],
-    dataKicker: 'Données et hébergement',
-    dataTitle: 'Des engagements lisibles.',
-    dataItems: [
-      { icon: Server, title: 'Hébergement', body: 'Les données Unitalk sont hébergées en France.' },
-      { icon: LockKeyhole, title: 'Chiffrement', body: 'Les données sont chiffrées en transit et au repos.' },
-      { icon: Database, title: 'Utilisation des données', body: 'Les contenus de mission ne servent pas à entraîner des modèles sans votre accord explicite.' },
-      { icon: FileKey, title: 'DPA', body: 'L’accord de traitement précise les responsabilités, protections et conditions applicables aux sous-traitants.' },
-    ],
-    technicalKicker: 'Documentation technique',
-    technicalTitle: 'Examiner les protections du moteur Hermes.',
-    technicalBody: 'La documentation officielle détaille notamment les autorisations, le blocage des commandes destructrices, la protection des fichiers, l’isolation des sessions et conteneurs, le filtrage des secrets et les protections réseau.',
-    technicalCta: 'Lire la documentation de sécurité Hermes',
-    note: 'Les protections disponibles dépendent du mode de déploiement et de la configuration retenue. Unitalk définit et documente la configuration applicable à votre environnement avant sa mise en service.',
-    privacyCta: 'Consulter la politique de confidentialité',
-    dpaCta: 'Demander le DPA',
+    boundaryKicker: 'Responsabilités claires', boundaryTitle: 'Hermes protège le moteur. Unitalk gouverne son usage.', boundaryLead: 'La sécurité dépend du runtime, de la configuration Unitalk et des règles choisies par votre entreprise.',
+    boundaries: [['Hermes', 'Protège l’exécution agentique avec des contrôles de commandes, fichiers, sessions, secrets et réseau.'], ['Unitalk', 'Configure missions, profils, accès, validations et traçabilité dans le périmètre de l’offre.'], ['Votre entreprise', 'Choisit utilisateurs, applications, données, modèles, permissions et validations humaines.']],
+    technicalCta: 'Lire la documentation de sécurité Hermes', privacyCta: 'Politique de confidentialité', dpaCta: 'Demander le DPA', finalTitle: 'Examinons votre périmètre réel.', finalBody: 'Partagez vos exigences d’identité, d’hébergement, de données et de continuité. La revue distingue ce qui est disponible, configurable et encore à confirmer.',
   },
   en: {
-    kicker: 'Security and control',
-    title: 'Your data. Your access. Your decisions.',
-    lead: 'Unitalk combines the technical protections of the open-source Hermes agent engine with governance designed for enterprise work.',
-    principles: ['Deny by default', 'Explicit access', 'Human approval', 'Isolated environments', 'Traceable actions'],
-    layersKicker: 'Defense in depth',
-    layersTitle: 'Every action passes through several controls.',
-    layersLead: 'Security does not rely on a single barrier. Identity, permissions, execution environments and human approval work together.',
-    layers: [
-      { icon: UserCheck, title: 'Authorized users', body: 'Only authorized people can interact with the AI Collaborator. Access can be limited or revoked.' },
-      { icon: Fingerprint, title: 'Explicit permissions', body: 'Applications, data and tools are available according to the role, mission and permissions defined by your organization.' },
-      { icon: ShieldCheck, title: 'Sensitive-action approval', body: 'Consequential actions can be paused until an authorized person makes a decision.' },
-      { icon: Server, title: 'Isolated execution', body: 'Isolated environments reduce host exposure and separate execution contexts.' },
-      { icon: FileKey, title: 'Filtered secrets', body: 'Credentials and sensitive variables are passed to tools only when necessary and explicitly configured.' },
-      { icon: History, title: 'Traceability', body: 'Workspace associates steps, outcomes, approvals and decisions with the relevant mission.' },
+    kicker: 'Trust center', title: 'Documented security. Unknowns made explicit.', lead: 'This page separates documented safeguards, configuration choices and information that still needs confirmation before a contractual commitment.',
+    updated: 'Updated: August 23, 2026', scope: 'Scope: Unitalk website, Workspace and Hermes environments described by the public code. Contractual terms and the selected configuration prevail.',
+    review: 'Schedule a security review', mission: 'Describe my mission', navLabel: 'Trust center navigation',
+    nav: [['Controls', '#controles'], ['Data', '#donnees'], ['Resilience', '#resilience'], ['Assurance', '#assurance'], ['Responsibilities', '#responsabilites']],
+    sections: [
+      { id: 'controles', kicker: 'Identity and access', title: 'Access controls', intro: 'Status of identity, authorization and separation capabilities.', items: [
+        { title: 'SSO / SAML', status: 'confirm', body: 'No SAML support or enterprise SSO policy is documented in the reviewed scope.' }, { title: 'MFA', status: 'confirm', body: 'Factors, enrollment methods and mandatory MFA rules remain to be confirmed.' }, { title: 'Roles and permissions', status: 'available', body: 'Applications, data and tools are granted according to the role, mission and organization-defined permissions. Access can be limited or revoked.' }, { title: 'Organization separation', status: 'configuration', body: 'Isolated environments and separate execution contexts are provided. The applicable isolation architecture is confirmed for each deployment.' },
+      ] satisfies TrustItem[] },
+      { id: 'donnees', kicker: 'Data and AI', title: 'Data lifecycle', intro: 'Location, model flows and control over entrusted data.', items: [
+        { title: 'Hosting regions', status: 'available', body: 'The privacy policy states that Unitalk data is hosted in France. The region of a selected environment or provider is confirmed before deployment.' }, { title: 'Encryption', status: 'available', body: 'Data is stated to be encrypted in transit and at rest.' }, { title: 'Model data flows', status: 'configuration', body: 'The organization selects authorized models and providers. Mission content is not used to train third-party models without explicit consent.' }, { title: 'Data deletion', status: 'request', body: 'Erasure rights can be exercised through hello@unitalk.ai. The operational process and precise timelines remain to be documented.' }, { title: 'Processors', status: 'confirm', body: 'The privacy policy states that the list of processors and technical providers must be completed.' },
+      ] satisfies TrustItem[] },
+      { id: 'resilience', kicker: 'Continuity', title: 'Resilience and operations', intro: 'Precise objectives depend on the plan and are not presumed.', items: [
+        { title: 'Backups', status: 'configuration', body: 'Data covered by the selected policy may be backed up and restored. Frequency, scope and testing depend on the plan.' }, { title: 'RPO / RTO', status: 'confirm', body: 'No quantified recovery point or recovery time objective is published.' }, { title: 'Log retention', status: 'confirm', body: 'Connection logs and mission traceability are mentioned, but precise retention periods remain to be documented.' }, { title: 'Incident management', status: 'configuration', body: 'Incident monitoring and support depend on the subscribed service level. Process, contacts and escalation times are confirmed in the offer.' },
+      ] satisfies TrustItem[] },
+      { id: 'assurance', kicker: 'Verification', title: 'Assurance and compliance', intro: 'Missing evidence is never presented as established.', items: [
+        { title: 'Penetration testing', status: 'confirm', body: 'Frequency, scope, provider and report availability are not documented.' }, { title: 'Certifications', status: 'confirm', body: 'No verifiable Unitalk security certification is published in the reviewed scope.' }, { title: 'DPA', status: 'request', body: 'A Data Processing Agreement can be requested to define responsibilities, safeguards and processor terms.' }, { title: 'Hermes documentation', status: 'available', body: 'Official documentation describes command, file, session, container, secret and network controls in the open-source engine.' },
+      ] satisfies TrustItem[] },
     ],
-    boundaryKicker: 'Clear responsibilities',
-    boundaryTitle: 'Hermes protects the engine. Unitalk governs its use.',
-    boundaryLead: 'Security depends on runtime protections, Unitalk configuration and the rules selected by your organization.',
-    boundaries: [
-      ['Hermes', 'Protects agent execution with command, file, session, secret and network controls.'],
-      ['Unitalk', 'Configures missions, profiles, access, approvals and traceability in a shared Workspace.'],
-      ['Your organization', 'Selects users, connects applications and decides permissions and which actions require approval.'],
-    ],
-    decisionKicker: 'Human control',
-    decisionTitle: 'Allowed does not mean automatic.',
-    decisionBody: 'An AI Collaborator may have the access required for a mission without being allowed to make every decision alone. You define which steps require approval.',
-    decisionFlow: [['Permission', 'Can it access this resource?'], ['Action', 'Can it prepare or execute this operation?'], ['Approval', 'Must a person approve before it proceeds?'], ['Record', 'What must remain in the mission thread?']],
-    dataKicker: 'Data and hosting',
-    dataTitle: 'Clear commitments.',
-    dataItems: [
-      { icon: Server, title: 'Hosting', body: 'Unitalk data is hosted in France.' },
-      { icon: LockKeyhole, title: 'Encryption', body: 'Data is encrypted in transit and at rest.' },
-      { icon: Database, title: 'Data use', body: 'Mission content is not used to train models without your explicit consent.' },
-      { icon: FileKey, title: 'DPA', body: 'The Data Processing Agreement defines responsibilities, safeguards and conditions applying to processors.' },
-    ],
-    technicalKicker: 'Technical documentation',
-    technicalTitle: 'Review the Hermes engine protections.',
-    technicalBody: 'The official documentation covers authorization, destructive-command blocking, file safety, session and container isolation, secret filtering and network protections.',
-    technicalCta: 'Read the Hermes security documentation',
-    note: 'Available protections depend on the deployment mode and selected configuration. Unitalk defines and documents the configuration applying to your environment before setup.',
-    privacyCta: 'Read the privacy policy',
-    dpaCta: 'Request the DPA',
+    boundaryKicker: 'Clear responsibilities', boundaryTitle: 'Hermes protects the engine. Unitalk governs its use.', boundaryLead: 'Security depends on the runtime, Unitalk configuration and rules selected by your organization.',
+    boundaries: [['Hermes', 'Protects agent execution with command, file, session, secret and network controls.'], ['Unitalk', 'Configures missions, profiles, access, approvals and traceability within the plan scope.'], ['Your organization', 'Selects users, applications, data, models, permissions and human approvals.']],
+    technicalCta: 'Read the Hermes security documentation', privacyCta: 'Privacy policy', dpaCta: 'Request the DPA', finalTitle: 'Let’s review your actual scope.', finalBody: 'Share your identity, hosting, data and continuity requirements. The review separates what is available, configurable and still to be confirmed.',
   },
 } as const
+
+const ICONS = [UserCheck, Fingerprint, ShieldCheck, Server, Database, LockKeyhole, History, FileKey]
 
 export function SecurityContent() {
   const { lang } = useLanguage()
   const t = COPY[lang]
-
-  return <main className="overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
-    <section className="relative border-b border-[#D8D0C2] px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-36"><div aria-hidden className="pointer-events-none absolute -right-40 top-12 size-[34rem] rounded-full bg-[#D10E63]/10 blur-3xl"/><div className="editorial-shell relative"><Kicker>{t.kicker}</Kicker><h1 className="mt-6 max-w-5xl text-balance text-[clamp(3rem,7vw,7rem)] font-semibold leading-[.9] tracking-[-.07em]"><AccentLastWord value={t.title}/></h1><p className="mt-7 max-w-3xl text-[18px] leading-8 text-[#4E483F]">{t.lead}</p><ul className="mt-9 flex flex-wrap gap-2">{t.principles.map(item => <li key={item} className="rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 py-2 text-xs font-bold text-[#4E483F]">{item}</li>)}</ul></div></section>
-
-    <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="editorial-shell"><div className="max-w-3xl"><Kicker>{t.layersKicker}</Kicker><h2 className="mt-5 text-balance text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]"><AccentLastWord value={t.layersTitle}/></h2><p className="mt-5 text-[16px] leading-8 text-[#625B50]">{t.layersLead}</p></div><div className="mt-12 grid border-l border-t border-[#D8D0C2] sm:grid-cols-2 lg:grid-cols-3">{t.layers.map(({ icon: Icon, title, body }, index) => <article key={title} className="min-h-64 border-b border-r border-[#D8D0C2] p-6 sm:p-7"><div className="flex items-center justify-between"><span className="flex size-10 items-center justify-center rounded-xl bg-[#EAE3D4] text-[#B00C54]"><Icon className="size-5"/></span><span className="font-mono text-[10px] font-black text-[#857C6E]">0{index + 1}</span></div><h3 className="mt-8 text-xl font-semibold tracking-[-.035em]"><AccentLastWord value={title}/></h3><p className="mt-4 text-sm leading-7 text-[#625B50]">{body}</p></article>)}</div></div></section>
-
-    <section className="bg-[#151310] px-5 py-16 text-white sm:px-8 sm:py-24"><div className="editorial-shell grid gap-12 lg:grid-cols-[.78fr_1.22fr] lg:gap-20"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.boundaryKicker}</p><h2 className="mt-5 text-balance text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]"><AccentLastWord value={t.boundaryTitle} dark/></h2><p className="mt-5 text-[15px] leading-7 text-[#CFC6B8]">{t.boundaryLead}</p></div><div className="overflow-hidden rounded-[24px] border border-white/15">{t.boundaries.map(([title, body], index) => <article key={title} className="grid gap-3 border-b border-white/10 bg-white/[.04] p-6 last:border-b-0 sm:grid-cols-[8rem_1fr]"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">0{index + 1} · {title}</p><p className="text-sm leading-7 text-[#D8D0C2]">{body}</p></article>)}</div></div></section>
-
-    <section className="border-b border-[#D8D0C2] bg-[#EAE3D4] px-5 py-16 sm:px-8 sm:py-20"><div className="editorial-shell grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20"><div><Kicker>{t.decisionKicker}</Kicker><h2 className="mt-5 text-balance text-[clamp(2.35rem,4.5vw,4.4rem)] font-semibold leading-[.96] tracking-[-.055em]"><AccentLastWord value={t.decisionTitle}/></h2><p className="mt-5 text-[15px] leading-7 text-[#625B50]">{t.decisionBody}</p></div><ol className="overflow-hidden rounded-[24px] border border-[#D8D0C2] bg-[#FFFDF9]">{t.decisionFlow.map(([label, question], index) => <li key={label} className="flex gap-5 border-b border-[#E4DDCE] p-5 last:border-b-0 sm:p-6"><span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#D10E63] font-mono text-[10px] font-black text-white">{index + 1}</span><div><h3 className="font-semibold text-[#B00C54]">{label}</h3><p className="mt-1 text-sm leading-6 text-[#625B50]">{question}</p></div></li>)}</ol></div></section>
-
-    <section className="px-5 py-16 sm:px-8 sm:py-24"><div className="editorial-shell"><div className="max-w-3xl"><Kicker>{t.dataKicker}</Kicker><h2 className="mt-5 text-balance text-[clamp(2.35rem,4.5vw,4.4rem)] font-semibold leading-[.96] tracking-[-.055em]"><AccentLastWord value={t.dataTitle}/></h2></div><div className="mt-10 grid gap-4 md:grid-cols-2">{t.dataItems.map(({ icon: Icon, title, body }) => <article key={title} className="rounded-[20px] border border-[#D8D0C2] bg-[#FAF8F3] p-6"><Icon className="size-5 text-[#B00C54]"/><h3 className="mt-5 text-xl font-semibold"><AccentLastWord value={title}/></h3><p className="mt-3 text-sm leading-7 text-[#625B50]">{body}</p></article>)}</div></div></section>
-
-    <section className="border-y border-[#D8D0C2] bg-[#FAF8F3] px-5 py-14 sm:px-8 sm:py-16"><div className="editorial-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"><div className="max-w-4xl"><Kicker>{t.technicalKicker}</Kicker><h2 className="mt-5 text-balance text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]"><AccentLastWord value={t.technicalTitle}/></h2><p className="mt-5 max-w-3xl text-sm leading-7 text-[#625B50]">{t.technicalBody}</p></div><a href={HERMES_SECURITY_DOCS} target="_blank" rel="noreferrer" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#211E1A] px-6 text-sm font-bold text-white hover:bg-[#D10E63]">{t.technicalCta}<ArrowRight className="ml-2 size-4"/></a></div></section>
-
-    <section id="dpa" className="scroll-mt-24 px-5 py-12 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-6 sm:flex-row sm:items-center"><p className="max-w-3xl text-xs leading-6 text-[#766D61]">{t.note}</p><div className="flex shrink-0 flex-wrap gap-4"><Link href="/confidentialite" className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.privacyCta}</Link><a href="mailto:hello@unitalk.ai?subject=DPA%20Unitalk" className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.dpaCta}</a></div></div></section>
+  const statuses = STATUS[lang]
+  return <main id="main-content" className="overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
+    <section className="relative border-b border-[#D8D0C2] px-5 pb-14 pt-28 sm:px-8 sm:pt-36"><div aria-hidden className="pointer-events-none absolute -right-40 top-12 size-[34rem] rounded-full bg-[#D10E63]/10 blur-3xl"/><div className="editorial-shell relative"><Kicker>{t.kicker}</Kicker><h1 className="mt-6 max-w-5xl text-balance text-[clamp(3rem,7vw,7rem)] font-semibold leading-[.9] tracking-[-.07em]"><AccentLastWord value={t.title}/></h1><p className="mt-7 max-w-3xl text-[18px] leading-8 text-[#4E483F]">{t.lead}</p><div className="mt-8 flex flex-wrap gap-3"><a href={REVIEW_URL} className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white">{t.review}<ArrowRight className="size-4"/></a><Link href="/decouvrir?source=securite" className="inline-flex min-h-12 items-center rounded-full border border-[#BFB4A4] bg-[#FAF8F3] px-6 text-sm font-bold">{t.mission}</Link></div><div className="mt-8 border-l-2 border-[#D10E63] pl-4 text-xs leading-6 text-[#625B50]"><p className="font-bold text-[#1C1A17]">{t.updated}</p><p>{t.scope}</p></div></div></section>
+    <nav aria-label={t.navLabel} className="sticky top-[76px] z-20 border-b border-white/10 bg-[#211E1B]/95 px-5 text-white backdrop-blur sm:px-8"><div className="editorial-shell flex overflow-x-auto scrollbar-hide">{t.nav.map(([label, href]) => <a key={href} href={href} className="flex h-14 shrink-0 items-center px-4 text-xs font-bold text-[#D8D0C2] hover:text-white sm:h-16 sm:text-sm">{label}</a>)}</div></nav>
+    {t.sections.map((section, sectionIndex) => <section key={section.id} id={section.id} className={`scroll-mt-36 px-5 py-16 sm:px-8 sm:py-20 ${sectionIndex % 2 ? 'border-y border-[#D8D0C2] bg-[#EAE3D4]' : ''}`}><div className="editorial-shell"><div className="max-w-3xl"><Kicker>{section.kicker}</Kicker><h2 className="mt-5 text-[clamp(2.4rem,5vw,4.6rem)] font-semibold leading-[.95] tracking-[-.06em]"><AccentLastWord value={section.title}/></h2><p className="mt-5 text-[16px] leading-8 text-[#625B50]">{section.intro}</p></div><div className="mt-10 grid gap-4 md:grid-cols-2">{section.items.map((item, index) => { const Icon = ICONS[(sectionIndex * 4 + index) % ICONS.length]; return <article key={item.title} className="rounded-[20px] border border-[#D8D0C2] bg-[#FAF8F3] p-6"><div className="flex items-start justify-between gap-4"><Icon className="size-5 text-[#B00C54]"/><StatusBadge status={item.status} label={statuses[item.status]}/></div><h3 className="mt-5 text-xl font-semibold"><AccentLastWord value={item.title}/></h3><p className="mt-3 text-sm leading-7 text-[#625B50]">{item.body}</p></article>})}</div></div></section>)}
+    <section id="responsabilites" className="scroll-mt-36 bg-[#151310] px-5 py-16 text-white sm:px-8 sm:py-24"><div className="editorial-shell grid gap-12 lg:grid-cols-[.78fr_1.22fr] lg:gap-20"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#F2A4C5]">{t.boundaryKicker}</p><h2 className="mt-5 text-[clamp(2.4rem,5vw,4.8rem)] font-semibold leading-[.95] tracking-[-.06em]"><AccentLastWord value={t.boundaryTitle} dark/></h2><p className="mt-5 text-[15px] leading-7 text-[#CFC6B8]">{t.boundaryLead}</p></div><div className="overflow-hidden rounded-[24px] border border-white/15">{t.boundaries.map(([title, body], index) => <article key={title} className="grid gap-3 border-b border-white/10 bg-white/[.04] p-6 last:border-b-0 sm:grid-cols-[8rem_1fr]"><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">0{index + 1} · {title}</p><p className="text-sm leading-7 text-[#D8D0C2]">{body}</p></article>)}</div></div></section>
+    <section className="border-b border-[#D8D0C2] bg-[#FAF8F3] px-5 py-14 sm:px-8"><div className="editorial-shell flex flex-wrap gap-5"><a href={HERMES_SECURITY_DOCS} target="_blank" rel="noreferrer" className="text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.technicalCta}</a><Link href="/confidentialite" className="text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.privacyCta}</Link><a href="mailto:hello@unitalk.ai?subject=DPA%20Unitalk" className="text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.dpaCta}</a></div></section>
+    <section className="px-5 py-16 sm:px-8 sm:py-20"><div className="editorial-shell rounded-[28px] bg-[#D10E63] p-8 text-white sm:p-12"><h2 className="max-w-3xl text-[clamp(2.2rem,5vw,4.5rem)] font-semibold leading-[.95] tracking-[-.06em]">{t.finalTitle}</h2><p className="mt-5 max-w-2xl text-sm leading-7 text-white/85">{t.finalBody}</p><div className="mt-8 flex flex-wrap gap-3"><a href={REVIEW_URL} className="inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-bold text-[#B00C54]">{t.review}<ArrowRight className="size-4"/></a><Link href="/decouvrir?source=securite" className="inline-flex min-h-12 items-center rounded-full border border-white/50 px-6 text-sm font-bold">{t.mission}</Link></div></div></section>
   </main>
+}
+
+function StatusBadge({ status, label }: { status: Status; label: string }) {
+  const tone = status === 'available' ? 'border-[#216641]/25 bg-[#E4F3E8] text-[#216641]' : status === 'configuration' ? 'border-[#1D6692]/25 bg-[#E8F2F8] text-[#174F70]' : status === 'request' ? 'border-[#B00C54]/20 bg-[#F8E7EF] text-[#B00C54]' : 'border-[#9A6A20]/25 bg-[#F8EEDB] text-[#765016]'
+  return <span className={`rounded-full border px-3 py-1 text-[9px] font-black uppercase tracking-[.1em] ${tone}`}>{label}</span>
 }
 
 function AccentLastWord({ value, dark = false }: { value: string; dark?: boolean }) {

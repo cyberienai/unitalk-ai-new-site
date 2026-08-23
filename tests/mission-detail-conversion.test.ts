@@ -31,12 +31,21 @@ describe('mission detail conversion', () => {
     expect(detail).toContain('Donnez trois repères à Alma')
     expect(detail).toContain('!isProspectingMission && <section aria-labelledby="mission-produces-title"')
     expect(detail).not.toContain('82 / 100')
-    expect(detail).toContain('/blog/trouver-prospects-qualifies-ia')
+    expect(detail).toContain('mission.article.href')
+    expect(detail).toContain('mission.article.label[lang]')
+    expect(detail).toContain('isProspectingMission ? t.guideLabel')
     expect(detail).toContain('faq.map')
     expect(faq).toContain('Hugo contacte-t-il directement les prospects ?')
     expect(detail).toContain('Cible')
     expect(detail).toContain('Volume')
     expect(detail).toContain("new URLSearchParams({ ...(target.trim() ? { cible: target.trim() }")
+  })
+
+  it('resolves collaborator copy and keeps hooks unconditional', () => {
+    expect(detail).toContain('const collaboratorName = collab?.name')
+    expect(detail).toContain('prépare ${collaboratorName}')
+    expect(detail).not.toContain('prépare Hugo')
+    expect(detail.indexOf("const [target, setTarget] = useState('')")).toBeLessThan(detail.indexOf('if (!mission) return null'))
   })
 
   it('supports pre-auth scoping and trailing-dot redirects', () => {

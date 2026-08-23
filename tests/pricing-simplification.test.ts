@@ -10,14 +10,13 @@ const faqData = readFileSync(new URL('../lib/pricing-faq.ts', import.meta.url), 
 
 describe('pricing simplification', () => {
   it('presents organization-wide pricing and the full package', () => {
-    for (const value of ['sans facturation par utilisateur.', 'Assistants d’équipe illimités', 'Applications Web et Desktop incluses', 'Plus de 3 000 applications via Pipedream']) expect(sections).toContain(value)
+    for (const value of ['palier selon le nombre d’humains inclus', 'Assistants d’équipe illimités', 'Applications Web et Desktop incluses', 'Plus de 3 000 applications via Pipedream']) expect(sections).toContain(value)
     for (const value of ['Missions prises en charge', 'Applications Web et Desktop incluses', 'Mémoire privée et partagée', 'Email, calendrier et téléphone', 'Serveur privé virtuel dédié']) expect(sections).toContain(value)
     expect(sections).toContain('Accès aux modèles IA : texte, image, vidéo et audio')
   })
 
   it('persists exactly the configuration shown to the user', () => {
-    expect(sections).toContain("usageMode: 'included', creditBudget: 0, capacity: 'included'")
-    expect(sections).toContain('billingPeriod, coCreators: 0')
+    expect(sections).toContain('persistPricingDraft({ ...initialDraft, organizationTier, collaborators, billingPeriod, selectedProfile })')
     expect(sections).toContain("annualOffer: '2 mois offerts'")
     expect(sections).toContain('pricingRecurringTotal({ organizationTier, collaborators })')
     expect(sections).toContain('useState(initialDraft.collaborators)')
@@ -30,7 +29,8 @@ describe('pricing simplification', () => {
     expect(page).toContain('params.profil')
     expect(page).not.toContain("params['co-createur']")
     expect(page).toContain('stored?.selectedProfile')
-    expect(page).toContain("organizationTier: 'solo', collaborators: 1")
+    expect(page).toContain('normalizePricingDraft({ ...stored, selectedProfile })')
+    expect(page).not.toContain("organizationTier: 'solo', collaborators: 1")
     expect(sections).toContain('selectedProfile')
   })
 
@@ -41,6 +41,7 @@ describe('pricing simplification', () => {
     expect(faqData).toContain('Que vais-je payer aujourd’hui ?')
     expect(faqData).toContain('selon la première limite atteinte')
     expect(faq).toContain('role="region"')
+    expect(content).toContain('<PricingFinalCta />')
   })
 
   it('publishes localized pricing routes and metadata', () => {

@@ -14,11 +14,11 @@ describe('pricing page publication requirements', () => {
   })
 
   it('makes the free first mission and paid activation explicit', () => {
-    expect(sections).toContain("primary: 'Démarrer avec Alma'")
-    expect(sections).toContain("title: 'Votre première mission.', accent: 'Offerte.'")
-    expect(sections).toContain('Workspace Solo gratuit. Chaque Collaborateur IA : 49 €/mois.')
-    expect(sections).toContain('0 € aujourd’hui. Aucun abonnement ne démarre sans votre confirmation.')
-    expect(sections).toContain("continue: 'Continuer avec cette configuration'")
+    expect(sections).toContain("primary: 'Configurer mon tarif'")
+    expect(sections).toContain("title: 'Composez votre équipe.', accent: 'Maîtrisez son coût.'")
+    expect(sections).toContain('Workspace Solo gratuit. Chaque Collaborateur IA : 49 € HT/mois.')
+    expect(sections).toContain('La configuration payante n’est activée qu’après votre confirmation explicite.')
+    expect(sections).toContain("continue: 'Enregistrer et continuer'")
     expect(sections).toContain('assistants privés ou partagés')
     expect(sections).toContain('missions avec mémoire, outils et autonomie encadrée')
     expect(sections).not.toContain('selectedTierBase.users} · ${workspaceCreditsValue}')
@@ -27,11 +27,11 @@ describe('pricing page publication requirements', () => {
   })
 
   it('starts with one AI Collaborator and one user license', () => {
-    expect(page).toContain("organizationTier: 'solo', collaborators: 1")
+    expect(page).toContain('normalizePricingDraft({ ...stored, selectedProfile })')
     expect(sections).toContain('useState<OrganizationTierId>(initialDraft.organizationTier)')
     expect(sections).toContain('useState(initialDraft.collaborators)')
     expect(sections).toContain("name: 'Solo', users: '1 humain inclus · Gratuit', option: 'Solo · 1 humain inclus', price: ''")
-    expect(sections).toContain("tokensLine: 'Modèle DeepSeek hébergé en Europe'")
+    expect(sections).toContain("tokensLine: 'DeepSeek V4 Flash hébergé en Europe'")
   })
 
   it('answers trial, included usage and plan change questions', () => {
@@ -40,6 +40,7 @@ describe('pricing page publication requirements', () => {
     expect(faqData).toContain('1 000 crédits en Solo, 2 500 en Équipe ou 20 000 en Entreprise')
     expect(faqData).toContain('crédits IA inclus ou prépayés, ou connecter vos propres clés API')
     expect(faqData).toContain('Le Workspace est l’espace de travail où humains et IA collaborent')
+    expect(faqData).toContain('Aucune recharge ni facturation de dépassement n’est automatique')
     expect(faq).toContain('pricingFaqItems[lang]')
   })
 })

@@ -52,8 +52,16 @@ describe('missions conversion path', () => {
   it('explains the product outcome and the included first mission', () => {
     expect(page).toContain("titleStart: 'Ne demandez plus à l’IA.'")
     expect(page).toContain("titleAccent: 'Confiez-lui le travail.'")
-    expect(page).not.toContain('7 jours ou 1 million de tokens')
+    expect(page).toContain('7 jours ou 1 million de tokens')
+    expect(page).toContain('selon la première limite atteinte')
     expect(page).not.toContain('Aucun abonnement payant n’est activé sans votre accord.')
+  })
+
+  it('presents customizable templates and a filtered visible count', () => {
+    expect(page).toContain('Plus de 200 modèles de missions prêts à personnaliser')
+    expect(page).toContain('More than 200 mission templates ready to customize')
+    expect(page).toContain('t.count(visibleMissions.length, filteredMissions.length)')
+    expect(route).toContain('Plus de 200 modèles de missions prêts à personnaliser')
   })
 
   it('keeps mission cards focused on the result and action', () => {

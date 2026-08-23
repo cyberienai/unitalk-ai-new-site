@@ -39,7 +39,7 @@ type WorkspaceScenario = {
 const T = {
   fr: {
     kicker: 'Un espace de travail partagé',
-    demo: 'Démonstration interactive · Données fictives',
+    demo: 'Données fictives',
     title: 'Humains et IA collaborent.',
     surfaces: 'Votre Collaborateur IA réalise la mission dans le Workspace, conserve le contexte et rend son travail visible. Avant une action sensible, il demande la décision de la personne responsable.',
     cta: 'Découvrir le Workspace',
@@ -74,7 +74,7 @@ const T = {
   },
   en: {
     kicker: 'A shared workspace',
-    demo: 'Interactive demo · Fictional data',
+    demo: 'Fictional data',
     title: 'Humans and AI collaborate.',
     surfaces: 'Your AI Collaborator performs the mission in Workspace, retains context and makes its work visible. Before a sensitive action, it requests a decision from the person in charge.',
     cta: 'Discover the Workspace',
@@ -399,7 +399,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             </ol>
           </div>
           </motion.div>
-          <p className="mt-3 text-right text-xs font-semibold text-[#625B50]">{t.demo}</p>
+          <p className="mt-3 text-center text-xs font-semibold text-[#625B50]">{t.demo}</p>
         </div>
       </div>
     </section>

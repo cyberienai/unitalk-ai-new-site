@@ -354,7 +354,7 @@ export function MissionsContent({
 
             <AlmaMissionComposer value={need} onChange={setNeed} onSubmit={() => handDraftToAlma(need)} title={t.composerTitle} body={t.composerBody} role={t.almaRole} placeholder={t.placeholder} submitLabel={t.continue} starters={t.starters} onStarterSelect={setNeed} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceStartLabel={t.talk} voiceStopLabel={t.stop} listeningLabel={t.listening} help={t.handoff} error={voiceError || handoffError} textareaRef={composerRef} previewVisible={Boolean(inputPreview)} compactMobile compactDesktop denseMobile titleInField source="mission-store" fieldName="" preview={inputPreview && <div role="status" aria-live="polite" className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewDeliverable}</p><p className="mt-1.5 text-[12px] font-semibold leading-5 text-white">{t.previewDeliverableBody}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewApproval}</p><p className="mt-1.5 flex items-center gap-2 text-[12px] font-semibold leading-5 text-white"><Check className="size-4 shrink-0 text-[#F3B4CF]"/>{t.previewReady}</p></div></div>} />
            </div>
-            <p className="mt-5 border-b border-[#CFC5B5] pb-3 text-[11px] font-semibold leading-5 text-[#6E665A] sm:mt-7 sm:pb-4 sm:text-[12px]">{t.heroProof}{' '}<a href={localizedHref('pricing', lang)} className="font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.pricingCta}</a></p>
+            <p className="mt-5 border-b border-[#CFC5B5] pb-3 text-[11px] font-semibold leading-5 text-[#6E665A] sm:mt-7 sm:pb-4 sm:text-[12px]">{t.heroProof} {t.trialLimit}{' '}<a href={localizedHref('pricing', lang)} className="font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.pricingCta}</a></p>
 
          </div>
       </section>}
@@ -388,6 +388,8 @@ export function MissionsContent({
                <button type="button" onClick={() => setShowAllFamilies((visible) => !visible)} aria-expanded={showAllFamilies} className="inline-flex min-h-9 items-center justify-center rounded-full border border-[#BFB4A4] bg-transparent px-3 text-[11px] font-bold text-[#625B50] outline-none transition-colors hover:border-[#D10E63] hover:text-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63]">{showAllFamilies ? t.fewerAreas : t.moreAreas}</button>
              </div>
           </div>}
+
+           <p role="status" aria-live="polite" className="mt-5 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#6E665A]">{t.count(visibleMissions.length, filteredMissions.length)}</p>
 
            {filteredMissions.length === 0 && <div className="mt-6 rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-6"><h3 className="text-xl font-semibold">{t.emptyTitle}</h3><p className="mt-2 text-sm text-[#625B50]">{t.emptyBody}</p><button type="button" onClick={clearAllFilters} className="mt-4 min-h-11 rounded-full border border-[#D10E63] px-5 text-sm font-bold text-[#B00C54]">{t.clearFilters}</button></div>}
            <div className="mt-6 grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -443,9 +445,9 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 
 const COPY = {
   fr: {
-    eyebrow: 'Missions pour Collaborateurs IA',
+    eyebrow: 'Plus de 200 modèles de missions prêts à personnaliser',
     titleStart: 'Ne demandez plus à l’IA.', titleAccent: 'Confiez-lui le travail.',
-    lead: 'Votre Collaborateur IA comprend l’objectif, mobilise les bons outils et mène la mission jusqu’au résultat.', heroCta: 'Décrire le résultat attendu', heroProof: 'Première mission offerte · Sans carte bancaire · Puis à partir de 49 €/mois ·', pricingCta: 'Voir les tarifs',
+    lead: 'Votre Collaborateur IA comprend l’objectif, mobilise les bons outils et mène la mission jusqu’au résultat.', heroCta: 'Décrire le résultat attendu', heroProof: 'Première mission offerte · Sans carte bancaire.', trialLimit: 'L’essai prend fin avec la mission, après 7 jours ou 1 million de tokens, selon la première limite atteinte.', pricingCta: 'Voir les tarifs',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
     placeholder: 'Décrivez simplement le résultat attendu…',
     talk: 'Commencer à parler', stop: 'Terminer', listening: 'Alma vous écoute…', continue: 'Préparer ma mission avec Alma',
@@ -471,9 +473,9 @@ const COPY = {
     faqKicker: 'Questions fréquentes', faqTitle: 'Avant de confier votre première mission.',
   },
   en: {
-    eyebrow: 'Missions for AI Collaborators',
+    eyebrow: 'More than 200 mission templates ready to customize',
     titleStart: 'Stop asking AI.', titleAccent: 'Give it the work.',
-    lead: 'Your AI Collaborator understands the objective, brings in the right tools and carries the mission through to the result.', heroCta: 'Describe the expected outcome', heroProof: 'First mission included · No credit card · Then from €49/month ·', pricingCta: 'See pricing',
+    lead: 'Your AI Collaborator understands the objective, brings in the right tools and carries the mission through to the result.', heroCta: 'Describe the expected outcome', heroProof: 'First mission included · No credit card.', trialLimit: 'The trial ends with the mission, after 7 days or 1 million tokens, whichever comes first.', pricingCta: 'See pricing',
     almaRole: 'Unitalk AI mission coordinator', composerTitle: 'What work would you like to assign to your AI Collaborator?', composerBody: '',
     placeholder: 'Simply describe the expected outcome…',
     talk: 'Start talking', stop: 'Finish', listening: 'Alma is listening…', continue: 'Prepare my mission with Alma',

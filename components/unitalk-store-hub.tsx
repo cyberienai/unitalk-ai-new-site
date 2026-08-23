@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import Image from 'next/image'
 import { LocalizedLink as Link } from '@/components/localized-link'
 import { AppWindow, ArrowRight, Cpu, Server } from 'lucide-react'
@@ -400,13 +400,13 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
   if (categoryId === 'serveurs-ia') {
     const cloudItems: MarketplaceItem[] = STORE_ITEMS.filter((item) => item.type === 'server').map((item) => ({
       key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: `/decouvrir?source=marketplace&intention=nouveau-serveur-ia&q=${encodeURIComponent(item.name[lang])}`,
-      meta: lang === 'fr' ? 'Infrastructure privée' : 'Private infrastructure', origin: 'Unitalk', pending: item.commercialStatus === 'draft',
-      status: item.commercialStatus === 'draft' ? { fr: 'Sur demande', en: 'On request' } : { fr: 'Provisionnable', en: 'Provisionable' }, facetKey: 'unitalk-ai-cloud', input: item.contexts?.[0]?.[lang], result: item.enables?.[0]?.[lang],
+      meta: lang === 'fr' ? 'Infrastructure privée' : 'Private infrastructure', origin: 'Unitalk',
+      status: { fr: 'Disponible', en: 'Available' }, facetKey: 'unitalk-ai-cloud', input: item.contexts?.[0]?.[lang], result: item.enables?.[0]?.[lang],
     }))
     const hostItems: MarketplaceItem[] = SERVER_HOSTS.map((host) => ({
       key: `server-host-${host.key}`, title: host.title, description: host.description[lang],
       href: '/hebergeurs', meta: host.meta[lang], origin: lang === 'fr' ? 'Hébergeurs' : 'Hosting providers',
-      status: { fr: 'Sur étude', en: 'Subject to assessment' }, facetKey: 'hebergeurs',
+      status: { fr: 'Selon configuration', en: 'Depending on configuration' }, facetKey: 'hebergeurs',
       input: lang === 'fr' ? 'Région, souveraineté, capacité et contrat à confirmer' : 'Region, sovereignty, capacity and contract to confirm',
       result: lang === 'fr' ? 'Déploiement validé sur une infrastructure compatible' : 'Deployment approved on compatible infrastructure',
     }))
@@ -472,6 +472,8 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   const [profileCreator, setProfileCreator] = useState('')
   const [catalogFacet, setCatalogFacet] = useState(initialCategoryId === 'serveurs-ia' ? 'unitalk-ai-cloud' : '')
   const [modelType, setModelType] = useState('')
+  const [availability, setAvailability] = useState('')
+  const [urlReady, setUrlReady] = useState(false)
   const [showAllCollaborators, setShowAllCollaborators] = useState(false)
   const navigationCategories = STORE_CATEGORIES
   const activeCategory = STORE_CATEGORIES.find((category) => category.id === initialCategory) ?? STORE_CATEGORIES[0]
@@ -491,6 +493,27 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
             ? t.serverHeroProofs
             : t.heroProofs
   const categoryItems = useMemo(() => itemsForCategory(activeCategory.id, lang), [activeCategory.id, lang])
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    setCatalogQuery(params.get('q') ?? '')
+    setAvailability(params.get('statut') ?? '')
+    setCatalogFacet(params.get('categorie') ?? (activeCategory.id === 'serveurs-ia' ? 'unitalk-ai-cloud' : ''))
+    setProfileDepartment(params.get('categorie') ?? '')
+    setProfileCreator(params.get('createur') ?? '')
+    setUrlReady(true)
+  }, [activeCategory.id])
+
+  useEffect(() => {
+    if (!urlReady) return
+    const params = new URLSearchParams(window.location.search)
+    const category = isProfilesCategory ? profileDepartment : catalogFacet
+    for (const [key, value] of [['q', catalogQuery.trim()], ['statut', availability], ['categorie', category], ['createur', isProfilesCategory ? profileCreator : '']]) {
+      if (value) params.set(key, value)
+      else params.delete(key)
+    }
+    const search = params.toString()
+    window.history.replaceState(null, '', `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`)
+  }, [availability, catalogFacet, catalogQuery, isProfilesCategory, profileCreator, profileDepartment, urlReady])
   const profileDepartments = useMemo(() => PROFILE_DEPARTMENTS.map((department) => ({
     ...department,
     count: categoryItems.filter((item) => item.profileSlug && (department.profiles as readonly string[]).includes(item.profileSlug)).length,
@@ -499,15 +522,16 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   const filteredItems = useMemo(() => {
     const query = normalizeSearch(catalogQuery.trim())
     const department = PROFILE_DEPARTMENTS.find((item) => item.id === profileDepartment)
+    const availabilityItems = categoryItems.filter((item) => !availability || (availability === 'bientot' ? item.pending : !item.pending))
     const scopedItems = activeCategory.id === 'competences'
-      ? categoryItems.filter((item) => !catalogFacet || item.facetKeys?.includes(catalogFacet))
+      ? availabilityItems.filter((item) => !catalogFacet || item.facetKeys?.includes(catalogFacet))
       : isProfilesCategory && department
-        ? categoryItems.filter((item) => item.profileSlug && (department.profiles as readonly string[]).includes(item.profileSlug) && (!profileCreator || item.creator === profileCreator))
+        ? availabilityItems.filter((item) => item.profileSlug && (department.profiles as readonly string[]).includes(item.profileSlug) && (!profileCreator || item.creator === profileCreator))
         : isProfilesCategory && profileCreator
-          ? categoryItems.filter((item) => item.creator === profileCreator)
+          ? availabilityItems.filter((item) => item.creator === profileCreator)
         : usesCatalogSidebar && (catalogFacet || (activeCategory.id === 'modeles-ia' && modelType))
-          ? categoryItems.filter((item) => (!catalogFacet || item.facetKey === catalogFacet || item.facetKeys?.includes(catalogFacet)) && (!modelType || item.modelTypeKey === modelType))
-        : categoryItems
+          ? availabilityItems.filter((item) => (!catalogFacet || item.facetKey === catalogFacet || item.facetKeys?.includes(catalogFacet)) && (!modelType || item.modelTypeKey === modelType))
+        : availabilityItems
     if (!query) return scopedItems
     const tokens = query.split(/\s+/)
     const matches: MarketplaceItem[] = []
@@ -518,7 +542,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       matches.push({ ...item, score: Math.min(99, Math.round(points / tokens.length)) })
     }
     return matches.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-  }, [activeCategory.id, catalogFacet, catalogQuery, categoryItems, isProfilesCategory, modelType, profileCreator, profileDepartment, usesCatalogSidebar])
+  }, [activeCategory.id, availability, catalogFacet, catalogQuery, categoryItems, isProfilesCategory, modelType, profileCreator, profileDepartment, usesCatalogSidebar])
   const visibleItems = filteredItems.slice(0, visibleCount)
   function clearFilters() {
     setCatalogQuery('')
@@ -526,6 +550,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     setProfileCreator('')
     setCatalogFacet(activeCategory.id === 'serveurs-ia' ? 'unitalk-ai-cloud' : '')
     setModelType('')
+    setAvailability('')
     setVisibleCount(PAGE_SIZE)
   }
 
@@ -547,7 +572,8 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       <div id="marketplace-category-tabs" className="sticky top-[76px] z-30 scroll-mt-[76px] border-y border-white/10 bg-[#211E1B]/95 px-5 text-white shadow-[0_10px_30px_-24px_rgba(0,0,0,.8)] backdrop-blur-md sm:px-8">
          <div className="relative mx-auto max-w-6xl after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-10 after:bg-gradient-to-l after:from-[#211E1B] after:to-transparent lg:after:hidden">
          <nav className="flex w-full overflow-x-auto pr-8 scrollbar-hide lg:pr-0" aria-label={lang === 'fr' ? 'Catégories de la marketplace, faites défiler horizontalement pour tout afficher' : 'Marketplace categories, scroll horizontally to see all'}>
-            <Link href={localizedHref('missions', lang)} className="relative flex h-14 shrink-0 items-center pr-4 text-[13px] font-semibold text-[#BEB4A8] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:pr-5 sm:text-sm">{lang === 'fr' ? 'Missions' : 'Missions'}</Link>
+             <Link href={localizePublicHref('/marketplace', lang)} className="relative flex h-14 shrink-0 items-center pr-4 text-[13px] font-semibold text-[#BEB4A8] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:pr-5 sm:text-sm">{lang === 'fr' ? 'Vue générale' : 'Overview'}</Link>
+             <Link href={localizedHref('missions', lang)} className="relative flex h-14 shrink-0 items-center px-4 text-[13px] font-semibold text-[#BEB4A8] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:px-5 sm:text-sm">Missions</Link>
             {navigationCategories.map((category) => {
               const active = activeCategory.id === category.id
                const className = `relative flex h-14 shrink-0 items-center px-4 text-[13px] font-semibold outline-none transition-colors first:pl-0 focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:px-5 sm:text-sm ${active ? 'text-[#F15B9B]' : 'text-[#BEB4A8] hover:text-white'}`
@@ -562,7 +588,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
         <div className="mx-auto w-full max-w-6xl">
               <div id="marketplace-results" aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
                      {isProfilesCategory && <ProfilesMarketplaceCatalog items={filteredItems} categoryTotal={profileCategoryTotal} creatorCounts={{ unitalk: categoryItems.filter(item => item.creator === 'unitalk').length, community: categoryItems.filter(item => item.creator === 'community').length }} departments={profileDepartments} activeDepartment={profileDepartment} onDepartment={(department) => { setProfileDepartment(department); setVisibleCount(PAGE_SIZE) }} activeCreator={profileCreator} onCreator={(creator) => { setProfileCreator(creator); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} labels={{ departments: t.departments, allDepartments: t.allDepartments, profileResult: t.profileResult, profileResults: t.profileResults, firstMission: t.firstMission, addProfile: t.addProfile, clear: t.clear, showMore: t.showMoreProfiles, creators: t.creators, allCreators: t.allCreators, community: t.community }} />}
-                      {usesCatalogSidebar && <MarketplaceSidebarCatalog items={filteredItems} allItems={categoryItems} activeFacet={catalogFacet} onFacet={(facet) => { setCatalogFacet(facet); setVisibleCount(PAGE_SIZE) }} modelType={modelType} onModelType={(type) => { setModelType(type); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} authenticated={authenticated} labels={{ clear: t.clear, allItems: t.allItems, skillCategories: t.skillCategories, applicationCategories: t.applicationCategories, serverCategories: t.serverCategories, result: t.result, results: t.results, available: t.available, preparation: t.preparation, addProfile: t.addProfile, showMore: t.showMore }} />}
+                       {usesCatalogSidebar && <MarketplaceSidebarCatalog items={filteredItems} allItems={categoryItems} activeFacet={catalogFacet} onFacet={(facet) => { setCatalogFacet(facet); setVisibleCount(PAGE_SIZE) }} availability={availability} onAvailability={(status) => { setAvailability(status); setVisibleCount(PAGE_SIZE) }} modelType={modelType} onModelType={(type) => { setModelType(type); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} authenticated={authenticated} labels={{ clear: t.clear, allItems: t.allItems, skillCategories: t.skillCategories, applicationCategories: t.applicationCategories, serverCategories: t.serverCategories, result: t.result, results: t.results, available: t.available, preparation: t.preparation, addProfile: t.addProfile, showMore: t.showMore }} />}
                      {!isCollaboratorsLanding && !isProfilesCategory && !usesCatalogSidebar && <div className="mb-5 sm:mb-6"><h2 className="text-[28px] font-semibold tracking-[-.04em] sm:text-[34px]">{activeCategory.title[lang]}</h2><p className="mt-2 max-w-4xl text-sm leading-6 text-[#625B50]">{activeCategory.description[lang]}</p></div>}
                        {isCollaboratorsLanding && <div className="mb-6 grid gap-5 border-b border-[#D8D0C2] pb-6 sm:mb-8 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-8"><h2 className="text-[clamp(1.8rem,2.3vw,2.05rem)] font-semibold leading-[1.02] tracking-[-.045em] xl:whitespace-nowrap">{lang === 'fr' ? 'Découvrez votre futur Collaborateur IA.' : 'Discover your future AI Collaborator.'}</h2><div className="w-fit border-l-2 border-[#D10E63] py-1 pl-4 lg:text-right"><p className="text-sm font-bold text-[#1C1A17]">{lang === 'fr' ? 'Dès 49 €/mois par Collaborateur IA' : 'From €49/month per AI Collaborator'}</p><p className="mt-1 text-[10px] font-semibold text-[#766D61]">{lang === 'fr' ? 'Sans engagement · Consommation des modèles d’IA facturée séparément' : 'No commitment · AI model usage billed separately'}</p></div></div>}
                    {categoryItems.length > 0 && !isCollaboratorsLanding && !isProfilesCategory && !usesCatalogSidebar && <div className="flex flex-col gap-3"><div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">{activeCategory.id !== 'collaborateurs-ia' && <label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[#D10E63]">×</button>}</label>}<Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] lg:ml-auto">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div></div>}
@@ -571,7 +597,8 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
                 {!isProfilesCategory && !usesCatalogSidebar && (visibleItems.length > 0 ? <div id={isCollaboratorsLanding ? 'marketplace-collaborator-grid' : undefined} className="mt-4 grid auto-rows-fr gap-3 sm:mt-5 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} mobileHidden={isCollaboratorsLanding && !showAllCollaborators && index >= MOBILE_COLLABORATOR_PREVIEW_SIZE} featuredLast={isCollaboratorsLanding && visibleItems.length % 3 === 1 && index === visibleItems.length - 1} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} hideEyebrow={activeCategory.id === 'serveurs-ia'} />}</div> : categoryItems.length > 0 ? <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} hideEyebrow={activeCategory.id === 'serveurs-ia'} />}</div> : <div className="mt-5 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>)}
                   {isCollaboratorsLanding && !showAllCollaborators && <button type="button" onClick={() => setShowAllCollaborators(true)} aria-controls="marketplace-collaborator-grid" aria-expanded={showAllCollaborators} className="mx-auto mt-6 flex min-h-12 w-full max-w-sm items-center justify-center rounded-full border border-[#1C1A17] px-5 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:hidden">{t.showAllCollaborators}<span aria-hidden className="ml-2">↓</span></button>}
                  {isCollaboratorsLanding && <div className="mt-10 border-y border-[#D8D0C2] py-6 text-center"><p className="text-sm font-semibold text-[#4E483F]">{lang === 'fr' ? 'Vous souhaitez comprendre son identité, sa mémoire et ses droits ?' : 'Want to understand its identity, memory and permissions?'}</p><Link href={activeCategory.href} className="mt-2 inline-flex min-h-9 items-center text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/35 underline-offset-4 outline-none transition-colors hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-4">{lang === 'fr' ? 'Découvrir le fonctionnement d’un Collaborateur IA' : 'Discover how an AI Collaborator works'}<span aria-hidden className="ml-2">→</span></Link></div>}
-                 {activeCategory.id !== 'collaborateurs-ia' && !isProfilesCategory && !usesCatalogSidebar && filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
+                  {activeCategory.id !== 'collaborateurs-ia' && !isProfilesCategory && !usesCatalogSidebar && filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
+                  <MarketplaceFaq categoryId={activeCategory.id} lang={lang} />
                      {activeCategory.id === 'collaborateurs-ia' && <section className="mt-10 rounded-[24px] bg-[#181615] p-7 text-white sm:p-9"><h3 className="max-w-5xl text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-[.98] tracking-[-.05em]">{lang === 'fr' ? <>Une mission en tête ? <span className="lg:whitespace-nowrap"><AlmaInline className="mr-2 !size-[.9em] align-[-.12em] ring-2 ring-white/30" />Alma prépare le bon Collaborateur.</span></> : <>A mission in mind? <span className="lg:whitespace-nowrap"><AlmaInline className="mr-2 !size-[.9em] align-[-.12em] ring-2 ring-white/30" />Alma prepares the right Collaborator.</span></>}</h3><div className="mt-5 grid gap-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-10"><div><p className="max-w-2xl text-[15px] leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.almaBody)}</p><p className="mt-5 text-xs font-semibold leading-5 text-[#F2A4C5]">{lang === 'fr' ? 'Première mission gratuite · Sans carte bancaire · Sans engagement' : 'First mission free · No credit card · No commitment'}</p><p className="mt-3 text-xs leading-5 text-[#AFA397]">{lang === 'fr' ? 'Puis à partir de 49 €/mois par Collaborateur IA, auxquels s’ajoute la ' : 'Then from €49/month per AI Collaborator, plus '}<Link href="/tarifs#detail-tarifs" className="font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{lang === 'fr' ? 'consommation des modèles d’IA' : 'AI model usage'}</Link>.</p></div><Link href="/decouvrir?source=marketplace-collaborators-final" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white outline-none transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#181615]">{t.almaFinalAction}<ArrowRight className="size-4" /></Link></div></section>}
           </div>
         </div>
@@ -580,15 +607,40 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
   )
 }
 
+function MarketplaceFaq({ categoryId, lang }: { categoryId: string; lang: Lang }) {
+  const applications = categoryId === 'applications'
+  const servers = categoryId === 'serveurs-ia'
+  const questions: Array<[string, string]> = lang === 'fr' ? [
+    ['Est-ce disponible ?', applications ? 'Chaque fiche indique son statut. « Bientôt disponible » signifie que vous pouvez demander l’intégration, pas la connecter immédiatement.' : servers ? 'Les offres Unitalk AI Cloud affichées sont disponibles. Le fournisseur, la région et la capacité sont confirmés avant activation.' : 'Les éléments publiés sont référencés dans le catalogue ; leur activation dépend des droits et de l’offre de votre entreprise.'],
+    ['Qu’est-ce qui est inclus ?', servers ? 'La capacité affichée et la configuration gérée par Unitalk sont décrites sur chaque fiche. Le périmètre d’exploitation dépend de l’offre retenue.' : 'La fiche décrit l’usage ou la capacité proposée. Les accès, actions et validations restent définis par votre entreprise.'],
+    ['Quel est le prix ?', categoryId === 'competences' ? 'Les compétences sont proposées sans coût unitaire avec une offre compatible.' : 'Aucun prix propre à cet élément n’est publié ici. Les coûts éventuels de l’offre Unitalk, des modèles, de l’infrastructure, des licences et des services tiers sont confirmés avant activation.'],
+    ['Quels sont les prérequis ?', applications ? 'Un compte auprès du fournisseur, des autorisations adaptées et une configuration des accès peuvent être nécessaires. Ils sont vérifiés avant connexion.' : servers ? 'La charge, la région, la souveraineté et les applications à exécuter doivent être cadrées avant activation.' : 'Une offre compatible, les droits nécessaires et une mission définie peuvent être requis selon l’élément.'],
+    ['Un essai est-il prévu ?', 'Le code documente une première mission gratuite, sans carte bancaire. Il ne documente pas un essai distinct pour chaque élément du catalogue.'],
+    ['Quelle version est proposée ?', 'Une version est affichée lorsqu’elle existe dans le catalogue. Sinon, la version exacte est à confirmer avant activation.'],
+    ['Qui fournit et maintient ?', servers ? 'Unitalk gère la configuration des offres Unitalk AI Cloud. Pour un autre hébergeur, fournisseur, région, responsabilités et maintenance sont confirmés avant déploiement.' : applications ? 'L’éditeur est indiqué lorsqu’il est connu. La maintenance de l’application ou du connecteur et les responsabilités sont confirmées avant connexion.' : 'Le créateur ou fournisseur est indiqué sur la fiche lorsqu’il est connu. Le périmètre de maintenance dépend de l’offre et doit être confirmé.'],
+  ] : [
+    ['Is it available?', applications ? 'Each card shows its status. “Coming soon” means you can request the integration, not connect it immediately.' : servers ? 'The listed Unitalk AI Cloud offers are available. Provider, region and capacity are confirmed before activation.' : 'Published items are referenced in the catalog; activation depends on your organization’s permissions and plan.'],
+    ['What is included?', servers ? 'Each card states the capacity and Unitalk-managed configuration. The operations scope depends on the selected plan.' : 'The card describes the proposed use or capability. Access, actions and approvals remain controlled by your organization.'],
+    ['What does it cost?', categoryId === 'competences' ? 'Skills have no unit fee with a compatible plan.' : 'No item-specific price is published here. Any Unitalk plan, model, infrastructure, license and third-party costs are confirmed before activation.'],
+    ['What are the prerequisites?', applications ? 'A provider account, suitable permissions and access configuration may be required. These are checked before connection.' : servers ? 'Workload, region, sovereignty and applications to run must be scoped before activation.' : 'A compatible plan, required permissions and a defined mission may be needed depending on the item.'],
+    ['Is there a trial?', 'The code documents a free first mission with no credit card. It does not document a separate trial for every catalog item.'],
+    ['Which version is offered?', 'A version is shown when one exists in the catalog. Otherwise, the exact version must be confirmed before activation.'],
+    ['Who supplies and maintains it?', servers ? 'Unitalk manages Unitalk AI Cloud offer configuration. For another host, provider, region, responsibilities and maintenance are confirmed before deployment.' : applications ? 'The publisher is shown when known. Application or connector maintenance and responsibilities are confirmed before connection.' : 'The creator or provider is shown when known. Maintenance scope depends on the plan and must be confirmed.'],
+  ]
+  return <section id="marketplace-faq" className="mt-16 border-t border-[#D8D0C2] pt-12"><p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">{lang === 'fr' ? 'Questions pratiques' : 'Practical questions'}</p><h2 className="mt-4 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-none tracking-[-.05em]">{lang === 'fr' ? 'Avant de choisir.' : 'Before you choose.'}</h2><div className="mt-8 grid gap-px overflow-hidden rounded-[20px] border border-[#D8D0C2] bg-[#D8D0C2] md:grid-cols-2">{questions.map(([question, answer]) => <article key={question} className="bg-[#FAF8F3] p-6"><h3 className="font-semibold text-[#1C1A17]">{question}</h3><p className="mt-3 text-sm leading-7 text-[#625B50]">{answer}</p></article>)}</div></section>
+}
+
 function withAlmaAvatar(value: string) {
   return value.split('Alma').map((part, index) => <span key={`${part}-${index}`}>{index > 0 && <><AlmaInline className="mr-1" />Alma</>}{part}</span>)
 }
 
-function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, modelType, onModelType, query, onQuery, visibleCount, onShowMore, lang, category, authenticated, labels }: {
+function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, availability, onAvailability, modelType, onModelType, query, onQuery, visibleCount, onShowMore, lang, category, authenticated, labels }: {
   items: MarketplaceItem[]
   allItems: MarketplaceItem[]
   activeFacet: string
   onFacet: (facet: string) => void
+  availability: string
+  onAvailability: (status: string) => void
   modelType: string
   onModelType: (type: string) => void
   query: string
@@ -628,10 +680,11 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, mode
     <div>
       <div className="mb-5 lg:hidden">
         <label className={hideFacetTitle ? 'sr-only' : 'block font-mono text-[9px] font-black uppercase tracking-[.15em] text-[#766D61]'} htmlFor={`${category.id}-facet`}>{facetTitle}</label>
-        <select id={`${category.id}-facet`} value={activeFacet} onChange={(event) => onFacet(event.target.value)} className={`${hideFacetTitle ? '' : 'mt-2 '}h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-bold outline-none focus:border-[var(--facet-accent)] focus:ring-2 focus:ring-[#1C1A17]/10`} style={{ '--facet-accent': category.accent } as CSSProperties}>
+         <select id={`${category.id}-facet`} value={activeFacet} onChange={(event) => onFacet(event.target.value)} className={`${hideFacetTitle ? '' : 'mt-2 '}h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-bold outline-none focus:border-[var(--facet-accent)] focus:ring-2 focus:ring-[#1C1A17]/10`} style={{ '--facet-accent': category.accent } as CSSProperties}>
           {category.id !== 'serveurs-ia' && <option value="">{allItemsLabel} · {allItems.length}</option>}
           {category.id === 'modeles-ia' ? <><optgroup label={lang === 'fr' ? 'Modalités' : 'Modalities'}>{facets.filter((facet) => (MODEL_MODALITY_ORDER as readonly string[]).includes(facet.id)).map((facet) => <option key={facet.id} value={facet.id}>{facet.label} · {facet.count}</option>)}</optgroup><optgroup label={lang === 'fr' ? 'Capacités' : 'Capabilities'}>{facets.filter((facet) => (MODEL_CAPABILITY_ORDER as readonly string[]).includes(facet.id)).map((facet) => <option key={facet.id} value={facet.id}>{facet.label} · {facet.count}</option>)}</optgroup></> : facets.map((facet) => <option key={facet.id} value={facet.id}>{facet.label} · {facet.count}</option>)}
-        </select>
+         </select>
+         <select aria-label={lang === 'fr' ? 'Statut' : 'Status'} value={availability} onChange={(event) => onAvailability(event.target.value)} className="mt-3 h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-bold outline-none"><option value="">{lang === 'fr' ? 'Tous les statuts' : 'All statuses'}</option><option value="disponible">{labels.available}</option>{category.id === 'applications' && <option value="bientot">{labels.preparation}</option>}</select>
         {category.id === 'modeles-ia' && <select aria-label={lang === 'fr' ? 'Type de modèle' : 'Model type'} value={modelType} onChange={(event) => onModelType(event.target.value)} className="mt-3 h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-4 text-sm font-bold outline-none focus:border-[var(--facet-accent)] focus:ring-2 focus:ring-[#1C1A17]/10" style={{ '--facet-accent': category.accent } as CSSProperties}><option value="">{lang === 'fr' ? 'Tous les types' : 'All types'}</option>{modelTypes.map((type) => <option key={type.id} value={type.id}>{type.label} · {type.count}</option>)}</select>}
         <label className="relative mt-3 block w-full"><span className="sr-only">{category.search[lang]}</span><input type="search" value={query} onChange={(event) => onQuery(event.target.value)} placeholder={category.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--facet-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--facet-accent': category.accent } as CSSProperties} />{query && <button type="button" onClick={() => onQuery('')} aria-label={labels.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]">×</button>}</label>
       </div>
@@ -640,7 +693,8 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, mode
         <div className="scrollbar-hide sticky top-[164px] hidden max-h-[calc(100dvh-180px)] overflow-y-auto pr-1 lg:block">
           <aside className="rounded-[18px] border border-[#D8D0C2] bg-[#EAE3D4] p-3">
             {!hideFacetTitle && <p className="px-3 pb-3 pt-2 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#766D61]">{facetTitle}</p>}
-            <label className="relative mb-3 block w-full"><span className="sr-only">{category.search[lang]}</span><input type="search" value={query} onChange={(event) => onQuery(event.target.value)} placeholder={category.search[lang]} className="h-10 w-full rounded-xl border border-[#CFC5B5] bg-[#FAF8F3] px-3 pr-9 text-xs outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--facet-accent)] focus:bg-white focus:ring-2 focus:ring-[#1C1A17]/10" style={{ '--facet-accent': category.accent } as CSSProperties} />{query && <button type="button" onClick={() => onQuery('')} aria-label={labels.clear} className="absolute right-1 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-base text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]">×</button>}</label>
+             <label className="relative mb-3 block w-full"><span className="sr-only">{category.search[lang]}</span><input type="search" value={query} onChange={(event) => onQuery(event.target.value)} placeholder={category.search[lang]} className="h-10 w-full rounded-xl border border-[#CFC5B5] bg-[#FAF8F3] px-3 pr-9 text-xs outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--facet-accent)] focus:bg-white focus:ring-2 focus:ring-[#1C1A17]/10" style={{ '--facet-accent': category.accent } as CSSProperties} />{query && <button type="button" onClick={() => onQuery('')} aria-label={labels.clear} className="absolute right-1 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-base text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]">×</button>}</label>
+             <select aria-label={lang === 'fr' ? 'Statut' : 'Status'} value={availability} onChange={(event) => onAvailability(event.target.value)} className="mb-3 h-10 w-full rounded-xl border border-[#CFC5B5] bg-[#FAF8F3] px-3 text-xs font-bold outline-none"><option value="">{lang === 'fr' ? 'Tous les statuts' : 'All statuses'}</option><option value="disponible">{labels.available}</option>{category.id === 'applications' && <option value="bientot">{labels.preparation}</option>}</select>
             {category.id !== 'serveurs-ia' && <><button type="button" aria-pressed={!activeFacet} onClick={() => onFacet('')} className={`flex min-h-11 w-full items-center justify-between rounded-xl px-3 text-left text-[13px] font-bold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${!activeFacet ? 'bg-[#181615] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{allItemsLabel}</span><span className={!activeFacet ? 'text-[#F2A4C5]' : 'text-[#857C6E]'}>{allItems.length}</span></button><div className="my-2 border-t border-[#CFC5B5]" /></>}
             {category.id === 'modeles-ia' ? <>{([['Modalités', 'Modalities', MODEL_MODALITY_ORDER], ['Capacités', 'Capabilities', MODEL_CAPABILITY_ORDER]] as const).map(([frTitle, enTitle, keys], groupIndex) => <div key={frTitle}>{groupIndex > 0 && <div className="my-3 border-t border-[#CFC5B5]"/>}<p className="px-3 pb-2 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#766D61]">{lang === 'fr' ? frTitle : enTitle}</p>{facets.filter((facet) => (keys as readonly string[]).includes(facet.id)).map((facet) => <button key={facet.id} type="button" aria-pressed={activeFacet === facet.id} onClick={() => onFacet(facet.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${activeFacet === facet.id ? 'bg-[var(--facet-accent)] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{facet.label}</span><span className={activeFacet === facet.id ? 'text-white/70' : 'text-[#857C6E]'}>{facet.count}</span></button>)}</div>)}</> : facets.map((facet) => <button key={facet.id} type="button" aria-pressed={activeFacet === facet.id} onClick={() => onFacet(facet.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${activeFacet === facet.id ? 'bg-[var(--facet-accent)] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{facet.label}</span><span className={activeFacet === facet.id ? 'text-white/70' : 'text-[#857C6E]'}>{facet.count}</span></button>)}
             {category.id === 'modeles-ia' && <><div className="my-3 border-t border-[#CFC5B5]"/><p className="px-3 pb-2 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#766D61]">{lang === 'fr' ? 'Type de modèle' : 'Model type'}</p>{modelTypes.map((type) => <button key={type.id} type="button" aria-pressed={modelType === type.id} onClick={() => onModelType(modelType === type.id ? '' : type.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#C80B5B] ${modelType === type.id ? 'bg-[#C80B5B] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`}><span>{type.label}</span><span className={modelType === type.id ? 'text-white/70' : 'text-[#857C6E]'}>{type.count}</span></button>)}</>}

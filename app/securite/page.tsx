@@ -4,8 +4,8 @@ import { SecurityContent } from '@/components/security-content'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-  title: 'Sécurité, données et contrôle humain | Unitalk',
-  description: 'Découvrez l’approche Unitalk concernant l’hébergement, les données, les accès, les validations humaines et la traçabilité.',
+  title: 'Centre de confiance et sécurité | Unitalk',
+  description: 'Statut documenté des contrôles d’accès, données, hébergement, résilience, incidents et garanties de sécurité Unitalk.',
   alternates: { canonical: '/securite', languages: { fr: '/securite', en: '/en/security', 'x-default': '/securite' } },
 }
 

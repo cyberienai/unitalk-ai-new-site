@@ -12,11 +12,16 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Votre équipe garde les décisions.')
     expect(source).toContain('Découvrir les 12 Collaborateurs IA')
     expect(source).toContain('Carte professionnelle')
-    expect(source).toContain("reassurance: ['Première mission offerte', 'Sans carte bancaire', 'Actions sensibles sous votre contrôle']")
+    expect(source).toContain('Première mission offerte · Puis 49 €/mois par Collaborateur IA')
+    expect(source).toContain("reassurance: ['Sans carte bancaire', 'Actions sensibles sous votre contrôle']")
     expect(source).toContain("?source=collaborateurs-ia-hero")
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
     expect(source).toContain('text-[clamp(2.15rem,4.5vw,4rem)]')
     expect(source).toContain('lg:grid-cols-[1.16fr_.84fr]')
+  })
+
+  it('provides the skip-link target', () => {
+    expect(source).toContain('<main id="main-content"')
   })
 
   it('shows the twelve identities with professional channels and a first mission', () => {
@@ -55,6 +60,7 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Il prépare. Votre équipe décide.')
     expect(source).toContain('Les actions sensibles restent en attente jusqu’à votre validation.')
     expect(source).toContain('Comité de direction prêt.')
+    expect(source).toContain('Exemple illustratif · Données fictives')
     expect(source).toContain('Autoriser l’envoi de l’ordre du jour aux participants ?')
     expect(source.indexOf('id="mission-proof-title"')).toBeLessThan(source.indexOf('aria-labelledby="marketplace-title"'))
   })
@@ -67,10 +73,9 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Plus de 3 000 applications via Pipedream')
   })
 
-  it('presents continuity as a lasting operational asset', () => {
-    expect(source).toContain('Une continuité opérationnelle durable')
-    expect(source).toContain('Son responsable peut changer. Son expérience reste dans l’entreprise.')
-    expect(source).toContain('Réattribuez sa supervision')
+  it('integrates continuity into organizational placement', () => {
+    expect(source).toContain('Si son responsable change, son identité, ses méthodes validées et sa mémoire autorisée restent rattachées à l’entreprise')
+    expect(source).not.toContain('aria-labelledby="capital-title"')
     expect(source).not.toContain('Plusieurs Collaborateurs. Un résultat commun.')
     expect(source).not.toContain('Profils importables')
     expect(source).not.toContain('Propriété de votre entreprise')
@@ -85,10 +90,9 @@ describe('CollaborateurExperience', () => {
   })
 
   it('presents included skills with method, context and result', () => {
-    expect(source).toContain('Ajoutez les compétences nécessaires à chaque mission.')
-    expect(source).toContain('inclus sans surcoût avec le Collaborateur IA')
-    expect(source).toContain('Chaque compétence décrit une méthode')
-    expect(source).toContain('aria-labelledby="competences-title"')
+    expect(source).toContain('Profils et compétences sont inclus sans surcoût.')
+    expect(source).toContain('Chaque compétence précise une méthode, un contexte et un résultat attendu')
+    expect(source).not.toContain('aria-labelledby="competences-title"')
     expect(source).toContain("localizedHref('skills', lang)")
     for (const name of ['Qualifier un prospect', 'Préparer une réunion', 'Rédiger un article']) expect(source).toContain(name)
   })
@@ -96,6 +100,7 @@ describe('CollaborateurExperience', () => {
   it('connects the Workspace, governance, security and pricing', () => {
     expect(source).toContain('Le Collaborateur est l’identité durable. Le Workspace est l’endroit')
     for (const label of ['Droit', 'Action', 'Validation', 'Décision', 'Trace']) expect(source).toContain(label)
+    expect(source).not.toContain('aria-labelledby="governance-title"')
     for (const route of ["localizedHref('workspace', lang)", "localizedHref('security', lang)", "localizedHref('pricing', lang)"]) expect(source).toContain(route)
     expect(source).toContain("collaboratorBody:'5 millions de tokens et 60 minutes de téléphone inclus par mois.'")
     expect(source).toContain('7 jours ou 1 million de tokens')

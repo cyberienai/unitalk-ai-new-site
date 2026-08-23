@@ -10,14 +10,27 @@ const T = {
     navigation: 'Navigation du pied de page',
     columns: [
       {
-        title: 'Produit',
-        links: [
-          ['Collaborateurs IA', '/marketplace/collaborateurs-ia'],
+         title: 'Marketplace',
+         links: [
+           ['Collaborateurs IA', '/marketplace/collaborateurs-ia'],
+           ['Profils métier', '/marketplace/profils-metier'],
+           ['Compétences', '/marketplace/competences'],
+           ['Applications', '/marketplace/applications'],
+           ['Modèles IA', '/marketplace/modeles-ia'],
+           ['Serveurs IA', '/marketplace/serveurs-ia'],
+         ],
+      },
+      {
+         title: 'Plateforme',
+         links: [
            ['Missions', '/missions'],
            ['Workspace', '/workspace'],
            ['Unitalk Desktop', '/desktop'],
+           ['Hermes', '/hermes'],
+           ['AI Gateway', '/ai-gateway'],
+           ['Unitalk AI Cloud', '/hebergeurs'],
            ['Tarifs', '/tarifs'],
-         ],
+        ],
       },
       {
         title: 'Ressources',
@@ -36,22 +49,21 @@ const T = {
            ['Sécurité', '/securite'],
            ['DPA', '/securite#dpa'],
          ],
-      },
-      {
-        title: 'Partenaires',
-        links: [
-          ['Programme d’affiliation', 'https://unitalk.promotekit.com/'],
-          ['Devenir partenaire', '/partenaires'],
-          ['Devenir co-créateur', '/reseau-co-createurs'],
+       },
+       {
+         title: 'Partenaires',
+         links: [
+           ['Programme d’affiliation', 'https://unitalk.promotekit.com/'],
+           ['Devenir partenaire', '/partenaires'],
+           ['Devenir co-créateur', '/reseau-co-createurs'],
         ],
       },
     ],
     legal: [
-      ['Mentions légales', '/mentions-legales'],
-      ['Confidentialité', '/confidentialite'],
-      ['Conditions', '/conditions'],
-      ['Sécurité', '/securite'],
-    ],
+       ['Mentions légales', '/mentions-legales'],
+       ['Confidentialité', '/confidentialite'],
+       ['Conditions', '/conditions'],
+     ],
     rights: 'Tous droits réservés.',
     signature: 'Hébergé en France · Propulsé par Hermes',
   },
@@ -59,14 +71,27 @@ const T = {
     navigation: 'Footer navigation',
     columns: [
       {
-        title: 'Product',
-        links: [
-          ['AI Collaborators', '/marketplace/collaborateurs-ia'],
+         title: 'Marketplace',
+         links: [
+           ['AI Collaborators', '/marketplace/collaborateurs-ia'],
+           ['Job profiles', '/marketplace/profils-metier'],
+           ['Skills', '/marketplace/competences'],
+           ['Applications', '/marketplace/applications'],
+           ['AI models', '/marketplace/modeles-ia'],
+           ['AI servers', '/marketplace/serveurs-ia'],
+         ],
+      },
+      {
+         title: 'Platform',
+         links: [
            ['Missions', '/missions'],
            ['Workspace', '/workspace'],
            ['Unitalk Desktop', '/desktop'],
+           ['Hermes', '/hermes'],
+           ['AI Gateway', '/ai-gateway'],
+           ['Unitalk AI Cloud', '/hebergeurs'],
            ['Pricing', '/tarifs'],
-         ],
+        ],
       },
       {
         title: 'Resources',
@@ -85,22 +110,21 @@ const T = {
            ['Security', '/securite'],
            ['DPA', '/securite#dpa'],
          ],
-      },
-      {
-        title: 'Partners',
-        links: [
-          ['Affiliate program', 'https://unitalk.promotekit.com/'],
-          ['Become a partner', '/partenaires'],
-          ['Become a co-creator', '/reseau-co-createurs'],
+       },
+       {
+         title: 'Partners',
+         links: [
+           ['Affiliate program', 'https://unitalk.promotekit.com/'],
+           ['Become a partner', '/partenaires'],
+           ['Become a co-creator', '/reseau-co-createurs'],
         ],
       },
     ],
     legal: [
-      ['Legal notice', '/mentions-legales'],
-      ['Privacy', '/confidentialite'],
-      ['Terms', '/conditions'],
-      ['Security', '/securite'],
-    ],
+       ['Legal notice', '/mentions-legales'],
+       ['Privacy', '/confidentialite'],
+       ['Terms', '/conditions'],
+     ],
     rights: 'All rights reserved.',
     signature: 'Hosted in France · Powered by Hermes',
   },
@@ -122,7 +146,7 @@ export function SiteFooter() {
             <span className="font-inter text-lg font-semibold">Unitalk</span>
           </Link>
 
-          <nav aria-label={t.navigation} className={`grid grid-cols-2 gap-x-8 gap-y-11 ${lang === 'fr' ? 'lg:grid-cols-4' : 'lg:grid-cols-1'}`}>
+          <nav aria-label={t.navigation} className="grid grid-cols-2 gap-x-8 gap-y-11 lg:grid-cols-5">
             {columns.map((column) => (
               <div key={column.title}>
                 <h3 className="font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#F2A4C5]">{column.title}</h3>

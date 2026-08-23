@@ -11,6 +11,7 @@ describe('Workspace landing', () => {
     expect(source).toContain('editorial-shell')
     expect(source).toContain('CtaButton')
     expect(source).toContain('rounded-[24px]')
+    expect(source).toContain('<main id="main-content"')
   })
 
   it('uses stable governance vocabulary', () => {
@@ -35,16 +36,26 @@ describe('Workspace landing', () => {
 
   it('presents the Workspace through mission, memory, tools and governance', () => {
     for (const term of ['Disponible partout', 'Mémoire persistante', 'Automatisation ciblée', 'Tâches multipliées', 'Navigation web', 'Exécution isolée']) expect(source).toContain(term)
-    expect(source).toContain('Hermes exécute. Unitalk orchestre.')
-    expect(source).toContain('Ensemble, ils déploient la collaboration à l’échelle de l’entreprise.')
-    expect(source).toContain('Hermes est le moteur agentique open source au cœur de la distribution Unitalk AI')
-    expect(source).toContain('Unitalk ajoute le Workspace partagé')
-    expect(source).toContain('Honcho contribue à personnaliser')
-    expect(source).toContain('Email et calendrier via Stalwart')
-    expect(source).toContain('téléphone via Telnyx')
+    expect(source).toContain('Le moteur exécute. Unitalk orchestre le travail')
+    expect(source).toContain('Unitalk ajoute au moteur open source le Workspace partagé')
+    for (const vendor of ['Honcho', 'Stalwart', 'Telnyx']) expect(source).not.toContain(vendor)
     expect(source).toContain('Un espace pour chacun.')
     expect(source).toContain('Un contexte commun pour avancer.')
     expect(source).toContain('text-[#D10E63]">{t.spacesAccent}')
+  })
+
+  it('labels the source video and onboarding destination accurately', () => {
+    expect(source).toContain("demoTitle: 'Le moteur open source utilisé par Unitalk'")
+    expect(source).toContain("demoTitle: 'The open-source engine used by Unitalk'")
+    expect(source).toContain("openMission: 'Voir un exemple de mission'")
+    expect(source).toContain("href={onboarding ? '#mission-example'")
+  })
+
+  it('uses Nadia for the unpaid-invoice example', () => {
+    expect(source).toContain('Nadia identifie 12 factures échues.')
+    expect(source).toContain("unitalkPreviewBody: 'Nadia · Collaboratrice IA Finance'")
+    expect(source).toContain('src="/images/nadia-avatar.png"')
+    expect(source).not.toContain('Emma identifie 12 factures échues.')
   })
 
   it('explains the free Workspace and first mission path', () => {

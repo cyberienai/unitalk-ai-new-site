@@ -4,12 +4,23 @@ import { describe, expect, it } from 'vitest'
 const footer = readFileSync(new URL('../components/site-footer.tsx', import.meta.url), 'utf8')
 
 describe('site footer', () => {
-  it('provides product, resource, company and partner navigation', () => {
+  it('provides marketplace, platform, resource, company and partner navigation', () => {
     expect(footer).toContain('https://cal.com/patrickchassany/30min')
     expect(footer).toContain('/marketplace/collaborateurs-ia')
+    expect(footer).toContain('/marketplace/profils-metier')
+    expect(footer).toContain('/marketplace/competences')
+    expect(footer).toContain('/marketplace/applications')
+    expect(footer).toContain('/marketplace/modeles-ia')
+    expect(footer).toContain('/marketplace/serveurs-ia')
+    expect(footer.match(/title: 'Marketplace'/g)).toHaveLength(2)
     expect(footer).not.toContain("['Marketplace', '/marketplace']")
     expect(footer).toContain('/missions')
     expect(footer).toContain("['Unitalk Desktop', '/desktop']")
+    expect(footer).toContain("title: 'Plateforme'")
+    expect(footer).toContain("title: 'Platform'")
+    expect(footer).toContain("['Hermes', '/hermes']")
+    expect(footer).toContain("['AI Gateway', '/ai-gateway']")
+    expect(footer).toContain("['Unitalk AI Cloud', '/hebergeurs']")
     expect(footer).toContain('/blog')
     expect(footer).toContain('/changelog')
     expect(footer).toContain('/documentation')
@@ -17,6 +28,8 @@ describe('site footer', () => {
     expect(footer).toContain('/securite')
     expect(footer).toContain('https://unitalk.promotekit.com/')
     expect(footer).toContain('/reseau-co-createurs')
+    expect(footer).toContain("title: 'Partenaires'")
+    expect(footer).toContain("title: 'Partners'")
     expect(footer).toContain('/mentions-legales')
     expect(footer).toContain('/confidentialite')
     expect(footer).toContain('/conditions')

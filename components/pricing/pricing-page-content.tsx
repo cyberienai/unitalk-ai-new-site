@@ -2,6 +2,7 @@ import { Navbar } from '@/components/navbar'
 import { SiteFooter } from '@/components/site-footer'
 import { PricingCollaboration, PricingHero } from '@/components/pricing/pricing-sections'
 import { PricingFaqFinal } from '@/components/pricing/pricing-faq-final'
+import { PricingFinalCta } from '@/components/pricing/pricing-final-cta'
 import { pricingFaqJsonLd } from '@/lib/pricing-faq'
 import type { PricingDraft } from '@/lib/unitalk-pricing'
 
@@ -15,6 +16,7 @@ export function PricingPageContent({ initialDraft, selectedProfile, lang = 'fr' 
         <PricingHero />
         <PricingCollaboration initialDraft={initialDraft} selectedProfile={selectedProfile} />
         <PricingFaqFinal />
+        <PricingFinalCta />
       </main>
       <SiteFooter />
     </div>

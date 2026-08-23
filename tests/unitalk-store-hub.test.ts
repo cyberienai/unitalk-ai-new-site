@@ -44,6 +44,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('<nav className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide"')
     expect(hub).toContain("href={localizedHref('missions', lang)}")
     expect(hub).toContain('overflow-x-auto scrollbar-hide')
+    expect(hub).toContain("localizePublicHref('/marketplace', lang)")
     expect(hub).not.toContain('window.history.pushState')
     expect(hub).not.toContain("window.addEventListener('popstate'")
   })
@@ -232,6 +233,20 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('return href ? <Link')
     expect(hub).toContain('text-[#B00C54]')
     expect(hub).not.toContain('Infrastructure d’exécution')
+  })
+
+  it('shares catalog filters in the URL and keeps application availability honest', () => {
+    expect(hub).toContain("params.get('q')")
+    expect(hub).toContain("params.get('statut')")
+    expect(hub).toContain("params.get('categorie')")
+    expect(hub).toContain("params.get('createur')")
+    expect(hub).toContain('window.history.replaceState')
+    expect(hub).toContain("{ fr: 'Bientôt disponible', en: 'Coming soon' }")
+    expect(hub).toContain("{ fr: 'Disponible', en: 'Available' }")
+    expect(hub).toContain('MarketplaceFaq')
+    for (const question of ['Est-ce disponible ?', 'Qu’est-ce qui est inclus ?', 'Quel est le prix ?', 'Quels sont les prérequis ?', 'Un essai est-il prévu ?', 'Quelle version est proposée ?', 'Qui fournit et maintient ?']) expect(hub).toContain(question)
+    const servers = catalog.slice(catalog.indexOf('const SERVERS'), catalog.indexOf('const PROFILE_ITEMS'))
+    expect(servers).not.toContain("commercialStatus: 'draft'")
   })
 
   it('uses the same structured cards for skills, applications, models and servers', () => {

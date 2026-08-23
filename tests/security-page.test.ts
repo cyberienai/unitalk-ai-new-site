@@ -4,8 +4,9 @@ import { describe, expect, it } from 'vitest'
 const source = readFileSync(new URL('../components/security-content.tsx', import.meta.url), 'utf8')
 
 describe('security page', () => {
-  it('explains defense in depth in customer language', () => {
-    for (const value of ['Utilisateurs autorisés', 'Permissions explicites', 'Validation des actions sensibles', 'Exécution isolée', 'Secrets filtrés', 'Traçabilité']) expect(source).toContain(value)
+  it('covers the security questionnaire with explicit evidence statuses', () => {
+    for (const value of ['SSO / SAML', 'MFA', 'Rôles et permissions', 'Séparation des entreprises', 'Sauvegardes', 'RPO / RTO', 'Rétention des logs', 'Gestion des incidents', 'Tests d’intrusion', 'Sous-traitants', 'Régions d’hébergement', 'Flux vers les modèles', 'Suppression des données', 'Certifications']) expect(source).toContain(value)
+    for (const value of ['Disponible', 'Selon configuration', 'Sur demande', 'À documenter / À confirmer']) expect(source).toContain(value)
   })
 
   it('separates Hermes, Unitalk and customer responsibilities', () => {
@@ -16,7 +17,6 @@ describe('security page', () => {
   })
 
   it('keeps human approval and data commitments explicit', () => {
-    expect(source).toContain('Autorisé ne veut pas dire automatique.')
     expect(source).toContain('hébergées en France')
     expect(source).toContain('chiffrées en transit et au repos')
     expect(source).toContain('sans votre accord explicite')
@@ -34,6 +34,13 @@ describe('security page', () => {
     expect(source).toContain("dark ? 'text-[#F2A4C5]' : 'text-[#D10E63]'")
     expect(source).toContain('<AccentLastWord value={t.title}/>')
     expect(source).toContain('<AccentLastWord value={t.boundaryTitle} dark/>')
-    expect(source).toContain('<AccentLastWord value={title}/>')
+  })
+
+  it('has local navigation, scope and actionable CTAs', () => {
+    expect(source).toContain('id="main-content"')
+    expect(source).toContain('23 août 2026')
+    expect(source).toContain('https://cal.com/patrickchassany/30min')
+    expect(source).toContain('Planifier une revue sécurité')
+    expect(source).toContain('/decouvrir?source=securite')
   })
 })

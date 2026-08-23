@@ -10,8 +10,8 @@ const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
   // The root layout applies a `%s | Unitalk` template, so the bare title here
-  // renders as "Missions pour Collaborateurs IA | Unitalk" (no duplicate).
-  title: 'Missions IA prêtes à confier à vos Collaborateurs IA',
+  // appends "| Unitalk" to this title without duplicating the brand.
+  title: 'Plus de 200 modèles de missions prêts à personnaliser',
   description:
     'Explorez plus de 200 missions IA pour la vente, le support, le marketing, la finance et les opérations. Alma adapte chaque mission à votre entreprise.',
   keywords: ['missions IA', 'Collaborateur IA', 'agent IA entreprise', 'automatisation entreprise', 'assistant IA professionnel'],
@@ -21,14 +21,14 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     siteName: 'Unitalk',
     url: `${SITE_URL}/missions`,
-    title: 'Missions IA prêtes à confier | Unitalk',
+    title: 'Plus de 200 modèles de missions prêts à personnaliser | Unitalk',
     description:
       'Explorez plus de 200 missions IA et confiez un résultat concret à un Collaborateur IA adapté à votre entreprise.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Missions pour Collaborateurs IA Unitalk' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Missions IA prêtes à confier | Unitalk',
+    title: 'Plus de 200 modèles de missions prêts à personnaliser | Unitalk',
     description: 'Plus de 200 missions IA pour la vente, le support, le marketing, la finance et les opérations.',
     images: [{ url: '/opengraph-image', alt: 'Missions pour Collaborateurs IA Unitalk' }],
   },

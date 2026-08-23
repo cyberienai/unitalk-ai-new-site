@@ -25,10 +25,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website', locale: 'fr_FR', alternateLocale: ['en_US'], url: 'https://unitalk.ai/tarifs',
     title: 'Tarifs Collaborateur IA et entreprise IA | Unitalk',
-    description: 'Workspace sans facturation par utilisateur et Collaborateurs IA à 49 €/mois avec 5 millions de tokens mensuels inclus chacun.',
+    description: 'Workspace par palier selon le nombre d’humains et Collaborateurs IA à 49 €/mois avec 5 millions de tokens DeepSeek mensuels inclus chacun.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Tarifs Unitalk pour les Collaborateurs IA et le Workspace' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Tarifs Collaborateur IA | Unitalk', description: 'Pas de facturation par utilisateur. 49 € par Collaborateur IA avec 5 millions de tokens mensuels inclus.', images: ['/opengraph-image'] },
+  twitter: { card: 'summary_large_image', title: 'Tarifs Collaborateur IA | Unitalk', description: 'Des paliers Workspace selon le nombre d’humains. 49 € par Collaborateur IA avec 5 millions de tokens DeepSeek mensuels inclus.', images: ['/opengraph-image'] },
 }
 
 function firstParam(value: string | string[] | undefined) {
@@ -40,7 +40,7 @@ export default async function TarifsPage({ searchParams }: { searchParams: Promi
   const stored = parsePurchaseDraft((await cookies()).get(PURCHASE_DRAFT_COOKIE)?.value)?.pricing
   const requestedProfile = firstParam(params.profil)
   const selectedProfile = requestedProfile && ROLE_DETAILS[requestedProfile] ? requestedProfile : stored?.selectedProfile
-  const initialDraft = normalizePricingDraft({ ...stored, organizationTier: 'solo', collaborators: 1, selectedProfile, coCreators: 0, usageMode: 'included', creditBudget: 0, capacity: 'included' })
+  const initialDraft = normalizePricingDraft({ ...stored, selectedProfile })
 
   return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }}/><PricingPageContent initialDraft={initialDraft} selectedProfile={selectedProfile} /></>
 }
