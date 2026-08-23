@@ -44,7 +44,6 @@ const STATIC_ROUTES = [
   '/capacite-ia',
   '/architecture',
   '/ai-server',
-  '/hebergeurs',
   '/co-createur-ia',
   '/reseau-co-createurs',
   '/leaders',

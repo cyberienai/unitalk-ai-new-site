@@ -9,6 +9,7 @@ const T = {
   fr: {
     navigation: 'Navigation du pied de page',
     tagline: 'Humains et IA collaborent.',
+    discoverAlma: 'Découvrir Alma',
     columns: [
       {
          title: 'Marketplace',
@@ -29,7 +30,7 @@ const T = {
            ['Unitalk Desktop', '/desktop'],
            ['Hermes', '/hermes'],
            ['AI Gateway', '/ai-gateway'],
-           ['Unitalk AI Cloud', '/hebergeurs'],
+           ['Unitalk AI Cloud', '/marketplace/serveurs-ia'],
            ['Tarifs', '/tarifs'],
         ],
       },
@@ -72,6 +73,7 @@ const T = {
   en: {
     navigation: 'Footer navigation',
     tagline: 'Humans and AI collaborate.',
+    discoverAlma: 'Discover Alma',
     columns: [
       {
          title: 'Marketplace',
@@ -92,7 +94,7 @@ const T = {
            ['Unitalk Desktop', '/desktop'],
            ['Hermes', '/hermes'],
            ['AI Gateway', '/ai-gateway'],
-           ['Unitalk AI Cloud', '/hebergeurs'],
+           ['Unitalk AI Cloud', '/marketplace/serveurs-ia'],
            ['Pricing', '/tarifs'],
         ],
       },
@@ -151,6 +153,7 @@ export function SiteFooter() {
               <span className="font-inter text-lg font-semibold">Unitalk</span>
             </Link>
             <p className="mt-4 max-w-48 text-sm leading-6 text-[#B8AF9F]">{t.tagline}</p>
+            <Link href={localizePublicHref('/collaborateurs-ia/alma', lang)} className="mt-4 inline-flex text-sm font-bold text-[#F2A4C5] transition-colors hover:text-white">{t.discoverAlma}<span aria-hidden="true" className="ml-2">→</span></Link>
           </div>
 
           <nav aria-label={t.navigation} className="grid grid-cols-2 gap-x-8 gap-y-11 lg:grid-cols-5">
@@ -177,11 +180,11 @@ export function SiteFooter() {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#8F877A]">
               <span>© {new Date().getFullYear()} Unitalk AI. {t.rights}</span>
-              {t.legal.map(([label, href]) => <Link key={label} href={href} className="transition-colors hover:text-white">{label}</Link>)}
+              {t.legal.map(([label, href]) => <Link key={label} href={localizePublicHref(href, lang)} className="transition-colors hover:text-white">{label}</Link>)}
             </div>
 
              <div className="flex flex-wrap items-center gap-x-2 font-mono text-[11px] font-semibold uppercase tracking-[.12em] text-[#A9A092]">
-               <Link href={localizePublicHref('/hebergeurs', lang)} className="transition-colors hover:text-white">{t.hosted}</Link>
+               <Link href={localizePublicHref('/marketplace/serveurs-ia', lang)} className="transition-colors hover:text-white">{t.hosted}</Link>
                <span aria-hidden="true">·</span>
                <Link href={localizePublicHref('/hermes', lang)} className="transition-colors hover:text-white">{t.powered}</Link>
              </div>
