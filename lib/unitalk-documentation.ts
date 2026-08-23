@@ -32,9 +32,9 @@ export const DOCUMENTATION_GROUPS: readonly DocumentationPage['group'][] = ['Com
 
 export const DOCUMENTATION: Record<DocumentationSlug, DocumentationPage> = {
   'hermes-unitalk': {
-    slug: 'hermes-unitalk', number: '01', group: 'Comprendre', eyebrow: 'Architecture', title: 'Hermes exécute. Unitalk organise le travail.', price: 'Open source + services Unitalk',
+    slug: 'hermes-unitalk', number: '01', group: 'Comprendre', eyebrow: 'Architecture', title: 'Hermes exécute. Unitalk orchestre.', price: 'Open source + services Unitalk',
     summary: 'Hermes fournit le moteur agentique open source. Unitalk ajoute l’identité professionnelle, la mémoire gouvernée, les communications, le Workspace, les missions et l’administration nécessaires au travail en entreprise.',
-    principle: 'Hermes et Unitalk sont deux couches distinctes : le moteur peut évoluer sans confondre l’exécution agentique avec la gouvernance de votre entreprise.',
+    principle: 'Ensemble, Hermes et Unitalk déploient la collaboration à l’échelle de l’entreprise, tout en distinguant l’exécution agentique de sa gouvernance.',
     sections: [
       { title: 'Ce que fournit Hermes', items: ['Planification et exécution agentique', 'Outils, terminal, navigateur et MCP', 'Mémoire propre et création de compétences', 'Tâches planifiées et sous-agents', 'Fonctionnement local, Docker, SSH ou cloud'] },
       { title: 'Ce qu’ajoute Unitalk', items: ['Identité professionnelle durable', 'Missions et résultats attendus', 'Workspace privé, partagé et Entreprise', 'Accès, validations et journal des décisions', 'Administration des membres humains et IA'] },

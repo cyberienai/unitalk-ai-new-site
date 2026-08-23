@@ -4,13 +4,13 @@ import { CollaborateursContent } from '@/components/collaborateurs-ia/collaborat
 export const metadata: Metadata = {
   title: 'Collaborateurs IA pour l’entreprise',
   description:
-    'Déployez un Collaborateur IA avec une identité, une mémoire, des profils métier, plus de 3 000 applications, les meilleurs modèles d’IA et un serveur privé.',
+    'Déployez un Collaborateur IA avec une identité durable, une mémoire autorisée, plus de 3 000 applications via Pipedream et son propre serveur privé virtuel.',
   keywords: ['Collaborateur IA', 'agent IA entreprise', 'équipe humain IA', 'mémoire IA entreprise', 'automatisation entreprise'],
   alternates: { canonical: '/collaborateurs-ia', languages: { fr: '/collaborateurs-ia', en: '/en/ai-collaborators', 'x-default': '/collaborateurs-ia' } },
   openGraph: {
     title: 'Un Collaborateur IA rejoint votre équipe | Unitalk',
     description:
-      'Une identité et une mémoire sous votre contrôle, des profils métier, plus de 3 000 applications et un serveur privé pour travailler avec vos équipes.',
+      'Une identité et une mémoire sous votre contrôle, plus de 3 000 applications via Pipedream et un serveur privé virtuel pour accomplir vos missions.',
     url: 'https://unitalk.ai/collaborateurs-ia',
     siteName: 'Unitalk',
     locale: 'fr_FR',
@@ -25,7 +25,7 @@ export default function CollaborateursIaPage() {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Collaborateurs IA pour l’entreprise',
-    description: 'Des Collaborateurs IA avec une identité, une mémoire, des responsabilités et des ressources contrôlées par l’entreprise.',
+    description: 'Des Collaborateurs IA avec une identité durable, une mémoire autorisée, plus de 3 000 applications via Pipedream et leur propre serveur privé virtuel.',
     url: 'https://unitalk.ai/collaborateurs-ia',
     isPartOf: { '@type': 'WebSite', name: 'Unitalk', url: 'https://unitalk.ai' },
     about: { '@type': 'SoftwareApplication', name: 'Unitalk AI', applicationCategory: 'BusinessApplication' },

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Check, Database, FileKey, Fingerprint, History, LockKeyhole, Server, ShieldCheck, UserCheck } from 'lucide-react'
+import { ArrowRight, Database, FileKey, Fingerprint, History, LockKeyhole, Server, ShieldCheck, UserCheck } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 
@@ -115,6 +115,6 @@ export function SecurityContent() {
 
     <section className="border-y border-[#D8D0C2] bg-[#FAF8F3] px-5 py-14 sm:px-8 sm:py-16"><div className="editorial-shell grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end"><div className="max-w-4xl"><Kicker>{t.technicalKicker}</Kicker><h2 className="mt-5 text-balance text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[.98] tracking-[-.05em]">{t.technicalTitle}</h2><p className="mt-5 max-w-3xl text-sm leading-7 text-[#625B50]">{t.technicalBody}</p></div><a href={HERMES_SECURITY_DOCS} target="_blank" rel="noreferrer" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#211E1A] px-6 text-sm font-bold text-white hover:bg-[#D10E63]">{t.technicalCta}<ArrowRight className="ml-2 size-4"/></a></div></section>
 
-    <section className="px-5 py-12 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-6 sm:flex-row sm:items-center"><p className="max-w-3xl text-xs leading-6 text-[#766D61]">{t.note}</p><div className="flex shrink-0 flex-wrap gap-4"><Link href="/confidentialite" className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.privacyCta}</Link><a href="mailto:hello@unitalk.ai?subject=DPA%20Unitalk" className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.dpaCta}</a></div></div></section>
+    <section id="dpa" className="scroll-mt-24 px-5 py-12 sm:px-8"><div className="editorial-shell flex flex-col justify-between gap-6 sm:flex-row sm:items-center"><p className="max-w-3xl text-xs leading-6 text-[#766D61]">{t.note}</p><div className="flex shrink-0 flex-wrap gap-4"><Link href="/confidentialite" className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.privacyCta}</Link><a href="mailto:hello@unitalk.ai?subject=DPA%20Unitalk" className="text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.dpaCta}</a></div></div></section>
   </main>
 }

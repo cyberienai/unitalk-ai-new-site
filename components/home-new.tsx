@@ -5,6 +5,8 @@ import type { Lang } from '@/lib/language-context'
 import { Navbar } from './navbar'
 import { HeroHybrid } from './home/hero-hybrid'
 import { SectionWorkspace } from './home/section-workspace'
+import { HomeProcess } from './home/home-process'
+import { HomeGuardrails } from './home/home-guardrails'
 import { HomeCollaborators } from './home/home-collaborators'
 import { HomeIntentDoors } from './home/home-static-sections'
 import { HomeFinalCtaValidated } from './home/home-final-cta-validated'
@@ -37,6 +39,7 @@ export function HomeNew({ lang }: { lang: Lang }) {
   const [mission, setMission] = useState('')
   const [listening, setListening] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
+  const [voiceError, setVoiceError] = useState('')
   const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const dictationPrefixRef = useRef('')
 
@@ -48,12 +51,16 @@ export function HomeNew({ lang }: { lang: Lang }) {
     recognition.continuous = false
     recognition.interimResults = true
     recognition.onresult = event => {
+      setVoiceError('')
       let transcript = ''
       for (let index = 0; index < event.results.length; index++) transcript += event.results[index][0].transcript
       setMission([dictationPrefixRef.current, transcript.trim()].filter(Boolean).join(' '))
     }
     recognition.onend = () => setListening(false)
-    recognition.onerror = () => setListening(false)
+    recognition.onerror = () => {
+      setListening(false)
+      setVoiceError(lang === 'fr' ? 'La dictée vocale a échoué. Vous pouvez continuer par écrit.' : 'Voice dictation failed. You can continue in writing.')
+    }
     recognitionRef.current = recognition
     const frame = requestAnimationFrame(() => setVoiceSupported(true))
     return () => {
@@ -71,18 +78,24 @@ export function HomeNew({ lang }: { lang: Lang }) {
       return
     }
     dictationPrefixRef.current = mission.trim()
+    setVoiceError('')
     setListening(true)
-    try { recognition.start() } catch { setListening(false) }
+    try { recognition.start() } catch {
+      setListening(false)
+      setVoiceError(lang === 'fr' ? 'La dictée vocale ne peut pas démarrer. Vous pouvez continuer par écrit.' : 'Voice dictation cannot start. You can continue in writing.')
+    }
   }
 
   return (
     <div className="min-h-screen bg-[#F3EFE6] text-[#1C1A17]">
       <Navbar />
-      <main className="home-page-main">
-        <HeroHybrid lang={lang} value={mission} onChange={setMission} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} />
+      <main id="main-content" className="home-page-main">
+        <HeroHybrid lang={lang} value={mission} onChange={setMission} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceError={voiceError} />
+        <HomeProcess lang={lang} />
         <SectionWorkspace lang={lang} />
         <HomeIntentDoors lang={lang} />
         <HomeCollaborators lang={lang} />
+        <HomeGuardrails lang={lang} />
         <HomeFaq lang={lang} />
         <HomeFinalCtaValidated lang={lang} />
       </main>

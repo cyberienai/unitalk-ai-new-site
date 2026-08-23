@@ -17,6 +17,7 @@ const T = {
           ['Workspace', '/workspace'],
           ['Tarifs', '/tarifs'],
           ['Sécurité', '/securite'],
+          ['DPA', '/securite#dpa'],
         ],
       },
       {
@@ -48,6 +49,7 @@ const T = {
       ['Mentions légales', '/mentions-legales'],
       ['Confidentialité', '/confidentialite'],
       ['Conditions', '/conditions'],
+      ['Sécurité', '/securite'],
     ],
     rights: 'Tous droits réservés.',
     signature: 'Hébergé en France · Propulsé par Hermes',
@@ -63,6 +65,7 @@ const T = {
           ['Workspace', '/workspace'],
           ['Pricing', '/tarifs'],
           ['Security', '/securite'],
+          ['DPA', '/securite#dpa'],
         ],
       },
       {
@@ -94,6 +97,7 @@ const T = {
       ['Legal notice', '/mentions-legales'],
       ['Privacy', '/confidentialite'],
       ['Terms', '/conditions'],
+      ['Security', '/securite'],
     ],
     rights: 'All rights reserved.',
     signature: 'Hosted in France · Powered by Hermes',
@@ -143,7 +147,7 @@ export function SiteFooter() {
               {t.legal.map(([label, href]) => <Link key={label} href={href} className="transition-colors hover:text-white">{label}</Link>)}
             </div>
 
-            <p className="font-mono text-[9px] font-semibold uppercase tracking-[.12em] text-[#8F877A]">{t.signature}</p>
+             <Link href={localizePublicHref('/securite', lang)} className="font-mono text-[11px] font-semibold uppercase tracking-[.12em] text-[#A9A092] transition-colors hover:text-white">{t.signature}</Link>
           </div>
         </div>
       </div>

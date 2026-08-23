@@ -39,8 +39,9 @@ type WorkspaceScenario = {
 const T = {
   fr: {
     kicker: 'Un espace de travail partagé',
+    demo: 'Démonstration interactive · Données fictives',
     title: 'Humains et IA collaborent.',
-    surfaces: 'Votre Collaborateur IA exécute la mission dans le Workspace. Il conserve le contexte, planifie le travail et sollicite votre équipe avant toute action sensible.',
+    surfaces: 'Votre Collaborateur IA réalise la mission dans le Workspace, conserve le contexte et rend son travail visible. Avant une action sensible, il demande la décision de la personne responsable.',
     cta: 'Découvrir le Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'En attente de validation',
@@ -73,8 +74,9 @@ const T = {
   },
   en: {
     kicker: 'A shared workspace',
+    demo: 'Interactive demo · Fictional data',
     title: 'Humans and AI collaborate.',
-    surfaces: 'Your AI Collaborator performs the mission in the Workspace. It keeps context, schedules work and asks your team before any sensitive action.',
+    surfaces: 'Your AI Collaborator performs the mission in Workspace, retains context and makes its work visible. Before a sensitive action, it requests a decision from the person in charge.',
     cta: 'Discover the Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'Awaiting validation',
@@ -218,7 +220,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
   }, [inView, reduce])
 
   const status = !decision
-    ? { label: t.statusPending, color: '#D10E63', bg: 'rgba(209,14,99,0.1)' }
+    ? { label: t.statusPending, color: '#AD0C53', bg: 'rgba(209,14,99,0.1)' }
     : decision === 'validate'
       ? { label: t.statusValidated, color: '#1F7A46', bg: 'rgba(46,158,91,0.12)' }
       : decision === 'refuse'
@@ -397,6 +399,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             </ol>
           </div>
           </motion.div>
+          <p className="mt-3 text-right text-[11px] font-medium text-[#766D61]">{t.demo}</p>
         </div>
       </div>
     </section>

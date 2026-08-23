@@ -8,12 +8,12 @@ describe('CollaborateurExperience', () => {
     expect(source).toContain('Un nouveau membre dans votre équipe')
     expect(source).toContain("heroTitlePrefix: 'Votre'")
     expect(source).toContain("heroTitleRole: 'Collaborateur IA'")
-    expect(source).toContain("heroTitleEnd: 'travaille avec votre équipe.'")
-    expect(source).toContain('Son expérience reste dans votre entreprise.')
-    expect(source).toContain('Voir les 12 Collaborateurs IA')
+    expect(source).toContain("heroTitleEnd: 'accomplit une mission.'")
+    expect(source).toContain('Votre équipe garde les décisions.')
+    expect(source).toContain('Découvrir les 12 Collaborateurs IA')
     expect(source).toContain('Carte professionnelle')
-    expect(source).toContain("reassurance: ['Première mission gratuite', 'Sans carte bancaire']")
-    expect(source).toContain('/decouvrir?source=collaborateurs-ia-hero')
+    expect(source).toContain("reassurance: ['Première mission offerte', 'Sans carte bancaire', 'Actions sensibles sous votre contrôle']")
+    expect(source).toContain("?source=collaborateurs-ia-hero")
     expect(source).not.toContain('/missions?composer=1&source=collaborateurs-ia-hero')
     expect(source).toContain('text-[clamp(2.15rem,4.5vw,4rem)]')
     expect(source).toContain('lg:grid-cols-[1.16fr_.84fr]')
@@ -45,8 +45,9 @@ describe('CollaborateurExperience', () => {
   })
 
   it('covers memory, communication and data sovereignty', () => {
-    for (const claim of ['Sa propre mémoire', 'Les savoirs partagés', 'Ses moyens de communication', 'Son serveur IA']) expect(source).toContain(claim)
-    expect(source).toContain('Chaque instance Hermes dispose de son propre serveur dans Unitalk AI Cloud.')
+    for (const claim of ['Sa propre mémoire', 'Les savoirs partagés', 'Plus de 3 000 applications', 'Son serveur privé virtuel']) expect(source).toContain(claim)
+    expect(source).toContain('Chaque Collaborateur IA dispose de son propre serveur privé virtuel dans Unitalk AI Cloud.')
+    expect(source).toContain('Pipedream relie les comptes et applications utiles')
   })
 
   it('shows one concise mission proof before the marketplace', () => {
@@ -59,11 +60,11 @@ describe('CollaborateurExperience', () => {
   })
 
   it('links every product resource to its marketplace section', () => {
-    for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia']) expect(source).toContain(href)
+    for (const route of ["localizedHref('collaboratorsMarketplace', lang)", "href: '/marketplace/profils-metier'", "href: '/marketplace/competences'", "href: '/marketplace/applications'", "localizedHref('models', lang)", "localizedHref('servers', lang)"]) expect(source).toContain(route)
     expect(source).toContain('Un Store ouvert à la communauté')
     expect(source).toContain('sm:min-h-0')
     expect(source).toContain('Voir toute la Marketplace')
-    expect(source).not.toContain('3 000+ connexions')
+    expect(source).toContain('Plus de 3 000 applications via Pipedream')
   })
 
   it('presents continuity as a lasting operational asset', () => {
@@ -79,15 +80,25 @@ describe('CollaborateurExperience', () => {
   it('gives Alma a clear coordinating role', () => {
     expect(source).toContain('Décrivez une mission. Alma prépare le Collaborateur adapté.')
     expect(source).toContain('Le Collaborateur accomplit la mission. Votre équipe garde la décision.')
-    expect(source).toContain('/decouvrir?source=collaborateurs-ia')
+    expect(source).toContain("?source=collaborateurs-ia")
     expect(source).not.toContain("marketCta: 'Explorer la Marketplace'")
   })
 
-  it('presents skills as free competences with method, context and result', () => {
-    expect(source).toContain('Ajoutez gratuitement les compétences nécessaires à chaque mission.')
+  it('presents included skills with method, context and result', () => {
+    expect(source).toContain('Ajoutez les compétences nécessaires à chaque mission.')
+    expect(source).toContain('inclus sans surcoût avec le Collaborateur IA')
     expect(source).toContain('Chaque compétence décrit une méthode')
     expect(source).toContain('aria-labelledby="competences-title"')
-    expect(source).toContain('href="/marketplace/competences"')
+    expect(source).toContain("localizedHref('skills', lang)")
     for (const name of ['Qualifier un prospect', 'Préparer une réunion', 'Rédiger un article']) expect(source).toContain(name)
+  })
+
+  it('connects the Workspace, governance, security and pricing', () => {
+    expect(source).toContain('Le Collaborateur est l’identité durable. Le Workspace est l’endroit')
+    for (const label of ['Droit', 'Action', 'Validation', 'Décision', 'Trace']) expect(source).toContain(label)
+    for (const route of ["localizedHref('workspace', lang)", "localizedHref('security', lang)", "localizedHref('pricing', lang)"]) expect(source).toContain(route)
+    expect(source).toContain("collaboratorBody:'5 millions de tokens et 60 minutes de téléphone inclus par mois.'")
+    expect(source).toContain('7 jours ou 1 million de tokens')
+    expect(source).toContain('Aucun abonnement payant ne démarre sans votre confirmation.')
   })
 })

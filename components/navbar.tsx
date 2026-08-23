@@ -15,8 +15,7 @@ import { localizePublicHref, localizedHref, switchLocaleHref } from '@/lib/i18n-
 
 type Bi = { fr: string; en: string }
 const ALMA_CTA = {
-  href: '/missions?composer=1&source=nav',
-  label: { fr: 'Décrire mon besoin', en: 'Describe my need' } as Bi,
+  label: { fr: 'Décrire ma mission', en: 'Describe my mission' } as Bi,
 }
 
 // One direct menu for discovering and equipping an AI Collaborator.
@@ -178,6 +177,13 @@ export function Navbar(
   const isPricingActive = pathname === '/tarifs' || pathname === '/en/pricing'
   const isSecurityActive = pathname === '/securite' || pathname === '/en/security'
   const homeHref = localizedHref('home', lang)
+
+  function openHomeAlma(event: React.MouseEvent<HTMLAnchorElement>) {
+    if (pathname !== '/' && pathname !== '/en') return
+    event.preventDefault()
+    setIsMenuOpen(false)
+    window.dispatchEvent(new Event('open-home-alma'))
+  }
   const languageHref = switchLocaleHref(pathname, lang === 'fr' ? 'en' : 'fr')
 
   // Lock body scroll while the mobile menu is open
@@ -264,6 +270,9 @@ export function Navbar(
 
   return (
     <>
+      <a href="#main-content" className="fixed left-4 top-3 z-[70] -translate-y-20 rounded-full bg-[#1C1A17] px-4 py-2 text-sm font-bold text-white transition-transform focus:translate-y-0">
+        {lang === 'fr' ? 'Aller au contenu' : 'Skip to content'}
+      </a>
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,backdrop-filter,border-color] duration-300 ${
           scrolled || isMenuOpen || collabOpen
@@ -371,17 +380,18 @@ export function Navbar(
               className={`hidden items-center gap-1.5 rounded-md px-1.5 py-2 text-xs font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 lg:inline-flex ${
                 overDark ? 'text-[#EDE8DE] hover:text-[#FBF9F3]' : 'text-[#1C1A17] hover:text-[#D10E63]'
               }`}
-              aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
+              aria-label={lang === 'fr' ? 'Afficher le site en anglais' : 'Afficher le site en français'}
             >
-              {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
-              {lang === 'fr' ? 'FR' : 'EN'}
+              {lang === 'fr' ? <UkFlag /> : <FrenchFlag />}
+              {lang === 'fr' ? 'EN' : 'FR'}
             </Link>
 
             <UserMenuDesktop
               overDark={overDark}
               anonymousAction={
                 <Link
-                  href={`${localizedHref('discover', lang)}?source=nav&next=missions`}
+                  href={`${homeHref}#alma-hero`}
+                  onClick={openHomeAlma}
                   className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
                     overDark
                       ? 'bg-[#FBF9F3] text-[#1C1A17] hover:bg-[#EAE3D4] focus-visible:ring-[#FBF9F3]/60 focus-visible:ring-offset-transparent'
@@ -542,10 +552,10 @@ export function Navbar(
                     hrefLang={lang === 'fr' ? 'en' : 'fr'}
                     onClick={(event) => { setIsMenuOpen(false); toggleLang(event) }}
                     className="flex min-h-11 w-full items-center gap-2 text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
-                    aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
+                    aria-label={lang === 'fr' ? 'Afficher le site en anglais' : 'Afficher le site en français'}
                   >
-                    {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
-                    {lang === 'fr' ? 'Français — FR' : 'English — EN'}
+                    {lang === 'fr' ? <UkFlag /> : <FrenchFlag />}
+                    {lang === 'fr' ? 'English — EN' : 'Français — FR'}
                   </Link>
                 </div>
 
@@ -577,8 +587,8 @@ export function Navbar(
               <AnonymousOnly>
                 <div className="shrink-0 border-t border-[#DcD4C4] bg-[#F3EFE6] px-6 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
                    <Link
-                     href={`${localizedHref('discover', lang)}?source=nav&next=missions`}
-                     onClick={() => setIsMenuOpen(false)}
+                     href={`${homeHref}#alma-hero`}
+                     onClick={openHomeAlma}
                      className="flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 py-3 text-[15px] font-bold text-[#FBF9F3] shadow-[0_8px_24px_-8px_rgba(209,14,99,0.5)] transition-colors hover:bg-[#B10B53]"
                    >
                      {ALMA_CTA.label[lang]}

@@ -21,6 +21,12 @@ describe('Unitalk license documentation', () => {
     expect(JSON.stringify(DOCUMENTATION['migration-hermes-openclaw'])).toContain('OpenClaw')
   })
 
+  it('states the Hermes and Unitalk positioning', () => {
+    const architecture = DOCUMENTATION['hermes-unitalk']
+    expect(architecture.title).toBe('Hermes exécute. Unitalk orchestre.')
+    expect(architecture.principle).toContain('déploient la collaboration à l’échelle de l’entreprise')
+  })
+
   it('links documentation from pricing', () => {
     expect(pricing).toContain('/documentation/communications')
   })

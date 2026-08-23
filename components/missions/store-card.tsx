@@ -95,7 +95,7 @@ export function HomeMissionCard({ mission, lang }: { mission: Mission; lang: Lan
       <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#4E483F]">{actionDescription(mission, lang)}</p>
       <div className="relative z-20 mt-auto flex items-end justify-between gap-4 border-t border-[#DED6C8] pt-4">
         {collaborator && <Link href={collaboratorProfileHref(collaborator.slug, lang)} className="flex min-w-0 items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]"><Image src={collaborator.avatar} alt="" width={36} height={36} className="size-9 shrink-0 rounded-full border-2 border-[#FAF8F3] object-cover shadow-sm"/><span className="min-w-0"><span className="block text-[12px] font-bold leading-4">{collaborator.name}</span><span className="block truncate text-[10px] font-semibold leading-4 text-[#857C6E]">{mission.profile[lang]}</span></span></Link>}
-        <Link href={missionHref(mission.slug, lang)} className="inline-flex shrink-0 items-center gap-1.5 rounded-sm text-xs font-bold text-[#B00C54] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">{lang === 'fr' ? 'Voir la mission' : 'View mission'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1"/></Link>
+        <Link href={missionHref(mission.slug, lang)} className="inline-flex shrink-0 items-center gap-1.5 rounded-sm text-xs font-bold text-[#B00C54] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">{lang === 'fr' ? 'Découvrir cette mission' : 'Discover this mission'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1"/></Link>
       </div>
     </article>
   )

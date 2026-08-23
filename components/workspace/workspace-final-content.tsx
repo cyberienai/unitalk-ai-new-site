@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ArrowRight, Check, Clock3, Download, Laptop, ShieldCheck, Terminal, Monitor } from 'lucide-react'
+import { ArrowRight, Check, Clock3, Laptop, ShieldCheck } from 'lucide-react'
 import { LocalizedLink as Link } from '@/components/localized-link'
 import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage, type Lang } from '@/lib/language-context'
@@ -80,11 +80,7 @@ export function WorkspaceFinalContent({ onboarding }: { onboarding?: WorkspaceOn
       <section className="border-t border-[#D8D0C2] bg-[#FAF8F3] px-5 py-16 sm:px-8 sm:py-20">
         <div className="editorial-shell grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:gap-20">
           <div><Kicker>{t.downloadKicker}</Kicker><h2 className="mt-5 text-balance text-[clamp(2.35rem,4.5vw,4.4rem)] font-semibold leading-[.96] tracking-[-.055em]">{t.downloadTitle}</h2><p className="mt-5 max-w-xl text-[15px] leading-7 text-[#625B50]">{t.downloadLead}</p></div>
-          <div className="grid gap-3">
-            <DownloadLink href="https://hermes-assets.nousresearch.com/Hermes-Setup.dmg?build=fcbd1076a938" icon={Laptop} title="macOS" detail="macOS 12+" action={t.downloadApp} />
-            <DownloadLink href="https://hermes-assets.nousresearch.com/Hermes-Setup.exe?build=fcbd1076a938" icon={Monitor} title="Windows" detail="Windows 10 / 11" action={t.downloadApp} />
-            <DownloadLink href="https://github.com/NousResearch/hermes-agent/releases" icon={Terminal} title="Linux" detail={t.anyDistribution} action={t.installTerminal} />
-          </div>
+          <div><div className="grid gap-px overflow-hidden rounded-[24px] border border-[#D8D0C2] bg-[#D8D0C2] sm:grid-cols-2">{t.desktopLayers.map(([title, body]) => <article key={title} className="bg-white p-5 sm:p-6"><h3 className="text-base font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-[#625B50]">{body}</p></article>)}</div><CtaButton href="/desktop" className="mt-6">{t.discoverDesktop}<ArrowRight className="size-4" /></CtaButton></div>
         </div>
       </section>
 
@@ -149,10 +145,6 @@ function Actor({ image, title, body }: { image: string; title: string; body: str
   return <article className="bg-[#211E1B] p-6"><Image src={image} alt="" width={48} height={48} className="size-12 rounded-full object-cover" /><h3 className="mt-6 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-7 text-[#CFC6B8]">{body}</p></article>
 }
 
-function DownloadLink({ href, icon: Icon, title, detail, action }: { href: string; icon: typeof Download; title: string; detail: string; action: string }) {
-  return <a href={href} target="_blank" rel="noreferrer" className="group flex min-h-20 items-center gap-4 rounded-2xl border border-[#D8D0C2] bg-white px-5 py-4 outline-none transition-colors hover:border-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]"><span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#EAE3D4] text-[#1C1A17]"><Icon className="size-5" /></span><span className="min-w-0"><strong className="block text-base">{title}</strong><span className="mt-0.5 block text-xs text-[#766D61]">{detail}</span></span><span className="ml-auto flex shrink-0 items-center gap-2 text-xs font-bold text-[#B00C54]">{action}<Download className="size-4" /></span></a>
-}
-
 function withAlmaAvatar(value: string) {
   return value.split('Alma').map((part, index) => <span key={`${part}-${index}`}>{index > 0 && <><AlmaInline className="mr-1 align-[-.2em]" />Alma</>}{part}</span>)
 }
@@ -168,9 +160,9 @@ const COPY = {
     previewActivity: [['10:14', 'Emma identifie 12 factures échues.'], ['10:16', 'Deux dossiers comportent un litige ouvert.'], ['10:18', 'Dix relances attendent votre validation.']] as const,
     decisionRequired: 'Décision requise', previewQuestion: 'Autoriser l’envoi des dix relances préparées ?',
     genericDemo: 'Démonstration générique du Workspace', demoKicker: 'Le moteur agentique en action', demoTitle: 'Voyez comment un agent travaille.',
-    demoLead: 'Hermes est le moteur agentique open source au cœur de la distribution Unitalk AI. Cette démonstration officielle montre son interface Desktop et sa capacité à travailler avec des outils.',
-    demoNote: 'Unitalk ajoute le Workspace partagé, les missions, les profils, les droits, les validations humaines et l’administration à l’échelle de l’entreprise.',
-    videoLabel: 'Démonstration vidéo de Hermes Desktop', videoCaption: 'Démonstration officielle du moteur Hermes Desktop par Nous Research. Ce n’est pas une capture du Workspace Unitalk.', videoSource: 'Voir la source officielle',
+    demoLead: 'Hermes exécute. Unitalk orchestre. Ensemble, ils déploient la collaboration à l’échelle de l’entreprise.',
+    demoNote: 'Hermes est le moteur agentique open source au cœur de la distribution Unitalk AI. Unitalk ajoute le Workspace partagé, les missions, les profils, les droits, les validations humaines et l’administration.',
+    videoLabel: 'Démonstration vidéo du projet Hermes Desktop', videoCaption: 'Démonstration officielle du projet open source Hermes Desktop par Nous Research. Unitalk Desktop en est une distribution enrichie. Ce n’est pas une capture du Workspace Unitalk.', videoSource: 'Voir la source officielle',
     freeKicker: 'Commencez gratuitement', freeTitle: 'Votre Workspace Solo est gratuit. Votre première mission aussi.', freeBody: 'Alma configure l’accès aux modèles IA, prépare la synchronisation avec Unitalk AI Cloud et vous accompagne jusqu’à la première mission de votre Collaborateur IA.', freeCta: 'Créer mon Workspace Solo',
     capabilitiesKicker: 'Les capacités de Hermes', capabilitiesTitle: 'Six capacités agentiques. Un cadre Unitalk.', capabilitiesLead: 'Hermes apporte le moteur open source. Unitalk l’intègre au Workspace, aux missions et aux règles de votre entreprise.',
     capabilities: [
@@ -190,7 +182,9 @@ const COPY = {
     memoryKicker: 'Mémoire gouvernée', memoryTitle: 'Propre, partagée ou Entreprise.', memoryBody: 'Chaque Collaborateur IA conserve le contexte autorisé entre ses missions. Honcho contribue à personnaliser la relation avec l’utilisateur ; Unitalk contrôle la portée et le partage des informations.', learnMemory: 'Comprendre la mémoire',
     communicationKicker: 'Canaux professionnels', communicationTitle: 'Présent là où votre équipe travaille.', communicationBody: 'Email et calendrier via Stalwart, téléphone via Telnyx, puis Slack, Teams, Telegram ou WhatsApp selon la configuration et les droits accordés.', learnCommunications: 'Voir les communications',
     unitalkPreviewKicker: 'Aperçu Unitalk', unitalkPreviewBody: 'Emma · Collaboratrice IA Finance', toApprove: 'À valider',
-    downloadKicker: 'Hermes Desktop', downloadTitle: 'Installez le moteur agentique.', downloadLead: 'Téléchargez l’application officielle de Nous Research. Unitalk ajoute ensuite le Workspace partagé, les missions et la gouvernance de votre entreprise.', downloadApp: 'Télécharger', installTerminal: 'Voir les versions', anyDistribution: 'Toutes distributions',
+    downloadKicker: 'Distribution Unitalk Desktop', downloadTitle: 'Unitalk Desktop relie l’exécution au travail collectif.', downloadLead: 'Unitalk Desktop est la distribution Unitalk du projet open source Hermes Desktop. Elle intègre les passerelles vers Unitalk AI Gateway et Unitalk AI Cloud afin de réunir l’exécution locale et les services de collaboration de l’entreprise.',
+    desktopLayers: [['Gestion des missions avec Alma', 'Alma cadre les résultats, prépare le bon Collaborateur IA et orchestre les autorisations, le suivi et les validations.'], ['AI Gateway', 'Les modèles, fournisseurs, clés, routes, budgets et limites restent gouvernés par l’entreprise.'], ['Gateway vers Unitalk AI Cloud', 'Le Desktop synchronise les missions, l’activité et les ressources autorisées avec les services Unitalk.'], ['Workspace collaboratif', 'Identités, mémoire gouvernée, outils de communication et Assistants IA partagés restent accessibles dans le même environnement.']] as const,
+    discoverDesktop: 'Découvrir Unitalk Desktop',
     governanceKicker: 'Contrôle humain', governanceTitle: 'Autonome dans le cadre. Jamais hors cadre.', governanceLead: 'Une application n’accorde aucun droit à elle seule. Chaque action dépend des permissions de la mission et des validations définies par votre entreprise.',
     governance: [['Droit', 'Définissez ce qui est autorisé.', 'Les applications, données et outils accessibles sont explicitement choisis.'], ['Validation', 'Gardez les actions sensibles en attente.', 'Un envoi, une publication ou une décision engageante peut exiger votre accord.'], ['Décision', 'Approuvez, corrigez ou refusez.', 'Le Collaborateur poursuit uniquement à partir de la décision enregistrée.'], ['Exécution', 'Laissez agir dans les limites validées.', 'Les tâches autorisées peuvent être exécutées sans multiplier les demandes inutiles.'], ['Trace', 'Retrouvez ce qui a été fait.', 'Sources, étapes, résultats et décisions restent rattachés à la mission.']] as const,
     rolesKicker: 'Une équipe lisible', rolesTitle: 'Chacun garde son rôle.', humanTitle: 'Votre équipe', humanBody: 'Définit le résultat, apporte le contexte et garde les décisions engageantes.', aiTitle: 'Le Collaborateur IA', aiBody: 'Réalise la mission avec son profil, sa mémoire et les outils autorisés.', almaTitle: 'Alma', almaBody: 'Cadre la mission, prépare le Collaborateur et orchestre les validations.',
@@ -206,9 +200,9 @@ const COPY = {
     previewActivity: [['10:14', 'Emma identifies 12 overdue invoices.'], ['10:16', 'Two files have an open dispute.'], ['10:18', 'Ten reminders await your approval.']] as const,
     decisionRequired: 'Decision required', previewQuestion: 'Approve sending the ten prepared reminders?',
     genericDemo: 'Generic Workspace demonstration', demoKicker: 'The agent engine in action', demoTitle: 'See how an agent works.',
-    demoLead: 'Hermes is the open-source agent engine at the heart of the Unitalk AI distribution. This official demo shows its Desktop interface and its ability to work with tools.',
-    demoNote: 'Unitalk adds the shared Workspace, missions, profiles, permissions, human approvals and organization-wide administration.',
-    videoLabel: 'Hermes Desktop video demonstration', videoCaption: 'Official demonstration of the Hermes Desktop engine by Nous Research. This is not a capture of Unitalk Workspace.', videoSource: 'View the official source',
+    demoLead: 'Hermes executes. Unitalk orchestrates. Together, they enable collaboration across the organization.',
+    demoNote: 'Hermes is the open-source agent engine at the heart of the Unitalk AI distribution. Unitalk adds the shared Workspace, missions, profiles, permissions, human approvals and administration.',
+    videoLabel: 'Hermes Desktop project video demonstration', videoCaption: 'Official demonstration of the open-source Hermes Desktop project by Nous Research. Unitalk Desktop is an enriched distribution of it; this is not a capture of Unitalk Workspace.', videoSource: 'View the official source',
     freeKicker: 'Start for free', freeTitle: 'Your Solo Workspace is free. So is your first mission.', freeBody: 'Alma configures access to AI models, prepares synchronization with Unitalk AI Cloud and supports you through your AI Collaborator’s first mission.', freeCta: 'Create my Solo Workspace',
     capabilitiesKicker: 'Hermes capabilities', capabilitiesTitle: 'Six agent capabilities. One Unitalk framework.', capabilitiesLead: 'Hermes provides the open-source engine. Unitalk connects it to the Workspace, missions and your organization’s rules.',
     capabilities: [
@@ -228,7 +222,9 @@ const COPY = {
     memoryKicker: 'Governed memory', memoryTitle: 'Private, shared or organization-wide.', memoryBody: 'Each AI Collaborator retains authorized context across missions. Honcho helps personalize the user relationship; Unitalk controls the scope and sharing of information.', learnMemory: 'Understand memory',
     communicationKicker: 'Professional channels', communicationTitle: 'Present where your team works.', communicationBody: 'Email and calendar through Stalwart, phone through Telnyx, plus Slack, Teams, Telegram or WhatsApp according to configuration and permissions.', learnCommunications: 'View communications',
     unitalkPreviewKicker: 'Unitalk preview', unitalkPreviewBody: 'Emma · Finance AI Collaborator', toApprove: 'To approve',
-    downloadKicker: 'Hermes Desktop', downloadTitle: 'Install the agent engine.', downloadLead: 'Download the official Nous Research application. Unitalk then adds the shared Workspace, missions and your organization’s governance.', downloadApp: 'Download', installTerminal: 'View releases', anyDistribution: 'Any distribution',
+    downloadKicker: 'Unitalk Desktop distribution', downloadTitle: 'Unitalk Desktop connects execution to collaborative work.', downloadLead: 'Unitalk Desktop is Unitalk’s distribution of the open-source Hermes Desktop project. It integrates gateways to Unitalk AI Gateway and Unitalk AI Cloud, combining local execution with organization-wide collaboration services.',
+    desktopLayers: [['Mission management with Alma', 'Alma scopes outcomes, prepares the right AI Collaborator and orchestrates permissions, tracking and approvals.'], ['AI Gateway', 'Models, providers, keys, routes, budgets and limits remain governed by the organization.'], ['Gateway to Unitalk AI Cloud', 'Desktop synchronizes missions, activity and authorized resources with Unitalk services.'], ['Collaborative Workspace', 'Identities, governed memory, communication tools and shared AI Assistants remain available in one environment.']] as const,
+    discoverDesktop: 'Discover Unitalk Desktop',
     governanceKicker: 'Human control', governanceTitle: 'Autonomous within the framework. Never outside it.', governanceLead: 'An application grants no permission by itself. Every action depends on mission permissions and the approvals defined by your organization.',
     governance: [['Permission', 'Define what is allowed.', 'Applications, data and accessible tools are explicitly selected.'], ['Approval', 'Hold sensitive actions for review.', 'Sending, publishing or consequential decisions can require your approval.'], ['Decision', 'Approve, amend or decline.', 'The Collaborator proceeds only from the recorded decision.'], ['Execution', 'Let it act within approved limits.', 'Authorized tasks can run without unnecessary approval requests.'], ['Record', 'See what happened.', 'Sources, steps, outcomes and decisions remain attached to the mission.']] as const,
     rolesKicker: 'A legible team', rolesTitle: 'Everyone keeps a clear role.', humanTitle: 'Your team', humanBody: 'Defines the outcome, provides context and retains consequential decisions.', aiTitle: 'The AI Collaborator', aiBody: 'Performs the mission with its profile, memory and authorized tools.', almaTitle: 'Alma', almaBody: 'Scopes the mission, prepares the Collaborator and orchestrates approvals.',

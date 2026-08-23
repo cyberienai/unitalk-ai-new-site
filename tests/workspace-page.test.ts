@@ -35,6 +35,8 @@ describe('Workspace landing', () => {
 
   it('presents the Workspace through mission, memory, tools and governance', () => {
     for (const term of ['Disponible partout', 'Mémoire persistante', 'Automatisation ciblée', 'Tâches multipliées', 'Navigation web', 'Exécution isolée']) expect(source).toContain(term)
+    expect(source).toContain('Hermes exécute. Unitalk orchestre.')
+    expect(source).toContain('Ensemble, ils déploient la collaboration à l’échelle de l’entreprise.')
     expect(source).toContain('Hermes est le moteur agentique open source au cœur de la distribution Unitalk AI')
     expect(source).toContain('Unitalk ajoute le Workspace partagé')
     expect(source).toContain('Honcho contribue à personnaliser')
@@ -50,10 +52,14 @@ describe('Workspace landing', () => {
     expect(source).toContain('Créer mon Workspace Solo')
   })
 
-  it('links to official Hermes downloads', () => {
-    expect(source).toContain('Hermes-Setup.dmg?build=fcbd1076a938')
-    expect(source).toContain('Hermes-Setup.exe?build=fcbd1076a938')
-    expect(source).toContain('github.com/NousResearch/hermes-agent/releases')
+  it('presents Unitalk Desktop as the enterprise distribution of Hermes Desktop', () => {
+    expect(source).toContain('Unitalk Desktop est la distribution Unitalk du projet open source Hermes Desktop.')
+    expect(source).toContain('AI Gateway')
+    expect(source).toContain('Gateway vers Unitalk AI Cloud')
+    expect(source).toContain('Gestion des missions avec Alma')
+    expect(source).toContain('Assistants IA partagés')
+    expect(source).not.toContain('Hermes-Setup.dmg')
+    expect(source).not.toContain('Hermes-Setup.exe')
   })
 
   it('renders confirmed onboarding directly in Workspace', () => {

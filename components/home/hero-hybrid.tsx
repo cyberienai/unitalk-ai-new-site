@@ -17,7 +17,7 @@ const T = {
     headlineA: 'Confiez une mission concrète',
     headlineB: 'à votre Collaborateur IA.',
     subtitleBeforeAlma: 'Décrivez le résultat attendu.',
-    subtitleAfterAlma: 'prépare la mission, personnalise votre Collaborateur IA et précise ce qu’il pourra faire seul ou avec votre validation.',
+    subtitleAfterAlma: 'configure le Collaborateur IA adapté, prépare sa mission et définit avec vous les actions qu’il peut réaliser seul ou soumettre à votre validation.',
     pricing: 'Première mission offerte · Sans carte bancaire · Puis à partir de 49 €/mois ·',
     pricingCta: 'Voir les tarifs',
     cta: 'Préparer ma mission avec Alma',
@@ -29,7 +29,7 @@ const T = {
     voiceListening: 'Alma vous écoute…',
     voicePlaceholder: 'Ex. Relancer les factures impayées sans contacter les clients en litige…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
-    voiceSubmit: 'Préparer ma mission avec Alma',
+    voiceSubmit: 'Préparer ma mission',
     examples: ['Trouver de nouveaux clients', 'Préparer une réunion', 'Relancer des factures'],
   },
   en: {
@@ -37,7 +37,7 @@ const T = {
     headlineA: 'Entrust concrete work',
     headlineB: 'to an AI Collaborator.',
     subtitleBeforeAlma: 'Describe the expected outcome.',
-    subtitleAfterAlma: 'prepares the mission, selects the right AI Collaborator and defines what it can do alone or with your approval.',
+    subtitleAfterAlma: 'configures the right AI Collaborator, prepares the mission and defines with you which actions it can perform alone or submit for approval.',
     pricing: 'First mission included · No credit card · Then from €49/month ·',
     pricingCta: 'See pricing',
     cta: 'Prepare my mission with Alma',
@@ -49,18 +49,19 @@ const T = {
     voiceListening: 'Alma is listening…',
     voicePlaceholder: 'E.g. Follow up unpaid invoices without contacting customers in dispute…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
-    voiceSubmit: 'Prepare my mission with Alma',
+    voiceSubmit: 'Prepare my mission',
     examples: ['Find new customers', 'Prepare a meeting', 'Follow up invoices'],
   },
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleListening, voiceSupported }: { lang?: Lang; value: string; onChange: (value: string) => void; listening: boolean; onToggleListening: () => void; voiceSupported: boolean }) {
+export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleListening, voiceSupported, voiceError }: { lang?: Lang; value: string; onChange: (value: string) => void; listening: boolean; onToggleListening: () => void; voiceSupported: boolean; voiceError?: string }) {
   const t = T[lang]
   const reduce = useReducedMotion()
   const router = useRouter()
   const [promptAttention, setPromptAttention] = useState(false)
+  const [submissionError, setSubmissionError] = useState('')
   const voicePanelRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const openVoiceSurface = useEffectEvent(() => {
@@ -80,7 +81,7 @@ export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleLi
   })
 
   const enter = (delay: number) => ({
-    initial: reduce ? false : { opacity: 0, y: 16 },
+    initial: false as const,
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.55, delay: reduce ? 0 : delay, ease },
   })
@@ -88,16 +89,17 @@ export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleLi
   function handoffNeed(value: string) {
     const clean = value.trim()
     if (!clean) return
+    setSubmissionError('')
     const draftId = `draft_${typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(36).slice(2)}`}`
-    let stored = false
     try {
       localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() }))
-      stored = true
-    } catch {}
+    } catch {
+      setSubmissionError(lang === 'fr' ? 'Votre navigateur n’autorise pas la conservation sécurisée de ce brouillon. Vérifiez ses réglages puis réessayez.' : 'Your browser does not allow this draft to be stored securely. Check its settings and try again.')
+      return
+    }
     track('alma_need_submitted', { mode: listening ? 'voice' : 'text', source: 'hero' })
     const params = new URLSearchParams({ source: 'home-hero' })
-    if (stored) params.set('draft', draftId)
-    else params.set('q', clean.slice(0, 1500))
+    params.set('draft', draftId)
     router.push(`${localizedHref('discover', lang)}?${params}`)
   }
 
@@ -121,7 +123,7 @@ export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleLi
         </div>
 
          <motion.div id="alma-hero" ref={voicePanelRef} {...enter(0.18)} className="mx-auto w-full max-w-2xl scroll-mt-24">
-            <motion.div initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
+            <motion.div initial={false} animate={{ opacity: 1, x: 0 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
               <AlmaMissionComposer
                  value={value}
                  onChange={onChange}
@@ -138,7 +140,9 @@ export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleLi
                 voiceSupported={voiceSupported}
                 voiceStartLabel={t.voiceStart}
                 voiceStopLabel={t.voiceStop}
-                listeningLabel={t.voiceListening}
+                 listeningLabel={t.voiceListening}
+                 help={lang === 'fr' ? 'Décrivez simplement le résultat attendu. Les données et accès nécessaires seront précisés avant le lancement.' : 'Simply describe the expected outcome. Required data and access will be defined before launch.'}
+                 error={voiceError || submissionError}
                 textareaRef={textareaRef}
                  attention={promptAttention}
                 compactMobile
@@ -148,7 +152,7 @@ export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleLi
             </motion.div>
           </motion.div>
         </div>
-        <motion.p {...enter(0.32)} className="mt-6 border-b border-[#CFC5B5] pb-4 text-[12px] font-semibold leading-5 text-[#6E665A] sm:mt-8 lg:mt-6">
+        <motion.p {...enter(0.32)} className="mt-6 border-b border-[#CFC5B5] pb-4 text-[12px] font-black leading-5 text-[#1C1A17] sm:mt-8 lg:mt-6">
           {t.pricing}{' '}
           <Link href={localizedHref('pricing', lang)} className="font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.pricingCta}</Link>
         </motion.p>

@@ -5,8 +5,8 @@ const navbar = readFileSync(new URL('../components/navbar.tsx', import.meta.url)
 
 describe('Collaborateurs IA mega menu', () => {
   it('keeps the primary journey visible', () => {
-    for (const href of ['/missions', '/collaborateurs-ia', '/workspace', '/academy', '/tarifs']) expect(navbar).toContain(href)
-    expect(navbar).toContain("label: { fr: 'Décrire mon besoin'")
+    for (const href of ['/missions', '/collaborateurs-ia', '/workspace', '/tarifs']) expect(navbar).toContain(href)
+    expect(navbar).toContain("label: { fr: 'Décrire ma mission'")
   })
 
   it('opens the AI Collaborators Marketplace category first', () => {
@@ -25,15 +25,14 @@ describe('Collaborateurs IA mega menu', () => {
   })
 
   it('keeps Missions and Academy visible and removes Marketplace from top navigation', () => {
-    expect(navbar).toContain('<NavItem href="/missions"')
-    expect(navbar).toContain('<NavItem href="/academy"')
+    expect(navbar).toContain("<NavItem href={localizedHref('missions', lang)}")
     expect(navbar).not.toContain('<NavItem href="/marketplace"')
     expect(navbar).not.toContain('{t.marketplace}')
     expect(navbar).not.toContain('<NavItem href="/partenaires"')
   })
 
   it('uses accessible menu semantics and matching mobile discovery', () => {
-    expect(navbar).toContain('role="menu"')
+    expect(navbar).toContain('aria-haspopup="true"')
     expect(navbar).toContain('aria-expanded={collabOpen}')
     expect(navbar).toContain('aria-controls="collab-menu"')
     expect(navbar).toContain('mobile-collab-sub')
