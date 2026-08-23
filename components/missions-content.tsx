@@ -340,7 +340,7 @@ export function MissionsContent({
   }, [composerRequested, pathname, query, router, searchParams])
 
   return (
-    <main id="missions-top" className="min-h-screen overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
+    <main id="main-content" className="min-h-screen overflow-hidden bg-[#F3EFE6] text-[#1C1A17]">
       {(!requestedCollaboratorDetail || composerRequested) && <section className="relative overflow-hidden bg-[#F3EFE6] pb-8 pt-20 sm:pb-12 sm:pt-28 lg:pb-12 lg:pt-28">
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]" />
         <div aria-hidden className="pointer-events-none absolute -right-40 top-0 h-[40rem] w-[40rem] rounded-full bg-[#D10E63]/[0.08] blur-3xl" />
@@ -448,14 +448,14 @@ const COPY = {
     eyebrow: 'Plus de 200 modèles de missions prêts à personnaliser',
     titleStart: 'Ne demandez plus à l’IA.', titleAccent: 'Confiez-lui le travail.',
     lead: 'Votre Collaborateur IA comprend l’objectif, mobilise les bons outils et mène la mission jusqu’au résultat.', heroCta: 'Décrire le résultat attendu', heroProof: 'Première mission offerte · Sans carte bancaire.', trialLimit: 'L’essai prend fin avec la mission, après 7 jours ou 1 million de tokens, selon la première limite atteinte.', pricingCta: 'Voir les tarifs',
-    almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk', composerTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?', composerBody: '',
+    almaRole: 'Coordinatrice de missions IA', composerTitle: 'Quel travail voulez-vous confier ?', composerBody: '',
     placeholder: 'Décrivez simplement le résultat attendu…',
     talk: 'Commencer à parler', stop: 'Terminer', listening: 'Alma vous écoute…', continue: 'Préparer ma mission avec Alma',
     voiceUnavailable: 'La dictée vocale n’est pas disponible dans ce navigateur. Poursuivez par écrit.',
     voiceDenied: 'L’accès au microphone a été refusé. Poursuivez par écrit ou modifiez l’autorisation du navigateur.',
     voiceFailed: 'La dictée vocale a été interrompue. Vous pouvez poursuivre par écrit.',
     handoffFailed: 'La reprise de votre demande a échoué. Réessayez ou poursuivez avec le formulaire.',
-    starters: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures', 'Construire mon calendrier éditorial', 'Organiser l’intégration d’un nouveau salarié'],
+    starters: ['Trouver de nouveaux clients', 'Participer à une visio', 'Relancer des factures'],
     previewMission: 'Mission proposée', previewCollaborator: 'Collaborateur recommandé', previewDeliverable: 'Livrable attendu', previewDeliverableBody: 'Un résultat vérifiable, préparé selon votre contexte', previewApproval: 'Votre contrôle', previewReady: 'Actions sensibles à confirmer',
     handoff: '',
     catalogTitleStart: 'Vendre plus. Mieux servir vos clients.', catalogTitleEnd: 'Produire. Innover.',
@@ -476,14 +476,14 @@ const COPY = {
     eyebrow: 'More than 200 mission templates ready to customize',
     titleStart: 'Stop asking AI.', titleAccent: 'Give it the work.',
     lead: 'Your AI Collaborator understands the objective, brings in the right tools and carries the mission through to the result.', heroCta: 'Describe the expected outcome', heroProof: 'First mission included · No credit card.', trialLimit: 'The trial ends with the mission, after 7 days or 1 million tokens, whichever comes first.', pricingCta: 'See pricing',
-    almaRole: 'Unitalk AI mission coordinator', composerTitle: 'What work would you like to assign to your AI Collaborator?', composerBody: '',
+    almaRole: 'AI mission coordinator', composerTitle: 'What work would you like to assign?', composerBody: '',
     placeholder: 'Simply describe the expected outcome…',
     talk: 'Start talking', stop: 'Finish', listening: 'Alma is listening…', continue: 'Prepare my mission with Alma',
     voiceUnavailable: 'Voice dictation is not available in this browser. Continue in writing.',
     voiceDenied: 'Microphone access was denied. Continue in writing or update your browser permission.',
     voiceFailed: 'Voice dictation was interrupted. You can continue in writing.',
     handoffFailed: 'We could not resume your request. Try again or continue with the form.',
-    starters: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices', 'Build my editorial calendar', 'Organize a new employee’s onboarding'],
+    starters: ['Find new customers', 'Join a video call', 'Follow up invoices'],
     previewMission: 'Proposed mission', previewCollaborator: 'Recommended collaborator', previewDeliverable: 'Expected deliverable', previewDeliverableBody: 'A verifiable outcome prepared for your context', previewApproval: 'Your control', previewReady: 'Sensitive actions require approval',
     handoff: '',
     catalogTitleStart: 'Sell more. Serve customers better.', catalogTitleEnd: 'Produce. Innovate.',

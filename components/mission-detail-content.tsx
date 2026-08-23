@@ -131,7 +131,7 @@ export function MissionDetailContent({ slug }: { slug: string }) {
     : conversionHref
 
   return (
-    <main id="mission-content" className="bg-[#F3EFE6] pb-20 lg:pb-0">
+    <main id="main-content" className="bg-[#F3EFE6] pb-20 lg:pb-0">
       {/* Hero */}
       <section className="border-b border-[#E4DDCE] px-5 pb-12 pt-28 sm:px-8 sm:pb-14 sm:pt-32">
         <div className="editorial-shell">

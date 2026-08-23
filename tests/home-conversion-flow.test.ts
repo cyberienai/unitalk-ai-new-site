@@ -17,7 +17,7 @@ describe('homepage conversion flow', () => {
   it('labels fictional data and avoids putting mission text in the URL', () => {
     const workspace = read('../components/home/section-workspace.tsx')
     const hero = read('../components/home/hero-hybrid.tsx')
-    expect(workspace).toContain('Démonstration interactive · Données fictives')
+    expect(workspace).toContain('Données fictives')
     expect(hero).not.toContain("params.set('q'")
     expect(hero).toContain("params.set('draft', draftId)")
   })

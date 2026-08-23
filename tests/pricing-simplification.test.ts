@@ -51,7 +51,7 @@ describe('pricing simplification', () => {
   })
 
   it('has accessible controls and failure feedback', () => {
-    expect(content).toContain('href="#main-content"')
+    expect(content).toContain('id="main-content"')
     expect(sections).toContain('disabled={value >= unitalkPricing.aiCollaborator.max}')
     expect(sections).toContain('aria-busy={pending}')
     expect(sections).toContain('role="alert"')

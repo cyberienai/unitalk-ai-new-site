@@ -74,7 +74,7 @@ const T = {
   },
   en: {
     kicker: 'A shared workspace',
-    demo: 'Fictional data',
+    demo: 'Interactive demonstration · Fictional data',
     title: 'Humans and AI collaborate.',
     surfaces: 'Your AI Collaborator performs the mission in Workspace, retains context and makes its work visible. Before a sensitive action, it requests a decision from the person in charge.',
     cta: 'Discover the Workspace',

@@ -43,7 +43,7 @@ export function HomeProcess({ lang }: { lang: Lang }) {
                 </div>
                 <h3 className="mt-10 text-[22px] font-semibold leading-tight tracking-[-.035em]">{title}</h3>
                 <p className="mt-4 text-sm leading-7 text-[#4E483F]">{body}</p>
-                {index < copy.steps.length - 1 && <ArrowRight aria-hidden className="absolute -right-3 top-8 z-10 hidden size-6 rounded-full bg-[#D10E63] p-1 text-white md:block" />}
+                {index < copy.steps.length - 1 && <span aria-hidden className="absolute right-5 top-9 hidden items-center gap-1 text-[#B00C54] md:flex"><span className="h-px w-5 bg-[#D10E63]/45"/><ArrowRight className="size-4" /></span>}
               </li>
             )
           })}

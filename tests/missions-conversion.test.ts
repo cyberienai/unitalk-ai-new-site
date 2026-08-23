@@ -10,7 +10,7 @@ const faq = readFileSync(new URL('../lib/missions-page-faq.ts', import.meta.url)
 
 describe('missions conversion path', () => {
   it('separates mission creation from catalog search', () => {
-    expect(page).toContain('Quel travail voulez-vous confier à votre Collaborateur IA ?')
+    expect(page).toContain('Quel travail voulez-vous confier ?')
     expect(page).toContain("catalogTitleStart: 'Vendre plus. Mieux servir vos clients.'")
     expect(page).toContain("catalogTitleEnd: 'Produire. Innover.'")
     expect(page).toContain("search: 'Rechercher une mission'")

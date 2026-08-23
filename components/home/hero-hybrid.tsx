@@ -30,7 +30,7 @@ const T = {
     voicePlaceholder: 'Ex. Relancer les factures impayées sans contacter les clients en litige…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
     voiceSubmit: 'Préparer ma mission',
-    examples: ['Trouver de nouveaux clients', 'Préparer une réunion', 'Relancer des factures'],
+    examples: ['Trouver de nouveaux clients', 'Participer à une visio', 'Relancer des factures'],
   },
   en: {
     eyebrow: 'A mission to accomplish?',
@@ -50,7 +50,7 @@ const T = {
     voicePlaceholder: 'E.g. Follow up unpaid invoices without contacting customers in dispute…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
     voiceSubmit: 'Prepare my mission',
-    examples: ['Find new customers', 'Prepare a meeting', 'Follow up invoices'],
+    examples: ['Find new customers', 'Join a video call', 'Follow up invoices'],
   },
 } as const
 
@@ -141,7 +141,6 @@ export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleLi
                 voiceStartLabel={t.voiceStart}
                 voiceStopLabel={t.voiceStop}
                  listeningLabel={t.voiceListening}
-                 help={lang === 'fr' ? 'Décrivez simplement le résultat attendu. Les données et accès nécessaires seront précisés avant le lancement.' : 'Simply describe the expected outcome. Required data and access will be defined before launch.'}
                  error={voiceError || submissionError}
                 textareaRef={textareaRef}
                  attention={promptAttention}

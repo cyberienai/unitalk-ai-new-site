@@ -77,7 +77,6 @@ export default async function MissionsPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(missionsFaqJsonLd('fr')) }}
       />
-      <a href="#missions-top" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-[#1C1A17]">Aller au contenu principal</a>
       <Navbar />
       <Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]" />}>
         <MissionsContent

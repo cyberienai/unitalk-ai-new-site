@@ -1,56 +1,57 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
-const alma = readFileSync(new URL('../components/alma/alma-final-content.tsx', import.meta.url), 'utf8')
-const discover = readFileSync(new URL('../components/discover/discover-flow.tsx', import.meta.url), 'utf8')
-const account = readFileSync(new URL('../components/discover/screen-account.tsx', import.meta.url), 'utf8')
+const showcase = readFileSync(new URL('../components/alma/alma-final-content.tsx', import.meta.url), 'utf8')
+const profile = readFileSync(new URL('../components/alma/alma-public-profile.tsx', import.meta.url), 'utf8')
+const showcasePage = readFileSync(new URL('../app/collaborateurs-ia/alma/page.tsx', import.meta.url), 'utf8')
+const profilePage = readFileSync(new URL('../app/[handle]/alma/page.tsx', import.meta.url), 'utf8')
 
-describe('Alma public profile', () => {
-  it('starts the generic signup without selecting a mission', () => {
-    expect(alma).toContain('/inscription?source=alma-profile&intent=nouvelle-mission')
-    expect(alma).not.toContain('/decouvrir?mission=')
-    expect(discover).toContain("{ kind: 'empty', source }")
-    expect(account).toContain("almaGenericTitle: 'Vous n\\'avez pas encore choisi de mission.'")
-    expect(account).toContain("genericTitle: 'Décrivez d’abord le travail à accomplir.'")
-    expect(account).toContain("genericSteps: ['Présenter votre entreprise', 'Définir une première mission', 'Préparer votre Collaborateur IA']")
+describe('Alma commercial showcase', () => {
+  it('presents the complete customer relationship lifecycle', () => {
+    expect(showcase).toContain('Responsable IA de la relation client')
+    for (const stage of ['Informer', 'Évaluer', 'Recommander', 'Activer', 'Accompagner', 'Développer']) expect(showcase).toContain(stage)
+    expect(showcase).toContain('Du premier contact au développement du compte.')
   })
 
-  it('uses the canonical mission coordinator positioning', () => {
-    expect(alma).toContain('Coordinatrice de missions IA')
-    expect(alma).toContain('Son profil de Coordinatrice de missions IA est inclus avec la Licence Entreprise.')
-    expect(alma).toContain('Alma fait d’abord progresser un Collaborateur IA existant.')
-    expect(alma).not.toContain('En activité')
+  it('demonstrates omnichannel continuity and human handoff', () => {
+    for (const channel of ['Web et Workspace', 'Voix et téléphone', 'E-mail', 'Slack, WhatsApp, Telegram']) expect(showcase).toContain(channel)
+    expect(showcase).toContain('Plusieurs canaux, un même contexte')
+    expect(showcase).toContain('Alma traite la continuité. L’expert prend la décision.')
   })
 
-  it('shows a concrete mission deliverable and links the Alma Store', () => {
-    expect(alma).toContain('Réduire les retards de paiement')
-    expect(alma).toContain('Relancer les factures impayées')
-    expect(alma).toContain('href="/unitalk/@alma/store"')
+  it('keeps a concrete voice-enabled conversion path', () => {
+    expect(showcase).toContain('/inscription?source=alma-profile&intent=nouvelle-mission')
+    expect(showcase).toContain('localStorage.setItem(`unitalk_mission_${draftId}`')
+    expect(showcase).toContain('/decouvrir?source=alma-profile&draft=')
+    expect(showcase).toContain('webkitSpeechRecognition')
+    expect(showcase).toContain('aria-pressed={listening}')
   })
 
-  it('captures a concrete need before signup and carries it to discovery', () => {
-    expect(alma).toContain('Quel travail voulez-vous confier ?')
-    expect(alma).toContain('localStorage.setItem(`unitalk_mission_${draftId}`')
-    expect(alma).toContain('/decouvrir?source=alma-profile&draft=')
-    expect(alma).toContain('Préparer ma mission avec Alma')
-    expect(alma).toContain('Rien n’est activé sans votre validation')
-    expect(alma).toContain('webkitSpeechRecognition')
-    expect(alma).toContain('aria-pressed={listening}')
+  it('links to the distinct verified public identity', () => {
+    expect(showcase).toContain('href="/@unitalk/alma"')
+    expect(showcasePage).toContain("canonical: '/collaborateurs-ia/alma'")
+    expect(showcasePage).toContain("type: 'website'")
+  })
+})
+
+describe('Alma public professional profile', () => {
+  it('states identity, affiliation and disclosure', () => {
+    expect(profile).toContain('Identité vérifiée')
+    expect(profile).toContain('Collaboratrice IA de Unitalk · Supervision : Patrick Chassany')
+    expect(profile).toContain('Vous échangez avec une intelligence artificielle.')
+    expect(profile).toContain('@unitalk/alma')
   })
 
-  it('uses the radical editorial system from the AI models page', () => {
-    expect(alma).toContain('lg:min-h-[410px]')
-    expect(alma).not.toContain('min-h-[760px]')
-    expect(alma).toContain('text-[clamp(3rem,6vw,6.2rem)]')
-    expect(alma).toContain('bg-[#181615]')
-    expect(alma).toContain('bg-[#D10E63]')
-    expect(alma).toContain('lg:grid-cols-[1.05fr_.95fr]')
+  it('publishes responsibilities, limits and data boundaries', () => {
+    expect(profile).toContain('Ses responsabilités chez Unitalk.')
+    expect(profile).toContain('Ce qu’Alma peut faire. Ce qu’elle doit transmettre.')
+    expect(profile).toContain('Signer un contrat ou engager juridiquement Unitalk')
+    expect(profile).toContain('Public, relationnel et privé restent séparés.')
   })
 
-  it('uses a concrete conversion path without promising a new identity', () => {
-    expect(alma).toContain('Alma prépare qui s’en charge.')
-    expect(alma).toContain('Un besoin devient une mission prête à confier.')
-    expect(alma).toContain('Équiper l’existant avant de créer')
-    expect(alma).toContain('Alma prépare la mission, les accès et les validations.')
+  it('keeps the profile canonical separate from the commercial showcase', () => {
+    expect(profile).toContain('href="/collaborateurs-ia/alma"')
+    expect(profilePage).toContain("canonical: '/@unitalk/alma'")
+    expect(profilePage).toContain("type: 'profile'")
   })
 })

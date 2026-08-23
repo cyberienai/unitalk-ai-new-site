@@ -135,6 +135,9 @@ export function Navbar(
   const isPricingActive = pathname === '/tarifs' || pathname === '/en/pricing'
   const isSecurityActive = pathname === '/securite' || pathname === '/en/security'
   const homeHref = localizedHref('home', lang)
+  const ctaHref = pathname === '/' || pathname === '/en'
+    ? `${homeHref}#alma-hero`
+    : `${localizedHref('discover', lang)}?source=nav`
 
   function openHomeAlma(event: React.MouseEvent<HTMLAnchorElement>) {
     if (pathname !== '/' && pathname !== '/en') return
@@ -258,7 +261,7 @@ export function Navbar(
               overDark={overDark}
               anonymousAction={
                 <Link
-                  href={`${homeHref}#alma-hero`}
+                  href={ctaHref}
                   onClick={openHomeAlma}
                   className={`hidden h-10 items-center justify-center rounded-full px-5 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex ${
                     overDark
@@ -419,7 +422,7 @@ export function Navbar(
               <AnonymousOnly>
                 <div className="shrink-0 border-t border-[#DcD4C4] bg-[#F3EFE6] px-6 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
                    <Link
-                     href={`${homeHref}#alma-hero`}
+                     href={ctaHref}
                      onClick={openHomeAlma}
                      className="flex min-h-12 items-center justify-center rounded-full bg-[#D10E63] px-5 py-3 text-[15px] font-bold text-[#FBF9F3] shadow-[0_8px_24px_-8px_rgba(209,14,99,0.5)] transition-colors hover:bg-[#B10B53]"
                    >

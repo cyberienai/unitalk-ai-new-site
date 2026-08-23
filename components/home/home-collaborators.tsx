@@ -16,7 +16,7 @@ const COPY = {
   fr: {
     kicker: 'Collaborateurs IA',
     title: 'Partez d’un rôle métier. Alma l’adapte à votre entreprise.',
-    lead: 'Chaque profil réunit une identité, des compétences et une manière de travailler. Alma le personnalise selon vos missions, vos outils, vos règles et les personnes responsables des validations.',
+    lead: 'Chaque Collaborateur IA possède une identité durable. Alma lui attribue ensuite le profil métier, les compétences et les outils adaptés à votre entreprise.',
     missions: 'Exemples de missions',
     profile: 'Découvrir son profil',
     assign: 'Voir les missions d’',
@@ -30,7 +30,7 @@ const COPY = {
   en: {
     kicker: 'AI Collaborators',
     title: 'Start with a job role. Alma adapts it to your organization.',
-    lead: 'Each profile combines an identity, skills and a way of working. Alma personalizes it around your missions, tools, rules and approval owners.',
+    lead: 'Each AI Collaborator has a lasting identity. Alma then assigns the job profile, skills and tools suited to your organization.',
     missions: 'Mission examples',
     profile: 'Discover their profile',
     assign: 'View missions for',
