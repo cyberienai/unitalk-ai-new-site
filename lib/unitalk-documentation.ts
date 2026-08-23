@@ -72,7 +72,7 @@ export const DOCUMENTATION: Record<DocumentationSlug, DocumentationPage> = {
     related: ['alma-organisation', 'licence-collaborateur-ia', 'communications'],
   },
   'memoire-gouvernee': {
-    slug: 'memoire-gouvernee', number: '04', group: 'Comprendre', eyebrow: 'Contexte et continuité', title: 'Une mémoire personnelle et partagée, sous contrôle.', price: 'Incluse selon les droits',
+    slug: 'memoire-gouvernee', number: '04', group: 'Comprendre', eyebrow: 'Contexte et continuité', title: 'Une mémoire personnelle et partagée, sous contrôle.', price: 'Gouvernée par votre entreprise',
     summary: 'Chaque Collaborateur IA conserve le contexte utile à ses missions. L’entreprise choisit ce qui reste propre à une identité, partagé avec une équipe ou accessible à toute l’organisation.',
     principle: 'Honcho contribue à personnaliser la relation avec chaque utilisateur ; Unitalk organise la portée, les droits et le partage des informations dans le Workspace.',
     sections: [
@@ -83,6 +83,7 @@ export const DOCUMENTATION: Record<DocumentationSlug, DocumentationPage> = {
     ],
     distinctions: [{ organization: 'Définit ce qui peut être partagé', collaborator: 'Conserve sa mémoire propre autorisée' }, { organization: 'Gouverne les connaissances communes', collaborator: 'Consulte uniquement les informations ouvertes' }],
     related: ['hermes-unitalk', 'workspace-desktop', 'alma-organisation'],
+    officialSource: { label: 'Découvrir Honcho', href: 'https://github.com/plastic-labs/honcho' },
   },
   communications: {
     slug: 'communications', number: '05', group: 'Configurer', eyebrow: 'Canaux professionnels', title: 'Email, calendrier, téléphone et messageries', price: 'Selon la licence et la configuration',
