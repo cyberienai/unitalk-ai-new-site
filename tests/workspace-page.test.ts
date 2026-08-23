@@ -7,7 +7,7 @@ const page = readFileSync(new URL('../app/workspace/page.tsx', import.meta.url),
 describe('Workspace landing', () => {
   it('uses the shared visual grammar and one clear hero', () => {
     expect(source).toContain('hero-heading')
-    expect(source).toContain('Un espace de travail\\npour humains et Collaborateurs IA.')
+    expect(source).toContain('Un espace de travail\\noù humains et IA collaborent.')
     expect(source).toContain('editorial-shell')
     expect(source).toContain('CtaButton')
     expect(source).toContain('rounded-[24px]')
@@ -19,32 +19,41 @@ describe('Workspace landing', () => {
   })
 
   it('does not publish unverified vendors or ambiguous free claims', () => {
-    for (const claim of ['Clerk', 'Honcho', 'Pipedream', 'Stalwart', 'Telnyx', 'Utilisateurs humains gratuits', 'Chat gratuit', 'Desktop gratuit', '3 000']) expect(source).not.toContain(claim)
+    for (const claim of ['Clerk', 'Pipedream', 'Utilisateurs humains gratuits', 'Chat gratuit', 'Desktop gratuit', '3 000']) expect(source).not.toContain(claim)
   })
 
   it('marks the product scene as an illustrative fictional demonstration', () => {
-    expect(source).toContain('interface est présentée à titre illustratif')
+    expect(source).toContain('Ce n’est pas une capture du Workspace Unitalk')
     expect(source).toContain('Démonstration générique du Workspace')
   })
 
-  it('embeds the official Hermes Desktop demonstration locally', () => {
-    expect(source).toContain("const HERMES_DEMO = '/hermes-desktop-demo.mp4'")
-    expect(source).toContain("const HERMES_POSTER = '/hermes-desktop-demo.webp'")
-    expect(source).toContain('autoPlay loop muted playsInline')
+  it('embeds the official Hermes Desktop demonstration from its source', () => {
+    expect(source).toContain("const HERMES_DEMO = 'https://hermes-assets.nousresearch.com/hermes-desktop.mp4'")
+    expect(source).toContain('controls playsInline preload="metadata"')
     expect(source).toContain('Voir la source officielle')
   })
 
   it('presents the Workspace through mission, memory, tools and governance', () => {
-    for (const term of ['Travaillez partout', 'Gardez le contexte', 'Planifiez le travail', 'Déléguez des missions', 'Utilisez vos outils', 'Isolez l’exécution']) expect(source).toContain(term)
+    for (const term of ['Disponible partout', 'Mémoire persistante', 'Automatisation ciblée', 'Tâches multipliées', 'Navigation web', 'Exécution isolée']) expect(source).toContain(term)
     expect(source).toContain('Hermes est le moteur agentique open source au cœur de la distribution Unitalk AI')
     expect(source).toContain('Unitalk ajoute le Workspace partagé')
+    expect(source).toContain('Honcho contribue à personnaliser')
+    expect(source).toContain('Email et calendrier via Stalwart')
+    expect(source).toContain('téléphone via Telnyx')
+    expect(source).toContain('Un Workspace pour tous les membres autorisés.')
   })
 
   it('explains the free Workspace and first mission path', () => {
-    expect(source).toContain('Votre Workspace est gratuit. Votre première mission aussi.')
-    expect(source).toContain('Connectez l’AI Gateway au Workspace')
+    expect(source).toContain('Votre Workspace Solo est gratuit. Votre première mission aussi.')
+    expect(source).toContain('Alma configure l’accès aux modèles IA')
     expect(source).toContain('Unitalk AI Cloud')
-    expect(source).toContain('Lancer ma mission offerte')
+    expect(source).toContain('Créer mon Workspace Solo')
+  })
+
+  it('links to official Hermes downloads', () => {
+    expect(source).toContain('Hermes-Setup.dmg?build=fcbd1076a938')
+    expect(source).toContain('Hermes-Setup.exe?build=fcbd1076a938')
+    expect(source).toContain('github.com/NousResearch/hermes-agent/releases')
   })
 
   it('renders confirmed onboarding directly in Workspace', () => {
@@ -55,6 +64,6 @@ describe('Workspace landing', () => {
     expect(source).toContain('Première mission · Prête à démarrer')
     expect(page).toContain('collaboratorTemplateSlug: onboarding.collaboratorTemplateSlug')
     expect(source).toContain('Démonstration générique du Workspace')
-    expect(source).toContain('indépendant de votre mission')
+    expect(source).toContain('Ce n’est pas une capture du Workspace Unitalk')
   })
 })

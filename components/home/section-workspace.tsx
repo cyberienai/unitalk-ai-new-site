@@ -38,9 +38,9 @@ type WorkspaceScenario = {
 
 const T = {
   fr: {
-    kicker: 'Vous gardez le contrôle',
-    title: 'Autonome sous votre supervision.',
-    surfaces: 'Votre Collaborateur IA exécute la mission. Lorsqu’une décision est nécessaire, il propose et vous décidez.',
+    kicker: 'Un espace de travail partagé',
+    title: 'Humains et IA collaborent.',
+    surfaces: 'Votre Collaborateur IA exécute la mission dans le Workspace. Il conserve le contexte, planifie le travail et sollicite votre équipe avant toute action sensible.',
     cta: 'Découvrir le Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'En attente de validation',
@@ -72,9 +72,9 @@ const T = {
     },
   },
   en: {
-    kicker: 'You stay in control',
-    title: 'Autonomous under your supervision.',
-    surfaces: 'Your AI Collaborator executes the mission and alerts you when a decision is required. It proposes, you decide.',
+    kicker: 'A shared workspace',
+    title: 'Humans and AI collaborate.',
+    surfaces: 'Your AI Collaborator performs the mission in the Workspace. It keeps context, schedules work and asks your team before any sensitive action.',
     cta: 'Discover the Workspace',
     missionId: 'Mission FIN-042',
     statusPending: 'Awaiting validation',

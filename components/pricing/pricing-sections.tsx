@@ -22,7 +22,7 @@ const COPY = {
     monthlyBilling: 'Mensuel', annualBilling: 'Annuel', annualOffer: '2 mois offerts', annualPayment: 'Paiement annuel', monthlyPayment: 'Paiement mensuel', equivalent: 'soit',
     collaboratorTitle: 'Collaborateurs IA', collaboratorPrice: '49 €/mois chacun', collaboratorCapacity: '5 millions de tokens inclus', collaboratorBody: 'Ils prennent en charge des missions avec mémoire, outils et autonomie encadrée.',
     collaboratorIncludes: ['Missions prises en charge', 'Applications Web et Desktop incluses', 'Profils et compétences illimités', 'Mémoire privée et partagée', 'Email, calendrier et téléphone', 'Disponible dans vos messageries : Slack, Teams, Telegram, WhatsApp…', 'Instance Hermes dédiée'],
-    workspaceTitle: 'Workspace', workspaceBody: 'Utilisez des assistants IA privés ou partagés pour vos conversations multimodèles. Un seul forfait, sans facturation par utilisateur.', workspaceUsers: 'Licence Workspace', free: 'Gratuit',
+    workspaceTitle: 'Workspace', workspaceBody: 'L’espace de travail où humains et IA collaborent. Utilisez des assistants privés ou partagés, sans facturation par utilisateur.', workspaceUsers: 'Licence Workspace', free: 'Gratuit',
     tiers: [{ id: 'solo', name: 'Solo', users: '1 humain inclus · Gratuit', option: 'Solo · 1 humain inclus', price: '' }, { id: 'team', name: 'Équipe', users: 'Jusqu’à 10 humains', option: 'Équipe · Jusqu’à 10 humains', price: '49 €/mois' }, { id: 'business', name: 'Entreprise', users: 'Jusqu’à 100 humains', option: 'Entreprise · Jusqu’à 100 humains', price: '299 €/mois' }],
     workspaceIncludes: ['Assistants d’équipe illimités', 'Accès aux modèles IA : texte, image, vidéo et audio', 'Fonctionne avec plus de 3 200 applications'],
     privateServer: 'Serveur IA privé pour déployer vos applications open source',
@@ -45,7 +45,7 @@ const COPY = {
     monthlyBilling: 'Monthly', annualBilling: 'Annual', annualOffer: '2 months free', annualPayment: 'Annual payment', monthlyPayment: 'Monthly payment', equivalent: 'or',
     collaboratorTitle: 'AI Collaborators', collaboratorPrice: '€49/month each', collaboratorCapacity: '5 million tokens included', collaboratorBody: 'They handle missions with memory, tools and governed autonomy.',
     collaboratorIncludes: ['Missions handled', 'Web and Desktop apps included', 'Unlimited profiles and skills', 'Private and shared memory', 'Email, calendar and phone', 'Available in your messaging apps: Slack, Teams, Telegram, WhatsApp…', 'Dedicated Hermes instance'],
-    workspaceTitle: 'Workspace', workspaceBody: 'Use private or shared AI assistants for multimodel conversations. One plan with no per-user billing.', workspaceUsers: 'Workspace license', free: 'Free',
+    workspaceTitle: 'Workspace', workspaceBody: 'The workspace where humans and AI collaborate. Use private or shared assistants with no per-user billing.', workspaceUsers: 'Workspace license', free: 'Free',
     tiers: [{ id: 'solo', name: 'Solo', users: '1 human included · Free', option: 'Solo · 1 human included', price: '' }, { id: 'team', name: 'Team', users: 'Up to 10 humans', option: 'Team · Up to 10 humans', price: '€49/month' }, { id: 'business', name: 'Business', users: 'Up to 100 humans', option: 'Business · Up to 100 humans', price: '€299/month' }],
     workspaceIncludes: ['Unlimited team assistants', 'Access to AI models for text, image, video and audio', 'Works with more than 3,200 applications'],
     privateServer: 'Private AI server for deploying your open-source applications',
@@ -143,7 +143,7 @@ export function PricingCollaboration({ initialDraft, selectedProfile }: { initia
               <Link href="/commande?offre=migration-agent&source=tarifs" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition hover:bg-[#B00C54]">{t.migrationCta}<ArrowRight className="ml-2 size-4"/></Link>
             </div>
           </aside>
-          <p className="mt-5 text-xs leading-6 text-[#766D61]">{t.terms}</p>
+          <div className="mt-5 flex flex-col gap-3 text-xs leading-6 text-[#766D61] sm:flex-row sm:items-center sm:justify-between"><p>{t.terms}</p><div className="flex gap-4"><Link href="/documentation/licence-collaborateur-ia" className="font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{lang === 'fr' ? 'Licence Collaborateur IA' : 'AI Collaborator license'}</Link><Link href="/documentation/communications" className="font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{lang === 'fr' ? 'Communications' : 'Communications'}</Link></div></div>
         </div>
       </section>
     </div>
