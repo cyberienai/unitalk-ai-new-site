@@ -399,7 +399,7 @@ export function SectionWorkspace({ lang = 'fr' }: { lang?: Lang }) {
             </ol>
           </div>
           </motion.div>
-          <p className="mt-3 text-right text-[11px] font-medium text-[#766D61]">{t.demo}</p>
+          <p className="mt-3 text-right text-xs font-semibold text-[#625B50]">{t.demo}</p>
         </div>
       </div>
     </section>

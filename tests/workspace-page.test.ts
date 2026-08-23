@@ -42,7 +42,9 @@ describe('Workspace landing', () => {
     expect(source).toContain('Honcho contribue à personnaliser')
     expect(source).toContain('Email et calendrier via Stalwart')
     expect(source).toContain('téléphone via Telnyx')
-    expect(source).toContain('Un Workspace pour tous les membres autorisés.')
+    expect(source).toContain('Un espace pour chacun.')
+    expect(source).toContain('Un contexte commun pour avancer.')
+    expect(source).toContain('text-[#D10E63]">{t.spacesAccent}')
   })
 
   it('explains the free Workspace and first mission path', () => {
@@ -55,7 +57,8 @@ describe('Workspace landing', () => {
   it('presents Unitalk Desktop as the enterprise distribution of Hermes Desktop', () => {
     expect(source).toContain('Unitalk Desktop est la distribution Unitalk du projet open source Hermes Desktop.')
     expect(source).toContain('AI Gateway')
-    expect(source).toContain('Gateway vers Unitalk AI Cloud')
+    expect(source).toContain("downloadKicker: 'Unitalk Desktop'")
+    expect(source).toContain('Synchronisation avec Unitalk AI Cloud')
     expect(source).toContain('Gestion des missions avec Alma')
     expect(source).toContain('Assistants IA partagés')
     expect(source).not.toContain('Hermes-Setup.dmg')

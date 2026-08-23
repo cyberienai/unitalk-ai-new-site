@@ -27,6 +27,7 @@ describe('pricing page publication requirements', () => {
   })
 
   it('starts with one AI Collaborator and one user license', () => {
+    expect(page).toContain("organizationTier: 'solo', collaborators: 1")
     expect(sections).toContain('useState<OrganizationTierId>(initialDraft.organizationTier)')
     expect(sections).toContain('useState(initialDraft.collaborators)')
     expect(sections).toContain("name: 'Solo', users: '1 humain inclus · Gratuit', option: 'Solo · 1 humain inclus', price: ''")

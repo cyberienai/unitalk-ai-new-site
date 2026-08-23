@@ -40,6 +40,6 @@ export default async function EnglishPricingPage({ searchParams }: { searchParam
   const stored = parsePurchaseDraft((await cookies()).get(PURCHASE_DRAFT_COOKIE)?.value)?.pricing
   const requestedProfile = firstParam(params.profil)
   const selectedProfile = requestedProfile && ROLE_DETAILS[requestedProfile] ? requestedProfile : stored?.selectedProfile
-  const initialDraft = normalizePricingDraft({ ...stored, selectedProfile, coCreators: 0, usageMode: 'included', creditBudget: 0, capacity: 'included' })
+  const initialDraft = normalizePricingDraft({ ...stored, organizationTier: 'solo', collaborators: 1, selectedProfile, coCreators: 0, usageMode: 'included', creditBudget: 0, capacity: 'included' })
   return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingJsonLd) }}/><PricingPageContent initialDraft={initialDraft} selectedProfile={selectedProfile} lang="en" /></>
 }

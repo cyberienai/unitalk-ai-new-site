@@ -30,6 +30,7 @@ describe('pricing simplification', () => {
     expect(page).toContain('params.profil')
     expect(page).not.toContain("params['co-createur']")
     expect(page).toContain('stored?.selectedProfile')
+    expect(page).toContain("organizationTier: 'solo', collaborators: 1")
     expect(sections).toContain('selectedProfile')
   })
 
