@@ -5,8 +5,8 @@ import { localizedHref } from '@/lib/i18n-routing'
 
 const COPY = {
   fr: {
-    kicker: 'Vos règles restent les règles',
-    title: 'Un périmètre défini avant de commencer.',
+    kicker: 'Vous gardez le contrôle',
+    title: 'Autonome sous votre supervision.',
     items: [
       ['Accès explicites', 'Le Collaborateur accède uniquement aux outils et espaces que vous autorisez.'],
       ['Validation humaine', 'Vous définissez les actions qu’il peut réaliser et celles qui exigent une décision.'],
@@ -16,8 +16,8 @@ const COPY = {
     cta: 'Consulter la sécurité et le DPA',
   },
   en: {
-    kicker: 'Your rules remain the rules',
-    title: 'A defined scope before work begins.',
+    kicker: 'You stay in control',
+    title: 'Autonomous under your supervision.',
     items: [
       ['Explicit access', 'The Collaborator accesses only the tools and spaces you authorize.'],
       ['Human approval', 'You define which actions it can perform and which require a decision.'],
