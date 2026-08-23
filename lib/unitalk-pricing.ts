@@ -1,4 +1,5 @@
 export type OrganizationTierId = 'solo' | 'team' | 'business'
+export type BillingPeriodId = 'monthly' | 'annual'
 export type UsageModeId = 'included' | 'credits' | 'byok' | 'hybrid'
 export type AiCapacityId = 'included' | 'byok' | 'quarterTime' | 'halfTime' | 'fullTime'
 
@@ -6,6 +7,7 @@ export const PRICING_DRAFT_COOKIE = 'unitalk_pricing_draft'
 
 export const unitalkPricing = {
   version: '2026-08-22',
+  annualMonthsCharged: 10,
   trial: { days: 7, tokens: 1_000_000 },
   organization: {
     solo: { label: 'Solo', users: '1 utilisateur', monthlyPrice: 0, includedCredits: 0, creditFrequency: 'none' },
@@ -30,6 +32,7 @@ export type PricingDraft = {
   source: 'tarifs'
   organizationTier: OrganizationTierId
   collaborators: number
+  billingPeriod: BillingPeriodId
   usageMode: UsageModeId
   creditBudget: number
   capacity: AiCapacityId
@@ -41,6 +44,7 @@ export type PricingDraft = {
 export type PricingDraftEnvelope = { id: string; draft: PricingDraft }
 
 const ORGANIZATION_TIERS: readonly OrganizationTierId[] = organizationTierIds
+const BILLING_PERIODS: BillingPeriodId[] = ['monthly', 'annual']
 const USAGE_MODES: UsageModeId[] = ['included', 'credits', 'byok', 'hybrid']
 const CAPACITIES: AiCapacityId[] = ['included', 'byok', 'quarterTime', 'halfTime', 'fullTime']
 
@@ -64,6 +68,7 @@ export function normalizePricingDraft(input: Partial<PricingDraft> & { capacity?
     source: 'tarifs',
     organizationTier: ORGANIZATION_TIERS.includes(input.organizationTier as OrganizationTierId) ? input.organizationTier as OrganizationTierId : 'solo',
     collaborators,
+    billingPeriod: BILLING_PERIODS.includes(input.billingPeriod as BillingPeriodId) ? input.billingPeriod as BillingPeriodId : 'monthly',
     usageMode,
     creditBudget,
     capacity,
@@ -96,6 +101,10 @@ export function recurringMonthlyTotal(tier: OrganizationTierId, collaborators: n
 export function pricingRecurringTotal(draft: Pick<PricingDraft, 'organizationTier' | 'collaborators'> & Partial<Pick<PricingDraft, 'coCreators'>>): number {
   return organizationMonthlyPrice(draft.organizationTier)
     + draft.collaborators * unitalkPricing.aiCollaborator.monthlyPrice
+}
+
+export function pricingAnnualTotal(draft: Pick<PricingDraft, 'organizationTier' | 'collaborators'>): number {
+  return pricingRecurringTotal(draft) * unitalkPricing.annualMonthsCharged
 }
 
 export type PricingBreakdown = {

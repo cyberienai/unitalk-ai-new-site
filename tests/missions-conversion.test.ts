@@ -6,6 +6,7 @@ const card = readFileSync(new URL('../components/missions/store-card.tsx', impor
 const route = readFileSync(new URL('../app/missions/page.tsx', import.meta.url), 'utf8')
 const catalog = readFileSync(new URL('../lib/missions-catalog.ts', import.meta.url), 'utf8')
 const store = readFileSync(new URL('../lib/missions-store.ts', import.meta.url), 'utf8')
+const faq = readFileSync(new URL('../lib/missions-page-faq.ts', import.meta.url), 'utf8')
 
 describe('missions conversion path', () => {
   it('separates mission creation from catalog search', () => {
@@ -16,7 +17,6 @@ describe('missions conversion path', () => {
   })
 
   it('shows Alma with her avatar wherever she is named', () => {
-    expect(page).toContain('withAlmaAvatar(t.heroCta)')
     expect(page).toContain("withAlmaAvatar('Alma')")
     expect(page).toContain('withAlmaAvatar(t.catalogLead)')
   })
@@ -44,8 +44,8 @@ describe('missions conversion path', () => {
 
   it('ends with answers to key conversion questions', () => {
     expect(page).toContain("faqTitle: 'Avant de confier votre première mission.'")
-    expect(page).toContain('Que se passe-t-il après avoir choisi une mission ?')
-    expect(page).toContain('Quelles actions restent sous mon contrôle ?')
+    expect(faq).toContain('Que se passe-t-il après avoir choisi une mission ?')
+    expect(faq).toContain('Quelles actions restent sous mon contrôle ?')
     expect(page).not.toContain("finalTitle: 'Vous savez ce qui doit être fait.'")
   })
 

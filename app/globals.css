@@ -825,6 +825,19 @@ section:has(a[href="/tarifs#configurateur"]) > .editorial-shell > p:first-child 
   color: #B00C54;
 }
 
+section:has(a[href="/tarifs#configurateur"]) a[href="/tarifs#configurateur"] {
+  font-size: 0;
+}
+
+section:has(a[href="/tarifs#configurateur"]) a[href="/tarifs#configurateur"]::before {
+  content: "Acheter des crédits";
+  font-size: 0.875rem;
+}
+
+section:has(a[href="/tarifs#configurateur"]) a[href="/tarifs#configurateur"] svg {
+  font-size: 1rem;
+}
+
 @media (max-width: 768px) {
   @keyframes v0-reveal-fallback {
     to {

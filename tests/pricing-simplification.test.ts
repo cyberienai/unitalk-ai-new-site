@@ -17,6 +17,8 @@ describe('pricing simplification', () => {
 
   it('persists exactly the configuration shown to the user', () => {
     expect(sections).toContain("usageMode: 'included', creditBudget: 0, capacity: 'included'")
+    expect(sections).toContain('billingPeriod, coCreators: 0')
+    expect(sections).toContain("annualOffer: '2 mois offerts'")
     expect(sections).toContain('pricingRecurringTotal({ organizationTier, collaborators })')
     expect(sections).toContain('useState(initialDraft.collaborators)')
     expect(sections).not.toContain('useState(initialDraft.coCreators)')
