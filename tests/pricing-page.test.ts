@@ -21,7 +21,7 @@ describe('pricing page publication requirements', () => {
     expect(sections).toContain("continue: 'Continuer avec cette configuration'")
     expect(sections).toContain('assistants IA privés ou partagés')
     expect(sections).toContain('missions avec mémoire, outils et autonomie encadrée')
-    expect(sections).toContain('selectedTierBase.users} · ${workspaceCreditsValue}')
+    expect(sections).not.toContain('selectedTierBase.users} · ${workspaceCreditsValue}')
     expect(sections).toContain('Unitalk permet de déployer des agents open source autonomes à l’échelle de l’entreprise.')
     expect(sections).not.toContain("secondary: 'Configurer mon équipe'")
   })

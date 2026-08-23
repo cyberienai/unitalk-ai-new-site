@@ -97,8 +97,7 @@ export function PricingCollaboration({ initialDraft, selectedProfile }: { initia
   const effectiveMonthlyTotal = annualTotal / 12
   const workspaceCredits = unitalkPricing.organization[organizationTier].includedCredits
   const workspaceCreditsValue = `${new Intl.NumberFormat(lang === 'fr' ? 'fr-FR' : 'en-US').format(workspaceCredits)} ${lang === 'fr' ? 'crédits IA/mois' : 'AI credits/month'}`
-  const selectedTierBase = t.tiers.find(tier => tier.id === organizationTier)!
-  const selectedTier = collaborators > 0 ? { ...selectedTierBase, users: `${selectedTierBase.users} · ${workspaceCreditsValue}` } : selectedTierBase
+  const selectedTier = t.tiers.find(tier => tier.id === organizationTier)!
   const selectedRole = selectedProfile ? ROLE_DETAILS[selectedProfile] : undefined
   const includedTokensLabel = collaborators === 1 ? t.includedTokens : `${collaborators} × 5 millions = ${collaborators * 5} ${t.millionTokens}`
   const freeCreditsValue = workspaceCreditsValue
