@@ -16,6 +16,7 @@ const STATIC_ROUTES = [
   '/en/missions',
   '/en/ai-collaborators',
   '/en/workspace',
+  '/en/desktop',
   '/en/marketplace',
   '/missions',
   '/collaborateurs-ia',

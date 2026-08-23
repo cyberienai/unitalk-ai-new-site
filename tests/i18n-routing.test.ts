@@ -6,6 +6,7 @@ describe('localized routing', () => {
     expect(localizedHref('missions', 'en')).toBe('/en/missions')
     expect(localizedHref('collaborators', 'en')).toBe('/en/ai-collaborators')
     expect(localizedHref('workspace', 'en')).toBe('/en/workspace')
+    expect(localizedHref('desktop', 'en')).toBe('/en/desktop')
     expect(localizedHref('pricing', 'en')).toBe('/en/pricing')
     expect(localizedHref('discover', 'en')).toBe('/en/get-started')
   })
@@ -18,11 +19,13 @@ describe('localized routing', () => {
   it('preserves query strings and hashes on known public routes', () => {
     expect(localizePublicHref('/missions?famille=finance', 'en')).toBe('/en/missions?famille=finance')
     expect(localizePublicHref('/tarifs#detail-tarifs', 'en')).toBe('/en/pricing#detail-tarifs')
+    expect(localizePublicHref('/desktop', 'en')).toBe('/en/desktop')
   })
 
   it('switches between reciprocal localized routes', () => {
     expect(switchLocaleHref('/missions/example', 'en')).toBe('/en/missions/example')
     expect(switchLocaleHref('/en/missions/example', 'fr')).toBe('/missions/example')
     expect(switchLocaleHref('/en/marketplace/skills', 'fr')).toBe('/marketplace/competences')
+    expect(switchLocaleHref('/en/desktop', 'fr')).toBe('/desktop')
   })
 })

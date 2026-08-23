@@ -13,12 +13,10 @@ const T = {
         title: 'Produit',
         links: [
           ['Collaborateurs IA', '/marketplace/collaborateurs-ia'],
-          ['Missions', '/missions'],
-          ['Workspace', '/workspace'],
-          ['Tarifs', '/tarifs'],
-          ['Sécurité', '/securite'],
-          ['DPA', '/securite#dpa'],
-        ],
+           ['Missions', '/missions'],
+           ['Workspace', '/workspace'],
+           ['Tarifs', '/tarifs'],
+         ],
       },
       {
         title: 'Ressources',
@@ -31,10 +29,12 @@ const T = {
       },
       {
         title: 'Entreprise',
-        links: [
-          ['À propos', '/manifeste'],
-          ['Contact', 'https://cal.com/patrickchassany/30min'],
-        ],
+         links: [
+           ['À propos', '/manifeste'],
+           ['Contact', 'https://cal.com/patrickchassany/30min'],
+           ['Sécurité', '/securite'],
+           ['DPA', '/securite#dpa'],
+         ],
       },
       {
         title: 'Partenaires',
@@ -61,12 +61,10 @@ const T = {
         title: 'Product',
         links: [
           ['AI Collaborators', '/marketplace/collaborateurs-ia'],
-          ['Missions', '/missions'],
-          ['Workspace', '/workspace'],
-          ['Pricing', '/tarifs'],
-          ['Security', '/securite'],
-          ['DPA', '/securite#dpa'],
-        ],
+           ['Missions', '/missions'],
+           ['Workspace', '/workspace'],
+           ['Pricing', '/tarifs'],
+         ],
       },
       {
         title: 'Resources',
@@ -79,10 +77,12 @@ const T = {
       },
       {
         title: 'Company',
-        links: [
-          ['About', '/manifeste'],
-          ['Contact', 'https://cal.com/patrickchassany/30min'],
-        ],
+         links: [
+           ['About', '/manifeste'],
+           ['Contact', 'https://cal.com/patrickchassany/30min'],
+           ['Security', '/securite'],
+           ['DPA', '/securite#dpa'],
+         ],
       },
       {
         title: 'Partners',

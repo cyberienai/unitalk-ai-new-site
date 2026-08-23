@@ -7,6 +7,7 @@ export const LOCALIZED_ROUTES = {
   collaboratorsMarketplace: { fr: '/marketplace/collaborateurs-ia', en: '/en/marketplace/ai-collaborators' },
   marketplace: { fr: '/marketplace', en: '/en/marketplace' },
   workspace: { fr: '/workspace', en: '/en/workspace' },
+  desktop: { fr: '/desktop', en: '/en/desktop' },
   pricing: { fr: '/tarifs', en: '/en/pricing' },
   security: { fr: '/securite', en: '/en/security' },
   discover: { fr: '/decouvrir', en: '/en/get-started' },
