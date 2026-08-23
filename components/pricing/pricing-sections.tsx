@@ -28,7 +28,7 @@ const COPY = {
     privateServer: 'Serveur IA privé pour déployer vos applications open source',
     selectedProfile: 'Profil de départ', summaryTitle: 'Calcul du prix', summaryBody: 'Votre total se met à jour selon la taille du Workspace et le nombre de Collaborateurs IA.', workspaceLine: 'Licence Workspace', collaboratorsLine: 'Collaborateurs IA', tokensLine: 'DeepSeek V4', includedTokens: '5 millions de tokens par Collaborateur IA', millionTokens: 'millions de tokens', hostingLine: 'Hébergement', hostingValue: 'Europe · Microsoft Azure', phoneLine: 'Téléphone inclus', phoneMinutes: '60 min par Collaborateur IA', freeCreditsLine: 'Crédits IA inclus', setupLine: 'Mise en service', setupValue: 'Accompagnée par Alma', monthly: 'Total mensuel HT', annual: 'Total annuel HT', today: 'À payer aujourd’hui', tax: 'Prix HT',
     usageKicker: 'Consommation IA', usageTitle: 'Ne payez que', usageAccent: 'ce que vous consommez.', usageLead: 'Les crédits inclus et achetés alimentent un solde unique pour toute l’entreprise. Tous les Collaborateurs humains et IA autorisés y puisent selon leurs usages dans le Workspace. Vous pouvez aussi connecter vos propres clés API.',
-    usageProofs: [['Usage transparent', 'Suivez la consommation réelle par entreprise, Collaborateur et mission.'], ['Coûts optimisés', 'La mise en cache et le routage réduisent les appels inutiles lorsque les modèles et les usages le permettent.'], ['Modèles évolutifs', 'Unitalk peut proposer des versions plus récentes ou plus efficientes ; votre entreprise garde le choix des modèles autorisés.']],
+    usageProofs: [['Usage transparent', 'Suivez la consommation réelle par modèle, service externe, Collaborateur et mission.'], ['Coûts optimisés', 'La mise en cache et le routage réduisent les appels inutiles lorsque les modèles et les usages le permettent.'], ['Modèles évolutifs', 'Unitalk peut proposer des versions plus récentes ou plus efficientes ; votre entreprise garde le choix des modèles autorisés.']],
     creditsTitle: 'Un solde IA partagé entre tous vos Collaborateurs humains et IA', creditsBody: 'Centralisez dans un même solde les modèles et services externes facturés à l’usage. Rechargez à partir de 25 €, uniquement lorsque vous le décidez.', creditsCta: 'Acheter des crédits', creditsDetail: 'Voir le détail',
     keysTitle: 'Vos propres clés API', keysBody: 'Connectez les clés de votre entreprise et réglez directement les fournisseurs que vous utilisez.', keysCta: 'Voir les modèles IA',
     migrationKicker: 'Déjà équipé ?', migrationTitle: 'Transformez votre agent Hermes ou OpenClaw en Collaborateur IA Unitalk.', migrationBody: 'Migrez sa configuration compatible — profils, compétences, instructions, mémoire et outils — puis rattachez-le à votre entreprise.', migrationCta: 'Migrer en un clic gratuitement',
@@ -52,7 +52,7 @@ const COPY = {
     privateServer: 'Private AI server for deploying your open-source applications',
     selectedProfile: 'Starting profile', summaryTitle: 'Price calculation', summaryBody: 'Your total updates with the Workspace size and number of AI Collaborators.', workspaceLine: 'Workspace license', collaboratorsLine: 'AI Collaborators', tokensLine: 'DeepSeek V4', includedTokens: '5 million tokens per AI Collaborator', millionTokens: 'million tokens', hostingLine: 'Hosting', hostingValue: 'Europe · Microsoft Azure', phoneLine: 'Phone included', phoneMinutes: '60 min per AI Collaborator', freeCreditsLine: 'Included AI credits', setupLine: 'Setup', setupValue: 'Guided by Alma', monthly: 'Monthly total excl. tax', annual: 'Annual total excl. tax', today: 'Due today', tax: 'Price excludes tax',
     usageKicker: 'AI usage', usageTitle: 'Pay only for', usageAccent: 'what you use.', usageLead: 'Included and purchased credits fund one balance for your entire organization. Every authorized human and AI Collaborator draws from it through the Workspace. You can also connect your own API keys.',
-    usageProofs: [['Transparent usage', 'Track actual usage by organization, Collaborator and mission.'], ['Optimized costs', 'Caching and routing reduce unnecessary calls when models and use cases allow it.'], ['Evolving models', 'Unitalk can offer newer or more efficient versions while your organization keeps control of approved models.']],
+    usageProofs: [['Transparent usage', 'Track actual usage by model, external service, Collaborator and mission.'], ['Optimized costs', 'Caching and routing reduce unnecessary calls when models and use cases allow it.'], ['Evolving models', 'Unitalk can offer newer or more efficient versions while your organization keeps control of approved models.']],
     creditsTitle: 'One AI balance shared by all your human and AI Collaborators', creditsBody: 'Centralize usage-based external models and services in one balance. Top up from €25, only when you decide.', creditsCta: 'Buy credits', creditsDetail: 'View details',
     keysTitle: 'Your own API keys', keysBody: 'Connect your organization’s keys and pay the providers you use directly.', keysCta: 'View AI models',
     migrationKicker: 'Already equipped?', migrationTitle: 'Turn your Hermes or OpenClaw agent into a Unitalk AI Collaborator.', migrationBody: 'Migrate its compatible configuration — profiles, skills, instructions, memory and tools — then attach it to your organization.', migrationCta: 'Migrate free in one click',
@@ -145,18 +145,17 @@ export function PricingCollaboration({ initialDraft, selectedProfile }: { initia
               </div>
             </div>
           </section>
-          <aside className="relative mt-8 overflow-hidden rounded-[26px] border border-[#D10E63]/25 bg-[#211E1A] p-6 text-white sm:p-8">
-            <div aria-hidden className="pointer-events-none absolute -right-20 -top-24 size-64 rounded-full bg-[#D10E63]/20 blur-3xl"/>
-            <div className="relative grid gap-7 lg:grid-cols-[1fr_auto] lg:items-center">
-              <div><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.migrationKicker}</p><h3 className="mt-3 text-balance font-sf text-2xl font-semibold tracking-[-.04em] sm:text-3xl">{t.migrationTitle}</h3><p className="mt-3 max-w-3xl text-sm leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.migrationBody)}</p></div>
-              <Link href="/commande?offre=migration-agent&source=tarifs" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition hover:bg-[#B00C54]">{t.migrationCta}<ArrowRight className="ml-2 size-4"/></Link>
-            </div>
-          </aside>
           <p className="mt-5 text-xs leading-6 text-[#766D61]">{billingPeriod === 'annual' ? t.annualTerms : t.monthlyTerms}</p>
         </div>
       </section>
     </div>
   )
+}
+
+export function PricingMigration() {
+  const { lang } = useLanguage()
+  const t = COPY[lang]
+  return <section className="bg-[#FAF8F3] px-5 pb-16 sm:px-8 sm:pb-24"><div className="editorial-shell"><aside className="relative overflow-hidden rounded-[26px] border border-[#D10E63]/25 bg-[#211E1A] p-6 text-white sm:p-8"><div aria-hidden className="pointer-events-none absolute -right-20 -top-24 size-64 rounded-full bg-[#D10E63]/20 blur-3xl"/><div className="relative grid gap-7 lg:grid-cols-[1fr_auto] lg:items-center"><div><p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{t.migrationKicker}</p><h2 className="mt-3 max-w-4xl text-balance font-sf text-2xl font-semibold tracking-[-.04em] sm:text-3xl">{t.migrationTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.migrationBody)}</p></div><Link href="/commande?offre=migration-agent&source=tarifs" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full bg-[#D10E63] px-6 text-sm font-bold text-white transition hover:bg-[#B00C54]">{t.migrationCta}<ArrowRight className="ml-2 size-4"/></Link></div></aside></div></section>
 }
 
 function PriceCard({ title, price, priceNote, body, items, children, featured = false }: { title: string; price: string; priceNote?: string; body: string; items: readonly string[]; children: ReactNode; featured?: boolean }) {
