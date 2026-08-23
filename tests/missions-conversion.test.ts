@@ -52,8 +52,8 @@ describe('missions conversion path', () => {
   it('explains the product outcome and the included first mission', () => {
     expect(page).toContain("titleStart: 'Ne demandez plus à l’IA.'")
     expect(page).toContain("titleAccent: 'Confiez-lui le travail.'")
-    expect(page).toContain('7 jours ou 1 million de tokens')
-    expect(page).toContain('selon la première limite atteinte')
+    expect(page).toContain('Première mission offerte, jusqu’à 7 jours')
+    expect(faq).toContain('après 7 jours ou après 1 million de tokens')
     expect(page).not.toContain('Aucun abonnement payant n’est activé sans votre accord.')
   })
 

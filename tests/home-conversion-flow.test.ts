@@ -11,7 +11,7 @@ describe('homepage conversion flow', () => {
     expect(home.indexOf('<HomeProcess')).toBeLessThan(home.indexOf('<SectionWorkspace'))
     expect(home.indexOf('<HomeGuardrails')).toBeLessThan(home.indexOf('<HomeFaq'))
     expect(process).toContain('De votre besoin au travail accompli.')
-    expect(guardrails).toContain('Un périmètre défini avant de commencer.')
+    expect(guardrails).toContain('Autonome sous votre supervision.')
   })
 
   it('labels fictional data and avoids putting mission text in the URL', () => {
