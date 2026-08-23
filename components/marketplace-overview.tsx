@@ -23,7 +23,7 @@ const applications = STORE_ITEMS.filter(item => item.type === 'application' || i
 const COPY = {
   fr: {
     kicker: 'La Marketplace des agents autonomes open source',
-    title: 'Des agents ouverts.',
+    title: 'Des agents open source.',
     accent: 'Une intelligence gouvernée par votre entreprise.',
     lead: 'Unitalk transforme des moteurs agentiques comme Hermes en Collaborateurs IA capables d’accomplir vos missions avec vos méthodes, vos outils et vos règles.',
     signature: 'Own your intelligence.',

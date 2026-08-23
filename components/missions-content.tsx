@@ -407,7 +407,7 @@ export function MissionsContent({
 
         <section aria-labelledby="missions-faq-title" className="mt-20 border-t border-[#CFC5B5] pt-12 sm:pt-16">
           <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:gap-16">
-            <div><Kicker>{t.faqKicker}</Kicker><h2 id="missions-faq-title" className="mt-5 max-w-lg text-balance font-sf text-[clamp(2.4rem,4.5vw,4.5rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.faqTitle}</h2></div>
+            <div><Kicker>{t.faqKicker}</Kicker><h2 id="missions-faq-title" className="mt-5 max-w-lg text-balance font-sf text-[clamp(2.4rem,4.5vw,4.5rem)] font-semibold leading-[.94] tracking-[-.06em]">{t.faqTitle}<span className="block text-[#D10E63]">{t.faqAccent}</span></h2></div>
             <div className="border-t border-[#CFC5B5]">{MISSIONS_PAGE_FAQ[lang].map(([question, answer]) => <details key={question} className="group border-b border-[#CFC5B5]"><summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-5 py-4 text-[15px] font-bold marker:content-none"><span>{question}</span><span aria-hidden className="text-xl font-normal text-[#D10E63] transition-transform group-open:rotate-45">+</span></summary><p className="max-w-2xl pb-5 pr-10 text-sm leading-7 text-[#625B50]">{answer}</p></details>)}</div>
           </div>
         </section>
@@ -470,7 +470,7 @@ const COPY = {
     emptyBody: 'Modifiez votre recherche ou réinitialisez les filtres pour retrouver tout le catalogue.',
     clearFilters: 'Voir toutes les missions',
     categoryFilter: 'Catégorie active', clearFilter: 'Effacer', invalidCategory: 'Cette catégorie est inconnue. Le catalogue complet est affiché.', invalidCollaborator: 'Ce Collaborateur IA est inconnu. Le catalogue complet est affiché.',
-    faqKicker: 'Questions fréquentes', faqTitle: 'Avant de confier votre première mission.',
+    faqKicker: 'Questions fréquentes', faqTitle: 'Avant de confier', faqAccent: 'votre première mission.',
   },
   en: {
     eyebrow: 'More than 200 mission templates ready to customize',
@@ -498,6 +498,6 @@ const COPY = {
     emptyBody: 'Change your search or reset the filters to browse the full catalog.',
     clearFilters: 'View all missions',
     categoryFilter: 'Active category', clearFilter: 'Clear', invalidCategory: 'This category is unknown. The full catalog is shown.', invalidCollaborator: 'This AI Collaborator is unknown. The full catalog is shown.',
-    faqKicker: 'Frequently asked questions', faqTitle: 'Before assigning your first mission.',
+    faqKicker: 'Frequently asked questions', faqTitle: 'Before assigning', faqAccent: 'your first mission.',
   },
 } as const

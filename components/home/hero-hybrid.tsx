@@ -14,7 +14,7 @@ import { localizedHref } from '@/lib/i18n-routing'
 const T = {
   fr: {
     eyebrow: 'Une mission à accomplir ?',
-    headlineA: 'Confiez une mission concrète',
+    headlineA: 'Confiez une mission',
     headlineB: 'à votre Collaborateur IA.',
     subtitleBeforeAlma: 'Décrivez le résultat attendu.',
     subtitleAfterAlma: 'configure le Collaborateur IA adapté, prépare sa mission et définit avec vous les actions qu’il peut réaliser seul ou soumettre à votre validation.',
@@ -34,7 +34,7 @@ const T = {
   },
   en: {
     eyebrow: 'A mission to accomplish?',
-    headlineA: 'Entrust concrete work',
+    headlineA: 'Entrust a mission',
     headlineB: 'to an AI Collaborator.',
     subtitleBeforeAlma: 'Describe the expected outcome.',
     subtitleAfterAlma: 'configures the right AI Collaborator, prepares the mission and defines with you which actions it can perform alone or submit for approval.',

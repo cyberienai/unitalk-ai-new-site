@@ -18,7 +18,7 @@ describe('pricing page publication requirements', () => {
     expect(sections).toContain("title: 'Votre première mission.', accent: 'Offerte.'")
     expect(sections).toContain("proofs: ['Sans carte bancaire', 'Jusqu’à 7 jours', '1 million de tokens inclus', 'Puis à partir de 49 € HT/mois']")
     expect(sections).toContain("activationNote: 'Aucun paiement avant confirmation.'")
-    expect(sections).toContain("continue: 'Enregistrer et continuer'")
+    expect(sections).toContain("continue: 'Créer mon compte et continuer'")
     expect(sections).toContain('assistants privés ou partagés')
     expect(sections).toContain('missions avec mémoire, outils et autonomie encadrée')
     expect(sections).not.toContain('selectedTierBase.users} · ${workspaceCreditsValue}')

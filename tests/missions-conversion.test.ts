@@ -43,7 +43,8 @@ describe('missions conversion path', () => {
   })
 
   it('ends with answers to key conversion questions', () => {
-    expect(page).toContain("faqTitle: 'Avant de confier votre première mission.'")
+    expect(page).toContain("faqTitle: 'Avant de confier'")
+    expect(page).toContain("faqAccent: 'votre première mission.'")
     expect(faq).toContain('Que se passe-t-il après avoir choisi une mission ?')
     expect(faq).toContain('Quelles actions restent sous mon contrôle ?')
     expect(page).not.toContain("finalTitle: 'Vous savez ce qui doit être fait.'")

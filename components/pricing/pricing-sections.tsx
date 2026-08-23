@@ -32,7 +32,7 @@ const COPY = {
     creditsTitle: 'Un solde IA partagé entre tous vos Collaborateurs humains et IA', creditsBody: 'Centralisez dans un même solde les modèles et services externes facturés à l’usage. Rechargez à partir de 25 €, uniquement lorsque vous le décidez.', creditsCta: 'Acheter des crédits', creditsDetail: 'Voir le détail',
     keysTitle: 'Vos propres clés API', keysBody: 'Connectez les clés de votre entreprise et réglez directement les fournisseurs que vous utilisez.', keysCta: 'Voir les modèles IA',
     migrationKicker: 'Déjà équipé ?', migrationTitle: 'Transformez votre agent Hermes ou OpenClaw en Collaborateur IA Unitalk.', migrationBody: 'Migrez sa configuration compatible — profils, compétences, instructions, mémoire et outils — puis rattachez-le à votre entreprise.', migrationCta: 'Migrer en un clic gratuitement',
-    continue: 'Enregistrer et continuer', activationNote: 'Aucun paiement avant confirmation.', error: 'La configuration n’a pas pu être enregistrée. Réessayez.',
+    continue: 'Créer mon compte et continuer', activationNote: 'Aucun paiement avant confirmation.', error: 'La configuration n’a pas pu être enregistrée. Réessayez.',
     monthlyTerms: 'Prix HT. Facturation mensuelle, résiliable à tout moment. Aucune activation payante avant votre accord.', annualTerms: 'Prix HT. Facturation annuelle correspondant à 10 mois, soit 2 mois offerts. Aucune activation payante avant votre accord.',
   },
   en: {
@@ -56,7 +56,7 @@ const COPY = {
     creditsTitle: 'One AI balance shared by all your human and AI Collaborators', creditsBody: 'Centralize usage-based external models and services in one balance. Top up from €25, only when you decide.', creditsCta: 'Buy credits', creditsDetail: 'View details',
     keysTitle: 'Your own API keys', keysBody: 'Connect your organization’s keys and pay the providers you use directly.', keysCta: 'View AI models',
     migrationKicker: 'Already equipped?', migrationTitle: 'Turn your Hermes or OpenClaw agent into a Unitalk AI Collaborator.', migrationBody: 'Migrate its compatible configuration — profiles, skills, instructions, memory and tools — then attach it to your organization.', migrationCta: 'Migrate free in one click',
-    continue: 'Save and continue', activationNote: 'No payment before confirmation.', error: 'We could not save this configuration. Please try again.',
+    continue: 'Create my account and continue', activationNote: 'No payment before confirmation.', error: 'We could not save this configuration. Please try again.',
     monthlyTerms: 'Prices exclude tax. Monthly billing, cancel anytime. No paid activation without your approval.', annualTerms: 'Prices exclude tax. Annual billing charged as 10 months, with 2 months included. No paid activation without your approval.',
   },
 } as const
