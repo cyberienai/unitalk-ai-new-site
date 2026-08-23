@@ -6,7 +6,7 @@ import { HERMES_CREATORS } from '@/lib/hermes-creators'
 import { DOCUMENTATION, DOCUMENTATION_GROUPS, DOCUMENTATION_SLUGS, type DocumentationPage } from '@/lib/unitalk-documentation'
 
 export function DocumentationIndexContent() {
-  return <main className="bg-[#F3EFE6] font-sf text-[#1C1A17]">
+  return <main id="main-content" tabIndex={-1} className="bg-[#F3EFE6] font-sf text-[#1C1A17]">
     <section className="relative overflow-hidden border-b border-[#D8D0C2] px-5 pb-16 pt-28 sm:px-8 sm:pb-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"/>
       <div className="editorial-shell relative"><Kicker>Documentation Unitalk</Kicker><h1 className="hero-heading mt-5 max-w-5xl">Du moteur agentique au travail en entreprise.</h1><p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">Comprenez Hermes, les identités IA, la mémoire gouvernée, les communications, les espaces de travail et les règles qui permettent aux humains et aux IA de collaborer.</p></div>
@@ -23,7 +23,7 @@ export function DocumentationIndexContent() {
 }
 
 export function DocumentationDetailContent({ page }: { page: DocumentationPage }) {
-  return <main className="bg-[#F3EFE6] font-sf text-[#1C1A17]">
+  return <main id="main-content" tabIndex={-1} className="bg-[#F3EFE6] font-sf text-[#1C1A17]">
     <section className="relative overflow-hidden px-5 pb-16 pt-28 sm:px-8 sm:pb-20"><div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#1C1A17_1px,transparent_1px),linear-gradient(90deg,#1C1A17_1px,transparent_1px)] [background-size:72px_72px]"/><div className="editorial-shell relative grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><Link href="/documentation" className="text-sm font-bold text-[#B00C54]">← Documentation</Link><p className="mt-8 font-mono text-[11px] font-bold uppercase tracking-[.18em] text-[#B00C54]">{page.number} · {page.group} · {page.eyebrow}</p><h1 className="hero-heading mt-5 max-w-5xl">{page.title}</h1><p className="mt-6 max-w-3xl text-[17px] leading-8 text-[#4E483F]">{page.summary}</p></div><aside className="min-w-[250px] rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6"><CircleDollarSign className="size-5 text-[#D10E63]"/><p className="mt-5 text-2xl font-black">{page.price}</p>{page.included&&<p className="mt-2 text-sm font-bold text-[#257A43]">{page.included}</p>}</aside></div></section>
     <section className="border-y border-[#D8D0C2] bg-[#EAE3D4] px-5 py-8 sm:px-8"><div className="editorial-shell"><p className="max-w-4xl text-xl font-bold leading-8">{page.principle}</p></div></section>
     <section className="px-5 py-16 sm:px-8 sm:py-20"><div className="editorial-shell grid gap-5 md:grid-cols-2">{page.sections.map(section=><article key={section.title} className="rounded-3xl border border-[#D8D0C2] bg-[#FAF8F3] p-6 sm:p-7"><h2 className="text-2xl font-bold tracking-[-.035em]">{section.title}</h2>{section.intro&&<p className="mt-3 text-sm leading-7 text-[#625B50]">{section.intro}</p>}<ul className="mt-6 space-y-3">{section.items.map(item=><li key={item} className="flex gap-3 text-sm font-semibold leading-6"><Check className="mt-0.5 size-4 shrink-0 text-[#D10E63]"/>{item}</li>)}</ul></article>)}</div></section>

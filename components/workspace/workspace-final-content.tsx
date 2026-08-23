@@ -59,7 +59,7 @@ export function WorkspaceFinalContent({ onboarding }: { onboarding?: WorkspaceOn
             <p className="text-sm leading-7 text-[#AFA69A] lg:max-w-lg lg:justify-self-end">{t.demoNote}</p>
           </div>
           <div className="mt-10 overflow-hidden rounded-[24px] border border-white/15 bg-black shadow-[0_35px_100px_-45px_rgba(0,0,0,.9)]">
-            <video className="aspect-video w-full object-cover" controls playsInline preload="metadata" poster={HERMES_POSTER} aria-label={t.videoLabel}>
+            <video className="aspect-video w-full object-cover" controls playsInline preload="none" poster={HERMES_POSTER} aria-label={t.videoLabel}>
               <source src={HERMES_DEMO} type="video/mp4" />
             </video>
           </div>
@@ -160,9 +160,8 @@ const COPY = {
     heroTitle: 'Un espace de travail\noù humains et IA collaborent.',
     heroLead: 'Confiez une mission, suivez le travail et gardez la décision. Le Workspace Unitalk transforme un moteur agentique open source en environnement de travail gouverné pour votre entreprise.',
     heroCta: 'Explorer les missions', openMission: 'Voir un exemple de mission', demoCta: 'Voir la démonstration',
-    availability: 'Web et Desktop · Mémoire · Outils · Validations humaines',
     onboardingNote: 'Première mission offerte · Applications connectées uniquement avec votre accord',
-    previewMission: 'Mission en cours', readyMission: 'Première mission · Prête à démarrer', setupRequired: 'Configuration requise', previewStatus: 'Validation requise', missionTitle: 'Relancer les factures impayées',
+     missionTitle: 'Relancer les factures impayées',
     previewActivity: [['10:14', 'Nadia identifie 12 factures échues.'], ['10:16', 'Deux dossiers comportent un litige ouvert.'], ['10:18', 'Dix relances attendent votre validation.']] as const,
     decisionRequired: 'Décision requise', previewQuestion: 'Autoriser l’envoi des dix relances préparées ?',
     genericDemo: 'Démonstration générique du Workspace', demoKicker: 'Démonstration vidéo', demoTitle: 'Le moteur open source', demoAccent: 'utilisé par Unitalk.',
@@ -200,9 +199,8 @@ const COPY = {
     heroTitle: 'A workspace\nwhere humans and AI collaborate.',
     heroLead: 'Assign a mission, follow the work and keep the final say. Unitalk Workspace turns an open-source agent engine into a governed work environment for your organization.',
     heroCta: 'Explore missions', openMission: 'View a mission example', demoCta: 'Watch the demo',
-    availability: 'Web and Desktop · Memory · Tools · Human approvals',
     onboardingNote: 'First mission included · Applications connect only with your approval',
-    previewMission: 'Mission in progress', readyMission: 'First mission · Ready to start', setupRequired: 'Setup required', previewStatus: 'Approval required', missionTitle: 'Follow up unpaid invoices',
+     missionTitle: 'Follow up unpaid invoices',
     previewActivity: [['10:14', 'Nadia identifies 12 overdue invoices.'], ['10:16', 'Two files have an open dispute.'], ['10:18', 'Ten reminders await your approval.']] as const,
     decisionRequired: 'Decision required', previewQuestion: 'Approve sending the ten prepared reminders?',
     genericDemo: 'Generic Workspace demonstration', demoKicker: 'Video demonstration', demoTitle: 'The open-source engine', demoAccent: 'used by Unitalk.',

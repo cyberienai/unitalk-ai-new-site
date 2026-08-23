@@ -51,6 +51,7 @@ const STATIC_ROUTES = [
   '/ai-gateway',
   '/desktop',
   '/documentation',
+  '/credits',
   '/tarifs',
   '/en/pricing',
   '/securite',
