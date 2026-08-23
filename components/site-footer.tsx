@@ -8,6 +8,7 @@ import { localizePublicHref } from '@/lib/i18n-routing'
 const T = {
   fr: {
     navigation: 'Navigation du pied de page',
+    tagline: 'Humains et IA collaborent.',
     columns: [
       {
          title: 'Marketplace',
@@ -65,10 +66,12 @@ const T = {
        ['Conditions', '/conditions'],
      ],
     rights: 'Tous droits réservés.',
-    signature: 'Hébergé en France · Propulsé par Hermes',
+    hosted: 'Hébergé en France',
+    powered: 'Propulsé par Hermes',
   },
   en: {
     navigation: 'Footer navigation',
+    tagline: 'Humans and AI collaborate.',
     columns: [
       {
          title: 'Marketplace',
@@ -126,7 +129,8 @@ const T = {
        ['Terms', '/conditions'],
      ],
     rights: 'All rights reserved.',
-    signature: 'Hosted in France · Powered by Hermes',
+    hosted: 'Hosted in France',
+    powered: 'Powered by Hermes',
   },
 } as const
 
@@ -141,10 +145,13 @@ export function SiteFooter() {
 
       <div className="editorial-shell relative pb-8 sm:pb-10">
         <div className="grid gap-12 py-14 sm:grid-cols-[1fr_2fr] sm:py-16 lg:grid-cols-[1.05fr_3fr]">
-          <Link href={lang === 'en' ? '/en' : '/'} aria-label="Unitalk" className="inline-flex h-fit w-fit items-center gap-3">
-            <UnitalkLogo size={30} />
-            <span className="font-inter text-lg font-semibold">Unitalk</span>
-          </Link>
+          <div className="h-fit">
+            <Link href={lang === 'en' ? '/en' : '/'} aria-label="Unitalk" className="inline-flex w-fit items-center gap-3">
+              <UnitalkLogo size={30} />
+              <span className="font-inter text-lg font-semibold">Unitalk</span>
+            </Link>
+            <p className="mt-4 max-w-48 text-sm leading-6 text-[#B8AF9F]">{t.tagline}</p>
+          </div>
 
           <nav aria-label={t.navigation} className="grid grid-cols-2 gap-x-8 gap-y-11 lg:grid-cols-5">
             {columns.map((column) => (
@@ -173,7 +180,11 @@ export function SiteFooter() {
               {t.legal.map(([label, href]) => <Link key={label} href={href} className="transition-colors hover:text-white">{label}</Link>)}
             </div>
 
-             <Link href={localizePublicHref('/securite', lang)} className="font-mono text-[11px] font-semibold uppercase tracking-[.12em] text-[#A9A092] transition-colors hover:text-white">{t.signature}</Link>
+             <div className="flex flex-wrap items-center gap-x-2 font-mono text-[11px] font-semibold uppercase tracking-[.12em] text-[#A9A092]">
+               <Link href={localizePublicHref('/hebergeurs', lang)} className="transition-colors hover:text-white">{t.hosted}</Link>
+               <span aria-hidden="true">·</span>
+               <Link href={localizePublicHref('/hermes', lang)} className="transition-colors hover:text-white">{t.powered}</Link>
+             </div>
           </div>
         </div>
       </div>

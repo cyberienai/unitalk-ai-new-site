@@ -17,9 +17,9 @@ describe('security page', () => {
   })
 
   it('keeps human approval and data commitments explicit', () => {
-    expect(source).toContain('hébergées en France')
+    expect(source).toContain('hébergement des données Unitalk en France')
     expect(source).toContain('chiffrées en transit et au repos')
-    expect(source).toContain('sans votre accord explicite')
+    expect(source).toContain('sans accord explicite')
     expect(source).toContain('Demander le DPA')
   })
 

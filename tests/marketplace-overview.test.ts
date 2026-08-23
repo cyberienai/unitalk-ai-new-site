@@ -17,7 +17,7 @@ describe('Marketplace overview', () => {
   it('starts from work and links missions back to equipment', () => {
     expect(overview).toContain('Commencez par le travail.')
     expect(overview).toContain("href: '/missions'")
-    expect(missions).toContain('Choisissez la mission. Alma prépare le Collaborateur.')
-    expect(missions).toContain('MARKETPLACE_PATHS')
+    expect(missions).toContain('AlmaMissionComposer')
+    expect(overview).toContain("href: '/marketplace/competences'")
   })
 })

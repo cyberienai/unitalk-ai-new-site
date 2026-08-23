@@ -38,6 +38,10 @@ describe('site footer', () => {
   it('keeps the footer bilingual and localizes public links', () => {
     expect(footer).toContain("navigation: 'Navigation du pied de page'")
     expect(footer).toContain("navigation: 'Footer navigation'")
+    expect(footer).toContain("tagline: 'Humains et IA collaborent.'")
+    expect(footer).toContain("tagline: 'Humans and AI collaborate.'")
     expect(footer).toContain('localizePublicHref(href, lang)')
+    expect(footer).toContain("localizePublicHref('/hebergeurs', lang)")
+    expect(footer).toContain("localizePublicHref('/hermes', lang)")
   })
 })
