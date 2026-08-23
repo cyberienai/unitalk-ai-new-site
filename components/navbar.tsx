@@ -4,32 +4,15 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import {
-  ChevronDown,
-} from 'lucide-react'
 import { UnitalkLogo } from './unitalk-logo'
 import { useLanguage } from '@/lib/language-context'
 import { AnonymousOnly, UserMenuDesktop, UserMenuMobile } from './auth/user-menu'
-import { useAlma } from '@/lib/alma-context'
-import { localizePublicHref, localizedHref, switchLocaleHref } from '@/lib/i18n-routing'
+import { localizedHref, switchLocaleHref } from '@/lib/i18n-routing'
 
 type Bi = { fr: string; en: string }
 const ALMA_CTA = {
   label: { fr: 'Décrire ma mission', en: 'Describe my mission' } as Bi,
 }
-
-// One direct menu for discovering and equipping an AI Collaborator.
-type MenuEntry = { title: Bi; desc: Bi; href: string }
-
-const COLLAB_MENU: MenuEntry[] = [
-  { title: { fr: 'Collaborateurs IA', en: 'AI Collaborators' }, desc: { fr: 'Les identités IA prêtes à rejoindre votre entreprise.', en: 'AI identities ready to join your organization.' }, href: '/marketplace/collaborateurs-ia' },
-  { title: { fr: 'Profils métier', en: 'Job profiles' }, desc: { fr: 'Son profil par défaut et ceux que vous pouvez ajouter.', en: 'Its default profile and the ones you can add.' }, href: '/marketplace/profils-metier' },
-  { title: { fr: 'Compétences', en: 'Skills' }, desc: { fr: 'Les méthodes qu’il peut réutiliser.', en: 'Methods it can reuse.' }, href: '/marketplace/competences' },
-  { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Les outils qu’il est autorisé à utiliser.', en: 'Tools it is authorized to use.' }, href: '/marketplace/applications' },
-  { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Le catalogue des modèles autorisables.', en: 'The catalog of models you can authorize.' }, href: '/marketplace/modeles-ia' },
-  { title: { fr: 'Serveurs IA', en: 'AI servers' }, desc: { fr: 'Son environnement de travail privé.', en: 'Its private working environment.' }, href: '/marketplace/serveurs-ia' },
-  { title: { fr: 'Unitalk Desktop', en: 'Unitalk Desktop' }, desc: { fr: 'La distribution locale pour exécuter et suivre les missions.', en: 'The local distribution for running and tracking missions.' }, href: '/desktop' },
-]
 
 const T = {
   fr: {
@@ -43,7 +26,6 @@ const T = {
     collaborators: 'Collaborateurs IA',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
-    collabMenu: 'Menu Collaborateurs IA',
   },
   en: {
     home: 'Unitalk AI Home',
@@ -56,7 +38,6 @@ const T = {
     collaborators: 'AI Collaborators',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
-    collabMenu: 'AI Collaborators menu',
   },
 }
 
@@ -87,15 +68,6 @@ function UkFlag() {
       </svg>
     </span>
   )
-}
-
-function DeploymentMenuLink({ entry, lang, onSelect }: { entry: MenuEntry; lang: 'fr' | 'en'; onSelect: () => void }) {
-  return <Link href={localizePublicHref(entry.href, lang)} onClick={onSelect} className="group block rounded-lg border border-transparent px-2.5 py-2 outline-none transition-colors hover:border-[#D8D0C2] hover:bg-white focus-visible:ring-2 focus-visible:ring-[#D10E63]/40"><strong className="block text-[13px] font-bold leading-[18px] text-[#1C1A17] group-hover:text-[#B00C54]">{entry.title[lang]}</strong><span className="block text-[11px] leading-[15px] text-[#625B50]">{entry.desc[lang]}</span></Link>
-}
-
-function MobileMarketplaceLink({ entry, index, lang, onSelect }: { entry: MenuEntry; index: number; lang: 'fr' | 'en'; onSelect: () => void }) {
-  void index
-  return <Link href={localizePublicHref(entry.href, lang)} onClick={onSelect} className="group block min-h-12 border-b border-[#E4DDCE] py-2.5 last:border-b-0"><span className="block text-[13px] font-bold text-[#1C1A17] group-hover:text-[#B00C54]">{entry.title[lang]}</span><span className="mt-0.5 block text-[11px] leading-4 text-[#625B50]">{entry.desc[lang]}</span></Link>
 }
 
 /** Desktop primary nav link with hover/focus/active states.
@@ -142,32 +114,17 @@ export function Navbar(
   { darkHero = false }: { ctaLabel?: Bi; ctaShortLabel?: Bi; darkHero?: boolean } = {},
 ) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [collabOpen, setCollabOpen] = useState(false)
-  const [mobileCollabOpen, setMobileCollabOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const collabRef = useRef<HTMLDivElement | null>(null)
-  const collabButtonRef = useRef<HTMLButtonElement | null>(null)
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null)
   const mobileMenuRef = useRef<HTMLDivElement | null>(null)
-  // Hover intent: small close delay so moving from trigger to panel doesn't flicker.
-  const collabHoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const openCollabHover = () => {
-    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
-    setCollabOpen(true)
-  }
-  const closeCollabHover = () => {
-    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
-    collabHoverTimeout.current = setTimeout(() => setCollabOpen(false), 120)
-  }
   const { lang, setLang } = useLanguage()
-  const { setLauncherSuppressed } = useAlma()
   const t = T[lang]
   const pathname = usePathname() || '/'
 
   // The header is transparent only until the page scrolls or a panel opens.
   // While transparent over a dark hero, switch to light-on-dark link colors
   // so labels and hover states stay legible.
-  const overDark = darkHero && !scrolled && !isMenuOpen && !collabOpen
+  const overDark = darkHero && !scrolled && !isMenuOpen
 
   // Missions has its own top-level navigation item, so it must not also mark
   // the Collaborateurs IA trigger as the current page.
@@ -204,7 +161,6 @@ export function Navbar(
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsMenuOpen(false)
-        setMobileCollabOpen(false)
         requestAnimationFrame(() => mobileMenuButtonRef.current?.focus())
         return
       }
@@ -220,44 +176,12 @@ export function Navbar(
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [isMenuOpen])
 
-  useEffect(() => {
-    setLauncherSuppressed(collabOpen)
-    return () => setLauncherSuppressed(false)
-  }, [collabOpen, setLauncherSuppressed])
-
   // Subtle bottom border once the page is scrolled
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // Collaborateurs IA dropdown: close on outside click
-  useEffect(() => {
-    if (!collabOpen) return
-    const onDown = (e: MouseEvent) => {
-      if (collabRef.current && !collabRef.current.contains(e.target as Node)) setCollabOpen(false)
-    }
-    document.addEventListener('mousedown', onDown)
-    return () => document.removeEventListener('mousedown', onDown)
-  }, [collabOpen])
-
-  // Collaborateurs IA dropdown: close on Escape and return focus to the button
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && collabOpen) {
-        setCollabOpen(false)
-        collabButtonRef.current?.focus()
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [collabOpen])
-
-  // Clear any pending hover-close timer on unmount
-  useEffect(() => () => {
-    if (collabHoverTimeout.current) clearTimeout(collabHoverTimeout.current)
   }, [])
 
   const toggleLang = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -276,7 +200,7 @@ export function Navbar(
       </a>
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,backdrop-filter,border-color] duration-300 ${
-          scrolled || isMenuOpen || collabOpen
+          scrolled || isMenuOpen
             ? 'border-[#1C1A17]/[0.08] bg-[#F3EFE6]/96 backdrop-blur-[16px]'
             : 'border-transparent bg-transparent backdrop-blur-0'
         }`}
