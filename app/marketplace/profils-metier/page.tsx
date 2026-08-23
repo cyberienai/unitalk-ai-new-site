@@ -8,7 +8,7 @@ const SITE_URL = 'https://unitalk.ai'
 const profiles = STORE_ITEMS.filter((item) => item.type === 'profil')
 
 export const metadata: Metadata = {
-  title: 'Profils métier IA pour Collaborateurs IA | Store Unitalk',
+  title: 'Profils métier IA pour Collaborateurs IA',
   description: `Explorez ${profiles.length} profils métier IA pour équiper un Collaborateur IA : commercial, marketing, support client, finance, RH, opérations et développement.`,
   keywords: ['profil métier IA', 'profils métier intelligence artificielle', 'Collaborateur IA par métier', 'commercial IA', 'assistant IA entreprise'],
   alternates: { canonical: '/marketplace/profils-metier' },

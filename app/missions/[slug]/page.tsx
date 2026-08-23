@@ -20,19 +20,19 @@ export async function generateMetadata({
   const mission = getMission(slug)
   if (!mission) return { title: 'Mission · Unitalk' }
   return {
-    title: `${mission.title.fr} · Missions · Unitalk`,
+    title: `${mission.title.fr} · Mission IA`,
     description: mission.objective.fr,
-    alternates: { canonical: `/missions/${slug}` },
+    alternates: { canonical: `/missions/${slug}`, languages: { fr: `/missions/${slug}`, en: `/en/missions/${slug}`, 'x-default': `/missions/${slug}` } },
     openGraph: {
       type: 'article',
       url: `${SITE_URL}/missions/${slug}`,
-      title: `${mission.title.fr} · Missions · Unitalk`,
+      title: `${mission.title.fr} · Mission IA | Unitalk`,
       description: mission.objective.fr,
       images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: `${mission.title.fr} · Unitalk` }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${mission.title.fr} · Missions · Unitalk`,
+      title: `${mission.title.fr} · Mission IA | Unitalk`,
       description: mission.objective.fr,
       images: ['/opengraph-image'],
     },
@@ -59,6 +59,16 @@ export default async function MissionDetailPage({
       { '@type': 'ListItem', position: category ? 4 : 3, name: mission.title.fr, item: `${SITE_URL}/missions/${slug}` },
     ],
   }
+  const serviceJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: mission.title.fr,
+    description: mission.objective.fr,
+    url: `${SITE_URL}/missions/${slug}`,
+    provider: { '@type': 'Organization', name: 'Unitalk', url: SITE_URL },
+    areaServed: mission.zones.includes('france') ? 'France' : undefined,
+    serviceType: 'Mission pour Collaborateur IA',
+  }
 
   return (
     <>
@@ -66,6 +76,7 @@ export default async function MissionDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
       <Navbar />
       <MissionDetailContent slug={slug} />
       <SiteFooter />

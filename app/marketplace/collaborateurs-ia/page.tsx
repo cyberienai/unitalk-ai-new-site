@@ -7,11 +7,11 @@ import { UnitalkStoreHub } from '@/components/unitalk-store-hub'
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
-  title: 'Collaborateurs IA pour PME et équipes | Unitalk',
+  title: 'Collaborateurs IA pour PME et équipes',
   description: 'Découvrez 12 Collaborateurs IA par métier, choisissez une première mission et ajoutez les profils métier et compétences adaptés à votre entreprise.',
   keywords: ['Collaborateur IA', 'collaborateurs IA entreprise', 'assistant IA PME', 'agent IA métier', 'équipe IA', 'assistant IA professionnel'],
   robots: { index: true, follow: true },
-  alternates: { canonical: '/marketplace/collaborateurs-ia', languages: { 'fr-FR': '/marketplace/collaborateurs-ia', 'en-US': '/en/marketplace/ai-collaborators', 'x-default': '/marketplace/collaborateurs-ia' } },
+  alternates: { canonical: '/marketplace/collaborateurs-ia', languages: { fr: '/marketplace/collaborateurs-ia', en: '/en/marketplace/ai-collaborators', 'x-default': '/marketplace/collaborateurs-ia' } },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -62,6 +62,7 @@ export default function CollaboratorsMarketplacePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <a href="#marketplace-main" className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-[#1C1A17] focus:not-sr-only">Aller au contenu principal</a>
       <Navbar />
       <UnitalkStoreHub collaboratorsOnly />
       <SiteFooter />

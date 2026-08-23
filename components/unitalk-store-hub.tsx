@@ -1,17 +1,18 @@
 'use client'
 
-import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { LocalizedLink as Link } from '@/components/localized-link'
 import { AppWindow, ArrowRight, Cpu, Server } from 'lucide-react'
 import { Anthropic, DeepSeek, Flux, Gemini, Kimi, Minimax, Mistral, Nvidia, OpenAI, Qwen, Tencent, XiaomiMiMo, Zhipu } from '@lobehub/icons'
+import { siJitsi, siN8n, siOpencode, siPayloadcms, siPlane, siTwenty } from 'simple-icons'
 import { AlmaInline } from '@/components/alma-inline'
 import { useLanguage } from '@/lib/language-context'
 import type { Lang as SiteLang } from '@/lib/language-context'
-import { collaboratorHref, MARKETPLACE_COLLABORATOR_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
+import { MARKETPLACE_COLLABORATOR_SLUGS, ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import { APP_CATEGORY_LABELS, DOMAIN_LABELS, STORE_ITEMS } from '@/lib/store-catalog'
 import { AI_MODELS } from '@/lib/ai-models-catalog'
+import { collaboratorProfileHref, localizePublicHref, localizedHref } from '@/lib/i18n-routing'
 
 type Lang = 'fr' | 'en'
 type Bi = { fr: string; en: string }
@@ -42,6 +43,7 @@ type MarketplaceItem = {
   creator?: 'unitalk' | 'community'
   avatar?: string
   logoId?: string
+  iconSlug?: string
   pending?: boolean
   status?: Bi
   keywords?: string[]
@@ -228,7 +230,13 @@ const SERVER_CATEGORY_LABELS: Record<string, Bi> = {
 }
 
 const OPEN_SOURCE_SERVER_APPS = [
+  { key: 'hermes', category: { fr: 'Agent IA', en: 'AI agent' }, title: 'Hermes', installation: { fr: 'Installé par défaut', en: 'Installed by default' }, description: { fr: 'Exécute les missions de vos Collaborateurs IA avec outils, mémoire et tâches planifiées.', en: 'Runs your AI Collaborators’ missions with tools, memory and scheduled tasks.' } },
   { key: 'n8n', category: { fr: 'Automatisation', en: 'Automation' }, title: 'n8n', installation: { fr: 'Installé par défaut', en: 'Installed by default' }, description: { fr: 'Automatisez vos processus et connectez vos applications depuis votre serveur privé.', en: 'Automate processes and connect applications from your private server.' } },
+  { key: 'gbrain', category: { fr: 'Mémoire et connaissances', en: 'Memory and knowledge' }, title: 'GBrain', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Organisez une mémoire et une base de connaissances privées pour vos Collaborateurs IA.', en: 'Organize private memory and knowledge for your AI Collaborators.' } },
+  { key: 'honcho', category: { fr: 'Mémoire agentique', en: 'Agent memory' }, title: 'Honcho', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Ajoutez une mémoire persistante et des représentations évolutives à vos agents.', en: 'Add persistent memory and evolving representations to your agents.' } },
+  { key: 'stalwart', category: { fr: 'Email et collaboration', en: 'Email and collaboration' }, title: 'Stalwart', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Hébergez email, calendriers, contacts et fichiers avec des protocoles ouverts.', en: 'Host email, calendars, contacts and files using open protocols.' } },
+  { key: 'paperclip', category: { fr: 'Orchestration', en: 'Orchestration' }, title: 'Paperclip', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Orchestrez des workflows et des traitements sur votre infrastructure privée.', en: 'Orchestrate workflows and processing on your private infrastructure.' } },
+  { key: 'buzz', category: { fr: 'Communication', en: 'Communication' }, title: 'Buzz', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Réunissez humains et agents IA dans une plateforme de communication auto-hébergée.', en: 'Bring humans and AI agents together in a self-hosted communication platform.' } },
   { key: 'opencode', category: { fr: 'Code', en: 'Code' }, title: 'OpenCode', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Travaillez sur vos dépôts et automatisez des tâches de développement dans votre environnement privé.', en: 'Work on repositories and automate development tasks in your private environment.' } },
   { key: 'twenty', category: { fr: 'CRM', en: 'CRM' }, title: 'Twenty', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Gérez contacts, entreprises et opportunités dans un CRM open source privé.', en: 'Manage contacts, companies and opportunities in a private open-source CRM.' } },
   { key: 'payload', category: { fr: 'CMS', en: 'CMS' }, title: 'Payload', installation: { fr: 'Déploiement en un clic', en: 'One-click deployment' }, description: { fr: 'Gérez vos contenus et vos données structurées avec un CMS open source auto-hébergé.', en: 'Manage content and structured data with a self-hosted open-source CMS.' } },
@@ -334,8 +342,8 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       key: `collaborateur-${detail.slug}`,
       title: detail.name,
       description: detail.promise[lang],
-      href: collaboratorHref(detail.slug),
-      missionHref: `/decouvrir?q=${encodeURIComponent(detail.starterMission?.mission[lang] ?? detail.missions[0][lang])}&collaborateur=${encodeURIComponent(detail.slug)}&source=marketplace-collaborators`,
+      href: collaboratorProfileHref(detail.slug, lang),
+      missionHref: `${localizePublicHref('/decouvrir', lang)}?q=${encodeURIComponent(detail.starterMission?.mission[lang] ?? detail.missions[0][lang])}&collaborateur=${encodeURIComponent(detail.slug)}&source=marketplace-collaborators`,
       meta: detail.role[lang],
       origin: detail.department[lang],
       avatar: detail.avatar,
@@ -371,7 +379,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
   }
   if (categoryId === 'applications') {
     return STORE_ITEMS.filter((item) => item.type === 'application' || item.type === 'integration').sort((a, b) => (PIPEDREAM_APPLICATION_RANK.get(a.slug) ?? Number.MAX_SAFE_INTEGER) - (PIPEDREAM_APPLICATION_RANK.get(b.slug) ?? Number.MAX_SAFE_INTEGER) || a.order - b.order).map((item) => ({
-      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: `/decouvrir?store=${item.slug}&source=marketplace-applications`, logoId: APPLICATION_LOGOS[item.slug],
+      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: item.commercialStatus === 'draft' ? `/decouvrir?source=marketplace&intention=nouvelle-application&q=${encodeURIComponent(item.name[lang])}` : `/decouvrir?store=${item.slug}&source=marketplace-applications`, logoId: APPLICATION_LOGOS[item.slug],
       meta: item.editor ?? (item.type === 'integration' ? (lang === 'fr' ? 'Intégration' : 'Integration') : item.facet),
       origin: item.creator === 'unitalk' ? 'Unitalk' : lang === 'fr' ? 'Communauté' : 'Community', pending: item.commercialStatus === 'draft',
       status: item.commercialStatus === 'draft' ? { fr: 'Bientôt disponible', en: 'Coming soon' } : item.commercialStatus === 'paid' ? { fr: 'Licence requise', en: 'License required' } : undefined, facetKey: APPLICATION_CATEGORY_OVERRIDES[item.slug] ?? item.facet, input: item.uses?.[0]?.[lang] ?? item.contexts?.[0]?.[lang], result: item.actions?.[0]?.[lang] ?? item.produces?.[0]?.[lang],
@@ -391,7 +399,7 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
   }
   if (categoryId === 'serveurs-ia') {
     const cloudItems: MarketplaceItem[] = STORE_ITEMS.filter((item) => item.type === 'server').map((item) => ({
-      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: `/commande?serveur=${encodeURIComponent(item.slug)}&source=marketplace-servers`,
+      key: `${item.type}-${item.slug}`, title: item.name[lang], description: item.description[lang], href: `/decouvrir?source=marketplace&intention=nouveau-serveur-ia&q=${encodeURIComponent(item.name[lang])}`,
       meta: lang === 'fr' ? 'Infrastructure privée' : 'Private infrastructure', origin: 'Unitalk', pending: item.commercialStatus === 'draft',
       status: item.commercialStatus === 'draft' ? { fr: 'Sur demande', en: 'On request' } : { fr: 'Provisionnable', en: 'Provisionable' }, facetKey: 'unitalk-ai-cloud', input: item.contexts?.[0]?.[lang], result: item.enables?.[0]?.[lang],
     }))
@@ -403,8 +411,8 @@ function itemsForCategory(categoryId: string, lang: Lang): MarketplaceItem[] {
       result: lang === 'fr' ? 'Déploiement validé sur une infrastructure compatible' : 'Deployment approved on compatible infrastructure',
     }))
     const openSourceItems: MarketplaceItem[] = OPEN_SOURCE_SERVER_APPS.map((app) => ({
-      key: `server-app-${app.key}`, title: app.title, description: app.description[lang], href: `/commande?application=${encodeURIComponent(app.key)}&source=marketplace-open-source`,
-      meta: app.category[lang], origin: 'Open source', status: { fr: 'Gratuit', en: 'Free' }, facetKey: 'open-source',
+      key: `server-app-${app.key}`, title: app.title, description: app.description[lang], href: `/decouvrir?source=marketplace&intention=nouvelle-application&q=${encodeURIComponent(app.title)}`,
+      meta: app.category[lang], origin: 'Open source', iconSlug: app.key, status: { fr: 'Logiciel open source', en: 'Open-source software' }, facetKey: 'open-source',
       input: app.installation[lang], result: lang === 'fr' ? 'Utilisateurs illimités' : 'Unlimited users',
     }))
     return [...cloudItems, ...openSourceItems, ...hostItems]
@@ -419,8 +427,8 @@ const COPY = {
     clear: 'Effacer les filtres', available: 'Disponible', preparation: 'Bientôt disponible', addProfile: 'Ajouter à un Collaborateur IA',
     result: 'résultat', results: 'résultats', almaTitle: 'Une mission en tête ? Alma prépare le bon Collaborateur.', almaBody: 'Décrivez le résultat attendu. Alma vous aide à choisir l’identité, les compétences, les sources autorisées et les validations humaines nécessaires.', almaAction: 'Confier une première mission', almaFinalAction: 'Préparer mon Collaborateur avec Alma',
     heroProofs: ['Première mission gratuite', 'Sans carte bancaire'],
-    profileHeroProofs: ['Profils métier gratuits', 'Plusieurs profils par Collaborateur'],
-    skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission'],
+    profileHeroProofs: ['Sans coût unitaire avec une offre compatible', 'Plusieurs profils par Collaborateur'],
+    skillHeroProofs: ['Sans coût unitaire avec une offre compatible', 'Méthodes documentées', 'Réutilisables par mission'],
     applicationHeroProofs: ['Accès définis par votre entreprise', 'Actions autorisées'],
     modelHeroProofs: ['Sélection automatique', 'Fournisseurs sous votre contrôle'],
     serverHeroProofs: ['Infrastructure privée', 'Capacité évolutive', 'Déploiement gouverné'],
@@ -453,33 +461,20 @@ function normalizeSearch(value: string) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 }
 
-function scrollToStoreHero() {
-  requestAnimationFrame(() => document.getElementById('marketplace-store-hero')?.scrollIntoView({
-    block: 'start',
-    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-  }))
-}
-
 export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialCategoryId, authenticated = false }: { collaboratorsOnly?: boolean; fixedLang?: SiteLang; initialCategoryId?: string; authenticated?: boolean }) {
-  const pathname = usePathname()
   const { lang: selectedLang } = useLanguage()
   const lang = fixedLang ?? selectedLang
   const t = COPY[lang]
   const initialCategory = STORE_CATEGORIES.some((category) => category.id === initialCategoryId) ? initialCategoryId! : STORE_CATEGORIES[0].id
-  const [activeCategoryId, setActiveCategoryId] = useState(initialCategory)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [catalogQuery, setCatalogQuery] = useState('')
-  const [skillCategory, setSkillCategory] = useState('')
-  const [skillProfile, setSkillProfile] = useState('')
   const [profileDepartment, setProfileDepartment] = useState('')
   const [profileCreator, setProfileCreator] = useState('')
   const [catalogFacet, setCatalogFacet] = useState(initialCategoryId === 'serveurs-ia' ? 'unitalk-ai-cloud' : '')
   const [modelType, setModelType] = useState('')
   const [showAllCollaborators, setShowAllCollaborators] = useState(false)
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
-  const visibleCategories = STORE_CATEGORIES
   const navigationCategories = STORE_CATEGORIES
-  const activeCategory = STORE_CATEGORIES.find((category) => category.id === activeCategoryId) ?? STORE_CATEGORIES[0]
+  const activeCategory = STORE_CATEGORIES.find((category) => category.id === initialCategory) ?? STORE_CATEGORIES[0]
   const isCollaboratorsLanding = collaboratorsOnly && activeCategory.id === 'collaborateurs-ia'
   const isProfilesCategory = activeCategory.id === 'profils-metier'
   const usesCatalogSidebar = ['competences', 'applications', 'modeles-ia', 'serveurs-ia'].includes(activeCategory.id)
@@ -505,7 +500,7 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     const query = normalizeSearch(catalogQuery.trim())
     const department = PROFILE_DEPARTMENTS.find((item) => item.id === profileDepartment)
     const scopedItems = activeCategory.id === 'competences'
-      ? categoryItems.filter((item) => (!catalogFacet || item.facetKeys?.includes(catalogFacet)) && (!skillCategory || item.facetKeys?.includes(skillCategory)) && (!skillProfile || item.profileKeys?.includes(skillProfile)))
+      ? categoryItems.filter((item) => !catalogFacet || item.facetKeys?.includes(catalogFacet))
       : isProfilesCategory && department
         ? categoryItems.filter((item) => item.profileSlug && (department.profiles as readonly string[]).includes(item.profileSlug) && (!profileCreator || item.creator === profileCreator))
         : isProfilesCategory && profileCreator
@@ -523,12 +518,10 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
       matches.push({ ...item, score: Math.min(99, Math.round(points / tokens.length)) })
     }
     return matches.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-  }, [activeCategory.id, catalogFacet, catalogQuery, categoryItems, isProfilesCategory, modelType, profileCreator, profileDepartment, skillCategory, skillProfile, usesCatalogSidebar])
+  }, [activeCategory.id, catalogFacet, catalogQuery, categoryItems, isProfilesCategory, modelType, profileCreator, profileDepartment, usesCatalogSidebar])
   const visibleItems = filteredItems.slice(0, visibleCount)
   function clearFilters() {
     setCatalogQuery('')
-    setSkillCategory('')
-    setSkillProfile('')
     setProfileDepartment('')
     setProfileCreator('')
     setCatalogFacet(activeCategory.id === 'serveurs-ia' ? 'unitalk-ai-cloud' : '')
@@ -536,57 +529,8 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
     setVisibleCount(PAGE_SIZE)
   }
 
-  useLayoutEffect(() => {
-    const pathCategory = pathname.split('/').filter(Boolean).at(-1)
-    const categoryId = STORE_CATEGORIES.some((category) => category.id === pathCategory)
-      ? pathCategory!
-      : initialCategory
-    setActiveCategoryId(categoryId)
-    setVisibleCount(PAGE_SIZE)
-    setCatalogQuery('')
-    setSkillCategory('')
-    setSkillProfile('')
-    setProfileDepartment('')
-    setProfileCreator('')
-    setCatalogFacet(categoryId === 'serveurs-ia' ? 'unitalk-ai-cloud' : '')
-    setModelType('')
-    requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' }))
-    const handlePopState = () => {
-      const nextCategory = window.location.pathname.split('/').filter(Boolean).at(-1)
-      if (STORE_CATEGORIES.some((category) => category.id === nextCategory)) setActiveCategoryId(nextCategory!)
-    }
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [collaboratorsOnly, initialCategory, pathname])
-
-  function selectCategory(categoryId: string, scroll = true) {
-    if (!visibleCategories.some((category) => category.id === categoryId)) return
-    setActiveCategoryId(categoryId)
-    setVisibleCount(PAGE_SIZE)
-    setCatalogQuery('')
-    setSkillCategory('')
-    setSkillProfile('')
-    setProfileDepartment('')
-    setProfileCreator('')
-    setCatalogFacet(categoryId === 'serveurs-ia' ? 'unitalk-ai-cloud' : '')
-    setModelType('')
-    const href = `/marketplace/${categoryId}`
-    window.history.pushState(null, '', href)
-    if (scroll) scrollToStoreHero()
-    requestAnimationFrame(() => document.getElementById(`marketplace-tab-${categoryId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }))
-  }
-
-  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    const last = visibleCategories.length - 1
-    const next = event.key === 'ArrowRight' ? (index === last ? 0 : index + 1) : event.key === 'ArrowLeft' ? (index === 0 ? last : index - 1) : event.key === 'Home' ? 0 : event.key === 'End' ? last : null
-    if (next === null) return
-    event.preventDefault()
-    selectCategory(visibleCategories[next].id, false)
-    tabRefs.current[next]?.focus()
-  }
-
   return (
-    <main className="min-h-screen overflow-x-clip bg-[#F3EFE6] font-sf text-[#1C1A17]">
+    <main id="marketplace-main" className="min-h-screen overflow-x-clip bg-[#F3EFE6] font-sf text-[#1C1A17]">
       <section id="marketplace-store-hero" className={`relative scroll-mt-[76px] overflow-hidden border-b border-[#D8CEBE] bg-[#EAE3D4] px-5 pt-28 sm:px-8 sm:pt-40 [@media(min-width:1024px)_and_(max-height:850px)]:pt-32 ${usesFeaturedHero ? 'pb-7 sm:pb-10 [@media(min-width:1024px)_and_(max-height:850px)]:pb-8' : 'pb-9 sm:pb-11 [@media(min-width:1024px)_and_(max-height:850px)]:pb-9'}`}>
          {usesFeaturedHero && <><div aria-hidden className="pointer-events-none absolute -right-24 top-10 size-72 rounded-full border border-[#D10E63]/15 sm:right-[8%] sm:size-96"/><div aria-hidden className="pointer-events-none absolute -right-8 top-24 size-40 rounded-full bg-[#D10E63]/[.045] blur-2xl sm:right-[16%] sm:size-56"/></>}
          <div className="relative mx-auto w-full max-w-6xl">
@@ -601,31 +545,34 @@ export function UnitalkStoreHub({ collaboratorsOnly = false, fixedLang, initialC
        </section>
 
       <div id="marketplace-category-tabs" className="sticky top-[76px] z-30 scroll-mt-[76px] border-y border-white/10 bg-[#211E1B]/95 px-5 text-white shadow-[0_10px_30px_-24px_rgba(0,0,0,.8)] backdrop-blur-md sm:px-8">
-         <div className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide" role="tablist" aria-label={lang === 'fr' ? 'Catégories de la marketplace' : 'Marketplace categories'}>
-            {navigationCategories.map((category, index) => {
+         <div className="relative mx-auto max-w-6xl after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-10 after:bg-gradient-to-l after:from-[#211E1B] after:to-transparent lg:after:hidden">
+         <nav className="flex w-full overflow-x-auto pr-8 scrollbar-hide lg:pr-0" aria-label={lang === 'fr' ? 'Catégories de la marketplace, faites défiler horizontalement pour tout afficher' : 'Marketplace categories, scroll horizontally to see all'}>
+            <Link href={localizedHref('missions', lang)} className="relative flex h-14 shrink-0 items-center pr-4 text-[13px] font-semibold text-[#BEB4A8] outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:pr-5 sm:text-sm">{lang === 'fr' ? 'Missions' : 'Missions'}</Link>
+            {navigationCategories.map((category) => {
               const active = activeCategory.id === category.id
                const className = `relative flex h-14 shrink-0 items-center px-4 text-[13px] font-semibold outline-none transition-colors first:pl-0 focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-inset sm:h-16 sm:px-5 sm:text-sm ${active ? 'text-[#F15B9B]' : 'text-[#BEB4A8] hover:text-white'}`
                const label = <><span>{category.title[lang]}</span><span className={`absolute inset-x-4 bottom-0 h-[3px] bg-[#D10E63] transition-transform first:left-0 ${active ? 'scale-x-100' : 'scale-x-0'}`} /></>
-                return <button ref={(node) => { tabRefs.current[index] = node }} key={category.id} id={`marketplace-tab-${category.id}`} type="button" role="tab" tabIndex={active ? 0 : -1} aria-selected={active} aria-controls="marketplace-results" onKeyDown={(event) => handleTabKeyDown(event, index)} onClick={() => selectCategory(category.id)} className={className}>{label}</button>
+                return <Link key={category.id} id={`marketplace-tab-${category.id}`} href={localizePublicHref(`/marketplace/${category.id}`, lang)} aria-current={active ? 'page' : undefined} className={className}>{label}</Link>
               })}
-        </div>
+         </nav>
+         </div>
       </div>
 
       <section id="categories" className={`scroll-mt-36 px-5 sm:px-8 ${collaboratorsOnly ? 'pb-20 pt-6 sm:pb-24 sm:pt-8 lg:pb-28 [@media(min-width:1024px)_and_(max-height:850px)]:pt-6' : 'pb-20 pt-7 sm:pt-9 lg:pb-24 [@media(min-width:1024px)_and_(max-height:850px)]:pt-7'}`}>
         <div className="mx-auto w-full max-w-6xl">
-              <div id="marketplace-results" role="tabpanel" aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
+              <div id="marketplace-results" aria-labelledby={`marketplace-tab-${activeCategory.id}`} className="scroll-mt-[184px]">
                      {isProfilesCategory && <ProfilesMarketplaceCatalog items={filteredItems} categoryTotal={profileCategoryTotal} creatorCounts={{ unitalk: categoryItems.filter(item => item.creator === 'unitalk').length, community: categoryItems.filter(item => item.creator === 'community').length }} departments={profileDepartments} activeDepartment={profileDepartment} onDepartment={(department) => { setProfileDepartment(department); setVisibleCount(PAGE_SIZE) }} activeCreator={profileCreator} onCreator={(creator) => { setProfileCreator(creator); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} labels={{ departments: t.departments, allDepartments: t.allDepartments, profileResult: t.profileResult, profileResults: t.profileResults, firstMission: t.firstMission, addProfile: t.addProfile, clear: t.clear, showMore: t.showMoreProfiles, creators: t.creators, allCreators: t.allCreators, community: t.community }} />}
                       {usesCatalogSidebar && <MarketplaceSidebarCatalog items={filteredItems} allItems={categoryItems} activeFacet={catalogFacet} onFacet={(facet) => { setCatalogFacet(facet); setVisibleCount(PAGE_SIZE) }} modelType={modelType} onModelType={(type) => { setModelType(type); setVisibleCount(PAGE_SIZE) }} query={catalogQuery} onQuery={(query) => { setCatalogQuery(query); setVisibleCount(PAGE_SIZE) }} visibleCount={visibleCount} onShowMore={() => setVisibleCount(count => Math.min(count + PAGE_SIZE, filteredItems.length))} lang={lang} category={activeCategory} authenticated={authenticated} labels={{ clear: t.clear, allItems: t.allItems, skillCategories: t.skillCategories, applicationCategories: t.applicationCategories, serverCategories: t.serverCategories, result: t.result, results: t.results, available: t.available, preparation: t.preparation, addProfile: t.addProfile, showMore: t.showMore }} />}
                      {!isCollaboratorsLanding && !isProfilesCategory && !usesCatalogSidebar && <div className="mb-5 sm:mb-6"><h2 className="text-[28px] font-semibold tracking-[-.04em] sm:text-[34px]">{activeCategory.title[lang]}</h2><p className="mt-2 max-w-4xl text-sm leading-6 text-[#625B50]">{activeCategory.description[lang]}</p></div>}
                        {isCollaboratorsLanding && <div className="mb-6 grid gap-5 border-b border-[#D8D0C2] pb-6 sm:mb-8 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-8"><h2 className="text-[clamp(1.8rem,2.3vw,2.05rem)] font-semibold leading-[1.02] tracking-[-.045em] xl:whitespace-nowrap">{lang === 'fr' ? 'Découvrez votre futur Collaborateur IA.' : 'Discover your future AI Collaborator.'}</h2><div className="w-fit border-l-2 border-[#D10E63] py-1 pl-4 lg:text-right"><p className="text-sm font-bold text-[#1C1A17]">{lang === 'fr' ? 'Dès 49 €/mois par Collaborateur IA' : 'From €49/month per AI Collaborator'}</p><p className="mt-1 text-[10px] font-semibold text-[#766D61]">{lang === 'fr' ? 'Sans engagement · Consommation des modèles d’IA facturée séparément' : 'No commitment · AI model usage billed separately'}</p></div></div>}
                    {categoryItems.length > 0 && !isCollaboratorsLanding && !isProfilesCategory && !usesCatalogSidebar && <div className="flex flex-col gap-3"><div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">{activeCategory.id !== 'collaborateurs-ia' && <label className="relative block w-full max-w-md"><span className="sr-only">{activeCategory.search[lang]}</span><input type="search" value={catalogQuery} onChange={(event) => { setCatalogQuery(event.target.value); setVisibleCount(PAGE_SIZE) }} placeholder={activeCategory.search[lang]} className="h-12 w-full rounded-full border border-[#CFC5B5] bg-[#FAF8F3] px-5 pr-12 text-sm outline-none transition-[border-color,box-shadow,background-color] placeholder:text-[#857C6E] focus:border-[var(--search-accent)] focus:bg-white focus:ring-4 focus:ring-[#1C1A17]/[.05]" style={{ '--search-accent': activeCategory.accent } as CSSProperties} />{catalogQuery && <button type="button" onClick={() => setCatalogQuery('')} aria-label={t.clear} className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-lg text-[#625B50] outline-none hover:bg-[#EAE3D4] focus-visible:ring-2 focus-visible:ring-[#D10E63]">×</button>}</label>}<Link href={activeCategory.href} className="inline-flex w-fit shrink-0 items-center border-b border-[#857C6E] pb-1 text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] lg:ml-auto">{activeCategory.explain[lang]}<span aria-hidden="true" className="ml-3">↗</span></Link></div></div>}
-                  {!isProfilesCategory && !usesCatalogSidebar && <p className="sr-only" aria-live="polite">{filteredItems.length} {filteredItems.length === 1 ? t.result : t.results}</p>}
+                  {!isProfilesCategory && !usesCatalogSidebar && <p className="sr-only" aria-live="polite">{isCollaboratorsLanding && showAllCollaborators ? (lang === 'fr' ? `${filteredItems.length} Collaborateurs IA affichés` : `${filteredItems.length} AI Collaborators shown`) : `${filteredItems.length} ${filteredItems.length === 1 ? t.result : t.results}`}</p>}
 
-                {!isProfilesCategory && !usesCatalogSidebar && (visibleItems.length > 0 ? <div className="mt-4 grid auto-rows-fr gap-3 sm:mt-5 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} mobileHidden={isCollaboratorsLanding && !showAllCollaborators && index >= MOBILE_COLLABORATOR_PREVIEW_SIZE} featuredLast={isCollaboratorsLanding && visibleItems.length % 3 === 1 && index === visibleItems.length - 1} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : categoryItems.length > 0 ? <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} />}</div> : <div className="mt-5 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>)}
-                 {isCollaboratorsLanding && !showAllCollaborators && <button type="button" onClick={() => setShowAllCollaborators(true)} className="mx-auto mt-6 flex min-h-12 w-full max-w-sm items-center justify-center rounded-full border border-[#1C1A17] px-5 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:hidden">{t.showAllCollaborators}<span aria-hidden className="ml-2">↓</span></button>}
+                {!isProfilesCategory && !usesCatalogSidebar && (visibleItems.length > 0 ? <div id={isCollaboratorsLanding ? 'marketplace-collaborator-grid' : undefined} className="mt-4 grid auto-rows-fr gap-3 sm:mt-5 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">{visibleItems.map((item, index) => <MarketplaceItemCard key={item.key} item={item} lang={lang} category={activeCategory} mobileHidden={isCollaboratorsLanding && !showAllCollaborators && index >= MOBILE_COLLABORATOR_PREVIEW_SIZE} featuredLast={isCollaboratorsLanding && visibleItems.length % 3 === 1 && index === visibleItems.length - 1} labels={{ details: activeCategory.action[lang], available: t.available, preparation: t.preparation, addProfile: t.addProfile }} />)}{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} hideEyebrow={activeCategory.id === 'serveurs-ia'} />}</div> : categoryItems.length > 0 ? <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3"><div className="rounded-2xl border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8 md:col-span-2"><h3 className="text-xl font-bold">{t.noResults}</h3><button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold text-[#B00C54] underline underline-offset-4">{t.clear}</button></div>{activeCategory.missing && <MissingItemCard content={activeCategory.missing} lang={lang} accent={activeCategory.accent} hideEyebrow={activeCategory.id === 'serveurs-ia'} />}</div> : <div className="mt-5 rounded-2xl border border-[#D8D0C2] bg-[#FAF8F3] p-8"><h3 className="text-2xl font-bold">{t.emptyTitle}</h3><p className="mt-3 max-w-xl text-sm leading-7 text-[#625B50]">{t.emptyBody}</p></div>)}
+                  {isCollaboratorsLanding && !showAllCollaborators && <button type="button" onClick={() => setShowAllCollaborators(true)} aria-controls="marketplace-collaborator-grid" aria-expanded={showAllCollaborators} className="mx-auto mt-6 flex min-h-12 w-full max-w-sm items-center justify-center rounded-full border border-[#1C1A17] px-5 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] sm:hidden">{t.showAllCollaborators}<span aria-hidden className="ml-2">↓</span></button>}
                  {isCollaboratorsLanding && <div className="mt-10 border-y border-[#D8D0C2] py-6 text-center"><p className="text-sm font-semibold text-[#4E483F]">{lang === 'fr' ? 'Vous souhaitez comprendre son identité, sa mémoire et ses droits ?' : 'Want to understand its identity, memory and permissions?'}</p><Link href={activeCategory.href} className="mt-2 inline-flex min-h-9 items-center text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/35 underline-offset-4 outline-none transition-colors hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-4">{lang === 'fr' ? 'Découvrir le fonctionnement d’un Collaborateur IA' : 'Discover how an AI Collaborator works'}<span aria-hidden className="ml-2">→</span></Link></div>}
                  {activeCategory.id !== 'collaborateurs-ia' && !isProfilesCategory && !usesCatalogSidebar && filteredItems.length > PAGE_SIZE && <div className="mt-9 text-center"><button type="button" onClick={() => setVisibleCount((count) => count >= filteredItems.length ? PAGE_SIZE : filteredItems.length)} className="inline-flex min-h-12 items-center rounded-full bg-[#181615] px-7 text-sm font-bold text-white transition-colors hover:bg-[#332F29]">{visibleCount >= filteredItems.length ? t.showLess : t.showMore}</button></div>}
-                     {activeCategory.id === 'collaborateurs-ia' && <section className="mt-10 rounded-[24px] bg-[#181615] p-7 text-white sm:p-9"><h3 className="max-w-5xl text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-[.98] tracking-[-.05em]">{lang === 'fr' ? <>Une mission en tête ? <span className="lg:whitespace-nowrap"><AlmaInline className="mr-2 !size-[.9em] align-[-.12em] ring-2 ring-white/30" />Alma prépare le bon Collaborateur.</span></> : <>A mission in mind? <span className="lg:whitespace-nowrap"><AlmaInline className="mr-2 !size-[.9em] align-[-.12em] ring-2 ring-white/30" />Alma prepares the right Collaborator.</span></>}</h3><div className="mt-5 grid gap-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-10"><div><p className="max-w-2xl text-[15px] leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.almaBody)}</p><p className="mt-5 text-xs font-semibold leading-5 text-[#F2A4C5]">{lang === 'fr' ? 'Première mission gratuite · Sans carte bancaire · Sans engagement' : 'First mission free · No credit card · No commitment'}</p><p className="mt-3 text-xs leading-5 text-[#AFA397]">{lang === 'fr' ? 'Puis à partir de 49 €/mois par Collaborateur IA, auxquels s’ajoute la ' : 'Then from €49/month per AI Collaborator, plus '}<Link href="/tarifs#configurateur" className="font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{lang === 'fr' ? 'consommation des modèles d’IA' : 'AI model usage'}</Link>.</p></div><Link href="/decouvrir?source=marketplace-collaborators-final" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white outline-none transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#181615]">{t.almaFinalAction}<ArrowRight className="size-4" /></Link></div></section>}
+                     {activeCategory.id === 'collaborateurs-ia' && <section className="mt-10 rounded-[24px] bg-[#181615] p-7 text-white sm:p-9"><h3 className="max-w-5xl text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-[.98] tracking-[-.05em]">{lang === 'fr' ? <>Une mission en tête ? <span className="lg:whitespace-nowrap"><AlmaInline className="mr-2 !size-[.9em] align-[-.12em] ring-2 ring-white/30" />Alma prépare le bon Collaborateur.</span></> : <>A mission in mind? <span className="lg:whitespace-nowrap"><AlmaInline className="mr-2 !size-[.9em] align-[-.12em] ring-2 ring-white/30" />Alma prepares the right Collaborator.</span></>}</h3><div className="mt-5 grid gap-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-10"><div><p className="max-w-2xl text-[15px] leading-7 text-[#CFC6B8]">{withAlmaAvatar(t.almaBody)}</p><p className="mt-5 text-xs font-semibold leading-5 text-[#F2A4C5]">{lang === 'fr' ? 'Première mission gratuite · Sans carte bancaire · Sans engagement' : 'First mission free · No credit card · No commitment'}</p><p className="mt-3 text-xs leading-5 text-[#AFA397]">{lang === 'fr' ? 'Puis à partir de 49 €/mois par Collaborateur IA, auxquels s’ajoute la ' : 'Then from €49/month per AI Collaborator, plus '}<Link href="/tarifs#detail-tarifs" className="font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{lang === 'fr' ? 'consommation des modèles d’IA' : 'AI model usage'}</Link>.</p></div><Link href="/decouvrir?source=marketplace-collaborators-final" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-[#D10E63] px-7 text-sm font-bold text-white outline-none transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#F2A4C5] focus-visible:ring-offset-2 focus-visible:ring-offset-[#181615]">{t.almaFinalAction}<ArrowRight className="size-4" /></Link></div></section>}
           </div>
         </div>
       </section>
@@ -698,15 +645,15 @@ function MarketplaceSidebarCatalog({ items, allItems, activeFacet, onFacet, mode
             {category.id === 'modeles-ia' ? <>{([['Modalités', 'Modalities', MODEL_MODALITY_ORDER], ['Capacités', 'Capabilities', MODEL_CAPABILITY_ORDER]] as const).map(([frTitle, enTitle, keys], groupIndex) => <div key={frTitle}>{groupIndex > 0 && <div className="my-3 border-t border-[#CFC5B5]"/>}<p className="px-3 pb-2 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#766D61]">{lang === 'fr' ? frTitle : enTitle}</p>{facets.filter((facet) => (keys as readonly string[]).includes(facet.id)).map((facet) => <button key={facet.id} type="button" aria-pressed={activeFacet === facet.id} onClick={() => onFacet(facet.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${activeFacet === facet.id ? 'bg-[var(--facet-accent)] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{facet.label}</span><span className={activeFacet === facet.id ? 'text-white/70' : 'text-[#857C6E]'}>{facet.count}</span></button>)}</div>)}</> : facets.map((facet) => <button key={facet.id} type="button" aria-pressed={activeFacet === facet.id} onClick={() => onFacet(facet.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] ${activeFacet === facet.id ? 'bg-[var(--facet-accent)] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`} style={{ '--facet-accent': category.accent } as CSSProperties}><span>{facet.label}</span><span className={activeFacet === facet.id ? 'text-white/70' : 'text-[#857C6E]'}>{facet.count}</span></button>)}
             {category.id === 'modeles-ia' && <><div className="my-3 border-t border-[#CFC5B5]"/><p className="px-3 pb-2 font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#766D61]">{lang === 'fr' ? 'Type de modèle' : 'Model type'}</p>{modelTypes.map((type) => <button key={type.id} type="button" aria-pressed={modelType === type.id} onClick={() => onModelType(modelType === type.id ? '' : type.id)} className={`flex min-h-10 w-full items-center justify-between rounded-xl px-3 text-left text-[12px] font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#C80B5B] ${modelType === type.id ? 'bg-[#C80B5B] text-white' : 'text-[#4E483F] hover:bg-[#F3EFE6]'}`}><span>{type.label}</span><span className={modelType === type.id ? 'text-white/70' : 'text-[#857C6E]'}>{type.count}</span></button>)}</>}
           </aside>
-          {category.id === 'applications' && <p className="px-3 pt-4 text-xs font-semibold leading-5 text-[#625B50]">{lang === 'fr' ? <>Connectez en toute sécurité plus de <span className="whitespace-nowrap">3 000</span> applications via Pipedream.</> : 'Securely connect more than 3,000 applications via Pipedream.'}</p>}
+          {category.id === 'applications' && <p className="px-3 pt-4 text-xs font-semibold leading-5 text-[#625B50]">{lang === 'fr' ? 'Le catalogue présente les connecteurs actuellement référencés. Disponibilité, accès et actions sont confirmés avant connexion.' : 'The catalog lists currently referenced connectors. Availability, access and actions are confirmed before connection.'}</p>}
         </div>
 
         <div className="min-w-0">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4"><p className="sr-only" aria-live="polite">{items.length} {items.length === 1 ? labels.result : labels.results}</p>{category.id === 'modeles-ia' && <p className="text-xs font-semibold leading-5 text-[#625B50]">{lang === 'fr' ? 'Utilisez les modèles avec vos crédits Unitalk prépayés ou vos propres clés API.' : 'Use models with prepaid Unitalk credits or your own API keys.'}</p>}{!['competences', 'applications'].includes(category.id) && <Link href={category.href} className="hidden min-h-10 shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] sm:inline-flex" style={{ '--facet-accent': category.accent } as CSSProperties}>{category.explain[lang]}<span aria-hidden className="ml-3">↗</span></Link>}</div>
-          {items.length > 0 ? <><div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2">{visibleCatalogItems.map((item) => category.id === 'competences' ? <SkillMarketplaceCard key={item.key} item={item} lang={lang} category={category} addLabel={labels.addProfile} /> : category.id === 'modeles-ia' ? <ModelMarketplaceCard key={item.key} item={item} lang={lang} /> : <CatalogItemCard key={item.key} item={item} lang={lang} category={category} authenticated={authenticated} labels={{ details: category.action[lang], add: labels.addProfile }} />)}{category.id === 'modeles-ia' && visibleCatalogItems.length === items.length && <CustomModelEndpointCard lang={lang} />}{!['competences', 'modeles-ia'].includes(category.id) && category.missing && visibleCatalogItems.length === items.length && <MissingItemCard content={category.missing} lang={lang} accent={category.accent} />}</div>{visibleCatalogItems.length < items.length && <button type="button" onClick={onShowMore} className="mx-auto mt-8 flex min-h-12 items-center justify-center rounded-full border border-[#1C1A17] px-7 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]" style={{ '--facet-accent': category.accent } as CSSProperties}>{labels.showMore}<span aria-hidden className="ml-2">↓</span></button>}</> : <div className="mt-5 rounded-[18px] border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8"><h3 className="text-xl font-semibold">{lang === 'fr' ? 'Aucun résultat dans cette catégorie.' : 'No results in this category.'}</h3><button type="button" onClick={() => onQuery('')} className="mt-4 text-sm font-bold underline underline-offset-4" style={{ color: category.accent }}>{labels.clear}</button></div>}
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4"><p className="sr-only" aria-live="polite">{items.length} {items.length === 1 ? labels.result : labels.results}</p>{category.id === 'modeles-ia' && <p className="text-xs font-semibold leading-5 text-[#625B50]">{lang === 'fr' ? 'Utilisez les modèles avec vos crédits Unitalk prépayés ou vos propres clés API.' : 'Use models with prepaid Unitalk credits or your own API keys.'}</p>}{!['competences', 'applications'].includes(category.id) && !(category.id === 'serveurs-ia' && activeFacet === 'open-source') && <Link href={category.href} className="hidden min-h-10 shrink-0 items-center border-b border-[#857C6E] text-xs font-bold text-[#625B50] outline-none hover:text-[#1C1A17] focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)] sm:inline-flex" style={{ '--facet-accent': category.accent } as CSSProperties}>{category.explain[lang]}<span aria-hidden className="ml-3">↗</span></Link>}</div>
+          {items.length > 0 ? <><div className="mt-4 grid auto-rows-fr gap-4 md:grid-cols-2">{visibleCatalogItems.map((item) => category.id === 'competences' ? <SkillMarketplaceCard key={item.key} item={item} lang={lang} category={category} addLabel={labels.addProfile} /> : category.id === 'modeles-ia' ? <ModelMarketplaceCard key={item.key} item={item} lang={lang} /> : <CatalogItemCard key={item.key} item={item} lang={lang} category={category} authenticated={authenticated} labels={{ details: category.action[lang], add: labels.addProfile }} />)}{category.id === 'modeles-ia' && visibleCatalogItems.length === items.length && <CustomModelEndpointCard lang={lang} />}{!['competences', 'modeles-ia'].includes(category.id) && category.missing && visibleCatalogItems.length === items.length && <MissingItemCard content={category.missing} lang={lang} accent={category.accent} hideEyebrow={category.id === 'serveurs-ia'} />}</div>{visibleCatalogItems.length < items.length && <button type="button" onClick={onShowMore} className="mx-auto mt-8 flex min-h-12 items-center justify-center rounded-full border border-[#1C1A17] px-7 text-sm font-bold outline-none transition-colors hover:bg-[#181615] hover:text-white focus-visible:ring-2 focus-visible:ring-[var(--facet-accent)]" style={{ '--facet-accent': category.accent } as CSSProperties}>{labels.showMore}<span aria-hidden className="ml-2">↓</span></button>}</> : <div className="mt-5 rounded-[18px] border border-dashed border-[#CFC5B5] bg-[#FAF8F3] p-8"><h3 className="text-xl font-semibold">{lang === 'fr' ? 'Aucun résultat dans cette catégorie.' : 'No results in this category.'}</h3><button type="button" onClick={() => onQuery('')} className="mt-4 text-sm font-bold underline underline-offset-4" style={{ color: category.accent }}>{labels.clear}</button></div>}
         </div>
       </div>
-      {category.id === 'serveurs-ia' && activeFacet === 'open-source' && <section className="mt-12 overflow-hidden rounded-[22px] bg-[#181615] p-7 text-white sm:mt-16 sm:p-9"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{lang === 'fr' ? 'Applications open source' : 'Open-source applications'}</p><h2 className="mt-4 max-w-4xl text-[clamp(1.8rem,3vw,3rem)] font-semibold leading-[1.02] tracking-[-.045em]">{lang === 'fr' ? 'Déployez les meilleures applications open source gratuitement sur votre serveur privé.' : 'Deploy the best open-source applications for free on your private server.'}</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#CFC6B8]">{lang === 'fr' ? 'Arrêtez de payer pour 10 solutions SaaS différentes et mettez fin à la tarification par utilisateur.' : 'Stop paying for 10 different SaaS products and put an end to per-user pricing.'}</p><div className="mt-7 flex flex-wrap gap-3 text-xs font-bold text-[#F2A4C5]"><span>6 {lang === 'fr' ? 'applications' : 'applications'}</span><span>·</span><span>{lang === 'fr' ? 'Gratuites' : 'Free'}</span><span>·</span><span>{lang === 'fr' ? 'Utilisateurs illimités' : 'Unlimited users'}</span></div></section>}
+      {category.id === 'serveurs-ia' && activeFacet === 'open-source' && <section className="mt-12 overflow-hidden rounded-[22px] bg-[#181615] p-7 text-white sm:mt-16 sm:p-9"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{lang === 'fr' ? 'Applications open source' : 'Open-source applications'}</p><h2 className="mt-4 max-w-4xl text-[clamp(1.8rem,3vw,3rem)] font-semibold leading-[1.02] tracking-[-.045em]">{lang === 'fr' ? 'Déployez des logiciels open source sur votre serveur privé.' : 'Deploy open-source software on your private server.'}</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#CFC6B8]">{lang === 'fr' ? 'Sans tarification Unitalk par utilisateur pour le logiciel, hors infrastructure, exploitation, support et services tiers. Les conditions de chaque licence restent applicables.' : 'No Unitalk per-user software fee, excluding infrastructure, operations, support and third-party services. Each project license still applies.'}</p><div className="mt-7 flex flex-wrap gap-3 text-xs font-bold text-[#F2A4C5]"><span>{OPEN_SOURCE_SERVER_APPS.length} applications</span><span>·</span><span>Open source</span><span>·</span><span>{lang === 'fr' ? 'Coûts confirmés avant déploiement' : 'Costs confirmed before deployment'}</span></div></section>}
       {category.id === 'competences' && category.missing && <section className="mt-12 overflow-hidden rounded-[22px] bg-[#181615] text-white sm:mt-16 lg:grid lg:grid-cols-[1fr_auto] lg:items-center">
         <div className="p-7 sm:p-9"><p className="font-mono text-[9px] font-black uppercase tracking-[.16em] text-[#F2A4C5]">{lang === 'fr' ? 'Compétence sur mesure' : 'Custom skill'}</p><h2 className="mt-4 max-w-3xl text-[clamp(1.8rem,3vw,3rem)] font-semibold leading-[1.02] tracking-[-.045em]">{lang === 'fr' ? 'Le savoir-faire dont votre Collaborateur IA a besoin n’existe pas encore ?' : 'Can’t find the skill your AI Collaborator needs?'}</h2><p className="mt-4 max-w-3xl text-sm leading-7 text-[#CFC6B8]">{lang === 'fr' ? 'Décrivez le résultat attendu. Alma vous aide à formaliser une méthode claire, testable et réutilisable pour vos missions.' : 'Describe the expected outcome. Alma helps you formalize a clear, testable and reusable method for your missions.'}</p></div>
         <div className="flex flex-col gap-4 border-t border-white/10 p-7 lg:items-end lg:border-l lg:border-t-0 lg:p-9"><Link href={category.missing.href} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#F3EFE6] px-6 text-sm font-bold text-[#181615] lg:w-auto">{lang === 'fr' ? 'Créer ma compétence' : 'Create my skill'}<span aria-hidden className="ml-2">→</span></Link><Link href="/co-createur-ia" className="text-center text-xs font-bold text-[#F2A4C5] underline decoration-white/20 underline-offset-4">{lang === 'fr' ? 'Proposer une compétence à la Marketplace' : 'Submit a skill to the Marketplace'}</Link></div>
@@ -805,7 +752,7 @@ function SkillMarketplaceCard({ item, lang, category, addLabel }: { item: Market
 
 function ModelMarketplaceCard({ item, lang }: { item: MarketplaceItem; lang: Lang }) {
   return (
-    <article className="relative flex min-h-[190px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-4 text-left sm:min-h-[200px]">
+    <Link id={item.key} href={item.href ?? `/decouvrir?source=marketplace&intention=nouveau-modele-ia&q=${encodeURIComponent(item.title)}`} className="group relative flex min-h-[190px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-4 text-left outline-none transition hover:-translate-y-0.5 hover:border-[#1D6692] focus-visible:ring-2 focus-visible:ring-[#1D6692] sm:min-h-[200px]">
        <div className="flex items-center gap-3 pr-24">
         <span aria-hidden className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#FAF8F3] text-[#1C1A17] ring-1 ring-[#D8D0C2]"><ModelProviderLogo maker={item.origin} /></span>
           <div className="min-w-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[#B00C54]">{item.origin}</p><h3 className="mt-1 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div>
@@ -816,16 +763,18 @@ function ModelMarketplaceCard({ item, lang }: { item: MarketplaceItem; lang: Lan
           {item.modelCapabilities?.map((capability) => <span key={capability.fr} className="rounded-full border border-[#1D6692]/25 bg-[#E8F2F8] px-2.5 py-1 text-[10px] font-semibold text-[#174F70]">{capability[lang]}</span>)}
        </div>
        {item.modelTypeKey && <span className="absolute right-4 top-4 rounded-full border border-[#B8AFA1] bg-transparent px-3 py-1.5 text-[9px] font-black uppercase tracking-[.1em] text-[#4E483F]">{item.modelTypeKey === 'open-source' ? 'Open source' : item.modelTypeKey === 'poids-ouverts' ? (lang === 'fr' ? 'Poids ouverts' : 'Open weights') : (lang === 'fr' ? 'Propriétaire' : 'Proprietary')}</span>}
-    </article>
+       <span className="mt-auto pt-3 text-xs font-bold text-[#1D6692]">{lang === 'fr' ? 'Sélectionner ce modèle' : 'Select this model'}<ArrowRight className="ml-2 inline size-3.5 transition-transform group-hover:translate-x-1"/></span>
+    </Link>
   )
 }
 
 function CustomModelEndpointCard({ lang }: { lang: Lang }) {
   return (
-    <article className="flex min-h-[190px] flex-col justify-between rounded-[16px] border border-dashed border-[#AFA596] bg-transparent p-4 sm:min-h-[200px]">
+    <Link href="/decouvrir?source=marketplace&intention=nouveau-modele-ia" className="flex min-h-[190px] flex-col justify-between rounded-[16px] border border-dashed border-[#AFA596] bg-transparent p-4 outline-none hover:border-[#1D6692] focus-visible:ring-2 focus-visible:ring-[#1D6692] sm:min-h-[200px]">
       <div><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[#766D61]">Custom endpoint</p><h3 className="mt-3 text-[22px] font-semibold leading-[1.05] tracking-[-.04em] text-[#1C1A17]">{lang === 'fr' ? 'Votre modèle, votre fournisseur.' : 'Your model, your provider.'}</h3></div>
-      <p className="mt-4 text-[13px] font-medium leading-5 text-[#4E483F] sm:text-[14px]">{lang === 'fr' ? 'Ajoutez n’importe quel modèle ou fournisseur grâce à un endpoint personnalisé.' : 'Add any model or provider through a custom endpoint.'}</p>
-    </article>
+      <p className="mt-4 text-[13px] font-medium leading-5 text-[#4E483F] sm:text-[14px]">{lang === 'fr' ? 'Demandez l’étude d’un modèle ou fournisseur grâce à un endpoint personnalisé.' : 'Request an assessment for any model or provider through a custom endpoint.'}</p>
+      <span className="mt-3 text-xs font-bold text-[#1D6692]">{lang === 'fr' ? 'Proposer un modèle' : 'Suggest a model'} →</span>
+    </Link>
   )
 }
 
@@ -875,22 +824,25 @@ function CatalogItemCard({ item, lang, category, labels, authenticated = false }
          : (lang === 'fr' ? 'Capacité apportée' : 'Provided capacity')
   const action = category.id === 'competences' ? labels.add : labels.details
   if (category.id === 'serveurs-ia') {
+    const isOpenSourceApp = item.facetKey === 'open-source'
     const content = <>
       <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[#C80B5B] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
-      <div className="min-w-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[#B00C54]">{item.meta}</p><h3 className="mt-2 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div>
+      <div className="flex items-center gap-3.5">{isOpenSourceApp && item.iconSlug && <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FAF8F3] ring-1 ring-[#D8D0C2]"><OpenSourceAppLogo slug={item.iconSlug} /></span>}<div className="min-w-0"><p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[#B00C54]">{item.meta}</p><h3 className="mt-2 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div></div>
       <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#3F3A33] sm:text-[14px] sm:leading-6 sm:text-[#4E483F]">{item.description}</p>
       <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{firstLabel}</dt><dd className="mt-1 line-clamp-1 text-[12px] font-semibold leading-5 text-[#322E29]">{item.input ?? (lang === 'fr' ? 'Configuration précisée avec Alma' : 'Configuration scoped with Alma')}</dd></div><div className="mt-2 border-t border-[#D8D0C2] pt-2"><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{secondLabel}</dt><dd className="mt-1 line-clamp-1 text-[12px] font-semibold leading-5 text-[#322E29]">{item.result ?? (lang === 'fr' ? 'Résultat documenté à valider' : 'Documented result ready for approval')}</dd></div></dl>
-      {authenticated && <span className="mt-auto pt-4 text-xs font-bold text-[#B00C54]">{action}<span aria-hidden className="ml-2">→</span></span>}
+      {item.status && !item.pending && <p className="mt-3 text-[11px] font-bold text-[#766D61]">{item.status[lang]}</p>}
     </>
-    const className = `group relative flex min-h-[245px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 ${authenticated ? 'hover:-translate-y-0.5 hover:border-[#C80B5B] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[#C80B5B] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2' : ''} sm:min-h-[265px]`
-    return authenticated && href ? <Link href={href} aria-label={`${action} : ${item.title}`} className={className}>{content}</Link> : <article className={className}>{content}</article>
+    const className = 'group relative flex min-h-[245px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#C80B5B] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[#C80B5B] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2 sm:min-h-[265px]'
+    return href ? <Link id={item.key.replace(/^(server|server-app|server-host)-/, '')} href={href} aria-label={`${action} : ${item.title}`} className={className}>{content}</Link> : <article className={className}>{content}</article>
   }
   if (category.id === 'applications' && href) {
-    return <Link href={href} aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[210px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 pb-14 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#C80B5B] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[#C80B5B] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2 sm:min-h-[220px] sm:pb-16" style={{ '--profile-accent': category.accent } as CSSProperties}>
+    const applicationAction = item.pending ? (lang === 'fr' ? 'Demander l’accès' : 'Request access') : action
+    return <Link id={item.key.replace(/^(application|integration)-/, '')} href={href} aria-label={`${applicationAction} : ${item.title}`} className="group relative flex min-h-[210px] flex-col overflow-hidden rounded-[16px] border border-[#D8D0C2] bg-[#FBF9F4] p-5 pb-14 text-left outline-none transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[#C80B5B] hover:bg-[#FFFDF9] hover:shadow-[0_18px_45px_-38px_rgba(28,26,23,.8)] focus-visible:border-[#C80B5B] focus-visible:ring-2 focus-visible:ring-[#C80B5B] focus-visible:ring-offset-2 sm:min-h-[220px] sm:pb-16" style={{ '--profile-accent': category.accent } as CSSProperties}>
       <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-[#C80B5B] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
       <div className="flex items-center gap-3.5"><span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full">{item.logoId ? <Image src={`https://assets.pipedream.net/s.v0/${item.logoId}/logo/96`} alt="" width={48} height={48} className="size-full object-contain" /> : <AppWindow className="size-5 text-[var(--profile-accent)]" />}</span><h3 className="min-w-0 line-clamp-2 text-[22px] font-semibold leading-none tracking-[-.04em] text-[#1C1A17]">{item.title}</h3></div>
       <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#3F3A33] sm:text-[14px] sm:leading-6 sm:text-[#4E483F]">{item.description}</p>
-      <span aria-hidden className="absolute inset-x-5 bottom-5 hidden min-h-10 translate-y-2 items-center justify-between rounded-xl bg-[#C80B5B] px-4 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:flex">{action}<span className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span>
+      {item.status && <span className="mt-3 text-[11px] font-bold text-[#766D61]">{item.status[lang]}</span>}
+      <span aria-hidden className="absolute inset-x-5 bottom-5 hidden min-h-10 translate-y-2 items-center justify-between rounded-xl bg-[#C80B5B] px-4 text-xs font-bold text-white opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:flex">{applicationAction}<span className="ml-3 transition-transform group-hover:translate-x-1 group-focus-visible:translate-x-1">→</span></span>
       <span aria-hidden className="absolute bottom-4 right-4 flex size-8 items-center justify-center rounded-full bg-[#C80B5B] text-sm font-bold text-white sm:hidden">→</span>
     </Link>
   }
@@ -900,10 +852,24 @@ function CatalogItemCard({ item, lang, category, labels, authenticated = false }
   return href ? <Link href={href} aria-label={`${action} : ${item.title}`} className={className} style={style}>{content}</Link> : <article className={className} style={style}>{content}</article>
 }
 
-function MissingItemCard({ content, lang, accent }: { content: NonNullable<Category['missing']>; lang: Lang; accent: string }) {
+const OPEN_SOURCE_APP_ICONS = { n8n: siN8n, opencode: siOpencode, twenty: siTwenty, payload: siPayloadcms, jitsi: siJitsi, plane: siPlane } as const
+
+function OpenSourceAppLogo({ slug }: { slug: string }) {
+  if (slug === 'hermes') return <Image unoptimized src="https://raw.githubusercontent.com/NousResearch/hermes-agent/main/website/static/img/favicon.svg" alt="" width={32} height={32} className="size-8 object-contain" />
+  if (slug === 'paperclip') return <Image unoptimized src="https://raw.githubusercontent.com/paperclipai/paperclip/master/docs/favicon.svg" alt="" width={32} height={32} className="size-8 rounded-md object-contain" />
+  if (slug === 'gbrain') return <span aria-hidden className="text-[13px] font-black tracking-[-.06em] text-[#1C1A17]">GBrain</span>
+  if (slug === 'honcho') return <Image unoptimized src="https://raw.githubusercontent.com/plastic-labs/honcho/main/assets/honcho.svg" alt="" width={38} height={24} className="h-6 w-9 object-contain" />
+  if (slug === 'stalwart') return <Image unoptimized src="https://raw.githubusercontent.com/stalwartlabs/stalwart/main/img/logo-red.svg" alt="" width={38} height={24} className="h-6 w-9 object-contain" />
+  if (slug === 'buzz') return <Image unoptimized src="https://raw.githubusercontent.com/block/buzz/main/desktop/public/buzz.svg" alt="" width={32} height={32} className="size-8 object-contain" />
+  const icon = OPEN_SOURCE_APP_ICONS[slug as keyof typeof OPEN_SOURCE_APP_ICONS]
+  if (!icon) return null
+  return <svg aria-hidden viewBox="0 0 24 24" className="size-6" fill={`#${icon.hex}`}><path d={icon.path} /></svg>
+}
+
+function MissingItemCard({ content, lang, accent, hideEyebrow = false }: { content: NonNullable<Category['missing']>; lang: Lang; accent: string; hideEyebrow?: boolean }) {
   return (
     <Link href={content.href} className="group flex min-h-[240px] flex-col rounded-[16px] border border-dashed border-[#AFA596] bg-[#EAE3D4]/60 p-6 text-left transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-[var(--missing-accent)] hover:bg-[#EAE3D4] sm:min-h-[255px]" style={{ '--missing-accent': accent } as CSSProperties}>
-      <p className="font-mono text-[9px] font-bold uppercase tracking-[.16em]" style={{ color: accent }}>{lang === 'fr' ? 'Sur demande' : 'On request'}</p>
+      {!hideEyebrow && <p className="font-mono text-[9px] font-bold uppercase tracking-[.16em]" style={{ color: accent }}>{lang === 'fr' ? 'Sur demande' : 'On request'}</p>}
       <h3 className="mt-5 text-[23px] font-semibold leading-[1.08] tracking-[-.04em]">{content.title[lang]}</h3>
       <p className="mt-4 text-[13px] leading-6 text-[#625B50]">{content.body[lang]}</p>
       <span className="mt-auto border-t border-[#CFC5B5] pt-4 text-xs font-bold transition-colors group-hover:text-[var(--missing-accent)]">{content.action[lang]}<span aria-hidden="true" className="ml-2">→</span></span>
@@ -942,13 +908,13 @@ function MarketplaceItemCard({ item, lang, category, labels, featuredLast = fals
            <div className="flex items-center gap-3.5">
              <Image src={item.avatar} alt="" width={56} height={56} className="size-14 rounded-full object-cover ring-1 ring-[#D8D0C2]" />
              <div className="min-w-0">
-               <p className="font-mono text-[9px] font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{item.identityLabel}</p>
+                <p className="font-mono text-xs font-black uppercase tracking-[.13em] text-[var(--profile-accent)]">{item.identityLabel}</p>
                <h3 className="mt-1 text-[24px] font-semibold leading-none tracking-[-.045em] text-[#1C1A17]">{item.title}</h3>
                <p className="mt-1.5 truncate text-[12px] font-bold text-[#4E483F]">{item.meta}</p>
              </div>
            </div>
                <p className="mt-4 line-clamp-2 text-[13px] font-medium leading-[1.35rem] text-[#3F3A33] sm:line-clamp-2 sm:text-[14px] sm:leading-6 sm:text-[#4E483F]">{item.description}</p>
-              {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><div><dt className="font-mono text-[9px] font-black uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Première mission' : 'First mission'}</dt><dd className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-5 text-[#322E29]">{item.starterMission}</dd>{item.starterResult && <dd className="mt-2 line-clamp-2 border-t border-[#D8D0C2] pt-2 text-[11px] font-semibold leading-4 text-[#625B50]"><span className="font-bold text-[#B00C54]">{lang === 'fr' ? 'Résultat :' : 'Outcome:'}</span> {item.starterResult}</dd>}</div></dl>}
+               {item.starterMission && <dl className="mt-4 rounded-xl bg-[#F0EBE1] p-3.5"><div><dt className="font-mono text-xs font-black uppercase tracking-[.14em] text-[#857C6E]">{lang === 'fr' ? 'Première mission' : 'First mission'}</dt><dd className="mt-1.5 line-clamp-2 text-[13px] font-bold leading-5 text-[#322E29]">{item.starterMission}</dd>{item.starterResult && <dd className="mt-2 line-clamp-2 border-t border-[#D8D0C2] pt-2 text-xs font-semibold leading-5 text-[#625B50]"><span className="font-bold text-[#B00C54]">{lang === 'fr' ? 'Résultat :' : 'Outcome:'}</span> {item.starterResult}</dd>}</div></dl>}
          </> : <>
            <h3 className="line-clamp-2 text-[24px] font-semibold leading-[1.04] tracking-[-.045em] text-[#1C1A17] sm:text-[26px]">{item.title}</h3>
            <p className="mt-3 line-clamp-2 text-[13px] leading-5 text-[#625B50] sm:mt-4 sm:text-sm sm:leading-6">{item.description}</p>

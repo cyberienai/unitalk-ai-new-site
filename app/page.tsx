@@ -4,9 +4,14 @@ import { HomeNew } from '@/components/home-new'
 export const metadata: Metadata = {
   title: 'Votre propre Collaborateur IA pour accomplir vos missions',
   description: 'Alma personnalise votre Collaborateur IA selon vos besoins, vos outils et les règles de votre entreprise.',
-  alternates: { canonical: '/' },
+  alternates: {
+    canonical: '/',
+    languages: { fr: '/', en: '/en', 'x-default': '/' },
+  },
   openGraph: {
     type: 'website',
+    locale: 'fr_FR',
+    alternateLocale: ['en_US'],
     url: 'https://unitalk.ai',
     title: 'Votre propre Collaborateur IA, prêt à accomplir vos missions',
     description: 'Alma le personnalise selon vos besoins, vos outils et les règles de votre entreprise.',
@@ -21,5 +26,5 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <HomeNew />
+  return <HomeNew lang="fr" />
 }

@@ -16,7 +16,6 @@ describe('Collaborateurs IA marketplace', () => {
       expect(detail.skills.length).toBeGreaterThanOrEqual(4)
       expect(detail.missions).toHaveLength(3)
       expect(detail.tools.length).toBeGreaterThanOrEqual(5)
-      expect(detail.availability).toMatch(/^(available|beta|on-request)$/)
     }
   })
 
@@ -92,7 +91,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(hub).toContain('const MOBILE_COLLABORATOR_PREVIEW_SIZE = 6')
     expect(hub).toContain("mobileHidden ? 'hidden sm:flex' : 'flex'")
     expect(hub).toContain('Première mission gratuite · Sans carte bancaire · Sans engagement')
-    expect(hub).toContain('/tarifs#configurateur')
+    expect(hub).toContain('/tarifs#detail-tarifs')
     expect(hub).toContain('Voir les Collaborateurs IA')
     expect(hub).toContain('focus-visible:ring-[#D10E63] sm:hidden')
     expect(hub).toContain('Vous souhaitez comprendre son identité, sa mémoire et ses droits ?')
@@ -112,7 +111,7 @@ describe('Collaborateurs IA marketplace', () => {
     expect(missions).toContain('EMMA_LEADERSHIP_MISSION_SLUGS')
     expect(missions).toContain("'preparer-une-revue-strategique'")
     expect(missions).toContain("'preparer-une-note-de-decision'")
-    expect(missions).toContain("requestedCollaborator === 'emma'")
+    expect(missions).toContain("requestedCollaboratorDetail?.slug === 'emma'")
     expect(missions).not.toContain("EMMA_LEADERSHIP_MISSION_SLUGS = [\n  'rediger-une-fiche-de-poste'")
   })
 

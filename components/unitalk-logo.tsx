@@ -1,5 +1,3 @@
-'use client'
-
 export function UnitalkLogo({
   size = 32,
   className = '',

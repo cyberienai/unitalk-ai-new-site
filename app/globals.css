@@ -190,84 +190,24 @@
   .academy-home-final { padding:105px 0 115px; }.academy-home-final h2 { font-size:3.7rem; }.academy-home-final a { width:calc(100% - 12px); justify-content:space-between; padding-inline:20px; }
 }
 
-/* Home section rhythm: one title scale, stronger reading weight, compact 13-inch illustrations. */
-.home-page-main > section:nth-child(2) h2,
-.home-page-main > section:nth-child(3) h2,
-.home-page-main > section:nth-child(4) h2,
-.home-page-main > section:nth-child(5) h2 {
-  font-size:clamp(2.35rem,4.2vw,4rem);
-  font-weight:700;
-  line-height:.98;
-  letter-spacing:-.05em;
-}
-.home-page-main > section:nth-child(2) h2 + p,
-.home-page-main > section:nth-child(3) h2 + p,
-.home-page-main > section:nth-child(4) h2 + p {
-  font-size:17px;
-  font-weight:500;
-  line-height:1.85;
-}
-@media (min-width:1024px) and (max-width:1440px) {
-  .home-page-main > section:nth-child(2) > div > div,
-  .home-page-main > section:nth-child(3) > div,
-  .home-page-main > section:nth-child(4) > div {
-    grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
-    gap:3rem;
-  }
-  .home-page-main > section:nth-child(2) > div > div > :last-child,
-  .home-page-main > section:nth-child(3) > div > :last-child,
-  .home-page-main > section:nth-child(4) > div > :last-child {
-    width:100%;
-    max-width:660px;
-    justify-self:end;
-  }
-}
-
-@media (max-width:640px) {
-  .home-page-main > section:nth-child(2) h2,
-  .home-page-main > section:nth-child(3) h2,
-  .home-page-main > section:nth-child(4) h2,
-  .home-page-main > section:nth-child(5) h2 {
-    font-size:clamp(2.25rem,11vw,3.15rem);
-    line-height:1;
-    letter-spacing:-.045em;
-  }
-  .home-page-main > section:nth-child(2) h2 + p,
-  .home-page-main > section:nth-child(3) h2 + p,
-  .home-page-main > section:nth-child(4) h2 + p {
-    font-size:16px;
-    font-weight:500;
-    line-height:1.75;
-  }
-}
-
-/* Home anatomy: preserve a two-line headline and keep the profile card secondary. */
 @media (min-width:1024px) {
-  .home-page-main > section:nth-child(4) > div {
-    grid-template-columns:minmax(0,1.12fr) minmax(420px,.88fr);
-    gap:3rem;
+  section[aria-labelledby="popular-missions-title"] .editorial-shell > div:first-child {
+    display:block;
   }
-  .home-page-main > section:nth-child(4) h2 {
-    max-width:680px;
-    text-wrap:initial;
+  section[aria-labelledby="popular-missions-title"] .editorial-shell > div:first-child > a {
+    margin-top:1.25rem;
   }
-  .home-page-main > section:nth-child(4) > div > article {
-    width:100%;
-    max-width:560px;
-    justify-self:end;
+  #popular-missions-title {
+    max-width:none;
   }
-  .home-page-main > section:nth-child(2) > div > div {
-    grid-template-columns:minmax(0,1.12fr) minmax(420px,.88fr);
-    gap:3rem;
+  #popular-missions-title + p {
+    max-width:64rem;
   }
-  .home-page-main > section:nth-child(2) h2 {
-    max-width:680px;
-    text-wrap:initial;
-  }
-  .home-page-main > section:nth-child(2) > div > div > :last-child {
-    width:100%;
-    max-width:560px;
-    justify-self:end;
+}
+@media (min-width:1280px) {
+  #popular-missions-title,
+  #popular-missions-title + p {
+    white-space:nowrap;
   }
 }
 
@@ -869,6 +809,22 @@ h3[id] {
  * animations are untouched. Fractional opacities (mid-animation) are excluded so
  * elements that framer-motion is actively animating are never disturbed.
  */
+section:has(a[href="/tarifs#configurateur"]) > .editorial-shell > p:first-child {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgb(209 14 99 / 25%);
+  border-radius: 0.75rem;
+  background: rgb(209 14 99 / 12%);
+  padding: 0.5rem 0.875rem;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #B00C54;
+}
+
 @media (max-width: 768px) {
   @keyframes v0-reveal-fallback {
     to {

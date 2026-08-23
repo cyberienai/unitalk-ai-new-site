@@ -1,5 +1,3 @@
-'use client'
-
 /**
  * Homepage validation seal. This proprietary mark distinguishes a human
  * approval from generic interface check icons.

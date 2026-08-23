@@ -7,6 +7,7 @@ import { useLanguage } from '@/lib/language-context'
 import { establishSession } from '@/app/actions/auth'
 import type { AuthProvider } from '@/lib/mock-auth'
 import { GoogleIcon, MicrosoftIcon } from './provider-icons'
+import { localizedHref } from '@/lib/i18n-routing'
 
 type Mode = 'sign-in' | 'sign-up'
 
@@ -79,7 +80,7 @@ export function AuthCard({ mode, redirectTo, context = 'unitalk' }: { mode: Mode
 
   const otherPath = context === 'academy'
     ? mode === 'sign-in' ? '/academy/inscription' : '/academy/connexion'
-    : mode === 'sign-in' ? '/inscription' : '/connexion'
+    : mode === 'sign-in' ? localizedHref('signUp', lang) : localizedHref('signIn', lang)
   const otherHref = `${otherPath}?redirect=${encodeURIComponent(redirectTo)}`
 
   function submit(provider: AuthProvider, emailValue?: string) {
@@ -141,7 +142,7 @@ export function AuthCard({ mode, redirectTo, context = 'unitalk' }: { mode: Mode
     <div className="w-full max-w-[25rem]">
       {/* Brand */}
       <div className="mb-8 flex flex-col items-center text-center">
-        <a href={context === 'academy' ? '/academy' : '/'} className="mb-6 inline-flex items-center gap-2" aria-label="Unitalk">
+        <a href={context === 'academy' ? '/academy' : localizedHref('home', lang)} className="mb-6 inline-flex items-center gap-2" aria-label="Unitalk">
           <UnitalkLogo size={28} />
           <span className="font-inter text-lg font-semibold text-[#1C1A17]">Unitalk</span>
         </a>

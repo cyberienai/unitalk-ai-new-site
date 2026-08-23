@@ -5,6 +5,7 @@ import { ChevronDown } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
 import { signOut } from '@/app/actions/auth'
 import { initials, readClientSession, type MockSession } from '@/lib/mock-auth'
+import { localizedHref } from '@/lib/i18n-routing'
 
 const COPY = {
   fr: { signIn: 'Connexion', workspace: 'Workspace', training: 'Formations', account: 'Compte', signOut: 'Se déconnecter' },
@@ -54,7 +55,7 @@ export function UserMenuDesktop({ overDark, anonymousAction }: { overDark: boole
   if (!mounted || !session) {
     return (
       <>
-        <a href="/connexion" className={signInClass}>
+        <a href={localizedHref('signIn', lang)} className={signInClass}>
           {t.signIn}
         </a>
         {anonymousAction}
@@ -96,7 +97,7 @@ export function UserMenuDesktop({ overDark, anonymousAction }: { overDark: boole
           </div>
           <div className="p-1.5">
             <a
-              href="/workspace"
+              href={localizedHref('workspace', lang)}
               role="menuitem"
               className="flex items-center rounded-lg px-3 py-2 text-[14px] font-medium text-[#4E483F] transition-colors hover:bg-[#F0EADD] hover:text-[#1C1A17]"
             >
@@ -134,7 +135,7 @@ export function UserMenuMobile({ onNavigate }: { onNavigate: () => void }) {
   if (!mounted || !session) {
     return (
       <a
-        href="/connexion"
+        href={localizedHref('signIn', lang)}
         onClick={onNavigate}
         className="flex min-h-11 items-center text-[15px] font-semibold text-[#1C1A17] transition-colors hover:text-[#D10E63]"
       >
@@ -154,7 +155,7 @@ export function UserMenuMobile({ onNavigate }: { onNavigate: () => void }) {
           <p className="truncate text-[12px] text-[#6B6560]">{session.email}</p>
         </div>
       </div>
-      <div className="mt-2 grid gap-1"><a href="/workspace" onClick={onNavigate} className="flex min-h-10 items-center text-[14px] font-semibold text-[#4E483F]">{t.workspace}</a><a href="/academy/espace" onClick={onNavigate} className="flex min-h-10 items-center text-[14px] font-semibold text-[#4E483F]">{t.training}</a></div>
+      <div className="mt-2 grid gap-1"><a href={localizedHref('workspace', lang)} onClick={onNavigate} className="flex min-h-10 items-center text-[14px] font-semibold text-[#4E483F]">{t.workspace}</a><a href="/academy/espace" onClick={onNavigate} className="flex min-h-10 items-center text-[14px] font-semibold text-[#4E483F]">{t.training}</a></div>
       <form action={signOut} className="mt-1 border-t border-[#E7E0D2] pt-2">
         <button
           type="submit"

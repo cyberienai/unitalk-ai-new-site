@@ -8,9 +8,9 @@ const catalog = readFileSync(new URL('../lib/store-catalog.ts', import.meta.url)
 const discoverAccount = readFileSync(new URL('../components/discover/screen-account.tsx', import.meta.url), 'utf8')
 
 describe('Marketplace IA hub', () => {
-  it('centralizes AI Collaborators and the five equipment categories', () => {
-    expect(page).toContain('UnitalkStoreHub')
-    for (const label of ['Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(hub).toContain(label)
+  it('centralizes missions, AI Collaborators and the five equipment categories', () => {
+    expect(page).toContain('MarketplaceOverview')
+    for (const label of ['Missions','Collaborateurs IA','Profils métier','Compétences','Applications','Modèles IA','Serveurs IA']) expect(`${page}${hub}`).toContain(label)
     expect(hub).toContain('STORE_CATEGORIES')
     expect(hub).toContain("heroTitle: { fr: 'Choisissez le Collaborateur IA qui rejoindra votre équipe.'")
   })
@@ -38,20 +38,14 @@ describe('Marketplace IA hub', () => {
     expect(hub).not.toContain('border-t border-[#CFC3B2]')
   })
 
-  it('uses one horizontal category navigation', () => {
+  it('uses one crawlable horizontal category navigation', () => {
     expect(hub).not.toContain("w-[220px] shrink-0")
     expect(hub).not.toContain('sticky top-24')
-    expect(hub).toContain('onClick={() => selectCategory(category.id)}')
-    expect(hub).toContain('role="tablist"')
+    expect(hub).toContain('<nav className="mx-auto flex w-full max-w-6xl overflow-x-auto scrollbar-hide"')
+    expect(hub).toContain("href={localizedHref('missions', lang)}")
     expect(hub).toContain('overflow-x-auto scrollbar-hide')
-    expect(hub).toContain("window.history.pushState(null, '', href)")
-    expect(hub).toContain('const pathname = usePathname()')
-    expect(hub).toContain("pathname.split('/').filter(Boolean).at(-1)")
-    expect(hub).toContain("STORE_CATEGORIES.some((category) => category.id === pathCategory)")
-    expect(hub).toContain('}, [collaboratorsOnly, initialCategory, pathname])')
-    expect(hub).toContain("window.addEventListener('popstate', handlePopState)")
-    expect(hub).not.toContain("router.replace(href, { scroll: false })")
-    expect(hub).not.toContain("import { usePathname, useRouter } from 'next/navigation'")
+    expect(hub).not.toContain('window.history.pushState')
+    expect(hub).not.toContain("window.addEventListener('popstate'")
   })
 
   it('centralizes real catalogs with search and featured cards', () => {
@@ -60,8 +54,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('MarketplaceItemCard')
     expect(hub).toContain('Rechercher un profil métier')
     expect(hub).toContain('category={activeCategory}')
-    expect(hub).toContain('useLayoutEffect')
-    expect(hub).toContain("scrollIntoView({ behavior:")
+    expect(hub).not.toContain('useLayoutEffect')
   })
 
   it('makes skills concrete and filterable', () => {
@@ -69,7 +62,7 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('Ajoutez gratuitement les compétences nécessaires à chaque mission.')
     expect(hub).toContain('Chaque compétence est adaptée au profil et aux missions de votre Collaborateur.')
     expect(hub).toContain("storeType === 'competence' ? { fr: 'Gratuite', en: 'Free' }")
-    expect(hub).toContain("skillHeroProofs: ['Compétences gratuites', 'Méthodes documentées', 'Réutilisables par mission']")
+    expect(hub).toContain("skillHeroProofs: ['Sans coût unitaire avec une offre compatible', 'Méthodes documentées', 'Réutilisables par mission']")
     expect(hub).toContain('<SkillMarketplaceCard')
     expect(hub).toContain('min-h-[245px]')
     expect(hub).toContain('sm:min-h-[265px]')
@@ -134,7 +127,7 @@ describe('Marketplace IA hub', () => {
     for (const size of ["name: { fr: 'Small'", "name: { fr: 'Medium'", "name: { fr: 'Large'", "name: { fr: 'XL'", "name: { fr: 'XXL'"]) expect(catalog).toContain(size)
     for (const capacity of ['1 CPU · 4 Go de RAM', '2 CPU · 8 Go de RAM', '4 GPU · 16 Go de RAM', '8 GPU · 32 Go de RAM', '16 GPU · 64 Go de RAM']) expect(catalog).toContain(capacity)
     for (const host of ['OVHcloud', 'Scaleway', 'OUTSCALE', 'Clever Cloud', 'IONOS', 'Hetzner', 'Open Telekom Cloud', 'Infomaniak', 'Exoscale', 'UpCloud', 'Gcore', 'Hostinger', 'Amazon Web Services', 'Microsoft Azure', 'Google Cloud', 'Oracle Cloud']) expect(hub).toContain(host)
-    for (const app of ['n8n', 'OpenCode', 'Twenty', 'Payload', 'Jitsi', 'Plane']) expect(hub).toContain(app)
+    for (const app of ['Hermes', 'Paperclip', 'GBrain', 'Honcho', 'Stalwart', 'Buzz', 'n8n', 'OpenCode', 'Twenty', 'Payload', 'Jitsi', 'Plane']) expect(hub).toContain(app)
     expect(catalog).toContain("if (item.type === 'server') return `/decouvrir?store=${item.slug}&source=marketplace-servers`")
     expect(hub).not.toContain('/collaborateurs-ia/serveurs')
   })
@@ -174,9 +167,8 @@ describe('Marketplace IA hub', () => {
     expect(hub).toContain('item.modelModalities?.map')
     expect(hub).toContain('min-h-[190px]')
     expect(hub).toContain("!['competences', 'modeles-ia'].includes(category.id)")
-    expect(modelCard).toContain('<article')
-    expect(modelCard).not.toContain('<Link')
-    expect(modelCard).not.toContain('action')
+    expect(modelCard).toContain('<Link')
+    expect(modelCard).toContain('Sélectionner ce modèle')
     expect(hub).toContain('Ajoutez n’importe quel modèle ou fournisseur grâce à un endpoint personnalisé.')
     expect(hub).toContain('border border-dashed border-[#AFA596] bg-transparent')
     expect(hub).not.toContain("'border-[#216641]/30 bg-[#E4F3E8] text-[#216641]' : 'border-[#CFC5B5]")
@@ -227,14 +219,17 @@ describe('Marketplace IA hub', () => {
 
   it('uses the compact progressive action treatment for application cards', () => {
     expect(hub).toContain("category.id === 'applications' && href")
-    expect(hub).toContain('aria-label={`${action} : ${item.title}`} className="group relative flex min-h-[210px]')
+    expect(hub).toContain('aria-label={`${applicationAction} : ${item.title}`} className="group relative flex min-h-[210px]')
     expect(hub).toContain('bg-[#C80B5B] px-4 text-xs font-bold text-white opacity-0')
     expect(hub).toContain('<h3 className="min-w-0 line-clamp-2 text-[22px]')
   })
 
   it('uses the compact progressive action treatment for server cards', () => {
     expect(hub).toContain("category.id === 'serveurs-ia'")
-    expect(hub).toContain('authenticated && href')
+    expect(hub).not.toContain('Préparer la demande')
+    expect(hub).toContain('item.status && !item.pending')
+    expect(hub).toContain("hideEyebrow={category.id === 'serveurs-ia'}")
+    expect(hub).toContain('return href ? <Link')
     expect(hub).toContain('text-[#B00C54]')
     expect(hub).not.toContain('Infrastructure d’exécution')
   })

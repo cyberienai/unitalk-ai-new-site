@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import type { RoleDetail } from '@/lib/collaborators-catalog'
 import { useLanguage } from '@/lib/language-context'
+import { localizedHref } from '@/lib/i18n-routing'
 
 export function CollaboratorEquipmentFlow({ detail }: { detail: RoleDetail }) {
   const { lang } = useLanguage()
@@ -19,7 +20,7 @@ export function CollaboratorEquipmentFlow({ detail }: { detail: RoleDetail }) {
   function continueWithAlma(value = request) {
     const clean = value.trim()
     if (!clean) return
-    router.push(`/missions?composer=1&collaborateur=${encodeURIComponent(detail.slug)}&q=${encodeURIComponent(clean)}&source=collaborator-profile`)
+    router.push(`${localizedHref('missions', lang)}?composer=1&collaborateur=${encodeURIComponent(detail.slug)}&q=${encodeURIComponent(clean)}&source=collaborator-profile`)
   }
 
   return <section id="equiper" className="scroll-mt-24 bg-[#181615] py-16 text-white sm:py-20">

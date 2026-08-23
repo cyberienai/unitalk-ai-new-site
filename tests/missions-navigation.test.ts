@@ -5,13 +5,13 @@ const content = readFileSync(new URL('../components/missions-content.tsx', impor
 
 describe('missions navigation', () => {
   it('keeps the selected collaborator when switching business needs', () => {
-    expect(content).toContain("if (requestedCollaborator) params.set('collaborateur', requestedCollaborator)")
+    expect(content).toContain('new URLSearchParams(searchParams.toString())')
     expect(content).toContain("if (next === 'all') params.set('vue', 'toutes')")
     expect(content).not.toContain("next === 'all' ? '/missions?vue=toutes'")
   })
 
   it('hides search and family filters on a collaborator mission page', () => {
-    expect(content).toContain('!requestedCollaboratorDetail && <div className="mt-7 flex flex-col gap-4')
+    expect(content).toContain('!requestedCollaboratorDetail && <div className="mt-7 grid gap-4')
   })
 
   it('exposes customer-oriented business filters', () => {
@@ -23,25 +23,39 @@ describe('missions navigation', () => {
     expect(content).toContain("direction: 'Direction'")
     expect(content).toContain("documents: 'Documents'")
     expect(content).toContain("analysis: 'Analyse'")
-    expect(content).toContain('[mask-image:linear-gradient(to_right,#000_calc(100%-2rem),transparent)]')
+    expect(content).toContain('NEED_FAMILIES.map')
+    expect(content).toContain('className="relative block md:hidden"')
+    expect(content).toContain('PRIMARY_FAMILIES.includes(key)')
+    expect(content).toContain("moreAreas: 'Plus de catégories'")
+    expect(content).not.toContain("areas: 'Domaines'")
+    expect(content).toContain('lg:grid-cols-[260px_minmax(0,1fr)]')
+    expect(content).not.toContain('Autres domaines')
+    expect(content).toContain('showAllFamilies')
   })
 
-  it('prioritizes operational missions instead of generic chat tasks', () => {
+  it('prioritizes popular missions without hiding the rest of the catalog', () => {
     expect(content).toContain('POPULAR_MISSIONS_BY_FAMILY')
-    expect(content).toContain('isBeyondGenericChat')
+    expect(content).not.toContain('isBeyondGenericChat')
     expect(content).toContain('popularityRank(a, family)')
   })
 
   it('keeps URL state synchronized and supports multi-term search', () => {
     expect(content).toContain('setFamily(initialFamily)')
-    expect(content).toContain("const tokens = search.split(/\\s+/).filter(Boolean)")
-    expect(content).toContain('tokens.every((token) => searchable.includes(token))')
+    expect(content).toContain('searchMissions(search, lang)')
+    expect(content).toContain("params.set('q', query.trim())")
+  })
+
+  it('restores catalog state and exposes actionable empty states', () => {
+    expect(content).toContain("sessionStorage.getItem('unitalk_missions_state')")
+    expect(content).toContain('clearAllFilters')
+    expect(content).toContain('role="group"')
   })
 
   it('keeps the catalog visible and avoids forcing the composer', () => {
-    expect(content).toContain('lg:min-h-[620px]')
-    expect(content).toContain('lg:max-w-[320px]')
-    expect(content).toContain("if (!composerRequested || !window.matchMedia('(min-width: 1024px)').matches) return")
-    expect(content).toContain('(filteredMissions.length === 0 || visibleCount >= filteredMissions.length) && <AlmaCatalogCard')
+    expect(content).not.toContain('lg:min-h-[100svh]')
+    expect(content).toContain('lg:max-w-[260px]')
+    expect(content).toContain('(!requestedCollaboratorDetail || composerRequested)')
+    expect(content).toContain('filteredMissions.length > 0 && visibleCount >= filteredMissions.length')
   })
+
 })

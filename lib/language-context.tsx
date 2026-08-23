@@ -1,6 +1,7 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, type ReactNode } from 'react'
+import { usePathname } from 'next/navigation'
 
 export type Lang = 'fr' | 'en'
 
@@ -14,22 +15,11 @@ const LanguageContext = createContext<LanguageContextValue | undefined>(undefine
 const STORAGE_KEY = 'unitalk-lang'
 
 export function LanguageProvider({ children, initialLang = 'fr', loadStoredLanguage = true }: { children: ReactNode; initialLang?: Lang; loadStoredLanguage?: boolean }) {
-  const [lang, setLangState] = useState<Lang>(initialLang)
-
-  // Load persisted language on mount
-  useEffect(() => {
-    if (!loadStoredLanguage) return
-    let frame = 0
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY) as Lang | null
-      if (stored === 'fr' || stored === 'en') {
-        frame = requestAnimationFrame(() => setLangState(stored))
-      }
-    } catch {
-      // ignore
-    }
-    return () => cancelAnimationFrame(frame)
-  }, [loadStoredLanguage])
+  const pathname = usePathname()
+  const routeLang: Lang = pathname === '/en' || pathname.startsWith('/en/') ? 'en' : 'fr'
+  const lang = routeLang
+  void initialLang
+  void loadStoredLanguage
 
   // Keep <html lang> in sync
   useEffect(() => {
@@ -37,7 +27,6 @@ export function LanguageProvider({ children, initialLang = 'fr', loadStoredLangu
   }, [lang])
 
   const setLang = (next: Lang) => {
-    setLangState(next)
     try {
       localStorage.setItem(STORAGE_KEY, next)
     } catch {

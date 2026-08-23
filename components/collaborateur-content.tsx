@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { LocalizedLink as Link } from "@/components/localized-link";
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Anthropic, Gemini, Mistral, OpenAI } from "@lobehub/icons";
@@ -19,6 +19,7 @@ import { useLanguage } from "@/lib/language-context";
 import type { CollaboratorPage } from "@/lib/collaborator-pages";
 import { AlmaMissionComposer } from "@/components/alma-mission-composer";
 import { Kicker } from "@/components/home/section-kicker";
+import { localizedHref, missionHref } from "@/lib/i18n-routing";
 
 const COPY = {
   fr: {
@@ -893,7 +894,7 @@ export function CollaborateurContent({
       );
     } catch {}
     router.push(
-      `/decouvrir?draft=${encodeURIComponent(draftId)}&collaborateur=${encodeURIComponent(detail.slug)}&source=profile-store`,
+      `${localizedHref("discover", lang)}?draft=${encodeURIComponent(draftId)}&collaborateur=${encodeURIComponent(detail.slug)}&source=profile-store`,
     );
   }
 
@@ -910,7 +911,7 @@ export function CollaborateurContent({
       );
     } catch {}
     router.push(
-      `/decouvrir?draft=${encodeURIComponent(draftId)}&collaborateur=${encodeURIComponent(detail.slug)}&source=profile-store`,
+      `${localizedHref("discover", lang)}?draft=${encodeURIComponent(draftId)}&collaborateur=${encodeURIComponent(detail.slug)}&source=profile-store`,
     );
   }
 
@@ -1239,7 +1240,7 @@ export function CollaborateurContent({
                 : `${detail.name} belongs to your organization, independently of the person supervising them. If that person leaves, identity, memory and know-how remain within the organization.`}
             </p>
             <Link
-              href="/collaborateurs-ia"
+              href={localizedHref("collaborators", lang)}
               className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]"
             >
               {t.identityCta}
@@ -1256,7 +1257,7 @@ export function CollaborateurContent({
         <div className="editorial-shell">
           <div className="grid gap-px overflow-hidden rounded-[26px] border border-[#CFC5B5] bg-[#CFC5B5] lg:grid-cols-2">
             <Link
-              href="/marketplace/applications"
+              href={localizedHref("applications", lang)}
               className="group bg-[#FAF8F3] p-6 sm:p-8"
             >
               <p className="font-mono text-[10px] font-black uppercase tracking-[.18em] text-[#B00C54]">
@@ -1356,7 +1357,7 @@ export function CollaborateurContent({
                   : `${detail.name} starts with a ${detail.role.en.toLowerCase()} profile. Add new skills, applications and job profiles as new work is assigned.`}
             </p>
             <Link
-              href="/marketplace"
+              href={localizedHref("marketplace", lang)}
               className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]"
             >
               {lang === "fr"
@@ -1463,7 +1464,7 @@ export function CollaborateurContent({
           <div className="flex min-w-60 flex-col gap-3">
             {isMissionLedProfile ? <button type="button" onClick={startPrimaryMission} className="inline-flex min-h-12 w-full max-w-full items-center justify-center rounded-full bg-[#181615] px-5 py-3 text-center text-sm font-bold leading-5 sm:w-auto sm:px-7">{primaryCta}</button> : <a href="#alma-profile" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#181615] px-7 text-sm font-bold">{t.finalCta}</a>}
             <Link
-              href={`/tarifs?profil=${encodeURIComponent(detail.slug)}#configurateur`}
+              href={`${localizedHref("pricing", lang)}?profil=${encodeURIComponent(detail.slug)}#detail-tarifs`}
               className="text-center text-sm font-bold underline decoration-white/40 underline-offset-4"
             >
               {t.pricing}
@@ -1477,7 +1478,7 @@ export function CollaborateurContent({
 
 function CollaboratorMissions({ lang, detail, missions }: { lang: "fr" | "en"; detail: CollaboratorPage["detail"]; missions: CollaboratorPage["missions"] }) {
   if (!missions.length) return null;
-  return <section id="missions" className="collaborator-missions order-2 scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"><div className="editorial-shell"><h2 className="max-w-5xl text-[clamp(2.2rem,4.2vw,4rem)] font-bold leading-[.98] tracking-[-.05em]">{lang === "fr" ? `Missions prêtes à l’emploi avec ${detail.name}` : `Ready-to-use missions with ${detail.name}`}</h2><div className="mt-10 grid gap-4 md:grid-cols-2">{missions.slice(0,4).map(mission=><Link key={mission.slug} href={`/missions/${mission.slug}`} className="group flex min-h-[230px] flex-col rounded-2xl border border-[#D8D0C2] bg-white p-5 transition hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_18px_45px_-35px_rgba(28,26,23,.45)] sm:p-6"><h3 className="text-xl font-semibold">{mission.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{mission.objective[lang]}</p><span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#B00C54]">{lang === "fr" ? "Voir la mission" : "View mission"}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link>)}</div><Link href={`/missions?collaborateur=${encodeURIComponent(detail.slug)}&vue=toutes`} className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang === "fr" ? `Voir toutes les missions de ${detail.name}` : `View all ${detail.name} missions`}<ArrowRight className="size-4"/></Link></div></section>;
+  return <section id="missions" className="collaborator-missions order-2 scroll-mt-24 bg-[#FAF8F3] py-16 sm:py-20"><div className="editorial-shell"><h2 className="max-w-5xl text-[clamp(2.2rem,4.2vw,4rem)] font-bold leading-[.98] tracking-[-.05em]">{lang === "fr" ? `Missions prêtes à l’emploi avec ${detail.name}` : `Ready-to-use missions with ${detail.name}`}</h2><div className="mt-10 grid gap-4 md:grid-cols-2">{missions.slice(0,4).map(mission=><Link key={mission.slug} href={missionHref(mission.slug, lang)} className="group flex min-h-[230px] flex-col rounded-2xl border border-[#D8D0C2] bg-white p-5 transition hover:-translate-y-1 hover:border-[#D10E63]/40 hover:shadow-[0_18px_45px_-35px_rgba(28,26,23,.45)] sm:p-6"><h3 className="text-xl font-semibold">{mission.title[lang]}</h3><p className="mt-3 text-sm leading-6 text-[#625B50]">{mission.objective[lang]}</p><span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-bold text-[#B00C54]">{lang === "fr" ? "Voir la mission" : "View mission"}<ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/></span></Link>)}</div><Link href={`${localizedHref("missions", lang)}?collaborateur=${encodeURIComponent(detail.slug)}&vue=toutes`} className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#B00C54]">{lang === "fr" ? `Voir toutes les missions de ${detail.name}` : `View all ${detail.name} missions`}<ArrowRight className="size-4"/></Link></div></section>;
 }
 
 function Activity({

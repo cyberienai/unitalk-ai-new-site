@@ -10,25 +10,25 @@ describe('shared Alma mission composer', () => {
   it('provides the shared writing-first interaction', () => {
     expect(composer).toContain('AlmaMissionComposer')
     expect(composer).toContain("event.key === 'Enter'")
+    expect(composer).toContain('event.ctrlKey || event.metaKey')
     expect(composer).toContain('aria-pressed={listening}')
-    expect(composer).toContain('{clean && (')
     expect(composer).toContain('const fieldId = useId()')
-    expect(composer).toContain('const field = fieldRef.current')
     expect(composer).toContain('id={fieldId}')
     expect(composer).toContain('aria-labelledby={titleId}')
+    expect(composer).toContain('<form action="/decouvrir" method="get"')
+    expect(composer).toContain('aria-disabled={!clean}')
   })
 
-  it('lets the homepage submit a suggested mission immediately', () => {
+  it('lets the homepage edit a suggested mission before submission', () => {
     expect(composer).toContain('onStarterSelect?: (starter: string) => void')
-    expect(hero).toContain('onStarterSelect={handoffNeed}')
+    expect(hero).toContain('onStarterSelect={setTranscript}')
   })
 
-  it('is used by home, Missions and Marketplace', () => {
-    for (const source of [hero, missions, marketplace]) expect(source).toContain('<AlmaMissionComposer')
+  it('is used by home and Missions', () => {
+    for (const source of [hero, missions]) expect(source).toContain('<AlmaMissionComposer')
   })
 
-  it('keeps Marketplace drafts compatible with discovery', () => {
-    expect(marketplace).toContain('unitalk_mission_')
-    expect(marketplace).toContain('source=marketplace')
+  it('keeps Marketplace in the shared mission funnel', () => {
+    expect(marketplace).toContain('/decouvrir')
   })
 })

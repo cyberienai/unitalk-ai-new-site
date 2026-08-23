@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { localizedHref } from '@/lib/i18n-routing'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
@@ -11,6 +12,7 @@ import { LanguageToggle } from '@/components/language-toggle'
 import { FlowStepper } from './flow-stepper'
 import { ScreenAccount, type DiscoverContext, type SelectedMission } from './screen-account'
 import { ScreenContext } from './screen-context'
+import { ScreenMission } from './screen-mission'
 import { ScreenCollaborateur } from './screen-collaborateur'
 import type { OnboardingState, OnboardingStep } from './types'
 import { MISSIONS } from '@/lib/missions-catalog'
@@ -57,7 +59,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   const searchParams = useSearchParams()
   const missionSlug = searchParams.get('mission')
   const draftId = searchParams.get('draft')
-  const requestedCollaborator = searchParams.get('collaborateur')
+  const requestedCollaborator = searchParams.get('collaborateur') ?? initialPurchaseDraft?.pricing?.selectedProfile ?? null
   const requestedCollaboratorDetail = requestedCollaborator ? ROLE_DETAILS[requestedCollaborator] : undefined
   const requestedStoreItem = useMemo(() => {
     const slug = searchParams.get('store')
@@ -68,12 +70,18 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
     return key ? getAiModelByKey(key) : undefined
   }, [searchParams])
   const legacyQuery = searchParams.get('q')?.trim() ?? ''
+  const requestedTarget = searchParams.get('cible')?.trim() ?? ''
+  const requestedZone = searchParams.get('zone')?.trim() ?? ''
+  const requestedVolume = searchParams.get('volume')?.trim() ?? ''
   const source = parseDiscoverSource(searchParams.get('source'))
   const chooseMissionAfterAuth = searchParams.get('next') === 'missions'
   const requestedDomain = normalizeDomain(searchParams.get('domain'))
   const requestedIntention = searchParams.get('intention')
   const createProfileIntent = requestedIntention === 'nouveau-profil-metier'
   const createSkillIntent = requestedIntention === 'nouvelle-competence'
+  const createApplicationIntent = requestedIntention === 'nouvelle-application'
+  const createModelIntent = requestedIntention === 'nouveau-modele-ia'
+  const createServerIntent = requestedIntention === 'nouveau-serveur-ia'
   const catalogMission = useMemo(() => MISSIONS.find(m => m.slug === missionSlug), [missionSlug])
   const selectedCollaboratorDetail = requestedCollaboratorDetail ?? (catalogMission ? ROLE_DETAILS[catalogMission.collaboratorSlug] : undefined)
   const [draftText, setDraftText] = useState('')
@@ -90,12 +98,27 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
       requestedModel,
       catalogMission,
       requestedIntention,
-      hasExplicitDraft: Boolean(draftId || legacyQuery || requestedStoreItem || requestedModel || createProfileIntent || createSkillIntent),
+      hasExplicitDraft: Boolean(draftId || legacyQuery || requestedStoreItem || requestedModel || createProfileIntent || createSkillIntent || createApplicationIntent || createModelIntent || createServerIntent),
     })
   })
-  const [step, setStep] = useState<OnboardingStep>('entreprise')
-  const [visualStep, setVisualStep] = useState<OnboardingStep>('entreprise')
+  const startsWithMissionScoping = Boolean(initialSession && source === 'mission-detail' && catalogMission)
+  const [step, setStep] = useState<OnboardingStep>(startsWithMissionScoping ? 'mission' : 'entreprise')
+  const [visualStep, setVisualStep] = useState<OnboardingStep>(startsWithMissionScoping ? 'mission' : 'entreprise')
   const [workspaceConfirmation, setWorkspaceConfirmation] = useState(false)
+
+  useEffect(() => {
+    if (!catalogMission || (!requestedTarget && !requestedZone && !requestedVolume)) return
+    const id = window.setTimeout(() => setState(current => ({
+      ...current,
+      mission: {
+        ...current.mission,
+        target: requestedTarget || current.mission.target,
+        criteria: [current.mission.criteria, requestedZone ? `${lang === 'fr' ? 'Zone' : 'Region'} : ${requestedZone}` : '', requestedVolume ? `${lang === 'fr' ? 'Volume indicatif' : 'Indicative volume'} : ${requestedVolume}` : ''].filter(Boolean).join('\n'),
+      },
+      missionDefined: false,
+    })), 0)
+    return () => window.clearTimeout(id)
+  }, [catalogMission, lang, requestedTarget, requestedVolume, requestedZone])
 
   useEffect(() => { if (!draftId) return; try { const raw = localStorage.getItem(`unitalk_mission_${draftId}`); if (raw) { const text = (JSON.parse(raw) as { text?: string }).text?.trim() ?? ''; window.setTimeout(() => setDraftText(text), 0) } } catch {} }, [draftId])
 
@@ -107,6 +130,12 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
     ? { kind: 'profile-creation', query: legacyQuery || undefined, source }
     : createSkillIntent
     ? { kind: 'skill-creation', query: legacyQuery || undefined, source }
+    : createApplicationIntent
+    ? { kind: 'application-creation', query: legacyQuery || undefined, source }
+    : createModelIntent
+    ? { kind: 'model-creation', query: legacyQuery || undefined, source }
+    : createServerIntent
+    ? { kind: 'server-creation', query: legacyQuery || undefined, source }
     : source === 'paul-graham'
     ? { kind: 'draft', draftId: draftId ?? undefined, draft: { title: draftText || legacyQuery, description: '', category: lang === 'fr' ? 'Mission sur mesure' : 'Custom mission' }, source }
     : missionSlug && !catalogMission ? { kind: 'invalid', requestedSlug: missionSlug, source }
@@ -116,7 +145,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
 
   const selectedMission: SelectedMission | null = context.kind === 'mission' ? context.mission : context.kind === 'draft' ? context.draft : null
   const flowSteps: OnboardingStep[] = ['mission', 'entreprise', 'collaborateur', 'workspace']
-  const screenSteps: OnboardingStep[] = ['entreprise', 'collaborateur']
+  const screenSteps: OnboardingStep[] = source === 'mission-detail' && catalogMission ? ['mission', 'entreprise', 'collaborateur'] : ['entreprise', 'collaborateur']
 
   useEffect(() => {
     if (context.kind !== 'draft' || !selectedMission?.title) return
@@ -151,7 +180,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
       if (!clean) return
       const nextDraftId = `draft_${crypto.randomUUID()}`
       try { localStorage.setItem(`unitalk_mission_${nextDraftId}`, JSON.stringify({ text: clean, createdAt: Date.now() })) } catch {}
-      router.replace(`/decouvrir?draft=${encodeURIComponent(nextDraftId)}&source=nav`)
+      router.replace(`${localizedHref('discover', lang)}?draft=${encodeURIComponent(nextDraftId)}&source=nav`)
     }} />
   )
 
@@ -159,31 +188,38 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   if (context.kind === 'invalid') return (
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
       <header className="flex items-center justify-between gap-4 border-b border-[#D8D0C2] px-5 py-4 sm:px-8">
-        <a href="/" className="flex items-center gap-2.5"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a><LanguageToggle />
+        <a href={localizedHref('home', lang)} className="flex items-center gap-2.5"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a><LanguageToggle />
       </header>
       <section className="mx-auto flex flex-1 flex-col items-center justify-center px-5 text-center">
         <h1 className="text-[36px] font-bold tracking-[-0.04em] sm:text-[48px]">{lang === 'fr' ? 'Cette mission n\'est plus disponible.' : 'This mission is no longer available.'}</h1>
         <p className="mt-4 text-[#4E483F]">{lang === 'fr' ? 'Vous pouvez en choisir une autre ou poursuivre avec Alma.' : 'Choose another mission or continue with Alma.'}</p>
-        <div className="mt-7 flex gap-4"><a href="/missions" className="text-sm font-bold text-[#B00C54] underline">← {lang === 'fr' ? 'Explorer les missions' : 'Explore missions'}</a></div>
+        <div className="mt-7 flex gap-4"><a href={localizedHref('missions', lang)} className="text-sm font-bold text-[#B00C54] underline">← {lang === 'fr' ? 'Explorer les missions' : 'Explore missions'}</a></div>
       </section>
     </main>
   )
 
   // — Not authenticated —
   if (!state.authenticated) return (
-    <main className={`flex flex-col bg-[#F3EFE6] text-[#1C1A17] ${context.kind === 'profile-creation' || context.kind === 'skill-creation' || context.kind === 'store-item' || context.kind === 'model' ? 'fixed inset-0 overflow-hidden' : 'min-h-screen'}`}>
+    <main className={`flex flex-col bg-[#F3EFE6] text-[#1C1A17] ${['profile-creation', 'skill-creation', 'application-creation', 'model-creation', 'server-creation', 'store-item', 'model'].includes(context.kind) ? 'fixed inset-0 overflow-hidden' : 'min-h-screen'}`}>
       <ScreenAccount lang={lang} context={context} collaborator={selectedCollaboratorDetail} languageToggle={<LanguageToggle />}
-        onAuthenticated={({ provider, email, firstName, lastName }) => {
+        onAuthenticated={({ email, firstName, lastName }) => {
           const domain = email && isProfessionalEmail(email) ? emailDomain(email) : undefined
-          setState(s => ({ ...s, authenticated: true, missionDefined: context.kind === 'mission', firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '', company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company }))
+          setState(s => ({ ...s, authenticated: true, missionDefined: context.kind === 'mission' && source !== 'mission-detail', firstName: firstName?.trim() ?? '', lastName: lastName?.trim() ?? '', company: domain ? s.company.map(f => f.key === 'domain' ? { ...f, value: domain, uncertain: false } : f.key === 'name' ? { ...f, value: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1), uncertain: false } : f) : s.company }))
+          if (context.kind === 'mission' && source === 'mission-detail') {
+            setStep('mission')
+            setVisualStep('mission')
+          }
           const collaboratorQuery = requestedCollaborator ? `&collaborateur=${encodeURIComponent(requestedCollaborator)}` : ''
           const sourceQuery = `&source=${encodeURIComponent(source)}`
-           if (requestedStoreItem) router.replace(`/decouvrir?store=${encodeURIComponent(requestedStoreItem.slug)}${sourceQuery}`)
-           else if (requestedModel) router.replace(`/decouvrir?model=${encodeURIComponent(requestedModel.key)}${sourceQuery}`)
-           else if (createProfileIntent) router.replace(`/decouvrir?intention=nouveau-profil-metier${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
-           else if (createSkillIntent) router.replace(`/decouvrir?intention=nouvelle-competence${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
-           else if (missionSlug) router.replace(`/decouvrir?mission=${encodeURIComponent(missionSlug)}${collaboratorQuery}${sourceQuery}`)
-          else if (draftId) router.replace(`/decouvrir?draft=${encodeURIComponent(draftId)}${collaboratorQuery}${sourceQuery}`)
+            if (requestedStoreItem) router.replace(`${localizedHref('discover', lang)}?store=${encodeURIComponent(requestedStoreItem.slug)}${sourceQuery}`)
+            else if (requestedModel) router.replace(`${localizedHref('discover', lang)}?model=${encodeURIComponent(requestedModel.key)}${sourceQuery}`)
+            else if (createProfileIntent) router.replace(`${localizedHref('discover', lang)}?intention=nouveau-profil-metier${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
+            else if (createSkillIntent) router.replace(`${localizedHref('discover', lang)}?intention=nouvelle-competence${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
+            else if (createApplicationIntent) router.replace(`${localizedHref('discover', lang)}?intention=nouvelle-application${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
+            else if (createModelIntent) router.replace(`${localizedHref('discover', lang)}?intention=nouveau-modele-ia${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
+            else if (createServerIntent) router.replace(`${localizedHref('discover', lang)}?intention=nouveau-serveur-ia${legacyQuery ? `&q=${encodeURIComponent(legacyQuery)}` : ''}${sourceQuery}`)
+            else if (missionSlug) router.replace(`${localizedHref('discover', lang)}?mission=${encodeURIComponent(missionSlug)}${requestedTarget ? `&cible=${encodeURIComponent(requestedTarget)}` : ''}${requestedZone ? `&zone=${encodeURIComponent(requestedZone)}` : ''}${requestedVolume ? `&volume=${encodeURIComponent(requestedVolume)}` : ''}${collaboratorQuery}${sourceQuery}`)
+           else if (draftId) router.replace(`${localizedHref('discover', lang)}?draft=${encodeURIComponent(draftId)}${collaboratorQuery}${sourceQuery}`)
         }}
       />
     </main>
@@ -193,7 +229,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
   return (
     <main className="flex min-h-screen flex-col bg-[#F3EFE6] text-[#1C1A17]">
       <header className="flex items-center justify-between gap-4 px-5 py-4 sm:px-8">
-        <a href="/" className="flex shrink-0 items-center gap-2.5"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
+        <a href={localizedHref('home', lang)} className="flex shrink-0 items-center gap-2.5"><UnitalkLogo size={22} /><span className="text-sm font-semibold">Unitalk</span></a>
          <div className="hidden flex-1 justify-center md:flex"><FlowStepper current={visualStep} lang={lang} steps={flowSteps} lockedSteps={['mission']} onStepClick={goTo} /></div>
         <div className="flex shrink-0 items-center gap-2 sm:gap-4"><LanguageToggle /></div>
       </header>
@@ -202,6 +238,7 @@ export function DiscoverFlow({ initialSession, initialPurchaseDraft }: { initial
         {back && <button type="button" onClick={() => goTo(back)} className="mb-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#6E665A] hover:text-[#1C1A17] md:hidden"><ArrowLeft className="h-3.5 w-3.5" />{lang === 'fr' ? 'Précédent' : 'Back'}</button>}
         <AnimatePresence mode="wait">
           <motion.div key={step} {...anim}>
+            {step === 'mission' && <ScreenMission lang={lang} company={state.company} mission={state.mission} onDefine={mission => setState(s => ({ ...s, mission, missionDefined: true }))} onContinue={() => goTo('entreprise')} />}
             {step === 'entreprise' && <ScreenContext lang={lang} firstName={state.firstName} lastName={state.lastName} company={state.company} onChange={c => setState(s => ({ ...s, company: c }))} onIdentityChange={i => setState(s => ({ ...s, ...i }))} onContinue={() => goTo('collaborateur')} />}
             {step === 'collaborateur' && <ScreenCollaborateur lang={lang} company={state.company} mission={state.mission} profile={state.profile} collaboratorTemplateSlug={state.collaboratorTemplateSlug} name={state.collaboratorName} placement={state.organizationalPlacement} confirming={workspaceConfirmation} onName={n => setState(s => ({ ...s, collaboratorName: n }))} onCreated={n => setState(s => ({ ...s, collaboratorName: n }))} onConfirmationChange={confirming => { setWorkspaceConfirmation(confirming); setVisualStep(confirming ? 'workspace' : 'collaborateur') }} />}
           </motion.div>
@@ -275,7 +312,7 @@ function MissionChoice({ lang, onChoose }: { lang: 'fr' | 'en'; onChoose: (value
   return <main className="grid min-h-screen bg-[#F3EFE6] text-[#1C1A17] lg:grid-cols-[42fr_58fr]">
     <aside className="relative order-2 overflow-hidden bg-[#151310] px-6 py-10 text-white sm:px-10 lg:order-1 lg:flex lg:min-h-screen lg:flex-col lg:px-[clamp(3rem,5vw,5rem)] lg:py-6">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[.04] [background-image:linear-gradient(#FAF8F3_1px,transparent_1px),linear-gradient(90deg,#FAF8F3_1px,transparent_1px)] [background-size:64px_64px]" />
-      <a href="/" className="relative flex w-fit items-center gap-2.5 text-white"><UnitalkLogo size={22} color="#F15B9B" inactiveColor="#F15B9B" /><span className="text-sm font-semibold">Unitalk</span></a>
+      <a href={localizedHref('home', lang)} className="relative flex w-fit items-center gap-2.5 text-white"><UnitalkLogo size={22} color="#F15B9B" inactiveColor="#F15B9B" /><span className="text-sm font-semibold">Unitalk</span></a>
       <div className="relative my-auto max-w-md py-12">
         <div className="flex items-center gap-3"><AlmaHead className="size-12 ring-1 ring-white/15" /><div><p className="text-lg font-bold">Alma</p><p className="text-xs text-[#F2A4C5]">{copy.role}</p></div></div>
         <p className="mt-10 font-mono text-[10px] font-bold uppercase tracking-[.16em] text-[#E05A93]">{copy.kicker}</p>
@@ -286,7 +323,7 @@ function MissionChoice({ lang, onChoose }: { lang: 'fr' | 'en'; onChoose: (value
     <section className="order-1 flex min-w-0 items-center px-5 py-16 sm:px-10 lg:order-2 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)]">
       <div className="mx-auto w-full max-w-2xl">
         <AlmaMissionComposer value={value} onChange={setValue} onSubmit={() => onChoose(value)} title={copy.prompt} role={copy.role} placeholder={copy.placeholder} submitLabel={copy.submit} starters={copy.examples} onStarterSelect={onChoose} listening={listening} onToggleListening={toggleListening} voiceSupported={voiceSupported} voiceStartLabel={copy.voiceStart} voiceStopLabel={copy.voiceStop} listeningLabel={copy.listening} textareaRef={textareaRef} compactMobile compactDesktop titleInField />
-        <div className="mt-5 text-center"><Link href="/missions" className="inline-flex items-center gap-2 text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4 hover:decoration-[#D10E63]">{copy.explore}<ArrowLeft className="size-4 rotate-180" /></Link></div>
+        <div className="mt-5 text-center"><Link href={localizedHref('missions', lang)} className="inline-flex items-center gap-2 text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4 hover:decoration-[#D10E63]">{copy.explore}<ArrowLeft className="size-4 rotate-180" /></Link></div>
       </div>
     </section>
   </main>

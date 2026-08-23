@@ -55,6 +55,28 @@ export function collaboratorFromDraft(text: string): RoleDetail | undefined {
 }
 
 export function missionFromCatalog(mission: Mission, lang: 'fr' | 'en'): MissionInfo {
+  if (mission.slug === 'trouver-de-nouveaux-clients') return lang === 'fr'
+    ? {
+        title: mission.title.fr,
+        target: 'Prospects entrants et entreprises correspondant à votre cible',
+        criteria: 'Secteur, taille, zone, budget ou signaux d’intérêt à préciser',
+        sources: 'CRM, sites des entreprises et sources publiques autorisées',
+        exclusions: 'Clients existants, concurrents et contacts opposés à la prospection',
+        result: 'Une liste qualifiée avec sources, justification et points à vérifier.',
+        rule: 'Ne jamais contacter un prospect ni modifier le CRM sans les autorisations définies.',
+        validation: 'Validation humaine avant toute prise de contact ou modification sensible du CRM.',
+      }
+    : {
+        title: mission.title.en,
+        target: 'Inbound prospects and companies matching your target',
+        criteria: 'Industry, size, region, budget or intent signals to define',
+        sources: 'CRM, company websites and authorized public sources',
+        exclusions: 'Existing customers, competitors and opted-out contacts',
+        result: 'A qualified list with sources, rationale and points to verify.',
+        rule: 'Never contact a prospect or update the CRM without the defined permissions.',
+        validation: 'Human approval before any outreach or sensitive CRM update.',
+      }
+
   return {
     title: mission.title[lang],
     target: mission.objective[lang],
@@ -136,7 +158,10 @@ export function buildInitialOnboardingState({
   const sessionDomain = initialSession && isProfessionalEmail(initialSession.email) ? emailDomain(initialSession.email) : ''
   const isProfileCreation = requestedIntention === 'nouveau-profil-metier'
   const isSkillCreation = requestedIntention === 'nouvelle-competence'
-  const explicitMission = Boolean(catalogMission || requestedStoreItem || requestedModel || isProfileCreation || isSkillCreation || hasExplicitDraft)
+  const isApplicationCreation = requestedIntention === 'nouvelle-application'
+  const isModelCreation = requestedIntention === 'nouveau-modele-ia'
+  const isServerCreation = requestedIntention === 'nouveau-serveur-ia'
+  const explicitMission = Boolean(catalogMission || requestedStoreItem || requestedModel || isProfileCreation || isSkillCreation || isApplicationCreation || isModelCreation || isServerCreation || hasExplicitDraft)
   const mission = catalogMission
     ? missionFromCatalog(catalogMission, lang)
     : requestedStoreItem
@@ -161,6 +186,12 @@ export function buildInitialOnboardingState({
           rule: '',
           validation: lang === 'fr' ? 'Validation humaine avant ajout au Collaborateur IA.' : 'Human approval before adding it to the AI Collaborator.',
         }
+    : isApplicationCreation
+      ? { title: lang === 'fr' ? 'Étudier une nouvelle application' : 'Assess a new application', target: lang === 'fr' ? 'Application et usage à préciser avec Alma' : 'Application and use to define with Alma', criteria: '', sources: '', exclusions: '', result: lang === 'fr' ? 'Une intégration cadrée avec ses accès, actions et validations.' : 'A scoped integration with its access, actions and approvals.', rule: '', validation: lang === 'fr' ? 'Validation humaine avant toute connexion.' : 'Human approval before any connection.' }
+    : isModelCreation
+      ? { title: lang === 'fr' ? 'Étudier un nouveau modèle IA' : 'Assess a new AI model', target: lang === 'fr' ? 'Modèle ou fournisseur à préciser avec Alma' : 'Model or provider to define with Alma', criteria: '', sources: '', exclusions: '', result: lang === 'fr' ? 'Une étude de compatibilité, coût et conditions d’accès.' : 'An assessment of compatibility, cost and access conditions.', rule: '', validation: lang === 'fr' ? 'Validation humaine avant autorisation.' : 'Human approval before authorization.' }
+    : isServerCreation
+      ? { title: lang === 'fr' ? 'Étudier une infrastructure IA' : 'Assess AI infrastructure', target: lang === 'fr' ? 'Charge, région et ressources à préciser' : 'Workload, region and resources to define', criteria: '', sources: '', exclusions: '', result: lang === 'fr' ? 'Une configuration chiffrée et validée avant déploiement.' : 'A priced configuration approved before deployment.', rule: '', validation: lang === 'fr' ? 'Validation humaine avant commande ou déploiement.' : 'Human approval before ordering or deployment.' }
     : hasExplicitDraft
       ? emptyMission()
       : persisted?.mission ?? init.mission
@@ -172,7 +203,7 @@ export function buildInitialOnboardingState({
     lastName: initialSession?.lastName?.trim() ?? '',
     company: withDomain(persisted?.company ?? init.company, requestedDomain || sessionDomain, Boolean(requestedDomain)),
     mission,
-    missionDefined: catalogMission || requestedStoreItem || requestedModel || isProfileCreation || isSkillCreation ? true : explicitMission ? false : Boolean(persisted?.mission.title),
+    missionDefined: catalogMission || requestedStoreItem || requestedModel || isProfileCreation || isSkillCreation || isApplicationCreation || isModelCreation || isServerCreation ? true : explicitMission ? false : Boolean(persisted?.mission.title),
     profile: isProfileCreation
       ? { fr: 'Profil métier à définir', en: 'Job profile to define' }
       : isSkillCreation

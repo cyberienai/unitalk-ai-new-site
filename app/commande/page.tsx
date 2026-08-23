@@ -18,7 +18,7 @@ export default async function CommandePage() {
   const store = await cookies()
   const draft = parsePurchaseDraft(store.get(PURCHASE_DRAFT_COOKIE)?.value)
   if (!store.get(SESSION_COOKIE)) redirect('/inscription?redirect=/commande')
-  if (!draft?.pricing) redirect('/tarifs#configurateur')
+  if (!draft?.pricing) redirect('/tarifs#detail-tarifs')
   if (!onboardingComplete(draft)) redirect(`/decouvrir?draft=${encodeURIComponent(draft.id)}`)
   return (
     <>

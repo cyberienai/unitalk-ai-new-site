@@ -1,11 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
-import { ArrowRight, PlayCircle, Sparkles } from 'lucide-react'
-import { MISSION_CATEGORIES, ORIGIN_LABELS, getMissionCategory, getMissionCategoryHref, getMissionGuideHref, type Mission, type MissionCategory } from '@/lib/missions-catalog'
-import { ROLE_DETAILS, collaboratorHref } from '@/lib/collaborators-catalog'
+import { LocalizedLink as Link } from '@/components/localized-link'
+import { ArrowRight, Sparkles } from 'lucide-react'
+import { MISSION_CATEGORIES, ORIGIN_LABELS, type Mission, type MissionCategory } from '@/lib/missions-catalog'
+import { ROLE_DETAILS } from '@/lib/collaborators-catalog'
 import type { Lang } from '@/lib/language-context'
+import { collaboratorProfileHref, missionHref } from '@/lib/i18n-routing'
 
 // Ghost-border cards used by secondary catalog views.
 const SHADOW_REST = '0 0 0 1px rgba(36,31,29,0.09), 0 1px 2px rgba(36,31,29,0.02)'
@@ -49,19 +50,17 @@ export function StoreCard({
   onPersonalize?: () => void
 }) {
   const category = shortCategoryLabel(mission.category, lang)
-  const categoryData = getMissionCategory(mission.category)
   const collaborator = ROLE_DETAILS[mission.collaboratorSlug]
   const collaboratorTooltip = collaborator ? `${collaborator.name} · ${lang === 'fr' ? 'Collaborateur IA' : 'AI Collaborator'} · ${mission.profile[lang]}` : ''
-  const personalize = lang === 'fr' ? 'Confier cette mission' : 'Assign this mission'
   return (
     <article
       data-mission-card={mission.slug}
       style={{ viewTransitionName: `mission-${mission.slug}` }}
-      className="group relative flex min-h-[230px] w-full flex-col overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] p-6 text-left shadow-[0_24px_60px_-52px_rgba(28,26,23,.75)] transition-[transform,border-color,background-color,box-shadow] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-300 hover:-translate-y-1.5 hover:border-[#D10E63]/35 hover:bg-[#FFFDF9] hover:shadow-[0_28px_65px_-42px_rgba(28,26,23,.35)] hover:before:scale-x-100 focus-within:border-[#D10E63]/40 focus-within:before:scale-x-100"
+      className="group relative flex min-h-[250px] w-full flex-col overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] p-6 text-left shadow-[0_24px_60px_-52px_rgba(28,26,23,.75)] transition-[transform,border-color,background-color,box-shadow] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-300 hover:-translate-y-1.5 hover:border-[#D10E63]/35 hover:bg-[#FFFDF9] hover:shadow-[0_28px_65px_-42px_rgba(28,26,23,.35)] hover:before:scale-x-100 focus-within:border-[#D10E63]/40 focus-within:before:scale-x-100"
     >
       {collaborator && (
         <Link
-          href={collaboratorHref(collaborator.slug)}
+          href={collaboratorProfileHref(collaborator.slug, lang)}
           aria-label={collaboratorTooltip}
           title={collaboratorTooltip}
           className="relative z-20 mb-5 flex w-fit items-center gap-2.5 rounded-full outline-none transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2"
@@ -70,19 +69,34 @@ export function StoreCard({
           <span><span className="block text-[13px] font-bold leading-4 text-[#1C1A17]">{collaborator.name}</span><span className="block text-[10px] font-semibold leading-4 text-[#857C6E]">{mission.profile[lang]}</span></span>
         </Link>
       )}
-      {categoryData ? <Link href={getMissionCategoryHref(categoryData)} className="absolute right-5 top-5 z-20 rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#6E665A] outline-none transition-colors hover:bg-[#D10E63] hover:text-white focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">{category}</Link> : <span className="absolute right-5 top-5 z-20 rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#6E665A]">{category}</span>}
-      <Link href={`/missions/${mission.slug}`} className="rounded-sm outline-none after:absolute after:inset-0 after:z-10 focus-visible:ring-2 focus-visible:ring-[#D10E63]">
-        <h3 className="relative line-clamp-2 font-sf text-[21px] font-semibold leading-[1.18] tracking-[-0.03em] text-[#1C1A17]">{mission.title[lang]}</h3>
-      </Link>
+      <span className="absolute right-5 top-5 rounded-full bg-[#EDE7DA] px-3 py-1.5 text-[11px] font-bold text-[#6E665A]">{category}</span>
+      <h3 className="line-clamp-2 font-sf text-[21px] font-semibold leading-[1.18] tracking-[-0.03em] text-[#1C1A17]">{mission.title[lang]}</h3>
       <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#4E483F]">{actionDescription(mission, lang)}</p>
-      <footer className="relative z-20 mt-auto flex flex-col items-start justify-between gap-3 border-t border-[#DED6C8] pt-4 sm:flex-row sm:items-center">
-        <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold">
-          <Link href={getMissionGuideHref(mission)} className="inline-flex items-center gap-1.5 text-[#4E483F] underline decoration-[#D10E63]/30 underline-offset-3 hover:text-[#B00C54]"><PlayCircle aria-hidden="true" className="size-3.5 text-[#D10E63]" />{lang === 'fr' ? 'Guide' : 'Guide'}</Link>
-        </div>
-        <Link onClick={onPersonalize} href={`/decouvrir?mission=${mission.slug}&source=mission-store`} className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-[13px] font-bold text-white hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2 sm:w-auto">
-          {collaborator ? (lang === 'fr' ? `Confier à ${collaborator.name}` : `Assign to ${collaborator.name}`) : personalize}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+      <p className="mt-4 line-clamp-2 border-l-2 border-[#D10E63]/50 pl-3 text-[12px] font-semibold leading-5 text-[#625B50]"><span className="font-bold text-[#1C1A17]">{lang === 'fr' ? 'Livrable :' : 'Deliverable:'}</span> {mission.deliverable[lang]}</p>
+      <footer className="relative z-20 mt-auto border-t border-[#DED6C8] pt-4">
+        <Link onClick={onPersonalize} href={missionHref(mission.slug, lang)} className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-full bg-[#D10E63] px-4 text-[13px] font-bold text-white hover:bg-[#B00C54] focus-visible:ring-2 focus-visible:ring-[#D10E63] focus-visible:ring-offset-2">
+          {lang === 'fr' ? 'Découvrir la mission' : 'Discover the mission'}<ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
         </Link>
       </footer>
+    </article>
+  )
+}
+
+export function HomeMissionCard({ mission, lang }: { mission: Mission; lang: Lang }) {
+  const category = shortCategoryLabel(mission.category, lang)
+  const collaborator = ROLE_DETAILS[mission.collaboratorSlug]
+
+  return (
+    <article className="group relative flex min-h-[250px] flex-col overflow-hidden rounded-[24px] border border-[#CFC5B5] bg-[#FAF8F3] p-5 text-left shadow-[0_24px_60px_-52px_rgba(28,26,23,.75)] transition-[transform,border-color,background-color,box-shadow] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:origin-left before:scale-x-0 before:bg-[#D10E63] before:transition-transform before:duration-300 hover:-translate-y-1 hover:border-[#D10E63]/35 hover:bg-[#FFFDF9] hover:shadow-[0_28px_65px_-42px_rgba(28,26,23,.35)] hover:before:scale-x-100 focus-within:border-[#D10E63]/40 focus-within:before:scale-x-100 sm:p-6 [&:nth-child(n+4)]:hidden md:[&:nth-child(n+4)]:flex">
+      <p className="font-mono text-[10px] font-black uppercase tracking-[.16em] text-[#B00C54]">{category}</p>
+      <Link href={missionHref(mission.slug, lang)} className="rounded-sm outline-none after:absolute after:inset-0 after:z-10 focus-visible:ring-2 focus-visible:ring-[#D10E63]">
+        <h3 className="relative mt-5 line-clamp-2 font-sf text-[22px] font-semibold leading-[1.12] tracking-[-.035em] text-[#1C1A17]">{mission.title[lang]}</h3>
+      </Link>
+      <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#4E483F]">{actionDescription(mission, lang)}</p>
+      <div className="relative z-20 mt-auto flex items-end justify-between gap-4 border-t border-[#DED6C8] pt-4">
+        {collaborator && <Link href={collaboratorProfileHref(collaborator.slug, lang)} className="flex min-w-0 items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]"><Image src={collaborator.avatar} alt="" width={36} height={36} className="size-9 shrink-0 rounded-full border-2 border-[#FAF8F3] object-cover shadow-sm"/><span className="min-w-0"><span className="block text-[12px] font-bold leading-4">{collaborator.name}</span><span className="block truncate text-[10px] font-semibold leading-4 text-[#857C6E]">{mission.profile[lang]}</span></span></Link>}
+        <Link href={missionHref(mission.slug, lang)} className="inline-flex shrink-0 items-center gap-1.5 rounded-sm text-xs font-bold text-[#B00C54] outline-none focus-visible:ring-2 focus-visible:ring-[#D10E63]">{lang === 'fr' ? 'Voir la mission' : 'View mission'}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1"/></Link>
+      </div>
     </article>
   )
 }

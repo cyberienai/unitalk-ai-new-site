@@ -4,29 +4,33 @@ import { Navbar } from '@/components/navbar'
 import { MissionsContent } from '@/components/missions-content'
 import { SiteFooter } from '@/components/site-footer'
 import { MISSIONS } from '@/lib/missions-catalog'
+import { missionsFaqJsonLd } from '@/lib/missions-page-faq'
 
 const SITE_URL = 'https://unitalk.ai'
 
 export const metadata: Metadata = {
   // The root layout applies a `%s | Unitalk` template, so the bare title here
   // renders as "Missions pour Collaborateurs IA | Unitalk" (no duplicate).
-  title: 'Missions pour Collaborateurs IA',
+  title: 'Missions IA prêtes à confier à vos Collaborateurs IA',
   description:
-    'Décrivez le résultat attendu ou choisissez une mission déjà cadrée. Alma personnalise votre Collaborateur IA pour votre entreprise.',
-  alternates: { canonical: '/missions' },
+    'Explorez plus de 200 missions IA pour la vente, le support, le marketing, la finance et les opérations. Alma adapte chaque mission à votre entreprise.',
+  keywords: ['missions IA', 'Collaborateur IA', 'agent IA entreprise', 'automatisation entreprise', 'assistant IA professionnel'],
+  alternates: { canonical: '/missions', languages: { fr: '/missions', en: '/en/missions', 'x-default': '/missions' } },
   openGraph: {
     type: 'website',
+    locale: 'fr_FR',
+    siteName: 'Unitalk',
     url: `${SITE_URL}/missions`,
-    title: 'Missions pour Collaborateurs IA | Unitalk',
+    title: 'Missions IA prêtes à confier | Unitalk',
     description:
-      'Décrivez le résultat attendu ou choisissez une mission déjà cadrée. Alma personnalise votre Collaborateur IA pour votre entreprise.',
+      'Explorez plus de 200 missions IA et confiez un résultat concret à un Collaborateur IA adapté à votre entreprise.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Missions pour Collaborateurs IA Unitalk' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Missions pour Collaborateurs IA | Unitalk',
-    description: 'Décrivez le résultat attendu ou choisissez une mission déjà cadrée pour votre Collaborateur IA.',
-    images: ['/opengraph-image'],
+    title: 'Missions IA prêtes à confier | Unitalk',
+    description: 'Plus de 200 missions IA pour la vente, le support, le marketing, la finance et les opérations.',
+    images: [{ url: '/opengraph-image', alt: 'Missions pour Collaborateurs IA Unitalk' }],
   },
 }
 
@@ -35,7 +39,8 @@ const itemListJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Missions pour Collaborateurs IA',
-  itemListElement: MISSIONS.map((m, i) => ({
+  numberOfItems: MISSIONS.length,
+  itemListElement: MISSIONS.slice(0, 24).map((m, i) => ({
     '@type': 'ListItem',
     position: i + 1,
     url: `${SITE_URL}/missions/${m.slug}`,
@@ -68,6 +73,11 @@ export default async function MissionsPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(missionsFaqJsonLd('fr')) }}
+      />
+      <a href="#missions-top" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-[#1C1A17]">Aller au contenu principal</a>
       <Navbar />
       <Suspense fallback={<div className="min-h-screen bg-[var(--store-page)]" />}>
         <MissionsContent

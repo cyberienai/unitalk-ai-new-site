@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'Déployez un Collaborateur IA avec une identité, une mémoire, des profils métier, plus de 3 000 applications, les meilleurs modèles d’IA et un serveur privé.',
   keywords: ['Collaborateur IA', 'agent IA entreprise', 'équipe humain IA', 'mémoire IA entreprise', 'automatisation entreprise'],
-  alternates: { canonical: 'https://unitalk.ai/collaborateurs-ia' },
+  alternates: { canonical: '/collaborateurs-ia', languages: { fr: '/collaborateurs-ia', en: '/en/ai-collaborators', 'x-default': '/collaborateurs-ia' } },
   openGraph: {
     title: 'Un Collaborateur IA rejoint votre équipe | Unitalk',
     description:

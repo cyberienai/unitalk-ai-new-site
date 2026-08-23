@@ -11,8 +11,10 @@ describe('Desktop discovery and Store scopes', () => {
     expect(sitemap).toContain("'/desktop'")
   })
 
-  it('centralizes applications in Marketplace and keeps legacy scopes explicit', () => {
-    expect(marketplace).toContain('UnitalkStoreHub')
+  it('publishes a Marketplace overview and keeps legacy scopes explicit', () => {
+    expect(marketplace).toContain('MarketplaceOverview')
+    expect(config).toContain("source: '/marketplace/missions'")
+    expect(config).toContain("destination: '/missions'")
     expect(config).toContain("source: '/collaborateurs-ia/applications'")
     expect(config).toContain("source: '/collaborateurs-ia/integrations'")
     expect(config).toContain("destination: '/marketplace/applications'")

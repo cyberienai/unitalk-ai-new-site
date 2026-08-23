@@ -9,6 +9,7 @@ import { AlmaHead } from './context-column'
 import type { MissionInfo, OrganizationalPlacement } from './types'
 import type { CompanyFact } from './types'
 import { persistOnboardingDraft } from '@/app/actions/purchase-draft'
+import { localizedHref } from '@/lib/i18n-routing'
 
 export function ScreenCollaborateur({
   lang,
@@ -50,7 +51,7 @@ export function ScreenCollaborateur({
     }
     setOpening(true)
     await persistOnboardingDraft({ company, mission, profile, collaboratorName: displayName, collaboratorTemplateSlug, organizationalPlacement: placement })
-    router.push('/workspace')
+    router.push(localizedHref('workspace', lang))
   }
 
   return (
@@ -103,9 +104,7 @@ export function ScreenCollaborateur({
             placeholder={t.namePlaceholder}
             className="mt-3 h-12 w-full rounded-xl border border-[#D8D0C2] bg-white px-4 text-[15px] font-medium text-[#1C1A17] outline-none transition-colors placeholder:font-normal placeholder:text-[#8A8175] focus:border-[#D10E63]/60 focus:ring-4 focus:ring-[#D10E63]/10"
           />
-          <p className="mt-2 text-[12px] leading-relaxed text-[#6E665A]">{t.nameHint}</p>
-
-          <button
+           <button
             type="button"
             onClick={createCollaborator}
             disabled={!displayName || opening}
@@ -133,7 +132,6 @@ const COPY = {
     mission: 'Mission', profile: 'Profil métier recommandé',
     firstName: 'Prénom',
     namePlaceholder: 'Ex. Lucas',
-    nameHint: 'Un prénom rend la collaboration plus naturelle au quotidien.',
     continueWith: 'Continuer avec',
     createEmpty: 'Choisissez un prénom pour continuer',
     opening: 'Enregistrement…',
@@ -149,7 +147,6 @@ const COPY = {
     mission: 'Mission', profile: 'Recommended job profile',
     firstName: 'First name',
     namePlaceholder: 'e.g. Lucas',
-    nameHint: 'A first name makes day-to-day collaboration feel more natural.',
     continueWith: 'Continue with',
     createEmpty: 'Choose a first name to continue',
     opening: 'Saving…',

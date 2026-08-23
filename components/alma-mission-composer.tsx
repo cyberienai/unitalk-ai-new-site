@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useId, useRef } from 'react'
+import { useId, useImperativeHandle, useRef } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Mic, Square } from 'lucide-react'
 
@@ -32,6 +32,9 @@ type Props = {
   compactMobile?: boolean
   compactDesktop?: boolean
   titleInField?: boolean
+  denseMobile?: boolean
+  source?: string
+  fieldName?: string
 }
 
 export function AlmaMissionComposer({
@@ -61,26 +64,21 @@ export function AlmaMissionComposer({
   compactMobile = false,
   compactDesktop = false,
   titleInField = false,
+  denseMobile = false,
+  source = 'home',
+  fieldName = 'q',
 }: Props) {
   const reduce = useReducedMotion()
   const titleId = useId()
   const fieldId = useId()
-  const fieldRef = useRef<HTMLTextAreaElement | null>(null)
+  const helpId = useId()
+  const fieldRef = useRef<HTMLTextAreaElement>(null)
+  useImperativeHandle(textareaRef, () => fieldRef.current as HTMLTextAreaElement)
   const clean = value.trim()
 
-  useEffect(() => {
-    if (!titleInField || !window.matchMedia('(min-width: 1024px)').matches) return
-    const id = window.setTimeout(() => {
-      const field = fieldRef.current
-      if (!field) return
-      field.focus({ preventScroll: true })
-      field.setSelectionRange(field.value.length, field.value.length)
-    }, 400)
-    return () => window.clearTimeout(id)
-  }, [fieldId, titleInField])
-
   return (
-    <div className={`relative flex flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] sm:min-h-[480px] sm:p-7 lg:min-h-0 lg:p-5 ${compactMobile ? 'min-h-[390px] p-4' : 'min-h-[430px] p-5'} ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:p-4' : ''} ${titleInField ? 'min-h-[360px] p-5 sm:min-h-[380px] sm:p-6 lg:min-h-[395px] lg:p-6' : ''}`}>
+    <form action="/decouvrir" method="get" onSubmit={(event) => { if (!clean) { event.preventDefault(); return }; event.preventDefault(); onSubmit() }} className={`relative flex flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#17130F] text-[#F8F1E7] shadow-[0_34px_80px_-28px_rgba(23,19,15,0.65)] ${compactMobile ? 'min-h-[390px] p-4 sm:min-h-[480px] sm:p-7' : 'min-h-[430px] p-5 sm:min-h-[480px] sm:p-7'} ${compactDesktop ? 'lg:min-h-0 lg:p-5 [@media(min-width:1024px)_and_(max-height:850px)]:p-4' : 'lg:min-h-0 lg:p-5'} ${titleInField ? 'min-h-[360px] p-5 sm:min-h-[380px] sm:p-6 lg:min-h-[395px] lg:p-6' : ''} ${denseMobile ? 'min-h-[320px] p-4 sm:min-h-[380px] sm:p-6' : ''}`}>
+      <input type="hidden" name="source" value={source} />
       <div aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#F15B9B] to-transparent" />
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -96,25 +94,23 @@ export function AlmaMissionComposer({
             <motion.div key="preview" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full">{preview}</motion.div>
           ) : (
             <motion.div key="prompt" initial={false} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <h2 id={titleId} className={`text-balance font-sf text-[24px] font-semibold tracking-[-0.025em] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:text-[21px]' : ''}`}>{title}</h2>
+              <h2 className={`text-balance font-sf text-[24px] font-semibold tracking-[-0.025em] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:text-[21px]' : ''}`}>{title}</h2>
               {body && <p className="mt-2 max-w-md text-[13px] leading-5 text-[#D6CABD]">{body}</p>}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+      <label id={titleId} htmlFor={fieldId} className="sr-only">{title}</label>
 
       <div className={titleInField ? 'relative mt-6 sm:mt-7' : 'relative'}>
         <textarea
           id={fieldId}
-          ref={(node) => {
-            fieldRef.current = node
-            if (typeof textareaRef === 'function') textareaRef(node)
-            else if (textareaRef) textareaRef.current = node
-          }}
+          name={fieldName || undefined}
+          ref={fieldRef}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing && clean) {
+            if (event.key === 'Enter' && (event.ctrlKey || event.metaKey) && !event.nativeEvent.isComposing && clean) {
               event.preventDefault()
               onSubmit()
             }
@@ -122,7 +118,8 @@ export function AlmaMissionComposer({
           rows={titleInField ? 4 : compactDesktop ? 2 : 3}
           placeholder={titleInField ? title : placeholder}
           aria-labelledby={titleId}
-          className={`w-full resize-none rounded-2xl border bg-white/[0.07] px-4 py-3 pr-16 text-[15px] leading-6 text-white outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] focus:bg-white/[0.09] ${titleInField ? 'min-h-[125px] px-5 py-4 text-[16px] leading-7 sm:min-h-[135px]' : ''} ${attention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/15'}`}
+          aria-describedby={error || help ? helpId : undefined}
+          className={`w-full resize-none rounded-2xl border bg-white/[0.07] px-4 py-3 pr-16 text-[15px] leading-6 text-white outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-[#AFA397] focus:border-[#D10E63] focus:bg-white/[0.09] ${titleInField ? 'min-h-[125px] px-5 py-4 text-[16px] leading-7 sm:min-h-[135px]' : ''} ${denseMobile ? 'min-h-[104px]' : ''} ${attention ? 'border-[#F15B9B] shadow-[0_0_0_4px_rgba(209,14,99,0.16)]' : 'border-white/15'}`}
         />
         {voiceSupported && (
           <button type="button" onClick={onToggleListening} aria-pressed={listening} aria-label={listening ? voiceStopLabel : voiceStartLabel} className={`absolute bottom-3 right-3 flex size-10 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#F15B9B] ${listening ? 'bg-[#D10E63] text-white' : 'bg-white/10 text-[#F15B9B] hover:bg-white/15'}`}>
@@ -132,22 +129,18 @@ export function AlmaMissionComposer({
       </div>
 
       <div className="mt-3 min-h-7">
-        {listening && listeningLabel ? <p className="text-xs font-medium text-[#F3B4CF]">{listeningLabel}</p> : !previewVisible && (
+        {listening && listeningLabel ? <p role="status" aria-live="polite" className="text-xs font-medium text-[#F3B4CF]">{listeningLabel}</p> : !previewVisible && (
           <div className="flex flex-wrap gap-2">
-            {starters.map((starter) => <button key={starter} type="button" onClick={() => onStarterSelect ? onStarterSelect(starter) : onChange(starter)} className={`min-h-10 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] outline-none transition-colors hover:border-[#D10E63]/50 hover:text-white focus-visible:ring-2 focus-visible:ring-[#F15B9B] ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:px-2.5 [@media(min-width:1024px)_and_(max-height:850px)]:py-1 [@media(min-width:1024px)_and_(max-height:850px)]:text-[10px]' : ''}`}>{starter}</button>)}
+            {starters.map((starter, index) => <button key={starter} type="button" onClick={() => onStarterSelect ? onStarterSelect(starter) : onChange(starter)} className={`min-h-10 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-left text-[11px] font-medium text-[#D6CABD] outline-none transition-colors hover:border-[#D10E63]/50 hover:text-white focus-visible:ring-2 focus-visible:ring-[#F15B9B] ${denseMobile && index > 2 ? 'hidden sm:inline-flex' : ''} ${compactDesktop ? '[@media(min-width:1024px)_and_(max-height:850px)]:px-2.5 [@media(min-width:1024px)_and_(max-height:850px)]:py-1 [@media(min-width:1024px)_and_(max-height:850px)]:text-[10px]' : ''}`}>{starter}</button>)}
           </div>
         )}
       </div>
 
-      <AnimatePresence initial={false}>
-        {clean && (
-          <motion.button type="button" onClick={onSubmit} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }} transition={{ duration: reduce ? 0 : 0.2 }} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#E51872] px-6 text-sm font-bold text-white outline-none shadow-[0_8px_24px_-12px_rgba(229,24,114,.8)] transition-colors hover:bg-[#F02A82] focus-visible:ring-2 focus-visible:ring-[#F8F1E7] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17130F]">
-            {submitLabel}<ArrowRight className="size-4" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+      <button type="submit" disabled={!clean} className={`mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#E51872] px-6 text-sm font-bold text-white outline-none shadow-[0_8px_24px_-12px_rgba(229,24,114,.8)] transition-[background-color,opacity] hover:bg-[#F02A82] focus-visible:ring-2 focus-visible:ring-[#F8F1E7] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17130F] ${clean ? '' : 'cursor-not-allowed opacity-45'}`}>
+        {submitLabel}<ArrowRight className="size-4" />
+      </button>
 
-      {(error || help) && <p role={error ? 'alert' : undefined} className="mt-4 border-t border-white/10 pt-3 text-[11px] leading-5 text-[#AFA397]">{error || help}</p>}
-    </div>
+      {(error || help) && <p id={helpId} role={error ? 'alert' : undefined} className="mt-4 border-t border-white/10 pt-3 text-[11px] leading-5 text-[#AFA397]">{error || help}</p>}
+    </form>
   )
 }

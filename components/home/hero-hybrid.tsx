@@ -1,104 +1,68 @@
 'use client'
 
-import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useEffectEvent, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Check } from 'lucide-react'
 import type { Lang } from '@/lib/language-context'
 import { Kicker } from '@/components/home/section-kicker'
 import { AlmaInline } from '@/components/alma-inline'
 import { AlmaMissionComposer } from '@/components/alma-mission-composer'
 import { track } from '@vercel/analytics'
-
-type SpeechResultEvent = { results: ArrayLike<{ 0: { transcript: string } }> }
-type SpeechRecognitionInstance = {
-  lang: string
-  continuous: boolean
-  interimResults: boolean
-  onresult: ((event: SpeechResultEvent) => void) | null
-  onend: (() => void) | null
-  onerror: (() => void) | null
-  start: () => void
-  stop: () => void
-  abort: () => void
-}
-
-function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
-  if (typeof window === 'undefined') return null
-  const speechWindow = window as typeof window & {
-    SpeechRecognition?: new () => SpeechRecognitionInstance
-    webkitSpeechRecognition?: new () => SpeechRecognitionInstance
-  }
-  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null
-}
+import { localizedHref } from '@/lib/i18n-routing'
 
 const T = {
   fr: {
-    eyebrow: 'Il vous manque quelqu’un ?',
-    headline: 'Votre propre Collaborateur IA, prêt à accomplir vos missions.',
-    headlineA: 'Votre propre',
-    headlineB: 'Collaborateur IA.',
-    headlineC: 'Prêt à accomplir vos missions.',
-    subtitle: 'Alma personnalise son identité, son rôle et ses outils selon vos règles. Chaque mission validée enrichit ses compétences.',
-    proofs: ['Première mission offerte', 'Sans carte bancaire', 'Sans engagement', 'Accompagnement humain si nécessaire'],
-    cta: 'Décrire mon besoin',
-    voiceKicker: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk',
-    voiceTitle: 'Quel travail voulez-vous confier à votre Collaborateur IA ?',
+    eyebrow: 'Une mission à accomplir ?',
+    headlineA: 'Confiez une mission concrète',
+    headlineB: 'à votre Collaborateur IA.',
+    subtitleBeforeAlma: 'Décrivez le résultat attendu.',
+    subtitleAfterAlma: 'prépare la mission, personnalise votre Collaborateur IA et précise ce qu’il pourra faire seul ou avec votre validation.',
+    pricing: 'Première mission offerte · Sans carte bancaire · Puis à partir de 49 €/mois ·',
+    pricingCta: 'Voir les tarifs',
+    cta: 'Préparer ma mission avec Alma',
+    voiceKicker: 'Coordinatrice de missions IA',
+    voiceTitle: 'Quel travail voulez-vous confier ?',
     voiceBody: '',
     voiceStart: 'Commencer à parler',
     voiceStop: 'Terminer',
     voiceListening: 'Alma vous écoute…',
-    voicePlaceholder: 'Décrivez simplement le résultat attendu…',
+    voicePlaceholder: 'Ex. Relancer les factures impayées sans contacter les clients en litige…',
     voiceUnsupported: 'La voix n’est pas disponible dans ce navigateur. Décrivez votre besoin par écrit.',
-    voiceSubmit: 'Personnaliser mon Collaborateur IA',
-    explore: 'Explorer les missions',
-    examples: ['Qualifier mes prospects', 'Répondre à mes clients', 'Préparer mes factures', 'Construire mon calendrier éditorial', 'Organiser l’intégration d’un nouveau salarié'],
-    previewMission: 'Aperçu de mission',
-    previewCollaborator: 'Exemple de profil adapté',
-    previewReady: 'À confirmer avec vous',
+    voiceSubmit: 'Préparer ma mission avec Alma',
+    examples: ['Trouver de nouveaux clients', 'Préparer une réunion', 'Relancer des factures'],
   },
   en: {
-    eyebrow: 'Is someone missing from your team?',
-    headline: 'Your own AI Collaborator, ready to carry out your missions.',
-    headlineA: 'Your own',
-    headlineB: 'AI Collaborator.',
-    headlineC: 'Ready to carry out your missions.',
-    subtitle: 'Alma customizes its identity, role and tools under your rules. Each approved mission enriches its skills.',
-    proofs: ['First mission included', 'No credit card', 'No commitment', 'Human support when needed'],
-    cta: 'Describe my mission',
-    voiceKicker: 'Unitalk AI mission coordinator',
-    voiceTitle: 'What work would you like to assign to your AI Collaborator?',
+    eyebrow: 'A mission to accomplish?',
+    headlineA: 'Entrust concrete work',
+    headlineB: 'to an AI Collaborator.',
+    subtitleBeforeAlma: 'Describe the expected outcome.',
+    subtitleAfterAlma: 'prepares the mission, selects the right AI Collaborator and defines what it can do alone or with your approval.',
+    pricing: 'First mission included · No credit card · Then from €49/month ·',
+    pricingCta: 'See pricing',
+    cta: 'Prepare my mission with Alma',
+    voiceKicker: 'AI mission coordinator',
+    voiceTitle: 'What work would you like to assign?',
     voiceBody: '',
     voiceStart: 'Start talking',
     voiceStop: 'Finish',
     voiceListening: 'Alma is listening…',
-    voicePlaceholder: 'Simply describe the expected outcome…',
+    voicePlaceholder: 'E.g. Follow up unpaid invoices without contacting customers in dispute…',
     voiceUnsupported: 'Voice is not available in this browser. Describe your need in writing.',
-    voiceSubmit: 'Customize my AI Collaborator',
-    explore: 'Explore missions',
-    examples: ['Qualify my prospects', 'Reply to my customers', 'Prepare my invoices', 'Build my editorial calendar', 'Organize a new employee’s onboarding'],
-    previewMission: 'Mission preview',
-    previewCollaborator: 'Example suitable profile',
-    previewReady: 'To be confirmed with you',
+    voiceSubmit: 'Prepare my mission with Alma',
+    examples: ['Find new customers', 'Prepare a meeting', 'Follow up invoices'],
   },
 } as const
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
+export function HeroHybrid({ lang = 'fr', value, onChange, listening, onToggleListening, voiceSupported }: { lang?: Lang; value: string; onChange: (value: string) => void; listening: boolean; onToggleListening: () => void; voiceSupported: boolean }) {
   const t = T[lang]
   const reduce = useReducedMotion()
   const router = useRouter()
-  const [voiceSupported, setVoiceSupported] = useState(false)
-  const [listening, setListening] = useState(false)
-  const [transcript, setTranscript] = useState('')
   const [promptAttention, setPromptAttention] = useState(false)
-  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null)
   const voicePanelRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const cleanTranscript = transcript.trim()
-  const inputPreview = cleanTranscript.length >= 20 ? getPreparedDemo(cleanTranscript, lang) : null
   const openVoiceSurface = useEffectEvent(() => {
     setPromptAttention(true)
     track('home_cta_clicked', { position: 'hero', label: t.cta })
@@ -110,41 +74,10 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
   })
 
   useEffect(() => {
-    const SpeechRecognition = getSpeechRecognition()
-    if (!SpeechRecognition) return
-    const recognition = new SpeechRecognition()
-    recognition.lang = lang === 'fr' ? 'fr-FR' : 'en-US'
-    recognition.continuous = false
-    recognition.interimResults = true
-    recognition.onresult = (event) => {
-      let value = ''
-      for (let index = 0; index < event.results.length; index++) value += event.results[index][0].transcript
-      setTranscript(value.trim())
-    }
-    recognition.onend = () => setListening(false)
-    recognition.onerror = () => setListening(false)
-    recognitionRef.current = recognition
-    const id = window.setTimeout(() => setVoiceSupported(true), 0)
-    return () => {
-      window.clearTimeout(id)
-      recognition.abort()
-      recognitionRef.current = null
-    }
-  }, [lang])
-
-  useEffect(() => {
     const open = () => openVoiceSurface()
     window.addEventListener('open-home-alma', open)
     return () => window.removeEventListener('open-home-alma', open)
   })
-
-  useLayoutEffect(() => {
-    if (!window.matchMedia('(min-width: 1024px)').matches) return
-    const field = textareaRef.current
-    if (!field) return
-    field.focus({ preventScroll: true })
-    field.setSelectionRange(field.value.length, field.value.length)
-  }, [])
 
   const enter = (delay: number) => ({
     initial: reduce ? false : { opacity: 0, y: 16 },
@@ -152,36 +85,24 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
     transition: { duration: 0.55, delay: reduce ? 0 : delay, ease },
   })
 
-  function toggleListening() {
-    const recognition = recognitionRef.current
-    if (!recognition) return
-    if (listening) {
-      recognition.stop()
-      return
-    }
-    setTranscript('')
-    setListening(true)
-    track('alma_voice_started', { source: 'hero' })
-    try {
-      recognition.start()
-    } catch {
-      setListening(false)
-    }
-  }
-
   function handoffNeed(value: string) {
     const clean = value.trim()
     if (!clean) return
-    const draftId = `draft_${crypto.randomUUID()}`
+    const draftId = `draft_${typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(36).slice(2)}`}`
+    let stored = false
     try {
       localStorage.setItem(`unitalk_mission_${draftId}`, JSON.stringify({ text: clean, createdAt: Date.now() }))
+      stored = true
     } catch {}
-    track('alma_need_submitted', { mode: 'voice', source: 'hero' })
-    router.push(`/decouvrir?draft=${encodeURIComponent(draftId)}&source=mission-store`)
+    track('alma_need_submitted', { mode: listening ? 'voice' : 'text', source: 'hero' })
+    const params = new URLSearchParams({ source: 'home-hero' })
+    if (stored) params.set('draft', draftId)
+    else params.set('q', clean.slice(0, 1500))
+    router.push(`${localizedHref('discover', lang)}?${params}`)
   }
 
   function submitVoiceNeed() {
-    handoffNeed(transcript)
+    handoffNeed(value)
   }
 
   return (
@@ -192,19 +113,18 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
         <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-[1.14fr_0.86fr] lg:gap-10 [@media(min-width:1024px)_and_(max-height:800px)]:gap-8">
           <div className="max-w-[720px] text-left">
           <motion.div {...enter(0)} className="mb-4 flex lg:mb-4"><Kicker>{t.eyebrow}</Kicker></motion.div>
-          <motion.h1 {...enter(0.08)} className="text-[clamp(2.65rem,12vw,4.5rem)] font-semibold leading-[.9] tracking-[-.065em] text-[#1C1A17] lg:text-[clamp(3.1rem,4.8vw,5rem)] [@media(min-width:1024px)_and_(max-height:800px)]:text-[clamp(3rem,4.5vw,4.5rem)]">
-            <span className="block">{t.headlineA}</span>
-            <span className="block lg:whitespace-nowrap">{t.headlineB}</span>
-            <span className="block text-[#D10E63]">{t.headlineC}</span>
+          <motion.h1 {...enter(0.08)} className="max-w-[760px] text-[clamp(2.65rem,12vw,4.75rem)] font-semibold leading-[.92] tracking-[-.06em] text-[#1C1A17] lg:text-[clamp(3.25rem,5vw,4.75rem)] [@media(min-width:1024px)_and_(max-height:800px)]:text-[clamp(3rem,4.6vw,4.4rem)]">
+            {t.headlineA}{' '}
+            <span className="text-[#D10E63]">{t.headlineB}</span>
           </motion.h1>
-           <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7"><AlmaInline className="mr-1" />{t.subtitle}</motion.p>
+           <motion.p {...enter(0.16)} className="mt-4 max-w-xl text-[15px] leading-6 text-[#4E483F] sm:mt-5 sm:text-[17px] sm:leading-8 md:text-lg lg:mt-4 lg:text-[16px] lg:leading-7">{t.subtitleBeforeAlma} <span className="whitespace-nowrap"><AlmaInline className="mr-1 align-[-.2em]" />Alma</span> {t.subtitleAfterAlma}</motion.p>
         </div>
 
          <motion.div id="alma-hero" ref={voicePanelRef} {...enter(0.18)} className="mx-auto w-full max-w-2xl scroll-mt-24">
             <motion.div initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: reduce ? 0 : 0.35, ease }}>
               <AlmaMissionComposer
-                value={transcript}
-                onChange={setTranscript}
+                 value={value}
+                 onChange={onChange}
                 onSubmit={submitVoiceNeed}
                 title={t.voiceTitle}
                 body={t.voiceBody}
@@ -212,107 +132,27 @@ export function HeroHybrid({ lang = 'fr' }: { lang?: Lang }) {
                 placeholder={t.voicePlaceholder}
                 submitLabel={t.voiceSubmit}
                 starters={t.examples}
-                onStarterSelect={handoffNeed}
+                 onStarterSelect={onChange}
                 listening={listening}
-                onToggleListening={toggleListening}
+                 onToggleListening={onToggleListening}
                 voiceSupported={voiceSupported}
                 voiceStartLabel={t.voiceStart}
                 voiceStopLabel={t.voiceStop}
                 listeningLabel={t.voiceListening}
                 textareaRef={textareaRef}
-                previewVisible={Boolean(inputPreview)}
-                attention={promptAttention}
+                 attention={promptAttention}
                 compactMobile
                 compactDesktop
                 titleInField
-                preview={inputPreview && <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-[1.2fr_1fr_auto]"><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewMission}</p><p className="mt-1.5 line-clamp-2 font-sf text-[15px] font-semibold leading-5 text-white">{inputPreview.title}</p></div><div className="bg-[#211E1A] p-3.5"><p className="font-mono text-[9px] font-bold uppercase tracking-[.14em] text-[#F3B4CF]">{t.previewCollaborator}</p><p className="mt-1.5 text-[13px] font-semibold text-white">{inputPreview.name}</p><p className="mt-0.5 text-[10px] text-[#AFA397]">{inputPreview.role}</p></div><div className="flex min-w-[144px] items-center justify-center gap-2 bg-[#D10E63] px-3 py-3 text-center text-[11px] font-bold leading-4 text-white"><Check className="size-4 shrink-0" />{t.previewReady}</div></div>}
-              />
-              <div className="mt-4 text-center"><Link href="/missions" className="inline-flex items-center gap-2 text-sm font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4 hover:decoration-[#D10E63]">{t.explore}</Link></div>
+               />
             </motion.div>
           </motion.div>
         </div>
-        <motion.div {...enter(0.32)} className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-[#CFC5B5] pb-4 sm:mt-8 lg:mt-6">
-          {t.proofs.map((proof) => (
-            <span key={proof} className="inline-flex items-center gap-2 text-[12px] font-semibold text-[#6E665A]">
-              <Check aria-hidden="true" className="size-3.5 shrink-0 text-[#D10E63]" />{proof}
-            </span>
-          ))}
-        </motion.div>
+        <motion.p {...enter(0.32)} className="mt-6 border-b border-[#CFC5B5] pb-4 text-[12px] font-semibold leading-5 text-[#6E665A] sm:mt-8 lg:mt-6">
+          {t.pricing}{' '}
+          <Link href={localizedHref('pricing', lang)} className="font-bold text-[#B00C54] underline decoration-[#D10E63]/30 underline-offset-4">{t.pricingCta}</Link>
+        </motion.p>
       </div>
     </section>
   )
-}
-
-export function getPreparedDemo(value: string, lang: Lang) {
-  const normalized = value.toLocaleLowerCase(lang)
-
-  if (normalized.includes('factur') || normalized.includes('invoice')) {
-    return lang === 'fr'
-      ? {
-          title: 'Relancer les factures impayées',
-          objective: 'Obtenir le règlement des factures échues sans relancer les dossiers en litige.',
-          rule: 'Ne jamais contacter un client ayant un litige ouvert. Validation avant contentieux.',
-          name: 'Emma', role: 'Collaboratrice IA · Finance', avatar: '/images/emma-avatar.png',
-          skills: ['Messagerie', 'Facturation', 'CRM'],
-        }
-      : {
-          title: 'Follow up on unpaid invoices',
-          objective: 'Collect overdue invoices without contacting customers with an open dispute.',
-          rule: 'Never contact a customer with an open dispute. Approval before collections.',
-          name: 'Emma', role: 'AI Collaborator · Finance', avatar: '/images/emma-avatar.png',
-          skills: ['Email', 'Billing', 'CRM'],
-        }
-  }
-
-  if (normalized.includes('e-mail') || normalized.includes('email') || normalized.includes('mail')) {
-    return lang === 'fr'
-      ? {
-          title: 'Traiter les e-mails entrants',
-          objective: 'Trier les messages, préparer les réponses et signaler les demandes sensibles.',
-          rule: 'Signaler les demandes sensibles et valider leur réponse avant envoi.',
-          name: 'Emma', role: 'Collaboratrice IA · Assistante de direction', avatar: '/images/emma-avatar.png',
-          skills: ['Outlook', 'Priorisation', 'Microsoft Teams'],
-        }
-      : {
-          title: 'Handle incoming emails',
-          objective: 'Sort messages, prepare replies and flag sensitive requests.',
-          rule: 'Flag sensitive requests and approve their reply before sending.',
-          name: 'Emma', role: 'AI Collaborator · Executive Assistant', avatar: '/images/emma-avatar.png',
-          skills: ['Outlook', 'Prioritization', 'Microsoft Teams'],
-        }
-  }
-
-  if ((normalized.includes('prospect') || normalized.includes('lead')) && normalized.includes('qualif')) {
-    return lang === 'fr'
-      ? {
-          title: 'Qualifier mes prospects',
-          objective: 'Enrichir, évaluer et prioriser chaque prospect selon vos critères commerciaux.',
-          rule: 'Validation humaine avant toute prise de contact ou modification sensible du CRM.',
-          name: 'Hugo', role: 'Collaborateur IA · Commercial', avatar: '/images/hugo-avatar.png',
-          skills: ['CRM', 'Qualification', 'Prospection'],
-        }
-      : {
-          title: 'Qualify my prospects',
-          objective: 'Enrich, assess and prioritize each prospect using your sales criteria.',
-          rule: 'Human approval before outreach or any sensitive CRM update.',
-          name: 'Hugo', role: 'AI Collaborator · Sales', avatar: '/images/hugo-avatar.png',
-          skills: ['CRM', 'Qualification', 'Prospecting'],
-        }
-  }
-
-  return lang === 'fr'
-    ? {
-        title: value.trim(),
-        objective: 'Transformer votre demande en résultat concret et vérifiable.',
-        rule: 'Les règles et validations seront confirmées avec votre entreprise.',
-        name: 'Emma', role: 'Collaboratrice IA recommandée par Alma', avatar: '/images/emma-avatar.png',
-        skills: ['Objectif', 'Applications', 'Validations'],
-      }
-    : {
-        title: value.trim(),
-        objective: 'Turn your request into a concrete, verifiable result.',
-        rule: 'Rules and approvals will be confirmed with your company.',
-        name: 'Emma', role: 'AI Collaborator recommended by Alma', avatar: '/images/emma-avatar.png',
-        skills: ['Objective', 'Applications', 'Approvals'],
-      }
 }

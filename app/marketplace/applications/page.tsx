@@ -8,7 +8,7 @@ const SITE_URL = 'https://unitalk.ai'
 const applications = STORE_ITEMS.filter((item) => item.type === 'application' || item.type === 'integration')
 
 export const metadata: Metadata = {
-  title: 'Applications et intégrations pour Collaborateurs IA | Unitalk',
+  title: 'Applications et intégrations pour Collaborateurs IA',
   description: `Découvrez ${applications.length} applications et intégrations pour connecter vos Collaborateurs IA à leurs outils métier avec des accès gouvernés.`,
   keywords: ['applications IA', 'intégrations agent IA', 'connecteurs IA entreprise', 'outils Collaborateur IA'],
   alternates: { canonical: '/marketplace/applications' },

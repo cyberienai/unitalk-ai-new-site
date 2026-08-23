@@ -167,6 +167,7 @@ export const MODALITY_LABELS: Record<string, Bilingual> = {
   video: { fr: 'Vidéo', en: 'Video' },
   code: { fr: 'Code', en: 'Code' },
   automatisation: { fr: 'Automatisation', en: 'Automation' },
+  configuration: { fr: 'Configuration', en: 'Configuration' },
 }
 
 // --- Per-category defaults (skills, profile, tools, facets) ------------------
@@ -250,7 +251,7 @@ const CATEGORY_DEFAULTS: Record<string, CategoryDefault> = {
       { fr: 'Tri et classement', en: 'Sorting and filing' },
       { fr: 'Suivi de dossiers', en: 'File tracking' },
       { fr: 'Rédaction de courriers', en: 'Letter drafting' },
-      { fr: 'Gestion des éch��ances', en: 'Deadline management' },
+      { fr: 'Gestion des échéances', en: 'Deadline management' },
     ],
     tools: ['Email', 'Agenda', 'GED', 'Tableur'],
     sectors: ['services', 'public', 'sante', 'juridique'],
@@ -445,6 +446,7 @@ function tokenize(s: string): string[] {
 
 function buildMission(seed: Seed, index: number): Mission {
   const def = CATEGORY_DEFAULTS[seed.category]
+  if (!def) throw new Error(`Unknown mission category: ${seed.category}`)
   const o = seed.opts ?? {}
   const regulated = o.regulated ?? def.regulated
   const title = bi(seed.titleFr, seed.titleEn)
@@ -457,8 +459,8 @@ function buildMission(seed: Seed, index: number): Mission {
         en: 'Professional validation required: the Collaborator prepares, but a qualified professional validates before any binding decision or send.',
       }
     : {
-        fr: "Rien n'est envoyé ni finalisé sans votre validation. Vous gardez le contrôle à chaque étape.",
-        en: 'Nothing is sent or finalized without your approval. You stay in control at every step.',
+        fr: "Les actions sont préparées ou exécutées selon les autorisations que vous avez validées. Vous gardez le contrôle sur les décisions sensibles.",
+        en: 'Actions are prepared or performed under the permissions you approved. You retain control over sensitive decisions.',
       }
 
   return {
@@ -480,15 +482,15 @@ function buildMission(seed: Seed, index: number): Mission {
     validation,
     produces: [
       { fr: 'Le livrable décrit ci-dessus, prêt à valider.', en: 'The deliverable described above, ready to approve.' },
-      { fr: 'Un historique clair des sources et des étapes.', en: 'A clear trail of sources and steps.' },
+      { fr: 'Une trace des sources et étapes disponibles selon les outils connectés.', en: 'A record of available sources and steps, depending on connected tools.' },
     ],
     skills: def.skills,
     tools: def.tools,
     profile: def.profile,
     collaboratorSlug: o.collaboratorSlug ?? def.collaboratorSlug,
     sectors: o.sectors ?? def.sectors,
-    languages: o.languages ?? ['fr', 'en'],
-    zones: o.zones ?? ['france', 'ue', 'international'],
+    languages: o.languages ?? ['fr'],
+    zones: o.zones ?? ['france'],
     modalities: [o.modality ?? def.modality],
     origin: o.origin ?? 'native',
     regulated,
@@ -523,13 +525,13 @@ const SEEDS: Seed[] = [
 
   // ---------------- RELATION CLIENT & SUPPORT ----------------
   m('relation-client', 'repondre-a-mes-clients', 'Répondre aux demandes reçues par email', 'Answer requests received by email', 'Des réponses contextualisées et une file claire des cas à valider.', 'Contextual replies and a clear queue of cases to approve.', { dateAdded: '2026-05-20', languages: ['fr', 'en', 'es', 'multi'], article: { href: '/blog/repondre-demandes-email-ia', label: { fr: 'Lire le guide', en: 'Read the guide' } } }),
-  m('relation-client', 'repondre-aux-appels-clients', 'Répondre aux appels des clients', 'Answer customer calls', 'Des appels pris en charge, qualifiés et transmis selon vos règles.', 'Calls handled, qualified and routed according to your rules.', { modality: 'telephone', languages: ['fr', 'en', 'es', 'multi'] }),
+  m('relation-client', 'repondre-aux-appels-clients', 'Répondre aux appels des clients', 'Answer customer calls', 'Des appels qualifiés et transmis selon les règles et autorisations que vous avez validées.', 'Calls qualified and routed under the rules and permissions you approved.', { modality: 'telephone', languages: ['fr', 'en', 'es', 'multi'] }),
   m('relation-client', 'trier-et-orienter-les-demandes', 'Trier et orienter les demandes', 'Sort and route requests', 'Chaque demande est classée, priorisée et dirigée vers le bon interlocuteur.', 'Each request is sorted, prioritized and routed to the right person.'),
   m('relation-client', 'suivre-les-reclamations', 'Suivre les réclamations', 'Track complaints', 'Un suivi structuré avec historique, prochaine action et délai attendu.', 'Structured tracking with history, next action and expected timeline.'),
   m('relation-client', 'preparer-les-reponses-aux-avis', 'Préparer les réponses aux avis en ligne', 'Draft responses to online reviews', 'Des réponses adaptées, prêtes à être vérifiées et publiées.', 'Tailored responses, ready to check and publish.'),
   m('relation-client', 'construire-ma-faq', 'Construire une FAQ', 'Build a FAQ', 'Une base de réponses claire, organisée à partir des demandes récurrentes.', 'A clear answer base, organized from recurring requests.', { dateAdded: '2026-05-02', modality: 'documents' }),
   m('relation-client', 'enrichir-la-base-de-connaissances', 'Enrichir la base de connaissances', 'Enrich the knowledge base', 'Des articles actualisés à partir des nouveaux cas résolus.', 'Articles updated from newly resolved cases.', { modality: 'documents' }),
-  m('relation-client', 'informer-les-clients-de-l-avancement', 'Informer les clients de l’avancement', 'Keep customers informed of progress', 'Des messages de suivi envoyés aux étapes importantes de chaque dossier.', 'Follow-up messages sent at the key milestones of each case.'),
+  m('relation-client', 'informer-les-clients-de-l-avancement', 'Informer les clients de l’avancement', 'Keep customers informed of progress', 'Des messages de suivi préparés, puis envoyés selon les règles validées pour chaque dossier.', 'Follow-up messages prepared, then sent under the approved rules for each case.'),
   m('relation-client', 'suivre-la-satisfaction-client', 'Suivre la satisfaction client', 'Track customer satisfaction', 'Une synthèse des retours, des irritants et des situations à traiter.', 'A summary of feedback, pain points and situations to address.', { modality: 'donnees' }),
   m('relation-client', 'preparer-les-revues-de-comptes-clients', 'Préparer les revues de comptes clients', 'Prepare customer account reviews', 'Un dossier complet sur l’usage, les demandes et les prochaines priorités.', 'A complete file on usage, requests and next priorities.'),
   m('relation-client', 'detecter-les-clients-a-risque', 'Détecter les clients à risque', 'Detect at-risk customers', 'Une liste de situations sensibles accompagnée des signaux observés.', 'A list of sensitive situations with the observed signals.', { modality: 'donnees' }),
@@ -550,22 +552,22 @@ const SEEDS: Seed[] = [
   m('marketing', 'preparer-une-campagne-de-communication', 'Préparer une campagne de communication', 'Prepare a communication campaign', 'Un plan de campagne avec messages, formats, calendrier et validations.', 'A campaign plan with messages, formats, schedule and approvals.'),
 
   // ---------------- RÉUNIONS & COORDINATION ----------------
-  m('reunions', 'participer-a-vos-reunions', 'Participer à vos réunions', 'Join your meetings', 'Rejoignez Google Meet, Zoom, Slack ou Microsoft Teams pour suivre les échanges, préparer le compte rendu et organiser les actions à venir.', 'Join Google Meet, Zoom, Slack or Microsoft Teams to follow discussions, prepare minutes and organize next actions.', { dateAdded: '2026-08-13', modality: 'audio' }),
+  m('reunions', 'participer-a-vos-reunions', 'Participer à vos réunions', 'Join your meetings', 'Suit les échanges dans un outil de réunion autorisé, prépare le compte rendu et organise les actions à venir.', 'Follows discussions in an authorized meeting tool, prepares minutes and organizes next actions.', { dateAdded: '2026-08-13', modality: 'audio' }),
   m('reunions', 'preparer-l-ordre-du-jour', 'Préparer l’ordre du jour d’une réunion', 'Prepare a meeting agenda', 'Un ordre du jour structuré à partir des sujets et documents disponibles.', 'A structured agenda built from the available topics and documents.'),
   m('reunions', 'preparer-les-participants', 'Préparer les participants', 'Brief the participants', 'Chaque participant reçoit le contexte et les documents utiles avant la réunion.', 'Each participant gets the context and useful documents before the meeting.'),
   m('reunions', 'transcrire-une-reunion', 'Transcrire une réunion', 'Transcribe a meeting', 'Une transcription fidèle, horodatée et consultable.', 'A faithful, timestamped and searchable transcription.', { modality: 'audio' }),
   m('reunions', 'preparer-et-suivre-mes-reunions', 'Rédiger le compte rendu', 'Write the minutes', 'Une synthèse claire des échanges, décisions et prochaines actions.', 'A clear summary of the discussion, decisions and next actions.', { dateAdded: '2026-05-08' }),
   m('reunions', 'extraire-les-decisions', 'Extraire les décisions', 'Extract the decisions', 'Une liste des décisions avec leur contexte et leur responsable.', 'A list of decisions with their context and owner.'),
   m('reunions', 'suivre-les-actions-decidees', 'Suivre les actions décidées', 'Track agreed actions', 'Un suivi actualisé des actions, responsables, échéances et blocages.', 'An up-to-date tracker of actions, owners, deadlines and blockers.'),
-  m('reunions', 'coordonner-les-agendas', 'Coordonner les agendas', 'Coordinate calendars', 'Des créneaux proposés et confirmés sans multiplication des échanges.', 'Slots proposed and confirmed without endless back-and-forth.', { modality: 'automatisation' }),
+  m('reunions', 'coordonner-les-agendas', 'Coordonner les agendas', 'Coordinate calendars', 'Des créneaux proposés, puis confirmés selon les règles de calendrier validées.', 'Slots proposed, then confirmed under approved calendar rules.', { modality: 'automatisation' }),
   m('reunions', 'preparer-un-comite-de-direction', 'Préparer un comité de direction', 'Prepare an executive committee', 'Un dossier complet avec indicateurs, ordre du jour et documents de séance.', 'A complete pack with metrics, agenda and session documents.', { dateAdded: '2026-06-01', collections: ['piloter-organisation'] }),
   m('reunions', 'preparer-une-reunion-commerciale', 'Préparer une réunion commerciale', 'Prepare a sales meeting', 'Un dossier client avec objectifs, historique et sujets à traiter.', 'A client brief with objectives, history and topics to cover.', { collections: ['piloter-organisation', 'developper-activite'] }),
   m('reunions', 'organiser-un-evenement-interne', 'Organiser un événement interne', 'Organize an internal event', 'Un planning, des invitations et un suivi logistique prêts à être validés.', 'A schedule, invitations and logistics tracking ready to approve.'),
   m('reunions', 'produire-une-synthese-hebdomadaire', 'Produire une synthèse hebdomadaire', 'Produce a weekly summary', 'Une vue consolidée des réunions, décisions et actions de la semaine.', 'A consolidated view of the week’s meetings, decisions and actions.'),
-  m('reunions', 'relancer-les-responsables-d-actions', 'Relancer les responsables d’actions', 'Follow up with action owners', 'Des rappels contextualisés envoyés selon les échéances définies.', 'Contextual reminders sent according to the set deadlines.', { modality: 'automatisation' }),
+  m('reunions', 'relancer-les-responsables-d-actions', 'Relancer les responsables d’actions', 'Follow up with action owners', 'Des rappels contextualisés préparés ou envoyés selon les règles validées.', 'Contextual reminders prepared or sent under approved rules.', { modality: 'automatisation' }),
 
   // ---------------- ADMINISTRATION & ORGANISATION ----------------
-  m('administration', 'organiser-les-rendez-vous', 'Organiser les rendez-vous', 'Organize appointments', 'Des rendez-vous planifiés selon les disponibilités et les priorités.', 'Appointments scheduled by availability and priority.', { modality: 'automatisation' }),
+  m('administration', 'organiser-les-rendez-vous', 'Organiser les rendez-vous', 'Organize appointments', 'Des rendez-vous proposés et planifiés selon les disponibilités, priorités et autorisations définies.', 'Appointments proposed and scheduled under defined availability, priorities and permissions.', { modality: 'automatisation' }),
   m('administration', 'trier-la-boite-de-reception', 'Trier la boîte de réception', 'Sort the inbox', 'Des messages classés, priorisés et orientés vers la bonne action.', 'Messages sorted, prioritized and routed to the right action.', { modality: 'email' }),
   m('administration', 'preparer-les-courriers-recurrents', 'Préparer les courriers récurrents', 'Prepare recurring letters', 'Des courriers personnalisés, conformes aux modèles et prêts à valider.', 'Personalized letters, matching your templates and ready to approve.'),
   m('administration', 'suivre-les-dossiers-administratifs', 'Suivre les dossiers administratifs', 'Track administrative files', 'Une vue à jour des pièces, échéances et prochaines actions.', 'An up-to-date view of documents, deadlines and next actions.'),
@@ -746,6 +748,9 @@ const SEEDS: Seed[] = [
 ]
 
 export const MISSIONS: Mission[] = [...SEEDS.map((seed, i) => buildMission(seed, i)), ...UNITALK_MISSIONS]
+
+const duplicateSlugs = MISSIONS.filter((mission, index) => MISSIONS.findIndex(candidate => candidate.slug === mission.slug) !== index)
+if (duplicateSlugs.length) throw new Error(`Duplicate mission slugs: ${duplicateSlugs.map(mission => mission.slug).join(', ')}`)
 
 // --- Helpers ----------------------------------------------------------------
 export function getMission(slug: string): Mission | undefined {

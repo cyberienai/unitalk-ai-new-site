@@ -10,7 +10,7 @@ const SITE_URL = 'https://unitalk.ai'
 const servers = STORE_ITEMS.filter((item) => item.type === 'server')
 
 export const metadata: Metadata = {
-  title: 'Infrastructure d’exécution pour Collaborateurs IA | Unitalk',
+  title: 'Infrastructure d’exécution pour Collaborateurs IA',
   description: `Découvrez ${servers.length} options d’infrastructure évolutives selon vos exigences de puissance, de confidentialité et de souveraineté.`,
   keywords: ['serveur IA privé', 'hébergement agent IA', 'infrastructure IA entreprise', 'serveur Collaborateur IA'],
   alternates: { canonical: '/marketplace/serveurs-ia' },

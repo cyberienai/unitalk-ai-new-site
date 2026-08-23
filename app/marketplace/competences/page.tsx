@@ -8,7 +8,7 @@ const SITE_URL = 'https://unitalk.ai'
 const skills = STORE_ITEMS.filter((item) => item.type === 'competence')
 
 export const metadata: Metadata = {
-  title: 'Compétences IA réutilisables | Store Unitalk',
+  title: 'Compétences IA réutilisables',
   description: `Explorez ${skills.length} compétences IA documentées à ajouter à vos Collaborateurs IA : méthodes, contexte d’application, résultats attendus et validations humaines.`,
   keywords: ['compétence IA', 'compétences pour agent IA', 'méthode IA entreprise', 'Collaborateur IA compétences'],
   alternates: { canonical: '/marketplace/competences' },

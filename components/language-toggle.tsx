@@ -1,6 +1,9 @@
 'use client'
 
 import { useLanguage } from '@/lib/language-context'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
+import { switchLocaleHref } from '@/lib/i18n-routing'
 
 // Shared FR/EN toggle — the single source of truth for the language control,
 // matching the home top nav exactly (flag + language code, one click to swap).
@@ -38,16 +41,25 @@ function UkFlag() {
 
 export function LanguageToggle({ className = '' }: { className?: string }) {
   const { lang, setLang } = useLanguage()
-  const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
+  const pathname = usePathname()
+  const nextLang = lang === 'fr' ? 'en' : 'fr'
   return (
-    <button
-      type="button"
-      onClick={toggleLang}
+    <Link
+      href={switchLocaleHref(pathname, nextLang)}
+      hrefLang={nextLang}
+      onClick={(event) => {
+        setLang(nextLang)
+        const suffix = window.location.search + window.location.hash
+        if (suffix) {
+          event.preventDefault()
+          window.location.assign(`${switchLocaleHref(pathname, nextLang)}${suffix}`)
+        }
+      }}
       aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}
       className={`inline-flex items-center gap-1.5 rounded-md px-1.5 py-2 text-xs font-medium text-[#1C1A17] outline-none transition-colors hover:text-[#D10E63] focus-visible:ring-2 focus-visible:ring-[#D10E63]/40 ${className}`}
     >
       {lang === 'fr' ? <FrenchFlag /> : <UkFlag />}
       {lang === 'fr' ? 'FR' : 'EN'}
-    </button>
+    </Link>
   )
 }

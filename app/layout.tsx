@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { headers } from 'next/headers'
 import { LanguageProvider } from '@/lib/language-context'
 import { AlmaProvider } from '@/lib/alma-context'
 import { MyTeamProvider } from '@/lib/my-team-context'
@@ -110,12 +111,6 @@ const softwareApplicationJsonLd = {
   operatingSystem: 'Web',
   description: DEFAULT_DESCRIPTION,
   inLanguage: 'fr-FR',
-  offers: {
-    '@type': 'Offer',
-    price: '49',
-    priceCurrency: 'EUR',
-    description: '49 €/mois par Collaborateur IA, hors capacité IA et licences optionnelles. 7 jours gratuits sans carte bancaire.',
-  },
 }
 
 export const viewport: Viewport = {
@@ -125,13 +120,26 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const routeLanguage = (await headers()).get('x-unitalk-route-lang')
+  const initialLang = routeLanguage === 'en' ? 'en' : 'fr'
+  const localizedRoute = routeLanguage === 'en' || routeLanguage === 'fr'
+  const schemaLanguage = initialLang === 'en' ? 'en' : 'fr-FR'
+  const localizedWebSiteJsonLd = { ...webSiteJsonLd, inLanguage: schemaLanguage }
+  const localizedSoftwareApplicationJsonLd = {
+    ...softwareApplicationJsonLd,
+    inLanguage: schemaLanguage,
+    description: initialLang === 'en'
+      ? 'Unitalk gives your organization its own AI Collaborator to carry out missions and improve from approved methods.'
+      : DEFAULT_DESCRIPTION,
+  }
+
   return (
-    <html lang="fr" className="bg-background">
+    <html lang={initialLang} className="overscroll-y-none bg-background">
       <body className="font-sans antialiased bg-background text-foreground" suppressHydrationWarning>
         <script
           type="application/ld+json"
@@ -139,13 +147,13 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localizedWebSiteJsonLd) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localizedSoftwareApplicationJsonLd) }}
         />
-        <LanguageProvider>
+        <LanguageProvider initialLang={initialLang} loadStoredLanguage={!localizedRoute}>
           <MyTeamProvider>
             <AlmaProvider>
               {children}

@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
 import { Navbar } from '@/components/navbar'
-import { UnitalkStoreHub } from '@/components/unitalk-store-hub'
 import { SiteFooter } from '@/components/site-footer'
+import { MarketplaceOverview } from '@/components/marketplace-overview'
 
 export const metadata: Metadata = {
-  title: 'L’autonomie se compose | Store Unitalk',
-  description: 'Découvrez les Collaborateurs IA Unitalk et faites-les évoluer avec des profils métier, des compétences, des applications, le modèle IA et le serveur adaptés.',
-  alternates: { canonical: '/marketplace' },
-  openGraph: { type: 'website', url: 'https://unitalk.ai/marketplace', title: 'Faites évoluer votre Collaborateur IA | Unitalk', description: 'Choisissez un Collaborateur IA puis adaptez ses profils métier, ses compétences, ses applications, son modèle et son serveur.' },
+  title: 'Marketplace Unitalk : missions et ressources pour Collaborateurs IA',
+  description: 'Explorez les missions, Collaborateurs IA, profils métier, compétences, applications, modèles et serveurs qui composent une capacité de travail gouvernée.',
+  alternates: { canonical: '/marketplace', languages: { fr: '/marketplace', en: '/en/marketplace', 'x-default': '/marketplace' } },
+  openGraph: { type: 'website', url: 'https://unitalk.ai/marketplace', title: 'Marketplace Unitalk', description: 'Commencez par une mission, puis équipez le Collaborateur IA qui la prendra en charge.' },
 }
 
-export default function MarketplacePage() { return <><Navbar/><UnitalkStoreHub/><SiteFooter/></> }
+export default function MarketplacePage() {
+  return <><Navbar/><MarketplaceOverview/><SiteFooter/></>
+}

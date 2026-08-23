@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   return {
     title,
     description,
-    alternates: { canonical: `/@${slug}` },
+    alternates: { canonical: `/@${slug}`, languages: { fr: `/@${slug}`, en: `/en/@${slug}`, 'x-default': `/@${slug}` } },
     keywords: [role.name, 'Collaborateur IA', 'Unitalk', role.company, role.manager.name, owner],
     openGraph: {
       title,

@@ -13,6 +13,8 @@ import { isProfessionalEmail } from '@/lib/professional-email'
 import type { RoleDetail } from '@/lib/collaborators-catalog'
 import type { StoreItem } from '@/lib/store-catalog'
 import type { AiModel } from '@/lib/ai-models-catalog'
+import { missionConversionCopy } from '@/lib/mission-conversion-copy'
+import { localizePublicHref, localizedHref } from '@/lib/i18n-routing'
 
 export type SelectedMission = { slug?: string; title: string; description: string; category: string }
 
@@ -24,6 +26,9 @@ export type DiscoverContext =
   | { kind: 'new-mission'; source: DiscoverSource }
   | { kind: 'profile-creation'; query?: string; source: DiscoverSource }
   | { kind: 'skill-creation'; query?: string; source: DiscoverSource }
+  | { kind: 'application-creation'; query?: string; source: DiscoverSource }
+  | { kind: 'model-creation'; query?: string; source: DiscoverSource }
+  | { kind: 'server-creation'; query?: string; source: DiscoverSource }
   | { kind: 'store-item'; item: StoreItem; source: DiscoverSource }
   | { kind: 'model'; model: AiModel; source: DiscoverSource }
 
@@ -46,9 +51,12 @@ export function ScreenAccount({
   const isDraft = context.kind === 'draft'
   const isProfileCreation = context.kind === 'profile-creation'
   const isSkillCreation = context.kind === 'skill-creation'
+  const isApplicationCreation = context.kind === 'application-creation'
+  const isModelCreation = context.kind === 'model-creation'
+  const isServerCreation = context.kind === 'server-creation'
   const storeItem = context.kind === 'store-item' ? context.item : undefined
   const model = context.kind === 'model' ? context.model : undefined
-  const selectedKind = storeItem?.type === 'profil' ? 'profile' : storeItem?.type === 'competence' ? 'skill' : storeItem?.type === 'application' || storeItem?.type === 'integration' ? 'application' : model ? 'model' : collaborator ? 'collaborator' : undefined
+  const selectedKind = storeItem?.type === 'profil' ? 'profile' : storeItem?.type === 'competence' ? 'skill' : storeItem?.type === 'application' || storeItem?.type === 'integration' ? 'application' : model ? 'model' : collaborator && !mission ? 'collaborator' : undefined
   const selectedName = storeItem?.name[lang] ?? model?.title ?? collaborator?.name
   const selectedDescription = storeItem?.description[lang] ?? model?.description[lang] ?? collaborator?.promise[lang]
   const selectedDetails = storeItem?.type === 'profil'
@@ -60,7 +68,8 @@ export function ScreenAccount({
         : model
           ? model.modalities.map(modality => t.modelModalities[modality] ?? modality)
           : collaborator?.missions.map(item => item[lang])
-  const hasSelection = Boolean(selectedKind) || isProfileCreation || isSkillCreation
+  const hasSelection = Boolean(selectedKind) || isProfileCreation || isSkillCreation || isApplicationCreation || isModelCreation || isServerCreation
+  const missionDecision = mission?.slug ? missionConversionCopy(mission.slug, lang) : null
 
   async function go(provider: AuthProvider) {
     if (pending || (provider === 'email' && !emailValid)) return
@@ -76,17 +85,17 @@ export function ScreenAccount({
       {/* Left: dark panel */}
       <aside className={`relative overflow-hidden bg-[#151310] px-6 sm:px-10 lg:order-1 lg:flex lg:min-h-screen lg:flex-col lg:px-[clamp(3rem,5vw,5rem)] lg:py-6 ${hasSelection ? 'order-1 min-h-0 py-5' : 'order-2 py-8'}`}>
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#FAF8F3_1px,transparent_1px),linear-gradient(90deg,#FAF8F3_1px,transparent_1px)] [background-size:64px_64px]" />
-        <a href="/" className="relative flex w-fit items-center gap-2.5 text-white transition-opacity hover:opacity-80" aria-label="Accueil Unitalk"><UnitalkLogo size={22} color="#F15B9B" inactiveColor="#F15B9B" /><span className="text-sm font-semibold tracking-[-.02em]">Unitalk</span></a>
+        <a href={localizedHref('home', lang)} className="relative flex w-fit items-center gap-2.5 text-white transition-opacity hover:opacity-80" aria-label="Unitalk home"><UnitalkLogo size={22} color="#F15B9B" inactiveColor="#F15B9B" /><span className="text-sm font-semibold tracking-[-.02em]">Unitalk</span></a>
         <div className={`relative mx-auto w-full max-w-md ${hasSelection ? 'mt-3 lg:my-auto' : 'my-auto'}`}>
-          {isProfileCreation || isSkillCreation ? (
+          {isProfileCreation || isSkillCreation || isApplicationCreation || isModelCreation || isServerCreation ? (
             <>
-              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#E05A93] sm:text-[11px]">{isSkillCreation ? t.skillCreationLabel : t.profileCreationLabel}</p>
-              <h2 className="mt-1.5 font-sf text-[27px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:mt-4 sm:text-[44px]">{context.query || (isSkillCreation ? t.skillCreationName : t.profileCreationName)}</h2>
-              <p className="mt-2 max-w-md text-[12px] leading-[1.1rem] text-[#C9C1B8] sm:mt-4 sm:text-[15px] sm:leading-7">{isSkillCreation ? t.skillCreationDescription : t.profileCreationDescription}</p>
-              <div className="mt-4 hidden border-l border-[#D10E63]/75 pl-5 sm:block sm:mt-7"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#F2A4C5]">{t.profileCreationStepsLabel}</p><ul className="mt-3 space-y-2.5 text-sm text-[#E4DDD4]">{(isSkillCreation ? t.skillCreationSteps : t.profileCreationSteps).map(item => <li key={item} className="flex gap-3"><span aria-hidden className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#E05A93]" />{item}</li>)}</ul></div>
+              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#E05A93] sm:text-[11px]">{isSkillCreation ? t.skillCreationLabel : isApplicationCreation ? t.applicationCreationLabel : isModelCreation ? t.modelCreationLabel : isServerCreation ? t.serverCreationLabel : t.profileCreationLabel}</p>
+              <h2 className="mt-1.5 font-sf text-[27px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:mt-4 sm:text-[44px]">{context.query || (isSkillCreation ? t.skillCreationName : isApplicationCreation ? t.applicationCreationName : isModelCreation ? t.modelCreationName : isServerCreation ? t.serverCreationName : t.profileCreationName)}</h2>
+              <p className="mt-2 max-w-md text-[12px] leading-[1.1rem] text-[#C9C1B8] sm:mt-4 sm:text-[15px] sm:leading-7">{isSkillCreation ? t.skillCreationDescription : isApplicationCreation ? t.applicationCreationDescription : isModelCreation ? t.modelCreationDescription : isServerCreation ? t.serverCreationDescription : t.profileCreationDescription}</p>
+              <div className="mt-4 hidden border-l border-[#D10E63]/75 pl-5 sm:block sm:mt-7"><p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#F2A4C5]">{t.profileCreationStepsLabel}</p><ul className="mt-3 space-y-2.5 text-sm text-[#E4DDD4]">{(isSkillCreation ? t.skillCreationSteps : isApplicationCreation ? t.applicationCreationSteps : isModelCreation ? t.modelCreationSteps : isServerCreation ? t.serverCreationSteps : t.profileCreationSteps).map(item => <li key={item} className="flex gap-3"><span aria-hidden className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#E05A93]" />{item}</li>)}</ul></div>
               <div className="mt-3 hidden border-t border-white/10 pt-3 sm:mt-8 sm:block sm:pt-6">
                 <div className="flex items-center gap-3"><img src="/alma-avatar.png" alt="" className="size-9 rounded-full object-cover sm:size-12" /><div><p className="font-sf text-[16px] font-semibold text-white sm:text-[18px]">Alma</p><p className="hidden text-[12px] text-[#F2A4C5] sm:block">{t.almaRole}</p></div></div>
-                <p className="mt-2 text-[12px] leading-5 text-[#C9C1B8] sm:mt-4 sm:text-sm sm:leading-6">{isSkillCreation ? t.skillCreationHelp : t.profileCreationHelp}</p>
+                 <p className="mt-2 text-[12px] leading-5 text-[#C9C1B8] sm:mt-4 sm:text-sm sm:leading-6">{isSkillCreation ? t.skillCreationHelp : isApplicationCreation ? t.applicationCreationHelp : isModelCreation ? t.modelCreationHelp : isServerCreation ? t.serverCreationHelp : t.profileCreationHelp}</p>
               </div>
             </>
           ) : selectedKind ? (
@@ -111,6 +120,7 @@ export function ScreenAccount({
               <div className={missionOpen ? 'block' : 'hidden lg:block'}>
                 <h2 className="mt-4 font-sf text-[36px] font-bold leading-[1.02] tracking-[-0.045em] text-white sm:text-[44px]">{mission.title}</h2>
                 {mission.description && <p className="mt-4 max-w-md text-[15px] leading-7 text-[#C9C1B8]">{mission.description}</p>}
+                {missionDecision && <dl className="mt-5 hidden space-y-3 border-l border-[#D10E63]/75 pl-5 sm:block"><div><dt className="text-[10px] font-bold uppercase tracking-[.12em] text-[#F2A4C5]">{t.expectedResult}</dt><dd className="mt-1 text-sm leading-6 text-[#E4DDD4]">{missionDecision.deliverable}</dd></div><div><dt className="text-[10px] font-bold uppercase tracking-[.12em] text-[#F2A4C5]">{t.humanControl}</dt><dd className="mt-1 text-sm leading-6 text-[#E4DDD4]">{missionDecision.control}</dd></div></dl>}
                 {collaborator && <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5"><img src={collaborator.avatar} alt="" className="size-11 rounded-full object-cover ring-1 ring-white/15"/><div><p className="text-[11px] font-bold uppercase tracking-[.12em] text-[#F2A4C5]">{t.recommendedProfile}</p><p className="mt-1 text-sm font-bold text-white">{collaborator.name} · {collaborator.role[lang]}</p></div></div>}
               </div>
               <div className={`mt-10 ${missionOpen ? 'block' : 'hidden lg:block'}`}>
@@ -138,7 +148,7 @@ export function ScreenAccount({
       <section className={`relative flex min-h-0 min-w-0 items-center bg-[#F3EFE6] px-6 sm:px-10 lg:order-2 lg:min-h-screen lg:px-[clamp(3rem,7vw,7rem)] ${hasSelection ? 'order-2 py-3' : 'order-1 py-16'}`}>
         <div className="absolute right-5 top-4 sm:right-8">{languageToggle}</div>
         <div className="mx-auto w-full max-w-[460px]">
-          <h1 className={`max-w-md font-sf font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] ${hasSelection ? 'text-[22px] sm:text-[34px] lg:text-[42px]' : 'text-[34px] sm:text-[42px]'}`}>{isSkillCreation ? t.skillCreationTitle : isProfileCreation ? t.profileCreationTitle : selectedKind && selectedName ? t.selectionTitles[selectedKind](selectedName) : isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
+          <h1 className={`max-w-md font-sf font-bold leading-[1.02] tracking-[-0.045em] text-[#1C1A17] ${hasSelection ? 'text-[22px] sm:text-[34px] lg:text-[42px]' : 'text-[34px] sm:text-[42px]'}`}>{isSkillCreation ? t.skillCreationTitle : isApplicationCreation ? t.applicationCreationTitle : isModelCreation ? t.modelCreationTitle : isServerCreation ? t.serverCreationTitle : isProfileCreation ? t.profileCreationTitle : selectedKind && selectedName ? t.selectionTitles[selectedKind](selectedName) : isDraft ? t.draftTitle : mission ? t.contextualTitle : t.genericTitle}</h1>
           {!hasSelection && !mission && <p className="mt-3 max-w-sm text-[15px] leading-6 text-[#625B50]">{isDraft ? t.draftLead : t.genericLead}</p>}
           {(mission || hasSelection) && <p className={`${hasSelection ? 'mt-1.5 text-xs' : 'mt-3 text-sm'} text-[#6E665A]`}>{isSkillCreation ? t.skillCreationReassurance : isProfileCreation ? t.profileCreationReassurance : selectedKind ? t.selectionReassurance[selectedKind] : t.contextualReassurance}</p>}
 
@@ -152,7 +162,7 @@ export function ScreenAccount({
             {emailTouched && !!email && !emailValid && <p className="text-[12px] text-[#A80B50]">{emailFormatValid ? t.personalEmailError : t.emailError}</p>}
             <button type="button" onClick={() => { setEmailTouched(true); go('email') }} disabled={!!pending || !emailValid} className={`inline-flex h-14 items-center justify-center rounded-xl px-5 text-[15px] font-semibold transition-colors ${emailValid && !pending ? 'bg-[#D10E63] text-white hover:bg-[#B90C58]' : 'cursor-not-allowed bg-[#DED6C8] text-[#6E665A]'}`}>{pending === 'email' ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <>{t.email} →</>}</button>
           </div>
-          <p className={`${hasSelection ? 'mt-2 leading-4' : 'mt-4 leading-5'} text-[11px] text-[#857C6E]`}>{t.legalPrefix} <a href="/conditions" className="font-semibold underline underline-offset-3 hover:text-[#1C1A17]">{t.terms}</a> {t.legalAnd} <a href="/confidentialite" className="font-semibold underline underline-offset-3 hover:text-[#1C1A17]">{t.privacy}</a>.</p>
+          <p className={`${hasSelection ? 'mt-2 leading-4' : 'mt-4 leading-5'} text-[11px] text-[#857C6E]`}>{t.legalPrefix} <a href={localizePublicHref('/conditions', lang)} className="font-semibold underline underline-offset-3 hover:text-[#1C1A17]">{t.terms}</a> {t.legalAnd} <a href={localizePublicHref('/confidentialite', lang)} className="font-semibold underline underline-offset-3 hover:text-[#1C1A17]">{t.privacy}</a>.</p>
         </div>
       </section>
     </div>
@@ -174,6 +184,9 @@ const COPY = {
     selectionReassurance: { profile: 'Profil gratuit · Sans carte bancaire', skill: 'Compétence gratuite · Sans carte bancaire', application: 'Connexion sécurisée · Accès sous votre contrôle', model: 'Sélection contrôlée · Fournisseurs sous votre contrôle', collaborator: 'Première mission offerte · Sans carte bancaire' },
     profileCreationLabel: 'Profil métier sur mesure', profileCreationName: 'Votre nouveau profil métier', profileCreationDescription: 'Partez des responsabilités réelles à couvrir dans votre entreprise, sans devoir formaliser seul une fiche métier complète.', profileCreationStepsLabel: 'Alma vous aide à', profileCreationSteps: ['Définir le rôle et ses responsabilités', 'Formaliser les méthodes de travail', 'Préciser les limites et validations humaines'], profileCreationHelp: 'Après votre connexion, je vous guide pour construire un profil clair, testable et réutilisable.', profileCreationTitle: 'Créez votre profil métier avec Alma.', profileCreationReassurance: 'Création guidée · Sans carte bancaire', profileCreationContinue: 'Créez votre espace pour commencer',
     skillCreationLabel: 'Compétence sur mesure', skillCreationName: 'Votre nouvelle compétence', skillCreationDescription: 'Partez d’un résultat attendu pour transformer votre savoir-faire en méthode utilisable par vos Collaborateurs IA.', skillCreationSteps: ['Définir le contexte et le résultat attendu', 'Formaliser une méthode claire et testable', 'Préciser les données et validations nécessaires'], skillCreationHelp: 'Après votre connexion, je vous guide pour construire et tester une compétence réutilisable dans vos missions.', skillCreationTitle: 'Créez votre compétence avec Alma.', skillCreationReassurance: 'Création guidée · Sans carte bancaire', skillCreationContinue: 'Créez votre espace pour commencer',
+    applicationCreationLabel: 'Application à étudier', applicationCreationName: 'Votre application', applicationCreationDescription: 'Précisez l’outil et l’usage attendu. Nous vérifions les accès, actions disponibles et conditions d’intégration.', applicationCreationSteps: ['Identifier l’application et l’usage', 'Vérifier les accès disponibles', 'Définir les actions et validations'], applicationCreationHelp: 'Après votre connexion, Alma conserve cette demande et prépare son cadrage.', applicationCreationTitle: 'Préparez cette intégration avec Alma.',
+    modelCreationLabel: 'Modèle à étudier', modelCreationName: 'Votre modèle IA', modelCreationDescription: 'Précisez le modèle ou fournisseur souhaité pour vérifier sa compatibilité, son coût et ses conditions d’accès.', modelCreationSteps: ['Identifier le fournisseur', 'Vérifier disponibilité et compatibilité', 'Définir budget, droits et replis'], modelCreationHelp: 'Après votre connexion, Alma conserve le modèle demandé et prépare son étude.', modelCreationTitle: 'Préparez ce modèle avec Alma.',
+    serverCreationLabel: 'Infrastructure à étudier', serverCreationName: 'Votre infrastructure IA', serverCreationDescription: 'Précisez la capacité souhaitée. Nous vérifions charge, confidentialité, région et conditions de déploiement.', serverCreationSteps: ['Cadrer la charge et les ressources', 'Confirmer la région et la souveraineté', 'Préparer le déploiement et son coût'], serverCreationHelp: 'Après votre connexion, Alma conserve cette demande et prépare le cadrage.', serverCreationTitle: 'Préparez cette infrastructure avec Alma.',
     modelModalities: { texte: 'Texte', multimodal: 'Multimodal', image: 'Image', audio: 'Audio', video: 'Vidéo', speech: 'Synthèse vocale', transcription: 'Transcription' } as Record<string, string>, createSpace: 'Créez votre espace pour continuer',
     almaRole: 'Collaboratrice IA · Coordinatrice de missions chez Unitalk',
     newMissionTitle: 'Créer une nouvelle mission', newMissionDescription: 'Partez du travail réel. Alma vous aide à définir le résultat attendu, les règles, les applications et les validations nécessaires.',
@@ -190,6 +203,7 @@ const COPY = {
     draftTitle: 'Continuons avec cette mission.',
     draftLead: 'Connectez-vous pour créer votre Collaborateur IA. Vous préciserez la mission dans le Workspace.',
     contextualReassurance: 'Première mission offerte · Sans carte bancaire',
+    expectedResult: 'Résultat attendu', humanControl: 'Contrôle humain',
     legalPrefix: 'En continuant, vous acceptez les', terms: 'Conditions d\'utilisation', legalAnd: 'et la', privacy: 'Politique de confidentialité',
   },
   en: {
@@ -202,6 +216,9 @@ const COPY = {
     selectionReassurance: { profile: 'Free profile · No credit card', skill: 'Free skill · No credit card', application: 'Secure connection · Access under your control', model: 'Controlled selection · Providers under your control', collaborator: 'First mission included · No credit card' },
     profileCreationLabel: 'Custom job profile', profileCreationName: 'Your new job profile', profileCreationDescription: 'Start from the actual responsibilities your organization needs covered, without having to formalize a complete role profile alone.', profileCreationStepsLabel: 'Alma helps you', profileCreationSteps: ['Define the role and its responsibilities', 'Formalize working methods', 'Set boundaries and human approvals'], profileCreationHelp: 'After you sign in, I will guide you in building a clear, testable and reusable profile.', profileCreationTitle: 'Create your job profile with Alma.', profileCreationReassurance: 'Guided creation · No credit card', profileCreationContinue: 'Create your space to get started',
     skillCreationLabel: 'Custom skill', skillCreationName: 'Your new skill', skillCreationDescription: 'Start from an expected outcome and turn your know-how into a method your AI Collaborators can use.', skillCreationSteps: ['Define the context and expected outcome', 'Formalize a clear, testable method', 'Specify required data and approvals'], skillCreationHelp: 'After you sign in, I will guide you in building and testing a reusable skill for your missions.', skillCreationTitle: 'Create your skill with Alma.', skillCreationReassurance: 'Guided creation · No credit card', skillCreationContinue: 'Create your space to get started',
+    applicationCreationLabel: 'Application to assess', applicationCreationName: 'Your application', applicationCreationDescription: 'Specify the tool and intended use. We review available access, actions and integration conditions.', applicationCreationSteps: ['Identify the application and use', 'Review available access', 'Define actions and approvals'], applicationCreationHelp: 'After sign-in, Alma saves the request and prepares its scope.', applicationCreationTitle: 'Prepare this integration with Alma.',
+    modelCreationLabel: 'Model to assess', modelCreationName: 'Your AI model', modelCreationDescription: 'Specify the model or provider to assess compatibility, cost and access conditions.', modelCreationSteps: ['Identify the provider', 'Check availability and compatibility', 'Define budget, permissions and fallbacks'], modelCreationHelp: 'After sign-in, Alma saves the requested model and prepares its assessment.', modelCreationTitle: 'Prepare this model with Alma.',
+    serverCreationLabel: 'Infrastructure to assess', serverCreationName: 'Your AI infrastructure', serverCreationDescription: 'Specify the required capacity. We review workload, privacy, region and deployment conditions.', serverCreationSteps: ['Scope workload and resources', 'Confirm region and sovereignty', 'Prepare deployment and cost'], serverCreationHelp: 'After sign-in, Alma saves the request and prepares its scope.', serverCreationTitle: 'Prepare this infrastructure with Alma.',
     modelModalities: { texte: 'Text', multimodal: 'Multimodal', image: 'Image', audio: 'Audio', video: 'Video', speech: 'Speech synthesis', transcription: 'Transcription' } as Record<string, string>, createSpace: 'Create your space to continue',
     almaRole: 'AI Collaborator · Mission coordinator',
     newMissionTitle: 'Create a new mission', newMissionDescription: 'Start from the real work. Alma helps define the expected result, rules, applications and approvals.',
@@ -218,6 +235,7 @@ const COPY = {
     draftTitle: 'Your request is saved.',
     draftLead: 'Create your account to continue with Alma.',
     contextualReassurance: 'First mission included · No credit card',
+    expectedResult: 'Expected outcome', humanControl: 'Human control',
     legalPrefix: 'By continuing, you agree to the', terms: 'Terms of Use', legalAnd: 'and the', privacy: 'Privacy Policy',
   },
 } as const

@@ -9,7 +9,7 @@ import { onboardingComplete, parsePurchaseDraft, PURCHASE_DRAFT_COOKIE } from '@
 export const metadata: Metadata = {
   title: 'Workspace : missions, validations et expérience humain–IA',
   description: 'Découvrez comment le Workspace Unitalk réunit missions, activité, validations humaines, décisions, résultats et expérience gouvernée.',
-  alternates: { canonical: '/workspace' },
+  alternates: { canonical: '/workspace', languages: { fr: '/workspace', en: '/en/workspace', 'x-default': '/workspace' } },
   openGraph: { title: 'Workspace Unitalk : les humains décident, les Collaborateurs IA agissent', description: 'Suivez une mission, validez les actions sensibles et gouvernez l’expérience conservée.', url: '/workspace', type: 'website', images: [{ url: '/opengraph-image', width: 1200, height: 630 }] },
 }
 

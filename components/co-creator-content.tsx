@@ -3,7 +3,7 @@ import { Kicker } from '@/components/home/section-kicker'
 import { unitalkPricing } from '@/lib/unitalk-pricing'
 import { CollectionCockpitDemo } from '@/components/co-creator/collection-cockpit-demo'
 
-const PRICING_HREF = '/tarifs?co-createur=1#configurateur'
+const PRICING_HREF = '/tarifs?co-createur=1#detail-tarifs'
 const ACADEMY_COURSE = '/academy/formations/co-createur-ia?source=unitalk-ai'
 const ACADEMY_FREE = '/academy/parcours-gratuits/premiere-mission-ia?source=unitalk-ai'
 const ACADEMY_FUNDING = '/academy/financement?formation=co-createur-ia&source=unitalk-ai'

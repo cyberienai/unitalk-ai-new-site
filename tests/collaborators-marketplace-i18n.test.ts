@@ -9,19 +9,19 @@ const hub = readFileSync(new URL('../components/unitalk-store-hub.tsx', import.m
 describe('Collaborators marketplace international SEO', () => {
   it('publishes reciprocal localized canonicals and hreflang entries', () => {
     for (const source of [french, english]) {
-      expect(source).toContain("'fr-FR': '/marketplace/collaborateurs-ia'")
-      expect(source).toContain("'en-US': '/en/marketplace/ai-collaborators'")
+      expect(source).toContain("fr: '/marketplace/collaborateurs-ia'")
+      expect(source).toContain("en: '/en/marketplace/ai-collaborators'")
       expect(source).toContain("'x-default': '/marketplace/collaborateurs-ia'")
     }
     expect(english).toContain("canonical: '/en/marketplace/ai-collaborators'")
-    expect(english).toContain('inLanguage: \'en-US\'')
+    expect(english).toContain("inLanguage: 'en'")
     expect(english).toContain('<UnitalkStoreHub collaboratorsOnly fixedLang="en"/>')
     expect(sitemap).toContain("'/en/marketplace/ai-collaborators'")
   })
 
   it('provides the catalog introduction in both languages', () => {
-    expect(hub).toContain('Découvrez vos Collaborateurs IA.')
-    expect(hub).toContain('Meet your AI Collaborators.')
-    expect(hub).toContain('They do more than automate isolated tasks.')
+    expect(hub).toContain('Choisissez le Collaborateur IA qui rejoindra votre équipe.')
+    expect(hub).toContain('Choose the AI Collaborator who will join your team.')
+    expect(hub).toContain('Personalize their identity')
   })
 })
