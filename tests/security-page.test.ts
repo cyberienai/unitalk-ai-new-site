@@ -28,4 +28,12 @@ describe('security page', () => {
     expect(source).not.toContain('YOLO')
     expect(source).not.toContain('rm -rf')
   })
+
+  it('accents every heading with the design-system magenta', () => {
+    expect(source).toContain('function AccentLastWord')
+    expect(source).toContain("dark ? 'text-[#F2A4C5]' : 'text-[#D10E63]'")
+    expect(source).toContain('<AccentLastWord value={t.title}/>')
+    expect(source).toContain('<AccentLastWord value={t.boundaryTitle} dark/>')
+    expect(source).toContain('<AccentLastWord value={title}/>')
+  })
 })

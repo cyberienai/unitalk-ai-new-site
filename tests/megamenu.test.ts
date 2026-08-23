@@ -14,9 +14,10 @@ describe('Collaborateurs IA mega menu', () => {
     expect(navbar).toContain("fr: 'Les identités IA prêtes à rejoindre votre entreprise.'")
   })
 
-  it('links directly to the six Collaborator areas', () => {
-    for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia']) expect(navbar).toContain(`href: '${href}'`)
-    for (const label of ['Collaborateurs IA', 'Profils métier', 'Compétences', 'Applications', 'Modèles IA', 'Serveurs IA']) expect(navbar).toContain(label)
+  it('links directly to the Collaborator areas and Unitalk Desktop', () => {
+    for (const href of ['/marketplace/collaborateurs-ia', '/marketplace/profils-metier', '/marketplace/competences', '/marketplace/applications', '/marketplace/modeles-ia', '/marketplace/serveurs-ia', '/desktop']) expect(navbar).toContain(`href: '${href}'`)
+    for (const label of ['Collaborateurs IA', 'Profils métier', 'Compétences', 'Applications', 'Modèles IA', 'Serveurs IA', 'Unitalk Desktop']) expect(navbar).toContain(label)
+    expect(navbar).toContain('La distribution locale pour exécuter et suivre les missions.')
   })
 
   it('keeps support actions out of the Collaborators menu', () => {

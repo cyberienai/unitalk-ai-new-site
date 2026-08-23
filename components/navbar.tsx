@@ -28,6 +28,7 @@ const COLLAB_MENU: MenuEntry[] = [
   { title: { fr: 'Applications', en: 'Applications' }, desc: { fr: 'Les outils qu’il est autorisé à utiliser.', en: 'Tools it is authorized to use.' }, href: '/marketplace/applications' },
   { title: { fr: 'Modèles IA', en: 'AI models' }, desc: { fr: 'Le catalogue des modèles autorisables.', en: 'The catalog of models you can authorize.' }, href: '/marketplace/modeles-ia' },
   { title: { fr: 'Serveurs IA', en: 'AI servers' }, desc: { fr: 'Son environnement de travail privé.', en: 'Its private working environment.' }, href: '/marketplace/serveurs-ia' },
+  { title: { fr: 'Unitalk Desktop', en: 'Unitalk Desktop' }, desc: { fr: 'La distribution locale pour exécuter et suivre les missions.', en: 'The local distribution for running and tracking missions.' }, href: '/desktop' },
 ]
 
 const T = {
