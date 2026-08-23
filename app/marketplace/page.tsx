@@ -11,5 +11,5 @@ export const metadata: Metadata = {
 }
 
 export default function MarketplacePage() {
-  return <><Navbar/><MarketplaceOverview/><SiteFooter/></>
+  return <><a href="#main-content" className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-3 focus:font-bold focus:text-[#1C1A17] focus:not-sr-only">Aller au contenu principal</a><Navbar/><MarketplaceOverview/><SiteFooter/></>
 }

@@ -447,7 +447,7 @@ const COPY = {
   fr: {
     eyebrow: 'Plus de 200 modèles de missions prêts à personnaliser',
     titleStart: 'Ne demandez plus à l’IA.', titleAccent: 'Confiez-lui le travail.',
-    lead: 'Votre Collaborateur IA comprend l’objectif, mobilise les bons outils et mène la mission jusqu’au résultat.', heroCta: 'Décrire le résultat attendu', heroProof: 'Première mission offerte · Sans carte bancaire.', trialLimit: 'L’essai prend fin avec la mission, après 7 jours ou 1 million de tokens, selon la première limite atteinte.', pricingCta: 'Voir les tarifs',
+    lead: 'Votre Collaborateur IA comprend l’objectif, mobilise les bons outils et mène la mission jusqu’au résultat.', heroCta: 'Décrire le résultat attendu', heroProof: 'Première mission offerte, jusqu’à 7 jours · Sans carte bancaire ·', trialLimit: '', pricingCta: 'Voir les tarifs',
     almaRole: 'Coordinatrice de missions IA', composerTitle: 'Quel travail voulez-vous confier ?', composerBody: '',
     placeholder: 'Décrivez simplement le résultat attendu…',
     talk: 'Commencer à parler', stop: 'Terminer', listening: 'Alma vous écoute…', continue: 'Préparer ma mission avec Alma',
@@ -475,7 +475,7 @@ const COPY = {
   en: {
     eyebrow: 'More than 200 mission templates ready to customize',
     titleStart: 'Stop asking AI.', titleAccent: 'Give it the work.',
-    lead: 'Your AI Collaborator understands the objective, brings in the right tools and carries the mission through to the result.', heroCta: 'Describe the expected outcome', heroProof: 'First mission included · No credit card.', trialLimit: 'The trial ends with the mission, after 7 days or 1 million tokens, whichever comes first.', pricingCta: 'See pricing',
+    lead: 'Your AI Collaborator understands the objective, brings in the right tools and carries the mission through to the result.', heroCta: 'Describe the expected outcome', heroProof: 'First mission included, for up to 7 days · No credit card ·', trialLimit: '', pricingCta: 'See pricing',
     almaRole: 'AI mission coordinator', composerTitle: 'What work would you like to assign?', composerBody: '',
     placeholder: 'Simply describe the expected outcome…',
     talk: 'Start talking', stop: 'Finish', listening: 'Alma is listening…', continue: 'Prepare my mission with Alma',
