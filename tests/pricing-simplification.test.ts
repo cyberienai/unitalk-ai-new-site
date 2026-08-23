@@ -41,7 +41,7 @@ describe('pricing simplification', () => {
     expect(faqData).toContain('Que vais-je payer aujourd’hui ?')
     expect(faqData).toContain('selon la première limite atteinte')
     expect(faq).toContain('role="region"')
-    expect(content).toContain('<PricingFinalCta />')
+    expect(content).not.toContain('<PricingFinalCta />')
   })
 
   it('publishes localized pricing routes and metadata', () => {

@@ -16,8 +16,8 @@ describe('pricing page publication requirements', () => {
   it('makes the free first mission and paid activation explicit', () => {
     expect(sections).toContain("primary: 'Démarrer avec Alma'")
     expect(sections).toContain("title: 'Votre première mission.', accent: 'Offerte.'")
-    expect(sections).toContain('Workspace Solo gratuit. Chaque Collaborateur IA : 49 € HT/mois.')
-    expect(sections).toContain('La configuration payante n’est activée qu’après votre confirmation explicite.')
+    expect(sections).toContain("proofs: ['Sans carte bancaire', 'Jusqu’à 7 jours', '1 million de tokens inclus', 'Puis à partir de 49 € HT/mois']")
+    expect(sections).toContain("activationNote: 'Aucun paiement avant confirmation.'")
     expect(sections).toContain("continue: 'Enregistrer et continuer'")
     expect(sections).toContain('assistants privés ou partagés')
     expect(sections).toContain('missions avec mémoire, outils et autonomie encadrée')
@@ -31,12 +31,13 @@ describe('pricing page publication requirements', () => {
     expect(sections).toContain('useState<OrganizationTierId>(initialDraft.organizationTier)')
     expect(sections).toContain('useState(initialDraft.collaborators)')
     expect(sections).toContain("name: 'Solo', users: '1 humain inclus · Gratuit', option: 'Solo · 1 humain inclus', price: ''")
-    expect(sections).toContain("tokensLine: 'DeepSeek V4, hébergé en Europe chez Microsoft Azure'")
+    expect(sections).toContain("tokensLine: 'DeepSeek V4'")
+    expect(sections).toContain("hostingValue: 'Europe · Microsoft Azure'")
   })
 
   it('answers trial, included usage and plan change questions', () => {
     for (const question of ['Que vais-je payer aujourd’hui ?', 'Combien de tokens sont inclus ?', 'Puis-je modifier ou résilier ma configuration ?', 'Où suivre la consommation ?']) expect(faqData).toContain(question)
-    expect(faqData).toContain('5 millions de tokens par mois')
+    expect(faqData).toContain('5 millions de tokens DeepSeek par mois')
     expect(faqData).toContain('1 000 crédits en Solo, 2 500 en Équipe ou 20 000 en Entreprise')
     expect(faqData).toContain('crédits IA inclus ou prépayés, ou connecter vos propres clés API')
     expect(faqData).toContain('Le Workspace est l’espace de travail où humains et IA collaborent')

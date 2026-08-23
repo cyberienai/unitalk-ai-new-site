@@ -59,7 +59,8 @@ describe('Workspace landing', () => {
   })
 
   it('explains the free Workspace and first mission path', () => {
-    expect(source).toContain('Votre Workspace Solo est gratuit. Votre première mission aussi.')
+    expect(source).toContain("freeTitle: 'Votre Workspace Solo est gratuit.'")
+    expect(source).toContain("freeAccent: 'Votre première mission aussi.'")
     expect(source).toContain('Alma configure l’accès aux modèles IA')
     expect(source).toContain('Unitalk AI Cloud')
     expect(source).toContain('Créer mon Workspace Solo')
@@ -84,6 +85,6 @@ describe('Workspace landing', () => {
     expect(source).toContain('Première mission · Prête à démarrer')
     expect(page).toContain('collaboratorTemplateSlug: onboarding.collaboratorTemplateSlug')
     expect(source).toContain('Démonstration générique du Workspace')
-    expect(source).toContain('Ce n’est pas une capture du Workspace Unitalk')
+    expect(source).toContain('Unitalk Desktop en est une distribution enrichie')
   })
 })
